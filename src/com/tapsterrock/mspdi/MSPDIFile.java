@@ -364,9 +364,9 @@ public class MSPDIFile extends MPXFile
       header.setSplitInProgressTasks(project.isSplitsInProgressTasks());
       header.setManager(project.getManager());
       header.setDefaultEndTime(getTime(project.getDefaultFinishTime()));
-      //header.setFiscalYearStart();
+      header.setFiscalYearStart(project.isFiscalYearStart());
       //header.setRemoveFileProperties();
-      //header.setDefaultTaskEVMethod();
+      header.setDefaultTaskEarnedValueMethod(EarnedValueMethod.getInstance(getInt(project.getDefaultTaskEVMethod())));
       header.setDefaultStartTime(getTime(project.getDefaultStartTime()));
       header.setFinishDate(getDate (project.getFinishDate()));
       //header.setFinishDate();
@@ -2474,8 +2474,8 @@ public class MSPDIFile extends MPXFile
       project.setSplitsInProgressTasks(header.getSplitInProgressTasks());
       project.setManager(header.getManager());      
       project.setDefaultFinishTime(getCalendar (header.getDefaultEndTime()));
-      project.setFiscalYearStart(false);
-      project.setDefaultTaskEVMethod(BigInteger.ZERO);
+      project.setFiscalYearStart(header.getFiscalYearStart());
+      project.setDefaultTaskEVMethod(getEarnedValueMethod(header.getDefaultTaskEarnedValueMethod()));
       project.setDefaultStartTime(getCalendar (header.getDefaultStartTime()));
       project.setFinishDate(getCalendar(header.getFinishDate()));
       project.setMoveCompletedEndsBack(false);
@@ -2485,7 +2485,7 @@ public class MSPDIFile extends MPXFile
       project.setSubject(header.getSubject());
       project.setNewTasksEstimated(true);
       project.setSpreadActualCost(false);
-      project.setDefaultFixedCostAccrual(BigInteger.valueOf(AccrueType.PRORATED));
+      project.setDefaultFixedCostAccrual(BigInteger.valueOf(AccrueType.END));
       project.setMultipleCriticalPaths(false);
       project.setAutoAddNewResourcesAndTasks(true);
       project.setDefaultOvertimeRate((float)getRateCost(header.getDefaultOvertimeRate()));
@@ -2522,7 +2522,7 @@ public class MSPDIFile extends MPXFile
       //project.setUID()
       project.setCriticalSlackLimit(BigInteger.ZERO);      
       //project.setRevision()
-      project.setNewTasksEffortDriven(true);
+      project.setNewTasksEffortDriven(false);
       //project.setEarnedValueMethod
       project.setMoveRemainingStartsForward(false);
       project.setDefaultTaskType(BigInteger.ZERO);      

@@ -100,10 +100,12 @@ public final class ProjectHeader extends MPXRecord
       //
       // Configure non-MPX attributes
       //
-      setProjectExternallyEdited(true);
-      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY); //480
-      setDaysPerMonth(DEFAULT_DAYS_PER_MONTH); // 20
-      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);//2400
+      setProjectExternallyEdited(false);
+      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY);
+      setDaysPerMonth(DEFAULT_DAYS_PER_MONTH);
+      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);
+      setFiscalYearStart(false);
+      setDefaultTaskEarnedValueMethod(EarnedValueMethod.PERCENT_COMPLETE);
    }
 
    /**
@@ -2173,6 +2175,46 @@ public final class ProjectHeader extends MPXRecord
    {
       m_minutesPerWeek = minutesPerWeek;
    }
+
+   /**
+    * Retrieve the fiscal year start flag.
+    * 
+    * @return fiscal year start flag
+    */
+   public boolean getFiscalYearStart()
+   {
+      return (m_fiscalYearStart);
+   }
+   
+   /**
+    * Set the fiscal year start flag.
+    * 
+    * @param fiscalYearStart fiscal year start
+    */
+   public void setFiscalYearStart(boolean fiscalYearStart)
+   {
+      m_fiscalYearStart = fiscalYearStart;
+   }
+   
+   /**
+    * Retrieves the default task earned value method
+    * 
+    * @return default task earned value method
+    */
+   public EarnedValueMethod getDefaultTaskEarnedValueMethod()
+   {
+      return m_defaultTaskEarnedValueMethod;
+   }
+   
+   /**
+    * Sets the default task earned value method
+    * 
+    * @param defaultTaskEarnedValueMethod default task earned value method
+    */
+   public void setDefaultTaskEarnedValueMethod(EarnedValueMethod defaultTaskEarnedValueMethod)
+   {
+      m_defaultTaskEarnedValueMethod = defaultTaskEarnedValueMethod;
+   }
    
    /**
     * This method updates the formatters used to control the currency
@@ -2374,11 +2416,12 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_minutesPerDay;       
    private Integer m_daysPerMonth;
    private Integer m_minutesPerWeek;
-      
+   private boolean m_fiscalYearStart;
+   private EarnedValueMethod m_defaultTaskEarnedValueMethod;
+   
    /*
     * Missing MSPDI attributes 
     * 
-       void setFiscalYearStart(boolean value);    
        void setRemoveFileProperties(boolean value);    
        void setDefaultTaskEVMethod(java.math.BigInteger value);    
        void setFinishDate(java.util.Calendar value); // auto if null?   
