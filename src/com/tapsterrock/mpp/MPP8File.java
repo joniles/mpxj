@@ -23,35 +23,23 @@
   
 package com.tapsterrock.mpp;
 
+import java.io.IOException;
+
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BaseCalendar;
-import com.tapsterrock.mpx.BaseCalendarHours;
-import com.tapsterrock.mpx.BaseCalendarException;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
-import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.TreeMap;
-import java.util.LinkedList;
-import java.util.Iterator;
-import javax.swing.text.rtf.RTFEditorKit;
-import javax.swing.text.Document;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 final class MPP8File
 {
@@ -72,7 +60,7 @@ final class MPP8File
       //
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
-      //processCalendarData (file, projectDir);
+      processCalendarData (file, projectDir);
              
       processResourceData (file, projectDir);
 
@@ -87,6 +75,8 @@ final class MPP8File
    /**
     * This method extracts and collates calendar data.
     * 
+    * TODO work out the calendar data format
+    * 
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
@@ -100,173 +90,29 @@ final class MPP8File
       FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));      
 
       int calendars = calendarFixedData.getItemCount();      
-//      Integer id;
-//      BaseCalendar cal;
-//      BaseCalendarHours hours;
-//      BaseCalendarException exception;
-//      String name;
       byte[] data;
-//
-//      int periodCount;
-//      int index;
-//      int offset;
-//      int defaultFlag;
-//      Date start;
-//      long duration;
-//      int exceptionCount;
-//
-      //
-      // Configure default time ranges
-      //
-      SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
-      Date defaultStart1;
-      Date defaultEnd1;
-      Date defaultStart2;
-      Date defaultEnd2;
-
-      try
-      {
-         defaultStart1 = df.parse ("08:00");
-         defaultEnd1 = df.parse ("12:00");
-         defaultStart2 = df.parse ("13:00");
-         defaultEnd2 = df.parse ("17:00");
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXException (MPXException.INVALID_FORMAT, ex);
-      }
-
-      System.out.println (calendarVarData);
-      
+      String name;
+      BaseCalendar cal;
+            
       for (int loop=0; loop < calendars; loop++)
       {
          data = calendarFixedData.getByteArrayValue(loop);
-         System.out.println (MPPUtility.hexdump(data, false));
-         System.out.println (getOffset(data, 20));   
+         name = calendarVarData.getUnicodeString(getOffset(data, 20));
          
-//         id = uniqueid[loop];
-//         name = calVarData.getUnicodeString (id, CALENDAR_NAME);
-//         data = calVarData.getByteArray (id, CALENDAR_DATA);
-//         if (data == null)
-//         {
-//            cal = addDefaultBaseCalendar();
-//            cal.setName (name);
-//         }
-//         else
-//         {
-//            //
-//            // Populate the basic calendar
-//            //
-//            cal = addBaseCalendar();
-//            cal.setName (name);
-//
-//            for (index=0; index < 7; index++)
-//            {
-//               offset = 4 + (60 * index);
-//               defaultFlag = MPPUtility.getShort (data, offset);
-//
-//               if (defaultFlag == 1)
-//               {
-//                  cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
-//                  if (cal.isWorkingDay(index+1) == true)
-//                  {
-//                     hours = cal.addBaseCalendarHours(index+1);
-//                     hours.setFromTime1(defaultStart1);
-//                     hours.setToTime1(defaultEnd1);
-//                     hours.setFromTime2(defaultStart2);
-//                     hours.setToTime2(defaultEnd2);
-//                  }
-//               }
-//               else
-//               {
-//                  periodCount = MPPUtility.getShort (data, offset+2);
-//                  if (periodCount == 0)
-//                  {
-//                     cal.setWorkingDay(index+1, false);
-//                  }
-//                  else
-//                  {
-//                     cal.setWorkingDay(index+1, true);
-//                     hours = cal.addBaseCalendarHours(index+1);
-//
-//                     start = MPPUtility.getTime (data, offset + 8);
-//                     duration = MPPUtility.getDuration (data, offset + 20);
-//                     hours.setFromTime1(start);
-//                     hours.setToTime1(new Date (start.getTime()+duration));
-//                  
-//                     if (periodCount > 1)
-//                     {
-//                        start = MPPUtility.getTime (data, offset + 10);
-//                        duration = MPPUtility.getDuration (data, offset + 24);
-//                        hours.setFromTime2(start);
-//                        hours.setToTime2(new Date (start.getTime()+duration));
-//
-//                        if (periodCount > 2)
-//                        {                          
-//                           start = MPPUtility.getTime (data, offset + 12);
-//                           duration = MPPUtility.getDuration (data, offset + 28);
-//                           hours.setFromTime3(start);
-//                           hours.setToTime3(new Date (start.getTime()+duration));
-//                        }
-//                     }
-//
-//                     // Note that MPP defines 5 time ranges, the additional
-//                     // start times are at offsets 14, 16 and the additional
-//                     // durations are at offsets 32 and 36.
-//                  }
-//               }
-//            }
-//
-//            //
-//            // Handle any exceptions
-//            //
-//            exceptionCount = MPPUtility.getShort (data, 0);
-//            if (exceptionCount != 0)
-//            {
-//               for (index=0; index < exceptionCount; index++)
-//               {
-//                  offset = 4 + (60 * 7) + (index * 64);
-//                  exception = cal.addBaseCalendarException();
-//                  exception.setFromDate(MPPUtility.getDate (data, offset));
-//                  exception.setToDate(MPPUtility.getDate (data, offset+2));
-//
-//                  periodCount = MPPUtility.getShort (data, offset+6);
-//                  if (periodCount == 0)
-//                  {
-//                     exception.setWorking (false);
-//                  }
-//                  else
-//                  {
-//                     exception.setWorking (true);
-//
-//                     start = MPPUtility.getTime (data, offset+12);
-//                     duration = MPPUtility.getDuration (data, offset+24);
-//                     exception.setFromTime1(start);
-//                     exception.setToTime1(new Date (start.getTime() + duration));
-//
-//                     if (periodCount > 1)
-//                     {
-//                        start = MPPUtility.getTime (data, offset+14);
-//                        duration = MPPUtility.getDuration (data, offset+28);
-//                        exception.setFromTime2(start);
-//                        exception.setToTime2(new Date (start.getTime() + duration));
-//
-//                        if (periodCount > 2)
-//                        {
-//                           start = MPPUtility.getTime (data, offset+16);
-//                           duration = MPPUtility.getDuration (data, offset+32);
-//                           exception.setFromTime3(start);
-//                           exception.setToTime3(new Date (start.getTime() + duration));
-//                        }
-//                     }
-//                     //
-//                     // Note that MPP defines 5 time ranges rather than 3
-//                     //
-//                  }
-//               }
-//            }
-//         }
+         //
+         // Ignore calendars with the same name as existing calendars
+         //
+         if (file.getBaseCalendar(name) != null)
+         {
+            continue;
+         }
+             
+         //
+         // Until we have worked out the file structure, add a default
+         // calendar for each one we find in the file.
+         //                                 
+         cal = file.addDefaultBaseCalendar();
+         cal.setName (name);
       }
    }
 
