@@ -86,8 +86,6 @@ final class MPP8File
    /**
     * This method extracts and collates calendar data.
     * 
-    * TODO work out the exception data format
-    * 
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
@@ -166,7 +164,7 @@ final class MPP8File
          else
          {
             extData = calendarVarData.getByteArray(offset);           
-            
+                        
             cal = file.addBaseCalendar();
             cal.setName (name);
 
@@ -224,51 +222,51 @@ final class MPP8File
                }
             }
 
-         //
-         // Handle any exceptions
-         //
-//         exceptionCount = MPPUtility.getShort (data, 0);
-//         if (exceptionCount != 0)
-//         {
-//            for (index=0; index < exceptionCount; index++)
-//            {
-//               offset = 4 + (60 * 7) + (index * 64);
-//               exception = cal.addBaseCalendarException();
-//               exception.setFromDate(MPPUtility.getDate (data, offset));
-//               exception.setToDate(MPPUtility.getDate (data, offset+2));
-//
-//               periodCount = MPPUtility.getShort (data, offset+6);
-//               if (periodCount == 0)
-//               {
-//                  exception.setWorking (false);
-//               }
-//               else
-//               {
-//                  exception.setWorking (true);
-//
-//                  start = MPPUtility.getTime (data, offset+12);
-//                  duration = MPPUtility.getDuration (data, offset+24);
-//                  exception.setFromTime1(start);
-//                  exception.setToTime1(new Date (start.getTime() + duration));
-//
-//                  if (periodCount > 1)
-//                  {
-//                     start = MPPUtility.getTime (data, offset+14);
-//                     duration = MPPUtility.getDuration (data, offset+28);
-//                     exception.setFromTime2(start);
-//                     exception.setToTime2(new Date (start.getTime() + duration));
-//
-//                     if (periodCount > 2)
-//                     {
-//                        start = MPPUtility.getTime (data, offset+16);
-//                        duration = MPPUtility.getDuration (data, offset+32);
-//                        exception.setFromTime3(start);
-//                        exception.setToTime3(new Date (start.getTime() + duration));
-//                     }
-//                  }
-//               }
-//            }
-//         }
+            //
+            // Handle any exceptions
+            //
+            exceptionCount = MPPUtility.getShort (extData, 0);
+            if (exceptionCount != 0)
+            {
+               for (index=0; index < exceptionCount; index++)
+               {
+                  offset = 4 + (40 * 7) + (index * 44);
+                  exception = cal.addBaseCalendarException();
+                  exception.setFromDate(MPPUtility.getDate (extData, offset));
+                  exception.setToDate(MPPUtility.getDate (extData, offset+2));
+   
+                  periodCount = MPPUtility.getShort (extData, offset+6);
+                  if (periodCount == 0)
+                  {
+                     exception.setWorking (false);
+                  }
+                  else
+                  {
+                     exception.setWorking (true);
+   
+                     start = MPPUtility.getTime (extData, offset+12);
+                     duration = MPPUtility.getDuration (extData, offset+20);
+                     exception.setFromTime1(start);
+                     exception.setToTime1(new Date (start.getTime() + duration));
+   
+                     if (periodCount > 1)
+                     {
+                        start = MPPUtility.getTime (extData, offset+14);
+                        duration = MPPUtility.getDuration (extData, offset+24);
+                        exception.setFromTime2(start);
+                        exception.setToTime2(new Date (start.getTime() + duration));
+   
+                        if (periodCount > 2)
+                        {
+                           start = MPPUtility.getTime (extData, offset+16);
+                           duration = MPPUtility.getDuration (extData, offset+28);
+                           exception.setFromTime3(start);
+                           exception.setToTime3(new Date (start.getTime() + duration));
+                        }
+                     }
+                  }
+               }
+            }
          }
       }
    }
