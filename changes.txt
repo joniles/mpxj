@@ -14,6 +14,7 @@ Updated to extract the following fields from resource data in an MPP8 file which
 	Number1-Number20, Start1-Start10, Text1-Text30
 Added support for task and resource note fields in MPP8 files.
 Added support for the OvertimeCost task attribute for all file formats.
+Updated to extract calendar data from MPP8 files.
 
 Version 0.0.13
 Implemented support for the Microsoft Project 98 file format.
