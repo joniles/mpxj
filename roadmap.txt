@@ -1,0 +1,17 @@
+Investigate extracting more fields for resource assignments.
+Implement Props table of tables structure for MPP9
+Implement Props table of tables structure for MPP8
+Extract custom field headings from Props table.
+Implement custom field attribute reading from MSPDI files
+Implement custom field attribute writing to MSPDI files
+Implement missing resource fields for MPP8 files.
+Implement missing task fields for MPP9 files.
+Implement missing resource fields for MPP9 files.
+Implement missing task fields for MSPDI files.
+Implement missing resource fields for MSPDI files.
+Investigate extracting recurring task information (MPP8 taskExtData items 167 and 168?)
+Investigate subproject task attributes
+
+
+
+
