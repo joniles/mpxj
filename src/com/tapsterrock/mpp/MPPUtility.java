@@ -26,10 +26,10 @@ package com.tapsterrock.mpp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
 import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.TimeUnit;
+
 
 /**
  * This class provides common functionality used by each of the classes
@@ -42,7 +42,6 @@ final class MPPUtility
     */
    private MPPUtility ()
    {
-
    }
 
    /**
@@ -57,9 +56,9 @@ final class MPPUtility
     */
    public static final void getByteArray (byte[] data, int offset, int size, byte[] buffer, int bufferOffset)
    {
-      for (int loop=0; loop < size; loop++)
+      for (int loop = 0; loop < size; loop++)
       {
-         buffer[bufferOffset+loop] = data[offset+loop];
+         buffer[bufferOffset + loop] = data[offset + loop];
       }
    }
 
@@ -73,7 +72,7 @@ final class MPPUtility
    public static final int getByte (byte[] data, int offset)
    {
       int result = data[offset] & 0x0F;
-      result += ((data[offset] >> 4 & 0x0F) * 16);
+      result += (((data[offset] >> 4) & 0x0F) * 16);
       return (result);
    }
 
@@ -86,7 +85,7 @@ final class MPPUtility
     */
    public static final int getByte (byte[] data)
    {
-      return (getByte (data, 0));
+      return (getByte(data, 0));
    }
 
    /**
@@ -99,9 +98,9 @@ final class MPPUtility
    public static final int getShort (byte[] data, int offset)
    {
       int result = (data[offset] & 0x0F);
-      result += ((data[offset] >> 4 & 0x0F) * 16);
-      result += ((data[offset+1] & 0x0F) * 256);
-      result += ((data[offset+1] >> 4 & 0x0F) * 4096);
+      result += (((data[offset] >> 4) & 0x0F) * 16);
+      result += ((data[offset + 1] & 0x0F) * 256);
+      result += (((data[offset + 1] >> 4) & 0x0F) * 4096);
       return (result);
    }
 
@@ -114,7 +113,7 @@ final class MPPUtility
     */
    public static final int getShort (byte[] data)
    {
-      return (getShort (data, 0));
+      return (getShort(data, 0));
    }
 
    /**
@@ -127,13 +126,13 @@ final class MPPUtility
    public static final int getInt (byte[] data, int offset)
    {
       int result = (data[offset] & 0x0F);
-      result += ((data[offset] >> 4 & 0x0F) * 16);
-      result += ((data[offset+1] & 0x0F) * 256);
-      result += ((data[offset+1] >> 4 & 0x0F) * 4096);
-      result += ((data[offset+2] & 0x0F) * 65536);
-      result += ((data[offset+2] >> 4 & 0x0F) * 1048576);
-      result += ((data[offset+3] & 0x0F) * 16777216);
-      result += ((data[offset+3] >> 4 & 0x0F) * 268435456);
+      result += (((data[offset] >> 4) & 0x0F) * 16);
+      result += ((data[offset + 1] & 0x0F) * 256);
+      result += (((data[offset + 1] >> 4) & 0x0F) * 4096);
+      result += ((data[offset + 2] & 0x0F) * 65536);
+      result += (((data[offset + 2] >> 4) & 0x0F) * 1048576);
+      result += ((data[offset + 3] & 0x0F) * 16777216);
+      result += (((data[offset + 3] >> 4) & 0x0F) * 268435456);
       return (result);
    }
 
@@ -146,7 +145,7 @@ final class MPPUtility
     */
    public static final int getInt (byte[] data)
    {
-      return (getInt (data, 0));
+      return (getInt(data, 0));
    }
 
    /**
@@ -159,24 +158,23 @@ final class MPPUtility
    public static final long getLong (byte[] data, int offset)
    {
       long result = (data[offset] & 0x0F); // 0
-      result += ((data[offset] >> 4 & 0x0F) * 16); // 1
-      result += ((data[offset+1] & 0x0F) * 256); // 2
-      result += ((data[offset+1] >> 4 & 0x0F) * 4096); // 3
-      result += ((data[offset+2] & 0x0F) * 65536); // 4
-      result += ((data[offset+2] >> 4 & 0x0F) * 1048576); // 5
-      result += ((data[offset+3] & 0x0F) * 16777216); // 6
-      result += ((data[offset+3] >> 4 & 0x0F) * 268435456); // 7
-      result += ((data[offset+4] & 0x0F) * 4294967296L); // 8
-      result += ((data[offset+4] >> 4 & 0x0F) * 68719476736L); // 9
-      result += ((data[offset+5] & 0x0F) * 1099511627776L); // 10
-      result += ((data[offset+5] >> 4 & 0x0F) * 17592186044416L); // 11
-      result += ((data[offset+6] & 0x0F) * 281474976710656L); // 12
-      result += ((data[offset+6] >> 4 & 0x0F) * 4503599627370496L); // 13
-      result += ((data[offset+7] & 0x0F) * 72057594037927936L); // 14
-      result += ((data[offset+7] >> 4 & 0x0F) * 1152921504606846976L); // 15
+      result += (((data[offset] >> 4) & 0x0F) * 16); // 1
+      result += ((data[offset + 1] & 0x0F) * 256); // 2
+      result += (((data[offset + 1] >> 4) & 0x0F) * 4096); // 3
+      result += ((data[offset + 2] & 0x0F) * 65536); // 4
+      result += (((data[offset + 2] >> 4) & 0x0F) * 1048576); // 5
+      result += ((data[offset + 3] & 0x0F) * 16777216); // 6
+      result += (((data[offset + 3] >> 4) & 0x0F) * 268435456); // 7
+      result += ((data[offset + 4] & 0x0F) * 4294967296L); // 8
+      result += (((data[offset + 4] >> 4) & 0x0F) * 68719476736L); // 9
+      result += ((data[offset + 5] & 0x0F) * 1099511627776L); // 10
+      result += (((data[offset + 5] >> 4) & 0x0F) * 17592186044416L); // 11
+      result += ((data[offset + 6] & 0x0F) * 281474976710656L); // 12
+      result += (((data[offset + 6] >> 4) & 0x0F) * 4503599627370496L); // 13
+      result += ((data[offset + 7] & 0x0F) * 72057594037927936L); // 14
+      result += (((data[offset + 7] >> 4) & 0x0F) * 1152921504606846976L); // 15
       return (result);
    }
-
 
    /**
     * This method reads a six byte long from the input array.
@@ -188,17 +186,17 @@ final class MPPUtility
    public static final long getLong6 (byte[] data, int offset)
    {
       long result = (data[offset] & 0x0F); // 0
-      result += ((data[offset] >> 4 & 0x0F) * 16); // 1
-      result += ((data[offset+1] & 0x0F) * 256); // 2
-      result += ((data[offset+1] >> 4 & 0x0F) * 4096); // 3
-      result += ((data[offset+2] & 0x0F) * 65536); // 4
-      result += ((data[offset+2] >> 4 & 0x0F) * 1048576); // 5
-      result += ((data[offset+3] & 0x0F) * 16777216); // 6
-      result += ((data[offset+3] >> 4 & 0x0F) * 268435456); // 7
-      result += ((data[offset+4] & 0x0F) * 4294967296L); // 8
-      result += ((data[offset+4] >> 4 & 0x0F) * 68719476736L); // 9
-      result += ((data[offset+5] & 0x0F) * 1099511627776L); // 10
-      result += ((data[offset+5] >> 4 & 0x0F) * 17592186044416L); // 11
+      result += (((data[offset] >> 4) & 0x0F) * 16); // 1
+      result += ((data[offset + 1] & 0x0F) * 256); // 2
+      result += (((data[offset + 1] >> 4) & 0x0F) * 4096); // 3
+      result += ((data[offset + 2] & 0x0F) * 65536); // 4
+      result += (((data[offset + 2] >> 4) & 0x0F) * 1048576); // 5
+      result += ((data[offset + 3] & 0x0F) * 16777216); // 6
+      result += (((data[offset + 3] >> 4) & 0x0F) * 268435456); // 7
+      result += ((data[offset + 4] & 0x0F) * 4294967296L); // 8
+      result += (((data[offset + 4] >> 4) & 0x0F) * 68719476736L); // 9
+      result += ((data[offset + 5] & 0x0F) * 1099511627776L); // 10
+      result += (((data[offset + 5] >> 4) & 0x0F) * 17592186044416L); // 11
 
       return (result);
    }
@@ -212,7 +210,7 @@ final class MPPUtility
     */
    public static final long getLong6 (byte[] data)
    {
-      return (getLong6 (data, 0));
+      return (getLong6(data, 0));
    }
 
    /**
@@ -224,7 +222,7 @@ final class MPPUtility
     */
    public static final long getLong (byte[] data)
    {
-      return (getLong (data, 0));
+      return (getLong(data, 0));
    }
 
    /**
@@ -236,7 +234,7 @@ final class MPPUtility
     */
    public static final double getDouble (byte[] data, int offset)
    {
-      return (Double.longBitsToDouble(getLong (data, offset)));
+      return (Double.longBitsToDouble(getLong(data, offset)));
    }
 
    /**
@@ -248,7 +246,7 @@ final class MPPUtility
     */
    public static final double getDouble (byte[] data)
    {
-      return (Double.longBitsToDouble(getLong (data, 0)));
+      return (Double.longBitsToDouble(getLong(data, 0)));
    }
 
    /**
@@ -263,14 +261,15 @@ final class MPPUtility
    public static final Date getDate (byte[] data, int offset)
    {
       Date result;
-      long days = getShort (data, offset);
+      long days = getShort(data, offset);
+
       if (days == 65535)
       {
          result = null;
       }
       else
       {
-         result = new Date (EPOCH + (days * MS_PER_DAY));
+         result = new Date(EPOCH + (days * MS_PER_DAY));
       }
 
       return (result);
@@ -286,10 +285,10 @@ final class MPPUtility
     */
    public static final Date getTime (byte[] data, int offset)
    {
-      int time = getShort (data, offset) / 10;
+      int time = getShort(data, offset) / 10;
       Calendar cal = Calendar.getInstance();
-      cal.set(Calendar.HOUR_OF_DAY, (time/60));
-      cal.set(Calendar.MINUTE, (time%60));
+      cal.set(Calendar.HOUR_OF_DAY, (time / 60));
+      cal.set(Calendar.MINUTE, (time % 60));
       cal.set(Calendar.SECOND, 0);
       cal.set(Calendar.MILLISECOND, 0);
       return (cal.getTime());
@@ -317,7 +316,7 @@ final class MPPUtility
     */
    public static final long getDuration (byte[] data, int offset)
    {
-      return ((getShort (data, offset) * MS_PER_MINUTE)/10);
+      return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
    }
 
    /**
@@ -331,7 +330,8 @@ final class MPPUtility
    {
       Date result;
 
-      long days = getShort (data, offset+2);
+      long days = getShort(data, offset + 2);
+
       if (days == 65535)
       {
          result = null;
@@ -339,8 +339,9 @@ final class MPPUtility
       else
       {
          TimeZone tz = TimeZone.getDefault();
-         long time = getShort (data, offset);
-         result = new Date (EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE)/10) - tz.getRawOffset());
+         long time = getShort(data, offset);
+         result = new Date((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)) - tz.getRawOffset());
+
          if (tz.inDaylightTime(result) == true)
          {
             int savings;
@@ -354,7 +355,7 @@ final class MPPUtility
                savings = DEFAULT_DST_SAVINGS;
             }
 
-            result = new Date (result.getTime() - savings);
+            result = new Date(result.getTime() - savings);
          }
       }
 
@@ -370,7 +371,7 @@ final class MPPUtility
     */
    public static final Date getTimestamp (byte[] data)
    {
-      return (getTimestamp (data, 0));
+      return (getTimestamp(data, 0));
    }
 
    /**
@@ -400,17 +401,19 @@ final class MPPUtility
     */
    public static final String getUnicodeString (byte[] data, int offset)
    {
-      StringBuffer buffer = new StringBuffer ();
+      StringBuffer buffer = new StringBuffer();
       char c;
 
-      for (int loop=offset; loop < data.length-1; loop += 2)
+      for (int loop = offset; loop < (data.length - 1); loop += 2)
       {
-         c = (char)getShort (data, loop);
+         c = (char)getShort(data, loop);
+
          if (c == 0)
          {
             break;
          }
-         buffer.append (c);
+
+         buffer.append(c);
       }
 
       return (buffer.toString());
@@ -427,17 +430,19 @@ final class MPPUtility
     */
    public static final String getString (byte[] data)
    {
-      StringBuffer buffer = new StringBuffer ();
+      StringBuffer buffer = new StringBuffer();
       char c;
 
-      for (int loop=0; loop < data.length; loop++)
+      for (int loop = 0; loop < data.length; loop++)
       {
          c = (char)data[loop];
+
          if (c == 0)
          {
             break;
          }
-         buffer.append (c);
+
+         buffer.append(c);
       }
 
       return (buffer.toString());
@@ -453,7 +458,7 @@ final class MPPUtility
     */
    public static final MPXDuration getDuration (int value, TimeUnit type)
    {
-      return (getDuration ((double)value, type));
+      return (getDuration((double)value, type));
    }
 
    /**
@@ -512,9 +517,8 @@ final class MPPUtility
          }
       }
 
-      return (new MPXDuration (duration, type));
+      return (new MPXDuration(duration, type));
    }
-
 
    /**
     * This method converts between the duration units representation
@@ -596,6 +600,34 @@ final class MPPUtility
    }
 
    /**
+    * Given a duration and the time units for the duration extracted from an MPP
+    * file, this method creates a new MPXDuration to represent the given
+    * duration. This instance has been adjusted to take into account the
+    * number of "hours per day" specified for the current project.
+    * 
+    * @param file parent file
+    * @param duration duration length
+    * @param timeUnit duration units
+    * @return MPXDuration instance
+    */
+   public static MPXDuration getAdjustedDuration (MPPFile file, int duration, TimeUnit timeUnit)
+   {
+      MPXDuration result;
+      if (timeUnit == TimeUnit.DAYS)
+      {
+         double unitsPerDay = file.getProjectHeader().getDefaultHoursInDay().doubleValue() * 600d;
+         double totalDays = duration / unitsPerDay;
+         result = new MPXDuration(totalDays, timeUnit);
+      }
+      else
+      {
+         result = getDuration(duration, timeUnit);
+      }
+      return (result);
+   }
+      
+
+   /**
     * This method maps from the value used to specify default work units in the
     * MPP file to a standard TimeUnit.
     *
@@ -626,8 +658,7 @@ final class MPPUtility
             break;
          }
 
-         case 2:
-         default:
+         case 2:default:
          {
             result = TimeUnit.HOURS;
             break;
@@ -636,7 +667,7 @@ final class MPPUtility
 
       return (result);
    }
-   
+
    /**
     * This method maps the currency symbol position from the
     * representation used in the MPP file to the representation
@@ -648,7 +679,7 @@ final class MPPUtility
    public static CurrencySymbolPosition getSymbolPosition (int value)
    {
       CurrencySymbolPosition result;
-      
+
       switch (value)
       {
          case 1:
@@ -669,8 +700,7 @@ final class MPPUtility
             break;
          }
 
-         case 0:
-         default:
+         case 0:default:
          {
             result = CurrencySymbolPosition.BEFORE;
             break;
@@ -708,34 +738,35 @@ final class MPPUtility
     */
    public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii)
    {
-      StringBuffer sb = new StringBuffer ();
+      StringBuffer sb = new StringBuffer();
 
       if (buffer != null)
       {
          char c;
          int loop;
-         int count = offset+length;
+         int count = offset + length;
 
-         for (loop=offset; loop < count; loop++)
+         for (loop = offset; loop < count; loop++)
          {
-            sb.append (" ");
-            sb.append (HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
-            sb.append (HEX_DIGITS[buffer[loop] & 0x0F]);
+            sb.append(" ");
+            sb.append(HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
+            sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
          }
 
          if (ascii == true)
          {
-            sb.append ("   ");
+            sb.append("   ");
 
-            for (loop=offset; loop < count; loop++)
+            for (loop = offset; loop < count; loop++)
             {
                c = (char)buffer[loop];
-               if (c > 200 || c < 27)
+
+               if ((c > 200) || (c < 27))
                {
                   c = ' ';
                }
 
-               sb.append (c);
+               sb.append(c);
             }
          }
       }
@@ -755,12 +786,13 @@ final class MPPUtility
    public static final String hexdump (byte[] buffer, boolean ascii)
    {
       int length = 0;
+
       if (buffer != null)
       {
          length = buffer.length;
       }
 
-      return (hexdump (buffer, 0, length, ascii));
+      return (hexdump(buffer, 0, length, ascii));
    }
 
    /**
@@ -782,11 +814,7 @@ final class MPPUtility
    /**
     * Constants used to convert bytes to hex digits
     */
-   private static final char[] HEX_DIGITS =
-   {
-      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-      'A', 'B', 'C', 'D', 'E', 'F'
-   };
+   private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
    /**
     * Mask used to remove flags from the duration units field.
@@ -821,4 +849,3 @@ final class MPPUtility
       }
    }
 }
-

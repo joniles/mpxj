@@ -973,18 +973,18 @@ final class MPP9File
          task.setDate10(taskVarData.getTimestamp (id, TASK_DATE10));
          task.setDeadline (MPPUtility.getTimestamp (data, 164));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 60), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         task.setDuration (MPPUtility.getAdjustedDuration (file, MPPUtility.getInt (data, 60), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          //task.setDurationVariance(); // Calculated value
-         task.setDuration1(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
-         task.setDuration2(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
-         task.setDuration3(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
-         task.setDuration4(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
-         task.setDuration5(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
-         task.setDuration6(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
-         task.setDuration7(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
-         task.setDuration8(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
-         task.setDuration9(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
+         task.setDuration1(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
+         task.setDuration2(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
+         task.setDuration3(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
+         task.setDuration4(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
+         task.setDuration5(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
+         task.setDuration6(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
+         task.setDuration7(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
+         task.setDuration8(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
+         task.setDuration9(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
+         task.setDuration10(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
 //       From MS Project 2003
 //         task.setEAC();
          //task.setEarlyFinish(); // Calculated value

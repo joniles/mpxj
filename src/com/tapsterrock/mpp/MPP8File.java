@@ -531,17 +531,17 @@ final class MPP8File
          task.setDate9(taskExtData.getTimestamp(TASK_DATE9));
          task.setDate10(taskExtData.getTimestamp(TASK_DATE10));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
-         task.setDuration1(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
-         task.setDuration2(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
-         task.setDuration3(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION3_UNITS))));
-         task.setDuration4(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION4_UNITS))));
-         task.setDuration5(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION5_UNITS))));
-         task.setDuration6(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION6_UNITS))));
-         task.setDuration7(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
-         task.setDuration8(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
-         task.setDuration9(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
+         task.setDuration (MPPUtility.getAdjustedDuration (file, MPPUtility.getInt (data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
+         task.setDuration1(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
+         task.setDuration2(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
+         task.setDuration3(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION3_UNITS))));
+         task.setDuration4(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION4_UNITS))));
+         task.setDuration5(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION5_UNITS))));
+         task.setDuration6(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION6_UNITS))));
+         task.setDuration7(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
+         task.setDuration8(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
+         task.setDuration9(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
+         task.setDuration10(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
