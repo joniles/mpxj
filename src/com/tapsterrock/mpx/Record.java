@@ -100,6 +100,10 @@ final class Record
       if (field < m_fields.length)
       {
          result = m_fields[field];
+         if (result != null)
+         {
+            result = result.replace(MPXRecord.EOL_PLACEHOLDER, '\n');
+         }      
       }
       else
       {

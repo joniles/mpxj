@@ -40,6 +40,7 @@ import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
@@ -1654,6 +1655,83 @@ public class TestMPXFile extends TestCase
          }         
          
          assertEquals("Failed to read " + failures + " files", 0, failures);
+      }
+   }
+   
+   /**
+    * Write a file with embedded line break (\r and \n) characters in
+    * various text fields. Ensure that a valid file is written,
+    * and that it can be read successfully.
+    * 
+    * @throws Exception
+    */
+   public void testEmbeddedLineBreaks ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = false;
+
+      try
+      {      
+         //
+         // Create a simple MPX file
+         //
+         SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+         MPXFile file = new MPXFile ();
+         file.setAutoTaskID(true);
+         file.setAutoTaskUniqueID(true);
+         file.setAutoResourceID(true);
+         file.setAutoResourceUniqueID(true);
+         file.setAutoOutlineLevel(true);
+         file.setAutoOutlineNumber(true);
+         file.setAutoWBS(true);
+         file.setAutoCalendarUniqueID(true);
+         file.addDefaultBaseCalendar();
+         
+         ProjectHeader header = file.getProjectHeader();
+         header.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
+         header.setStartDate(df.parse("01/01/2003"));
+         
+         Resource resource1 = file.addResource();
+         resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
+         resource1.addResourceNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
+         
+         Task task1 = file.addTask();
+         task1.setName ("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
+         task1.addTaskNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
+   
+         //
+         // Write the file
+         //
+         out = File.createTempFile ("junit", ".mpx");
+         file.write(out);
+         
+         //
+         // Ensure we can read it successfully
+         //     
+         file = new MPXFile(out);
+         assertEquals(1, file.getAllTasks().size());
+         assertEquals(1, file.getAllResources().size());
+         
+         header = file.getProjectHeader();
+         assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", header.getComments());
+         
+         task1 = file.getTaskByUniqueID(1);
+         assertEquals("Task1: Some\nExample\nText\nWith\nBreaks", task1.getName());
+         assertEquals("Task1 Notes: Some\nExample\nText\nWith\nBreaks", task1.getNotes());
+         
+         resource1 = file.getResourceByUniqueID(1);
+         assertEquals("Resource1: Some\nExample\nText\nWith\nBreaks", resource1.getName());
+         assertEquals("Resource1 Notes: Some\nExample\nText\nWith\nBreaks", resource1.getNotes());
+         success = true;
+      }
+      
+      finally
+      {
+         if (success == true && out != null)
+         {
+            out.delete();
+         }
       }
    }
    

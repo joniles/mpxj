@@ -88,8 +88,9 @@ public final class ResourceNotes extends MPXRecord
 
       if (m_note != null)
       {
-         boolean quote = (m_note.indexOf(delimiter) != -1 || m_note.indexOf('"') != -1);
-         int length = m_note.length();
+         String note = stripLineBreaks(m_note, EOL_PLACEHOLDER_STRING);
+         boolean quote = (note.indexOf(delimiter) != -1 || note.indexOf('"') != -1);
+         int length = note.length();
          char c;
 
          if (quote == true)
@@ -99,16 +100,10 @@ public final class ResourceNotes extends MPXRecord
 
          for (int loop=0; loop < length; loop++)
          {
-            c = m_note.charAt(loop);
+            c = note.charAt(loop);
 
             switch (c)
             {
-               case '\n':
-               {
-                  buffer.append (EOL_PLACEHOLDER);
-                  break;
-               }
-
                case '"':
                {
                   buffer.append ("\"\"");
@@ -139,12 +134,7 @@ public final class ResourceNotes extends MPXRecord
    */
    private String m_note;
 
-   /**
-    * Placeholder character used in MPX files to represent
-    * carriage returns embedded in note text.
-    */
-   private static final char EOL_PLACEHOLDER = (char)0x7F;
-
+   
    /**
     * Constant containing the record number associated with this record.
     */

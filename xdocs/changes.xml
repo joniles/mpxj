@@ -14,6 +14,7 @@
       <action dev="joniles" type="fix">Fixed a bug where certain MPP9 files were not read correctly.</action>
       <action dev="joniles" type="fix">Fixed a bug where MPP9 files containing invalid resource data were not read correctly.</action>
       <action dev="joniles" type="fix">Fixed a bug where MPXJ was using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
+      <action dev="joniles" type="fix">Fixed a bug where MPXJ not correctly handling embedded line breaks when reading and writing MPX files.</action>
       <action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX spec.</action>
       <action dev="joniles" type="update">Updated MPX documentation for Task.getFixed and Task.setFixed.</action>
       <action dev="joniles" type="update">Updated MPP9 file code to improve handling invalid offset values.</action>
