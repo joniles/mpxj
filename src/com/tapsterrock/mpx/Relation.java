@@ -49,6 +49,7 @@ public final class Relation
     *
     * @param relationship String representation of a relationship
     * @param format expected format of duration component of the string
+    * @param locale target locale
     * @throws MPXException normally indicating that parsing the string has failed
     */
    Relation (String relationship, MPXNumberFormat format, Locale locale)

@@ -37,6 +37,7 @@ public final class TimeUnit
     * unit, and return the appropriate constant value.
     *
     * @param units string representation of a time unit
+    * @param locale target locale
     * @return numeric constant
     * @throws MPXException normally thrown when parsing fails
     */
@@ -58,6 +59,7 @@ public final class TimeUnit
     * and returns a string representation.
     *
     * @param units numeric constant representing a time unit
+    * @param locale target locale
     * @return string representation
     */
    static String format (int units, Locale locale)

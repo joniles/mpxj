@@ -49,7 +49,7 @@ final class TaskModel extends MPXRecord
    /**
     * This method is used to update the locale specific data used by this class.
     *
-    * @param locale
+    * @param locale target locale
     */
    void setLocale (Locale locale)
    {

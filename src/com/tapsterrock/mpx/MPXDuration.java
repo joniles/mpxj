@@ -153,6 +153,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * contents of this record.
     *
     * @param format number format to use for the duration value
+    * @param locale target locale
     * @return string containing the data for this record in MPX format.
     */
    String toString (MPXNumberFormat format, Locale locale)

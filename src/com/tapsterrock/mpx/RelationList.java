@@ -46,6 +46,7 @@ public final class RelationList implements ToStringRequiresFile
     *
     * @param data data read from an MPX file
     * @param format expected format of duration component of each relation string
+    * @param locale target locale
     * @throws MPXException nroamlly thrown on parse errors
     */
    RelationList (String data, MPXNumberFormat format, Locale locale)

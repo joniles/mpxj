@@ -37,6 +37,7 @@ public final class MPXRate implements ToStringRequiresFile
     *
     * @param format Number formatter
     * @param rate string containing rate value
+    * @param locale target locale
     * @throws MPXException when string parse fails
     */
    MPXRate (MPXNumberFormat format, String rate, Locale locale)

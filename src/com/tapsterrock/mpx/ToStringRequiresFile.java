@@ -30,5 +30,12 @@ package com.tapsterrock.mpx;
  */
 interface ToStringRequiresFile
 {
+   /**
+    * Generate a string representation of a set of data, suitable for 
+    * inclusion in an MPX file.
+    * 
+    * @param mpx parent mpx file
+    * @return string representation of data
+    */
    public String toString (MPXFile mpx);
 }
