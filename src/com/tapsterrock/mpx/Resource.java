@@ -3591,6 +3591,406 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag1()
+   {
+      return m_flag1;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag2()
+   {
+      return m_flag2;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag3()
+   {
+      return m_flag3;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag4()
+   {
+      return m_flag4;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag5()
+   {
+      return m_flag5;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag6()
+   {
+      return m_flag6;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag7()
+   {
+      return m_flag7;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag8()
+   {
+      return m_flag8;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag9()
+   {
+      return m_flag9;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag10()
+   {
+      return m_flag10;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag11()
+   {
+      return m_flag11;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag12()
+   {
+      return m_flag12;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag13()
+   {
+      return m_flag13;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag14()
+   {
+      return m_flag14;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag15()
+   {
+      return m_flag15;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag16()
+   {
+      return m_flag16;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag17()
+   {
+      return m_flag17;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag18()
+   {
+      return m_flag18;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag19()
+   {
+      return m_flag19;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag20()
+   {
+      return m_flag20;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag1(boolean b)
+   {
+      m_flag1 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag2(boolean b)
+   {
+      m_flag2 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag3(boolean b)
+   {
+      m_flag3 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag4(boolean b)
+   {
+      m_flag4 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag5(boolean b)
+   {
+      m_flag5 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag6(boolean b)
+   {
+      m_flag6 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag7(boolean b)
+   {
+      m_flag7 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag8(boolean b)
+   {
+      m_flag8 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag9(boolean b)
+   {
+      m_flag9 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag10(boolean b)
+   {
+      m_flag10 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag11(boolean b)
+   {
+      m_flag11 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag12(boolean b)
+   {
+      m_flag12 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag13(boolean b)
+   {
+      m_flag13 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag14(boolean b)
+   {
+      m_flag14 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag15(boolean b)
+   {
+      m_flag15 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag16(boolean b)
+   {
+      m_flag16 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag17(boolean b)
+   {
+      m_flag17 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag18(boolean b)
+   {
+      m_flag18 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag19(boolean b)
+   {
+      m_flag19 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag20(boolean b)
+   {
+      m_flag20 = b;
+   }
+
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
@@ -3754,7 +4154,27 @@ public class Resource extends MPXRecord
    private Number m_cost8;
    private Number m_cost9;
    private Number m_cost10;
-         	
+   private boolean m_flag1;
+   private boolean m_flag2;
+   private boolean m_flag3;
+   private boolean m_flag4;
+   private boolean m_flag5;
+   private boolean m_flag6;
+   private boolean m_flag7;
+   private boolean m_flag8;
+   private boolean m_flag9;
+   private boolean m_flag10;         	
+   private boolean m_flag11;
+   private boolean m_flag12;
+   private boolean m_flag13;
+   private boolean m_flag14;
+   private boolean m_flag15;
+   private boolean m_flag16;
+   private boolean m_flag17;
+   private boolean m_flag18;
+   private boolean m_flag19;
+   private boolean m_flag20;
+   
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,

@@ -1,3 +1,7 @@
+Version 0.0.14
+Updated to extract the following fields from resource data in an MPP9 file which were previously not imported:
+	Flag1-Flag20
+
 Version 0.0.13
 Implemented support for the Microsoft Project 98 file format.
 Fixed a bug that prevented task and resource note text from being read.

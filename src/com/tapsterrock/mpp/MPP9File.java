@@ -125,7 +125,7 @@ final class MPP9File
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
-
+      
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedMeta.getByteArrayValue(loop);
@@ -163,6 +163,7 @@ final class MPP9File
       return (resourceMap);
    }
 
+   
    /**
     * The format of the calandar data is a 4 byte header followed
     * by 7x 60 byte blocks, one for each day of the week. Optionally
@@ -712,12 +713,13 @@ final class MPP9File
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-      
+               
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifiers();
       Integer id;
       Integer offset;
       byte[] data;
+      byte[] metaData;      
       Resource resource;
       
       RTFEditorKit rtfEditor = null;
@@ -739,7 +741,7 @@ final class MPP9File
          {
             throw new MPXException (MPXException.INVALID_FILE);
          }
-
+         
          data = rscFixedData.getByteArrayValue(offset.intValue());
 
          resource = file.addResource();
@@ -876,6 +878,28 @@ final class MPP9File
          resource.setUniqueID(id.intValue());
          resource.setWork(new MPXDuration (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
 
+         metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
+         resource.setFlag1((metaData[28] & 0x40) != 0);
+         resource.setFlag2((metaData[28] & 0x80) != 0);
+         resource.setFlag3((metaData[29] & 0x01) != 0);
+         resource.setFlag4((metaData[29] & 0x02) != 0);
+         resource.setFlag5((metaData[29] & 0x04) != 0);
+         resource.setFlag6((metaData[29] & 0x08) != 0);
+         resource.setFlag7((metaData[29] & 0x10) != 0);
+         resource.setFlag8((metaData[29] & 0x20) != 0);
+         resource.setFlag9((metaData[29] & 0x40) != 0);
+         resource.setFlag10((metaData[28] & 0x20) != 0);
+         resource.setFlag11((metaData[29] & 0x20) != 0);
+         resource.setFlag12((metaData[30] & 0x01) != 0);
+         resource.setFlag13((metaData[30] & 0x02) != 0);
+         resource.setFlag14((metaData[30] & 0x04) != 0);
+         resource.setFlag15((metaData[30] & 0x08) != 0);
+         resource.setFlag16((metaData[30] & 0x10) != 0);
+         resource.setFlag17((metaData[30] & 0x20) != 0);
+         resource.setFlag18((metaData[30] & 0x40) != 0);
+         resource.setFlag19((metaData[30] & 0x80) != 0);
+         resource.setFlag20((metaData[31] & 0x01) != 0);
+                                                                                                            
          notes = rscVarData.getString (id, RESOURCE_NOTES);
          if (notes != null)
          {
