@@ -34,6 +34,8 @@ import junit.framework.TestCase;
 
 import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.Relation;
+import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mspdi.MSPDIFile;
@@ -316,6 +318,34 @@ public class TestMPXFile extends TestCase
       }
 
    }
+
+   /**
+    * Simple test to exercise iterating through the task predecessors.
+    * 
+    * @throws Exception
+    */
+   public void testRelationList ()
+      throws Exception
+   {
+      File in = new File (m_basedir + "/sample.mpx");
+      MPXFile mpx = new MPXFile (in);
+      LinkedList tasks = mpx.getAllTasks();
+      Iterator taskIter = tasks.iterator();
+      
+      while (taskIter.hasNext() == true)
+      {
+         Task task = (Task)taskIter.next();
+         RelationList rels = task.getPredecessors();
+         Iterator relIter = rels.iterator();
+         
+         while (relIter.hasNext() == true)
+         {
+            Relation rel = (Relation)relIter.next();               
+            Task relatedTask = mpx.getTaskByUniqueID(rel.getTaskIDValue());            
+         }
+      }
+   }
+
 
    /**
     * Read an MPP file that caused problems.
