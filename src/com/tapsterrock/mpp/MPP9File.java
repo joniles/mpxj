@@ -164,6 +164,8 @@ final class MPP9File
       ph.setCompany(summary.getCompany());
       ph.setManager(summary.getManager()); 
       ph.setCategory(summary.getCategory());
+      ph.setStartDate(summary.getStartDate());
+      ph.setFinishDate(summary.getFinishDate());
    }
 
    /**

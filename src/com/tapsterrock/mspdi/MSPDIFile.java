@@ -2477,7 +2477,7 @@ public class MSPDIFile extends MPXFile
       project.setFiscalYearStart(false);
       project.setDefaultTaskEVMethod(BigInteger.ZERO);
       project.setDefaultStartTime(getCalendar (header.getDefaultStartTime()));
-      project.setFinishDate(getCalendar(getFinishDate()));
+      project.setFinishDate(getCalendar(header.getFinishDate()));
       project.setMoveCompletedEndsBack(false);
       project.setWorkFormat(getXmlWorkUnits(header.getDefaultWorkUnits()));
       project.setBaselineForEarnedValue(BigInteger.ZERO);
@@ -2489,7 +2489,7 @@ public class MSPDIFile extends MPXFile
       project.setMultipleCriticalPaths(false);
       project.setAutoAddNewResourcesAndTasks(true);
       project.setDefaultOvertimeRate((float)getRateCost(header.getDefaultOvertimeRate()));
-      project.setStartDate(getCalendar(getStartDate()));
+      project.setStartDate(getCalendar(header.getStartDate()));
       project.setCurrencySymbolPosition(getXmlSymbolPosition (header.getSymbolPosition()));
       project.setFYStartDate(BigInteger.ONE);
       //project.setLastSaved();
