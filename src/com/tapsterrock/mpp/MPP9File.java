@@ -959,7 +959,7 @@ final class MPP9File
          task.setDate8(taskVarData.getTimestamp (id, TASK_DATE8));
          task.setDate9(taskVarData.getTimestamp (id, TASK_DATE9));
          task.setDate10(taskVarData.getTimestamp (id, TASK_DATE10));
-         task.setDeadline (MPPUtility.getTimestamp (data, 152));
+         task.setDeadline (MPPUtility.getTimestamp (data, 164));
          //task.setDelay(); // No longer supported by MS Project?
          task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 60), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 64))));
          //task.setDurationVariance(); // Calculated value
@@ -1171,7 +1171,6 @@ final class MPP9File
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
-
          //
          // Retrieve the task notes.
          //
@@ -1206,21 +1205,7 @@ final class MPP9File
                task.setCalendarName(calendar.getName());
             }
          }
-
-         
-         //
-         // Clear the deadline if it is the same as the finish date.
-         // This appears to be the default used by MS Project if no
-         // actual deadline is set.
-         //
-         if (task.getDeadline() != null)
-         {
-            if (task.getDeadline().getTime() == task.getFinish().getTime())
-            {
-               task.setDeadline(null);
-            }
-         }
-         
+                 
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
    }
