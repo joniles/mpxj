@@ -8,7 +8,7 @@
 
    <body> 
 
-   <release version="0.0.22" date="Latest CVS Revision"> 
+   <release version="0.0.22" date="27/07/2004"> 
       <action dev="joniles" type="fix">Fixed a bug where task data was not being read correctly from very large MPP9 files.</action>
       <action dev="joniles" type="fix">Fixed a bug where certain MPP8 files were not read correctly when no constraint data is present.</action>
       <action dev="joniles" type="fix">Fixed a bug where certain MPP9 files were not read correctly.</action>
