@@ -105,7 +105,7 @@ public final class MPXCalendar extends MPXRecord
     *
     * @param record data from the MPX file for this object.
     * @return <tt>MPXCalendarException</tt>
-    * @throws MPXException 
+    * @throws MPXException
     */
    MPXCalendarException addCalendarException (Record record)
       throws MPXException

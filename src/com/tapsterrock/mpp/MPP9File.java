@@ -457,7 +457,7 @@ final class MPP9File
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
-                   
+
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -467,7 +467,7 @@ final class MPP9File
             taskMap.put(new Integer (uniqueID), new Integer (loop));
          }
       }
-            
+
       return (taskMap);
    }
 
