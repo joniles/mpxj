@@ -68,6 +68,32 @@ public final class LocaleData_de extends ListResourceBundle
       "AA"
    };
 
+   private static final String[] PRIORITY_TYPES_DATA =
+   {
+      "Am niedrigsten",
+      "Sehr niedrig",
+      "Niedriger",
+      "Niedrig",
+      "Mittel",
+      "Hoch",
+      "Höher",
+      "Sehr hoch",
+      "Am höchsten",
+      "Nicht abgleichen"
+   };
+
+   private static final String[] CONSTRAINT_TYPES_DATA =
+   {
+      "So früh wie möglich",
+      "So spät wie möglich",
+      "Muss anfangen am",
+      "Muss enden am",
+      "Anfang nicht früher als",
+      "Anfang nicht später als",
+      "Ende nicht früher als",
+      "Ende nicht später als"
+   };
+
    private static final String[] TASK_NAMES_DATA =
    {
       null,
@@ -306,6 +332,9 @@ public final class LocaleData_de extends ListResourceBundle
 
       {LocaleData.ACCRUE_TYPES, ACCRUE_TYPES_DATA},
       {LocaleData.RELATION_TYPES, RELATION_TYPES_DATA},
+      {LocaleData.PRIORITY_TYPES, PRIORITY_TYPES_DATA},
+      {LocaleData.CONSTRAINT_TYPES, CONSTRAINT_TYPES_DATA},
+      
       {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
       {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };

@@ -190,7 +190,7 @@ public class TestMPXFile extends TestCase
       {
          if (out != null && success == true)
          {
-            //out.delete();
+            out.delete();
          }
       }
    }
@@ -230,6 +230,19 @@ public class TestMPXFile extends TestCase
       }
    }
 
+   /**
+    * Read a file created by a German version of MS Proiject 98.
+    * 
+    * @throws Exception
+    */
+   public void testRead1 ()
+      throws Exception
+   {
+      File in = new File (m_basedir + "/sample.de.mpx");
+      MPXFile mpx = new MPXFile ();
+      mpx.setLocale(Locale.GERMAN);
+      mpx.read(in);
+   }
 
    /**
     * This test exercises the automatic generation of WBS and outline levels.
