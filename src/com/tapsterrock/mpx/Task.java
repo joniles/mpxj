@@ -557,7 +557,7 @@ public class Task extends MPXRecord
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            if (rel.getID() == task.getUniqueID().intValue())
+            if (rel.getID() == task.getID().intValue())
             {
                break;
             }
@@ -577,7 +577,7 @@ public class Task extends MPXRecord
 
          if (task != null)
          {
-            rel.setID(task.getUniqueID().intValue());
+            rel.setID(task.getID().intValue());
          }
 
          list.add (rel);
@@ -606,6 +606,9 @@ public class Task extends MPXRecord
     */
    public Relation addUniqueIdPredecessor (Task task)
    {
+      //
+      // Retrieve the list of predecessors
+      //
       RelationList list = (RelationList)get(UNIQUE_ID_PREDECESSORS);
       if (list == null)
       {
@@ -613,14 +616,42 @@ public class Task extends MPXRecord
          set (UNIQUE_ID_PREDECESSORS, list);
       }
 
-      Relation rel = new Relation ();
-
+      //
+      // Ensure that there is only one relationship between
+      // these two tasks.
+      //
+      Relation rel = null;
       if (task != null)
       {
-         rel.setID(task.getUniqueID().intValue());
+         Iterator iter = list.iterator();
+         while (iter.hasNext() == true)
+         {
+            rel = (Relation)iter.next();
+            if (rel.getID() == task.getUniqueID().intValue())
+            {
+               break;
+            }
+            else
+            {
+               rel = null;
+            }
+         }
       }
 
-      list.add (rel);
+      //
+      // If necessary, create a new relationship
+      //
+      if (rel == null)
+      {
+         rel = new Relation ();
+
+         if (task != null)
+         {
+            rel.setID(task.getUniqueID().intValue());
+         }
+
+         list.add (rel);
+      }
 
       return (rel);
    }
