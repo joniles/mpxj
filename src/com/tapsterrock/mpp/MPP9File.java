@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -81,9 +83,11 @@ final class MPP9File
 		//
 		// Extract the required data from the MPP file
 		//
+      HashMap resourceMap = new HashMap ();
+      
       processPropertyData (file, projectDir);      
-		processCalendarData (file, projectDir);
-  		processResourceData (file, projectDir, outlineCodeVarData);
+		processCalendarData (file, projectDir, resourceMap);
+  		processResourceData (file, projectDir, outlineCodeVarData, resourceMap);
 	  	processTaskData (file, projectDir, outlineCodeVarData);
 	  	processConstraintData (file, projectDir);
 	  	processAssignmentData (file, projectDir);
@@ -192,24 +196,106 @@ final class MPP9File
     *
     * @throws Exception on unexpected file format
     */
-   private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir)
+   private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap resourceMap)
       throws MPXException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
       VarMeta calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
-      
-      Integer[] uniqueid = calVarMeta.getUniqueIdentifiers();
-      Integer id;
+      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));         
+      FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
+      FixedData calFixedData = new FixedData (calFixedMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedData"))));
+
+      HashMap calendarMap = new HashMap ();      
+      int items = calFixedData.getItemCount();
+      byte[] fixedData;
+      byte[] varData;
+      Integer calendarID;
+      int baseCalendarID;
+      Integer resourceID;
+      int offset;
       MPXCalendar cal;
+                  
+      for (int loop=0; loop < items; loop++)
+      {
+         fixedData = calFixedData.getByteArrayValue(loop);
+         if (fixedData.length >= 8)
+         {
+            offset = 0;
+            
+            while (offset < fixedData.length)
+            {
+               calendarID = new Integer (MPPUtility.getInt (fixedData, offset+0));
+
+               if (calendarMap.containsKey(calendarID) == false)
+               {
+                  baseCalendarID = MPPUtility.getInt(fixedData, offset+4);
+                  varData = calVarData.getByteArray (calendarID, CALENDAR_DATA);        
+                                          
+                  if (baseCalendarID == -1)
+                  {
+                     if (varData != null)
+                     {
+                        cal = file.addBaseCalendar();      
+                     }
+                     else
+                     {
+                        cal = file.addDefaultBaseCalendar();  
+                     }                        
+                     
+                     cal.setName(calVarData.getUnicodeString (calendarID, CALENDAR_NAME));
+                  }
+                  else
+                  {
+                     if (varData != null)
+                     {
+                        cal = file.mppAddResourceCalendar();
+                     }
+                     else
+                     {
+                        cal = file.mppAddDefaultResourceCalendar();   
+                     }
+                                             
+                     cal.setBaseCalendarName(Integer.toString(baseCalendarID));
+                     resourceID = new Integer (MPPUtility.getInt(fixedData, offset+8));                     
+                     resourceMap.put (resourceID, cal);
+                  }
+                                    
+                  if (varData != null)
+                  {
+                     processCalendarHours (varData, cal);
+                     processCalendarExceptions (varData, cal);
+                  }
+                  
+                  calendarMap.put (calendarID, cal);                                    
+               }
+                              
+               offset += 12;
+            }
+         }
+      }            
+      
+      updateBaseCalendarNames (calendarMap);
+   }
+
+   /**
+    * For a given set of calendar data, this method sets the working
+    * day status for each day, and if present, sets the hours for that
+    * day.
+    * 
+    * @param data calendar data block
+    * @param cal calendar instance
+    * @throws MPXException
+    */      
+   private static void processCalendarHours (byte[] data, MPXCalendar cal)
+      throws MPXException
+   {
+      int offset;
       MPXCalendarHours hours;
       MPXCalendarException exception;
       String name;
-      byte[] data;
 
       int periodCount;
       int index;
-      int offset;
       int defaultFlag;
       Date start;
       long duration;
@@ -236,135 +322,174 @@ final class MPP9File
       {
          throw new MPXException (MPXException.INVALID_FORMAT, ex);
       }
-
-      for (int loop=0; loop < uniqueid.length; loop++)
+      
+      for (index=0; index < 7; index++)
       {
-         id = uniqueid[loop];
-         name = calVarData.getUnicodeString (id, CALENDAR_NAME);
-         data = calVarData.getByteArray (id, CALENDAR_DATA);
-         if (data == null)
+         offset = 4 + (60 * index);
+         defaultFlag = MPPUtility.getShort (data, offset);
+
+         if (defaultFlag == 1)
          {
-            cal = file.addDefaultBaseCalendar();
-            cal.setName (name);
+            if (cal.isBaseCalendar() == true)
+            {
+               cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
+               if (cal.isWorkingDay(index+1) == true)
+               {
+                  hours = cal.addCalendarHours(index+1);
+                  hours.setFromTime1(defaultStart1);
+                  hours.setToTime1(defaultEnd1);
+                  hours.setFromTime2(defaultStart2);
+                  hours.setToTime2(defaultEnd2);
+               }
+            }
+            else
+            {
+               cal.setWorkingDay(index+1, MPXCalendar.DEFAULT);
+            }
          }
          else
          {
-            //
-            // Populate the basic calendar
-            //
-            cal = file.addBaseCalendar();
-            cal.setName (name);
-
-            for (index=0; index < 7; index++)
+            periodCount = MPPUtility.getShort (data, offset+2);
+            if (periodCount == 0)
             {
-               offset = 4 + (60 * index);
-               defaultFlag = MPPUtility.getShort (data, offset);
-
-               if (defaultFlag == 1)
-               {
-                  cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
-                  if (cal.isWorkingDay(index+1) == true)
-                  {
-                     hours = cal.addCalendarHours(index+1);
-                     hours.setFromTime1(defaultStart1);
-                     hours.setToTime1(defaultEnd1);
-                     hours.setFromTime2(defaultStart2);
-                     hours.setToTime2(defaultEnd2);
-                  }
-               }
-               else
-               {
-                  periodCount = MPPUtility.getShort (data, offset+2);
-                  if (periodCount == 0)
-                  {
-                     cal.setWorkingDay(index+1, false);
-                  }
-                  else
-                  {
-                     cal.setWorkingDay(index+1, true);
-                     hours = cal.addCalendarHours(index+1);
-
-                     start = MPPUtility.getTime (data, offset + 8);
-                     duration = MPPUtility.getDuration (data, offset + 20);
-                     hours.setFromTime1(start);
-                     hours.setToTime1(new Date (start.getTime()+duration));
-						
-                     if (periodCount > 1)
-                     {
-                        start = MPPUtility.getTime (data, offset + 10);
-                        duration = MPPUtility.getDuration (data, offset + 24);
-                        hours.setFromTime2(start);
-                        hours.setToTime2(new Date (start.getTime()+duration));
-
-                        if (periodCount > 2)
-                        {                        	
-                           start = MPPUtility.getTime (data, offset + 12);
-                           duration = MPPUtility.getDuration (data, offset + 28);
-                           hours.setFromTime3(start);
-                           hours.setToTime3(new Date (start.getTime()+duration));
-                        }
-                     }
-
-                     // Note that MPP defines 5 time ranges, the additional
-                     // start times are at offsets 14, 16 and the additional
-                     // durations are at offsets 32 and 36.
-                  }
-               }
+               cal.setWorkingDay(index+1, false);
             }
-
-            //
-            // Handle any exceptions
-            //
-            exceptionCount = MPPUtility.getShort (data, 0);
-            if (exceptionCount != 0)
+            else
             {
-               for (index=0; index < exceptionCount; index++)
+               cal.setWorkingDay(index+1, true);
+               hours = cal.addCalendarHours(index+1);
+
+               start = MPPUtility.getTime (data, offset + 8);
+               duration = MPPUtility.getDuration (data, offset + 20);
+               hours.setFromTime1(start);
+               hours.setToTime1(new Date (start.getTime()+duration));
+                  
+               if (periodCount > 1)
                {
-                  offset = 4 + (60 * 7) + (index * 64);
-                  exception = cal.addCalendarException();
-                  exception.setFromDate(MPPUtility.getDate (data, offset));
-                  exception.setToDate(MPPUtility.getDate (data, offset+2));
+                  start = MPPUtility.getTime (data, offset + 10);
+                  duration = MPPUtility.getDuration (data, offset + 24);
+                  hours.setFromTime2(start);
+                  hours.setToTime2(new Date (start.getTime()+duration));
 
-                  periodCount = MPPUtility.getShort (data, offset+6);
-                  if (periodCount == 0)
-                  {
-                     exception.setWorking (false);
-                  }
-                  else
-                  {
-                     exception.setWorking (true);
-
-                     start = MPPUtility.getTime (data, offset+12);
-                     duration = MPPUtility.getDuration (data, offset+24);
-                     exception.setFromTime1(start);
-                     exception.setToTime1(new Date (start.getTime() + duration));
-
-                     if (periodCount > 1)
-                     {
-                        start = MPPUtility.getTime (data, offset+14);
-                        duration = MPPUtility.getDuration (data, offset+28);
-                        exception.setFromTime2(start);
-                        exception.setToTime2(new Date (start.getTime() + duration));
-
-                        if (periodCount > 2)
-                        {
-                           start = MPPUtility.getTime (data, offset+16);
-                           duration = MPPUtility.getDuration (data, offset+32);
-                           exception.setFromTime3(start);
-                           exception.setToTime3(new Date (start.getTime() + duration));
-                        }
-                     }
-                     //
-                     // Note that MPP defines 5 time ranges rather than 3
-                     //
+                  if (periodCount > 2)
+                  {                          
+                     start = MPPUtility.getTime (data, offset + 12);
+                     duration = MPPUtility.getDuration (data, offset + 28);
+                     hours.setFromTime3(start);
+                     hours.setToTime3(new Date (start.getTime()+duration));
                   }
                }
+
+               // Note that MPP defines 5 time ranges, the additional
+               // start times are at offsets 14, 16 and the additional
+               // durations are at offsets 32 and 36.
             }
          }
-      }
+      }      
    }
 
+      
+   /**
+    * This method extracts any exceptions associated with a calendar.
+    * 
+    * @param data calendar data block
+    * @param cal calendar instance
+    * @throws MPXException
+    */
+   private static void processCalendarExceptions (byte[] data, MPXCalendar cal)
+      throws MPXException
+   {
+      //
+      // Handle any exceptions
+      //
+      int exceptionCount = MPPUtility.getShort (data, 0);
+      
+      if (exceptionCount != 0)
+      {
+         int index;
+         int offset;
+         MPXCalendarException exception;
+         long duration;
+         int periodCount;
+         Date start;
+                   
+         for (index=0; index < exceptionCount; index++)
+         {
+            offset = 4 + (60 * 7) + (index * 64);
+            exception = cal.addCalendarException();
+            exception.setFromDate(MPPUtility.getDate (data, offset));
+            exception.setToDate(MPPUtility.getDate (data, offset+2));
 
+            periodCount = MPPUtility.getShort (data, offset+6);
+            if (periodCount == 0)
+            {
+               exception.setWorking (false);
+            }
+            else
+            {
+               exception.setWorking (true);
+
+               start = MPPUtility.getTime (data, offset+12);
+               duration = MPPUtility.getDuration (data, offset+24);
+               exception.setFromTime1(start);
+               exception.setToTime1(new Date (start.getTime() + duration));
+
+               if (periodCount > 1)
+               {
+                  start = MPPUtility.getTime (data, offset+14);
+                  duration = MPPUtility.getDuration (data, offset+28);
+                  exception.setFromTime2(start);
+                  exception.setToTime2(new Date (start.getTime() + duration));
+
+                  if (periodCount > 2)
+                  {
+                     start = MPPUtility.getTime (data, offset+16);
+                     duration = MPPUtility.getDuration (data, offset+32);
+                     exception.setFromTime3(start);
+                     exception.setToTime3(new Date (start.getTime() + duration));
+                  }
+               }
+               //
+               // Note that MPP defines 5 time ranges rather than 3
+               //
+            }
+         }
+      }               
+   }
+   
+
+   /**
+    * The way calendars are stored in an MPP8 file means that there
+    * can be forward references between the base calendar unique ID for a
+    * derived calendar, and the base calendar itself. To get around this,
+    * we initially populatethe base calendar name attribute with the
+    * base calendar unique ID, and now in this method we can convert those
+    * ID values into the correct names.
+    * 
+    * @param map map of calendar ID values and calendar objects
+    */
+   private static void updateBaseCalendarNames (HashMap map)
+   {
+      Iterator iter = map.keySet().iterator();
+      MPXCalendar cal;
+      MPXCalendar baseCal;
+      String baseCalendarName;
+      
+      while (iter.hasNext() == true)
+      {
+         cal = (MPXCalendar)map.get(iter.next());
+         baseCalendarName = cal.getBaseCalendarName();
+         if (baseCalendarName != null)
+         {
+            baseCal = (MPXCalendar)map.get(new Integer (baseCalendarName));
+            if (baseCal != null)
+            {
+               cal.setBaseCalendarName(baseCal.getName());
+            }               
+         }
+      }   
+   }
+   
    /**
     * This method extracts and collates task data. The code below
     * goes through the modifier methods of the Task class in alphabetical
@@ -700,7 +825,7 @@ final class MPP9File
     *
     * @throws Exception on unexpected file format
     */
-   private static void processResourceData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
+   private static void processResourceData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap resourceCalendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -708,15 +833,16 @@ final class MPP9File
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-               
+                                          
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifiers();
       Integer id;
+      Integer calendarID;
       Integer offset;
       byte[] data;
       byte[] metaData;      
       Resource resource;
-
+      
       RTFUtility rtf = new RTFUtility ();      
       String notes;            
 
@@ -729,8 +855,8 @@ final class MPP9File
             throw new MPXException (MPXException.INVALID_FILE);
          }
          
-         data = rscFixedData.getByteArrayValue(offset.intValue());
-
+         data = rscFixedData.getByteArrayValue(offset.intValue());         
+         
          resource = file.addResource();
 
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
@@ -924,7 +1050,12 @@ final class MPP9File
 			if (resource.getWork() != null && resource.getBaselineWork() != null)
 			{
 				resource.setWorkVariance(new MPXDuration (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));	
-			}			
+			}			         
+
+         //
+         // Configure the resource calendar
+         //
+         file.mppAttachResourceCalendar(resource, (MPXCalendar)resourceCalendarMap.get(id));         
       }
    }
 
@@ -1190,6 +1321,24 @@ final class MPP9File
          index += 12;          
       }      
    }
+
+
+//   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
+//   {
+//      System.out.println (name);
+//      for (int loop=0; loop < spec.length; loop++)
+//      {
+//         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));         
+//      }
+//      System.out.println ();
+//   }
+         
+//   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
+//   {
+//      {14, 6}, 
+//      {108, 16},
+//   };
+      
       
    /**
     * Calendar data types.
