@@ -63,27 +63,33 @@
    <jar jarfile="${junitdir}/mpxjtest.jar" basedir="${junitclasses}"/>
 </target>
 
-<target name="distribute" depends="clean,compile,archive,document" description="Create distribution">
+<target name="distribute" depends="compile,archive,document,clean-classes" description="Create distribution">
    <zip zipfile="${distribution}">
       <zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*"/>
    </zip>
 </target>
 
-<target name="clean" depends="init-props" description="">
-   <delete file="${basedir}/mpxj.jar"/>
-   <delete file="${junitdir}/mpxjtest.jar"/>
-   <delete dir="${docdir}"/>
-   <delete dir="${classes}"/>
+<target name="clean-temp" depends="init-props" description="Clean up temporary files">
    <delete dir="${bak}"/>
-   <delete dir="${junitclasses}"/>
    <delete dir="${junitbak}"/>
-   <delete dir="${examples.classes}"/>
    <delete>
       <fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/>
    </delete>
    <delete>
       <fileset dir="${jbuilder}" includes="**/*.local" />
    </delete>
+</target>
+
+<target name="clean-classes" depends="init-props" description="Clean up class files">
+   <delete dir="${classes}"/>
+   <delete dir="${junitclasses}"/>
+   <delete dir="${examples.classes}"/>
+</target>
+
+<target name="clean" depends="init-props, clean-temp, clean-classes" description="">
+   <delete file="${basedir}/mpxj.jar"/>
+   <delete file="${junitdir}/mpxjtest.jar"/>
+   <delete dir="${docdir}"/>
 </target>
 
 </project>
