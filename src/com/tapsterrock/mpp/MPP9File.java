@@ -1050,8 +1050,11 @@ final class MPP9File
       throws MPXException, IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");      
-      FixedData ff = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
-      int items = ff.getItemCount();      
+      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      VarMeta varMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+
+      int items = fixedData.getItemCount();      
       byte[] data;
       Table table;                  
       String name;
@@ -1059,10 +1062,12 @@ final class MPP9File
       
       for (int loop=0; loop < items; loop++)
       {
-         data = ff.getByteArrayValue(loop);
+         data = fixedData.getByteArrayValue(loop);
+                  
          table = new Table ();
          
          table.setID(MPPUtility.getInt(data, 0));
+         table.setFlag(MPPUtility.getShort(data, 108) == 1);
          name = MPPUtility.getUnicodeString(data, 4);
          
          if (name != null)
@@ -1089,6 +1094,80 @@ final class MPP9File
          
          table.setName(name); 
          file.addTable(table);
+                      
+         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
+      }      
+   }
+
+   /**
+    * This method processes the column data associated with the
+    * current table.
+    * 
+    * @param table current table
+    * @param data raw column data
+    */
+   private static void processColumnData (Table table, byte[] data)
+   {
+      int columnCount = MPPUtility.getShort(data, 4)+1;
+      int index = 8;
+      int columnType;
+      int columnWidth;
+      int columnTitleOffset;
+      int titleAlignment;
+      int dataAlignment;
+      String columnTitle;
+      Column  column;
+      int alignment;
+            
+      for (int loop=0; loop < columnCount; loop++)
+      {
+         column = new Column ();
+         
+         column.setFieldType (MPPUtility.getShort(data, index));
+         column.setWidth (MPPUtility.getByte(data, index+4));
+
+         columnTitleOffset = MPPUtility.getShort(data, index+6);
+         if (columnTitleOffset != 0)
+         {
+            column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
+         }  
+
+         alignment = MPPUtility.getByte(data, index+8);
+         if (alignment == 32)
+         {
+            column.setAlignTitle(Column.ALIGN_LEFT);
+         }
+         else
+         {
+            if (alignment == 33)
+            {
+               column.setAlignTitle(Column.ALIGN_CENTER);
+            }
+            else
+            {
+               column.setAlignTitle(Column.ALIGN_RIGHT);
+            }
+         }
+         
+         alignment = MPPUtility.getByte(data, index+10);
+         if (alignment == 32)
+         {
+            column.setAlignData(Column.ALIGN_LEFT);
+         }
+         else
+         {
+            if (alignment == 33)
+            {
+               column.setAlignData(Column.ALIGN_CENTER);
+            }
+            else
+            {
+               column.setAlignData(Column.ALIGN_RIGHT);
+            }
+         }
+         
+         table.addColumn(column);
+         index += 12;          
       }      
    }
       
@@ -1376,6 +1455,8 @@ final class MPP9File
    private static final Integer RESOURCE_COST9 = new Integer (133);
    private static final Integer RESOURCE_COST10 = new Integer (134);
                               	
+   private static final Integer TABLE_COLUMN_DATA = new Integer (1);
+   
 	/**
 	 * Mask used to isolate confirmed flag from the duration units field.
 	 */

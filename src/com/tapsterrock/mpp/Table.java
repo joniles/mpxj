@@ -23,6 +23,11 @@
 
 package com.tapsterrock.mpp;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  * This class represents the definition of a table of data from an MPP file.
@@ -79,6 +84,50 @@ public final class Table
    {
       m_name = name;         
    }
+
+   /**
+    * This method retrieves the flag attribute of the table. For MPP9 files
+    * this attribute appears to represent whether the table refers to
+    * task data (false) or resource data (true).
+    * 
+    * @return boolean flag
+    */
+   public boolean getFlag ()
+   {
+      return (m_flag);   
+   }
+        
+   /**
+    * This method sets the flag attribute of the table. For MPP9 files
+    * this attribute appears to represent whether the table refers to
+    * task data (false) or resource data (true).
+    * 
+    * @param flag boolean flag
+    */
+   public void setFlag (boolean flag)
+   {
+      m_flag = flag;
+   }
+   
+   /**
+    * Adds a column definition to this table
+    * 
+    * @param column column definition
+    */
+   public void addColumn (Column column)
+   {
+      m_columns.add(column);
+   }
+   
+   /**
+    * Retrieves the list of columns that make up this table.
+    * 
+    * @return list of columns
+    */
+   public ArrayList getColumns ()
+   {
+      return (m_columns);   
+   }
    
    /**
     * This method dumps the contents of this table as a String.
@@ -88,9 +137,31 @@ public final class Table
     */
    public String toString ()
    {
-      return ("[TABLE id=" + m_id + " name=" + m_name +"]");
+      StringWriter sw = new StringWriter ();
+      PrintWriter pw = new PrintWriter (sw);
+   
+      pw.print ("[TABLE id=");
+      pw.print (m_id);
+      pw.print (" name=");
+      pw.print (m_name);
+      pw.print (" flag=");
+      pw.println (m_flag);
+      
+      Iterator iter = m_columns.iterator();
+      while (iter.hasNext() == true)
+      {
+         pw.print ("   ");
+         pw.print (iter.next());
+      }
+         
+      pw.println ("]");   
+      pw.close();
+      
+      return (sw.toString());      
    }
          
    private int m_id;
    private String m_name;   
+   private boolean m_flag;
+   private ArrayList m_columns = new ArrayList ();
 }

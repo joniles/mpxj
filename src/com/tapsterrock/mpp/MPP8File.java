@@ -1034,8 +1034,11 @@ final class MPP8File
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");      
       FixFix ff = new FixFix (126, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
+      FixDeferFix fdf = new FixDeferFix (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixDeferFix   0"))));            
       int items = ff.getItemCount();      
       byte[] data;
+      byte[] extendedData;
+      byte[] columnData;
       Table table;
       String name;
       StringBuffer sb = new StringBuffer();
@@ -1072,10 +1075,87 @@ final class MPP8File
          
          table.setName(name);
          file.addTable(table);
-      }      
+         
+         extendedData = fdf.getByteArray(getOffset(data, 122));
+         columnData = fdf.getByteArray(getOffset(extendedData, 8));
+         
+         processColumnData (table, columnData);         
+      }            
    }
 
+
+   /**
+    * This method processes the column data associated with the
+    * current table.
+    * 
+    * @param table current table
+    * @param data raw column data
+    */
+   private static void processColumnData (Table table, byte[] data)
+   {
+      int columnCount = MPPUtility.getShort(data, 4)+1;
+      int index = 8;
+      int columnType;
+      int columnWidth;
+      int columnTitleOffset;
+      int titleAlignment;
+      int dataAlignment;
+      String columnTitle;
+      Column  column;
+      int alignment;
+            
+      for (int loop=0; loop < columnCount; loop++)
+      {
+         column = new Column ();
          
+         column.setFieldType (MPPUtility.getShort(data, index));
+         column.setWidth (MPPUtility.getByte(data, index+4));
+
+         columnTitleOffset = MPPUtility.getShort(data, index+6);
+         if (columnTitleOffset != 0)
+         {
+            column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
+         }  
+
+         alignment = MPPUtility.getByte(data, index+8);
+         if (alignment == 32)
+         {
+            column.setAlignTitle(Column.ALIGN_LEFT);
+         }
+         else
+         {
+            if (alignment == 33)
+            {
+               column.setAlignTitle(Column.ALIGN_CENTER);
+            }
+            else
+            {
+               column.setAlignTitle(Column.ALIGN_RIGHT);
+            }
+         }
+         
+         alignment = MPPUtility.getByte(data, index+10);
+         if (alignment == 32)
+         {
+            column.setAlignData(Column.ALIGN_LEFT);
+         }
+         else
+         {
+            if (alignment == 33)
+            {
+               column.setAlignData(Column.ALIGN_CENTER);
+            }
+            else
+            {
+               column.setAlignData(Column.ALIGN_RIGHT);
+            }
+         }
+         
+         table.addColumn(column);
+         index += 12;          
+      }      
+   }
+            
    /**
     * This method is used to extract a value from a fixed data block,
     * which represents an offset into a variable data block.
