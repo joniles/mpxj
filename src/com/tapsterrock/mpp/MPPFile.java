@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -206,7 +207,46 @@ public class MPPFile extends MPXFile
       return (m_fileType);
    }
 
+   /**
+    * Package-private method used to add views to this MPP file.
+    * 
+    * @param view
+    */
+   void addView (View view)
+   {
+      m_views.add(view);
+   }
+   
+   /**
+    * This method returns a list of the views defined in this MPP file.
+    * 
+    * @return list of views
+    */
+   public ArrayList getViews ()
+   {
+      return (m_views);   
+   }
 
+   /**
+    * Package-private method used to add tables to this MPP file.
+    * 
+    * @param view
+    */
+   void addTable (Table table)
+   {
+      m_tables.add(table);
+   }
+   
+   /**
+    * This method returns a list of the tables defined in this MPP file.
+    * 
+    * @return list of tables
+    */
+   public ArrayList getTables ()
+   {
+      return (m_tables);   
+   }
+   
    /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved.
@@ -218,4 +258,15 @@ public class MPPFile extends MPXFile
     * has been read.
     */
    private int m_fileType;
+   
+   /**
+    * List of views defined in this file.
+    */
+   private ArrayList m_views = new ArrayList ();
+   
+   /**
+    * List of tables defined in this file.
+    */
+   private ArrayList m_tables = new ArrayList ();
+   
 }
