@@ -72,13 +72,13 @@ public final class MPXCalendar extends MPXRecord
          setBaseCalendarName (record.getString(0));
       }
 
-      setWorkingDay(1, record.getInteger(1));
-      setWorkingDay(2, record.getInteger(2));
-      setWorkingDay(3, record.getInteger(3));
-      setWorkingDay(4, record.getInteger(4));
-      setWorkingDay(5, record.getInteger(5));
-      setWorkingDay(6, record.getInteger(6));
-      setWorkingDay(7, record.getInteger(7));
+      setWorkingDay(Day.SUNDAY, record.getInteger(1));
+      setWorkingDay(Day.MONDAY, record.getInteger(2));
+      setWorkingDay(Day.TUESDAY, record.getInteger(3));
+      setWorkingDay(Day.WEDNESDAY, record.getInteger(4));
+      setWorkingDay(Day.THURSDAY, record.getInteger(5));
+      setWorkingDay(Day.FRIDAY, record.getInteger(6));
+      setWorkingDay(Day.SATURDAY, record.getInteger(7));
 
       if (file.getAutoCalendarUniqueID() == true)
       {
@@ -134,20 +134,13 @@ public final class MPXCalendar extends MPXRecord
     * @return new MPXCalendarHours instance
     * @throws MPXException if maximum number of records is exceeded
     */
-   public MPXCalendarHours addCalendarHours(int day)
+   public MPXCalendarHours addCalendarHours(Day day)
       throws MPXException
    {
       MPXCalendarHours bch = new MPXCalendarHours (getParentFile(), this, Record.EMPTY_RECORD);
 
       bch.setDay (day);
-      --day;
-
-      if (day < 0 || day > m_hours.length)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
-      m_hours[day] = bch;
+      m_hours[day.getValue()-1] = bch;
 
       return (bch);
    }
@@ -165,27 +158,19 @@ public final class MPXCalendar extends MPXRecord
       throws MPXException
    {
       MPXCalendarHours bch = new MPXCalendarHours(getParentFile(), this, record);
-      int day = NumberUtility.getInt(bch.getDay())-1;
-
-      if (day < 0 || day > m_hours.length)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
-      m_hours[day] = bch;
-
+      m_hours[bch.getDay().getValue()-1] = bch;
       return (bch);
    }
 
    /**
     * This method retrieves the calendar hours for the specified day.
     *
-    * @param day Day number
+    * @param day Day instance
     * @return calendar hours
     */
-   public MPXCalendarHours getCalendarHours (int day)
+   public MPXCalendarHours getCalendarHours (Day day)
    {
-      return (m_hours[day-1]);
+      return (m_hours[day.getValue()-1]);
    }
 
 
@@ -306,12 +291,12 @@ public final class MPXCalendar extends MPXRecord
    /**
     * Method indicating whether a day is a working or non-working day.
     *
-    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param day required day
     * @return true if this is a working day
     */
-   public boolean isWorkingDay (int day)
+   public boolean isWorkingDay (Day day)
    {
-      int value = m_days[day-1];
+      int value = m_days[day.getValue()-1];
       boolean result;
 
       if (value == DEFAULT)
@@ -337,12 +322,12 @@ public final class MPXCalendar extends MPXRecord
     * it would not be possible to determine that a resource calendar
     * had one or moe flags set to DEFAULT.
     *
-    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param day required day
     * @return value of underlying working day flag
     */
-   public int getWorkingDay (int day)
+   public int getWorkingDay (Day day)
    {
-      return (m_days[day-1]);
+      return (m_days[day.getValue()-1]);
    }
 
    /**
@@ -350,21 +335,21 @@ public final class MPXCalendar extends MPXRecord
     * as working or non-working, by using the day number to
     * identify the required day.
     *
-    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param day required day
     * @param working flag indicating if the day is working/non-working/default
     */
-   public void setWorkingDay (int day, int working)
+   public void setWorkingDay (Day day, int working)
    {
-      m_days[day-1] = working;
+      m_days[day.getValue()-1] = working;
    }
 
    /**
     * convenience method for setting working or non-working days.
     *
-    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param day required day
     * @param working flag indicating if the day is a working day
     */
-   public void setWorkingDay (int day, boolean working)
+   public void setWorkingDay (Day day, boolean working)
    {
       setWorkingDay (day, (working==true?WORKING:NON_WORKING));
    }
@@ -374,10 +359,10 @@ public final class MPXCalendar extends MPXRecord
     * as working or non-working, by using the day number to
     * identify the required day.
     *
-    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param day required day
     * @param working flag indicating if the day is a working day
     */
-   public void setWorkingDay (int day, Integer working)
+   public void setWorkingDay (Day day, Integer working)
    {
       int value;
 
@@ -418,29 +403,29 @@ public final class MPXCalendar extends MPXRecord
          Date from2 = df.parse ("13:00");
          Date to2 = df.parse ("17:00");
 
-         hours = addCalendarHours (MPXCalendarHours.SUNDAY);
+         hours = addCalendarHours (Day.SUNDAY);
 
-         hours = addCalendarHours (MPXCalendarHours.MONDAY);
+         hours = addCalendarHours (Day.MONDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));
 
-         hours = addCalendarHours (MPXCalendarHours.TUESDAY);
+         hours = addCalendarHours (Day.TUESDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));
 
-         hours = addCalendarHours (MPXCalendarHours.WEDNESDAY);
+         hours = addCalendarHours (Day.WEDNESDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));
          
-         hours = addCalendarHours (MPXCalendarHours.THURSDAY);
+         hours = addCalendarHours (Day.THURSDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));
 
-         hours = addCalendarHours (MPXCalendarHours.FRIDAY);
+         hours = addCalendarHours (Day.FRIDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));         
 
-         hours = addCalendarHours (MPXCalendarHours.SATURDAY);
+         hours = addCalendarHours (Day.SATURDAY);
       }
 
       catch (ParseException ex)
@@ -463,23 +448,23 @@ public final class MPXCalendar extends MPXRecord
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
-      int day = cal.get(Calendar.DAY_OF_WEEK);
+      int dayIndex = cal.get(Calendar.DAY_OF_WEEK);
       int days = getDaysInRange (startDate, endDate);
       int duration = 0;
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), day) == true)
+         if (isWorkingDate(cal.getTime(), Day.getInstance(dayIndex)) == true)
          {
             ++duration;
          }
 
          --days;
 
-         ++day;
-         if (day > 7)
+         ++dayIndex;
+         if (dayIndex > 7)
          {
-            day = 1;
+            dayIndex = 1;
          }
 
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
@@ -520,31 +505,31 @@ public final class MPXCalendar extends MPXRecord
 
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
-      int day = cal.get(Calendar.DAY_OF_WEEK);
+      int dayIndex = cal.get(Calendar.DAY_OF_WEEK);
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), day) == true)
+         if (isWorkingDate(cal.getTime(), Day.getInstance(dayIndex)) == true)
          {
             --days;
          }
 
          if (negative == false)
          {
-            ++day;
-            if (day > 7)
+            ++dayIndex;
+            if (dayIndex > 7)
             {
-               day = 1;
+               dayIndex = 1;
             }
 
             cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
          }
          else
          {
-            --day;
-            if (day < 1)
+            --dayIndex;
+            if (dayIndex < 1)
             {
-               day = 7;
+               dayIndex = 7;
             }
 
             cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
@@ -565,7 +550,7 @@ public final class MPXCalendar extends MPXRecord
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(date);
-      int day = cal.get(Calendar.DAY_OF_WEEK);
+      Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
       return (isWorkingDate (date, day));
    }
 
@@ -579,7 +564,7 @@ public final class MPXCalendar extends MPXRecord
     * @param day Day of the week for the date under test
     * @return boolean flag
     */
-   private boolean isWorkingDate (Date date, int day)
+   private boolean isWorkingDate (Date date, Day day)
    {
       boolean result = false;
 

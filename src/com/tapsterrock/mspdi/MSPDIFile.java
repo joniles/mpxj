@@ -61,6 +61,7 @@ import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.DateRange;
+import com.tapsterrock.mpx.Day;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
@@ -384,7 +385,8 @@ public class MSPDIFile extends MPXFile
       header.setSymbolPosition (getMpxSymbolPosition(project.getCurrencySymbolPosition()));
       header.setUniqueID(project.getUID());
       header.setUpdatingTaskStatusUpdatesResourceStatus(project.isTaskUpdatesResource());
-      header.setWeekStartDay(getInteger(project.getWeekStartDay()));
+      header.setWeekStartDay(Day.getInstance(getInt(project.getWeekStartDay())+1));
+      
    }
 
    /**
@@ -518,18 +520,18 @@ public class MSPDIFile extends MPXFile
     * This method extracts data for a normal working day from an MSPDI file.
     *
     * @param calendar Calendar data
-    * @param day Day data
+    * @param weekDay Day data
     * @throws MPXException on file read errors
     */
-   private void readNormalDay (MPXCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readNormalDay (MPXCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType weekDay)
       throws MPXException
    {
-      int dayNumber = day.getDayType().intValue();
+      int dayNumber = weekDay.getDayType().intValue();
+      Day day = Day.getInstance(dayNumber);
+      calendar.setWorkingDay(day, weekDay.isDayWorking());
+      MPXCalendarHours hours = calendar.addCalendarHours(day);
 
-      calendar.setWorkingDay(dayNumber, day.isDayWorking());
-      MPXCalendarHours hours = calendar.addCalendarHours(dayNumber);
-
-      Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = day.getWorkingTimes();
+      Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = weekDay.getWorkingTimes();
       if (times != null)
       {
          Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType period;
@@ -2332,6 +2334,23 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
+    * Convert a Day instance into a BigInteger instance.
+    * 
+    * @param day Day instance
+    * @return BigInteger instance
+    */
+   private BigInteger getDay (Day day)
+   {
+      BigInteger result = null;
+      
+      if (day != null)
+      {
+         result = BigInteger.valueOf(day.getValue()-1);
+      }
+      
+      return (result);
+   }
+   /**
     * This method converts an hourly rate expressed as a BigDecimal into
     * an MPXRate object, handling the case where the rate value is null.
     *
@@ -2518,7 +2537,7 @@ public class MSPDIFile extends MPXFile
       project.setTaskUpdatesResource(header.getUpdatingTaskStatusUpdatesResourceStatus());
       project.setTitle(header.getProjectTitle());
       project.setUID(header.getUniqueID());
-      project.setWeekStartDay(getBigInteger(header.getWeekStartDay()));
+      project.setWeekStartDay(getDay(header.getWeekStartDay()));
       project.setWorkFormat(getXmlWorkUnits(header.getDefaultWorkUnits()));
 
       //
@@ -2674,7 +2693,7 @@ public class MSPDIFile extends MPXFile
       
       for (loop=1; loop < 8; loop++)
       {
-         workingFlag = bc.getWorkingDay(loop);
+         workingFlag = bc.getWorkingDay(Day.getInstance(loop));
 
          if (workingFlag != MPXCalendar.DEFAULT)
          {
@@ -2689,7 +2708,7 @@ public class MSPDIFile extends MPXFile
                day.setWorkingTimes(times);
                timesList = times.getWorkingTime();
 
-               bch = bc.getCalendarHours (loop);
+               bch = bc.getCalendarHours (Day.getInstance(loop));
                if (bch != null)
                {
                   rangeIter = bch.iterator();

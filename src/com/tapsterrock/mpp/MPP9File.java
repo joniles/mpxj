@@ -40,6 +40,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.DateRange;
+import com.tapsterrock.mpx.Day;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
@@ -660,7 +661,8 @@ final class MPP9File
       Date start;
       long duration;
       int exceptionCount;
-
+      Day day;
+      
       //
       // Configure default time ranges
       //
@@ -687,22 +689,23 @@ final class MPP9File
       {
          offset = 4 + (60 * index);
          defaultFlag = MPPUtility.getShort (data, offset);
-
+         day = Day.getInstance(index+1);
+         
          if (defaultFlag == 1)
          {
             if (cal.isBaseCalendar() == true)
             {
-               cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
-               if (cal.isWorkingDay(index+1) == true)
+               cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
+               if (cal.isWorkingDay(day) == true)
                {
-                  hours = cal.addCalendarHours(index+1);
+                  hours = cal.addCalendarHours(Day.getInstance(index+1));
                   hours.addDateRange(new DateRange(defaultStart1, defaultEnd1));
                   hours.addDateRange(new DateRange(defaultStart2, defaultEnd2));
                }
             }
             else
             {
-               cal.setWorkingDay(index+1, MPXCalendar.DEFAULT);
+               cal.setWorkingDay(day, MPXCalendar.DEFAULT);
             }
          }
          else
@@ -710,12 +713,12 @@ final class MPP9File
             periodCount = MPPUtility.getShort (data, offset+2);
             if (periodCount == 0)
             {
-               cal.setWorkingDay(index+1, false);
+               cal.setWorkingDay(day, false);
             }
             else
             {
-               cal.setWorkingDay(index+1, true);
-               hours = cal.addCalendarHours(index+1);
+               cal.setWorkingDay(day, true);
+               hours = cal.addCalendarHours(Day.getInstance(index+1));
 
                for (periodIndex=0; periodIndex < periodCount; periodIndex++)
                {

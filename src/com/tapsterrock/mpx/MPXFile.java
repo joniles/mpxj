@@ -1034,13 +1034,13 @@ public class MPXFile
 
       calendar.setName(MPXCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
-      calendar.setWorkingDay(1, false);
-      calendar.setWorkingDay(2, true);
-      calendar.setWorkingDay(3, true);
-      calendar.setWorkingDay(4, true);
-      calendar.setWorkingDay(5, true);
-      calendar.setWorkingDay(6, true);
-      calendar.setWorkingDay(7, false);
+      calendar.setWorkingDay(Day.SUNDAY, false);
+      calendar.setWorkingDay(Day.MONDAY, true);
+      calendar.setWorkingDay(Day.TUESDAY, true);
+      calendar.setWorkingDay(Day.WEDNESDAY, true);
+      calendar.setWorkingDay(Day.THURSDAY, true);
+      calendar.setWorkingDay(Day.FRIDAY, true);
+      calendar.setWorkingDay(Day.SATURDAY, false);
 
       calendar.addDefaultCalendarHours();
 
@@ -1060,13 +1060,13 @@ public class MPXFile
    {
       MPXCalendar calendar = new MPXCalendar(this, false);
 
-      calendar.setWorkingDay(1, MPXCalendar.DEFAULT);
-      calendar.setWorkingDay(2, MPXCalendar.DEFAULT);
-      calendar.setWorkingDay(3, MPXCalendar.DEFAULT);
-      calendar.setWorkingDay(4, MPXCalendar.DEFAULT);
-      calendar.setWorkingDay(5, MPXCalendar.DEFAULT);
-      calendar.setWorkingDay(6, MPXCalendar.DEFAULT);
-      calendar.setWorkingDay(7, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.SUNDAY, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.MONDAY, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.TUESDAY, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.WEDNESDAY, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.THURSDAY, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.FRIDAY, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.SATURDAY, MPXCalendar.DEFAULT);
 
       return (calendar);
    }

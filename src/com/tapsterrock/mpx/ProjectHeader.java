@@ -2911,21 +2911,21 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieve the week start day (1=Monday, 7=Sunday).
+    * Retrieve the week start day.
     *
     * @return week start day
     */
-   public Integer getWeekStartDay ()
+   public Day getWeekStartDay ()
    {
       return (m_weekStartDay);
    }
 
    /**
-    * Set the week start day (1=Monday, 7=Sunday).
+    * Set the week start day.
     *
     * @param weekStartDay week start day
     */
-   public void setWeekStartDay (Integer weekStartDay)
+   public void setWeekStartDay (Day weekStartDay)
    {
       m_weekStartDay = weekStartDay;
    }
@@ -3166,7 +3166,7 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_baselineForEarnedValue;
    private Integer m_fiscalYearStartMonth;
    private boolean m_newTaskStartIsProjectStart;
-   private Integer m_weekStartDay;
+   private Day m_weekStartDay;
 
    /*
     * Missing MSPDI attributes
@@ -3216,7 +3216,7 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Default week start day.
     */
-   private static final Integer DEFAULT_WEEK_START_DAY = new Integer (1);
+   private static final Day DEFAULT_WEEK_START_DAY = Day.MONDAY;
 
    /**
     * Default work value.

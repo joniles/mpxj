@@ -63,7 +63,7 @@ public final class MPXCalendarHours extends MPXRecord
     
       if (record != Record.EMPTY_RECORD)
       {
-         setDay(record.getInteger(0));
+         setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
          addDateRange(new DateRange(record.getTime(1), record.getTime(2)));
          addDateRange(new DateRange(record.getTime(3), record.getTime(4)));
          addDateRange(new DateRange(record.getTime(5), record.getTime(6)));      
@@ -71,31 +71,21 @@ public final class MPXCalendarHours extends MPXRecord
    }
 
    /**
-    * Get day (1=Sunday 7=Saturday)
+    * Get day.
     *
-    * @return day number
+    * @return day instance
     */
-   public Integer getDay ()
+   public Day getDay ()
    {
       return (m_day);
    }
 
    /**
-    * Set day (1=Sunday 7=Saturday)
+    * Set day.
     *
-    * @param d day number
+    * @param d day instance
     */
-   void setDay (int d)
-   {
-      setDay (new Integer (d));
-   }
-
-   /**
-    * Set day (1=Sunday 7=Saturday)
-    *
-    * @param d day number
-    */
-   private void setDay (Integer d)
+   void setDay (Day d)
    {
       m_day = d;
    }
@@ -205,43 +195,7 @@ public final class MPXCalendarHours extends MPXRecord
     * Reference to the parent calendar of this exception.
     */
    private MPXCalendar m_parentCalendar;
-
-   /**
-    * Constant for Sunday
-    */
-   public static final int SUNDAY = 1;
-
-   /**
-    * Constant for Monday
-    */
-   public static final int MONDAY = 2;
-
-   /**
-    * Constant for Tuesday
-    */
-   public static final int TUESDAY = 3;
-
-   /**
-    * Constant for Wednesday
-    */
-   public static final int WEDNESDAY = 4;
-
-   /**
-    * Constant for Thursday
-    */
-   public static final int THURSDAY = 5;
-
-   /**
-    * Constant for Friday
-    */
-   public static final int FRIDAY = 6;
-
-   /**
-    * Constant for Saturday
-    */
-   public static final int SATURDAY = 7;
-
-   private Integer m_day;
+   private Day m_day;
    private LinkedList m_dateRanges = new LinkedList ();
    
    /**
