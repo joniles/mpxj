@@ -84,7 +84,10 @@ public final class ResourceNotes extends MPXRecord
 
       buffer.append (RECORD_NUMBER);
       buffer.append (getParentFile().getDelimiter());
-      buffer.append (m_note);
+      if (m_note != null)
+      {
+         buffer.append (m_note.replace('\n', EOL_PLACEHOLDER));
+      }               
       buffer.append (MPXFile.EOL);
 
       return (buffer.toString());
@@ -94,6 +97,12 @@ public final class ResourceNotes extends MPXRecord
    * The text constituting this <tt>ResourceNote</tt>
    */
    private String m_note;
+
+   /**
+    * Placeholder character used in MPX files to represent
+    * carriage returns embedded in note text.
+    */
+   private static final char EOL_PLACEHOLDER = (char)0x7F;
 
    /**
     * Constant containing the record number associated with this record.
