@@ -1,3 +1,7 @@
+Version 0.0.19
+Improved MPXException to print details of any nested exception when a stack trace is printed.
+Removed ByteArray.java
+
 Version 0.0.18
 Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezones.
 Fixed a bug with writing MSPDI XML files in non-GMT timezones.
