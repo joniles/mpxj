@@ -5,6 +5,8 @@ Added BaseCalendar.getDate method to allow end dates to be calculated based on a
 Made MPXDateFormat implement java.io.Serializable to allow MPXDate to serialize correctly.
 Updated the ant build file to allow MPXJ to be built without the components that depend on JAXB
 Fixed a problem with writing MS Project compatible MSPDI XML files in non-GMT timezones.
+Fixed a problem with writing MSPDI XML files in non-GMT timezones.
+Rationalised setDefaultStartTime and setDefaultEndTime methods
 
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.

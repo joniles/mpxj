@@ -24,8 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Date;
-
 
 /**
  * This class represents the record in an MPX file that holds a range of
@@ -409,46 +407,6 @@ public final class DefaultSettings extends MPXRecord
    {
       put (SPLIT, flag);
    }
-
-   /**
-    * Retrieves the default start time.
-    * 
-    * @return Start time
-    */
-   public Date getDefaultStartTime ()
-   {
-      return (m_defaultStartTime);
-   }
-   
-   /**
-    * Sets the default start time.
-    * 
-    * @param date Start time
-    */
-   public void setDefaultStartTime (Date date)
-   {
-      m_defaultStartTime = date;
-   }
-
-   /**
-    * Retrieves the default end time.
-    * 
-    * @return End time
-    */
-   public Date getDefaultEndTime ()
-   {
-      return (m_defaultEndTime);
-   }
-   
-   /**
-    * Sets the default end time.
-    * 
-    * @param date End time
-    */
-   public void setDefaultEndTime (Date date)
-   {
-      m_defaultEndTime = date;
-   }
    
    /**
     * This method generates a string in MPX format representing the
@@ -460,17 +418,6 @@ public final class DefaultSettings extends MPXRecord
    {
       return (toString (RECORD_NUMBER));
    }
-
-   /**
-    * The following member variables are extended attributes. They are
-    * do not form part of the MPX file format definition, and are neither
-    * loaded from an MPX file, or saved to an MPX file. Their purpose
-    * is to provide storage for attributes which are defined by later versions
-    * of Microsoft Project. This allows these attributes to be manipulated
-    * when they have been retrieved from file formats other than MPX.
-    */
-   private Date m_defaultStartTime;
-   private Date m_defaultEndTime;
    
    /**
     * Constant value representing Default Duration Units.  eg 'w','m','d','h'

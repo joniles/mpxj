@@ -275,7 +275,8 @@ public class MSPDIFile extends MPXFile
       //settings.setDateFormat();
       //settings.setDateOrder();
       //settings.setDateSeparator();
-      settings.setDefaultTime(getDate(project.getDefaultStartTime()));
+      settings.setDefaultEndTime(getDate(project.getDefaultFinishTime()));
+      settings.setDefaultStartTime(getDate(project.getDefaultStartTime()));
       //settings.setPMText();
       //settings.setTimeFormat();
       //settings.setTimeSeparator();
@@ -1846,7 +1847,8 @@ public class MSPDIFile extends MPXFile
    private void writeDateTimeSettings (Project project)
    {
       DateTimeSettings settings = getDateTimeSettings();
-      project.setDefaultStartTime(getCalendar (settings.getDefaultTimeAsDate()));     
+      project.setDefaultFinishTime(getCalendar (settings.getDefaultEndTimeAsDate()));
+      project.setDefaultStartTime(getCalendar (settings.getDefaultStartTimeAsDate()));
    }
 
 
@@ -2163,8 +2165,9 @@ public class MSPDIFile extends MPXFile
    {
       Project.TasksType.TaskType xml = ObjectFactory.createProjectTypeTasksTypeTaskType();
       DateTimeSettings settings = getDateTimeSettings();
-      int defaultStartTime = settings.getDefaultTimeValue();
-      
+      int defaultStartTime = settings.getDefaultStartTimeValue();
+      int defaultFinishTime = settings.getDefaultEndTimeValue();
+            
       xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
       xml.setActualDuration(getDuration(mpx.getActualDuration()));
       xml.setActualFinish(getCalendar(mpx.getActualFinish()));
@@ -2186,7 +2189,22 @@ public class MSPDIFile extends MPXFile
       xml.setEarlyStart(getCalendar(mpx.getEarlyStart()));
       xml.setEffortDriven(mpx.getEffortDriven());
       xml.setEstimated(mpx.getEstimated());
-      xml.setFinish(getCalendar(mpx.getFinish()));
+      
+      Date finishDate = mpx.getFinish();
+      if (finishDate != null)
+      {                  
+         long finishTime = finishDate.getTime();
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(finishDate);
+
+         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
+         {
+            finishDate = new Date(finishTime + (defaultFinishTime * MS_PER_MINUTE));
+         }
+         
+         xml.setFinish(getCalendar(finishDate));
+      }
+      
       xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
       xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));

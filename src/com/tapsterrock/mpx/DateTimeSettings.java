@@ -24,6 +24,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -46,7 +47,7 @@ public final class DateTimeSettings extends MPXRecord
       m_update = false;
       setDateOrder(DATE_ORDER_DMY);
       setTimeFormat(TIME_FORMAT_12HR);
-      setDefaultTime (480);
+      setDefaultStartTime (480);
       setDateSeparator('/');
       setTimeSeparator(':');
       setAMText("am");
@@ -70,7 +71,7 @@ public final class DateTimeSettings extends MPXRecord
       m_update = false;
       setDateOrder(record.getInteger(0));
       setTimeFormat(record.getInteger(1));
-      setDefaultTime(record.getInteger(2));
+      setDefaultStartTime(record.getInteger(2));
       setDateSeparator(record.getCharacter(3));
       setTimeSeparator(record.getCharacter(4));
       setAMText(record.getString(5));
@@ -629,7 +630,7 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return string
     */
-   public int getDefaultTimeValue ()
+   public int getDefaultStartTimeValue ()
    {
       return (getIntValue (DEFAULT_TIME));
    }
@@ -639,7 +640,7 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return string
     */
-   public Integer getDefaultTime ()
+   public Integer getDefaultStartTime ()
    {
       return ((Integer)get (DEFAULT_TIME));
    }
@@ -649,7 +650,7 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return string
     */
-   public Date getDefaultTimeAsDate ()
+   public Date getDefaultStartTimeAsDate ()
    {
       Date result = null;
 
@@ -667,7 +668,7 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @param time time in minutes after midnight
     */
-   public void setDefaultTime (int time)
+   public void setDefaultStartTime (int time)
    {
       put (DEFAULT_TIME, time);
    }
@@ -677,7 +678,7 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @param time time in minutes after midnight
     */
-   public void setDefaultTime (Integer time)
+   public void setDefaultStartTime (Integer time)
    {
       put (DEFAULT_TIME, time);
    }
@@ -690,9 +691,13 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @param time default time
     */
-   public void setDefaultTime (Date time)
+   public void setDefaultStartTime (Date time)
    {
-      put (DEFAULT_TIME, (int)(time.getTime() / MS_PER_MINUTE));
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(time);
+      int result = cal.get(Calendar.HOUR_OF_DAY) * 60;
+      result += cal.get(Calendar.MINUTE);
+      put (DEFAULT_TIME, result);
    }
 
    /**
@@ -917,6 +922,66 @@ public final class DateTimeSettings extends MPXRecord
       
       return (new Date (time));
    }
+
+   /**
+    * Retrieve the default time specified as minutes after midnight.
+    *
+    * @return string
+    */
+   public Integer getDefaultEndTime ()
+   {
+      return (new Integer (getDefaultEndTimeValue()));
+   }
+
+   /**
+    * Retrieve the default time specified as minutes after midnight.
+    *
+    * @return string
+    */
+   public int getDefaultEndTimeValue ()
+   {
+      int result = 0;
+      
+      if (m_defaultEndTime != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(m_defaultEndTime);
+         result = cal.get(Calendar.HOUR_OF_DAY) * 60;
+         result += cal.get(Calendar.MINUTE);
+      }
+      
+      return (result);
+   }
+
+   /**
+    * Retrieves the default end time.
+    * 
+    * @return End time
+    */
+   public Date getDefaultEndTimeAsDate ()
+   {
+      return (m_defaultEndTime);
+   }
+   
+   /**
+    * Sets the default end time.
+    * 
+    * @param date End time
+    */
+   public void setDefaultEndTime (Date date)
+   {
+      m_defaultEndTime = date;
+   }
+
+   /**
+    * The following member variables are extended attributes. They are
+    * do not form part of the MPX file format definition, and are neither
+    * loaded from an MPX file, or saved to an MPX file. Their purpose
+    * is to provide storage for attributes which are defined by later versions
+    * of Microsoft Project. This allows these attributes to be manipulated
+    * when they have been retrieved from file formats other than MPX.
+    */
+   private Date m_defaultEndTime;
 
    /**
     * Default value to use for DST savings if we are using a version

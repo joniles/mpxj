@@ -38,6 +38,7 @@ import com.tapsterrock.mpx.BaseCalendarException;
 import com.tapsterrock.mpx.BaseCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
+import com.tapsterrock.mpx.DateTimeSettings;
 import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
@@ -98,15 +99,17 @@ final class MPP8File
    {
       Props props = new Props (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
       
+      DateTimeSettings dts = file.getDateTimeSettings();
+      dts.setDefaultStartTime(props.getTime(Props.START_TIME));
+      dts.setDefaultEndTime (props.getTime(Props.END_TIME));
+            
       DefaultSettings ds = file.getDefaultSettings();           
       //ds.setDefaultDurationIsFixed();
       ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props.DURATION_UNITS)));
-      ds.setDefaultEndTime(props.getTime(Props.END_TIME));
       ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
       ds.setDefaultHoursInWeek(((float)props.getInt(Props.HOURS_PER_WEEK))/60);
       ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
       ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
-      ds.setDefaultStartTime(props.getTime(Props.START_TIME));
       ds.setDefaultWorkUnits(MPPUtility.getWorkUnits(props.getShort(Props.WORK_UNITS)));
       ds.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
       ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
