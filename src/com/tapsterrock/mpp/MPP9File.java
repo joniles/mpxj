@@ -1563,6 +1563,8 @@ final class MPP9File
       throws MPXException, IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
+      VarMeta assnVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
+      Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
 
       int count = assnFixedData.getItemCount();

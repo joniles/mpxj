@@ -1095,10 +1095,17 @@ final class MPP8File
       byte[] data;
       Task task;
       Resource resource;
-
+      FixDeferFix assnVarData = null;
+            
       for (int loop=0; loop < count; loop++)
       {
+         if (assnVarData == null)
+         {
+            assnVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixDeferFix   0"))));
+         }
+         
          data = assnFixedData.getByteArrayValue(loop);
+                  
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
          if (task != null && resource != null)
