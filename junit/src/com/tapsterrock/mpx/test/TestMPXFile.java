@@ -1781,7 +1781,7 @@ public class TestMPXFile extends TestCase
 
          Resource resource1 = file.addResource();
          resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
-         resource1.addResourceNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
+         resource1.setNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
 
          Task task1 = file.addTask();
          task1.setName ("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
@@ -1911,7 +1911,7 @@ public class TestMPXFile extends TestCase
       assertTrue(task.getFlag1Value());
       assertEquals(55.56, task.getNumber1Value(), 0.0);
       assertEquals(104.0, task.getDuration1().getDuration(), 0.0);
-      assertEquals(TimeUnit.HOURS, task.getDuration1().getType());
+      assertEquals(TimeUnit.HOURS, task.getDuration1().getUnits());
       
       LinkedList resources = xml.getAllResources();
       assertEquals(2, resources.size());
@@ -1925,7 +1925,7 @@ public class TestMPXFile extends TestCase
       assertTrue(resource.getFlag1());
       assertEquals(5.99, resource.getNumber1Value(), 0.0);
       assertEquals(176.0, resource.getDuration1().getDuration(), 0.0);
-      assertEquals(TimeUnit.HOURS, resource.getDuration1().getType());      
+      assertEquals(TimeUnit.HOURS, resource.getDuration1().getUnits());      
    }
    
    private String m_basedir;

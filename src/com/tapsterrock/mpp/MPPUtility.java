@@ -450,7 +450,7 @@ final class MPPUtility
     * @param type type of units of the duration
     * @return MPXDuration instance
     */
-   public static final MPXDuration getDuration (int value, int type)
+   public static final MPXDuration getDuration (int value, TimeUnit type)
    {
       return (getDuration ((double)value, type));
    }
@@ -463,42 +463,42 @@ final class MPPUtility
     * @param type type of units of the duration
     * @return MPXDuration instance
     */
-   public static final MPXDuration getDuration (double value, int type)
+   public static final MPXDuration getDuration (double value, TimeUnit type)
    {
       double duration;
 
-      switch (type)
+      switch (type.getValue())
       {
-         case TimeUnit.MINUTES:
-         case TimeUnit.ELAPSED_MINUTES:
+         case TimeUnit.MINUTES_VALUE:
+         case TimeUnit.ELAPSED_MINUTES_VALUE:
          {
             duration = value / 10;
             break;
          }
 
-         case TimeUnit.HOURS:
-         case TimeUnit.ELAPSED_HOURS:
+         case TimeUnit.HOURS_VALUE:
+         case TimeUnit.ELAPSED_HOURS_VALUE:
          {
             duration = value / 600;
             break;
          }
 
-         case TimeUnit.DAYS:
-         case TimeUnit.ELAPSED_DAYS:
+         case TimeUnit.DAYS_VALUE:
+         case TimeUnit.ELAPSED_DAYS_VALUE:
          {
             duration = value / 4800;
             break;
          }
 
-         case TimeUnit.WEEKS:
-         case TimeUnit.ELAPSED_WEEKS:
+         case TimeUnit.WEEKS_VALUE:
+         case TimeUnit.ELAPSED_WEEKS_VALUE:
          {
             duration = value / 24000;
             break;
          }
 
-         case TimeUnit.MONTHS:
-         case TimeUnit.ELAPSED_MONTHS:
+         case TimeUnit.MONTHS_VALUE:
+         case TimeUnit.ELAPSED_MONTHS_VALUE:
          {
             duration = value / 96000;
             break;
@@ -523,9 +523,9 @@ final class MPPUtility
     * @param type MPP units
     * @return MPX units
     */
-   public static final int getDurationUnits (int type)
+   public static final TimeUnit getDurationTimeUnits (int type)
    {
-      int units;
+      TimeUnit units;
 
       switch (type & DURATION_UNITS_MASK)
       {
@@ -594,7 +594,6 @@ final class MPPUtility
       return (units);
    }
 
-
    /**
     * This method maps from the value used to specify default work units in the
     * MPP file to a standard TimeUnit.
@@ -602,9 +601,9 @@ final class MPPUtility
     * @param value Default work units
     * @return TimeUnit value
     */
-   public static int getWorkUnits (int value)
+   public static TimeUnit getWorkTimeUnits (int value)
    {
-      int result;
+      TimeUnit result;
 
       switch (value)
       {
@@ -636,7 +635,7 @@ final class MPPUtility
 
       return (result);
    }
-
+   
    /**
     * This method maps the currency symbol position from the
     * representation used in the MPP file to the representation

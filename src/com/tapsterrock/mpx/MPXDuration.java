@@ -73,7 +73,7 @@ public final class MPXDuration implements ToStringRequiresFile
       ++index;
 
       m_duration = format.parse(dur.substring(0, index)).doubleValue();
-      m_type = TimeUnit.parse(dur.substring(index), locale);
+      m_units = TimeUnit.parse(dur.substring(index), locale);
    }
 
    /**
@@ -84,7 +84,7 @@ public final class MPXDuration implements ToStringRequiresFile
    public MPXDuration (MPXDuration duration)
    {
       m_duration = duration.m_duration;
-      m_type = duration.m_type;
+      m_units = duration.m_units;
    }
 
    /**
@@ -94,10 +94,10 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param duration amount of duration
     * @param type time unit of duration
     */
-   public MPXDuration (double duration, int type)
+   public MPXDuration (double duration, TimeUnit type)
    {
       m_duration = duration;
-      m_type = type;
+      m_units = type;
    }
 
    /**
@@ -107,10 +107,10 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param duration amount of duration
     * @param type time unit of duration
     */
-   public MPXDuration (int duration, int type)
+   public MPXDuration (int duration, TimeUnit type)
    {
       m_duration = duration;
-      m_type = type;
+      m_units = type;
    }
 
    /**
@@ -158,7 +158,7 @@ public final class MPXDuration implements ToStringRequiresFile
     */
    String toString (MPXNumberFormat format, Locale locale)
    {
-      return (format.format(m_duration) + TimeUnit.format(m_type, locale));
+      return (format.format(m_duration) + TimeUnit.format(m_units, locale));
    }
 
    /**
@@ -178,9 +178,9 @@ public final class MPXDuration implements ToStringRequiresFile
     *
     * @return type of units
     */
-   public int getType ()
+   public TimeUnit getUnits ()
    {
-      return (m_type);
+      return (m_units);
    }
 
    /**
@@ -191,14 +191,14 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param type target duration type
     * @return new MPXDuration instance
     */
-   public MPXDuration convertUnits (int type)
+   public MPXDuration convertUnits (TimeUnit type)
    {
       MPXDuration result;
 
       //
       // If the types are not already the same, then attempt a conversion
       //
-      if (type == m_type)
+      if (type.getValue() == m_units.getValue())
       {
          result = this;
       }
@@ -209,38 +209,38 @@ public final class MPXDuration implements ToStringRequiresFile
          //
          double duration = m_duration;
 
-         switch (m_type)
+         switch (m_units.getValue())
          {
-            case TimeUnit.MINUTES:
-            case TimeUnit.ELAPSED_MINUTES:
+            case TimeUnit.MINUTES_VALUE:
+            case TimeUnit.ELAPSED_MINUTES_VALUE:
             {
                duration /= MINUTES_PER_DAY;
                break;
             }
 
-            case TimeUnit.HOURS:
-            case TimeUnit.ELAPSED_HOURS:
+            case TimeUnit.HOURS_VALUE:
+            case TimeUnit.ELAPSED_HOURS_VALUE:
             {
                duration /= HOURS_PER_DAY;
                break;
             }
 
-            case TimeUnit.WEEKS:
-            case TimeUnit.ELAPSED_WEEKS:
+            case TimeUnit.WEEKS_VALUE:
+            case TimeUnit.ELAPSED_WEEKS_VALUE:
             {
                duration *= DAYS_PER_WEEK;
                break;
             }
 
-            case TimeUnit.MONTHS:
-            case TimeUnit.ELAPSED_MONTHS:
+            case TimeUnit.MONTHS_VALUE:
+            case TimeUnit.ELAPSED_MONTHS_VALUE:
             {
                duration *= DAYS_PER_MONTH;
                break;
             }
 
-            case TimeUnit.YEARS:
-            case TimeUnit.ELAPSED_YEARS:
+            case TimeUnit.YEARS_VALUE:
+            case TimeUnit.ELAPSED_YEARS_VALUE:
             {
                duration *= DAYS_PER_YEAR;
                break;
@@ -250,38 +250,38 @@ public final class MPXDuration implements ToStringRequiresFile
          //
          // Now convert the duration to the target type
          //
-         switch (type)
+         switch (type.getValue())
          {
-            case TimeUnit.MINUTES:
-            case TimeUnit.ELAPSED_MINUTES:
+            case TimeUnit.MINUTES_VALUE:
+            case TimeUnit.ELAPSED_MINUTES_VALUE:
             {
                duration *= MINUTES_PER_DAY;
                break;
             }
 
-            case TimeUnit.HOURS:
-            case TimeUnit.ELAPSED_HOURS:
+            case TimeUnit.HOURS_VALUE:
+            case TimeUnit.ELAPSED_HOURS_VALUE:
             {
                duration *= HOURS_PER_DAY;
                break;
             }
 
-            case TimeUnit.WEEKS:
-            case TimeUnit.ELAPSED_WEEKS:
+            case TimeUnit.WEEKS_VALUE:
+            case TimeUnit.ELAPSED_WEEKS_VALUE:
             {
                duration /= DAYS_PER_WEEK;
                break;
             }
 
-            case TimeUnit.MONTHS:
-            case TimeUnit.ELAPSED_MONTHS:
+            case TimeUnit.MONTHS_VALUE:
+            case TimeUnit.ELAPSED_MONTHS_VALUE:
             {
                duration /= DAYS_PER_MONTH;
                break;
             }
 
-            case TimeUnit.YEARS:
-            case TimeUnit.ELAPSED_YEARS:
+            case TimeUnit.YEARS_VALUE:
+            case TimeUnit.ELAPSED_YEARS_VALUE:
             {
                duration /= DAYS_PER_YEAR;
                break;
@@ -302,7 +302,7 @@ public final class MPXDuration implements ToStringRequiresFile
    /**
     * Duration type.
     */
-   private int m_type;
+   private TimeUnit m_units;
 
    /**
     * Number formatter format string.

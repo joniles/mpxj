@@ -2904,19 +2904,28 @@
             <UID>1</UID>
             <ID>1</ID>
             <Name>First Resource</Name>
+            <Type>0</Type>
+            <IsNull>0</IsNull>
             <Initials>FR</Initials>
+            <WorkGroup>0</WorkGroup>
             <MaxUnits>1.0</MaxUnits>
             <PeakUnits>1.5</PeakUnits>
+            <OverAllocated>0</OverAllocated>
+            <CanLevel>0</CanLevel>
             <AccrueAt>3</AccrueAt>
             <Work>PT240H0M0S</Work>
             <RegularWork>PT240H0M0S</RegularWork>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
             <ActualWork>PT0H0M0S</ActualWork>
             <RemainingWork>PT240H0M0S</RemainingWork>
+            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
+            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
             <PercentWorkComplete>0</PercentWorkComplete>
             <StandardRate>10</StandardRate>
+            <StandardRateFormat>3</StandardRateFormat>
             <Cost>201500</Cost>
             <OvertimeRate>20</OvertimeRate>
+            <OvertimeRateFormat>3</OvertimeRateFormat>
             <OvertimeCost>0</OvertimeCost>
             <CostPerUse>3000</CostPerUse>
             <ActualCost>0</ActualCost>
@@ -2925,6 +2934,9 @@
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <WorkVariance>1.44E7</WorkVariance>
             <CostVariance>201500.0</CostVariance>
+            <SV>0</SV>
+            <CV>0</CV>
+            <ACWP>0</ACWP>
             <CalendarUID>3</CalendarUID>
             <Notes>First resource notes 
 
@@ -2942,24 +2954,41 @@ formatting.
 
 
 </Notes>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
+            <IsGeneric>0</IsGeneric>
+            <IsInactive>0</IsInactive>
+            <IsEnterprise>0</IsEnterprise>
+            <BookingType>0</BookingType>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Resource>
         <Resource>
             <UID>2</UID>
             <ID>2</ID>
             <Name>Second Resource</Name>
+            <Type>0</Type>
+            <IsNull>0</IsNull>
             <Initials>SR</Initials>
+            <WorkGroup>0</WorkGroup>
             <MaxUnits>1.0</MaxUnits>
             <PeakUnits>1.75</PeakUnits>
+            <OverAllocated>0</OverAllocated>
+            <CanLevel>0</CanLevel>
             <AccrueAt>3</AccrueAt>
             <Work>PT340H0M0S</Work>
             <RegularWork>PT340H0M0S</RegularWork>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
             <ActualWork>PT0H0M0S</ActualWork>
             <RemainingWork>PT340H0M0S</RemainingWork>
+            <ActualOvertimeWork>PT0H0M0S</ActualOvertimeWork>
+            <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
             <PercentWorkComplete>0</PercentWorkComplete>
             <StandardRate>5</StandardRate>
+            <StandardRateFormat>3</StandardRateFormat>
             <Cost>151125</Cost>
             <OvertimeRate>10</OvertimeRate>
+            <OvertimeRateFormat>3</OvertimeRateFormat>
             <OvertimeCost>0</OvertimeCost>
             <CostPerUse>1500</CostPerUse>
             <ActualCost>0</ActualCost>
@@ -2968,9 +2997,20 @@ formatting.
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <WorkVariance>2.04E7</WorkVariance>
             <CostVariance>151125.0</CostVariance>
+            <SV>0</SV>
+            <CV>0</CV>
+            <ACWP>0</ACWP>
             <CalendarUID>4</CalendarUID>
             <Notes>Test Resource Notes
 </Notes>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
+            <IsGeneric>0</IsGeneric>
+            <IsInactive>0</IsInactive>
+            <IsEnterprise>0</IsEnterprise>
+            <BookingType>0</BookingType>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Resource>
     </Resources>
     <Assignments>

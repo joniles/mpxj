@@ -99,18 +99,18 @@ final class XsdDuration
 
          if (amount != 0)
          {
-            switch (duration.getType())
+            switch (duration.getUnits().getValue())
             {
-               case TimeUnit.MINUTES:
-               case TimeUnit.ELAPSED_MINUTES:
+               case TimeUnit.MINUTES_VALUE:
+               case TimeUnit.ELAPSED_MINUTES_VALUE:
                {
                   m_minutes = (int)amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
    
-               case TimeUnit.HOURS:
-               case TimeUnit.ELAPSED_HOURS:
+               case TimeUnit.HOURS_VALUE:
+               case TimeUnit.ELAPSED_HOURS_VALUE:
                {
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
@@ -119,8 +119,8 @@ final class XsdDuration
                   break;
                }
    
-               case TimeUnit.DAYS:
-               case TimeUnit.ELAPSED_DAYS:
+               case TimeUnit.DAYS_VALUE:
+               case TimeUnit.ELAPSED_DAYS_VALUE:
                {
                   m_days = (int)amount;
                   amount = (amount * 24) - (m_days * 24);
@@ -131,8 +131,8 @@ final class XsdDuration
                   break;
                }
    
-               case TimeUnit.WEEKS:
-               case TimeUnit.ELAPSED_WEEKS:
+               case TimeUnit.WEEKS_VALUE:
+               case TimeUnit.ELAPSED_WEEKS_VALUE:
                {
                   amount *= 7;
                   m_days = (int)amount;
@@ -144,8 +144,8 @@ final class XsdDuration
                   break;
                }
    
-               case TimeUnit.MONTHS:
-               case TimeUnit.ELAPSED_MONTHS:
+               case TimeUnit.MONTHS_VALUE:
+               case TimeUnit.ELAPSED_MONTHS_VALUE:
                {
                   m_months = (int)amount;
                   amount = (amount * 28) - (m_months * 28);
@@ -158,8 +158,8 @@ final class XsdDuration
                   break;
                }
    
-               case TimeUnit.YEARS:
-               case TimeUnit.ELAPSED_YEARS:
+               case TimeUnit.YEARS_VALUE:
+               case TimeUnit.ELAPSED_YEARS_VALUE:
                {
                   m_years = (int)amount;
                   amount = (amount * 12) - (m_years * 12);

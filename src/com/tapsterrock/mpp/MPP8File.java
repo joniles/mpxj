@@ -117,12 +117,12 @@ final class MPP8File
 
       DefaultSettings ds = file.getDefaultSettings();
       //ds.setDefaultDurationIsFixed();
-      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props.DURATION_UNITS)));
+      ds.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
       ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
       ds.setDefaultHoursInWeek(((float)props.getInt(Props.HOURS_PER_WEEK))/60);
       ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
       ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
-      ds.setDefaultWorkUnits(MPPUtility.getWorkUnits(props.getShort(Props.WORK_UNITS)));
+      ds.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
       ds.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
       ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
@@ -472,7 +472,7 @@ final class MPP8File
          task = file.addTask();
 
          task.setActualCost(new Double (((double)MPPUtility.getLong6(data, 234)) / 100));
-         task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
+         task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 108));
          task.setActualOvertimeCost(new Double (((double)MPPUtility.getLong6(data, 210)) / 100));
          task.setActualOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 192))/100, TimeUnit.HOURS));
@@ -483,7 +483,7 @@ final class MPP8File
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
          task.setBaselineCost(new Double ((double)MPPUtility.getLong6 (data, 246) / 100));
-         task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 82), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 72))));
+         task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 82), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 72))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 116));
          task.setBaselineStart(MPPUtility.getTimestamp (data, 112));
          task.setBaselineWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 174))/100, TimeUnit.HOURS));
@@ -520,17 +520,17 @@ final class MPP8File
          task.setDate9(taskExtData.getTimestamp(TASK_DATE9));
          task.setDate10(taskExtData.getTimestamp(TASK_DATE10));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 68), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
-         task.setDuration1(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
-         task.setDuration2(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
-         task.setDuration3(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION3), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION3_UNITS))));
-         task.setDuration4(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION4), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION4_UNITS))));
-         task.setDuration5(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION5), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION5_UNITS))));
-         task.setDuration6(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION6), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION6_UNITS))));
-         task.setDuration7(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
-         task.setDuration8(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
-         task.setDuration9(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
+         task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
+         task.setDuration1(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
+         task.setDuration2(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
+         task.setDuration3(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION3_UNITS))));
+         task.setDuration4(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION4_UNITS))));
+         task.setDuration5(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION5_UNITS))));
+         task.setDuration6(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION6_UNITS))));
+         task.setDuration7(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
+         task.setDuration8(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
+         task.setDuration9(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
+         task.setDuration10(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
@@ -580,7 +580,7 @@ final class MPP8File
          //task.setLateStart();  // Calculated value
          task.setLevelAssignments((data[19] & 0x10) != 0);
          task.setLevelingCanSplit((data[19] & 0x08) != 0);
-         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 90))/3, MPPUtility.getDurationUnits(MPPUtility.getShort (data, 94))));
+         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 90))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 94))));
          //task.setLinkedFields();  // Calculated value
          task.setMarked((data[13] & 0x02) != 0);
          task.setMilestone((data[12] & 0x01) != 0);
@@ -621,7 +621,7 @@ final class MPP8File
          //task.setRecurring(); // Calculated value
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(new Double (((double)MPPUtility.getLong6(data, 240)) / 100));
-         task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
+         task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
          task.setRemainingOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 216))/100));
          task.setRemainingOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 198))/100, TimeUnit.HOURS));
          task.setRemainingWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 186))/100, TimeUnit.HOURS));
@@ -796,7 +796,7 @@ final class MPP8File
          Task task1;
          Task task2;
          Relation rel;
-         int durationUnits;
+         TimeUnit durationUnits;
          int taskID1;
          int taskID2;
 
@@ -817,7 +817,7 @@ final class MPP8File
                   {
                      rel = task2.addPredecessor(task1);
                      rel.setType (MPPUtility.getShort(data, 20));
-                     durationUnits = MPPUtility.getDurationUnits(MPPUtility.getShort (data, 22));
+                     durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 22));
                      rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 24), durationUnits));
                   }
                }
@@ -930,16 +930,16 @@ final class MPP8File
          resource.setDate8(rscExtData.getTimestamp (RESOURCE_DATE8));
          resource.setDate9(rscExtData.getTimestamp (RESOURCE_DATE9));
          resource.setDate10(rscExtData.getTimestamp (RESOURCE_DATE10));
-         resource.setDuration1(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION1), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION1_UNITS))));
-         resource.setDuration2(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION2), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION2_UNITS))));
-         resource.setDuration3(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION3), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION3_UNITS))));
-         resource.setDuration4(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION4), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION4_UNITS))));
-         resource.setDuration5(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION5), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION5_UNITS))));
-         resource.setDuration6(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION6), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION6_UNITS))));
-         resource.setDuration7(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION7), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION7_UNITS))));
-         resource.setDuration8(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION8), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION8_UNITS))));
-         resource.setDuration9(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION9), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION9_UNITS))));
-         resource.setDuration10(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION10), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION10_UNITS))));
+         resource.setDuration1(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION1), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION1_UNITS))));
+         resource.setDuration2(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION2), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION2_UNITS))));
+         resource.setDuration3(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION3), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION3_UNITS))));
+         resource.setDuration4(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION4), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION4_UNITS))));
+         resource.setDuration5(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION5), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION5_UNITS))));
+         resource.setDuration6(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION6), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION6_UNITS))));
+         resource.setDuration7(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION7), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION7_UNITS))));
+         resource.setDuration8(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION8), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION8_UNITS))));
+         resource.setDuration9(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION9), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION9_UNITS))));
+         resource.setDuration10(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION10), MPPUtility.getDurationTimeUnits(rscExtData.getShort (RESOURCE_DURATION10_UNITS))));
          resource.setEmailAddress(rscExtData.getUnicodeString (RESOURCE_EMAIL));
          resource.setFinish1(rscExtData.getTimestamp (RESOURCE_FINISH1));
          resource.setFinish2(rscExtData.getTimestamp (RESOURCE_FINISH2));
@@ -982,7 +982,7 @@ final class MPP8File
          resource.setOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 138))/100));
          resource.setOvertimeRate(new MPXRate (MPPUtility.getDouble(data, 44), TimeUnit.HOURS));
          resource.setOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 74))/100, TimeUnit.HOURS));
-         resource.setPeak(new Double(((double)MPPUtility.getInt(data, 110))/100));
+         resource.setPeakUnits(new Double(((double)MPPUtility.getInt(data, 110))/100));
          //resource.setPercentageWorkComplete(); // Calculated value
          resource.setRegularWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 92))/100, TimeUnit.HOURS));
          resource.setRemainingCost(new Double(((double)MPPUtility.getLong6(data, 132))/100));
@@ -1049,7 +1049,7 @@ final class MPP8File
                notes = rtf.strip(notes);
             }
 
-            resource.addResourceNotes(notes);
+            resource.setNotes(notes);
          }
 
          //
@@ -1057,7 +1057,7 @@ final class MPP8File
          //
          if (resource.getCost() != null && resource.getBaselineCost() != null)
          {
-            resource.setCostVariance(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue());
+            resource.setCostVariance(new Double(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue()));
          }
 
          //

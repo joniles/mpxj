@@ -48,12 +48,12 @@ public final class MPXRate implements ToStringRequiresFile
       if (index == -1)
       {
          m_amount = format.parse(rate).doubleValue();
-         m_time = TimeUnit.HOURS;
+         m_units = TimeUnit.HOURS;
       }
       else
       {
          m_amount = format.parse( rate.substring (0, index)).doubleValue();
-         m_time = TimeUnit.parse(rate.substring (index+1), locale);
+         m_units = TimeUnit.parse(rate.substring (index+1), locale);
       }
    }
 
@@ -64,7 +64,7 @@ public final class MPXRate implements ToStringRequiresFile
     * @param amount currency amount
     * @param time time units
     */
-   public MPXRate (Number amount, int time)
+   public MPXRate (Number amount, TimeUnit time)
    {
       if (amount == null)
       {
@@ -75,7 +75,7 @@ public final class MPXRate implements ToStringRequiresFile
          m_amount = amount.doubleValue();
       }
 
-      m_time = time;
+      m_units = time;
    }
 
    /**
@@ -85,10 +85,10 @@ public final class MPXRate implements ToStringRequiresFile
     * @param amount currency amount
     * @param time time units
     */
-   public MPXRate (double amount, int time)
+   public MPXRate (double amount, TimeUnit time)
    {
       m_amount = amount;
-      m_time = time;
+      m_units = time;
    }
 
 
@@ -107,9 +107,9 @@ public final class MPXRate implements ToStringRequiresFile
     *
     * @return time component of the rate
     */
-   public int getTime ()
+   public TimeUnit getUnits ()
    {
-      return (m_time);
+      return (m_units);
    }
 
    /**
@@ -125,7 +125,7 @@ public final class MPXRate implements ToStringRequiresFile
       Locale locale = mpx.getLocale();
       StringBuffer buffer = new StringBuffer (format.format(m_amount));
       buffer.append ("/");
-      buffer.append (TimeUnit.format(m_time, locale));
+      buffer.append (TimeUnit.format(m_units, locale));
       return (buffer.toString());
    }
 
@@ -137,5 +137,5 @@ public final class MPXRate implements ToStringRequiresFile
    /**
     * Time type.
     */
-   private int m_time;
+   private TimeUnit m_units;
 }

@@ -10,6 +10,8 @@
 
    <release version="0.0.24" date="CVS HEAD"> 
       <action dev="joniles" type="fix">Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
+      <action dev="joniles" type="update">Updated to use class instances instead of ints to represent some enumerated types.</action>
+      <action dev="joniles" type="update">Updated to implement support reading and writing all of the basic Resource attributes found in MSPDI files.</action>
    </release>
 
    <release version="0.0.23" date="17/11/2004"> 

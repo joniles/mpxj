@@ -61,9 +61,9 @@ public final class DefaultSettings extends MPXRecord
    void update (Record record)
       throws MPXException
    {
-      setDefaultDurationUnits(record.getInteger(0));
+      setDefaultDurationUnits(record.getTimeUnit(0));
       setDefaultDurationIsFixed(record.getNumericBoolean(1));
-      setDefaultWorkUnits(record.getInteger(2));
+      setDefaultWorkUnits(record.getTimeUnit(2));
       setDefaultHoursInDay(record.getFloat(3));
       setDefaultHoursInWeek(record.getFloat(4));
       setDefaultStandardRate(record.getRate(5));
@@ -79,21 +79,9 @@ public final class DefaultSettings extends MPXRecord
     * @return int constant
     * @see TimeUnit
     */
-   public int getDefaultDurationUnitsValue ()
+   public TimeUnit getDefaultDurationUnits ()
    {
-      return (getIntValue (DEFAULT_DURATION_UNITS));
-   }
-
-   /**
-    * Gets Default Duration units. The constants used to define the
-    * duration units are defined by the <code>TimeUnit</code> class.
-    *
-    * @return int constant
-    * @see TimeUnit
-    */
-   public Integer getDefaultDurationUnits ()
-   {
-      return ((Integer)get (DEFAULT_DURATION_UNITS));
+      return ((TimeUnit)get (DEFAULT_DURATION_UNITS));
    }
 
    /**
@@ -103,19 +91,7 @@ public final class DefaultSettings extends MPXRecord
     * @param units default time units
     * @see TimeUnit
     */
-   public void setDefaultDurationUnits (int units)
-   {
-      put (DEFAULT_DURATION_UNITS, units);
-   }
-
-   /**
-    * Default duration units. The constants used to define the
-    * duration units are defined by the <code>TimeUnit</code> class.
-    *
-    * @param units default time units
-    * @see TimeUnit
-    */
-   public void setDefaultDurationUnits (Integer units)
+   public void setDefaultDurationUnits (TimeUnit units)
    {
       put (DEFAULT_DURATION_UNITS, units);
    }
@@ -167,21 +143,9 @@ public final class DefaultSettings extends MPXRecord
     * @return int representing default
     * @see TimeUnit
     */
-   public int getDefaultWorkUnitsValue ()
+   public TimeUnit getDefaultWorkUnits ()
    {
-      return (getIntValue (DEFAULT_WORK_UNITS));
-   }
-
-   /**
-    * Default work units. The constants used to define the
-    * work units are defined by the <code>TimeUnit</code> class.
-    *
-    * @return int representing default
-    * @see TimeUnit
-    */
-   public Integer getDefaultWorkUnits ()
-   {
-      return ((Integer)get (DEFAULT_WORK_UNITS));
+      return ((TimeUnit)get (DEFAULT_WORK_UNITS));
    }
 
    /**
@@ -191,19 +155,7 @@ public final class DefaultSettings extends MPXRecord
     * @param units  int representing default
     * @see TimeUnit
     */
-   public void setDefaultWorkUnits (int units)
-   {
-      put (DEFAULT_WORK_UNITS, units);
-   }
-
-   /**
-    * Default work units. The constants used to define the
-    * work units are defined by the <code>TimeUnit</code> class.
-    *
-    * @param units  int representing default
-    * @see TimeUnit
-    */
-   public void setDefaultWorkUnits (Integer units)
+   public void setDefaultWorkUnits (TimeUnit units)
    {
       put (DEFAULT_WORK_UNITS, units);
    }
@@ -425,7 +377,7 @@ public final class DefaultSettings extends MPXRecord
    private static final int DEFAULT_DURATION_UNITS = 0;
 
    /**
-    * Constant value representing Default Duration Type. eg 'w','m','d','h'
+    * Constant value representing Default Duration Type.
     */
    private static final int DEFAULT_DURATION_TYPE = 1;
 
