@@ -63,7 +63,8 @@ class FixedData extends MPPComponent
 				
       int itemCount = meta.getItemCount();
       m_array = new ByteArray[itemCount];
-
+      m_offset = new int[itemCount];
+      
       int itemOffset;
       int itemSize;
       int available;
@@ -93,6 +94,7 @@ class FixedData extends MPPComponent
          }
 
          m_array[loop] = new ByteArray (buffer, itemOffset, itemSize);
+         m_offset[loop] = itemOffset;
       }      
    }
 
@@ -110,12 +112,16 @@ class FixedData extends MPPComponent
    public FixedData (int itemSize, InputStream is)
       throws IOException
    {
+      int offset = 0;
       int itemCount = is.available() / itemSize;
       m_array = new ByteArray[itemCount];
-
+      m_offset = new int[itemCount];
+      
       for (int loop=0; loop < itemCount; loop++)
       {
+         m_offset[loop] = offset;
          m_array[loop] = new ByteArray (readByteArray (is, itemSize));
+         offset += itemSize;
       }
    }
 
@@ -152,6 +158,30 @@ class FixedData extends MPPComponent
    }
 
    /**
+    * This method converts an offset value into an array index, which in
+    * turn allows the data present in the fixed block to be retrieved. Note
+    * that if the requested offset is not found, then this method returns -1.
+    * 
+    * @param offset Offset of the data in the fixed block
+    * @return Index of data item within the fixed data block
+    */
+   public int getIndexFromOffset (int offset)
+   {
+      int result = -1;
+      
+      for (int loop=0; loop < m_offset.length; loop++)
+      {
+         if (m_offset[loop] == offset)
+         {
+            result = loop;
+            break;               
+         }   
+      }   
+      
+      return (result);      
+   }
+   
+   /**
     * This method dumps the contents of this FixedData block as a String.
     * Note that this facility is provided as a debugging aid.
     *
@@ -179,7 +209,12 @@ class FixedData extends MPPComponent
     * An array containing all of the items of data held in this block.
     */
    private ByteArray[] m_array;
-
+   
+   /**
+    * Array containing offset values for each item in the array.
+    */
+   private int[] m_offset;
+   
    /**
     * Constant representing the magic number appearing
     * at the start of the block.

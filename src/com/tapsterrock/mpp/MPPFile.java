@@ -197,6 +197,7 @@ public class MPPFile extends MPXFile
 		// Retrieve constraint data
 		//
 		DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
+      FixedMeta consFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedMeta"))), 10);      
 		FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
 
 		//
@@ -220,7 +221,7 @@ public class MPPFile extends MPXFile
 		processCalendarData (calVarMeta, calVarData);
   		processResourceData (rscVarMeta, rscVarData, rscFixedMeta, rscFixedData);
 	  	processTaskData (taskVarMeta, taskVarData, taskFixedMeta, taskFixedData);
-	  	processConstraintData (consFixedData);
+	  	processConstraintData (consFixedMeta, consFixedData);
 	  	processAssignmentData (assnFixedData);
 	}
 	
@@ -652,34 +653,44 @@ public class MPPFile extends MPXFile
    /**
     * This method extracts and collates constraint data
     */
-   private void processConstraintData (FixedData consFixedData)
-   {
-      int count = consFixedData.getItemCount();
+   private void processConstraintData (FixedMeta consFixedMeta, FixedData consFixedData)
+   {      
+      int count = consFixedMeta.getItemCount();
+      int index;
       byte[] data;
       Task task1;
       Task task2;
       Relation rel;
       int durationUnits;
-
+      int taskID1;
+      int taskID2;
+      
       for (int loop=0; loop < count; loop++)
       {
-         data = consFixedData.getByteArrayValue(loop);
-         int taskID1 = MPPUtility.getInt (data, 4);
-         int taskID2 = MPPUtility.getInt (data, 8);
-
-         if (taskID1 != taskID2)
+         if (consFixedMeta.getItemSize(loop) == 0)
          {
-            task1 = getTaskByUniqueID (taskID1);
-            task2 = getTaskByUniqueID (taskID2);
-            if (task1 != null && task2 != null)
+            index = consFixedData.getIndexFromOffset(consFixedMeta.getItemOffset(loop));
+            if (index != -1)
             {
-               rel = task2.addPredecessor(task1);
-               rel.setType (MPPUtility.getShort(data, 12));
-               durationUnits = getDurationUnits(MPPUtility.getShort (data, 14));
-               rel.setDuration(getDuration (MPPUtility.getInt (data, 16), durationUnits));
+               data = consFixedData.getByteArrayValue(index);
+               taskID1 = MPPUtility.getInt (data, 4);
+               taskID2 = MPPUtility.getInt (data, 8);
+
+               if (taskID1 != taskID2)
+               {
+                  task1 = getTaskByUniqueID (taskID1);
+                  task2 = getTaskByUniqueID (taskID2);
+                  if (task1 != null && task2 != null)
+                  {
+                     rel = task2.addPredecessor(task1);
+                     rel.setType (MPPUtility.getShort(data, 12));
+                     durationUnits = getDurationUnits(MPPUtility.getShort (data, 14));
+                     rel.setDuration(getDuration (MPPUtility.getInt (data, 16), durationUnits));
+                  }
+               }               
             }
          }
-      }
+      }      
    }
 
 
