@@ -1315,10 +1315,14 @@ final class MPP9File
          offset = (Integer)resourceMap.get(id);
          if (offset == null)
          {
-            throw new MPXException (MPXException.INVALID_FILE);
+            continue;
          }
 
          data = rscFixedData.getByteArrayValue(offset.intValue());
+         if (data.length < MINIMUM_EXPECTED_RESOURCE_SIZE)
+         {
+            continue;
+         }
 
          resource = file.addResource();
 
@@ -2128,5 +2132,5 @@ final class MPP9File
    };
 
    private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
-
+   private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
 }
