@@ -284,7 +284,7 @@ class MPPUtility
 
       for (int loop=0; loop < data.length; loop += 2)
       {
-         c = (char)((char)data[loop] + ((char)data[loop+1]*256));
+         c = (char)getShort (data, loop);
          if (c == 0)
          {
             break;
