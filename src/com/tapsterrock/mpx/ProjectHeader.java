@@ -47,6 +47,11 @@ public final class ProjectHeader extends MPXRecord
       super (file, 0);
 
       //
+      // Configure Date Time Settings and Currency Settings Records
+      //
+      setLocale (file.getLocale());
+      
+      //
       // Configure Default Settings Record
       //
       setDefaultDurationUnits(TimeUnit.DAYS);
@@ -58,12 +63,7 @@ public final class ProjectHeader extends MPXRecord
       setDefaultOvertimeRate(new MPXRate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
       setSplitInProgressTasks(false);
-      
-      //
-      // Configure Date Time Settings Record
-      //
-      setLocale (file.getLocale());
-      
+            
       //
       // Configure Project Header Record
       //
@@ -376,6 +376,15 @@ public final class ProjectHeader extends MPXRecord
     */
    void setLocale (Locale locale)
    {
+      m_updateCurrencyFormat = false;
+      setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
+      setSymbolPosition((CurrencySymbolPosition)LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
+      setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
+      setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
+      setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
+      m_updateCurrencyFormat = true;
+      updateCurrencyFormats ();
+      
       m_updateDateTimeFormats = false;
       setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
       setTimeFormat((TimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
@@ -387,7 +396,7 @@ public final class ProjectHeader extends MPXRecord
       setDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       setBarTextDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       m_updateDateTimeFormats = true;
-      updateFormats ();
+      updateDateTimeFormats ();           
    }
 
    /**
@@ -410,14 +419,14 @@ public final class ProjectHeader extends MPXRecord
       setBarTextDateFormat(record.getDateFormat(8));
       m_updateDateTimeFormats = true;
 
-      updateFormats ();
+      updateDateTimeFormats ();
    }
 
    /**
     * This method updates the formatters used to control time and date
     * formatting.
     */
-   private void updateFormats ()
+   private void updateDateTimeFormats ()
    {
       if (m_updateDateTimeFormats == true)
       {
@@ -851,7 +860,7 @@ public final class ProjectHeader extends MPXRecord
    public void setDateOrder (DateOrder dateOrder)
    {
       m_dateOrder = dateOrder;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -872,7 +881,7 @@ public final class ProjectHeader extends MPXRecord
    public void setTimeFormat (TimeFormat timeFormat)
    {
       m_timeFormat = timeFormat;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -966,7 +975,7 @@ public final class ProjectHeader extends MPXRecord
    public void setDateSeparator (char dateSeparator)
    {
       m_dateSeparator = dateSeparator;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -997,7 +1006,7 @@ public final class ProjectHeader extends MPXRecord
    public void setTimeSeparator (char timeSeparator)
    {
       m_timeSeparator = timeSeparator;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -1028,7 +1037,7 @@ public final class ProjectHeader extends MPXRecord
    public void setAMText (String amText)
    {
       m_amText = amText;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -1049,7 +1058,7 @@ public final class ProjectHeader extends MPXRecord
    public void setPMText (String pmText)
    {
       m_pmText = pmText;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -1070,7 +1079,7 @@ public final class ProjectHeader extends MPXRecord
    public void setDateFormat (DateFormat dateFormat)
    {
       m_dateFormat = dateFormat;
-      updateFormats();
+      updateDateTimeFormats();
    }
 
    /**
@@ -1753,6 +1762,23 @@ public final class ProjectHeader extends MPXRecord
       char delimiter = getParentFile().getDelimiter();
 
       //
+      // Currency Settings Record
+      //
+      buffer.append (CURRENCY_SETTINGS_RECORD_NUMBER);
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, getCurrencySymbol()));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, getSymbolPosition()));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, getCurrencyDigits()));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, new Character(getThousandsSeparator())));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, new Character(getDecimalSeparator())));
+      stripTrailingDelimiters(buffer, delimiter);
+      buffer.append (MPXFile.EOL);
+      
+      //
       // Default Settings Record
       //
       buffer.append (DEFAULT_SETTINGS_RECORD_NUMBER);
@@ -1870,7 +1896,303 @@ public final class ProjectHeader extends MPXRecord
       return (buffer.toString());      
    }
 
+   /**
+    * This method is used to update a currency settings instance with
+    * new values read from an MPX file.
+    *
+    * @param record record containing the data for  this object.
+    */
+   void updateCurrencySettings (Record record)
+   {
+      m_updateCurrencyFormat = false;
+      setCurrencySymbol (record.getString(0));
+      setSymbolPosition (record.getCurrencySymbolPosition(1));
+      setCurrencyDigits (record.getInteger(2));
+      setThousandsSeparator (record.getCharacter(3));
+      setDecimalSeparator (record.getCharacter(4));
+      m_updateCurrencyFormat = true;
 
+      updateCurrencyFormats ();
+   }
+
+   /**
+    * Sets currency symbol ie $, £, DM
+    *
+    * @param symbol ie $, £, DM
+    */
+   public void setCurrencySymbol (String symbol)
+   {
+      m_currencySymbol = symbol;
+      updateCurrencyFormats();
+   }
+
+   /**
+    * Gets currency symbol ie $, £, DM
+    *
+    * @return ie $, £, DM
+    */
+   public String getCurrencySymbol ()
+   {
+      return (m_currencySymbol);
+   }
+
+   /**
+    * Sets the position of the currency symbol.
+    *
+    * @param posn currency symbol position.
+    */
+   public void setSymbolPosition (CurrencySymbolPosition posn)
+   {
+      m_symbolPosition = posn;
+      updateCurrencyFormats();
+   }
+
+   /**
+    * Retrieves a constant representing the position of the currency symbol.
+    *
+    * @return position
+    */
+   public CurrencySymbolPosition getSymbolPosition ()
+   {
+      return (m_symbolPosition);
+   }
+
+   /**
+    * Sets no of currency digits.
+    *
+    * @param currDigs Available values, 0,1,2
+    */
+   public void setCurrencyDigits (Integer currDigs)
+   {
+      m_currencyDigits = currDigs;
+      updateCurrencyFormats();
+   }
+
+   /**
+    * Gets no of currency digits.
+    *
+    * @return Available values, 0,1,2
+    */
+   public Integer getCurrencyDigits ()
+   {
+      return (m_currencyDigits);
+   }
+
+   /**
+    * Sets the thousands separator.
+    * Note that this separator defines the thousands separator for all decimal
+    * numbers that appear in the MPX file.
+    *
+    * @param sep character
+    */
+   public void setThousandsSeparator (char sep)
+   {
+      m_thousandsSeparator = sep;
+      updateCurrencyFormats();
+      if (getParentFile().getThousandsSeparator() != sep)
+      {
+         getParentFile().setThousandsSeparator(sep);
+      }
+   }
+
+   /**
+    * Sets the thousands separator.
+    * Note that this separator defines the thousands separator for all decimal
+    * numbers that appear in the MPX file.
+    *
+    * @param sep character
+    */
+   private void setThousandsSeparator (Character sep)
+   {
+      if (sep != null)
+      {
+         setThousandsSeparator (sep.charValue());
+      }
+   }
+
+   /**
+    * Gets the thousands separator.
+    * Note that this separator defines the thousands separator for all decimal
+    * numbers that appear in the MPX file.
+    *
+    * @return character
+    */
+   public char getThousandsSeparator ()
+   {
+      return (m_thousandsSeparator);
+   }
+
+   /**
+    * Sets the decimal separator.
+    * Note that this separator defines the decimal separator for all decimal
+    * numbers that appear in the MPX file.
+    *
+    * @param decSep character
+    */
+   public void setDecimalSeparator (char decSep)
+   {
+      m_decimalSeparator = decSep;
+      updateCurrencyFormats();
+      if (getParentFile().getDecimalSeparator() != decSep)
+      {
+         getParentFile().setDecimalSeparator(decSep);
+      }
+   }
+
+   /**
+    * Sets the decimal separator.
+    * Note that this separator defines the decimal separator for all decimal
+    * numbers that appear in the MPX file.
+    *
+    * @param decSep character
+    */
+   private void setDecimalSeparator (Character decSep)
+   {
+      if (decSep != null)
+      {
+         setDecimalSeparator (decSep.charValue());
+      }
+   }
+
+   /**
+    * Gets the decimal separator.
+    * Note that this separator defines the decimal separator for all decimal
+    * numbers that appear in the MPX file.
+    *
+    * @return character
+    */
+   public char getDecimalSeparator ()
+   {
+      return (m_decimalSeparator);
+   }
+
+   /**
+    * This method updates the formatters used to control the currency
+    * formatting.
+    */
+   private void updateCurrencyFormats ()
+   {
+      if (m_updateCurrencyFormat == true)
+      {
+         MPXFile parent = getParentFile();
+         String prefix = "";
+         String suffix = "";
+         String currencySymbol = quoteFormatCharacters (getCurrencySymbol());
+
+         switch (getSymbolPosition().getValue())
+         {
+            case CurrencySymbolPosition.AFTER_VALUE:
+            {
+               suffix = currencySymbol;
+               break;
+            }
+
+            case CurrencySymbolPosition.BEFORE_VALUE:
+            {
+               prefix = currencySymbol;
+               break;
+            }
+
+            case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
+            {
+               suffix = " " + currencySymbol;
+               break;
+            }
+
+            case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
+            {
+               prefix = currencySymbol + " ";
+               break;
+            }
+         }
+
+         StringBuffer pattern = new StringBuffer(prefix);
+         pattern.append("#");
+         if (parent.getIgnoreThousandsSeparator() == false)
+         {
+            pattern.append(',');
+         }
+         pattern.append("##0");
+
+
+         int digits = getCurrencyDigits().intValue();
+         if (digits > 0)
+         {
+            pattern.append('.');
+            for(int i = 0 ; i < digits ; i++)
+            {
+               pattern.append("0");
+            }
+         }
+
+         pattern.append(suffix);
+
+         parent.getCurrencyFormat().applyPattern(pattern.toString(), getDecimalSeparator(), getThousandsSeparator());
+      }
+   }
+
+   /**
+    * This method is used to quote any special characters that appear in
+    * literal text that is required as part of the currency format.
+    *
+    * @param literal Literal text
+    * @return literal text with special characters in quotes
+    */
+   private String quoteFormatCharacters (String literal)
+   {
+      StringBuffer sb = new StringBuffer ();
+      int length = literal.length();
+      char c;
+
+      for (int loop=0; loop <length; loop++)
+      {
+         c = literal.charAt(loop);
+         switch (c)
+         {
+            case '0':
+            case '#':
+            case '.':
+            case '-':
+            case ',':
+            case 'E':
+            case ';':
+            case '%':
+            {
+               sb.append ("'");
+               sb.append (c);
+               sb.append ("'");
+               break;
+            }
+
+            default:
+            {
+               sb.append (c);
+               break;
+            }
+         }
+      }
+
+      return (sb.toString());
+   }
+
+   private String m_currencySymbol;
+   private CurrencySymbolPosition m_symbolPosition;
+   private Integer m_currencyDigits;
+   private char m_thousandsSeparator;
+   private char m_decimalSeparator;
+   
+   /**
+    * flag used to indicate whether the currency format
+    * can be automatically updated. The default value for this
+    * flag is false.
+    */
+   private boolean m_updateCurrencyFormat;
+
+   /**
+    * Constant containing the record number associated with this record.
+    */
+   static final int CURRENCY_SETTINGS_RECORD_NUMBER = 10;
+   
    /**
     * Default Settings Attributes
     */

@@ -61,7 +61,6 @@ import org.xml.sax.SAXException;
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
-import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
@@ -323,7 +322,6 @@ public class MSPDIFile extends MPXFile
          Project project = (Project)unmarshaller.unmarshal (doc);
          HashMap calendarMap = new HashMap ();
                           
-         readCurrencySettings (project);
          readProjectHeader (project);
          readProjectExtendedAttributes(project);
          readCalendars (project, calendarMap);
@@ -354,21 +352,6 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method extracts currency settings data from an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
-    */
-   private void readCurrencySettings (Project project)
-   {
-      CurrencySettings currency = getCurrencySettings();
-      currency.setCurrencyDigits (getInteger(project.getCurrencyDigits()));
-      currency.setCurrencySymbol (project.getCurrencySymbol());
-      //currency.setDecimalSeparator ();
-      currency.setSymbolPosition (getMpxSymbolPosition(project.getCurrencySymbolPosition()));
-      //currency.setThousandsSeparator ();
-   }
-
-   /**
     * This method extracts project header data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
@@ -377,6 +360,12 @@ public class MSPDIFile extends MPXFile
    {
       ProjectHeader header = getProjectHeader ();
 
+      header.setCurrencyDigits (getInteger(project.getCurrencyDigits()));
+      header.setCurrencySymbol (project.getCurrencySymbol());
+      //currency.setDecimalSeparator ();
+      header.setSymbolPosition (getMpxSymbolPosition(project.getCurrencySymbolPosition()));
+      //currency.setThousandsSeparator ();
+      
       //settings.setDefaultDurationIsFixed();
       header.setDefaultDurationUnits(getMpxDurationTimeUnits(project.getDurationFormat()));
       //settings.setDefaultHoursInDay();
@@ -2445,7 +2434,6 @@ public class MSPDIFile extends MPXFile
          Project project = factory.createProject();
 
          writeMspdiHeader(project);
-         writeCurrencySettings (project);
          writeProjectHeader (project);
          writeProjectExtendedAttributes (factory, project);
          writeCalendars (factory, project);
@@ -2510,19 +2498,6 @@ public class MSPDIFile extends MPXFile
    }
    
    /**
-    * This method writes currency settings data to an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
-    */
-   private void writeCurrencySettings (Project project)
-   {
-      CurrencySettings currency = getCurrencySettings();
-      project.setCurrencyDigits(BigInteger.valueOf (currency.getCurrencyDigits().intValue()));
-      project.setCurrencySymbol(currency.getCurrencySymbol());
-      project.setCurrencySymbolPosition(getXmlSymbolPosition (currency.getSymbolPosition()));
-   }
-
-   /**
     * This method writes project header data to an MSPDI file.
     *
     * @param project Root node of the MSPDI file
@@ -2531,6 +2506,10 @@ public class MSPDIFile extends MPXFile
    {
       ProjectHeader header = getProjectHeader ();
 
+      project.setCurrencyDigits(BigInteger.valueOf (header.getCurrencyDigits().intValue()));
+      project.setCurrencySymbol(header.getCurrencySymbol());
+      project.setCurrencySymbolPosition(getXmlSymbolPosition (header.getSymbolPosition()));
+      
       project.setDurationFormat(getXmlDurationUnits(header.getDefaultDurationUnits()));
       project.setDefaultOvertimeRate((float)getRateCost(header.getDefaultOvertimeRate()));
       project.setDefaultStandardRate((float)getRateCost(header.getDefaultStandardRate()));

@@ -79,7 +79,6 @@ public class MPXFile
       m_baseOutlineLevel = file.m_baseOutlineLevel;
       m_childTasks = file.m_childTasks;
       m_currencyFormat = file.m_currencyFormat;
-      m_currencySettings = file.m_currencySettings;
       m_dateFormat = file.m_dateFormat;
       m_ddeOleClientLinks = file.m_ddeOleClientLinks;
       m_delimiter = file.m_delimiter;
@@ -171,7 +170,6 @@ public class MPXFile
    {
       setLocale (Locale.ENGLISH);
       m_records.add (m_fileCreationRecord);
-      m_records.add (m_currencySettings);
       m_records.add (m_projectHeader);
    }
 
@@ -359,11 +357,11 @@ public class MPXFile
             break;
          }
 
-         case CurrencySettings.RECORD_NUMBER:
+         case ProjectHeader.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
-            m_currencySettings.update (record);
+            m_projectHeader.updateCurrencySettings (record);
             updateFormats();
-            current = m_currencySettings;
+            current = m_projectHeader;
             break;
          }
 
@@ -937,17 +935,6 @@ public class MPXFile
       return (m_fileCreationRecord);
    }
 
-
-   /**
-    * Retrieves the currency settings.
-    *
-    * @return currency settings
-    */
-   public CurrencySettings getCurrencySettings ()
-   {
-      return (m_currencySettings);
-   }
-
    /**
     * This method is provided to create a resource calendar, before it
     * has been attached to a resource.
@@ -1519,9 +1506,9 @@ public class MPXFile
    public void setDecimalSeparator (char separator)
    {
       m_decimalSeparator = separator;
-      if (m_currencySettings != null && m_currencySettings.getDecimalSeparator() != separator)
+      if (m_projectHeader != null && m_projectHeader.getDecimalSeparator() != separator)
       {
-         m_currencySettings.setDecimalSeparator(separator);
+         m_projectHeader.setDecimalSeparator(separator);
       }
    }
 
@@ -1549,9 +1536,9 @@ public class MPXFile
    public void setThousandsSeparator (char separator)
    {
       m_thousandsSeparator = separator;
-      if (m_currencySettings != null && m_currencySettings.getThousandsSeparator() != separator)
+      if (m_projectHeader != null && m_projectHeader.getThousandsSeparator() != separator)
       {
-         m_currencySettings.setThousandsSeparator(separator);
+         m_projectHeader.setThousandsSeparator(separator);
       }
    }
 
@@ -1715,7 +1702,6 @@ public class MPXFile
       m_thousandsSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR);
       m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
       m_fileCreationRecord.setLocale(locale);
-      m_currencySettings.setLocale(locale);
       m_projectHeader.setLocale(locale);
       m_dateFormat.setLocale(locale);
       m_timeFormat.setLocale(locale);
@@ -2037,11 +2023,6 @@ public class MPXFile
     * File creation record.
     */
    private FileCreationRecord m_fileCreationRecord = new FileCreationRecord (this);
-
-   /**
-    * Currency settings record.
-    */
-   private CurrencySettings m_currencySettings = new CurrencySettings (this);
 
    /**
     * Project header record.

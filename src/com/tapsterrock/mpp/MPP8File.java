@@ -38,7 +38,6 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.ConstraintType;
-import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
@@ -127,11 +126,10 @@ final class MPP8File
       ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
       ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
-      CurrencySettings cs = file.getCurrencySettings();
-      cs.setCurrencyDigits(new Integer(props.getShort(Props.CURRENCY_DIGITS)));
-      cs.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
-      //cs.setDecimalSeparator();
-      cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
+      ph.setCurrencyDigits(new Integer(props.getShort(Props.CURRENCY_DIGITS)));
+      ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
+      //ph.setDecimalSeparator();
+      ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //cs.setThousandsSeparator();
 
       SummaryInformation summary = new SummaryInformation (rootDir);
