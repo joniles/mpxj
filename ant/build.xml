@@ -33,6 +33,7 @@
 </target>
 
 <target name="document" depends="init-props" description="Generate documentation">
+   <mkdir dir="${docdir}"/>
    <javadoc sourcepath="${basedir}/src"
       packagenames="com.tapsterrock.mpx.*,com.tapsterrock.mpp.*,com.tapsterrock.utility.*"
       destdir="${docdir}"
@@ -53,6 +54,9 @@
 </target>
 
 <target name="clean" depends="init-props" description="">
+   <delete file="${basedir}/mpxj.jar"/>
+   <delete file="${junitdir}/mpxjtest.jar"/>
+   <delete dir="${docdir}"/>
    <delete dir="${classes}"/>
    <delete dir="${bak}"/>
    <delete dir="${junitclasses}"/>
