@@ -45,6 +45,7 @@ import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
+import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
 
@@ -863,6 +864,7 @@ final class MPP8File
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
+      ResourceAssignment assignment;
       
       int count = assnFixedData.getItemCount();
       byte[] data;
@@ -876,7 +878,18 @@ final class MPP8File
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
          if (task != null && resource != null)
          {
-            task.addResourceAssignment (resource);
+            assignment = task.addResourceAssignment (resource);
+            assignment.setActualCost(new Double (MPPUtility.getLong6(data, 138)/100));
+            assignment.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 96))/100, TimeUnit.HOURS));
+            assignment.setCost(new Double (MPPUtility.getLong6(data, 132)/100));
+            //assignment.setDelay(); // Not sure what this field maps on to in MSP
+            assignment.setFinish(MPPUtility.getTimestamp(data, 28));
+            assignment.setOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 90))/100, TimeUnit.HOURS));
+            //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
+            //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+            assignment.setStart(MPPUtility.getTimestamp(data, 24));            
+            assignment.setUnits(((double)MPPUtility.getShort(data, 80))/100);
+            assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 84))/100, TimeUnit.HOURS));
          }
       }
    }
