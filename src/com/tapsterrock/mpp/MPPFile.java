@@ -35,19 +35,22 @@ import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
-import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.Iterator;
+import javax.swing.text.rtf.RTFEditorKit;
+import javax.swing.text.Document;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -321,7 +324,6 @@ public class MPPFile extends MPXFile
       BaseCalendarException exception;
       String name;
       byte[] data;
-      byte[] day;
       int periodCount;
       int index;
       int offset;
@@ -504,7 +506,16 @@ public class MPPFile extends MPXFile
       byte[] data;
       byte[] metaData;
       Task task;
+      RTFEditorKit rtfEditor = null;
+      Document rtfDoc = null;
       String notes;
+            
+      if (m_preserveNoteFormatting == false)
+      {
+         rtfEditor = new RTFEditorKit ();
+         rtfDoc = rtfEditor.createDefaultDocument();
+      }
+      
 
       for (int loop=0; loop < uniqueid.length; loop++)
       {
@@ -657,15 +668,17 @@ public class MPPFile extends MPXFile
 
 			//
 			// Retrieve the task notes.
-			// This has been disbaled until we can do something with the
-			// RTF formatting.
-			//
-			
-         //notes = taskVarData.getString (id, TASK_NOTES);
-         //if (notes != null)
-         //{
-         //   task.addTaskNotes(notes);
-         //}
+			//			
+         notes = taskVarData.getString (id, TASK_NOTES);
+         if (notes != null)
+         {
+            if (m_preserveNoteFormatting == false)
+            {
+               notes = removeNoteFormatting (rtfEditor, rtfDoc, notes);
+            }
+                                      
+            task.addTaskNotes(notes);
+         }
          
 			//
 			// Calculate the cost variance
@@ -761,7 +774,17 @@ public class MPPFile extends MPXFile
       Integer offset;
       byte[] data;
       Resource resource;
+      
+      RTFEditorKit rtfEditor = null;
+      Document rtfDoc = null;
       String notes;
+            
+      if (m_preserveNoteFormatting == false)
+      {
+         rtfEditor = new RTFEditorKit ();
+         rtfDoc = rtfEditor.createDefaultDocument();
+      }
+
 
       for (int loop=0; loop < uniqueid.length; loop++)
       {
@@ -813,11 +836,16 @@ public class MPPFile extends MPXFile
          resource.setUniqueID(id.intValue());
          resource.setWork(new MPXDuration (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
 
-         //notes = rscVarData.getString (id, RESOURCE_NOTES);
-         //if (notes != null)
-         //{
-         //   resource.addResourceNotes(notes);
-         //}
+         notes = rscVarData.getString (id, RESOURCE_NOTES);
+         if (notes != null)
+         {
+            if (m_preserveNoteFormatting == false)
+            {
+               notes = removeNoteFormatting (rtfEditor, rtfDoc, notes);
+            }
+            
+            resource.addResourceNotes(notes);
+         }
 
 			//
 			// Calculate the cost variance
@@ -850,8 +878,6 @@ public class MPPFile extends MPXFile
       byte[] data;
       Task task;
       Resource resource;
-      ResourceAssignment assignment;
-
       for (int loop=0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
@@ -1015,69 +1041,7 @@ public class MPPFile extends MPXFile
 
       return (units);
    }
-
-
-   /**
-    * This method converts between the duration units representation
-    * used in the MPP file for rate values, and the standard MPX duration units.
-    * If the supplied units are unrecognised, the units default to hours.
-    *
-    * @param type MPP units
-    * @return MPX units
-    */
-   private int getRateDurationUnits (int type)
-   {
-      int units;
-
-      switch (type)
-      {
-         case 1:
-         {
-            units = TimeUnit.MINUTES;
-            break;
-         }
-
-         case 3:
-         {
-            units = TimeUnit.DAYS;
-            break;
-         }
-
-         case 4:
-         {
-            units = TimeUnit.WEEKS;
-            break;
-         }
-
-         case 5:
-         {
-            units = TimeUnit.MONTHS;
-            break;
-         }
-
-         //
-         // There is a missing option. Can't see what it can be set to
-         // when using MSP2K
-         //
-
-         case 7:
-         {
-            units = TimeUnit.YEARS;
-            break;
-         }
-
-         default:
-         case 2:
-         {
-            units = TimeUnit.HOURS;
-            break;
-         }
-
-      }
-
-      return (units);
-   }
-
+
    /**
     * This method converts between the numeric priority value
     * used in versions of MSP after MSP98 and the 10 priority
@@ -1129,10 +1093,86 @@ public class MPPFile extends MPXFile
 		DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
 		FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
 		FixDeferFix taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));		
-		
+		System.out.println (taskFixedData);
+      System.out.println (taskVarData);   
+      
+      for (int loop=0; loop < taskFixedData.getItemCount(); loop++)
+      {
+         byte[] data = taskFixedData.getByteArrayValue(loop);
+         int nameOffset = -1 - MPPUtility.getInt(data, 264);
+         int dataOffset = -1 - MPPUtility.getInt(data, data.length-4);
+         System.out.println("Data offset="+dataOffset + " Name offset="+ nameOffset);
+         System.out.println ("Name: " + MPPUtility.hexdump(taskVarData.getByteArray(nameOffset), true));
+         System.out.println ("Data: " + MPPUtility.hexdump(taskVarData.getByteArray(dataOffset), true));         
+         System.out.println();
+      }
+               
 		// Under development		
 	}
 
+   /**
+    * This method is used to remove RTF formatting from notes.
+    * 
+    * @param editor RTF editor instance
+    * @param doc RTF document instance
+    * @param note Note from which formatting is to be removed
+    * @return Plain text
+    */
+   private String removeNoteFormatting (RTFEditorKit editor, Document doc, String note)
+   {
+      String result;
+      
+      try
+      {
+         int length = doc.getLength();
+         if (length != 0)
+         {
+            doc.remove(0, length);
+         }
+           
+         StringReader reader = new StringReader (note);
+               
+         editor.read(reader, doc, 0);
+               
+         result = doc.getText(0, doc.getLength());
+      }
+      
+      catch (Exception ex)
+      {
+         result = note;
+      }         
+
+      return (result);      
+   }
+   
+   /**
+    * This method retrieves the state of the preserve note formatting flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getPreserveNoteFormatting()
+   {
+      return (m_preserveNoteFormatting);
+   }
+
+   /**
+    * This method sets a flag to indicate whether the RTF formatting associated
+    * with notes should be preserved or removed. By default the formatting
+    * is removed.
+    * 
+    * @param preserveNoteFormatting
+    */
+   public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
+   {
+      m_preserveNoteFormatting = preserveNoteFormatting;
+   }
+
+   /**
+    * Flag used to indicate whether RTF formatting in notes should
+    * be preserved.
+    */
+   private boolean m_preserveNoteFormatting = false;
+   
    /**
     * Calendar data types.
     */
@@ -1274,4 +1314,5 @@ public class MPPFile extends MPXFile
    };
 
    private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
+
 }
