@@ -240,19 +240,19 @@ public class Task extends MPXRecord
             case NUMBER4:
             case NUMBER5:
             {
-               set(x, Double.valueOf(field));
+               set (x, Double.valueOf(field));
                break;
             }
 
             case PRIORITY:
             {
-               setPriority (field);
+               set (x, new Priority (field));
                break;
             }
 
             default:
             {
-               set(x,field);
+               set (x,field);
                break;
             }
          }
@@ -1674,21 +1674,15 @@ public class Task extends MPXRecord
 
    /**
     * The Priority field provides choices for the level of importance
-    * assigned to a task,
-    * which in turn indicates how readily a task can be delayed or split
-    * during resource
-    * leveling. The default priority is Medium. Those tasks with a priority
-    * of Do Not Level
-    * are never delayed or split when Microsoft Project levels tasks that
-    * have overallocated
-    * resources assigned.
+    * assigned to a task, which in turn indicates how readily a task can be
+    * delayed or split during resource leveling.
+    * The default priority is Medium. Those tasks with a priority
+    * of Do Not Level are never delayed or split when Microsoft Project levels
+    * tasks that have overallocated resources assigned.
     *
-    * @param priority possible values(class constants) PRIORITY_DO_NOT_LEVEL = 0,
-    *  PRIORITY_HIGHEST = 1,PRIORITY_VERY_HIGH = 2, PRIORITY_HIGHER = 3,
-    *  PRIORITY_HIGH = 4, PRIORITY_MEDIUM = 5, PRIORITY_LOW = 6,
-    *  PRIORITY_LOWER = 7,PRIORITY_VERY_LOW = 8,PRIORITY_LOWEST = 9;
+    * @param priority
     */
-   private void setPriority (String priority)
+   public void setPriority (Priority priority)
    {
       set (PRIORITY, priority);
    }
@@ -3030,22 +3024,17 @@ public class Task extends MPXRecord
 
    /**
     * The Priority field provides choices for the level of importance
-    * assigned to a task,
-    * which in turn indicates how readily a task can be delayed or split
-    * during resource leveling.
-    * The default priority is Medium. Those tasks with a priority of
-    * Do Not Level are never
-    * delayed or split when Microsoft Project levels tasks that have
-    * overallocated resources
-    * assigned.
+    * assigned to a task, which in turn indicates how readily a task can be
+    * delayed or split during resource leveling.
+    * The default priority is Medium. Those tasks with a priority
+    * of Do Not Level are never delayed or split when Microsoft Project levels
+    * tasks that have overallocated resources assigned.
     *
-    * See Class constants for available values
-    *
-    * @return see class constants
+    * @return priority class instance
     */
-   public String getPriority ()
+   public Priority getPriority ()
    {
-      return ((String)get(PRIORITY));
+      return ((Priority)get(PRIORITY));
    }
 
    /**
@@ -3644,55 +3633,6 @@ public class Task extends MPXRecord
     */
    private RecurringTask m_recurring;
 
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_DO_NOT_LEVEL = "Do Not Level";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_HIGHEST = "Highest";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_VERY_HIGH = "Very High";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_HIGHER = "Higher";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_HIGH = "High";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_MEDIUM = "Medium";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_LOW = "Low";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_LOWER = "Lower";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_VERY_LOW = "Very Low";
-
-   /**
-    * Constants for Priority
-    */
-   public static final String PRIORITY_LOWEST = "Lowest";
 
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage

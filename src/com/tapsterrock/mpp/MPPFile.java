@@ -31,6 +31,7 @@ import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.MPXPercentage;
+import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
@@ -484,6 +485,7 @@ public class MPPFile extends MPXFile
          //task.setOutlineNumber(); // Calculated value
          task.setPercentageComplete(new MPXPercentage ((float)MPPUtility.getShort(data, 122)));
          task.setPercentageWorkComplete(new MPXPercentage ((float)MPPUtility.getShort(data, 124)));
+         task.setPriority(getPriority (MPPUtility.getShort (data, 120)));
          //task.setProject(); // Calculated value
          task.setRemainingCost(new Double (MPPUtility.getDouble (data, 224)/100));
          //task.setRemainingDuration(); // Calculated value form percent complete?
@@ -552,7 +554,7 @@ public class MPPFile extends MPXFile
          // MPPUtility.getTimestamp (data, 164); // 164-167
 
          // priority *** need to work out mapping between MPX and MSP2K
-         // MPPUtility.getShort (data, 120); // 120-121
+         // getPriority (MPPUtility.getShort (data, 120))
 
          // percent complete
          // MPPUtility.getShort (data, 122); // 122-123
@@ -906,6 +908,28 @@ public class MPPFile extends MPXFile
       return (units);
    }
 
+   /**
+    * This method converts between the numeric priority value
+    * used in versions of MSP after MSP98 and the 10 priority
+    * levels defined by the MPX standard.
+    *
+    * @param priority value read from MPP file
+    */
+   private Priority getPriority (int priority)
+   {
+      int result;
+
+      if (priority >= 1000)
+      {
+         result = Priority.DO_NOT_LEVEL;
+      }
+      else
+      {
+         result = priority / 100;
+      }
+
+      return (new Priority (result));
+   }
 
    /**
     * Calendar data types.
