@@ -38,7 +38,7 @@ public class ConstraintType
     *
     * @param type text version of the constraint type
     */
-   public ConstraintType (String type)
+   ConstraintType (String type)
    {
       for (int loop=0; loop < TYPE_NAMES.length; loop++)
       {
