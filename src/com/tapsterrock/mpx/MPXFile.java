@@ -44,7 +44,7 @@ import java.util.Collections;
  * This class encapsulates all functionality relating to creating, read
  * and writing MPX files and their constituent records.
  *
- * @todo Ensure that the underlying lists are returned unmodifyable
+ * TODO Ensure that the underlying lists are returned unmodifyable
  */
 public class MPXFile
 {

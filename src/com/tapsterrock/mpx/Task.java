@@ -1946,10 +1946,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number1-20 fields show any custom numeric information you enter
-    * in your project regarding tasks.
+    * Sets a numeric value.
     *
-    * @param val - string
+    * @param val Numeric value
     */
    public void setNumber1 (Double val)
    {
@@ -1957,10 +1956,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number1-20 fields show any custom numeric information you enter
-    * in your project regarding tasks.
+    * Sets a numeric value.
     *
-    * @param val - string
+    * @param val Numeric value
     */
    public void setNumber2 (Double val)
    {
@@ -1968,10 +1966,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number1-20 fields show any custom numeric information you enter
-    * in your project regarding tasks.
+    * Sets a numeric value.
     *
-    * @param val - string
+    * @param val Numeric value
     */
    public void setNumber3 (Double val)
    {
@@ -1979,10 +1976,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number1-20 fields show any custom numeric information you enter
-    * in your project regarding tasks.
+    * Sets a numeric value.
     *
-    * @param val - string
+    * @param val Numeric value
     */
    public void setNumber4 (Double val)
    {
@@ -1990,10 +1986,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number1-20 fields show any custom numeric information you enter
-    * in your project regarding tasks.
+    * Sets a numeric value.
     *
-    * @param val - string
+    * @param val Numeric value
     */
    public void setNumber5 (Double val)
    {
@@ -3679,10 +3674,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you
-    * enter in your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public double getNumber1Value ()
    {
@@ -3690,10 +3684,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you
-    * enter in your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public Double getNumber1 ()
    {
@@ -3701,10 +3694,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter in
-    * your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public double getNumber2Value ()
    {
@@ -3712,10 +3704,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter in
-    * your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public Double getNumber2 ()
    {
@@ -3723,10 +3714,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter
-    * in your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public double getNumber3Value ()
    {
@@ -3734,10 +3724,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter
-    * in your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public Double getNumber3 ()
    {
@@ -3745,10 +3734,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter
-    * in your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public double getNumber4Value ()
    {
@@ -3756,10 +3744,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter
-    * in your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public Double getNumber4 ()
    {
@@ -3767,10 +3754,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter in
-    * your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public double getNumber5Value ()
    {
@@ -3778,10 +3764,9 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Number fields show any custom numeric information you enter in
-    * your project regarding tasks. eg dept.no.
+    * Retrieves a numeric value.
     *
-    * @return String of numeric info.
+    * @return Numeric value
     */
    public Double getNumber5 ()
    {

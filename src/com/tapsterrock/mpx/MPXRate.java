@@ -25,7 +25,7 @@
 package com.tapsterrock.mpx;
 
 /**
- * This class represents a currency rate per period of time (e.g. $10/h)
+ * This class represents a currency rate per period of time (for example $10/h)
  * as found in an MPX file.
  */
 public class MPXRate

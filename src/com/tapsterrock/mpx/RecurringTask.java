@@ -246,7 +246,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    * @see: #PERIOD_DAILY frequency constants
     *
     * @return - int representing type
     */
@@ -258,7 +257,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    * @see: #PERIOD_DAILY frequency constants
     *
     * @return - int representing type
     */
@@ -270,7 +268,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    * @see: #PERIOD_DAILY frequency constants
     *
     * @param val - int representing type
     */
@@ -282,7 +279,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    * @see: #PERIOD_DAILY frequency constants
     *
     * @param val - int representing type
     */
@@ -292,8 +288,10 @@ public class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the selection in Length Options box. Top option - to a specific date.  Value 1
+    * Gets the selection in Length Options box. 
+    * Top option - to a specific date.  Value 1
     * Bottom option - no of occurances.  value 0
+    * 
     * @return  value of this option set
     */
    public int getLengthRadioIndexValue ()
@@ -302,8 +300,10 @@ public class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the selection in Length Options box. Top option - to a specific date.  Value 1
+    * Gets the selection in Length Options box. 
+    * Top option - to a specific date.  Value 1
     * Bottom option - no of occurances.  value 0
+    * 
     * @return  value of this option set
     */
    public Integer getLengthRadioIndex ()
@@ -392,7 +392,6 @@ public class RecurringTask extends MPXRecord
     * This is an index of days of the week and is represented as a 7 digit
     * string of 0/1 values.
     * The string is eg '0010010' if 'Tue' and 'Fri' are selected
-    * @see: #PERIOD_DAILY frequency constants
     *
     * @return - String
     */
@@ -406,7 +405,7 @@ public class RecurringTask extends MPXRecord
     * This is an index of days of the week and is represented as a
     * 7 digit string of 0/1 values.
     * The string is eg '0010010' if 'Tue' and 'Fri' are selected
-    * @see #PERIOD_DAILY frequency constants
+
     * @param val - String list of day values
     */
    public void setWeeklyBoxDayOfWeekIndex (String val)
@@ -509,7 +508,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @return - int index - eg 7=7th,1=every
     */
@@ -521,7 +519,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @return - int index - eg 7=7th,1=every
     */
@@ -533,7 +530,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @param val - int index - eg 7=7th,1=every
     */
@@ -545,7 +541,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @param val - int index - eg 7=7th,1=every
     */
@@ -557,7 +552,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @return -  int index - eg 7=7th,1=every
     */
@@ -569,7 +563,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @return -  int index - eg 7=7th,1=every
     */
@@ -581,7 +574,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @param val - int index - eg 7=7th,1=every
     */
@@ -593,7 +585,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @param val - int index - eg 7=7th,1=every
     */
@@ -607,7 +598,6 @@ public class RecurringTask extends MPXRecord
     * Recurring Task infobox.
     * eg first tueday.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @return - int value  of constant
     */
@@ -621,7 +611,6 @@ public class RecurringTask extends MPXRecord
     * Recurring Task infobox.
     * eg first tueday.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @return - int value  of constant
     */
@@ -635,7 +624,6 @@ public class RecurringTask extends MPXRecord
     * MSP Recurring Task infobox.
     * eg first tueday.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @param val - int value  of constant
     */
@@ -649,7 +637,6 @@ public class RecurringTask extends MPXRecord
     * MSP Recurring Task infobox.
     * eg first tueday.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @param val - int value  of constant
     */
@@ -662,7 +649,7 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
+    * 
     * @return - int value of day
     */
    public int getMonthlyBoxDayComboIndexValue ()
@@ -674,7 +661,7 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
+    * 
     * @return - int value of day
     */
    public Integer getMonthlyBoxDayComboIndex ()
@@ -686,8 +673,8 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
+    * 
     * @param val - int value of day
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     */
    public void setMonthlyBoxDayComboIndex (int val)
    {
@@ -698,8 +685,8 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
+    * 
     * @param val - int value of day
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     */
    public void setMonthlyBoxDayComboIndex (Integer val)
    {
@@ -711,7 +698,6 @@ public class RecurringTask extends MPXRecord
     * If the bottom radio button is selected (eg. The 3rd Tuesday),
     * this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @return - int value of constant
     */
@@ -725,7 +711,6 @@ public class RecurringTask extends MPXRecord
     * If the bottom radio button is selected (eg. The 3rd Tuesday),
     * this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @return - int value of constant
     */
@@ -739,7 +724,6 @@ public class RecurringTask extends MPXRecord
     * If the bottom radio button is selected (eg. The 3rd Tuesday), this value
     * is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @param val - int value of constant
     */
@@ -753,7 +737,6 @@ public class RecurringTask extends MPXRecord
     * If the bottom radio button is selected (eg. The 3rd Tuesday), this value
     * is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     *
     * @param val - int value of constant
     */
@@ -765,6 +748,7 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
+    * 
     * @return - int value of day 1-31
     */
    public int getMonthlyBoxDayIndexValue ()
@@ -775,6 +759,7 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
+    * 
     * @return - int value of day 1-31
     */
    public Integer getMonthlyBoxDayIndex ()
@@ -785,6 +770,7 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
+    * 
     * @param val - int value of day 1-31
     */
    public void setMonthlyBoxDayIndex (int val)
@@ -795,6 +781,7 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
+    * 
     * @param val - int value of day 1-31
     */
    public void setMonthlyBoxDayIndex (Integer val)
@@ -807,8 +794,8 @@ public class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..),
     * this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
+    * 
     * @return - int value of index constant
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     */
    public int getMonthlyBoxTopRadioFrequencyComboIndexValue ()
    {
@@ -820,8 +807,8 @@ public class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..),
     * this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
+    * 
     * @return - int value of index constant
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     */
    public Integer getMonthlyBoxTopRadioFrequencyComboIndex ()
    {
@@ -833,9 +820,8 @@ public class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..), this value
     * is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
+    * 
     * @param val - int value of index constant
-    *
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     */
    public void setMonthlyBoxTopRadioFrequencyComboIndex (int val)
    {
@@ -847,9 +833,8 @@ public class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..), this value
     * is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
+    * 
     * @param val - int value of index constant
-    *
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg 'Every 7th','Every Other','Every'
     */
    public void setMonthlyBoxTopRadioFrequencyComboIndex (Integer val)
    {
@@ -860,7 +845,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg FIRST tueday of December.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @return - int value of index
     */
@@ -873,7 +857,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg FIRST tueday of December.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @return - int value of index
     */
@@ -886,7 +869,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg FIRST tueday of December.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @param val - int value of index
     */
@@ -899,7 +881,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg FIRST tueday of December.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     *
     * @param val - int value of index
     */
@@ -912,7 +893,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first TUESDAY of December.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     *
     * @return - int value of constant
     */
@@ -925,7 +905,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first TUESDAY of December.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     *
     * @return - int value of constant
     */
@@ -938,7 +917,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first TUESDAY of December.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     *
     * @param val - int value of constant
     */
@@ -951,7 +929,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first TUESDAY of December.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     *
     * @param val - int value of constant
     */
@@ -964,7 +941,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first tuesday of MARCH.
     * Values for month of the year
-    * @see  #JANUARY CONSTANTS eg 'JANUARY','MAY'
     *
     * @return - int value of index
     */
@@ -977,7 +953,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first tuesday of MARCH.
     * Values for month of the year
-    * @see  #JANUARY CONSTANTS eg 'JANUARY','MAY'
     *
     * @return - int value of index
     */
@@ -990,7 +965,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first tuesday of MARCH.
     * Values for month of the year
-    * @see #JANUARY CONSTANTS eg 'JANUARY','MAY'
     *
     * @param val - int value of index
     */
@@ -1003,7 +977,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first tuesday of MARCH.
     * Values for month of the year
-    * @see #JANUARY CONSTANTS eg 'JANUARY','MAY'
     *
     * @param val - int value of index
     */
@@ -1322,7 +1295,6 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    * @see #PERIOD_DAILY frequency constants
     */
    private static final int RECURRANCE_TYPE = 6;
 
@@ -1352,7 +1324,6 @@ public class RecurringTask extends MPXRecord
     * This is an index of days of the week and is represented as a 7
     * digit string of 0/1 values.
     * The string is eg '0010010' if 'Tue' and 'Fri' are selected
-    * @see #PERIOD_DAILY frequency constants
     */
    private static final int WEEKLY_BOX_DAY_OF_WEEK_INDEX = 10;
 
@@ -1373,14 +1344,12 @@ public class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
    private static final int DAILY_BOX_COMBO_INDEX = 13;
 
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
    private static final int WEEKLY_BOX_COMBO_INDEX = 14;
 
@@ -1389,7 +1358,6 @@ public class RecurringTask extends MPXRecord
     * MSP Recurring Task infobox.
     * eg first tueday.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     */
    private static final int MONTHLY_BOX_FIRSTLAST_COMBO_INDEX = 15;
 
@@ -1397,7 +1365,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     */
    private static final int MONTHLY_BOX_DAY_COMBO_INDEX = 16;
 
@@ -1405,7 +1372,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * If the bottom radio button is selected (eg. The 3rd Tuesday), this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
    private static final int MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX = 17;
 
@@ -1419,7 +1385,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * If the top radio button is selected (eg. The Xth(day) of..), this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
    private static final int MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX = 19;
 
@@ -1427,7 +1392,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg FIRST tueday of December.
     * Values for first,second,third,fourth and last.
-    * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     */
    private static final int FIRSTLAST_COMBO_INDEX_YEARLY_BOX = 20;
 
@@ -1435,7 +1399,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first TUESDAY of December.
     * Values for day of the week
-    * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     */
    private static final int DAY_COMBO_INDEX_YEARLY_BOX = 21;
 
@@ -1443,7 +1406,6 @@ public class RecurringTask extends MPXRecord
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * eg first tuesday of MARCH.
     * Values for month of the year
-    * @see #JANUARY CONSTANTS eg 'JANUARY','MAY'
     */
    private static final int MONTH_COMBO_INDEX_YEARLY_BOX = 22;
 

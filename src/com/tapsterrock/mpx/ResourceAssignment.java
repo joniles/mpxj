@@ -165,7 +165,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the units of this resource assignment
     *
     * @return units
-    * @see #UNITS CONSTANTS for description
     */
    public double getUnitsValue ()
    {
@@ -176,7 +175,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the units of this resource assignment
     *
     * @return units
-    * @see #UNITS CONSTANTS for description
     */
    public Number getUnits ()
    {
@@ -187,7 +185,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the units for this resource assignment
     *
     * @param val units
-    * @see #UNITS CONSTANTS for description
     */
    public void setUnits (double val)
    {
@@ -198,7 +195,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the units for this resource assignment
     *
     * @param val units
-    * @see #UNITS CONSTANTS for description
     */
    public void setUnits (Number val)
    {
@@ -209,7 +205,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the work of this resource assignment
     *
     * @return work
-    * @see #WORK CONSTANTS for description
     */
    public MPXDuration getWork ()
    {
@@ -220,7 +215,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the work for this resource assignment
     *
     * @param dur work
-    * @see #WORK CONSTANTS for description
     */
    public void setWork (MPXDuration dur)
    {
@@ -231,7 +225,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the planned work of this resource assignment
     *
     * @return planned work
-    * @see #PLANNED_WORK CONSTANTS for description
     */
    public MPXDuration getPlannedWork ()
    {
@@ -242,7 +235,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the planned work for this resource assignment
     *
     * @param dur planned work
-    * @see #PLANNED_WORK CONSTANTS for description
     */
    public void setPlannedWork (MPXDuration dur)
    {
@@ -253,7 +245,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the actual completed work of this resource assignment
     *
     * @return completed work
-    * @see #ACTUAL_WORK CONSTANTS for description
     */
    public MPXDuration getActualWork ()
    {
@@ -264,7 +255,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the actual completed work for this resource assignment
     *
     * @param dur actual completed work
-    * @see #ACTUAL_WORK CONSTANTS for description
     */
    public void setActualWork (MPXDuration dur)
    {
@@ -273,8 +263,8 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the overtime work done of this resource assignment
+    * 
     * @return overtime work
-    * @see #OVERTIME_WORK CONSTANTS for description
     */
    public MPXDuration getOvertimeWork ()
    {
@@ -285,7 +275,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the overtime work for this resource assignment
     *
     * @param dur overtime work
-    * @see #OVERTIME_WORK CONSTANTS for description
     */
    public void setOvertimeWork (MPXDuration dur)
    {
@@ -296,7 +285,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the cost  of this resource assignment
     *
     * @return cost
-    * @see #COST CONSTANTS for description
     */
    public Number getCost ()
    {
@@ -305,8 +293,8 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Sets the cost for this resource assignment
+    * 
     * @param val cost
-    * @see #COST CONSTANTS for description
     */
    public void setCost (Number val)
    {
@@ -317,7 +305,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the planned cost for this resource assignment
     *
     * @return planned cost
-    * @see #PLANNED_COST CONSTANTS for description
     */
    public Number getPlannedCost ()
    {
@@ -328,7 +315,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the planned cost for this resource assignment
     *
     * @param val planned cost
-    * @see #PLANNED_COST CONSTANTS for description
     */
    public void setPlannedCost (Number val)
    {
@@ -337,8 +323,8 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the actual cost for this resource assignment
+    * 
     * @return actual cost
-    * @see #ACTUAL_COST CONSTANTS for description
     */
    public Number getActualCost ()
    {
@@ -349,7 +335,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the actual cost so far incurred for this resource assignment
     *
     * @param val actual cost
-    * @see #ACTUAL_COST CONSTANTS for description
     */
    public void setActualCost (Number val)
    {
@@ -360,7 +345,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the start of this resource assignment
     *
     * @return start date
-    * @see #START CONSTANTS for description
     */
    public Date getStart ()
    {
@@ -371,7 +355,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the start date for this resource assignment
     *
     * @param val start date
-    * @see #START CONSTANTS for description
     */
    public void setStart (Date val)
    {
@@ -382,7 +365,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the finish date for this resource assignment
     *
     * @return finish date
-    * @see #FINISH CONSTANTS for description
     */
    public Date getFinish ()
    {
@@ -393,7 +375,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the finish date for this resource assignment
     *
     * @param val finish date
-    * @see #FINISH CONSTANTS for description
     */
    public void setFinish (Date val)
    {
@@ -404,7 +385,6 @@ public class ResourceAssignment extends MPXRecord
     * Returns the delay for this resource assignment
     *
     * @return delay
-    * @see #DELAY CONSTANTS for description
     */
    public MPXDuration getDelay ()
    {
@@ -413,8 +393,8 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Sets the delay for this resource assignment
+    * 
     * @param dur delay
-    * @see #DELAY CONSTANTS for description
     */
    public void setDelay (MPXDuration dur)
    {
@@ -423,8 +403,8 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the resources unique id for this resource assignment
+    * 
     * @return resources unique id
-    * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
    public int getResourceUniqueIDValue ()
    {
@@ -433,8 +413,8 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the resources unique id for this resource assignment
+    * 
     * @return resources unique id
-    * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
    public Integer getResourceUniqueID ()
    {
@@ -445,7 +425,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the resources unique id for this resource assignment
     *
     * @param val resources unique id
-    * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
    public void setResourceUniqueID (int val)
    {
@@ -456,7 +435,6 @@ public class ResourceAssignment extends MPXRecord
     * Sets the resources unique id for this resource assignment
     *
     * @param val resources unique id
-    * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
    public void setResourceUniqueID (Integer val)
    {
@@ -465,6 +443,7 @@ public class ResourceAssignment extends MPXRecord
 
    /**
     * Gets the Resource Assignment Workgroup Fields if one exists
+    * 
     * @return workgroup assignment object
     */
    public ResourceAssignmentWorkgroupFields getWorkgroupAssignment ()

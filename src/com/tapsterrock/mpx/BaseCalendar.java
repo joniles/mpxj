@@ -35,9 +35,6 @@ import java.util.Calendar;
  * This class represents the Base Calendar Definition record. It is used to
  * define the working and non-working days of the week. The default calendar
  * defined Monday to Friday as working days.
- *
- * @todo sort out individual day methods
- * @todo sort out numeric boolean values
  */
 public class BaseCalendar extends MPXRecord
 {

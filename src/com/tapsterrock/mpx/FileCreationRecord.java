@@ -121,7 +121,7 @@ public class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Code page e.g. 850, 437, MAC, ANSI
+    * Code page, for example: 850, 437, MAC, ANSI
     *
     * @param codePage code page type
     */
@@ -131,7 +131,7 @@ public class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Code page e.g. 850, 437, MAC, ANSI
+    * Code page, for example: 850, 437, MAC, ANSI
     *
     * @return code page type
     */

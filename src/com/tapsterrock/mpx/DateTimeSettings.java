@@ -694,7 +694,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Gets the date separator. e.g. '/'
+    * Gets the date separator.
     *
     * @return date separator as set.
     */
@@ -704,7 +704,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the date separator. e.g. '/'
+    * Sets the date separator.
     *
     * @param sep date separator as set.
     */
@@ -714,7 +714,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the date separator. e.g. '/'
+    * Sets the date separator.
     *
     * @param sep date separator as set.
     */
@@ -724,7 +724,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Gets the time separator. e.g. ':'
+    * Gets the time separator.
     *
     * @return time separator as set.
     */
@@ -734,7 +734,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the time separator. ie ':'
+    * Sets the time separator.
     *
     * @param sep time separator
     */
@@ -744,7 +744,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the time separator. ie ':'
+    * Sets the time separator.
     *
     * @param sep time separator
     */
@@ -754,7 +754,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Gets the AM text. ie 'AM'
+    * Gets the AM text.
     *
     * @return AM Text as set.
     */
@@ -764,7 +764,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the AM text. ie 'AM'
+    * Sets the AM text.
     *
     * @param am AM Text as set.
     */
@@ -774,7 +774,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Gets the PM text. ie 'PM'
+    * Gets the PM text.
     *
     * @return PM Text as set.
     */
@@ -784,7 +784,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the PM text. ie 'PM'
+    * Sets the PM text.
     *
     * @param pm PM Text as set.
     */
@@ -794,7 +794,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Gets the set Date Format. see CONSTANTS
+    * Gets the set Date Format.
     *
     * @return int representing Date Format
     */
@@ -804,7 +804,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Gets the set Date Format. see CONSTANTS
+    * Gets the set Date Format.
     *
     * @return int representing Date Format
     */
@@ -814,7 +814,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the set Date Format. see CONSTANTS
+    * Sets the set Date Format.
     *
     * @param df int representing Date Format
     */
@@ -824,7 +824,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Sets the set Date Format. see CONSTANTS
+    * Sets the set Date Format.
     *
     * @param df int representing Date Format
     */
@@ -890,132 +890,132 @@ public class DateTimeSettings extends MPXRecord
     */
 
    /**
-    * This format represents dates in the form eg. 25/12/98 12:56
+    * This format represents dates in the form 25/12/98 12:56
     */
    public static final int DATE_TIME_FORMAT_DD_MM_YY_HH_MM = 0;
 
    /**
-    * This format represents dates in the form eg. 25/05/98
+    * This format represents dates in the form 25/05/98
     */
    public static final int DATE_TIME_FORMAT_DD_MM_YY = 1;
 
    /**
-    * This format represents dates in the form eg. 13 December 2002 12:56
+    * This format represents dates in the form 13 December 2002 12:56
     */
    public static final int DATE_TIME_FORMAT_DD_MMMMM_YYYY_HH_MM = 2;
 
    /**
-    * This format represents dates in the form eg. 13 December 2002
+    * This format represents dates in the form 13 December 2002
     */
    public static final int DATE_TIME_FORMAT_DD_MMMMM_YYYY = 3;
 
    /**
-    * This format represents dates in the form eg. 24 Nov 12:56
+    * This format represents dates in the form 24 Nov 12:56
     */
    public static final int DATE_TIME_FORMAT_DD_MMM_HH_MM = 4;
 
    /**
-    * This format represents dates in the form eg. 25 Aug '98
+    * This format represents dates in the form 25 Aug '98
     */
    public static final int DATE_TIME_FORMAT_DD_MMM_YY = 5;
 
    /**
-    * This format represents dates in the form eg. 25 September
+    * This format represents dates in the form 25 September
     */
    public static final int DATE_TIME_FORMAT_DD_MMMMM = 6;
 
    /**
-    * This format represents dates in the form eg. 25 Aug
+    * This format represents dates in the form 25 Aug
     */
    public static final int DATE_TIME_FORMAT_DD_MMM = 7;
 
    /**
-    * This format represents dates in the form eg. Thu 25/05/98 12:56
+    * This format represents dates in the form Thu 25/05/98 12:56
     */
    public static final int DATE_TIME_FORMAT_EEE_DD_MM_YY_HH_MM = 8;
 
    /**
-    * This format represents dates in the form eg. Wed 25/05/98
+    * This format represents dates in the form Wed 25/05/98
     */
    public static final int DATE_TIME_FORMAT_EEE_DD_MM_YY = 9;
 
    /**
-    * This format represents dates in the form eg. Wed 25 Mar '98
+    * This format represents dates in the form Wed 25 Mar '98
     */
    public static final int DATE_TIME_FORMAT_EEE_DD_MMM_YY = 10;
 
    /**
-    * This format represents dates in the form eg. Wed 12:56
+    * This format represents dates in the form Wed 12:56
     */
    public static final int DATE_TIME_FORMAT_EEE_HH_MM = 11;
 
    /**
-    * This format represents dates in the form eg. 25/5
+    * This format represents dates in the form 25/5
     */
    public static final int DATE_TIME_FORMAT_DD_MM = 12;
 
    /**
-    * This format represents dates in the form eg. 23
+    * This format represents dates in the form 23
     */
    public static final int DATE_TIME_FORMAT_DD = 13;
 
    /**
-    * This format represents dates in the form eg. 12:56
+    * This format represents dates in the form 12:56
     */
    public static final int DATE_TIME_FORMAT_HH_MM = 14;
 
    /**
-    * This format represents dates in the form eg. Wed 23 Mar
+    * This format represents dates in the form Wed 23 Mar
     */
    public static final int DATE_TIME_FORMAT_EEE_DD_MMM = 15;
 
    /**
-    * This format represents dates in the form eg. Wed 25/5
+    * This format represents dates in the form Wed 25/5
     */
    public static final int DATE_TIME_FORMAT_EEE_DD_MM = 16;
 
    /**
-    * This format represents dates in the form eg. Wed 05
+    * This format represents dates in the form Wed 05
     */
    public static final int DATE_TIME_FORMAT_EEE_DD = 17;
 
    /**
-    * This format represents dates in the form eg. 5/W25
+    * This format represents dates in the form 5/W25
     */
    public static final int DATE_TIME_FORMAT_DD_WWW = 18;
 
    /**
-    * This format represents dates in the form eg. 5/W25/98 12:56
+    * This format represents dates in the form 5/W25/98 12:56
     */
    public static final int DATE_TIME_FORMAT_DD_WWW_YY_HH_MM = 19;
 
    /**
-    * This format represents dates in the form eg. 25/05/1998
+    * This format represents dates in the form 25/05/1998
     */
    public static final int DATE_TIME_FORMAT_DD_MM_YYYY = 20;
 
    /**
-    * This format represents dates ordered month-day-year e.g. 12/25/99
+    * This format represents dates ordered month-day-year for example, 12/25/99
     */
    public static final int DATE_ORDER_MDY = 0;
 
    /**
-    * This format represents dates ordered day-month-year e.g. 25/12/99
+    * This format represents dates ordered day-month-year for example,  25/12/99
     */
    public static final int DATE_ORDER_DMY = 1;
 
    /**
-    * This format represents dates ordered year-month-day e.g. 99/12/25
+    * This format represents dates ordered year-month-day for example,  99/12/25
     */
    public static final int DATE_ORDER_YMD = 2;
 
    /**
-    *  12 hour clock time format e.g. 11:59
+    *  12 hour clock time format, for example, 11:59
     */
    public static final int TIME_FORMAT_12HR = 0;
 
    /**
-    * 24 hour clock time format e.g. 23:59
+    * 24 hour clock time format, for example, 23:59
     */
    public static final int TIME_FORMAT_24HR = 1;
 
