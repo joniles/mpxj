@@ -159,15 +159,12 @@ public class Resource extends MPXRecord
     * @throws MPXException  if MSP defined limit of 1 is exceeded
     */
    public ResourceNotes addResourceNotes (String notes)
-      throws MPXException
    {
-      if (m_notes != null)
+      if (m_notes == null)
       {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
+         m_notes = new ResourceNotes(getParentFile());
       }
-
-      m_notes = new ResourceNotes(getParentFile());
-
+      
       m_notes.setNotes(notes);
 
       return (m_notes);
@@ -579,7 +576,7 @@ public class Resource extends MPXRecord
     */
    public void setNotes (String val)
    {
-      set (NOTES, val);
+      addResourceNotes (val);
    }
 
    /**
@@ -1070,7 +1067,17 @@ public class Resource extends MPXRecord
     */
    public String getNotes ()
    {
-      return ((String)get(NOTES));
+      String result;
+      if (m_notes != null)
+      {
+         result = m_notes.getNotes();
+      }
+      else
+      {
+         result = "";           
+      }         
+      
+      return (result);
    }
 
    /**
