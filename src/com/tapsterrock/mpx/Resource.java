@@ -1280,6 +1280,93 @@ public class Resource extends MPXRecord
       return ((MPXDuration)get(WORK_VARIANCE));
    }
 
+	/**
+	 * Retrieve the value of the regular work field.
+	 * Note that this value is an extension to the MPX specification.
+	 * 
+	 * @return Regular work value
+	 */
+	public MPXDuration getRegularWork ()
+	{
+		return m_regularWork;
+	}
+
+	/**
+	 * Set the value of the regular work field.
+	 * Note that this value is an extension to the MPX specification.
+
+	 * @param duration Regular work value
+	 */
+	public void setRegularWork (MPXDuration duration)
+	{
+		m_regularWork = duration;
+	}
+
+	/**
+	 * Retrieve the value of the overtime cost field.
+	 * Note that this value is an extension to the MPX specification.
+    *
+	 * @return Overtime cost value
+	 */
+	public Number getOvertimeCost()
+	{
+		return m_overtimeCost;
+	}
+
+	/**
+	 * Set the value of the overtime cost field.
+	 * Note that this value is an extension to the MPX specification.
+	 * *
+	 * @param currency Overtime cost
+	 */
+	public void setOvertimeCost (Number currency)
+	{
+		m_overtimeCost = currency;
+	}
+
+	/**
+	 * Retrieve the value of the actual overtime cost field.
+	 * Note that this value is an extension to the MPX specification.
+	 *
+	 * @return Actual overtime cost value
+	 */
+	public Number getActualOvertimeCost()
+	{
+		return m_actualOvertimeCost;
+	}
+
+	/**
+	 * Set the value of the actual overtime cost field.
+	 * Note that this value is an extension to the MPX specification.
+
+	 * @param number Actual overtime cost
+	 */
+	public void setActualOvertimeCost(Number number)
+	{
+		m_actualOvertimeCost = number;
+	}
+
+	/**
+	 * Retrieve the value of the remaining overtime cost field.
+	 * Note that this value is an extension to the MPX specification.
+	 *
+	 * @return Remaining overtime cost value
+	 */
+	public Number getRemainingOvertimeCost()
+	{
+		return m_remainingOvertimeCost;
+	}
+
+	/**
+	 * Set the value of the remaining overtime cost field.
+	 * Note that this value is an extension to the MPX specification.
+
+	 * @param number Remaining overtime cost
+	 */
+	public void setRemainingOvertimeCost(Number number)
+	{
+		m_remainingOvertimeCost = number;
+	}
 
    /**
     * This method generates a string in MPX format representing the
@@ -1338,6 +1425,19 @@ public class Resource extends MPXRecord
     */
    private ResourceNotes m_notes;
 
+	/**
+	 * The following member variables are extended attributes. They are
+	 * do not form part of the MPX file format definition, and are neither
+	 * loaded from an MPX file, or saved to an MPX file. Their purpose
+	 * is to provide storage for attributes which are defined by later versions
+	 * of Microsoft Project. This allows these attributes to be manipulated
+	 * when they have been retrieved from file formats other than MPX.
+	 */
+	private MPXDuration m_regularWork;
+	private Number m_overtimeCost;
+	private Number m_actualOvertimeCost;
+	private Number m_remainingOvertimeCost;
+				
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,
@@ -1602,4 +1702,5 @@ public class Resource extends MPXRecord
     * Constant containing the record number associated with this record.
     */
    static final int RECORD_NUMBER = 50;
+
 }
