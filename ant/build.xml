@@ -49,7 +49,7 @@
 
 <target name="compile-without-jaxb" depends="init" description="Compile everything excluding JAXB related material">
    <!--<javac srcdir="${basedir}/src" excludes="**/mspdi/**/* **/utility/**/*" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" />-->
-   <javac srcdir="${basedir}/src" excludes="**/mspdi/**/* **/XmlMpx.java **/MpxXml.java" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" />
+   <javac srcdir="${basedir}/src" excludes="**/mspdi/**/* **/XmlMpx.java **/MpxXml.java **/MppXml.java" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" />
    <javac srcdir="${examples.dir}" destdir="${examples.classes.dir}" classpath="${classpath}:${classes.dir}" debug="on" />
 </target>
 
