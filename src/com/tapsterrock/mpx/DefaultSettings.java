@@ -38,7 +38,7 @@ public final class DefaultSettings extends MPXRecord
     */
    DefaultSettings (MPXFile file)
    {
-      super(file, MAX_FIELDS);
+      super(file, 0);
 
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
@@ -62,14 +62,14 @@ public final class DefaultSettings extends MPXRecord
       throws MPXException
    {
       setDefaultDurationUnits(record.getTimeUnit(0));
-      setDefaultDurationIsFixed(record.getNumericBoolean(1));
+      setNumericBooleanDefaultDurationIsFixed(record.getNumericBoolean(1));
       setDefaultWorkUnits(record.getTimeUnit(2));
       setDefaultHoursInDay(record.getFloat(3));
       setDefaultHoursInWeek(record.getFloat(4));
       setDefaultStandardRate(record.getRate(5));
       setDefaultOvertimeRate(record.getRate(6));
-      setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
-      setSplitInProgressTasks(record.getNumericBoolean(8));
+      setNumericBooleanUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
+      setNumericBooleanSplitInProgressTasks(record.getNumericBoolean(8));
    }
 
    /**
@@ -81,7 +81,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public TimeUnit getDefaultDurationUnits ()
    {
-      return ((TimeUnit)get (DEFAULT_DURATION_UNITS));
+      return (m_defaultDurationUnits);
    }
 
    /**
@@ -93,7 +93,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultDurationUnits (TimeUnit units)
    {
-      put (DEFAULT_DURATION_UNITS, units);
+      m_defaultDurationUnits = units;
    }
 
    /**
@@ -101,19 +101,29 @@ public final class DefaultSettings extends MPXRecord
     *
     * @return boolean flag
     */
-   public boolean getDefaultDurationIsFixedValue ()
+   private NumericBoolean getNumericBooleanDefaultDurationIsFixed ()
    {
-      return (getNumericBooleanValue (DEFAULT_DURATION_TYPE));
+      return (m_defaultDurationIsFixed);
    }
 
+   /**
+    * Sets a flag indicating if the default duration type is fixed.
+    *
+    * @param fixed boolean flag
+    */
+   private void setNumericBooleanDefaultDurationIsFixed (NumericBoolean fixed)
+   {
+      m_defaultDurationIsFixed = fixed;
+   }
+   
    /**
     * Retrieves a flag indicating if the default duration type is fixed.
     *
     * @return boolean flag
     */
-   public NumericBoolean getDefaultDurationIsFixed ()
+   public boolean getDefaultDurationIsFixed ()
    {
-      return ((NumericBoolean)get (DEFAULT_DURATION_TYPE));
+      return (m_defaultDurationIsFixed.booleanValue());
    }
 
    /**
@@ -123,17 +133,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultDurationIsFixed (boolean fixed)
    {
-      put (DEFAULT_DURATION_TYPE, NumericBoolean.getInstance(fixed));
-   }
-
-   /**
-    * Sets a flag indicating if the default duration type is fixed.
-    *
-    * @param fixed boolean flag
-    */
-   public void setDefaultDurationIsFixed (NumericBoolean fixed)
-   {
-      put (DEFAULT_DURATION_TYPE, fixed);
+      m_defaultDurationIsFixed = NumericBoolean.getInstance(fixed);
    }
 
    /**
@@ -145,7 +145,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public TimeUnit getDefaultWorkUnits ()
    {
-      return ((TimeUnit)get (DEFAULT_WORK_UNITS));
+      return (m_defaultWorkUnits);
    }
 
    /**
@@ -157,17 +157,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultWorkUnits (TimeUnit units)
    {
-      put (DEFAULT_WORK_UNITS, units);
-   }
-
-   /**
-    * Gets the default number of hours in a day
-    *
-    * @return number of hours
-    */
-   public float getDefaultHoursInDayValue ()
-   {
-      return (getFloatValue (DEFAULT_HOURS_IN_DAY));
+      m_defaultWorkUnits = units;
    }
 
    /**
@@ -177,7 +167,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public Float getDefaultHoursInDay ()
    {
-      return ((Float)get (DEFAULT_HOURS_IN_DAY));
+      return (m_defaultHoursInDay);
    }
 
    /**
@@ -187,27 +177,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultHoursInDay (Float hours)
    {
-      put (DEFAULT_HOURS_IN_DAY, hours);
-   }
-
-   /**
-    * Sets the default number of hours in a day
-    *
-    * @param hours number of hours
-    */
-   public void setDefaultHoursInDay (float hours)
-   {
-      setDefaultHoursInDay (new Float (hours));
-   }
-
-   /**
-    * Gets the default number of hours in a week
-    *
-    * @return number of hours
-    */
-   public float getDefaultHoursInWeekValue ()
-   {
-      return (getFloatValue (DEFAULT_HOURS_IN_WEEK));
+      m_defaultHoursInDay = hours;
    }
 
    /**
@@ -217,7 +187,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public Float getDefaultHoursInWeek ()
    {
-      return ((Float)get (DEFAULT_HOURS_IN_WEEK));
+      return (m_defaultHoursInWeek);
    }
 
    /**
@@ -227,17 +197,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultHoursInWeek (Float hours)
    {
-      put (DEFAULT_HOURS_IN_WEEK, hours);
-   }
-
-   /**
-    * Sets the default number of hours in a week
-    *
-    * @param hours number of hours
-    */
-   public void setDefaultHoursInWeek (float hours)
-   {
-      setDefaultHoursInWeek (new Float(hours));
+      m_defaultHoursInWeek = hours;
    }
 
    /**
@@ -247,7 +207,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public MPXRate getDefaultStandardRate ()
    {
-      return ((MPXRate)get(DEFAULT_STANDARD_RATE));
+      return (m_defaultStandardRate);
    }
 
    /**
@@ -257,7 +217,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultStandardRate (MPXRate rate)
    {
-      put (DEFAULT_STANDARD_RATE, rate);
+      m_defaultStandardRate = rate;
    }
 
    /**
@@ -267,7 +227,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public MPXRate getDefaultOvertimeRate ()
    {
-      return ((MPXRate)get(DEFAULT_OVERTIME_RATE));
+      return (m_defaultOvertimeRate);
    }
 
    /**
@@ -277,7 +237,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setDefaultOvertimeRate (MPXRate rate)
    {
-      put (DEFAULT_OVERTIME_RATE, rate);
+      m_defaultOvertimeRate = rate;
    }
 
    /**
@@ -285,19 +245,9 @@ public final class DefaultSettings extends MPXRecord
     *
     * @return boolean flag
     */
-   public boolean getUpdatingTaskStatusUpdatesResourceStatusValue ()
+   private NumericBoolean getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus ()
    {
-      return (getNumericBooleanValue (UPDATE));
-   }
-
-   /**
-    * Flags whether updating Task status also updates resource status.
-    *
-    * @return boolean flag
-    */
-   public NumericBoolean getUpdatingTaskStatusUpdatesResourceStatus ()
-   {
-      return ((NumericBoolean)get (UPDATE));
+      return (m_updatingTaskStatusUpdatesResourceStatus);
    }
 
    /**
@@ -305,9 +255,19 @@ public final class DefaultSettings extends MPXRecord
     *
     * @param flag boolean flag
     */
-   public void setUpdatingTaskStatusUpdatesResourceStatus (NumericBoolean flag)
+   public void setNumericBooleanUpdatingTaskStatusUpdatesResourceStatus (NumericBoolean flag)
    {
-      put (UPDATE, flag);
+      m_updatingTaskStatusUpdatesResourceStatus = flag;
+   }
+   
+   /**
+    * Flags whether updating Task status also updates resource status.
+    *
+    * @return boolean flag
+    */
+   public boolean getUpdatingTaskStatusUpdatesResourceStatus ()
+   {
+      return (m_updatingTaskStatusUpdatesResourceStatus.booleanValue());
    }
 
    /**
@@ -317,17 +277,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setUpdatingTaskStatusUpdatesResourceStatus (boolean flag)
    {
-      put (UPDATE, NumericBoolean.getInstance (flag));
-   }
-
-   /**
-    * Flag representing whether or not to split in-progress tasks.
-    *
-    * @return boolean value
-    */
-   public boolean getSplitInProgressTasksValue ()
-   {
-      return (getNumericBooleanValue (SPLIT));
+      m_updatingTaskStatusUpdatesResourceStatus = NumericBoolean.getInstance(flag);
    }
 
    /**
@@ -335,9 +285,29 @@ public final class DefaultSettings extends MPXRecord
     *
     * @return Boolean value
     */
-   public NumericBoolean getSplitInProgressTasks ()
+   private NumericBoolean getNumericBooleanSplitInProgressTasks ()
    {
-      return ((NumericBoolean)get (SPLIT));
+      return (m_splitInProgressTasks);
+   }
+
+   /**
+    * Flag representing whether or not to split in-progress tasks.
+    *
+    * @param flag boolean value
+    */
+   private void setNumericBooleanSplitInProgressTasks (NumericBoolean flag)
+   {
+      m_splitInProgressTasks = flag;
+   }
+   
+   /**
+    * Flag representing whether or not to split in-progress tasks.
+    *
+    * @return Boolean value
+    */
+   public boolean getSplitInProgressTasks ()
+   {
+      return (m_splitInProgressTasks.booleanValue());
    }
 
    /**
@@ -347,17 +317,7 @@ public final class DefaultSettings extends MPXRecord
     */
    public void setSplitInProgressTasks (boolean flag)
    {
-      put (SPLIT, NumericBoolean.getInstance (flag));
-   }
-
-   /**
-    * Flag representing whether or not to split in-progress tasks.
-    *
-    * @param flag boolean value
-    */
-   public void setSplitInProgressTasks (NumericBoolean flag)
-   {
-      put (SPLIT, flag);
+      m_splitInProgressTasks = NumericBoolean.getInstance(flag);
    }
 
    /**
@@ -366,61 +326,46 @@ public final class DefaultSettings extends MPXRecord
     *
     * @return string containing the data for this record in MPX format.
     */
-   public String toString()
+   public String toString ()
    {
-      return (toString (RECORD_NUMBER));
+      StringBuffer buffer = new StringBuffer ();
+      char delimiter = getParentFile().getDelimiter();
+
+      buffer.append (RECORD_NUMBER);
+      buffer.append (delimiter);
+      buffer.append(format(getDefaultDurationUnits()));
+      buffer.append (delimiter);
+      buffer.append(format(getNumericBooleanDefaultDurationIsFixed()));
+      buffer.append (delimiter);
+      buffer.append(format(getDefaultWorkUnits()));
+      buffer.append (delimiter);
+      buffer.append(format(getDefaultHoursInDay()));
+      buffer.append (delimiter);
+      buffer.append(format(getDefaultHoursInWeek()));
+      buffer.append (delimiter);
+      buffer.append(format(getDefaultStandardRate()));
+      buffer.append (delimiter);
+      buffer.append(format(getDefaultOvertimeRate()));
+      buffer.append (delimiter);
+      buffer.append(format(getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus()));
+      buffer.append (delimiter);
+      buffer.append(format(getNumericBooleanSplitInProgressTasks()));      
+      stripTrailingDelimiters(buffer, delimiter);
+      buffer.append (MPXFile.EOL);
+                  
+      return (buffer.toString());      
    }
-
-   /**
-    * Constant value representing Default Duration Units.  eg 'w','m','d','h'
-    */
-   private static final int DEFAULT_DURATION_UNITS = 0;
-
-   /**
-    * Constant value representing Default Duration Type.
-    */
-   private static final int DEFAULT_DURATION_TYPE = 1;
-
-   /**
-    * Constant value representing Default Work Units. eg 'w','m','d','h'
-    */
-   private static final int DEFAULT_WORK_UNITS = 2;
-
-   /**
-    * Constant value representing Hours in Day field.
-    */
-   private static final int DEFAULT_HOURS_IN_DAY = 3;
-
-   /**
-    * Constant value representing Default hours In Week field.
-    */
-   private static final int DEFAULT_HOURS_IN_WEEK = 4;
-
-   /**
-    * Constant value representing Default Standard Rate  field.
-    */
-   private static final int DEFAULT_STANDARD_RATE = 5;
-
-   /**
-    * Constant value representing Default Overtine Rate field.
-    */
-   private static final int DEFAULT_OVERTIME_RATE = 6;
-
-   /**
-    * Constant value representing Updating Task Status Updates Resource Status field.
-    */
-   private static final int UPDATE = 7;
-
-   /**
-    * Constant value representing Split Tasks field.
-    */
-   private static final int SPLIT = 8;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 9;
-
+   
+   private TimeUnit m_defaultDurationUnits;
+   private NumericBoolean m_defaultDurationIsFixed;
+   private TimeUnit m_defaultWorkUnits;
+   private Float m_defaultHoursInDay;
+   private Float m_defaultHoursInWeek;
+   private MPXRate m_defaultStandardRate;
+   private MPXRate m_defaultOvertimeRate;
+   private NumericBoolean m_updatingTaskStatusUpdatesResourceStatus;
+   private NumericBoolean m_splitInProgressTasks; 
+   
    /**
     * Constant containing the record number associated with this record.
     */

@@ -141,8 +141,8 @@ final class MPP9File
       DefaultSettings ds = file.getDefaultSettings();
       //ds.setDefaultDurationIsFixed();
       ds.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
-      ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
-      ds.setDefaultHoursInWeek(((float)props.getInt(Props.HOURS_PER_WEEK))/60);
+      ds.setDefaultHoursInDay(new Float(((float)props.getInt(Props.HOURS_PER_DAY))/60));
+      ds.setDefaultHoursInWeek(new Float(((float)props.getInt(Props.HOURS_PER_WEEK))/60));
       ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
       ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
       ds.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));

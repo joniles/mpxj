@@ -256,7 +256,7 @@ final class Record
       }
       else
       {
-         result = null;
+         result = NumericBoolean.getInstance(false);
       }
 
       return (result);

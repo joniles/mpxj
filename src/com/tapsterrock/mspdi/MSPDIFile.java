@@ -2546,8 +2546,8 @@ public class MSPDIFile extends MPXFile
       project.setDefaultOvertimeRate((float)getRateCost(settings.getDefaultOvertimeRate()));
       project.setDefaultStandardRate((float)getRateCost(settings.getDefaultStandardRate()));
       project.setWorkFormat(getXmlWorkUnits(settings.getDefaultWorkUnits()));
-      project.setSplitsInProgressTasks(settings.getSplitInProgressTasksValue());
-      project.setTaskUpdatesResource(settings.getUpdatingTaskStatusUpdatesResourceStatusValue());
+      project.setSplitsInProgressTasks(settings.getSplitInProgressTasks());
+      project.setTaskUpdatesResource(settings.getUpdatingTaskStatusUpdatesResourceStatus());
    }
 
    /**
