@@ -43,6 +43,13 @@ class FixedData extends MPPComponent
     * This constructor retrieves the data from the input stream. It
     * makes use of the meta data regarding this data block that has
     * already been read in from the MPP file.
+    * 
+    * Note that we actually read in the entire data block in one go.
+    * This is due to the fact that MS Project sometimes describes data
+    * using offsets that are out of sequence, and items that may overlap.
+    * Ideally this data would be read directly from the input stream, but
+    * this was problematic, so this less than ideal solution has been
+    * adopted.
     *
     * @param meta meta data about the contents of this fixed data block
     * @param is input stream from which the data is read
