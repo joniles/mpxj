@@ -47,7 +47,7 @@ final class Props extends MPPComponent
             int attrib1 = readInt(is);
             int attrib2 = readShort(is);
             int attrib3 = is.read();
-            int attrib4 = is.read();         
+            is.read(); // attrib4
             int attrib5 = readInt(is);
             int size;
             byte[] data;
