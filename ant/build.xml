@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<project name="com.tapsterrock.mpx" default="archive" basedir="..">
+
+<target name="init" depends="init-props,init-dirs">
+   <tstamp/>
+</target>
+
+<target name="init-props" description="Initialize properties">
+   <tstamp/>
+   <property name="docdir" value="${basedir}/doc/api" />
+   <property name="antdir" value="${basedir}/ant" />
+   <property name="srcdir" value="${basedir}/src" />
+   <property name="jbuilder" value="${basedir}/jbuilder" />
+   <property name="classes" value="${basedir}/classes" />
+   <property name="bak" value="${basedir}/bak" />
+   <property name="junitdir" value="${basedir}/junit" />
+   <property name="junitclasses" value="${junitdir}/classes" />
+   <property name="junitbak" value="${junitdir}/bak" />
+   <property name="distribution" value="${basedir}/../mpxj.zip" />
+</target>
+
+
+<target name="init-dirs" depends="init-props" description="Initialize directories">
+   <mkdir dir="${classes}"/>
+   <mkdir dir="${junitclasses}"/>
+</target>
+
+<target name="compile" depends="init" description="Compile">
+   <javac srcdir="${basedir}/src" destdir="${classes}" />
+   <javac srcdir="${junitdir}/src" destdir="${junitclasses}" classpath="${classpath}:${classes}:${junitdir}/junit.jar" />
+</target>
+
+<target name="document" depends="init-props" description="Generate documentation">
+   <delete dir="${docdir}"/>
+   <mkdir dir="${docdir}"/>
+   <javadoc sourcepath="${basedir}/src"
+      packagenames="com.tapsterrock.mpx"
+      destdir="${docdir}"
+      verbose="no"
+      access="public">
+   </javadoc>
+</target>
+
+<target name="archive" depends="compile" description="Create JAR files">
+   <jar jarfile="${basedir}/mpxj.jar" basedir="${classes}"/>
+   <jar jarfile="${junitdir}/mpxjtest.jar" basedir="${junitclasses}"/>
+</target>
+
+<target name="distribute" depends="clean,compile,archive,document" description="Create distribution">
+   <zip zipfile="${distribution}">
+      <zipfileset dir="${basedir}" prefix="mpxj"/>
+   </zip>
+</target>
+
+<target name="clean" depends="init-props" description="">
+   <delete dir="${classes}"/>
+   <delete dir="${bak}"/>
+   <delete dir="${junitclasses}"/>
+   <delete dir="${junitbak}"/>
+   <delete>
+      <fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/>
+   </delete>
+   <delete>
+      <fileset dir="${jbuilder}" includes="**/*.local" />
+   </delete>
+</target>
+
+</project>
