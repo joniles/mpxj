@@ -33,7 +33,7 @@ import java.io.StringWriter;
  * This class represents the a block of fixed length data items that appears
  * in the Microsoft Project 98 file format.
  */
-class FixFix extends MPPComponent
+final class FixFix extends MPPComponent
 {
 	/**
 	 * Constructor. Extract fixed size data items from the input stream.
@@ -42,7 +42,7 @@ class FixFix extends MPPComponent
 	 * @param is Input stream
 	 * @throws IOException Thrown when reading from the stream fails
 	 */
-   public FixFix (int itemSize, InputStream is)
+   FixFix (int itemSize, InputStream is)
       throws IOException
    {      
       int itemCount = is.available() / itemSize;
