@@ -867,6 +867,11 @@ final class MPP8File
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
+      if (assnFixedData.getDiff() != 0)
+      {
+         assnFixedData = new FixFix (238, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));            
+      }
+      
       ResourceAssignment assignment;
       
       int count = assnFixedData.getItemCount();

@@ -1,6 +1,7 @@
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
 Fixed a bug where special characters appearing in the currency symbol were not being quoted.
+Fixed a bug that caused resource assignments to be incorrectly read from some MPP8 files.
 Added a new write method to MPXFile allowing the user control over the character encoding used when writing an MPX file.
 
 Version 0.0.16
