@@ -90,12 +90,10 @@ is platform specific, you will need to change the reference to the
 xjc tool to be xjc.bat or xjc.sh depending on your operating
 system.
 
-If you do not have a copy of the JAXB libraries installed locally,
-you will still be able to build MPXJ. The ant build.xml file will
-exclude the MSPDI functionality if it cannot locate the JAXB
-directory. If you do have JAXB installed, you will need to edit
-the property “jaxbdir” in the build.xml file to point to your
-local installation.
+You will need to have a copy of the JAXB libraries installed
+locally in order to build MPXJ. You will need to edit the property
+“jaxbdir” in the build.xml file to point to your local
+installation.
 
 
 

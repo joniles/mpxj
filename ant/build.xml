@@ -22,7 +22,6 @@
    <property name="junitclasses" value="${junitdir}/classes" />
    <property name="junitbak" value="${junitdir}/bak" />
    <property name="distribution" value="${basedir}/../mpxj.zip" />
-   <available file="${jaxbdir}" type="dir" property="jaxbavailable"/>
 </target>
 
 
@@ -37,17 +36,10 @@
    </exec>	
 </target>
 
-<target name="compile-standard" depends="init" description="Compile everything that doesn't depend on JAXB">
-   <javac srcdir="${basedir}/src" destdir="${classes}" excludes="com/tapsterrock/mspdi/**" classpath="${classpath}:${poilib}" />
+<target name="compile" depends="init" description="Compile everything">
+   <javac srcdir="${basedir}/src" destdir="${classes}" classpath="${classpath}:${poilib}:${jaxblibs}" />
    <javac srcdir="${junitdir}/src" destdir="${junitclasses}" classpath="${classpath}:${classes}:${junitdir}/junit.jar" />
 </target>
-
-<target name="compile-jaxb" depends="init" if="jaxbavailable" description="Compile everything that depends on JAXB">
-   <javac srcdir="${basedir}/src" destdir="${classes}" includes="com/tapsterrock/mspdi/**" classpath="${classpath}:${classes}:${jaxblibs}" />
-</target>
-
-
-<target name="compile" depends="compile-standard, compile-jaxb" description="Compile everything" />
 
 <target name="document" depends="init-props" description="Generate documentation">
    <mkdir dir="${docdir}"/>
