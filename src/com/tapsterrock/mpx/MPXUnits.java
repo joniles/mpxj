@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * The formatting used by MSP is not the same as that used for all other
  * floats, hence this special case.
  */
-final class MPXUnits extends Number
+final class MPXUnits extends Number implements ToStringRequiresFile
 {
    /**
     * Constructs instance from a String value. This constructor is used
@@ -77,6 +77,18 @@ final class MPXUnits extends Number
    public String toString ()
    {
       return (toString(DEFAULT_DECIMAL_FORMAT));
+   }
+
+   /**
+    * This method generates a string in MPX format representing the
+    * contents of this record.
+    *
+    * @param mpx parent mpx file
+    * @return string containing the data for this record in MPX format.
+    */
+   public String toString (MPXFile mpx)
+   {
+      return (toString(mpx.getUnitsDecimalFormat()));
    }
 
    /**

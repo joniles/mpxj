@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
 /**
  * This class represents percentage values as found in an MPX file.
  */
-final class MPXPercentage extends Number
+final class MPXPercentage extends Number implements ToStringRequiresFile
 {
    /**
     * This constructor creates an instance of this class from a formatted
@@ -72,6 +72,18 @@ final class MPXPercentage extends Number
    public String toString ()
    {
       return (toString(DEFAULT_DECIMAL_FORMAT));
+   }
+
+   /**
+    * This method builds a String representation of the percentage represented
+    * by this instance.
+    *
+    * @param mpx parent mpx file
+    * @return string representation of the rate
+    */
+   public String toString (MPXFile mpx)
+   {
+      return (toString(mpx.getPercentageDecimalFormat()));
    }
 
    /**

@@ -31,7 +31,7 @@ import java.util.Locale;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class AccrueType
+public final class AccrueType implements ToStringRequiresFile
 {
    /**
     * This constructor takes the numeric enumerated representation of an
@@ -142,11 +142,12 @@ public final class AccrueType
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
-    * @param locale target locale
+    * @param mpx pareent mpx file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString (Locale locale)
+   public String toString (MPXFile mpx)
    {
+      Locale locale = mpx.getLocale();
       String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);
       return (typeNames[m_type-1]);
    }

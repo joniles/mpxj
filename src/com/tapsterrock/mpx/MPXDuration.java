@@ -29,7 +29,7 @@ import java.util.Locale;
 /**
  * This represents time durations as specified in an MPX file.
  */
-public final class MPXDuration
+public final class MPXDuration implements ToStringRequiresFile
 {
    /**
     * Constructs an instance of this class from a String representation
@@ -134,6 +134,18 @@ public final class MPXDuration
    String toString (Locale locale)
    {
       return (toString(DEFAULT_DECIMAL_FORMAT, locale));
+   }
+
+   /**
+    * This method generates a string in MPX format representing the
+    * contents of this record.
+    *
+    * @param mpx parent mpx file
+    * @return string containing the data for this record in MPX format.
+    */
+   public String toString (MPXFile mpx)
+   {
+      return (toString(mpx.getDurationDecimalFormat(), mpx.getLocale()));
    }
 
    /**

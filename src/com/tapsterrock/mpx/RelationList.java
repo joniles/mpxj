@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * This class represents a list of relationships between tasks.
  */
-public final class RelationList
+public final class RelationList implements ToStringRequiresFile
 {
    /**
     * Default constructor.
@@ -77,11 +77,12 @@ public final class RelationList
     * This method generates a string in MPX format representing the
     * contents of this rlist.
     * 
-    * @param locale target locale
+    * @param mpx parent mpx file
     * @return string containing the data for this list in MPX format.
     */
-   public String toString (Locale locale)
+   public String toString (MPXFile mpx)
    {
+      Locale locale = mpx.getLocale();
       StringBuffer sb = new StringBuffer ();
       Iterator iter = m_list.iterator();
 

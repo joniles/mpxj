@@ -75,49 +75,14 @@ class MPXRecord
             }
             else
             {
-               if (o instanceof MPXRate == true)
+               if (o instanceof ToStringRequiresFile == true)
                {
-                  result = ((MPXRate)o).toString(m_mpx.getCurrencyFormat(), m_mpx.getLocale());
+                  result = ((ToStringRequiresFile)o).toString(m_mpx);
                }
                else
                {
-                  if (o instanceof MPXDuration == true)
-                  {
-                     result = ((MPXDuration)o).toString(m_mpx.getDurationDecimalFormat(), m_mpx.getLocale());
-                  }
-                  else
-                  {
-                     if (o instanceof MPXPercentage == true)
-                     {
-                        result = ((MPXPercentage)o).toString(m_mpx.getPercentageDecimalFormat());
-                     }
-                     else
-                     {
-                        if (o instanceof MPXUnits == true)
-                        {
-                           result = ((MPXUnits)o).toString(m_mpx.getUnitsDecimalFormat());
-                        }
-                        else
-                        {
-                           if (o instanceof AccrueType == true)
-                           {
-                              result = ((AccrueType)o).toString(m_mpx.getLocale());  
-                           }
-                           else
-                           {
-                              if (o instanceof RelationList == true)
-                              {
-                                 result = ((RelationList)o).toString(m_mpx.getLocale()); 
-                              }
-                              else
-                              {
-                                 result = o.toString();
-                              }                                 
-                           }
-                        }
-                     }
-                  }
-               }
+                  result = o.toString();
+               }                                 
             }
          }
       }
