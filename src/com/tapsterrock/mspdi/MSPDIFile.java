@@ -1553,7 +1553,9 @@ public class MSPDIFile extends MPXFile
       }
       else
       {
-         if (m_compatible == false)
+         int durationType = duration.getType();
+         
+         if (m_compatible == false || durationType == TimeUnit.HOURS || durationType == TimeUnit.ELAPSED_HOURS)
          {
             result = new XsdDuration(duration).toString();
          }
@@ -1561,7 +1563,7 @@ public class MSPDIFile extends MPXFile
          {
             double hours = duration.getDuration();
 
-            switch (duration.getType())
+            switch (durationType)
             {
                case TimeUnit.MINUTES:
                case TimeUnit.ELAPSED_MINUTES:

@@ -110,6 +110,10 @@ public class MPXFile
       m_aliasTaskField = file.m_aliasTaskField;
       m_resourceFieldAlias = file.m_resourceFieldAlias;
       m_aliasResourceField = file.m_aliasResourceField;
+      m_taskUniqueIDMap = file.m_taskUniqueIDMap;
+      m_taskIDMap = file.m_taskIDMap;
+      m_resourceUniqueIDMap = file.m_resourceUniqueIDMap;
+      m_resourceIDMap = file.m_resourceIDMap;      
    }
 
    /**
