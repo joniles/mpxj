@@ -37,7 +37,7 @@ import java.util.TreeMap;
  * along with the number of data items it contains, identifiers for each item,
  * and finally the offset of each item within the block.
  */
-public class VarMeta extends MPPComponent
+final class VarMeta extends MPPComponent
 {
    /**
     * Constructor. Extracts that makes up this block from the input stream.
@@ -45,7 +45,7 @@ public class VarMeta extends MPPComponent
     * @param is Input stream from whic data is read
     * @throws IOException on file read error
     */
-   public VarMeta (InputStream is)
+   VarMeta (InputStream is)
       throws IOException
    {
       if (readInt (is) != MAGIC)
