@@ -374,13 +374,10 @@ public class MPXFile
 
          case MPXCalendar.BASE_CALENDAR_RECORD_NUMBER:
          {
-            if (m_baseCalendars.size() < MAX_BASE_CALENDARS)
-            {
-               m_lastBaseCalendar = new MPXCalendar (this, record, true);
-               current = m_lastBaseCalendar;
-               m_records.add (current);
-               m_baseCalendars.add (current);
-            }
+            m_lastBaseCalendar = new MPXCalendar (this, record, true);
+            current = m_lastBaseCalendar;
+            m_records.add (current);
+            m_baseCalendars.add (current);
             break;
          }
 
@@ -433,14 +430,10 @@ public class MPXFile
 
          case Resource.RECORD_NUMBER:
          {
-            if (m_allResources.size() < MAX_RESOURCES)
-            {
-               m_lastResource = new Resource (this, record);
-               current = m_lastResource;
-               m_records.add (current);
-               m_allResources.add (current);
-            }
-
+            m_lastResource = new Resource (this, record);
+            current = m_lastResource;
+            m_records.add (current);
+            m_allResources.add (current);
             break;
          }
 
@@ -505,33 +498,30 @@ public class MPXFile
 
          case Task.RECORD_NUMBER:
          {
-            if (m_allTasks.size() < MAX_TASKS)
+            m_lastTask = new Task(this, record);
+            current = m_lastTask;
+            m_records.add (current);
+            m_allTasks.add (current);
+
+            int outlineLevel = m_lastTask.getOutlineLevelValue();
+
+            if (m_baseOutlineLevel == -1)
             {
-               m_lastTask = new Task(this, record);
-               current = m_lastTask;
-               m_records.add (current);
-               m_allTasks.add (current);
+               m_baseOutlineLevel = outlineLevel;
+            }
 
-               int outlineLevel = m_lastTask.getOutlineLevelValue();
-
-               if (m_baseOutlineLevel == -1)
+            if (outlineLevel == m_baseOutlineLevel)
+            {
+               m_childTasks.add (m_lastTask);
+            }
+            else
+            {
+               if (m_childTasks.isEmpty() == true)
                {
-                  m_baseOutlineLevel = outlineLevel;
+                  throw new MPXException (MPXException.INVALID_OUTLINE);
                }
 
-               if (outlineLevel == m_baseOutlineLevel)
-               {
-                  m_childTasks.add (m_lastTask);
-               }
-               else
-               {
-                  if (m_childTasks.isEmpty() == true)
-                  {
-                     throw new MPXException (MPXException.INVALID_OUTLINE);
-                  }
-
-                  ((Task)m_childTasks.getLast()).addChildTask (m_lastTask, outlineLevel);
-               }
+               ((Task)m_childTasks.getLast()).addChildTask (m_lastTask, outlineLevel);
             }
             break;
          }
@@ -576,23 +566,17 @@ public class MPXFile
 
          case ProjectNames.RECORD_NUMBER:
          {
-            if (m_projectNames < MAX_PROJECT_NAMES)
-            {
-               current = new ProjectNames (this, record);
-               m_records.add (current);
-               ++m_projectNames;
-            }
+            current = new ProjectNames (this, record);
+            m_records.add (current);
+            ++m_projectNames;
             break;
          }
 
          case DdeOleClientLinks.RECORD_NUMBER:
          {
-            if (m_ddeOleClientLinks < MAX_DDE_OLE)
-            {
-               current = new DdeOleClientLinks (this, record);
-               m_records.add(current);
-               m_ddeOleClientLinks++;
-            }
+            current = new DdeOleClientLinks (this, record);
+            m_records.add(current);
+            m_ddeOleClientLinks++;
             break;
          }
 
@@ -618,16 +602,9 @@ public class MPXFile
     * programatically to be added as a record to the main file.
     *
     * @param task task created as a child of another task
-    * @throws MPXException thrown when too many tasks are defined
     */
    void addTask (Task task)
-      throws MPXException
    {
-      if (m_allTasks.size() == MAX_TASKS)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
       m_records.add (task);
       m_allTasks.add (task);
    }
@@ -2183,31 +2160,6 @@ public class MPXFile
     * Maps from a resource field alias to a resource field number
     */
    private HashMap m_aliasResourceField = new HashMap ();
-
-   /**
-    * Constant representing maximum number of BaseCalendars per MPX file.
-    */
-   private static final int MAX_BASE_CALENDARS = 250;
-
-   /**
-    * Constant representing maximum number of Tasks per MPX file.
-    */
-   private static final int MAX_TASKS = 9999;
-
-   /**
-    * Constant representing maximum number of ProjectNames per MPX file.
-    */
-   private static final int MAX_PROJECT_NAMES = 500;
-
-   /**
-    * Constant representing maximum number of DdeOleClientLinks per MPX file.
-    */
-   private static final int MAX_DDE_OLE = 500;
-
-   /**
-    * Constant representing maximum number of Resources per MPX file.
-    */
-   private static final int MAX_RESOURCES = 9999;
 }
 
 

@@ -105,16 +105,11 @@ public final class MPXCalendar extends MPXRecord
     *
     * @param record data from the MPX file for this object.
     * @return <tt>MPXCalendarException</tt>
-    * @throws MPXException if limit on number of exceptions is reached
+    * @throws MPXException 
     */
    MPXCalendarException addCalendarException (Record record)
       throws MPXException
    {
-      if (m_exceptions.size() == MAX_EXCEPTIONS)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
       MPXCalendarException bce = new MPXCalendarException(getParentFile(), this, record);
       m_exceptions.add(bce);
       return (bce);
@@ -742,11 +737,6 @@ public final class MPXCalendar extends MPXRecord
     */
    public static final int DEFAULT = 2;
 
-   /**
-    * Constant representing maximum number of MPXCalendarException records
-    * per MPXCalendar.
-    */
-   static final int MAX_EXCEPTIONS = 250;
 
    /**
     * Constant containing the record number associated with this record

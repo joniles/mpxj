@@ -1,5 +1,6 @@
 Version 0.0.22
 Fixed a bug where task data was not being read correctly from very large MPP9 files.
+Removed arbitrary restrictions on the number of various entities, originally taken from the MPX spec.
 
 Version 0.0.21
 Fixed a bug where the task start date attribute was not always correct for MPP8 files.

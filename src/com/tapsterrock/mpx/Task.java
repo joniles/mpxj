@@ -535,11 +535,6 @@ public final class Task extends MPXRecord implements Comparable
    public ResourceAssignment addResourceAssignment ()
       throws MPXException
    {
-      if (m_assignments.size() == MAX_RESOURCE_ASSIGNMENTS)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
       ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
 
       m_assignments.add (assignment);
@@ -603,11 +598,6 @@ public final class Task extends MPXRecord implements Comparable
    ResourceAssignment addResourceAssignment (Record record)
       throws MPXException
    {
-      if (m_assignments.size() == MAX_RESOURCE_ASSIGNMENTS)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
       ResourceAssignment tra = new ResourceAssignment (getParentFile(), record, this);
 
       m_assignments.add(tra);
@@ -7701,12 +7691,6 @@ public final class Task extends MPXRecord implements Comparable
     * the currently scheduled work.
     */
    private static final int WORK_VARIANCE = 24;
-
-   /**
-    * Constant representing maximum number of ResourceAssignments children per Task.
-    */
-   public static final int MAX_RESOURCE_ASSIGNMENTS = 100;
-
 
    /**
     * Maximum number of fields in this record. Note that this is package
