@@ -194,7 +194,7 @@ public class MPPFile extends MPXFile
 		Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
 		FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
 		FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-      
+            
 		//
 		// Retrieve constraint data
 		//
@@ -210,7 +210,7 @@ public class MPPFile extends MPXFile
 		Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
 		FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
 		FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-
+      
 		//
 		// Retrieve resource assignment data
 		//
@@ -555,15 +555,39 @@ public class MPPFile extends MPXFile
          task.setCost1(new Double (taskVarData.getDouble (id, TASK_COST1) / 100));
          task.setCost2(new Double (taskVarData.getDouble (id, TASK_COST2) / 100));
          task.setCost3(new Double (taskVarData.getDouble (id, TASK_COST3) / 100));
+         task.setCost4(new Double (taskVarData.getDouble (id, TASK_COST4) / 100));
+         task.setCost5(new Double (taskVarData.getDouble (id, TASK_COST5) / 100));
+         task.setCost6(new Double (taskVarData.getDouble (id, TASK_COST6) / 100));
+         task.setCost7(new Double (taskVarData.getDouble (id, TASK_COST7) / 100));
+         task.setCost8(new Double (taskVarData.getDouble (id, TASK_COST8) / 100));
+         task.setCost9(new Double (taskVarData.getDouble (id, TASK_COST9) / 100));
+         task.setCost10(new Double (taskVarData.getDouble (id, TASK_COST10) / 100));         
          task.setCreated(MPPUtility.getTimestamp (data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
+         task.setDate1(taskVarData.getTimestamp (id, TASK_DATE1));
+         task.setDate2(taskVarData.getTimestamp (id, TASK_DATE2));         
+         task.setDate3(taskVarData.getTimestamp (id, TASK_DATE3));
+         task.setDate4(taskVarData.getTimestamp (id, TASK_DATE4));
+         task.setDate5(taskVarData.getTimestamp (id, TASK_DATE5));
+         task.setDate6(taskVarData.getTimestamp (id, TASK_DATE6));
+         task.setDate7(taskVarData.getTimestamp (id, TASK_DATE7));
+         task.setDate8(taskVarData.getTimestamp (id, TASK_DATE8));
+         task.setDate9(taskVarData.getTimestamp (id, TASK_DATE9));
+         task.setDate10(taskVarData.getTimestamp (id, TASK_DATE10));                                                                        
          task.setDeadline (MPPUtility.getTimestamp (data, 152));
          //task.setDelay(); // Field does not appear in Project 2000
          task.setDuration (getDuration (MPPUtility.getInt (data, 70), getDurationUnits(MPPUtility.getShort (data, 64))));
          task.setDuration1(getDuration (taskVarData.getInt(id, TASK_DURATION1), getDurationUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
          task.setDuration2(getDuration (taskVarData.getInt(id, TASK_DURATION2), getDurationUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
          task.setDuration3(getDuration (taskVarData.getInt(id, TASK_DURATION3), getDurationUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
+         task.setDuration4(getDuration (taskVarData.getInt(id, TASK_DURATION4), getDurationUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
+         task.setDuration5(getDuration (taskVarData.getInt(id, TASK_DURATION5), getDurationUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
+         task.setDuration6(getDuration (taskVarData.getInt(id, TASK_DURATION6), getDurationUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
+         task.setDuration7(getDuration (taskVarData.getInt(id, TASK_DURATION7), getDurationUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
+         task.setDuration8(getDuration (taskVarData.getInt(id, TASK_DURATION8), getDurationUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
+         task.setDuration9(getDuration (taskVarData.getInt(id, TASK_DURATION9), getDurationUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
+         task.setDuration10(getDuration (taskVarData.getInt(id, TASK_DURATION10), getDurationUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
@@ -574,6 +598,11 @@ public class MPPFile extends MPXFile
          task.setFinish3(taskVarData.getTimestamp (id, TASK_FINISH3));
          task.setFinish4(taskVarData.getTimestamp (id, TASK_FINISH4));
          task.setFinish5(taskVarData.getTimestamp (id, TASK_FINISH5));
+         task.setFinish6(taskVarData.getTimestamp (id, TASK_FINISH6));
+         task.setFinish7(taskVarData.getTimestamp (id, TASK_FINISH7));
+         task.setFinish8(taskVarData.getTimestamp (id, TASK_FINISH8));
+         task.setFinish9(taskVarData.getTimestamp (id, TASK_FINISH9));
+         task.setFinish10(taskVarData.getTimestamp (id, TASK_FINISH10));
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Unsure of mapping from MPX->MSP2K
          task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));
@@ -590,6 +619,21 @@ public class MPPFile extends MPXFile
          task.setNumber3(new Double (taskVarData.getDouble(id, TASK_NUMBER3)));
          task.setNumber4(new Double (taskVarData.getDouble(id, TASK_NUMBER4)));
          task.setNumber5(new Double (taskVarData.getDouble(id, TASK_NUMBER5)));
+         task.setNumber6(new Double (taskVarData.getDouble(id, TASK_NUMBER6)));
+         task.setNumber7(new Double (taskVarData.getDouble(id, TASK_NUMBER7)));
+         task.setNumber8(new Double (taskVarData.getDouble(id, TASK_NUMBER8)));
+         task.setNumber9(new Double (taskVarData.getDouble(id, TASK_NUMBER9)));
+         task.setNumber10(new Double (taskVarData.getDouble(id, TASK_NUMBER10)));         
+         task.setNumber11(new Double (taskVarData.getDouble(id, TASK_NUMBER11)));
+         task.setNumber12(new Double (taskVarData.getDouble(id, TASK_NUMBER12)));
+         task.setNumber13(new Double (taskVarData.getDouble(id, TASK_NUMBER13)));
+         task.setNumber14(new Double (taskVarData.getDouble(id, TASK_NUMBER14)));
+         task.setNumber15(new Double (taskVarData.getDouble(id, TASK_NUMBER15)));
+         task.setNumber16(new Double (taskVarData.getDouble(id, TASK_NUMBER16)));
+         task.setNumber17(new Double (taskVarData.getDouble(id, TASK_NUMBER17)));
+         task.setNumber18(new Double (taskVarData.getDouble(id, TASK_NUMBER18)));
+         task.setNumber19(new Double (taskVarData.getDouble(id, TASK_NUMBER19)));
+         task.setNumber20(new Double (taskVarData.getDouble(id, TASK_NUMBER20)));                                                                                                   
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (MPPUtility.getShort (data, 40));
          //task.setOutlineNumber(); // Calculated value
@@ -611,6 +655,11 @@ public class MPPFile extends MPXFile
          task.setStart3(taskVarData.getTimestamp (id, TASK_START3));
          task.setStart4(taskVarData.getTimestamp (id, TASK_START4));
          task.setStart5(taskVarData.getTimestamp (id, TASK_START5));
+         task.setStart6(taskVarData.getTimestamp (id, TASK_START6));
+         task.setStart7(taskVarData.getTimestamp (id, TASK_START7));
+         task.setStart8(taskVarData.getTimestamp (id, TASK_START8));
+         task.setStart9(taskVarData.getTimestamp (id, TASK_START9));
+         task.setStart10(taskVarData.getTimestamp (id, TASK_START10));         
          //task.setStartVariance(); // Calculated value
          task.setStop(MPPUtility.getTimestamp (data, 16));
          //task.setSubprojectFile();
@@ -625,6 +674,26 @@ public class MPPFile extends MPXFile
          task.setText8(taskVarData.getUnicodeString (id, TASK_TEXT8));
          task.setText9(taskVarData.getUnicodeString (id, TASK_TEXT9));
          task.setText10(taskVarData.getUnicodeString (id, TASK_TEXT10));
+         task.setText11(taskVarData.getUnicodeString (id, TASK_TEXT11));
+         task.setText12(taskVarData.getUnicodeString (id, TASK_TEXT12));
+         task.setText13(taskVarData.getUnicodeString (id, TASK_TEXT13));
+         task.setText14(taskVarData.getUnicodeString (id, TASK_TEXT14));
+         task.setText15(taskVarData.getUnicodeString (id, TASK_TEXT15));
+         task.setText16(taskVarData.getUnicodeString (id, TASK_TEXT16));
+         task.setText17(taskVarData.getUnicodeString (id, TASK_TEXT17));
+         task.setText18(taskVarData.getUnicodeString (id, TASK_TEXT18));
+         task.setText19(taskVarData.getUnicodeString (id, TASK_TEXT19));
+         task.setText20(taskVarData.getUnicodeString (id, TASK_TEXT20));
+         task.setText21(taskVarData.getUnicodeString (id, TASK_TEXT21));
+         task.setText22(taskVarData.getUnicodeString (id, TASK_TEXT22));
+         task.setText23(taskVarData.getUnicodeString (id, TASK_TEXT23));
+         task.setText24(taskVarData.getUnicodeString (id, TASK_TEXT24));
+         task.setText25(taskVarData.getUnicodeString (id, TASK_TEXT25));
+         task.setText26(taskVarData.getUnicodeString (id, TASK_TEXT26));
+         task.setText27(taskVarData.getUnicodeString (id, TASK_TEXT27));
+         task.setText28(taskVarData.getUnicodeString (id, TASK_TEXT28));
+         task.setText29(taskVarData.getUnicodeString (id, TASK_TEXT29));
+         task.setText30(taskVarData.getUnicodeString (id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 126));
          task.setUniqueID(id.intValue());
@@ -807,15 +876,75 @@ public class MPPFile extends MPXFile
          resource.setBaselineCost(new Double(MPPUtility.getDouble(data, 148)/100));
          resource.setBaselineWork(new MPXDuration (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));
          resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
-         resource.setCost(new Double(MPPUtility.getDouble(data, 140)/100));
-         resource.setCostPerUse(new Double(MPPUtility.getDouble(data, 84)/100));
+         resource.setCost(new Double(MPPUtility.getDouble(data, 140)/100));         
+         resource.setCost1(new Double (rscVarData.getDouble (id, RESOURCE_COST1) / 100));
+         resource.setCost2(new Double (rscVarData.getDouble (id, RESOURCE_COST2) / 100));
+         resource.setCost3(new Double (rscVarData.getDouble (id, RESOURCE_COST3) / 100));
+         resource.setCost4(new Double (rscVarData.getDouble (id, RESOURCE_COST4) / 100));
+         resource.setCost5(new Double (rscVarData.getDouble (id, RESOURCE_COST5) / 100));
+         resource.setCost6(new Double (rscVarData.getDouble (id, RESOURCE_COST6) / 100));
+         resource.setCost7(new Double (rscVarData.getDouble (id, RESOURCE_COST7) / 100));
+         resource.setCost8(new Double (rscVarData.getDouble (id, RESOURCE_COST8) / 100));
+         resource.setCost9(new Double (rscVarData.getDouble (id, RESOURCE_COST9) / 100));
+         resource.setCost10(new Double (rscVarData.getDouble (id, RESOURCE_COST10) / 100));         
+         resource.setCostPerUse(new Double(MPPUtility.getDouble(data, 84)/100));                  
+         resource.setDate1(rscVarData.getTimestamp (id, RESOURCE_DATE1));
+         resource.setDate2(rscVarData.getTimestamp (id, RESOURCE_DATE2));
+         resource.setDate3(rscVarData.getTimestamp (id, RESOURCE_DATE3));
+         resource.setDate4(rscVarData.getTimestamp (id, RESOURCE_DATE4));
+         resource.setDate5(rscVarData.getTimestamp (id, RESOURCE_DATE5));
+         resource.setDate6(rscVarData.getTimestamp (id, RESOURCE_DATE6));
+         resource.setDate7(rscVarData.getTimestamp (id, RESOURCE_DATE7));
+         resource.setDate8(rscVarData.getTimestamp (id, RESOURCE_DATE8));
+         resource.setDate9(rscVarData.getTimestamp (id, RESOURCE_DATE9));
+         resource.setDate10(rscVarData.getTimestamp (id, RESOURCE_DATE10));                           
+         resource.setDuration1(getDuration (rscVarData.getInt(id, RESOURCE_DURATION1), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION1_UNITS))));
+         resource.setDuration2(getDuration (rscVarData.getInt(id, RESOURCE_DURATION2), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION2_UNITS))));
+         resource.setDuration3(getDuration (rscVarData.getInt(id, RESOURCE_DURATION3), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION3_UNITS))));
+         resource.setDuration4(getDuration (rscVarData.getInt(id, RESOURCE_DURATION4), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION4_UNITS))));
+         resource.setDuration5(getDuration (rscVarData.getInt(id, RESOURCE_DURATION5), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION5_UNITS))));
+         resource.setDuration6(getDuration (rscVarData.getInt(id, RESOURCE_DURATION6), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION6_UNITS))));
+         resource.setDuration7(getDuration (rscVarData.getInt(id, RESOURCE_DURATION7), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION7_UNITS))));
+         resource.setDuration8(getDuration (rscVarData.getInt(id, RESOURCE_DURATION8), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION8_UNITS))));
+         resource.setDuration9(getDuration (rscVarData.getInt(id, RESOURCE_DURATION9), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION9_UNITS))));
+         resource.setDuration10(getDuration (rscVarData.getInt(id, RESOURCE_DURATION10), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION10_UNITS))));                                    
          resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));         
+         resource.setFinish1(rscVarData.getTimestamp (id, RESOURCE_FINISH1));         
+         resource.setFinish2(rscVarData.getTimestamp (id, RESOURCE_FINISH2));
+         resource.setFinish3(rscVarData.getTimestamp (id, RESOURCE_FINISH3));
+         resource.setFinish4(rscVarData.getTimestamp (id, RESOURCE_FINISH4));
+         resource.setFinish5(rscVarData.getTimestamp (id, RESOURCE_FINISH5));
+         resource.setFinish6(rscVarData.getTimestamp (id, RESOURCE_FINISH6));
+         resource.setFinish7(rscVarData.getTimestamp (id, RESOURCE_FINISH7));
+         resource.setFinish8(rscVarData.getTimestamp (id, RESOURCE_FINISH8));
+         resource.setFinish9(rscVarData.getTimestamp (id, RESOURCE_FINISH9));
+         resource.setFinish10(rscVarData.getTimestamp (id, RESOURCE_FINISH10));
          resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
          resource.setID (MPPUtility.getInt (data, 4));
          resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value
          resource.setMaxUnits(MPPUtility.getDouble(data, 44)/100);
-         resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));
+         resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));         
+         resource.setNumber1(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER1)));
+         resource.setNumber2(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER2)));
+         resource.setNumber3(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER3)));
+         resource.setNumber4(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER4)));
+         resource.setNumber5(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER5)));
+         resource.setNumber6(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER6)));
+         resource.setNumber7(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER7)));
+         resource.setNumber8(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER8)));
+         resource.setNumber9(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER9)));
+         resource.setNumber10(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER10)));
+         resource.setNumber11(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER11)));
+         resource.setNumber12(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER12)));
+         resource.setNumber13(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER13)));
+         resource.setNumber14(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER14)));
+         resource.setNumber15(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER15)));
+         resource.setNumber16(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER16)));
+         resource.setNumber17(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER17)));
+         resource.setNumber18(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER18)));
+         resource.setNumber19(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER19)));
+         resource.setNumber20(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER20)));                           
          //resource.setObjects(); // Calculated value
          //resource.setOverallocated(); // Calculated value
 			resource.setOvertimeCost(new Double(MPPUtility.getDouble(data, 164)/100));         
@@ -827,12 +956,47 @@ public class MPPFile extends MPXFile
          resource.setRemainingCost(new Double(MPPUtility.getDouble(data, 156)/100));
 			resource.setRemainingOvertimeCost(new Double(MPPUtility.getDouble(data, 180)/100));                  
          resource.setRemainingWork(new MPXDuration (MPPUtility.getDouble (data, 92)/60000, TimeUnit.HOURS));
-         resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
+         resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 28), TimeUnit.HOURS));         
+         resource.setStart1(rscVarData.getTimestamp (id, RESOURCE_START1));
+         resource.setStart2(rscVarData.getTimestamp (id, RESOURCE_START2));
+         resource.setStart3(rscVarData.getTimestamp (id, RESOURCE_START3));
+         resource.setStart4(rscVarData.getTimestamp (id, RESOURCE_START4));
+         resource.setStart5(rscVarData.getTimestamp (id, RESOURCE_START5));
+         resource.setStart6(rscVarData.getTimestamp (id, RESOURCE_START6));
+         resource.setStart7(rscVarData.getTimestamp (id, RESOURCE_START7));
+         resource.setStart8(rscVarData.getTimestamp (id, RESOURCE_START8));
+         resource.setStart9(rscVarData.getTimestamp (id, RESOURCE_START9));
+         resource.setStart10(rscVarData.getTimestamp (id, RESOURCE_START10));                           
          resource.setText1(rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
          resource.setText2(rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
          resource.setText3(rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
          resource.setText4(rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
          resource.setText5(rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
+         resource.setText6(rscVarData.getUnicodeString (id, RESOURCE_TEXT6));
+         resource.setText7(rscVarData.getUnicodeString (id, RESOURCE_TEXT7));
+         resource.setText8(rscVarData.getUnicodeString (id, RESOURCE_TEXT8));
+         resource.setText9(rscVarData.getUnicodeString (id, RESOURCE_TEXT9));
+         resource.setText10(rscVarData.getUnicodeString (id, RESOURCE_TEXT10));
+         resource.setText11(rscVarData.getUnicodeString (id, RESOURCE_TEXT11));
+         resource.setText12(rscVarData.getUnicodeString (id, RESOURCE_TEXT12));
+         resource.setText13(rscVarData.getUnicodeString (id, RESOURCE_TEXT13));
+         resource.setText14(rscVarData.getUnicodeString (id, RESOURCE_TEXT14));
+         resource.setText15(rscVarData.getUnicodeString (id, RESOURCE_TEXT15));
+         resource.setText16(rscVarData.getUnicodeString (id, RESOURCE_TEXT16));
+         resource.setText17(rscVarData.getUnicodeString (id, RESOURCE_TEXT17));
+         resource.setText18(rscVarData.getUnicodeString (id, RESOURCE_TEXT18));
+         resource.setText19(rscVarData.getUnicodeString (id, RESOURCE_TEXT19));
+         resource.setText20(rscVarData.getUnicodeString (id, RESOURCE_TEXT20));
+         resource.setText21(rscVarData.getUnicodeString (id, RESOURCE_TEXT21));
+         resource.setText22(rscVarData.getUnicodeString (id, RESOURCE_TEXT22));
+         resource.setText23(rscVarData.getUnicodeString (id, RESOURCE_TEXT23));
+         resource.setText24(rscVarData.getUnicodeString (id, RESOURCE_TEXT24));
+         resource.setText25(rscVarData.getUnicodeString (id, RESOURCE_TEXT25));
+         resource.setText26(rscVarData.getUnicodeString (id, RESOURCE_TEXT26));
+         resource.setText27(rscVarData.getUnicodeString (id, RESOURCE_TEXT27));
+         resource.setText28(rscVarData.getUnicodeString (id, RESOURCE_TEXT28));
+         resource.setText29(rscVarData.getUnicodeString (id, RESOURCE_TEXT29));
+         resource.setText30(rscVarData.getUnicodeString (id, RESOURCE_TEXT30));         
          resource.setUniqueID(id.intValue());
          resource.setWork(new MPXDuration (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
 
@@ -1250,6 +1414,38 @@ public class MPPFile extends MPXFile
    private static final Integer TASK_DURATION10 = new Integer (73);
    private static final Integer TASK_DURATION10_UNITS = new Integer (74);
 
+   private static final Integer TASK_DATE1 = new Integer (80);
+   private static final Integer TASK_DATE2 = new Integer (81);
+   private static final Integer TASK_DATE3 = new Integer (82);
+   private static final Integer TASK_DATE4 = new Integer (83);
+   private static final Integer TASK_DATE5 = new Integer (84);
+   private static final Integer TASK_DATE6 = new Integer (85);
+   private static final Integer TASK_DATE7 = new Integer (86);
+   private static final Integer TASK_DATE8 = new Integer (87);
+   private static final Integer TASK_DATE9 = new Integer (88);
+   private static final Integer TASK_DATE10 = new Integer (89);
+                              
+   private static final Integer TASK_TEXT11 = new Integer (90);
+   private static final Integer TASK_TEXT12 = new Integer (91);   
+   private static final Integer TASK_TEXT13 = new Integer (92);
+   private static final Integer TASK_TEXT14 = new Integer (93);   
+   private static final Integer TASK_TEXT15 = new Integer (94);
+   private static final Integer TASK_TEXT16 = new Integer (95);
+   private static final Integer TASK_TEXT17 = new Integer (96);         
+   private static final Integer TASK_TEXT18 = new Integer (97);   
+   private static final Integer TASK_TEXT19 = new Integer (98);   
+   private static final Integer TASK_TEXT20 = new Integer (99);      
+   private static final Integer TASK_TEXT21 = new Integer (100);
+   private static final Integer TASK_TEXT22 = new Integer (101);   
+   private static final Integer TASK_TEXT23 = new Integer (102);   
+   private static final Integer TASK_TEXT24 = new Integer (103);   
+   private static final Integer TASK_TEXT25 = new Integer (104);   
+   private static final Integer TASK_TEXT26 = new Integer (105);   
+   private static final Integer TASK_TEXT27 = new Integer (106);   
+   private static final Integer TASK_TEXT28 = new Integer (107);   
+   private static final Integer TASK_TEXT29 = new Integer (108);   
+   private static final Integer TASK_TEXT30 = new Integer (109);
+      
    private static final Integer TASK_NUMBER11 = new Integer (110);
    private static final Integer TASK_NUMBER12 = new Integer (111);
    private static final Integer TASK_NUMBER13 = new Integer (112);
@@ -1261,6 +1457,17 @@ public class MPPFile extends MPXFile
    private static final Integer TASK_NUMBER19 = new Integer (118);
    private static final Integer TASK_NUMBER20 = new Integer (119);
 
+   private static final Integer TASK_OUTLINECODE1 = new Integer (123);
+   private static final Integer TASK_OUTLINECODE2 = new Integer (124);
+   private static final Integer TASK_OUTLINECODE3 = new Integer (125);
+   private static final Integer TASK_OUTLINECODE4 = new Integer (126);
+   private static final Integer TASK_OUTLINECODE5 = new Integer (127);
+   private static final Integer TASK_OUTLINECODE6 = new Integer (128);
+   private static final Integer TASK_OUTLINECODE7 = new Integer (129);
+   private static final Integer TASK_OUTLINECODE8 = new Integer (130);
+   private static final Integer TASK_OUTLINECODE9 = new Integer (131);
+   private static final Integer TASK_OUTLINECODE10 = new Integer (132);
+                                 
    private static final Integer TASK_COST1 = new Integer (134);
    private static final Integer TASK_COST2 = new Integer (135);
    private static final Integer TASK_COST3 = new Integer (136);
@@ -1282,13 +1489,138 @@ public class MPPFile extends MPXFile
    private static final Integer RESOURCE_GROUP = new Integer (4);
    private static final Integer RESOURCE_CODE = new Integer (5);
    private static final Integer RESOURCE_EMAIL = new Integer (6);
+   
    private static final Integer RESOURCE_TEXT1 = new Integer (10);
    private static final Integer RESOURCE_TEXT2 = new Integer (11);
    private static final Integer RESOURCE_TEXT3 = new Integer (12);
    private static final Integer RESOURCE_TEXT4 = new Integer (13);
    private static final Integer RESOURCE_TEXT5 = new Integer (14);
+   private static final Integer RESOURCE_TEXT6 = new Integer (15);
+   private static final Integer RESOURCE_TEXT7 = new Integer (16);
+   private static final Integer RESOURCE_TEXT8 = new Integer (17);
+   private static final Integer RESOURCE_TEXT9 = new Integer (18);            
+   private static final Integer RESOURCE_TEXT10 = new Integer (19);
+   private static final Integer RESOURCE_TEXT11 = new Integer (20);
+   private static final Integer RESOURCE_TEXT12 = new Integer (21);
+   private static final Integer RESOURCE_TEXT13 = new Integer (22);
+   private static final Integer RESOURCE_TEXT14 = new Integer (23);
+   private static final Integer RESOURCE_TEXT15 = new Integer (24);
+   private static final Integer RESOURCE_TEXT16 = new Integer (25);
+   private static final Integer RESOURCE_TEXT17 = new Integer (26);
+   private static final Integer RESOURCE_TEXT18 = new Integer (27);
+   private static final Integer RESOURCE_TEXT19 = new Integer (28);
+   private static final Integer RESOURCE_TEXT20 = new Integer (29);
+   private static final Integer RESOURCE_TEXT21 = new Integer (30);
+   private static final Integer RESOURCE_TEXT22 = new Integer (31);
+   private static final Integer RESOURCE_TEXT23 = new Integer (32);
+   private static final Integer RESOURCE_TEXT24 = new Integer (33);
+   private static final Integer RESOURCE_TEXT25 = new Integer (34);
+   private static final Integer RESOURCE_TEXT26 = new Integer (35);
+   private static final Integer RESOURCE_TEXT27 = new Integer (36);
+   private static final Integer RESOURCE_TEXT28 = new Integer (37);
+   private static final Integer RESOURCE_TEXT29 = new Integer (38);                           
+   private static final Integer RESOURCE_TEXT30 = new Integer (39);
+
+   private static final Integer RESOURCE_START1 = new Integer (40);
+   private static final Integer RESOURCE_START2 = new Integer (41);
+   private static final Integer RESOURCE_START3 = new Integer (42);
+   private static final Integer RESOURCE_START4 = new Integer (43);
+   private static final Integer RESOURCE_START5 = new Integer (44);
+   private static final Integer RESOURCE_START6 = new Integer (45);
+   private static final Integer RESOURCE_START7 = new Integer (46);
+   private static final Integer RESOURCE_START8 = new Integer (47);
+   private static final Integer RESOURCE_START9 = new Integer (48);
+   private static final Integer RESOURCE_START10 = new Integer (49);
+      
+   private static final Integer RESOURCE_FINISH1 = new Integer (50);
+   private static final Integer RESOURCE_FINISH2 = new Integer (51);
+   private static final Integer RESOURCE_FINISH3 = new Integer (52);
+   private static final Integer RESOURCE_FINISH4 = new Integer (53);
+   private static final Integer RESOURCE_FINISH5 = new Integer (54);
+   private static final Integer RESOURCE_FINISH6 = new Integer (55);
+   private static final Integer RESOURCE_FINISH7 = new Integer (56);
+   private static final Integer RESOURCE_FINISH8 = new Integer (57);
+   private static final Integer RESOURCE_FINISH9 = new Integer (58);
+   private static final Integer RESOURCE_FINISH10 = new Integer (59);
+
+   private static final Integer RESOURCE_NUMBER1 = new Integer (60);
+   private static final Integer RESOURCE_NUMBER2 = new Integer (61);
+   private static final Integer RESOURCE_NUMBER3 = new Integer (62);
+   private static final Integer RESOURCE_NUMBER4 = new Integer (63);
+   private static final Integer RESOURCE_NUMBER5 = new Integer (64);
+   private static final Integer RESOURCE_NUMBER6 = new Integer (65);
+   private static final Integer RESOURCE_NUMBER7 = new Integer (66);
+   private static final Integer RESOURCE_NUMBER8 = new Integer (67);
+   private static final Integer RESOURCE_NUMBER9 = new Integer (68);
+   private static final Integer RESOURCE_NUMBER10 = new Integer (69);
+   private static final Integer RESOURCE_NUMBER11 = new Integer (70);
+   private static final Integer RESOURCE_NUMBER12 = new Integer (71);
+   private static final Integer RESOURCE_NUMBER13 = new Integer (72);
+   private static final Integer RESOURCE_NUMBER14 = new Integer (73);
+   private static final Integer RESOURCE_NUMBER15 = new Integer (74);
+   private static final Integer RESOURCE_NUMBER16 = new Integer (75);
+   private static final Integer RESOURCE_NUMBER17 = new Integer (76);
+   private static final Integer RESOURCE_NUMBER18 = new Integer (77);
+   private static final Integer RESOURCE_NUMBER19 = new Integer (78);
+   private static final Integer RESOURCE_NUMBER20 = new Integer (79);
+                  
+   private static final Integer RESOURCE_DURATION1 = new Integer (80);
+   private static final Integer RESOURCE_DURATION2 = new Integer (81);
+   private static final Integer RESOURCE_DURATION3 = new Integer (82);
+   private static final Integer RESOURCE_DURATION4 = new Integer (83);
+   private static final Integer RESOURCE_DURATION5 = new Integer (84);
+   private static final Integer RESOURCE_DURATION6 = new Integer (85);
+   private static final Integer RESOURCE_DURATION7 = new Integer (86);
+   private static final Integer RESOURCE_DURATION8 = new Integer (87);
+   private static final Integer RESOURCE_DURATION9 = new Integer (88);
+   private static final Integer RESOURCE_DURATION10 = new Integer (89);
+                        
+   private static final Integer RESOURCE_DURATION1_UNITS = new Integer (90);      
+   private static final Integer RESOURCE_DURATION2_UNITS = new Integer (91);      
+   private static final Integer RESOURCE_DURATION3_UNITS = new Integer (92);      
+   private static final Integer RESOURCE_DURATION4_UNITS = new Integer (93);      
+   private static final Integer RESOURCE_DURATION5_UNITS = new Integer (94);      
+   private static final Integer RESOURCE_DURATION6_UNITS = new Integer (95);      
+   private static final Integer RESOURCE_DURATION7_UNITS = new Integer (96);      
+   private static final Integer RESOURCE_DURATION8_UNITS = new Integer (97);      
+   private static final Integer RESOURCE_DURATION9_UNITS = new Integer (98);      
+   private static final Integer RESOURCE_DURATION10_UNITS = new Integer (99);      
+         
+   private static final Integer RESOURCE_DATE1 = new Integer (103);   
+   private static final Integer RESOURCE_DATE2 = new Integer (104);   
+   private static final Integer RESOURCE_DATE3 = new Integer (105);   
+   private static final Integer RESOURCE_DATE4 = new Integer (106);   
+   private static final Integer RESOURCE_DATE5 = new Integer (107);   
+   private static final Integer RESOURCE_DATE6 = new Integer (108);   
+   private static final Integer RESOURCE_DATE7 = new Integer (109);   
+   private static final Integer RESOURCE_DATE8 = new Integer (110);   
+   private static final Integer RESOURCE_DATE9 = new Integer (111);   
+   private static final Integer RESOURCE_DATE10 = new Integer (112);   
+
+   private static final Integer RESOURCE_OUTLINECODE1 = new Integer (113);   
+   private static final Integer RESOURCE_OUTLINECODE2 = new Integer (114);   
+   private static final Integer RESOURCE_OUTLINECODE3 = new Integer (115);   
+   private static final Integer RESOURCE_OUTLINECODE4 = new Integer (116);   
+   private static final Integer RESOURCE_OUTLINECODE5 = new Integer (117);   
+   private static final Integer RESOURCE_OUTLINECODE6 = new Integer (118);   
+   private static final Integer RESOURCE_OUTLINECODE7 = new Integer (119);   
+   private static final Integer RESOURCE_OUTLINECODE8 = new Integer (120);   
+   private static final Integer RESOURCE_OUTLINECODE9 = new Integer (121);   
+   private static final Integer RESOURCE_OUTLINECODE10 = new Integer (122);   
+   
    private static final Integer RESOURCE_NOTES = new Integer (124);
 
+   private static final Integer RESOURCE_COST1 = new Integer (125);
+   private static final Integer RESOURCE_COST2 = new Integer (126);
+   private static final Integer RESOURCE_COST3 = new Integer (127);
+   private static final Integer RESOURCE_COST4 = new Integer (128);
+   private static final Integer RESOURCE_COST5 = new Integer (129);
+   private static final Integer RESOURCE_COST6 = new Integer (130);
+   private static final Integer RESOURCE_COST7 = new Integer (131);
+   private static final Integer RESOURCE_COST8 = new Integer (132);
+   private static final Integer RESOURCE_COST9 = new Integer (133);
+   private static final Integer RESOURCE_COST10 = new Integer (134);
+                              
 	/**
 	 * Mask used to remove flags from the duration units field.
 	 */

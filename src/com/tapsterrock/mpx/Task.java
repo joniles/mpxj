@@ -4792,6 +4792,1535 @@ public class Task extends MPXRecord implements Comparable
    {
       return (m_effortDriven);   
    }
+         
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText11()
+   {
+      return m_text11;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText12()
+   {
+      return m_text12;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText13()
+   {
+      return m_text13;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText14()
+   {
+      return m_text14;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText15()
+   {
+      return m_text15;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText16()
+   {
+      return m_text16;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText17()
+   {
+      return m_text17;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText18()
+   {
+      return m_text18;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText19()
+   {
+      return m_text19;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText20()
+   {
+      return m_text20;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText21()
+   {
+      return m_text21;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText22()
+   {
+      return m_text22;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText23()
+   {
+      return m_text23;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText24()
+   {
+      return m_text24;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText25()
+   {
+      return m_text25;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText26()
+   {
+      return m_text26;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText27()
+   {
+      return m_text27;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText28()
+   {
+      return m_text28;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText29()
+   {
+      return m_text29;
+   }
+
+   /**
+    * Retrieves a text value
+    * 
+    * @return Text value
+    */
+   public String getText30()
+   {
+      return m_text30;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText11(String string)
+   {
+      m_text11 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText12(String string)
+   {
+      m_text12 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText13(String string)
+   {
+      m_text13 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText14(String string)
+   {
+      m_text14 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText15(String string)
+   {
+      m_text15 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText16(String string)
+   {
+      m_text16 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText17(String string)
+   {
+      m_text17 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText18(String string)
+   {
+      m_text18 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText19(String string)
+   {
+      m_text19 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText20(String string)
+   {
+      m_text20 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText21(String string)
+   {
+      m_text21 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText22(String string)
+   {
+      m_text22 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText23(String string)
+   {
+      m_text23 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText24(String string)
+   {
+      m_text24 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText25(String string)
+   {
+      m_text25 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText26(String string)
+   {
+      m_text26 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText27(String string)
+   {
+      m_text27 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText28(String string)
+   {
+      m_text28 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText29(String string)
+   {
+      m_text29 = string;
+   }
+
+   /**
+    * Sets a text value
+    * 
+    * @param string Text value
+    */
+   public void setText30(String string)
+   {
+      m_text30 = string;
+   }
+
+
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber6 (Double val)
+   {
+      m_number6 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber6Value ()
+   {
+      return (getDoubleValue (m_number6));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber6 ()
+   {
+      return (m_number6);
+   }
+
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber7 (Double val)
+   {
+      m_number7 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber7Value ()
+   {
+      return (getDoubleValue (m_number7));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber7 ()
+   {
+      return (m_number7);
+   }
+      
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber8 (Double val)
+   {
+      m_number8 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber8Value ()
+   {
+      return (getDoubleValue (m_number8));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber8 ()
+   {
+      return (m_number8);
+   }
+
+        
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber9 (Double val)
+   {
+      m_number9 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber9Value ()
+   {
+      return (getDoubleValue (m_number9));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber9 ()
+   {
+      return (m_number9);
+   }
+               
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber10 (Double val)
+   {
+      m_number10 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber10Value ()
+   {
+      return (getDoubleValue (m_number10));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber10 ()
+   {
+      return (m_number10);
+   }
+
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber11 (Double val)
+   {
+      m_number11 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber11Value ()
+   {
+      return (getDoubleValue (m_number11));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber11 ()
+   {
+      return (m_number11);
+   }
+        
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber12 (Double val)
+   {
+      m_number12 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber12Value ()
+   {
+      return (getDoubleValue (m_number12));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber12 ()
+   {
+      return (m_number12);
+   }
+        
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber13 (Double val)
+   {
+      m_number13 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber13Value ()
+   {
+      return (getDoubleValue (m_number13));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber13 ()
+   {
+      return (m_number13);
+   }
+        
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber14 (Double val)
+   {
+      m_number14 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber14Value ()
+   {
+      return (getDoubleValue (m_number14));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber14 ()
+   {
+      return (m_number14);
+   }
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber15 (Double val)
+   {
+      m_number15 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber15Value ()
+   {
+      return (getDoubleValue (m_number15));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber15 ()
+   {
+      return (m_number15);
+   }
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber16 (Double val)
+   {
+      m_number16 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber16Value ()
+   {
+      return (getDoubleValue (m_number16));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber16 ()
+   {
+      return (m_number16);
+   }
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber17 (Double val)
+   {
+      m_number17 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber17Value ()
+   {
+      return (getDoubleValue (m_number17));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber17 ()
+   {
+      return (m_number17);
+   }
+        
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber18 (Double val)
+   {
+      m_number18 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber18Value ()
+   {
+      return (getDoubleValue (m_number18));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber18 ()
+   {
+      return (m_number18);
+   }
+        
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber19 (Double val)
+   {
+      m_number19 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber19Value ()
+   {
+      return (getDoubleValue (m_number19));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber19 ()
+   {
+      return (m_number19);
+   }
+       
+   /**
+    * Sets a numeric value.
+    *
+    * @param val Numeric value
+    */
+   public void setNumber20 (Double val)
+   {
+      m_number20 = val;
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public double getNumber20Value ()
+   {
+      return (getDoubleValue (m_number20));
+   }
+
+   /**
+    * Retrieves a numeric value
+    * 
+    * @return Numeric value
+    */               
+   public Double getNumber20 ()
+   {
+      return (m_number20);
+   }
+        
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration10()
+   {
+      return m_duration10;
+   }
+
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration4()
+   {
+      return m_duration4;
+   }
+
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration5()
+   {
+      return m_duration5;
+   }
+
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration6()
+   {
+      return m_duration6;
+   }
+
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration7()
+   {
+      return m_duration7;
+   }
+
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration8()
+   {
+      return m_duration8;
+   }
+
+   /**
+    * Retrieves a duration.
+    * 
+    * @return MPXDuration
+    */
+   public MPXDuration getDuration9()
+   {
+      return m_duration9;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration10(MPXDuration duration)
+   {
+      m_duration10 = duration;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration4(MPXDuration duration)
+   {
+      m_duration4 = duration;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration5(MPXDuration duration)
+   {
+      m_duration5 = duration;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration6(MPXDuration duration)
+   {
+      m_duration6 = duration;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration7(MPXDuration duration)
+   {
+      m_duration7 = duration;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration8(MPXDuration duration)
+   {
+      m_duration8 = duration;
+   }
+
+   /**
+    * Sets a duration value
+    * 
+    * @param duration Duration value
+    */
+   public void setDuration9(MPXDuration duration)
+   {
+      m_duration9 = duration;
+   }
+          
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate1()
+   {
+      return m_date1;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate10()
+   {
+      return m_date10;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate2()
+   {
+      return m_date2;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate3()
+   {
+      return m_date3;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate4()
+   {
+      return m_date4;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate5()
+   {
+      return m_date5;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate6()
+   {
+      return m_date6;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate7()
+   {
+      return m_date7;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate8()
+   {
+      return m_date8;
+   }
+
+   /**
+    * Retrieves a date value
+    * 
+    * @return Date value
+    */
+   public Date getDate9()
+   {
+      return m_date9;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate1(Date date)
+   {
+      m_date1 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate10(Date date)
+   {
+      m_date10 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate2(Date date)
+   {
+      m_date2 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate3(Date date)
+   {
+      m_date3 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate4(Date date)
+   {
+      m_date4 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate5(Date date)
+   {
+      m_date5 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate6(Date date)
+   {
+      m_date6 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate7(Date date)
+   {
+      m_date7 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate8(Date date)
+   {
+      m_date8 = date;
+   }
+
+   /**
+    * Sets a date value.
+    * 
+    * @param date Date value
+    */
+   public void setDate9(Date date)
+   {
+      m_date9 = date;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost10()
+   {
+      return m_cost10;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost4()
+   {
+      return m_cost4;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost5()
+   {
+      return m_cost5;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost6()
+   {
+      return m_cost6;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost7()
+   {
+      return m_cost7;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost8()
+   {
+      return m_cost8;
+   }
+
+   /**
+    * Retrieves a cost.
+    * 
+    * @return Cost value
+    */
+   public Number getCost9()
+   {
+      return m_cost9;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost10(Number number)
+   {
+      m_cost10 = number;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost4(Number number)
+   {
+      m_cost4 = number;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost5(Number number)
+   {
+      m_cost5 = number;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost6(Number number)
+   {
+      m_cost6 = number;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost7(Number number)
+   {
+      m_cost7 = number;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost8(Number number)
+   {
+      m_cost8 = number;
+   }
+
+   /**
+    * Sets a cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setCost9(Number number)
+   {
+      m_cost9 = number;
+   }
+
+   /**
+    * Retrieves a start date
+    * 
+    * @return Date start date
+    */
+   public Date getStart10()
+   {
+      return m_start10;
+   }
+
+   /**
+    * Retrieves a start date
+    * 
+    * @return Date start date
+    */
+   public Date getStart6()
+   {
+      return m_start6;
+   }
+
+   /**
+    * Retrieves a start date
+    * 
+    * @return Date start date
+    */
+   public Date getStart7()
+   {
+      return m_start7;
+   }
+
+   /**
+    * Retrieves a start date
+    * 
+    * @return Date start date
+    */
+   public Date getStart8()
+   {
+      return m_start8;
+   }
+
+   /**
+    * Retrieves a start date
+    * 
+    * @return Date start date
+    */
+   public Date getStart9()
+   {
+      return m_start9;
+   }
+
+   /**
+    * Sets a start date
+    * 
+    * @param date Start date
+    */
+   public void setStart10(Date date)
+   {
+      m_start10 = date;
+   }
+
+   /**
+    * Sets a start date
+    * 
+    * @param date Start date
+    */
+   public void setStart6(Date date)
+   {
+      m_start6 = date;
+   }
+
+   /**
+    * Sets a start date
+    * 
+    * @param date Start date
+    */
+   public void setStart7(Date date)
+   {
+      m_start7 = date;
+   }
+
+   /**
+    * Sets a start date
+    * 
+    * @param date Start date
+    */
+   public void setStart8(Date date)
+   {
+      m_start8 = date;
+   }
+
+   /**
+    * Sets a start date
+    * 
+    * @param date Start date
+    */
+   public void setStart9(Date date)
+   {
+      m_start9 = date;
+   }
+       
+   /**
+    * Retrieves a finish date.
+    * 
+    * @return Date finish date
+    */
+   public Date getFinish10()
+   {
+      return m_finish10;
+   }
+
+   /**
+    * Retrieves a finish date.
+    * 
+    * @return Date finish date
+    */
+   public Date getFinish6()
+   {
+      return m_finish6;
+   }
+
+   /**
+    * Retrieves a finish date.
+    * 
+    * @return Date finish date
+    */
+   public Date getFinish7()
+   {
+      return m_finish7;
+   }
+
+   /**
+    * Retrieves a finish date.
+    * 
+    * @return Date finish date
+    */
+   public Date getFinish8()
+   {
+      return m_finish8;
+   }
+
+   /**
+    * Retrieves a finish date.
+    * 
+    * @return Date finish date
+    */
+   public Date getFinish9()
+   {
+      return m_finish9;
+   }
+
+   /**
+    * Sets a finish date
+    * 
+    * @param date Finish date
+    */
+   public void setFinish10(Date date)
+   {
+      m_finish10 = date;
+   }
+
+   /**
+    * Sets a finish date
+    * 
+    * @param date Finish date
+    */
+   public void setFinish6(Date date)
+   {
+      m_finish6 = date;
+   }
+
+   /**
+    * Sets a finish date
+    * 
+    * @param date Finish date
+    */
+   public void setFinish7(Date date)
+   {
+      m_finish7 = date;
+   }
+
+   /**
+    * Sets a finish date
+    * 
+    * @param date Finish date
+    */
+   public void setFinish8(Date date)
+   {
+      m_finish8 = date;
+   }
+
+   /**
+    * Sets a finish date
+    * 
+    * @param date Finish date
+    */
+   public void setFinish9(Date date)
+   {
+      m_finish9 = date;
+   }
                
    /**
     * This is a reference to the parent task, as specified by the
@@ -4849,7 +6378,76 @@ public class Task extends MPXRecord implements Comparable
    private boolean m_flag19;
    private boolean m_flag20;
    private boolean m_effortDriven;
-                                 
+   private String m_text11;
+   private String m_text12;
+   private String m_text13;
+   private String m_text14;
+   private String m_text15;
+   private String m_text16;
+   private String m_text17;
+   private String m_text18;
+   private String m_text19;
+   private String m_text20;                                                               
+   private String m_text21;   
+   private String m_text22;
+   private String m_text23;
+   private String m_text24;
+   private String m_text25;
+   private String m_text26;
+   private String m_text27;
+   private String m_text28;
+   private String m_text29;
+   private String m_text30;
+   private Double m_number6;
+   private Double m_number7;                                    
+   private Double m_number8;   
+   private Double m_number9;   
+   private Double m_number10;   
+   private Double m_number11;      
+   private Double m_number12;   
+   private Double m_number13;   
+   private Double m_number14;   
+   private Double m_number15;   
+   private Double m_number16;   
+   private Double m_number17;   
+   private Double m_number18;   
+   private Double m_number19;   
+   private Double m_number20;   
+   private MPXDuration m_duration4;
+   private MPXDuration m_duration5;
+   private MPXDuration m_duration6;
+   private MPXDuration m_duration7;
+   private MPXDuration m_duration8;
+   private MPXDuration m_duration9;                  
+   private MPXDuration m_duration10;   
+   private Date m_date1;
+   private Date m_date2;
+   private Date m_date3;
+   private Date m_date4;
+   private Date m_date5;
+   private Date m_date6;
+   private Date m_date7;
+   private Date m_date8;
+   private Date m_date9;
+   private Date m_date10;
+   private Number m_cost4;
+   private Number m_cost5;
+   private Number m_cost6;
+   private Number m_cost7;
+   private Number m_cost8;
+   private Number m_cost9;
+   private Number m_cost10;
+   private Date m_start6;
+   private Date m_start7;
+   private Date m_start8;
+   private Date m_start9;
+   private Date m_start10;
+   private Date m_finish6;
+   private Date m_finish7;
+   private Date m_finish8;
+   private Date m_finish9;
+   private Date m_finish10;
+                                             
 	/**
 	 * Constants used to define the task type.
 	 */

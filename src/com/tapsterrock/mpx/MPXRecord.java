@@ -511,8 +511,18 @@ class MPXRecord
     */
    protected double getDoubleValue (int key)
    {
-      Number value = (Number)get(key);
+      return (getDoubleValue((Number)get(key)));      
+   }
 
+   /**
+    * Given a number, this method returns a double value. If the
+    * number parameter is null, then zero is returned.
+    * 
+    * @param value Number value
+    * @return double value
+    */
+   protected double getDoubleValue (Number value)
+   {
       double result;
       if (value == null)
       {
@@ -523,9 +533,9 @@ class MPXRecord
          result = value.doubleValue();
       }
 
-      return (result);
+      return (result);      
    }
-
+   
    /**
     * Accessor method allowing retreival of MPXFile reference.
     *
