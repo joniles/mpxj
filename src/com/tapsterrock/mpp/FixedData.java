@@ -62,7 +62,7 @@ final class FixedData extends MPPComponent
 		is.read(buffer);
 				
       int itemCount = meta.getItemCount();
-      m_array = new ByteArray[itemCount];
+      m_array = new Object[itemCount];
       m_offset = new int[itemCount];
       
       byte[] metaData;
@@ -95,7 +95,7 @@ final class FixedData extends MPPComponent
             }
          }
 
-         m_array[loop] = new ByteArray (buffer, itemOffset, itemSize);
+         m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
          m_offset[loop] = itemOffset;
       }      
    }
@@ -116,13 +116,13 @@ final class FixedData extends MPPComponent
    {
       int offset = 0;
       int itemCount = is.available() / itemSize;
-      m_array = new ByteArray[itemCount];
+      m_array = new Object[itemCount];
       m_offset = new int[itemCount];
       
       for (int loop=0; loop < itemCount; loop++)
       {
          m_offset[loop] = offset;
-         m_array[loop] = new ByteArray (readByteArray (is, itemSize));
+         m_array[loop] = readByteArray (is, itemSize);
          offset += itemSize;
       }
    }
@@ -141,7 +141,7 @@ final class FixedData extends MPPComponent
 
       if (m_array[index] != null)
       {
-         result = m_array[index].byteArrayValue();
+         result = (byte[])m_array[index];
       }
 
       return (result);
@@ -198,7 +198,7 @@ final class FixedData extends MPPComponent
       for (int loop=0; loop < m_array.length; loop++)
       {
          pw.println ("   Data at index: " + loop);
-         pw.println ("  " + MPPUtility.hexdump (m_array[loop].byteArrayValue(), true));
+         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
       }
       pw.println ("END FixedData");
 
@@ -210,10 +210,11 @@ final class FixedData extends MPPComponent
    /**
     * An array containing all of the items of data held in this block.
     */
-   private ByteArray[] m_array;
+   private Object[] m_array;
    
    /**
     * Array containing offset values for each item in the array.
     */
-   private int[] m_offset;   
+   private int[] m_offset;
+   
 }

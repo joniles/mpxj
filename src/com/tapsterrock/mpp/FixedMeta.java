@@ -71,11 +71,11 @@ final class FixedMeta extends MPPComponent
 
       m_itemCount = (fileSize - 16) / itemSize;
 
-      m_array = new ByteArray[m_itemCount];
+      m_array = new Object[m_itemCount];
 
       for (int loop=0; loop < m_itemCount; loop++)
       {
-         m_array[loop] = new ByteArray (readByteArray (is, itemSize));         
+         m_array[loop] = readByteArray (is, itemSize);
       }
    }
 
@@ -103,7 +103,7 @@ final class FixedMeta extends MPPComponent
 
       if (m_array[index] != null)
       {
-         result = m_array[index].byteArrayValue();
+         result = (byte[])m_array[index];
       }
 
       return (result);
@@ -126,7 +126,7 @@ final class FixedMeta extends MPPComponent
       for (int loop=0; loop < m_itemCount; loop++)
       {
          pw.println ("   Data at index: " + loop);
-         pw.println ("  " + MPPUtility.hexdump (m_array[loop].byteArrayValue(), true));         
+         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));         
       }
 
       pw.println ("END: FixedMeta");
@@ -144,7 +144,7 @@ final class FixedMeta extends MPPComponent
    /**
     * Unknown data items relating to each entry in the fixed data block.
     */
-   private ByteArray[] m_array;
+   private Object[] m_array;
 
    /**
     * Constant representing the magic number appearing

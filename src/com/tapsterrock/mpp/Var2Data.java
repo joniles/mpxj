@@ -51,10 +51,12 @@ final class Var2Data extends MPPComponent
       throws IOException
    {
       m_meta = meta;
-      ByteArray data;
+      byte[] data;
 
       int itemCount = m_meta.getItemCount();
+
       int itemOffset;
+
 
       for (int loop=0; loop < itemCount; loop++)
       {
@@ -64,7 +66,7 @@ final class Var2Data extends MPPComponent
 
          int size = readInt (is);
 
-         data = new ByteArray (readByteArray (is, size));
+         data = readByteArray (is, size);
 
          m_map.put (new Integer (itemOffset), data);
       }
@@ -85,11 +87,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
-         if (value != null)
-         {
-            result = value.byteArrayValue ();
-         }
+         result = (byte[])m_map.get (offset);
       }
 
       return (result);
@@ -122,10 +120,10 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
+         byte[] value = (byte[])m_map.get (offset);
          if (value != null)
          {
-            result = MPPUtility.getUnicodeString(value.byteArrayValue());
+            result = MPPUtility.getUnicodeString(value);
          }
       }
 
@@ -162,10 +160,10 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
+         byte[] value = (byte[])m_map.get (offset);
          if (value != null)
          {
-            result = MPPUtility.getTimestamp(value.byteArrayValue());
+            result = MPPUtility.getTimestamp(value);
          }
       }
 
@@ -186,10 +184,10 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
+         byte[] value = (byte[])m_map.get (offset);
          if (value != null)
          {
-            result = MPPUtility.getString(value.byteArrayValue());
+            result = MPPUtility.getString(value);
          }
       }
 
@@ -226,11 +224,11 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
+         byte[] value = (byte[])m_map.get (offset);
 
          if (value != null)
          {
-            result = MPPUtility.getShort(value.byteArrayValue());
+            result = MPPUtility.getShort(value);
          }
       }
 
@@ -253,11 +251,11 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
+         byte[] value = (byte[])m_map.get (offset);
 
          if (value != null)
          {
-            result = MPPUtility.getInt(value.byteArrayValue());
+            result = MPPUtility.getInt(value);
          }
       }
 
@@ -280,11 +278,11 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         ByteArray value = (ByteArray)m_map.get (offset);
+         byte[] value = (byte[])m_map.get (offset);
 
          if (value != null)
          {
-            result = MPPUtility.getLong(value.byteArrayValue());
+            result = MPPUtility.getLong(value);
          }
       }
 
@@ -317,15 +315,15 @@ final class Var2Data extends MPPComponent
       PrintWriter pw = new PrintWriter (sw);
       Iterator iter = m_map.keySet().iterator();
       Integer offset;
-      ByteArray data;
+      byte[] data;
 
       pw.println ("BEGIN Var2Data");
       while (iter.hasNext() == true)
       {
          offset = (Integer)iter.next();
-         data = (ByteArray)m_map.get(offset);
-         pw.println ("   Data at offset: " + offset + " size: " + data.byteArrayValue().length);
-         pw.println ("  " + MPPUtility.hexdump (data.byteArrayValue(), true));
+         data = (byte[])m_map.get(offset);
+         pw.println ("   Data at offset: " + offset + " size: " + data.length);
+         pw.println ("  " + MPPUtility.hexdump (data, true));
       }
 
       pw.println ("END Var2Data");

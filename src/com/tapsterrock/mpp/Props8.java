@@ -98,7 +98,7 @@ final class Props8 extends Props
                break;
             }
             
-            m_map.put(new Integer (attrib2), new ByteArray (data));
+            m_map.put(new Integer (attrib2), data);
 //            pw.println(attrib2 + ": " + MPPUtility.hexdump(data, true));
             
             //
@@ -147,7 +147,7 @@ final class Props8 extends Props
       while (iter.hasNext() == true)
       {
          key = (Integer)iter.next();
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump(((ByteArray)m_map.get(key)).byteArrayValue(), true));   
+         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));   
       }
            
       pw.println ("END Props");

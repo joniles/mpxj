@@ -62,7 +62,7 @@ final class ExtendedData
             type = MPPUtility.getInt(data, index);
             index += 4;
                
-            m_map.put(new Integer (type), new ByteArray(data, index, size));
+            m_map.put(new Integer (type), MPPUtility.cloneSubArray(data, index, size));
             index += size;
          }         
       }         
@@ -78,10 +78,10 @@ final class ExtendedData
    {
       String result = null;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = m_data.getString(getOffset(item.byteArrayValue()));
+         result = m_data.getString(getOffset(item));
       }
          
       return (result);
@@ -97,10 +97,10 @@ final class ExtendedData
    {
       String result = null;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = m_data.getUnicodeString(getOffset(item.byteArrayValue()));
+         result = m_data.getUnicodeString(getOffset(item));
       }
          
       return (result);
@@ -116,10 +116,10 @@ final class ExtendedData
    {
       int result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getShort(item.byteArrayValue());
+         result = MPPUtility.getShort(item);
       }
          
       return (result);         
@@ -135,10 +135,10 @@ final class ExtendedData
    {
       int result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getInt(item.byteArrayValue());
+         result = MPPUtility.getInt(item);
       }
          
       return (result);         
@@ -154,10 +154,10 @@ final class ExtendedData
    {
       long result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getLong6(item.byteArrayValue());
+         result = MPPUtility.getLong6(item);
       }
          
       return (result);         
@@ -173,10 +173,10 @@ final class ExtendedData
    {
       double result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getDouble(item.byteArrayValue());
+         result = MPPUtility.getDouble(item);
       }
          
       return (result);         
@@ -192,10 +192,10 @@ final class ExtendedData
    {
       Date result = null;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getTimestamp(item.byteArrayValue());
+         result = MPPUtility.getTimestamp(item);
       }
          
       return (result);         
@@ -224,14 +224,14 @@ final class ExtendedData
       pw.println ("BEGIN ExtendedData");
          
       Iterator iter = m_map.keySet().iterator();
-      ByteArray item;
+      byte[] item;
       Integer type;
       
       while (iter.hasNext() == true)
       {  
          type = (Integer)iter.next();
-         item = (ByteArray)m_map.get(type);         
-         pw.println ("Type: " + type + " Data:" + MPPUtility.hexdump(item.byteArrayValue(), false));   
+         item = (byte[])m_map.get(type);         
+         pw.println ("Type: " + type + " Data:" + MPPUtility.hexdump(item, false));   
       }
           
       pw.println ("END ExtendedData");

@@ -45,10 +45,10 @@ class Props extends MPPComponent
    {
       int result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getShort(item.byteArrayValue());
+         result = MPPUtility.getShort(item);
       }
          
       return (result);         
@@ -64,10 +64,10 @@ class Props extends MPPComponent
    {
       int result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getInt(item.byteArrayValue());
+         result = MPPUtility.getInt(item);
       }
          
       return (result);         
@@ -83,10 +83,10 @@ class Props extends MPPComponent
    {
       double result = 0;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getDouble(item.byteArrayValue());
+         result = MPPUtility.getDouble(item);
       }
          
       return (result);         
@@ -102,10 +102,10 @@ class Props extends MPPComponent
    {
       Date result = null;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getTime(item.byteArrayValue());
+         result = MPPUtility.getTime(item);
       }
          
       return (result);         
@@ -121,10 +121,10 @@ class Props extends MPPComponent
    {
       boolean result = false;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = !(MPPUtility.getShort(item.byteArrayValue()) == 0);
+         result = !(MPPUtility.getShort(item) == 0);
       }
          
       return (result);         
@@ -140,10 +140,10 @@ class Props extends MPPComponent
    {
       String result = null;
          
-      ByteArray item = (ByteArray)m_map.get (type);         
+      byte[] item = (byte[])m_map.get (type);         
       if (item != null)
       {
-         result = MPPUtility.getUnicodeString(item.byteArrayValue());
+         result = MPPUtility.getUnicodeString(item);
       }
          
       return (result);

@@ -691,6 +691,21 @@ final class MPPUtility
    }
 
    /**
+    * This method allows a subsection of a byte array to be copied.
+    * 
+    * @param data source data
+    * @param offset offset into the source data
+    * @param size length of the source data to copy
+    * @return new byte array containing copied data
+    */
+   public static final byte[] cloneSubArray (byte[] data, int offset, int size)
+   {
+      byte[] newData = new byte[size];
+      System.arraycopy(data, offset, newData, 0, size);
+      return (newData);
+   }
+   
+   /**
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
     * characters.

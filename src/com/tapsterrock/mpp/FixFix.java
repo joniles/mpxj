@@ -54,11 +54,11 @@ final class FixFix extends MPPComponent
       int available = is.available();   
       m_diff = available % itemSize;      
       int itemCount = available / itemSize;
-      m_array = new ByteArray[itemCount];
+      m_array = new Object[itemCount];
 		
 		for (int loop=0; loop < itemCount; loop++)
 		{
-			m_array[loop] = new ByteArray (readByteArray(is, itemSize));
+			m_array[loop] = readByteArray(is, itemSize);
 		}
    }
 
@@ -99,7 +99,7 @@ final class FixFix extends MPPComponent
 
       if (m_array[index] != null)
       {
-         result = m_array[index].byteArrayValue();
+         result = (byte[])m_array[index];
       }
 
       return (result);
@@ -131,7 +131,7 @@ final class FixFix extends MPPComponent
       for (int loop=0; loop < m_array.length; loop++)
       {
          pw.println ("   Data at index: " + loop);
-         pw.println ("  " + MPPUtility.hexdump (m_array[loop].byteArrayValue(), true));
+         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
       }
       pw.println ("END FixFix");
 
@@ -143,7 +143,7 @@ final class FixFix extends MPPComponent
    /**
     * An array containing all of the items of data held in this block.
     */
-   private ByteArray[] m_array;
+   private Object[] m_array;
    
    /**
     * Overall data block size.
