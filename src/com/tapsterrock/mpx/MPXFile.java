@@ -1117,7 +1117,6 @@ public class MPXFile
       throws IOException
    {
       Iterator iter = m_records.iterator();
-      String str;
 
       while(iter.hasNext())
       {
