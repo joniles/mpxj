@@ -20,12 +20,12 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
- 
+
 package com.tapsterrock.mpx;
 
 /**
  * This interface is used to identify classes which require the parent MPX
- * file to be passed as an argument to the toString method in order to 
+ * file to be passed as an argument to the toString method in order to
  * correctly generate the text to appear in an MPX file.
  */
 interface ToStringRequiresFile

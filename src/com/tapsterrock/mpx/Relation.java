@@ -84,22 +84,22 @@ public final class Relation
             throw new MPXException (MPXException.INVALID_FORMAT);
          }
 
-         String relationType = relationship.substring(index, index+2);         
+         String relationType = relationship.substring(index, index+2);
          String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
-         
+
          for (m_type=0; m_type < relationTypes.length; m_type++)
          {
             if (relationTypes[m_type].equals(relationType) == true)
             {
                break;
-            }               
+            }
          }
 
          if (m_type == relationTypes.length)
          {
-            throw new MPXException (MPXException.INVALID_FORMAT + " " + relationType);   
+            throw new MPXException (MPXException.INVALID_FORMAT + " " + relationType);
          }
-                 
+
          index += 2;
 
          if (index == length)
@@ -131,7 +131,7 @@ public final class Relation
 
       if (m_duration.getDuration() != 0 || m_type != FINISH_START)
       {
-         String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);         
+         String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
          sb.append (relationTypes[m_type]);
       }
 
@@ -234,7 +234,7 @@ public final class Relation
     * Constant representing a start-start relationship.
     */
    public static final int START_START = 3;
-   
+
    /**
     * Identifier of task with which this relationship is held.
     */

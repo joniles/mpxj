@@ -66,7 +66,7 @@ public final class AccrueType implements ToStringRequiresFile
       AccrueType result = null;
 
       String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);
-      
+
       for (int loop=0; loop < typeNames.length; loop++)
       {
          if (typeNames[loop].equalsIgnoreCase(type) == true)

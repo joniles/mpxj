@@ -228,7 +228,7 @@ public final class Task extends MPXRecord implements Comparable
 
             case CONSTRAINT_TYPE:
             {
-               set (x, ConstraintType.getInstance (field));
+               set (x, ConstraintType.getInstance (getParentFile().getLocale(), field));
                break;
             }
 
@@ -253,7 +253,7 @@ public final class Task extends MPXRecord implements Comparable
 
             case PRIORITY:
             {
-               set (x, Priority.getInstance (field));
+               set (x, Priority.getInstance (getParentFile().getLocale(), field));
                break;
             }
 

@@ -34,7 +34,7 @@ public final class LocaleData_sv extends ListResourceBundle
 {
    /**
     * @see ListResourceBundle#getContents
-    */   
+    */
    public Object[][] getContents()
    {
       return (RESOURCE_DATA);
@@ -51,7 +51,7 @@ public final class LocaleData_sv extends ListResourceBundle
       }
    }
 
-   private static final String[] TASK_NAMES_DATA = 
+   private static final String[] TASK_NAMES_DATA =
    {
       null,
       "Namn",
@@ -207,7 +207,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Fortsätt tidigast",
       "Resume", // Translate
    };
-  
+
    private static final String[] RESOURCE_NAMES_DATA =
    {
       null,
@@ -234,7 +234,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Originalarbete",
       "Verkligt arbete",
       "Remaining Work", // translate
-      "Övertidsarbete", 
+      "Övertidsarbete",
       "Work Variance", // translate
       "% Work Complete",  // translate
       null,
@@ -259,11 +259,11 @@ public final class LocaleData_sv extends ListResourceBundle
       "Overallocated", // translate
       "Peak", // translated
       "Base Calendar", // translate
-      "Eget ID", 
+      "Eget ID",
       "Objects", // translate
-      "Linked Fields" // translate      
+      "Linked Fields" // translate
    };
-    
+
    private static final Object[][] RESOURCE_DATA =
    {
       {LocaleData.FILE_DELIMITER, ";"},
@@ -288,8 +288,8 @@ public final class LocaleData_sv extends ListResourceBundle
 
       {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
       {LocaleData.TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
-      
+
       {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
-      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}      
+      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };
 }

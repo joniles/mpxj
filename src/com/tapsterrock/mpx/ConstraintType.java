@@ -23,13 +23,15 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 /**
  * This class is used to represent a constraint type. It provides a mapping
  * between the textual description of a constraint type found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class ConstraintType
+public final class ConstraintType implements ToStringRequiresFile
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -41,7 +43,8 @@ public final class ConstraintType
     */
    private ConstraintType (int type)
    {
-      if (type < 0 || type >= TYPE_NAMES.length)
+      String[] constraintTypes = LocaleData.getStringArray(Locale.ENGLISH, LocaleData.CONSTRAINT_TYPES);
+      if (type < 0 || type >= constraintTypes.length)
       {
          m_type = 0;
       }
@@ -56,16 +59,18 @@ public final class ConstraintType
     * and returns an appropriate class instance. Note that unrecognised
     * values are treated as "As Soon As Possible" constraints.
     *
+    * @param locale target locale
     * @param type text version of the constraint type
     * @return ConstraintType instance
     */
-   public static ConstraintType getInstance (String type)
+   public static ConstraintType getInstance (Locale locale, String type)
    {
       int index = 0;
 
-      for (int loop=0; loop < TYPE_NAMES.length; loop++)
+      String[] constraintTypes = LocaleData.getStringArray(locale, LocaleData.CONSTRAINT_TYPES);
+      for (int loop=0; loop < constraintTypes.length; loop++)
       {
-         if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
+         if (constraintTypes[loop].equalsIgnoreCase(type) == true)
          {
             index = loop;
             break;
@@ -86,7 +91,8 @@ public final class ConstraintType
     */
    public static ConstraintType getInstance (int type)
    {
-      if (type < 0 || type >= TYPE_NAMES.length)
+      String[] constraintTypes = LocaleData.getStringArray(Locale.ENGLISH, LocaleData.CONSTRAINT_TYPES);
+      if (type < 0 || type >= constraintTypes.length)
       {
          type = 0;
       }
@@ -129,11 +135,13 @@ public final class ConstraintType
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param mpx parent mpx file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString ()
+   public String toString (MPXFile mpx)
    {
-      return (TYPE_NAMES[m_type]);
+      String[] typeNames = LocaleData.getStringArray(mpx.getLocale(), LocaleData.CONSTRAINT_TYPES);
+      return (typeNames[m_type]);
    }
 
    /**
@@ -175,21 +183,6 @@ public final class ConstraintType
     * Integer representing the "Finish No Later Than" constraint type.
     */
    public static final int FINISH_NO_LATER_THAN = 7;
-
-   /**
-    * Array of type names matching the above constants.
-    */
-   private static final String[] TYPE_NAMES =
-   {
-      "As Soon As Possible",
-      "As Late As Possible",
-      "Must Start On",
-      "Must Finish On",
-      "Start No Earlier Than",
-      "Start No Later Than",
-      "Finish No Earlier Than",
-      "Finish No Later Than"
-   };
 
    /**
     * Array of type values matching the above constants.

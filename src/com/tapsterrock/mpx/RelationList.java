@@ -76,7 +76,7 @@ public final class RelationList implements ToStringRequiresFile
    /**
     * This method generates a string in MPX format representing the
     * contents of this rlist.
-    * 
+    *
     * @param mpx parent mpx file
     * @return string containing the data for this list in MPX format.
     */

@@ -1,7 +1,7 @@
 /*
  * file:       LocaleData_de.java
- * author:     Jon Iles
- *             Harald Hett
+ * author:     Harald Hett
+ *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2004
  * date:       24/03/2004
  */
@@ -52,7 +52,23 @@ public final class LocaleData_de extends ListResourceBundle
       }
    }
 
-   private static final String[] TASK_NAMES_DATA = 
+   private static final String[] ACCRUE_TYPES_DATA =
+   {
+      "Anfang",
+      "Ende",
+      "Anteilig"
+   };
+
+
+   private static final String[] RELATION_TYPES_DATA =
+   {
+      "EE",
+      "EA",
+      "AE",
+      "AA"
+   };
+
+   private static final String[] TASK_NAMES_DATA =
    {
       null,
       "Name",
@@ -68,18 +84,18 @@ public final class LocaleData_de extends ListResourceBundle
       "Text8",
       "Text9",
       "Text10",
-      "Notes", // translate
+      "Notizen",
       "Kontaktperson",
-      "Resource Group", // translate
+      "Ressourcengruppe",
       null,
       null,
       null,
       "Arbeit",
       "Geplante Arbeit",
       "Aktuelle Arbeit",
-      "Remaining Work", // translate
-      "Work Variance", // translate
-      "% Work Complete", // translate
+      "Verbleibende Arbeit",
+      "Abweichung Arbeit",
+      "% Arbeit abgeschlossen",
       null,
       null,
       null,
@@ -88,7 +104,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Geplante Kosten",
       "Aktuelle Kosten",
       "Verbleibende Kosten",
-      "Cost Variance", // translate
+      "Abweichung Kosten",
       "Feste Kosten",
       "Kosten1",
       "Kosten2",
@@ -96,10 +112,10 @@ public final class LocaleData_de extends ListResourceBundle
       null,
       "Dauer",
       "Geplante Dauer",
-      "Actual Duration", // translate
-      "Remaining Duration", // translate
+      "Aktuelle Dauer",
+      "Verbleibende Dauer",
       "% Abgeschlossen",
-      "Duration Variance", // translate
+      "Abweichung Dauer",
       "Dauer1",
       "Dauer2",
       "Dauer3",
@@ -120,29 +136,29 @@ public final class LocaleData_de extends ListResourceBundle
       "Ende2",
       "Anfang3",
       "Ende3",
-      "Start Variance", // translate
-      "Finish Variance", // translate
+      "Abweichung Anfang",
+      "Abweichung Ende",
       "Einschränkungstermin",
       null,
       "Vorgänger",
-      "Successors", // translate
-      "Resource Names", // translate
-      "Resource Initials", // translate
-      "Unique ID Predecessors", // translate
-      "Unique ID Successors", // translate
+      "Nachfolger",
+      "Ressourcenamen",
+      "Ressourcenkürzel",
+      "Einmalige Nr. für Vorgänger",
+      "Einmalige Nr. für Nachfolger",
       null,
       null,
       null,
       null,
       "Fest",
       "Meilenstein",
-      "Critical", // translate
+      "Kritisch",
       "Markiert",
       "Rollup",
-      "BCWS", // translate
-      "BCWP", // translate
-      "SV", // translate
-      "CV", // translate
+      "SKAA",
+      "SKBA",
+      "PA",
+      "KA",
       null,
       "Nr.",
       "Einschränkungsart",
@@ -151,9 +167,9 @@ public final class LocaleData_de extends ListResourceBundle
       "Gesamte Pufferzeit",
       "Priorität",
       "Teilprojektdatei",
-      "Project", // translate
+      "Projekt",
       "Einmalige Nr.",
-      "Outline Number", // outline number
+      "Gliederungsnummer",
       null,
       null,
       null,
@@ -175,9 +191,9 @@ public final class LocaleData_de extends ListResourceBundle
       "Attribut9",
       "Attribut10",
       "Sammelvorgang",
-      "Objects", // translate
-      "Linked Fields", // translate
-      "Hide Bar", // translate
+      "Objekte",
+      "Verknüpfte Felder",
+      "Balken ausblenden",
       null,
       "Erzeugt",
       "Anfang4",
@@ -189,8 +205,8 @@ public final class LocaleData_de extends ListResourceBundle
       null,
       null,
       null,
-      "Confirmed", // translate
-      "Update Needed", // translate
+      "Bestätigt",
+      "Aktualisierung erforderlich",
       null,
       null,
       null,
@@ -206,9 +222,9 @@ public final class LocaleData_de extends ListResourceBundle
       null,
       "Unterbrechungstermin",
       "Wiederaufnahme nicht früher als",
-      "Resume" // translate      
+      "Wiederaufnahme"
    };
-   
+
    private static final String[] RESOURCE_NAMES_DATA =
    {
       null,
@@ -221,7 +237,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Text3",
       "Text4",
       "Text5",
-      "Notes", // translate
+      "Notizen",
       "E-Mail-Adresse",
       null,
       null,
@@ -234,18 +250,18 @@ public final class LocaleData_de extends ListResourceBundle
       "Arbeit",
       "Geplante Arbeit",
       "Aktuelle Arbeit",
-      "Remaining Work", // translate
+      "Verbleibende Arbeit",
       "Überstundenarbeit",
-      "Work Variance", // translate
-      "% Work Complete",  // translate
+      "Abweichung Arbeit",
+      "% Arbeit abgeschlossen",
       null,
       null,
       null,
       "Kosten",
       "Geplante Kosten",
       "Aktuelle Kosten",
-      "Remaining Cost", // translate
-      "Cost Variance", // translate
+      "Verbleibende Kosten",
+      "Abweichung Kosten",
       null,
       null,
       null,
@@ -257,14 +273,14 @@ public final class LocaleData_de extends ListResourceBundle
       "Überstundensatz",
       "Kosten pro Einsatz",
       "Fällig am",
-      "Overallocated", // translate
-      "Peak", // translated
-      "Base Calendar", // translate
+      "Überlastet",
+      "Spitze",
+      "Basiskalender",
       "Einmalige Nr.",
-      "Objects", // translate
-      "Linked Fields" // translate      
+      "Objekte",
+      "Verknüpfte Felder"
    };
-   
+
    private static final Object[][] RESOURCE_DATA =
    {
       {LocaleData.FILE_DELIMITER, ";"},
@@ -272,23 +288,25 @@ public final class LocaleData_de extends ListResourceBundle
 
       {LocaleData.YES, "Ja"},
       {LocaleData.NO, "Nein"},
-      
-      {LocaleData.CURRENCY_SYMBOL, "€"},
-      {LocaleData.CURRENCY_SYMBOL_POSITION, new Integer (2)},      
-      {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
-      {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","}, 
 
-      {LocaleData.TIME_FORMAT, new Integer(1)},   
-      {LocaleData.DATE_SEPARATOR, "."}, 
+      {LocaleData.CURRENCY_SYMBOL, "€"},
+      {LocaleData.CURRENCY_SYMBOL_POSITION, new Integer (2)},
+      {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
+      {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
+
+      {LocaleData.TIME_FORMAT, new Integer(1)},
+      {LocaleData.DATE_SEPARATOR, "."},
       {LocaleData.AM_TEXT, ""},
       {LocaleData.PM_TEXT, ""},
       {LocaleData.DATE_FORMAT, new Integer (9)},
       {LocaleData.NA, "NV"},
-      
+
       {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
       {LocaleData.TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
 
+      {LocaleData.ACCRUE_TYPES, ACCRUE_TYPES_DATA},
+      {LocaleData.RELATION_TYPES, RELATION_TYPES_DATA},
       {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
-      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}      
+      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };
 }

@@ -23,13 +23,15 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 /**
  * This class is used to represent a priority. It provides a mapping
  * between the textual description of a priority found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class Priority
+public final class Priority implements ToStringRequiresFile
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -55,18 +57,20 @@ public final class Priority
     * and returns an appropriate instance of this class. Note that unrecognised
     * values are treated as medium priority.
     *
+    * @param locale target locale
     * @param priority text version of the priority
     * @return Priority class instance
     */
-   public static Priority getInstance (String priority)
+   public static Priority getInstance (Locale locale, String priority)
    {
       int index = MEDIUM;
 
       if (priority != null)
       {
-         for (int loop=0; loop < TEXT.length; loop++)
+         String[] priorityTypes = LocaleData.getStringArray(locale, LocaleData.PRIORITY_TYPES);
+         for (int loop=0; loop < priorityTypes.length; loop++)
          {
-            if (TEXT[loop].equalsIgnoreCase(priority) == true)
+            if (priorityTypes[loop].equalsIgnoreCase(priority) == true)
             {
                index = loop;
                break;
@@ -110,11 +114,13 @@ public final class Priority
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param mpx parent mpx file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString ()
+   public String toString (MPXFile mpx)
    {
-      return (TEXT[m_priority]);
+      String[] priorityTypes = LocaleData.getStringArray(mpx.getLocale(), LocaleData.PRIORITY_TYPES);
+      return (priorityTypes[m_priority]);
    }
 
    /**
@@ -167,22 +173,6 @@ public final class Priority
     */
    public static final int DO_NOT_LEVEL = 9;
 
-   /**
-    * Array of type names matching the above constants.
-    */
-   private static final String[] TEXT =
-   {
-      "Lowest",
-      "Very Low",
-      "Lower",
-      "Low",
-      "Medium",
-      "High",
-      "Higher",
-      "Very High",
-      "Highest",
-      "Do Not Level"
-   };
 
    /**
     * Array of type values matching the above constants.

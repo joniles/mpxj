@@ -48,26 +48,26 @@ final class ResourceModel extends MPXRecord
 
    /**
     * This method is used to update the locale specific data used by this class.
-    * 
+    *
     * @param locale
     */
    void setLocale (Locale locale)
    {
       m_resourceNames = LocaleData.getStringArray(locale, LocaleData.RESOURCE_NAMES);
-      
+
       String name;
       m_resourceNumbers.clear();
-         
+
       for (int loop=0; loop < m_resourceNames.length; loop++)
       {
          name = m_resourceNames[loop];
          if (name != null)
          {
             m_resourceNumbers.put(name, new Integer (loop));
-         }            
-      }        
-   }         
-   
+         }
+      }
+   }
+
    /**
     * This method populates the resource model from data read from an MPX file.
     *
@@ -190,12 +190,12 @@ final class ResourceModel extends MPXRecord
    private String getResourceField (int key)
    {
       String result = null;
-      
+
       if (key > 0 && key < m_resourceNames.length)
       {
          result = m_resourceNames[key];
       }
-               
+
       return (result);
    }
 
@@ -242,8 +242,8 @@ final class ResourceModel extends MPXRecord
    /**
     * Array of resource column names, indexed by ID
     */
-   private String[] m_resourceNames;   
-   
+   private String[] m_resourceNames;
+
    /**
     * Map to store Resource field Numbers
     */

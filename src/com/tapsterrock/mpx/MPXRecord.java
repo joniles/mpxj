@@ -82,7 +82,7 @@ class MPXRecord
                else
                {
                   result = o.toString();
-               }                                 
+               }
             }
          }
       }

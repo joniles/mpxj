@@ -114,6 +114,6 @@ final class MPXTimeFormat
     * Internal SimpleDateFormat object used to carry out the formatting work.
     */
    private SimpleDateFormat m_format = new SimpleDateFormat ();
-   
+
    private String m_null = "NA";
 }

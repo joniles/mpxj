@@ -133,15 +133,18 @@ public final class LocaleData extends ListResourceBundle
    public static final String DATE_FORMAT = "DATE_FORMAT";
    public static final String BAR_TEXT_DATE_FORMAT = "BAR_TEXT_DATE_FORMAT";
    public static final String NA = "NA";
-   
+
    public static final String TIME_UNITS_ARRAY = "TIME_UNITS_ARRAY";
    public static final String TIME_UNITS_MAP = "TIME_UNITS_MAP";
 
    public static final String ACCRUE_TYPES = "ACCRUE_TYPES";
    public static final String RELATION_TYPES = "RELATION_TYPES";
+   public static final String PRIORITY_TYPES = "PRIORITY_TYPES";
+   public static final String CONSTRAINT_TYPES = "CONSTRAINT_TYPES";
+
    public static final String TASK_NAMES = "TASK_NAMES";
    public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
-   
+
    private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "h", "d", "w", "mon", "y", "%", "em", "eh", "ed", "ew", "emon", "ey", "e%"};
    private static final HashMap TIME_UNITS_MAP_DATA = new HashMap ();
 
@@ -160,7 +163,7 @@ public final class LocaleData extends ListResourceBundle
       "Prorated"
    };
 
-   private static final String[] RELATION_TYPES_DATA = 
+   private static final String[] RELATION_TYPES_DATA =
    {
       "FF",
       "FS",
@@ -168,7 +171,33 @@ public final class LocaleData extends ListResourceBundle
       "SS"
    };
 
-   private static final String[] TASK_NAMES_DATA = 
+   private static final String[] PRIORITY_TYPES_DATA =
+   {
+      "Lowest",
+      "Very Low",
+      "Lower",
+      "Low",
+      "Medium",
+      "High",
+      "Higher",
+      "Very High",
+      "Highest",
+      "Do Not Level"
+   };
+
+   private static final String[] CONSTRAINT_TYPES_DATA =
+   {
+      "As Soon As Possible",
+      "As Late As Possible",
+      "Must Start On",
+      "Must Finish On",
+      "Start No Earlier Than",
+      "Start No Later Than",
+      "Finish No Earlier Than",
+      "Finish No Later Than"
+   };
+
+   private static final String[] TASK_NAMES_DATA =
    {
       null,
       "Name",
@@ -176,7 +205,7 @@ public final class LocaleData extends ListResourceBundle
       "Outline Level",
       "Text1",
       "Text2",
-      "Text3", 
+      "Text3",
       "Text4",
       "Text5",
       "Text6",
@@ -190,17 +219,17 @@ public final class LocaleData extends ListResourceBundle
       null,
       null,
       null,
-      "Work", 
+      "Work",
       "Baseline Work",
       "Actual Work",
       "Remaining Work",
       "Work Variance",
-      "% Work Complete", 
+      "% Work Complete",
       null,
       null,
       null,
       null,
-      "Cost", 
+      "Cost",
       "Baseline Cost",
       "Actual Cost",
       "Remaining Cost",
@@ -268,7 +297,7 @@ public final class LocaleData extends ListResourceBundle
       "Priority",
       "Subproject File",
       "Project",
-      "Unique ID", 
+      "Unique ID",
       "Outline Number",
       null,
       null,
@@ -281,7 +310,7 @@ public final class LocaleData extends ListResourceBundle
       null,
       null,
       "Flag1",
-      "Flag2", 
+      "Flag2",
       "Flag3",
       "Flag4",
       "Flag5",
@@ -320,7 +349,7 @@ public final class LocaleData extends ListResourceBundle
       null,
       null,
       null,
-      "Stop", 
+      "Stop",
       "Resume No Earlier Than",
       "Resume"
    };
@@ -328,7 +357,7 @@ public final class LocaleData extends ListResourceBundle
    private static final String[] RESOURCE_NAMES_DATA =
    {
       null,
-      "Name", 
+      "Name",
       "Initials",
       "Group",
       "Code",
@@ -347,13 +376,13 @@ public final class LocaleData extends ListResourceBundle
       null,
       null,
       null,
-      "Work", 
+      "Work",
       "Baseline Work",
       "Actual Work",
       "Remaining Work",
       "Overtime Work",
       "Work Variance",
-      "% Work Complete", 
+      "% Work Complete",
       null,
       null,
       null,
@@ -378,7 +407,7 @@ public final class LocaleData extends ListResourceBundle
       "Base Calendar",
       "Unique ID",
       "Objects",
-      "Linked Fields",      
+      "Linked Fields",
    };
 
    private static final Object[][] RESOURCE_DATA =
@@ -404,7 +433,7 @@ public final class LocaleData extends ListResourceBundle
       {DATE_FORMAT, new Integer (20)},
       {BAR_TEXT_DATE_FORMAT, new Integer (0)},
       {NA, "NA"},
-      
+
       {YES, "Yes"},
       {NO, "No"},
 
@@ -412,7 +441,10 @@ public final class LocaleData extends ListResourceBundle
       {TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
 
       {ACCRUE_TYPES, ACCRUE_TYPES_DATA},
-      {RELATION_TYPES, RELATION_TYPES_DATA},      
+      {RELATION_TYPES, RELATION_TYPES_DATA},
+      {PRIORITY_TYPES, PRIORITY_TYPES_DATA},
+      {CONSTRAINT_TYPES, CONSTRAINT_TYPES_DATA},
+
       {TASK_NAMES, TASK_NAMES_DATA},
       {RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };

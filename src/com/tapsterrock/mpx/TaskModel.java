@@ -48,26 +48,26 @@ final class TaskModel extends MPXRecord
 
    /**
     * This method is used to update the locale specific data used by this class.
-    * 
+    *
     * @param locale
     */
    void setLocale (Locale locale)
    {
       m_taskNames = LocaleData.getStringArray(locale, LocaleData.TASK_NAMES);
-      
+
       String name;
       m_taskNumbers.clear();
-   
+
       for (int loop=0; loop < m_taskNames.length; loop++)
       {
          name = m_taskNames[loop];
          if (name != null)
          {
             m_taskNumbers.put(name, new Integer (loop));
-         }            
-      }        
+         }
+      }
    }
-   
+
    /**
     * This method is used to retrieve a linked list of field identifiers
     * indicating the fields present in a task record.
@@ -192,12 +192,12 @@ final class TaskModel extends MPXRecord
    private String getTaskField (int key)
    {
       String result = null;
-      
+
       if (key > 0 && key < m_taskNames.length)
       {
-         result = m_taskNames[key];  
+         result = m_taskNames[key];
       }
-      
+
       return (result);
    }
 
@@ -245,7 +245,7 @@ final class TaskModel extends MPXRecord
     * Array of task column names, indexed by ID
     */
    private String[] m_taskNames;
-   
+
    /**
     * Map used to store task field numbers.
     */
