@@ -30,7 +30,7 @@ import java.util.TimeZone;
  * This class provides common functionality used by each of the classes
  * that read the different sections of the MPP file.
  */
-class MPPUtility
+final class MPPUtility
 {
    /**
     * Private constructor to prevent instantiation.
@@ -40,6 +40,24 @@ class MPPUtility
 
    }
 
+   /**
+    * This method extracts a portion of a byte array and writes it into
+    * another byte array.
+    * 
+    * @param data Source data
+    * @param offset Offset into source data
+    * @param size Requied size to be extracted from the source data
+    * @param buffer Destination buffer
+    * @param bufferOffset Offset into destination buffer
+    */
+   public static final void getByteArray (byte[] data, int offset, int size, byte[] buffer, int bufferOffset)
+   {
+      for (int loop=0; loop < size; loop++)
+      {
+         buffer[bufferOffset+loop] = data[offset+loop];  
+      }      
+   }
+   
    /**
     * This method reads a single byte from the input array
     *
@@ -363,34 +381,38 @@ class MPPUtility
     */
    public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii)
    {
-      char c;
-      int loop;
       StringBuffer sb = new StringBuffer ();
-      int count = offset+length;
-
-      for (loop=offset; loop < count; loop++)
+      
+      if (buffer != null)
       {
-         sb.append (" ");
-         sb.append (HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
-         sb.append (HEX_DIGITS[buffer[loop] & 0x0F]);
-      }
-
-      if (ascii == true)
-      {
-         sb.append ("   ");
-
+         char c;
+         int loop;      
+         int count = offset+length;
+   
          for (loop=offset; loop < count; loop++)
          {
-            c = (char)buffer[loop];
-            if (c > 200 || c < 27)
+            sb.append (" ");
+            sb.append (HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
+            sb.append (HEX_DIGITS[buffer[loop] & 0x0F]);
+         }
+   
+         if (ascii == true)
+         {
+            sb.append ("   ");
+   
+            for (loop=offset; loop < count; loop++)
             {
-               c = ' ';
+               c = (char)buffer[loop];
+               if (c > 200 || c < 27)
+               {
+                  c = ' ';
+               }
+   
+               sb.append (c);
             }
-
-            sb.append (c);
          }
       }
-
+      
       return (sb.toString());
    }
 
@@ -405,7 +427,13 @@ class MPPUtility
     */
    public static final String hexdump (byte[] buffer, boolean ascii)
    {
-      return (hexdump (buffer, 0, buffer.length, ascii));
+      int length = 0;
+      if (buffer != null)
+      {
+         length = buffer.length;
+      }
+               
+      return (hexdump (buffer, 0, length, ascii));
    }
 
    /**
