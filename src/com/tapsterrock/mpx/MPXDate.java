@@ -23,6 +23,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -44,7 +45,41 @@ final class MPXDate extends Date
       super (date.getTime());
       m_format = format;
    }
+   
+   /**
+    * Returns a new MPXDate instance whose underlying Java Date value
+    * represents the start of the day (i.e. the time of day is 00:00:00.000)
+    * 
+    * @return day start date
+    */
+   public MPXDate getDayStartDate ()
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(this);
+      cal.set(Calendar.HOUR_OF_DAY, 0);
+      cal.set(Calendar.MINUTE, 0);
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);
+      return (new MPXDate(m_format, cal.getTime()));
+   }
 
+   /**
+    * Returns a new MPXDate instance whose underlying Java Date value
+    * represents the end of the day (i.e. the time of days is 11:59:59.999)
+    * 
+    * @return day start date
+    */   
+   public MPXDate getDayEndDate ()
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(this);
+      cal.set(Calendar.MILLISECOND, 999);
+      cal.set(Calendar.SECOND, 59);
+      cal.set(Calendar.MINUTE, 59);
+      cal.set(Calendar.HOUR_OF_DAY, 23);
+      return (new MPXDate(m_format, cal.getTime()));
+   }
+   
    /**
     * This method builds a String representation of the date represented
     * by this instance.
