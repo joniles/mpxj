@@ -1161,7 +1161,7 @@ final class MPP9File
          task.setText30(taskVarData.getUnicodeString (id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 126));
-         task.setUniqueID(id.intValue());
+         task.setUniqueID(MPPUtility.getInt(data, 0));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
