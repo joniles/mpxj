@@ -474,6 +474,26 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
+    * This method returns the Work Contour type of this Assignment
+    * 
+    * @return the Work Contour type
+    */
+   public WorkContour getWorkContour() 
+   {
+      return (m_workContour);
+   }
+
+   /**
+    * This method sets the Work Contour type of this Assignment
+    * 
+    * @param workContour the Work Contour type
+    */
+   public void setWorkContour(WorkContour workContour) 
+   {
+      m_workContour = workContour;
+   }
+
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
@@ -532,6 +552,11 @@ public final class ResourceAssignment extends MPXRecord
     *  Child record for Workgroup fields.
     */
    private ResourceAssignmentWorkgroupFields m_workgroup;
+
+   /**
+    * Work Contour type of this assignment
+    */
+   private WorkContour m_workContour;
 
    /**
     * Default units value: 100%
@@ -630,11 +655,56 @@ public final class ResourceAssignment extends MPXRecord
    private static final int RESOURCE_UNIQUE_ID = 12;
 
    /**
-    * Maximum number of fields in this record.
+    * Work contour type (Back Loaded, Turtle, etc..)
     */
-   private static final int MAX_FIELDS = 13;
+   private static final int WORK_CONTOUR = 13;
 
    /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 14;
+
+   /**
+    * Flat work contour
+    */
+   public static final int CONTOUR_FLAT = 0;
+   /**
+    * Back Loaded work contour
+    */
+   public static final int CONTOUR_BACK_LOADED = 1;
+   /**
+    * Front Loaded work contour
+    */
+   public static final int CONTOUR_FRONT_LOADED = 2;
+   /**
+    * Double Peak work contour
+    */
+   public static final int CONTOUR_DOUBLE_PEAK = 3;
+   /**
+    * Early Peak work contour
+    */
+   public static final int CONTOUR_EARLY_PEAK = 4;
+   /**
+    * Late Peak work contour
+    */
+   public static final int CONTOUR_LATE_PEAK = 5;
+   /**
+    * Bell work contour
+    */
+   public static final int CONTOUR_BELL = 6;
+   /**
+    * Turtle work contour
+    */
+   public static final int CONTOUR_TURTLE = 7;
+   /**
+    * Manual work contour
+    * User-defined
+    * Note that the MPP file does not use '8' for Manual Contours.  When an assignment is manually contoured,
+    * the value in this spot is '0' (Flat contour).  Don't know how to find the Manual contour flag yet.
+    */
+   public static final int CONTOUR_MANUAL = 8;
+
+    /**
     * Constant containing the record number associated with this record.
     */
    static final int RECORD_NUMBER = 75;

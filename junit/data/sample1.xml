@@ -3074,6 +3074,7 @@ formatting.
             <Start>2003-01-07T08:00:00</Start>
             <Units>0.5</Units>
             <Work>PT200H0M0S</Work>
+            <WorkContour>0</WorkContour>
         </Assignment>
         <Assignment>
             <UID>1</UID>
@@ -3089,6 +3090,7 @@ formatting.
             <Start>2003-01-07T23:00:00</Start>
             <Units>0.75</Units>
             <Work>PT300H0M0S</Work>
+            <WorkContour>0</WorkContour>
         </Assignment>
         <Assignment>
             <UID>2</UID>
@@ -3104,6 +3106,7 @@ formatting.
             <Start>2003-01-07T08:00:00</Start>
             <Units>1.0</Units>
             <Work>PT40H0M0S</Work>
+            <WorkContour>0</WorkContour>
         </Assignment>
         <Assignment>
             <UID>3</UID>
@@ -3119,6 +3122,7 @@ formatting.
             <Start>2003-01-07T23:00:00</Start>
             <Units>1.0</Units>
             <Work>PT40H0M0S</Work>
+            <WorkContour>0</WorkContour>
         </Assignment>
     </Assignments>
 </Project>

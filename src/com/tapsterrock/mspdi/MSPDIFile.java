@@ -79,6 +79,7 @@ import com.tapsterrock.mpx.ResourceType;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
+import com.tapsterrock.mpx.WorkContour;
 import com.tapsterrock.mpx.WorkGroup;
 import com.tapsterrock.mspdi.schema.ObjectFactory;
 import com.tapsterrock.mspdi.schema.Project;
@@ -1286,7 +1287,7 @@ public class MSPDIFile extends MPXFile
             mpx.setUnits(assignment.getUnits()*100);
             //assignment.getVAC()
             mpx.setWork(getDuration(assignment.getWork()));
-            //assignment.getWorkContour()
+            mpx.setWorkContour(WorkContour.getInstance(getInt(assignment.getWorkContour())));
             //assignment.getWorkVariance()
          }
       }
@@ -1355,6 +1356,11 @@ public class MSPDIFile extends MPXFile
       return (workGroup==null?BigInteger.valueOf(WorkGroup.DEFAULT_VALUE):BigInteger.valueOf(workGroup.getValue()));
    }
 
+   private BigInteger getWorkContour (WorkContour workContour)
+   {
+      return (workContour==null?BigInteger.valueOf(WorkContour.FLAT_VALUE):BigInteger.valueOf(workContour.getValue()));
+   }
+   
    private BigInteger getBookingType (BookingType bookingType)
    {
       return (bookingType==null?BigInteger.valueOf(BookingType.COMMITTED_VALUE):BigInteger.valueOf(bookingType.getValue()));
@@ -3279,7 +3285,7 @@ public class MSPDIFile extends MPXFile
       xml.setUID(BigInteger.valueOf(uid));
       xml.setUnits(getUnits(mpx.getUnits()));
       xml.setWork(getDuration (mpx.getWork()));
-
+      xml.setWorkContour(getWorkContour(mpx.getWorkContour()));
       return (xml);
    }
 
