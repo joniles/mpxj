@@ -163,7 +163,7 @@ public final class Task extends MPXRecord implements Comparable
             case REMAINING_WORK:
             case START_VARIANCE:
             case TOTAL_SLACK:
-            case REGULAR_WORK:
+            case WORK:
             case WORK_VARIANCE:
             case DELAY:
             {
@@ -2563,9 +2563,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param val - duration
     */
-   public void setRegularWork (MPXDuration val)
+   public void setWork (MPXDuration val)
    {
-      set (REGULAR_WORK, val);
+      set (WORK, val);
    }
 
    /**
@@ -4379,9 +4379,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @return MPXDuration representing duration .
     */
-   public MPXDuration getRegularWork ()
+   public MPXDuration getWork ()
    {
-      return ((MPXDuration)get(REGULAR_WORK));
+      return ((MPXDuration)get(WORK));
    }
 
    /**
@@ -4905,6 +4905,26 @@ public final class Task extends MPXRecord implements Comparable
    public void setActualOvertimeWorkProtected (MPXDuration actualOvertimeWorkProtected)
    {
       m_actualOvertimeWorkProtected = actualOvertimeWorkProtected;
+   }
+   
+   /**
+    * Retrieve the amount of regular work.
+    * 
+    * @return amount of regular work
+    */
+   public MPXDuration getRegularWork ()
+   {
+      return (m_regularWork);
+   }
+
+   /**
+    * Set the amount of regular work.
+    * 
+    * @param regularWork amount of regular work
+    */
+   public void setRegularWork (MPXDuration regularWork)
+   {
+      m_regularWork = regularWork;
    }
    
    /**
@@ -7304,6 +7324,7 @@ public final class Task extends MPXRecord implements Comparable
    private EarnedValueMethod m_earnedValueMethod;
    private MPXDuration m_actualWorkProtected;
    private MPXDuration m_actualOvertimeWorkProtected;
+   private MPXDuration m_regularWork;
    
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage
@@ -8028,7 +8049,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Work field shows the total amount of work scheduled to be performed on a task
     * by all assigned resources. This field shows the total work, or person-hours, for a task.
     */
-   private static final int REGULAR_WORK = 20;
+   private static final int WORK = 20;
 
    /**
     *  The Work Variance field contains the difference between a task's baseline work and

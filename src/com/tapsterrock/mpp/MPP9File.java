@@ -1180,7 +1180,7 @@ final class MPP9File
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
          //task.setWBSPredecessors(); // Calculated value
          //task.setWBSSuccessors(); // Calculated value
-         task.setRegularWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
+         task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 

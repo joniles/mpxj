@@ -958,6 +958,7 @@ public class MSPDIFile extends MPXFile
       mpx.setPriority(getMpxPriority(xml.getPriority()));
       //mpx.setProject();
       mpx.setRecurring(xml.isRecurring());
+      mpx.setRegularWork(getDuration(xml.getRegularWork()));
       mpx.setRemainingCost(getMpxCurrency(xml.getRemainingCost()));
       mpx.setRemainingDuration(getDuration(xml.getRemainingDuration()));
       mpx.setRemainingOvertimeCost(getMpxCurrency(xml.getRemainingOvertimeCost()));
@@ -1000,7 +1001,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setUpdateNeeded();
       mpx.setWBS(xml.getWBS());
       mpx.setWBSLevel (xml.getWBSLevel());
-      mpx.setRegularWork(getDuration(xml.getWork()));
+      mpx.setWork(getDuration(xml.getWork()));
       mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
       
       readTaskExtendedAttributes(xml, mpx);
@@ -3085,7 +3086,7 @@ public class MSPDIFile extends MPXFile
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
       xml.setWBS(mpx.getWBS());
       xml.setWBSLevel(mpx.getWBSLevel());
-      xml.setWork(getDuration(mpx.getRegularWork()));
+      xml.setWork(getDuration(mpx.getWork()));
       xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);
 
       writePredecessors (factory, xml, mpx);
