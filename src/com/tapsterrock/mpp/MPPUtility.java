@@ -307,6 +307,18 @@ final class MPPUtility
    }
 
    /**
+    * Reads a time value. The time is represented as tenths of a
+    * minute since midnight. 
+    *
+    * @param data byte array of data
+    * @return time value
+    */
+   public static final Date getTime (byte[] data)
+   {
+      return (getTime(data, 0));      
+   }
+   
+   /**
     * Reads a duration value in milliseconds. The time is represented as 
     * tenths of a minute since midnight. 
     * 
