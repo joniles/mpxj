@@ -135,6 +135,7 @@ final class MPP9File
       //cs.setThousandsSeparator();
 
       processTaskFieldNameAliases(file, props.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
+      processResourceFieldNameAliases(file, props.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
    }
 
    /**
@@ -286,6 +287,157 @@ final class MPP9File
       file.setTaskFieldAlias(Task.COST8, (String)aliases.get(285));
       file.setTaskFieldAlias(Task.COST9, (String)aliases.get(286));
       file.setTaskFieldAlias(Task.COST10, (String)aliases.get(287));
+   }
+
+   /**
+    * Retrieve any resource field aliases defined in the MPP file.
+    *
+    * @param file Parent MPX file
+    * @param data resource field name alias data
+    */
+   private static void processResourceFieldNameAliases (MPPFile file, byte[] data)
+   {
+      int offset = 0;
+      String alias;
+      ArrayList aliases = new ArrayList();
+
+      while (offset < data.length)
+      {
+         alias = MPPUtility.getUnicodeString(data, offset);
+         aliases.add(alias);
+         offset += (alias.length()+1)*2;
+      }
+
+      file.setResourceFieldAlias(Resource.TEXT1, (String)aliases.get(52));
+      file.setResourceFieldAlias(Resource.TEXT2, (String)aliases.get(53));
+      file.setResourceFieldAlias(Resource.TEXT3, (String)aliases.get(54));
+      file.setResourceFieldAlias(Resource.TEXT4, (String)aliases.get(55));
+      file.setResourceFieldAlias(Resource.TEXT5, (String)aliases.get(56));
+      file.setResourceFieldAlias(Resource.TEXT6, (String)aliases.get(57));
+      file.setResourceFieldAlias(Resource.TEXT7, (String)aliases.get(58));
+      file.setResourceFieldAlias(Resource.TEXT8, (String)aliases.get(59));
+      file.setResourceFieldAlias(Resource.TEXT9, (String)aliases.get(60));
+      file.setResourceFieldAlias(Resource.TEXT10, (String)aliases.get(61));
+      file.setResourceFieldAlias(Resource.TEXT11, (String)aliases.get(62));
+      file.setResourceFieldAlias(Resource.TEXT12, (String)aliases.get(63));
+      file.setResourceFieldAlias(Resource.TEXT13, (String)aliases.get(64));
+      file.setResourceFieldAlias(Resource.TEXT14, (String)aliases.get(65));
+      file.setResourceFieldAlias(Resource.TEXT15, (String)aliases.get(66));
+      file.setResourceFieldAlias(Resource.TEXT16, (String)aliases.get(67));
+      file.setResourceFieldAlias(Resource.TEXT17, (String)aliases.get(68));
+      file.setResourceFieldAlias(Resource.TEXT18, (String)aliases.get(69));
+      file.setResourceFieldAlias(Resource.TEXT19, (String)aliases.get(70));
+      file.setResourceFieldAlias(Resource.TEXT20, (String)aliases.get(71));
+      file.setResourceFieldAlias(Resource.TEXT21, (String)aliases.get(72));
+      file.setResourceFieldAlias(Resource.TEXT22, (String)aliases.get(73));
+      file.setResourceFieldAlias(Resource.TEXT23, (String)aliases.get(74));
+      file.setResourceFieldAlias(Resource.TEXT24, (String)aliases.get(75));
+      file.setResourceFieldAlias(Resource.TEXT25, (String)aliases.get(76));
+      file.setResourceFieldAlias(Resource.TEXT26, (String)aliases.get(77));
+      file.setResourceFieldAlias(Resource.TEXT27, (String)aliases.get(78));
+      file.setResourceFieldAlias(Resource.TEXT28, (String)aliases.get(79));
+      file.setResourceFieldAlias(Resource.TEXT29, (String)aliases.get(80));
+      file.setResourceFieldAlias(Resource.TEXT30, (String)aliases.get(81));
+      file.setResourceFieldAlias(Resource.START1, (String)aliases.get(82));
+      file.setResourceFieldAlias(Resource.START2, (String)aliases.get(83));
+      file.setResourceFieldAlias(Resource.START3, (String)aliases.get(84));
+      file.setResourceFieldAlias(Resource.START4, (String)aliases.get(85));
+      file.setResourceFieldAlias(Resource.START5, (String)aliases.get(86));
+      file.setResourceFieldAlias(Resource.START6, (String)aliases.get(87));
+      file.setResourceFieldAlias(Resource.START7, (String)aliases.get(88));
+      file.setResourceFieldAlias(Resource.START8, (String)aliases.get(89));
+      file.setResourceFieldAlias(Resource.START9, (String)aliases.get(90));
+      file.setResourceFieldAlias(Resource.START10, (String)aliases.get(91));
+      file.setResourceFieldAlias(Resource.FINISH1, (String)aliases.get(92));
+      file.setResourceFieldAlias(Resource.FINISH2, (String)aliases.get(93));
+      file.setResourceFieldAlias(Resource.FINISH3, (String)aliases.get(94));
+      file.setResourceFieldAlias(Resource.FINISH4, (String)aliases.get(95));
+      file.setResourceFieldAlias(Resource.FINISH5, (String)aliases.get(96));
+      file.setResourceFieldAlias(Resource.FINISH6, (String)aliases.get(97));
+      file.setResourceFieldAlias(Resource.FINISH7, (String)aliases.get(98));
+      file.setResourceFieldAlias(Resource.FINISH8, (String)aliases.get(99));
+      file.setResourceFieldAlias(Resource.FINISH9, (String)aliases.get(100));
+      file.setResourceFieldAlias(Resource.FINISH10, (String)aliases.get(101));
+      file.setResourceFieldAlias(Resource.NUMBER1, (String)aliases.get(102));
+      file.setResourceFieldAlias(Resource.NUMBER2, (String)aliases.get(103));
+      file.setResourceFieldAlias(Resource.NUMBER3, (String)aliases.get(104));
+      file.setResourceFieldAlias(Resource.NUMBER4, (String)aliases.get(105));
+      file.setResourceFieldAlias(Resource.NUMBER5, (String)aliases.get(106));
+      file.setResourceFieldAlias(Resource.NUMBER6, (String)aliases.get(107));
+      file.setResourceFieldAlias(Resource.NUMBER7, (String)aliases.get(108));
+      file.setResourceFieldAlias(Resource.NUMBER8, (String)aliases.get(109));
+      file.setResourceFieldAlias(Resource.NUMBER9, (String)aliases.get(110));
+      file.setResourceFieldAlias(Resource.NUMBER10, (String)aliases.get(111));
+      file.setResourceFieldAlias(Resource.NUMBER11, (String)aliases.get(112));
+      file.setResourceFieldAlias(Resource.NUMBER12, (String)aliases.get(113));
+      file.setResourceFieldAlias(Resource.NUMBER13, (String)aliases.get(114));
+      file.setResourceFieldAlias(Resource.NUMBER14, (String)aliases.get(115));
+      file.setResourceFieldAlias(Resource.NUMBER15, (String)aliases.get(116));
+      file.setResourceFieldAlias(Resource.NUMBER16, (String)aliases.get(117));
+      file.setResourceFieldAlias(Resource.NUMBER17, (String)aliases.get(118));
+      file.setResourceFieldAlias(Resource.NUMBER18, (String)aliases.get(119));
+      file.setResourceFieldAlias(Resource.NUMBER19, (String)aliases.get(120));
+      file.setResourceFieldAlias(Resource.NUMBER20, (String)aliases.get(121));
+      file.setResourceFieldAlias(Resource.DURATION1, (String)aliases.get(122));
+      file.setResourceFieldAlias(Resource.DURATION2, (String)aliases.get(123));
+      file.setResourceFieldAlias(Resource.DURATION3, (String)aliases.get(124));
+      file.setResourceFieldAlias(Resource.DURATION4, (String)aliases.get(125));
+      file.setResourceFieldAlias(Resource.DURATION5, (String)aliases.get(126));
+      file.setResourceFieldAlias(Resource.DURATION6, (String)aliases.get(127));
+      file.setResourceFieldAlias(Resource.DURATION7, (String)aliases.get(128));
+      file.setResourceFieldAlias(Resource.DURATION8, (String)aliases.get(129));
+      file.setResourceFieldAlias(Resource.DURATION9, (String)aliases.get(130));
+      file.setResourceFieldAlias(Resource.DURATION10, (String)aliases.get(131));
+      file.setResourceFieldAlias(Resource.DATE1, (String)aliases.get(145));
+      file.setResourceFieldAlias(Resource.DATE2, (String)aliases.get(146));
+      file.setResourceFieldAlias(Resource.DATE3, (String)aliases.get(147));
+      file.setResourceFieldAlias(Resource.DATE4, (String)aliases.get(148));
+      file.setResourceFieldAlias(Resource.DATE5, (String)aliases.get(149));
+      file.setResourceFieldAlias(Resource.DATE6, (String)aliases.get(150));
+      file.setResourceFieldAlias(Resource.DATE7, (String)aliases.get(151));
+      file.setResourceFieldAlias(Resource.DATE8, (String)aliases.get(152));
+      file.setResourceFieldAlias(Resource.DATE9, (String)aliases.get(153));
+      file.setResourceFieldAlias(Resource.DATE10, (String)aliases.get(154));
+      file.setResourceFieldAlias(Resource.OUTLINECODE1, (String)aliases.get(155));
+      file.setResourceFieldAlias(Resource.OUTLINECODE2, (String)aliases.get(156));
+      file.setResourceFieldAlias(Resource.OUTLINECODE3, (String)aliases.get(157));
+      file.setResourceFieldAlias(Resource.OUTLINECODE4, (String)aliases.get(158));
+      file.setResourceFieldAlias(Resource.OUTLINECODE5, (String)aliases.get(159));
+      file.setResourceFieldAlias(Resource.OUTLINECODE6, (String)aliases.get(160));
+      file.setResourceFieldAlias(Resource.OUTLINECODE7, (String)aliases.get(161));
+      file.setResourceFieldAlias(Resource.OUTLINECODE8, (String)aliases.get(162));
+      file.setResourceFieldAlias(Resource.OUTLINECODE9, (String)aliases.get(163));
+      file.setResourceFieldAlias(Resource.OUTLINECODE10, (String)aliases.get(164));
+      file.setResourceFieldAlias(Resource.FLAG10, (String)aliases.get(165));
+      file.setResourceFieldAlias(Resource.FLAG1, (String)aliases.get(166));
+      file.setResourceFieldAlias(Resource.FLAG2, (String)aliases.get(167));
+      file.setResourceFieldAlias(Resource.FLAG3, (String)aliases.get(168));
+      file.setResourceFieldAlias(Resource.FLAG4, (String)aliases.get(169));
+      file.setResourceFieldAlias(Resource.FLAG5, (String)aliases.get(170));
+      file.setResourceFieldAlias(Resource.FLAG6, (String)aliases.get(171));
+      file.setResourceFieldAlias(Resource.FLAG7, (String)aliases.get(172));
+      file.setResourceFieldAlias(Resource.FLAG8, (String)aliases.get(173));
+      file.setResourceFieldAlias(Resource.FLAG9, (String)aliases.get(174));
+      file.setResourceFieldAlias(Resource.FLAG11, (String)aliases.get(175));
+      file.setResourceFieldAlias(Resource.FLAG12, (String)aliases.get(176));
+      file.setResourceFieldAlias(Resource.FLAG13, (String)aliases.get(177));
+      file.setResourceFieldAlias(Resource.FLAG14, (String)aliases.get(178));
+      file.setResourceFieldAlias(Resource.FLAG15, (String)aliases.get(179));
+      file.setResourceFieldAlias(Resource.FLAG16, (String)aliases.get(180));
+      file.setResourceFieldAlias(Resource.FLAG17, (String)aliases.get(181));
+      file.setResourceFieldAlias(Resource.FLAG18, (String)aliases.get(182));
+      file.setResourceFieldAlias(Resource.FLAG19, (String)aliases.get(183));
+      file.setResourceFieldAlias(Resource.FLAG20, (String)aliases.get(184));
+      file.setResourceFieldAlias(Resource.COST1, (String)aliases.get(207));
+      file.setResourceFieldAlias(Resource.COST2, (String)aliases.get(208));
+      file.setResourceFieldAlias(Resource.COST3, (String)aliases.get(209));
+      file.setResourceFieldAlias(Resource.COST4, (String)aliases.get(210));
+      file.setResourceFieldAlias(Resource.COST5, (String)aliases.get(211));
+      file.setResourceFieldAlias(Resource.COST6, (String)aliases.get(212));
+      file.setResourceFieldAlias(Resource.COST7, (String)aliases.get(213));
+      file.setResourceFieldAlias(Resource.COST8, (String)aliases.get(214));
+      file.setResourceFieldAlias(Resource.COST9, (String)aliases.get(215));
+      file.setResourceFieldAlias(Resource.COST10, (String)aliases.get(216));
    }
 
    /**

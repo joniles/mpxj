@@ -7,6 +7,8 @@ Implemented support for German MPX files.
 Implemented generic meachanism for dealing with task field aliases.
 Implemented task field alias read/write for MSPDI files.
 Implemented task field alias read for MPP9 files.
+Implemented resource field alias read/write for MSPDI files.
+Implemented resource field alias read for MPP9 files.
 
 Version 0.0.20
 Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.
