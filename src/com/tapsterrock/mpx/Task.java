@@ -6359,7 +6359,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode1 (String value)
    {
-      m_outlineCode1 = value;
+      set (OUTLINECODE1, value);
    }
 
    /**
@@ -6369,7 +6369,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode1 ()
    {
-      return (m_outlineCode1);
+      return ((String)get(OUTLINECODE1));
    }
 
    /**
@@ -6379,7 +6379,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode2 (String value)
    {
-      m_outlineCode2 = value;
+      set (OUTLINECODE2, value);
    }
 
    /**
@@ -6389,7 +6389,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode2 ()
    {
-      return (m_outlineCode2);
+      return ((String)get(OUTLINECODE2));
    }
 
    /**
@@ -6399,7 +6399,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode3 (String value)
    {
-      m_outlineCode3 = value;
+      set (OUTLINECODE3, value);
    }
 
    /**
@@ -6409,7 +6409,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode3 ()
    {
-      return (m_outlineCode3);
+      return ((String)get(OUTLINECODE3));
    }
 
    /**
@@ -6419,7 +6419,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode4 (String value)
    {
-      m_outlineCode4 = value;
+      set (OUTLINECODE4, value);
    }
 
    /**
@@ -6429,7 +6429,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode4 ()
    {
-      return (m_outlineCode4);
+      return ((String)get(OUTLINECODE4));
    }
 
    /**
@@ -6439,7 +6439,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode5 (String value)
    {
-      m_outlineCode5 = value;
+      set (OUTLINECODE5, value);
    }
 
    /**
@@ -6449,7 +6449,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode5 ()
    {
-      return (m_outlineCode5);
+      return ((String)get(OUTLINECODE5));
    }
 
    /**
@@ -6459,7 +6459,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode6 (String value)
    {
-      m_outlineCode6 = value;
+      set (OUTLINECODE6, value);
    }
 
    /**
@@ -6469,7 +6469,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode6 ()
    {
-      return (m_outlineCode6);
+      return ((String)get(OUTLINECODE6));
    }
 
    /**
@@ -6479,7 +6479,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode7 (String value)
    {
-      m_outlineCode7 = value;
+      set (OUTLINECODE7, value);
    }
 
    /**
@@ -6489,7 +6489,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode7 ()
    {
-      return (m_outlineCode7);
+      return ((String)get(OUTLINECODE7));
    }
 
    /**
@@ -6499,7 +6499,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode8 (String value)
    {
-      m_outlineCode8 = value;
+      set (OUTLINECODE8, value);
    }
 
    /**
@@ -6509,7 +6509,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode8 ()
    {
-      return (m_outlineCode8);
+      return ((String)get(OUTLINECODE8));
    }
 
    /**
@@ -6519,7 +6519,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode9 (String value)
    {
-      m_outlineCode9 = value;
+      set (OUTLINECODE9, value);
    }
 
    /**
@@ -6529,7 +6529,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode9 ()
    {
-      return (m_outlineCode9);
+      return ((String)get(OUTLINECODE9));
    }
 
    /**
@@ -6539,7 +6539,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setOutlineCode10 (String value)
    {
-      m_outlineCode10 = value;
+      set (OUTLINECODE10, value);
    }
 
    /**
@@ -6549,7 +6549,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getOutlineCode10 ()
    {
-      return (m_outlineCode10);
+      return ((String)get(OUTLINECODE10));
    }
 
    /**
@@ -6948,16 +6948,6 @@ public final class Task extends MPXRecord implements Comparable
    private int m_type = FIXED_UNITS;
    private boolean m_effortDriven;
    private Number m_overtimeCost;
-   private String m_outlineCode1;
-   private String m_outlineCode2;
-   private String m_outlineCode3;
-   private String m_outlineCode4;
-   private String m_outlineCode5;
-   private String m_outlineCode6;
-   private String m_outlineCode7;
-   private String m_outlineCode8;
-   private String m_outlineCode9;
-   private String m_outlineCode10;
    private Number m_actualOvertimeCost;
    private MPXDuration m_actualOvertimeWork;
    private AccrueType m_fixedCostAccrual;
@@ -7814,6 +7804,17 @@ public final class Task extends MPXRecord implements Comparable
    public static final int DURATION8 = 1708;
    public static final int DURATION9 = 1709;
    public static final int DURATION10 = 1710;
+
+   public static final int OUTLINECODE1 = 1801;
+   public static final int OUTLINECODE2 = 1802;
+   public static final int OUTLINECODE3 = 1803;
+   public static final int OUTLINECODE4 = 1804;
+   public static final int OUTLINECODE5 = 1805;
+   public static final int OUTLINECODE6 = 1806;
+   public static final int OUTLINECODE7 = 1807;
+   public static final int OUTLINECODE8 = 1808;
+   public static final int OUTLINECODE9 = 1809;
+   public static final int OUTLINECODE10 = 1810;
 
    /**
     * Constant containing the record number associated with this record.

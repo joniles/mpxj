@@ -2986,6 +2986,16 @@ public class MSPDIFile extends MPXFile
       TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743959), new Integer(Task.DURATION8));
       TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743960), new Integer(Task.DURATION9));
       TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743961), new Integer(Task.DURATION10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744096), new Integer(Task.OUTLINECODE1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744098), new Integer(Task.OUTLINECODE2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744100), new Integer(Task.OUTLINECODE3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744102), new Integer(Task.OUTLINECODE4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744104), new Integer(Task.OUTLINECODE5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744106), new Integer(Task.OUTLINECODE6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744108), new Integer(Task.OUTLINECODE7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744110), new Integer(Task.OUTLINECODE8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744112), new Integer(Task.OUTLINECODE9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744114), new Integer(Task.OUTLINECODE10));
 
       Iterator iter = TASK_FIELD_XML_TO_MPX_MAP.keySet().iterator();
       Object key;

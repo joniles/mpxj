@@ -36,6 +36,17 @@ import java.util.TreeMap;
 class Props extends MPPComponent
 {
    /**
+    * Retrieve property data as a byte array
+    *
+    * @param type Type identifier
+    * @return  byte array of data
+    */
+   public byte[] getByteArray (Integer type)
+   {
+      return ((byte[])m_map.get (type));
+   }
+
+   /**
     * Retrieves a short int value from the property data
     *
     * @param type Type identifier
@@ -153,20 +164,23 @@ class Props extends MPPComponent
    /**
     * Data types
     */
-   public static final Integer CURRENCY_SYMBOL = new Integer (16);
-   public static final Integer CURRENCY_PLACEMENT = new Integer (17);
-   public static final Integer CURRENCY_DIGITS = new Integer (18);
+   public static final Integer CURRENCY_SYMBOL = new Integer (37748752);
+   public static final Integer CURRENCY_PLACEMENT = new Integer (37748753);
+   public static final Integer CURRENCY_DIGITS = new Integer (37748754);
 
-   public static final Integer DURATION_UNITS = new Integer (21);
-   public static final Integer WORK_UNITS = new Integer (22);
-   public static final Integer TASK_UPDATES_RESOURCE = new Integer (25);
-   public static final Integer SPLIT_TASKS = new Integer (26);
-   public static final Integer START_TIME = new Integer (28);
-   public static final Integer HOURS_PER_DAY = new Integer (29);
-   public static final Integer HOURS_PER_WEEK = new Integer (30);
-   public static final Integer STANDARD_RATE = new Integer (31);
-   public static final Integer OVERTIME_RATE = new Integer (32);
-   public static final Integer END_TIME = new Integer (33);
+   public static final Integer DURATION_UNITS = new Integer (37748757);
+   public static final Integer WORK_UNITS = new Integer (37748758);
+   public static final Integer TASK_UPDATES_RESOURCE = new Integer (37748761);
+   public static final Integer SPLIT_TASKS = new Integer (37748762);
+   public static final Integer START_TIME = new Integer (37748764);
+   public static final Integer HOURS_PER_DAY = new Integer (37748765);
+   public static final Integer HOURS_PER_WEEK = new Integer (37748766);
+   public static final Integer STANDARD_RATE = new Integer (37748767);
+   public static final Integer OVERTIME_RATE = new Integer (37748768);
+   public static final Integer END_TIME = new Integer (37748769);
+
+   public static final Integer TASK_FIELD_NAME_ALIASES = new Integer (1048577);
+   public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
 
    protected TreeMap m_map = new TreeMap ();

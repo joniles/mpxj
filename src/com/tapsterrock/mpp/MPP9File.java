@@ -26,6 +26,7 @@ package com.tapsterrock.mpp;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,13 +37,13 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.MPXCalendar;
-import com.tapsterrock.mpx.MPXCalendarException;
-import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.DateTimeSettings;
 import com.tapsterrock.mpx.DefaultSettings;
+import com.tapsterrock.mpx.MPXCalendar;
+import com.tapsterrock.mpx.MPXCalendarException;
+import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
@@ -132,6 +133,159 @@ final class MPP9File
       //cs.setDecimalSeparator();
       cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //cs.setThousandsSeparator();
+
+      processTaskFieldNameAliases(file, props.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
+   }
+
+   /**
+    * Retrieve any task field aliases defined in the MPP file.
+    *
+    * @param file Parent MPX file
+    * @param data task field name alias data
+    */
+   private static void processTaskFieldNameAliases (MPPFile file, byte[] data)
+   {
+      int offset = 0;
+      String alias;
+      ArrayList aliases = new ArrayList();
+
+      while (offset < data.length)
+      {
+         alias = MPPUtility.getUnicodeString(data, offset);
+         aliases.add(alias);
+         offset += (alias.length()+1)*2;
+      }
+
+      file.setTaskFieldAlias(Task.TEXT1, (String)aliases.get(118));
+      file.setTaskFieldAlias(Task.TEXT2, (String)aliases.get(119));
+      file.setTaskFieldAlias(Task.TEXT3, (String)aliases.get(120));
+      file.setTaskFieldAlias(Task.TEXT4, (String)aliases.get(121));
+      file.setTaskFieldAlias(Task.TEXT5, (String)aliases.get(122));
+      file.setTaskFieldAlias(Task.TEXT6, (String)aliases.get(123));
+      file.setTaskFieldAlias(Task.TEXT7, (String)aliases.get(124));
+      file.setTaskFieldAlias(Task.TEXT8, (String)aliases.get(125));
+      file.setTaskFieldAlias(Task.TEXT9, (String)aliases.get(126));
+      file.setTaskFieldAlias(Task.TEXT10, (String)aliases.get(127 ));
+      file.setTaskFieldAlias(Task.START1, (String)aliases.get(128));
+      file.setTaskFieldAlias(Task.FINISH1, (String)aliases.get(129));
+      file.setTaskFieldAlias(Task.START2, (String)aliases.get(130));
+      file.setTaskFieldAlias(Task.FINISH2, (String)aliases.get(131));
+      file.setTaskFieldAlias(Task.START3, (String)aliases.get(132));
+      file.setTaskFieldAlias(Task.FINISH3, (String)aliases.get(133));
+      file.setTaskFieldAlias(Task.START4, (String)aliases.get(134));
+      file.setTaskFieldAlias(Task.FINISH4, (String)aliases.get(135));
+      file.setTaskFieldAlias(Task.START5, (String)aliases.get(136));
+      file.setTaskFieldAlias(Task.FINISH5, (String)aliases.get(137));
+      file.setTaskFieldAlias(Task.START6, (String)aliases.get(138));
+      file.setTaskFieldAlias(Task.FINISH6, (String)aliases.get(139));
+      file.setTaskFieldAlias(Task.START7, (String)aliases.get(140));
+      file.setTaskFieldAlias(Task.FINISH7, (String)aliases.get(141));
+      file.setTaskFieldAlias(Task.START8, (String)aliases.get(142));
+      file.setTaskFieldAlias(Task.FINISH8, (String)aliases.get(143));
+      file.setTaskFieldAlias(Task.START9, (String)aliases.get(144));
+      file.setTaskFieldAlias(Task.FINISH9, (String)aliases.get(145));
+      file.setTaskFieldAlias(Task.START10, (String)aliases.get(146));
+      file.setTaskFieldAlias(Task.FINISH10, (String)aliases.get(147));
+      file.setTaskFieldAlias(Task.NUMBER1, (String)aliases.get(149));
+      file.setTaskFieldAlias(Task.NUMBER2, (String)aliases.get(150));
+      file.setTaskFieldAlias(Task.NUMBER3, (String)aliases.get(151));
+      file.setTaskFieldAlias(Task.NUMBER4, (String)aliases.get(152));
+      file.setTaskFieldAlias(Task.NUMBER5, (String)aliases.get(153));
+      file.setTaskFieldAlias(Task.NUMBER6, (String)aliases.get(154));
+      file.setTaskFieldAlias(Task.NUMBER7, (String)aliases.get(155));
+      file.setTaskFieldAlias(Task.NUMBER8, (String)aliases.get(156));
+      file.setTaskFieldAlias(Task.NUMBER9, (String)aliases.get(157));
+      file.setTaskFieldAlias(Task.NUMBER10, (String)aliases.get(158));
+      file.setTaskFieldAlias(Task.DURATION1, (String)aliases.get(159));
+      file.setTaskFieldAlias(Task.DURATION2, (String)aliases.get(161));
+      file.setTaskFieldAlias(Task.DURATION3, (String)aliases.get(163));
+      file.setTaskFieldAlias(Task.DURATION4, (String)aliases.get(165));
+      file.setTaskFieldAlias(Task.DURATION5, (String)aliases.get(167));
+      file.setTaskFieldAlias(Task.DURATION6, (String)aliases.get(169));
+      file.setTaskFieldAlias(Task.DURATION7, (String)aliases.get(171));
+      file.setTaskFieldAlias(Task.DURATION8, (String)aliases.get(173));
+      file.setTaskFieldAlias(Task.DURATION9, (String)aliases.get(175));
+      file.setTaskFieldAlias(Task.DURATION10, (String)aliases.get(177));
+      file.setTaskFieldAlias(Task.DATE1, (String)aliases.get(184));
+      file.setTaskFieldAlias(Task.DATE2, (String)aliases.get(185));
+      file.setTaskFieldAlias(Task.DATE3, (String)aliases.get(186));
+      file.setTaskFieldAlias(Task.DATE4, (String)aliases.get(187));
+      file.setTaskFieldAlias(Task.DATE5, (String)aliases.get(188));
+      file.setTaskFieldAlias(Task.DATE6, (String)aliases.get(189));
+      file.setTaskFieldAlias(Task.DATE7, (String)aliases.get(190));
+      file.setTaskFieldAlias(Task.DATE8, (String)aliases.get(191));
+      file.setTaskFieldAlias(Task.DATE9, (String)aliases.get(192));
+      file.setTaskFieldAlias(Task.DATE10, (String)aliases.get(193));
+      file.setTaskFieldAlias(Task.TEXT11, (String)aliases.get(194));
+      file.setTaskFieldAlias(Task.TEXT12, (String)aliases.get(195));
+      file.setTaskFieldAlias(Task.TEXT13, (String)aliases.get(196));
+      file.setTaskFieldAlias(Task.TEXT14, (String)aliases.get(197));
+      file.setTaskFieldAlias(Task.TEXT15, (String)aliases.get(198));
+      file.setTaskFieldAlias(Task.TEXT16, (String)aliases.get(199));
+      file.setTaskFieldAlias(Task.TEXT17, (String)aliases.get(200));
+      file.setTaskFieldAlias(Task.TEXT18, (String)aliases.get(201));
+      file.setTaskFieldAlias(Task.TEXT19, (String)aliases.get(202));
+      file.setTaskFieldAlias(Task.TEXT20, (String)aliases.get(203));
+      file.setTaskFieldAlias(Task.TEXT21, (String)aliases.get(204));
+      file.setTaskFieldAlias(Task.TEXT22, (String)aliases.get(205));
+      file.setTaskFieldAlias(Task.TEXT23, (String)aliases.get(206));
+      file.setTaskFieldAlias(Task.TEXT24, (String)aliases.get(207));
+      file.setTaskFieldAlias(Task.TEXT25, (String)aliases.get(208));
+      file.setTaskFieldAlias(Task.TEXT26, (String)aliases.get(209));
+      file.setTaskFieldAlias(Task.TEXT27, (String)aliases.get(210));
+      file.setTaskFieldAlias(Task.TEXT28, (String)aliases.get(211));
+      file.setTaskFieldAlias(Task.TEXT29, (String)aliases.get(212));
+      file.setTaskFieldAlias(Task.TEXT30, (String)aliases.get(213));
+      file.setTaskFieldAlias(Task.NUMBER11, (String)aliases.get(214));
+      file.setTaskFieldAlias(Task.NUMBER12, (String)aliases.get(215));
+      file.setTaskFieldAlias(Task.NUMBER13, (String)aliases.get(216));
+      file.setTaskFieldAlias(Task.NUMBER14, (String)aliases.get(217));
+      file.setTaskFieldAlias(Task.NUMBER15, (String)aliases.get(218));
+      file.setTaskFieldAlias(Task.NUMBER16, (String)aliases.get(219));
+      file.setTaskFieldAlias(Task.NUMBER17, (String)aliases.get(220));
+      file.setTaskFieldAlias(Task.NUMBER18, (String)aliases.get(221));
+      file.setTaskFieldAlias(Task.NUMBER19, (String)aliases.get(222));
+      file.setTaskFieldAlias(Task.NUMBER20, (String)aliases.get(223));
+      file.setTaskFieldAlias(Task.OUTLINECODE1, (String)aliases.get(227));
+      file.setTaskFieldAlias(Task.OUTLINECODE2, (String)aliases.get(228));
+      file.setTaskFieldAlias(Task.OUTLINECODE3, (String)aliases.get(229));
+      file.setTaskFieldAlias(Task.OUTLINECODE4, (String)aliases.get(230));
+      file.setTaskFieldAlias(Task.OUTLINECODE5, (String)aliases.get(231));
+      file.setTaskFieldAlias(Task.OUTLINECODE6, (String)aliases.get(232));
+      file.setTaskFieldAlias(Task.OUTLINECODE7, (String)aliases.get(233));
+      file.setTaskFieldAlias(Task.OUTLINECODE8, (String)aliases.get(234));
+      file.setTaskFieldAlias(Task.OUTLINECODE9, (String)aliases.get(235));
+      file.setTaskFieldAlias(Task.OUTLINECODE10, (String)aliases.get(236));
+      file.setTaskFieldAlias(Task.FLAG1, (String)aliases.get(237));
+      file.setTaskFieldAlias(Task.FLAG2, (String)aliases.get(238));
+      file.setTaskFieldAlias(Task.FLAG3, (String)aliases.get(239));
+      file.setTaskFieldAlias(Task.FLAG4, (String)aliases.get(240));
+      file.setTaskFieldAlias(Task.FLAG5, (String)aliases.get(241));
+      file.setTaskFieldAlias(Task.FLAG6, (String)aliases.get(242));
+      file.setTaskFieldAlias(Task.FLAG7, (String)aliases.get(243));
+      file.setTaskFieldAlias(Task.FLAG8, (String)aliases.get(244));
+      file.setTaskFieldAlias(Task.FLAG9, (String)aliases.get(245));
+      file.setTaskFieldAlias(Task.FLAG10, (String)aliases.get(246));
+      file.setTaskFieldAlias(Task.FLAG11, (String)aliases.get(247));
+      file.setTaskFieldAlias(Task.FLAG12, (String)aliases.get(248));
+      file.setTaskFieldAlias(Task.FLAG13, (String)aliases.get(249));
+      file.setTaskFieldAlias(Task.FLAG14, (String)aliases.get(250));
+      file.setTaskFieldAlias(Task.FLAG15, (String)aliases.get(251));
+      file.setTaskFieldAlias(Task.FLAG16, (String)aliases.get(252));
+      file.setTaskFieldAlias(Task.FLAG17, (String)aliases.get(253));
+      file.setTaskFieldAlias(Task.FLAG18, (String)aliases.get(254));
+      file.setTaskFieldAlias(Task.FLAG19, (String)aliases.get(255));
+      file.setTaskFieldAlias(Task.FLAG20, (String)aliases.get(256));
+      file.setTaskFieldAlias(Task.COST1, (String)aliases.get(278));
+      file.setTaskFieldAlias(Task.COST2, (String)aliases.get(279));
+      file.setTaskFieldAlias(Task.COST3, (String)aliases.get(280));
+      file.setTaskFieldAlias(Task.COST4, (String)aliases.get(281));
+      file.setTaskFieldAlias(Task.COST5, (String)aliases.get(282));
+      file.setTaskFieldAlias(Task.COST6, (String)aliases.get(283));
+      file.setTaskFieldAlias(Task.COST7, (String)aliases.get(284));
+      file.setTaskFieldAlias(Task.COST8, (String)aliases.get(285));
+      file.setTaskFieldAlias(Task.COST9, (String)aliases.get(286));
+      file.setTaskFieldAlias(Task.COST10, (String)aliases.get(287));
    }
 
    /**

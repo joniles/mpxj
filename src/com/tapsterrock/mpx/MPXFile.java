@@ -1751,9 +1751,12 @@ public class MPXFile
     */
    public void setTaskFieldAlias (int field, String alias)
    {
-      Integer id = new Integer (field);
-      m_taskFieldAlias.put(id, alias);
-      m_aliasTaskField.put(alias, id);
+      if (alias != null && alias.length() != 0)
+      {
+         Integer id = new Integer (field);
+         m_taskFieldAlias.put(id, alias);
+         m_aliasTaskField.put(alias, id);
+      }
    }
 
    /**

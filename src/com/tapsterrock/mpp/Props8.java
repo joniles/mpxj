@@ -52,8 +52,8 @@ final class Props8 extends Props
    {
       try
       {
-//         FileOutputStream fos = new FileOutputStream ("c:\\temp\\props8." + System.currentTimeMillis() + ".txt");
-//         PrintWriter pw = new PrintWriter (fos);
+         //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props8." + System.currentTimeMillis() + ".txt");
+         //PrintWriter pw = new PrintWriter (fos);
 
          readInt (is); // File size
          readInt (is); // Repeat of file size
@@ -61,13 +61,16 @@ final class Props8 extends Props
          int count = readShort(is); // Number of entries
          readShort(is); // unknown
 
+         byte[] attrib = new byte[4];
 
          for (int loop=0; loop < count; loop++)
          {
             int attrib1 = readInt(is);
-            int attrib2 = readShort(is);
-            int attrib3 = is.read();
-            is.read(); // attrib4
+
+            is.read(attrib);
+            int attrib2 = MPPUtility.getInt(attrib);
+            int attrib3 = MPPUtility.getByte(attrib, 2);
+            //is.read(); // attrib4
             int attrib5 = readInt(is);
             int size;
             byte[] data;
@@ -99,7 +102,7 @@ final class Props8 extends Props
             }
 
             m_map.put(new Integer (attrib2), data);
-//            pw.println(attrib2 + ": " + MPPUtility.hexdump(data, true));
+            //pw.println(attrib2 + ": " + MPPUtility.hexdump(data, true));
 
             //
             // Align to two byte boundary
@@ -110,8 +113,8 @@ final class Props8 extends Props
             }
          }
 
-//         pw.flush();
-//         pw.close();
+         //pw.flush();
+         //pw.close();
       }
 
       catch (IOException ex)

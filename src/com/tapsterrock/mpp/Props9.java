@@ -43,13 +43,12 @@ final class Props9 extends Props
    Props9 (InputStream is)
       throws IOException
    {
-//      FileOutputStream fos = new FileOutputStream ("c:\\temp\\props9." + System.currentTimeMillis() + ".txt");
-//      PrintWriter pw = new PrintWriter (fos);
+      //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props9." + System.currentTimeMillis() + ".txt");
+      //PrintWriter pw = new PrintWriter (fos);
 
       byte[] header = new byte[16];
       byte[] data;
       is.read(header);
-      int address = 16;
 
       int headerCount = MPPUtility.getShort(header, 12);
       int foundCount = 0;
@@ -57,17 +56,14 @@ final class Props9 extends Props
       while (foundCount < headerCount)
       {
          int attrib1 = readInt(is);
-         int attrib2 = readShort(is);
-         readShort(is); // attrib3
-         int attrib4 = readInt(is);
-         address += 12;
+         int attrib2 = readInt(is);
+         int attrib3 = readInt(is);
 
          data = new byte[attrib1];
          is.read(data);
-         address += attrib4;
 
          m_map.put(new Integer (attrib2), data);
-//         pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
+         //pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;
 
          //
@@ -76,12 +72,11 @@ final class Props9 extends Props
          if (data.length % 2 != 0)
          {
             is.skip(1);
-            ++address;
          }
       }
 
-//      pw.flush();
-//      pw.close();
+      //pw.flush();
+      //pw.close();
    }
 
    /**
