@@ -107,6 +107,8 @@ public class MpxQuery
 
       listAssignments (mpx);
 
+      listAssignmentsByTask (mpx);
+      
       listHierarchy (mpx);
    }
 
@@ -217,5 +219,35 @@ public class MpxQuery
       System.out.println ();
    }
 
+   /**
+    * This method displays the resource assignemnts for each task. This time
+    * rather than just iterating through the list of all assignments in
+    * the file, we extract the assignemnts on a task-by-task basis.
+    * 
+    * @param file MPX file
+    */
+   private static void listAssignmentsByTask (MPXFile file)
+   {
+      List tasks = file.getAllTasks();
+      Iterator taskIter = tasks.iterator();
+            
+      while (taskIter.hasNext() == true)
+      {
+         Task task = (Task)taskIter.next();   
+         System.out.println ("Assignments for " + task.getName() + ":");
+         
+         List assignments = task.getResourceAssignments();
+         Iterator assignmentIter = assignments.iterator();
+         
+         while (assignmentIter.hasNext() == true)
+         {
+            ResourceAssignment assignment = (ResourceAssignment)assignmentIter.next();            
+            Resource resource = assignment.getResource();
+            System.out.println ("   " + resource.getName());
+         }                                   
+      }      
+      
+      System.out.println ();      
+   }
 }
 
