@@ -7,6 +7,7 @@ Updated the ant build file to allow MPXJ to be built without the components that
 Fixed a problem with writing MS Project compatible MSPDI XML files in non-GMT timezones.
 Fixed a problem with writing MSPDI XML files in non-GMT timezones.
 Rationalised setDefaultStartTime and setDefaultEndTime methods
+Added MppXml utility
 
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
