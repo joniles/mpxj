@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--JBuilder XML Project-->
+<project>
+  <property category="debug.0" name="SmartStep" value="0" />
+  <property category="idl" name="Compiler" value="VisiBroker" />
+  <property category="jbuilder.debug" name="SmartStep" value="0" />
+  <property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
+  <property category="runtime.0" name="applet.vmparameters" value="-classic" />
+  <property category="runtime.0" name="application.class" value="junit.swingui.TestRunner" />
+  <property category="runtime.0" name="application.vmparameters" value="-classic -Dmpxj.junit.datadir=c:/java/mpx/junit/data" />
+  <property category="runtime.0" name="appserver.ejbJarsSaved" value="1" />
+  <property category="runtime.0" name="appserver.parameters" value="-jts -jns -jss -jdb" />
+  <property category="runtime.0" name="appserver.servername" value="ejbcontainer" />
+  <property category="runtime.0" name="appserver.vmparameters" value="-Dvbroker.agent.port=14000 -Djava.library.path=C:/Inprise/AppServer/lib;C:/Inprise/AppServer/bin" />
+  <property category="runtime.0" name="jsprunner.docbase" value="." />
+  <property category="runtime.0" name="jsprunner.jspfile" value="../../../JBuilder4/bin" />
+  <property category="runtime.0" name="jsprunner.launchuri" value="/../../../JBuilder4/bin" />
+  <property category="sys" name="AuthorLabel" value="@author" />
+  <property category="sys" name="BackupPath" value="../junit/bak" />
+  <property category="sys" name="BeansInstantiate" value="false" />
+  <property category="sys" name="BraceStyle" value="1" />
+  <property category="sys" name="CheckStable" value="1" />
+  <property category="sys" name="Company" value="" />
+  <property category="sys" name="CompanyLabel" value="Company:" />
+  <property category="sys" name="CompileOnDebug" value="0" />
+  <property category="sys" name="CompileOnRun" value="0" />
+  <property category="sys" name="Copyright" value="Copyright (c) 2001" />
+  <property category="sys" name="CopyrightLabel" value="Copyright:" />
+  <property category="sys" name="Description" value="" />
+  <property category="sys" name="DescriptionLabel" value="Description:" />
+  <property category="sys" name="DocPath" value="../junit/doc" />
+  <property category="sys" name="EventMatch" value="false" />
+  <property category="sys" name="EventStyle" value="1" />
+  <property category="sys" name="ExcludeClassEnabled" value="0" />
+  <property category="sys" name="InstanceVisibility" value="0" />
+  <property category="sys" name="JDK" value="java 1.3.0_02" />
+  <property category="sys" name="LastTag" value="0" />
+  <property category="sys" name="Libraries" value="JUnit;MPXJ" />
+  <property category="sys" name="MakeStable" value="0" />
+  <property category="sys" name="OutPath" value="../junit/classes" />
+  <property category="sys" name="ServletContentType" value="HTML" />
+  <property category="sys" name="SourcePath" value="../junit/src" />
+  <property category="sys" name="Title" value="" />
+  <property category="sys" name="TitleLabel" value="Title:" />
+  <property category="sys" name="Version" value="1.0" />
+  <property category="sys" name="VersionLabel" value="@version" />
+  <property category="sys" name="WorkingDirectory" value="." />
+  <property category="sys" name="javadoc.author" value="0" />
+  <property category="sys" name="javadoc.deprectated" value="1" />
+  <property category="sys" name="javadoc.deprectatedlist" value="1" />
+  <property category="sys" name="javadoc.exclude" value="" />
+  <property category="sys" name="javadoc.index" value="1" />
+  <property category="sys" name="javadoc.jdk11format" value="0" />
+  <property category="sys" name="javadoc.navbar" value="1" />
+  <property category="sys" name="javadoc.outdir" value="../junit/doc" />
+  <property category="sys" name="javadoc.packages" value="com.tapsterrock." />
+  <property category="sys" name="javadoc.scope" value="protected" />
+  <property category="sys" name="javadoc.splitindex" value="0" />
+  <property category="sys" name="javadoc.tree" value="1" />
+  <property category="sys" name="javadoc.use" value="0" />
+  <property category="sys" name="javadoc.version" value="0" />
+  <property category="sys" name="max.package.levels" value="1" />
+  <property category="sys" name="palette.bean.chooser.beans" value="" />
+  <property category="team" name="ignorePath.0" value="Inprise_Application_Server" />
+  <property category="webapp" name="last.wizard" value="Oriel" />
+  <node type="Archive" name="Archive">
+    <property category="archiving" name="targetCompressed" value="1" />
+    <property category="archiving" name="targetPath" value="C%|/java/mpx/junit/mpxjtest.jar" />
+  </node>
+</project>
+
