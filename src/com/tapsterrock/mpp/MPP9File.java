@@ -1208,6 +1208,20 @@ final class MPP9File
             }
          }
 
+         
+         //
+         // Clear the deadline if it is the same as the finish date.
+         // This appears to be the default used by MS Project if no
+         // actual deadline is set.
+         //
+         if (task.getDeadline() != null)
+         {
+            if (task.getDeadline().getTime() == task.getFinish().getTime())
+            {
+               task.setDeadline(null);
+            }
+         }
+         
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
    }
