@@ -162,6 +162,7 @@ public class MPPFile
       //
       // Extract the required data from the MPP file
       //
+      m_mpx = new MPXFile ();
       createTaskMap ();
       createResourceMap ();
       processCalendarData ();
@@ -944,7 +945,7 @@ public class MPPFile
       BaseCalendar.NONWORKING
    };
 
-   private MPXFile m_mpx = new MPXFile ();
+   private MPXFile m_mpx;
 
    private VarMeta m_calVarMeta;
    private Var2Data m_calVarData;
