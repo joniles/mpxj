@@ -82,9 +82,9 @@ final class MPXPercentage extends Number
     */
    String toString (MPXNumberFormat format)
    {
-      return (format.format(m_value) + "%");      
+      return (format.format(m_value) + "%");
    }
-   
+
    /**
     * Returns the value of the specified number as an <code>int</code>.
     * This may involve rounding.

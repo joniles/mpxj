@@ -47,7 +47,7 @@ final class MPPUtility
    /**
     * This method extracts a portion of a byte array and writes it into
     * another byte array.
-    * 
+    *
     * @param data Source data
     * @param offset Offset into source data
     * @param size Requied size to be extracted from the source data
@@ -58,10 +58,10 @@ final class MPPUtility
    {
       for (int loop=0; loop < size; loop++)
       {
-         buffer[bufferOffset+loop] = data[offset+loop];  
-      }      
+         buffer[bufferOffset+loop] = data[offset+loop];
+      }
    }
-   
+
    /**
     * This method reads a single byte from the input array
     *
@@ -198,7 +198,7 @@ final class MPPUtility
       result += (long)(data[offset+4] >> 4 & 0x0F) * 68719476736L; // 9
       result += (long)(data[offset+5] & 0x0F) * 1099511627776L; // 10
       result += (long)(data[offset+5] >> 4 & 0x0F) * 17592186044416L; // 11
-      
+
       return (result);
    }
 
@@ -277,7 +277,7 @@ final class MPPUtility
 
    /**
     * Reads a time value. The time is represented as tenths of a
-    * minute since midnight. 
+    * minute since midnight.
     *
     * @param data byte array of data
     * @param offset location of data as offset into the array
@@ -285,31 +285,31 @@ final class MPPUtility
     */
    public static final Date getTime (byte[] data, int offset)
    {
-      int time = getShort (data, offset) / 10;      
+      int time = getShort (data, offset) / 10;
       Calendar cal = Calendar.getInstance();
       cal.set(Calendar.HOUR_OF_DAY, (time/60));
       cal.set(Calendar.MINUTE, (time%60));
       cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);      
+      cal.set(Calendar.MILLISECOND, 0);
       return (cal.getTime());
    }
 
    /**
     * Reads a time value. The time is represented as tenths of a
-    * minute since midnight. 
+    * minute since midnight.
     *
     * @param data byte array of data
     * @return time value
     */
    public static final Date getTime (byte[] data)
    {
-      return (getTime(data, 0));      
+      return (getTime(data, 0));
    }
-   
+
    /**
-    * Reads a duration value in milliseconds. The time is represented as 
-    * tenths of a minute since midnight. 
-    * 
+    * Reads a duration value in milliseconds. The time is represented as
+    * tenths of a minute since midnight.
+    *
     * @param data byte array of data
     * @param offset location of data as offset into the array
     * @return duration value
@@ -343,7 +343,7 @@ final class MPPUtility
          if (tz.inDaylightTime(result) == true)
          {
             int savings;
-            
+
             if (HAS_DST_SAVINGS == true)
             {
                savings = tz.getDSTSavings();
@@ -352,8 +352,8 @@ final class MPPUtility
             {
                savings = DEFAULT_DST_SAVINGS;
             }
-                     
-            result = new Date (result.getTime() - savings);            
+
+            result = new Date (result.getTime() - savings);
          }
       }
 
@@ -451,9 +451,9 @@ final class MPPUtility
     */
    public static final MPXDuration getDuration (int value, int type)
    {
-      return (getDuration ((double)value, type));      
+      return (getDuration ((double)value, type));
    }
-   
+
    /**
     * Reads a duration value. This method relies on the fact that
     * the units of the duration have been specified elsewhere.
@@ -596,14 +596,14 @@ final class MPPUtility
    /**
     * This method maps from the value used to specify default work units in the
     * MPP file to a standard TimeUnit.
-    * 
+    *
     * @param value Default work units
     * @return TimeUnit value
     */
    public static int getWorkUnits (int value)
    {
       int result;
-      
+
       switch (value)
       {
          case 1:
@@ -611,7 +611,7 @@ final class MPPUtility
             result = TimeUnit.MINUTES;
             break;
          }
-         
+
          case 3:
          {
             result = TimeUnit.DAYS;
@@ -624,29 +624,29 @@ final class MPPUtility
             break;
          }
 
-         case 2:                           
+         case 2:
          default:
          {
             result = TimeUnit.HOURS;
-            break;  
-         }   
+            break;
+         }
       }
-      
-      return (result);      
+
+      return (result);
    }
 
    /**
     * This method maps the currency symbol position from the
     * representation used in the MPP file to the representation
     * used by MPX.
-    * 
+    *
     * @param value MPP symbol position
     * @return MPX symbol position
     */
-   public static int getSymbolPosition (int value)   
+   public static int getSymbolPosition (int value)
    {
       int result;
-      
+
       switch (value)
       {
          case 1:
@@ -654,33 +654,33 @@ final class MPPUtility
             result = 0;
             break;
          }
-         
+
          case 2:
          {
             result = 3;
-            break;   
+            break;
          }
 
          case 3:
          {
             result = 2;
-            break;   
+            break;
          }
-         
+
          case 0:
          default:
          {
             result = 1;
             break;
-         }  
-      }  
-      
+         }
+      }
+
       return (result);
    }
 
    /**
     * This method allows a subsection of a byte array to be copied.
-    * 
+    *
     * @param data source data
     * @param offset offset into the source data
     * @param size length of the source data to copy
@@ -692,7 +692,7 @@ final class MPPUtility
       System.arraycopy(data, offset, newData, 0, size);
       return (newData);
    }
-   
+
    /**
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
@@ -707,24 +707,24 @@ final class MPPUtility
    public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii)
    {
       StringBuffer sb = new StringBuffer ();
-      
+
       if (buffer != null)
       {
          char c;
-         int loop;      
+         int loop;
          int count = offset+length;
-   
+
          for (loop=offset; loop < count; loop++)
          {
             sb.append (" ");
             sb.append (HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
             sb.append (HEX_DIGITS[buffer[loop] & 0x0F]);
          }
-   
+
          if (ascii == true)
          {
             sb.append ("   ");
-   
+
             for (loop=offset; loop < count; loop++)
             {
                c = (char)buffer[loop];
@@ -732,12 +732,12 @@ final class MPPUtility
                {
                   c = ' ';
                }
-   
+
                sb.append (c);
             }
          }
       }
-      
+
       return (sb.toString());
    }
 
@@ -757,7 +757,7 @@ final class MPPUtility
       {
          length = buffer.length;
       }
-               
+
       return (hexdump (buffer, 0, length, ascii));
    }
 
@@ -790,33 +790,33 @@ final class MPPUtility
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
-   
+
    /**
     * Default value to use for DST savings if we are using a version
     * of Java < 1.4
     */
    private static final int DEFAULT_DST_SAVINGS = 3600000;
-   
+
    /**
     * Flag used to indicate the existance of the getDSTSavings
     * method that was introduced in Java 1.4
     */
-   private static boolean HAS_DST_SAVINGS;   
-   
+   private static boolean HAS_DST_SAVINGS;
+
    static
    {
       Class tz = TimeZone.class;
-      
+
       try
       {
          tz.getMethod("getDSTSavings", null);
          HAS_DST_SAVINGS = true;
       }
-      
+
       catch (NoSuchMethodException ex)
       {
-         HAS_DST_SAVINGS = false;         
+         HAS_DST_SAVINGS = false;
       }
-   }   
+   }
 }
 

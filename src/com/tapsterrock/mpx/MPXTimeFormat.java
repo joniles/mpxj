@@ -39,7 +39,7 @@ final class MPXTimeFormat
     */
    MPXTimeFormat()
    {
-		m_format = new SimpleDateFormat ();
+      m_format = new SimpleDateFormat ();
    }
 
    /**

@@ -263,7 +263,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the overtime work done of this resource assignment
-    * 
+    *
     * @return overtime work
     */
    public MPXDuration getOvertimeWork ()
@@ -293,7 +293,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Sets the cost for this resource assignment
-    * 
+    *
     * @param val cost
     */
    public void setCost (Number val)
@@ -323,7 +323,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the actual cost for this resource assignment
-    * 
+    *
     * @return actual cost
     */
    public Number getActualCost ()
@@ -393,7 +393,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Sets the delay for this resource assignment
-    * 
+    *
     * @param dur delay
     */
    public void setDelay (MPXDuration dur)
@@ -403,7 +403,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the resources unique id for this resource assignment
-    * 
+    *
     * @return resources unique id
     */
    public int getResourceUniqueIDValue ()
@@ -413,7 +413,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Returns the resources unique id for this resource assignment
-    * 
+    *
     * @return resources unique id
     */
    public Integer getResourceUniqueID ()
@@ -443,7 +443,7 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * Gets the Resource Assignment Workgroup Fields if one exists
-    * 
+    *
     * @return workgroup assignment object
     */
    public ResourceAssignmentWorkgroupFields getWorkgroupAssignment ()

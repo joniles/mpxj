@@ -169,7 +169,7 @@ public final class Resource extends MPXRecord
       {
          m_notes = new ResourceNotes(getParentFile());
       }
-      
+
       m_notes.setNotes(notes);
 
       return (m_notes);
@@ -211,25 +211,25 @@ public final class Resource extends MPXRecord
 
    /**
     * This method retrieves the calendar associated with this resource.
-    * 
+    *
     * @return MPXCalendar instance
     */
    public MPXCalendar getResourceCalendar ()
    {
-      return (m_calendar);   
+      return (m_calendar);
    }
-   
+
    /**
     * This package private method allows a pre-existing resource calendar
     * to be attched to a resource.
-    * 
+    *
     * @param calendar resource calendar
     */
    void attachResourceCalendar (MPXCalendar calendar)
    {
-      m_calendar = calendar;   
+      m_calendar = calendar;
    }
-      
+
    /**
     * This method allows a resource calendar to be added to a resource.
     *
@@ -464,7 +464,7 @@ public final class Resource extends MPXRecord
    }
 
    /**
-    * Sets the cost variance value. This value is calculated by MS Project, 
+    * Sets the cost variance value. This value is calculated by MS Project,
     * and is ignored on import.
     *
     * @param val Cost variance value
@@ -475,7 +475,7 @@ public final class Resource extends MPXRecord
    }
 
    /**
-    * Sets the cost variance value. This value is calculated by MS Project, 
+    * Sets the cost variance value. This value is calculated by MS Project,
     * and is ignored on import.
     *
     * @param val Cost variance value
@@ -828,10 +828,10 @@ public final class Resource extends MPXRecord
    }
 
    /**
-    * Retrieves the Actual Cost value, which shows the sum of 
+    * Retrieves the Actual Cost value, which shows the sum of
     * costs incurred for the work already performed by a
     * resource for all assigned tasks.
-    * 
+    *
     * @return Actual cost value
     */
    public Number getActualCost ()
@@ -840,9 +840,9 @@ public final class Resource extends MPXRecord
    }
 
    /**
-    * Retrieves the Actual Work field contains the amount of work that has 
+    * Retrieves the Actual Work field contains the amount of work that has
     * already been done for all assignments assigned to a resource.
-    * 
+    *
     * @return Actual work value
     */
    public MPXDuration getActualWork ()
@@ -863,8 +863,8 @@ public final class Resource extends MPXRecord
    }
 
    /**
-    * Retrieves the Baseline Cost value. This value is the total planned 
-    * cost for a resource for all assigned tasks. Baseline cost is also 
+    * Retrieves the Baseline Cost value. This value is the total planned
+    * cost for a resource for all assigned tasks. Baseline cost is also
     * referred to as budget at completion (BAC).
     *
     * @return Baseline cost value
@@ -1038,9 +1038,9 @@ public final class Resource extends MPXRecord
       }
       else
       {
-         result = "";           
-      }         
-      
+         result = "";
+      }
+
       return (result);
    }
 
@@ -1234,98 +1234,98 @@ public final class Resource extends MPXRecord
       return ((MPXDuration)get(WORK_VARIANCE));
    }
 
-	/**
-	 * Retrieve the value of the regular work field.
-	 * Note that this value is an extension to the MPX specification.
-	 * 
-	 * @return Regular work value
-	 */
-	public MPXDuration getRegularWork ()
-	{
-		return m_regularWork;
-	}
-
-	/**
-	 * Set the value of the regular work field.
-	 * Note that this value is an extension to the MPX specification.
-
-	 * @param duration Regular work value
-	 */
-	public void setRegularWork (MPXDuration duration)
-	{
-		m_regularWork = duration;
-	}
-
-	/**
-	 * Retrieve the value of the overtime cost field.
-	 * Note that this value is an extension to the MPX specification.
+   /**
+    * Retrieve the value of the regular work field.
+    * Note that this value is an extension to the MPX specification.
     *
-	 * @return Overtime cost value
-	 */
-	public Number getOvertimeCost()
-	{
-		return m_overtimeCost;
-	}
+    * @return Regular work value
+    */
+   public MPXDuration getRegularWork ()
+   {
+      return m_regularWork;
+   }
 
-	/**
-	 * Set the value of the overtime cost field.
-	 * Note that this value is an extension to the MPX specification.
-	 *
-	 * @param currency Overtime cost
-	 */
-	public void setOvertimeCost (Number currency)
-	{
-		m_overtimeCost = currency;
-	}
+   /**
+    * Set the value of the regular work field.
+    * Note that this value is an extension to the MPX specification.
 
-	/**
-	 * Retrieve the value of the actual overtime cost field.
-	 * Note that this value is an extension to the MPX specification.
-	 *
-	 * @return Actual overtime cost value
-	 */
-	public Number getActualOvertimeCost()
-	{
-		return m_actualOvertimeCost;
-	}
+    * @param duration Regular work value
+    */
+   public void setRegularWork (MPXDuration duration)
+   {
+      m_regularWork = duration;
+   }
 
-	/**
-	 * Set the value of the actual overtime cost field.
-	 * Note that this value is an extension to the MPX specification.
+   /**
+    * Retrieve the value of the overtime cost field.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @return Overtime cost value
+    */
+   public Number getOvertimeCost()
+   {
+      return m_overtimeCost;
+   }
 
-	 * @param number Actual overtime cost
-	 */
-	public void setActualOvertimeCost(Number number)
-	{
-		m_actualOvertimeCost = number;
-	}
+   /**
+    * Set the value of the overtime cost field.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @param currency Overtime cost
+    */
+   public void setOvertimeCost (Number currency)
+   {
+      m_overtimeCost = currency;
+   }
 
-	/**
-	 * Retrieve the value of the remaining overtime cost field.
-	 * Note that this value is an extension to the MPX specification.
-	 *
-	 * @return Remaining overtime cost value
-	 */
-	public Number getRemainingOvertimeCost()
-	{
-		return m_remainingOvertimeCost;
-	}
+   /**
+    * Retrieve the value of the actual overtime cost field.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @return Actual overtime cost value
+    */
+   public Number getActualOvertimeCost()
+   {
+      return m_actualOvertimeCost;
+   }
 
-	/**
-	 * Set the value of the remaining overtime cost field.
-	 * Note that this value is an extension to the MPX specification.
-    * 
-	 * @param number Remaining overtime cost
-	 */
-	public void setRemainingOvertimeCost(Number number)
-	{
-		m_remainingOvertimeCost = number;
-	}
+   /**
+    * Set the value of the actual overtime cost field.
+    * Note that this value is an extension to the MPX specification.
+
+    * @param number Actual overtime cost
+    */
+   public void setActualOvertimeCost(Number number)
+   {
+      m_actualOvertimeCost = number;
+   }
+
+   /**
+    * Retrieve the value of the remaining overtime cost field.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @return Remaining overtime cost value
+    */
+   public Number getRemainingOvertimeCost()
+   {
+      return m_remainingOvertimeCost;
+   }
+
+   /**
+    * Set the value of the remaining overtime cost field.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @param number Remaining overtime cost
+    */
+   public void setRemainingOvertimeCost(Number number)
+   {
+      m_remainingOvertimeCost = number;
+   }
 
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText6()
@@ -1336,7 +1336,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText7()
@@ -1347,7 +1347,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText8()
@@ -1358,7 +1358,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText9()
@@ -1369,7 +1369,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText10()
@@ -1380,7 +1380,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText11()
@@ -1391,7 +1391,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText12()
@@ -1402,7 +1402,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText13()
@@ -1413,7 +1413,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText14()
@@ -1424,7 +1424,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText15()
@@ -1435,7 +1435,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText16()
@@ -1446,7 +1446,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText17()
@@ -1457,7 +1457,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText18()
@@ -1468,7 +1468,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText19()
@@ -1479,7 +1479,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText20()
@@ -1490,7 +1490,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText21()
@@ -1501,7 +1501,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText22()
@@ -1512,7 +1512,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText23()
@@ -1523,7 +1523,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText24()
@@ -1534,7 +1534,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText25()
@@ -1545,7 +1545,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText26()
@@ -1556,7 +1556,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText27()
@@ -1567,7 +1567,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText28()
@@ -1578,7 +1578,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText29()
@@ -1589,7 +1589,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Text value
     */
    public String getText30()
@@ -1600,7 +1600,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText6(String string)
@@ -1611,7 +1611,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText7(String string)
@@ -1622,7 +1622,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText8(String string)
@@ -1633,7 +1633,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText9(String string)
@@ -1644,7 +1644,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText10(String string)
@@ -1655,7 +1655,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText11(String string)
@@ -1666,7 +1666,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText12(String string)
@@ -1677,7 +1677,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText13(String string)
@@ -1688,7 +1688,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText14(String string)
@@ -1699,7 +1699,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText15(String string)
@@ -1710,7 +1710,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText16(String string)
@@ -1721,7 +1721,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText17(String string)
@@ -1732,7 +1732,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText18(String string)
@@ -1743,7 +1743,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText19(String string)
@@ -1754,7 +1754,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText20(String string)
@@ -1765,7 +1765,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText21(String string)
@@ -1776,7 +1776,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText22(String string)
@@ -1787,7 +1787,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText23(String string)
@@ -1798,7 +1798,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText24(String string)
@@ -1809,7 +1809,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText25(String string)
@@ -1820,7 +1820,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText26(String string)
@@ -1831,7 +1831,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText27(String string)
@@ -1842,7 +1842,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText28(String string)
@@ -1853,7 +1853,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText29(String string)
@@ -1864,7 +1864,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a text value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param string Text value
     */
    public void setText30(String string)
@@ -1875,7 +1875,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart1()
@@ -1886,7 +1886,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart2()
@@ -1897,7 +1897,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart3()
@@ -1908,7 +1908,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart4()
@@ -1919,7 +1919,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart5()
@@ -1930,7 +1930,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart6()
@@ -1941,7 +1941,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart7()
@@ -1952,7 +1952,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart8()
@@ -1963,7 +1963,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart9()
@@ -1974,18 +1974,18 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date start date
     */
    public Date getStart10()
    {
       return m_start10;
    }
-   
+
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart1(Date date)
@@ -1996,7 +1996,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart2(Date date)
@@ -2007,18 +2007,18 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart3(Date date)
    {
       m_start3 = date;
    }
-   
+
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart4(Date date)
@@ -2029,7 +2029,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart5(Date date)
@@ -2040,7 +2040,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart6(Date date)
@@ -2051,7 +2051,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart7(Date date)
@@ -2062,7 +2062,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart8(Date date)
@@ -2073,7 +2073,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart9(Date date)
@@ -2084,7 +2084,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a start date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Start date
     */
    public void setStart10(Date date)
@@ -2095,7 +2095,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish1()
@@ -2106,7 +2106,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish2()
@@ -2117,7 +2117,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish3()
@@ -2128,7 +2128,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish4()
@@ -2139,7 +2139,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish5()
@@ -2150,7 +2150,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish6()
@@ -2161,7 +2161,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish7()
@@ -2172,7 +2172,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish8()
@@ -2183,7 +2183,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish9()
@@ -2194,18 +2194,18 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date finish date
     */
    public Date getFinish10()
    {
       return m_finish10;
    }
-   
+
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish1(Date date)
@@ -2216,7 +2216,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish2(Date date)
@@ -2227,18 +2227,18 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish3(Date date)
    {
       m_finish3 = date;
    }
-   
+
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish4(Date date)
@@ -2249,7 +2249,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish5(Date date)
@@ -2260,7 +2260,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish6(Date date)
@@ -2271,7 +2271,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish7(Date date)
@@ -2282,7 +2282,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish8(Date date)
@@ -2293,7 +2293,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish9(Date date)
@@ -2304,14 +2304,14 @@ public final class Resource extends MPXRecord
    /**
     * Sets a finish date.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Finish date
     */
    public void setFinish10(Date date)
    {
       m_finish10 = date;
    }
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2326,9 +2326,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber1Value ()
    {
       return (getDoubleValue (m_number1));
@@ -2337,15 +2337,15 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber1 ()
    {
       return (m_number1);
    }
 
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2360,9 +2360,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber2Value ()
    {
       return (getDoubleValue (m_number2));
@@ -2371,15 +2371,15 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber2 ()
    {
       return (m_number2);
    }
 
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2394,9 +2394,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber3Value ()
    {
       return (getDoubleValue (m_number3));
@@ -2405,15 +2405,15 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber3 ()
    {
       return (m_number3);
    }
 
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2428,9 +2428,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber4Value ()
    {
       return (getDoubleValue (m_number4));
@@ -2439,15 +2439,15 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber4 ()
    {
       return (m_number4);
    }
 
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2462,9 +2462,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber5Value ()
    {
       return (getDoubleValue (m_number5));
@@ -2473,9 +2473,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber5 ()
    {
       return (m_number5);
@@ -2496,9 +2496,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber6Value ()
    {
       return (getDoubleValue (m_number6));
@@ -2507,9 +2507,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber6 ()
    {
       return (m_number6);
@@ -2529,9 +2529,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber7Value ()
    {
       return (getDoubleValue (m_number7));
@@ -2540,14 +2540,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber7 ()
    {
       return (m_number7);
    }
-      
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2562,9 +2562,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber8Value ()
    {
       return (getDoubleValue (m_number8));
@@ -2573,15 +2573,15 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber8 ()
    {
       return (m_number8);
    }
 
-        
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2596,9 +2596,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber9Value ()
    {
       return (getDoubleValue (m_number9));
@@ -2607,14 +2607,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber9 ()
    {
       return (m_number9);
    }
-               
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2629,9 +2629,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber10Value ()
    {
       return (getDoubleValue (m_number10));
@@ -2640,9 +2640,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber10 ()
    {
       return (m_number10);
@@ -2662,9 +2662,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber11Value ()
    {
       return (getDoubleValue (m_number11));
@@ -2673,14 +2673,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber11 ()
    {
       return (m_number11);
    }
-        
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2695,9 +2695,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber12Value ()
    {
       return (getDoubleValue (m_number12));
@@ -2706,14 +2706,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber12 ()
    {
       return (m_number12);
    }
-        
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2728,9 +2728,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber13Value ()
    {
       return (getDoubleValue (m_number13));
@@ -2739,14 +2739,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber13 ()
    {
       return (m_number13);
    }
-        
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2761,9 +2761,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber14Value ()
    {
       return (getDoubleValue (m_number14));
@@ -2772,14 +2772,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber14 ()
    {
       return (m_number14);
    }
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2794,9 +2794,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber15Value ()
    {
       return (getDoubleValue (m_number15));
@@ -2805,14 +2805,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber15 ()
    {
       return (m_number15);
    }
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2827,9 +2827,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber16Value ()
    {
       return (getDoubleValue (m_number16));
@@ -2838,14 +2838,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber16 ()
    {
       return (m_number16);
    }
-   
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2860,9 +2860,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber17Value ()
    {
       return (getDoubleValue (m_number17));
@@ -2871,14 +2871,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber17 ()
    {
       return (m_number17);
    }
-        
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2893,9 +2893,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber18Value ()
    {
       return (getDoubleValue (m_number18));
@@ -2904,14 +2904,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber18 ()
    {
       return (m_number18);
    }
-        
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2926,9 +2926,9 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public double getNumber19Value ()
    {
       return (getDoubleValue (m_number19));
@@ -2937,14 +2937,14 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a numeric value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Numeric value
-    */               
+    */
    public Double getNumber19 ()
    {
       return (m_number19);
    }
-       
+
    /**
     * Sets a numeric value.
     * Note that this value is an extension to the MPX specification.
@@ -2959,7 +2959,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration1()
@@ -2970,7 +2970,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration2()
@@ -2981,7 +2981,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration3()
@@ -2992,7 +2992,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration4()
@@ -3003,7 +3003,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration5()
@@ -3014,7 +3014,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration6()
@@ -3025,7 +3025,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration7()
@@ -3036,7 +3036,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration8()
@@ -3047,7 +3047,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration9()
@@ -3058,7 +3058,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return MPXDuration
     */
    public MPXDuration getDuration10()
@@ -3069,7 +3069,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration1(MPXDuration duration)
@@ -3080,7 +3080,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration2(MPXDuration duration)
@@ -3091,7 +3091,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration3(MPXDuration duration)
@@ -3102,7 +3102,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration4(MPXDuration duration)
@@ -3113,7 +3113,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration5(MPXDuration duration)
@@ -3124,7 +3124,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration6(MPXDuration duration)
@@ -3135,7 +3135,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration7(MPXDuration duration)
@@ -3146,7 +3146,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration8(MPXDuration duration)
@@ -3157,7 +3157,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration9(MPXDuration duration)
@@ -3168,7 +3168,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a duration value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param duration Duration value
     */
    public void setDuration10(MPXDuration duration)
@@ -3179,7 +3179,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate1()
@@ -3190,7 +3190,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate10()
@@ -3201,7 +3201,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate2()
@@ -3212,7 +3212,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate3()
@@ -3223,7 +3223,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate4()
@@ -3234,7 +3234,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate5()
@@ -3245,7 +3245,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate6()
@@ -3256,7 +3256,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate7()
@@ -3267,7 +3267,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate8()
@@ -3278,7 +3278,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Date value
     */
    public Date getDate9()
@@ -3289,7 +3289,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate1(Date date)
@@ -3300,7 +3300,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate10(Date date)
@@ -3311,7 +3311,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate2(Date date)
@@ -3322,7 +3322,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate3(Date date)
@@ -3333,7 +3333,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate4(Date date)
@@ -3344,7 +3344,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate5(Date date)
@@ -3355,7 +3355,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate6(Date date)
@@ -3366,7 +3366,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate7(Date date)
@@ -3377,7 +3377,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate8(Date date)
@@ -3388,7 +3388,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a date value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param date Date value
     */
    public void setDate9(Date date)
@@ -3399,7 +3399,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost1()
@@ -3410,7 +3410,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost2()
@@ -3421,7 +3421,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost3()
@@ -3432,7 +3432,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost4()
@@ -3443,7 +3443,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost5()
@@ -3454,7 +3454,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost6()
@@ -3465,7 +3465,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost7()
@@ -3476,7 +3476,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost8()
@@ -3487,7 +3487,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost9()
@@ -3498,7 +3498,7 @@ public final class Resource extends MPXRecord
    /**
     * Retrieves a cost.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @return Cost value
     */
    public Number getCost10()
@@ -3509,7 +3509,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost1(Number number)
@@ -3520,7 +3520,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost2(Number number)
@@ -3531,7 +3531,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost3(Number number)
@@ -3542,7 +3542,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost4(Number number)
@@ -3553,7 +3553,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost5(Number number)
@@ -3564,7 +3564,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost6(Number number)
@@ -3575,7 +3575,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost7(Number number)
@@ -3586,7 +3586,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost8(Number number)
@@ -3597,7 +3597,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost9(Number number)
@@ -3608,7 +3608,7 @@ public final class Resource extends MPXRecord
    /**
     * Sets a cost value.
     * Note that this value is an extension to the MPX specification.
-    * 
+    *
     * @param number Cost value
     */
    public void setCost10(Number number)
@@ -3618,7 +3618,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag1()
@@ -3628,7 +3628,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag2()
@@ -3638,7 +3638,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag3()
@@ -3648,7 +3648,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag4()
@@ -3658,7 +3658,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag5()
@@ -3668,7 +3668,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag6()
@@ -3678,7 +3678,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag7()
@@ -3688,7 +3688,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag8()
@@ -3698,7 +3698,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag9()
@@ -3708,7 +3708,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag10()
@@ -3718,7 +3718,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag11()
@@ -3728,7 +3728,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag12()
@@ -3738,7 +3738,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag13()
@@ -3748,7 +3748,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag14()
@@ -3758,7 +3758,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag15()
@@ -3768,7 +3768,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag16()
@@ -3778,7 +3778,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag17()
@@ -3788,7 +3788,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag18()
@@ -3798,7 +3798,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag19()
@@ -3808,7 +3808,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the flag value.
-    * 
+    *
     * @return flag value
     */
    public boolean getFlag20()
@@ -3818,7 +3818,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag1(boolean b)
@@ -3828,7 +3828,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag2(boolean b)
@@ -3838,7 +3838,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag3(boolean b)
@@ -3848,7 +3848,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag4(boolean b)
@@ -3858,7 +3858,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag5(boolean b)
@@ -3868,7 +3868,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag6(boolean b)
@@ -3878,7 +3878,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag7(boolean b)
@@ -3888,7 +3888,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag8(boolean b)
@@ -3898,7 +3898,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag9(boolean b)
@@ -3908,7 +3908,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag10(boolean b)
@@ -3918,7 +3918,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag11(boolean b)
@@ -3928,7 +3928,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag12(boolean b)
@@ -3938,7 +3938,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag13(boolean b)
@@ -3948,7 +3948,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag14(boolean b)
@@ -3958,7 +3958,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag15(boolean b)
@@ -3968,7 +3968,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag16(boolean b)
@@ -3978,7 +3978,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag17(boolean b)
@@ -3988,7 +3988,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag18(boolean b)
@@ -3998,7 +3998,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag19(boolean b)
@@ -4008,7 +4008,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the flag value
-    * 
+    *
     * @param b flag value
     */
    public void setFlag20(boolean b)
@@ -4028,12 +4028,12 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode1 ()
    {
-      return (m_outlineCode1);         
+      return (m_outlineCode1);
    }
 
    /**
@@ -4048,12 +4048,12 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode2 ()
    {
-      return (m_outlineCode2);         
+      return (m_outlineCode2);
    }
 
    /**
@@ -4068,12 +4068,12 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode3 ()
    {
-      return (m_outlineCode3);         
+      return (m_outlineCode3);
    }
 
    /**
@@ -4088,14 +4088,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode4 ()
    {
-      return (m_outlineCode4);         
+      return (m_outlineCode4);
    }
-                  
+
    /**
     * Sets the value of an outline code field.
     *
@@ -4108,14 +4108,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode5 ()
    {
-      return (m_outlineCode5);         
+      return (m_outlineCode5);
    }
-                  
+
    /**
     * Sets the value of an outline code field.
     *
@@ -4128,14 +4128,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode6 ()
    {
-      return (m_outlineCode6);         
+      return (m_outlineCode6);
    }
-                  
+
    /**
     * Sets the value of an outline code field.
     *
@@ -4148,14 +4148,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode7 ()
    {
-      return (m_outlineCode7);         
+      return (m_outlineCode7);
    }
-                  
+
    /**
     * Sets the value of an outline code field.
     *
@@ -4168,14 +4168,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode8 ()
    {
-      return (m_outlineCode8);         
+      return (m_outlineCode8);
    }
-                  
+
    /**
     * Sets the value of an outline code field.
     *
@@ -4188,14 +4188,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode9 ()
    {
-      return (m_outlineCode9);         
+      return (m_outlineCode9);
    }
-                  
+
    /**
     * Sets the value of an outline code field.
     *
@@ -4208,54 +4208,54 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the value of an outline code field.
-    * 
+    *
     * @return outline code value
     */
    public String getOutlineCode10 ()
    {
-      return (m_outlineCode10);         
+      return (m_outlineCode10);
    }
 
    /**
     * Set the "available from" date
-    * 
+    *
     * @param date available from date
     */
    public void setAvailableFrom (Date date)
    {
-      m_availableFrom = date;   
+      m_availableFrom = date;
    }
-   
+
    /**
     * Retrieves the "available from" date
-    * 
+    *
     * @return available from date
     */
    public Date getAvailableFrom ()
    {
-      return (m_availableFrom);   
+      return (m_availableFrom);
    }
 
    /**
     * Set the "available to" date
-    * 
+    *
     * @param date available to date
-    */   
+    */
    public void setAvailableTo (Date date)
    {
-      m_availableTo = date;   
+      m_availableTo = date;
    }
 
    /**
     * Retrieves the "available to" date
-    * 
+    *
     * @return available from date
-    */   
+    */
    public Date getAvailableTo ()
    {
-      return (m_availableTo);   
+      return (m_availableTo);
    }
-   
+
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
@@ -4313,23 +4313,23 @@ public final class Resource extends MPXRecord
     */
    private ResourceNotes m_notes;
 
-	/**
-	 * The following member variables are extended attributes. They are
-	 * do not form part of the MPX file format definition, and are neither
-	 * loaded from an MPX file, or saved to an MPX file. Their purpose
-	 * is to provide storage for attributes which are defined by later versions
-	 * of Microsoft Project. This allows these attributes to be manipulated
-	 * when they have been retrieved from file formats other than MPX.
-	 */
-	private MPXDuration m_regularWork;
-	private Number m_overtimeCost;
-	private Number m_actualOvertimeCost;
-	private Number m_remainingOvertimeCost;
+   /**
+    * The following member variables are extended attributes. They are
+    * do not form part of the MPX file format definition, and are neither
+    * loaded from an MPX file, or saved to an MPX file. Their purpose
+    * is to provide storage for attributes which are defined by later versions
+    * of Microsoft Project. This allows these attributes to be manipulated
+    * when they have been retrieved from file formats other than MPX.
+    */
+   private MPXDuration m_regularWork;
+   private Number m_overtimeCost;
+   private Number m_actualOvertimeCost;
+   private Number m_remainingOvertimeCost;
    private String m_text6;
    private String m_text7;
    private String m_text8;
    private String m_text9;
-   private String m_text10;   
+   private String m_text10;
    private String m_text11;
    private String m_text12;
    private String m_text13;
@@ -4339,8 +4339,8 @@ public final class Resource extends MPXRecord
    private String m_text17;
    private String m_text18;
    private String m_text19;
-   private String m_text20;                                                               
-   private String m_text21;   
+   private String m_text20;
+   private String m_text21;
    private String m_text22;
    private String m_text23;
    private String m_text24;
@@ -4373,33 +4373,33 @@ public final class Resource extends MPXRecord
    private Double m_number1;
    private Double m_number2;
    private Double m_number3;
-   private Double m_number4;   
+   private Double m_number4;
    private Double m_number5;
    private Double m_number6;
-   private Double m_number7;                                    
-   private Double m_number8;   
-   private Double m_number9;   
-   private Double m_number10;   
-   private Double m_number11;      
-   private Double m_number12;   
-   private Double m_number13;   
-   private Double m_number14;   
-   private Double m_number15;   
-   private Double m_number16;   
-   private Double m_number17;   
-   private Double m_number18;   
-   private Double m_number19;   
-   private Double m_number20;   
+   private Double m_number7;
+   private Double m_number8;
+   private Double m_number9;
+   private Double m_number10;
+   private Double m_number11;
+   private Double m_number12;
+   private Double m_number13;
+   private Double m_number14;
+   private Double m_number15;
+   private Double m_number16;
+   private Double m_number17;
+   private Double m_number18;
+   private Double m_number19;
+   private Double m_number20;
    private MPXDuration m_duration1;
    private MPXDuration m_duration2;
-   private MPXDuration m_duration3;			
+   private MPXDuration m_duration3;
    private MPXDuration m_duration4;
    private MPXDuration m_duration5;
    private MPXDuration m_duration6;
    private MPXDuration m_duration7;
    private MPXDuration m_duration8;
-   private MPXDuration m_duration9;                  
-   private MPXDuration m_duration10;   
+   private MPXDuration m_duration9;
+   private MPXDuration m_duration10;
    private Date m_date1;
    private Date m_date2;
    private Date m_date3;
@@ -4429,7 +4429,7 @@ public final class Resource extends MPXRecord
    private boolean m_flag7;
    private boolean m_flag8;
    private boolean m_flag9;
-   private boolean m_flag10;         	
+   private boolean m_flag10;
    private boolean m_flag11;
    private boolean m_flag12;
    private boolean m_flag13;
@@ -4452,7 +4452,7 @@ public final class Resource extends MPXRecord
    private String m_outlineCode10;
    private Date m_availableFrom;
    private Date m_availableTo;
-   
+
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,

@@ -387,17 +387,17 @@ final class XsdDuration
    private int m_hours = 0;
    private int m_minutes = 0;
    private double m_seconds = 0;
-   
+
    /**
-    * Configure the decimal separator to be independent of the 
+    * Configure the decimal separator to be independent of the
     * one used by the default locale.
     */
    private static final DecimalFormatSymbols SYMBOLS = new DecimalFormatSymbols ();
    static
    {
       SYMBOLS.setDecimalSeparator('.');
-   }      
-   
+   }
+
    private static final DecimalFormat FORMAT = new DecimalFormat ("#", SYMBOLS);
 }
 

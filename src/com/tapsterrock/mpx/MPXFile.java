@@ -75,7 +75,7 @@ public class MPXFile
       m_autoResourceUniqueID = file.m_autoResourceUniqueID;
       m_autoTaskID = file.m_autoTaskID;
       m_autoTaskUniqueID = file.m_autoTaskUniqueID;
-      m_autoCalendarUniqueID = file.m_autoCalendarUniqueID;      
+      m_autoCalendarUniqueID = file.m_autoCalendarUniqueID;
       m_autoWBS = file.m_autoWBS;
       m_baseCalendars = file.m_baseCalendars;
       m_baseOutlineLevel = file.m_baseOutlineLevel;
@@ -872,29 +872,29 @@ public class MPXFile
 
    /**
     * This method sets the flag indicating that the text version of the
-    * Task and Resource Table Definition records should be ignored. Ignoring 
+    * Task and Resource Table Definition records should be ignored. Ignoring
     * these records gets around the problem where MPX files have been generated
-    * with incorrect taks or resource field names, but correct task or resource 
+    * with incorrect taks or resource field names, but correct task or resource
     * field numbers in the numeric version of the record.
-    * 
+    *
     * @param flag Boolean flag
     */
    public void setIgnoreTextModel (boolean flag)
    {
       m_ignoreTextModel = flag;
    }
-   
+
    /**
     * Retrieves the flag indicating that the text version of the Task and
     * Resource Table Definition records should be ignored.
-    * 
+    *
     * @return Boolean flag
     */
    public boolean getIgnoreTextModel ()
    {
       return (m_ignoreTextModel);
    }
-   
+
    /**
     * Retrieve the flag that determines whether the resource ID
     * is generated automatically.
@@ -982,7 +982,7 @@ public class MPXFile
    /**
     * This method is provided to create a resource calendar, before it
     * has been attached to a resource.
-    * 
+    *
     * @return new MPXCalendar instance
     */
    protected MPXCalendar addResourceCalendar ()
@@ -1035,7 +1035,7 @@ public class MPXFile
     * calendar. This is used when the calendar data is available before
     * the resource data has been read, a situation which occurs with MPP
     * files.
-    * 
+    *
     * @return new MPXCalendar instance
     * @throws MPXException
     */
@@ -1054,10 +1054,10 @@ public class MPXFile
       return (calendar);
    }
 
-   /** 
+   /**
     * This is a convenience method to allow a pre-existing calendar
     * to be attached to a resource
-    * 
+    *
     * @param resource Resource instance
     * @param calendar MPXCalendar instance
     */
@@ -1065,7 +1065,7 @@ public class MPXFile
    {
       resource.attachResourceCalendar(calendar);
    }
-   
+
    /**
     * This method retrieves the list of base calendars defined in
     * this file.
@@ -1187,9 +1187,9 @@ public class MPXFile
 
    /**
     * Retrieves the base calendar referred to by the supplied unique ID
-    * value. This method will return null if the required calendar is not 
+    * value. This method will return null if the required calendar is not
     * located.
-    * 
+    *
     * @param calendarID calendar unique ID
     * @return MPXCalendar instance
     */
@@ -1218,7 +1218,7 @@ public class MPXFile
     * the specified OutputStreamWriter. By providing the OutputStreamWriter
     * as an argument, the caller can control the character encoding used
     * when writing the file.
-    * 
+    *
     * @param w OutputStreamWriterinstance
     * @throws IOException thrown on failure to write to the output stream
     */
@@ -1226,7 +1226,7 @@ public class MPXFile
       throws IOException
    {
       updateFormats();
-      
+
       Iterator iter = m_records.iterator();
 
       while(iter.hasNext())
@@ -1535,57 +1535,57 @@ public class MPXFile
             task = (Task)iter.next();
             task.clearChildTasks ();
             level = task.getOutlineLevelValue();
-				parent = null;
-				
+            parent = null;
+
             if (lastTask != null)
-            {               
+            {
                if (level == lastLevel)
                {
                   parent = lastTask.getParentTask();
                }
                else
-               {                  
+               {
                   if (level > lastLevel)
                   {
-                     parent = lastTask;                     
+                     parent = lastTask;
                   }
                   else
-                  {      
+                  {
                      while (level <= lastLevel)
                      {
                         parent = lastTask.getParentTask();
                         if (parent == null)
                         {
                            break;
-                        }                           
+                        }
                         lastLevel = parent.getOutlineLevelValue();
                         lastTask = parent;
-                     }                                                                                   
+                     }
                   }
                }
             }
 
             lastTask = task;
             lastLevel = level;
-            
+
             if (getAutoWBS() == true)
             {
-               task.generateWBS (parent);             	  
+               task.generateWBS (parent);
             }
-            
+
             if (getAutoOutlineNumber() == true)
             {
-               task.generateOutlineNumber(parent);  
+               task.generateOutlineNumber(parent);
             }
-            
+
             if (parent == null)
             {
-            	m_childTasks.add (task);
+               m_childTasks.add (task);
             }
             else
             {
-               parent.addChildTask (task);               
-            }                                    		
+               parent.addChildTask (task);
+            }
          }
       }
    }
@@ -1593,61 +1593,61 @@ public class MPXFile
    /**
     * Accessor method used to retrieve the decimal separator character.
     * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers 
+    * currency settings record. This value affects all decimal numbers
     * that appear in the MPX file.
-    * 
+    *
     * @return decimal separator character
     */
    public char getDecimalSeparator ()
    {
-      return (m_decimalSeparator);   
+      return (m_decimalSeparator);
    }
 
    /**
     * Modifier method used to set the decimal separator character.
     * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers 
+    * currency settings record. This value affects all decimal numbers
     * that appear in the MPX file.
-    * 
+    *
     * @param separator decimal separator character
     */
    public void setDecimalSeparator (char separator)
    {
       m_decimalSeparator = separator;
       if (m_currencySettings != null && m_currencySettings.getDecimalSeparator() != separator)
-      {      
+      {
          m_currencySettings.setDecimalSeparator(separator);
-      }                  
+      }
    }
 
    /**
     * Accessor method used to retrieve the thousands separator character.
     * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers 
+    * currency settings record. This value affects all decimal numbers
     * that appear in the MPX file.
-    * 
+    *
     * @return thousands separator character
     */
    public char getThousandsSeparator ()
    {
-      return (m_thousandsSeparator);   
+      return (m_thousandsSeparator);
    }
 
    /**
     * Modifier method used to set the thousands separator character.
     * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers 
+    * currency settings record. This value affects all decimal numbers
     * that appear in the MPX file.
-    * 
+    *
     * @param separator thousands separator character
     */
    public void setThousandsSeparator (char separator)
    {
-      m_thousandsSeparator = separator;   
+      m_thousandsSeparator = separator;
       if (m_currencySettings != null && m_currencySettings.getThousandsSeparator() != separator)
       {
          m_currencySettings.setThousandsSeparator(separator);
-      }         
+      }
    }
 
    /**
@@ -1661,11 +1661,11 @@ public class MPXFile
       m_percentageDecimalFormat = new MPXNumberFormat (MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
       m_unitsDecimalFormat = new MPXNumberFormat (MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
    }
-   
+
    /**
     * Package private method used to retrieve the standard decimal format
     * used for writing MPX records.
-    * 
+    *
     * @return MPXNumberFormat instance
     */
    MPXNumberFormat getDecimalFormat ()
@@ -1676,7 +1676,7 @@ public class MPXFile
    /**
     * Package private method used to retrieve the standard decimal format
     * used for writing MPXDuration values.
-    * 
+    *
     * @return MPXNumberFormat instance
     */
    MPXNumberFormat getDurationDecimalFormat ()
@@ -1687,7 +1687,7 @@ public class MPXFile
    /**
     * Package private method used to retrieve the standard decimal format
     * used for writing MPXPercentage values.
-    * 
+    *
     * @return MPXNumberFormat instance
     */
    MPXNumberFormat getPercentageDecimalFormat ()
@@ -1698,14 +1698,14 @@ public class MPXFile
    /**
     * Package private method used to retrieve the standard decimal format
     * used for writing MPXUnits values.
-    * 
+    *
     * @return MPXNumberFormat instance
     */
    MPXNumberFormat getUnitsDecimalFormat ()
    {
       return (new MPXNumberFormat (MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
    }
-   
+
    /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
@@ -1879,13 +1879,13 @@ public class MPXFile
    private boolean m_autoWBS = false;
 
    /**
-    * Indicating whether the Outline Level value should be calculated on 
+    * Indicating whether the Outline Level value should be calculated on
     * creation, or will be manually set.
     */
    private boolean m_autoOutlineLevel = false;
 
    /**
-    * Indicating whether the Outline Number value should be calculated on 
+    * Indicating whether the Outline Number value should be calculated on
     * creation, or will be manually set.
     */
    private boolean m_autoOutlineNumber = false;
@@ -1956,29 +1956,29 @@ public class MPXFile
     * Default decimal separator character. Despite the fact that this
     * value appears as part of the CurrencySettings, it is in fact a global
     * setting, which is why this attribute is defined here.
-    */   
+    */
    private char m_decimalSeparator = '.';
 
    /**
     * Number format used for writing decimal values.
-    */     
+    */
    private MPXNumberFormat m_decimalFormat;
-   
+
    /**
     * Number format used for writing MPXDuration values.
-    */        
+    */
    private MPXNumberFormat m_durationDecimalFormat;
-   
+
    /**
     * Number format used for writing MPXPercentage values.
-    */           
+    */
    private MPXNumberFormat m_percentageDecimalFormat;
-   
+
    /**
     * Number format used for writing MPXUnits values.
-    */           
+    */
    private MPXNumberFormat m_unitsDecimalFormat;
-   
+
    /**
     * Constant representing maximum number of BaseCalendars per MPX file.
     */

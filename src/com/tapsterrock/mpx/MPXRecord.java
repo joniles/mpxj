@@ -83,10 +83,10 @@ class MPXRecord
                {
                   if (o instanceof MPXDuration == true)
                   {
-                     result = ((MPXDuration)o).toString(m_mpx.getDurationDecimalFormat());   
+                     result = ((MPXDuration)o).toString(m_mpx.getDurationDecimalFormat());
                   }
                   else
-                  {      
+                  {
                      if (o instanceof MPXPercentage == true)
                      {
                         result = ((MPXPercentage)o).toString(m_mpx.getPercentageDecimalFormat());
@@ -99,10 +99,10 @@ class MPXRecord
                         }
                         else
                         {
-                           result = o.toString();                           
-                        }  
-                     }                           
-                  }                     
+                           result = o.toString();
+                        }
+                     }
+                  }
                }
             }
          }
@@ -165,7 +165,7 @@ class MPXRecord
     * @return MPX formatted String for supplied record type.
     */
    protected String toString (int code, int[] fields)
-   {            
+   {
       StringBuffer buf = new StringBuffer(String.valueOf(code));
       char sepchar = m_mpx.getDelimiter();
       String str;
@@ -531,13 +531,13 @@ class MPXRecord
     */
    protected double getDoubleValue (int key)
    {
-      return (getDoubleValue((Number)get(key)));      
+      return (getDoubleValue((Number)get(key)));
    }
 
    /**
     * Given a number, this method returns a double value. If the
     * number parameter is null, then zero is returned.
-    * 
+    *
     * @param value Number value
     * @return double value
     */
@@ -553,9 +553,9 @@ class MPXRecord
          result = value.doubleValue();
       }
 
-      return (result);      
+      return (result);
    }
-   
+
    /**
     * Accessor method allowing retreival of MPXFile reference.
     *

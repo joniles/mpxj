@@ -43,7 +43,7 @@ final class FixedData extends MPPComponent
     * This constructor retrieves the data from the input stream. It
     * makes use of the meta data regarding this data block that has
     * already been read in from the MPP file.
-    * 
+    *
     * Note that we actually read in the entire data block in one go.
     * This is due to the fact that MS Project sometimes describes data
     * using offsets that are out of sequence, and items that may overlap.
@@ -57,32 +57,32 @@ final class FixedData extends MPPComponent
     */
    FixedData (FixedMeta meta, InputStream is)
       throws IOException
-   {      
-		byte[] buffer = new byte[is.available()];
-		is.read(buffer);
-				
+   {
+      byte[] buffer = new byte[is.available()];
+      is.read(buffer);
+
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-      
+
       byte[] metaData;
       int itemOffset;
       int itemSize;
       int available;
-			
+
       for (int loop=0; loop < itemCount; loop++)
-      {        	
+      {
          metaData = meta.getByteArrayValue(loop);
-         itemSize = MPPUtility.getInt(metaData, 0);         
+         itemSize = MPPUtility.getInt(metaData, 0);
          itemOffset = MPPUtility.getInt(metaData, 4);
 
-			if (itemOffset > buffer.length)
-			{
-				continue;			   
-			}			
+         if (itemOffset > buffer.length)
+         {
+            continue;
+         }
 
-			available = buffer.length - itemOffset;
-			
+         available = buffer.length - itemOffset;
+
          if (itemSize < 0)
          {
             itemSize = available;
@@ -97,7 +97,7 @@ final class FixedData extends MPPComponent
 
          m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
          m_offset[loop] = itemOffset;
-      }      
+      }
    }
 
    /**
@@ -118,7 +118,7 @@ final class FixedData extends MPPComponent
       int itemCount = is.available() / itemSize;
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-      
+
       for (int loop=0; loop < itemCount; loop++)
       {
          m_offset[loop] = offset;
@@ -163,26 +163,26 @@ final class FixedData extends MPPComponent
     * This method converts an offset value into an array index, which in
     * turn allows the data present in the fixed block to be retrieved. Note
     * that if the requested offset is not found, then this method returns -1.
-    * 
+    *
     * @param offset Offset of the data in the fixed block
     * @return Index of data item within the fixed data block
     */
    public int getIndexFromOffset (int offset)
    {
       int result = -1;
-      
+
       for (int loop=0; loop < m_offset.length; loop++)
       {
          if (m_offset[loop] == offset)
          {
             result = loop;
-            break;               
-         }   
-      }   
-      
-      return (result);      
+            break;
+         }
+      }
+
+      return (result);
    }
-   
+
    /**
     * This method dumps the contents of this FixedData block as a String.
     * Note that this facility is provided as a debugging aid.
@@ -211,10 +211,10 @@ final class FixedData extends MPPComponent
     * An array containing all of the items of data held in this block.
     */
    private Object[] m_array;
-   
+
    /**
     * Array containing offset values for each item in the array.
     */
    private int[] m_offset;
-   
+
 }

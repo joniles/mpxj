@@ -916,7 +916,7 @@ public final class DateTimeSettings extends MPXRecord
    public int getDefaultEndTimeValue ()
    {
       int result = 0;
-      
+
       if (m_defaultEndTime != null)
       {
          Calendar cal = Calendar.getInstance();
@@ -924,23 +924,23 @@ public final class DateTimeSettings extends MPXRecord
          result = cal.get(Calendar.HOUR_OF_DAY) * 60;
          result += cal.get(Calendar.MINUTE);
       }
-      
+
       return (result);
    }
 
    /**
     * Retrieves the default end time.
-    * 
+    *
     * @return End time
     */
    public Date getDefaultEndTimeAsDate ()
    {
       return (m_defaultEndTime);
    }
-   
+
    /**
     * Sets the default end time.
-    * 
+    *
     * @param date End time
     */
    public void setDefaultEndTime (Date date)
@@ -957,7 +957,7 @@ public final class DateTimeSettings extends MPXRecord
     * when they have been retrieved from file formats other than MPX.
     */
    private Date m_defaultEndTime;
-  
+
    /**
     * All the following formats are as per Project '98.
     */

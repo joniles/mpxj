@@ -178,12 +178,12 @@ final class ResourceModel extends MPXRecord
       throws MPXException
    {
       String result = (String)RESOURCE_NUMBER.get(field);
-      
+
       if (result == null)
       {
          throw new MPXException (MPXException.INVALID_RESOURCE_FIELD_NAME + " " + field);
       }
-      
+
       return (result);
    }
 

@@ -86,39 +86,39 @@ public final class TaskNotes extends MPXRecord
    {
       StringBuffer buffer = new StringBuffer ();
       char delimiter = getParentFile().getDelimiter();
-      
+
       buffer.append (RECORD_NUMBER);
       buffer.append (delimiter);
-      
+
       if (m_note != null)
       {
          boolean quote = (m_note.indexOf(delimiter) != -1 || m_note.indexOf('"') != -1);
          int length = m_note.length();
          char c;
-         
+
          if (quote == true)
          {
             buffer.append('"');
          }
-                     
+
          for (int loop=0; loop < length; loop++)
          {
             c = m_note.charAt(loop);
-            
+
             switch (c)
             {
                case '\n':
                {
                   buffer.append (EOL_PLACEHOLDER);
-                  break;   
+                  break;
                }
-               
+
                case '"':
                {
                   buffer.append ("\"\"");
                   break;
                }
-               
+
                default:
                {
                   buffer.append (c);
@@ -130,9 +130,9 @@ public final class TaskNotes extends MPXRecord
          if (quote == true)
          {
             buffer.append('"');
-         }         
-      }         
-      
+         }
+      }
+
       buffer.append (MPXFile.EOL);
 
       return (buffer.toString());
@@ -149,7 +149,7 @@ public final class TaskNotes extends MPXRecord
     * carriage returns embedded in note text.
     */
    private static final char EOL_PLACEHOLDER = (char)0x7F;
-   
+
    /**
     * Constant containing the record number associated with this record.
     */

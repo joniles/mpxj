@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2003
  * date:       05/11/2003
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -42,10 +42,10 @@ public class ColumnTitles extends ListResourceBundle
 
    private static final int MAX_RESOURCE_COLUMNS = 312;
    private static final int MAX_TASK_COLUMNS = 452;
-      
+
    private static final String[] RESOURCE_COLUMNS = new String[MAX_RESOURCE_COLUMNS];
    private static final String[] TASK_COLUMNS = new String[MAX_TASK_COLUMNS];
-   
+
    static
    {
       TASK_COLUMNS[Column.TASK_WORK] = "Work";
@@ -291,7 +291,7 @@ public class ColumnTitles extends ListResourceBundle
       TASK_COLUMNS[Column.TASK_WBS_PREDECESSORS] = "Predecesors";
       TASK_COLUMNS[Column.TASK_WBS_SUCCESSORS] = "Successors";
       TASK_COLUMNS[Column.TASK_RESOURCE_TYPE] = "Resource Type";
-      
+
       RESOURCE_COLUMNS[Column.RESOURCE_ID] = "ID";
       RESOURCE_COLUMNS[Column.RESOURCE_NAME] = "Name";
       RESOURCE_COLUMNS[Column.RESOURCE_INITIALS] = "Initials";
@@ -495,9 +495,9 @@ public class ColumnTitles extends ListResourceBundle
       RESOURCE_COLUMNS[Column.RESOURCE_TYPE] = "Type";
       RESOURCE_COLUMNS[Column.RESOURCE_VAC] = "VAC";
       RESOURCE_COLUMNS[Column.RESOURCE_GROUP_BY_SUMMARY] = "Group By Summary";
-      RESOURCE_COLUMNS[Column.RESOURCE_WINDOWS_USER_ACCOUNT] = "Windows User Account";      
+      RESOURCE_COLUMNS[Column.RESOURCE_WINDOWS_USER_ACCOUNT] = "Windows User Account";
    }
-      
+
    private static final Object[][] RESOURCES =
    {
       {"TASK_COLUMNS", TASK_COLUMNS},

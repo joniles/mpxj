@@ -180,12 +180,12 @@ final class TaskModel extends MPXRecord
       throws MPXException
    {
       String result = (String)TASK_NUMBER.get(field);
-      
+
       if (result == null)
       {
          throw new MPXException (MPXException.INVALID_TASK_FIELD_NAME + " " + field);
       }
-      
+
       return (result);
    }
 

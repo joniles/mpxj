@@ -87,9 +87,9 @@ final class MPXUnits extends Number
     */
    String toString (MPXNumberFormat format)
    {
-      return (format.format(m_value/100));   
+      return (format.format(m_value/100));
    }
-   
+
    /**
     * Returns the value of the specified number as an <code>int</code>.
     * This may involve rounding.
@@ -147,7 +147,7 @@ final class MPXUnits extends Number
     * Number formatter format string.
     */
    static final String DECIMAL_FORMAT_STRING = "#.##";
-   
+
    /**
     * Number formatter.
     */

@@ -126,7 +126,7 @@ final class FixedMeta extends MPPComponent
       for (int loop=0; loop < m_itemCount; loop++)
       {
          pw.println ("   Data at index: " + loop);
-         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));         
+         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
       }
 
       pw.println ("END: FixedMeta");

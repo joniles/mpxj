@@ -4,7 +4,7 @@
  * copyright:  Tapster Rock Limited
  * date:       12/11/2003
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -20,7 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
- 
+
 package com.tapsterrock.mpp;
 
 //import java.io.FileOutputStream;
@@ -45,7 +45,7 @@ final class Props8 extends Props
 {
    /**
     * Constructor, reads the property data from an input stream.
-    * 
+    *
     * @param is
     */
    Props8 (InputStream is)
@@ -57,11 +57,11 @@ final class Props8 extends Props
 
          readInt (is); // File size
          readInt (is); // Repeat of file size
-         readInt(is); // unknown      
+         readInt(is); // unknown
          int count = readShort(is); // Number of entries
          readShort(is); // unknown
-         
-         
+
+
          for (int loop=0; loop < count; loop++)
          {
             int attrib1 = readInt(is);
@@ -71,7 +71,7 @@ final class Props8 extends Props
             int attrib5 = readInt(is);
             int size;
             byte[] data;
-            
+
             if (attrib3 == 64)
             {
                size = attrib1;
@@ -80,27 +80,27 @@ final class Props8 extends Props
             {
                size = attrib5;
             }
-                                    
+
             if (attrib5 == 65536)
             {
                size = 4;
             }
-                                       
+
             if (size != 0)
             {
                data = new byte[size];
-               is.read(data);                       
-            }         
+               is.read(data);
+            }
             else
             {
                // bail out here as we don't understand the structure
                m_complete = false;
                break;
             }
-            
+
             m_map.put(new Integer (attrib2), data);
 //            pw.println(attrib2 + ": " + MPPUtility.hexdump(data, true));
-            
+
             //
             // Align to two byte boundary
             //
@@ -108,16 +108,16 @@ final class Props8 extends Props
             {
                is.skip(1);
             }
-         }     
-         
-//         pw.flush();            
-//         pw.close();                               
+         }
+
+//         pw.flush();
+//         pw.close();
       }
-      
+
       catch (IOException ex)
       {
-         m_complete = false;         
-      }         
+         m_complete = false;
+      }
    }
 
    /**
@@ -138,24 +138,24 @@ final class Props8 extends Props
       }
       else
       {
-         pw.println ("   INCOMPLETE");         
+         pw.println ("   INCOMPLETE");
       }
-               
+
       Iterator iter = m_map.keySet().iterator();
       Integer key;
-      
+
       while (iter.hasNext() == true)
       {
          key = (Integer)iter.next();
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));   
+         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));
       }
-           
+
       pw.println ("END Props");
 
       pw.println ();
       pw.close();
       return (sw.toString());
    }
-   
-   private boolean m_complete = true;   
+
+   private boolean m_complete = true;
 }

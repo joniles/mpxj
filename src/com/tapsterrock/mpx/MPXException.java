@@ -57,13 +57,13 @@ public final class MPXException extends Exception
 
    /**
     * Prints the stack trace, including details of any nested exception.
-    * 
+    *
     * @param s output print stream
-    */   
-   public void printStackTrace (PrintStream s) 
+    */
+   public void printStackTrace (PrintStream s)
    {
       super.printStackTrace(s);
-      
+
       if (m_exception != null)
       {
          s.println ();
@@ -74,21 +74,21 @@ public final class MPXException extends Exception
 
    /**
     * Prints the stack trace, including details of any nested exception.
-    * 
+    *
     * @param s output print writer
-    */   
-   public void printStackTrace (PrintWriter s) 
+    */
+   public void printStackTrace (PrintWriter s)
    {
       super.printStackTrace(s);
-      
+
       if (m_exception != null)
       {
-         s.println ();         
+         s.println ();
          s.print("Nested Exception is: ");
          m_exception.printStackTrace(s);
       }
    }
-         
+
    /**
     * Returns the embedded exception
     *
@@ -163,7 +163,7 @@ public final class MPXException extends Exception
     * Invalid format error message.
     */
    public static final String INVALID_FORMAT = "Invalid format";
-   
+
    /**
     * Invalid task field name error message
     */

@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       08/05/2003
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -20,7 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-  
+
 package com.tapsterrock.mpp;
 
 import java.io.IOException;
@@ -64,7 +64,7 @@ final class MPP8File
    /**
     * This method is used to process an MPP8 file. This is the file format
     * used by Project 98.
-    * 
+    *
     * @param file Parent MPX file
     * @param root Root of the POI file system.
     * @throws MPXException
@@ -74,48 +74,48 @@ final class MPP8File
       throws MPXException, IOException
    {
       HashMap calendarMap = new HashMap ();
-      
+
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
       processPropertyData (file, projectDir);
-      
+
       processCalendarData (file, projectDir, calendarMap);
-             
+
       processResourceData (file, projectDir, calendarMap);
 
       processTaskData (file, projectDir);
-      
-      processConstraintData (file, projectDir);      
-      
-      processAssignmentData (file, projectDir);      
-      
-            
+
+      processConstraintData (file, projectDir);
+
+      processAssignmentData (file, projectDir);
+
+
       projectDir = (DirectoryEntry)root.getEntry ("   2");
-      
+
       processViewData (file, projectDir);
-      
-      processTableData (file, projectDir);            
+
+      processTableData (file, projectDir);
    }
 
 
    /**
     * This method extracts and collates global property data.
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
     * @throws IOException
-    */   
+    */
    private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
-      
+
       DateTimeSettings dts = file.getDateTimeSettings();
       dts.setDefaultStartTime(props.getTime(Props.START_TIME));
       dts.setDefaultEndTime (props.getTime(Props.END_TIME));
-            
-      DefaultSettings ds = file.getDefaultSettings();           
+
+      DefaultSettings ds = file.getDefaultSettings();
       //ds.setDefaultDurationIsFixed();
       ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props.DURATION_UNITS)));
       ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
@@ -133,29 +133,29 @@ final class MPP8File
       cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //cs.setThousandsSeparator();
    }
-   
+
    /**
     * This method extracts and collates calendar data.
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
     * @throws IOException
-    */   
+    */
    private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");      
+      DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
       FixFix calendarFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixFix   0"))));
-      FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));      
-            
+      FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));
+
       MPXCalendar cal;
       MPXCalendarHours hours;
       MPXCalendarException exception;
       String name;
       byte[] baseData;
       byte[] extData;
-      
+
       int periodCount;
       int index;
       int offset;
@@ -186,23 +186,23 @@ final class MPP8File
          throw new MPXException (MPXException.INVALID_FORMAT, ex);
       }
 
-      int calendars = calendarFixedData.getItemCount();      
+      int calendars = calendarFixedData.getItemCount();
       int calendarID;
       int baseCalendarID;
-                
+
       for (int loop=0; loop < calendars; loop++)
       {
          baseData = calendarFixedData.getByteArrayValue(loop);
          calendarID = MPPUtility.getInt(baseData, 0);
-         baseCalendarID = MPPUtility.getInt(baseData, 4);         
+         baseCalendarID = MPPUtility.getInt(baseData, 4);
          name = calendarVarData.getUnicodeString(getOffset(baseData, 20));
-                  
+
          //
-         // Uncommenting the call to this method is useful when trying 
+         // Uncommenting the call to this method is useful when trying
          // to determine the function of unknown task data.
          //
-         //dumpUnknownData (name + " " + MPPUtility.getInt(baseData), UNKNOWN_CALENDAR_DATA, baseData);                                                                                                            
-         
+         //dumpUnknownData (name + " " + MPPUtility.getInt(baseData), UNKNOWN_CALENDAR_DATA, baseData);
+
          //
          // Skip calendars with negative ID values
          //
@@ -210,49 +210,49 @@ final class MPP8File
          {
             continue;
          }
-                                 
+
          //
          // Populate the basic calendar
          //
          ExtendedData ed = new ExtendedData (calendarVarData, getOffset(baseData,32));
-         offset = -1 - ed.getInt(new Integer (8));        
-         
+         offset = -1 - ed.getInt(new Integer (8));
+
          if (offset == -1)
          {
             if (baseCalendarID > 0)
             {
                cal = file.mppAddDefaultResourceCalendar ();
-               cal.setBaseCalendarName(Integer.toString(baseCalendarID));               
+               cal.setBaseCalendarName(Integer.toString(baseCalendarID));
             }
             else
-            {               
-               cal = file.addDefaultBaseCalendar();               
-               cal.setName (name);                           
+            {
+               cal = file.addDefaultBaseCalendar();
+               cal.setName (name);
             }
          }
          else
-         {                        
+         {
             if (baseCalendarID > 0)
             {
                cal = file.mppAddResourceCalendar ();
-               cal.setBaseCalendarName(Integer.toString(baseCalendarID));               
+               cal.setBaseCalendarName(Integer.toString(baseCalendarID));
             }
             else
-            {               
-               cal = file.addBaseCalendar();               
-               cal.setName (name);               
+            {
+               cal = file.addBaseCalendar();
+               cal.setName (name);
             }
-                
+
             cal.setUniqueID(calendarID);
-            
-            extData = calendarVarData.getByteArray(offset);                                   
+
+            extData = calendarVarData.getByteArray(offset);
 
             for (index=0; index < 7; index++)
             {
-               offset = 4 + (40 * index);               
-                              
+               offset = 4 + (40 * index);
+
                defaultFlag = MPPUtility.getShort (extData, offset);
-   
+
                if (defaultFlag == 1)
                {
                   cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
@@ -276,21 +276,21 @@ final class MPP8File
                   {
                      cal.setWorkingDay(index+1, true);
                      hours = cal.addCalendarHours(index+1);
-   
+
                      start = MPPUtility.getTime (extData, offset + 8);
                      duration = MPPUtility.getDuration (extData, offset + 16);
                      hours.setFromTime1(start);
                      hours.setToTime1(new Date (start.getTime()+duration));
-                  
+
                      if (periodCount > 1)
                      {
                         start = MPPUtility.getTime (extData, offset + 10);
                         duration = MPPUtility.getDuration (extData, offset + 20);
                         hours.setFromTime2(start);
                         hours.setToTime2(new Date (start.getTime()+duration));
-   
+
                         if (periodCount > 2)
-                        {                          
+                        {
                            start = MPPUtility.getTime (extData, offset + 12);
                            duration = MPPUtility.getDuration (extData, offset + 24);
                            hours.setFromTime3(start);
@@ -300,7 +300,7 @@ final class MPP8File
                   }
                }
             }
-            
+
             //
             // Handle any exceptions
             //
@@ -313,7 +313,7 @@ final class MPP8File
                   exception = cal.addCalendarException();
                   exception.setFromDate(MPPUtility.getDate (extData, offset));
                   exception.setToDate(MPPUtility.getDate (extData, offset+2));
-   
+
                   periodCount = MPPUtility.getShort (extData, offset+6);
                   if (periodCount == 0)
                   {
@@ -322,19 +322,19 @@ final class MPP8File
                   else
                   {
                      exception.setWorking (true);
-   
+
                      start = MPPUtility.getTime (extData, offset+12);
                      duration = MPPUtility.getDuration (extData, offset+20);
                      exception.setFromTime1(start);
                      exception.setToTime1(new Date (start.getTime() + duration));
-   
+
                      if (periodCount > 1)
                      {
                         start = MPPUtility.getTime (extData, offset+14);
                         duration = MPPUtility.getDuration (extData, offset+24);
                         exception.setFromTime2(start);
                         exception.setToTime2(new Date (start.getTime() + duration));
-   
+
                         if (periodCount > 2)
                         {
                            start = MPPUtility.getTime (extData, offset+16);
@@ -347,10 +347,10 @@ final class MPP8File
                }
             }
          }
-         
+
          calendarMap.put(new Integer (calendarID), cal);
       }
-      
+
       updateBaseCalendarNames (calendarMap);
    }
 
@@ -361,7 +361,7 @@ final class MPP8File
     * we initially populatethe base calendar name attribute with the
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
-    * 
+    *
     * @param map map of calendar ID values and calendar objects
     */
    private static void updateBaseCalendarNames (HashMap map)
@@ -370,7 +370,7 @@ final class MPP8File
       MPXCalendar cal;
       MPXCalendar baseCal;
       String baseCalendarName;
-      
+
       while (iter.hasNext() == true)
       {
          cal = (MPXCalendar)map.get(iter.next());
@@ -381,19 +381,19 @@ final class MPP8File
             if (baseCal != null)
             {
                cal.setBaseCalendarName(baseCal.getName());
-            }               
+            }
          }
-      }   
+      }
    }
-   
+
    /**
     * This method extracts and collates task data.
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
     * @throws IOException
-    */   
+    */
    private static void processTaskData (MPPFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
    {
@@ -401,12 +401,12 @@ final class MPP8File
       FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
       if (taskFixedData.getDiff() != 0)
       {
-         taskFixedData = new FixFix (366, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));         
+         taskFixedData = new FixFix (366, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
       }
-      
+
       FixDeferFix taskVarData = null;
       ExtendedData taskExtData = null;
-           
+
       int tasks = taskFixedData.getItemCount();
       byte[] data;
       int uniqueID;
@@ -415,14 +415,14 @@ final class MPP8File
       String notes;
       RTFUtility rtf = new RTFUtility ();
       byte[] flags = new byte[3];
-                              
+
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
-         
+
          //
          // Test for a valid unique id
-         //         
+         //
          uniqueID = MPPUtility.getInt(data, 0);
          if (uniqueID < 1)
          {
@@ -431,7 +431,7 @@ final class MPP8File
 
          //
          // Test to ensure this task has not been deleted
-         //         
+         //
          if (MPPUtility.getShort(data, 272) != 0)
          {
             continue;
@@ -445,16 +445,16 @@ final class MPP8File
          {
             taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));
          }
-                                       
+
          taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
-         
+
          id = MPPUtility.getInt (data, 4);
-         flags[0] = (byte)(data[268] & data[303]);         
+         flags[0] = (byte)(data[268] & data[303]);
          flags[1] = (byte)(data[269] & data[304]);
-         flags[2] = (byte)(data[270] & data[305]);         
-         
+         flags[2] = (byte)(data[270] & data[305]);
+
          task = file.addTask();
-                                               
+
          task.setActualCost(new Double (((double)MPPUtility.getLong6(data, 234)) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 108));
@@ -465,7 +465,7 @@ final class MPP8File
          //task.setACWP(); // Calculated value
          //task.setAssignment(); // Calculated value
          //task.setAssignmentDelay(); // Calculated value
-         //task.setAssignmentUnits(); // Calculated value         
+         //task.setAssignmentUnits(); // Calculated value
          task.setBaselineCost(new Double ((double)MPPUtility.getLong6 (data, 246) / 100));
          task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 82), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 72))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 116));
@@ -487,14 +487,14 @@ final class MPP8File
          task.setCost7(new Double (((double)taskExtData.getLong (TASK_COST7)) / 100));
          task.setCost8(new Double (((double)taskExtData.getLong (TASK_COST8)) / 100));
          task.setCost9(new Double (((double)taskExtData.getLong (TASK_COST9)) / 100));
-         task.setCost10(new Double (((double)taskExtData.getLong (TASK_COST10)) / 100));  
+         task.setCost10(new Double (((double)taskExtData.getLong (TASK_COST10)) / 100));
          //task.setCostRateTable(); // Calculated value
          //task.setCostVariance(); // Populated below
          task.setCreated(MPPUtility.getTimestamp (data, 138));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
          task.setDate1(taskExtData.getTimestamp(TASK_DATE1));
-         task.setDate2(taskExtData.getTimestamp(TASK_DATE2));         
+         task.setDate2(taskExtData.getTimestamp(TASK_DATE2));
          task.setDate3(taskExtData.getTimestamp(TASK_DATE3));
          task.setDate4(taskExtData.getTimestamp(TASK_DATE4));
          task.setDate5(taskExtData.getTimestamp(TASK_DATE5));
@@ -503,7 +503,7 @@ final class MPP8File
          task.setDate8(taskExtData.getTimestamp(TASK_DATE8));
          task.setDate9(taskExtData.getTimestamp(TASK_DATE9));
          task.setDate10(taskExtData.getTimestamp(TASK_DATE10));
-         //task.setDelay(); // No longer supported by MS Project?         
+         //task.setDelay(); // No longer supported by MS Project?
          task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 68), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
          task.setDuration1(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
          task.setDuration2(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
@@ -514,7 +514,7 @@ final class MPP8File
          task.setDuration7(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
          task.setDuration8(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
          task.setDuration9(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION10_UNITS)))); 
+         task.setDuration10(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
@@ -530,18 +530,18 @@ final class MPP8File
          task.setFinish7(taskExtData.getTimestamp(TASK_FINISH7));
          task.setFinish8(taskExtData.getTimestamp(TASK_FINISH8));
          task.setFinish9(taskExtData.getTimestamp(TASK_FINISH9));
-         task.setFinish10(taskExtData.getTimestamp(TASK_FINISH10)); 
+         task.setFinish10(taskExtData.getTimestamp(TASK_FINISH10));
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Not in MSP98?
          task.setFixedCost(new Double (((double)MPPUtility.getLong6(data, 228)) / 100));
-         task.setFixedCostAccrual(AccrueType.getInstance (MPPUtility.getShort (data, 136)));         
+         task.setFixedCostAccrual(AccrueType.getInstance (MPPUtility.getShort (data, 136)));
          task.setFlag1((flags[0] & 0x02) != 0);
          task.setFlag2((flags[0] & 0x04) != 0);
          task.setFlag3((flags[0] & 0x08) != 0);
          task.setFlag4((flags[0] & 0x10) != 0);
          task.setFlag5((flags[0] & 0x20) != 0);
-         task.setFlag6((flags[0] & 0x40) != 0);         
-         task.setFlag7((flags[0] & 0x80) != 0);                  
+         task.setFlag6((flags[0] & 0x40) != 0);
+         task.setFlag7((flags[0] & 0x80) != 0);
          task.setFlag8((flags[1] & 0x01) != 0);
          task.setFlag9((flags[1] & 0x02) != 0);
          task.setFlag10((flags[1] & 0x04) != 0);
@@ -553,18 +553,18 @@ final class MPP8File
          task.setFlag16((flags[2] & 0x01) != 0);
          task.setFlag17((flags[2] & 0x02) != 0);
          task.setFlag18((flags[2] & 0x04) != 0);
-         task.setFlag19((flags[2] & 0x08) != 0);         
-         task.setFlag20((flags[2] & 0x10) != 0); // note that this is not correct         
+         task.setFlag19((flags[2] & 0x08) != 0);
+         task.setFlag20((flags[2] & 0x10) != 0); // note that this is not correct
          //task.setFreeSlack();  // Calculated value
          task.setHideBar((data[16] & 0x01) != 0);
          processHyperlinkData (task, taskVarData.getByteArray(-1 - taskExtData.getInt(TASK_HYPERLINK)));
          task.setID (id);
          //task.setIndicators(); // Calculated value
          //task.setLateFinish();  // Calculated value
-         //task.setLateStart();  // Calculated value         
-         task.setLevelAssignments((data[19] & 0x10) != 0);         
-         task.setLevelingCanSplit((data[19] & 0x08) != 0);         
-         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 90))/3, MPPUtility.getDurationUnits(MPPUtility.getShort (data, 94))));         
+         //task.setLateStart();  // Calculated value
+         task.setLevelAssignments((data[19] & 0x10) != 0);
+         task.setLevelingCanSplit((data[19] & 0x08) != 0);
+         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 90))/3, MPPUtility.getDurationUnits(MPPUtility.getShort (data, 94))));
          //task.setLinkedFields();  // Calculated value
          task.setMarked((data[13] & 0x02) != 0);
          task.setMilestone((data[12] & 0x01) != 0);
@@ -591,23 +591,23 @@ final class MPP8File
          task.setNumber20(new Double (taskExtData.getDouble(TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (MPPUtility.getShort (data, 48));
-         //task.setOutlineNumber(); // Calculated value 
+         //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
-         task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));                  
+         task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));
          //task.setOvertimeWork(); // Calculated value
-         //task.getPredecessors(); // Calculated value                  
+         //task.getPredecessors(); // Calculated value
          task.setPercentageComplete((double)MPPUtility.getShort(data, 130));
-         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 132));         
+         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 132));
          task.setPreleveledFinish (MPPUtility.getTimestamp(data, 148));
-         task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));         
+         task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 128)));
          //task.setProject(); // Calculated value
-         //task.setRecurring(); // Calculated value         
-         //task.setRegularWork(); // Calculated value         
+         //task.setRecurring(); // Calculated value
+         //task.setRegularWork(); // Calculated value
          task.setRemainingCost(new Double (((double)MPPUtility.getLong6(data, 240)) / 100));
-         task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));         
+         task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
          task.setRemainingOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 216))/100));
-         task.setRemainingOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 198))/100, TimeUnit.HOURS));                  
+         task.setRemainingOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 198))/100, TimeUnit.HOURS));
          task.setRemainingWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 186))/100, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
          //task.setResourceInitials(); // Calculated value from resource
@@ -627,7 +627,7 @@ final class MPP8File
          task.setStart7(taskExtData.getTimestamp(TASK_START7));
          task.setStart8(taskExtData.getTimestamp(TASK_START8));
          task.setStart9(taskExtData.getTimestamp(TASK_START9));
-         task.setStart10(taskExtData.getTimestamp(TASK_START10));          
+         task.setStart10(taskExtData.getTimestamp(TASK_START10));
          //task.setStartVariance(); // Calculated value
          task.setStop(MPPUtility.getTimestamp (data, 124));
          //task.setSubprojectFile();
@@ -665,7 +665,7 @@ final class MPP8File
          task.setText27(taskExtData.getUnicodeString(TASK_TEXT27));
          task.setText28(taskExtData.getUnicodeString(TASK_TEXT28));
          task.setText29(taskExtData.getUnicodeString(TASK_TEXT29));
-         task.setText30(taskExtData.getUnicodeString(TASK_TEXT30)); 
+         task.setText30(taskExtData.getUnicodeString(TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 134));
          task.setUniqueID(uniqueID);
@@ -676,7 +676,7 @@ final class MPP8File
          task.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
-         
+
          //
          // Retrieve the task notes.
          //
@@ -687,31 +687,31 @@ final class MPP8File
             {
                notes = rtf.strip (notes);
             }
-                                      
+
             task.addTaskNotes(notes);
          }
-         
+
          //
          // Calculate the cost variance
          //
          if (task.getCost() != null && task.getBaselineCost() != null)
          {
-            task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));   
-         }     
-         
+            task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
+         }
+
          //
-         // Uncommenting the call to this method is useful when trying 
+         // Uncommenting the call to this method is useful when trying
          // to determine the function of unknown task data.
          //
-         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);  
-      }            
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
+      }
    }
 
    /**
     * This method is used to extract the task hyperlink attributes
     * from a block of data and call the appropriate modifier methods
     * to configure the specified task object.
-    * 
+    *
     * @param task task instance
     * @param data hyperlink data block
     */
@@ -723,38 +723,38 @@ final class MPP8File
          String hyperlink;
          String address;
          String subaddress;
-         
-         offset += 12;         
+
+         offset += 12;
          hyperlink = MPPUtility.getUnicodeString(data, offset);
          offset += ((hyperlink.length()+1) * 2);
-   
-         offset += 12;         
+
+         offset += 12;
          address = MPPUtility.getUnicodeString(data, offset);
          offset += ((address.length()+1) * 2);
-   
+
          offset += 12;
          subaddress = MPPUtility.getUnicodeString(data, offset);
-         
+
          task.setHyperlink(hyperlink);
          task.setHyperlinkAddress(address);
          task.setHyperlinkSubAddress(subaddress);
-      }         
+      }
    }
-   
+
    /**
     * This method extracts and collates constraint data.
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
     * @throws IOException
-    */   
+    */
    private static void processConstraintData (MPPFile file, DirectoryEntry projectDir)
       throws IOException
-   {         
+   {
       DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
-      FixFix consFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixFix   0"))));      
-      
+      FixFix consFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixFix   0"))));
+
       int count = consFixedData.getItemCount();
       byte[] data;
       Task task1;
@@ -763,16 +763,16 @@ final class MPP8File
       int durationUnits;
       int taskID1;
       int taskID2;
-            
+
       for (int loop=0; loop < count; loop++)
       {
          data = consFixedData.getByteArrayValue(loop);
 
-         if (MPPUtility.getInt(data, 28) == 0)                  
+         if (MPPUtility.getInt(data, 28) == 0)
          {
             taskID1 = MPPUtility.getInt (data, 12);
             taskID2 = MPPUtility.getInt (data, 16);
-   
+
             if (taskID1 != taskID2)
             {
                task1 = file.getTaskByUniqueID (taskID1);
@@ -784,28 +784,28 @@ final class MPP8File
                   durationUnits = MPPUtility.getDurationUnits(MPPUtility.getShort (data, 22));
                   rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 24), durationUnits));
                }
-            }               
-         }            
-      }      
+            }
+         }
+      }
    }
 
 
    /**
     * This method extracts and collates resource data.
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
     * @throws IOException
-    */   
+    */
    private static void processResourceData (MPPFile file, DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
       FixFix rscFixedData = new FixFix (196, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixFix   0"))));
-      FixDeferFix rscVarData = null;            
+      FixDeferFix rscVarData = null;
       ExtendedData rscExtData = null;
-                  
+
       int resources = rscFixedData.getItemCount();
       byte[] data;
       int id;
@@ -813,11 +813,11 @@ final class MPP8File
       String notes;
       RTFUtility rtf = new RTFUtility ();
       MPXCalendar calendar;
-                  
+
       for (int loop=0; loop < resources; loop++)
       {
          data = rscFixedData.getByteArrayValue(loop);
-         
+
          //
          // Test for a valid unique id
          //
@@ -829,24 +829,24 @@ final class MPP8File
 
          //
          // Test to ensure this resource has not been deleted
-         //         
+         //
          if (MPPUtility.getShort(data, 164) != 0)
          {
             continue;
          }
-         
+
          //
          // Load the var data if we have not already done so
          //
          if (rscVarData == null)
          {
-            rscVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixDeferFix   0"))));                        
+            rscVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixDeferFix   0"))));
          }
 
          rscExtData = new ExtendedData (rscVarData, getOffset(data, 192));
-                              
+
          resource = file.addResource();
-                                            
+
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 20)));
          resource.setActualCost(new Double(((double)MPPUtility.getLong6(data, 114))/100));
          resource.setActualOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 144))/100));
@@ -868,7 +868,7 @@ final class MPP8File
          resource.setCost8(new Double (((double)rscExtData.getLong (RESOURCE_COST8)) / 100));
          resource.setCost9(new Double (((double)rscExtData.getLong (RESOURCE_COST9)) / 100));
          resource.setCost10(new Double (((double)rscExtData.getLong (RESOURCE_COST10)) / 100));
-         resource.setCostPerUse(new Double(((double)MPPUtility.getLong6(data, 80))/100));                  
+         resource.setCostPerUse(new Double(((double)MPPUtility.getLong6(data, 80))/100));
          resource.setDate1(rscExtData.getTimestamp (RESOURCE_DATE1));
          resource.setDate2(rscExtData.getTimestamp (RESOURCE_DATE2));
          resource.setDate3(rscExtData.getTimestamp (RESOURCE_DATE3));
@@ -878,7 +878,7 @@ final class MPP8File
          resource.setDate7(rscExtData.getTimestamp (RESOURCE_DATE7));
          resource.setDate8(rscExtData.getTimestamp (RESOURCE_DATE8));
          resource.setDate9(rscExtData.getTimestamp (RESOURCE_DATE9));
-         resource.setDate10(rscExtData.getTimestamp (RESOURCE_DATE10)); 
+         resource.setDate10(rscExtData.getTimestamp (RESOURCE_DATE10));
          resource.setDuration1(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION1), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION1_UNITS))));
          resource.setDuration2(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION2), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION2_UNITS))));
          resource.setDuration3(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION3), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION3_UNITS))));
@@ -890,7 +890,7 @@ final class MPP8File
          resource.setDuration9(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION9), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION9_UNITS))));
          resource.setDuration10(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION10), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION10_UNITS))));
          resource.setEmailAddress(rscExtData.getUnicodeString (RESOURCE_EMAIL));
-         resource.setFinish1(rscExtData.getTimestamp (RESOURCE_FINISH1));         
+         resource.setFinish1(rscExtData.getTimestamp (RESOURCE_FINISH1));
          resource.setFinish2(rscExtData.getTimestamp (RESOURCE_FINISH2));
          resource.setFinish3(rscExtData.getTimestamp (RESOURCE_FINISH3));
          resource.setFinish4(rscExtData.getTimestamp (RESOURCE_FINISH4));
@@ -925,19 +925,19 @@ final class MPP8File
          resource.setNumber17(new Double (rscExtData.getDouble(RESOURCE_NUMBER17)));
          resource.setNumber18(new Double (rscExtData.getDouble(RESOURCE_NUMBER18)));
          resource.setNumber19(new Double (rscExtData.getDouble(RESOURCE_NUMBER19)));
-         resource.setNumber20(new Double (rscExtData.getDouble(RESOURCE_NUMBER20)));                           
+         resource.setNumber20(new Double (rscExtData.getDouble(RESOURCE_NUMBER20)));
          //resource.setObjects(); // Calculated value
          //resource.setOverallocated(); // Calculated value
-         resource.setOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 138))/100));         
+         resource.setOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 138))/100));
          resource.setOvertimeRate(new MPXRate (MPPUtility.getDouble(data, 44), TimeUnit.HOURS));
          resource.setOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 74))/100, TimeUnit.HOURS));
          resource.setPeak(new Double(((double)MPPUtility.getInt(data, 110))/100));
          //resource.setPercentageWorkComplete(); // Calculated value
          resource.setRegularWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 92))/100, TimeUnit.HOURS));
          resource.setRemainingCost(new Double(((double)MPPUtility.getLong6(data, 132))/100));
-         resource.setRemainingOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 150))/100));                  
+         resource.setRemainingOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 150))/100));
          resource.setRemainingWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 86))/100, TimeUnit.HOURS));
-         resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));         
+         resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
          resource.setStart1(rscExtData.getTimestamp (RESOURCE_START1));
          resource.setStart2(rscExtData.getTimestamp (RESOURCE_START2));
          resource.setStart3(rscExtData.getTimestamp (RESOURCE_START3));
@@ -977,16 +977,16 @@ final class MPP8File
          resource.setText27(rscExtData.getUnicodeString (RESOURCE_TEXT27));
          resource.setText28(rscExtData.getUnicodeString (RESOURCE_TEXT28));
          resource.setText29(rscExtData.getUnicodeString (RESOURCE_TEXT29));
-         resource.setText30(rscExtData.getUnicodeString (RESOURCE_TEXT30));         
+         resource.setText30(rscExtData.getUnicodeString (RESOURCE_TEXT30));
          resource.setUniqueID(id);
          resource.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 56))/100, TimeUnit.HOURS));
 
          //
-         // Attach the resource calendar 
+         // Attach the resource calendar
          //
          calendar = (MPXCalendar)calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
          file.mppAttachResourceCalendar(resource, calendar);
-         
+
          //
          // Retrieve the resource notes.
          //
@@ -997,37 +997,37 @@ final class MPP8File
             {
                notes = rtf.strip(notes);
             }
-            
+
             resource.addResourceNotes(notes);
          }
 
          //
          // Calculate the cost variance
-         //         
+         //
          if (resource.getCost() != null && resource.getBaselineCost() != null)
          {
-            resource.setCostVariance(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue());   
+            resource.setCostVariance(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue());
          }
 
          //
          // Calculate the work variance
-         //       
+         //
          if (resource.getWork() != null && resource.getBaselineWork() != null)
          {
-            resource.setWorkVariance(new MPXDuration (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));  
-         }        
+            resource.setWorkVariance(new MPXDuration (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
+         }
       }
    }
-   
+
 
    /**
     * This method extracts and collates resource assignment data.
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
     * @throws IOException
-    */      
+    */
    private static void processAssignmentData (MPPFile file, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
@@ -1035,11 +1035,11 @@ final class MPP8File
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
       if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && testAssignmentTasks(file, assnFixedData) == false))
       {
-         assnFixedData = new FixFix (238, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));            
+         assnFixedData = new FixFix (238, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
       }
-      
+
       ResourceAssignment assignment;
-      
+
       int count = assnFixedData.getItemCount();
       byte[] data;
       Task task;
@@ -1047,7 +1047,7 @@ final class MPP8File
 
       for (int loop=0; loop < count; loop++)
       {
-         data = assnFixedData.getByteArrayValue(loop);         
+         data = assnFixedData.getByteArrayValue(loop);
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
          if (task != null && resource != null)
@@ -1061,12 +1061,12 @@ final class MPP8File
             assignment.setOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 90))/100, TimeUnit.HOURS));
             //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
             //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-            assignment.setStart(MPPUtility.getTimestamp(data, 24));            
+            assignment.setStart(MPPUtility.getTimestamp(data, 24));
             assignment.setUnits(((double)MPPUtility.getShort(data, 80))/100);
             assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 84))/100, TimeUnit.HOURS));
-            
+
             //
-            // Uncommenting the call to this method is useful when trying 
+            // Uncommenting the call to this method is useful when trying
             // to determine the function of unknown assignment data.
             //
             //dumpUnknownData (task.getName() + " " + resource.getName(), UNKNOWN_ASSIGNMENT_DATA, data);
@@ -1079,51 +1079,51 @@ final class MPP8File
     * one of two sizes, 204 or 238 bytes. In most cases, simply dividing the
     * overall block size by these values will determine which of these is
     * the one to use, i.e. the one that returns a remainder of zero.
-    * 
-    * Unfortunately it is possible that an overall block size will appear which 
+    *
+    * Unfortunately it is possible that an overall block size will appear which
     * can be divided exactly by both of these values. In this case we call this
     * method to perform a "rule of thumb" test to determine if the selected
     * block size is correct. From observation it appears that assignment data
-    * will always have a valid resource or task associated with it. If both 
+    * will always have a valid resource or task associated with it. If both
     * values are invalid, then we assume that we are not using the correct
     * block size.
-    * 
-    * As stated above, this is a "rule of thumb" test, and it is quite likely 
+    *
+    * As stated above, this is a "rule of thumb" test, and it is quite likely
     * that we will encounter cases which incorrectly fail this test. We'll
     * just have to keep looking for a better way to determine the correct
     * block size!
-    * 
+    *
     * @param file Parent MPP file
     * @param assnFixedData Task assignment fixed data
     * @return boolean flag
     */
    private static boolean testAssignmentTasks (MPPFile file, FixFix assnFixedData)
    {
-      boolean result = true;      
+      boolean result = true;
       int count = assnFixedData.getItemCount();
       byte[] data;
       Task task;
       Resource resource;
-      
+
       for (int loop=0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
-         
+
          if (task == null && resource == null)
          {
             result = false;
             break;
          }
-      }                           
-      
+      }
+
       return (result);
    }
 
    /**
     * This method extracts view data from the MPP file
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
@@ -1132,22 +1132,22 @@ final class MPP8File
    private static void processViewData (MPPFile file, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");      
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
       FixFix ff = new FixFix (138, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
-      int items = ff.getItemCount();      
+      int items = ff.getItemCount();
       byte[] data;
-      View view;                  
+      View view;
       String name;
       StringBuffer sb = new StringBuffer();
-      
+
       for (int loop=0; loop < items; loop++)
       {
          data = ff.getByteArrayValue(loop);
          view = new View ();
-         
+
          view.setID(MPPUtility.getInt(data, 0));
          name = MPPUtility.getUnicodeString(data, 4);
-         
+
          if (name != null)
          {
             if (name.indexOf('&') != -1)
@@ -1155,7 +1155,7 @@ final class MPP8File
                sb.setLength(0);
                int index = 0;
                char c;
-            
+
                while (index < name.length())
                {
                   c = name.charAt(index);
@@ -1163,21 +1163,21 @@ final class MPP8File
                   {
                      sb.append(c);
                   }
-                  ++index;   
-               }            
-            
+                  ++index;
+               }
+
                name = sb.toString();
             }
-         }     
-         
-         view.setName(name); 
+         }
+
+         view.setName(name);
          file.addView(view);
-      }      
+      }
    }
 
    /**
     * This method extracts table data from the MPP file
-    * 
+    *
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
@@ -1186,24 +1186,24 @@ final class MPP8File
    private static void processTableData (MPPFile file, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");      
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
       FixFix ff = new FixFix (126, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
-      FixDeferFix fdf = new FixDeferFix (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixDeferFix   0"))));            
-      int items = ff.getItemCount();      
+      FixDeferFix fdf = new FixDeferFix (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixDeferFix   0"))));
+      int items = ff.getItemCount();
       byte[] data;
       byte[] extendedData;
       byte[] columnData;
       Table table;
       String name;
       StringBuffer sb = new StringBuffer();
-      
+
       for (int loop=0; loop < items; loop++)
       {
          data = ff.getByteArrayValue(loop);
          table = new Table ();
-            
+
          table.setID(MPPUtility.getInt(data, 0));
-         
+
          name = MPPUtility.getUnicodeString(data, 4);
          if (name != null)
          {
@@ -1212,7 +1212,7 @@ final class MPP8File
                sb.setLength(0);
                int index = 0;
                char c;
-            
+
                while (index < name.length())
                {
                   c = name.charAt(index);
@@ -1220,23 +1220,23 @@ final class MPP8File
                   {
                      sb.append(c);
                   }
-                  ++index;   
-               }            
-            
+                  ++index;
+               }
+
                name = sb.toString();
-            }            
-         }      
-         
+            }
+         }
+
          table.setName(name);
          file.addTable(table);
-         
+
          extendedData = fdf.getByteArray(getOffset(data, 122));
          if (extendedData != null)
          {
-            columnData = fdf.getByteArray(getOffset(extendedData, 8));         
-            processColumnData (table, columnData);         
+            columnData = fdf.getByteArray(getOffset(extendedData, 8));
+            processColumnData (table, columnData);
          }
-                  
+
          //
          // As MPP8 files don't seem to have an explicit flag
          // indicating that a table relates to tasks or resources,
@@ -1251,14 +1251,14 @@ final class MPP8File
                table.setResourceFlag(true);
             }
          }
-      }            
+      }
    }
 
 
    /**
     * This method processes the column data associated with the
     * current table.
-    * 
+    *
     * @param table current table
     * @param data raw column data
     */
@@ -1269,11 +1269,11 @@ final class MPP8File
       int columnTitleOffset;
       Column  column;
       int alignment;
-            
+
       for (int loop=0; loop < columnCount; loop++)
       {
          column = new Column (table);
-         
+
          column.setFieldType (MPPUtility.getShort(data, index));
          column.setWidth (MPPUtility.getByte(data, index+4));
 
@@ -1281,7 +1281,7 @@ final class MPP8File
          if (columnTitleOffset != 0)
          {
             column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
-         }  
+         }
 
          alignment = MPPUtility.getByte(data, index+8);
          if (alignment == 32)
@@ -1299,7 +1299,7 @@ final class MPP8File
                column.setAlignTitle(Column.ALIGN_RIGHT);
             }
          }
-         
+
          alignment = MPPUtility.getByte(data, index+10);
          if (alignment == 32)
          {
@@ -1316,76 +1316,76 @@ final class MPP8File
                column.setAlignData(Column.ALIGN_RIGHT);
             }
          }
-         
+
          table.addColumn(column);
-         index += 12;          
-      }      
+         index += 12;
+      }
    }
-            
+
    /**
     * This method is used to extract a value from a fixed data block,
     * which represents an offset into a variable data block.
-    * 
+    *
     * @param data Fixed data block
     * @param offset Offset in fixed data block
     * @return Offset in var data block
-    */   
+    */
    private static int getOffset (byte[] data, int offset)
    {
-      return (-1 - MPPUtility.getInt(data, offset));      
-   }      
+      return (-1 - MPPUtility.getInt(data, offset));
+   }
 
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
 //      System.out.println (name);
 //      for (int loop=0; loop < spec.length; loop++)
 //      {
-//         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));         
+//         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));
 //      }
 //      System.out.println ();
 //   }
-//      
+//
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {
 //      {8, 12}, // includes known flags
-//      {36, 12}, 
-//      {50, 18}, 
-//      {86, 2},       
-//      {142, 2}, 
-//      {144, 4}, 
-//      {148, 4}, 
-//      {152, 4},       
-//      {164, 4}, 
+//      {36, 12},
+//      {50, 18},
+//      {86, 2},
+//      {142, 2},
+//      {144, 4},
+//      {148, 4},
+//      {152, 4},
+//      {164, 4},
 //      {268, 4}, // includes known flags
 //      {274, 32}, // includes known flags
-//      {306, 6} 
+//      {306, 6}
 //   };
 //
 //   private static final int[][] UNKNOWN_CALENDAR_DATA = new int[][]
 //   {
-//      {8, 12}, 
-//      {24, 8} 
+//      {8, 12},
+//      {24, 8}
 //   };
 //
 //   private static final int[][] UNKNOWN_ASSIGNMENT_DATA = new int[][]
 //   {
-//     {4, 12}, 
-//     {32, 79}, 
-//     {82, 2}, 
-//     {102, 6}, 
-//     {108, 6}, 
-//     {120, 12}, 
-//     {102, 6}, 
-//     {144, 12},       
+//     {4, 12},
+//     {32, 79},
+//     {82, 2},
+//     {102, 6},
+//     {108, 6},
+//     {120, 12},
+//     {102, 6},
+//     {144, 12},
 //     {162, 42}
 //   };
-   
+
    /**
     * Task data types.
     */
    private static final Integer TASK_WBS = new Integer (104);
    private static final Integer TASK_CONTACT = new Integer (105);
-   
+
    private static final Integer TASK_TEXT1 = new Integer (106);
    private static final Integer TASK_TEXT2 = new Integer (107);
    private static final Integer TASK_TEXT3 = new Integer (108);
@@ -1396,7 +1396,7 @@ final class MPP8File
    private static final Integer TASK_TEXT8 = new Integer (113);
    private static final Integer TASK_TEXT9 = new Integer (114);
    private static final Integer TASK_TEXT10 = new Integer (115);
-   
+
    private static final Integer TASK_START1 = new Integer (116);
    private static final Integer TASK_FINISH1 = new Integer (117);
    private static final Integer TASK_START2 = new Integer (118);
@@ -1428,7 +1428,7 @@ final class MPP8File
    private static final Integer TASK_NUMBER8 = new Integer (144);
    private static final Integer TASK_NUMBER9 = new Integer (145);
    private static final Integer TASK_NUMBER10 = new Integer (146);
-   
+
    private static final Integer TASK_DURATION1 = new Integer (147);
    private static final Integer TASK_DURATION1_UNITS = new Integer (148);
    private static final Integer TASK_DURATION2 = new Integer (149);
@@ -1449,7 +1449,7 @@ final class MPP8File
    private static final Integer TASK_DURATION9_UNITS = new Integer (164);
    private static final Integer TASK_DURATION10 = new Integer (165);
    private static final Integer TASK_DURATION10_UNITS = new Integer (166);
-   
+
    private static final Integer TASK_DATE1 = new Integer (174);
    private static final Integer TASK_DATE2 = new Integer (175);
    private static final Integer TASK_DATE3 = new Integer (176);
@@ -1462,26 +1462,26 @@ final class MPP8File
    private static final Integer TASK_DATE10 = new Integer (183);
 
    private static final Integer TASK_TEXT11 = new Integer (184);
-   private static final Integer TASK_TEXT12 = new Integer (185);   
+   private static final Integer TASK_TEXT12 = new Integer (185);
    private static final Integer TASK_TEXT13 = new Integer (186);
-   private static final Integer TASK_TEXT14 = new Integer (187);   
+   private static final Integer TASK_TEXT14 = new Integer (187);
    private static final Integer TASK_TEXT15 = new Integer (188);
    private static final Integer TASK_TEXT16 = new Integer (189);
-   private static final Integer TASK_TEXT17 = new Integer (190);         
-   private static final Integer TASK_TEXT18 = new Integer (191);   
-   private static final Integer TASK_TEXT19 = new Integer (192);   
-   private static final Integer TASK_TEXT20 = new Integer (193);         
+   private static final Integer TASK_TEXT17 = new Integer (190);
+   private static final Integer TASK_TEXT18 = new Integer (191);
+   private static final Integer TASK_TEXT19 = new Integer (192);
+   private static final Integer TASK_TEXT20 = new Integer (193);
    private static final Integer TASK_TEXT21 = new Integer (194);
-   private static final Integer TASK_TEXT22 = new Integer (195);   
-   private static final Integer TASK_TEXT23 = new Integer (196);   
-   private static final Integer TASK_TEXT24 = new Integer (197);   
-   private static final Integer TASK_TEXT25 = new Integer (198);   
-   private static final Integer TASK_TEXT26 = new Integer (199);   
-   private static final Integer TASK_TEXT27 = new Integer (200);   
-   private static final Integer TASK_TEXT28 = new Integer (201);   
-   private static final Integer TASK_TEXT29 = new Integer (202);   
-   private static final Integer TASK_TEXT30 = new Integer (203);   
-   
+   private static final Integer TASK_TEXT22 = new Integer (195);
+   private static final Integer TASK_TEXT23 = new Integer (196);
+   private static final Integer TASK_TEXT24 = new Integer (197);
+   private static final Integer TASK_TEXT25 = new Integer (198);
+   private static final Integer TASK_TEXT26 = new Integer (199);
+   private static final Integer TASK_TEXT27 = new Integer (200);
+   private static final Integer TASK_TEXT28 = new Integer (201);
+   private static final Integer TASK_TEXT29 = new Integer (202);
+   private static final Integer TASK_TEXT30 = new Integer (203);
+
    private static final Integer TASK_NUMBER11 = new Integer (204);
    private static final Integer TASK_NUMBER12 = new Integer (205);
    private static final Integer TASK_NUMBER13 = new Integer (206);
@@ -1492,9 +1492,9 @@ final class MPP8File
    private static final Integer TASK_NUMBER18 = new Integer (211);
    private static final Integer TASK_NUMBER19 = new Integer (212);
    private static final Integer TASK_NUMBER20 = new Integer (213);
-   
+
    private static final Integer TASK_HYPERLINK = new Integer (236);
-   
+
    private static final Integer TASK_COST1 = new Integer (237);
    private static final Integer TASK_COST2 = new Integer (238);
    private static final Integer TASK_COST3 = new Integer (239);
@@ -1507,11 +1507,11 @@ final class MPP8File
    private static final Integer TASK_COST10 = new Integer (246);
 
    private static final Integer TASK_NOTES = new Integer (247);
-   
+
    /**
     * Resource data types.
-    */   
-   private static final Integer RESOURCE_GROUP = new Integer (61);   
+    */
+   private static final Integer RESOURCE_GROUP = new Integer (61);
    private static final Integer RESOURCE_CODE = new Integer (62);
    private static final Integer RESOURCE_EMAIL = new Integer (63);
 
@@ -1523,7 +1523,7 @@ final class MPP8File
    private static final Integer RESOURCE_TEXT6 = new Integer (69);
    private static final Integer RESOURCE_TEXT7 = new Integer (70);
    private static final Integer RESOURCE_TEXT8 = new Integer (71);
-   private static final Integer RESOURCE_TEXT9 = new Integer (72);            
+   private static final Integer RESOURCE_TEXT9 = new Integer (72);
    private static final Integer RESOURCE_TEXT10 = new Integer (73);
    private static final Integer RESOURCE_TEXT11 = new Integer (74);
    private static final Integer RESOURCE_TEXT12 = new Integer (75);
@@ -1543,7 +1543,7 @@ final class MPP8File
    private static final Integer RESOURCE_TEXT26 = new Integer (89);
    private static final Integer RESOURCE_TEXT27 = new Integer (90);
    private static final Integer RESOURCE_TEXT28 = new Integer (91);
-   private static final Integer RESOURCE_TEXT29 = new Integer (92);                           
+   private static final Integer RESOURCE_TEXT29 = new Integer (92);
    private static final Integer RESOURCE_TEXT30 = new Integer (93);
 
    private static final Integer RESOURCE_START1 = new Integer (94);
@@ -1599,31 +1599,31 @@ final class MPP8File
    private static final Integer RESOURCE_DURATION8 = new Integer (141);
    private static final Integer RESOURCE_DURATION9 = new Integer (142);
    private static final Integer RESOURCE_DURATION10 = new Integer (143);
-                        
-   private static final Integer RESOURCE_DURATION1_UNITS = new Integer (144);      
-   private static final Integer RESOURCE_DURATION2_UNITS = new Integer (145);      
-   private static final Integer RESOURCE_DURATION3_UNITS = new Integer (146);      
-   private static final Integer RESOURCE_DURATION4_UNITS = new Integer (147);      
-   private static final Integer RESOURCE_DURATION5_UNITS = new Integer (148);      
-   private static final Integer RESOURCE_DURATION6_UNITS = new Integer (149);      
-   private static final Integer RESOURCE_DURATION7_UNITS = new Integer (150);      
-   private static final Integer RESOURCE_DURATION8_UNITS = new Integer (151);      
-   private static final Integer RESOURCE_DURATION9_UNITS = new Integer (152);      
-   private static final Integer RESOURCE_DURATION10_UNITS = new Integer (153);      
 
-   private static final Integer RESOURCE_DATE1 = new Integer (157);   
-   private static final Integer RESOURCE_DATE2 = new Integer (158);   
-   private static final Integer RESOURCE_DATE3 = new Integer (159);   
-   private static final Integer RESOURCE_DATE4 = new Integer (160);   
-   private static final Integer RESOURCE_DATE5 = new Integer (161);   
-   private static final Integer RESOURCE_DATE6 = new Integer (162);   
-   private static final Integer RESOURCE_DATE7 = new Integer (163);   
-   private static final Integer RESOURCE_DATE8 = new Integer (164);   
-   private static final Integer RESOURCE_DATE9 = new Integer (165);   
-   private static final Integer RESOURCE_DATE10 = new Integer (166);   
+   private static final Integer RESOURCE_DURATION1_UNITS = new Integer (144);
+   private static final Integer RESOURCE_DURATION2_UNITS = new Integer (145);
+   private static final Integer RESOURCE_DURATION3_UNITS = new Integer (146);
+   private static final Integer RESOURCE_DURATION4_UNITS = new Integer (147);
+   private static final Integer RESOURCE_DURATION5_UNITS = new Integer (148);
+   private static final Integer RESOURCE_DURATION6_UNITS = new Integer (149);
+   private static final Integer RESOURCE_DURATION7_UNITS = new Integer (150);
+   private static final Integer RESOURCE_DURATION8_UNITS = new Integer (151);
+   private static final Integer RESOURCE_DURATION9_UNITS = new Integer (152);
+   private static final Integer RESOURCE_DURATION10_UNITS = new Integer (153);
+
+   private static final Integer RESOURCE_DATE1 = new Integer (157);
+   private static final Integer RESOURCE_DATE2 = new Integer (158);
+   private static final Integer RESOURCE_DATE3 = new Integer (159);
+   private static final Integer RESOURCE_DATE4 = new Integer (160);
+   private static final Integer RESOURCE_DATE5 = new Integer (161);
+   private static final Integer RESOURCE_DATE6 = new Integer (162);
+   private static final Integer RESOURCE_DATE7 = new Integer (163);
+   private static final Integer RESOURCE_DATE8 = new Integer (164);
+   private static final Integer RESOURCE_DATE9 = new Integer (165);
+   private static final Integer RESOURCE_DATE10 = new Integer (166);
 
    private static final Integer RESOURCE_NOTES = new Integer (169);
-   
+
    private static final Integer RESOURCE_COST1 = new Integer (170);
    private static final Integer RESOURCE_COST2 = new Integer (171);
    private static final Integer RESOURCE_COST3 = new Integer (172);
@@ -1633,8 +1633,8 @@ final class MPP8File
    private static final Integer RESOURCE_COST7 = new Integer (176);
    private static final Integer RESOURCE_COST8 = new Integer (177);
    private static final Integer RESOURCE_COST9 = new Integer (178);
-   private static final Integer RESOURCE_COST10 = new Integer (179);   
-   
+   private static final Integer RESOURCE_COST10 = new Integer (179);
+
    /**
     * Default working week
     */
@@ -1647,6 +1647,6 @@ final class MPP8File
       true,
       true,
       false
-   };   
+   };
 }
 

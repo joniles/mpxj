@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2003
  * date:       27/10/2003
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -25,11 +25,11 @@ package com.tapsterrock.mpp;
 
 
 /**
- * This class represents a view of a set of project data that has been 
+ * This class represents a view of a set of project data that has been
  * instantiated within an MS Project file. View data is instantiated when a user
  * first looks at a view in MS Project. Each "screen" in MS Project, for example
- * the Gantt Chart, the Resource Sheet and so on are views. If a user has not 
- * looked at a view (for example the Resource Usage view), information about 
+ * the Gantt Chart, the Resource Sheet and so on are views. If a user has not
+ * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
 public final class View
@@ -38,48 +38,48 @@ public final class View
     * This method is used to retrieve the unique view identifier. This
     * value identifies the view within the file. It does not identify
     * the type of view represented by an instance of this class.
-    * 
+    *
     * @return view identifier
     */
    public int getID ()
    {
-      return (m_id);   
+      return (m_id);
    }
 
    /**
     * This method is used to to set the unique identifier associated with
     * this view.
-    * 
+    *
     * @param id unique view identifier
     */
    public void setID (int id)
    {
-      m_id = id;   
+      m_id = id;
    }
-   
+
    /**
     * This method is used to retrieve the view name. Note that internally
     * in MS Project the view name will contain an ampersand (&) used to
     * flag the letter that can be used as a shortcut for this view. The
     * ampersand is stripped out by MPXJ.
-    * 
+    *
     * @return view name
     */
    public String getName ()
    {
-      return (m_name);   
+      return (m_name);
    }
-   
+
    /**
     * This method is used to set the name associated with this view.
-    * 
+    *
     * @param name view name
     */
    public void setName (String name)
    {
-      m_name = name;         
+      m_name = name;
    }
-   
+
    /**
     * This method dumps the contents of this View as a String.
     * Note that this facility is provided as a debugging aid.
@@ -90,7 +90,7 @@ public final class View
    {
       return ("[VIEW id=" + m_id + " name=" + m_name +"]");
    }
-         
+
    private int m_id;
-   private String m_name;   
+   private String m_name;
 }

@@ -4,7 +4,7 @@
  * copyright:  Tapster Rock Limited
  * date:       07/11/2003
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -20,7 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
- 
+
 package com.tapsterrock.mpp;
 
 //import java.io.FileOutputStream;
@@ -37,7 +37,7 @@ final class Props9 extends Props
 {
    /**
     * Constructor, reads the property data from an input stream.
-    * 
+    *
     * @param is
     */
    Props9 (InputStream is)
@@ -53,7 +53,7 @@ final class Props9 extends Props
 
       int headerCount = MPPUtility.getShort(header, 12);
       int foundCount = 0;
-      
+
       while (foundCount < headerCount)
       {
          int attrib1 = readInt(is);
@@ -69,10 +69,10 @@ final class Props9 extends Props
          m_map.put(new Integer (attrib2), data);
 //         pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;
-      }               
-      
-//      pw.flush();            
-//      pw.close();                     
+      }
+
+//      pw.flush();
+//      pw.close();
    }
 
    /**
@@ -87,20 +87,20 @@ final class Props9 extends Props
       PrintWriter pw = new PrintWriter (sw);
 
       pw.println ("BEGIN Props");
-            
+
       Iterator iter = m_map.keySet().iterator();
       Integer key;
-      
+
       while (iter.hasNext() == true)
       {
          key = (Integer)iter.next();
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));   
+         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));
       }
-           
+
       pw.println ("END Props");
 
       pw.println ();
       pw.close();
       return (sw.toString());
-   }   
+   }
 }

@@ -58,7 +58,7 @@ public final class MPXCalendarException extends MPXRecord
       super(file, MAX_FIELDS);
 
       m_parentCalendar = calendar;
-      
+
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
       setWorking(record.getNumericBoolean(2));
@@ -274,7 +274,7 @@ public final class MPXCalendarException extends MPXRecord
     * This method determines whether the given date falls in the range of
     * dates covered by this exception. Note that this method assumes that both
     * the start and end date of this exception have been set.
-    * 
+    *
     * @param date Date to be tested
     * @return Boolean value
     */
@@ -292,9 +292,9 @@ public final class MPXCalendarException extends MPXRecord
          }
       }
 
-      return (result);      
+      return (result);
    }
-   
+
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
@@ -304,7 +304,7 @@ public final class MPXCalendarException extends MPXRecord
    public String toString ()
    {
       int recordNumber;
-      
+
       if (m_parentCalendar.isBaseCalendar() == true)
       {
          recordNumber = BASE_CALENDAR_EXCEPTION_RECORD_NUMBER;
@@ -313,7 +313,7 @@ public final class MPXCalendarException extends MPXRecord
       {
          recordNumber = RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER;
       }
-               
+
       return (toString(recordNumber));
    }
 
@@ -321,7 +321,7 @@ public final class MPXCalendarException extends MPXRecord
     * Reference to the parent calendar of this exception.
     */
    private MPXCalendar m_parentCalendar;
-   
+
    /**
     * Constant identifier for the FromDate field
     */
@@ -381,6 +381,6 @@ public final class MPXCalendarException extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     * if this instance represents a resource calendar exception.
-    */   
+    */
    static final int RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER = 57;
 }

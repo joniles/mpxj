@@ -57,7 +57,7 @@ public final class MPXCalendarHours extends MPXRecord
       super(file, MAX_FIELDS);
 
       m_parentCalendar = parentCalendar;
-      
+
       setDay(record.getInteger(0));
       setFromTime1(record.getTime(1));
       setToTime1(record.getTime(2));
@@ -237,7 +237,7 @@ public final class MPXCalendarHours extends MPXRecord
    public String toString ()
    {
       int recordNumber;
-      
+
       if (m_parentCalendar.isBaseCalendar() == true)
       {
          recordNumber = BASE_CALENDAR_HOURS_RECORD_NUMBER;
@@ -246,7 +246,7 @@ public final class MPXCalendarHours extends MPXRecord
       {
          recordNumber = RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
-               
+
       return (toString(recordNumber));
    }
 
@@ -339,6 +339,6 @@ public final class MPXCalendarHours extends MPXRecord
    /**
     * Constant containing the record number associated with this record if
     * this instance represents resource calendar hours.
-    */   
+    */
    static final int RESOURCE_CALENDAR_HOURS_RECORD_NUMBER = 56;
 }

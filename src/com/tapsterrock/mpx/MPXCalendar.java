@@ -33,7 +33,7 @@ import java.util.Calendar;
 /**
  * This class represents the a Calendar Definition record. Both base calendars
  * and calendars derived from base calendars are represented by instances
- * of this class. The class is used to define the working and non-working days 
+ * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
 public final class MPXCalendar extends MPXRecord
@@ -58,18 +58,18 @@ public final class MPXCalendar extends MPXRecord
    MPXCalendar (MPXFile file, Record record, boolean baseCalendar)
    {
       super (file, 0);
-      
+
       m_baseCalendar = baseCalendar;
-      
+
       if (m_baseCalendar == true)
       {
          setName(record.getString(0));
       }
       else
       {
-         setBaseCalendarName (record.getString(0));   
+         setBaseCalendarName (record.getString(0));
       }
-               
+
       setWorkingDay(1, record.getInteger(1));
       setWorkingDay(2, record.getInteger(2));
       setWorkingDay(3, record.getInteger(3));
@@ -77,10 +77,10 @@ public final class MPXCalendar extends MPXRecord
       setWorkingDay(5, record.getInteger(5));
       setWorkingDay(6, record.getInteger(6));
       setWorkingDay(7, record.getInteger(7));
-      
+
       if (file.getAutoCalendarUniqueID() == true)
       {
-         setUniqueID (file.getCalendarUniqueID());  
+         setUniqueID (file.getCalendarUniqueID());
       }
    }
 
@@ -233,7 +233,7 @@ public final class MPXCalendar extends MPXRecord
 
    /**
     * Retrieve the MPXCalendar instance from which this calendar is derived.
-    * 
+    *
     * @return MPXCalendar instance
     */
    public MPXCalendar getBaseCalendar ()
@@ -241,9 +241,9 @@ public final class MPXCalendar extends MPXRecord
       String name = getBaseCalendarName();
       if (name == null || name.length() == 0)
       {
-         name = DEFAULT_BASE_CALENDAR_NAME;   
+         name = DEFAULT_BASE_CALENDAR_NAME;
       }
-      
+
       return (getParentFile().getBaseCalendar(name));
    }
 
@@ -260,23 +260,23 @@ public final class MPXCalendar extends MPXRecord
 
       if (m_baseCalendar == true)
       {
-         buf.append (BASE_CALENDAR_RECORD_NUMBER);         
-         buf.append (delimiter);     
+         buf.append (BASE_CALENDAR_RECORD_NUMBER);
+         buf.append (delimiter);
          buf.append (m_name);
       }
       else
       {
-         buf.append (RESOURCE_CALENDAR_RECORD_NUMBER);         
-         buf.append (delimiter);     
-         buf.append (m_baseCalendarName);         
+         buf.append (RESOURCE_CALENDAR_RECORD_NUMBER);
+         buf.append (delimiter);
+         buf.append (m_baseCalendarName);
       }
-               
+
       for (int loop=0; loop < m_days.length; loop++)
-      {                        
+      {
          buf.append (delimiter);
          buf.append (m_days[loop]);
       }
-               
+
       buf.append (MPXFile.EOL);
 
       for (int loop=0; loop < m_hours.length; loop++)
@@ -309,7 +309,7 @@ public final class MPXCalendar extends MPXRecord
    {
       int value = m_days[day-1];
       boolean result;
-      
+
       if (value == DEFAULT)
       {
          MPXCalendar cal = getBaseCalendar();
@@ -317,9 +317,9 @@ public final class MPXCalendar extends MPXRecord
       }
       else
       {
-         result = (value == WORKING);   
+         result = (value == WORKING);
       }
-            
+
       return (result);
    }
 
@@ -327,12 +327,12 @@ public final class MPXCalendar extends MPXRecord
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
     * from ths isWorkingDay method as it retrieves the actual flag value.
-    * The isWorkingDay method will always refer back to the base calendar 
+    * The isWorkingDay method will always refer back to the base calendar
     * to get a boolean value if the underlying flag value is DEFAULT. If
     * isWorkingDay were the only method available to access this flag,
     * it would not be possible to determine that a resource calendar
     * had one or moe flags set to DEFAULT.
-    * 
+    *
     * @param day number of required day (1=Sunday, 7=Saturday)
     * @return value of underlying working day flag
     */
@@ -340,7 +340,7 @@ public final class MPXCalendar extends MPXRecord
    {
       return (m_days[day-1]);
    }
-   
+
    /**
     * This is a convenience method provided to allow a day to be set
     * as working or non-working, by using the day number to
@@ -356,12 +356,12 @@ public final class MPXCalendar extends MPXRecord
 
    /**
     * convenience method for setting working or non-working days.
-    * 
+    *
     * @param day number of required day (1=Sunday, 7=Saturday)
     * @param working flag indicating if the day is a working day
     */
    public void setWorkingDay (int day, boolean working)
-   {      
+   {
       setWorkingDay (day, (working==true?WORKING:NON_WORKING));
    }
 
@@ -376,23 +376,23 @@ public final class MPXCalendar extends MPXRecord
    public void setWorkingDay (int day, Integer working)
    {
       int value;
-      
+
       if (working == null)
       {
          if (m_baseCalendar == false)
          {
-            value = DEFAULT;        
-         }         
+            value = DEFAULT;
+         }
          else
          {
-            value = WORKING;  
-         }         
+            value = WORKING;
+         }
       }
       else
       {
-         value = working.intValue();   
+         value = working.intValue();
       }
-      
+
       setWorkingDay (day, value);
    }
 
@@ -489,7 +489,7 @@ public final class MPXCalendar extends MPXRecord
          {
             day = 1;
          }
-         
+
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
 
@@ -500,12 +500,12 @@ public final class MPXCalendar extends MPXRecord
     * This method generates an end date given a start date and a duration.
     * The underlying implementation of this method uses an <i>approximation</i>
     * in order to conver the supplied duration to a number of days. This number
-    * of days is treated as the required offset in <i>working</i> days from 
-    * the startDate parameter. The method then steps through that number of 
+    * of days is treated as the required offset in <i>working</i> days from
+    * the startDate parameter. The method then steps through that number of
     * working days (as defined by this calendar), and returns the end date
     * that it finds. Note that this method can deal with both positive and
     * negative duration values.
-    * 
+    *
     * @param startDate start date
     * @param duration required working offset, will be converted to working days
     * @return end date
@@ -515,7 +515,7 @@ public final class MPXCalendar extends MPXRecord
       MPXDuration dur = duration.convertUnits(TimeUnit.DAYS);
       int days = (int)dur.getDuration();
       boolean negative;
-      
+
       if (days < 0)
       {
          negative = true;
@@ -525,11 +525,11 @@ public final class MPXCalendar extends MPXRecord
       {
          negative = false;
       }
-                        
+
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
       int day = cal.get(Calendar.DAY_OF_WEEK);
-      
+
       while (days > 0)
       {
          if (isWorkingDate(cal.getTime(), day) == true)
@@ -544,7 +544,7 @@ public final class MPXCalendar extends MPXRecord
             {
                day = 1;
             }
-            
+
             cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
          }
          else
@@ -554,18 +554,18 @@ public final class MPXCalendar extends MPXRecord
             {
                day = 7;
             }
-            
+
             cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
          }
-      }      
-      
+      }
+
       return (cal.getTime());
    }
-   
+
    /**
     * This method allows the caller to determine if a given date is a
     * working day. This method takes account of calendar exceptions.
-    * 
+    *
     * @param date Date to be tested
     * @return boolean value
     */
@@ -576,13 +576,13 @@ public final class MPXCalendar extends MPXRecord
       int day = cal.get(Calendar.DAY_OF_WEEK);
       return (isWorkingDate (date, day));
    }
-   
+
    /**
     * This private method allows the caller to determine if a given date is a
     * working day. This method takes account of calendar exceptions. It assumes
     * that the caller has already calculated the day of the week on which
     * the given day falls.
-    * 
+    *
     * @param date Date to be tested
     * @param day Day of the week for the date under test
     * @return boolean flag
@@ -593,10 +593,10 @@ public final class MPXCalendar extends MPXRecord
 
       //
       // Test to see if the date is covered by an exception
-      //      
+      //
       Iterator iter = m_exceptions.iterator();
       MPXCalendarException exception = null;
-      
+
       while (iter.hasNext() == true)
       {
          exception = (MPXCalendarException)iter.next();
@@ -608,7 +608,7 @@ public final class MPXCalendar extends MPXRecord
          else
          {
             exception = null;
-         }                        
+         }
       }
 
       //
@@ -617,13 +617,13 @@ public final class MPXCalendar extends MPXRecord
       //
       if (exception == null)
       {
-         result = isWorkingDay (day);         
+         result = isWorkingDay (day);
       }
-            
+
       return (result);
    }
 
-   
+
    /**
     * This method calculates the absolute number of days between two dates.
     * Note that where two date objects are provided that fall on the same
@@ -649,61 +649,61 @@ public final class MPXCalendar extends MPXRecord
    /**
     * This method returns a flag indicating if this MPXCalendar instance
     * represents a base calendar.
-    * 
+    *
     * @return boolean flag
     */
    public boolean isBaseCalendar ()
    {
-      return (m_baseCalendar);   
+      return (m_baseCalendar);
    }
- 
+
    /**
     * Modifier method to set the unique ID of this calendar
-    * 
+    *
     * @param uniqueID unique identifier
     */
    public void setUniqueID (int uniqueID)
    {
-      m_uniqueID = uniqueID;   
+      m_uniqueID = uniqueID;
    }
-     
+
    /**
     * Accessor method to retrieve the unique ID of this calendar
-    * 
+    *
     * @return calendar unique identifier
-    */     
+    */
    public int getUniqueID ()
    {
-      return (m_uniqueID);   
+      return (m_uniqueID);
    }
-        
-   /** 
+
+   /**
     * Flag indicating if this is a base calendar, i.e. a calendar from
     * which other calendars are derived.
     */
    private boolean m_baseCalendar;
- 
+
    /**
     * Unique identifier of this calendar
     */
    private int m_uniqueID;
-   
+
    /**
     * Calendar name, normally only populated if this is a base calendar.
     */
    private String m_name;
-   
+
    /**
     * Name of the calendar from which this calendar is derived.
     */
    private String m_baseCalendarName;
-   
+
    /**
     * Array holing working/non-working/default flags for each
     * day of the week.
     */
    private int[] m_days = new int [7];
-     
+
    /**
     * List of exceptions to the base calendar.
     */
@@ -756,6 +756,6 @@ public final class MPXCalendar extends MPXRecord
    /**
     * Constant containing the record number associated with this record
     * if this instance represents a resource calendar.
-    */   
-   static final int RESOURCE_CALENDAR_RECORD_NUMBER = 55;   
+    */
+   static final int RESOURCE_CALENDAR_RECORD_NUMBER = 55;
 }

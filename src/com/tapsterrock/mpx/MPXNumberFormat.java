@@ -48,11 +48,11 @@ final class MPXNumberFormat
     *
     * @param pattern new format pattern
     * @param decimalSeparator Locale specific decimal separator to replace placeholder
-    * @param groupingSeparator Locale specific grouping separator to replace placeholder    * 
+    * @param groupingSeparator Locale specific grouping separator to replace placeholder    *
     */
    MPXNumberFormat (String pattern, char decimalSeparator, char groupingSeparator)
-   {    
-      applyPattern (pattern, decimalSeparator, groupingSeparator);      
+   {
+      applyPattern (pattern, decimalSeparator, groupingSeparator);
    }
 
    /**
@@ -108,7 +108,7 @@ final class MPXNumberFormat
      throws MPXException
    {
       Number result;
-      
+
       if (str == null || str.trim().length() == 0)
       {
          result = null;
@@ -119,14 +119,14 @@ final class MPXNumberFormat
          {
             result = m_format.parse (str);
          }
-   
+
          catch (ParseException ex)
-         {         
-            throw new MPXException (MPXException.INVALID_NUMBER + " number=" + 
+         {
+            throw new MPXException (MPXException.INVALID_NUMBER + " number=" +
                str + " expected format=" + m_pattern);
          }
-      }         
-      
+      }
+
       return (result);
    }
 

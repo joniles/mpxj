@@ -68,10 +68,10 @@ final class Tokenizer
             nextc = -1;
          }
          else
-         {                        
+         {
             c = m_reader.read();
          }
-         
+
          switch (c)
          {
             case TT_EOF:
@@ -130,7 +130,7 @@ final class Tokenizer
                      else
                      {
                         quoted = false;
-                     }                        
+                     }
                   }
                }
                else

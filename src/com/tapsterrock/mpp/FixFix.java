@@ -35,31 +35,31 @@ import java.io.StringWriter;
  */
 final class FixFix extends MPPComponent
 {
-	/**
-	 * Constructor. Extract fixed size data items from the input stream.
+   /**
+    * Constructor. Extract fixed size data items from the input stream.
     * Note that for MSP98 we normally expect the data blocks to be a standard
     * size, as supplied in the itemSize parameter. However we have found
     * example files where the block size is larger, hence the requirement for
     * the code to check for a remainder when the overall size is divided by
     * the block size. If the remainder is non-zero, we iteratively increase the
     * itemSize until we find one that fits the overall available data size.
-	 * 
-	 * @param itemSize Size of the items held in this block
-	 * @param is Input stream
-	 * @throws IOException Thrown when reading from the stream fails
-	 */
+    *
+    * @param itemSize Size of the items held in this block
+    * @param is Input stream
+    * @throws IOException Thrown when reading from the stream fails
+    */
    FixFix (int itemSize, InputStream is)
       throws IOException
-   {   
-      int available = is.available();   
-      m_diff = available % itemSize;      
+   {
+      int available = is.available();
+      m_diff = available % itemSize;
       int itemCount = available / itemSize;
       m_array = new Object[itemCount];
-		
-		for (int loop=0; loop < itemCount; loop++)
-		{
-			m_array[loop] = readByteArray(is, itemSize);
-		}
+
+      for (int loop=0; loop < itemCount; loop++)
+      {
+         m_array[loop] = readByteArray(is, itemSize);
+      }
    }
 
    /**
@@ -67,24 +67,24 @@ final class FixFix extends MPPComponent
     * available data size is divided by the expected item size. If this
     * value is non-zero, it suggests that the available data contains
     * items of a different size.
-    * 
+    *
     * @return remainder
     */
    public int getDiff ()
    {
-      return (m_diff);   
+      return (m_diff);
    }
 
    /**
     * This method retrieves the overall data block size.
-    * 
+    *
     * @return data block size
     */
    public int getSize ()
    {
-      return (m_size);   
+      return (m_size);
    }
-      
+
    /**
     * This method retrieves a byte array containing the data at the
     * given index in the block. If no data is found at the given index
@@ -144,12 +144,12 @@ final class FixFix extends MPPComponent
     * An array containing all of the items of data held in this block.
     */
    private Object[] m_array;
-   
+
    /**
     * Overall data block size.
     */
    private int m_size;
-   
+
    /**
     * Variable containing the remainder after the available size has
     * been divided by the item size.

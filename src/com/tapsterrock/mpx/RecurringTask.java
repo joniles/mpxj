@@ -288,10 +288,10 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the selection in Length Options box. 
+    * Gets the selection in Length Options box.
     * Top option - to a specific date.  Value 1
     * Bottom option - no of occurances.  value 0
-    * 
+    *
     * @return  value of this option set
     */
    public int getLengthRadioIndexValue ()
@@ -300,10 +300,10 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the selection in Length Options box. 
+    * Gets the selection in Length Options box.
     * Top option - to a specific date.  Value 1
     * Bottom option - no of occurances.  value 0
-    * 
+    *
     * @return  value of this option set
     */
    public Integer getLengthRadioIndex ()
@@ -649,7 +649,7 @@ public final class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * 
+    *
     * @return - int value of day
     */
    public int getMonthlyBoxDayComboIndexValue ()
@@ -661,7 +661,7 @@ public final class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * 
+    *
     * @return - int value of day
     */
    public Integer getMonthlyBoxDayComboIndex ()
@@ -673,7 +673,7 @@ public final class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * 
+    *
     * @param val - int value of day
     */
    public void setMonthlyBoxDayComboIndex (int val)
@@ -685,7 +685,7 @@ public final class RecurringTask extends MPXRecord
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * eg Wednesday.
     * Values for day of the week
-    * 
+    *
     * @param val - int value of day
     */
    public void setMonthlyBoxDayComboIndex (Integer val)
@@ -748,7 +748,7 @@ public final class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
-    * 
+    *
     * @return - int value of day 1-31
     */
    public int getMonthlyBoxDayIndexValue ()
@@ -759,7 +759,7 @@ public final class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
-    * 
+    *
     * @return - int value of day 1-31
     */
    public Integer getMonthlyBoxDayIndex ()
@@ -770,7 +770,7 @@ public final class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
-    * 
+    *
     * @param val - int value of day 1-31
     */
    public void setMonthlyBoxDayIndex (int val)
@@ -781,7 +781,7 @@ public final class RecurringTask extends MPXRecord
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
-    * 
+    *
     * @param val - int value of day 1-31
     */
    public void setMonthlyBoxDayIndex (Integer val)
@@ -794,7 +794,7 @@ public final class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..),
     * this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * 
+    *
     * @return - int value of index constant
     */
    public int getMonthlyBoxTopRadioFrequencyComboIndexValue ()
@@ -807,7 +807,7 @@ public final class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..),
     * this value is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * 
+    *
     * @return - int value of index constant
     */
    public Integer getMonthlyBoxTopRadioFrequencyComboIndex ()
@@ -820,7 +820,7 @@ public final class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..), this value
     * is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * 
+    *
     * @param val - int value of index constant
     */
    public void setMonthlyBoxTopRadioFrequencyComboIndex (int val)
@@ -833,7 +833,7 @@ public final class RecurringTask extends MPXRecord
     * If the top radio button is selected (eg. The Xth(day) of..), this value
     * is the content of the
     * 'Every...' combo box. eg 'Every 5th Month'
-    * 
+    *
     * @param val - int value of index constant
     */
    public void setMonthlyBoxTopRadioFrequencyComboIndex (Integer val)

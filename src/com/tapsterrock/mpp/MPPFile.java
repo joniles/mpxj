@@ -112,71 +112,71 @@ public class MPPFile extends MPXFile
    private void process (InputStream is)
       throws MPXException
    {
-		try
-		{   	
-	      //
-	      // Open the file system and retrieve the root directory
-	      //
-	      POIFSFileSystem fs = new POIFSFileSystem (is);
-	      DirectoryEntry root = fs.getRoot ();
-	
-	      //
-	      // Retrieve the CompObj data and validate the file format
-	      //
-	      CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));			         
-	
-			String format = compObj.getFileFormat();
-			if (format.equals("MSProject.MPP9") == true)
-			{
-				MPP9File.process (this, root);
+      try
+      {
+         //
+         // Open the file system and retrieve the root directory
+         //
+         POIFSFileSystem fs = new POIFSFileSystem (is);
+         DirectoryEntry root = fs.getRoot ();
+
+         //
+         // Retrieve the CompObj data and validate the file format
+         //
+         CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
+
+         String format = compObj.getFileFormat();
+         if (format.equals("MSProject.MPP9") == true)
+         {
+            MPP9File.process (this, root);
             m_fileType = 9;
-			}
-			else
-			{
-				if (format.equals("MSProject.MPP8") == true)				
-				{
+         }
+         else
+         {
+            if (format.equals("MSProject.MPP8") == true)
+            {
                MPP8File.process (this, root);
                m_fileType = 8;
-				}
-				else
-				{
-					throw new MPXException (MPXException.INVALID_FILE + ": " + format);					
-				}
-			}			
-         
+            }
+            else
+            {
+               throw new MPXException (MPXException.INVALID_FILE + ": " + format);
+            }
+         }
+
          //
-         // Update the internal structure. We'll take this opportunity to 
+         // Update the internal structure. We'll take this opportunity to
          // generate outline numbers for the tasks as they don't appear to
          // be present in the MPP file.
          //
          setAutoOutlineNumber(true);
          updateStructure ();
-         setAutoOutlineNumber(false);      
-      
+         setAutoOutlineNumber(false);
+
          //
          // Perform post-processing to set the summary flag
          //
          LinkedList tasks = getAllTasks();
-         Iterator iter = tasks.iterator();     
+         Iterator iter = tasks.iterator();
          Task task;
-         
+
          while (iter.hasNext() == true)
          {
             task = (Task)iter.next();
             task.setSummary(task.getChildTasks().size() != 0);
          }
-         
-		}
-		
-		catch (IOException ex)
-		{
-			throw new MPXException (MPXException.READ_ERROR, ex);
-		}		
+
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
    }
-   
+
    /**
     * This method retrieves the state of the preserve note formatting flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getPreserveNoteFormatting()
@@ -188,7 +188,7 @@ public class MPPFile extends MPXFile
     * This method sets a flag to indicate whether the RTF formatting associated
     * with notes should be preserved or removed. By default the formatting
     * is removed.
-    * 
+    *
     * @param preserveNoteFormatting
     */
    public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
@@ -198,10 +198,10 @@ public class MPPFile extends MPXFile
 
    /**
     * This method retrieves a value representing the type of MPP file
-    * that has been read. Currently this method will return the value 8 for 
-    * an MPP8 file (Project 98) or 9 for an MPP9 file (Project 2000 and 
+    * that has been read. Currently this method will return the value 8 for
+    * an MPP8 file (Project 98) or 9 for an MPP9 file (Project 2000 and
     * Project 2002).
-    * 
+    *
     * @return File type value
     */
    public int getFileType()
@@ -211,100 +211,100 @@ public class MPPFile extends MPXFile
 
    /**
     * Package-private method used to add views to this MPP file.
-    * 
+    *
     * @param view
     */
    void addView (View view)
    {
       m_views.add(view);
    }
-   
+
    /**
     * This method returns a list of the views defined in this MPP file.
-    * 
+    *
     * @return list of views
     */
    public ArrayList getViews ()
    {
-      return (m_views);   
+      return (m_views);
    }
 
    /**
     * Package-private method used to add tables to this MPP file.
-    * 
+    *
     * @param view
     */
    void addTable (Table table)
    {
       m_tables.add(table);
    }
-   
+
    /**
     * This method returns a list of the tables defined in this MPP file.
-    * 
+    *
     * @return list of tables
     */
    public ArrayList getTables ()
    {
-      return (m_tables);   
+      return (m_tables);
    }
-   
+
    /**
     * This package-private method is provided as a convenience to allow the
     * MPP8 and MPP9 file handling classes gain access to the addResourceCalendar
     * method.
-    * 
+    *
     * @return new MPXCalendar instance
     */
    MPXCalendar mppAddResourceCalendar ()
    {
-      return (addResourceCalendar());  
+      return (addResourceCalendar());
    }
 
    /**
     * This package-private method is provided as a convenience to allow the
-    * MPP8 and MPP9 file handling classes gain access to the 
+    * MPP8 and MPP9 file handling classes gain access to the
     * addDefaultResourceCalendar method.
-    * 
+    *
     * @return new MPXCalendar instance
-    */   
+    */
    MPXCalendar mppAddDefaultResourceCalendar ()
    {
-      return (addDefaultResourceCalendar());      
+      return (addDefaultResourceCalendar());
    }
 
    /**
     * This package-private method is provided as a convenience to allow the
-    * MPP8 and MPP9 file handling classes gain access to the 
+    * MPP8 and MPP9 file handling classes gain access to the
     * attachResourceCalendar method.
-    * 
+    *
     * @return new MPXCalendar instance
-    */      
+    */
    void mppAttachResourceCalendar (Resource resource, MPXCalendar calendar)
    {
       attachResourceCalendar (resource, calendar);
    }
-   
+
    /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved.
     */
-   private boolean m_preserveNoteFormatting = false;   
-   
+   private boolean m_preserveNoteFormatting = false;
+
    /**
-    * This value is used to represent the type of MPP file that 
+    * This value is used to represent the type of MPP file that
     * has been read.
     */
    private int m_fileType;
-   
+
    /**
     * List of views defined in this file.
     */
    private ArrayList m_views = new ArrayList ();
-   
+
    /**
     * List of tables defined in this file.
     */
    private ArrayList m_tables = new ArrayList ();
-   
+
 }

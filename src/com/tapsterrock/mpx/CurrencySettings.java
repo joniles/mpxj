@@ -242,27 +242,27 @@ public final class CurrencySettings extends MPXRecord
       putChar (THOUSANDS_SEPARATOR, sep);
       if (getParentFile().getThousandsSeparator() != sep)
       {
-         getParentFile().setThousandsSeparator(sep);      
-      }         
+         getParentFile().setThousandsSeparator(sep);
+      }
    }
 
    /**
     * Sets the thousands separator.
     * Note that this separator defines the thousands separator for all decimal
     * numbers that appear in the MPX file.
-    * 
+    *
     * @param sep character
     */
    public void setThousandsSeparator (Character sep)
    {
       if (sep != null)
       {
-         setThousandsSeparator (sep.charValue());  
+         setThousandsSeparator (sep.charValue());
       }
    }
 
    /**
-    * Gets the thousands separator. 
+    * Gets the thousands separator.
     * Note that this separator defines the thousands separator for all decimal
     * numbers that appear in the MPX file.
     *
@@ -286,7 +286,7 @@ public final class CurrencySettings extends MPXRecord
       if (getParentFile().getDecimalSeparator() != decSep)
       {
          getParentFile().setDecimalSeparator(decSep);
-      }         
+      }
    }
 
    /**
@@ -324,11 +324,11 @@ public final class CurrencySettings extends MPXRecord
    {
       if (m_update == true)
       {
-         MPXFile parent = getParentFile();         
+         MPXFile parent = getParentFile();
          String prefix = "";
          String suffix = "";
          String currencySymbol = quoteFormatCharacters (getCurrencySymbol());
-         
+
          switch (getSymbolPositionValue())
          {
             case SYMBOLPOS_AFTER:
@@ -365,7 +365,7 @@ public final class CurrencySettings extends MPXRecord
          pattern.append("##0");
 
 
-         int digits = getCurrencyDigitsValue();         
+         int digits = getCurrencyDigitsValue();
          if (digits > 0)
          {
             pattern.append('.');
@@ -374,7 +374,7 @@ public final class CurrencySettings extends MPXRecord
                pattern.append("0");
             }
          }
-                     
+
          pattern.append(suffix);
 
          parent.getCurrencyFormat().applyPattern(pattern.toString(), getDecimalSeparator(), getThousandsSeparator());
@@ -384,7 +384,7 @@ public final class CurrencySettings extends MPXRecord
    /**
     * This method is used to quote any special characters that appear in
     * literal text that is required as part of the currency format.
-    * 
+    *
     * @param literal Literal text
     * @return literal text with special characters in quotes
     */
@@ -393,7 +393,7 @@ public final class CurrencySettings extends MPXRecord
       StringBuffer sb = new StringBuffer ();
       int length = literal.length();
       char c;
-      
+
       for (int loop=0; loop <length; loop++)
       {
          c = literal.charAt(loop);
@@ -411,20 +411,20 @@ public final class CurrencySettings extends MPXRecord
                sb.append ("'");
                sb.append (c);
                sb.append ("'");
-               break;               
+               break;
             }
-            
+
             default:
             {
                sb.append (c);
                break;
             }
-         }         
+         }
       }
-      
+
       return (sb.toString());
    }
-   
+
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.

@@ -407,7 +407,7 @@ public final class DefaultSettings extends MPXRecord
    {
       put (SPLIT, flag);
    }
-   
+
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
@@ -418,7 +418,7 @@ public final class DefaultSettings extends MPXRecord
    {
       return (toString (RECORD_NUMBER));
    }
-   
+
    /**
     * Constant value representing Default Duration Units.  eg 'w','m','d','h'
     */

@@ -43,7 +43,7 @@ public final class ProjectHeader extends MPXRecord
    ProjectHeader (MPXFile file)
    {
       super (file, MAX_FIELDS);
-      
+
       setProjectTab("Project1");
       setCompany(null);
       setManager(null);
@@ -72,7 +72,7 @@ public final class ProjectHeader extends MPXRecord
       setFinishVariance(DEFAULT_DURATION);
       setSubject(null);
       setAuthor(null);
-      setKeywords(null);      
+      setKeywords(null);
    }
 
 
@@ -781,9 +781,9 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Default cost value.
-    */      
+    */
    private static final Double DEFAULT_COST = new Double (0);
-   
+
    /**
     * Default work value.
     */
@@ -791,9 +791,9 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Default duration value.
-    */   
+    */
    private static final MPXDuration DEFAULT_DURATION = new MPXDuration (0, TimeUnit.DAYS);
-      
+
    /**
     * Constant value representing Project Tab field
     */
