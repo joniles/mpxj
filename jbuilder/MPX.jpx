@@ -3,6 +3,7 @@
 <!--JBuilder XML Project-->
 <project>
   <property category="idl" name="Compiler" value="VisiBroker" />
+  <property category="runtime" name="ConfigurationCount" value="2" />
   <property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
   <property category="runtime.0" name="applet.vmparameters" value="-classic" />
   <property category="runtime.0" name="application.class" value="junit.swingui.TestRunner" />
@@ -14,6 +15,24 @@
   <property category="runtime.0" name="jsprunner.docbase" value="." />
   <property category="runtime.0" name="jsprunner.jspfile" value="../../../JBuilder4/bin" />
   <property category="runtime.0" name="jsprunner.launchuri" value="/../../../JBuilder4/bin" />
+  <property category="runtime.1" name="ConfigurationName" value="MPP Dump" />
+  <property category="runtime.1" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
+  <property category="runtime.1" name="application.class" value="com.tapsterrock.utility.MppDump" />
+  <property category="runtime.1" name="application.parameters" value="c:\temp\project1.mpp c:\temp\project1.txt" />
+  <property category="runtime.1" name="appserver.ejbJarsSaved" value="1" />
+  <property category="runtime.1" name="appserver.parameters" value="-jts -jns -jss -jdb" />
+  <property category="runtime.1" name="appserver.servername" value="ejbcontainer" />
+  <property category="runtime.1" name="appserver.vmparameters" value="-Dvbroker.agent.port=14000 -Djava.library.path=C:/Inprise/AppServer/lib;C:/Inprise/AppServer/bin" />
+  <property category="runtime.1" name="jsprunner.launchuri" value="/" />
+  <property category="runtime.2" name="ConfigurationName" value="MPP MPX" />
+  <property category="runtime.2" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
+  <property category="runtime.2" name="application.class" value="com.tapsterrock.utility.MppMpx" />
+  <property category="runtime.2" name="application.parameters" value="c:\temp\project1.mpp c:\temp\project1.mpx" />
+  <property category="runtime.2" name="appserver.ejbJarsSaved" value="1" />
+  <property category="runtime.2" name="appserver.parameters" value="-jts -jns -jss -jdb" />
+  <property category="runtime.2" name="appserver.servername" value="ejbcontainer" />
+  <property category="runtime.2" name="appserver.vmparameters" value="-Dvbroker.agent.port=14000 -Djava.library.path=C:/Inprise/AppServer/lib;C:/Inprise/AppServer/bin" />
+  <property category="runtime.2" name="jsprunner.launchuri" value="/" />
   <property category="sys" name="AuthorLabel" value="@author" />
   <property category="sys" name="BackupPath" value="../bak" />
   <property category="sys" name="BeansInstantiate" value="false" />

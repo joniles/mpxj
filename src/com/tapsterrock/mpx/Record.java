@@ -329,7 +329,7 @@ class Record
 
       if (field < m_fields.length)
       {
-         result = new MPXRate (m_parent, m_fields[field]);
+         result = new MPXRate (m_parent.getCurrencyFormat(), m_fields[field]);
       }
       else
       {

@@ -44,7 +44,7 @@ public class AccrueType
       {
          if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
          {
-            m_type = loop;
+            m_type = loop+1;
             break;
          }
       }
@@ -59,9 +59,9 @@ public class AccrueType
     */
    public AccrueType (int type)
    {
-      if (type < 0 || type >= TYPE_NAMES.length)
+      if (type < START || type > PRORATED)
       {
-         m_type = 0;
+         m_type = PRORATED;
       }
       else
       {
@@ -88,13 +88,8 @@ public class AccrueType
     */
    public String toString ()
    {
-      return (TYPE_NAMES[m_type]);
+      return (TYPE_NAMES[m_type-1]);
    }
-
-   /**
-    * Integer representing the "Prorated" accrue type.
-    */
-   public static final int PRORATED = 0;
 
    /**
     * Integer representing the "Start" accrue type.
@@ -106,15 +101,19 @@ public class AccrueType
     */
    public static final int END = 2;
 
+   /**
+    * Integer representing the "Prorated" accrue type.
+    */
+   public static final int PRORATED = 3;
 
    /**
     * Array of type names matching the above constants.
     */
    private static final String[] TYPE_NAMES =
    {
-      "Prorated",
       "Start",
       "End",
+      "Prorated"
    };
 
    /**

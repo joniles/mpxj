@@ -113,7 +113,7 @@ public class Resource extends MPXRecord
             case OVERTIME_RATE:
             case STANDARD_RATE:
             {
-               set (x, new MPXRate(getParentFile(), field));
+               set (x, new MPXRate(getParentFile().getCurrencyFormat(), field));
                break;
             }
 

@@ -339,8 +339,9 @@ class MPPUtility
       char c;
       int loop;
       StringBuffer sb = new StringBuffer ();
+      int count = offset+length;
 
-      for (loop=offset; loop < length; loop++)
+      for (loop=offset; loop < count; loop++)
       {
          sb.append (" ");
          sb.append (HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
@@ -351,7 +352,7 @@ class MPPUtility
       {
          sb.append ("   ");
 
-         for (loop=offset; loop < length; loop++)
+         for (loop=offset; loop < count; loop++)
          {
             c = (char)buffer[loop];
             if (c > 200 || c < 27)

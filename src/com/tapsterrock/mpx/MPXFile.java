@@ -44,7 +44,6 @@ import java.util.LinkedList;
  * and writing MPX files and their constituent records.
  */
 public class MPXFile
-
 {
    /**
     * Default constructor.

@@ -23,6 +23,7 @@
 
 package com.tapsterrock.mpp;
 
+import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BaseCalendar;
 import com.tapsterrock.mpx.BaseCalendarHours;
 import com.tapsterrock.mpx.BaseCalendarException;
@@ -116,6 +117,19 @@ public class MPPFile
       //
       POIFSFileSystem fs = new POIFSFileSystem (is);
       DirectoryEntry root = fs.getRoot ();
+
+      //
+      // Retrieve the CompObj data and validate the file format
+      //
+      m_compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
+      if (m_compObj.getFileFormat().equals("MSProject.MPP9") == false)
+      {
+         throw new Exception ("File format error");
+      }
+
+      //
+      // Retrieve the project directory
+      //
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
 
       //
@@ -124,8 +138,6 @@ public class MPPFile
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
       m_calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
       m_calVarData = new Var2Data (m_calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
-      m_calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))));
-      m_calFixedData = new FixedData (m_calFixedMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedData"))));
 
       //
       // Retrieve task data
@@ -148,7 +160,7 @@ public class MPPFile
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
       m_rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
       m_rscVarData = new Var2Data (m_rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
-      m_rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))));
+      m_rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       m_rscFixedData = new FixedData (m_rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
 
       //
@@ -171,6 +183,8 @@ public class MPPFile
       processConstraintData ();
       processAssignmentData ();
    }
+
+
 
    /**
     * This method maps the task unique identifiers to their index number
@@ -619,23 +633,47 @@ public class MPPFile
             throw new Exception ("File format error");
          }
 
-         data = m_taskFixedData.getByteArrayValue(offset.intValue());
+         data = m_rscFixedData.getByteArrayValue(offset.intValue());
 
          resource = m_mpx.addResource();
 
-         //resource.setAccrueAt();
-         resource.setUniqueID(id);
-         resource.setID (new Integer (MPPUtility.getInt (data, 4)));
-         resource.setName (m_rscVarData.getUnicodeString (id, RESOURCE_NAME));
-         resource.setInitials (m_rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
+         resource.setAccrueAt(new AccrueType (MPPUtility.getShort (data, 12)));
+         //resource.setActualCost(); // Calculated value
+         //resource.setActualWork(); // Calculated value
+         //resource.setBaseCalendar();
+         resource.setBaselineCost(new Double(MPPUtility.getDouble(data, 148)/100));
+         //resource.setBaselineWork();
          resource.setCode (m_rscVarData.getUnicodeString (id, RESOURCE_CODE));
+         //resource.setCost(); // Calculated value
+         resource.setCostPerUse(new Double(MPPUtility.getDouble(data, 84)/100));
+         //resource.setCostVariance(); // Calculated value
          resource.setEmailAddress(m_rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
          resource.setGroup(m_rscVarData.getUnicodeString (id, RESOURCE_GROUP));
+         resource.setID (new Integer (MPPUtility.getInt (data, 4)));
+         resource.setInitials (m_rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
+         //resource.setLinkedFields(); // Calculated value
+         //resource.setMaxUnits();
+         resource.setName (m_rscVarData.getUnicodeString (id, RESOURCE_NAME));
+         //resource.setNotes();
+         //resource.setObjects(); // Calculated value
+         //resource.setOverallocated(); // Calculated value
+         // need to look at the format?
+         //resource.setOvertimeRate(new MPXRate (MPPUtility.getDouble(data, 36)/100, getRateDurationUnits(MPPUtility.getShort(data, 10))));
+         //resource.setOvertimeWork(); // Calculated value
+         //resource.setPeak(); // Calculated value
+         //resource.setPercentageWorkComplete(); // Calculated value
+         //resource.setRemainingCost(); // Calculated value
+         //resource.setRemainingWork(); // Calculated value
+         // need to look at the format?
+         //resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 28)/100, getRateDurationUnits(MPPUtility.getShort(data, 8))));
          resource.setText1(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
          resource.setText2(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
          resource.setText3(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
          resource.setText4(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
          resource.setText5(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
+         resource.setUniqueID(id);
+         //resource.setWork(); // Calculated value
+         //resource.setWorkVariance(); // Calculated value
 
          //notes = m_rscVarData.getString (id, RESOURCE_NOTES);
          //if (notes != null)
@@ -816,6 +854,68 @@ public class MPPFile
 
 
    /**
+    * This method converts between the duration units representation
+    * used in the MPP file for rate values, and the standard MPX duration units.
+    * If the supplied units are unrecognised, the units default to hours.
+    *
+    * @param type MPP units
+    * @return MPX units
+    */
+   private int getRateDurationUnits (int type)
+   {
+      int units;
+
+      switch (type)
+      {
+         case 1:
+         {
+            units = TimeUnit.MINUTES;
+            break;
+         }
+
+         case 3:
+         {
+            units = TimeUnit.DAYS;
+            break;
+         }
+
+         case 4:
+         {
+            units = TimeUnit.WEEKS;
+            break;
+         }
+
+         case 5:
+         {
+            units = TimeUnit.MONTHS;
+            break;
+         }
+
+         //
+         // There is a missing option. Can't see what it can be set to
+         // when using MSP2K
+         //
+
+         case 7:
+         {
+            units = TimeUnit.YEARS;
+            break;
+         }
+
+         default:
+         case 2:
+         {
+            units = TimeUnit.HOURS;
+            break;
+         }
+
+      }
+
+      return (units);
+   }
+
+
+   /**
     * Calendar data types.
     */
    private static final Integer CALENDAR_NAME = new Integer (1);
@@ -947,10 +1047,10 @@ public class MPPFile
 
    private MPXFile m_mpx;
 
+   private CompObj m_compObj;
+
    private VarMeta m_calVarMeta;
    private Var2Data m_calVarData;
-   private FixedMeta m_calFixedMeta;
-   private FixedData m_calFixedData;
 
    private VarMeta m_taskVarMeta;
    private Var2Data m_taskVarData;

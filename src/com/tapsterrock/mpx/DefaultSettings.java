@@ -45,8 +45,8 @@ public class DefaultSettings extends MPXRecord
       setDefaultWorkUnits((byte)1);
       setDefaultHoursInDay(new Float(8));
       setDefaultHoursInWeek(new Float (40));
-      setDefaultStandardRate(new MPXRate(file, 10, TimeUnit.HOURS));
-      setDefaultOvertimeRate(new MPXRate(file, 15, TimeUnit.HOURS));
+      setDefaultStandardRate(new MPXRate(10, TimeUnit.HOURS));
+      setDefaultOvertimeRate(new MPXRate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(new Byte((byte)1));
       setSplitInProgressTasks(new Byte((byte)0));
    }

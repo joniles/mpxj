@@ -37,21 +37,19 @@ public class MPXRate
     * @param rate string containing rate value
     * @throws MPXException when string parse fails
     */
-   public MPXRate (MPXFile parent, String rate)
+   MPXRate (MPXNumberFormat format, String rate)
       throws MPXException
    {
-      m_format = parent.getCurrencyFormat();
-
       int index = rate.indexOf('/');
 
       if (index == -1)
       {
-         m_amount = m_format.parse(rate).floatValue();
+         m_amount = format.parse(rate).doubleValue();
          m_time = TimeUnit.HOURS;
       }
       else
       {
-         m_amount = m_format.parse( rate.substring (0, index)).floatValue();
+         m_amount = format.parse( rate.substring (0, index)).doubleValue();
          m_time = TimeUnit.parse(rate.substring (index+1));
       }
    }
@@ -64,9 +62,8 @@ public class MPXRate
     * @param amount currency amount
     * @param time time units
     */
-   public MPXRate (MPXFile parent, float amount, int time)
+   public MPXRate (double amount, int time)
    {
-      m_format = parent.getCurrencyFormat();
       m_amount = amount;
       m_time = time;
    }
@@ -77,7 +74,7 @@ public class MPXRate
     *
     * @return amount component of the rate
     */
-   public float getAmount ()
+   public double getAmount ()
    {
       return (m_amount);
    }
@@ -98,15 +95,14 @@ public class MPXRate
     *
     * @return string representation of the rate
     */
-   public String toString ()
+   public String toString (MPXNumberFormat format)
    {
-      StringBuffer buffer = new StringBuffer (m_format.format(m_amount));
+      StringBuffer buffer = new StringBuffer (format.format(m_amount));
       buffer.append ("/");
       buffer.append (TimeUnit.format(m_time));
       return (buffer.toString());
    }
 
-   private MPXNumberFormat m_format;
-   private float m_amount;
+   private double m_amount;
    private int m_time;
 }

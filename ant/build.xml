@@ -36,7 +36,7 @@
    <delete dir="${docdir}"/>
    <mkdir dir="${docdir}"/>
    <javadoc sourcepath="${basedir}/src"
-      packagenames="com.tapsterrock.mpx.*,com.tapsterrock.mpp.*"
+      packagenames="com.tapsterrock.mpx.*,com.tapsterrock.mpp.*,com.tapsterrock.utility.*"
       destdir="${docdir}"
       verbose="no"
       access="public">

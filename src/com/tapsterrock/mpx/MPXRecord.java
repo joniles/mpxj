@@ -77,7 +77,14 @@ class MPXRecord
             }
             else
             {
-               result = o.toString();
+               if (o instanceof MPXRate == true)
+               {
+                  result = ((MPXRate)o).toString(m_mpx.getCurrencyFormat());
+               }
+               else
+               {
+                  result = o.toString();
+               }
             }
          }
       }

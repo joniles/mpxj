@@ -88,6 +88,42 @@ class FixedMeta extends MPPComponent
       }
    }
 
+   // copes with more inconsistencies... we already know the block size
+   // we also ignore the item count in the block and work it out for ourselves
+   public FixedMeta (InputStream is, int itemSize)
+      throws IOException
+   {
+      //
+      // The POI file system guarantees that this is accurate
+      //
+      int fileSize = is.available();
+
+      //
+      // First 8 bytes
+      //
+      if (readInt (is) != MAGIC)
+      {
+         throw new IOException ("Bad magic number");
+      }
+
+      m_unknown1 = readInt (is);
+      m_itemCount = readInt (is);
+      m_dataSize = readInt (is);
+
+      m_itemCount = (fileSize - 16) / itemSize;
+
+      m_size = new int [m_itemCount];
+      m_offset = new int [m_itemCount];
+      m_unknown2 = new ByteArray[m_itemCount];
+
+      for (int loop=0; loop < m_itemCount; loop++)
+      {
+         m_size[loop] = readInt (is);
+         m_offset[loop] = readInt (is);
+         m_unknown2[loop] = new ByteArray (readByteArray (is, itemSize - 8));
+      }
+   }
+
    /**
     * This method retrieves the number of items in the FixedData block.
     *
