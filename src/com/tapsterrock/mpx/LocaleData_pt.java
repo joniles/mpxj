@@ -307,7 +307,7 @@ public final class LocaleData_pt extends ListResourceBundle
 		{LocaleData.CODE_PAGE, "ANSI"},
 
 		{LocaleData.CURRENCY_SYMBOL, ""},
-		{LocaleData.CURRENCY_SYMBOL_POSITION, new Integer (1)},
+		{LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},
 		{LocaleData.CURRENCY_DIGITS, new Integer (2)},
 		{LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
 		{LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},

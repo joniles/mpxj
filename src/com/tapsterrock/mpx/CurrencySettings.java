@@ -55,7 +55,7 @@ public final class CurrencySettings extends MPXRecord
    {
       m_updateCurrencyFormat = false;
       setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
-      setSymbolPosition(LocaleData.getInteger(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
+      setSymbolPosition((CurrencySymbolPosition)LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
       setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
@@ -73,7 +73,7 @@ public final class CurrencySettings extends MPXRecord
    {
       m_updateCurrencyFormat = false;
       setCurrencySymbol (record.getString(0));
-      setSymbolPosition (record.getInteger(1));
+      setSymbolPosition (record.getCurrencySymbolPosition(1));
       setCurrencyDigits (record.getInteger(2));
       setThousandsSeparator (record.getCharacter(3));
       setDecimalSeparator (record.getCharacter(4));
@@ -106,18 +106,9 @@ public final class CurrencySettings extends MPXRecord
    /**
     * Sets the position of the currency symbol.
     *
-    * Permissable value are as follows:
-    *
-    * 0 = after
-    * 1 = before
-    * 2 = after with a space
-    * 3 = before with a space
-    *
-    * The SYMBOLPOS_* are used a enumerated vaules for this parameter.
-    *
     * @param posn currency symbol position.
     */
-   public void setSymbolPosition (Integer posn)
+   public void setSymbolPosition (CurrencySymbolPosition posn)
    {
       m_symbolPosition = posn;
       updateFormats();
@@ -128,7 +119,7 @@ public final class CurrencySettings extends MPXRecord
     *
     * @return position
     */
-   public Integer getSymbolPosition ()
+   public CurrencySymbolPosition getSymbolPosition ()
    {
       return (m_symbolPosition);
    }
@@ -255,27 +246,27 @@ public final class CurrencySettings extends MPXRecord
          String suffix = "";
          String currencySymbol = quoteFormatCharacters (getCurrencySymbol());
 
-         switch (getSymbolPosition().intValue())
+         switch (getSymbolPosition().getValue())
          {
-            case SYMBOLPOS_AFTER:
+            case CurrencySymbolPosition.AFTER_VALUE:
             {
                suffix = currencySymbol;
                break;
             }
 
-            case SYMBOLPOS_BEFORE:
+            case CurrencySymbolPosition.BEFORE_VALUE:
             {
                prefix = currencySymbol;
                break;
             }
 
-            case SYMBOLPOS_AFTER_WITH_SPACE:
+            case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
             {
                suffix = " " + currencySymbol;
                break;
             }
 
-            case SYMBOLPOS_BEFORE_WITH_SPACE:
+            case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
             {
                prefix = currencySymbol + " ";
                break;
@@ -380,7 +371,7 @@ public final class CurrencySettings extends MPXRecord
    }
 
    private String m_currencySymbol;
-   private Integer m_symbolPosition;
+   private CurrencySymbolPosition m_symbolPosition;
    private Integer m_currencyDigits;
    private char m_thousandsSeparator;
    private char m_decimalSeparator;
@@ -391,26 +382,6 @@ public final class CurrencySettings extends MPXRecord
     * flag is false.
     */
    private boolean m_updateCurrencyFormat;
-
-   /**
-    * Represents a constant from Symbol Position field
-    */
-   public static final int SYMBOLPOS_AFTER = 0;
-
-   /**
-    * Represents a constant from Symbol Position field
-    */
-   public static final int SYMBOLPOS_BEFORE = 1;
-
-   /**
-    * Represents a constant from Symbol Position field
-    */
-   public static final int SYMBOLPOS_AFTER_WITH_SPACE = 2;
-
-   /**
-    * Represents a constant from Symbol Position field
-    */
-   public static final int SYMBOLPOS_BEFORE_WITH_SPACE = 3;
 
    /**
     * Constant containing the record number associated with this record.

@@ -431,7 +431,7 @@ public final class LocaleData extends ListResourceBundle
       {CODE_PAGE, "ANSI"},
 
       {CURRENCY_SYMBOL, "$"},
-      {CURRENCY_SYMBOL_POSITION, new Integer (1)},
+      {CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},
       {CURRENCY_DIGITS, new Integer (2)},
       {CURRENCY_THOUSANDS_SEPARATOR, ","},
       {CURRENCY_DECIMAL_SEPARATOR, "."},

@@ -62,6 +62,7 @@ import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
+import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
@@ -1907,9 +1908,9 @@ public class MSPDIFile extends MPXFile
     * @param position BigInteger position value
     * @return Symbol position
     */
-   private Integer getMpxSymbolPosition (BigInteger position)
+   private CurrencySymbolPosition getMpxSymbolPosition (BigInteger position)
    {
-      int result = CurrencySettings.SYMBOLPOS_BEFORE;
+      CurrencySymbolPosition result = CurrencySymbolPosition.BEFORE;
 
       if (position != null)
       {
@@ -1917,31 +1918,31 @@ public class MSPDIFile extends MPXFile
          {
             case 0:
             {
-               result = CurrencySettings.SYMBOLPOS_BEFORE;
+               result = CurrencySymbolPosition.BEFORE;
                break;
             }
 
             case 1:
             {
-               result = CurrencySettings.SYMBOLPOS_AFTER;
+               result = CurrencySymbolPosition.AFTER;
                break;
             }
 
             case 2:
             {
-               result = CurrencySettings.SYMBOLPOS_BEFORE_WITH_SPACE;
+               result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
                break;
             }
 
             case 3:
             {
-               result = CurrencySettings.SYMBOLPOS_AFTER_WITH_SPACE;
+               result = CurrencySymbolPosition.AFTER_WITH_SPACE;
                break;
             }
          }
       }
 
-      return (new Integer(result));
+      return (result);
    }
 
 
@@ -1951,32 +1952,32 @@ public class MSPDIFile extends MPXFile
     * @param position symbol position
     * @return Symbol position
     */
-   private BigInteger getXmlSymbolPosition (int position)
+   private BigInteger getXmlSymbolPosition (CurrencySymbolPosition position)
    {
       int result;
 
-      switch (position)
+      switch (position.getValue())
       {
          default:
-         case CurrencySettings.SYMBOLPOS_BEFORE:
+         case CurrencySymbolPosition.BEFORE_VALUE:
          {
             result = 0;
             break;
          }
 
-         case CurrencySettings.SYMBOLPOS_AFTER:
+         case CurrencySymbolPosition.AFTER_VALUE:
          {
             result = 1;
             break;
          }
 
-         case CurrencySettings.SYMBOLPOS_BEFORE_WITH_SPACE:
+         case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
          {
             result = 2;
             break;
          }
 
-         case CurrencySettings.SYMBOLPOS_AFTER_WITH_SPACE:
+         case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
          {
             result = 3;
             break;
@@ -2518,7 +2519,7 @@ public class MSPDIFile extends MPXFile
       CurrencySettings currency = getCurrencySettings();
       project.setCurrencyDigits(BigInteger.valueOf (currency.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(currency.getCurrencySymbol());
-      project.setCurrencySymbolPosition(getXmlSymbolPosition (currency.getSymbolPosition().intValue()));
+      project.setCurrencySymbolPosition(getXmlSymbolPosition (currency.getSymbolPosition()));
    }
 
    /**

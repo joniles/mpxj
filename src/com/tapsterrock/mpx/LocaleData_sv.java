@@ -273,7 +273,7 @@ public final class LocaleData_sv extends ListResourceBundle
       {LocaleData.NO, "Nej"},
 
       {LocaleData.CURRENCY_SYMBOL, "kr"},
-      {LocaleData.CURRENCY_SYMBOL_POSITION, new Integer (2)},
+      {LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.AFTER_WITH_SPACE},
       {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, " "},
       {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
 

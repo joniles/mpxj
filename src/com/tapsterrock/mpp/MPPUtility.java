@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.TimeUnit;
 
@@ -644,39 +645,39 @@ final class MPPUtility
     * @param value MPP symbol position
     * @return MPX symbol position
     */
-   public static Integer getSymbolPosition (int value)
+   public static CurrencySymbolPosition getSymbolPosition (int value)
    {
-      int result;
-
+      CurrencySymbolPosition result;
+      
       switch (value)
       {
          case 1:
          {
-            result = 0;
+            result = CurrencySymbolPosition.AFTER;
             break;
          }
 
          case 2:
          {
-            result = 3;
+            result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
             break;
          }
 
          case 3:
          {
-            result = 2;
+            result = CurrencySymbolPosition.AFTER_WITH_SPACE;
             break;
          }
 
          case 0:
          default:
          {
-            result = 1;
+            result = CurrencySymbolPosition.BEFORE;
             break;
          }
       }
 
-      return (new Integer (result));
+      return (result);
    }
 
    /**

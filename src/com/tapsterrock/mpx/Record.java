@@ -496,6 +496,30 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
+   public CurrencySymbolPosition getCurrencySymbolPosition (int field)
+   {
+      CurrencySymbolPosition result;
+
+      if (field < m_fields.length && m_fields[field].length() != 0)
+      {         
+         result = CurrencySymbolPosition.getInstance(Integer.parseInt(m_fields[field]));
+      }
+      else
+      {
+         result = CurrencySymbolPosition.BEFORE;
+      }
+
+      return (result);
+   }
+   
+   /**
+    * Accessor method used to retrieve an Integer object representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
    public DateFormat getDateFormat (int field)
    {
       DateFormat result = null;

@@ -316,7 +316,7 @@ public final class LocaleData_de extends ListResourceBundle
       {LocaleData.NO, "Nein"},
 
       {LocaleData.CURRENCY_SYMBOL, "€"},
-      {LocaleData.CURRENCY_SYMBOL_POSITION, new Integer (2)},
+      {LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.AFTER_WITH_SPACE},
       {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
       {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
 
