@@ -416,7 +416,7 @@ final class MPP8File
       String notes;
       RTFUtility rtf = new RTFUtility ();
       byte[] flags = new byte[3];
-
+      
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -431,19 +431,17 @@ final class MPP8File
          }
 
          //
-         // Test to ensure this task has not been deleted
-         // This appears to be a set of flags rather than a
-         // single value. A sample file from a bug report
-         // seems to indicate that a value of 0x40 indicates
-         // a valid task. The test below filters out values
-         // >= 0x40 as representing valid tasks.
+         // Test to ensure this task has not been deleted.
+         // This appears to be a set of flags rather than a single value. 
+         // The data I have seen to date shows deleted tasks having values of 
+         // 0x0001 and 0x0002. Valid tasks have had values 0f 0x0000, 0x0914, 
+         // and 0x0040.
          //
-         deleted = MPPUtility.getShort(data, 272);
-         if ((deleted & 0x3F) != 0)
+         deleted = MPPUtility.getShort(data, 272);   
+         if ((deleted & 0x03) != 0)
          {
             continue;
          }
-
 
          //
          // Load the var data if we have not already done so
