@@ -266,6 +266,7 @@ public class MpxCreate
       // be the same as the task start dates.
       //
       assignment1.setRemainingWork(new MPXDuration (40, TimeUnit.HOURS));
+      assignment2.setRemainingWork(new MPXDuration (80, TimeUnit.HOURS));
       assignment1.setStart(df.parse("01/01/2003"));
       assignment2.setStart(df.parse("11/01/2003"));
 
