@@ -39,7 +39,6 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
-import com.tapsterrock.mpx.DateTimeSettings;
 import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
@@ -114,9 +113,9 @@ final class MPP8File
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
-      DateTimeSettings dts = file.getDateTimeSettings();
-      dts.setDefaultStartTime(props.getTime(Props.START_TIME));
-      dts.setDefaultEndTime (props.getTime(Props.END_TIME));
+      ProjectHeader ph = file.getProjectHeader();
+      ph.setDefaultStartTime(props.getTime(Props.START_TIME));
+      ph.setDefaultEndTime (props.getTime(Props.END_TIME));
 
       DefaultSettings ds = file.getDefaultSettings();
       //ds.setDefaultDurationIsFixed();
@@ -137,7 +136,6 @@ final class MPP8File
       //cs.setThousandsSeparator();
 
       SummaryInformation summary = new SummaryInformation (rootDir);
-      ProjectHeader ph = file.getProjectHeader();
       ph.setProjectTitle(summary.getProjectTitle());
       ph.setSubject(summary.getSubject());
       ph.setAuthor(summary.getAuthor());

@@ -81,7 +81,6 @@ public class MPXFile
       m_currencyFormat = file.m_currencyFormat;
       m_currencySettings = file.m_currencySettings;
       m_dateFormat = file.m_dateFormat;
-      m_dateTimeSettings = file.m_dateTimeSettings;
       m_ddeOleClientLinks = file.m_ddeOleClientLinks;
       m_defaultSettings = file.m_defaultSettings;
       m_delimiter = file.m_delimiter;
@@ -175,7 +174,6 @@ public class MPXFile
       m_records.add (m_fileCreationRecord);
       m_records.add (m_currencySettings);
       m_records.add (m_defaultSettings);
-      m_records.add (m_dateTimeSettings);
       m_records.add (m_projectHeader);
    }
 
@@ -378,10 +376,10 @@ public class MPXFile
             break;
          }
 
-         case DateTimeSettings.RECORD_NUMBER:
+         case ProjectHeader.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
-            m_dateTimeSettings.update (record);
-            current = m_dateTimeSettings;
+            m_projectHeader.updateDateTimeSettings (record);
+            current = m_projectHeader;
             break;
          }
 
@@ -412,9 +410,9 @@ public class MPXFile
             break;
          }
 
-         case ProjectHeader.RECORD_NUMBER:
+         case ProjectHeader.PROJECT_HEADER_RECORD_NUMBER:
          {
-            m_projectHeader.update (record);
+            m_projectHeader.updateProjectHeader (record);
             current = m_projectHeader;
             break;
          }
@@ -960,16 +958,6 @@ public class MPXFile
    public DefaultSettings getDefaultSettings ()
    {
       return (m_defaultSettings);
-   }
-
-   /**
-    * Retrieves the date and time settings.
-    *
-    * @return date and time settings
-    */
-   public DateTimeSettings getDateTimeSettings ()
-   {
-      return (m_dateTimeSettings);
    }
 
    /**
@@ -1740,7 +1728,7 @@ public class MPXFile
       m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
       m_fileCreationRecord.setLocale(locale);
       m_currencySettings.setLocale(locale);
-      m_dateTimeSettings.setLocale(locale);
+      m_projectHeader.setLocale(locale);
       m_dateFormat.setLocale(locale);
       m_timeFormat.setLocale(locale);
       m_taskModel.setLocale(locale);
@@ -2071,11 +2059,6 @@ public class MPXFile
     * Default settings record.
     */
    private DefaultSettings m_defaultSettings = new DefaultSettings (this);
-
-   /**
-    * Date and time settings record.
-    */
-   private DateTimeSettings m_dateTimeSettings = new DateTimeSettings (this);
 
    /**
     * Project header record.

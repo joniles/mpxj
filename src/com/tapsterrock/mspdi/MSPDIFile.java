@@ -62,7 +62,6 @@ import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
-import com.tapsterrock.mpx.DateTimeSettings;
 import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
@@ -325,7 +324,6 @@ public class MSPDIFile extends MPXFile
          HashMap calendarMap = new HashMap ();
                           
          readCurrencySettings (project);
-         readDateTimeSettings (project);
          readDefaultSettings (project);
          readProjectHeader (project);
          readProjectExtendedAttributes(project);
@@ -372,27 +370,6 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method extracts date and time settings data from an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
-    */
-   private void readDateTimeSettings (Project project)
-   {
-      DateTimeSettings settings = getDateTimeSettings();
-      //settings.setAMText();
-      //settings.setBarTextDateFormat();
-      //settings.setDateFormat();
-      //settings.setDateOrder();
-      //settings.setDateSeparator();
-      settings.setDefaultEndTime(getTime(project.getDefaultFinishTime()));
-      settings.setDefaultStartTime(getTime(project.getDefaultStartTime()));
-      //settings.setPMText();
-      //settings.setTimeFormat();
-      //settings.setTimeSeparator();
-   }
-
-
-   /**
     * This method extracts default settings data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
@@ -421,6 +398,18 @@ public class MSPDIFile extends MPXFile
    private void readProjectHeader (Project project)
    {
       ProjectHeader header = getProjectHeader ();
+      
+      //settings.setAMText();
+      //settings.setBarTextDateFormat();
+      //settings.setDateFormat();
+      //settings.setDateOrder();
+      //settings.setDateSeparator();
+      header.setDefaultEndTime(getTime(project.getDefaultFinishTime()));
+      header.setDefaultStartTime(getTime(project.getDefaultStartTime()));
+      //settings.setPMText();
+      //settings.setTimeFormat();
+      //settings.setTimeSeparator();
+      
       //header.setActualCost();
       //header.setActualDuration();
       //header.setActualFinish();
@@ -2468,7 +2457,6 @@ public class MSPDIFile extends MPXFile
 
          writeMspdiHeader(project);
          writeCurrencySettings (project);
-         writeDateTimeSettings (project);
          writeDefaultSettings (project);
          writeProjectHeader (project);
          writeProjectExtendedAttributes (factory, project);
@@ -2547,19 +2535,6 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method writes date and time settings data to an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
-    */
-   private void writeDateTimeSettings (Project project)
-   {
-      DateTimeSettings settings = getDateTimeSettings();
-      project.setDefaultFinishTime(getCalendar (settings.getDefaultEndTime()));
-      project.setDefaultStartTime(getCalendar (settings.getDefaultStartTime()));
-   }
-
-
-   /**
     * This method writes default settings data to an MSPDI file.
     *
     * @param project Root node of the MSPDI file
@@ -2584,6 +2559,9 @@ public class MSPDIFile extends MPXFile
    {
       ProjectHeader header = getProjectHeader ();
 
+      project.setDefaultFinishTime(getCalendar (header.getDefaultEndTime()));
+      project.setDefaultStartTime(getCalendar (header.getDefaultStartTime()));
+      
       project.setAuthor(header.getAuthor());
       project.setCompany(header.getCompany());
       project.setCurrentDate(getCalendar(header.getCurrentDate()));
@@ -3038,7 +3016,6 @@ public class MSPDIFile extends MPXFile
       throws JAXBException
    {
       Project.TasksType.TaskType xml = factory.createProjectTypeTasksTypeTaskType();
-      DateTimeSettings settings = getDateTimeSettings();
 
       xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
       xml.setActualDuration(getDuration(mpx.getActualDuration()));
