@@ -3,6 +3,7 @@ Fixed bug when handling certain types of modified MPP file where resources have 
 Added sample MPP files for bugs to the JUnit tests.
 Added support for summary flag import from MPP files.
 Added automatic summary flag update when creating an MPX file programatically.
+Added new constructor to the MSPDIFile class to allow MSPDI files to be created from scratch.
 
 Version 0.0.8
 Added support for estimated durations.
