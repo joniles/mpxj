@@ -74,6 +74,17 @@ import javax.xml.bind.Unmarshaller;
  */
 public class MSPDIFile extends MPXFile
 {
+	/**
+	 * This constructor allows a new MSPDI file to be created from scratch.
+	 * 
+	 * @throws MPXException Normally thrown on data format errors.
+	 */	
+	public MSPDIFile ()
+		throws MPXException
+	{
+		super ();
+	}
+	
    /**
     * Copy constructor. WARNING: this provides a shallow copy only.
     * This allows a "generic" MPX file to be "specialised" as an MSPDI
