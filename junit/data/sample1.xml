@@ -1369,6 +1369,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>1</UID>
@@ -1438,6 +1440,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>2</UID>
@@ -1507,6 +1511,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>3</UID>
@@ -1576,6 +1582,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>6</UID>
@@ -1644,6 +1652,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>7</UID>
@@ -1713,6 +1723,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>8</UID>
@@ -1782,6 +1794,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>19</UID>
@@ -1850,6 +1864,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>9</UID>
@@ -1918,6 +1934,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>10</UID>
@@ -1990,6 +2008,8 @@
                 <PredecessorUID>9</PredecessorUID>
                 <Type>1</Type>
             </PredecessorLink>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>11</UID>
@@ -2058,6 +2078,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>12</UID>
@@ -2132,6 +2154,8 @@
                 <LinkLag>4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>13</UID>
@@ -2200,6 +2224,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>14</UID>
@@ -2274,6 +2300,8 @@
                 <LinkLag>-4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>15</UID>
@@ -2342,6 +2370,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>16</UID>
@@ -2414,6 +2444,8 @@
                 <PredecessorUID>15</PredecessorUID>
                 <Type>3</Type>
             </PredecessorLink>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>17</UID>
@@ -2482,6 +2514,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>18</UID>
@@ -2554,6 +2588,8 @@
                 <PredecessorUID>17</PredecessorUID>
                 <Type>0</Type>
             </PredecessorLink>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>20</UID>
@@ -2623,6 +2659,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>21</UID>
@@ -2696,6 +2734,8 @@
                 <PredecessorUID>20</PredecessorUID>
                 <Type>2</Type>
             </PredecessorLink>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>22</UID>
@@ -2763,6 +2803,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>23</UID>
@@ -2830,6 +2872,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
         <Task>
             <UID>24</UID>
@@ -2897,6 +2941,8 @@
             <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
+            <ActualWorkProtected>PT0H0M0S</ActualWorkProtected>
+            <ActualOvertimeWorkProtected>PT0H0M0S</ActualOvertimeWorkProtected>
         </Task>
     </Tasks>
     <Resources>
