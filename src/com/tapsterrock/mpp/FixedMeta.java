@@ -37,7 +37,7 @@ import java.io.StringWriter;
  * Note that this class has package level access only, and is not intended
  * for use outside of this context.
  */
-class FixedMeta extends MPPComponent
+final class FixedMeta extends MPPComponent
 {
    /**
     * Constructor. Reads the meta data from an input stream. Note that
@@ -49,7 +49,7 @@ class FixedMeta extends MPPComponent
     * @param itemSize sie of each item in the block
     * @throws IOException on file read failure
     */
-   public FixedMeta (InputStream is, int itemSize)
+   FixedMeta (InputStream is, int itemSize)
       throws IOException
    {
       //

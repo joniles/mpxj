@@ -30,14 +30,14 @@ package com.tapsterrock.mpp;
  * Note that this class has package level access only, and is not intended
  * for use outside of this context.
  */
-class ByteArray
+final class ByteArray
 {
    /**
     * Constructor
     *
     * @param data byte array to be wrapped
     */
-   public ByteArray (byte[] data)
+   ByteArray (byte[] data)
    {
       m_data = data;
    }
@@ -50,13 +50,13 @@ class ByteArray
 	 * @param offset Offset into the original array
 	 * @param size Amount of data to copy into the new array
 	 */
-   public ByteArray (byte[] data, int offset, int size)
+   ByteArray (byte[] data, int offset, int size)
    {
       m_data = new byte[size];
       for (int loop=0; loop < size; loop++)
       {
        	m_data[loop] = data[offset+loop];  
-      }
+      }      
    }
 
    /**
