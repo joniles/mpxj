@@ -1,3 +1,7 @@
+Version 0.0.11
+Fixed error in format string used in one of the example files.
+Fixed error where double byte characters were being read incorrectly.
+
 Version 0.0.10
 Corrected Actual Start and Actual End fields from MPP file.
 Fixed bug where time values were being broken by daylight saving time in the user's default locale.
