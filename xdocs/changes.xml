@@ -8,7 +8,10 @@
 
    <body> 
 
-   <release version="0.0.23" date="CVS HEAD"> 
+   <release version="0.0.24" date="CVS HEAD"> 
+   </release>
+
+   <release version="0.0.23" date="17/11/2004"> 
       <action dev="joniles" type="fix">Fixed a bug where MPXJ was still using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
       <action dev="joniles" type="fix">Fixed a bug where the incorrect record delimiter was being used in by the MPX RelationList class.</action>
       <action dev="joniles" type="fix">Fixed a bug where the method Task.getText21 was not retrieving the correct text value.</action>
