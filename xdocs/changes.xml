@@ -22,6 +22,7 @@
       <action dev="joniles" type="update">Updated to detect password protected files and raise a suitable exception.</action>
       <action dev="joniles" type="add">Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).</action>
       <action dev="joniles" type="add">Implemented support for Maven.</action>
+      <action dev="joniles" type="add">Updated MpxCreate utility to allow it to create both MPX and MSPDI files.</action>
       <action dev="joniles" type="add">Added new JUnit test for confidential customer data.</action>
    </release>
 
