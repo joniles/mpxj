@@ -1,6 +1,8 @@
 Version 0.0.14
 Updated to extract the following fields from resource data in an MPP9 file which were previously not imported:
 	Flag1-Flag20
+Added the method MPPFile.getFileType to allow the type of MPP file (MPP8: 98, MPP9: 2000,2002) to be determined.
+Updated API to make classes final and constructors package access only where appropriate.
 
 Version 0.0.13
 Implemented support for the Microsoft Project 98 file format.
