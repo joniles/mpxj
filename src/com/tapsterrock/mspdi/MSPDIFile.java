@@ -2497,7 +2497,9 @@ public class MSPDIFile extends MPXFile
          }
          else
          {
-            if (b == (int)m_find[m_match][m_index])
+            int find = m_find[m_match][m_index];
+            
+            if ((m_match > 0 && find == '?') || b == find)
             {
                m_buffer[m_index] = (byte)b;
                ++m_index;
@@ -2550,7 +2552,7 @@ public class MSPDIFile extends MPXFile
       {
          "ns1:".getBytes(),
          ":ns1".getBytes(),
-         ".000+00:00".getBytes(),
+         ".000+??:??".getBytes(),
          "true<".getBytes(),
          "false<".getBytes()
       };
