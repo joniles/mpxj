@@ -4,42 +4,30 @@ MPXJ: Microsoft Project Exchange in Java
 
 Introduction
 
-Welcome to MPXJ! This library provides a set of
-facilities to allow project information to be manipulated
-in Java. The starting point for these facilities is the
-MPX format, as originally defined by Microsoft. In lieu
-of a better alternative this has become the de facto
-standard for exchanging project-related information
-between applications. MPXJ provides a comprehensive
-implementation of the MPX standard, allowing MPX files to
-be created, read, written, and the data they contain to
-be manipulated.
+Welcome to MPXJ! This library provides a set of facilities to
+allow project information to be manipulated in Java. MPXJ supports
+three file formats, Microsoft Project Exchange (MPX), Microsoft
+Project (MPP), and Microsoft Project Data Interchange (MSPDI).
 
-In its infinite wisdom Microsoft has decide to drop
-support for MPX file creation from Microsoft Project 2000
-onwards. Although Microsoft Project 2000 and 2002 can
-both read MPX files, neither of them can generate MPX
-files without the use of third-party add-ons. To get
-around this, and allow Java applications to offer more
-seamless integration with data produced by Microsoft
-Project, MPXJ has been enhanced to include the ability to
-read the native MPP files produced by Microsoft Project
-2000 and Microsoft Project 2002.
+The library is currently based around a set of data structures
+modelled on the data described by the MPX file format. All
+manipulation of project data takes place using these data
+structures, which can be read from or written to the various
+supported file formats. The following notes explain what
+facilities MPXJ offers for each file format.
 
-Finally, with the release of Project 2002, Microsoft have provided
-support for importing and exporting project information using XML.
-The name given to this format by Microsoft is the Microsoft
-Project Data Interchange format (MSPDI). MPXJ can now read XML
-files in the MSPDI format.
+MPX: The MPX file format can be read by all versions of Microsoft
+Project, and written by all versions up to Microsoft Project 98.
+MPXJ allows MPX files to be created, read and written.
 
-The approach taken by MPXJ to support all of these file formats is
-to use the object model created to support MPX files as the main
-representation of any type of project information. On top of this,
-layers have been added that allow MPP or MSPDI files to be read,
-and the information contained in these formats to be mapped into
-the MPX data structures. Any application that is written to use
-the main MPX data structures can now use the data contained in
-MPX, MPP, and MSPDI files.
+MPP: The MPP file format is Microsoft’s proprietary way of storing
+project data. MPXJ supports read only access to MPP files produced
+by Microsoft Project 2000 and Microsoft Project 2002.
+
+MSPDI: The MSPDI file format is the new XML file format for
+storing project data. Currently only Microsoft Project 2002 can
+read and write MSPDI files. MPXJ allows MSPDI files to be created,
+read, and written.
 
 
 
