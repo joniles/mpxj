@@ -29,6 +29,7 @@ import com.tapsterrock.mpx.BaseCalendarHours;
 import com.tapsterrock.mpx.BaseCalendarException;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.MPXPercentage;
 import com.tapsterrock.mpx.Priority;
@@ -40,7 +41,9 @@ import com.tapsterrock.mpx.TimeUnit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.TreeMap;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -60,10 +63,10 @@ public class MPPFile extends MPXFile
     * Constructor allowing an MPP file to be read from an input stream
     *
     * @param is an input stream
-    * @throws Exception on file read errors
+    * @throws MPXException on file read errors
     */
    public MPPFile (InputStream is)
-      throws Exception
+      throws MPXException
    {
       process (is);
    }
@@ -72,24 +75,40 @@ public class MPPFile extends MPXFile
     * Constructor allowing an MPP file to be read from a file object
     *
     * @param file a file object
-    * @throws Exception on file read errors
+    * @throws MPXException on file read errors
     */
    public MPPFile (File file)
-      throws Exception
+      throws MPXException
    {
-      this (new FileInputStream (file));
+      try
+      {
+         process (new FileInputStream (file));
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
    }
 
    /**
     * Constructor allowing an MPP file to be read from a named file
     *
     * @param name name of a file
-    * @throws Exception on file read errors
+    * @throws MPXException on file read errors
     */
    public MPPFile (String name)
-      throws Exception
+      throws MPXException
    {
-      this (new FileInputStream (name));
+      try
+      {
+         process (new FileInputStream (name));
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
    }
 
    /**
@@ -97,76 +116,84 @@ public class MPPFile extends MPXFile
     * read data from an MPP file, and populate an MPXFile object.
     *
     * @param is input stream
-    * @throws an exception on file read errors
+    * @throws MPXException on file read errors
     */
    private void process (InputStream is)
-      throws Exception
+      throws MPXException
    {
-      //
-      // Open the file system and retrieve the root directory
-      //
-      POIFSFileSystem fs = new POIFSFileSystem (is);
-      DirectoryEntry root = fs.getRoot ();
-
-      //
-      // Retrieve the CompObj data and validate the file format
-      //
-      CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
-      if (compObj.getFileFormat().equals("MSProject.MPP9") == false)
+      try
       {
-         throw new Exception ("File format error");
+         //
+         // Open the file system and retrieve the root directory
+         //
+         POIFSFileSystem fs = new POIFSFileSystem (is);
+         DirectoryEntry root = fs.getRoot ();
+
+         //
+         // Retrieve the CompObj data and validate the file format
+         //
+         CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
+         if (compObj.getFileFormat().equals("MSProject.MPP9") == false)
+         {
+            throw new MPXException (MPXException.INVALID_FILE);
+         }
+
+         //
+         // Retrieve the project directory
+         //
+         DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
+
+         //
+         // Retrieve calendar data
+         //
+         DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
+         VarMeta calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
+         Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
+
+         //
+         // Retrieve task data
+         //
+         DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
+         VarMeta taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
+         Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
+         FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))));
+         FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
+
+         //
+         // Retrieve constraint data
+         //
+         DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
+         FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
+
+         //
+         // Retrieve resource data
+         //
+         DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
+         VarMeta rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
+         Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
+         FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
+         FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
+
+         //
+         // Retrieve resource assignment data
+         //
+         DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
+         FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
+
+         //
+         // Extract the required data from the MPP file
+         //
+         processCalendarData (calVarMeta, calVarData);
+         processResourceData (rscVarMeta, rscVarData, rscFixedMeta, rscFixedData);
+         processTaskData (taskVarMeta, taskVarData, taskFixedMeta, taskFixedData);
+         processConstraintData (consFixedData);
+         processAssignmentData (assnFixedData);
       }
 
-      //
-      // Retrieve the project directory
-      //
-      DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
-
-      //
-      // Retrieve calendar data
-      //
-      DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
-      VarMeta calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
-
-      //
-      // Retrieve task data
-      //
-      DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
-      VarMeta taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
-      Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
-      FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))));
-      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-
-      //
-      // Retrieve constraint data
-      //
-      DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
-      FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
-
-      //
-      // Retrieve resource data
-      //
-      DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
-      VarMeta rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
-      Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
-      FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-
-      //
-      // Retrieve resource assignment data
-      //
-      DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
-      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
-
-      //
-      // Extract the required data from the MPP file
-      //
-      processCalendarData (calVarMeta, calVarData);
-      processResourceData (rscVarMeta, rscVarData, rscFixedMeta, rscFixedData);
-      processTaskData (taskVarMeta, taskVarData, taskFixedMeta, taskFixedData);
-      processConstraintData (consFixedData);
-      processAssignmentData (assnFixedData);
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
    }
 
 
@@ -222,7 +249,7 @@ public class MPPFile extends MPXFile
     * @throws Exception on unexpected file format
     */
    private void processCalendarData (VarMeta calVarMeta, Var2Data calVarData)
-      throws Exception
+      throws MPXException
    {
       Integer[] uniqueid = calVarMeta.getUniqueIdentifiers();
       Integer id;
@@ -244,10 +271,23 @@ public class MPPFile extends MPXFile
       // Configure default time ranges
       //
       SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
-      Date defaultStart1 = df.parse ("08:00");
-      Date defaultEnd1 = df.parse ("12:00");
-      Date defaultStart2 = df.parse ("13:00");
-      Date defaultEnd2 = df.parse ("17:00");
+      Date defaultStart1;
+      Date defaultEnd1;
+      Date defaultStart2;
+      Date defaultEnd2;
+
+      try
+      {
+         defaultStart1 = df.parse ("08:00");
+         defaultEnd1 = df.parse ("12:00");
+         defaultStart2 = df.parse ("13:00");
+         defaultEnd2 = df.parse ("17:00");
+      }
+
+      catch (ParseException ex)
+      {
+         throw new MPXException (MPXException.INVALID_FORMAT, ex);
+      }
 
       for (int loop=0; loop < uniqueid.length; loop++)
       {
@@ -393,7 +433,7 @@ public class MPPFile extends MPXFile
     * @todo we need to strip the RTF formatting from the task note text
     */
    private void processTaskData (VarMeta taskVarMeta, Var2Data taskVarData, FixedMeta taskFixedMeta, FixedData taskFixedData)
-      throws Exception
+      throws MPXException
    {
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
@@ -409,7 +449,7 @@ public class MPPFile extends MPXFile
          offset = (Integer)taskMap.get(id);
          if (offset == null)
          {
-            throw new Exception ("File format error");
+            throw new MPXException (MPXException.INVALID_FILE);
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
@@ -608,7 +648,7 @@ public class MPPFile extends MPXFile
     * @todo we need to strip the RTF formatting from the resource notes text
     */
    private void processResourceData (VarMeta rscVarMeta, Var2Data rscVarData, FixedMeta rscFixedMeta, FixedData rscFixedData)
-      throws Exception
+      throws MPXException
    {
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifiers();
@@ -624,7 +664,7 @@ public class MPPFile extends MPXFile
          offset = (Integer)resourceMap.get(id);
          if (offset == null)
          {
-            throw new Exception ("File format error");
+            throw new MPXException (MPXException.INVALID_FILE);
          }
 
          data = rscFixedData.getByteArrayValue(offset.intValue());
@@ -684,7 +724,7 @@ public class MPPFile extends MPXFile
     * @throws Exception on unexpected file format
     */
    private void processAssignmentData (FixedData assnFixedData)
-      throws Exception
+      throws MPXException
    {
       int count = assnFixedData.getItemCount();
       byte[] data;
