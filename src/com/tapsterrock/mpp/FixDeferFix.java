@@ -67,34 +67,37 @@ final class FixDeferFix extends MPPComponent
             
          int itemSize = MPPUtility.getInt(m_data, offset); 
          offset += 4;         
-            
-         int blockRemainingSize = 28;
-                     
-         if (nextBlockOffset != -1 || itemSize <= blockRemainingSize)
-         {
-            int itemRemainingSize = itemSize;
-            result = new byte[itemSize];
-            int resultOffset = 0;
-                           
-            while (nextBlockOffset != -1)
+         
+         if (itemSize > 0)
+         {   
+            int blockRemainingSize = 28;
+                        
+            if (nextBlockOffset != -1 || itemSize <= blockRemainingSize)
             {
-               MPPUtility.getByteArray (m_data, offset, blockRemainingSize, result, resultOffset);
-               resultOffset += blockRemainingSize;
-               offset += blockRemainingSize;
-               itemRemainingSize -= blockRemainingSize;
-   
-               if (offset != nextBlockOffset)
+               int itemRemainingSize = itemSize;
+               result = new byte[itemSize];
+               int resultOffset = 0;
+                              
+               while (nextBlockOffset != -1)
                {
-                  offset = nextBlockOffset;            
+                  MPPUtility.getByteArray (m_data, offset, blockRemainingSize, result, resultOffset);
+                  resultOffset += blockRemainingSize;
+                  offset += blockRemainingSize;
+                  itemRemainingSize -= blockRemainingSize;
+      
+                  if (offset != nextBlockOffset)
+                  {
+                     offset = nextBlockOffset;            
+                  }
+                              
+                  nextBlockOffset = MPPUtility.getInt(m_data, offset);
+                  offset += 4;
+                  blockRemainingSize = 32;
                }
-                           
-               nextBlockOffset = MPPUtility.getInt(m_data, offset);
-               offset += 4;
-               blockRemainingSize = 32;
+      
+               MPPUtility.getByteArray (m_data, offset, itemRemainingSize, result, resultOffset);                                                             
             }
-   
-            MPPUtility.getByteArray (m_data, offset, itemRemainingSize, result, resultOffset);                                                             
-         }
+         }            
       }
             
       return (result);
