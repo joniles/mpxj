@@ -3,7 +3,7 @@
  * author:     Scott Melville
  *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
- * date:       15/08/2002
+ * date:       15/08/2005
  */
 
 /*
@@ -23,7 +23,7 @@
  */
 
 
-package com.tapsterrock.mpx.test;
+package com.tapsterrock.junit;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,9 +51,9 @@ import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mspdi.MSPDIFile;
 
 /**
- * This class contains a small set of tests to exercise the MPX library.
+ * This class contains a small set of tests to exercise the MPXJ library.
  */
-public class TestMPXFile extends TestCase
+public class MPXJTest extends TestCase
 {
    /**
     * Constructor. Note that the system property mpxj.junit.datadir must
@@ -61,7 +61,7 @@ public class TestMPXFile extends TestCase
     *
     * @param s JUnit test name
     */
-   public TestMPXFile (String s)
+   public MPXJTest (String s)
       throws Exception
    {
       super(s);

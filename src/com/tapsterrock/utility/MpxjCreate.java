@@ -21,6 +21,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+package com.tapsterrock.utility;
+
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.MPXDuration;
@@ -39,7 +41,7 @@ import java.text.SimpleDateFormat;
  * name extension supplied by the user. A .xml extension will generate an
  * MSPDI file, anything else will generate an MPX file.
  */
-public class MpxCreate
+public class MpxjCreate
 {
    /**
     * Main method.

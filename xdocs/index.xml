@@ -47,8 +47,8 @@ created, read, and written.</p>
 <p>The latest release of MPXJ can be downloaded by following
 <a href="http://sourceforge.net/project/showfiles.php?group_id=70649">this link</a>.
 The library is fairly simple to use, and to illustrate this, a
-small number of sample files have been included in the examples
-directory of the distribution.</p>
+small number of sample files have been included in the utility
+source package of the distribution.</p>
 
 <p>The MPP functionality depends on the <a href="http://jakarta.apache.org/poi/" target="_blank">POI</a> library produced by the
 <a href="http://jakarta.apache.org/" target="_blank">Apache Jakarta</a> project. In order to use the MPP functionality the

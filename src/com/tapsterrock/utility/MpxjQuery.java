@@ -21,6 +21,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+package com.tapsterrock.utility;
+
 import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Task;
@@ -36,7 +38,7 @@ import java.util.Date;
  * This example shows an MPP or an MPX file being read, and basic task and resource
  * data being extracted.
  */
-public class MpxQuery
+public class MpxjQuery
 {
    /**
     * Main method.
@@ -132,7 +134,7 @@ public class MpxQuery
       while (iter.hasNext() == true)
       {
          resource = (Resource)iter.next();
-         System.out.println ("Resource: " + resource.getName());
+         System.out.println ("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID()+")");
       }
       System.out.println ();
    }

@@ -1593,7 +1593,9 @@ final class MPP9File
       ResourceAssignment assignment;
       int offset;
       int id;
-
+      int taskID;
+      int resourceID;
+      
       for (int loop=0; loop < count; loop++)
       {
          meta = assnFixedMeta.getByteArrayValue(loop);
@@ -1611,8 +1613,11 @@ final class MPP9File
             continue;
          }
 
-         task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
-         resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
+         taskID = MPPUtility.getInt (data, 4);
+         task = file.getTaskByUniqueID (taskID);
+         
+         resourceID = MPPUtility.getInt (data, 8);
+         resource = file.getResourceByUniqueID (resourceID);
 
          if (task != null && resource != null)
          {
