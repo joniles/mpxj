@@ -34,9 +34,9 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.BaseCalendar;
-import com.tapsterrock.mpx.BaseCalendarException;
-import com.tapsterrock.mpx.BaseCalendarHours;
+import com.tapsterrock.mpx.MPXCalendar;
+import com.tapsterrock.mpx.MPXCalendarException;
+import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.DateTimeSettings;
@@ -201,9 +201,9 @@ final class MPP9File
       
       Integer[] uniqueid = calVarMeta.getUniqueIdentifiers();
       Integer id;
-      BaseCalendar cal;
-      BaseCalendarHours hours;
-      BaseCalendarException exception;
+      MPXCalendar cal;
+      MPXCalendarHours hours;
+      MPXCalendarException exception;
       String name;
       byte[] data;
 
@@ -265,7 +265,7 @@ final class MPP9File
                   cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(index+1) == true)
                   {
-                     hours = cal.addBaseCalendarHours(index+1);
+                     hours = cal.addCalendarHours(index+1);
                      hours.setFromTime1(defaultStart1);
                      hours.setToTime1(defaultEnd1);
                      hours.setFromTime2(defaultStart2);
@@ -282,7 +282,7 @@ final class MPP9File
                   else
                   {
                      cal.setWorkingDay(index+1, true);
-                     hours = cal.addBaseCalendarHours(index+1);
+                     hours = cal.addCalendarHours(index+1);
 
                      start = MPPUtility.getTime (data, offset + 8);
                      duration = MPPUtility.getDuration (data, offset + 20);
@@ -321,7 +321,7 @@ final class MPP9File
                for (index=0; index < exceptionCount; index++)
                {
                   offset = 4 + (60 * 7) + (index * 64);
-                  exception = cal.addBaseCalendarException();
+                  exception = cal.addCalendarException();
                   exception.setFromDate(MPPUtility.getDate (data, offset));
                   exception.setToDate(MPPUtility.getDate (data, offset+2));
 

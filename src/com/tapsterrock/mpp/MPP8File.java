@@ -34,9 +34,9 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.BaseCalendar;
-import com.tapsterrock.mpx.BaseCalendarException;
-import com.tapsterrock.mpx.BaseCalendarHours;
+import com.tapsterrock.mpx.MPXCalendar;
+import com.tapsterrock.mpx.MPXCalendarException;
+import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.DateTimeSettings;
@@ -145,9 +145,9 @@ final class MPP8File
       FixFix calendarFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixFix   0"))));
       FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));      
             
-      BaseCalendar cal;
-      BaseCalendarHours hours;
-      BaseCalendarException exception;
+      MPXCalendar cal;
+      MPXCalendarHours hours;
+      MPXCalendarException exception;
       String name;
       byte[] baseData;
       byte[] extData;
@@ -226,7 +226,7 @@ final class MPP8File
                   cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(index+1) == true)
                   {
-                     hours = cal.addBaseCalendarHours(index+1);
+                     hours = cal.addCalendarHours(index+1);
                      hours.setFromTime1(defaultStart1);
                      hours.setToTime1(defaultEnd1);
                      hours.setFromTime2(defaultStart2);
@@ -243,7 +243,7 @@ final class MPP8File
                   else
                   {
                      cal.setWorkingDay(index+1, true);
-                     hours = cal.addBaseCalendarHours(index+1);
+                     hours = cal.addCalendarHours(index+1);
    
                      start = MPPUtility.getTime (extData, offset + 8);
                      duration = MPPUtility.getDuration (extData, offset + 16);
@@ -278,7 +278,7 @@ final class MPP8File
                for (index=0; index < exceptionCount; index++)
                {
                   offset = 4 + (40 * 7) + (index * 44);
-                  exception = cal.addBaseCalendarException();
+                  exception = cal.addCalendarException();
                   exception.setFromDate(MPPUtility.getDate (extData, offset));
                   exception.setToDate(MPPUtility.getDate (extData, offset+2));
    
@@ -1086,10 +1086,12 @@ final class MPP8File
          file.addTable(table);
          
          extendedData = fdf.getByteArray(getOffset(data, 122));
-         columnData = fdf.getByteArray(getOffset(extendedData, 8));
-         
-         processColumnData (table, columnData);         
-         
+         if (extendedData != null)
+         {
+            columnData = fdf.getByteArray(getOffset(extendedData, 8));         
+            processColumnData (table, columnData);         
+         }
+                  
          //
          // As MPP8 files don't seem to have an explicit flag
          // indicating that a table relates to tasks or resources,

@@ -215,7 +215,7 @@ public final class Resource extends MPXRecord
     * @return ResourceCalendar
     * @throws MPXException if more than one calendar is added
     */
-   public ResourceCalendar addResourceCalendar ()
+   public MPXCalendar addResourceCalendar ()
       throws MPXException
    {
       if (m_calendar != null)
@@ -223,7 +223,7 @@ public final class Resource extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_calendar = new ResourceCalendar(getParentFile());
+      m_calendar = new MPXCalendar(getParentFile(), false);
 
       return (m_calendar);
    }
@@ -236,7 +236,7 @@ public final class Resource extends MPXRecord
     * @return ResourceCalendar
     * @throws MPXException if more than one calendar is added
     */
-   ResourceCalendar addResourceCalendar (Record record)
+   MPXCalendar addResourceCalendar (Record record)
      throws MPXException
    {
       if (m_calendar != null)
@@ -244,7 +244,7 @@ public final class Resource extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_calendar = new ResourceCalendar(getParentFile(), record);
+      m_calendar = new MPXCalendar(getParentFile(), record, false);
 
       return (m_calendar);
    }
@@ -4285,7 +4285,7 @@ public final class Resource extends MPXRecord
    /**
     * Resource calendar for this resource
     */
-   private ResourceCalendar m_calendar;
+   private MPXCalendar m_calendar;
 
    /**
     * Resource notes for this resource.

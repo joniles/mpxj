@@ -36,7 +36,7 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 
 import com.tapsterrock.mpp.MPPFile;
-import com.tapsterrock.mpx.BaseCalendar;
+import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Relation;
@@ -704,7 +704,7 @@ public class TestMPXFile extends TestCase
    {
       MPXFile file = new MPXFile ();
       MPXDuration duration;
-      BaseCalendar cal = file.addDefaultBaseCalendar();  
+      MPXCalendar cal = file.addDefaultBaseCalendar();  
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");      
       Date startDate = df.parse("09/10/2003");
       

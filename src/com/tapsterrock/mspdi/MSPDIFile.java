@@ -24,9 +24,9 @@
 package com.tapsterrock.mspdi;
 
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.BaseCalendar;
-import com.tapsterrock.mpx.BaseCalendarException;
-import com.tapsterrock.mpx.BaseCalendarHours;
+import com.tapsterrock.mpx.MPXCalendar;
+import com.tapsterrock.mpx.MPXCalendarException;
+import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.DateTimeSettings;
@@ -376,7 +376,7 @@ public class MSPDIFile extends MPXFile
    private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map)
       throws MPXException
    {
-      BaseCalendar bc;
+      MPXCalendar bc;
       Iterator iter;
 
       bc = addBaseCalendar();
@@ -404,7 +404,7 @@ public class MSPDIFile extends MPXFile
     * @param day Day data
     * @throws MPXException on file read errors
     */
-   private void readDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readDay (MPXCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
       BigInteger dayType = day.getDayType();
@@ -428,7 +428,7 @@ public class MSPDIFile extends MPXFile
     * @param day Day data
     * @throws MPXException on file read errors
     */
-   private void readNormalDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readNormalDay (MPXCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
       int dayNumber = day.getDayType().intValue() + 1;
@@ -438,7 +438,7 @@ public class MSPDIFile extends MPXFile
       }
 
       calendar.setWorkingDay(dayNumber, day.isDayWorking());
-      BaseCalendarHours hours = calendar.addBaseCalendarHours(dayNumber);
+      MPXCalendarHours hours = calendar.addCalendarHours(dayNumber);
 
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = day.getWorkingTimes();
       if (times != null)
@@ -478,10 +478,10 @@ public class MSPDIFile extends MPXFile
     * @param day Day data
     * @throws MPXException on file read errors
     */
-   private void readExceptionDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readExceptionDay (MPXCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
-      BaseCalendarException exception = calendar.addBaseCalendarException();
+      MPXCalendarException exception = calendar.addCalendarException();
 
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType timePeriod = day.getTimePeriod();
       exception.setFromDate(getDate(timePeriod.getFromDate()));
@@ -1910,14 +1910,14 @@ public class MSPDIFile extends MPXFile
       //
       List list = getBaseCalendars ();
       Iterator iter = list.iterator();
-      BaseCalendar bc;
+      MPXCalendar bc;
       int uid = 0;
       ObjectFactory.createProjectTypeCalendarsTypeCalendarType();
 
       while (iter.hasNext() == true)
       {
          ++uid;
-         bc = (BaseCalendar)iter.next();
+         bc = (MPXCalendar)iter.next();
          map.put(bc.getName(), new Integer (uid));
          calendar.add (writeCalendar (bc, uid));
       }
@@ -1931,7 +1931,7 @@ public class MSPDIFile extends MPXFile
     * @return New MSPDI calendar instance
     * @throws JAXBException on xml creation errors
     */
-   private Project.CalendarsType.CalendarType writeCalendar (BaseCalendar bc, int uid)
+   private Project.CalendarsType.CalendarType writeCalendar (MPXCalendar bc, int uid)
       throws JAXBException
    {
       //
@@ -1956,7 +1956,7 @@ public class MSPDIFile extends MPXFile
       Project.CalendarsType.CalendarType.WeekDaysType days = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysType();
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times;
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType time;
-      BaseCalendarHours bch;
+      MPXCalendarHours bch;
       List timesList;
 
       calendar.setWeekDays (days);
@@ -1987,7 +1987,7 @@ public class MSPDIFile extends MPXFile
             day.setWorkingTimes(times);
             timesList = times.getWorkingTime();
 
-            bch = bc.getBaseCalendarHours (loop);
+            bch = bc.getCalendarHours (loop);
             if (bch != null)
             {
                time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
@@ -2014,14 +2014,14 @@ public class MSPDIFile extends MPXFile
       //
       // Create a list of exceptions
       //
-      List exceptions = bc.getBaseCalendarExceptions ();
+      List exceptions = bc.getCalendarExceptions ();
       Iterator iter = exceptions.iterator();
-      BaseCalendarException exception;
+      MPXCalendarException exception;
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType period;
 
       while (iter.hasNext() == true)
       {
-         exception = (BaseCalendarException)iter.next();
+         exception = (MPXCalendarException)iter.next();
          working = exception.getWorkingValue();
 
          day = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();

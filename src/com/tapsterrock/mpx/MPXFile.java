@@ -366,11 +366,11 @@ public class MPXFile
             break;
          }
 
-         case BaseCalendar.RECORD_NUMBER:
+         case MPXCalendar.BASE_CALENDAR_RECORD_NUMBER:
          {
             if (m_baseCalendars.size() < MAX_BASE_CALENDARS)
             {
-               m_lastBaseCalendar = new BaseCalendar (this, record);
+               m_lastBaseCalendar = new MPXCalendar (this, record, true);
                current = m_lastBaseCalendar;
                m_records.add (current);
                m_baseCalendars.add (current);
@@ -378,20 +378,20 @@ public class MPXFile
             break;
          }
 
-         case BaseCalendarHours.RECORD_NUMBER:
+         case MPXCalendarHours.BASE_CALENDAR_HOURS_RECORD_NUMBER:
          {
             if (m_lastBaseCalendar != null)
             {
-               current = m_lastBaseCalendar.addBaseCalendarHours (record);
+               current = m_lastBaseCalendar.addCalendarHours (record);
             }
             break;
          }
 
-         case BaseCalendarException.RECORD_NUMBER:
+         case MPXCalendarException.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER:
          {
             if (m_lastBaseCalendar != null)
             {
-               current = m_lastBaseCalendar.addBaseCalendarException (record);
+               current = m_lastBaseCalendar.addCalendarException (record);
             }
             break;
          }
@@ -447,7 +447,7 @@ public class MPXFile
             break;
          }
 
-         case ResourceCalendar.RECORD_NUMBER:
+         case MPXCalendar.RESOURCE_CALENDAR_RECORD_NUMBER:
          {
             if (m_lastResource != null)
             {
@@ -457,20 +457,20 @@ public class MPXFile
             break;
          }
 
-         case ResourceCalendarHours.RECORD_NUMBER:
+         case MPXCalendarHours.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER:
          {
             if (m_lastResourceCalendar != null)
             {
-               current = m_lastResourceCalendar.addResourceCalendarHours (record);
+               current = m_lastResourceCalendar.addCalendarHours (record);
             }
             break;
          }
 
-         case ResourceCalendarException.RECORD_NUMBER:
+         case MPXCalendarException.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER:
          {
             if (m_lastResourceCalendar != null)
             {
-               current = m_lastResourceCalendar.addResourceCalendarException (record);
+               current = m_lastResourceCalendar.addCalendarException (record);
             }
             break;
          }
@@ -951,10 +951,10 @@ public class MPXFile
     * @return new base calendar object
     * @throws MPXException normally thrown on parse errors
     */
-   public BaseCalendar addBaseCalendar ()
+   public MPXCalendar addBaseCalendar ()
       throws MPXException
    {
-      return ((BaseCalendar)add(BaseCalendar.RECORD_NUMBER));
+      return ((MPXCalendar)add(MPXCalendar.BASE_CALENDAR_RECORD_NUMBER));
    }
 
    /**
@@ -965,10 +965,10 @@ public class MPXFile
     * @return a new default base calendar
     * @throws MPXException normally thrown when a parse error occurs
     */
-   public BaseCalendar addDefaultBaseCalendar ()
+   public MPXCalendar addDefaultBaseCalendar ()
       throws MPXException
    {
-      BaseCalendar calendar = (BaseCalendar)add(BaseCalendar.RECORD_NUMBER);
+      MPXCalendar calendar = (MPXCalendar)add(MPXCalendar.BASE_CALENDAR_RECORD_NUMBER);
 
       calendar.setName("Standard");
 
@@ -980,7 +980,7 @@ public class MPXFile
       calendar.setWorkingDay(6, true);
       calendar.setWorkingDay(7, false);
 
-      calendar.addDefaultBaseCalendarHours ();
+      calendar.addDefaultCalendarHours ();
 
       return (calendar);
    }
@@ -1082,15 +1082,15 @@ public class MPXFile
     * @param calendarName name of the required base calendar
     * @return base calendar object
     */
-   public BaseCalendar getBaseCalendar (String calendarName)
+   public MPXCalendar getBaseCalendar (String calendarName)
    {
-      BaseCalendar calendar = null;
+      MPXCalendar calendar = null;
       String name;
       Iterator iter = m_baseCalendars.iterator();
 
       while (iter.hasNext() == true)
       {
-         calendar = (BaseCalendar)iter.next();
+         calendar = (MPXCalendar)iter.next();
          name = calendar.getName();
 
          if (name != null && name.equalsIgnoreCase(calendarName) == true)
@@ -1277,7 +1277,7 @@ public class MPXFile
    public MPXDuration getDuration (String calendarName, Date startDate, Date endDate)
       throws MPXException
    {
-      BaseCalendar calendar = getBaseCalendar(calendarName);
+      MPXCalendar calendar = getBaseCalendar(calendarName);
       if (calendar == null)
       {
          throw new MPXException (MPXException.CALENDAR_ERROR + ": " + calendarName);
@@ -1603,7 +1603,7 @@ public class MPXFile
    /**
     * Reference to the last resource calendar added to the file.
     */
-   private ResourceCalendar m_lastResourceCalendar = null;
+   private MPXCalendar m_lastResourceCalendar = null;
 
    /**
     * Reference to the last resource assignment added to the file.
@@ -1613,7 +1613,7 @@ public class MPXFile
    /**
     * Reference to the last base calendar added to the file.
     */
-   private BaseCalendar m_lastBaseCalendar = null;
+   private MPXCalendar m_lastBaseCalendar = null;
 
    /**
     * Flag indicating the existence of a resource model record.
