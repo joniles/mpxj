@@ -1,5 +1,7 @@
 Version 0.0.16
 Fixed bug causing some extended boolean attributes to be read incorrectly.
+Fixed bug causing MPP8 file task data to be read incorrectly under certain circumstances.
+Updated calendar duration code to account for calendar exceptions.
 
 Version 0.0.15
 Fixed a bug causing resource assignments to be duplicated in an MPX file created programatically.
