@@ -112,25 +112,25 @@ final class MPP9File
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
       DateTimeSettings dts = file.getDateTimeSettings();
-      dts.setDefaultStartTime(props.getTime(Props9.START_TIME));
-      dts.setDefaultEndTime(props.getTime(Props9.END_TIME));
+      dts.setDefaultStartTime(props.getTime(Props.START_TIME));
+      dts.setDefaultEndTime(props.getTime(Props.END_TIME));
 
       DefaultSettings ds = file.getDefaultSettings();
       //ds.setDefaultDurationIsFixed();
-      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props9.DURATION_UNITS)));
-      ds.setDefaultHoursInDay(((float)props.getInt(Props9.HOURS_PER_DAY))/60);
-      ds.setDefaultHoursInWeek(((float)props.getInt(Props9.HOURS_PER_WEEK))/60);
-      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props9.OVERTIME_RATE), TimeUnit.HOURS));
-      ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props9.STANDARD_RATE), TimeUnit.HOURS));
-      ds.setDefaultWorkUnits(MPPUtility.getWorkUnits(props.getShort(Props9.WORK_UNITS)));
-      ds.setSplitInProgressTasks(props.getBoolean(Props9.SPLIT_TASKS));
-      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props9.TASK_UPDATES_RESOURCE));
+      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props.DURATION_UNITS)));
+      ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
+      ds.setDefaultHoursInWeek(((float)props.getInt(Props.HOURS_PER_WEEK))/60);
+      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
+      ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
+      ds.setDefaultWorkUnits(MPPUtility.getWorkUnits(props.getShort(Props.WORK_UNITS)));
+      ds.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
+      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
       CurrencySettings cs = file.getCurrencySettings();
-      cs.setCurrencyDigits(props.getShort(Props9.CURRENCY_DIGITS));
-      cs.setCurrencySymbol(props.getUnicodeString(Props9.CURRENCY_SYMBOL));
+      cs.setCurrencyDigits(props.getShort(Props.CURRENCY_DIGITS));
+      cs.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
       //cs.setDecimalSeparator();
-      cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props9.CURRENCY_PLACEMENT)));
+      cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //cs.setThousandsSeparator();
    }
 
