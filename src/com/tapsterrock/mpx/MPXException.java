@@ -129,4 +129,10 @@ public class MPXException extends Exception
     * Invalid outline error message.
     */
    public static final String INVALID_OUTLINE = "Invalid outline level";
+
+   /**
+    * Invalid format error message.
+    */
+   public static final String INVALID_FORMAT = "Invalid format";
+
 }

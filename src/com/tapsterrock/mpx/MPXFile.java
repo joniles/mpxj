@@ -420,12 +420,12 @@ public class MPXFile
 
          case Task.RECORD_NUMBER:
          {
-            if (m_totalTaskCount < MAX_TASKS)
+            if (m_allTasks.size() < MAX_TASKS)
             {
-               ++m_totalTaskCount;
                m_lastTask = new Task(this, record);
                current = m_lastTask;
                m_records.add (current);
+               m_allTasks.add (current);
 
                Integer outlineLevel = m_lastTask.getOutlineLevel();
 
@@ -537,13 +537,13 @@ public class MPXFile
    void addTask (Task task)
       throws MPXException
    {
-      if (m_totalTaskCount == MAX_TASKS)
+      if (m_allTasks.size() == MAX_TASKS)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ++ m_totalTaskCount;
       m_records.add (task);
+      m_allTasks.add (task);
    }
 
    /**
@@ -1070,6 +1070,61 @@ public class MPXFile
       return (calendar.getDuration (startDate, endDate));
    }
 
+   /**
+    * This method allows an arbitrary task to be retrieved based
+    * on its ID field.
+    *
+    * @param id task identified
+    * @return the requested task, or null if not found
+    */
+   public Task getTaskByID (int id)
+   {
+      Task result = null;
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      Integer taskID;
+
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         taskID = task.getID();
+         if (taskID != null && taskID.intValue() == id)
+         {
+            result = task;
+            break;
+         }
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method allows an arbitrary task to be retrieved based
+    * on its UniqueID field.
+    *
+    * @param id task identified
+    * @return the requested task, or null if not found
+    */
+   public Task getTaskByUniqueID (int id)
+   {
+      Task result = null;
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      Integer taskID;
+
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         taskID = task.getUniqueID();
+         if (taskID != null && taskID.intValue() == id)
+         {
+            result = task;
+            break;
+         }
+      }
+
+      return (result);
+   }
 
    /**
     * Constant containing the end of line characters used in MPX files.
@@ -1101,6 +1156,12 @@ public class MPXFile
     * List to maintain records in the order that they are added.
     */
    private LinkedList m_records = new LinkedList();
+
+   /**
+    * This list holds a reference to all tasks defined in the
+    * MPX file.
+    */
+   private LinkedList m_allTasks = new LinkedList ();
 
    /**
     * List holding references to the top level tasks
@@ -1207,11 +1268,6 @@ public class MPXFile
     * Flag indicating the existence of a task model record.
     */
    private boolean m_taskTableDefinition = false;
-
-   /**
-    * Count of the number of tasks.
-    */
-   private int m_totalTaskCount = 0;
 
    /**
     * Count of the number of project names.

@@ -105,8 +105,17 @@ public class Task extends MPXRecord
          x = ((Integer)mod.next()).intValue();
          field = record.getString(i++);
 
-         switch(x)
+         switch (x)
          {
+            case PREDECESSORS:
+            case SUCCESSORS:
+            case UNIQUE_ID_PREDECESSORS:
+            case UNIQUE_ID_SUCCESSORS:
+            {
+               set (x, new RelationList (field));
+               break;
+            }
+
             case PERCENTAGE_COMPLETE:
             case PERCENTAGE_WORK_COMPLETE:
             {
@@ -440,6 +449,162 @@ public class Task extends MPXRecord
       m_assignments.add(tra);
 
       return (tra);
+   }
+
+   /**
+    * This method allows a predecessor relationship to be added to this
+    * task instance.
+    *
+    * @return relationship
+    */
+   public Relation addPredecessor ()
+   {
+      return (addPredecessor (null));
+   }
+
+   /**
+    * This method allows a predecessor relationship to be added to this
+    * task instance.
+    *
+    * @param task the predecessor task
+    * @return relationship
+    */
+   public Relation addPredecessor (Task task)
+   {
+      RelationList list = (RelationList)get(PREDECESSORS);
+      if (list == null)
+      {
+         list = new RelationList ();
+         set (PREDECESSORS, list);
+      }
+
+      Relation rel = new Relation ();
+
+      if (task != null)
+      {
+         rel.setID(task.getID().intValue());
+      }
+
+      list.add (rel);
+
+      return (rel);
+   }
+
+   /**
+    * This method allows a predecessor relationship to be added to this
+    * task instance.
+    *
+    * @return relationship
+    */
+   public Relation addUniqueIdPredecessor ()
+   {
+      return (addUniqueIdPredecessor(null));
+   }
+
+   /**
+    * This method allows a predecessor relationship to be added to this
+    * task instance.
+    *
+    * @param task the predecessor task
+    * @return relationship
+    */
+   public Relation addUniqueIdPredecessor (Task task)
+   {
+      RelationList list = (RelationList)get(UNIQUE_ID_PREDECESSORS);
+      if (list == null)
+      {
+         list = new RelationList ();
+         set (UNIQUE_ID_PREDECESSORS, list);
+      }
+
+      Relation rel = new Relation ();
+
+      if (task != null)
+      {
+         rel.setID(task.getUniqueID().intValue());
+      }
+
+      list.add (rel);
+
+      return (rel);
+   }
+
+   /**
+    * This method allows a successor relationship to be added to this
+    * task instance.
+    *
+    * @return relationship
+    */
+   public Relation addSuccessor ()
+   {
+      return (addSuccessor(null));
+   }
+
+   /**
+    * This method allows a successor relationship to be added to this
+    * task instance.
+    *
+    * @param task the successor task
+    * @return relationship
+    */
+   public Relation addSuccessor (Task task)
+   {
+      RelationList list = (RelationList)get(SUCCESSORS);
+      if (list == null)
+      {
+         list = new RelationList ();
+         set (SUCCESSORS, list);
+      }
+
+      Relation rel = new Relation ();
+
+      if (task != null)
+      {
+         rel.setID(task.getID().intValue());
+      }
+
+      list.add (rel);
+
+      return (rel);
+   }
+
+   /**
+    * This method allows a successor relationship to be added to this
+    * task instance.
+    *
+    * @return relationship
+    */
+   public Relation addUniqueIdSuccessor ()
+   {
+      return (addUniqueIdSuccessor(null));
+   }
+
+   /**
+    * This method allows a successor relationship to be added to this
+    * task instance.
+    *
+    * @param task the successor task
+    * @return relationship
+    */
+   public Relation addUniqueIdSuccessor (Task task)
+   {
+      RelationList list = (RelationList)get(UNIQUE_ID_SUCCESSORS);
+      if (list == null)
+      {
+         list = new RelationList ();
+         set (UNIQUE_ID_SUCCESSORS, list);
+      }
+
+      Relation rel = new Relation ();
+
+      if (task != null)
+      {
+         rel.setID(task.getUniqueID().intValue());
+      }
+
+      list.add (rel);
+
+      return (rel);
    }
 
    /**
@@ -1172,7 +1337,7 @@ public class Task extends MPXRecord
     * automatically assigns to each task as you add it to the project.
     * The ID indicates the position of a task with respect to the other tasks.
     *
-    * @param new ID
+    * @param val ID
     */
    public void setID (Integer val)
    {
@@ -1358,11 +1523,11 @@ public class Task extends MPXRecord
     * dependency
     * and a lead time or lag time.
     *
-    * @param val - list
+    * @param list list of relationships
     */
-   public void setPredecessors (String val)
+   public void setPredecessors (RelationList list)
    {
-      set (PREDECESSORS, val);
+      set (PREDECESSORS, list);
    }
 
    /**
@@ -1620,13 +1785,11 @@ public class Task extends MPXRecord
     * Each successor is linked to the task by a specific type of task dependency
     * and a lead time or lag time.
     *
-    * @param val - text list
-    *
-    * @todo manage lists
+    * @param list list of relationships
     */
-   public void setSuccessors (String val)
+   public void setSuccessors (RelationList list)
    {
-      set (SUCCESSORS, val);
+      set (SUCCESSORS, list);
    }
 
 
@@ -1779,7 +1942,7 @@ public class Task extends MPXRecord
     * This number indicates the sequence in which the task was created,
     * regardless of placement in the schedule.
     *
-    * @param the unique ID
+    * @param val unique ID
     */
    public void setUniqueID (Integer val)
    {
@@ -1794,11 +1957,11 @@ public class Task extends MPXRecord
     * task dependency
     * and a lead time or lag time.
     *
-    * @param val - String list
+    * @param list list of relationships
     */
-   public void setUniqueIDPredecessors (String val)
+   public void setUniqueIDPredecessors (RelationList list)
    {
-      set (UNIQUE_ID_PREDECESSORS, val);
+      set (UNIQUE_ID_PREDECESSORS, list);
    }
 
    /**
@@ -1807,11 +1970,11 @@ public class Task extends MPXRecord
     * or finish. Each successor is linked to the task by a specific type of task
     * dependency and a lead time or lag time.
     *
-    * @param val - String list
+    * @param list list of relationships
     */
-   public void setUniqueIDSuccessors (String val)
+   public void setUniqueIDSuccessors (RelationList list)
    {
-      set (UNIQUE_ID_SUCCESSORS, val);
+      set (UNIQUE_ID_SUCCESSORS, list);
    }
 
    /**
@@ -2727,9 +2890,9 @@ public class Task extends MPXRecord
     *
     * @return - String
     */
-   public String getPredecessors ()
+   public RelationList getPredecessors ()
    {
-      return ((String)get(PREDECESSORS));
+      return ((RelationList)get(PREDECESSORS));
    }
 
    /**
@@ -2991,9 +3154,9 @@ public class Task extends MPXRecord
     *
     * @return - String list
     */
-   public String getSuccessors ()
+   public RelationList getSuccessors ()
    {
-      return ((String)get(SUCCESSORS));
+      return ((RelationList)get(SUCCESSORS));
    }
 
    /**
@@ -3161,9 +3324,9 @@ public class Task extends MPXRecord
     *
     * @return - list of predecessor UniqueIDs
     */
-   public String getUniqueIDPredecessors ()
+   public RelationList getUniqueIDPredecessors ()
    {
-      return ((String)get(UNIQUE_ID_PREDECESSORS));
+      return ((RelationList)get(UNIQUE_ID_PREDECESSORS));
    }
 
    /**
@@ -3174,9 +3337,9 @@ public class Task extends MPXRecord
     *
     * @return - list of predecessor UniqueIDs
     */
-   public String getUniqueIDSuccessors ()
+   public RelationList getUniqueIDSuccessors ()
    {
-      return ((String)get(UNIQUE_ID_SUCCESSORS));
+      return ((RelationList)get(UNIQUE_ID_SUCCESSORS));
    }
 
    /**
