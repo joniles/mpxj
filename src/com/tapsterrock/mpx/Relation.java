@@ -23,6 +23,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 
 /**
  * This class represents the relationship between two tasks. These
@@ -49,7 +51,7 @@ public final class Relation
     * @param format expected format of duration component of the string
     * @throws MPXException normally indicating that parsing the string has failed
     */
-   Relation (String relationship, MPXNumberFormat format)
+   Relation (String relationship, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
       int index = 0;
@@ -152,7 +154,7 @@ public final class Relation
             {
                ++index;
             }
-            m_duration = new MPXDuration (relationship.substring(index), format);
+            m_duration = new MPXDuration (relationship.substring(index), format, locale);
          }
       }
    }

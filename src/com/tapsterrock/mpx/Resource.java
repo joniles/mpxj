@@ -115,7 +115,7 @@ public final class Resource extends MPXRecord
             case OVERTIME_RATE:
             case STANDARD_RATE:
             {
-               set (x, new MPXRate(getParentFile().getCurrencyFormat(), field));
+               set (x, new MPXRate(getParentFile().getCurrencyFormat(), field, getParentFile().getLocale()));
                break;
             }
 
@@ -126,7 +126,7 @@ public final class Resource extends MPXRecord
             case WORK:
             case WORK_VARIANCE:
             {
-               set (x, new MPXDuration (field, getParentFile().getDurationDecimalFormat()));
+               set (x, new MPXDuration (field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
                break;
             }
 

@@ -24,6 +24,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 
 /**
  * This class is used to represent the content of the currency options
@@ -39,15 +41,25 @@ public final class CurrencySettings extends MPXRecord
    CurrencySettings (MPXFile file)
    {
       super (file, MAX_FIELDS);
+      setLocale (file.getLocale());
+   }
 
+   /**
+    * This method is calkled when the locale of the parent file is updated.
+    * It resets the locale specific currency attributes to the default values
+    * for the new locale.
+    *
+    * @param locale new locale
+    */
+   void setLocale (Locale locale)
+   {
       m_update = false;
-      setCurrencySymbol("$");
-      setSymbolPosition(1);
-      setCurrencyDigits(2);
-      setThousandsSeparator(',');
-      setDecimalSeparator('.');
+      setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
+      setSymbolPosition(LocaleData.getInteger(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
+      setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
+      setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
+      setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
       m_update = true;
-
       updateFormats ();
    }
 

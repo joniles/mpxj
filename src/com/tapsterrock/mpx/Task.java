@@ -119,7 +119,7 @@ public final class Task extends MPXRecord implements Comparable
             case UNIQUE_ID_PREDECESSORS:
             case UNIQUE_ID_SUCCESSORS:
             {
-               set (x, new RelationList (field, getParentFile().getDurationDecimalFormat()));
+               set (x, new RelationList (field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
                break;
             }
 
@@ -167,7 +167,7 @@ public final class Task extends MPXRecord implements Comparable
             case WORK_VARIANCE:
             case DELAY:
             {
-               set(x,new MPXDuration(field, getParentFile().getDurationDecimalFormat()));
+               set(x,new MPXDuration(field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
                break;
             }
 
@@ -247,7 +247,7 @@ public final class Task extends MPXRecord implements Comparable
             case NUMBER4:
             case NUMBER5:
             {
-               set (x, Double.valueOf(field));
+               set (x, getParentFile().getDecimalFormat().parse(field));
                break;
             }
 

@@ -37,6 +37,18 @@ import java.util.Locale;
 final class MPXDateFormat implements Serializable
 {
    /**
+    * This method is calkled when the locale of the parent file is updated.
+    * It resets the locale specific currency attributes to the default values
+    * for the new locale.
+    *
+    * @param locale new locale
+    */
+   void setLocale (Locale locale)
+   {
+      m_format = new SimpleDateFormat (m_format.toPattern(), locale);
+   }
+
+   /**
     * This method is used to configure the format pattern.
     *
     * @param pattern new format pattern

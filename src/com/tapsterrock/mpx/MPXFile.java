@@ -24,21 +24,21 @@
 
 package com.tapsterrock.mpx;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
-
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Collections;
+import java.util.Locale;
 
 /**
  * This class encapsulates all functionality relating to creating, read
@@ -104,6 +104,7 @@ public class MPXFile
       m_taskUniqueID = file.m_taskUniqueID;
       m_calendarUniqueID = file.m_calendarUniqueID;
       m_timeFormat = file.m_timeFormat;
+      m_locale = file.m_locale;
    }
 
    /**
@@ -1704,6 +1705,40 @@ public class MPXFile
    }
 
    /**
+    * This method returns the locale used by this MPX file.
+    *
+    * @return current locale
+    */
+   public Locale getLocale ()
+   {
+      return (m_locale);
+   }
+
+   /**
+    * Locale used for this MPX file. Defaults to English.
+    */
+   private Locale m_locale = Locale.ENGLISH;
+
+   /**
+    * This method sets the locale to be used by this MPX file.
+    *
+    * @param locale locale to be used
+    */
+   public void setLocale (Locale locale)
+   {
+      m_locale = locale;
+
+      m_delimiter = LocaleData.getChar(m_locale, LocaleData.FILE_DELIMITER);
+      m_thousandsSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR);
+      m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
+      m_fileCreationRecord.setLocale(locale);
+      m_currencySettings.setLocale(locale);
+      m_dateTimeSettings.setLocale(locale);
+      m_dateFormat.setLocale(locale);
+      m_taskModel.setLocale(locale);
+   }
+
+   /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
     */
@@ -1867,7 +1902,7 @@ public class MPXFile
    /**
     * Character to be used as delimiter throughout this file.
     */
-   private char m_delimiter = ',';
+   private char m_delimiter = LocaleData.getChar(m_locale, LocaleData.FILE_DELIMITER);
 
    /**
     * Indicating whether WBS value should be calculated on creation, or will
@@ -1947,14 +1982,14 @@ public class MPXFile
     * value appears as part of the CurrencySettings, it is in fact a global
     * setting, which is why this attribute is defined here.
     */
-   private char m_thousandsSeparator = ',';
+   private char m_thousandsSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR);
 
    /**
     * Default decimal separator character. Despite the fact that this
     * value appears as part of the CurrencySettings, it is in fact a global
     * setting, which is why this attribute is defined here.
     */
-   private char m_decimalSeparator = '.';
+   private char m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
 
    /**
     * Number format used for writing decimal values.

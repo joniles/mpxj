@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
@@ -157,6 +158,74 @@ public class TestMPXFile extends TestCase
          if (out != null && success == true)
          {
             out.delete();
+         }
+      }
+   }
+
+   /**
+    * Test German localisation
+    *
+    * @throws Exception
+    */
+   public void testRewrite4 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample.mpx");
+         MPXFile mpx = new MPXFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.setLocale(Locale.GERMAN);
+         mpx.write (out);
+
+         mpx = new MPXFile ();
+         mpx.setLocale(Locale.GERMAN);
+         mpx.read(out);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   /**
+    * Test Swedish localisation.
+    *
+    * @throws Exception
+    */
+   public void testRewrite5 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         Locale swedish = new Locale ("sv");
+
+         File in = new File (m_basedir + "/sample.mpx");
+         MPXFile mpx = new MPXFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.setLocale(swedish);
+         mpx.write (out);
+
+         mpx = new MPXFile ();
+         mpx.setLocale(swedish);
+         mpx.read(out);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            //out.delete();
          }
       }
    }
@@ -367,7 +436,7 @@ public class TestMPXFile extends TestCase
     * jhas been designed to exercise bug 896189, which was exhibited
     * when an MSPDI file was generated from an MPX file which did not
     * have the same set of attributes as a native MPP file.
-    * 
+    *
     * @throws Exception
     */
    public void testConversion4 ()
@@ -381,7 +450,7 @@ public class TestMPXFile extends TestCase
          MPPFile mpp = new MPPFile (in);
          out = File.createTempFile ("junit", ".mpx");
          mpp.write (out);
-         
+
          MPXFile mpx = new MPXFile (out);
          out.delete();
          MSPDIFile mspdi = new MSPDIFile (mpx);

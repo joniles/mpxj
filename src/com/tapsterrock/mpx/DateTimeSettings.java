@@ -26,6 +26,7 @@ package com.tapsterrock.mpx;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -42,20 +43,29 @@ public final class DateTimeSettings extends MPXRecord
    DateTimeSettings (MPXFile file)
    {
       super(file, MAX_FIELDS);
+      setLocale (file.getLocale());
+   }
 
+   /**
+    * This method is calkled when the locale of the parent file is updated.
+    * It resets the locale specific currency attributes to the default values
+    * for the new locale.
+    *
+    * @param locale new locale
+    */
+   void setLocale (Locale locale)
+   {
       m_update = false;
-      setDateOrder(DATE_ORDER_DMY);
-      setTimeFormat(TIME_FORMAT_12HR);
-      setDefaultStartTime (480);
-      setDateSeparator('/');
-      setTimeSeparator(':');
-      setAMText("am");
-      setPMText("pm");
-      setDateFormat(DATE_TIME_FORMAT_DD_MM_YYYY);
-      setBarTextDateFormat(0);
-
+      setDateOrder(LocaleData.getInteger(locale, LocaleData.DATE_ORDER));
+      setTimeFormat(LocaleData.getInteger(locale, LocaleData.TIME_FORMAT));
+      setDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
+      setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
+      setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
+      setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
+      setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
+      setDateFormat(LocaleData.getInteger(locale, LocaleData.DATE_FORMAT));
+      setBarTextDateFormat(LocaleData.getInteger(locale, LocaleData.TIME_FORMAT));
       m_update = true;
-
       updateFormats ();
    }
 

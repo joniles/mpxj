@@ -23,8 +23,9 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
 
 /**
  * This class represents a list of relationships between tasks.
@@ -47,7 +48,7 @@ public final class RelationList
     * @param format expected format of duration component of each relation string
     * @throws MPXException nroamlly thrown on parse errors
     */
-   RelationList (String data, MPXNumberFormat format)
+   RelationList (String data, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
       int length = data.length();
@@ -65,7 +66,7 @@ public final class RelationList
                end = length;
             }
 
-            m_list.add (new Relation (data.substring(start, end), format));
+            m_list.add (new Relation (data.substring(start, end), format, locale));
 
             start = end + 1;
          }

@@ -65,7 +65,14 @@ class MPXRecord
       {
          if (o instanceof Boolean == true)
          {
-            result = ((Boolean)o).booleanValue() == true ? "Yes" : "No";
+            if (((Boolean)o).booleanValue() == true)
+            {
+               result = LocaleData.getString(m_mpx.getLocale(), LocaleData.YES);
+            }
+            else
+            {
+               result = LocaleData.getString(m_mpx.getLocale(), LocaleData.NO);
+            }
          }
          else
          {
@@ -77,13 +84,13 @@ class MPXRecord
             {
                if (o instanceof MPXRate == true)
                {
-                  result = ((MPXRate)o).toString(m_mpx.getCurrencyFormat());
+                  result = ((MPXRate)o).toString(m_mpx.getCurrencyFormat(), m_mpx.getLocale());
                }
                else
                {
                   if (o instanceof MPXDuration == true)
                   {
-                     result = ((MPXDuration)o).toString(m_mpx.getDurationDecimalFormat());
+                     result = ((MPXDuration)o).toString(m_mpx.getDurationDecimalFormat(), m_mpx.getLocale());
                   }
                   else
                   {

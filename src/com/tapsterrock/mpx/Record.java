@@ -274,7 +274,7 @@ final class Record
 
       if (field < m_fields.length && m_fields[field].length() != 0)
       {
-         result = new MPXRate (m_parent.getCurrencyFormat(), m_fields[field]);
+         result = new MPXRate (m_parent.getCurrencyFormat(), m_fields[field], m_parent.getLocale());
       }
       else
       {
@@ -352,7 +352,7 @@ final class Record
 
       if (field < m_fields.length && m_fields[field].length() != 0)
       {
-         result = new MPXDuration (m_fields[field], m_parent.getDurationDecimalFormat());
+         result = new MPXDuration (m_fields[field], m_parent.getDurationDecimalFormat(), m_parent.getLocale());
       }
       else
       {

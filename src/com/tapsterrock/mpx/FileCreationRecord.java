@@ -24,6 +24,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 /**
  * This class represents the first record to appear in an MPX file. This record
  * identifies the file type, version number, originating software and the
@@ -40,10 +42,22 @@ public final class FileCreationRecord extends MPXRecord
    {
       super (file, 0);
 
-      setDelimiter(',');
-      setProgramName("Microsoft Project for Windows");
-      setFileVersion("4.0");
-      setCodePage("ANSI");
+      setLocale (file.getLocale());
+   }
+
+   /**
+    * This method is calkled when the locale of the parent file is updated.
+    * It resets the locale specific currency attributes to the default values
+    * for the new locale.
+    *
+    * @param locale new locale
+    */
+   void setLocale (Locale locale)
+   {
+      setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
+      setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
+      setFileVersion(LocaleData.getString(locale, LocaleData.FILE_VERSION));
+      setCodePage(LocaleData.getString(locale, LocaleData.CODE_PAGE));
    }
 
    /**

@@ -25,6 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * This class represents the task table definition record in an MPX file.
@@ -42,8 +43,30 @@ final class TaskModel extends MPXRecord
    TaskModel (MPXFile file)
    {
       super(file, 0);
+      setLocale(file.getLocale());
    }
 
+   /**
+    * This method is used to update the locale specific data used by this class.
+    * 
+    * @param locale
+    */
+   void setLocale (Locale locale)
+   {
+      m_taskNames = LocaleData.getStringArray(locale, LocaleData.TASK_NAMES);
+      
+      String name;
+   
+      for (int loop=0; loop < m_taskNames.length; loop++)
+      {
+         name = m_taskNames[loop];
+         if (name != null)
+         {
+            m_taskNumbers.put(name, new Integer (loop));
+         }            
+      }        
+   }
+   
    /**
     * This method is used to retrieve a linked list of field identifiers
     * indicating the fields present in a task record.
@@ -71,7 +94,7 @@ final class TaskModel extends MPXRecord
       {
          if (isText == true)
          {
-            add (Integer.parseInt(getTaskCode (record.getString (i))));
+            add (getTaskCode (record.getString (i)));
          }
          else
          {
@@ -165,9 +188,16 @@ final class TaskModel extends MPXRecord
     * @param key - the code no of required Task field
     * @return - field name
     */
-   public static String getTaskField (int key)
+   private String getTaskField (int key)
    {
-      return ((String)TASK_NAME.get(Integer.toString(key)));
+      String result = null;
+      
+      if (key > 0 && key < m_taskNames.length)
+      {
+         result = m_taskNames[key];  
+      }
+      
+      return (result);
    }
 
    /**
@@ -176,17 +206,17 @@ final class TaskModel extends MPXRecord
     * @param field - name
     * @return - code no
     */
-   public static String getTaskCode (String field)
+   private int getTaskCode (String field)
       throws MPXException
    {
-      String result = (String)TASK_NUMBER.get(field);
+      Integer result = (Integer)m_taskNumbers.get(field);
 
       if (result == null)
       {
          throw new MPXException (MPXException.INVALID_TASK_FIELD_NAME + " " + field);
       }
 
-      return (result);
+      return (result.intValue());
    }
 
    /**
@@ -211,70 +241,14 @@ final class TaskModel extends MPXRecord
    private int m_count;
 
    /**
-    * Array of task field numbers corresponding to the task field names.
+    * Array of task names, indexed by ID
     */
-   private static final String[] TASK_KEYS =
-   {
-      "44", "25", "32", "42", "59", "58", "22", "31", "41", "57",
-      "56", "21", "86", "85", "135", "68", "91", "15", "30", "36",
-      "37", "38", "34", "125", "82", "88", "92", "40", "46", "47",
-      "48", "45", "53", "52", "51", "61", "63", "65", "127", "129",
-      "67", "80", "35", "110", "111", "112", "113", "114", "115", "116",
-      "117", "118", "119", "93", "123", "90", "55", "54", "122", "83",
-      "81", "1", "14", "140", "141", "142", "143", "144", "121", "3",
-      "99", "70", "95", "97", "33", "43", "23", "16", "73", "72",
-      "152", "151", "84", "50", "60", "62", "64", "126", "128", "66",
-      "150", "96", "71", "120", "87", "4", "5", "6", "7", "8",
-      "9", "10", "11", "12", "13", "94", "98", "74", "75", "136",
-      "2", "20", "24"
-   };
-
-   /**
-    * Array of task field names corresponding to the task field numbers.
-    */
-   private static final String[] TASK_NAMES =
-   {
-      "% Complete", "% Work Complete", "Actual Cost", "Actual Duration",
-      "Actual Finish", "Actual Start", "Actual Work", "Baseline Cost",
-      "Baseline Duration", "Baseline Finish", "Baseline Start", "Baseline Work",
-      "BCWP", "BCWS", "Confirmed", "Constraint Date", "Constraint Type",
-      "Contact", "Cost", "Cost1", "Cost2", "Cost3", "Cost Variance", "Created",
-      "Critical", "CV", "Delay", "Duration", "Duration1", "Duration2",
-      "Duration3", "Duration Variance", "Early Finish", "Early Start", "Finish",
-      "Finish1", "Finish2", "Finish3", "Finish4", "Finish5", "Finish Variance",
-      "Fixed", "Fixed Cost", "Flag1", "Flag2", "Flag3", "Flag4", "Flag5",
-      "Flag6", "Flag7", "Flag8", "Flag9", "Flag10", "Free Slack", "Hide Bar",
-      "ID", "Late Finish", "Late Start", "Linked Fields", "Marked", "Milestone",
-      "Name", "Notes", "Number1", "Number2", "Number3", "Number4", "Number5",
-      "Objects", "Outline Level", "Outline Number", "Predecessors", "Priority",
-      "Project", "Remaining Cost", "Remaining Duration", "Remaining Work ",
-      "Resource Group", "Resource Initials", "Resource Names", "Resume",
-      "Resume No Earlier Than", "Rollup", "Start", "Start1", "Start2", "Start3",
-      "Start4", "Start5", "Start Variance", "Stop", "Subproject File",
-      "Successors", "Summary", "SV", "Text1", "Text2", "Text3", "Text4",
-      "Text5", "Text6", "Text7", "Text8", "Text9", "Text10", "Total Slack",
-      "Unique ID", "Unique ID Predecessors", "Unique ID Successors",
-      "Update Needed", "WBS", "Work", "Work Variance"
-   };
-
+   private String[] m_taskNames;
+   
    /**
     * Map used to store task field numbers.
     */
-   private static final HashMap TASK_NUMBER = new HashMap();
-
-   /**
-    * Map to store task field names.
-    */
-   private static final HashMap TASK_NAME = new HashMap();
-
-   {
-      for (int i=0; i < TASK_KEYS.length; i++)
-      {
-         TASK_NAME.put (TASK_KEYS[i], TASK_NAMES[i]);
-         TASK_NUMBER.put (TASK_NAMES[i], TASK_KEYS[i]);
-      }
-   }
-
+   private HashMap m_taskNumbers = new HashMap();
 
    /**
     * Constant value representing Text Task Model class.

@@ -23,6 +23,9 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+import java.util.Map;
+
 /**
  * This class contains utility functions allowing time unit specifications
  * to be parsed and formatted.
@@ -37,124 +40,16 @@ public final class TimeUnit
     * @return numeric constant
     * @throws MPXException normally thrown when parsing fails
     */
-   static int parse (String units)
+   static int parse (String units, Locale locale)
       throws MPXException
    {
-      int result;
-
-      switch (units.charAt(0))
+      Map map = LocaleData.getMap(locale, LocaleData.TIME_UNITS_MAP);
+      Integer result = (Integer)map.get(units);
+      if (result == null)
       {
-         case 'm':
-         {
-            if (units.length() > 1 && units.charAt(1) == 'o')
-            {
-               result = MONTHS;
-            }
-            else
-            {
-               result = MINUTES;
-            }
-            break;
-         }
-
-         case 'h':
-         {
-            result = HOURS;
-            break;
-         }
-
-         case 'd':
-         {
-            result = DAYS;
-            break;
-         }
-
-         case 'w':
-         {
-            result = WEEKS;
-            break;
-         }
-
-         case 'y':
-         {
-            result = YEARS;
-            break;
-         }
-
-         case '%':
-         {
-            result = PERCENT;
-            break;
-         }
-
-         case 'e':
-         {
-            if (units.length() == 1)
-            {
-               throw new MPXException (MPXException.INVALID_TIME_UNIT + " " +units);
-            }
-
-            switch (units.charAt(1))
-            {
-               case 'm':
-               {
-                  if (units.length() > 2 && units.charAt(2) == 'o')
-                  {
-                     result = ELAPSED_MONTHS;
-                  }
-                  else
-                  {
-                     result = ELAPSED_MINUTES;
-                  }
-                  break;
-               }
-
-               case 'h':
-               {
-                  result = ELAPSED_HOURS;
-                  break;
-               }
-
-               case 'd':
-               {
-                  result = ELAPSED_DAYS;
-                  break;
-               }
-
-               case 'w':
-               {
-                  result = ELAPSED_WEEKS;
-                  break;
-               }
-
-               case 'y':
-               {
-                  result = ELAPSED_YEARS;
-                  break;
-               }
-
-               case '%':
-               {
-                  result = ELAPSED_PERCENT;
-                  break;
-               }
-
-               default:
-               {
-                  throw new MPXException ("Invalid time unit: " + units);
-               }
-            }
-
-            break;
-         }
-
-         default:
-         {
-            throw new MPXException ("Invalid time unit: " + units);
-         }
+         throw new MPXException (MPXException.INVALID_TIME_UNIT + " " +units);
       }
-
-      return (result);
+      return (result.intValue());
    }
 
 
@@ -165,17 +60,18 @@ public final class TimeUnit
     * @param units numeric constant representing a time unit
     * @return string representation
     */
-   static String format (int units)
+   static String format (int units, Locale locale)
    {
       String result;
+      String[] unitNames = LocaleData.getStringArray(locale, LocaleData.TIME_UNITS_ARRAY);
 
-      if (units < 0 || units >= UNIT_NAMES.length)
+      if (units < 0 || units >= unitNames.length)
       {
          result = "";
       }
       else
       {
-         result = UNIT_NAMES[units];
+         result = unitNames[units];
       }
 
       return (result);
@@ -250,27 +146,4 @@ public final class TimeUnit
     * Constant representing Elapsed Percent
     */
    public static final int ELAPSED_PERCENT = 13;
-
-   /**
-    * Array of text names for the above time units.
-    * The position of the name in the array corresponds to
-    * the value of the constants.
-    */
-   private static final String[] UNIT_NAMES =
-   {
-      "m",
-      "h",
-      "d",
-      "w",
-      "mon",
-      "y",
-      "%",
-      "em",
-      "eh",
-      "ed",
-      "ew",
-      "emon",
-      "ey",
-      "e%"
-   };
 }

@@ -24,6 +24,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 /**
  * This represents time durations as specified in an MPX file.
  */
@@ -39,7 +41,7 @@ public final class MPXDuration
    public MPXDuration (String dur)
       throws MPXException
    {
-      this(dur, DEFAULT_DECIMAL_FORMAT);
+      this(dur, DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH);
    }
 
    /**
@@ -51,7 +53,7 @@ public final class MPXDuration
     * @param format format description
     * @throws MPXException
     */
-   public MPXDuration (String dur, MPXNumberFormat format)
+   public MPXDuration (String dur, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
 
@@ -70,7 +72,7 @@ public final class MPXDuration
       ++index;
 
       m_duration = format.parse(dur.substring(0, index)).doubleValue();
-      m_type = TimeUnit.parse(dur.substring(index));
+      m_type = TimeUnit.parse(dur.substring(index), locale);
    }
 
    /**
@@ -118,7 +120,7 @@ public final class MPXDuration
     */
    public String toString ()
    {
-      return (toString(DEFAULT_DECIMAL_FORMAT));
+      return (toString(DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH));
    }
 
    /**
@@ -128,9 +130,9 @@ public final class MPXDuration
     * @param format number format to use for the duration value
     * @return string containing the data for this record in MPX format.
     */
-   String toString (MPXNumberFormat format)
+   String toString (MPXNumberFormat format, Locale locale)
    {
-      return (format.format(m_duration) + TimeUnit.format(m_type));
+      return (format.format(m_duration) + TimeUnit.format(m_type, locale));
    }
 
    /**
