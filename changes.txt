@@ -1,3 +1,6 @@
+Version 0.0.16
+Fixed bug causing some extended boolean attributes to be read incorrectly.
+
 Version 0.0.15
 Fixed a bug causing resource assignments to be duplicated in an MPX file created programatically.
 Fixed a bug causing an incorrect duration value to be read from an MPP9 file.

@@ -147,32 +147,6 @@ final class MPP9File
       return (taskMap);
    }
 
-   /**
-    * This method creates a mapping between task unique identifiers, and the
-    * entries in the fixed meta data block.
-    * 
-    * @param taskFixedMeta Fixed meta data block
-    * @return mapping
-    */
-   private static TreeMap createTaskMetaMap (FixedMeta taskFixedMeta)
-   {
-      TreeMap taskMetaMap = new TreeMap ();
-      int itemCount = taskFixedMeta.getItemCount();
-      byte[] data;
-      int uniqueID;
-      
-      for (int loop=0; loop < itemCount; loop++)
-      {
-         data = taskFixedMeta.getByteArrayValue(loop);
-         if (data != null && data.length > 6)
-         {
-            uniqueID = MPPUtility.getShort (data, 5);
-            taskMetaMap.put(new Integer (uniqueID), new Integer (loop));
-         }
-      }
-
-      return (taskMetaMap);
-   }
 
    /**
     * This method maps the resource unique identifiers to their index number
@@ -401,7 +375,6 @@ final class MPP9File
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
       
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
-      TreeMap taskMetaMap = createTaskMetaMap (taskFixedMeta);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
       Integer id;
       Integer offset;
@@ -596,38 +569,33 @@ final class MPP9File
          task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkVariance(); // Calculated value
 
+         metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
+         task.setFlag1((metaData[37] & 0x20) != 0);
+         task.setFlag2((metaData[37] & 0x40) != 0);
+         task.setFlag3((metaData[37] & 0x80) != 0);
+         task.setFlag4((metaData[38] & 0x01) != 0);
+         task.setFlag5((metaData[38] & 0x02) != 0);
+         task.setFlag6((metaData[38] & 0x04) != 0);
+         task.setFlag7((metaData[38] & 0x08) != 0);
+         task.setFlag8((metaData[38] & 0x10) != 0);
+         task.setFlag9((metaData[38] & 0x20) != 0);
+         task.setFlag10((metaData[38] & 0x40) != 0);            
+         task.setFlag11((metaData[38] & 0x80) != 0);
+         task.setFlag12((metaData[39] & 0x01) != 0);
+         task.setFlag13((metaData[39] & 0x02) != 0);
+         task.setFlag14((metaData[39] & 0x04) != 0);
+         task.setFlag15((metaData[39] & 0x08) != 0);
+         task.setFlag16((metaData[39] & 0x10) != 0);
+         task.setFlag17((metaData[39] & 0x20) != 0);
+         task.setFlag18((metaData[39] & 0x40) != 0);
+         task.setFlag19((metaData[39] & 0x80) != 0);
+         task.setFlag20((metaData[40] & 0x01) != 0);
+         
+         task.setMilestone((metaData[8] & 0x20) != 0);
+         task.setRollup((metaData[10] & 0x08) != 0);            
+         task.setHideBar((metaData[10] & 0x80) != 0);                        
+         task.setEffortDriven((metaData[11] & 0x10) != 0);  
 
-         offset = (Integer)taskMetaMap.get(id);
-         if (offset != null)
-         {
-            metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
-
-            task.setFlag1((metaData[37] & 0x20) != 0);
-            task.setFlag2((metaData[37] & 0x40) != 0);
-            task.setFlag3((metaData[37] & 0x80) != 0);
-            task.setFlag4((metaData[38] & 0x01) != 0);
-            task.setFlag5((metaData[38] & 0x02) != 0);
-            task.setFlag6((metaData[38] & 0x04) != 0);
-            task.setFlag7((metaData[38] & 0x08) != 0);
-            task.setFlag8((metaData[38] & 0x10) != 0);
-            task.setFlag9((metaData[38] & 0x20) != 0);
-            task.setFlag10((metaData[38] & 0x40) != 0);            
-            task.setFlag11((metaData[38] & 0x80) != 0);
-            task.setFlag12((metaData[39] & 0x01) != 0);
-            task.setFlag13((metaData[39] & 0x02) != 0);
-            task.setFlag14((metaData[39] & 0x04) != 0);
-            task.setFlag15((metaData[39] & 0x08) != 0);
-            task.setFlag16((metaData[39] & 0x10) != 0);
-            task.setFlag17((metaData[39] & 0x20) != 0);
-            task.setFlag18((metaData[39] & 0x40) != 0);
-            task.setFlag19((metaData[39] & 0x80) != 0);
-            task.setFlag20((metaData[40] & 0x01) != 0);
-            
-            task.setMilestone((metaData[8] & 0x20) != 0);
-            task.setRollup((metaData[10] & 0x08) != 0);            
-            task.setHideBar((metaData[10] & 0x80) != 0);                        
-            task.setEffortDriven((metaData[11] & 0x10) != 0);  
-         }
 
 			//
 			// Retrieve the task notes.
