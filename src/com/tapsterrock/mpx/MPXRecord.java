@@ -257,7 +257,7 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void put (int key, Object value)
+   public void put (int key, Object value)
    {
       if (key < m_array.length)
       {
@@ -388,13 +388,13 @@ class MPXRecord
    }
 
    /**
-    * Given an attribute name, this method retrieves that attribute
+    * Given an attribute id, this method retrieves that attribute
     * value from internal storage.
     *
     * @param key name of requested field value
     * @return requested value
     */
-   protected Object get (int key)
+   public Object get (int key)
    {
       Object result;
 

@@ -32,6 +32,9 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +57,7 @@ import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
+import com.tapsterrock.mpx.MPXCurrency;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
@@ -236,7 +240,7 @@ public class MSPDIFile extends MPXFile
          readDateTimeSettings (project);
          readDefaultSettings (project);
          readProjectHeader (project);
-         readFieldAliases(project);
+         readProjectExtendedAttributes(project);
          readCalendars (project, calendarMap);
          readResources (project, calendarMap);
          readTasks (project);
@@ -565,12 +569,12 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method extracts field alias data from an MSPDI file.
+    * This method extracts project extended attribute data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
     * @throws MPXException on file read errors
     */
-   private void readFieldAliases (Project project)
+   private void readProjectExtendedAttributes (Project project)
       throws MPXException
    {
       Project.ExtendedAttributesType attributes = project.getExtendedAttributes();
@@ -650,60 +654,125 @@ public class MSPDIFile extends MPXFile
    /**
     * This method extracts data for a single resource from an MSPDI file.
     *
-    * @param resource Resource data
+    * @param xml Resource data
     * @param calendarMap Map of calendar UIDs to names
     * @throws MPXException on file read errors
     */
-   private void readResource (Project.ResourcesType.ResourceType resource, HashMap calendarMap)
+   private void readResource (Project.ResourcesType.ResourceType xml, HashMap calendarMap)
       throws MPXException
    {
       Resource mpx = addResource();
 
-      mpx.setAccrueAt(AccrueType.getInstance(resource.getAccrueAt()));
-      mpx.setActualCost(getMpxCurrency(resource.getActualCost()));
-      mpx.setActualOvertimeCost(getMpxCurrency(resource.getActualOvertimeCost()));
-      mpx.setActualWork(getDuration (resource.getActualWork()));
-      mpx.setAvailableFrom(getDate(resource.getAvailableFrom()));
-      mpx.setAvailableTo(getDate(resource.getAvailableTo()));
+      mpx.setAccrueAt(AccrueType.getInstance(xml.getAccrueAt()));
+      mpx.setActualCost(getMpxCurrency(xml.getActualCost()));
+      mpx.setActualOvertimeCost(getMpxCurrency(xml.getActualOvertimeCost()));
+      mpx.setActualWork(getDuration (xml.getActualWork()));
+      mpx.setAvailableFrom(getDate(xml.getAvailableFrom()));
+      mpx.setAvailableTo(getDate(xml.getAvailableTo()));
       //mpx.setBaseCalendar ();
       //mpx.setBaselineCost();
       //mpx.setBaselineWork();
-      mpx.setCode(resource.getCode());
-      mpx.setCost(getMpxCurrency(resource.getCost()));
-      mpx.setCostPerUse(getMpxCurrency(resource.getCostPerUse()));
-      mpx.setCostVariance(resource.getCostVariance()/100);
-      mpx.setEmailAddress(resource.getEmailAddress());
-      mpx.setGroup(resource.getGroup());
-      mpx.setID(getInteger(resource.getID()));
-      mpx.setInitials(resource.getInitials());
+      mpx.setCode(xml.getCode());
+      mpx.setCost(getMpxCurrency(xml.getCost()));
+      mpx.setCostPerUse(getMpxCurrency(xml.getCostPerUse()));
+      mpx.setCostVariance(xml.getCostVariance()/100);
+      mpx.setEmailAddress(xml.getEmailAddress());
+      mpx.setGroup(xml.getGroup());
+      mpx.setID(getInteger(xml.getID()));
+      mpx.setInitials(xml.getInitials());
       //mpx.setLinkedFields();
-      mpx.setMaxUnits(resource.getMaxUnits()*100);
-      mpx.setName(resource.getName());
-      mpx.setNotes(resource.getNotes());
+      mpx.setMaxUnits(xml.getMaxUnits()*100);
+      mpx.setName(xml.getName());
+      mpx.setNotes(xml.getNotes());
       //mpx.setObjects();
       //mpx.setOverallocated();
-      mpx.setOvertimeCost(getMpxCurrency(resource.getOvertimeCost()));
-      mpx.setOvertimeRate(getHourlyRate(resource.getOvertimeRate()));
-      mpx.setOvertimeWork(getDuration (resource.getOvertimeWork()));
-      mpx.setPeak(resource.getPeakUnits() * 100);
-      mpx.setPercentageWorkComplete(resource.getPercentWorkComplete());
-      mpx.setRegularWork(getDuration(resource.getRegularWork()));
-      mpx.setRemainingCost(getMpxCurrency(resource.getRemainingCost()));
-      mpx.setRemainingOvertimeCost(getMpxCurrency(resource.getRemainingOvertimeCost()));
-      mpx.setRemainingWork(getDuration (resource.getRemainingWork()));
-      mpx.setStandardRate(getHourlyRate(resource.getStandardRate()));
+      mpx.setOvertimeCost(getMpxCurrency(xml.getOvertimeCost()));
+      mpx.setOvertimeRate(getHourlyRate(xml.getOvertimeRate()));
+      mpx.setOvertimeWork(getDuration (xml.getOvertimeWork()));
+      mpx.setPeak(xml.getPeakUnits() * 100);
+      mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
+      mpx.setRegularWork(getDuration(xml.getRegularWork()));
+      mpx.setRemainingCost(getMpxCurrency(xml.getRemainingCost()));
+      mpx.setRemainingOvertimeCost(getMpxCurrency(xml.getRemainingOvertimeCost()));
+      mpx.setRemainingWork(getDuration (xml.getRemainingWork()));
+      mpx.setStandardRate(getHourlyRate(xml.getStandardRate()));
       //mpx.setText1();
       //mpx.setText2();
       //mpx.setText3();
       //mpx.setText4();
       //mpx.setText5();
-      mpx.setUniqueID(getInteger(resource.getUID()));
-      mpx.setWork(getDuration (resource.getWork()));
-      mpx.setWorkVariance(new MPXDuration (resource.getWorkVariance()/1000, TimeUnit.MINUTES));
+      mpx.setUniqueID(getInteger(xml.getUID()));
+      mpx.setWork(getDuration (xml.getWork()));
+      mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
 
-      attachResourceCalendar(mpx, (MPXCalendar)calendarMap.get(resource.getCalendarUID()));
+      readResourceExtendedAttributes (xml, mpx);
+      
+      attachResourceCalendar(mpx, (MPXCalendar)calendarMap.get(xml.getCalendarUID()));
    }
 
+   /**
+    * This method processes any extended attributes associated with a resource.
+    * 
+    * @param xml MSPDI resource instance
+    * @param mpx MPX resource instance
+    */
+   private void readResourceExtendedAttributes (Project.ResourcesType.ResourceType xml, Resource mpx)
+   {
+      List extendedAttributes = xml.getExtendedAttribute();
+      Iterator iter = extendedAttributes.iterator();
+      Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
+      Integer xmlFieldID;
+      Integer mpxFieldID;
+      int dataType;
+      Object value;
+      
+      while (iter.hasNext() == true)
+      {
+         attrib = (Project.ResourcesType.ResourceType.ExtendedAttributeType)iter.next();
+         xmlFieldID = new Integer (attrib.getFieldID());
+         mpxFieldID = (Integer)RESOURCE_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
+         dataType = ((Integer)RESOURCE_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
+         
+         switch (dataType)
+         {
+            case STRING_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), attrib.getValue());
+               break;
+            }
+                        
+            case DATE_ATTRIBUTE:
+            {
+               mpx.setDate(mpxFieldID.intValue(), parseXsdDateTime(attrib.getValue()));
+               break;
+            }
+            
+            case CURRENCY_ATTRIBUTE:
+            {
+               mpx.setCurrency(mpxFieldID.intValue(), new Double(Double.parseDouble(attrib.getValue())/100));
+               break;
+            }
+            
+            case BOOLEAN_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), (attrib.getValue().equals("1")?Boolean.TRUE:Boolean.FALSE));
+               break;
+            }
+            
+            case NUMERIC_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), new Double(attrib.getValue()));
+               break;
+            }
+            
+            case DURATION_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), getDuration(attrib.getValue()));
+               break;
+            }            
+         }         
+      }
+   }
 
    /**
     * This method extracts task data from an MSPDI file.
@@ -738,21 +807,21 @@ public class MSPDIFile extends MPXFile
    /**
     * This method extracts data for a single task from an MSPDI file.
     *
-    * @param task Task data
+    * @param xml Task data
     * @throws MPXException on file read errors
     */
-   private void readTask (Project.TasksType.TaskType task)
+   private void readTask (Project.TasksType.TaskType xml)
       throws MPXException
    {
       Task mpx = addTask ();
 
-      mpx.setActualCost(getMpxCurrency (task.getActualCost()));
-      mpx.setActualDuration(getDuration (task.getActualDuration()));
-      mpx.setActualFinish(getDate (task.getActualFinish()));
-      mpx.setActualOvertimeCost(getMpxCurrency(task.getActualOvertimeCost()));
-      mpx.setActualOvertimeWork(getDuration (task.getActualOvertimeWork()));
-      mpx.setActualStart(getDate (task.getActualStart()));
-      mpx.setActualWork(getDuration (task.getActualWork()));
+      mpx.setActualCost(getMpxCurrency (xml.getActualCost()));
+      mpx.setActualDuration(getDuration (xml.getActualDuration()));
+      mpx.setActualFinish(getDate (xml.getActualFinish()));
+      mpx.setActualOvertimeCost(getMpxCurrency(xml.getActualOvertimeCost()));
+      mpx.setActualOvertimeWork(getDuration (xml.getActualOvertimeWork()));
+      mpx.setActualStart(getDate (xml.getActualStart()));
+      mpx.setActualWork(getDuration (xml.getActualWork()));
       //mpx.setBaselineCost();
       //mpx.setBaselineDuration();
       //mpx.setBaselineFinish();
@@ -760,40 +829,40 @@ public class MSPDIFile extends MPXFile
       //mpx.setBaselineWork();
       //mpx.setBCWP();
       //mpx.setBCWS();
-      mpx.setCalendarName(getTaskCalendarName(task));
+      mpx.setCalendarName(getTaskCalendarName(xml));
       //mpx.setConfirmed();
-      mpx.setConstraintDate(getDate(task.getConstraintDate()));
-      mpx.setConstraintType(ConstraintType.getInstance(task.getConstraintType()));
-      mpx.setContact(task.getContact());
-      mpx.setCost(getMpxCurrency(task.getCost()));
+      mpx.setConstraintDate(getDate(xml.getConstraintDate()));
+      mpx.setConstraintType(ConstraintType.getInstance(xml.getConstraintType()));
+      mpx.setContact(xml.getContact());
+      mpx.setCost(getMpxCurrency(xml.getCost()));
       //mpx.setCost1();
       //mpx.setCost2();
       //mpx.setCost3();
       //mpx.setCostVariance();
-      mpx.setCreated(getDate(task.getCreateDate()));
-      mpx.setCritical(task.isCritical());
-      mpx.setCV(task.getCV()/100);
-      mpx.setDeadline(getDate(task.getDeadline()));
+      mpx.setCreated(getDate(xml.getCreateDate()));
+      mpx.setCritical(xml.isCritical());
+      mpx.setCV(xml.getCV()/100);
+      mpx.setDeadline(getDate(xml.getDeadline()));
       //mpx.setDelay();
-      mpx.setDuration(getDuration (task.getDuration()));
+      mpx.setDuration(getDuration (xml.getDuration()));
       //mpx.setDuration1();
       //mpx.setDuration2();
       //mpx.setDuration3();
       //mpx.setDurationVariance();
-      mpx.setEarlyFinish(getDate(task.getEarlyFinish()));
-      mpx.setEarlyStart(getDate(task.getEarlyStart()));
-      mpx.setEffortDriven(task.isEffortDriven());
-      mpx.setEstimated(task.isEstimated());
-      mpx.setFinish(getDate(task.getFinish()));
+      mpx.setEarlyFinish(getDate(xml.getEarlyFinish()));
+      mpx.setEarlyStart(getDate(xml.getEarlyStart()));
+      mpx.setEffortDriven(xml.isEffortDriven());
+      mpx.setEstimated(xml.isEstimated());
+      mpx.setFinish(getDate(xml.getFinish()));
       //mpx.setFinish1();
       //mpx.setFinish2();
       //mpx.setFinish3();
       //mpx.setFinish4();
       //mpx.setFinish5();
-      mpx.setFinishVariance(getMinutesDuration(task.getFinishVariance()));
+      mpx.setFinishVariance(getMinutesDuration(xml.getFinishVariance()));
       //mpx.setFixed();
-      mpx.setFixedCost(task.getFixedCost()/100);
-      mpx.setFixedCostAccrual(AccrueType.getInstance(task.getFixedCostAccrual(), Locale.ENGLISH));
+      mpx.setFixedCost(xml.getFixedCost()/100);
+      mpx.setFixedCostAccrual(AccrueType.getInstance(xml.getFixedCostAccrual(), Locale.ENGLISH));
       //mpx.setFlag1();
       //mpx.setFlag2();
       //mpx.setFlag3();
@@ -804,60 +873,60 @@ public class MSPDIFile extends MPXFile
       //mpx.setFlag8();
       //mpx.setFlag9();
       //mpx.setFlag10();
-      mpx.setFreeSlack(getMinutesDuration(task.getFreeSlack()));
-      mpx.setHideBar(task.isHideBar());
-      mpx.setHyperlink(task.getHyperlink());
-      mpx.setHyperlinkAddress(task.getHyperlinkAddress());
-      mpx.setHyperlinkSubAddress(task.getHyperlinkSubAddress());
-      mpx.setID(getInteger(task.getID()));
-      mpx.setLateFinish(getDate(task.getLateFinish()));
-      mpx.setLateStart(getDate(task.getLateStart()));
-      mpx.setLevelAssignments(task.isLevelAssignments());
-      mpx.setLevelingCanSplit(task.isLevelingCanSplit());
-      mpx.setLevelingDelay(new MPXDuration (task.getLevelingDelay().doubleValue(), getMpxDurationUnits(task.getLevelingDelayFormat())));
+      mpx.setFreeSlack(getMinutesDuration(xml.getFreeSlack()));
+      mpx.setHideBar(xml.isHideBar());
+      mpx.setHyperlink(xml.getHyperlink());
+      mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
+      mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
+      mpx.setID(getInteger(xml.getID()));
+      mpx.setLateFinish(getDate(xml.getLateFinish()));
+      mpx.setLateStart(getDate(xml.getLateStart()));
+      mpx.setLevelAssignments(xml.isLevelAssignments());
+      mpx.setLevelingCanSplit(xml.isLevelingCanSplit());
+      mpx.setLevelingDelay(new MPXDuration (xml.getLevelingDelay().doubleValue(), getMpxDurationUnits(xml.getLevelingDelayFormat())));
       //mpx.setLinkedFields();
       //mpx.setMarked();
-      mpx.setMilestone(task.isMilestone());
-      mpx.setName(task.getName());
-      mpx.setNotes(task.getNotes());
+      mpx.setMilestone(xml.isMilestone());
+      mpx.setName(xml.getName());
+      mpx.setNotes(xml.getNotes());
       //mpx.setNumber1();
       //mpx.setNumber2();
       //mpx.setNumber3();
       //mpx.setNumber4();
       //mpx.setNumber5();
       //mpx.setObjects();
-      mpx.setOutlineLevel(getInteger(task.getOutlineLevel()));
-      mpx.setOutlineNumber(task.getOutlineNumber());
-      mpx.setOvertimeCost(getMpxCurrency(task.getOvertimeCost()));
-      mpx.setOvertimeWork(getDuration(task.getOvertimeWork()));
-      mpx.setPercentageComplete(task.getPercentComplete());
-      mpx.setPercentageWorkComplete(task.getPercentWorkComplete());
-      mpx.setPreleveledFinish(getDate(task.getPreLeveledFinish()));
-      mpx.setPreleveledStart(getDate(task.getPreLeveledStart()));
-      mpx.setPriority(getMpxPriority(task.getPriority()));
+      mpx.setOutlineLevel(getInteger(xml.getOutlineLevel()));
+      mpx.setOutlineNumber(xml.getOutlineNumber());
+      mpx.setOvertimeCost(getMpxCurrency(xml.getOvertimeCost()));
+      mpx.setOvertimeWork(getDuration(xml.getOvertimeWork()));
+      mpx.setPercentageComplete(xml.getPercentComplete());
+      mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
+      mpx.setPreleveledFinish(getDate(xml.getPreLeveledFinish()));
+      mpx.setPreleveledStart(getDate(xml.getPreLeveledStart()));
+      mpx.setPriority(getMpxPriority(xml.getPriority()));
       //mpx.setProject();
-      mpx.setRemainingCost(getMpxCurrency(task.getRemainingCost()));
-      mpx.setRemainingDuration(getDuration(task.getRemainingDuration()));
-      mpx.setRemainingOvertimeCost(getMpxCurrency(task.getRemainingOvertimeCost()));
-      mpx.setRemainingOvertimeWork(getDuration (task.getRemainingOvertimeWork()));
-      mpx.setRemainingWork(getDuration (task.getRemainingWork()));
+      mpx.setRemainingCost(getMpxCurrency(xml.getRemainingCost()));
+      mpx.setRemainingDuration(getDuration(xml.getRemainingDuration()));
+      mpx.setRemainingOvertimeCost(getMpxCurrency(xml.getRemainingOvertimeCost()));
+      mpx.setRemainingOvertimeWork(getDuration (xml.getRemainingOvertimeWork()));
+      mpx.setRemainingWork(getDuration (xml.getRemainingWork()));
       //mpx.setResourceGroup();
       //mpx.setResourceInitials();
       //mpx.setResourceNames();
-      mpx.setResume(getDate(task.getResume()));
+      mpx.setResume(getDate(xml.getResume()));
       //mpx.setResumeNoEarlierThan();
-      mpx.setRollup(task.isRollup());
-      mpx.setStart(getDate(task.getStart()));
+      mpx.setRollup(xml.isRollup());
+      mpx.setStart(getDate(xml.getStart()));
       //mpx.setStart1();
       //mpx.setStart2();
       //mpx.setStart3();
       //mpx.setStart4();
       //mpx.setStart5();
-      mpx.setStartVariance(getMinutesDuration(task.getStartVariance()));
-      mpx.setStop(getDate(task.getStop()));
+      mpx.setStartVariance(getMinutesDuration(xml.getStartVariance()));
+      mpx.setStop(getDate(xml.getStop()));
       //mpx.setSubprojectFile();
       //mpx.setSuccessors();
-      mpx.setSummary(task.isSummary());
+      mpx.setSummary(xml.isSummary());
       //mpx.setSV();
       //mpx.setText1();
       //mpx.setText2();
@@ -869,15 +938,81 @@ public class MSPDIFile extends MPXFile
       //mpx.setText8();
       //mpx.setText9();
       //mpx.setText10();
-      mpx.setTotalSlack(getMinutesDuration(task.getTotalSlack()));
-      mpx.setType(getInteger(task.getType()).intValue());
-      mpx.setUniqueID(getInteger(task.getUID()));
+      mpx.setTotalSlack(getMinutesDuration(xml.getTotalSlack()));
+      mpx.setType(getInteger(xml.getType()).intValue());
+      mpx.setUniqueID(getInteger(xml.getUID()));
       //mpx.setUpdateNeeded();
-      mpx.setWBS(task.getWBS());
-      mpx.setWork(getDuration(task.getWork()));
-      mpx.setWorkVariance(new MPXDuration (task.getWorkVariance()/1000, TimeUnit.MINUTES));
+      mpx.setWBS(xml.getWBS());
+      mpx.setWork(getDuration(xml.getWork()));
+      mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
+      
+      readTaskExtendedAttributes(xml, mpx);
    }
 
+   /**
+    * This method processes any extended attributes associated with a task.
+    * 
+    * @param xml MSPDI task instance
+    * @param mpx MPX task instance
+    */
+   private void readTaskExtendedAttributes (Project.TasksType.TaskType xml, Task mpx)
+   {
+      List extendedAttributes = xml.getExtendedAttribute();
+      Iterator iter = extendedAttributes.iterator();
+      Project.TasksType.TaskType.ExtendedAttributeType attrib;
+      Integer xmlFieldID;
+      Integer mpxFieldID;
+      int dataType;
+      Object value;
+      
+      while (iter.hasNext() == true)
+      {
+         attrib = (Project.TasksType.TaskType.ExtendedAttributeType)iter.next();
+         xmlFieldID = new Integer (attrib.getFieldID());
+         mpxFieldID = (Integer)TASK_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
+         dataType = ((Integer)TASK_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
+         
+         switch (dataType)
+         {
+            case STRING_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), attrib.getValue());
+               break;
+            }
+                        
+            case DATE_ATTRIBUTE:
+            {
+               mpx.setDate(mpxFieldID.intValue(), parseXsdDateTime(attrib.getValue()));
+               break;
+            }
+            
+            case CURRENCY_ATTRIBUTE:
+            {
+               mpx.setCurrency(mpxFieldID.intValue(), new Double(Double.parseDouble(attrib.getValue())/100));
+               break;
+            }
+            
+            case BOOLEAN_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), (attrib.getValue().equals("1")?Boolean.TRUE:Boolean.FALSE));
+               break;
+            }
+            
+            case NUMERIC_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), new Double(attrib.getValue()));
+               break;
+            }
+            
+            case DURATION_ATTRIBUTE:
+            {
+               mpx.set(mpxFieldID.intValue(), getDuration(attrib.getValue()));
+               break;
+            }            
+         }         
+      }
+   }
+   
    /**
     * This method is used to retrieve the name of the calendar associated
     * with a task. If no calendar is associated with a task, this method
@@ -2022,7 +2157,7 @@ public class MSPDIFile extends MPXFile
          writeDateTimeSettings (project);
          writeDefaultSettings (project);
          writeProjectHeader (project);
-         writeFieldAliases (factory, project);
+         writeProjectExtendedAttributes (factory, project);
          writeCalendars (factory, project);
          writeResources (factory, project);
          writeTasks (factory, project);
@@ -2103,29 +2238,25 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method writes extended attributes data into an MSPDI file
-    * representing field aliases.
+    * This method writes project extended attribute data into an MSPDI file.
     *
     * @param factory object factory
     * @param project Root node of the MSPDI file
     * @throws JAXBException
     */
-   private void writeFieldAliases (ObjectFactory factory, Project project)
+   private void writeProjectExtendedAttributes (ObjectFactory factory, Project project)
       throws JAXBException
    {
-      if (taskFieldAliasesDefined() == true || resourceFieldAliasesDefined() == true)
-      {
-         Project.ExtendedAttributesType attributes = factory.createProjectTypeExtendedAttributesType();
-         project.setExtendedAttributes(attributes);
-         List list = attributes.getExtendedAttribute();
+      Project.ExtendedAttributesType attributes = factory.createProjectTypeExtendedAttributesType();
+      project.setExtendedAttributes(attributes);
+      List list = attributes.getExtendedAttribute();
 
-         writeFieldAliases (factory, getTaskFieldAliasMap(), TASK_FIELD_MPX_TO_XML_MAP, list);
-         writeFieldAliases (factory, getResourceFieldAliasMap(), RESOURCE_FIELD_MPX_TO_XML_MAP, list);
-      }
+      writeFieldAliases (factory, getTaskFieldAliasMap(), TASK_FIELD_MPX_TO_XML_MAP, TASK_FIELD_MPX_TO_NAME_MAP, list);
+      writeFieldAliases (factory, getResourceFieldAliasMap(), RESOURCE_FIELD_MPX_TO_XML_MAP, RESOURCE_FIELD_MPX_TO_NAME_MAP, list);
    }
 
    /**
-    * This method handles writing extended attribute data into the MSPDI file.
+    * This method handles writing field alias data into the MSPDI file.
     *
     * @param factory object factory
     * @param fieldAliasMap map of MPX field numbers to their aliases
@@ -2133,27 +2264,30 @@ public class MSPDIFile extends MPXFile
     * @param list list of extended attributes
     * @throws JAXBException
     */
-   private void writeFieldAliases (ObjectFactory factory, HashMap fieldAliasMap, HashMap mpxXmlMap, List list)
+   private void writeFieldAliases (ObjectFactory factory, HashMap fieldAliasMap, HashMap mpxXmlMap, HashMap mpxNameMap, List list)
       throws JAXBException
    {
-      Iterator iter = fieldAliasMap.keySet().iterator();
+      Iterator iter = mpxNameMap.keySet().iterator();
       Integer key;
-      String alias;
       Integer fieldID;
-
+      String name;
+      String alias;
+      
       while (iter.hasNext() == true)
       {
          key = (Integer)iter.next();
-         alias = (String)fieldAliasMap.get(key);
          fieldID = (Integer)mpxXmlMap.get(key);
-
+         name = (String)mpxNameMap.get(key);         
+         alias = (String)fieldAliasMap.get(key);
+         
          Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
          list.add(attribute);
          attribute.setFieldID(fieldID.toString());
+         attribute.setFieldName(name);
          attribute.setAlias(alias);
       }
    }
-
+   
    /**
     * This method writes calandar data to an MSPDI file.
     *
@@ -2410,9 +2544,78 @@ public class MSPDIFile extends MPXFile
       xml.setWork(getDuration(mpx.getWork()));
       xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);
 
+      writeResourceExtendedAttributes (factory, xml, mpx);
+      
       return (xml);
    }
 
+   /**
+    * This method writes extended attribute data for a resource.
+    * 
+    * @param factory JAXB object factory
+    * @param xml MSPDI resource
+    * @param mpx MPXJ resource
+    * @throws JAXBException
+    */
+   private void writeResourceExtendedAttributes (ObjectFactory factory, Project.ResourcesType.ResourceType xml, Resource mpx)
+      throws JAXBException
+   {
+      Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
+      List extendedAttributes = xml.getExtendedAttribute();
+      Object value;
+      int mpxFieldID;
+      Integer xmlFieldID;
+      
+      for (int loop=0; loop < RESOURCE_DATA.length; loop++)
+      {
+         mpxFieldID = ((Integer)RESOURCE_DATA[loop][MPX_FIELD_ID]).intValue();
+         value = mpx.get(mpxFieldID);
+         
+         if (value != null)
+         {
+            xmlFieldID = (Integer)RESOURCE_DATA[loop][MSPDI_FIELD_ID];
+   
+            attrib = factory.createProjectTypeResourcesTypeResourceTypeExtendedAttributeType();
+            extendedAttributes.add(attrib);
+            attrib.setUID(BigInteger.valueOf(loop+1));
+            attrib.setFieldID(xmlFieldID.toString());
+            
+            if (value instanceof Date)
+            {
+               attrib.setValue(formatXsdDateTime((Date)value));
+            }
+            else
+            {
+               if (value instanceof Boolean)
+               {
+                  attrib.setValue(((Boolean)value).booleanValue()?"1":"0");
+               }
+               else
+               {
+                  if (value instanceof MPXDuration)
+                  {
+                     MPXDuration dur = (MPXDuration)value;
+                     attrib.setValue(getDuration(dur));
+                     attrib.setDurationFormat(getXmlDurationUnits(dur.getType()));
+                  }
+                  else
+                  {
+                     if (value instanceof MPXCurrency)
+                     {
+                        MPXCurrency cur = (MPXCurrency)value;
+                        attrib.setValue(Double.toString(cur.doubleValue()*100));
+                     }
+                     else
+                     {
+                        attrib.setValue(value.toString());
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+   
    /**
     * This method writes task data to an MSPDI file.
     *
@@ -2585,9 +2788,77 @@ public class MSPDIFile extends MPXFile
 
       writePredecessors (factory, xml, mpx);
 
+      writeTaskExtendedAttributes (factory, xml, mpx);
+      
       return (xml);
    }
 
+   /**
+    * This method writes extended attribute data for a task.
+    * 
+    * @param factory JAXB object factory
+    * @param xml MSPDI task
+    * @param mpx MPXJ task
+    * @throws JAXBException
+    */
+   private void writeTaskExtendedAttributes (ObjectFactory factory, Project.TasksType.TaskType xml, Task mpx)
+      throws JAXBException
+   {
+      Project.TasksType.TaskType.ExtendedAttributeType attrib;
+      List extendedAttributes = xml.getExtendedAttribute();
+      Object value;
+      int mpxFieldID;
+      Integer xmlFieldID;
+      
+      for (int loop=0; loop < TASK_DATA.length; loop++)
+      {
+         mpxFieldID = ((Integer)TASK_DATA[loop][MPX_FIELD_ID]).intValue();
+         value = mpx.get(mpxFieldID);
+         
+         if (value != null)
+         {
+            xmlFieldID = (Integer)TASK_DATA[loop][MSPDI_FIELD_ID];
+   
+            attrib = factory.createProjectTypeTasksTypeTaskTypeExtendedAttributeType();
+            extendedAttributes.add(attrib);
+            attrib.setUID(BigInteger.valueOf(loop+1));
+            attrib.setFieldID(xmlFieldID.toString());
+            
+            if (value instanceof Date)
+            {
+               attrib.setValue(formatXsdDateTime((Date)value));
+            }
+            else
+            {
+               if (value instanceof Boolean)
+               {
+                  attrib.setValue(((Boolean)value).booleanValue()?"1":"0");
+               }
+               else
+               {
+                  if (value instanceof MPXDuration)
+                  {
+                     MPXDuration dur = (MPXDuration)value;
+                     attrib.setValue(getDuration(dur));
+                     attrib.setDurationFormat(getXmlDurationUnits(dur.getType()));
+                  }
+                  else
+                  {
+                     if (value instanceof MPXCurrency)
+                     {
+                        MPXCurrency cur = (MPXCurrency)value;
+                        attrib.setValue(Double.toString(cur.doubleValue()*100));
+                     }
+                     else
+                     {
+                        attrib.setValue(value.toString());
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
 
    /**
     * This method retrieves the UID for a calendar associated with a task.
@@ -2764,6 +3035,40 @@ public class MSPDIFile extends MPXFile
       return (xml);
    }
 
+   private static String formatXsdDateTime (Date date)
+   {
+      return (getXsdDateTimeFormat().format(date));
+   }
+   
+   private static Date parseXsdDateTime (String text)
+   {
+      Date result;
+      
+      try
+      {
+         result = getXsdDateTimeFormat().parse(text);
+      }
+      
+      catch (ParseException ex)
+      {
+         result = null;
+      }
+      
+      return (result);
+   }
+   
+   private static DateFormat getXsdDateTimeFormat ()
+   {
+      DateFormat df = (DateFormat)XSD_DATETIME_FORMAT.get();
+      if (df == null)
+      {
+         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+         df.setLenient(false);
+      }
+      return (df);
+   }
+   
+   private static final ThreadLocal XSD_DATETIME_FORMAT = new ThreadLocal ();
 
 
    /**
@@ -2798,6 +3103,7 @@ public class MSPDIFile extends MPXFile
       }
    }
 
+   
    /**
     * This class is used to work around a number of problems with
     * Microsoft's XML implementation as used in Microsoft Project 2002.
@@ -2904,7 +3210,7 @@ public class MSPDIFile extends MPXFile
       {
          m_parent.close ();
       }
-
+      
       private OutputStream m_parent;
       private int m_match = -1;
       private byte[] m_buffer;
@@ -2938,299 +3244,327 @@ public class MSPDIFile extends MPXFile
    private static final int TASK_FIELD_PREFIX = 1887;
    private static final int RESOURCE_FIELD_PREFIX = 2055;
 
+   private static final int MSPDI_FIELD_ID = 0;
+   private static final int MPX_FIELD_ID = 1;
+   private static final int MSPDI_FIELD_NAME = 2;
+   private static final int FIELD_DATA_TYPE = 3;
+
+   private static final int STRING_ATTRIBUTE = 1;
+   private static final int DATE_ATTRIBUTE = 2;
+   private static final int CURRENCY_ATTRIBUTE = 3;   
+   private static final int BOOLEAN_ATTRIBUTE = 4;
+   private static final int NUMERIC_ATTRIBUTE = 5;
+   private static final int DURATION_ATTRIBUTE = 6;
+
+   private static final Integer STRING_ATTRIBUTE_OBJECT = new Integer (STRING_ATTRIBUTE);
+   private static final Integer DATE_ATTRIBUTE_OBJECT = new Integer (DATE_ATTRIBUTE);
+   private static final Integer CURRENCY_ATTRIBUTE_OBJECT = new Integer (CURRENCY_ATTRIBUTE);   
+   private static final Integer BOOLEAN_ATTRIBUTE_OBJECT = new Integer (BOOLEAN_ATTRIBUTE);
+   private static final Integer NUMERIC_ATTRIBUTE_OBJECT = new Integer (NUMERIC_ATTRIBUTE);
+   private static final Integer DURATION_ATTRIBUTE_OBJECT = new Integer (DURATION_ATTRIBUTE);
+   
+   private static final Object[][] TASK_DATA =
+   {
+      {new Integer(188743731), new Integer(Task.TEXT1), "Text1", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743734), new Integer(Task.TEXT2), "Text2", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743737), new Integer(Task.TEXT3), "Text3", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743740), new Integer(Task.TEXT4), "Text4", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743743), new Integer(Task.TEXT5), "Text5", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743746), new Integer(Task.TEXT6), "Text6", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743747), new Integer(Task.TEXT7), "Text7", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743748), new Integer(Task.TEXT8), "Text8", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743749), new Integer(Task.TEXT9), "Text9", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743750), new Integer(Task.TEXT10), "Text10", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743997), new Integer(Task.TEXT11), "Text11", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743998), new Integer(Task.TEXT12), "Text12", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743999), new Integer(Task.TEXT13), "Text13", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744000), new Integer(Task.TEXT14), "Text14", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744001), new Integer(Task.TEXT15), "Text15", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744002), new Integer(Task.TEXT16), "Text16", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744003), new Integer(Task.TEXT17), "Text17", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744004), new Integer(Task.TEXT18), "Text18", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744005), new Integer(Task.TEXT19), "Text19", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744006), new Integer(Task.TEXT20), "Text20", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744007), new Integer(Task.TEXT21), "Text21", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744008), new Integer(Task.TEXT22), "Text22", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744009), new Integer(Task.TEXT23), "Text23", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744010), new Integer(Task.TEXT24), "Text24", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744011), new Integer(Task.TEXT25), "Text25", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744012), new Integer(Task.TEXT26), "Text26", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744013), new Integer(Task.TEXT27), "Text27", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744014), new Integer(Task.TEXT28), "Text28", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744015), new Integer(Task.TEXT29), "Text29", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744016), new Integer(Task.TEXT30), "Text30", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188743732), new Integer(Task.START1), "Start1", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743735), new Integer(Task.START2), "Start2", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743738), new Integer(Task.START3), "Start3", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743741), new Integer(Task.START4), "Start4", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743744), new Integer(Task.START5), "Start5", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743962), new Integer(Task.START6), "Start6", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743964), new Integer(Task.START7), "Start7", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743966), new Integer(Task.START8), "Start8", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743968), new Integer(Task.START9), "Start9", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743970), new Integer(Task.START10), "Start10", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743733), new Integer(Task.FINISH1), "Finish1", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743736), new Integer(Task.FINISH2), "Finish2", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743739), new Integer(Task.FINISH3), "Finish3", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743742), new Integer(Task.FINISH4), "Finish4", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743745), new Integer(Task.FINISH5), "Finish5", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743963), new Integer(Task.FINISH6), "Finish6", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743965), new Integer(Task.FINISH7), "Finish7", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743967), new Integer(Task.FINISH8), "Finish8", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743969), new Integer(Task.FINISH9), "Finish9", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743971), new Integer(Task.FINISH10), "Finish10", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743786), new Integer(Task.COST1), "Cost1", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743787), new Integer(Task.COST2), "Cost2", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743788), new Integer(Task.COST3), "Cost3", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743938), new Integer(Task.COST4), "Cost4", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743939), new Integer(Task.COST5), "Cost5", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743940), new Integer(Task.COST6), "Cost6", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743941), new Integer(Task.COST7), "Cost7", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743942), new Integer(Task.COST8), "Cost8", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743943), new Integer(Task.COST9), "Cost9", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743944), new Integer(Task.COST10), "Cost10", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(188743945), new Integer(Task.DATE1), "Date1", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743946), new Integer(Task.DATE2), "Date2", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743947), new Integer(Task.DATE3), "Date3", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743948), new Integer(Task.DATE4), "Date4", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743949), new Integer(Task.DATE5), "Date5", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743950), new Integer(Task.DATE6), "Date6", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743951), new Integer(Task.DATE7), "Date7", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743952), new Integer(Task.DATE8), "Date8", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743953), new Integer(Task.DATE9), "Date9", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743954), new Integer(Task.DATE10), "Date10", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(188743752), new Integer(Task.FLAG1), "Flag1", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743753), new Integer(Task.FLAG2), "Flag2", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743754), new Integer(Task.FLAG3), "Flag3", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743755), new Integer(Task.FLAG4), "Flag4", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743756), new Integer(Task.FLAG5), "Flag5", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743757), new Integer(Task.FLAG6), "Flag6", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743758), new Integer(Task.FLAG7), "Flag7", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743759), new Integer(Task.FLAG8), "Flag8", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743760), new Integer(Task.FLAG9), "Flag9", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743761), new Integer(Task.FLAG10), "Flag10", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743972), new Integer(Task.FLAG11), "Flag11", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743973), new Integer(Task.FLAG12), "Flag12", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743974), new Integer(Task.FLAG13), "Flag13", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743975), new Integer(Task.FLAG14), "Flag14", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743976), new Integer(Task.FLAG15), "Flag15", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743977), new Integer(Task.FLAG16), "Flag16", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743978), new Integer(Task.FLAG17), "Flag17", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743979), new Integer(Task.FLAG18), "Flag18", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743980), new Integer(Task.FLAG19), "Flag19", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743981), new Integer(Task.FLAG20), "Flag20", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(188743767), new Integer(Task.NUMBER1), "Number1", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743768), new Integer(Task.NUMBER2), "Number2", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743769), new Integer(Task.NUMBER3), "Number3", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743770), new Integer(Task.NUMBER4), "Number4", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743771), new Integer(Task.NUMBER5), "Number5", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743982), new Integer(Task.NUMBER6), "Number6", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743983), new Integer(Task.NUMBER7), "Number7", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743984), new Integer(Task.NUMBER8), "Number8", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743985), new Integer(Task.NUMBER9), "Number9", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743986), new Integer(Task.NUMBER10), "Number10", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743987), new Integer(Task.NUMBER11), "Number11", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743988), new Integer(Task.NUMBER12), "Number12", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743989), new Integer(Task.NUMBER13), "Number13", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743990), new Integer(Task.NUMBER14), "Number14", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743991), new Integer(Task.NUMBER15), "Number15", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743992), new Integer(Task.NUMBER16), "Number16", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743993), new Integer(Task.NUMBER17), "Number17", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743994), new Integer(Task.NUMBER18), "Number18", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743995), new Integer(Task.NUMBER19), "Number19", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743996), new Integer(Task.NUMBER20), "Number20", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(188743783), new Integer(Task.DURATION1), "Duration1", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743784), new Integer(Task.DURATION2), "Duration2", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743785), new Integer(Task.DURATION3), "Duration3", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743955), new Integer(Task.DURATION4), "Duration4", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743956), new Integer(Task.DURATION5), "Duration5", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743957), new Integer(Task.DURATION6), "Duration6", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743958), new Integer(Task.DURATION7), "Duration7", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743959), new Integer(Task.DURATION8), "Duration8", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743960), new Integer(Task.DURATION9), "Duration9", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188743961), new Integer(Task.DURATION10), "Duration10", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(188744096), new Integer(Task.OUTLINECODE1), "Outline Code1", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744098), new Integer(Task.OUTLINECODE2), "Outline Code2", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744100), new Integer(Task.OUTLINECODE3), "Outline Code3", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744102), new Integer(Task.OUTLINECODE4), "Outline Code4", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744104), new Integer(Task.OUTLINECODE5), "Outline Code5", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744106), new Integer(Task.OUTLINECODE6), "Outline Code6", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744108), new Integer(Task.OUTLINECODE7), "Outline Code7", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744110), new Integer(Task.OUTLINECODE8), "Outline Code8", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744112), new Integer(Task.OUTLINECODE9), "Outline Code9", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(188744114), new Integer(Task.OUTLINECODE10), "Outline Code10", STRING_ATTRIBUTE_OBJECT}      
+   };
+
+   private static final Object[][] RESOURCE_DATA =
+   {
+      {new Integer(205520904), new Integer(Resource.TEXT1), "Text1", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520905), new Integer(Resource.TEXT2), "Text2", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520926), new Integer(Resource.TEXT3), "Text3", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520927), new Integer(Resource.TEXT4), "Text4", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520928), new Integer(Resource.TEXT5), "Text5", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520993), new Integer(Resource.TEXT6), "Text6", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520994), new Integer(Resource.TEXT7), "Text7", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520995), new Integer(Resource.TEXT8), "Text8", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520996), new Integer(Resource.TEXT9), "Text9", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520997), new Integer(Resource.TEXT10), "Text10", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521121), new Integer(Resource.TEXT11), "Text11", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521122), new Integer(Resource.TEXT12), "Text12", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521123), new Integer(Resource.TEXT13), "Text13", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521124), new Integer(Resource.TEXT14), "Text14", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521125), new Integer(Resource.TEXT15), "Text15", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521126), new Integer(Resource.TEXT16), "Text16", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521127), new Integer(Resource.TEXT17), "Text17", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521128), new Integer(Resource.TEXT18), "Text18", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521129), new Integer(Resource.TEXT19), "Text19", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521130), new Integer(Resource.TEXT20), "Text20", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521131), new Integer(Resource.TEXT21), "Text21", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521132), new Integer(Resource.TEXT22), "Text22", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521133), new Integer(Resource.TEXT23), "Text23", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521134), new Integer(Resource.TEXT24), "Text24", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521135), new Integer(Resource.TEXT25), "Text25", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521136), new Integer(Resource.TEXT26), "Text26", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521137), new Integer(Resource.TEXT27), "Text27", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521138), new Integer(Resource.TEXT28), "Text28", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521139), new Integer(Resource.TEXT29), "Text29", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521140), new Integer(Resource.TEXT30), "Text30", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205520998), new Integer(Resource.START1), "Start1", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205520999), new Integer(Resource.START2), "Start2", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521000), new Integer(Resource.START3), "Start3", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521001), new Integer(Resource.START4), "Start4", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521002), new Integer(Resource.START5), "Start5", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521116), new Integer(Resource.START6), "Start6", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521117), new Integer(Resource.START7), "Start7", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521118), new Integer(Resource.START8), "Start8", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521119), new Integer(Resource.START9), "Start9", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521120), new Integer(Resource.START10), "Start10", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521003), new Integer(Resource.FINISH1), "Finish1", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521004), new Integer(Resource.FINISH2), "Finish2", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521005), new Integer(Resource.FINISH3), "Finish3", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521006), new Integer(Resource.FINISH4), "Finish4", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521007), new Integer(Resource.FINISH5), "Finish5", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521086), new Integer(Resource.FINISH6), "Finish6", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521087), new Integer(Resource.FINISH7), "Finish7", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521088), new Integer(Resource.FINISH8), "Finish8", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521089), new Integer(Resource.FINISH9), "Finish9", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521090), new Integer(Resource.FINISH10), "Finish10", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521019), new Integer(Resource.COST1), "Cost1", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521020), new Integer(Resource.COST2), "Cost2", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521021), new Integer(Resource.COST3), "Cost3", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521062), new Integer(Resource.COST4), "Cost4", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521063), new Integer(Resource.COST5), "Cost5", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521064), new Integer(Resource.COST6), "Cost6", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521065), new Integer(Resource.COST7), "Cost7", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521066), new Integer(Resource.COST8), "Cost8", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521067), new Integer(Resource.COST9), "Cost9", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521068), new Integer(Resource.COST10), "Cost10", CURRENCY_ATTRIBUTE_OBJECT},
+      {new Integer(205521069), new Integer(Resource.DATE1), "Date1", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521070), new Integer(Resource.DATE2), "Date2", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521071), new Integer(Resource.DATE3), "Date3", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521072), new Integer(Resource.DATE4), "Date4", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521073), new Integer(Resource.DATE5), "Date5", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521074), new Integer(Resource.DATE6), "Date6", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521075), new Integer(Resource.DATE7), "Date7", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521076), new Integer(Resource.DATE8), "Date8", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521077), new Integer(Resource.DATE9), "Date9", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521078), new Integer(Resource.DATE10), "Date10", DATE_ATTRIBUTE_OBJECT},
+      {new Integer(205521023), new Integer(Resource.FLAG1), "Flag1", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521024), new Integer(Resource.FLAG2), "Flag2", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521025), new Integer(Resource.FLAG3), "Flag3", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521026), new Integer(Resource.FLAG4), "Flag4", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521027), new Integer(Resource.FLAG5), "Flag5", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521028), new Integer(Resource.FLAG6), "Flag6", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521029), new Integer(Resource.FLAG7), "Flag7", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521030), new Integer(Resource.FLAG8), "Flag8", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521031), new Integer(Resource.FLAG9), "Flag9", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521022), new Integer(Resource.FLAG10), "Flag10", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521091), new Integer(Resource.FLAG11), "Flag11", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521092), new Integer(Resource.FLAG12), "Flag12", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521093), new Integer(Resource.FLAG13), "Flag13", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521094), new Integer(Resource.FLAG14), "Flag14", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521095), new Integer(Resource.FLAG15), "Flag15", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521096), new Integer(Resource.FLAG16), "Flag16", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521097), new Integer(Resource.FLAG17), "Flag17", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521098), new Integer(Resource.FLAG18), "Flag18", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521099), new Integer(Resource.FLAG19), "Flag19", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521100), new Integer(Resource.FLAG20), "Flag20", BOOLEAN_ATTRIBUTE_OBJECT},
+      {new Integer(205521008), new Integer(Resource.NUMBER1), "Number1", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521009), new Integer(Resource.NUMBER2), "Number2", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521010), new Integer(Resource.NUMBER3), "Number3", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521011), new Integer(Resource.NUMBER4), "Number4", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521012), new Integer(Resource.NUMBER5), "Number5", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521101), new Integer(Resource.NUMBER6), "Number6", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521102), new Integer(Resource.NUMBER7), "Number7", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521103), new Integer(Resource.NUMBER8), "Number8", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521104), new Integer(Resource.NUMBER9), "Number9", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521105), new Integer(Resource.NUMBER10), "Number10", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521106), new Integer(Resource.NUMBER11), "Number11", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521107), new Integer(Resource.NUMBER12), "Number12", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521108), new Integer(Resource.NUMBER13), "Number13", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521109), new Integer(Resource.NUMBER14), "Number14", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521110), new Integer(Resource.NUMBER15), "Number15", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521111), new Integer(Resource.NUMBER16), "Number16", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521112), new Integer(Resource.NUMBER17), "Number17", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521113), new Integer(Resource.NUMBER18), "Number18", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521114), new Integer(Resource.NUMBER19), "Number19", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521115), new Integer(Resource.NUMBER20), "Number20", NUMERIC_ATTRIBUTE_OBJECT},
+      {new Integer(205521013), new Integer(Resource.DURATION1), "Duration1", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521014), new Integer(Resource.DURATION2), "Duration2", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521015), new Integer(Resource.DURATION3), "Duration3", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521079), new Integer(Resource.DURATION4), "Duration4", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521080), new Integer(Resource.DURATION5), "Duration5", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521081), new Integer(Resource.DURATION6), "Duration6", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521082), new Integer(Resource.DURATION7), "Duration7", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521083), new Integer(Resource.DURATION8), "Duration8", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521084), new Integer(Resource.DURATION9), "Duration9", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521085), new Integer(Resource.DURATION10), "Duration10", DURATION_ATTRIBUTE_OBJECT},
+      {new Integer(205521174), new Integer(Resource.OUTLINECODE1), "Outline Code1", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521176), new Integer(Resource.OUTLINECODE2), "Outline Code2", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521178), new Integer(Resource.OUTLINECODE3), "Outline Code3", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521180), new Integer(Resource.OUTLINECODE4), "Outline Code4", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521182), new Integer(Resource.OUTLINECODE5), "Outline Code5", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521184), new Integer(Resource.OUTLINECODE6), "Outline Code6", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521186), new Integer(Resource.OUTLINECODE7), "Outline Code7", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521188), new Integer(Resource.OUTLINECODE8), "Outline Code8", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521190), new Integer(Resource.OUTLINECODE9), "Outline Code9", STRING_ATTRIBUTE_OBJECT},
+      {new Integer(205521192), new Integer(Resource.OUTLINECODE10), "Outline Code10", STRING_ATTRIBUTE_OBJECT}         
+   };
+   
+   private static final HashMap TASK_FIELD_MPX_TO_NAME_MAP = new HashMap ();
    private static final HashMap TASK_FIELD_XML_TO_MPX_MAP = new HashMap();
    private static final HashMap TASK_FIELD_MPX_TO_XML_MAP = new HashMap();
-
+   private static final HashMap TASK_FIELD_MPX_TO_TYPE_MAP = new HashMap ();
+   
+   private static final HashMap RESOURCE_FIELD_MPX_TO_NAME_MAP = new HashMap ();
    private static final HashMap RESOURCE_FIELD_XML_TO_MPX_MAP = new HashMap();
    private static final HashMap RESOURCE_FIELD_MPX_TO_XML_MAP = new HashMap();
-
+   private static final HashMap RESOURCE_FIELD_MPX_TO_TYPE_MAP = new HashMap ();
+   
    static
    {
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743731), new Integer(Task.TEXT1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743734), new Integer(Task.TEXT2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743737), new Integer(Task.TEXT3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743740), new Integer(Task.TEXT4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743743), new Integer(Task.TEXT5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743746), new Integer(Task.TEXT6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743747), new Integer(Task.TEXT7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743748), new Integer(Task.TEXT8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743749), new Integer(Task.TEXT9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743750), new Integer(Task.TEXT10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743997), new Integer(Task.TEXT11));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743998), new Integer(Task.TEXT12));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743999), new Integer(Task.TEXT13));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744000), new Integer(Task.TEXT14));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744001), new Integer(Task.TEXT15));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744002), new Integer(Task.TEXT16));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744003), new Integer(Task.TEXT17));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744004), new Integer(Task.TEXT18));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744005), new Integer(Task.TEXT19));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744006), new Integer(Task.TEXT20));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744007), new Integer(Task.TEXT21));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744008), new Integer(Task.TEXT22));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744009), new Integer(Task.TEXT23));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744010), new Integer(Task.TEXT24));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744011), new Integer(Task.TEXT25));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744012), new Integer(Task.TEXT26));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744013), new Integer(Task.TEXT27));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744014), new Integer(Task.TEXT28));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744015), new Integer(Task.TEXT29));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744016), new Integer(Task.TEXT30));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743732), new Integer(Task.START1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743735), new Integer(Task.START2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743738), new Integer(Task.START3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743741), new Integer(Task.START4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743744), new Integer(Task.START5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743962), new Integer(Task.START6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743964), new Integer(Task.START7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743966), new Integer(Task.START8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743968), new Integer(Task.START9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743970), new Integer(Task.START10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743733), new Integer(Task.FINISH1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743736), new Integer(Task.FINISH2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743739), new Integer(Task.FINISH3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743742), new Integer(Task.FINISH4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743745), new Integer(Task.FINISH5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743963), new Integer(Task.FINISH6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743965), new Integer(Task.FINISH7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743967), new Integer(Task.FINISH8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743969), new Integer(Task.FINISH9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743971), new Integer(Task.FINISH10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743786), new Integer(Task.COST1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743787), new Integer(Task.COST2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743788), new Integer(Task.COST3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743938), new Integer(Task.COST4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743939), new Integer(Task.COST5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743940), new Integer(Task.COST6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743941), new Integer(Task.COST7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743942), new Integer(Task.COST8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743943), new Integer(Task.COST9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743944), new Integer(Task.COST10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743945), new Integer(Task.DATE1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743946), new Integer(Task.DATE2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743947), new Integer(Task.DATE3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743948), new Integer(Task.DATE4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743949), new Integer(Task.DATE5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743950), new Integer(Task.DATE6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743951), new Integer(Task.DATE7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743952), new Integer(Task.DATE8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743953), new Integer(Task.DATE9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743954), new Integer(Task.DATE10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743752), new Integer(Task.FLAG1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743753), new Integer(Task.FLAG2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743754), new Integer(Task.FLAG3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743755), new Integer(Task.FLAG4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743756), new Integer(Task.FLAG5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743757), new Integer(Task.FLAG6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743758), new Integer(Task.FLAG7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743759), new Integer(Task.FLAG8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743760), new Integer(Task.FLAG9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743761), new Integer(Task.FLAG10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743972), new Integer(Task.FLAG11));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743973), new Integer(Task.FLAG12));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743974), new Integer(Task.FLAG13));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743975), new Integer(Task.FLAG14));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743976), new Integer(Task.FLAG15));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743977), new Integer(Task.FLAG16));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743978), new Integer(Task.FLAG17));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743979), new Integer(Task.FLAG18));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743980), new Integer(Task.FLAG19));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743981), new Integer(Task.FLAG20));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743767), new Integer(Task.NUMBER1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743768), new Integer(Task.NUMBER2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743769), new Integer(Task.NUMBER3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743770), new Integer(Task.NUMBER4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743771), new Integer(Task.NUMBER5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743982), new Integer(Task.NUMBER6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743983), new Integer(Task.NUMBER7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743984), new Integer(Task.NUMBER8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743985), new Integer(Task.NUMBER9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743986), new Integer(Task.NUMBER10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743987), new Integer(Task.NUMBER11));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743988), new Integer(Task.NUMBER12));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743989), new Integer(Task.NUMBER13));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743990), new Integer(Task.NUMBER14));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743991), new Integer(Task.NUMBER15));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743992), new Integer(Task.NUMBER16));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743993), new Integer(Task.NUMBER17));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743994), new Integer(Task.NUMBER18));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743995), new Integer(Task.NUMBER19));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743996), new Integer(Task.NUMBER20));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743783), new Integer(Task.DURATION1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743784), new Integer(Task.DURATION2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743785), new Integer(Task.DURATION3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743955), new Integer(Task.DURATION4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743956), new Integer(Task.DURATION5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743957), new Integer(Task.DURATION6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743958), new Integer(Task.DURATION7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743959), new Integer(Task.DURATION8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743960), new Integer(Task.DURATION9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743961), new Integer(Task.DURATION10));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744096), new Integer(Task.OUTLINECODE1));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744098), new Integer(Task.OUTLINECODE2));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744100), new Integer(Task.OUTLINECODE3));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744102), new Integer(Task.OUTLINECODE4));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744104), new Integer(Task.OUTLINECODE5));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744106), new Integer(Task.OUTLINECODE6));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744108), new Integer(Task.OUTLINECODE7));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744110), new Integer(Task.OUTLINECODE8));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744112), new Integer(Task.OUTLINECODE9));
-      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744114), new Integer(Task.OUTLINECODE10));
-
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520904), new Integer(Resource.TEXT1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520905), new Integer(Resource.TEXT2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520926), new Integer(Resource.TEXT3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520927), new Integer(Resource.TEXT4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520928), new Integer(Resource.TEXT5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520993), new Integer(Resource.TEXT6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520994), new Integer(Resource.TEXT7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520995), new Integer(Resource.TEXT8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520996), new Integer(Resource.TEXT9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520997), new Integer(Resource.TEXT10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521121), new Integer(Resource.TEXT11));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521122), new Integer(Resource.TEXT12));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521123), new Integer(Resource.TEXT13));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521124), new Integer(Resource.TEXT14));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521125), new Integer(Resource.TEXT15));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521126), new Integer(Resource.TEXT16));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521127), new Integer(Resource.TEXT17));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521128), new Integer(Resource.TEXT18));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521129), new Integer(Resource.TEXT19));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521130), new Integer(Resource.TEXT20));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521131), new Integer(Resource.TEXT21));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521132), new Integer(Resource.TEXT22));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521133), new Integer(Resource.TEXT23));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521134), new Integer(Resource.TEXT24));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521135), new Integer(Resource.TEXT25));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521136), new Integer(Resource.TEXT26));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521137), new Integer(Resource.TEXT27));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521138), new Integer(Resource.TEXT28));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521139), new Integer(Resource.TEXT29));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521140), new Integer(Resource.TEXT30));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520998), new Integer(Resource.START1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205520999), new Integer(Resource.START2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521000), new Integer(Resource.START3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521001), new Integer(Resource.START4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521002), new Integer(Resource.START5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521116), new Integer(Resource.START6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521117), new Integer(Resource.START7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521118), new Integer(Resource.START8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521119), new Integer(Resource.START9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521120), new Integer(Resource.START10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521003), new Integer(Resource.FINISH1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521004), new Integer(Resource.FINISH2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521005), new Integer(Resource.FINISH3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521006), new Integer(Resource.FINISH4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521007), new Integer(Resource.FINISH5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521086), new Integer(Resource.FINISH6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521087), new Integer(Resource.FINISH7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521088), new Integer(Resource.FINISH8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521089), new Integer(Resource.FINISH9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521090), new Integer(Resource.FINISH10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521019), new Integer(Resource.COST1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521020), new Integer(Resource.COST2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521021), new Integer(Resource.COST3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521062), new Integer(Resource.COST4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521063), new Integer(Resource.COST5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521064), new Integer(Resource.COST6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521065), new Integer(Resource.COST7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521066), new Integer(Resource.COST8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521067), new Integer(Resource.COST9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521068), new Integer(Resource.COST10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521069), new Integer(Resource.DATE1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521070), new Integer(Resource.DATE2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521071), new Integer(Resource.DATE3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521072), new Integer(Resource.DATE4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521073), new Integer(Resource.DATE5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521074), new Integer(Resource.DATE6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521075), new Integer(Resource.DATE7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521076), new Integer(Resource.DATE8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521077), new Integer(Resource.DATE9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521078), new Integer(Resource.DATE10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521023), new Integer(Resource.FLAG1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521024), new Integer(Resource.FLAG2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521025), new Integer(Resource.FLAG3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521026), new Integer(Resource.FLAG4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521027), new Integer(Resource.FLAG5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521028), new Integer(Resource.FLAG6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521029), new Integer(Resource.FLAG7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521030), new Integer(Resource.FLAG8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521031), new Integer(Resource.FLAG9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521022), new Integer(Resource.FLAG10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521091), new Integer(Resource.FLAG11));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521092), new Integer(Resource.FLAG12));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521093), new Integer(Resource.FLAG13));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521094), new Integer(Resource.FLAG14));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521095), new Integer(Resource.FLAG15));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521096), new Integer(Resource.FLAG16));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521097), new Integer(Resource.FLAG17));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521098), new Integer(Resource.FLAG18));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521099), new Integer(Resource.FLAG19));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521100), new Integer(Resource.FLAG20));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521008), new Integer(Resource.NUMBER1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521009), new Integer(Resource.NUMBER2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521010), new Integer(Resource.NUMBER3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521011), new Integer(Resource.NUMBER4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521012), new Integer(Resource.NUMBER5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521101), new Integer(Resource.NUMBER6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521102), new Integer(Resource.NUMBER7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521103), new Integer(Resource.NUMBER8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521104), new Integer(Resource.NUMBER9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521105), new Integer(Resource.NUMBER10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521106), new Integer(Resource.NUMBER11));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521107), new Integer(Resource.NUMBER12));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521108), new Integer(Resource.NUMBER13));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521109), new Integer(Resource.NUMBER14));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521110), new Integer(Resource.NUMBER15));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521111), new Integer(Resource.NUMBER16));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521112), new Integer(Resource.NUMBER17));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521113), new Integer(Resource.NUMBER18));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521114), new Integer(Resource.NUMBER19));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521115), new Integer(Resource.NUMBER20));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521013), new Integer(Resource.DURATION1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521014), new Integer(Resource.DURATION2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521015), new Integer(Resource.DURATION3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521079), new Integer(Resource.DURATION4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521080), new Integer(Resource.DURATION5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521081), new Integer(Resource.DURATION6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521082), new Integer(Resource.DURATION7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521083), new Integer(Resource.DURATION8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521084), new Integer(Resource.DURATION9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521085), new Integer(Resource.DURATION10));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521174), new Integer(Resource.OUTLINECODE1));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521176), new Integer(Resource.OUTLINECODE2));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521178), new Integer(Resource.OUTLINECODE3));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521180), new Integer(Resource.OUTLINECODE4));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521182), new Integer(Resource.OUTLINECODE5));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521184), new Integer(Resource.OUTLINECODE6));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521186), new Integer(Resource.OUTLINECODE7));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521188), new Integer(Resource.OUTLINECODE8));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521190), new Integer(Resource.OUTLINECODE9));
-      RESOURCE_FIELD_XML_TO_MPX_MAP.put(new Integer(205521192), new Integer(Resource.OUTLINECODE10));
-
-      Iterator iter = TASK_FIELD_XML_TO_MPX_MAP.keySet().iterator();
-      Object key;
-      Object value;
-
-      while (iter.hasNext() == true)
+      int loop;
+      
+      for (loop=0; loop < TASK_DATA.length; loop++)
       {
-         key = iter.next();
-         value = TASK_FIELD_XML_TO_MPX_MAP.get(key);
-         TASK_FIELD_MPX_TO_XML_MAP.put(value, key);
+         TASK_FIELD_MPX_TO_NAME_MAP.put(TASK_DATA[loop][MPX_FIELD_ID], TASK_DATA[loop][MSPDI_FIELD_NAME]);
+         TASK_FIELD_XML_TO_MPX_MAP.put(TASK_DATA[loop][MSPDI_FIELD_ID], TASK_DATA[loop][MPX_FIELD_ID]);   
+         TASK_FIELD_MPX_TO_XML_MAP.put(TASK_DATA[loop][MPX_FIELD_ID], TASK_DATA[loop][MSPDI_FIELD_ID]);
+         TASK_FIELD_MPX_TO_TYPE_MAP.put(TASK_DATA[loop][MPX_FIELD_ID], TASK_DATA[loop][FIELD_DATA_TYPE]);
       }
-
-      iter = RESOURCE_FIELD_XML_TO_MPX_MAP.keySet().iterator();
-      while (iter.hasNext() == true)
+      
+      for (loop=0; loop < RESOURCE_DATA.length; loop++)
       {
-         key = iter.next();
-         value = RESOURCE_FIELD_XML_TO_MPX_MAP.get(key);
-         RESOURCE_FIELD_MPX_TO_XML_MAP.put(value, key);
+         RESOURCE_FIELD_MPX_TO_NAME_MAP.put(RESOURCE_DATA[loop][MPX_FIELD_ID], RESOURCE_DATA[loop][MSPDI_FIELD_NAME]);
+         RESOURCE_FIELD_XML_TO_MPX_MAP.put(RESOURCE_DATA[loop][MSPDI_FIELD_ID], RESOURCE_DATA[loop][MPX_FIELD_ID]);   
+         RESOURCE_FIELD_MPX_TO_XML_MAP.put(RESOURCE_DATA[loop][MPX_FIELD_ID], RESOURCE_DATA[loop][MSPDI_FIELD_ID]);
+         RESOURCE_FIELD_MPX_TO_TYPE_MAP.put(RESOURCE_DATA[loop][MPX_FIELD_ID], RESOURCE_DATA[loop][FIELD_DATA_TYPE]);
       }
    }
 
    private static final String ZERO_DURATION = "PT0H0M0S";
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
-   private static final int MS_PER_MINUTE = 1000 * 60;
+   private static final int MS_PER_MINUTE = 1000 * 60;   
 }
 

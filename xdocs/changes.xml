@@ -16,6 +16,7 @@
       <action dev="joniles" type="add">Added support for blank task rows in MPP8 files.</action>
       <action dev="joniles" type="add">Added support for blank resource rows in MPP8 files.</action>
       <action dev="joniles" type="add">Added support for Portuguese MPX files.</action>
+      <action dev="joniles" type="add">Added support reading and writing extended attributes (apart from outline codes) for MSPDI files.</action>
    </release>
 
    <release version="0.0.22" date="27/07/2004"> 

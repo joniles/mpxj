@@ -90,7 +90,7 @@ public final class CurrencySettings extends MPXRecord
     * @param key Field to be added/updated.
     * @param value new value for field.
     */
-   protected void put (int key, Object value)
+   public void put (int key, Object value)
    {
       super.put (key, value);
       updateFormats ();

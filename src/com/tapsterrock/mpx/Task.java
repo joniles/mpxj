@@ -852,7 +852,7 @@ public final class Task extends MPXRecord implements Comparable
     * @param field field to be added or updated.
     * @param val new value for field.
     */
-   private void set(int field, Object val)
+   public void set(int field, Object val)
    {
       m_model.add (field);
       put (field, val);
@@ -894,7 +894,7 @@ public final class Task extends MPXRecord implements Comparable
     * @param field field to be added or updated.
     * @param val new value for field.
     */
-   private void setDate (int field, Date val)
+   public void setDate (int field, Date val)
    {
       m_model.add(field);
       putDate (field, val);
@@ -922,7 +922,7 @@ public final class Task extends MPXRecord implements Comparable
     * @param field field to be added or updated.
     * @param val new value for field.
     */
-   private void setCurrency (int field, Number val)
+   public void setCurrency (int field, Number val)
    {
       m_model.add(field);
       putCurrency (field, val);

@@ -518,7 +518,7 @@ public final class DateTimeSettings extends MPXRecord
     * @param key identifier of the value being changed
     * @param value new value
     */
-   protected void put (int key, Object value)
+   public void put (int key, Object value)
    {
       super.put (key, value);
       updateFormats ();

@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
 /**
  * This class is used to represent the monetary amounts found in an MPX file.
  */
-final class MPXCurrency extends Number
+public final class MPXCurrency extends Number
 {
    /**
     * Constructor used to parse a string to extract details of the

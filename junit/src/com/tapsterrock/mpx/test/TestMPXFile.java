@@ -1869,6 +1869,64 @@ public class TestMPXFile extends TestCase
          assertEquals(MPXException.PASSWORD_PROTECTED, ex.getMessage());
       }      
    }
+  
+   /**
+    * This test ensures that the task and resource extended attributes are
+    * read and writen correctly for MSPDI files.
+    * 
+    * @throws Exception
+    */
+   public void testMspdiExtendedAttributes ()
+      throws Exception
+   {
+      MSPDIFile xml = new MSPDIFile (m_basedir + "/mspextattr.xml");
+      commonMspdiExtendedAttributeTests (xml);
+      
+      File out = File.createTempFile ("junit", ".xml");
+      xml.write (out);
+
+      xml = new MSPDIFile (out);      
+      commonMspdiExtendedAttributeTests (xml);
+      
+      out.delete();
+   }
+
+   /**
+    * Common tests for MSPDI fileExtended Attribute values.
+    * 
+    * @param xml MSPDI file
+    */
+   private void commonMspdiExtendedAttributeTests (MSPDIFile xml)
+   {
+      LinkedList tasks = xml.getAllTasks();
+      assertEquals (2, tasks.size());
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+      
+      Task task = (Task)tasks.get(1);
+      assertEquals("Task Text One", task.getText1());
+      assertEquals("01/01/2004", df.format(task.getStart1()));
+      assertEquals("31/12/2004", df.format(task.getFinish1()));
+      assertEquals(99.95, task.getCost1().doubleValue(), 0.0);
+      assertEquals("18/07/2004", df.format(task.getDate1()));
+      assertTrue(task.getFlag1Value());
+      assertEquals(55.56, task.getNumber1Value(), 0.0);
+      assertEquals(104.0, task.getDuration1().getDuration(), 0.0);
+      assertEquals(TimeUnit.HOURS, task.getDuration1().getType());
+      
+      LinkedList resources = xml.getAllResources();
+      assertEquals(2, resources.size());
+      
+      Resource resource = (Resource)resources.get(1);
+      assertEquals("Resource Text One", resource.getText1());
+      assertEquals("01/01/2003", df.format(resource.getStart1()));
+      assertEquals("31/12/2003", df.format(resource.getFinish1()));
+      assertEquals(29.99, resource.getCost1().doubleValue(), 0.0);
+      assertEquals("18/07/2003", df.format(resource.getDate1()));
+      assertTrue(resource.getFlag1());
+      assertEquals(5.99, resource.getNumber1Value(), 0.0);
+      assertEquals(176.0, resource.getDuration1().getDuration(), 0.0);
+      assertEquals(TimeUnit.HOURS, resource.getDuration1().getType());      
+   }
    
    private String m_basedir;
 }
