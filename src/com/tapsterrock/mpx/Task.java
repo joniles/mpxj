@@ -234,10 +234,20 @@ public final class Task extends MPXRecord implements Comparable
 
             case OBJECTS:
             case OUTLINE_LEVEL:
-            case UNIQUE_ID:
-            case ID:
             {
                set(x,Integer.valueOf(field));
+               break;
+            }
+
+            case ID:
+            {
+               setID(Integer.valueOf(field));
+               break;
+            }
+
+            case UNIQUE_ID:
+            {
+               setUniqueID(Integer.valueOf(field));
                break;
             }
 
@@ -1790,7 +1800,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setID (int val)
    {
-      set (ID, val);
+      setID (new Integer(val));
    }
 
    /**
@@ -1802,6 +1812,14 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setID (Integer val)
    {
+      MPXFile parent = getParentFile();
+      Integer previous = getID();
+      if (previous != null)
+      {
+         parent.unmapTaskID(previous);
+      }
+      parent.mapTaskID(val, this);
+
       set (ID, val);
    }
 
@@ -2476,7 +2494,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setUniqueID (int val)
    {
-      set (UNIQUE_ID, val);
+      setUniqueID (new Integer(val));
    }
 
    /**
@@ -2489,6 +2507,14 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setUniqueID (Integer val)
    {
+      MPXFile parent = getParentFile();
+      Integer previous = getUniqueID();
+      if (previous != null)
+      {
+         parent.unmapTaskUniqueID(previous);
+      }
+      parent.mapTaskUniqueID(val, this);
+
       set (UNIQUE_ID, val);
    }
 

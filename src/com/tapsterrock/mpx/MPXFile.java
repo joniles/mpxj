@@ -1386,23 +1386,7 @@ public class MPXFile
     */
    public Task getTaskByID (int id)
    {
-      Task result = null;
-      Iterator iter = m_allTasks.iterator();
-      Task task;
-      int taskID;
-
-      while (iter.hasNext() == true)
-      {
-         task = (Task)iter.next();
-         taskID = task.getIDValue();
-         if (taskID == id)
-         {
-            result = task;
-            break;
-         }
-      }
-
-      return (result);
+      return ((Task)m_taskIDMap.get(new Integer(id)));
    }
 
    /**
@@ -1414,23 +1398,7 @@ public class MPXFile
     */
    public Task getTaskByUniqueID (int id)
    {
-      Task result = null;
-      Iterator iter = m_allTasks.iterator();
-      Task task;
-      int taskID;
-
-      while (iter.hasNext() == true)
-      {
-         task = (Task)iter.next();
-         taskID = task.getUniqueIDValue();
-         if (taskID == id)
-         {
-            result = task;
-            break;
-         }
-      }
-
-      return (result);
+      return ((Task)m_taskUniqueIDMap.get(new Integer(id)));
    }
 
    /**
@@ -1442,23 +1410,7 @@ public class MPXFile
     */
    public Resource getResourceByID (int id)
    {
-      Resource result = null;
-      Iterator iter = m_allResources.iterator();
-      Resource resource;
-      int resourceID;
-
-      while (iter.hasNext() == true)
-      {
-         resource = (Resource)iter.next();
-         resourceID = resource.getIDValue();
-         if (resourceID == id)
-         {
-            result = resource;
-            break;
-         }
-      }
-
-      return (result);
+      return ((Resource)m_resourceIDMap.get(new Integer(id)));
    }
 
    /**
@@ -1470,23 +1422,7 @@ public class MPXFile
     */
    public Resource getResourceByUniqueID (int id)
    {
-      Resource result = null;
-      Iterator iter = m_allResources.iterator();
-      Resource resource;
-      int resourceID;
-
-      while (iter.hasNext() == true)
-      {
-         resource = (Resource)iter.next();
-         resourceID = resource.getUniqueIDValue();
-         if (resourceID == id)
-         {
-            result = resource;
-            break;
-         }
-      }
-
-      return (result);
+      return ((Resource)m_resourceUniqueIDMap.get(new Integer(id)));
    }
 
    /**
@@ -1869,6 +1805,90 @@ public class MPXFile
    }
 
    /**
+    * Removes an id-to-task mapping
+    *
+    * @param id task unique ID
+    */
+   void unmapTaskUniqueID (Integer id)
+   {
+      m_taskUniqueIDMap.remove(id);
+   }
+
+   /**
+    * Adds an id-to-task mapping
+    *
+    * @param id task unique ID
+    * @param task task instance
+    */
+   void mapTaskUniqueID (Integer id, Task task)
+   {
+      m_taskUniqueIDMap.put(id, task);
+   }
+
+   /**
+    * Removes an id-to-task mapping
+    *
+    * @param id task ID
+    */
+   void unmapTaskID (Integer id)
+   {
+      m_taskIDMap.remove(id);
+   }
+
+   /**
+    * Adds an id-to-task mapping
+    *
+    * @param id task ID
+    * @param task task instance
+    */
+   void mapTaskID (Integer id, Task task)
+   {
+      m_taskIDMap.put(id, task);
+   }
+
+   /**
+    * Removes an id-to-resource mapping
+    *
+    * @param id resource unique ID
+    */
+   void unmapResourceUniqueID (Integer id)
+   {
+      m_resourceUniqueIDMap.remove(id);
+   }
+
+   /**
+    * Adds an id-to-resource mapping
+    *
+    * @param id resource unique ID
+    * @param resource resource instance
+    */
+   void mapResourceUniqueID (Integer id, Resource resource)
+   {
+      m_resourceUniqueIDMap.put(id, resource);
+   }
+
+   /**
+    * Removes an id-to-resource mapping
+    *
+    * @param id resource ID
+    */
+   void unmapResourceID (Integer id)
+   {
+      m_resourceIDMap.remove(id);
+   }
+
+   /**
+    * Adds an id-to-resource mapping
+    *
+    * @param id resource ID
+    * @param resource resource instance
+    */
+   void mapResourceID (Integer id, Resource resource)
+   {
+      m_resourceIDMap.put(id, resource);
+   }
+
+   /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
     */
@@ -2160,6 +2180,26 @@ public class MPXFile
     * Maps from a resource field alias to a resource field number
     */
    private HashMap m_aliasResourceField = new HashMap ();
+
+   /**
+    * Maps from a task unique ID to a task instance
+    */
+   private HashMap m_taskUniqueIDMap = new HashMap ();
+
+   /**
+    * Maps from a task ID to a task instance
+    */
+   private HashMap m_taskIDMap = new HashMap ();
+
+   /**
+    * Maps from a resource unique ID to a resource instance
+    */
+   private HashMap m_resourceUniqueIDMap = new HashMap ();
+
+   /**
+    * Maps from a resource ID to a resource instance
+    */
+   private HashMap m_resourceIDMap = new HashMap ();
 }
 
 

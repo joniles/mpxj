@@ -80,11 +80,21 @@ public final class Resource extends MPXRecord
 
          switch (x)
          {
-            case ID:
-            case UNIQUE_ID:
             case OBJECTS:
             {
                set(x,Integer.valueOf(field));
+               break;
+            }
+
+            case ID:
+            {
+               setID(Integer.valueOf(field));
+               break;
+            }
+
+            case UNIQUE_ID:
+            {
+               setUniqueID(Integer.valueOf(field));
                break;
             }
 
@@ -531,7 +541,7 @@ public final class Resource extends MPXRecord
     */
    public void setID (int val)
    {
-      set (ID, val);
+      setID (new Integer (val));
    }
 
    /**
@@ -541,6 +551,14 @@ public final class Resource extends MPXRecord
     */
    public void setID (Integer val)
    {
+      MPXFile parent = getParentFile();
+      Integer previous = getID();
+      if (previous != null)
+      {
+         parent.unmapResourceID(previous);
+      }
+      parent.mapResourceID(val, this);
+
       set (ID, val);
    }
 
@@ -756,7 +774,7 @@ public final class Resource extends MPXRecord
     */
    public void setUniqueID (int val)
    {
-      set (UNIQUE_ID, val);
+      setUniqueID (new Integer(val));
    }
 
    /**
@@ -766,6 +784,14 @@ public final class Resource extends MPXRecord
     */
    public void setUniqueID (Integer val)
    {
+      MPXFile parent = getParentFile();
+      Integer previous = getUniqueID();
+      if (previous != null)
+      {
+         parent.unmapResourceUniqueID(previous);
+      }
+      parent.mapResourceUniqueID(val, this);
+
       set (UNIQUE_ID, val);
    }
 
