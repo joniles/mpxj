@@ -260,13 +260,19 @@ public final class MPXCalendar extends MPXRecord
       {
          buf.append (BASE_CALENDAR_RECORD_NUMBER);
          buf.append (delimiter);
-         buf.append (m_name);
+         if (m_name != null)
+         {
+            buf.append (m_name);
+         }
       }
       else
       {
          buf.append (RESOURCE_CALENDAR_RECORD_NUMBER);
          buf.append (delimiter);
-         buf.append (m_baseCalendarName);
+         if (m_baseCalendarName != null)
+         {
+            buf.append (m_baseCalendarName);
+         }
       }
 
       for (int loop=0; loop < m_days.length; loop++)
