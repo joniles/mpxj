@@ -737,6 +737,8 @@ final class MPP9File
          resource.setActualCost(new Double(MPPUtility.getDouble(data, 132)/100));
          resource.setActualOvertimeCost(new Double(MPPUtility.getDouble(data, 172)/100));         
          resource.setActualWork(new MPXDuration (MPPUtility.getDouble (data, 60)/60000, TimeUnit.HOURS));
+         resource.setAvailableFrom(MPPUtility.getTimestamp(data, 20));
+         resource.setAvailableTo(MPPUtility.getTimestamp(data, 24));         
          //resource.setBaseCalendar();
          resource.setBaselineCost(new Double(MPPUtility.getDouble(data, 148)/100));
          resource.setBaselineWork(new MPXDuration (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));

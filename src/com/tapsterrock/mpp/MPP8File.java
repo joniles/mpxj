@@ -90,7 +90,7 @@ final class MPP8File
       
       processViewData (file, projectDir);
       
-      processTableData (file, projectDir);      
+      processTableData (file, projectDir);            
    }
 
 
@@ -707,11 +707,13 @@ final class MPP8File
          rscExtData = new ExtendedData (rscVarData, getOffset(data, 192));
                               
          resource = file.addResource();
-                 
+                                            
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 20)));
          resource.setActualCost(new Double(((double)MPPUtility.getLong6(data, 114))/100));
          resource.setActualOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 144))/100));
          resource.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 62))/100, TimeUnit.HOURS));
+         resource.setAvailableFrom(MPPUtility.getTimestamp(data, 28));
+         resource.setAvailableTo(MPPUtility.getTimestamp(data, 32));
          //resource.setBaseCalendar();
          resource.setBaselineCost(new Double(((double)MPPUtility.getLong6(data, 126))/100));
          resource.setBaselineWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 68))/100, TimeUnit.HOURS));

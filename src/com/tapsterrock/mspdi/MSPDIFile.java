@@ -555,6 +555,8 @@ public class MSPDIFile extends MPXFile
       mpx.setActualCost(getMpxCurrency(resource.getActualCost()));
       mpx.setActualOvertimeCost(getMpxCurrency(resource.getActualOvertimeCost()));      
       mpx.setActualWork(getDuration (resource.getActualWork()));
+      mpx.setAvailableFrom(getDate(resource.getAvailableFrom()));
+      mpx.setAvailableTo(getDate(resource.getAvailableTo()));
       mpx.setBaseCalendar ((String)calendarMap.get(resource.getCalendarUID()));
       //mpx.setBaselineCost();
       //mpx.setBaselineWork();
@@ -2104,6 +2106,8 @@ public class MSPDIFile extends MPXFile
       xml.setActualCost(getXmlCurrency (mpx.getActualCost()));
       xml.setActualOvertimeCost(getXmlCurrency(mpx.getActualOvertimeCost()));
       xml.setActualWork(getDuration (mpx.getActualWork()));
+      xml.setAvailableFrom(getCalendar(mpx.getAvailableFrom()));
+      xml.setAvailableTo(getCalendar(mpx.getAvailableTo()));
       xml.setCode(mpx.getCode());
       xml.setCost(getXmlCurrency(mpx.getCost()));
       xml.setCostPerUse(getXmlCurrency(mpx.getCostPerUse()));

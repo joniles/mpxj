@@ -4196,6 +4196,46 @@ public final class Resource extends MPXRecord
    }
 
    /**
+    * Set the "available from" date
+    * 
+    * @param date available from date
+    */
+   public void setAvailableFrom (Date date)
+   {
+      m_availableFrom = date;   
+   }
+   
+   /**
+    * Retrieves the "available from" date
+    * 
+    * @return available from date
+    */
+   public Date getAvailableFrom ()
+   {
+      return (m_availableFrom);   
+   }
+
+   /**
+    * Set the "available to" date
+    * 
+    * @param date available to date
+    */   
+   public void setAvailableTo (Date date)
+   {
+      m_availableTo = date;   
+   }
+
+   /**
+    * Retrieves the "available to" date
+    * 
+    * @return available from date
+    */   
+   public Date getAvailableTo ()
+   {
+      return (m_availableTo);   
+   }
+   
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
@@ -4389,6 +4429,8 @@ public final class Resource extends MPXRecord
    private String m_outlineCode8;
    private String m_outlineCode9;
    private String m_outlineCode10;
+   private Date m_availableFrom;
+   private Date m_availableTo;
    
    /**
     * The % Work Complete field contains the current status of all tasks
