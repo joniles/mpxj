@@ -1,6 +1,7 @@
 Version 0.0.21
 Fixed a bug where the task start date attribute was not always correct for MPP8 files.
 Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.
+Fixed a bug causing en exception when reading certain MPP9 files.
 Updated to allow localised MPX files to be written and read.
 Implemented support for German MPX files.
 

@@ -69,6 +69,15 @@ final class Props9 extends Props
          m_map.put(new Integer (attrib2), data);
 //         pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;
+         
+         //
+         // Align to two byte boundary
+         //
+         if (data.length % 2 != 0)
+         {
+            is.skip(1);
+            ++address;
+         }         
       }
 
 //      pw.flush();
