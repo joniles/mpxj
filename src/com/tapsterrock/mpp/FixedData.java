@@ -221,7 +221,7 @@ final class FixedData extends MPPComponent
       pw.println ("BEGIN FixedData");
       for (int loop=0; loop < m_array.length; loop++)
       {
-         pw.println ("   Data at index: " + loop);
+         pw.println ("   Data at index: " + loop + " offset: " + m_offset[loop]);
          pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
       }
       pw.println ("END FixedData");
