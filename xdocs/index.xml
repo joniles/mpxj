@@ -92,6 +92,7 @@ Note that the xjc target is platform specific, you will need to
 change the reference to the xjc tool to be xjc.bat or xjc.sh 
 depending on your operating system. You will also need to set properties indicated
 in build.xml to tell it where to find xjc and the xsd file.</p>
+</section>
 
 <section name="Keep in touch">
 
