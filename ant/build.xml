@@ -49,13 +49,13 @@
 </target>
 
 <target name="compile-without-jaxb" depends="init" description="Compile everything excluding JAXB related material">
-   <javac srcdir="${basedir}/src" excludes="**/mspdi/**/* **/XmlMpx.java **/MpxXml.java **/MppXml.java" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" />
-   <javac srcdir="${examples.dir}" destdir="${examples.classes.dir}" classpath="${classpath}:${classes.dir}" debug="on" />
+   <javac srcdir="${basedir}/src" excludes="**/mspdi/**/* **/XmlMpx.java **/MpxXml.java **/MppXml.java **/XmlXml.java" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" />   
 </target>
 
 <target name="compile-with-jaxb" if="jaxb.available" depends="init" description="Compile everything including JAXB related material">
    <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}" debug="on" />
    <javac srcdir="${junit.dir}/src" destdir="${junit.classes.dir}" classpath="${classpath}:${classes.dir}:${junit.dir}/junit.jar" debug="on" />
+   <javac srcdir="${examples.dir}" destdir="${examples.classes.dir}" classpath="${classpath}:${classes.dir}:${jaxb.classpath}" debug="on" />
    <copy file="${basedir}/src/${schema.dir}/bgm.ser" todir="${classes.dir}${schema.dir}"/>
    <copy file="${basedir}/src/${schema.dir}/jaxb.properties" todir="${classes.dir}${schema.dir}"/>
 </target>
