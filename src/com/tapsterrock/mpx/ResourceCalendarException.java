@@ -268,6 +268,30 @@ public final class ResourceCalendarException extends MPXRecord
       putTime (TO_TIME_3, to);
    }
 
+   /**
+    * This method determines whether the given date falls in the range of
+    * dates covered by this exception. Note that this method assumes that both
+    * the start and end date of this exception have been set.
+    * 
+    * @param date Date to be tested
+    * @return Boolean value
+    */
+   public boolean contains (Date date)
+   {
+      boolean result = false;
+
+      if (date != null)
+      {
+         long time = date.getTime();
+
+         if (time >= getFromDate().getTime() && time <= getToDate().getTime())
+         {
+            result = true;
+         }
+      }
+
+      return (result);      
+   }
 
    /**
     * This method generates a string in MPX format representing the
