@@ -1364,24 +1364,29 @@ public class MPXFile
 				parent = null;
 				
             if (lastTask != null)
-            {
+            {               
                if (level == lastLevel)
                {
                   parent = lastTask.getParentTask();
                }
                else
-               {
+               {                  
                   if (level > lastLevel)
                   {
                      parent = lastTask;                     
                   }
                   else
-                  {
-                     parent = lastTask.getParentTask();
-                     if (parent != null)
+                  {      
+                     while (level <= lastLevel)
                      {
-                        parent = parent.getParentTask();
-                     }
+                        parent = lastTask.getParentTask();
+                        if (parent == null)
+                        {
+                           break;
+                        }                           
+                        lastLevel = parent.getOutlineLevelValue();
+                        lastTask = parent;
+                     }                                                                                   
                   }
                }
             }
