@@ -24,6 +24,9 @@
 
 package com.tapsterrock.mpx;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 /**
  * Standard exception type thrown by the MPXJ library.
  */
@@ -52,6 +55,40 @@ public final class MPXException extends Exception
       m_exception = exception;
    }
 
+   /**
+    * Prints the stack trace, including details of any nested exception.
+    * 
+    * @param s output print stream
+    */   
+   public void printStackTrace (PrintStream s) 
+   {
+      super.printStackTrace(s);
+      
+      if (m_exception != null)
+      {
+         s.println ();
+         s.print("Nested Exception is: ");
+         m_exception.printStackTrace(s);
+      }
+   }
+
+   /**
+    * Prints the stack trace, including details of any nested exception.
+    * 
+    * @param s output print writer
+    */   
+   public void printStackTrace (PrintWriter s) 
+   {
+      super.printStackTrace(s);
+      
+      if (m_exception != null)
+      {
+         s.println ();         
+         s.print("Nested Exception is: ");
+         m_exception.printStackTrace(s);
+      }
+   }
+         
    /**
     * Returns the embedded exception
     *
