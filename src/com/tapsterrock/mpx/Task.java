@@ -1262,11 +1262,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
    /**
     * The Cost Variance field shows the difference between the
-    * baseline cost and total
-    * cost for a task. The total cost is the current estimate of
-    * costs based on actual
-    * costs and remaining costs. This is also referred to as variance
-    * at completion (VAC).
+    * baseline cost and total cost for a task. The total cost is the 
+    * current estimate of costs based on actual costs and remaining costs. 
+    * This is also referred to as variance at completion (VAC).
     *
     * @param val amount
     */
@@ -1316,11 +1314,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
    /**
     * The CV (earned value cost variance) field shows the difference
-    * between how much
-    * it should have cost to achieve the current level of completion
-    * on the task, and
-    * how much it has actually cost to achieve the current level of
-    * completion up to
+    * between how much it should have cost to achieve the current level of 
+    * completion on the task, and how much it has actually cost to achieve the 
+    * current level of completion up to
     * the status date or today's date.
     *
     * @param val value to set
@@ -1332,11 +1328,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
    /**
     * The CV (earned value cost variance) field shows the difference
-    * between how much
-    * it should have cost to achieve the current level of completion
-    * on the task, and
-    * how much it has actually cost to achieve the current level of
-    * completion up to
+    * between how much it should have cost to achieve the current level of 
+    * completion on the task, and how much it has actually cost to achieve the 
+    * current level of completion up to
     * the status date or today's date.
     *
     * @param val value to set
