@@ -25,6 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
@@ -139,6 +140,7 @@ public final class DateTimeSettings extends MPXRecord
                   {
                      pattern="yy"+datesep+"MM"+datesep+"dd";
                      break;
+
                   }
                }
                break;
@@ -654,7 +656,7 @@ public final class DateTimeSettings extends MPXRecord
       Integer minutes = (Integer)get (DEFAULT_TIME);
       if (minutes != null)
       {
-         result = new Date (minutes.longValue() * MS_PER_MINUTE);
+         result = getTime(minutes.longValue() * MS_PER_MINUTE);
       }
 
       return (result);
@@ -884,6 +886,65 @@ public final class DateTimeSettings extends MPXRecord
       return (toString(RECORD_NUMBER));
    }
 
+
+   /**
+    * This utility method takes a time value specified in milliseconds
+    * and generates a Date instance whose time component correctly represents
+    * the required time. Note that this method takes account of timezones and
+    * daylight saving tims.
+    * 
+    * @param time a time value represented as a number of milliseconds
+    * @return a Date instance whose time component represents the required time
+    */
+   public static final Date getTime (long time)
+   {
+      TimeZone tz = TimeZone.getDefault();
+      int rawOffset = tz.getRawOffset();
+            
+      time -= rawOffset;
+
+      if (rawOffset == 0 && tz.inDaylightTime(new Date()) == true)
+      {
+         if (m_hasDSTSavings == true)
+         {
+            time -= tz.getDSTSavings();   
+         }
+         else
+         {
+            time -= DEFAULT_DST_SAVINGS;
+         }            
+      }
+      
+      return (new Date (time));
+   }
+
+   /**
+    * Default value to use for DST savings if we are using a version
+    * of Java < 1.4
+    */
+   private static final int DEFAULT_DST_SAVINGS = 3600000;
+   
+   /**
+    * Flag used to indicate the existance of the getDSTSavings
+    * method that was introduced in Java 1.4
+    */
+   private static boolean m_hasDSTSavings;   
+   
+   static
+   {
+      Class tz = TimeZone.class;
+      
+      try
+      {
+         tz.getMethod("getDSTSavings", null);
+         m_hasDSTSavings = true;
+      }
+      
+      catch (NoSuchMethodException ex)
+      {
+         m_hasDSTSavings = false;         
+      }
+   }   
 
    /**
     * All the following formats are as per Project '98.

@@ -1846,7 +1846,7 @@ public class MSPDIFile extends MPXFile
    private void writeDateTimeSettings (Project project)
    {
       DateTimeSettings settings = getDateTimeSettings();
-      project.setDefaultStartTime(getCalendar (settings.getDefaultTimeAsDate()));
+      project.setDefaultStartTime(getCalendar (settings.getDefaultTimeAsDate()));     
    }
 
 
@@ -2163,7 +2163,7 @@ public class MSPDIFile extends MPXFile
    {
       Project.TasksType.TaskType xml = ObjectFactory.createProjectTypeTasksTypeTaskType();
       DateTimeSettings settings = getDateTimeSettings();
-      Date defaultStartTime = settings.getDefaultTimeAsDate();
+      int defaultStartTime = settings.getDefaultTimeValue();
       
       xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
       xml.setActualDuration(getDuration(mpx.getActualDuration()));
@@ -2228,13 +2228,16 @@ public class MSPDIFile extends MPXFile
 
       Date startDate = mpx.getStart();
       if (startDate != null)
-      {
+      {                  
          long startTime = startDate.getTime();
-         if (startTime % MS_PER_DAY == 0)
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(startDate);
+
+         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
          {
-            startTime += defaultStartTime.getTime();
-            startDate = new Date (startTime);
+            startDate = new Date(startTime + (defaultStartTime * MS_PER_MINUTE));
          }
+         
          xml.setStart(getCalendar(startDate));
       }
 
@@ -2575,7 +2578,9 @@ public class MSPDIFile extends MPXFile
       {
          "ns1:".getBytes(),
          ":ns1".getBytes(),
-         ".000+??:??".getBytes(),
+         ".000".getBytes(),
+         "+??:??<".getBytes(),
+         "-??:??<".getBytes(),
          "true<".getBytes(),
          "false<".getBytes()
       };
@@ -2585,6 +2590,8 @@ public class MSPDIFile extends MPXFile
          null,
          null,
          null,
+         "<",
+         "<",
          "1<",
          "0<"
       };
@@ -2596,5 +2603,6 @@ public class MSPDIFile extends MPXFile
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
    private static final long MS_PER_DAY = 1000 * 60 * 60 * 24;
+   private static final int MS_PER_MINUTE = 1000 * 60;
 }
 
