@@ -65,9 +65,9 @@ final class FixedMeta extends MPPComponent
          throw new IOException ("Bad magic number");
       }
 
-      int unknown1 = readInt (is);
+      readInt (is);
       m_itemCount = readInt (is);
-      int dataSize = readInt (is);
+      readInt (is);
 
       m_itemCount = (fileSize - 16) / itemSize;
 
