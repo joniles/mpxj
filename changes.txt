@@ -9,6 +9,8 @@ Added default values to the MPX project header.
 Added support for reading the RemainingDuration field from an MPP9 file.
 Updated predecessor and successor method documentation.
 Updated Task.get/set ResourceInitials and Task.get/set ResourceNames method documentation.
+Updated to extract the following fields from resource assignment data in MPP files which were previously not imported:
+	ActualCost, ActualWork, Cost, Finish, Start, Units, Work
 
 Version 0.0.14
 Updated to extract the following fields from resource data in an MPP9 file which were previously not imported:
