@@ -375,7 +375,7 @@ final class MPP8File
          //
          if (taskVarData == null)
          {
-            taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));
+            taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));            
          }
                                        
          taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
@@ -599,7 +599,13 @@ final class MPP8File
          if (task.getCost() != null && task.getBaselineCost() != null)
          {
             task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));   
-         }                                                                                                                 
+         }     
+         
+         //
+         // Uncommenting the call to this method is useful when trying 
+         // to determine the function of unknown task data.
+         //
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);                                                                                                            
       }            
    }
 
@@ -1181,7 +1187,37 @@ final class MPP8File
    {
       return (-1 - MPPUtility.getInt(data, offset));      
    }      
-            
+
+//   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
+//   {
+//      System.out.println (name);
+//      for (int loop=0; loop < spec.length; loop++)
+//      {
+//         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));         
+//      }
+//      System.out.println ();
+//   }
+//      
+//   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
+//   {
+//      {8, 12}, 
+//      {36, 12}, 
+//      {50, 18}, 
+//      {86, 2},       
+//      {90, 6},       
+//      {136, 2}, 
+//      {142, 2}, 
+//      {144, 4}, 
+//      {148, 4}, 
+//      {152, 4},       
+//      {164, 4}, 
+//      {192, 12}, 
+//      {210, 6}, 
+//      {268, 4}, // includes known flags
+//      {274, 32}, // includes known flags
+//      {306, 6}, 
+//   };
+   
    /**
     * Task data types.
     */
