@@ -1586,6 +1586,77 @@ public class TestMPXFile extends TestCase
       assertEquals ("Outline Code10r", mpx.getResourceFieldAlias(Resource.OUTLINECODE10));
    }
 
+   /**
+    * As part of the bug reports that are submitted for MPXJ I am passed a
+    * number of confidential project files, which for obvious reasons cannot
+    * be redistributed as test cases. These files reside in a directory on
+    * my development machine, and asuming that this directory exists, this
+    * test will attempt of read each of the files in turn.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData ()
+      throws Exception
+   {
+      File dir = new File ("c:\\tapsterrock\\mpxj\\data");
+      if (dir.exists() == true && dir.isDirectory() == true)
+      {
+         MPXFile mpxj;
+         int failures = 0;
+         File[] files = dir.listFiles();
+         File file;
+         String name;
+         for (int loop=0; loop < files.length; loop++)
+         {
+            file = files[loop];
+            name = file.getName().toUpperCase();
+
+            try
+            {
+               if (name.endsWith(".MPP") == true)
+               {
+                  mpxj = new MPPFile(file);
+               }
+               else
+               {
+                  if (name.endsWith(".MPX") == true)
+                  {
+                     mpxj = new MPXFile ();
+                     
+                     if (name.indexOf(".DE.") != -1)
+                     {
+                        mpxj.setLocale(Locale.GERMAN);
+                     }
+                     
+                     if (name.indexOf(".SV.") != -1)
+                     {
+                        mpxj.setLocale(new Locale ("sv"));
+                     }
+                     
+                     mpxj.read(file);
+                  }
+                  else
+                  {
+                     if (name.endsWith(".XML") == true)
+                     {
+                        mpxj = new MSPDIFile(file);
+                     }
+                  }
+               }
+            }
+            
+            catch (Exception ex)
+            {
+               System.out.println ("Failed to read " + name);
+               ex.printStackTrace();
+               ++failures;
+            }
+         }         
+         
+         assertEquals("Failed to read " + failures + " files", 0, failures);
+      }
+   }
+   
    private String m_basedir;
 }
 
