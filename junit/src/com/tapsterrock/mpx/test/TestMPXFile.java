@@ -360,7 +360,42 @@ public class TestMPXFile extends TestCase
             out.delete();
          }
       }
+   }
 
+   /**
+    * This method tests two stages of conversion, MPP->MPX->MSPDI. This
+    * jhas been designed to exercise bug 896189, which was exhibited
+    * when an MSPDI file was generated from an MPX file which did not
+    * have the same set of attributes as a native MPP file.
+    * 
+    * @throws Exception
+    */
+   public void testConversion4 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample.mpp");
+         MPPFile mpp = new MPPFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpp.write (out);
+         
+         MPXFile mpx = new MPXFile (out);
+         out.delete();
+         MSPDIFile mspdi = new MSPDIFile (mpx);
+         out = File.createTempFile ("junit", ".xml");
+         mspdi.write(out);
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
    }
 
    /**
