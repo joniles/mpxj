@@ -42,6 +42,23 @@ class ByteArray
       m_data = data;
    }
 
+	/**
+	 * Constructor, creates a byte array from a subsection of 
+	 * another byte array.
+	 * 
+	 * @param data Original byte array
+	 * @param offset Offset into the original array
+	 * @param size Amount of data to copy into the new array
+	 */
+   public ByteArray (byte[] data, int offset, int size)
+   {
+      m_data = new byte[size];
+      for (int loop=0; loop < size; loop++)
+      {
+       	m_data[loop] = data[offset+loop];  
+      }
+   }
+
    /**
     * Accessor method allowing the wrapped byte array to be retrieved.
     *

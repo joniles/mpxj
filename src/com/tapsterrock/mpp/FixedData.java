@@ -50,42 +50,29 @@ class FixedData extends MPPComponent
     */
    public FixedData (FixedMeta meta, InputStream is)
       throws IOException
-   {
+   {      
+		byte[] buffer = new byte[is.available()];
+		is.read(buffer);
+				
       int itemCount = meta.getItemCount();
-
       m_array = new ByteArray[itemCount];
 
-      int index;
-      int offset = 0;
       int itemOffset;
       int itemSize;
       int available;
-
+			
       for (int loop=0; loop < itemCount; loop++)
-      {
-         available = is.available();
-         if (available == 0)
-         {
-            break;
-         }
-
+      {        	
          itemOffset = meta.getItemOffset (loop);
+         itemSize = meta.getItemSize(loop);
 
-         if (loop == itemCount-1)
-         {
-            itemSize = meta.getDataSize() - itemOffset;
-         }
-         else
-         {
-            itemSize = meta.getItemOffset(loop+1) - itemOffset;
-         }
+			if (itemOffset > buffer.length)
+			{
+				continue;			   
+			}			
 
-         if (offset != itemOffset)
-         {
-            is.skip (itemOffset-offset);
-            offset = itemOffset;
-         }
-
+			available = buffer.length - itemOffset;
+			
          if (itemSize < 0)
          {
             itemSize = available;
@@ -98,10 +85,8 @@ class FixedData extends MPPComponent
             }
          }
 
-         m_array[loop] = new ByteArray (readByteArray (is, itemSize));
-
-         offset += itemSize;
-      }
+         m_array[loop] = new ByteArray (buffer, itemOffset, itemSize);
+      }      
    }
 
    /**
