@@ -216,7 +216,7 @@ public class MpxCreate
       // correct values in order for MS project to mark the task as complete
       // or partially complete.
       //
-      task2.setPercentageComplete(55.5);
+      task2.setPercentageComplete(50.0);
       task2.setActualStart(df.parse("01/01/2003"));
 
       //
