@@ -15,6 +15,7 @@ Added MppXml utility
 Added support for querying view information held in MPP files.
 Added support for querying table information held in MPP files. (NB This allows the user to retrieve column information, including user defined column names)
 Added support for outlinecode1-10 fields in MPP9 files.
+Added support for resource "available from" and "available to" fields.
 
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
