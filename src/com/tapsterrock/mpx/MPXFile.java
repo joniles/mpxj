@@ -108,6 +108,8 @@ public class MPXFile
       m_locale = file.m_locale;
       m_taskFieldAlias = file.m_taskFieldAlias;
       m_aliasTaskField = file.m_aliasTaskField;
+      m_resourceFieldAlias = file.m_resourceFieldAlias;
+      m_aliasResourceField = file.m_aliasResourceField;
    }
 
    /**
@@ -1773,7 +1775,7 @@ public class MPXFile
    }
 
    /**
-    * Retrieves the field number of a field based on its alias. If the
+    * Retrieves the field number of a task field based on its alias. If the
     * alias is not recognised, this method will return -1.
     *
     * @param alias alias text
@@ -1795,24 +1797,98 @@ public class MPXFile
    }
 
    /**
-    * Allows derived classes to determine if field aliases have been defined.
+    * Associates an alias with a custom resource field number
     *
-    * @return true if field aliases have been defined
+    * @param field custom field number
+    * @param alias alias text
     */
-   protected boolean fieldAliasesDefined ()
+   public void setResourceFieldAlias (int field, String alias)
+   {
+      if (alias != null && alias.length() != 0)
+      {
+         Integer id = new Integer (field);
+         m_resourceFieldAlias.put(id, alias);
+         m_aliasResourceField.put(alias, id);
+      }
+   }
+
+   /**
+    * Retrieves the alias associated with a custom resource field.
+    * This method will return null if no alias has been defined for
+    * this field
+    *
+    * @param field field number
+    * @return alias text
+    */
+   public String getResourceFieldAlias (int field)
+   {
+      return ((String)m_resourceFieldAlias.get(new Integer(field)));
+   }
+
+   /**
+    * Retrieves the field number of a resource field based on its alias. If the
+    * alias is not recognised, this method will return -1.
+    *
+    * @param alias alias text
+    * @return task field number
+    */
+   public int getAliasResourceField (String alias)
+   {
+      Integer result = (Integer)m_aliasResourceField.get(alias);
+      int field;
+      if (result == null)
+      {
+         field = -1;
+      }
+      else
+      {
+         field = result.intValue();
+      }
+      return (field);
+   }
+
+   /**
+    * Allows derived classes to determine if task field aliases have
+    * been defined.
+    *
+    * @return true if task field aliases have been defined
+    */
+   protected boolean taskFieldAliasesDefined ()
    {
       return (!m_taskFieldAlias.isEmpty());
    }
 
    /**
-    * Allows derived classes to gain access to the mapping between
-    * MPX field numbers and aliases
+    * Allows derived classes to determine if resource field aliases have
+    * been defined.
     *
-    * @return task fiel to alias map
+    * @return true if resource field aliases have been defined
+    */
+   protected boolean resourceFieldAliasesDefined ()
+   {
+      return (!m_resourceFieldAlias.isEmpty());
+   }
+
+   /**
+    * Allows derived classes to gain access to the mapping between
+    * MPX task field numbers and aliases
+    *
+    * @return task field to alias map
     */
    protected HashMap getTaskFieldAliasMap ()
    {
       return (m_taskFieldAlias);
+   }
+
+   /**
+    * Allows derived classes to gain access to the mapping between
+    * MPX resource field numbers and aliases
+    *
+    * @return resource field to alias map
+    */
+   protected HashMap getResourceFieldAliasMap ()
+   {
+      return (m_resourceFieldAlias);
    }
 
    /**
@@ -2097,6 +2173,16 @@ public class MPXFile
     * Maps from a task field alias to a task field number
     */
    private HashMap m_aliasTaskField = new HashMap ();
+
+   /**
+    * Maps from a resource field number to a resource alias.
+    */
+   private HashMap m_resourceFieldAlias = new HashMap ();
+
+   /**
+    * Maps from a resource field alias to a resource field number
+    */
+   private HashMap m_aliasResourceField = new HashMap ();
 
    /**
     * Constant representing maximum number of BaseCalendars per MPX file.

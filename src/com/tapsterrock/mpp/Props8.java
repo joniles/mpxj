@@ -113,6 +113,30 @@ final class Props8 extends Props
             }
          }
 
+         //
+         // What follows next appears to be a string length
+         //
+//         int strlen = readInt(is);
+//         byte[] strdata = new byte[strlen];
+//         is.read(strdata);
+
+
+          //
+          // Then we get the string itself
+          //
+//         int avail = is.available();
+//         byte[] buffer = new byte[avail];
+//         is.read(buffer);
+
+          //
+          // and finally the remainder of the data block,
+          // which appears to be a 32 byte header, followed by
+          // 24 byte blocks, occasionally interspersed with
+          // larger items of data, but with no apparent clue
+          // as to when they will appear.
+          //
+//         System.out.println (MPPUtility.hexdump(buffer, true));
+
          //pw.flush();
          //pw.close();
       }

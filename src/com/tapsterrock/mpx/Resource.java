@@ -296,6 +296,28 @@ public final class Resource extends MPXRecord
    }
 
    /**
+    * This method is used to set the value of a date field in the resource.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void setDate (int field, Date val)
+   {
+      putDate (field, val);
+   }
+
+   /**
+    * This method is used to set the value of a field in the resource.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void set (int field, boolean val)
+   {
+      put (field, val);
+   }
+
+   /**
     * This method is used to set the value of a currency field in the resource,
     * and also to ensure that the field exists in the resource model
     * record.
@@ -1327,7 +1349,7 @@ public final class Resource extends MPXRecord
     */
    public String getText6()
    {
-      return m_text6;
+      return ((String)get(TEXT6));
    }
 
    /**
@@ -1338,7 +1360,7 @@ public final class Resource extends MPXRecord
     */
    public String getText7()
    {
-      return m_text7;
+      return ((String)get(TEXT7));
    }
 
    /**
@@ -1349,7 +1371,7 @@ public final class Resource extends MPXRecord
     */
    public String getText8()
    {
-      return m_text8;
+      return ((String)get(TEXT8));
    }
 
    /**
@@ -1360,7 +1382,7 @@ public final class Resource extends MPXRecord
     */
    public String getText9()
    {
-      return m_text9;
+      return ((String)get(TEXT9));
    }
 
    /**
@@ -1371,7 +1393,7 @@ public final class Resource extends MPXRecord
     */
    public String getText10()
    {
-      return m_text10;
+      return ((String)get(TEXT10));
    }
 
    /**
@@ -1382,7 +1404,7 @@ public final class Resource extends MPXRecord
     */
    public String getText11()
    {
-      return m_text11;
+      return ((String)get(TEXT11));
    }
 
    /**
@@ -1393,7 +1415,7 @@ public final class Resource extends MPXRecord
     */
    public String getText12()
    {
-      return m_text12;
+      return ((String)get(TEXT12));
    }
 
    /**
@@ -1404,7 +1426,7 @@ public final class Resource extends MPXRecord
     */
    public String getText13()
    {
-      return m_text13;
+      return ((String)get(TEXT13));
    }
 
    /**
@@ -1415,7 +1437,7 @@ public final class Resource extends MPXRecord
     */
    public String getText14()
    {
-      return m_text14;
+      return ((String)get(TEXT14));
    }
 
    /**
@@ -1426,7 +1448,7 @@ public final class Resource extends MPXRecord
     */
    public String getText15()
    {
-      return m_text15;
+      return ((String)get(TEXT15));
    }
 
    /**
@@ -1437,7 +1459,7 @@ public final class Resource extends MPXRecord
     */
    public String getText16()
    {
-      return m_text16;
+      return ((String)get(TEXT16));
    }
 
    /**
@@ -1448,7 +1470,7 @@ public final class Resource extends MPXRecord
     */
    public String getText17()
    {
-      return m_text17;
+      return ((String)get(TEXT17));
    }
 
    /**
@@ -1459,7 +1481,7 @@ public final class Resource extends MPXRecord
     */
    public String getText18()
    {
-      return m_text18;
+      return ((String)get(TEXT18));
    }
 
    /**
@@ -1470,7 +1492,7 @@ public final class Resource extends MPXRecord
     */
    public String getText19()
    {
-      return m_text19;
+      return ((String)get(TEXT19));
    }
 
    /**
@@ -1481,7 +1503,7 @@ public final class Resource extends MPXRecord
     */
    public String getText20()
    {
-      return m_text20;
+      return ((String)get(TEXT20));
    }
 
    /**
@@ -1492,7 +1514,7 @@ public final class Resource extends MPXRecord
     */
    public String getText21()
    {
-      return m_text21;
+      return ((String)get(TEXT21));
    }
 
    /**
@@ -1503,7 +1525,7 @@ public final class Resource extends MPXRecord
     */
    public String getText22()
    {
-      return m_text22;
+      return ((String)get(TEXT22));
    }
 
    /**
@@ -1514,7 +1536,7 @@ public final class Resource extends MPXRecord
     */
    public String getText23()
    {
-      return m_text23;
+      return ((String)get(TEXT23));
    }
 
    /**
@@ -1525,7 +1547,7 @@ public final class Resource extends MPXRecord
     */
    public String getText24()
    {
-      return m_text24;
+      return ((String)get(TEXT24));
    }
 
    /**
@@ -1536,7 +1558,7 @@ public final class Resource extends MPXRecord
     */
    public String getText25()
    {
-      return m_text25;
+      return ((String)get(TEXT25));
    }
 
    /**
@@ -1547,7 +1569,7 @@ public final class Resource extends MPXRecord
     */
    public String getText26()
    {
-      return m_text26;
+      return ((String)get(TEXT26));
    }
 
    /**
@@ -1558,7 +1580,7 @@ public final class Resource extends MPXRecord
     */
    public String getText27()
    {
-      return m_text27;
+      return ((String)get(TEXT27));
    }
 
    /**
@@ -1569,7 +1591,7 @@ public final class Resource extends MPXRecord
     */
    public String getText28()
    {
-      return m_text28;
+      return ((String)get(TEXT28));
    }
 
    /**
@@ -1580,7 +1602,7 @@ public final class Resource extends MPXRecord
     */
    public String getText29()
    {
-      return m_text29;
+      return ((String)get(TEXT29));
    }
 
    /**
@@ -1591,7 +1613,7 @@ public final class Resource extends MPXRecord
     */
    public String getText30()
    {
-      return m_text30;
+      return ((String)get(TEXT30));
    }
 
    /**
@@ -1602,7 +1624,7 @@ public final class Resource extends MPXRecord
     */
    public void setText6(String string)
    {
-      m_text6 = string;
+      set (TEXT6, string);
    }
 
    /**
@@ -1613,7 +1635,7 @@ public final class Resource extends MPXRecord
     */
    public void setText7(String string)
    {
-      m_text7 = string;
+      set (TEXT7, string);
    }
 
    /**
@@ -1624,7 +1646,7 @@ public final class Resource extends MPXRecord
     */
    public void setText8(String string)
    {
-      m_text8 = string;
+      set (TEXT8, string);
    }
 
    /**
@@ -1635,7 +1657,7 @@ public final class Resource extends MPXRecord
     */
    public void setText9(String string)
    {
-      m_text9 = string;
+      set (TEXT9, string);
    }
 
    /**
@@ -1646,7 +1668,7 @@ public final class Resource extends MPXRecord
     */
    public void setText10(String string)
    {
-      m_text10 = string;
+      set (TEXT10, string);
    }
 
    /**
@@ -1657,7 +1679,7 @@ public final class Resource extends MPXRecord
     */
    public void setText11(String string)
    {
-      m_text11 = string;
+      set (TEXT11, string);
    }
 
    /**
@@ -1668,7 +1690,7 @@ public final class Resource extends MPXRecord
     */
    public void setText12(String string)
    {
-      m_text12 = string;
+      set (TEXT12, string);
    }
 
    /**
@@ -1679,7 +1701,7 @@ public final class Resource extends MPXRecord
     */
    public void setText13(String string)
    {
-      m_text13 = string;
+      set (TEXT13, string);
    }
 
    /**
@@ -1690,7 +1712,7 @@ public final class Resource extends MPXRecord
     */
    public void setText14(String string)
    {
-      m_text14 = string;
+      set (TEXT14, string);
    }
 
    /**
@@ -1701,7 +1723,7 @@ public final class Resource extends MPXRecord
     */
    public void setText15(String string)
    {
-      m_text15 = string;
+      set (TEXT15, string);
    }
 
    /**
@@ -1712,7 +1734,7 @@ public final class Resource extends MPXRecord
     */
    public void setText16(String string)
    {
-      m_text16 = string;
+      set (TEXT16, string);
    }
 
    /**
@@ -1723,7 +1745,7 @@ public final class Resource extends MPXRecord
     */
    public void setText17(String string)
    {
-      m_text17 = string;
+      set (TEXT17, string);
    }
 
    /**
@@ -1734,7 +1756,7 @@ public final class Resource extends MPXRecord
     */
    public void setText18(String string)
    {
-      m_text18 = string;
+      set (TEXT18, string);
    }
 
    /**
@@ -1745,7 +1767,7 @@ public final class Resource extends MPXRecord
     */
    public void setText19(String string)
    {
-      m_text19 = string;
+      set (TEXT19, string);
    }
 
    /**
@@ -1756,7 +1778,7 @@ public final class Resource extends MPXRecord
     */
    public void setText20(String string)
    {
-      m_text20 = string;
+      set (TEXT20, string);
    }
 
    /**
@@ -1767,7 +1789,7 @@ public final class Resource extends MPXRecord
     */
    public void setText21(String string)
    {
-      m_text21 = string;
+      set (TEXT21, string);
    }
 
    /**
@@ -1778,7 +1800,7 @@ public final class Resource extends MPXRecord
     */
    public void setText22(String string)
    {
-      m_text22 = string;
+      set (TEXT22, string);
    }
 
    /**
@@ -1789,7 +1811,7 @@ public final class Resource extends MPXRecord
     */
    public void setText23(String string)
    {
-      m_text23 = string;
+      set (TEXT23, string);
    }
 
    /**
@@ -1800,7 +1822,7 @@ public final class Resource extends MPXRecord
     */
    public void setText24(String string)
    {
-      m_text24 = string;
+      set (TEXT24, string);
    }
 
    /**
@@ -1811,7 +1833,7 @@ public final class Resource extends MPXRecord
     */
    public void setText25(String string)
    {
-      m_text25 = string;
+      set (TEXT25, string);
    }
 
    /**
@@ -1822,7 +1844,7 @@ public final class Resource extends MPXRecord
     */
    public void setText26(String string)
    {
-      m_text26 = string;
+      set (TEXT26, string);
    }
 
    /**
@@ -1833,7 +1855,7 @@ public final class Resource extends MPXRecord
     */
    public void setText27(String string)
    {
-      m_text27 = string;
+      set (TEXT27, string);
    }
 
    /**
@@ -1844,7 +1866,7 @@ public final class Resource extends MPXRecord
     */
    public void setText28(String string)
    {
-      m_text28 = string;
+      set (TEXT28, string);
    }
 
    /**
@@ -1855,7 +1877,7 @@ public final class Resource extends MPXRecord
     */
    public void setText29(String string)
    {
-      m_text29 = string;
+      set (TEXT29, string);
    }
 
    /**
@@ -1866,7 +1888,7 @@ public final class Resource extends MPXRecord
     */
    public void setText30(String string)
    {
-      m_text30 = string;
+      set (TEXT30, string);
    }
 
    /**
@@ -1877,7 +1899,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart1()
    {
-      return m_start1;
+      return ((Date)get(START1));
    }
 
    /**
@@ -1888,7 +1910,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart2()
    {
-      return m_start2;
+      return ((Date)get(START2));
    }
 
    /**
@@ -1899,7 +1921,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart3()
    {
-      return m_start3;
+      return ((Date)get(START3));
    }
 
    /**
@@ -1910,7 +1932,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart4()
    {
-      return m_start4;
+      return ((Date)get(START4));
    }
 
    /**
@@ -1921,7 +1943,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart5()
    {
-      return m_start5;
+      return ((Date)get(START5));
    }
 
    /**
@@ -1932,7 +1954,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart6()
    {
-      return m_start6;
+      return ((Date)get(START6));
    }
 
    /**
@@ -1943,7 +1965,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart7()
    {
-      return m_start7;
+      return ((Date)get(START7));
    }
 
    /**
@@ -1954,7 +1976,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart8()
    {
-      return m_start8;
+      return ((Date)get(START8));
    }
 
    /**
@@ -1965,7 +1987,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart9()
    {
-      return m_start9;
+      return ((Date)get(START9));
    }
 
    /**
@@ -1976,7 +1998,7 @@ public final class Resource extends MPXRecord
     */
    public Date getStart10()
    {
-      return m_start10;
+      return ((Date)get(START10));
    }
 
    /**
@@ -1987,7 +2009,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart1(Date date)
    {
-      m_start1 = date;
+      setDate (START1, date);
    }
 
    /**
@@ -1998,7 +2020,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart2(Date date)
    {
-      m_start2 = date;
+      setDate (START2, date);
    }
 
    /**
@@ -2009,7 +2031,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart3(Date date)
    {
-      m_start3 = date;
+      setDate (START3, date);
    }
 
    /**
@@ -2020,7 +2042,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart4(Date date)
    {
-      m_start4 = date;
+      setDate (START4, date);
    }
 
    /**
@@ -2031,7 +2053,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart5(Date date)
    {
-      m_start5 = date;
+      setDate (START5, date);
    }
 
    /**
@@ -2042,7 +2064,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart6(Date date)
    {
-      m_start6 = date;
+      setDate (START6, date);
    }
 
    /**
@@ -2053,7 +2075,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart7(Date date)
    {
-      m_start7 = date;
+      setDate (START7, date);
    }
 
    /**
@@ -2064,7 +2086,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart8(Date date)
    {
-      m_start8 = date;
+      setDate (START8, date);
    }
 
    /**
@@ -2075,7 +2097,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart9(Date date)
    {
-      m_start9 = date;
+      setDate (START9, date);
    }
 
    /**
@@ -2086,7 +2108,7 @@ public final class Resource extends MPXRecord
     */
    public void setStart10(Date date)
    {
-      m_start10 = date;
+      setDate (START10, date);
    }
 
    /**
@@ -2097,7 +2119,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish1()
    {
-      return m_finish1;
+      return ((Date)get(FINISH1));
    }
 
    /**
@@ -2108,7 +2130,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish2()
    {
-      return m_finish2;
+      return ((Date)get(FINISH2));
    }
 
    /**
@@ -2119,7 +2141,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish3()
    {
-      return m_finish3;
+      return ((Date)get(FINISH3));
    }
 
    /**
@@ -2130,7 +2152,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish4()
    {
-      return m_finish4;
+      return ((Date)get(FINISH4));
    }
 
    /**
@@ -2141,7 +2163,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish5()
    {
-      return m_finish5;
+      return ((Date)get(FINISH5));
    }
 
    /**
@@ -2152,7 +2174,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish6()
    {
-      return m_finish6;
+      return ((Date)get(FINISH6));
    }
 
    /**
@@ -2163,7 +2185,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish7()
    {
-      return m_finish7;
+      return ((Date)get(FINISH7));
    }
 
    /**
@@ -2174,7 +2196,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish8()
    {
-      return m_finish8;
+      return ((Date)get(FINISH8));
    }
 
    /**
@@ -2185,7 +2207,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish9()
    {
-      return m_finish9;
+      return ((Date)get(FINISH9));
    }
 
    /**
@@ -2196,7 +2218,7 @@ public final class Resource extends MPXRecord
     */
    public Date getFinish10()
    {
-      return m_finish10;
+      return ((Date)get(FINISH10));
    }
 
    /**
@@ -2207,7 +2229,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish1(Date date)
    {
-      m_finish1 = date;
+      setDate (FINISH1, date);
    }
 
    /**
@@ -2218,7 +2240,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish2(Date date)
    {
-      m_finish2 = date;
+      setDate (FINISH2, date);
    }
 
    /**
@@ -2229,7 +2251,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish3(Date date)
    {
-      m_finish3 = date;
+      setDate (FINISH3, date);
    }
 
    /**
@@ -2240,7 +2262,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish4(Date date)
    {
-      m_finish4 = date;
+      setDate (FINISH4, date);
    }
 
    /**
@@ -2251,7 +2273,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish5(Date date)
    {
-      m_finish5 = date;
+      setDate (FINISH5, date);
    }
 
    /**
@@ -2262,7 +2284,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish6(Date date)
    {
-      m_finish6 = date;
+      setDate (FINISH6, date);
    }
 
    /**
@@ -2273,7 +2295,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish7(Date date)
    {
-      m_finish7 = date;
+      setDate (FINISH7, date);
    }
 
    /**
@@ -2284,7 +2306,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish8(Date date)
    {
-      m_finish8 = date;
+      setDate (FINISH8, date);
    }
 
    /**
@@ -2295,7 +2317,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish9(Date date)
    {
-      m_finish9 = date;
+      setDate (FINISH9, date);
    }
 
    /**
@@ -2306,7 +2328,7 @@ public final class Resource extends MPXRecord
     */
    public void setFinish10(Date date)
    {
-      m_finish10 = date;
+      setDate (FINISH10, date);
    }
 
    /**
@@ -2317,7 +2339,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber1 (Double val)
    {
-      m_number1 = val;
+      set (NUMBER1, val);
    }
 
    /**
@@ -2328,7 +2350,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber1Value ()
    {
-      return (getDoubleValue (m_number1));
+      return (getDoubleValue (NUMBER1));
    }
 
    /**
@@ -2339,7 +2361,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber1 ()
    {
-      return (m_number1);
+      return ((Double)get (NUMBER1));
    }
 
 
@@ -2351,7 +2373,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber2 (Double val)
    {
-      m_number2 = val;
+      set (NUMBER2, val);
    }
 
    /**
@@ -2362,7 +2384,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber2Value ()
    {
-      return (getDoubleValue (m_number2));
+      return (getDoubleValue (NUMBER2));
    }
 
    /**
@@ -2373,7 +2395,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber2 ()
    {
-      return (m_number2);
+      return ((Double)get (NUMBER2));
    }
 
 
@@ -2385,7 +2407,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber3 (Double val)
    {
-      m_number3 = val;
+      set (NUMBER3, val);
    }
 
    /**
@@ -2396,7 +2418,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber3Value ()
    {
-      return (getDoubleValue (m_number3));
+      return (getDoubleValue (NUMBER3));
    }
 
    /**
@@ -2407,7 +2429,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber3 ()
    {
-      return (m_number3);
+      return ((Double)get (NUMBER3));
    }
 
 
@@ -2419,7 +2441,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber4 (Double val)
    {
-      m_number4 = val;
+      set (NUMBER4, val);
    }
 
    /**
@@ -2430,7 +2452,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber4Value ()
    {
-      return (getDoubleValue (m_number4));
+      return (getDoubleValue (NUMBER4));
    }
 
    /**
@@ -2441,7 +2463,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber4 ()
    {
-      return (m_number4);
+      return ((Double)get (NUMBER14));
    }
 
 
@@ -2453,7 +2475,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber5 (Double val)
    {
-      m_number5 = val;
+      set (NUMBER5, val);
    }
 
    /**
@@ -2464,7 +2486,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber5Value ()
    {
-      return (getDoubleValue (m_number5));
+      return (getDoubleValue (NUMBER5));
    }
 
    /**
@@ -2475,7 +2497,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber5 ()
    {
-      return (m_number5);
+      return ((Double)get (NUMBER5));
    }
 
 
@@ -2487,7 +2509,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber6 (Double val)
    {
-      m_number6 = val;
+      set (NUMBER6, val);
    }
 
    /**
@@ -2498,7 +2520,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber6Value ()
    {
-      return (getDoubleValue (m_number6));
+      return (getDoubleValue (NUMBER6));
    }
 
    /**
@@ -2509,7 +2531,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber6 ()
    {
-      return (m_number6);
+      return ((Double)get (NUMBER6));
    }
 
    /**
@@ -2520,7 +2542,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber7 (Double val)
    {
-      m_number7 = val;
+      set (NUMBER7, val);
    }
 
    /**
@@ -2531,7 +2553,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber7Value ()
    {
-      return (getDoubleValue (m_number7));
+      return (getDoubleValue (NUMBER7));
    }
 
    /**
@@ -2542,7 +2564,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber7 ()
    {
-      return (m_number7);
+      return ((Double)get (NUMBER7));
    }
 
    /**
@@ -2553,7 +2575,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber8 (Double val)
    {
-      m_number8 = val;
+      set (NUMBER8, val);
    }
 
    /**
@@ -2564,7 +2586,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber8Value ()
    {
-      return (getDoubleValue (m_number8));
+      return (getDoubleValue (NUMBER8));
    }
 
    /**
@@ -2575,7 +2597,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber8 ()
    {
-      return (m_number8);
+      return ((Double)get (NUMBER8));
    }
 
 
@@ -2587,7 +2609,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber9 (Double val)
    {
-      m_number9 = val;
+      set (NUMBER9, val);
    }
 
    /**
@@ -2598,7 +2620,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber9Value ()
    {
-      return (getDoubleValue (m_number9));
+      return (getDoubleValue (NUMBER9));
    }
 
    /**
@@ -2609,7 +2631,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber9 ()
    {
-      return (m_number9);
+      return ((Double)get (NUMBER9));
    }
 
    /**
@@ -2620,7 +2642,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber10 (Double val)
    {
-      m_number10 = val;
+      set (NUMBER10, val);
    }
 
    /**
@@ -2631,7 +2653,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber10Value ()
    {
-      return (getDoubleValue (m_number10));
+      return (getDoubleValue (NUMBER10));
    }
 
    /**
@@ -2642,7 +2664,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber10 ()
    {
-      return (m_number10);
+      return ((Double)get (NUMBER10));
    }
 
    /**
@@ -2653,7 +2675,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber11 (Double val)
    {
-      m_number11 = val;
+      set (NUMBER11, val);
    }
 
    /**
@@ -2664,7 +2686,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber11Value ()
    {
-      return (getDoubleValue (m_number11));
+      return (getDoubleValue (NUMBER11));
    }
 
    /**
@@ -2675,7 +2697,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber11 ()
    {
-      return (m_number11);
+      return ((Double)get (NUMBER11));
    }
 
    /**
@@ -2686,7 +2708,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber12 (Double val)
    {
-      m_number12 = val;
+      set (NUMBER12, val);
    }
 
    /**
@@ -2697,7 +2719,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber12Value ()
    {
-      return (getDoubleValue (m_number12));
+      return (getDoubleValue (NUMBER12));
    }
 
    /**
@@ -2708,7 +2730,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber12 ()
    {
-      return (m_number12);
+      return ((Double)get (NUMBER12));
    }
 
    /**
@@ -2719,7 +2741,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber13 (Double val)
    {
-      m_number13 = val;
+      set (NUMBER13, val);
    }
 
    /**
@@ -2730,7 +2752,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber13Value ()
    {
-      return (getDoubleValue (m_number13));
+      return (getDoubleValue (NUMBER13));
    }
 
    /**
@@ -2741,7 +2763,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber13 ()
    {
-      return (m_number13);
+      return ((Double)get (NUMBER13));
    }
 
    /**
@@ -2752,7 +2774,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber14 (Double val)
    {
-      m_number14 = val;
+      set (NUMBER14, val);
    }
 
    /**
@@ -2763,7 +2785,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber14Value ()
    {
-      return (getDoubleValue (m_number14));
+      return (getDoubleValue (NUMBER14));
    }
 
    /**
@@ -2774,7 +2796,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber14 ()
    {
-      return (m_number14);
+      return ((Double)get (NUMBER14));
    }
 
    /**
@@ -2785,7 +2807,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber15 (Double val)
    {
-      m_number15 = val;
+      set (NUMBER15, val);
    }
 
    /**
@@ -2796,7 +2818,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber15Value ()
    {
-      return (getDoubleValue (m_number15));
+      return (getDoubleValue (NUMBER15));
    }
 
    /**
@@ -2807,7 +2829,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber15 ()
    {
-      return (m_number15);
+      return ((Double)get (NUMBER15));
    }
 
    /**
@@ -2818,7 +2840,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber16 (Double val)
    {
-      m_number16 = val;
+      set (NUMBER16, val);
    }
 
    /**
@@ -2829,7 +2851,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber16Value ()
    {
-      return (getDoubleValue (m_number16));
+      return (getDoubleValue (NUMBER16));
    }
 
    /**
@@ -2840,7 +2862,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber16 ()
    {
-      return (m_number16);
+      return ((Double)get (NUMBER16));
    }
 
    /**
@@ -2851,7 +2873,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber17 (Double val)
    {
-      m_number17 = val;
+      set (NUMBER17, val);
    }
 
    /**
@@ -2862,7 +2884,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber17Value ()
    {
-      return (getDoubleValue (m_number17));
+      return (getDoubleValue (NUMBER17));
    }
 
    /**
@@ -2873,7 +2895,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber17 ()
    {
-      return (m_number17);
+      return ((Double)get (NUMBER17));
    }
 
    /**
@@ -2884,7 +2906,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber18 (Double val)
    {
-      m_number18 = val;
+      set (NUMBER18, val);
    }
 
    /**
@@ -2895,7 +2917,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber18Value ()
    {
-      return (getDoubleValue (m_number18));
+      return (getDoubleValue (NUMBER18));
    }
 
    /**
@@ -2906,7 +2928,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber18 ()
    {
-      return (m_number18);
+      return ((Double)get (NUMBER18));
    }
 
    /**
@@ -2917,7 +2939,7 @@ public final class Resource extends MPXRecord
     */
    public void setNumber19 (Double val)
    {
-      m_number19 = val;
+      set (NUMBER19, val);
    }
 
    /**
@@ -2928,7 +2950,7 @@ public final class Resource extends MPXRecord
     */
    public double getNumber19Value ()
    {
-      return (getDoubleValue (m_number19));
+      return (getDoubleValue (NUMBER19));
    }
 
    /**
@@ -2939,7 +2961,7 @@ public final class Resource extends MPXRecord
     */
    public Double getNumber19 ()
    {
-      return (m_number19);
+      return ((Double)get (NUMBER19));
    }
 
    /**
@@ -2950,7 +2972,29 @@ public final class Resource extends MPXRecord
     */
    public void setNumber20 (Double val)
    {
-      m_number20 = val;
+      set (NUMBER20, val);
+   }
+
+   /**
+    * Retrieves a numeric value.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @return Numeric value
+    */
+   public double getNumber20Value ()
+   {
+      return (getDoubleValue (NUMBER20));
+   }
+
+   /**
+    * Retrieves a numeric value.
+    * Note that this value is an extension to the MPX specification.
+    *
+    * @return Numeric value
+    */
+   public Double getNumber20 ()
+   {
+      return ((Double)get (NUMBER20));
    }
 
    /**
@@ -2961,7 +3005,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration1()
    {
-      return m_duration1;
+      return (MPXDuration)get(DURATION1);
    }
 
    /**
@@ -2972,7 +3016,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration2()
    {
-      return m_duration2;
+      return (MPXDuration)get(DURATION2);
    }
 
    /**
@@ -2983,7 +3027,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration3()
    {
-      return m_duration3;
+      return (MPXDuration)get(DURATION3);
    }
 
    /**
@@ -2994,7 +3038,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration4()
    {
-      return m_duration4;
+      return (MPXDuration)get(DURATION4);
    }
 
    /**
@@ -3005,7 +3049,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration5()
    {
-      return m_duration5;
+      return (MPXDuration)get(DURATION5);
    }
 
    /**
@@ -3016,7 +3060,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration6()
    {
-      return m_duration6;
+      return (MPXDuration)get(DURATION6);
    }
 
    /**
@@ -3027,7 +3071,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration7()
    {
-      return m_duration7;
+      return (MPXDuration)get(DURATION7);
    }
 
    /**
@@ -3038,7 +3082,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration8()
    {
-      return m_duration8;
+      return (MPXDuration)get(DURATION8);
    }
 
    /**
@@ -3049,7 +3093,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration9()
    {
-      return m_duration9;
+      return (MPXDuration)get(DURATION9);
    }
 
    /**
@@ -3060,7 +3104,7 @@ public final class Resource extends MPXRecord
     */
    public MPXDuration getDuration10()
    {
-      return m_duration10;
+      return (MPXDuration)get(DURATION10);
    }
 
    /**
@@ -3071,7 +3115,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration1(MPXDuration duration)
    {
-      m_duration1 = duration;
+      set (DURATION1, duration);
    }
 
    /**
@@ -3082,7 +3126,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration2(MPXDuration duration)
    {
-      m_duration2 = duration;
+      set (DURATION2, duration);
    }
 
    /**
@@ -3093,7 +3137,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration3(MPXDuration duration)
    {
-      m_duration3 = duration;
+      set (DURATION3, duration);
    }
 
    /**
@@ -3104,7 +3148,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration4(MPXDuration duration)
    {
-      m_duration4 = duration;
+      set (DURATION4, duration);
    }
 
    /**
@@ -3115,7 +3159,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration5(MPXDuration duration)
    {
-      m_duration5 = duration;
+      set (DURATION5, duration);
    }
 
    /**
@@ -3126,7 +3170,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration6(MPXDuration duration)
    {
-      m_duration6 = duration;
+      set (DURATION6, duration);
    }
 
    /**
@@ -3137,7 +3181,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration7(MPXDuration duration)
    {
-      m_duration7 = duration;
+      set (DURATION7, duration);
    }
 
    /**
@@ -3148,7 +3192,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration8(MPXDuration duration)
    {
-      m_duration8 = duration;
+      set (DURATION8, duration);
    }
 
    /**
@@ -3159,7 +3203,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration9(MPXDuration duration)
    {
-      m_duration9 = duration;
+      set (DURATION9, duration);
    }
 
    /**
@@ -3170,7 +3214,7 @@ public final class Resource extends MPXRecord
     */
    public void setDuration10(MPXDuration duration)
    {
-      m_duration10 = duration;
+      set (DURATION10, duration);
    }
 
    /**
@@ -3181,7 +3225,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate1()
    {
-      return m_date1;
+      return ((Date)get(DATE1));
    }
 
    /**
@@ -3192,7 +3236,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate10()
    {
-      return m_date10;
+      return ((Date)get(DATE10));
    }
 
    /**
@@ -3203,7 +3247,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate2()
    {
-      return m_date2;
+      return ((Date)get(DATE2));
    }
 
    /**
@@ -3214,7 +3258,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate3()
    {
-      return m_date3;
+      return ((Date)get(DATE3));
    }
 
    /**
@@ -3225,7 +3269,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate4()
    {
-      return m_date4;
+      return ((Date)get(DATE4));
    }
 
    /**
@@ -3236,7 +3280,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate5()
    {
-      return m_date5;
+      return ((Date)get(DATE5));
    }
 
    /**
@@ -3247,7 +3291,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate6()
    {
-      return m_date6;
+      return ((Date)get(DATE6));
    }
 
    /**
@@ -3258,7 +3302,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate7()
    {
-      return m_date7;
+      return ((Date)get(DATE7));
    }
 
    /**
@@ -3269,7 +3313,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate8()
    {
-      return m_date8;
+      return ((Date)get(DATE8));
    }
 
    /**
@@ -3280,7 +3324,7 @@ public final class Resource extends MPXRecord
     */
    public Date getDate9()
    {
-      return m_date9;
+      return ((Date)get(DATE9));
    }
 
    /**
@@ -3291,7 +3335,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate1(Date date)
    {
-      m_date1 = date;
+      setDate(DATE1, date);
    }
 
    /**
@@ -3302,7 +3346,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate10(Date date)
    {
-      m_date10 = date;
+      setDate(DATE10, date);
    }
 
    /**
@@ -3313,7 +3357,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate2(Date date)
    {
-      m_date2 = date;
+      setDate(DATE2, date);
    }
 
    /**
@@ -3324,7 +3368,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate3(Date date)
    {
-      m_date3 = date;
+      setDate(DATE3, date);
    }
 
    /**
@@ -3335,7 +3379,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate4(Date date)
    {
-      m_date4 = date;
+      setDate(DATE4, date);
    }
 
    /**
@@ -3346,7 +3390,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate5(Date date)
    {
-      m_date5 = date;
+      setDate(DATE5, date);
    }
 
    /**
@@ -3357,7 +3401,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate6(Date date)
    {
-      m_date6 = date;
+      setDate(DATE6, date);
    }
 
    /**
@@ -3368,7 +3412,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate7(Date date)
    {
-      m_date7 = date;
+      setDate(DATE7, date);
    }
 
    /**
@@ -3379,7 +3423,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate8(Date date)
    {
-      m_date8 = date;
+      setDate(DATE8, date);
    }
 
    /**
@@ -3390,7 +3434,7 @@ public final class Resource extends MPXRecord
     */
    public void setDate9(Date date)
    {
-      m_date9 = date;
+      setDate(DATE9, date);
    }
 
    /**
@@ -3401,7 +3445,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost1()
    {
-      return m_cost1;
+      return ((Number)get(COST1));
    }
 
    /**
@@ -3412,7 +3456,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost2()
    {
-      return m_cost2;
+      return ((Number)get(COST2));
    }
 
    /**
@@ -3423,7 +3467,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost3()
    {
-      return m_cost3;
+      return ((Number)get(COST3));
    }
 
    /**
@@ -3434,7 +3478,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost4()
    {
-      return m_cost4;
+      return ((Number)get(COST4));
    }
 
    /**
@@ -3445,7 +3489,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost5()
    {
-      return m_cost5;
+      return ((Number)get(COST5));
    }
 
    /**
@@ -3456,7 +3500,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost6()
    {
-      return m_cost6;
+      return ((Number)get(COST6));
    }
 
    /**
@@ -3467,7 +3511,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost7()
    {
-      return m_cost7;
+      return ((Number)get(COST7));
    }
 
    /**
@@ -3478,7 +3522,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost8()
    {
-      return m_cost8;
+      return ((Number)get(COST8));
    }
 
    /**
@@ -3489,7 +3533,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost9()
    {
-      return m_cost9;
+      return ((Number)get(COST9));
    }
 
    /**
@@ -3500,7 +3544,7 @@ public final class Resource extends MPXRecord
     */
    public Number getCost10()
    {
-      return m_cost10;
+      return ((Number)get(COST10));
    }
 
    /**
@@ -3511,7 +3555,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost1(Number number)
    {
-      m_cost1 = number;
+      setCurrency (COST1, number);
    }
 
    /**
@@ -3522,7 +3566,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost2(Number number)
    {
-      m_cost2 = number;
+      setCurrency (COST2, number);
    }
 
    /**
@@ -3533,7 +3577,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost3(Number number)
    {
-      m_cost3 = number;
+      setCurrency (COST3, number);
    }
 
    /**
@@ -3544,7 +3588,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost4(Number number)
    {
-      m_cost4 = number;
+      setCurrency (COST4, number);
    }
 
    /**
@@ -3555,7 +3599,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost5(Number number)
    {
-      m_cost5 = number;
+      setCurrency (COST5, number);
    }
 
    /**
@@ -3566,7 +3610,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost6(Number number)
    {
-      m_cost6 = number;
+      setCurrency (COST6, number);
    }
 
    /**
@@ -3577,7 +3621,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost7(Number number)
    {
-      m_cost7 = number;
+      setCurrency (COST7, number);
    }
 
    /**
@@ -3588,7 +3632,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost8(Number number)
    {
-      m_cost8 = number;
+      setCurrency (COST8, number);
    }
 
    /**
@@ -3599,7 +3643,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost9(Number number)
    {
-      m_cost9 = number;
+      setCurrency (COST9, number);
    }
 
    /**
@@ -3610,7 +3654,7 @@ public final class Resource extends MPXRecord
     */
    public void setCost10(Number number)
    {
-      m_cost10 = number;
+      setCurrency (COST10, number);
    }
 
    /**
@@ -3620,7 +3664,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag1()
    {
-      return m_flag1;
+      return (getBooleanValue (FLAG1));
    }
 
    /**
@@ -3630,7 +3674,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag2()
    {
-      return m_flag2;
+      return (getBooleanValue (FLAG2));
    }
 
    /**
@@ -3640,7 +3684,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag3()
    {
-      return m_flag3;
+      return (getBooleanValue (FLAG3));
    }
 
    /**
@@ -3650,7 +3694,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag4()
    {
-      return m_flag4;
+      return (getBooleanValue (FLAG4));
    }
 
    /**
@@ -3660,7 +3704,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag5()
    {
-      return m_flag5;
+      return (getBooleanValue (FLAG5));
    }
 
    /**
@@ -3670,7 +3714,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag6()
    {
-      return m_flag6;
+      return (getBooleanValue (FLAG6));
    }
 
    /**
@@ -3680,7 +3724,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag7()
    {
-      return m_flag7;
+      return (getBooleanValue (FLAG7));
    }
 
    /**
@@ -3690,7 +3734,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag8()
    {
-      return m_flag8;
+      return (getBooleanValue (FLAG8));
    }
 
    /**
@@ -3700,7 +3744,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag9()
    {
-      return m_flag9;
+      return (getBooleanValue (FLAG9));
    }
 
    /**
@@ -3710,7 +3754,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag10()
    {
-      return m_flag10;
+      return (getBooleanValue (FLAG10));
    }
 
    /**
@@ -3720,7 +3764,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag11()
    {
-      return m_flag11;
+      return (getBooleanValue (FLAG11));
    }
 
    /**
@@ -3730,7 +3774,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag12()
    {
-      return m_flag12;
+      return (getBooleanValue (FLAG12));
    }
 
    /**
@@ -3740,7 +3784,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag13()
    {
-      return m_flag13;
+      return (getBooleanValue (FLAG13));
    }
 
    /**
@@ -3750,7 +3794,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag14()
    {
-      return m_flag14;
+      return (getBooleanValue (FLAG14));
    }
 
    /**
@@ -3760,7 +3804,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag15()
    {
-      return m_flag15;
+      return (getBooleanValue (FLAG15));
    }
 
    /**
@@ -3770,7 +3814,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag16()
    {
-      return m_flag16;
+      return (getBooleanValue (FLAG16));
    }
 
    /**
@@ -3780,7 +3824,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag17()
    {
-      return m_flag17;
+      return (getBooleanValue (FLAG17));
    }
 
    /**
@@ -3790,7 +3834,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag18()
    {
-      return m_flag18;
+      return (getBooleanValue (FLAG18));
    }
 
    /**
@@ -3800,7 +3844,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag19()
    {
-      return m_flag19;
+      return (getBooleanValue (FLAG19));
    }
 
    /**
@@ -3810,7 +3854,7 @@ public final class Resource extends MPXRecord
     */
    public boolean getFlag20()
    {
-      return m_flag20;
+      return (getBooleanValue (FLAG20));
    }
 
    /**
@@ -3820,7 +3864,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag1(boolean b)
    {
-      m_flag1 = b;
+      set (FLAG1, b);
    }
 
    /**
@@ -3830,7 +3874,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag2(boolean b)
    {
-      m_flag2 = b;
+      set (FLAG2, b);
    }
 
    /**
@@ -3840,7 +3884,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag3(boolean b)
    {
-      m_flag3 = b;
+      set (FLAG3, b);
    }
 
    /**
@@ -3850,7 +3894,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag4(boolean b)
    {
-      m_flag4 = b;
+      set (FLAG4, b);
    }
 
    /**
@@ -3860,7 +3904,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag5(boolean b)
    {
-      m_flag5 = b;
+      set (FLAG5, b);
    }
 
    /**
@@ -3870,7 +3914,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag6(boolean b)
    {
-      m_flag6 = b;
+      set (FLAG6, b);
    }
 
    /**
@@ -3880,7 +3924,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag7(boolean b)
    {
-      m_flag7 = b;
+      set (FLAG7, b);
    }
 
    /**
@@ -3890,7 +3934,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag8(boolean b)
    {
-      m_flag8 = b;
+      set (FLAG8, b);
    }
 
    /**
@@ -3900,7 +3944,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag9(boolean b)
    {
-      m_flag9 = b;
+      set (FLAG9, b);
    }
 
    /**
@@ -3910,7 +3954,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag10(boolean b)
    {
-      m_flag10 = b;
+      set (FLAG10, b);
    }
 
    /**
@@ -3920,7 +3964,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag11(boolean b)
    {
-      m_flag11 = b;
+      set (FLAG11, b);
    }
 
    /**
@@ -3930,7 +3974,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag12(boolean b)
    {
-      m_flag12 = b;
+      set (FLAG12, b);
    }
 
    /**
@@ -3940,7 +3984,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag13(boolean b)
    {
-      m_flag13 = b;
+      set (FLAG13, b);
    }
 
    /**
@@ -3950,7 +3994,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag14(boolean b)
    {
-      m_flag14 = b;
+      set (FLAG14, b);
    }
 
    /**
@@ -3960,7 +4004,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag15(boolean b)
    {
-      m_flag15 = b;
+      set (FLAG15, b);
    }
 
    /**
@@ -3970,7 +4014,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag16(boolean b)
    {
-      m_flag16 = b;
+      set (FLAG16, b);
    }
 
    /**
@@ -3980,7 +4024,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag17(boolean b)
    {
-      m_flag17 = b;
+      set (FLAG17, b);
    }
 
    /**
@@ -3990,7 +4034,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag18(boolean b)
    {
-      m_flag18 = b;
+      set (FLAG18, b);
    }
 
    /**
@@ -4000,7 +4044,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag19(boolean b)
    {
-      m_flag19 = b;
+      set (FLAG19, b);
    }
 
    /**
@@ -4010,7 +4054,7 @@ public final class Resource extends MPXRecord
     */
    public void setFlag20(boolean b)
    {
-      m_flag20 = b;
+      set (FLAG20, b);
    }
 
    /**
@@ -4020,7 +4064,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode1 (String value)
    {
-      m_outlineCode1 = value;
+      set (OUTLINECODE1, value);
    }
 
    /**
@@ -4030,7 +4074,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode1 ()
    {
-      return (m_outlineCode1);
+      return ((String)get(OUTLINECODE1));
    }
 
    /**
@@ -4040,7 +4084,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode2 (String value)
    {
-      m_outlineCode2 = value;
+      set (OUTLINECODE2, value);
    }
 
    /**
@@ -4050,7 +4094,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode2 ()
    {
-      return (m_outlineCode2);
+      return ((String)get(OUTLINECODE2));
    }
 
    /**
@@ -4060,7 +4104,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode3 (String value)
    {
-      m_outlineCode3 = value;
+      set (OUTLINECODE3, value);
    }
 
    /**
@@ -4070,7 +4114,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode3 ()
    {
-      return (m_outlineCode3);
+      return ((String)get(OUTLINECODE3));
    }
 
    /**
@@ -4080,7 +4124,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode4 (String value)
    {
-      m_outlineCode4 = value;
+      set (OUTLINECODE4, value);
    }
 
    /**
@@ -4090,7 +4134,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode4 ()
    {
-      return (m_outlineCode4);
+      return ((String)get(OUTLINECODE4));
    }
 
    /**
@@ -4100,7 +4144,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode5 (String value)
    {
-      m_outlineCode5 = value;
+      set (OUTLINECODE5, value);
    }
 
    /**
@@ -4110,7 +4154,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode5 ()
    {
-      return (m_outlineCode5);
+      return ((String)get(OUTLINECODE5));
    }
 
    /**
@@ -4120,7 +4164,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode6 (String value)
    {
-      m_outlineCode6 = value;
+      set (OUTLINECODE6, value);
    }
 
    /**
@@ -4130,7 +4174,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode6 ()
    {
-      return (m_outlineCode6);
+      return ((String)get(OUTLINECODE6));
    }
 
    /**
@@ -4140,7 +4184,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode7 (String value)
    {
-      m_outlineCode7 = value;
+      set (OUTLINECODE7, value);
    }
 
    /**
@@ -4150,7 +4194,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode7 ()
    {
-      return (m_outlineCode7);
+      return ((String)get(OUTLINECODE7));
    }
 
    /**
@@ -4160,7 +4204,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode8 (String value)
    {
-      m_outlineCode8 = value;
+      set (OUTLINECODE8, value);
    }
 
    /**
@@ -4170,7 +4214,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode8 ()
    {
-      return (m_outlineCode8);
+      return ((String)get(OUTLINECODE8));
    }
 
    /**
@@ -4180,7 +4224,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode9 (String value)
    {
-      m_outlineCode9 = value;
+      set (OUTLINECODE9, value);
    }
 
    /**
@@ -4190,7 +4234,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode9 ()
    {
-      return (m_outlineCode9);
+      return ((String)get(OUTLINECODE9));
    }
 
    /**
@@ -4200,7 +4244,7 @@ public final class Resource extends MPXRecord
     */
    public void setOutlineCode10 (String value)
    {
-      m_outlineCode10 = value;
+      set (OUTLINECODE10, value);
    }
 
    /**
@@ -4210,7 +4254,7 @@ public final class Resource extends MPXRecord
     */
    public String getOutlineCode10 ()
    {
-      return (m_outlineCode10);
+      return ((String)get(OUTLINECODE10));
    }
 
    /**
@@ -4294,6 +4338,41 @@ public final class Resource extends MPXRecord
       return (buf.toString());
    }
 
+   /**
+    * Retrieve the value of a field using its alias
+    *
+    * @param alias field alias
+    * @return field value
+    */
+   public Object getFieldByAlias (String alias)
+   {
+      Object result = null;
+
+      int field = getParentFile().getAliasResourceField(alias);
+
+      if (field != -1)
+      {
+         result = get(field);
+      }
+
+      return (result);
+   }
+
+   /**
+    * Set the value of a field using its alias
+    *
+    * @param alias field alias
+    * @param value field value
+    */
+   public void setFieldByAlias (String alias, Object value)
+   {
+      int field = getParentFile().getAliasResourceField(alias);
+
+      if (field != -1)
+      {
+         set (field, value);
+      }
+   }
 
    /**
     * Resource Model record controlling fields written to resource record
@@ -4322,131 +4401,6 @@ public final class Resource extends MPXRecord
    private Number m_overtimeCost;
    private Number m_actualOvertimeCost;
    private Number m_remainingOvertimeCost;
-   private String m_text6;
-   private String m_text7;
-   private String m_text8;
-   private String m_text9;
-   private String m_text10;
-   private String m_text11;
-   private String m_text12;
-   private String m_text13;
-   private String m_text14;
-   private String m_text15;
-   private String m_text16;
-   private String m_text17;
-   private String m_text18;
-   private String m_text19;
-   private String m_text20;
-   private String m_text21;
-   private String m_text22;
-   private String m_text23;
-   private String m_text24;
-   private String m_text25;
-   private String m_text26;
-   private String m_text27;
-   private String m_text28;
-   private String m_text29;
-   private String m_text30;
-   private Date m_start1;
-   private Date m_start2;
-   private Date m_start3;
-   private Date m_start4;
-   private Date m_start5;
-   private Date m_start6;
-   private Date m_start7;
-   private Date m_start8;
-   private Date m_start9;
-   private Date m_start10;
-   private Date m_finish1;
-   private Date m_finish2;
-   private Date m_finish3;
-   private Date m_finish4;
-   private Date m_finish5;
-   private Date m_finish6;
-   private Date m_finish7;
-   private Date m_finish8;
-   private Date m_finish9;
-   private Date m_finish10;
-   private Double m_number1;
-   private Double m_number2;
-   private Double m_number3;
-   private Double m_number4;
-   private Double m_number5;
-   private Double m_number6;
-   private Double m_number7;
-   private Double m_number8;
-   private Double m_number9;
-   private Double m_number10;
-   private Double m_number11;
-   private Double m_number12;
-   private Double m_number13;
-   private Double m_number14;
-   private Double m_number15;
-   private Double m_number16;
-   private Double m_number17;
-   private Double m_number18;
-   private Double m_number19;
-   private Double m_number20;
-   private MPXDuration m_duration1;
-   private MPXDuration m_duration2;
-   private MPXDuration m_duration3;
-   private MPXDuration m_duration4;
-   private MPXDuration m_duration5;
-   private MPXDuration m_duration6;
-   private MPXDuration m_duration7;
-   private MPXDuration m_duration8;
-   private MPXDuration m_duration9;
-   private MPXDuration m_duration10;
-   private Date m_date1;
-   private Date m_date2;
-   private Date m_date3;
-   private Date m_date4;
-   private Date m_date5;
-   private Date m_date6;
-   private Date m_date7;
-   private Date m_date8;
-   private Date m_date9;
-   private Date m_date10;
-   private Number m_cost1;
-   private Number m_cost2;
-   private Number m_cost3;
-   private Number m_cost4;
-   private Number m_cost5;
-   private Number m_cost6;
-   private Number m_cost7;
-   private Number m_cost8;
-   private Number m_cost9;
-   private Number m_cost10;
-   private boolean m_flag1;
-   private boolean m_flag2;
-   private boolean m_flag3;
-   private boolean m_flag4;
-   private boolean m_flag5;
-   private boolean m_flag6;
-   private boolean m_flag7;
-   private boolean m_flag8;
-   private boolean m_flag9;
-   private boolean m_flag10;
-   private boolean m_flag11;
-   private boolean m_flag12;
-   private boolean m_flag13;
-   private boolean m_flag14;
-   private boolean m_flag15;
-   private boolean m_flag16;
-   private boolean m_flag17;
-   private boolean m_flag18;
-   private boolean m_flag19;
-   private boolean m_flag20;
-   private String m_outlineCode1;
-   private String m_outlineCode2;
-   private String m_outlineCode3;
-   private String m_outlineCode4;
-   private String m_outlineCode5;
-   private String m_outlineCode6;
-   private String m_outlineCode7;
-   private String m_outlineCode8;
-   private String m_outlineCode9;
-   private String m_outlineCode10;
    private Date m_availableFrom;
    private Date m_availableTo;
 
@@ -4653,31 +4607,31 @@ public final class Resource extends MPXRecord
     * The Text fields show any custom text information you want to enter in your
     * project regarding resources.
     */
-   private static final int TEXT1 = 5;
+   public static final int TEXT1 = 5;
 
    /**
     * The Text fields show any custom text information you want to enter in your
     * project regarding resources.
     */
-   private static final int TEXT2 = 6;
+   public static final int TEXT2 = 6;
 
    /**
     * The Text fields show any custom text information you want to enter in your
     * project regarding resources.
     */
-   private static final int TEXT3 = 7;
+   public static final int TEXT3 = 7;
 
    /**
     * The Text fields show any custom text information you want to enter in your
     * project regarding resources.
     */
-   private static final int TEXT4 = 8;
+   public static final int TEXT4 = 8;
 
    /**
     * The Text fields show any custom text information you want to enter in your
     * project regarding resources.
     */
-   private static final int TEXT5 = 9;
+   public static final int TEXT5 = 9;
 
    /**
     * The Unique ID field contains the number that Microsoft Project
@@ -4709,6 +4663,144 @@ public final class Resource extends MPXRecord
     * package access to allow the model to get at it.
     */
    static final int MAX_FIELDS = 52;
+
+   /**
+    * The following constants are used purely to identify custom fields,
+    * these field names are NOT written to the MPX file.
+    */
+   public static final int TEXT6 = 1006;
+   public static final int TEXT7 = 1007;
+   public static final int TEXT8 = 1008;
+   public static final int TEXT9 = 1009;
+   public static final int TEXT10 = 1010;
+   public static final int TEXT11 = 1011;
+   public static final int TEXT12 = 1012;
+   public static final int TEXT13 = 1013;
+   public static final int TEXT14 = 1014;
+   public static final int TEXT15 = 1015;
+   public static final int TEXT16 = 1016;
+   public static final int TEXT17 = 1017;
+   public static final int TEXT18 = 1018;
+   public static final int TEXT19 = 1019;
+   public static final int TEXT20 = 1020;
+   public static final int TEXT21 = 1021;
+   public static final int TEXT22 = 1022;
+   public static final int TEXT23 = 1023;
+   public static final int TEXT24 = 1024;
+   public static final int TEXT25 = 1025;
+   public static final int TEXT26 = 1026;
+   public static final int TEXT27 = 1027;
+   public static final int TEXT28 = 1028;
+   public static final int TEXT29 = 1029;
+   public static final int TEXT30 = 1030;
+
+   public static final int START1 = 1101;
+   public static final int START2 = 1102;
+   public static final int START3 = 1103;
+   public static final int START4 = 1104;
+   public static final int START5 = 1105;
+   public static final int START6 = 1106;
+   public static final int START7 = 1107;
+   public static final int START8 = 1108;
+   public static final int START9 = 1109;
+   public static final int START10 = 1110;
+
+   public static final int FINISH1 = 1201;
+   public static final int FINISH2 = 1202;
+   public static final int FINISH3 = 1203;
+   public static final int FINISH4 = 1204;
+   public static final int FINISH5 = 1205;
+   public static final int FINISH6 = 1206;
+   public static final int FINISH7 = 1207;
+   public static final int FINISH8 = 1208;
+   public static final int FINISH9 = 1209;
+   public static final int FINISH10 = 1210;
+
+   public static final int COST1 = 1301;
+   public static final int COST2 = 1302;
+   public static final int COST3 = 1303;
+   public static final int COST4 = 1304;
+   public static final int COST5 = 1305;
+   public static final int COST6 = 1306;
+   public static final int COST7 = 1307;
+   public static final int COST8 = 1308;
+   public static final int COST9 = 1309;
+   public static final int COST10 = 1310;
+
+   public static final int DATE1 = 1401;
+   public static final int DATE2 = 1402;
+   public static final int DATE3 = 1403;
+   public static final int DATE4 = 1404;
+   public static final int DATE5 = 1405;
+   public static final int DATE6 = 1406;
+   public static final int DATE7 = 1407;
+   public static final int DATE8 = 1408;
+   public static final int DATE9 = 1409;
+   public static final int DATE10 = 1410;
+
+   public static final int FLAG1 = 1501;
+   public static final int FLAG2 = 1502;
+   public static final int FLAG3 = 1503;
+   public static final int FLAG4 = 1504;
+   public static final int FLAG5 = 1505;
+   public static final int FLAG6 = 1506;
+   public static final int FLAG7 = 1507;
+   public static final int FLAG8 = 1508;
+   public static final int FLAG9 = 1509;
+   public static final int FLAG10 = 1510;
+   public static final int FLAG11 = 1511;
+   public static final int FLAG12 = 1512;
+   public static final int FLAG13 = 1513;
+   public static final int FLAG14 = 1514;
+   public static final int FLAG15 = 1515;
+   public static final int FLAG16 = 1516;
+   public static final int FLAG17 = 1517;
+   public static final int FLAG18 = 1518;
+   public static final int FLAG19 = 1519;
+   public static final int FLAG20 = 1520;
+
+   public static final int NUMBER1 = 1601;
+   public static final int NUMBER2 = 1602;
+   public static final int NUMBER3 = 1603;
+   public static final int NUMBER4 = 1604;
+   public static final int NUMBER5 = 1605;
+   public static final int NUMBER6 = 1606;
+   public static final int NUMBER7 = 1607;
+   public static final int NUMBER8 = 1608;
+   public static final int NUMBER9 = 1609;
+   public static final int NUMBER10 = 1610;
+   public static final int NUMBER11 = 1611;
+   public static final int NUMBER12 = 1612;
+   public static final int NUMBER13 = 1613;
+   public static final int NUMBER14 = 1614;
+   public static final int NUMBER15 = 1615;
+   public static final int NUMBER16 = 1616;
+   public static final int NUMBER17 = 1617;
+   public static final int NUMBER18 = 1618;
+   public static final int NUMBER19 = 1619;
+   public static final int NUMBER20 = 1620;
+
+   public static final int DURATION1 = 1701;
+   public static final int DURATION2 = 1702;
+   public static final int DURATION3 = 1703;
+   public static final int DURATION4 = 1704;
+   public static final int DURATION5 = 1705;
+   public static final int DURATION6 = 1706;
+   public static final int DURATION7 = 1707;
+   public static final int DURATION8 = 1708;
+   public static final int DURATION9 = 1709;
+   public static final int DURATION10 = 1710;
+
+   public static final int OUTLINECODE1 = 1801;
+   public static final int OUTLINECODE2 = 1802;
+   public static final int OUTLINECODE3 = 1803;
+   public static final int OUTLINECODE4 = 1804;
+   public static final int OUTLINECODE5 = 1805;
+   public static final int OUTLINECODE6 = 1806;
+   public static final int OUTLINECODE7 = 1807;
+   public static final int OUTLINECODE8 = 1808;
+   public static final int OUTLINECODE9 = 1809;
+   public static final int OUTLINECODE10 = 1810;
 
    /**
     * Constant containing the record number associated with this record.

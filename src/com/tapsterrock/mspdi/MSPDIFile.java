@@ -2053,7 +2053,7 @@ public class MSPDIFile extends MPXFile
    private void writeFieldAliases (ObjectFactory factory, Project project)
       throws JAXBException
    {
-      if (fieldAliasesDefined() == true)
+      if (taskFieldAliasesDefined() == true || resourceFieldAliasesDefined() == true)
       {
          Project.ExtendedAttributesType attributes = factory.createProjectTypeExtendedAttributesType();
          project.setExtendedAttributes(attributes);

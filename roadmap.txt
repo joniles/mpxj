@@ -1,9 +1,9 @@
 Investigate extracting more fields for resource assignments.
-Implement Props table of tables structure for MPP9
-Implement Props table of tables structure for MPP8
-Extract custom field headings from Props table.
-Implement custom field attribute reading from MSPDI files
-Implement custom field attribute writing to MSPDI files
+Complete implementation of Props structure for MPP8
+Extract custom task field headings from Props table for MPP8 files.
+Extract custom resource field headings from Props table for MSPDI files.
+Extract custom resource field headings from Props table for MPP9 files.
+Extract custom resource field headings from Props table for MPP8 files.
 Implement missing resource fields for MPP8 files.
 Implement missing task fields for MPP9 files.
 Implement missing resource fields for MPP9 files.
