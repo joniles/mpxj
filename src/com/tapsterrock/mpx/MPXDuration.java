@@ -72,6 +72,18 @@ public class MPXDuration
       m_type = type;
    }
 
+   /**
+    * Constructs an instance of this class from a duration amount and
+    * time unit type.
+    *
+    * @param duration amount of duration
+    * @param type time unit of duration
+    */
+   public MPXDuration (int duration, int type)
+   {
+      m_duration = (double)duration;
+      m_type = type;
+   }
 
    /**
     * This method generates a string in MPX format representing the

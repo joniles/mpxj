@@ -36,17 +36,55 @@ import java.util.Date;
 public class ProjectHeader extends MPXRecord
 {
    /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
+    * Default constructor.
     *
-    * @param file the MPXFile object to which this record belongs.
+    * @param file the parent file to which this record belongs.
+    */
+   ProjectHeader (MPXFile file)
+   {
+      super (file);
+
+      setProjectTab(null);
+      setCompany(null);
+      setManager(null);
+      setCalendar(null);
+      setStartDate(null);
+      setFinishDate(null);
+      setScheduleFrom(null);
+      setCurrentDate(null);
+      setComments(null);
+      setCost(null);
+      setBaselineCost(null);
+      setActualCost(null);
+      setWork(null);
+      setBaselineWork(null);
+      setActualWork(null);
+      setWork2(null);
+      setDuration(null);
+      setBaselineDuration(null);
+      setActualDuration(null);
+      setPercentageComplete(null);
+      setBaselineStart(null);
+      setBaselineFinish(null);
+      setActualStart(null);
+      setActualFinish(null);
+      setStartVariance(null);
+      setFinishVariance(null);
+      setSubject(null);
+      setAuthor(null);
+      setKeywords(null);
+   }
+
+
+   /**
+    * This method allows an existing instance of a ProjectHeader object
+    * to be updated with data taken from a record in an MPX file.
+    *
     * @param record record containing the data for  this object.
     */
-   ProjectHeader (MPXFile file, Record record)
+   void update (Record record)
       throws MPXException
    {
-      super(file);
-
       setProjectTab(record.getString(0));
       setCompany(record.getString(1));
       setManager(record.getString(2));
@@ -77,18 +115,6 @@ public class ProjectHeader extends MPXRecord
       setAuthor(record.getString(27));
       setKeywords(record.getStringValue(28));
    }
-
-   /**
-    * Default constructor.
-    *
-    * @param file the parent file to which this record belongs.
-    */
-   ProjectHeader (MPXFile file)
-   {
-      super(file);
-   }
-
-
 
    /**
     * Sets the project tab field

@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.Calendar;
 
 /**
  * This class represents the Base Calendar Definition record. It is used to
@@ -334,10 +335,83 @@ public class BaseCalendar extends MPXRecord
     *
     * @param day number of required day (1=Sunday, 7=Saturday)
     * @return true if this is a working day
+    * @throws MPXException when an invalid day is specified
     */
    public boolean isWorkingDay (int day)
+      throws MPXException
    {
-      return ((Boolean)get(new Integer(day))).booleanValue();
+      boolean result;
+
+      Byte working = (Byte)get(getKey(day));
+
+      if (working == null || working.intValue() == 0)
+      {
+         result = false;
+      }
+      else
+      {
+         result = true;
+      }
+
+      return (result);
+   }
+
+   private Integer getKey (int day)
+      throws MPXException
+   {
+      Integer key;
+
+      switch (day)
+      {
+         case 1:
+         {
+            key = SUNDAY;
+            break;
+         }
+
+         case 2:
+         {
+            key = MONDAY;
+            break;
+         }
+
+         case 3:
+         {
+            key = TUESDAY;
+            break;
+         }
+
+         case 4:
+         {
+            key = WEDNESDAY;
+            break;
+         }
+
+         case 5:
+         {
+            key = THURSDAY;
+            break;
+         }
+
+         case 6:
+         {
+            key = FRIDAY;
+            break;
+         }
+
+         case 7:
+         {
+            key = SATURDAY;
+            break;
+         }
+
+         default:
+         {
+            throw new MPXException ("Invalid day");
+         }
+      }
+
+      return (key);
    }
 
    /**
@@ -352,7 +426,7 @@ public class BaseCalendar extends MPXRecord
       try
       {
          BaseCalendarHours hours;
-         SimpleDateFormat df = new SimpleDateFormat ("hh:mm");
+         SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
          Date from1 = df.parse ("08:00");
          Date to1 = df.parse ("12:00");
          Date from2 = df.parse ("13:00");
@@ -407,6 +481,63 @@ public class BaseCalendar extends MPXRecord
    }
 
    /**
+    * This method is provided to allow an absolute period of time
+    * represented by start and end dates into a duration in working
+    * days based on this calendar instance.
+    *
+    * @param startDate start of the period
+    * @param endDate end of the period
+    * @return new MPXDuration object
+    * @throws MPXException if an invalid day is specified
+    */
+   public MPXDuration getDuration (Date startDate, Date endDate)
+      throws MPXException
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(startDate);
+      int day = cal.get(Calendar.DAY_OF_WEEK);
+      int days = getDaysInRange (startDate, endDate);
+      int duration = 0;
+
+      while (days > 0)
+      {
+         if (isWorkingDay(day) == true)
+         {
+            ++duration;
+         }
+
+         --days;
+
+         ++day;
+         if (day > 7)
+         {
+            day = 1;
+         }
+      }
+
+      return (new MPXDuration (duration, TimeUnit.DAYS));
+   }
+
+
+   /**
+    * This method calculates the absolute number of days between two dates.
+    * Note that where two date objects are provided that fall on the same
+    * day, this method will return one not zero.
+    */
+   private int getDaysInRange (Date startDate, Date endDate)
+   {
+      long start = startDate.getTime() / MS_PER_DAY;
+      long end = endDate.getTime() / MS_PER_DAY;
+      long diff = end - start;
+      if (diff < 0)
+      {
+         diff = -diff;
+      }
+
+      return ((int)(diff + 1));
+   }
+
+   /**
     * Listof exceptions to the base calendar.
     */
    private LinkedList m_exceptions = new LinkedList();
@@ -417,6 +548,7 @@ public class BaseCalendar extends MPXRecord
    private LinkedList m_hours = new LinkedList();
 
 
+   private static final long MS_PER_DAY = (long)(1000 * 60 * 60 * 24);
 
    /**
     * Constant used to retrieve the name of the calendar

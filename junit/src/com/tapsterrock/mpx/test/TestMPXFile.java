@@ -66,6 +66,7 @@ public class TestMPXFile extends TestCase
       throws Exception
    {
       File out = null;
+      boolean success = true;
 
       try
       {
@@ -73,12 +74,13 @@ public class TestMPXFile extends TestCase
          MPXFile mpx = new MPXFile (in);
          out = File.createTempFile ("junit", ".mpx");
          mpx.write (out);
-         assertTrue ("Files are not identical", compareFiles (in, out));
+         success = compareFiles (in, out);
+         assertTrue ("Files are not identical", success);
       }
 
       finally
       {
-         if (out != null)
+         if (out != null && success == true)
          {
             out.delete();
          }

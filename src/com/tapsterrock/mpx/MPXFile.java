@@ -22,10 +22,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/**
- * @todo sort out exception text
- */
-
 package com.tapsterrock.mpx;
 
 import java.io.File;
@@ -35,12 +31,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * This class encapsulates all functionality relating to creating, read
@@ -108,12 +105,13 @@ public class MPXFile
    /**
     * This method configures the basic MPX file.
     */
-   private void configure()
+   private void configure ()
    {
       m_records.add (m_fileCreationRecord);
       m_records.add (m_currencySettings);
       m_records.add (m_defaultSettings);
       m_records.add (m_dateTimeSettings);
+      m_records.add (m_projectHeader);
    }
 
    /**
@@ -323,12 +321,8 @@ public class MPXFile
 
          case ProjectHeader.RECORD_NUMBER:
          {
-            if (m_projectHeader == false)
-            {
-               current = new ProjectHeader (this, record);
-               m_records.add (current);
-               m_projectHeader=true;
-            }
+            m_projectHeader.update (record);
+            current = m_projectHeader;
             break;
          }
 
@@ -688,6 +682,8 @@ public class MPXFile
    {
       BaseCalendar calendar = (BaseCalendar)add(BaseCalendar.RECORD_NUMBER);
 
+      calendar.setName("Standard");
+
       calendar.setSunday(BaseCalendar.NONWORKING);
       calendar.setMonday(BaseCalendar.WORKING);
       calendar.setTuesday(BaseCalendar.WORKING);
@@ -702,15 +698,13 @@ public class MPXFile
    }
 
    /**
-    * This method is used to add a project header to the file.
+    * This method is used to retrieve the project header record.
     *
-    * @return new project header object
-    * @throws MPXException normally thrown on parse errors
+    * @return project header object
     */
-   public ProjectHeader addProjectHeader ()
-      throws MPXException
+   public ProjectHeader getProjectHeader ()
    {
-      return ((ProjectHeader)add(ProjectHeader.RECORD_NUMBER));
+      return (m_projectHeader);
    }
 
    /**
@@ -886,6 +880,47 @@ public class MPXFile
    }
 
    /**
+    * This method is used to calculate the duration of work between two fixed
+    * dates according to the work schedule defined in the named calendar. The
+    * calendar used is the "Standard" calendar. If this calendar does not exist,
+    * and exception will be thrown.
+    *
+    * @param startDate start of the period
+    * @param endDate end of the period
+    * @return new MPXDuration object
+    * @throws MPXException normally when no Standard calendar is available
+    */
+   public MPXDuration getDuration (Date startDate, Date endDate)
+      throws MPXException
+   {
+      return (getDuration ("Standard", startDate, endDate));
+   }
+
+   /**
+    * This method is used to calculate the duration of work between two fixed
+    * dates according to the work schedule defined in the named calendar.
+    * The name of the calendar to be used is passed as an argument.
+    *
+    * @param calendarName name of the calendar to use
+    * @param startDate start of the period
+    * @param endDate end of the period
+    * @return new MPXDuration object
+    * @throws MPXException normally when no Standard calendar is available
+    */
+   public MPXDuration getDuration (String calendarName, Date startDate, Date endDate)
+      throws MPXException
+   {
+      BaseCalendar calendar = getBaseCalendar(calendarName);
+      if (calendar == null)
+      {
+         throw new MPXException (MPXException.CALENDAR_ERROR + ": " + calendarName);
+      }
+
+      return (calendar.getDuration (startDate, endDate));
+   }
+
+
+   /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
     */
@@ -944,6 +979,11 @@ public class MPXFile
    private DateTimeSettings m_dateTimeSettings = new DateTimeSettings (this);
 
    /**
+    * Project header record.
+    */
+   private ProjectHeader m_projectHeader = new ProjectHeader (this);
+
+   /**
     * Task model.
     */
    private TaskModel m_taskModel = new TaskModel(this);
@@ -982,11 +1022,6 @@ public class MPXFile
     * Count of the number of base calendars.
     */
    private int m_baseCalendarCount = 0;
-
-   /**
-    * Flag indicating the existence of a project header record.
-    */
-   private boolean m_projectHeader = false;
 
    /**
     * Flag indicating the existence of a resource model record.

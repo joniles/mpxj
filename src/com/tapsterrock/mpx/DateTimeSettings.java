@@ -41,13 +41,16 @@ public class DateTimeSettings extends MPXRecord
       super(file);
 
       m_update = false;
-      setAMText("am");
-      setDateSeparator(new Character('/'));
-      setPMText("pm");
-      setTimeSeparator(new Character(':'));
       setDateOrder(DATE_ORDER_DMY);
-      setDateFormat(DATE_TIME_FORMAT_DD_MM_YYYY);
       setTimeFormat(TIME_FORMAT_12HR);
+      setDefaultTime (new Integer (480));
+      setDateSeparator(new Character('/'));
+      setTimeSeparator(new Character(':'));
+      setAMText("am");
+      setPMText("pm");
+      setDateFormat(DATE_TIME_FORMAT_DD_MM_YYYY);
+      setBarTextDateFormat(null);
+
       m_update = true;
 
       updateFormats ();

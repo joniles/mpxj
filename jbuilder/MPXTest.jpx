@@ -4,11 +4,10 @@
 <project>
   <property category="debug.0" name="SmartStep" value="0" />
   <property category="idl" name="Compiler" value="VisiBroker" />
-  <property category="jbuilder.debug" name="SmartStep" value="0" />
   <property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
   <property category="runtime.0" name="applet.vmparameters" value="-classic" />
   <property category="runtime.0" name="application.class" value="junit.swingui.TestRunner" />
-  <property category="runtime.0" name="application.vmparameters" value="-classic -Dmpxj.junit.datadir=c:/java/mpx/junit/data" />
+  <property category="runtime.0" name="application.vmparameters" value="-classic -Dmpxj.junit.datadir=c:/java/mpxj/junit/data" />
   <property category="runtime.0" name="appserver.ejbJarsSaved" value="1" />
   <property category="runtime.0" name="appserver.parameters" value="-jts -jns -jss -jdb" />
   <property category="runtime.0" name="appserver.servername" value="ejbcontainer" />
@@ -66,7 +65,7 @@
   <property category="webapp" name="last.wizard" value="Oriel" />
   <node type="Archive" name="Archive">
     <property category="archiving" name="targetCompressed" value="1" />
-    <property category="archiving" name="targetPath" value="C%|/java/mpx/junit/mpxjtest.jar" />
+    <property category="archiving" name="targetPath" value="C%|/java/mpxj/junit/mpxjtest.jar" />
   </node>
 </project>
 

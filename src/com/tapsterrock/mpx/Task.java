@@ -280,6 +280,7 @@ public class Task extends MPXRecord
     * completed automatically.
     *
     * @return new task
+    * @throws MPXException normally thrown on parse error
     */
    public Task addTask ()
       throws MPXException
