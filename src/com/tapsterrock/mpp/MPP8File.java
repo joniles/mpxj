@@ -37,6 +37,8 @@ import com.tapsterrock.mpx.BaseCalendar;
 import com.tapsterrock.mpx.BaseCalendarException;
 import com.tapsterrock.mpx.BaseCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
+import com.tapsterrock.mpx.CurrencySettings;
+import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
@@ -66,11 +68,10 @@ final class MPP8File
    static void process (MPPFile file, DirectoryEntry root)
       throws MPXException, IOException
    {
-      //
-      // Retrieve the project directory
-      //
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
+      processPropertyData (file, projectDir);
+      
       processCalendarData (file, projectDir);
              
       processResourceData (file, projectDir);
@@ -79,10 +80,44 @@ final class MPP8File
       
       processConstraintData (file, projectDir);      
       
-      processAssignmentData (file, projectDir);
+      processAssignmentData (file, projectDir);      
    }
 
 
+   /**
+    * This method extracts and collates global property data.
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
+    */   
+   private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
+      throws MPXException, IOException
+   {
+      Props props = new Props (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      
+      DefaultSettings ds = file.getDefaultSettings();           
+      //ds.setDefaultDurationIsFixed();
+      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(PROP_DURATION_UNITS)));
+      ds.setDefaultEndTime(props.getTime(PROP_END_TIME));
+      ds.setDefaultHoursInDay(((float)props.getInt(PROP_HOURS_PER_DAY))/60);
+      ds.setDefaultHoursInWeek(((float)props.getInt(PROP_HOURS_PER_WEEK))/60);
+      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(PROP_OVERTIME_RATE), TimeUnit.HOURS));
+      ds.setDefaultStandardRate(new MPXRate (props.getDouble(PROP_STANDARD_RATE), TimeUnit.HOURS));
+      ds.setDefaultStartTime(props.getTime(PROP_START_TIME));
+      ds.setDefaultWorkUnits(getWorkUnits(props.getShort(PROP_WORK_UNITS)));
+      ds.setSplitInProgressTasks(props.getBoolean(PROP_SPLIT_TASKS));
+      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(PROP_TASK_UPDATES_RESOURCE));
+
+      CurrencySettings cs = file.getCurrencySettings();
+      cs.setCurrencyDigits(props.getShort(PROP_CURRENCY_DIGITS));
+      cs.setCurrencySymbol(props.getUnicodeString(PROP_CURRENCY_SYMBOL));
+      //cs.setDecimalSeparator();
+      cs.setSymbolPosition(getSymbolPosition(props.getShort(PROP_CURRENCY_PLACEMENT)));
+      //cs.setThousandsSeparator();
+   }
+   
    /**
     * This method extracts and collates calendar data.
     * 
@@ -322,9 +357,10 @@ final class MPP8File
          if (taskVarData == null)
          {
             taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));
-            taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
          }
                                        
+         taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
+                                                
          task = file.addTask();
                                                
          task.setActualCost(new Double (((double)MPPUtility.getLong6(data, 234)) / 100));
@@ -641,9 +677,10 @@ final class MPP8File
          if (rscVarData == null)
          {
             rscVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixDeferFix   0"))));                        
-            rscExtData = new ExtendedData (rscVarData, getOffset(data, 192));
          }
-                     
+
+         rscExtData = new ExtendedData (rscVarData, getOffset(data, 192));
+                              
          resource = file.addResource();
                  
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 20)));
@@ -857,6 +894,109 @@ final class MPP8File
       return (-1 - MPPUtility.getInt(data, offset));      
    }      
 
+   /**
+    * This method maps from the value used to specify default work units in the
+    * MPP file to a standard TimeUnit.
+    * 
+    * @param value Default work units
+    * @return TimeUnit value
+    */
+   private static int getWorkUnits (int value)
+   {
+      int result;
+      
+      switch (value)
+      {
+         case 1:
+         {
+            result = TimeUnit.MINUTES;
+            break;
+         }
+         
+         case 3:
+         {
+            result = TimeUnit.DAYS;
+            break;
+         }
+
+         case 4:
+         {
+            result = TimeUnit.WEEKS;
+            break;
+         }
+
+         case 2:                           
+         default:
+         {
+            result = TimeUnit.HOURS;
+            break;  
+         }   
+      }
+      
+      return (result);      
+   }
+
+   /**
+    * This method maps the currency symbol position from the
+    * representation used in the MPP file to the representation
+    * used by MPX.
+    * 
+    * @param value MPP symbol position
+    * @return MPX symbol position
+    */
+   private static int getSymbolPosition (int value)   
+   {
+      int result;
+      
+      switch (value)
+      {
+         case 1:
+         {
+            result = 0;
+            break;
+         }
+         
+         case 2:
+         {
+            result = 3;
+            break;   
+         }
+
+         case 3:
+         {
+            result = 2;
+            break;   
+         }
+         
+         case 0:
+         default:
+         {
+            result = 1;
+            break;
+         }  
+      }  
+      
+      return (result);
+   }
+   
+   /**
+    * Property data types
+    */
+   private static final Integer PROP_CURRENCY_SYMBOL = new Integer (16);
+   private static final Integer PROP_CURRENCY_PLACEMENT = new Integer (17);   
+   private static final Integer PROP_CURRENCY_DIGITS = new Integer (18);
+      
+   private static final Integer PROP_DURATION_UNITS = new Integer (21);
+   private static final Integer PROP_WORK_UNITS = new Integer (22);
+   private static final Integer PROP_TASK_UPDATES_RESOURCE = new Integer (25);
+   private static final Integer PROP_SPLIT_TASKS = new Integer (26);
+   private static final Integer PROP_START_TIME = new Integer (28);
+   private static final Integer PROP_HOURS_PER_DAY = new Integer (29);
+   private static final Integer PROP_HOURS_PER_WEEK = new Integer (30);
+   private static final Integer PROP_STANDARD_RATE = new Integer (31);
+   private static final Integer PROP_OVERTIME_RATE = new Integer (32);
+   private static final Integer PROP_END_TIME = new Integer (33);
+      
    /**
     * Task data types.
     */
