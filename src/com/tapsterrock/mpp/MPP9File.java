@@ -1360,7 +1360,7 @@ final class MPP9File
          {
             continue;
          }
-
+         
          resource = file.addResource();
 
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
@@ -1504,6 +1504,7 @@ final class MPP9File
          resource.setText28(rscVarData.getUnicodeString (id, RESOURCE_TEXT28));
          resource.setText29(rscVarData.getUnicodeString (id, RESOURCE_TEXT29));
          resource.setText30(rscVarData.getUnicodeString (id, RESOURCE_TEXT30));
+         resource.setType((MPPUtility.getShort(data, 14)==0?new Integer(1):new Integer(0)));
          resource.setUniqueID(id.intValue());
          resource.setWork(new MPXDuration (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
 
