@@ -354,6 +354,7 @@ public class MPXFile
                m_lastResource = new Resource (this, record);
                current = m_lastResource;
                m_records.add (current);
+               m_allResources.add (current);
             }
 
             break;
@@ -1144,6 +1145,62 @@ public class MPXFile
    }
 
    /**
+    * This method allows an arbitrary resource to be retrieved based
+    * on its ID field.
+    *
+    * @param id resource identified
+    * @return the requested resource, or null if not found
+    */
+   public Resource getResourceByID (int id)
+   {
+      Resource result = null;
+      Iterator iter = m_allResources.iterator();
+      Resource resource;
+      Integer resourceID;
+
+      while (iter.hasNext() == true)
+      {
+         resource = (Resource)iter.next();
+         resourceID = resource.getID();
+         if (resourceID != null && resourceID.intValue() == id)
+         {
+            result = resource;
+            break;
+         }
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method allows an arbitrary resource to be retrieved based
+    * on its UniqueID field.
+    *
+    * @param id resource identified
+    * @return the requested resource, or null if not found
+    */
+   public Resource getResourceByUniqueID (int id)
+   {
+      Resource result = null;
+      Iterator iter = m_allResources.iterator();
+      Resource resource;
+      Integer resourceID;
+
+      while (iter.hasNext() == true)
+      {
+         resource = (Resource)iter.next();
+         resourceID = resource.getUniqueID();
+         if (resourceID != null && resourceID.intValue() == id)
+         {
+            result = resource;
+            break;
+         }
+      }
+
+      return (result);
+   }
+
+   /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
     */
@@ -1173,6 +1230,12 @@ public class MPXFile
     * List to maintain records in the order that they are added.
     */
    private LinkedList m_records = new LinkedList();
+
+   /**
+    * This list holds a reference to all resources defined in the
+    * MPX file.
+    */
+   private LinkedList m_allResources = new LinkedList ();
 
    /**
     * This list holds a reference to all tasks defined in the

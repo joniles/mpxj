@@ -278,12 +278,27 @@ public class Task extends MPXRecord
    public TaskNotes addTaskNotes ()
       throws MPXException
    {
+      return (addTaskNotes(""));
+   }
+
+   /**
+    * This method is used to add notes to the current task.
+    *
+    * @param notes notes to be added
+    * @return TaskNotes object
+    * @throws MPXException if maximum number of task notes is exceeded
+    */
+   public TaskNotes addTaskNotes (String notes)
+      throws MPXException
+   {
       if (m_notes != null)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
       m_notes = new TaskNotes(getParentFile());
+
+      m_notes.setNotes (notes);
 
       return (m_notes);
    }
@@ -429,6 +444,46 @@ public class Task extends MPXRecord
 
    /**
     * This method allows a resource assignment to be added to the
+    * current task.
+    *
+    * @param resource the resource to assign
+    * @return ResourceAssignment object
+    * @throws MPXException thrown if more than the maximum permitted assignments is added
+    */
+   public ResourceAssignment addResourceAssignment (Resource resource)
+      throws MPXException
+   {
+      Iterator iter = m_assignments.iterator();
+      ResourceAssignment assignment = null;
+      Integer resourceUniqueID = resource.getUniqueID();
+      Integer uniqueID;
+
+      while (iter.hasNext() == true)
+      {
+         assignment = (ResourceAssignment)iter.next();
+         uniqueID = assignment.getResourceUniqueID();
+         if (uniqueID != null && uniqueID.intValue() == resourceUniqueID.intValue())
+         {
+            break;
+         }
+         else
+         {
+            assignment = null;
+         }
+      }
+
+      if (assignment == null)
+      {
+         assignment = addResourceAssignment ();
+         assignment.setID(resource.getID());
+         assignment.setResourceUniqueID(resourceUniqueID);
+      }
+
+      return (assignment);
+   }
+
+   /**
+    * This method allows a resource assignment to be added to the
     * current task. The data for the resource assignment is derived from
     * an MPX file record.
     *
@@ -471,6 +526,9 @@ public class Task extends MPXRecord
     */
    public Relation addPredecessor (Task task)
    {
+      //
+      // Retrieve the list of predecessors
+      //
       RelationList list = (RelationList)get(PREDECESSORS);
       if (list == null)
       {
@@ -478,14 +536,42 @@ public class Task extends MPXRecord
          set (PREDECESSORS, list);
       }
 
-      Relation rel = new Relation ();
-
+      //
+      // Ensure that there is only one relationship between
+      // these two tasks.
+      //
+      Relation rel = null;
       if (task != null)
       {
-         rel.setID(task.getID().intValue());
+         Iterator iter = list.iterator();
+         while (iter.hasNext() == true)
+         {
+            rel = (Relation)iter.next();
+            if (rel.getID() == task.getUniqueID().intValue())
+            {
+               break;
+            }
+            else
+            {
+               rel = null;
+            }
+         }
       }
 
-      list.add (rel);
+      //
+      // If necessary, create a new relationship
+      //
+      if (rel == null)
+      {
+         rel = new Relation ();
+
+         if (task != null)
+         {
+            rel.setID(task.getUniqueID().intValue());
+         }
+
+         list.add (rel);
+      }
 
       return (rel);
    }

@@ -356,6 +356,26 @@ public class BaseCalendar extends MPXRecord
       return (result);
    }
 
+   /**
+    * This is a convenience method provided to allow a day to be set
+    * as working or non-working, by using the day number to
+    * identify the required day.
+    *
+    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param working flag indicating if the day is a working day
+    * @throws MPXException when an invalid day is specified
+    */
+   public void setDay (int day, Byte working)
+      throws MPXException
+   {
+      put(getKey (day), working);
+   }
+
+   /**
+    * This method is used to map between int day numbers and Integer
+    * objects used internally. The idea here is to avoid repeated
+    * creation of new Integer objects.
+    */
    private Integer getKey (int day)
       throws MPXException
    {

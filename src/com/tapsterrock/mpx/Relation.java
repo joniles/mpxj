@@ -273,24 +273,26 @@ public class Relation
    }
 
    /**
-    * Constant representing a finish-start relationship.
-    */
-   public static final int FINISH_START = 0;
-
-   /**
-    * Constant representing a start-start relationship.
-    */
-   public static final int START_START = 1;
-
-   /**
     * Constant representing a finish-finish relationship.
     */
-   public static final int FINISH_FINISH = 2;
+   public static final int FINISH_FINISH = 0;
+
+   /**
+    * Constant representing a finish-start relationship.
+    */
+   public static final int FINISH_START = 1;
 
    /**
     * Constant representing a start-finish relationship.
     */
-   public static final int START_FINISH = 3;
+   public static final int START_FINISH = 2;
+
+   /**
+    * Constant representing a start-start relationship.
+    */
+   public static final int START_START = 3;
+
+
 
    private int m_id;
    private int m_type;

@@ -54,7 +54,7 @@ public class BaseCalendarHours extends MPXRecord
    {
       super(file);
 
-      setDay(record.getByte(0));
+      setDay(record.getInteger(0));
       setFromTime1(record.getTime(1));
       setToTime1(record.getTime(2));
       setFromTime2(record.getTime(3));
@@ -65,23 +65,33 @@ public class BaseCalendarHours extends MPXRecord
 
 
    /**
-    * Get day 0-sunday....6-saturday
+    * Get day (1=Sunday 7=Saturday)
     *
     * @return byte value of day
     */
-   public byte getDay ()
+   public int getDay ()
    {
-      return (((Byte)get(DAY)).byteValue());
+      return (((Integer)get(DAY)).intValue());
    }
 
    /**
-    * Set day 0-sunday....6-saturday
+    * Set day (1=Sunday 7=Saturday)
     *
     * @param d byte value of day
     */
-   public void setDay (Byte d)
+   public void setDay (Integer d)
    {
       put (DAY,d);
+   }
+
+   /**
+    * Set day (1=Sunday 7=Saturday)
+    *
+    * @param d byte value of day
+    */
+   public void setDay (int d)
+   {
+      put (DAY, new Integer (d));
    }
 
    /**
@@ -218,37 +228,37 @@ public class BaseCalendarHours extends MPXRecord
    /**
     * Constant for Sunday
     */
-   public static final Byte SUNDAY = new Byte ((byte)1);
+   public static final int SUNDAY = 1;
 
    /**
     * Constant for Monday
     */
-   public static final Byte MONDAY = new Byte ((byte)2);
+   public static final int MONDAY = 2;
 
    /**
     * Constant for Tuesday
     */
-   public static final Byte TUESDAY = new Byte ((byte)3);
+   public static final int TUESDAY = 3;
 
    /**
     * Constant for Wednesday
     */
-   public static final Byte WEDNESDAY = new Byte ((byte)4);
+   public static final int WEDNESDAY = 4;
 
    /**
     * Constant for Thursday
     */
-   public static final Byte THURSDAY = new Byte ((byte)5);
+   public static final int THURSDAY = 5;
 
    /**
     * Constant for Friday
     */
-   public static final Byte FRIDAY = new Byte ((byte)6);
+   public static final int FRIDAY = 6;
 
    /**
     * Constant for Saturday
     */
-   public static final Byte SATURDAY = new Byte ((byte)7);
+   public static final int SATURDAY = 7;
 
    /**
     * Constant representing Day field.

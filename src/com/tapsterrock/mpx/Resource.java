@@ -151,10 +151,11 @@ public class Resource extends MPXRecord
    /**
     * This method allows a resource note to be added to a resource.
     *
+    * @param notes notes to be added
     * @return ResourceNotes
     * @throws MPXException  if MSP defined limit of 1 is exceeded
     */
-   public ResourceNotes addResourceNotes ()
+   public ResourceNotes addResourceNotes (String notes)
       throws MPXException
    {
       if (m_notes != null)
@@ -164,7 +165,21 @@ public class Resource extends MPXRecord
 
       m_notes = new ResourceNotes(getParentFile());
 
+      m_notes.setNotes(notes);
+
       return (m_notes);
+   }
+
+   /**
+    * This method allows a resource note to be added to a resource.
+    *
+    * @return ResourceNotes
+    * @throws MPXException  if MSP defined limit of 1 is exceeded
+    */
+   public ResourceNotes addResourceNotes ()
+      throws MPXException
+   {
+      return (addResourceNotes (""));
    }
 
    /**

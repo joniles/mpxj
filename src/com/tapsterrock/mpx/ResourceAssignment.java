@@ -53,7 +53,7 @@ public class ResourceAssignment extends MPXRecord
    {
       super(file);
 
-      setID(record.getString(0));
+      setID(record.getInteger(0));
       setUnits(record.getUnits(1));
       setWork(record.getDuration(2));
       setPlannedWork(record.getDuration(3));
@@ -65,7 +65,7 @@ public class ResourceAssignment extends MPXRecord
       setStart(record.getDate(9));
       setFinish(record.getDate(10));
       setDelay(record.getDuration(11));
-      setResourceUniqueID(record.getString(12));
+      setResourceUniqueID(record.getInteger(12));
    }
 
    /**
@@ -120,9 +120,9 @@ public class ResourceAssignment extends MPXRecord
     * @return ID
     * @see #ID for description
     */
-   public String getID ()
+   public Integer getID ()
    {
-      return ((String)get(ID));
+      return ((Integer)get(ID));
    }
 
    /**
@@ -130,7 +130,7 @@ public class ResourceAssignment extends MPXRecord
     *
     * @param val  ID
     */
-   public void setID (String val)
+   public void setID (Integer val)
    {
       put (ID, val);
    }
@@ -378,9 +378,9 @@ public class ResourceAssignment extends MPXRecord
     * @return resources unique id
     * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
-   public String getResourceUniqueID ()
+   public Integer getResourceUniqueID ()
    {
-      return ((String)get(RESOURCE_UNIQUE_ID));
+      return ((Integer)get(RESOURCE_UNIQUE_ID));
    }
 
    /**
@@ -389,7 +389,7 @@ public class ResourceAssignment extends MPXRecord
     * @param val resources unique id
     * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
-   public void setResourceUniqueID (String val)
+   public void setResourceUniqueID (Integer val)
    {
       put (RESOURCE_UNIQUE_ID, val);
    }
