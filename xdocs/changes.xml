@@ -16,6 +16,7 @@
       <action dev="joniles" type="fix">Fixed a bug where calendar exceptions were not testing the range of dates between the start and end date correctly.</action>
       <action dev="joniles" type="fix">Fixed a bug where the priority of a task was being escalated when converting between an MPP9 file and an MSPDI file.</action>
       <action dev="joniles" type="fix">Fixed a bug where a deadline was incorrectly being added to a task when importing data from an MPP9 file.</action>
+      <action dev="joniles" type="fix">Fixed a bug where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
       <action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
       <action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
       <action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>

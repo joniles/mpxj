@@ -524,8 +524,7 @@ final class MPP9File
 
       return (resourceMap);
    }
-
-
+   
    /**
     * The format of the calandar data is a 4 byte header followed
     * by 7x 60 byte blocks, one for each day of the week. Optionally
@@ -1579,34 +1578,40 @@ final class MPP9File
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
+      FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
 
       int count = assnFixedData.getItemCount();
+      byte[] meta;
       byte[] data;
       Task task;
       Resource resource;
       ResourceAssignment assignment;
-
+      
       for (int loop=0; loop < count; loop++)
       {
-         data = assnFixedData.getByteArrayValue(loop);
-         task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
-         resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
-         if (task != null && resource != null)
-         {
-            assignment = task.addResourceAssignment (resource);
-            assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
-            assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
-            assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
-            //assignment.setDelay(); // Not sure what this field maps on to in MSP
-            assignment.setFinish(MPPUtility.getTimestamp(data, 16));
-            //assignment.setOvertimeWork(); // Can't find in data block
-            //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
-            //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-            assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
-            assignment.setStart(MPPUtility.getTimestamp(data, 12));
-            assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
-            assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+         meta = assnFixedMeta.getByteArrayValue(loop);
+         if (meta == null || meta[0] == 0)
+         {         
+            data = assnFixedData.getByteArrayValue(loop);                          
+            task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
+            resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
+            if (task != null && resource != null)
+            {
+               assignment = task.addResourceAssignment (resource);
+               assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
+               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
+               assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
+               //assignment.setDelay(); // Not sure what this field maps on to in MSP
+               assignment.setFinish(MPPUtility.getTimestamp(data, 16));
+               //assignment.setOvertimeWork(); // Can't find in data block
+               //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
+               //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
+               assignment.setStart(MPPUtility.getTimestamp(data, 12));
+               assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
+               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+            }
          }
       }
    }
