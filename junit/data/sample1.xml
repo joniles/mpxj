@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/project">
+    <Name>MPXJ</Name>
+    <Title>MPXJ</Title>
+    <ScheduleFromStart>1</ScheduleFromStart>
+    <StartDate>2003-01-07T08:00:00</StartDate>
+    <FinishDate>2003-03-18T08:00:00</FinishDate>
+    <FYStartDate>1</FYStartDate>
+    <CriticalSlackLimit>0</CriticalSlackLimit>
     <CurrencyDigits>2</CurrencyDigits>
     <CurrencySymbol>£</CurrencySymbol>
     <CurrencySymbolPosition>0</CurrencySymbolPosition>
+    <CalendarUID>1</CalendarUID>
     <DefaultStartTime>08:00:00</DefaultStartTime>
     <DefaultFinishTime>17:00:00</DefaultFinishTime>
-    <DefaultStandardRate>0.0</DefaultStandardRate>
-    <DefaultOvertimeRate>0.0</DefaultOvertimeRate>
+    <MinutesPerDay>480</MinutesPerDay>
+    <MinutesPerWeek>2400</MinutesPerWeek>
+    <DaysPerMonth>20</DaysPerMonth>
+    <DefaultTaskType>0</DefaultTaskType>
+    <DefaultFixedCostAccrual>3</DefaultFixedCostAccrual>
+    <DefaultStandardRate>0</DefaultStandardRate>
+    <DefaultOvertimeRate>0</DefaultOvertimeRate>
     <DurationFormat>5</DurationFormat>
     <WorkFormat>2</WorkFormat>
+    <EditableActualCosts>0</EditableActualCosts>
+    <HonorConstraints>0</HonorConstraints>
+    <InsertedProjectsLikeSummary>0</InsertedProjectsLikeSummary>
+    <MultipleCriticalPaths>0</MultipleCriticalPaths>
+    <NewTasksEffortDriven>1</NewTasksEffortDriven>
+    <NewTasksEstimated>1</NewTasksEstimated>
     <SplitsInProgressTasks>1</SplitsInProgressTasks>
+    <SpreadActualCost>0</SpreadActualCost>
+    <SpreadPercentComplete>0</SpreadPercentComplete>
     <TaskUpdatesResource>0</TaskUpdatesResource>
+    <FiscalYearStart>0</FiscalYearStart>
+    <WeekStartDay>1</WeekStartDay>
+    <MoveCompletedEndsBack>0</MoveCompletedEndsBack>
+    <MoveRemainingStartsBack>0</MoveRemainingStartsBack>
+    <MoveRemainingStartsForward>0</MoveRemainingStartsForward>
+    <MoveCompletedEndsForward>0</MoveCompletedEndsForward>
+    <BaselineForEarnedValue>0</BaselineForEarnedValue>
+    <AutoAddNewResourcesAndTasks>1</AutoAddNewResourcesAndTasks>
     <CurrentDate>2003-12-01T14:14:13.848</CurrentDate>
+    <MicrosoftProjectServerURL>1</MicrosoftProjectServerURL>
+    <Autolink>1</Autolink>
+    <NewTaskStartDate>0</NewTaskStartDate>
+    <DefaultTaskEVMethod>0</DefaultTaskEVMethod>
+    <ProjectExternallyEdited>0</ProjectExternallyEdited>
     <ExtendedAttributes>
         <ExtendedAttribute>
             <FieldID>188744000</FieldID>
@@ -1297,10 +1331,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1318,8 +1352,8 @@
             <RemainingWork>PT580H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -1331,8 +1365,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1365,10 +1399,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1386,8 +1420,8 @@
             <RemainingWork>PT500H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -1400,8 +1434,8 @@
 </Notes>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1434,10 +1468,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1455,8 +1489,8 @@
             <RemainingWork>PT500H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -1469,8 +1503,8 @@
 </Notes>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1503,10 +1537,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1524,8 +1558,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -1538,8 +1572,8 @@
 </Notes>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1572,10 +1606,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1593,8 +1627,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -1606,8 +1640,8 @@
             <Notes/>
             <HideBar>1</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1640,10 +1674,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1661,8 +1695,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-02-01T08:00:00</ConstraintDate>
@@ -1675,8 +1709,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1709,10 +1743,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1730,8 +1764,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-03-01T08:00:00</ConstraintDate>
@@ -1744,8 +1778,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1778,10 +1812,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1799,8 +1833,8 @@
             <RemainingWork>PT80H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -1812,8 +1846,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1846,10 +1880,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1867,8 +1901,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-14T17:00:00</Deadline>
@@ -1880,8 +1914,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -1914,10 +1948,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -1935,8 +1969,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -1948,8 +1982,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -1986,10 +2020,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2007,8 +2041,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-13T17:00:00</Deadline>
@@ -2020,8 +2054,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2054,10 +2088,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2075,8 +2109,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2088,8 +2122,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -2128,10 +2162,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2149,8 +2183,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2162,8 +2196,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2196,10 +2230,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2217,8 +2251,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2230,8 +2264,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -2270,10 +2304,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2291,8 +2325,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2304,8 +2338,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2338,10 +2372,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2359,8 +2393,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2372,8 +2406,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -2410,10 +2444,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2431,8 +2465,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2444,8 +2478,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2478,10 +2512,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2499,8 +2533,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2512,8 +2546,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -2550,10 +2584,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2571,8 +2605,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-01-08T08:00:00</ConstraintDate>
@@ -2585,8 +2619,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2619,10 +2653,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2640,8 +2674,8 @@
             <RemainingWork>PT0H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>2003-01-06T08:00:00</ConstraintDate>
@@ -2654,8 +2688,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
             <PredecessorLink>
@@ -2691,10 +2725,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2712,8 +2746,8 @@
             <RemainingWork>PT80H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -2725,8 +2759,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>1</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2758,10 +2792,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2779,8 +2813,8 @@
             <RemainingWork>PT40H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-17T17:00:00</Deadline>
@@ -2792,8 +2826,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>
@@ -2825,10 +2859,10 @@
             <ExternalTask>0</ExternalTask>
             <StartVariance>0</StartVariance>
             <FinishVariance>0</FinishVariance>
-            <WorkVariance>0.0</WorkVariance>
+            <WorkVariance>0</WorkVariance>
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
-            <FixedCost>0.0</FixedCost>
+            <FixedCost>0</FixedCost>
             <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
@@ -2846,8 +2880,8 @@
             <RemainingWork>PT40H0M0S</RemainingWork>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
             <RemainingOvertimeWork>PT0H0M0S</RemainingOvertimeWork>
-            <ACWP>0.0</ACWP>
-            <CV>0.0</CV>
+            <ACWP>0</ACWP>
+            <CV>0</CV>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <Deadline>2003-03-18T08:00:00</Deadline>
@@ -2859,8 +2893,8 @@
             <Notes/>
             <HideBar>0</HideBar>
             <Rollup>0</Rollup>
-            <BCWS>0.0</BCWS>
-            <BCWP>0.0</BCWP>
+            <BCWS>0</BCWS>
+            <BCWP>0</BCWP>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
         </Task>

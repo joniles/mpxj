@@ -95,50 +95,84 @@ final class XsdDuration
    {
       if (duration != null)
       {
-         int amount = (int)duration.getDuration();
+         double amount = duration.getDuration();
 
-         switch (duration.getType())
+         if (amount != 0)
          {
-            case TimeUnit.MINUTES:
-            case TimeUnit.ELAPSED_MINUTES:
+            switch (duration.getType())
             {
-               m_minutes = amount;
-               break;
-            }
-
-            case TimeUnit.HOURS:
-            case TimeUnit.ELAPSED_HOURS:
-            {
-               m_hours = amount;
-               break;
-            }
-
-            case TimeUnit.DAYS:
-            case TimeUnit.ELAPSED_DAYS:
-            {
-               m_days = amount;
-               break;
-            }
-
-            case TimeUnit.WEEKS:
-            case TimeUnit.ELAPSED_WEEKS:
-            {
-               m_days = amount * 7;
-               break;
-            }
-
-            case TimeUnit.MONTHS:
-            case TimeUnit.ELAPSED_MONTHS:
-            {
-               m_months = amount;
-               break;
-            }
-
-            case TimeUnit.YEARS:
-            case TimeUnit.ELAPSED_YEARS:
-            {
-               m_years = amount;
-               break;
+               case TimeUnit.MINUTES:
+               case TimeUnit.ELAPSED_MINUTES:
+               {
+                  m_minutes = (int)amount;
+                  m_seconds = (amount * 60) - (m_minutes * 60);
+                  break;
+               }
+   
+               case TimeUnit.HOURS:
+               case TimeUnit.ELAPSED_HOURS:
+               {
+                  m_hours = (int)amount;
+                  amount = (amount * 60) - (m_hours * 60);
+                  m_minutes = (int)amount;
+                  m_seconds = (amount * 60) - (m_minutes * 60);               
+                  break;
+               }
+   
+               case TimeUnit.DAYS:
+               case TimeUnit.ELAPSED_DAYS:
+               {
+                  m_days = (int)amount;
+                  amount = (amount * 24) - (m_days * 24);
+                  m_hours = (int)amount;
+                  amount = (amount * 60) - (m_hours * 60);
+                  m_minutes = (int)amount;
+                  m_seconds = (amount * 60) - (m_minutes * 60);                              
+                  break;
+               }
+   
+               case TimeUnit.WEEKS:
+               case TimeUnit.ELAPSED_WEEKS:
+               {
+                  amount *= 7;
+                  m_days = (int)amount;
+                  amount = (amount * 24) - (m_days * 24);
+                  m_hours = (int)amount;
+                  amount = (amount * 60) - (m_hours * 60);
+                  m_minutes = (int)amount;
+                  m_seconds = (amount * 60) - (m_minutes * 60);                                             
+                  break;
+               }
+   
+               case TimeUnit.MONTHS:
+               case TimeUnit.ELAPSED_MONTHS:
+               {
+                  m_months = (int)amount;
+                  amount = (amount * 28) - (m_months * 28);
+                  m_days = (int)amount;
+                  amount = (amount * 24) - (m_days * 24);
+                  m_hours = (int)amount;
+                  amount = (amount * 60) - (m_hours * 60);
+                  m_minutes = (int)amount;
+                  m_seconds = (amount * 60) - (m_minutes * 60);                                                            
+                  break;
+               }
+   
+               case TimeUnit.YEARS:
+               case TimeUnit.ELAPSED_YEARS:
+               {
+                  m_years = (int)amount;
+                  amount = (amount * 12) - (m_years * 12);
+                  m_months = (int)amount;
+                  amount = (amount * 28) - (m_months * 28);
+                  m_days = (int)amount;
+                  amount = (amount * 24) - (m_days * 24);
+                  m_hours = (int)amount;
+                  amount = (amount * 60) - (m_hours * 60);
+                  m_minutes = (int)amount;
+                  m_seconds = (amount * 60) - (m_minutes * 60);                                                                           
+                  break;
+               }
             }
          }
       }

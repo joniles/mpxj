@@ -17,11 +17,13 @@
       <action dev="joniles" type="fix">Fixed a bug where the priority of a task was being escalated when converting between an MPP9 file and an MSPDI file.</action>
       <action dev="joniles" type="fix">Fixed a bug where a deadline was incorrectly being added to a task when importing data from an MPP9 file.</action>
       <action dev="joniles" type="fix">Fixed a bug where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
+      <action dev="joniles" type="fix">Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.</action>
       <action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
       <action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
       <action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>
       <action dev="joniles" type="update">Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</action>
       <action dev="joniles" type="update">Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.</action>
+      <action dev="joniles" type="update">Updated to improve accuracy when converting an MPP file to an MSPDI file.</action>
       <action dev="joniles" type="add">Added support for blank task rows in MPP8 files.</action>
       <action dev="joniles" type="add">Added support for blank resource rows in MPP8 files.</action>
       <action dev="joniles" type="add">Added support for Portuguese MPX files.</action>

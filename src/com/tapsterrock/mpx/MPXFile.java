@@ -1580,6 +1580,82 @@ public class MPXFile
    }
 
    /**
+    * Find the earliest task start date. We treat this as the
+    * start date for the project.
+    * 
+    * @return start date
+    */
+   public Date getStartDate ()
+   {
+      Date startDate = null;
+      
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      Date taskStartDate;
+      
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         taskStartDate = task.getStart();
+         
+         if (taskStartDate != null)
+         {
+            if (startDate == null)
+            {
+               startDate = taskStartDate;
+            }
+            else
+            {
+               if (taskStartDate.getTime() < startDate.getTime())
+               {
+                  startDate = taskStartDate;
+               }               
+            }
+         }
+      }
+      
+      return (startDate);
+   }
+
+   /**
+    * Find the latest task finish date. We treat this as the
+    * finish date for the project.
+    * 
+    * @return finish date
+    */
+   public Date getFinishDate ()
+   {
+      Date finishDate = null;
+      
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      Date taskFinishDate;
+      
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         taskFinishDate = task.getFinish();
+         
+         if (taskFinishDate != null)
+         {
+            if (finishDate == null)
+            {
+               finishDate = taskFinishDate;
+            }
+            else
+            {
+               if (taskFinishDate.getTime() > finishDate.getTime())
+               {
+                  finishDate = taskFinishDate;
+               }
+            }
+         }
+      }
+      
+      return (finishDate);
+   }
+   
+   /**
     * This method is called prior to writing an MPX file to ensure that all of
     * the required number formats are up to date.
     */

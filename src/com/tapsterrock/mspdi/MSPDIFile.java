@@ -2164,6 +2164,7 @@ public class MSPDIFile extends MPXFile
          ObjectFactory factory = new ObjectFactory ();
          Project project = factory.createProject();
 
+         writeMspdiHeader(project);
          writeCurrencySettings (project);
          writeDateTimeSettings (project);
          writeDefaultSettings (project);
@@ -2188,6 +2189,48 @@ public class MSPDIFile extends MPXFile
       }
    }
 
+   private void writeMspdiHeader (Project project)
+   {      
+      //Date today = new Date ();
+      
+      project.setName("MPXJ");
+      project.setTitle("MPXJ");
+      //project.setCreationDate(getCalendar(today));
+      //project.setLastSaved(getCalendar(today));
+      project.setScheduleFromStart(true);     
+      project.setStartDate(getCalendar(getStartDate()));
+      project.setFinishDate(getCalendar(getFinishDate()));
+      project.setFYStartDate(BigInteger.ONE);
+      project.setCriticalSlackLimit(BigInteger.ZERO);
+      project.setCalendarUID(BigInteger.ONE);
+      project.setMinutesPerDay(BigInteger.valueOf(480));
+      project.setMinutesPerWeek(BigInteger.valueOf(2400));
+      project.setDaysPerMonth(BigInteger.valueOf(20));
+      project.setDefaultTaskType(BigInteger.ZERO);
+      project.setDefaultFixedCostAccrual(BigInteger.valueOf(AccrueType.PRORATED));
+      project.setEditableActualCosts(false);
+      project.setHonorConstraints(false);
+      project.setInsertedProjectsLikeSummary(false);
+      project.setMultipleCriticalPaths(false);
+      project.setNewTasksEffortDriven(true);
+      project.setNewTasksEstimated(true);
+      project.setSpreadActualCost(false);
+      project.setSpreadPercentComplete(false);
+      project.setFiscalYearStart(false);
+      project.setWeekStartDay(BigInteger.ONE);
+      project.setMoveCompletedEndsBack(false);
+      project.setMoveRemainingStartsBack(false);
+      project.setMoveRemainingStartsForward(false);
+      project.setMoveCompletedEndsForward(false);
+      project.setBaselineForEarnedValue(BigInteger.ZERO);
+      project.setAutoAddNewResourcesAndTasks(true);
+      project.setMicrosoftProjectServerURL(true);
+      project.setAutolink(true);
+      project.setNewTaskStartDate(BigInteger.ZERO);
+      project.setDefaultTaskEVMethod(BigInteger.ZERO);
+      project.setProjectExternallyEdited(false);      
+   }
+   
    /**
     * This method writes currency settings data to an MSPDI file.
     *
@@ -2242,9 +2285,9 @@ public class MSPDIFile extends MPXFile
       project.setAuthor(header.getAuthor());
       project.setCompany(header.getCompany());
       project.setCurrentDate(getCalendar(header.getCurrentDate()));
-      project.setFinishDate(getCalendar(header.getFinishDate()));
+      //project.setFinishDate(getCalendar(header.getFinishDate()));
       project.setManager(header.getManager());
-      project.setStartDate(getCalendar(header.getStartDate()));
+      //project.setStartDate(getCalendar(header.getStartDate()));
       project.setSubject(header.getSubject());
    }
 
@@ -2697,14 +2740,14 @@ public class MSPDIFile extends MPXFile
       Date finishDate = mpx.getFinish();
       if (finishDate != null)
       {
-         long finishTime = finishDate.getTime();
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(finishDate);
-
-         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
-         {
-            finishDate = new Date(finishTime + (defaultFinishTime * MS_PER_MINUTE));
-         }
+//         long finishTime = finishDate.getTime();
+//         Calendar cal = Calendar.getInstance();
+//         cal.setTime(finishDate);
+//
+//         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
+//         {
+//            finishDate = new Date(finishTime + (defaultFinishTime * MS_PER_MINUTE));
+//         }
 
          xml.setFinish(getCalendar(finishDate));
       }
@@ -2780,14 +2823,14 @@ public class MSPDIFile extends MPXFile
       Date startDate = mpx.getStart();
       if (startDate != null)
       {
-         long startTime = startDate.getTime();
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(startDate);
-
-         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
-         {
-            startDate = new Date(startTime + (defaultStartTime * MS_PER_MINUTE));
-         }
+//         long startTime = startDate.getTime();
+//         Calendar cal = Calendar.getInstance();
+//         cal.setTime(startDate);
+//
+//         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
+//         {
+//            startDate = new Date(startTime + (defaultStartTime * MS_PER_MINUTE));
+//         }
 
          xml.setStart(getCalendar(startDate));
       }
@@ -3261,7 +3304,8 @@ public class MSPDIFile extends MPXFile
          "+??:??<".getBytes(),
          "-??:??<".getBytes(),
          "true<".getBytes(),
-         "false<".getBytes()
+         "false<".getBytes(),
+         ">0.0<".getBytes()
       };
 
       private String[] m_replace =
@@ -3272,7 +3316,8 @@ public class MSPDIFile extends MPXFile
          "<",
          "<",
          "1<",
-         "0<"
+         "0<",
+         ">0<"
       };
    }
 
