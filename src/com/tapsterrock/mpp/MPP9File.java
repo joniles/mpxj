@@ -929,7 +929,12 @@ final class MPP9File
    /**
     * This method extracts and collates resource assignment data
     *
-    * @throws Exception on unexpected file format
+    * TODO Extract more attributes from each record, particularly the work attributes.
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
     */
    private static void processAssignmentData (MPPFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
