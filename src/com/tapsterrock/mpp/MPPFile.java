@@ -31,7 +31,6 @@ import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
-import com.tapsterrock.mpx.MPXPercentage;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
@@ -523,8 +522,8 @@ public class MPPFile extends MPXFile
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (MPPUtility.getShort (data, 40));
          //task.setOutlineNumber(); // Calculated value
-         task.setPercentageComplete(new MPXPercentage ((float)MPPUtility.getShort(data, 122)));
-         task.setPercentageWorkComplete(new MPXPercentage ((float)MPPUtility.getShort(data, 124)));
+         task.setPercentageComplete((double)MPPUtility.getShort(data, 122));
+         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 124));
          task.setPriority(getPriority (MPPUtility.getShort (data, 120)));
          //task.setProject(); // Calculated value
          task.setRemainingCost(new Double (MPPUtility.getDouble (data, 224)/100));

@@ -309,6 +309,21 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * This method is used to set the value of a percentage field in the resource,
+    * and also to ensure that the field exists in the resource model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void setPercentage (int field, Number val)
+   {
+      Integer key = new Integer (field);
+      m_model.add(key);
+      putPercentage (key, val);
+   }
+
+   /**
     * This method is used to retrieve a particular field value.
     *
     * @param field requested field
@@ -331,14 +346,36 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * This method is used to retrieve a particular field value.
+    *
+    * @param field requested field
+    * @return field value
+    */
+   private double getDoubleValue (int field)
+   {
+      return (getDoubleValue(new Integer(field)));
+   }
+
+   /**
     * Sets the percentage work Complete
     *
     * @param val percentage value
     * @see #PERCENTAGE_WORK_COMPLETE Constants for explanation
     */
-   public void setPercentageWorkComplete (MPXPercentage val)
+   public void setPercentageWorkComplete (double val)
    {
-      set (PERCENTAGE_WORK_COMPLETE, val);
+      setPercentage (PERCENTAGE_WORK_COMPLETE, new MPXPercentage (val));
+   }
+
+   /**
+    * Sets the percentage work Complete
+    *
+    * @param val percentage value
+    * @see #PERCENTAGE_WORK_COMPLETE Constants for explanation
+    */
+   public void setPercentageWorkComplete (Number val)
+   {
+      setPercentage (PERCENTAGE_WORK_COMPLETE, val);
    }
 
    /**
@@ -605,9 +642,21 @@ public class Resource extends MPXRecord
     * @param val - value to be set
     * @see #PEAK Constants for explanation
     */
-   public void setPeak (MPXPercentage val)
+   public void setPeak (double val)
    {
-      set (PEAK, val);
+      setPercentage (PEAK, new MPXPercentage (val));
+   }
+
+   /**
+    * Set peak.
+    * This field is ignored on import into MS Project
+    *
+    * @param val - value to be set
+    * @see #PEAK Constants for explanation
+    */
+   public void setPeak (Number val)
+   {
+      setPercentage (PEAK, val);
    }
 
    /**
@@ -731,6 +780,16 @@ public class Resource extends MPXRecord
       set (WORK_VARIANCE, val);
    }
 
+   /**
+    * get Percentage of work completed
+    *
+    * @return percentage value
+    * @see #PERCENTAGE_WORK_COMPLETE Constants for explanation
+    */
+   public double getPercentageWorkCompleteValue ()
+   {
+      return (getDoubleValue(PERCENTAGE_WORK_COMPLETE));
+   }
 
    /**
     * get Percentage of work completed
@@ -738,9 +797,9 @@ public class Resource extends MPXRecord
     * @return percentage value
     * @see #PERCENTAGE_WORK_COMPLETE Constants for explanation
     */
-   public MPXPercentage getPercentageWorkComplete ()
+   public Number getPercentageWorkComplete ()
    {
-      return ((MPXPercentage)get(PERCENTAGE_WORK_COMPLETE));
+      return ((Number)get(PERCENTAGE_WORK_COMPLETE));
    }
 
    /**

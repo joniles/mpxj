@@ -29,18 +29,8 @@ package com.tapsterrock.mpx;
  *
  * @todo extend Number class?
  */
-public class MPXPercentage
+class MPXPercentage extends Number
 {
-   /**
-    * This constructor creates an instance of this class from a float value.
-    *
-    * @param value percentage value
-    */
-   public MPXPercentage (float value)
-   {
-      m_value = value;
-   }
-
    /**
     * This constructor creates an instance of this class from a formatted
     * string value.
@@ -51,17 +41,27 @@ public class MPXPercentage
    public MPXPercentage (String value)
       throws MPXException
    {
-      m_value = FORMAT.parse(value).floatValue();
+      m_value = FORMAT.parse(value).doubleValue();
    }
 
    /**
-    * Accessor method
+    * This constructor creates an instance of this class from a number value.
     *
-    * @return value
+    * @param value percentage value
     */
-   public float getValue ()
+   public MPXPercentage (Number value)
    {
-      return (m_value);
+      m_value = value.doubleValue();
+   }
+
+   /**
+    * This constructor creates an instance of this class from a number value.
+    *
+    * @param value percentage value
+    */
+   public MPXPercentage (double value)
+   {
+      m_value = value;
    }
 
    /**
@@ -75,8 +75,58 @@ public class MPXPercentage
       return (FORMAT.format(m_value) + "%");
    }
 
+   /**
+    * Returns the value of the specified number as an <code>int</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>int</code>.
+    */
+   public int intValue()
+   {
+      return ((int)m_value);
+   }
 
-   private float m_value;
+   /**
+    * Returns the value of the specified number as a <code>long</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>long</code>.
+    */
+   public long longValue()
+   {
+      return ((long)m_value);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>float</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>float</code>.
+    */
+   public float floatValue()
+   {
+      return ((float)m_value);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>double</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>double</code>.
+    */
+   public double doubleValue ()
+   {
+      return (m_value);
+   }
+
+   /**
+    * Internal value
+    */
+   private double m_value;
 
    private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##");
 }

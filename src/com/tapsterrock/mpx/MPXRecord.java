@@ -286,6 +286,23 @@ class MPXRecord
 
    /**
     * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXPercentage objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   protected void putPercentage (Integer key, Number value)
+   {
+      if (value != null && value instanceof MPXPercentage == false)
+      {
+         value = new MPXPercentage (value);
+      }
+
+      m_map.put (key, value);
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXTime objects.
     *
     * @param key attribute identifier
@@ -324,7 +341,7 @@ class MPXRecord
     */
    protected byte getByteValue (Integer key)
    {
-      Byte value = (Byte)m_map.get(key);
+      Number value = (Number)m_map.get(key);
 
       byte result;
       if (value == null)
@@ -428,7 +445,7 @@ class MPXRecord
     */
    protected float getFloatValue (Integer key)
    {
-      Float value = (Float)m_map.get(key);
+      Number value = (Number)m_map.get(key);
 
       float result;
       if (value == null)
@@ -454,7 +471,7 @@ class MPXRecord
     */
    protected double getDoubleValue (Integer key)
    {
-      Double value = (Double)m_map.get(key);
+      Number value = (Number)m_map.get(key);
 
       double result;
       if (value == null)

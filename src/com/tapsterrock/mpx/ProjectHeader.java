@@ -421,9 +421,20 @@ public class ProjectHeader extends MPXRecord
     *
     * @return percentage
     */
-   public MPXPercentage getWork2 ()
+   public double getWork2Value ()
    {
-      return ((MPXPercentage)get (WORK2));
+      return (getDoubleValue (WORK2));
+   }
+
+   /**
+    * Calculated by MS Project on import, so not required if creating
+    * file for import to MS Project
+    *
+    * @return percentage
+    */
+   public Number getWork2 ()
+   {
+      return ((Number)get (WORK2));
    }
 
    /**
@@ -432,9 +443,20 @@ public class ProjectHeader extends MPXRecord
     *
     * @param val percentage
     */
-   public void setWork2 (MPXPercentage val)
+   public void setWork2 (double val)
    {
-      put (WORK2, val);
+      putPercentage (WORK2, new MPXPercentage (val));
+   }
+
+   /**
+    * Calculated by MS Project on import, so not required if creating
+    * file for import to MS Project
+    *
+    * @param val percentage
+    */
+   public void setWork2 (Number val)
+   {
+      putPercentage (WORK2, val);
    }
 
    /**
@@ -502,19 +524,39 @@ public class ProjectHeader extends MPXRecord
     *
     * @return percentage value
     */
-   public MPXPercentage getPercentageComplete ()
+   public double getPercentageCompleteValue ()
    {
-      return ((MPXPercentage)get(PERCENTAGE_COMPLETE));
+      return (getDoubleValue(PERCENTAGE_COMPLETE));
+   }
+
+   /**
+    * Gets percentage complete
+    *
+    * @return percentage value
+    */
+   public Number getPercentageComplete ()
+   {
+      return ((Number)get(PERCENTAGE_COMPLETE));
    }
 
    /**
     * Sets percentage complete
     *
-    * @param val percentage value as MPXPercentage
+    * @param val percentage value
     */
-   public void setPercentageComplete (MPXPercentage val)
+   public void setPercentageComplete (double val)
    {
-      put (PERCENTAGE_COMPLETE, val);
+      putPercentage (PERCENTAGE_COMPLETE, new MPXPercentage (val));
+   }
+
+   /**
+    * Sets percentage complete
+    *
+    * @param val percentage value
+    */
+   public void setPercentageComplete (Number val)
+   {
+      putPercentage (PERCENTAGE_COMPLETE, val);
    }
 
    /**

@@ -810,6 +810,21 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
+    * This method is used to set the value of a percentage field in the task,
+    * and also to ensure that the field exists in the task model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void setPercentage (int field, Number val)
+   {
+      Integer key = new Integer (field);
+      m_model.add(key);
+      putPercentage (key, val);
+   }
+
+   /**
     * This method is used to set the value of a currency field in the task,
     * and also to ensure that the field exists in the task model
     * record.
@@ -868,6 +883,7 @@ public class Task extends MPXRecord implements Comparable
       return (getBooleanValue(new Integer(field)));
    }
 
+
    /**
     * The % Complete field contains the current status of a task, expressed
     * as the percentage of the
@@ -877,9 +893,40 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - value to be set
     */
-   public void setPercentageComplete (MPXPercentage val)
+   public void setPercentageComplete (double val)
    {
-      set (PERCENTAGE_COMPLETE, val);
+      setPercentage (PERCENTAGE_COMPLETE, new MPXPercentage(val));
+   }
+
+   /**
+    * The % Complete field contains the current status of a task, expressed
+    * as the percentage of the
+    * task's duration that has been completed. You can enter percent complete,
+    * or you can have
+    * Microsoft Project calculate it for you based on actual duration.
+    *
+    * @param val - value to be set
+    */
+   public void setPercentageComplete (Number val)
+   {
+      setPercentage (PERCENTAGE_COMPLETE, val);
+   }
+
+
+   /**
+    * The % Work Complete field contains the current status of a task,
+    * expressed as the
+    * percentage of the task's work that has been completed. You can enter
+    * percent work
+    * complete, or you can have Microsoft Project calculate it for you
+    * based on actual
+    * work on the task.
+    *
+    * @param val - value to be set
+    */
+   public void setPercentageWorkComplete (double val)
+   {
+      setPercentage (PERCENTAGE_WORK_COMPLETE, new MPXPercentage (val));
    }
 
    /**
@@ -893,9 +940,9 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - value to be set
     */
-   public void setPercentageWorkComplete (MPXPercentage val)
+   public void setPercentageWorkComplete (Number val)
    {
-      set (PERCENTAGE_WORK_COMPLETE, val);
+      setPercentage (PERCENTAGE_WORK_COMPLETE, val);
    }
 
    /**
@@ -2238,6 +2285,17 @@ public class Task extends MPXRecord implements Comparable
       set (WORK_VARIANCE, val);
    }
 
+   /**
+    * The % Complete field contains the current status of a task,
+    * expressed as the percentage of the task's duration that has been completed.
+    * You can enter percent complete, or you can have Microsoft Project calculate
+    * it for you based on actual duration.
+    * @return - percentage as float
+    */
+   public double getPercentageCompleteValue ()
+   {
+      return (getDoubleValue(PERCENTAGE_COMPLETE));
+   }
 
    /**
     * The % Complete field contains the current status of a task,
@@ -2246,9 +2304,23 @@ public class Task extends MPXRecord implements Comparable
     * it for you based on actual duration.
     * @return - percentage as float
     */
-   public MPXPercentage getPercentageComplete ()
+   public Number getPercentageComplete ()
    {
-      return ((MPXPercentage)get(PERCENTAGE_COMPLETE));
+      return ((Number)get(PERCENTAGE_COMPLETE));
+   }
+
+
+   /**
+    * The % Work Complete field contains the current status of a task,
+    * expressed as the percentage of the task's work that has been completed.
+    * You can enter percent work complete, or you can have Microsoft Project
+    * calculate it for you based on actual work on the task.
+    *
+    * @return - percentage as float
+    */
+   public double getPercentageWorkCompleteValue ()
+   {
+      return (getDoubleValue(PERCENTAGE_WORK_COMPLETE));
    }
 
    /**
@@ -2259,9 +2331,9 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - percentage as float
     */
-   public MPXPercentage getPercentageWorkComplete ()
+   public Number getPercentageWorkComplete ()
    {
-      return ((MPXPercentage)get(PERCENTAGE_WORK_COMPLETE));
+      return ((Number)get(PERCENTAGE_WORK_COMPLETE));
    }
 
 
