@@ -17,7 +17,7 @@
     <MinutesPerWeek>2400</MinutesPerWeek>
     <DaysPerMonth>20</DaysPerMonth>
     <DefaultTaskType>0</DefaultTaskType>
-    <DefaultFixedCostAccrual>3</DefaultFixedCostAccrual>
+    <DefaultFixedCostAccrual>2</DefaultFixedCostAccrual>
     <DefaultStandardRate>0</DefaultStandardRate>
     <DefaultOvertimeRate>0</DefaultOvertimeRate>
     <DurationFormat>5</DurationFormat>
@@ -26,7 +26,7 @@
     <HonorConstraints>0</HonorConstraints>
     <InsertedProjectsLikeSummary>0</InsertedProjectsLikeSummary>
     <MultipleCriticalPaths>0</MultipleCriticalPaths>
-    <NewTasksEffortDriven>1</NewTasksEffortDriven>
+    <NewTasksEffortDriven>0</NewTasksEffortDriven>
     <NewTasksEstimated>1</NewTasksEstimated>
     <SplitsInProgressTasks>1</SplitsInProgressTasks>
     <SpreadActualCost>0</SpreadActualCost>
