@@ -101,6 +101,9 @@ public final class ProjectHeader extends MPXRecord
       // Configure non-MPX attributes
       //
       setProjectExternallyEdited(true);
+      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY); //480
+      setDaysPerMonth(DEFAULT_DAYS_PER_MONTH); // 20
+      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);//2400
    }
 
    /**
@@ -2112,6 +2115,66 @@ public final class ProjectHeader extends MPXRecord
    }
    
    /**
+    * Retrieve the number of days per month.
+    * 
+    * @return days per month
+    */
+   public Integer getDaysPerMonth()
+   {
+      return (m_daysPerMonth);
+   }
+   
+   /**
+    * Set the number of days per month.
+    * 
+    * @param daysPerMonth days per month
+    */
+   public void setDaysPerMonth(Integer daysPerMonth)
+   {
+      m_daysPerMonth = daysPerMonth;
+   }
+   
+   /**
+    * Retrieve the number of minutes per day.
+    * 
+    * @return minutes per day
+    */
+   public Integer getMinutesPerDay()
+   {
+      return (m_minutesPerDay);
+   }
+   
+   /**
+    * Set the number of minutes per day.
+    * 
+    * @param minutesPerDay minutes per day
+    */
+   public void setMinutesPerDay(Integer minutesPerDay)
+   {
+      m_minutesPerDay = minutesPerDay;
+   }
+   
+   /**
+    * Retrieve the number of minutes per week.
+    * 
+    * @return minutes per week
+    */
+   public Integer getMinutesPerWeek()
+   {
+      return m_minutesPerWeek;
+   }
+   
+   /**
+    * Set the number of minutes per week
+    * 
+    * @param minutesPerWeek minutes per week
+    */
+   public void setMinutesPerWeek(Integer minutesPerWeek)
+   {
+      m_minutesPerWeek = minutesPerWeek;
+   }
+   
+   /**
     * This method updates the formatters used to control the currency
     * formatting.
     */
@@ -2308,11 +2371,13 @@ public final class ProjectHeader extends MPXRecord
    private Date m_defaultEndTime;
    private boolean m_projectExternallyEdited;
    private String m_category;      
-   
+   private Integer m_minutesPerDay;       
+   private Integer m_daysPerMonth;
+   private Integer m_minutesPerWeek;
+      
    /*
     * Missing MSPDI attributes 
     * 
-       void setMinutesPerDay(java.math.BigInteger value);    
        void setFiscalYearStart(boolean value);    
        void setRemoveFileProperties(boolean value);    
        void setDefaultTaskEVMethod(java.math.BigInteger value);    
@@ -2335,10 +2400,8 @@ public final class ProjectHeader extends MPXRecord
        void setMicrosoftProjectServerURL(boolean value);    
        void setNewTaskStartDate(java.math.BigInteger value);
        void setHonorConstraints(boolean value);
-       void setDaysPerMonth(java.math.BigInteger value);
        void setAdminProject(boolean value);    
        void setScheduleFromStart(boolean value); // this is probably the schedule from value
-       void setMinutesPerWeek(java.math.BigInteger value);    
        void setInsertedProjectsLikeSummary(boolean value);    
        void setName(java.lang.String value);
        void setSpreadPercentComplete(boolean value);
@@ -2407,6 +2470,21 @@ public final class ProjectHeader extends MPXRecord
     */
    private static final String DEFAULT_CALENDAR_NAME = "Standard";
 
+   /**
+    * Default minutes per day.
+    */
+   private static final Integer DEFAULT_MINUTES_PER_DAY = new Integer(480);
+
+   /**
+    * Default days per month.
+    */
+   private static final Integer DEFAULT_DAYS_PER_MONTH = new Integer (20);
+   
+   /**
+    * Default minutes per week.
+    */
+   private static final Integer DEFAULT_MINUTES_PER_WEEK = new Integer (2400);
+      
    /**
     * Constant containing the record number associated with this record.
     */

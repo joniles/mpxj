@@ -360,7 +360,7 @@ public class MSPDIFile extends MPXFile
    {
       ProjectHeader header = getProjectHeader ();
       
-      //header.setMinutesPerDay();
+      header.setMinutesPerDay(getInteger(project.getMinutesPerDay()));
       header.setSplitInProgressTasks(project.isSplitsInProgressTasks());
       header.setManager(project.getManager());
       header.setDefaultEndTime(getTime(project.getDefaultFinishTime()));
@@ -396,11 +396,11 @@ public class MSPDIFile extends MPXFile
       //header.setMicrosoftProjectServerURL();    
       //header.setNewTaskStartDate();
       //header.setHonorConstraints();
-      //header.setDaysPerMonth();
+      header.setDaysPerMonth(getInteger(project.getDaysPerMonth()));
       header.setAuthor(project.getAuthor());
       //header.setAdminProject();    
       //header.setScheduleFromStart();
-      //header.setMinutesPerWeek();  
+      header.setMinutesPerWeek(getInteger(project.getMinutesPerWeek()));  
       header.setCurrentDate(getDate (project.getCurrentDate()));
       header.setCurrencyDigits (getInteger(project.getCurrencyDigits()));
       //header.setInsertedProjectsLikeSummary();    
@@ -2470,7 +2470,7 @@ public class MSPDIFile extends MPXFile
    {
       ProjectHeader header = getProjectHeader ();
 
-      project.setMinutesPerDay(BigInteger.valueOf(480));
+      project.setMinutesPerDay(getBigInteger(header.getMinutesPerDay()));
       project.setSplitsInProgressTasks(header.getSplitInProgressTasks());
       project.setManager(header.getManager());      
       project.setDefaultFinishTime(getCalendar (header.getDefaultEndTime()));
@@ -2503,11 +2503,11 @@ public class MSPDIFile extends MPXFile
       project.setMicrosoftProjectServerURL(true);
       project.setNewTaskStartDate(BigInteger.ZERO);     
       project.setHonorConstraints(false);
-      project.setDaysPerMonth(BigInteger.valueOf(20));
+      project.setDaysPerMonth(getBigInteger(header.getDaysPerMonth()));
       project.setAuthor(header.getAuthor());
       //project.setAdminProject();
       project.setScheduleFromStart(true);     
-      project.setMinutesPerWeek(BigInteger.valueOf(2400));
+      project.setMinutesPerWeek(getBigInteger(header.getMinutesPerWeek()));
       project.setCurrentDate(getCalendar(header.getCurrentDate()));            
       project.setCurrencyDigits(BigInteger.valueOf (header.getCurrencyDigits().intValue()));
       project.setInsertedProjectsLikeSummary(false);                  
