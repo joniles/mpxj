@@ -623,7 +623,9 @@ public final class MPXCalendar extends MPXRecord
    /**
     * This method calculates the absolute number of days between two dates.
     * Note that where two date objects are provided that fall on the same
-    * day, this method will return one not zero.
+    * day, this method will return one not zero. Note also that this method
+    * assumes that the dates are passed in the correct order, i.e.
+    * startDate < endDate.
     *
     * @param startDate Start date
     * @param endDate End date
@@ -631,15 +633,32 @@ public final class MPXCalendar extends MPXRecord
     */
    private int getDaysInRange (Date startDate, Date endDate)
    {
-      long start = startDate.getTime() / MS_PER_DAY;
-      long end = endDate.getTime() / MS_PER_DAY;
-      long diff = end - start;
-      if (diff < 0)
-      {
-         diff = -diff;
-      }
+      int result;
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(endDate);
+      int endDateYear = cal.get(Calendar.YEAR);
+      int endDateDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
 
-      return ((int)(diff + 1));
+      cal.setTime(startDate);
+      
+      if (endDateYear == cal.get(Calendar.YEAR))
+      {
+         result = (endDateDayOfYear - cal.get(Calendar.DAY_OF_YEAR)) + 1;
+      }
+      else
+      {
+         result = 0;
+         do
+         {
+            result += (cal.getActualMaximum(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR)) + 1;
+            cal.roll(Calendar.YEAR, 1);
+            cal.set(Calendar.DAY_OF_YEAR, 1);            
+         }
+         while (cal.get(Calendar.YEAR) < endDateYear);
+         result += endDateDayOfYear;
+      }
+      
+      return (result);
    }
 
    /**
