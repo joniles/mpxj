@@ -326,7 +326,8 @@ public final class BaseCalendar extends MPXRecord
    /**
     * This method is provided to allow an absolute period of time
     * represented by start and end dates into a duration in working
-    * days based on this calendar instance.
+    * days based on this calendar instance. This method takes account
+    * of any exceptions defined for this calendar.
     *
     * @param startDate start of the period
     * @param endDate end of the period
@@ -344,7 +345,7 @@ public final class BaseCalendar extends MPXRecord
 
       while (days > 0)
       {
-         if (isWorkingDay(day) == true)
+         if (isWorkingDate(cal.getTime(), day) == true)
          {
             ++duration;
          }
@@ -356,12 +357,75 @@ public final class BaseCalendar extends MPXRecord
          {
             day = 1;
          }
+         
+         cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
 
       return (new MPXDuration (duration, TimeUnit.DAYS));
    }
 
+   /**
+    * This method allows the caller to determine if a given date is a
+    * working day. This method takes account of calendar exceptions.
+    * 
+    * @param date Date to be tested
+    * @return boolean value
+    */
+   public boolean isWorkingDate (Date date)
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(date);
+      int day = cal.get(Calendar.DAY_OF_WEEK);
+      return (isWorkingDate (date, day));
+   }
+   
+   /**
+    * This private method allows the caller to determine if a given date is a
+    * working day. This method takes account of calendar exceptions. It assumes
+    * that the caller has already calculated the day of the week on which
+    * the given day falls.
+    * 
+    * @param date Date to be tested
+    * @param day Day of the week for the date under test
+    * @return boolean flag
+    */
+   private boolean isWorkingDate (Date date, int day)
+   {
+      boolean result = false;
 
+      //
+      // Test to see if the date is covered by an exception
+      //      
+      Iterator iter = m_exceptions.iterator();
+      BaseCalendarException exception = null;
+      
+      while (iter.hasNext() == true)
+      {
+         exception = (BaseCalendarException)iter.next();
+         if (exception.contains(date) == true)
+         {
+            result = exception.getWorkingValue();
+            break;
+         }
+         else
+         {
+            exception = null;
+         }                        
+      }
+
+      //
+      // If the date is not covered by an exception, use the
+      // normal test for working days
+      //
+      if (exception == null)
+      {
+         result = isWorkingDay (day);         
+      }
+            
+      return (result);
+   }
+
+   
    /**
     * This method calculates the absolute number of days between two dates.
     * Note that where two date objects are provided that fall on the same
