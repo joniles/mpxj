@@ -192,7 +192,7 @@ public class MpxCreate
       // output file format when alternative separators and delimiters
       // are used.
       //
-      resource2.setMaxUnits(50.0);
+      resource2.setMaxUnits(new Double(50.0));
 
       //
       // Create a summary task
