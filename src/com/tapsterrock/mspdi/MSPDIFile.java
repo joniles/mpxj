@@ -143,7 +143,7 @@ public class MSPDIFile extends MPXFile
     */
    public void setMicrosoftProjectCompatibleOutput (boolean flag)
    {
-      m_compatible = true;
+      m_compatible = flag;
    }
 
    /**
@@ -2620,7 +2620,6 @@ public class MSPDIFile extends MPXFile
    private static final String ZERO_DURATION = "PT0H0M0S";
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
-   private static final long MS_PER_DAY = 1000 * 60 * 60 * 24;
    private static final int MS_PER_MINUTE = 1000 * 60;
 }
 
