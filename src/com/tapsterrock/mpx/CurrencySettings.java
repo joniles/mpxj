@@ -302,30 +302,31 @@ public final class CurrencySettings extends MPXRecord
          MPXNumberFormat currencyFormat = parent.getCurrencyFormat();
          String prefix = "";
          String suffix = "";
-
+         String currencySymbol = quoteFormatCharacters (getCurrencySymbol());
+         
          switch (getSymbolPositionValue())
          {
             case SYMBOLPOS_AFTER:
             {
-               suffix = getCurrencySymbol();
+               suffix = currencySymbol;
                break;
             }
 
             case SYMBOLPOS_BEFORE:
             {
-               prefix = getCurrencySymbol();
+               prefix = currencySymbol;
                break;
             }
 
             case SYMBOLPOS_AFTER_WITH_SPACE:
             {
-               suffix = " " + getCurrencySymbol();
+               suffix = " " + currencySymbol;
                break;
             }
 
             case SYMBOLPOS_BEFORE_WITH_SPACE:
             {
-               prefix = getCurrencySymbol() + " ";
+               prefix = currencySymbol + " ";
                break;
             }
          }
@@ -338,19 +339,67 @@ public final class CurrencySettings extends MPXRecord
          }
          pattern.append("##0");
 
-         pattern.append('.');
 
-         int digits = getCurrencyDigitsValue();
-         for(int i = 0 ; i < digits ; i++)
+         int digits = getCurrencyDigitsValue();         
+         if (digits > 0)
          {
-            pattern.append("0");
+            pattern.append('.');
+            for(int i = 0 ; i < digits ; i++)
+            {
+               pattern.append("0");
+            }
          }
+                     
          pattern.append(suffix);
 
          parent.getCurrencyFormat().applyPattern(pattern.toString(), getDecimalSeparator(), getThousandsSeparator());
       }
    }
 
+   /**
+    * This method is used to quote any special characters that appear in
+    * literal text that is required as part of the currency format.
+    * 
+    * @param literal Literal text
+    * @return literal text with special characters in quotes
+    */
+   private String quoteFormatCharacters (String literal)
+   {
+      StringBuffer sb = new StringBuffer ();
+      int length = literal.length();
+      char c;
+      
+      for (int loop=0; loop <length; loop++)
+      {
+         c = literal.charAt(loop);
+         switch (c)
+         {
+            case '0':
+            case '#':
+            case '.':
+            case '-':
+            case ',':
+            case 'E':
+            case ';':
+            case '%':
+            {
+               sb.append ("'");
+               sb.append (c);
+               sb.append ("'");
+               break;               
+            }
+            
+            default:
+            {
+               sb.append (c);
+               break;
+            }
+         }         
+      }
+      
+      return (sb.toString());
+   }
+   
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
