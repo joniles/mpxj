@@ -15,6 +15,7 @@
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</action>
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</action>
       <action dev="joniles" type="add">Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</action>
+      <action dev="joniles" type="update">Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to descibe a project consistent with the contents of the MPP and MSPDI file formats.</action>
    </release>
 
    <release version="0.0.23" date="17/11/2004"> 
