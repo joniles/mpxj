@@ -1,3 +1,10 @@
+Version 0.0.15
+Fixed a bug causing resource assignments to be duplicated in an MPX file created programatically.
+Updated predecessor and successor method documentation.
+Added simple JUnit test to demonstrate iteration through relationships.
+Added an example of programatically creating a partially complete task to the MPXCreate.java example.
+Added default values to the MPX project header.
+
 Version 0.0.14
 Updated to extract the following fields from resource data in an MPP9 file which were previously not imported:
 	Flag1-Flag20
