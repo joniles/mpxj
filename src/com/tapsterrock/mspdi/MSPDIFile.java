@@ -2751,7 +2751,7 @@ public class MSPDIFile extends MPXFile
       private OutputStream m_parent;
       private int m_match = -1;
       private byte[] m_buffer;
-      private int m_index = 0;
+      private int m_index;
 
       private byte[][] m_find =
       {

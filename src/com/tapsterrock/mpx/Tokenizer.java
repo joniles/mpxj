@@ -182,7 +182,7 @@ final class Tokenizer
 
    private char m_quote = '"';
    private char m_delimiter = ',';
-   private int m_next = 0;
+   private int m_next;
    private StringBuffer m_buffer = new StringBuffer ();
    private Reader m_reader;
 }

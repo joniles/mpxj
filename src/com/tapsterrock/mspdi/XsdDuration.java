@@ -380,13 +380,13 @@ final class XsdDuration
       return (buffer.toString());
    }
 
-   private boolean m_hasTime = false;
-   private int m_years = 0;
-   private int m_months = 0;
-   private int m_days = 0;
-   private int m_hours = 0;
-   private int m_minutes = 0;
-   private double m_seconds = 0;
+   private boolean m_hasTime;
+   private int m_years;
+   private int m_months;
+   private int m_days;
+   private int m_hours;
+   private int m_minutes;
+   private double m_seconds;
 
    /**
     * Configure the decimal separator to be independent of the

@@ -1712,27 +1712,27 @@ public class MPXFile
    /**
     * Counter used to populate the unique ID field of a task
     */
-   private int m_taskUniqueID = 0;
+   private int m_taskUniqueID;
 
    /**
     * Counter used to populate the unique ID field of a calendar
     */
-   private int m_calendarUniqueID = 0;
+   private int m_calendarUniqueID;
 
    /**
     * Counter used to populate the ID field of a task
     */
-   private int m_taskID = 0;
+   private int m_taskID;
 
    /**
     * Counter used to populate the unique ID field of a resource
     */
-   private int m_resourceUniqueID = 0;
+   private int m_resourceUniqueID;
 
    /**
     * Counter used to populate the ID field of a resource
     */
-   private int m_resourceID = 0;
+   private int m_resourceID;
 
    /**
     * List to maintain records in the order that they are added.
@@ -1821,48 +1821,48 @@ public class MPXFile
    /**
     * Reference to the last task added to the file.
     */
-   private Task m_lastTask = null;
+   private Task m_lastTask;
 
    /**
     * Reference to the last resource added to the file.
     */
-   private Resource m_lastResource = null;
+   private Resource m_lastResource;
 
    /**
     * Reference to the last resource calendar added to the file.
     */
-   private MPXCalendar m_lastResourceCalendar = null;
+   private MPXCalendar m_lastResourceCalendar;
 
    /**
     * Reference to the last resource assignment added to the file.
     */
-   private ResourceAssignment m_lastResourceAssignment = null;
+   private ResourceAssignment m_lastResourceAssignment;
 
    /**
     * Reference to the last base calendar added to the file.
     */
-   private MPXCalendar m_lastBaseCalendar = null;
+   private MPXCalendar m_lastBaseCalendar;
 
    /**
     * Flag indicating the existence of a resource model record.
     */
-   private boolean m_resourceTableDefinition = false;
+   private boolean m_resourceTableDefinition;
 
    /**
     * Flag indicating the existence of a task model record.
     */
-   private boolean m_taskTableDefinition = false;
+   private boolean m_taskTableDefinition;
 
 
    /**
     * Count of the number of project names.
     */
-   private int m_projectNames = 0;
+   private int m_projectNames;
 
    /**
     * Count of the number of dde/ole links.
     */
-   private int m_ddeOleClientLinks = 0;
+   private int m_ddeOleClientLinks;
 
    /**
     * Character to be used as delimiter throughout this file.
@@ -1873,54 +1873,54 @@ public class MPXFile
     * Indicating whether WBS value should be calculated on creation, or will
     * be manually set.
     */
-   private boolean m_autoWBS = false;
+   private boolean m_autoWBS;
 
    /**
     * Indicating whether the Outline Level value should be calculated on
     * creation, or will be manually set.
     */
-   private boolean m_autoOutlineLevel = false;
+   private boolean m_autoOutlineLevel;
 
    /**
     * Indicating whether the Outline Number value should be calculated on
     * creation, or will be manually set.
     */
-   private boolean m_autoOutlineNumber = false;
+   private boolean m_autoOutlineNumber;
 
    /**
     * Indicating whether the unique ID of a task should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoTaskUniqueID = false;
+   private boolean m_autoTaskUniqueID;
 
    /**
     * Indicating whether the unique ID of a calendar should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoCalendarUniqueID = false;
+   private boolean m_autoCalendarUniqueID;
 
    /**
     * Indicating whether the ID of a task should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoTaskID = false;
+   private boolean m_autoTaskID;
 
    /**
     * Indicating whether the unique ID of a resource should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoResourceUniqueID = false;
+   private boolean m_autoResourceUniqueID;
 
    /**
     * Indicating whether the ID of a resource should be
     * calculated on creation, or will be manually set.
     */
-   private boolean m_autoResourceID = false;
+   private boolean m_autoResourceID;
 
    /**
     * Flag indicating that the text form of the task model should be ignored.
     */
-   private boolean m_ignoreTextModel = false;
+   private boolean m_ignoreTextModel;
 
    /**
     * This member data is used to hold the outline level number of the

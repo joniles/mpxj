@@ -192,7 +192,7 @@ final class TaskModel extends MPXRecord
    /**
     * Indicating whether or not model has already been written to a file.
     */
-   private boolean m_written = false;
+   private boolean m_written;
 
    /**
     * Array of flags indicting whether each field has already been
@@ -208,7 +208,7 @@ final class TaskModel extends MPXRecord
    /**
     * Count of the number of fields present.
     */
-   private int m_count = 0;
+   private int m_count;
 
    /**
     * Array of task field numbers corresponding to the task field names.

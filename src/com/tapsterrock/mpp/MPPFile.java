@@ -288,9 +288,9 @@ public class MPPFile extends MPXFile
 
    /**
     * Flag used to indicate whether RTF formatting in notes should
-    * be preserved.
+    * be preserved. The default value for this flag is false.
     */
-   private boolean m_preserveNoteFormatting = false;
+   private boolean m_preserveNoteFormatting;
 
    /**
     * This value is used to represent the type of MPP file that

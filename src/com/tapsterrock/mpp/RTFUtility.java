@@ -87,6 +87,6 @@ final class RTFUtility
       }
    }
 
-   private RTFEditorKit m_editor = null;
-   private Document m_doc = null;
+   private RTFEditorKit m_editor;
+   private Document m_doc;
 }

@@ -438,9 +438,10 @@ public final class CurrencySettings extends MPXRecord
 
    /**
     * flag used to indicate whether the currency format
-    * can be automatically updated.
+    * can be automatically updated. The default value for this
+    * flag is false.
     */
-   private boolean m_update = false;
+   private boolean m_update;
 
    /**
     * Represents a constant from Symbol Position field

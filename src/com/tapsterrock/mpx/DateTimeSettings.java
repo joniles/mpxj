@@ -1095,8 +1095,9 @@ public final class DateTimeSettings extends MPXRecord
 
    /**
     * Flag used to indicate whether the formats can be automatically updated.
+    * The default value for this flag is false.
     */
-   private boolean m_update = false;
+   private boolean m_update;
 
    /**
     * Constant value representing Date Order field
