@@ -159,9 +159,15 @@ public class MPXFile
 
    /**
     * This method configures the basic MPX file.
+    * Note that we force the locale of the file to be English, ignoring
+    * the system default locale value. We do this as the vast majority of
+    * MPX file users will have international versions of MS Project,
+    * not localised ones. Users of localised MPX file versions must call
+    * the setLocale method explicitly.
     */
    private void configure ()
    {
+      setLocale (Locale.ENGLISH);
       m_records.add (m_fileCreationRecord);
       m_records.add (m_currencySettings);
       m_records.add (m_defaultSettings);
