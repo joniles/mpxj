@@ -27,17 +27,20 @@ package com.tapsterrock.mpx.test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
 import com.tapsterrock.mpp.MPPFile;
+import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mspdi.MSPDIFile;
 
 /**
@@ -347,6 +350,178 @@ public class TestMPXFile extends TestCase
    }
 
 
+   /**
+    * This method exercises task notes, ensuring that
+    * embedded commas and quotes are handled correctly.
+    * 
+    * @throws Exception
+    */
+   public void testTaskNotes ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {      
+         String notes1 = "Notes, containing a comma. Done.";
+         String notes2 = "Notes \"containing embedded quotes\" Done.";
+         String notes3 = "Notes, \"containing embedded quotes, and comma's too.\" Done.";
+         String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
+         String notes5 = "Normal unquoted notes. Done.";
+                                    
+         MPXFile file1 = new MPXFile();
+   
+         file1.setAutoWBS(true);
+         file1.setAutoOutlineLevel(true);
+         file1.setAutoTaskID(true);
+         file1.setAutoTaskUniqueID(true);
+         
+         Task task1 = file1.addTask();
+         task1.setName("Test Task 1");
+         task1.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task1.setStart(new Date());
+         task1.setNotes(notes1);
+         
+         Task task2 = file1.addTask();
+         task2.setName("Test Task 2");
+         task2.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task2.setStart(new Date());
+         task2.setNotes(notes2);
+
+         Task task3 = file1.addTask();
+         task3.setName("Test Task 3");
+         task3.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task3.setStart(new Date());
+         task3.setNotes(notes3);
+
+         Task task4 = file1.addTask();
+         task4.setName("Test Task 4");
+         task4.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task4.setStart(new Date());
+         task4.setNotes(notes4);
+         
+         Task task5 = file1.addTask();
+         task5.setName("Test Task 5");
+         task5.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task5.setStart(new Date());
+         task5.setNotes(notes5);
+
+         out = File.createTempFile ("junit", ".mpx");
+         file1.write (out);
+         
+         MPXFile file2 = new MPXFile (out);
+         String notes;
+         Task task1a = file2.getTaskByUniqueID(task1.getUniqueIDValue());
+         notes = task1a.getNotes();
+         assertEquals (notes1, notes);
+         
+         Task task2a = file2.getTaskByUniqueID(task2.getUniqueIDValue());
+         notes = task2a.getNotes();
+         assertEquals (notes2, notes);
+         
+         Task task3a = file2.getTaskByUniqueID(task3.getUniqueIDValue());
+         notes = task3a.getNotes();
+         assertEquals (notes3, notes);
+         
+         Task task4a = file2.getTaskByUniqueID(task4.getUniqueIDValue());
+         notes = task4a.getNotes();
+         assertEquals (notes4, notes);
+
+         Task task5a = file2.getTaskByUniqueID(task5.getUniqueIDValue());
+         notes = task5a.getNotes();
+         assertEquals (notes5, notes);         
+      }
+      
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }               
+   }
+
+   /**
+    * This method exercises resource notes, ensuring that
+    * embedded commas and quotes are handled correctly.
+    * 
+    * @throws Exception
+    */   
+   public void testResourceNotes ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {      
+         String notes1 = "Notes, containing a comma. Done.";
+         String notes2 = "Notes \"containing embedded quotes\" Done.";
+         String notes3 = "Notes, \"containing embedded quotes, and comma's too.\" Done.";
+         String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
+         String notes5 = "Normal unquoted notes. Done.";
+                                    
+         MPXFile file1 = new MPXFile();
+   
+         file1.setAutoWBS(true);
+         file1.setAutoOutlineLevel(true);
+         file1.setAutoResourceID(true);
+         file1.setAutoResourceUniqueID(true);
+         
+         Resource resource1 = file1.addResource();
+         resource1.setName("Test Resource 1");
+         resource1.setNotes(notes1);
+         
+         Resource resource2 = file1.addResource();
+         resource2.setName("Test Resource 2");
+         resource2.setNotes(notes2);
+
+         Resource resource3 = file1.addResource();
+         resource3.setName("Test Resource 3");
+         resource3.setNotes(notes3);
+
+         Resource resource4 = file1.addResource();
+         resource4.setName("Test Resource 4");
+         resource4.setNotes(notes4);
+         
+         Resource resource5 = file1.addResource();
+         resource5.setName("Test Resource 5");
+         resource5.setNotes(notes5);
+
+         out = File.createTempFile ("junit", ".mpx");
+         file1.write (out);
+         
+         MPXFile file2 = new MPXFile (out);
+         String notes;
+         Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueIDValue());
+         notes = resource1a.getNotes();
+         assertEquals (notes1, notes);
+         
+         Resource resource2a = file2.getResourceByUniqueID(resource2.getUniqueIDValue());
+         notes = resource2a.getNotes();
+         assertEquals (notes2, notes);
+         
+         Resource resource3a = file2.getResourceByUniqueID(resource3.getUniqueIDValue());
+         notes = resource3a.getNotes();
+         assertEquals (notes3, notes);
+         
+         Resource resource4a = file2.getResourceByUniqueID(resource4.getUniqueIDValue());
+         notes = resource4a.getNotes();
+         assertEquals (notes4, notes);
+
+         Resource resource5a = file2.getResourceByUniqueID(resource5.getUniqueIDValue());
+         notes = resource5a.getNotes();
+         assertEquals (notes5, notes);         
+      }
+      
+      finally
+      {
+         if (out != null)
+         {
+            //out.delete();
+         }
+      }               
+   }
+   
    /**
     * Read an MPP file that caused problems.
     */

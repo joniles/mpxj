@@ -81,13 +81,54 @@ public final class ResourceNotes extends MPXRecord
    public String toString()
    {
       StringBuffer buffer = new StringBuffer ();
-
+      char delimiter = getParentFile().getDelimiter();
+      
       buffer.append (RECORD_NUMBER);
-      buffer.append (getParentFile().getDelimiter());
+      buffer.append (delimiter);
+      
       if (m_note != null)
       {
-         buffer.append (m_note.replace('\n', EOL_PLACEHOLDER));
-      }               
+         boolean quote = (m_note.indexOf(delimiter) != -1 || m_note.indexOf('"') != -1);
+         int length = m_note.length();
+         char c;
+         
+         if (quote == true)
+         {
+            buffer.append('"');
+         }
+                     
+         for (int loop=0; loop < length; loop++)
+         {
+            c = m_note.charAt(loop);
+            
+            switch (c)
+            {
+               case '\n':
+               {
+                  buffer.append (EOL_PLACEHOLDER);
+                  break;   
+               }
+               
+               case '"':
+               {
+                  buffer.append ("\"\"");
+                  break;
+               }
+               
+               default:
+               {
+                  buffer.append (c);
+                  break;
+               }
+            }
+         }
+
+         if (quote == true)
+         {
+            buffer.append('"');
+         }         
+      }         
+      
       buffer.append (MPXFile.EOL);
 
       return (buffer.toString());

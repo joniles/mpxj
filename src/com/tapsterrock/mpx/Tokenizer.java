@@ -50,6 +50,7 @@ final class Tokenizer
       throws IOException
    {
       int c;
+      int nextc = -1;
       boolean quoted = false;
       int result = m_next;
       if (m_next != 0)
@@ -61,8 +62,16 @@ final class Tokenizer
 
       while (result == 0)
       {
-         c = m_reader.read();
-
+         if (nextc != -1)
+         {
+            c = nextc;
+            nextc = -1;
+         }
+         else
+         {                        
+            c = m_reader.read();
+         }
+         
          switch (c)
          {
             case TT_EOF:
@@ -112,7 +121,16 @@ final class Tokenizer
                   }
                   else
                   {
-                     quoted = false;
+                     nextc = m_reader.read();
+                     if (nextc == m_quote)
+                     {
+                        m_buffer.append ((char)c);
+                        nextc = -1;
+                     }
+                     else
+                     {
+                        quoted = false;
+                     }                        
                   }
                }
                else
