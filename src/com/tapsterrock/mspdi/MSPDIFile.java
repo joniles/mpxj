@@ -236,6 +236,7 @@ public class MSPDIFile extends MPXFile
          readDateTimeSettings (project);
          readDefaultSettings (project);
          readProjectHeader (project);
+         readFieldAliases(project);
          readCalendars (project, calendarMap);
          readResources (project, calendarMap);
          readTasks (project);
@@ -559,6 +560,53 @@ public class MSPDIFile extends MPXFile
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
             exception.setFromTime3(getTime(period.getFromTime()));
             exception.setToTime3(getTime(period.getToTime()));
+         }
+      }
+   }
+
+   /**
+    * This method extracts field alias data from an MSPDI file.
+    *
+    * @param project Root node of the MSPDI file
+    * @throws MPXException on file read errors
+    */
+   private void readFieldAliases (Project project)
+      throws MPXException
+   {
+      Project.ExtendedAttributesType attributes = project.getExtendedAttributes();
+      if (attributes != null)
+      {
+         List attribute = attributes.getExtendedAttribute();
+         Iterator iter = attribute.iterator();
+
+         while (iter.hasNext() == true)
+         {
+            readFieldAlias ((Project.ExtendedAttributesType.ExtendedAttributeType)iter.next());
+         }
+      }
+   }
+
+   /**
+    * Read a single field alias from an extended attribute.
+    *
+    * @param attribute extended attribute
+    */
+   private void readFieldAlias (Project.ExtendedAttributesType.ExtendedAttributeType attribute)
+   {
+      String alias = attribute.getAlias();
+
+      if (alias != null && alias.length() != 0)
+      {
+         Integer id = new Integer (attribute.getFieldID());
+         int prefix = id.intValue() / 100000;
+
+         if (prefix == TASK_FIELD_PREFIX)
+         {
+            Integer taskField = (Integer)TASK_FIELD_XML_TO_MPX_MAP.get(id);
+            if (taskField != null)
+            {
+               setTaskFieldAlias (taskField.intValue(), attribute.getAlias());
+            }
          }
       }
    }
@@ -1922,6 +1970,7 @@ public class MSPDIFile extends MPXFile
          writeDateTimeSettings (project);
          writeDefaultSettings (project);
          writeProjectHeader (project);
+         writeFieldAliases (factory, project);
          writeCalendars (factory, project);
          writeResources (factory, project);
          writeTasks (factory, project);
@@ -1999,6 +2048,35 @@ public class MSPDIFile extends MPXFile
       project.setManager(header.getManager());
       project.setStartDate(getCalendar(header.getStartDate()));
       project.setSubject(header.getSubject());
+   }
+
+   private void writeFieldAliases (ObjectFactory factory, Project project)
+      throws JAXBException
+   {
+      if (fieldAliasesDefined() == true)
+      {
+         Project.ExtendedAttributesType attributes = factory.createProjectTypeExtendedAttributesType();
+         project.setExtendedAttributes(attributes);
+         List list = attributes.getExtendedAttribute();
+
+         HashMap map = getTaskFieldAliasMap();
+         Iterator iter = map.keySet().iterator();
+         Integer key;
+         String alias;
+         Integer fieldID;
+
+         while (iter.hasNext() == true)
+         {
+            key = (Integer)iter.next();
+            alias = (String)map.get(key);
+            fieldID = (Integer)TASK_FIELD_MPX_TO_XML_MAP.get(key);
+
+            Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
+            list.add(attribute);
+            attribute.setFieldID(fieldID.toString());
+            attribute.setAlias(alias);
+         }
+      }
    }
 
    /**
@@ -2780,6 +2858,146 @@ public class MSPDIFile extends MPXFile
    }
 
    private boolean m_compatible = true;
+
+   private static final int TASK_FIELD_PREFIX = 1887;
+
+   private static final HashMap TASK_FIELD_XML_TO_MPX_MAP = new HashMap();
+   private static final HashMap TASK_FIELD_MPX_TO_XML_MAP = new HashMap();
+
+   static
+   {
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743731), new Integer(Task.TEXT1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743734), new Integer(Task.TEXT2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743737), new Integer(Task.TEXT3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743740), new Integer(Task.TEXT4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743743), new Integer(Task.TEXT5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743746), new Integer(Task.TEXT6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743747), new Integer(Task.TEXT7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743748), new Integer(Task.TEXT8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743749), new Integer(Task.TEXT9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743750), new Integer(Task.TEXT10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743997), new Integer(Task.TEXT11));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743998), new Integer(Task.TEXT12));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743999), new Integer(Task.TEXT13));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744000), new Integer(Task.TEXT14));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744001), new Integer(Task.TEXT15));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744002), new Integer(Task.TEXT16));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744003), new Integer(Task.TEXT17));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744004), new Integer(Task.TEXT18));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744005), new Integer(Task.TEXT19));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744006), new Integer(Task.TEXT20));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744007), new Integer(Task.TEXT21));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744008), new Integer(Task.TEXT22));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744009), new Integer(Task.TEXT23));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744010), new Integer(Task.TEXT24));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744011), new Integer(Task.TEXT25));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744012), new Integer(Task.TEXT26));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744013), new Integer(Task.TEXT27));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744014), new Integer(Task.TEXT28));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744015), new Integer(Task.TEXT29));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188744016), new Integer(Task.TEXT30));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743732), new Integer(Task.START1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743735), new Integer(Task.START2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743738), new Integer(Task.START3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743741), new Integer(Task.START4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743744), new Integer(Task.START5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743962), new Integer(Task.START6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743964), new Integer(Task.START7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743966), new Integer(Task.START8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743968), new Integer(Task.START9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743970), new Integer(Task.START10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743733), new Integer(Task.FINISH1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743736), new Integer(Task.FINISH2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743739), new Integer(Task.FINISH3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743742), new Integer(Task.FINISH4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743745), new Integer(Task.FINISH5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743963), new Integer(Task.FINISH6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743965), new Integer(Task.FINISH7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743967), new Integer(Task.FINISH8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743969), new Integer(Task.FINISH9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743971), new Integer(Task.FINISH10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743786), new Integer(Task.COST1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743787), new Integer(Task.COST2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743788), new Integer(Task.COST3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743938), new Integer(Task.COST4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743939), new Integer(Task.COST5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743940), new Integer(Task.COST6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743941), new Integer(Task.COST7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743942), new Integer(Task.COST8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743943), new Integer(Task.COST9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743944), new Integer(Task.COST10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743945), new Integer(Task.DATE1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743946), new Integer(Task.DATE2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743947), new Integer(Task.DATE3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743948), new Integer(Task.DATE4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743949), new Integer(Task.DATE5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743950), new Integer(Task.DATE6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743951), new Integer(Task.DATE7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743952), new Integer(Task.DATE8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743953), new Integer(Task.DATE9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743954), new Integer(Task.DATE10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743752), new Integer(Task.FLAG1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743753), new Integer(Task.FLAG2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743754), new Integer(Task.FLAG3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743755), new Integer(Task.FLAG4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743756), new Integer(Task.FLAG5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743757), new Integer(Task.FLAG6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743758), new Integer(Task.FLAG7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743759), new Integer(Task.FLAG8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743760), new Integer(Task.FLAG9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743761), new Integer(Task.FLAG10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743972), new Integer(Task.FLAG11));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743973), new Integer(Task.FLAG12));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743974), new Integer(Task.FLAG13));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743975), new Integer(Task.FLAG14));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743976), new Integer(Task.FLAG15));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743977), new Integer(Task.FLAG16));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743978), new Integer(Task.FLAG17));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743979), new Integer(Task.FLAG18));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743980), new Integer(Task.FLAG19));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743981), new Integer(Task.FLAG20));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743767), new Integer(Task.NUMBER1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743768), new Integer(Task.NUMBER2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743769), new Integer(Task.NUMBER3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743770), new Integer(Task.NUMBER4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743771), new Integer(Task.NUMBER5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743982), new Integer(Task.NUMBER6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743983), new Integer(Task.NUMBER7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743984), new Integer(Task.NUMBER8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743985), new Integer(Task.NUMBER9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743986), new Integer(Task.NUMBER10));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743987), new Integer(Task.NUMBER11));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743988), new Integer(Task.NUMBER12));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743989), new Integer(Task.NUMBER13));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743990), new Integer(Task.NUMBER14));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743991), new Integer(Task.NUMBER15));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743992), new Integer(Task.NUMBER16));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743993), new Integer(Task.NUMBER17));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743994), new Integer(Task.NUMBER18));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743995), new Integer(Task.NUMBER19));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743996), new Integer(Task.NUMBER20));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743783), new Integer(Task.DURATION1));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743784), new Integer(Task.DURATION2));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743785), new Integer(Task.DURATION3));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743955), new Integer(Task.DURATION4));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743956), new Integer(Task.DURATION5));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743957), new Integer(Task.DURATION6));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743958), new Integer(Task.DURATION7));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743959), new Integer(Task.DURATION8));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743960), new Integer(Task.DURATION9));
+      TASK_FIELD_XML_TO_MPX_MAP.put(new Integer(188743961), new Integer(Task.DURATION10));
+
+      Iterator iter = TASK_FIELD_XML_TO_MPX_MAP.keySet().iterator();
+      Object key;
+      Object value;
+
+      while (iter.hasNext() == true)
+      {
+         key = iter.next();
+         value = TASK_FIELD_XML_TO_MPX_MAP.get(key);
+         TASK_FIELD_MPX_TO_XML_MAP.put(value, key);
+      }
+   }
 
    private static final String ZERO_DURATION = "PT0H0M0S";
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);

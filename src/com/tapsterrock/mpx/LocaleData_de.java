@@ -334,7 +334,7 @@ public final class LocaleData_de extends ListResourceBundle
       {LocaleData.RELATION_TYPES, RELATION_TYPES_DATA},
       {LocaleData.PRIORITY_TYPES, PRIORITY_TYPES_DATA},
       {LocaleData.CONSTRAINT_TYPES, CONSTRAINT_TYPES_DATA},
-      
+
       {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
       {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };

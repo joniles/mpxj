@@ -137,11 +137,14 @@ final class TaskModel extends MPXRecord
     */
    public void add (int field)
    {
-      if (m_flags[field] == false)
+      if (field < m_flags.length)
       {
-         m_flags[field] = true;
-         m_fields[m_count] = field;
-         ++m_count;
+         if (m_flags[field] == false)
+         {
+            m_flags[field] = true;
+            m_fields[m_count] = field;
+            ++m_count;
+         }
       }
    }
 

@@ -4590,7 +4590,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag11()
    {
-      return m_flag11;
+      return (getBooleanValue(FLAG11));
    }
 
    /**
@@ -4600,7 +4600,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag12()
    {
-      return m_flag12;
+      return (getBooleanValue(FLAG12));
    }
 
    /**
@@ -4610,7 +4610,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag13()
    {
-      return m_flag13;
+      return (getBooleanValue(FLAG13));
    }
 
    /**
@@ -4620,7 +4620,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag14()
    {
-      return m_flag14;
+      return (getBooleanValue(FLAG14));
    }
 
    /**
@@ -4630,7 +4630,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag15()
    {
-      return m_flag15;
+      return (getBooleanValue(FLAG15));
    }
 
    /**
@@ -4640,7 +4640,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag16()
    {
-      return m_flag16;
+      return (getBooleanValue(FLAG16));
    }
 
    /**
@@ -4650,7 +4650,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag17()
    {
-      return m_flag17;
+      return (getBooleanValue(FLAG17));
    }
 
    /**
@@ -4660,7 +4660,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag18()
    {
-      return m_flag18;
+      return (getBooleanValue(FLAG18));
    }
 
    /**
@@ -4670,7 +4670,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag19()
    {
-      return m_flag19;
+      return (getBooleanValue(FLAG19));
    }
 
    /**
@@ -4680,7 +4680,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public boolean getFlag20()
    {
-      return m_flag20;
+      return (getBooleanValue(FLAG20));
    }
 
    /**
@@ -4690,7 +4690,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag11(boolean b)
    {
-      m_flag11 = b;
+      set(FLAG11, b);
    }
 
    /**
@@ -4700,7 +4700,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag12(boolean b)
    {
-      m_flag12 = b;
+      set(FLAG12, b);
    }
 
    /**
@@ -4710,7 +4710,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag13(boolean b)
    {
-      m_flag13 = b;
+      set(FLAG13, b);
    }
 
    /**
@@ -4720,7 +4720,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag14(boolean b)
    {
-      m_flag14 = b;
+      set(FLAG14, b);
    }
 
    /**
@@ -4730,7 +4730,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag15(boolean b)
    {
-      m_flag15 = b;
+      set(FLAG15, b);
    }
 
    /**
@@ -4740,7 +4740,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag16(boolean b)
    {
-      m_flag16 = b;
+      set(FLAG16, b);
    }
 
    /**
@@ -4750,7 +4750,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag17(boolean b)
    {
-      m_flag17 = b;
+      set(FLAG17, b);
    }
 
    /**
@@ -4760,7 +4760,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag18(boolean b)
    {
-      m_flag18 = b;
+      set(FLAG18, b);
    }
 
    /**
@@ -4770,7 +4770,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag19(boolean b)
    {
-      m_flag19 = b;
+      set(FLAG19, b);
    }
 
    /**
@@ -4780,7 +4780,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFlag20(boolean b)
    {
-      m_flag20 = b;
+      set(FLAG20, b);
    }
 
    /**
@@ -4810,7 +4810,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText11()
    {
-      return m_text11;
+      return ((String)get(TEXT11));
    }
 
    /**
@@ -4820,7 +4820,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText12()
    {
-      return m_text12;
+      return ((String)get(TEXT12));
    }
 
    /**
@@ -4830,7 +4830,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText13()
    {
-      return m_text13;
+      return ((String)get(TEXT13));
    }
 
    /**
@@ -4840,7 +4840,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText14()
    {
-      return m_text14;
+      return ((String)get(TEXT14));
    }
 
    /**
@@ -4850,7 +4850,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText15()
    {
-      return m_text15;
+      return ((String)get(TEXT15));
    }
 
    /**
@@ -4860,7 +4860,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText16()
    {
-      return m_text16;
+      return ((String)get(TEXT16));
    }
 
    /**
@@ -4870,7 +4870,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText17()
    {
-      return m_text17;
+      return ((String)get(TEXT17));
    }
 
    /**
@@ -4880,7 +4880,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText18()
    {
-      return m_text18;
+      return ((String)get(TEXT18));
    }
 
    /**
@@ -4890,7 +4890,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText19()
    {
-      return m_text19;
+      return ((String)get(TEXT19));
    }
 
    /**
@@ -4900,7 +4900,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText20()
    {
-      return m_text20;
+      return ((String)get(TEXT20));
    }
 
    /**
@@ -4910,7 +4910,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText21()
    {
-      return m_text21;
+      return ((String)get(TEXT2));
    }
 
    /**
@@ -4920,7 +4920,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText22()
    {
-      return m_text22;
+      return ((String)get(TEXT22));
    }
 
    /**
@@ -4930,7 +4930,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText23()
    {
-      return m_text23;
+      return ((String)get(TEXT23));
    }
 
    /**
@@ -4940,7 +4940,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText24()
    {
-      return m_text24;
+      return ((String)get(TEXT24));
    }
 
    /**
@@ -4950,7 +4950,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText25()
    {
-      return m_text25;
+      return ((String)get(TEXT25));
    }
 
    /**
@@ -4960,7 +4960,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText26()
    {
-      return m_text26;
+      return ((String)get(TEXT26));
    }
 
    /**
@@ -4970,7 +4970,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText27()
    {
-      return m_text27;
+      return ((String)get(TEXT27));
    }
 
    /**
@@ -4980,7 +4980,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText28()
    {
-      return m_text28;
+      return ((String)get(TEXT28));
    }
 
    /**
@@ -4990,7 +4990,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText29()
    {
-      return m_text29;
+      return ((String)get(TEXT29));
    }
 
    /**
@@ -5000,7 +5000,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText30()
    {
-      return m_text30;
+      return ((String)get(TEXT30));
    }
 
    /**
@@ -5010,7 +5010,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText11(String string)
    {
-      m_text11 = string;
+      set (TEXT11, string);
    }
 
    /**
@@ -5020,7 +5020,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText12(String string)
    {
-      m_text12 = string;
+      set (TEXT12, string);
    }
 
    /**
@@ -5030,7 +5030,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText13(String string)
    {
-      m_text13 = string;
+      set (TEXT13, string);
    }
 
    /**
@@ -5040,7 +5040,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText14(String string)
    {
-      m_text14 = string;
+      set (TEXT14, string);
    }
 
    /**
@@ -5050,7 +5050,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText15(String string)
    {
-      m_text15 = string;
+      set (TEXT15, string);
    }
 
    /**
@@ -5060,7 +5060,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText16(String string)
    {
-      m_text16 = string;
+      set (TEXT16, string);
    }
 
    /**
@@ -5070,7 +5070,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText17(String string)
    {
-      m_text17 = string;
+      set (TEXT17, string);
    }
 
    /**
@@ -5080,7 +5080,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText18(String string)
    {
-      m_text18 = string;
+      set (TEXT18, string);
    }
 
    /**
@@ -5090,7 +5090,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText19(String string)
    {
-      m_text19 = string;
+      set (TEXT19, string);
    }
 
    /**
@@ -5100,7 +5100,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText20(String string)
    {
-      m_text20 = string;
+      set (TEXT20, string);
    }
 
    /**
@@ -5110,7 +5110,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText21(String string)
    {
-      m_text21 = string;
+      set (TEXT21, string);
    }
 
    /**
@@ -5120,7 +5120,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText22(String string)
    {
-      m_text22 = string;
+      set (TEXT22, string);
    }
 
    /**
@@ -5130,7 +5130,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText23(String string)
    {
-      m_text23 = string;
+      set (TEXT23, string);
    }
 
    /**
@@ -5140,7 +5140,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText24(String string)
    {
-      m_text24 = string;
+      set (TEXT24, string);
    }
 
    /**
@@ -5150,7 +5150,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText25(String string)
    {
-      m_text25 = string;
+      set (TEXT25, string);
    }
 
    /**
@@ -5160,7 +5160,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText26(String string)
    {
-      m_text26 = string;
+      set (TEXT26, string);
    }
 
    /**
@@ -5170,7 +5170,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText27(String string)
    {
-      m_text27 = string;
+      set (TEXT27, string);
    }
 
    /**
@@ -5180,7 +5180,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText28(String string)
    {
-      m_text28 = string;
+      set (TEXT28, string);
    }
 
    /**
@@ -5190,7 +5190,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText29(String string)
    {
-      m_text29 = string;
+      set (TEXT29, string);
    }
 
    /**
@@ -5200,7 +5200,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setText30(String string)
    {
-      m_text30 = string;
+      set (TEXT30, string);
    }
 
 
@@ -5211,7 +5211,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber6 (Double val)
    {
-      m_number6 = val;
+      set (NUMBER6, val);
    }
 
    /**
@@ -5221,7 +5221,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber6Value ()
    {
-      return (getDoubleValue (m_number6));
+      return (getDoubleValue (NUMBER6));
    }
 
    /**
@@ -5231,7 +5231,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber6 ()
    {
-      return (m_number6);
+      return ((Double)get (NUMBER6));
    }
 
    /**
@@ -5241,7 +5241,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber7 (Double val)
    {
-      m_number7 = val;
+      set (NUMBER7, val);
    }
 
    /**
@@ -5251,7 +5251,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber7Value ()
    {
-      return (getDoubleValue (m_number7));
+      return (getDoubleValue (NUMBER7));
    }
 
    /**
@@ -5261,7 +5261,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber7 ()
    {
-      return (m_number7);
+      return ((Double)get (NUMBER7));
    }
 
    /**
@@ -5271,7 +5271,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber8 (Double val)
    {
-      m_number8 = val;
+      set (NUMBER8, val);
    }
 
    /**
@@ -5281,7 +5281,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber8Value ()
    {
-      return (getDoubleValue (m_number8));
+      return (getDoubleValue (NUMBER8));
    }
 
    /**
@@ -5291,7 +5291,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber8 ()
    {
-      return (m_number8);
+      return ((Double)get (NUMBER8));
    }
 
 
@@ -5302,7 +5302,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber9 (Double val)
    {
-      m_number9 = val;
+      set (NUMBER9, val);
    }
 
    /**
@@ -5312,7 +5312,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber9Value ()
    {
-      return (getDoubleValue (m_number9));
+      return (getDoubleValue (NUMBER9));
    }
 
    /**
@@ -5322,7 +5322,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber9 ()
    {
-      return (m_number9);
+      return ((Double)get (NUMBER9));
    }
 
    /**
@@ -5332,7 +5332,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber10 (Double val)
    {
-      m_number10 = val;
+      set (NUMBER10, val);
    }
 
    /**
@@ -5342,7 +5342,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber10Value ()
    {
-      return (getDoubleValue (m_number10));
+      return (getDoubleValue (NUMBER10));
    }
 
    /**
@@ -5352,7 +5352,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber10 ()
    {
-      return (m_number10);
+      return ((Double)get (NUMBER10));
    }
 
    /**
@@ -5362,7 +5362,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber11 (Double val)
    {
-      m_number11 = val;
+      set (NUMBER11, val);
    }
 
    /**
@@ -5372,7 +5372,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber11Value ()
    {
-      return (getDoubleValue (m_number11));
+      return (getDoubleValue (NUMBER11));
    }
 
    /**
@@ -5382,7 +5382,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber11 ()
    {
-      return (m_number11);
+      return ((Double)get (NUMBER11));
    }
 
    /**
@@ -5392,7 +5392,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber12 (Double val)
    {
-      m_number12 = val;
+      set (NUMBER12, val);
    }
 
    /**
@@ -5402,7 +5402,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber12Value ()
    {
-      return (getDoubleValue (m_number12));
+      return (getDoubleValue (NUMBER12));
    }
 
    /**
@@ -5412,7 +5412,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber12 ()
    {
-      return (m_number12);
+      return ((Double)get (NUMBER12));
    }
 
    /**
@@ -5422,7 +5422,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber13 (Double val)
    {
-      m_number13 = val;
+      set (NUMBER13, val);
    }
 
    /**
@@ -5432,7 +5432,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber13Value ()
    {
-      return (getDoubleValue (m_number13));
+      return (getDoubleValue (NUMBER13));
    }
 
    /**
@@ -5442,7 +5442,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber13 ()
    {
-      return (m_number13);
+      return ((Double)get (NUMBER13));
    }
 
    /**
@@ -5452,7 +5452,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber14 (Double val)
    {
-      m_number14 = val;
+      set (NUMBER14, val);
    }
 
    /**
@@ -5462,7 +5462,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber14Value ()
    {
-      return (getDoubleValue (m_number14));
+      return (getDoubleValue (NUMBER14));
    }
 
    /**
@@ -5472,7 +5472,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber14 ()
    {
-      return (m_number14);
+      return ((Double)get (NUMBER14));
    }
    /**
     * Sets a numeric value.
@@ -5481,7 +5481,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber15 (Double val)
    {
-      m_number15 = val;
+      set (NUMBER15, val);
    }
 
    /**
@@ -5491,7 +5491,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber15Value ()
    {
-      return (getDoubleValue (m_number15));
+      return (getDoubleValue (NUMBER15));
    }
 
    /**
@@ -5501,7 +5501,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber15 ()
    {
-      return (m_number15);
+      return ((Double)get (NUMBER15));
    }
    /**
     * Sets a numeric value.
@@ -5510,7 +5510,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber16 (Double val)
    {
-      m_number16 = val;
+      set (NUMBER16, val);
    }
 
    /**
@@ -5520,7 +5520,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber16Value ()
    {
-      return (getDoubleValue (m_number16));
+      return (getDoubleValue (NUMBER16));
    }
 
    /**
@@ -5530,7 +5530,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber16 ()
    {
-      return (m_number16);
+      return ((Double)get (NUMBER16));
    }
    /**
     * Sets a numeric value.
@@ -5539,7 +5539,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber17 (Double val)
    {
-      m_number17 = val;
+      set (NUMBER17, val);
    }
 
    /**
@@ -5549,7 +5549,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber17Value ()
    {
-      return (getDoubleValue (m_number17));
+      return (getDoubleValue (NUMBER17));
    }
 
    /**
@@ -5559,7 +5559,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber17 ()
    {
-      return (m_number17);
+      return ((Double)get (NUMBER17));
    }
 
    /**
@@ -5569,7 +5569,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber18 (Double val)
    {
-      m_number18 = val;
+      set (NUMBER18, val);
    }
 
    /**
@@ -5579,7 +5579,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber18Value ()
    {
-      return (getDoubleValue (m_number18));
+      return (getDoubleValue (NUMBER18));
    }
 
    /**
@@ -5589,7 +5589,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber18 ()
    {
-      return (m_number18);
+      return ((Double)get (NUMBER18));
    }
 
    /**
@@ -5599,7 +5599,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber19 (Double val)
    {
-      m_number19 = val;
+      set (NUMBER19, val);
    }
 
    /**
@@ -5609,7 +5609,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber19Value ()
    {
-      return (getDoubleValue (m_number19));
+      return (getDoubleValue (NUMBER19));
    }
 
    /**
@@ -5619,7 +5619,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber19 ()
    {
-      return (m_number19);
+      return ((Double)get (NUMBER19));
    }
 
    /**
@@ -5629,7 +5629,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setNumber20 (Double val)
    {
-      m_number20 = val;
+      set (NUMBER20, val);
    }
 
    /**
@@ -5639,7 +5639,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public double getNumber20Value ()
    {
-      return (getDoubleValue (m_number20));
+      return (getDoubleValue (NUMBER20));
    }
 
    /**
@@ -5649,7 +5649,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Double getNumber20 ()
    {
-      return (m_number20);
+      return ((Double)get (NUMBER20));
    }
 
    /**
@@ -5659,7 +5659,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration10()
    {
-      return m_duration10;
+      return (MPXDuration)get(DURATION10);
    }
 
    /**
@@ -5669,7 +5669,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration4()
    {
-      return m_duration4;
+      return (MPXDuration)get(DURATION4);
    }
 
    /**
@@ -5679,7 +5679,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration5()
    {
-      return m_duration5;
+      return (MPXDuration)get(DURATION5);
    }
 
    /**
@@ -5689,7 +5689,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration6()
    {
-      return m_duration6;
+      return (MPXDuration)get(DURATION6);
    }
 
    /**
@@ -5699,7 +5699,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration7()
    {
-      return m_duration7;
+      return (MPXDuration)get(DURATION7);
    }
 
    /**
@@ -5709,7 +5709,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration8()
    {
-      return m_duration8;
+      return (MPXDuration)get(DURATION8);
    }
 
    /**
@@ -5719,7 +5719,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public MPXDuration getDuration9()
    {
-      return m_duration9;
+      return (MPXDuration)get(DURATION9);
    }
 
    /**
@@ -5729,7 +5729,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration10(MPXDuration duration)
    {
-      m_duration10 = duration;
+      set (DURATION10, duration);
    }
 
    /**
@@ -5739,7 +5739,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration4(MPXDuration duration)
    {
-      m_duration4 = duration;
+      set (DURATION4, duration);
    }
 
    /**
@@ -5749,7 +5749,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration5(MPXDuration duration)
    {
-      m_duration5 = duration;
+      set (DURATION5, duration);
    }
 
    /**
@@ -5759,7 +5759,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration6(MPXDuration duration)
    {
-      m_duration6 = duration;
+      set (DURATION6, duration);
    }
 
    /**
@@ -5769,7 +5769,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration7(MPXDuration duration)
    {
-      m_duration7 = duration;
+      set (DURATION7, duration);
    }
 
    /**
@@ -5779,7 +5779,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration8(MPXDuration duration)
    {
-      m_duration8 = duration;
+      set (DURATION8, duration);
    }
 
    /**
@@ -5789,7 +5789,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDuration9(MPXDuration duration)
    {
-      m_duration9 = duration;
+      set (DURATION9, duration);
    }
 
    /**
@@ -5799,7 +5799,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate1()
    {
-      return m_date1;
+      return ((Date)get(DATE1));
    }
 
    /**
@@ -5809,7 +5809,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate10()
    {
-      return m_date10;
+      return ((Date)get(DATE10));
    }
 
    /**
@@ -5819,7 +5819,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate2()
    {
-      return m_date2;
+      return ((Date)get(DATE2));
    }
 
    /**
@@ -5829,7 +5829,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate3()
    {
-      return m_date3;
+      return ((Date)get(DATE3));
    }
 
    /**
@@ -5839,7 +5839,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate4()
    {
-      return m_date4;
+      return ((Date)get(DATE4));
    }
 
    /**
@@ -5849,7 +5849,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate5()
    {
-      return m_date5;
+      return ((Date)get(DATE5));
    }
 
    /**
@@ -5859,7 +5859,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate6()
    {
-      return m_date6;
+      return ((Date)get(DATE6));
    }
 
    /**
@@ -5869,7 +5869,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate7()
    {
-      return m_date7;
+      return ((Date)get(DATE7));
    }
 
    /**
@@ -5879,7 +5879,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate8()
    {
-      return m_date8;
+      return ((Date)get(DATE8));
    }
 
    /**
@@ -5889,7 +5889,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getDate9()
    {
-      return m_date9;
+      return ((Date)get(DATE9));
    }
 
    /**
@@ -5899,7 +5899,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate1(Date date)
    {
-      m_date1 = date;
+      setDate(DATE1, date);
    }
 
    /**
@@ -5909,7 +5909,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate10(Date date)
    {
-      m_date10 = date;
+      setDate(DATE10, date);
    }
 
    /**
@@ -5919,7 +5919,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate2(Date date)
    {
-      m_date2 = date;
+      setDate(DATE2, date);
    }
 
    /**
@@ -5929,7 +5929,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate3(Date date)
    {
-      m_date3 = date;
+      setDate(DATE3, date);
    }
 
    /**
@@ -5939,7 +5939,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate4(Date date)
    {
-      m_date4 = date;
+      setDate(DATE4, date);
    }
 
    /**
@@ -5949,7 +5949,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate5(Date date)
    {
-      m_date5 = date;
+      setDate(DATE5, date);
    }
 
    /**
@@ -5959,7 +5959,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate6(Date date)
    {
-      m_date6 = date;
+      setDate(DATE6, date);
    }
 
    /**
@@ -5969,7 +5969,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate7(Date date)
    {
-      m_date7 = date;
+      setDate(DATE7, date);
    }
 
    /**
@@ -5979,7 +5979,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate8(Date date)
    {
-      m_date8 = date;
+      setDate(DATE8, date);
    }
 
    /**
@@ -5989,7 +5989,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setDate9(Date date)
    {
-      m_date9 = date;
+      setDate(DATE9, date);
    }
 
    /**
@@ -5999,7 +5999,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost10()
    {
-      return m_cost10;
+      return ((Number)get(COST10));
    }
 
    /**
@@ -6009,7 +6009,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost4()
    {
-      return m_cost4;
+      return ((Number)get(COST4));
    }
 
    /**
@@ -6019,7 +6019,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost5()
    {
-      return m_cost5;
+      return ((Number)get(COST5));
    }
 
    /**
@@ -6029,7 +6029,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost6()
    {
-      return m_cost6;
+      return ((Number)get(COST6));
    }
 
    /**
@@ -6039,7 +6039,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost7()
    {
-      return m_cost7;
+      return ((Number)get(COST7));
    }
 
    /**
@@ -6049,7 +6049,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost8()
    {
-      return m_cost8;
+      return ((Number)get(COST8));
    }
 
    /**
@@ -6059,7 +6059,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Number getCost9()
    {
-      return m_cost9;
+      return ((Number)get(COST9));
    }
 
    /**
@@ -6069,7 +6069,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost10(Number number)
    {
-      m_cost10 = number;
+      setCurrency (COST10, number);
    }
 
    /**
@@ -6079,7 +6079,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost4(Number number)
    {
-      m_cost4 = number;
+      setCurrency (COST4, number);
    }
 
    /**
@@ -6089,7 +6089,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost5(Number number)
    {
-      m_cost5 = number;
+      setCurrency (COST5, number);
    }
 
    /**
@@ -6099,7 +6099,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost6(Number number)
    {
-      m_cost6 = number;
+      setCurrency (COST6, number);
    }
 
    /**
@@ -6109,7 +6109,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost7(Number number)
    {
-      m_cost7 = number;
+      setCurrency (COST7, number);
    }
 
    /**
@@ -6119,7 +6119,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost8(Number number)
    {
-      m_cost8 = number;
+      setCurrency (COST8, number);
    }
 
    /**
@@ -6129,7 +6129,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setCost9(Number number)
    {
-      m_cost9 = number;
+      setCurrency (COST9, number);
    }
 
    /**
@@ -6139,7 +6139,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getStart10()
    {
-      return m_start10;
+      return ((Date)get(START10));
    }
 
    /**
@@ -6149,7 +6149,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getStart6()
    {
-      return m_start6;
+      return ((Date)get(START6));
    }
 
    /**
@@ -6159,7 +6159,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getStart7()
    {
-      return m_start7;
+      return ((Date)get(START7));
    }
 
    /**
@@ -6169,7 +6169,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getStart8()
    {
-      return m_start8;
+      return ((Date)get(START8));
    }
 
    /**
@@ -6179,7 +6179,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getStart9()
    {
-      return m_start9;
+      return ((Date)get(START9));
    }
 
    /**
@@ -6189,7 +6189,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setStart10(Date date)
    {
-      m_start10 = date;
+      setDate (START10, date);
    }
 
    /**
@@ -6199,7 +6199,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setStart6(Date date)
    {
-      m_start6 = date;
+      setDate (START6, date);
    }
 
    /**
@@ -6209,7 +6209,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setStart7(Date date)
    {
-      m_start7 = date;
+      setDate (START7, date);
    }
 
    /**
@@ -6219,7 +6219,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setStart8(Date date)
    {
-      m_start8 = date;
+      setDate (START8, date);
    }
 
    /**
@@ -6229,7 +6229,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setStart9(Date date)
    {
-      m_start9 = date;
+      setDate (START9, date);
    }
 
    /**
@@ -6239,7 +6239,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getFinish10()
    {
-      return m_finish10;
+      return ((Date)get(FINISH10));
    }
 
    /**
@@ -6249,7 +6249,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getFinish6()
    {
-      return m_finish6;
+      return ((Date)get(FINISH6));
    }
 
    /**
@@ -6259,7 +6259,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getFinish7()
    {
-      return m_finish7;
+      return ((Date)get(FINISH7));
    }
 
    /**
@@ -6269,7 +6269,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getFinish8()
    {
-      return m_finish8;
+      return ((Date)get(FINISH8));
    }
 
    /**
@@ -6279,7 +6279,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public Date getFinish9()
    {
-      return m_finish9;
+      return ((Date)get(FINISH9));
    }
 
    /**
@@ -6289,7 +6289,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFinish10(Date date)
    {
-      m_finish10 = date;
+      setDate (FINISH10, date);
    }
 
    /**
@@ -6299,7 +6299,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFinish6(Date date)
    {
-      m_finish6 = date;
+      setDate (FINISH6, date);
    }
 
    /**
@@ -6309,7 +6309,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFinish7(Date date)
    {
-      m_finish7 = date;
+      setDate (FINISH7, date);
    }
 
    /**
@@ -6319,7 +6319,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFinish8(Date date)
    {
-      m_finish8 = date;
+      setDate (FINISH8, date);
    }
 
    /**
@@ -6329,7 +6329,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public void setFinish9(Date date)
    {
-      m_finish9 = date;
+      setDate (FINISH9, date);
    }
 
    /**
@@ -6866,6 +6866,42 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
+    * Retrieve the value of a field using its alias
+    *
+    * @param alias field alias
+    * @return field value
+    */
+   public Object getFieldByAlias (String alias)
+   {
+      Object result = null;
+
+      int field = getParentFile().getAliasTaskField(alias);
+
+      if (field != -1)
+      {
+         result = get(field);
+      }
+
+      return (result);
+   }
+
+   /**
+    * Set the value of a field using its alias
+    *
+    * @param alias field alias
+    * @param value field value
+    */
+   public void setFieldByAlias (String alias, Object value)
+   {
+      int field = getParentFile().getAliasTaskField(alias);
+
+      if (field != -1)
+      {
+         set (field, value);
+      }
+   }
+
+   /**
     * This is a reference to the parent task, as specified by the
     * outline level.
     */
@@ -6910,86 +6946,7 @@ public final class Task extends MPXRecord implements Comparable
    private boolean m_estimated;
    private Date m_deadline;
    private int m_type = FIXED_UNITS;
-   private boolean m_flag11;
-   private boolean m_flag12;
-   private boolean m_flag13;
-   private boolean m_flag14;
-   private boolean m_flag15;
-   private boolean m_flag16;
-   private boolean m_flag17;
-   private boolean m_flag18;
-   private boolean m_flag19;
-   private boolean m_flag20;
    private boolean m_effortDriven;
-   private String m_text11;
-   private String m_text12;
-   private String m_text13;
-   private String m_text14;
-   private String m_text15;
-   private String m_text16;
-   private String m_text17;
-   private String m_text18;
-   private String m_text19;
-   private String m_text20;
-   private String m_text21;
-   private String m_text22;
-   private String m_text23;
-   private String m_text24;
-   private String m_text25;
-   private String m_text26;
-   private String m_text27;
-   private String m_text28;
-   private String m_text29;
-   private String m_text30;
-   private Double m_number6;
-   private Double m_number7;
-   private Double m_number8;
-   private Double m_number9;
-   private Double m_number10;
-   private Double m_number11;
-   private Double m_number12;
-   private Double m_number13;
-   private Double m_number14;
-   private Double m_number15;
-   private Double m_number16;
-   private Double m_number17;
-   private Double m_number18;
-   private Double m_number19;
-   private Double m_number20;
-   private MPXDuration m_duration4;
-   private MPXDuration m_duration5;
-   private MPXDuration m_duration6;
-   private MPXDuration m_duration7;
-   private MPXDuration m_duration8;
-   private MPXDuration m_duration9;
-   private MPXDuration m_duration10;
-   private Date m_date1;
-   private Date m_date2;
-   private Date m_date3;
-   private Date m_date4;
-   private Date m_date5;
-   private Date m_date6;
-   private Date m_date7;
-   private Date m_date8;
-   private Date m_date9;
-   private Date m_date10;
-   private Number m_cost4;
-   private Number m_cost5;
-   private Number m_cost6;
-   private Number m_cost7;
-   private Number m_cost8;
-   private Number m_cost9;
-   private Number m_cost10;
-   private Date m_start6;
-   private Date m_start7;
-   private Date m_start8;
-   private Date m_start9;
-   private Date m_start10;
-   private Date m_finish6;
-   private Date m_finish7;
-   private Date m_finish8;
-   private Date m_finish9;
-   private Date m_finish10;
    private Number m_overtimeCost;
    private String m_outlineCode1;
    private String m_outlineCode2;
@@ -7164,17 +7121,17 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Cost fields show any custom task cost information you want to enter in your project.
     */
-   private static final int COST1 = 36;
+   public static final int COST1 = 36;
 
    /**
     * The Cost fields show any custom task cost information you want to enter in your project.
     */
-   private static final int COST2 = 37;
+   public static final int COST2 = 37;
 
    /**
     * The Cost fields show any custom task cost information you want to enter in your project.
     */
-   private static final int COST3 = 38;
+   public static final int COST3 = 38;
 
    /**
     * The Cost Variance field shows the difference between the baseline cost and total
@@ -7223,19 +7180,19 @@ public final class Task extends MPXRecord implements Comparable
     * The Duration fields are custom fields that show any specialized task duration
     * information you want to enter and store separately in your project.
     */
-   private static final int DURATION1 = 46;
+   public static final int DURATION1 = 46;
 
    /**
     * The Duration fields are custom fields that show any specialized task duration
     * information you want to enter and store separately in your project.
     */
-   private static final int DURATION2 = 47;
+   public static final int DURATION2 = 47;
 
    /**
     * The Duration fields are custom fields that show any specialized task duration
     * information you want to enter and store separately in your project.
     */
-   private static final int DURATION3 = 48;
+   public static final int DURATION3 = 48;
 
    /**
     * The Duration Variance field contains the difference between the baseline duration
@@ -7267,31 +7224,31 @@ public final class Task extends MPXRecord implements Comparable
     * The Finish fields are custom fields that show any specific task finish date information
     * you want to enter and store separately in your project.
     */
-   private static final int FINISH1 = 61;
+   public static final int FINISH1 = 61;
 
    /**
     * The Finish fields are custom fields that show any specific task finish date information
     * you want to enter and store separately in your project.
     */
-   private static final int FINISH2 = 63;
+   public static final int FINISH2 = 63;
 
    /**
     * The Finish fields are custom fields that show any specific task finish date information
     * you want to enter and store separately in your project.
     */
-   private static final int FINISH3 = 65;
+   public static final int FINISH3 = 65;
 
    /**
     * The Finish fields are custom fields that show any specific task finish date information
     * you want to enter and store separately in your project.
     */
-   private static final int FINISH4 = 127;
+   public static final int FINISH4 = 127;
 
    /**
     * The Finish fields are custom fields that show any specific task finish date information
     * you want to enter and store separately in your project.
     */
-   private static final int FINISH5 = 129;
+   public static final int FINISH5 = 129;
 
    /**
     * The Finish Variance field contains the amount of time that represents the difference
@@ -7314,70 +7271,70 @@ public final class Task extends MPXRecord implements Comparable
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG1 = 110;
+   public static final int FLAG1 = 110;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG2 = 111;
+   public static final int FLAG2 = 111;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG3 = 112;
+   public static final int FLAG3 = 112;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG4 = 113;
+   public static final int FLAG4 = 113;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG5 = 114;
+   public static final int FLAG5 = 114;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG6 = 115;
+   public static final int FLAG6 = 115;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG7 = 116;
+   public static final int FLAG7 = 116;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG8 = 117;
+   public static final int FLAG8 = 117;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG9 = 118;
+   public static final int FLAG9 = 118;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in a Flag field. If you
     * don't want a task marked, click No.
     */
-   private static final int FLAG10 = 119;
+   public static final int FLAG10 = 119;
 
    /**
     * The Free Slack field contains the amount of time that a task can be delayed without
@@ -7449,31 +7406,31 @@ public final class Task extends MPXRecord implements Comparable
     * The Number fields show any custom numeric information you enter in your project
     * regarding tasks.
     */
-   private static final int NUMBER1 = 140;
+   public static final int NUMBER1 = 140;
 
    /**
     * The Number fields show any custom numeric information you enter in your project
     * regarding tasks.
     */
-   private static final int NUMBER2 = 141;
+   public static final int NUMBER2 = 141;
 
    /**
     * The Number fields show any custom numeric information you enter in your project
     * regarding tasks.
     */
-   private static final int NUMBER3 = 142;
+   public static final int NUMBER3 = 142;
 
    /**
     * The Number fields show any custom numeric information you enter in your project
     * regarding tasks.
     */
-   private static final int NUMBER4 = 143;
+   public static final int NUMBER4 = 143;
 
    /**
     * The Number fields show any custom numeric information you enter in your project
     * regarding tasks.
     */
-   private static final int NUMBER5 = 144;
+   public static final int NUMBER5 = 144;
 
    /**
     * The Objects field contains the number of objects attached to a task.
@@ -7587,31 +7544,31 @@ public final class Task extends MPXRecord implements Comparable
     * The Start fields are custom fields that show any specific task start date
     * information you want to enter and store separately in your project.
     */
-   private static final int START1 = 60;
+   public static final int START1 = 60;
 
    /**
     * The Start fields are custom fields that show any specific task start date
     * information you want to enter and store separately in your project.
     */
-   private static final int START2 = 62;
+   public static final int START2 = 62;
 
    /**
     * The Start fields are custom fields that show any specific task start date
     * information you want to enter and store separately in your project.
     */
-   private static final int START3 = 64;
+   public static final int START3 = 64;
 
    /**
     * The Start fields are custom fields that show any specific task start date
     * information you want to enter and store separately in your project.
     */
-   private static final int START4 = 126;
+   public static final int START4 = 126;
 
    /**
     * The Start fields are custom fields that show any specific task start date
     * information you want to enter and store separately in your project.
     */
-   private static final int START5 = 128;
+   public static final int START5 = 128;
 
    /**
     * The Start fields are custom fields that show any specific task start date
@@ -7654,52 +7611,52 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT1 = 4;
+   public static final int TEXT1 = 4;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT2 = 5;
+   public static final int TEXT2 = 5;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT3 = 6;
+   public static final int TEXT3 = 6;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT4 = 7;
+   public static final int TEXT4 = 7;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT5 = 8;
+   public static final int TEXT5 = 8;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT6 = 9;
+   public static final int TEXT6 = 9;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT7 = 10;
+   public static final int TEXT7 = 10;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT8 = 11;
+   public static final int TEXT8 = 11;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT9 = 12;
+   public static final int TEXT9 = 12;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
     */
-   private static final int TEXT10 = 13;
+   public static final int TEXT10 = 13;
 
    /**
     * The Total Slack field contains the amount of time a task can be delayed without delaying
@@ -7766,6 +7723,97 @@ public final class Task extends MPXRecord implements Comparable
     * access to allow the task model to get at it.
     */
    static final int MAX_FIELDS = 153;
+
+   /**
+    * The following constants are used purely to identify custom fields,
+    * these field names are NOT written to the MPX file.
+    */
+   public static final int TEXT11 = 1011;
+   public static final int TEXT12 = 1012;
+   public static final int TEXT13 = 1013;
+   public static final int TEXT14 = 1014;
+   public static final int TEXT15 = 1015;
+   public static final int TEXT16 = 1016;
+   public static final int TEXT17 = 1017;
+   public static final int TEXT18 = 1018;
+   public static final int TEXT19 = 1019;
+   public static final int TEXT20 = 1020;
+   public static final int TEXT21 = 1021;
+   public static final int TEXT22 = 1022;
+   public static final int TEXT23 = 1023;
+   public static final int TEXT24 = 1024;
+   public static final int TEXT25 = 1025;
+   public static final int TEXT26 = 1026;
+   public static final int TEXT27 = 1027;
+   public static final int TEXT28 = 1028;
+   public static final int TEXT29 = 1029;
+   public static final int TEXT30 = 1030;
+
+   public static final int START6 = 1106;
+   public static final int START7 = 1107;
+   public static final int START8 = 1108;
+   public static final int START9 = 1109;
+   public static final int START10 = 1110;
+
+   public static final int FINISH6 = 1206;
+   public static final int FINISH7 = 1207;
+   public static final int FINISH8 = 1208;
+   public static final int FINISH9 = 1209;
+   public static final int FINISH10 = 1210;
+
+   public static final int COST4 = 1304;
+   public static final int COST5 = 1305;
+   public static final int COST6 = 1306;
+   public static final int COST7 = 1307;
+   public static final int COST8 = 1308;
+   public static final int COST9 = 1309;
+   public static final int COST10 = 1310;
+
+   public static final int DATE1 = 1401;
+   public static final int DATE2 = 1402;
+   public static final int DATE3 = 1403;
+   public static final int DATE4 = 1404;
+   public static final int DATE5 = 1405;
+   public static final int DATE6 = 1406;
+   public static final int DATE7 = 1407;
+   public static final int DATE8 = 1408;
+   public static final int DATE9 = 1409;
+   public static final int DATE10 = 1410;
+
+   public static final int FLAG11 = 1511;
+   public static final int FLAG12 = 1512;
+   public static final int FLAG13 = 1513;
+   public static final int FLAG14 = 1514;
+   public static final int FLAG15 = 1515;
+   public static final int FLAG16 = 1516;
+   public static final int FLAG17 = 1517;
+   public static final int FLAG18 = 1518;
+   public static final int FLAG19 = 1519;
+   public static final int FLAG20 = 1520;
+
+   public static final int NUMBER6 = 1606;
+   public static final int NUMBER7 = 1607;
+   public static final int NUMBER8 = 1608;
+   public static final int NUMBER9 = 1609;
+   public static final int NUMBER10 = 1610;
+   public static final int NUMBER11 = 1611;
+   public static final int NUMBER12 = 1612;
+   public static final int NUMBER13 = 1613;
+   public static final int NUMBER14 = 1614;
+   public static final int NUMBER15 = 1615;
+   public static final int NUMBER16 = 1616;
+   public static final int NUMBER17 = 1617;
+   public static final int NUMBER18 = 1618;
+   public static final int NUMBER19 = 1619;
+   public static final int NUMBER20 = 1620;
+
+   public static final int DURATION4 = 1704;
+   public static final int DURATION5 = 1705;
+   public static final int DURATION6 = 1706;
+   public static final int DURATION7 = 1707;
+   public static final int DURATION8 = 1708;
+   public static final int DURATION9 = 1709;
+   public static final int DURATION10 = 1710;
 
    /**
     * Constant containing the record number associated with this record.

@@ -232,7 +232,7 @@ public class TestMPXFile extends TestCase
 
    /**
     * Read a file created by a German version of MS Proiject 98.
-    * 
+    *
     * @throws Exception
     */
    public void testRead1 ()
@@ -1265,6 +1265,171 @@ public class TestMPXFile extends TestCase
             out.delete();
          }
       }
+   }
+
+   /**
+    * Exercise field alias code for MSPDI files.
+    *
+    * @throws Exception
+    */
+   public void testMSPDIAliases ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         File in = new File (m_basedir + "/alias.xml");
+         MSPDIFile xml = new MSPDIFile (in);
+         validateAliases(xml);
+
+         out = File.createTempFile ("junit", ".xml");
+         xml.write (out);
+
+         xml = new MSPDIFile (out);
+         validateAliases(xml);
+
+         success=true;
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   /**
+    * Test to ensure that we are seeing the expected field
+    * aliases
+    *
+    * @param xml MSPDI file
+    */
+   private void validateAliases (MSPDIFile xml)
+   {
+      assertEquals ("Text1t", xml.getTaskFieldAlias(Task.TEXT1));
+      assertEquals ("Text2t", xml.getTaskFieldAlias(Task.TEXT2));
+      assertEquals ("Text3t", xml.getTaskFieldAlias(Task.TEXT3));
+      assertEquals ("Text4t", xml.getTaskFieldAlias(Task.TEXT4));
+      assertEquals ("Text5t", xml.getTaskFieldAlias(Task.TEXT5));
+      assertEquals ("Text6t", xml.getTaskFieldAlias(Task.TEXT6));
+      assertEquals ("Text7t", xml.getTaskFieldAlias(Task.TEXT7));
+      assertEquals ("Text8t", xml.getTaskFieldAlias(Task.TEXT8));
+      assertEquals ("Text9t", xml.getTaskFieldAlias(Task.TEXT9));
+      assertEquals ("Text10t", xml.getTaskFieldAlias(Task.TEXT10));
+      assertEquals ("Text11t", xml.getTaskFieldAlias(Task.TEXT11));
+      assertEquals ("Text12t", xml.getTaskFieldAlias(Task.TEXT12));
+      assertEquals ("Text13t", xml.getTaskFieldAlias(Task.TEXT13));
+      assertEquals ("Text14t", xml.getTaskFieldAlias(Task.TEXT14));
+      assertEquals ("Text15t", xml.getTaskFieldAlias(Task.TEXT15));
+      assertEquals ("Text16t", xml.getTaskFieldAlias(Task.TEXT16));
+      assertEquals ("Text17t", xml.getTaskFieldAlias(Task.TEXT17));
+      assertEquals ("Text18t", xml.getTaskFieldAlias(Task.TEXT18));
+      assertEquals ("Text19t", xml.getTaskFieldAlias(Task.TEXT19));
+      assertEquals ("Text20t", xml.getTaskFieldAlias(Task.TEXT20));
+      assertEquals ("Text21t", xml.getTaskFieldAlias(Task.TEXT21));
+      assertEquals ("Text22t", xml.getTaskFieldAlias(Task.TEXT22));
+      assertEquals ("Text23t", xml.getTaskFieldAlias(Task.TEXT23));
+      assertEquals ("Text24t", xml.getTaskFieldAlias(Task.TEXT24));
+      assertEquals ("Text25t", xml.getTaskFieldAlias(Task.TEXT25));
+      assertEquals ("Text26t", xml.getTaskFieldAlias(Task.TEXT26));
+      assertEquals ("Text27t", xml.getTaskFieldAlias(Task.TEXT27));
+      assertEquals ("Text28t", xml.getTaskFieldAlias(Task.TEXT28));
+      assertEquals ("Text29t", xml.getTaskFieldAlias(Task.TEXT29));
+      assertEquals ("Text30t", xml.getTaskFieldAlias(Task.TEXT30));
+      assertEquals ("Start1t", xml.getTaskFieldAlias(Task.START1));
+      assertEquals ("Start2t", xml.getTaskFieldAlias(Task.START2));
+      assertEquals ("Start3t", xml.getTaskFieldAlias(Task.START3));
+      assertEquals ("Start4t", xml.getTaskFieldAlias(Task.START4));
+      assertEquals ("Start5t", xml.getTaskFieldAlias(Task.START5));
+      assertEquals ("Start6t", xml.getTaskFieldAlias(Task.START6));
+      assertEquals ("Start7t", xml.getTaskFieldAlias(Task.START7));
+      assertEquals ("Start8t", xml.getTaskFieldAlias(Task.START8));
+      assertEquals ("Start9t", xml.getTaskFieldAlias(Task.START9));
+      assertEquals ("Start10t", xml.getTaskFieldAlias(Task.START10));
+      assertEquals ("Finish1t", xml.getTaskFieldAlias(Task.FINISH1));
+      assertEquals ("Finish2t", xml.getTaskFieldAlias(Task.FINISH2));
+      assertEquals ("Finish3t", xml.getTaskFieldAlias(Task.FINISH3));
+      assertEquals ("Finish4t", xml.getTaskFieldAlias(Task.FINISH4));
+      assertEquals ("Finish5t", xml.getTaskFieldAlias(Task.FINISH5));
+      assertEquals ("Finish6t", xml.getTaskFieldAlias(Task.FINISH6));
+      assertEquals ("Finish7t", xml.getTaskFieldAlias(Task.FINISH7));
+      assertEquals ("Finish8t", xml.getTaskFieldAlias(Task.FINISH8));
+      assertEquals ("Finish9t", xml.getTaskFieldAlias(Task.FINISH9));
+      assertEquals ("Finish10t", xml.getTaskFieldAlias(Task.FINISH10));
+      assertEquals ("Cost1t", xml.getTaskFieldAlias(Task.COST1));
+      assertEquals ("Cost2t", xml.getTaskFieldAlias(Task.COST2));
+      assertEquals ("Cost3t", xml.getTaskFieldAlias(Task.COST3));
+      assertEquals ("Cost4t", xml.getTaskFieldAlias(Task.COST4));
+      assertEquals ("Cost5t", xml.getTaskFieldAlias(Task.COST5));
+      assertEquals ("Cost6t", xml.getTaskFieldAlias(Task.COST6));
+      assertEquals ("Cost7t", xml.getTaskFieldAlias(Task.COST7));
+      assertEquals ("Cost8t", xml.getTaskFieldAlias(Task.COST8));
+      assertEquals ("Cost9t", xml.getTaskFieldAlias(Task.COST9));
+      assertEquals ("Cost10t", xml.getTaskFieldAlias(Task.COST10));
+      assertEquals ("Date1t", xml.getTaskFieldAlias(Task.DATE1));
+      assertEquals ("Date2t", xml.getTaskFieldAlias(Task.DATE2));
+      assertEquals ("Date3t", xml.getTaskFieldAlias(Task.DATE3));
+      assertEquals ("Date4t", xml.getTaskFieldAlias(Task.DATE4));
+      assertEquals ("Date5t", xml.getTaskFieldAlias(Task.DATE5));
+      assertEquals ("Date6t", xml.getTaskFieldAlias(Task.DATE6));
+      assertEquals ("Date7t", xml.getTaskFieldAlias(Task.DATE7));
+      assertEquals ("Date8t", xml.getTaskFieldAlias(Task.DATE8));
+      assertEquals ("Date9t", xml.getTaskFieldAlias(Task.DATE9));
+      assertEquals ("Date10t", xml.getTaskFieldAlias(Task.DATE10));
+      assertEquals ("Flag1t", xml.getTaskFieldAlias(Task.FLAG1));
+      assertEquals ("Flag2t", xml.getTaskFieldAlias(Task.FLAG2));
+      assertEquals ("Flag3t", xml.getTaskFieldAlias(Task.FLAG3));
+      assertEquals ("Flag4t", xml.getTaskFieldAlias(Task.FLAG4));
+      assertEquals ("Flag5t", xml.getTaskFieldAlias(Task.FLAG5));
+      assertEquals ("Flag6t", xml.getTaskFieldAlias(Task.FLAG6));
+      assertEquals ("Flag7t", xml.getTaskFieldAlias(Task.FLAG7));
+      assertEquals ("Flag8t", xml.getTaskFieldAlias(Task.FLAG8));
+      assertEquals ("Flag9t", xml.getTaskFieldAlias(Task.FLAG9));
+      assertEquals ("Flag10t", xml.getTaskFieldAlias(Task.FLAG10));
+      assertEquals ("Flag11t", xml.getTaskFieldAlias(Task.FLAG11));
+      assertEquals ("Flag12t", xml.getTaskFieldAlias(Task.FLAG12));
+      assertEquals ("Flag13t", xml.getTaskFieldAlias(Task.FLAG13));
+      assertEquals ("Flag14t", xml.getTaskFieldAlias(Task.FLAG14));
+      assertEquals ("Flag15t", xml.getTaskFieldAlias(Task.FLAG15));
+      assertEquals ("Flag16t", xml.getTaskFieldAlias(Task.FLAG16));
+      assertEquals ("Flag17t", xml.getTaskFieldAlias(Task.FLAG17));
+      assertEquals ("Flag18t", xml.getTaskFieldAlias(Task.FLAG18));
+      assertEquals ("Flag19t", xml.getTaskFieldAlias(Task.FLAG19));
+      assertEquals ("Flag20t", xml.getTaskFieldAlias(Task.FLAG20));
+      assertEquals ("Number1t", xml.getTaskFieldAlias(Task.NUMBER1));
+      assertEquals ("Number2t", xml.getTaskFieldAlias(Task.NUMBER2));
+      assertEquals ("Number3t", xml.getTaskFieldAlias(Task.NUMBER3));
+      assertEquals ("Number4t", xml.getTaskFieldAlias(Task.NUMBER4));
+      assertEquals ("Number5t", xml.getTaskFieldAlias(Task.NUMBER5));
+      assertEquals ("Number6t", xml.getTaskFieldAlias(Task.NUMBER6));
+      assertEquals ("Number7t", xml.getTaskFieldAlias(Task.NUMBER7));
+      assertEquals ("Number8t", xml.getTaskFieldAlias(Task.NUMBER8));
+      assertEquals ("Number9t", xml.getTaskFieldAlias(Task.NUMBER9));
+      assertEquals ("Number10t", xml.getTaskFieldAlias(Task.NUMBER10));
+      assertEquals ("Number11t", xml.getTaskFieldAlias(Task.NUMBER11));
+      assertEquals ("Number12t", xml.getTaskFieldAlias(Task.NUMBER12));
+      assertEquals ("Number13t", xml.getTaskFieldAlias(Task.NUMBER13));
+      assertEquals ("Number14t", xml.getTaskFieldAlias(Task.NUMBER14));
+      assertEquals ("Number15t", xml.getTaskFieldAlias(Task.NUMBER15));
+      assertEquals ("Number16t", xml.getTaskFieldAlias(Task.NUMBER16));
+      assertEquals ("Number17t", xml.getTaskFieldAlias(Task.NUMBER17));
+      assertEquals ("Number18t", xml.getTaskFieldAlias(Task.NUMBER18));
+      assertEquals ("Number19t", xml.getTaskFieldAlias(Task.NUMBER19));
+      assertEquals ("Number20t", xml.getTaskFieldAlias(Task.NUMBER20));
+      assertEquals ("Duration1t", xml.getTaskFieldAlias(Task.DURATION1));
+      assertEquals ("Duration2t", xml.getTaskFieldAlias(Task.DURATION2));
+      assertEquals ("Duration3t", xml.getTaskFieldAlias(Task.DURATION3));
+      assertEquals ("Duration4t", xml.getTaskFieldAlias(Task.DURATION4));
+      assertEquals ("Duration5t", xml.getTaskFieldAlias(Task.DURATION5));
+      assertEquals ("Duration6t", xml.getTaskFieldAlias(Task.DURATION6));
+      assertEquals ("Duration7t", xml.getTaskFieldAlias(Task.DURATION7));
+      assertEquals ("Duration8t", xml.getTaskFieldAlias(Task.DURATION8));
+      assertEquals ("Duration9t", xml.getTaskFieldAlias(Task.DURATION9));
+      assertEquals ("Duration10t", xml.getTaskFieldAlias(Task.DURATION10));
    }
 
    private String m_basedir;

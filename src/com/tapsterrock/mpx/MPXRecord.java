@@ -25,6 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * This is the base class from which all classes representing records found
@@ -210,7 +211,14 @@ class MPXRecord
     */
    protected void put (int key, Object value)
    {
-      m_array[key] = value;
+      if (key < m_array.length)
+      {
+         m_array[key] = value;
+      }
+      else
+      {
+         m_extended.put(new Integer(key), value);
+      }
    }
 
    /**
@@ -221,7 +229,7 @@ class MPXRecord
     */
    protected void put (int key, char value)
    {
-      put (key, new Character (value));
+      put (key, new Character(value));
    }
 
    /**
@@ -340,7 +348,18 @@ class MPXRecord
     */
    protected Object get (int key)
    {
-      return (m_array[key]);
+      Object result;
+
+      if (key < m_array.length)
+      {
+         result = m_array[key];
+      }
+      else
+      {
+         result = m_extended.get(new Integer(key));
+      }
+
+      return (result);
    }
 
    /**
@@ -555,4 +574,5 @@ class MPXRecord
     * Array of field values.
     */
    private Object[] m_array;
+   private HashMap m_extended = new HashMap ();
 }

@@ -36,6 +36,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -105,6 +106,8 @@ public class MPXFile
       m_calendarUniqueID = file.m_calendarUniqueID;
       m_timeFormat = file.m_timeFormat;
       m_locale = file.m_locale;
+      m_taskFieldAlias = file.m_taskFieldAlias;
+      m_aliasTaskField = file.m_aliasTaskField;
    }
 
    /**
@@ -1741,6 +1744,75 @@ public class MPXFile
    }
 
    /**
+    * Associates an alias with a custom task field number
+    *
+    * @param field custom field number
+    * @param alias alias text
+    */
+   public void setTaskFieldAlias (int field, String alias)
+   {
+      Integer id = new Integer (field);
+      m_taskFieldAlias.put(id, alias);
+      m_aliasTaskField.put(alias, id);
+   }
+
+   /**
+    * Retrieves the alias associated with a custom task field.
+    * This method will return null if no alias has been defined for
+    * this field
+    *
+    * @param field field number
+    * @return alias text
+    */
+   public String getTaskFieldAlias (int field)
+   {
+      return ((String)m_taskFieldAlias.get(new Integer(field)));
+   }
+
+   /**
+    * Retrieves the field number of a field based on its alias. If the
+    * alias is not recognised, this method will return -1.
+    *
+    * @param alias alias text
+    * @return task field number
+    */
+   public int getAliasTaskField (String alias)
+   {
+      Integer result = (Integer)m_aliasTaskField.get(alias);
+      int field;
+      if (result == null)
+      {
+         field = -1;
+      }
+      else
+      {
+         field = result.intValue();
+      }
+      return (field);
+   }
+
+   /**
+    * Allows derived classes to determine if field aliases have been defined.
+    *
+    * @return true if field aliases have been defined
+    */
+   protected boolean fieldAliasesDefined ()
+   {
+      return (!m_taskFieldAlias.isEmpty());
+   }
+
+   /**
+    * Allows derived classes to gain access to the mapping between
+    * MPX field numbers and aliases
+    *
+    * @return task fiel to alias map
+    */
+   protected HashMap getTaskFieldAliasMap ()
+   {
+      return (m_taskFieldAlias);
+   }
+
+   /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
     */
@@ -2012,6 +2084,16 @@ public class MPXFile
     * Number format used for writing MPXUnits values.
     */
    private MPXNumberFormat m_unitsDecimalFormat;
+
+   /**
+    * Maps from a task field number to a task alias.
+    */
+   private HashMap m_taskFieldAlias = new HashMap ();
+
+   /**
+    * Maps from a task field alias to a task field number
+    */
+   private HashMap m_aliasTaskField = new HashMap ();
 
    /**
     * Constant representing maximum number of BaseCalendars per MPX file.

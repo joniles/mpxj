@@ -837,7 +837,7 @@ final class MPP8File
          //
          // Test to ensure this resource has not been deleted
          // This may be an array of bit flags, as per the task
-         // record. I have yet to see data to support this, so 
+         // record. I have yet to see data to support this, so
          // the simple non-zero test remains.
          //
          if (MPPUtility.getShort(data, 164) != 0)
