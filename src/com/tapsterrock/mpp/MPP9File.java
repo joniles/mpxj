@@ -1424,20 +1424,20 @@ final class MPP9File
          int columnTitleOffset;
          Column  column;
          int alignment;
-   
+
          for (int loop=0; loop < columnCount; loop++)
          {
             column = new Column (table);
-   
+
             column.setFieldType (MPPUtility.getShort(data, index));
             column.setWidth (MPPUtility.getByte(data, index+4));
-   
+
             columnTitleOffset = MPPUtility.getShort(data, index+6);
             if (columnTitleOffset != 0)
             {
                column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
             }
-   
+
             alignment = MPPUtility.getByte(data, index+8);
             if (alignment == 32)
             {
@@ -1454,7 +1454,7 @@ final class MPP9File
                   column.setAlignTitle(Column.ALIGN_RIGHT);
                }
             }
-   
+
             alignment = MPPUtility.getByte(data, index+10);
             if (alignment == 32)
             {
@@ -1471,11 +1471,11 @@ final class MPP9File
                   column.setAlignData(Column.ALIGN_RIGHT);
                }
             }
-   
+
             table.addColumn(column);
             index += 12;
          }
-      }         
+      }
    }
 
 
