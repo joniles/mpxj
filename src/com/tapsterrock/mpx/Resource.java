@@ -161,7 +161,6 @@ public final class Resource extends MPXRecord
     *
     * @param notes notes to be added
     * @return ResourceNotes
-    * @throws MPXException  if MSP defined limit of 1 is exceeded
     */
    public ResourceNotes addResourceNotes (String notes)
    {

@@ -34,6 +34,7 @@ final class MPXPercentage extends Number
     * string value.
     *
     * @param value percentage value
+    * @param format expected format of string percentage value
     * @throws MPXException when the string parse fails
     */
    MPXPercentage (String value, MPXNumberFormat format)

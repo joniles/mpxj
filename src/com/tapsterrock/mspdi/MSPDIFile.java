@@ -2004,8 +2004,8 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes calandar data to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
-    * @param map Map of calendar UIDs to names
     * @throws JAXBException on xml creation errors
     */
    private void writeCalendars (ObjectFactory factory, Project project)
@@ -2053,8 +2053,8 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes data for a single calandar to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param bc Base calendar data
-    * @param uid Unique ID for this calendar
     * @return New MSPDI calendar instance
     * @throws JAXBException on xml creation errors
     */
@@ -2190,8 +2190,8 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes resource data to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
-    * @param calendarMap Map of calendar names to UIDs
     * @throws JAXBException on xml creation errors
     */
    private void writeResources (ObjectFactory factory, Project project)
@@ -2211,8 +2211,8 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes data for a single resource to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param mpx Resource data
-    * @param calendarMap Map of calendar names to UIDs
     * @return New MSPDI resource instance
     * @throws JAXBException on xml creation errors
     */
@@ -2263,6 +2263,7 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes task data to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
     * @throws JAXBException on xml creation errors
     */
@@ -2284,8 +2285,9 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes data for a single task to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param mpx Task data
-    * @return MSPDI task instance
+    * @return new task instance
     * @throws JAXBException on xml creation errors
     */
    private Project.TasksType.TaskType writeTask (ObjectFactory factory, Task mpx)
@@ -2471,6 +2473,7 @@ public class MSPDIFile extends MPXFile
     * the predecessor list, not the unique ID predecessor list, as you might
     * expect.
     *
+    * @param factory ObjectFactory instance
     * @param xml MSPDI task data
     * @param mpx MPX task data
     * @throws JAXBException on xml creation errors
@@ -2529,6 +2532,7 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes a single predecessor link to the MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param taskID The task UID
     * @param type The predecessor type
     * @param lag The lag duration
@@ -2556,6 +2560,7 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes assignment data to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
     * @throws JAXBException on xml creation errors
     */
@@ -2578,6 +2583,7 @@ public class MSPDIFile extends MPXFile
    /**
     * This method writes data for a single assignment to an MSPDI file.
     *
+    * @param factory ObjectFactory instance
     * @param mpx Resource assignment data
     * @param uid Unique ID for the new assignment
     * @return New MSPDI assignment instance

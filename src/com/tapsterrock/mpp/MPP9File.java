@@ -65,6 +65,7 @@ final class MPP9File
     * This method is used to process an MPP9 file. This is the file format
     * used by Project 2000 and Project 2002.
     *
+    * @param file parent MPP file
     * @param root Root of the POI file system.
     * @throws MPXException Normally thrown on dat validation errors
     */
@@ -166,6 +167,10 @@ final class MPP9File
    /**
     * This method maps the resource unique identifiers to their index number
     * within the FixedData block.
+    *
+    * @param rscFixedMeta resource fixed meta data
+    * @param rscFixedData resource fixed data
+    * @return map of resource IDs to resource data
     */
    private static TreeMap createResourceMap (FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
@@ -194,7 +199,11 @@ final class MPP9File
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
     *
-    * @throws Exception on unexpected file format
+    * @param file parent MPP file
+    * @param projectDir root project directory
+    * @param resourceMap map of resource IDs to resource data
+    * @throws MPXException
+    * @throws IOException
     */
    private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap resourceMap)
       throws MPXException, IOException
@@ -502,7 +511,11 @@ final class MPP9File
     * The missing boolean attributes are probably represented in the Props
     * section of the task data, which we have yet to decode.
     *
-    * @throws Exception on unexpected file format
+    * @param file parent MPP file
+    * @param projectDir root project directory
+    * @param outlineCodeVarData outline code data
+    * @throws MPXException
+    * @throws IOException
     */
    private static void processTaskData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
       throws MPXException, IOException
@@ -900,6 +913,10 @@ final class MPP9File
 
    /**
     * This method extracts and collates constraint data
+    *
+    * @param file parent MPP file
+    * @param projectDir root project directory
+    * @throws IOException
     */
    private static void processConstraintData (MPPFile file,  DirectoryEntry projectDir)
       throws IOException
@@ -953,7 +970,12 @@ final class MPP9File
    /**
     * This method extracts and collates resource data
     *
-    * @throws Exception on unexpected file format
+    * @param file parent MPP file
+    * @param projectDir root project directory
+    * @param outlineCodeVarData outline code data
+    * @param resourceCalendarMap map of resource IDs to resource data
+    * @throws MPXException
+    * @throws IOException
     */
    private static void processResourceData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap resourceCalendarMap)
       throws MPXException, IOException
@@ -1253,6 +1275,7 @@ final class MPP9File
     * levels defined by the MPX standard.
     *
     * @param priority value read from MPP file
+    * @return Priority object instance
     */
    private static Priority getPriority (int priority)
    {

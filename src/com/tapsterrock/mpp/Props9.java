@@ -38,7 +38,7 @@ final class Props9 extends Props
    /**
     * Constructor, reads the property data from an input stream.
     *
-    * @param is
+    * @param is input stream for reading props data
     */
    Props9 (InputStream is)
       throws IOException

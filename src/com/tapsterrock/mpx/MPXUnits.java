@@ -38,6 +38,7 @@ final class MPXUnits extends Number
     * the value as a percentage in the range 0.0 to 100.0.
     *
     * @param value value
+    * @param format expected format of units string
     */
    MPXUnits (String value, MPXNumberFormat format)
       throws MPXException

@@ -69,6 +69,8 @@ public class MpxCreate
     * about the order in which things appear in the file. If you are going
     * to assign resources to tasks, the resources must appear in the
     * file before the tasks.
+    *
+    * @param filename output file name
     */
    private static void create (String filename)
       throws Exception
@@ -85,13 +87,13 @@ public class MpxCreate
       MPXFile file = new MPXFile ();
 
       //
-      // Uncomment these lines to test the use of alternative 
-      // delimiters and separators.      
-      //      
+      // Uncomment these lines to test the use of alternative
+      // delimiters and separators.
+      //
       //file.setDelimiter(';');
       //file.setDecimalSeparator(',');
       //file.setThousandsSeparator('.');
-      
+
       //
       // Configure the file to automatically generate identifiers for tasks.
       //
@@ -121,38 +123,38 @@ public class MpxCreate
       // (not strictly necessary here, but required if generating MSPDI files)
       //
       file.setAutoCalendarUniqueID(true);
-      
+
       //
       // Add a default calendar called "Standard"
       //
       file.addDefaultBaseCalendar();
 
-		//
-		// Retrieve the project header and set the start date. Note Microsoft
-		// Project appears to reset all task dates relative to this date, so this
-		// date must match the start date of the earliest task for you to see
-		// the expected results. If this value is not set, it will default to
-		// today's date.
-		//		
-		ProjectHeader header = file.getProjectHeader();
-		header.setStartDate(df.parse("01/01/2003"));
-            
+      //
+      // Retrieve the project header and set the start date. Note Microsoft
+      // Project appears to reset all task dates relative to this date, so this
+      // date must match the start date of the earliest task for you to see
+      // the expected results. If this value is not set, it will default to
+      // today's date.
+      //
+      ProjectHeader header = file.getProjectHeader();
+      header.setStartDate(df.parse("01/01/2003"));
+
       //
       // Add resources
       //
       Resource resource1 = file.addResource();
       resource1.setName("Resource1");
-      
+
       Resource resource2 = file.addResource();
       resource2.setName("Resource2");
-      
+
       //
       // This next line is not required, it is here simply to test the
       // output file format when alternative separators and delimiters
       // are used.
       //
       resource2.setMaxUnits(50.0);
-      
+
       //
       // Create a summary task
       //
@@ -165,8 +167,8 @@ public class MpxCreate
       Task task2 = task1.addTask();
       task2.setName ("First Sub Task");
       task2.setDuration (new MPXDuration (10.5, TimeUnit.DAYS));
-      task2.setStart (df.parse("01/01/2003"));     
-      
+      task2.setStart (df.parse("01/01/2003"));
+
       //
       // We'll set this task up as being 50% complete. If we have no resource
       // assignments for this task, this is enough information for MS Project.
@@ -175,9 +177,9 @@ public class MpxCreate
       // correct values in order for MS project to mark the task as complete
       // or partially complete.
       //
-      task2.setPercentageComplete(55.5);      
+      task2.setPercentageComplete(55.5);
       task2.setActualStart(df.parse("01/01/2003"));
-                  
+
       //
       // Create the second sub task
       //
@@ -206,8 +208,8 @@ public class MpxCreate
       // Assign resources to tasks
       //
       ResourceAssignment assignment1 = task2.addResourceAssignment (resource1);
-      ResourceAssignment assignment2 = task3.addResourceAssignment (resource2);      
-      
+      ResourceAssignment assignment2 = task3.addResourceAssignment (resource2);
+
       //
       // As the first task is partially complete, and we are adding
       // a resource assignment, we must set the work and actual work
@@ -216,7 +218,7 @@ public class MpxCreate
       //
       assignment1.setWork(new MPXDuration (80, TimeUnit.HOURS));
       assignment1.setActualWork(new MPXDuration (40, TimeUnit.HOURS));
-      
+
       //
       // Write the file
       //

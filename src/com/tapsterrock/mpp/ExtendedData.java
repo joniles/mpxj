@@ -215,6 +215,8 @@ final class ExtendedData
    /**
     * Used for debugging. Outputs the contents of the extended data
     * block as a formatted string.
+    *
+    * @return string representation of extended data block
     */
    public String toString ()
    {

@@ -46,7 +46,7 @@ final class Props8 extends Props
    /**
     * Constructor, reads the property data from an input stream.
     *
-    * @param is
+    * @param is input stream fo reading Props data
     */
    Props8 (InputStream is)
    {

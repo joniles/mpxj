@@ -366,7 +366,6 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param notes notes to be added
     * @return TaskNotes object
-    * @throws MPXException if maximum number of task notes is exceeded
     */
    public TaskNotes addTaskNotes (String notes)
    {
@@ -4552,7 +4551,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * This method sets the deadline for this task.
     *
-    * @param deadline
+    * @param deadline deadline date
     */
    public void setDeadline (Date deadline)
    {
@@ -4578,7 +4577,7 @@ public final class Task extends MPXRecord implements Comparable
     * Constants are available as part of the this class to
     * represent these values.
 
-    * @param type
+    * @param type task type
     */
    public void setType (int type)
    {

@@ -36,6 +36,7 @@ public final class MPXCalendarException extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @param calendar parent calendar to which this record belongs.
     * @throws MPXException Thrown on parse errors
     */
    MPXCalendarException (MPXFile file, MPXCalendar calendar)
@@ -49,7 +50,8 @@ public final class MPXCalendarException extends MPXRecord
     * taken from an MPXFile record.
     *
     * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for  this object.
+    * @param calendar parent calendar to which this record belongs.
+    * @param record record containing the data for this object.
     * @throws MPXException Thrown on parse errors
     */
    MPXCalendarException (MPXFile file, MPXCalendar calendar, Record record)

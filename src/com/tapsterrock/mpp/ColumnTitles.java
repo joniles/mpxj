@@ -35,6 +35,9 @@ import java.util.ListResourceBundle;
  */
 public class ColumnTitles extends ListResourceBundle
 {
+   /**
+    * @see ListResourceBundle
+    */
    public Object[][] getContents()
    {
       return (RESOURCES);

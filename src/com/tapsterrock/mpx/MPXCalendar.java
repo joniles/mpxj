@@ -42,6 +42,7 @@ public final class MPXCalendar extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @param baseCalendar flag indicating if this is a base calendar
     */
    MPXCalendar (MPXFile file, boolean baseCalendar)
    {
@@ -54,6 +55,7 @@ public final class MPXCalendar extends MPXRecord
     *
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for this object.
+    * @param baseCalendar flag indicating if this is a base calendar
     */
    MPXCalendar (MPXFile file, Record record, boolean baseCalendar)
    {
@@ -133,7 +135,8 @@ public final class MPXCalendar extends MPXRecord
     * definition allows a maximum of 7 calendar hours records to be added to
     * a single calendar.
     *
-    * @return <tt>MPXCalendarHours</tt>
+    * @param day day number
+    * @return new MPXCalendarHours instance
     * @throws MPXException if maximum number of records is exceeded
     */
    public MPXCalendarHours addCalendarHours(int day)

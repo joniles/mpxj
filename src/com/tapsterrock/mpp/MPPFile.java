@@ -189,7 +189,7 @@ public class MPPFile extends MPXFile
     * with notes should be preserved or removed. By default the formatting
     * is removed.
     *
-    * @param preserveNoteFormatting
+    * @param preserveNoteFormatting boolean flag
     */
    public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
    {
@@ -212,7 +212,7 @@ public class MPPFile extends MPXFile
    /**
     * Package-private method used to add views to this MPP file.
     *
-    * @param view
+    * @param view view data
     */
    void addView (View view)
    {
@@ -232,7 +232,7 @@ public class MPPFile extends MPXFile
    /**
     * Package-private method used to add tables to this MPP file.
     *
-    * @param view
+    * @param table table data
     */
    void addTable (Table table)
    {
@@ -278,7 +278,8 @@ public class MPPFile extends MPXFile
     * MPP8 and MPP9 file handling classes gain access to the
     * attachResourceCalendar method.
     *
-    * @return new MPXCalendar instance
+    * @param resource resource object
+    * @param calendar calendar object
     */
    void mppAttachResourceCalendar (Resource resource, MPXCalendar calendar)
    {

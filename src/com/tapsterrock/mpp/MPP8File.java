@@ -139,6 +139,7 @@ final class MPP8File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
+    * @param calendarMap map of calendar IDs and calendar instances
     * @throws MPXException
     * @throws IOException
     */
@@ -795,6 +796,7 @@ final class MPP8File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
+    * @param calendarMap map of calendar IDs and calendar instances
     * @throws MPXException
     * @throws IOException
     */

@@ -36,6 +36,8 @@ final class Tokenizer
 {
    /**
     * Constructor.
+    *
+    * @param r Reader instance
     */
    Tokenizer (Reader r)
    {
@@ -45,6 +47,8 @@ final class Tokenizer
    /**
     * This method retrieves the next token and returns a constant representing
     * the type of token found.
+    *
+    * @return token type value
     */
    public int nextToken ()
       throws IOException
@@ -153,6 +157,8 @@ final class Tokenizer
 
    /**
     * This method retrieves the text of the last token found.
+    *
+    * @return token text
     */
    public String getToken ()
    {
@@ -162,6 +168,8 @@ final class Tokenizer
    /**
     * This method is used to set the delimiter character recognised
     * by the tokenizer.
+    *
+    * @param delimiter delimiter character
     */
    public void setDelimiter (char delimiter)
    {

@@ -44,6 +44,7 @@ public final class RelationList
     * data read from an MPX file.
     *
     * @param data data read from an MPX file
+    * @param format expected format of duration component of each relation string
     * @throws MPXException nroamlly thrown on parse errors
     */
    RelationList (String data, MPXNumberFormat format)

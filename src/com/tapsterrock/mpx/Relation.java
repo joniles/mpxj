@@ -46,6 +46,7 @@ public final class Relation
     * of a relationship.
     *
     * @param relationship String representation of a relationship
+    * @param format expected format of duration component of the string
     * @throws MPXException normally indicating that parsing the string has failed
     */
    Relation (String relationship, MPXNumberFormat format)

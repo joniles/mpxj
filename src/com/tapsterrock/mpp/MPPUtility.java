@@ -448,6 +448,7 @@ final class MPPUtility
     *
     * @param value Duration value
     * @param type type of units of the duration
+    * @return MPXDuration instance
     */
    public static final MPXDuration getDuration (int value, int type)
    {
@@ -460,6 +461,7 @@ final class MPPUtility
     *
     * @param value Duration value
     * @param type type of units of the duration
+    * @return MPXDuration instance
     */
    public static final MPXDuration getDuration (double value, int type)
    {

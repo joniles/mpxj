@@ -42,6 +42,15 @@ public final class MPXDuration
       this(dur, DEFAULT_DECIMAL_FORMAT);
    }
 
+   /**
+    * Constructs an instance of this class from a String representation
+    * of a duration, and an MPXNumberFormat instance to describe the format
+    * of the string representation.
+    *
+    * @param dur formatted duration value
+    * @param format format description
+    * @throws MPXException
+    */
    public MPXDuration (String dur, MPXNumberFormat format)
       throws MPXException
    {
@@ -152,6 +161,7 @@ public final class MPXDuration
     * obtained from it should therefore be treated with caution.
     *
     * @param type target duration type
+    * @return new MPXDuration instance
     */
    public MPXDuration convertUnits (int type)
    {

@@ -74,16 +74,16 @@ public class MpxQuery
       throws Exception
    {
       MPXFile mpx = null;
-      
+
       try
       {
          mpx = new MPXFile (filename);
       }
-      
+
       catch (Exception ex)
       {
-         mpx = null;         
-      }         
+         mpx = null;
+      }
 
       if (mpx == null)
       {
@@ -91,18 +91,18 @@ public class MpxQuery
          {
             mpx = new MPPFile (filename);
          }
-      
+
          catch (Exception ex)
          {
-            mpx = null;         
-         }                  
+            mpx = null;
+         }
       }
 
       if (mpx == null)
       {
-         throw new Exception ("Failed to read file");   
+         throw new Exception ("Failed to read file");
       }
-            
+
       listResources (mpx);
 
       listTasks (mpx);
@@ -110,11 +110,11 @@ public class MpxQuery
       listAssignments (mpx);
 
       listAssignmentsByTask (mpx);
-      
+
       listHierarchy (mpx);
-      
+
       listTaskNotes (mpx);
-      
+
       listResourceNotes (mpx);
    }
 
@@ -154,11 +154,11 @@ public class MpxQuery
       String duration;
       Date date;
       MPXDuration dur;
-      
+
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         
+
          date = task.getStart();
          if (date != null)
          {
@@ -167,8 +167,8 @@ public class MpxQuery
          else
          {
             startDate = "(no date supplied)";
-         }            
-         
+         }
+
          date = task.getFinish();
          if (date != null)
          {
@@ -177,18 +177,18 @@ public class MpxQuery
          else
          {
             finishDate = "(no date supplied)";
-         }            
-      
+         }
+
          dur = task.getDuration();
          if (dur != null)
          {
-            duration = dur.toString();   
+            duration = dur.toString();
          }
          else
          {
-            duration = "(no duration supplied)";   
+            duration = "(no duration supplied)";
          }
-                 
+
          System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + ")");
       }
       System.out.println ();
@@ -265,81 +265,81 @@ public class MpxQuery
     * This method displays the resource assignemnts for each task. This time
     * rather than just iterating through the list of all assignments in
     * the file, we extract the assignemnts on a task-by-task basis.
-    * 
+    *
     * @param file MPX file
     */
    private static void listAssignmentsByTask (MPXFile file)
    {
       List tasks = file.getAllTasks();
       Iterator taskIter = tasks.iterator();
-            
+
       while (taskIter.hasNext() == true)
       {
-         Task task = (Task)taskIter.next();   
+         Task task = (Task)taskIter.next();
          System.out.println ("Assignments for " + task.getName() + ":");
-         
+
          List assignments = task.getResourceAssignments();
          Iterator assignmentIter = assignments.iterator();
-         
+
          while (assignmentIter.hasNext() == true)
          {
-            ResourceAssignment assignment = (ResourceAssignment)assignmentIter.next();            
+            ResourceAssignment assignment = (ResourceAssignment)assignmentIter.next();
             Resource resource = assignment.getResource();
             System.out.println ("   " + resource.getName());
-         }                                   
-      }      
-      
-      System.out.println ();      
+         }
+      }
+
+      System.out.println ();
    }
-   
+
 
    /**
     * This method lists any notes attached to tasks.
-    * 
+    *
     * @param file MPX file
-    */   
+    */
    private static void listTaskNotes (MPXFile file)
    {
       List tasks = file.getAllTasks();
       Iterator taskIter = tasks.iterator();
-            
+
       while (taskIter.hasNext() == true)
       {
-         Task task = (Task)taskIter.next();   
+         Task task = (Task)taskIter.next();
          String notes = task.getNotes();
-         
+
          if (notes != null && notes.length() != 0)
          {
             System.out.println ("Notes for " + task.getName() + ": " + notes);
          }
-      }      
-      
-      System.out.println ();      
-   }   
+      }
+
+      System.out.println ();
+   }
 
    /**
     * This method lists any notes attached to resources.
-    * 
+    *
     * @param file MPX file
-    */      
+    */
    private static void listResourceNotes (MPXFile file)
    {
       List resources = file.getAllResources();
       Iterator resourceIter = resources.iterator();
-            
+
       while (resourceIter.hasNext() == true)
       {
-         Resource resource = (Resource)resourceIter.next();   
+         Resource resource = (Resource)resourceIter.next();
          String notes = resource.getNotes();
-         
+
          if (notes != null && notes.length() != 0)
          {
             System.out.println ("Notes for " + resource.getName() + ": " + notes);
          }
-      }      
-      
-      System.out.println ();      
-   }   
-   
+      }
+
+      System.out.println ();
+   }
+
 }
 
