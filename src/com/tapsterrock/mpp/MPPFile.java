@@ -31,6 +31,7 @@ import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
@@ -47,6 +48,7 @@ import java.util.Date;
 import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.TimeZone;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -305,6 +307,7 @@ public class MPPFile extends MPXFile
       // Configure default time ranges
       //
       SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
+		df.setTimeZone(TimeZone.getTimeZone("GMT"));      
       Date defaultStart1;
       Date defaultEnd1;
       Date defaultStart2;
@@ -374,7 +377,7 @@ public class MPPFile extends MPXFile
                      duration = MPPUtility.getTime (data, offset + 20);
                      hours.setFromTime1(start);
                      hours.setToTime1(new Date (start.getTime()+duration.getTime()));
-
+						
                      if (periodCount > 1)
                      {
                         start = MPPUtility.getTime (data, offset + 10);
@@ -383,7 +386,7 @@ public class MPPFile extends MPXFile
                         hours.setToTime2(new Date (start.getTime()+duration.getTime()));
 
                         if (periodCount > 2)
-                        {
+                        {                        	
                            start = MPPUtility.getTime (data, offset + 12);
                            duration = MPPUtility.getTime (data, offset + 28);
                            hours.setFromTime3(start);
@@ -711,48 +714,63 @@ public class MPPFile extends MPXFile
          resource = addResource();
 
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
-         //resource.setActualCost(); // Calculated value
-         //resource.setActualWork(); // Calculated value
+         resource.setActualCost(new Double(MPPUtility.getDouble(data, 132)/100));
+         resource.setActualOvertimeCost(new Double(MPPUtility.getDouble(data, 172)/100));         
+         resource.setActualWork(new MPXDuration (MPPUtility.getDouble (data, 60)/60000, TimeUnit.HOURS));
          //resource.setBaseCalendar();
          resource.setBaselineCost(new Double(MPPUtility.getDouble(data, 148)/100));
-         //resource.setBaselineWork();
+         resource.setBaselineWork(new MPXDuration (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));
          resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
-         //resource.setCost(); // Calculated value
+         resource.setCost(new Double(MPPUtility.getDouble(data, 140)/100));
          resource.setCostPerUse(new Double(MPPUtility.getDouble(data, 84)/100));
-         //resource.setCostVariance(); // Calculated value
          resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));         
          resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
          resource.setID (MPPUtility.getInt (data, 4));
          resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value
-         //resource.setMaxUnits();
+         resource.setMaxUnits(MPPUtility.getDouble(data, 44)/100);
          resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));
-         //resource.setNotes();
          //resource.setObjects(); // Calculated value
          //resource.setOverallocated(); // Calculated value
-         // need to look at the format?
-         //resource.setOvertimeRate(new MPXRate (MPPUtility.getDouble(data, 36)/100, getRateDurationUnits(MPPUtility.getShort(data, 10))));
-         //resource.setOvertimeWork(); // Calculated value
-         //resource.setPeak(); // Calculated value
+			resource.setOvertimeCost(new Double(MPPUtility.getDouble(data, 164)/100));         
+         resource.setOvertimeRate(new MPXRate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
+         resource.setOvertimeWork(new MPXDuration (MPPUtility.getDouble (data, 76)/60000, TimeUnit.HOURS));
+         resource.setPeak(MPPUtility.getDouble(data, 124)/100);
          //resource.setPercentageWorkComplete(); // Calculated value
-         //resource.setRemainingCost(); // Calculated value
-         //resource.setRemainingWork(); // Calculated value
-         // need to look at the format?
-         //resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 28)/100, getRateDurationUnits(MPPUtility.getShort(data, 8))));
+         resource.setRegularWork(new MPXDuration (MPPUtility.getDouble (data, 100)/60000, TimeUnit.HOURS));
+         resource.setRemainingCost(new Double(MPPUtility.getDouble(data, 156)/100));
+			resource.setRemainingOvertimeCost(new Double(MPPUtility.getDouble(data, 180)/100));                  
+         resource.setRemainingWork(new MPXDuration (MPPUtility.getDouble (data, 92)/60000, TimeUnit.HOURS));
+         resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
          resource.setText1(rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
          resource.setText2(rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
          resource.setText3(rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
          resource.setText4(rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
          resource.setText5(rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
          resource.setUniqueID(id.intValue());
-         //resource.setWork(); // Calculated value
-         //resource.setWorkVariance(); // Calculated value
+         resource.setWork(new MPXDuration (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
 
          //notes = rscVarData.getString (id, RESOURCE_NOTES);
          //if (notes != null)
          //{
          //   resource.addResourceNotes(notes);
          //}
+
+			//
+			// Calculate the cost variance
+			//         
+			if (resource.getCost() != null && resource.getBaselineCost() != null)
+			{
+				resource.setCostVariance(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue());	
+			}
+
+			//
+			// Calculate the work variance
+			//			
+			if (resource.getWork() != null && resource.getBaselineWork() != null)
+			{
+				resource.setWorkVariance(new MPXDuration (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));	
+			}			
       }
    }
 
