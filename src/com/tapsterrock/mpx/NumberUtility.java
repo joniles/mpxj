@@ -23,8 +23,11 @@
  
 package com.tapsterrock.mpx;
 
+import java.math.BigInteger;
+
 /**
- * This class contains utility methods for handling numeric values.
+ * This class contains utility methods for handling Number objects and
+ * numeric primitives.
  */
 public final class NumberUtility
 {
@@ -39,4 +42,85 @@ public final class NumberUtility
    {
       return (value==null?0:value.intValue());
    }
+
+   /**
+    * Utility method used to convert an arbitrary Number into an Integer.
+    *
+    * @param value Number instance
+    * @return Integer instance
+    */
+   public static final Integer getInteger (Number value)
+   {
+      Integer result = null;
+      if (value != null)
+      {
+         if (value instanceof Integer)
+         {
+            result = (Integer)value;
+         }
+         else
+         {
+            result = new Integer(value.intValue());
+         }
+      }
+      return (result);
+   }
+   
+   /**
+    * Converts a string representation of an integer into an Integer object.
+    * Silently ignores any parse exceptions and returns null.
+    * 
+    * @param value String representation of an integer
+    * @return Integer instance
+    */
+   public static final Integer getInteger (String value)
+   {
+      Integer result;
+      
+      try
+      {
+         result = new Integer (value);
+      }
+      
+      catch (Exception ex)
+      {
+         result = null;
+      }
+      
+      return (result);
+   }
+
+   /**
+    * Utility method used to convert a Number into a BigInteger.
+    *
+    * @param value Number instance
+    * @return BigInteger instance
+    */
+   public static final BigInteger getBigInteger (Number value)
+   {
+      BigInteger result = null;
+      if (value != null)         
+      {
+         if (value instanceof BigInteger)
+         {
+            result = (BigInteger)value;
+         }
+         else
+         {
+            result = BigInteger.valueOf(value.longValue());
+         }
+      }
+      return (result);
+   }
+   
+   /**
+    * Utility method used to convert a Number into a double.
+    *
+    * @param value Number instance
+    * @return double value
+    */
+   public static final double getDouble (Number value)
+   {
+      return (value==null?0:value.doubleValue());
+   }   
 }

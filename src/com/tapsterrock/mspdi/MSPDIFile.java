@@ -29,16 +29,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.TreeSet;
 
 import javax.xml.bind.JAXBContext;
@@ -57,32 +52,23 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.BookingType;
-import com.tapsterrock.mpx.ConstraintType;
-import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.DateRange;
 import com.tapsterrock.mpx.Day;
-import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
-import com.tapsterrock.mpx.MPXCurrency;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
-import com.tapsterrock.mpx.MPXRate;
-import com.tapsterrock.mpx.Priority;
+import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
-import com.tapsterrock.mpx.ResourceType;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
-import com.tapsterrock.mpx.WorkContour;
-import com.tapsterrock.mpx.WorkGroup;
 import com.tapsterrock.mspdi.schema.ObjectFactory;
 import com.tapsterrock.mspdi.schema.Project;
 
@@ -332,37 +318,37 @@ public class MSPDIFile extends MPXFile
       header.setAuthor(project.getAuthor());
       header.setAutoAddNewResourcesAndTasks(project.isAutoAddNewResourcesAndTasks());
       header.setAutolink(project.isAutolink());
-      header.setBaselineForEarnedValue(getInteger(project.getBaselineForEarnedValue()));
+      header.setBaselineForEarnedValue(NumberUtility.getInteger(project.getBaselineForEarnedValue()));
       header.setCategory(project.getCategory());
       header.setCompany(project.getCompany());
-      header.setCreationDate(getDate(project.getCreationDate()));
-      header.setCriticalSlackLimit(getInteger(project.getCriticalSlackLimit()));
-      header.setCurrencyDigits (getInteger(project.getCurrencyDigits()));
+      header.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
+      header.setCriticalSlackLimit(NumberUtility.getInteger(project.getCriticalSlackLimit()));
+      header.setCurrencyDigits (NumberUtility.getInteger(project.getCurrencyDigits()));
       header.setCurrencySymbol (project.getCurrencySymbol());
-      header.setCurrentDate(getDate (project.getCurrentDate()));
-      header.setDaysPerMonth(getInteger(project.getDaysPerMonth()));
-      header.setDefaultDurationUnits(getMpxDurationTimeUnits(project.getDurationFormat()));
-      header.setDefaultEndTime(getTime(project.getDefaultFinishTime()));
-      header.setDefaultFixedCostAccrual(AccrueType.getInstance(project.getDefaultFixedCostAccrual()));
-      header.setDefaultOvertimeRate(new MPXRate(project.getDefaultOvertimeRate(), TimeUnit.HOURS));
-      header.setDefaultStandardRate(new MPXRate(project.getDefaultStandardRate(), TimeUnit.HOURS));
-      header.setDefaultStartTime(getTime(project.getDefaultStartTime()));
-      header.setDefaultTaskEarnedValueMethod(EarnedValueMethod.getInstance(getInt(project.getDefaultTaskEVMethod())));
-      header.setDefaultTaskType(TaskType.getInstance(getInt(project.getDefaultTaskType())));
-      header.setDefaultWorkUnits(getMpxWorkTimeUnits (project.getWorkFormat()));
-      header.setEarnedValueMethod(EarnedValueMethod.getInstance(getInt(project.getEarnedValueMethod())));
+      header.setCurrentDate(DatatypeConverter.parseDate (project.getCurrentDate()));
+      header.setDaysPerMonth(NumberUtility.getInteger(project.getDaysPerMonth()));
+      header.setDefaultDurationUnits(DatatypeConverter.parseDurationTimeUnits(project.getDurationFormat()));
+      header.setDefaultEndTime(DatatypeConverter.parseTime(project.getDefaultFinishTime()));
+      header.setDefaultFixedCostAccrual(DatatypeConverter.parseAccrueType(project.getDefaultFixedCostAccrual()));
+      header.setDefaultOvertimeRate(DatatypeConverter.parseRate(project.getDefaultOvertimeRate()));
+      header.setDefaultStandardRate(DatatypeConverter.parseRate(project.getDefaultStandardRate()));
+      header.setDefaultStartTime(DatatypeConverter.parseTime(project.getDefaultStartTime()));
+      header.setDefaultTaskEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getDefaultTaskEVMethod()));
+      header.setDefaultTaskType(DatatypeConverter.parseTaskType(project.getDefaultTaskType()));
+      header.setDefaultWorkUnits(DatatypeConverter.parseWorkUnits (project.getWorkFormat()));
+      header.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getEarnedValueMethod()));
       header.setEditableActualCosts(project.isEditableActualCosts());
-      header.setExtendedCreationDate(getDate(project.getExtendedCreationDate()));
-      header.setFinishDate(getDate (project.getFinishDate()));
+      header.setExtendedCreationDate(DatatypeConverter.parseDate(project.getExtendedCreationDate()));
+      header.setFinishDate(DatatypeConverter.parseDate (project.getFinishDate()));
       header.setFiscalYearStart(project.isFiscalYearStart());
-      header.setFiscalYearStartMonth(getInteger(project.getFYStartDate()));
+      header.setFiscalYearStartMonth(NumberUtility.getInteger(project.getFYStartDate()));
       header.setHonorConstraints(project.isHonorConstraints());
       header.setInsertedProjectsLikeSummary(project.isInsertedProjectsLikeSummary());
-      header.setLastSaved(getDate(project.getLastSaved()));
+      header.setLastSaved(DatatypeConverter.parseDate(project.getLastSaved()));
       header.setManager(project.getManager());
       header.setMicrosoftProjectServerURL(project.isMicrosoftProjectServerURL());
-      header.setMinutesPerDay(getInteger(project.getMinutesPerDay()));
-      header.setMinutesPerWeek(getInteger(project.getMinutesPerWeek()));
+      header.setMinutesPerDay(NumberUtility.getInteger(project.getMinutesPerDay()));
+      header.setMinutesPerWeek(NumberUtility.getInteger(project.getMinutesPerWeek()));
       header.setMoveCompletedEndsBack(project.isMoveCompletedEndsBack());
       header.setMoveCompletedEndsForward(project.isMoveCompletedEndsForward());
       header.setMoveRemainingStartsBack(project.isMoveRemainingStartsBack());
@@ -371,21 +357,21 @@ public class MSPDIFile extends MPXFile
       header.setName(project.getName());
       header.setNewTasksEffortDriven(project.isNewTasksEffortDriven());
       header.setNewTasksEstimated(project.isNewTasksEstimated());
-      header.setNewTaskStartIsProjectStart(getInt(project.getNewTaskStartDate())==0);
+      header.setNewTaskStartIsProjectStart(NumberUtility.getInt(project.getNewTaskStartDate())==0);
       header.setProjectExternallyEdited(project.isProjectExternallyEdited());
       header.setProjectTitle(project.getTitle());
       header.setRemoveFileProperties(project.isRemoveFileProperties());
-      header.setRevision(getInteger(project.getRevision()));
+      header.setRevision(NumberUtility.getInteger(project.getRevision()));
       header.setSubject(project.getSubject());
       header.setSplitInProgressTasks(project.isSplitsInProgressTasks());
       header.setSpreadActualCost(project.isSpreadActualCost());
       header.setSpreadPercentComplete(project.isSpreadPercentComplete());
-      header.setStartDate(getDate (project.getStartDate()));
-      header.setStatusDate(getDate(project.getStatusDate()));
-      header.setSymbolPosition (getMpxSymbolPosition(project.getCurrencySymbolPosition()));
+      header.setStartDate(DatatypeConverter.parseDate (project.getStartDate()));
+      header.setStatusDate(DatatypeConverter.parseDate(project.getStatusDate()));
+      header.setSymbolPosition (DatatypeConverter.parseCurrencySymbolPosition(project.getCurrencySymbolPosition()));
       header.setUniqueID(project.getUID());
       header.setUpdatingTaskStatusUpdatesResourceStatus(project.isTaskUpdatesResource());
-      header.setWeekStartDay(Day.getInstance(getInt(project.getWeekStartDay())+1));
+      header.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
       
    }
 
@@ -542,8 +528,8 @@ public class MSPDIFile extends MPXFile
          while (iter.hasNext() == true)
          {
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            startTime = getTime(period.getFromTime());
-            endTime = getTime(period.getToTime());
+            startTime = DatatypeConverter.parseTime(period.getFromTime());
+            endTime = DatatypeConverter.parseTime(period.getToTime());
             
             if (startTime != null && endTime != null)
             {
@@ -567,8 +553,8 @@ public class MSPDIFile extends MPXFile
       MPXCalendarException exception = calendar.addCalendarException();
 
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType timePeriod = day.getTimePeriod();
-      exception.setFromDate(getDate(timePeriod.getFromDate()));
-      exception.setToDate(getDate(timePeriod.getToDate()));
+      exception.setFromDate(DatatypeConverter.parseDate(timePeriod.getFromDate()));
+      exception.setToDate(DatatypeConverter.parseDate(timePeriod.getToDate()));
 
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = day.getWorkingTimes();
       if (times != null)
@@ -580,22 +566,22 @@ public class MSPDIFile extends MPXFile
          if (iter.hasNext() == true)
          {
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            exception.setFromTime1(getTime(period.getFromTime()));
-            exception.setToTime1(getTime(period.getToTime()));
+            exception.setFromTime1(DatatypeConverter.parseTime(period.getFromTime()));
+            exception.setToTime1(DatatypeConverter.parseTime(period.getToTime()));
          }
 
          if (iter.hasNext() == true)
          {
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            exception.setFromTime2(getTime(period.getFromTime()));
-            exception.setToTime2(getTime(period.getToTime()));
+            exception.setFromTime2(DatatypeConverter.parseTime(period.getFromTime()));
+            exception.setToTime2(DatatypeConverter.parseTime(period.getToTime()));
          }
 
          if (iter.hasNext() == true)
          {
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            exception.setFromTime3(getTime(period.getFromTime()));
-            exception.setToTime3(getTime(period.getToTime()));
+            exception.setFromTime3(DatatypeConverter.parseTime(period.getFromTime()));
+            exception.setToTime3(DatatypeConverter.parseTime(period.getToTime()));
          }
       }
    }
@@ -695,37 +681,37 @@ public class MSPDIFile extends MPXFile
    {
       Resource mpx = addResource();
 
-      mpx.setAccrueAt(AccrueType.getInstance(xml.getAccrueAt()));
+      mpx.setAccrueAt(DatatypeConverter.parseAccrueType(xml.getAccrueAt()));
       mpx.setActveDirectoryGUID(xml.getActiveDirectoryGUID());
-      mpx.setActualCost(getMpxCurrency(xml.getActualCost()));
-      mpx.setActualOvertimeCost(getMpxCurrency(xml.getActualOvertimeCost()));
-      mpx.setActualOvertimeWork(getDuration(xml.getActualOvertimeWork()));
-      mpx.setActualOvertimeWorkProtected(getDuration(xml.getActualOvertimeWorkProtected()));
-      mpx.setActualWork(getDuration (xml.getActualWork()));
-      mpx.setActualWorkProtected(getDuration(xml.getActualWorkProtected()));
-      mpx.setACWP(new Double(xml.getACWP()));
-      mpx.setAvailableFrom(getDate(xml.getAvailableFrom()));
-      mpx.setAvailableTo(getDate(xml.getAvailableTo()));
-      mpx.setBCWS(new Double(xml.getBCWS()));
-      mpx.setBCWP(new Double(xml.getBCWP()));
-      mpx.setBookingType(BookingType.getInstance(getInt(xml.getBookingType())));
+      mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
+      mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
+      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(xml.getActualOvertimeWork()));
+      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(xml.getActualOvertimeWorkProtected()));
+      mpx.setActualWork(DatatypeConverter.parseDuration (xml.getActualWork()));
+      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(xml.getActualWorkProtected()));
+      mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
+      mpx.setAvailableFrom(DatatypeConverter.parseDate(xml.getAvailableFrom()));
+      mpx.setAvailableTo(DatatypeConverter.parseDate(xml.getAvailableTo()));
+      mpx.setBCWS(DatatypeConverter.parseCurrency(xml.getBCWS()));
+      mpx.setBCWP(DatatypeConverter.parseCurrency(xml.getBCWP()));
+      mpx.setBookingType(DatatypeConverter.parseBookingType(xml.getBookingType()));
       //mpx.setBaseCalendar ();
       //mpx.setBaselineCost();
       //mpx.setBaselineWork();
       mpx.setCanLevel(xml.isCanLevel());
       mpx.setCode(xml.getCode());
-      mpx.setCost(getMpxCurrency(xml.getCost()));
-      mpx.setCostPerUse(getMpxCurrency(xml.getCostPerUse()));
-      mpx.setCostVariance(new Double(xml.getCostVariance()/100));
-      mpx.setCreationDate(getDate(xml.getCreationDate()));
-      mpx.setCV(new Double(xml.getCV()));
+      mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
+      mpx.setCostPerUse(DatatypeConverter.parseCurrency(xml.getCostPerUse()));
+      mpx.setCostVariance(DatatypeConverter.parseCurrency(xml.getCostVariance()));
+      mpx.setCreationDate(DatatypeConverter.parseDate(xml.getCreationDate()));
+      mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setEmailAddress(xml.getEmailAddress());
-      mpx.setFinish(getDate(xml.getFinish()));
+      mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
       mpx.setGroup(xml.getGroup());
       mpx.setHyperlink(xml.getHyperlink());
       mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
-      mpx.setID(getInteger(xml.getID()));
+      mpx.setID(NumberUtility.getInteger(xml.getID()));
       mpx.setInitials(xml.getInitials());
       mpx.setIsEnterprise(xml.isIsEnterprise());
       mpx.setIsGeneric(xml.isIsGeneric());
@@ -733,7 +719,7 @@ public class MSPDIFile extends MPXFile
       mpx.setIsNull(xml.isIsNull());
       //mpx.setLinkedFields();
       mpx.setMaterialLabel(xml.getMaterialLabel());
-      mpx.setMaxUnits(new Double(xml.getMaxUnits()*100));
+      mpx.setMaxUnits(DatatypeConverter.parseUnits(xml.getMaxUnits()));
       mpx.setName(xml.getName());
       if (xml.getNotes() != null && xml.getNotes().length() != 0)
       {
@@ -742,27 +728,27 @@ public class MSPDIFile extends MPXFile
       mpx.setNtAccount(xml.getNTAccount());
       //mpx.setObjects();
       mpx.setOverAllocated(xml.isOverAllocated());
-      mpx.setOvertimeCost(getMpxCurrency(xml.getOvertimeCost()));
-      mpx.setOvertimeRate(getHourlyRate(xml.getOvertimeRate()));
-      mpx.setOvertimeRateFormat(TimeUnit.getInstance(getInt(xml.getOvertimeRateFormat())-1));
-      mpx.setOvertimeWork(getDuration (xml.getOvertimeWork()));
-      mpx.setPeakUnits(new Double(xml.getPeakUnits() * 100));
+      mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
+      mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate()));
+      mpx.setOvertimeRateFormat(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
+      mpx.setOvertimeWork(DatatypeConverter.parseDuration (xml.getOvertimeWork()));
+      mpx.setPeakUnits(DatatypeConverter.parseUnits(xml.getPeakUnits()));
       mpx.setPercentWorkComplete(xml.getPercentWorkComplete());
       mpx.setPhonetics(xml.getPhonetics());
-      mpx.setRegularWork(getDuration(xml.getRegularWork()));
-      mpx.setRemainingCost(getMpxCurrency(xml.getRemainingCost()));
-      mpx.setRemainingOvertimeCost(getMpxCurrency(xml.getRemainingOvertimeCost()));
-      mpx.setRemainingWork(getDuration (xml.getRemainingWork()));
-      mpx.setRemainingOvertimeWork(getDuration(xml.getRemainingOvertimeWork()));
-      mpx.setStandardRate(getHourlyRate(xml.getStandardRate()));
-      mpx.setStandardRateFormat(TimeUnit.getInstance(getInt(xml.getStandardRateFormat())-1));
-      mpx.setStart(getDate(xml.getStart()));
-      mpx.setSV(new Double(xml.getSV()));
-      mpx.setType(ResourceType.getInstance(getInt(xml.getType())));
-      mpx.setUniqueID(getInteger(xml.getUID()));
-      mpx.setWork(getDuration (xml.getWork()));
-      mpx.setWorkGroup(WorkGroup.getInstance(getInt(xml.getWorkGroup())));
-      mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
+      mpx.setRegularWork(DatatypeConverter.parseDuration(xml.getRegularWork()));
+      mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
+      mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
+      mpx.setRemainingWork(DatatypeConverter.parseDuration (xml.getRemainingWork()));
+      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(xml.getRemainingOvertimeWork()));
+      mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate()));
+      mpx.setStandardRateFormat(DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
+      mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
+      mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
+      mpx.setType(DatatypeConverter.parseResourceType(xml.getType()));
+      mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
+      mpx.setWork(DatatypeConverter.parseDuration (xml.getWork()));
+      mpx.setWorkGroup(DatatypeConverter.parseWorkGroup(xml.getWorkGroup()));
+      mpx.setWorkVariance(DatatypeConverter.parseDurationInMinutes(xml.getWorkVariance()));
 
       readResourceExtendedAttributes (xml, mpx);
 
@@ -791,45 +777,7 @@ public class MSPDIFile extends MPXFile
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)RESOURCE_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
          dataType = ((Integer)RESOURCE_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
-
-         switch (dataType)
-         {
-            case STRING_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), attrib.getValue());
-               break;
-            }
-
-            case DATE_ATTRIBUTE:
-            {
-               mpx.setDate(mpxFieldID.intValue(), parseXsdDateTime(attrib.getValue()));
-               break;
-            }
-
-            case CURRENCY_ATTRIBUTE:
-            {
-               mpx.setCurrency(mpxFieldID.intValue(), new Double(Double.parseDouble(attrib.getValue())/100));
-               break;
-            }
-
-            case BOOLEAN_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), (attrib.getValue().equals("1")?Boolean.TRUE:Boolean.FALSE));
-               break;
-            }
-
-            case NUMERIC_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), new Double(attrib.getValue()));
-               break;
-            }
-
-            case DURATION_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), getDuration(attrib.getValue()));
-               break;
-            }
-         }
+         DatatypeConverter.parseExtendedAttribute(mpx, attrib.getValue(), mpxFieldID, dataType);         
       }
    }
 
@@ -874,16 +822,16 @@ public class MSPDIFile extends MPXFile
    {
       Task mpx = addTask ();
 
-      mpx.setActualCost(getMpxCurrency (xml.getActualCost()));
-      mpx.setActualDuration(getDuration (xml.getActualDuration()));
-      mpx.setActualFinish(getDate (xml.getActualFinish()));
-      mpx.setActualOvertimeCost(getMpxCurrency(xml.getActualOvertimeCost()));
-      mpx.setActualOvertimeWork(getDuration (xml.getActualOvertimeWork()));
-      mpx.setActualOvertimeWorkProtected(getDuration(xml.getActualOvertimeWorkProtected()));
-      mpx.setActualStart(getDate (xml.getActualStart()));
-      mpx.setActualWork(getDuration (xml.getActualWork()));
-      mpx.setActualWorkProtected(getDuration(xml.getActualWorkProtected()));
-      mpx.setACWP(new Double(xml.getACWP()));
+      mpx.setActualCost(DatatypeConverter.parseCurrency (xml.getActualCost()));
+      mpx.setActualDuration(DatatypeConverter.parseDuration (xml.getActualDuration()));
+      mpx.setActualFinish(DatatypeConverter.parseDate (xml.getActualFinish()));
+      mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
+      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration (xml.getActualOvertimeWork()));
+      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(xml.getActualOvertimeWorkProtected()));
+      mpx.setActualStart(DatatypeConverter.parseDate (xml.getActualStart()));
+      mpx.setActualWork(DatatypeConverter.parseDuration (xml.getActualWork()));
+      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(xml.getActualWorkProtected()));
+      mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
       //mpx.setBaselineCost();
       //mpx.setBaselineDuration();
       //mpx.setBaselineFinish();
@@ -893,42 +841,42 @@ public class MSPDIFile extends MPXFile
       //mpx.setBCWS();
       mpx.setCalendarName(getTaskCalendarName(xml));
       //mpx.setConfirmed();
-      mpx.setConstraintDate(getDate(xml.getConstraintDate()));
-      mpx.setConstraintType(ConstraintType.getInstance(xml.getConstraintType()));
+      mpx.setConstraintDate(DatatypeConverter.parseDate(xml.getConstraintDate()));
+      mpx.setConstraintType(DatatypeConverter.parseConstraintType(xml.getConstraintType()));
       mpx.setContact(xml.getContact());
-      mpx.setCost(getMpxCurrency(xml.getCost()));
+      mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
       //mpx.setCost1();
       //mpx.setCost2();
       //mpx.setCost3();
       //mpx.setCostVariance();
-      mpx.setCreateDate(getDate(xml.getCreateDate()));
+      mpx.setCreateDate(DatatypeConverter.parseDate(xml.getCreateDate()));
       mpx.setCritical(xml.isCritical());
-      mpx.setCV(xml.getCV()/100);
-      mpx.setDeadline(getDate(xml.getDeadline()));
+      mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
+      mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
       //mpx.setDelay();
-      mpx.setDuration(getDuration (xml.getDuration()));
-      mpx.setDurationFormat(getMpxDurationTimeUnits(xml.getDurationFormat()));
+      mpx.setDuration(DatatypeConverter.parseDuration (xml.getDuration()));
+      mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
       //mpx.setDuration1();
       //mpx.setDuration2();
       //mpx.setDuration3();
       //mpx.setDurationVariance();
-      mpx.setEarlyFinish(getDate(xml.getEarlyFinish()));
-      mpx.setEarlyStart(getDate(xml.getEarlyStart()));
-      mpx.setEarnedValueMethod(EarnedValueMethod.getInstance(getInt(xml.getEarnedValueMethod())));
+      mpx.setEarlyFinish(DatatypeConverter.parseDate(xml.getEarlyFinish()));
+      mpx.setEarlyStart(DatatypeConverter.parseDate(xml.getEarlyStart()));
+      mpx.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(xml.getEarnedValueMethod()));
       mpx.setEffortDriven(xml.isEffortDriven());
       mpx.setEstimated(xml.isEstimated());
       mpx.setExternalTask(xml.isExternalTask());
       mpx.setExternalTaskProject(xml.getExternalTaskProject());
-      mpx.setFinish(getDate(xml.getFinish()));
+      mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
       //mpx.setFinish1();
       //mpx.setFinish2();
       //mpx.setFinish3();
       //mpx.setFinish4();
       //mpx.setFinish5();
-      mpx.setFinishVariance(getMinutesDuration(xml.getFinishVariance()));
+      mpx.setFinishVariance(DatatypeConverter.parseDurationInMinutes(xml.getFinishVariance()));
       //mpx.setFixed();
-      mpx.setFixedCost(xml.getFixedCost()/100);
-      mpx.setFixedCostAccrual(AccrueType.getInstance(xml.getFixedCostAccrual(), Locale.ENGLISH));
+      mpx.setFixedCost(DatatypeConverter.parseCurrency(xml.getFixedCost()));
+      mpx.setFixedCostAccrual(DatatypeConverter.parseAccrueType(NumberUtility.getInteger(xml.getFixedCostAccrual())));
       //mpx.setFlag1();
       //mpx.setFlag2();
       //mpx.setFlag3();
@@ -939,18 +887,18 @@ public class MSPDIFile extends MPXFile
       //mpx.setFlag8();
       //mpx.setFlag9();
       //mpx.setFlag10();
-      mpx.setFreeSlack(getMinutesDuration(xml.getFreeSlack()));
+      mpx.setFreeSlack(DatatypeConverter.parseDurationInMinutes(xml.getFreeSlack()));
       mpx.setHideBar(xml.isHideBar());
       mpx.setHyperlink(xml.getHyperlink());
       mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
       mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
-      mpx.setID(getInteger(xml.getID()));
+      mpx.setID(NumberUtility.getInteger(xml.getID()));
       mpx.setIgnoreResourceCalendar(xml.isIgnoreResourceCalendar());
-      mpx.setLateFinish(getDate(xml.getLateFinish()));
-      mpx.setLateStart(getDate(xml.getLateStart()));
+      mpx.setLateFinish(DatatypeConverter.parseDate(xml.getLateFinish()));
+      mpx.setLateStart(DatatypeConverter.parseDate(xml.getLateStart()));
       mpx.setLevelAssignments(xml.isLevelAssignments());
       mpx.setLevelingCanSplit(xml.isLevelingCanSplit());
-      mpx.setLevelingDelayFormat(getMpxDurationTimeUnits(xml.getLevelingDelayFormat()));
+      mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
       if (xml.getLevelingDelay() != null && mpx.getLevelingDelayFormat() != null)
       {
          mpx.setLevelingDelay(new MPXDuration (xml.getLevelingDelay().doubleValue(), mpx.getLevelingDelayFormat()));
@@ -972,40 +920,40 @@ public class MSPDIFile extends MPXFile
       //mpx.setNumber5();
       //mpx.setObjects();
       mpx.setNull(xml.isIsNull());
-      mpx.setOutlineLevel(getInteger(xml.getOutlineLevel()));
+      mpx.setOutlineLevel(NumberUtility.getInteger(xml.getOutlineLevel()));
       mpx.setOutlineNumber(xml.getOutlineNumber());
       mpx.setOverAllocated(xml.isOverAllocated());
-      mpx.setOvertimeCost(getMpxCurrency(xml.getOvertimeCost()));
-      mpx.setOvertimeWork(getDuration(xml.getOvertimeWork()));
+      mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
+      mpx.setOvertimeWork(DatatypeConverter.parseDuration(xml.getOvertimeWork()));
       mpx.setPercentageComplete(xml.getPercentComplete());
       mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
-      mpx.setPhysicalPercentComplete(getInteger(xml.getPhysicalPercentComplete()));
-      mpx.setPreleveledFinish(getDate(xml.getPreLeveledFinish()));
-      mpx.setPreleveledStart(getDate(xml.getPreLeveledStart()));
-      mpx.setPriority(getMpxPriority(xml.getPriority()));
+      mpx.setPhysicalPercentComplete(NumberUtility.getInteger(xml.getPhysicalPercentComplete()));
+      mpx.setPreleveledFinish(DatatypeConverter.parseDate(xml.getPreLeveledFinish()));
+      mpx.setPreleveledStart(DatatypeConverter.parseDate(xml.getPreLeveledStart()));
+      mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
       //mpx.setProject();
       mpx.setRecurring(xml.isRecurring());
-      mpx.setRegularWork(getDuration(xml.getRegularWork()));
-      mpx.setRemainingCost(getMpxCurrency(xml.getRemainingCost()));
-      mpx.setRemainingDuration(getDuration(xml.getRemainingDuration()));
-      mpx.setRemainingOvertimeCost(getMpxCurrency(xml.getRemainingOvertimeCost()));
-      mpx.setRemainingOvertimeWork(getDuration (xml.getRemainingOvertimeWork()));
-      mpx.setRemainingWork(getDuration (xml.getRemainingWork()));
+      mpx.setRegularWork(DatatypeConverter.parseDuration(xml.getRegularWork()));
+      mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
+      mpx.setRemainingDuration(DatatypeConverter.parseDuration(xml.getRemainingDuration()));
+      mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
+      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration (xml.getRemainingOvertimeWork()));
+      mpx.setRemainingWork(DatatypeConverter.parseDuration (xml.getRemainingWork()));
       //mpx.setResourceGroup();
       //mpx.setResourceInitials();
       //mpx.setResourceNames();
-      mpx.setResume(getDate(xml.getResume()));
+      mpx.setResume(DatatypeConverter.parseDate(xml.getResume()));
       mpx.setResumeValid(xml.isResumeValid());
       //mpx.setResumeNoEarlierThan();
       mpx.setRollup(xml.isRollup());
-      mpx.setStart(getDate(xml.getStart()));
+      mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
       //mpx.setStart1();
       //mpx.setStart2();
       //mpx.setStart3();
       //mpx.setStart4();
       //mpx.setStart5();
-      mpx.setStartVariance(getMinutesDuration(xml.getStartVariance()));
-      mpx.setStop(getDate(xml.getStop()));
+      mpx.setStartVariance(DatatypeConverter.parseDurationInMinutes(xml.getStartVariance()));
+      mpx.setStop(DatatypeConverter.parseDate(xml.getStop()));
       mpx.setSubproject(xml.isIsSubproject());
       mpx.setSubprojectName(xml.getSubprojectName());
       mpx.setSubprojectReadOnly(xml.isIsSubprojectReadOnly());
@@ -1022,14 +970,14 @@ public class MSPDIFile extends MPXFile
       //mpx.setText8();
       //mpx.setText9();
       //mpx.setText10();
-      mpx.setTotalSlack(getMinutesDuration(xml.getTotalSlack()));
-      mpx.setType(TaskType.getInstance(getInt(xml.getType())));
-      mpx.setUniqueID(getInteger(xml.getUID()));
+      mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
+      mpx.setType(DatatypeConverter.parseTaskType(xml.getType()));
+      mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
       //mpx.setUpdateNeeded();
       mpx.setWBS(xml.getWBS());
       mpx.setWBSLevel (xml.getWBSLevel());
-      mpx.setWork(getDuration(xml.getWork()));
-      mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
+      mpx.setWork(DatatypeConverter.parseDuration(xml.getWork()));
+      mpx.setWorkVariance(new MPXDuration (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
 
       readTaskExtendedAttributes(xml, mpx);
 
@@ -1061,45 +1009,7 @@ public class MSPDIFile extends MPXFile
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)TASK_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
          dataType = ((Integer)TASK_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
-
-         switch (dataType)
-         {
-            case STRING_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), attrib.getValue());
-               break;
-            }
-
-            case DATE_ATTRIBUTE:
-            {
-               mpx.setDate(mpxFieldID.intValue(), parseXsdDateTime(attrib.getValue()));
-               break;
-            }
-
-            case CURRENCY_ATTRIBUTE:
-            {
-               mpx.setCurrency(mpxFieldID.intValue(), new Double(Double.parseDouble(attrib.getValue())/100));
-               break;
-            }
-
-            case BOOLEAN_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), (attrib.getValue().equals("1")?Boolean.TRUE:Boolean.FALSE));
-               break;
-            }
-
-            case NUMERIC_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), new Double(attrib.getValue()));
-               break;
-            }
-
-            case DURATION_ATTRIBUTE:
-            {
-               mpx.set(mpxFieldID.intValue(), getDuration(attrib.getValue()));
-               break;
-            }
-         }
+         DatatypeConverter.parseExtendedAttribute(mpx, attrib.getValue(), mpxFieldID, dataType);         
       }
    }
 
@@ -1237,27 +1147,27 @@ public class MSPDIFile extends MPXFile
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
 
-            mpx.setActualCost(getMpxCurrency(assignment.getActualCost()));
+            mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             //assignment.getActualFinish()
             //assignment.getActualOvertimeCost()
             //assignment.getActualOvertimeWork()
             //assignment.getActualOvertimeWorkProtected()
             //assignment.getActualStart()
-            mpx.setActualWork(getDuration(assignment.getActualWork()));
+            mpx.setActualWork(DatatypeConverter.parseDuration(assignment.getActualWork()));
             //assignment.getActualWorkProtected()
             //assignment.getACWP()
             //assignment.getBaseline()
             //assignment.getBCWP()
             //assignment.getBCWS()
             //assignment.getBookingType()
-            mpx.setCost(getMpxCurrency(assignment.getCost()));
+            mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
             //assignment.getCostRateTable()
             //assignment.getCostVariance()
             //assignment.getCreationDate()
             //assignment.getCV()
-            mpx.setDelay(getMinutesDuration(assignment.getDelay()));
+            mpx.setDelay(DatatypeConverter.parseDurationInMinutes(assignment.getDelay()));
             //assignment.getExtendedAttribute()
-            mpx.setFinish(getDate(assignment.getFinish()));
+            mpx.setFinish(DatatypeConverter.parseDate(assignment.getFinish()));
             //assignment.getFinishVariance()
             //assignment.getHyperlink()
             //assignment.getHyperlinkAddress()
@@ -1266,7 +1176,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getLevelingDelayFormat()
             //assignment.getNotes()
             //assignment.getOvertimeCost()
-            mpx.setOvertimeWork(getDuration(assignment.getOvertimeWork()));
+            mpx.setOvertimeWork(DatatypeConverter.parseDuration(assignment.getOvertimeWork()));
             //assignment.getPercentWorkComplete()
             //mpx.setPlannedCost();
             //mpx.setPlannedWork();
@@ -1274,498 +1184,19 @@ public class MSPDIFile extends MPXFile
             //assignment.getRemainingCost()
             //assignment.getRemainingOvertimeCost()
             //assignment.getRemainingOvertimeWork()
-            mpx.setRemainingWork(getDuration(assignment.getRemainingWork()));
+            mpx.setRemainingWork(DatatypeConverter.parseDuration(assignment.getRemainingWork()));
             //assignment.getResume()
-            mpx.setStart(getDate(assignment.getStart()));
+            mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
             //assignment.getStartVariance()
             //assignment.getStop()
             //assignment.getTimephasedData()
-            mpx.setUnits(assignment.getUnits()*100);
+            mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
             //assignment.getVAC()
-            mpx.setWork(getDuration(assignment.getWork()));
-            mpx.setWorkContour(WorkContour.getInstance(getInt(assignment.getWorkContour())));
+            mpx.setWork(DatatypeConverter.parseDuration(assignment.getWork()));
+            mpx.setWorkContour(DatatypeConverter.parseWorkContour(assignment.getWorkContour()));
             //assignment.getWorkVariance()
          }
       }
-   }
-
-   /**
-    * Utility method used to convert a BigInteger into an Integer.
-    *
-    * @param value BigInteger value
-    * @return Integer value
-    */
-   private Integer getInteger (BigInteger value)
-   {
-      Integer result = null;
-
-      if (value != null)
-      {
-         result = new Integer (value.intValue());
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method used to convert a BigInteger into an int.
-    * Handles null values.
-    *
-    * @param value BigInteger value
-    * @return Integer value
-    */
-   private int getInt (BigInteger value)
-   {
-      int result;
-
-      if (value != null)
-      {
-         result = value.intValue();
-      }
-      else
-      {
-         result = 0;
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert an accrure type instance into its int
-    * equivalent. Handles null values.
-    *
-    * @param type accrue type object
-    * @return accrue type value
-    */
-   private int getAccrueType (AccrueType type)
-   {
-      return ((type==null?AccrueType.PRORATED_VALUE:type.getType()));
-   }
-
-   private BigInteger getResourceType (ResourceType type)
-   {
-      return (type==null?BigInteger.valueOf(ResourceType.WORK_VALUE):BigInteger.valueOf(type.getValue()));
-   }
-
-   private BigInteger getWorkGroup (WorkGroup workGroup)
-   {
-      return (workGroup==null?BigInteger.valueOf(WorkGroup.DEFAULT_VALUE):BigInteger.valueOf(workGroup.getValue()));
-   }
-
-   private BigInteger getWorkContour (WorkContour workContour)
-   {
-      return (workContour==null?BigInteger.valueOf(WorkContour.FLAT_VALUE):BigInteger.valueOf(workContour.getValue()));
-   }
-
-   private BigInteger getBookingType (BookingType bookingType)
-   {
-      return (bookingType==null?BigInteger.valueOf(BookingType.COMMITTED_VALUE):BigInteger.valueOf(bookingType.getValue()));
-   }
-
-   private BigInteger getTaskType (TaskType taskType)
-   {
-      return (taskType==null?BigInteger.valueOf(TaskType.FIXED_UNITS_VALUE):BigInteger.valueOf(taskType.getValue()));
-   }
-
-   private BigInteger getEarnedValueMethod (EarnedValueMethod earnedValueMethod)
-   {
-      return (earnedValueMethod==null?BigInteger.valueOf(EarnedValueMethod.PERCENT_COMPLETE_VALUE):BigInteger.valueOf(earnedValueMethod.getValue()));
-   }
-
-   /**
-    * Utility method to convert a time unit instance into its int
-    * equivalent. Handles null values.
-    *
-    * @param unit time unit instance
-    * @return accrue type value
-    */
-   private int getTimeUnit (TimeUnit unit)
-   {
-      return (unit==null?TimeUnit.DAYS_VALUE:unit.getValue());
-   }
-
-   /**
-    * Retrieve a boolean value from a Boolean object. Handles
-    * null values.
-    *
-    * @param value boolean value
-    * @return boolean value
-    */
-   private boolean getBoolean (Boolean value)
-   {
-      return ((value==null?false:value.booleanValue()));
-   }
-
-   /**
-    * Utility method used to convert a Number into a BigInteger.
-    *
-    * @param value Integer value
-    * @return BigInteger value
-    */
-   private BigInteger getBigInteger (Number value)
-   {
-      BigInteger result = null;
-
-      if (value != null)
-      {
-         result = BigInteger.valueOf(value.longValue());
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method used to convert a Number into a float.
-    *
-    * @param value Integer value
-    * @return BigInteger value
-    */
-   private float getFloat (Number value)
-   {
-      float result;
-
-      if (value != null)
-      {
-         result = value.floatValue();
-      }
-      else
-      {
-         result = 0;
-      }
-
-      return (result);
-   }
-
-   /**
-    * Convenience method to convert from MPXJ units to XML units.
-    *
-    * @param units MPXJ units value
-    * @return XML units value
-    */
-   private float getUnits (Number units)
-   {
-      float result;
-
-      if (units == null)
-      {
-         result = 1.0f;
-      }
-      else
-      {
-         result = units.floatValue() / 100;
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility to convert a Calendar instance into a Date instance.
-    *
-    * @param value Calendar value
-    * @return Date value
-    */
-   private Date getDate (Calendar value)
-   {
-      Date result = null;
-
-      if (value != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.YEAR, value.get(Calendar.YEAR));
-         cal.set(Calendar.MONTH, value.get(Calendar.MONTH));
-         cal.set(Calendar.DAY_OF_MONTH, value.get(Calendar.DAY_OF_MONTH));
-         cal.set(Calendar.HOUR_OF_DAY, value.get(Calendar.HOUR_OF_DAY));
-         cal.set(Calendar.MINUTE, value.get(Calendar.MINUTE));
-         cal.set(Calendar.SECOND, value.get(Calendar.SECOND));
-         cal.set(Calendar.MILLISECOND, value.get(Calendar.MILLISECOND));
-         result = cal.getTime();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility to convert a Calendar instance into a Date instance. Note this
-    * is used specifically to alleviate a problem where data in the MSPDI
-    * file contains only a time component, with no date component. If
-    * the getDate method was used in this instance, the returned time component
-    * in the calendar would be incorrect.
-    *
-    * @param value Calendar value
-    * @return Date value
-    */
-   private Date getTime (Calendar value)
-   {
-      Date result = null;
-
-      if (value != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.HOUR_OF_DAY, value.get(Calendar.HOUR_OF_DAY));
-         cal.set(Calendar.MINUTE, value.get(Calendar.MINUTE));
-         cal.set(Calendar.SECOND, value.get(Calendar.SECOND));
-         cal.set(Calendar.MILLISECOND, value.get(Calendar.MILLISECOND));
-         result = cal.getTime();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility to convert a Date instance into a Calendar instance.
-    *
-    * @param date Date value
-    * @return Calendar value
-    */
-   private Calendar getCalendar (Date date)
-   {
-      Calendar cal = null;
-
-      if (date != null)
-      {
-         cal = Calendar.getInstance();
-         cal.setTime(date);
-      }
-
-      return (cal);
-   }
-
-   /**
-    * Utility method to convert a BigInteger into
-    * work units.
-    *
-    * @param value BigInteger value
-    * @return work units
-    */
-   private TimeUnit getMpxWorkTimeUnits (BigInteger value)
-   {
-      TimeUnit result = TimeUnit.HOURS;
-
-      if (value != null)
-      {
-         switch (value.intValue())
-         {
-            case 1:
-            {
-               result = TimeUnit.MINUTES;
-               break;
-            }
-
-            case 3:
-            {
-               result = TimeUnit.DAYS;
-               break;
-            }
-
-            case 4:
-            {
-               result = TimeUnit.WEEKS;
-               break;
-            }
-
-            case 5:
-            {
-               result = TimeUnit.MONTHS;
-               break;
-            }
-
-            case 7:
-            {
-               result = TimeUnit.YEARS;
-               break;
-            }
-
-            default:
-            case 2:
-            {
-               result = TimeUnit.HOURS;
-               break;
-            }
-         }
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert a work units to a BigInteger value.
-    *
-    * @param value work units
-    * @return BigInteger value
-    */
-   private BigInteger getXmlWorkUnits (TimeUnit value)
-   {
-      int result;
-
-      if (value == null)
-      {
-         value = TimeUnit.HOURS;
-      }
-
-      switch (value.getValue())
-      {
-         case TimeUnit.MINUTES_VALUE:
-         {
-            result = 1;
-            break;
-         }
-
-         case TimeUnit.DAYS_VALUE:
-         {
-            result = 3;
-            break;
-         }
-
-         case TimeUnit.WEEKS_VALUE:
-         {
-            result = 4;
-            break;
-         }
-
-         case TimeUnit.MONTHS_VALUE:
-         {
-            result = 5;
-            break;
-         }
-
-         case TimeUnit.YEARS_VALUE:
-         {
-            result = 7;
-            break;
-         }
-
-         default:
-         case TimeUnit.HOURS_VALUE:
-         {
-            result = 2;
-            break;
-         }
-      }
-
-      return (BigInteger.valueOf(result));
-   }
-
-   /**
-    * Utility method to convert an xsd:duration into an MPXDuration.
-    *
-    * @param text xsd:duration value
-    * @return MPXDuration
-    */
-   private MPXDuration getDuration (String text)
-   {
-      MPXDuration result = null;
-
-      if (text != null && text.length() != 0)
-      {
-         XsdDuration xsd = new XsdDuration (text);
-         TimeUnit units = TimeUnit.DAYS;
-
-         if (xsd.getSeconds() != 0 || xsd.getMinutes() != 0)
-         {
-            units = TimeUnit.MINUTES;
-         }
-
-         if (xsd.getHours() != 0)
-         {
-            units = TimeUnit.HOURS;
-         }
-
-         if (xsd.getDays() != 0)
-         {
-            units = TimeUnit.DAYS;
-         }
-
-         if (xsd.getMonths() != 0)
-         {
-            units = TimeUnit.MONTHS;
-         }
-
-         if (xsd.getYears() != 0)
-         {
-            units = TimeUnit.YEARS;
-         }
-
-         int duration = 0;
-
-         switch (units.getValue())
-         {
-            case TimeUnit.YEARS_VALUE:
-            case TimeUnit.ELAPSED_YEARS_VALUE:
-            {
-               duration += xsd.getYears();
-               duration += (xsd.getMonths() / 12);
-               duration += (xsd.getDays() / 365);
-               duration += (xsd.getHours() / (365 * 24));
-               duration += (xsd.getMinutes() / (365 * 24 * 60));
-               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
-               break;
-            }
-
-            case TimeUnit.MONTHS_VALUE:
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
-            {
-               duration += (xsd.getYears() * 12);
-               duration += xsd.getMonths();
-               duration += (xsd.getDays() / 30);
-               duration += (xsd.getHours() / (30 * 24));
-               duration += (xsd.getMinutes() / (30 * 24 * 60));
-               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               break;
-            }
-
-            case TimeUnit.WEEKS_VALUE:
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
-            {
-               duration += (xsd.getYears() * 52);
-               duration += (xsd.getMonths() * 4);
-               duration += (xsd.getDays() / 7);
-               duration += (xsd.getHours() / (7 * 24));
-               duration += (xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
-               break;
-            }
-
-            case TimeUnit.DAYS_VALUE:
-            case TimeUnit.ELAPSED_DAYS_VALUE:
-            {
-               duration += (xsd.getYears() * 365);
-               duration += (xsd.getMonths() * 30);
-               duration += xsd.getDays();
-               duration += (xsd.getHours() / 24);
-               duration += (xsd.getMinutes() / (24 * 60));
-               duration += (xsd.getSeconds() / (24 * 60 * 60));
-               break;
-            }
-
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
-            {
-               duration += (xsd.getYears() * (365 * 24));
-               duration += (xsd.getMonths() * (30 * 24));
-               duration += (xsd.getDays() * 24);
-               duration += xsd.getHours();
-               duration += (xsd.getMinutes() / 60);
-               duration += (xsd.getSeconds() / (60 * 60));
-               break;
-            }
-
-            case TimeUnit.MINUTES_VALUE:
-            case TimeUnit.ELAPSED_MINUTES_VALUE:
-            {
-               duration += (xsd.getYears() * (365 * 24 * 60));
-               duration += (xsd.getMonths() * (30 * 24 * 60));
-               duration += (xsd.getDays() * (24 * 60));
-               duration += (xsd.getHours() * 60);
-               duration += xsd.getMinutes();
-               duration += (xsd.getSeconds() / 60);
-               break;
-            }
-         }
-
-         result = new MPXDuration (duration, units);
-      }
-
-      return (result);
    }
 
    /**
@@ -1773,7 +1204,7 @@ public class MSPDIFile extends MPXFile
     * 
     * @return hours per day
     */
-   private float getDefaultHoursPerDay ()
+   float getDefaultHoursPerDay ()
    {
       float result;
       Float value = getProjectHeader().getDefaultHoursInDay();
@@ -1793,7 +1224,7 @@ public class MSPDIFile extends MPXFile
     * 
     * @return hours per week
     */
-   private float getDefaultHoursPerWeek ()
+   float getDefaultHoursPerWeek ()
    {
       float result;
       Float value = getProjectHeader().getDefaultHoursInWeek();
@@ -1808,625 +1239,6 @@ public class MSPDIFile extends MPXFile
       return (result);
    }
    
-   /**
-    * Utility method to convert an MPXDuration into an xsd:duration.
-    *
-    * Note that Microsoft's xsd:duration parser implementation does not
-    * appear to recognise durations other than those expressed in hours.
-    * We use the compatibility flag to determine whether the output
-    * is adjusted for the benefit of Microsoft Project.
-    *
-    * @todo The conversion from arbitrary durations to hours does not use a calendar
-    * @param duration MPXDuration value
-    * @return xsd:duration value
-    */
-   private String getDuration (MPXDuration duration)
-   {
-      String result = null;
-
-      if (duration == null)
-      {
-         result = ZERO_DURATION;
-      }
-      else
-      {
-         TimeUnit durationType = duration.getUnits();
-
-         if (m_compatibleOutput == false || durationType.getValue() == TimeUnit.HOURS_VALUE || durationType.getValue() == TimeUnit.ELAPSED_HOURS_VALUE)
-         {
-            result = new XsdDuration(duration).toString();
-         }
-         else
-         {
-            double hours = duration.getDuration();
-
-            switch (durationType.getValue())
-            {
-               case TimeUnit.MINUTES_VALUE:
-               case TimeUnit.ELAPSED_MINUTES_VALUE:
-               {
-                  hours = duration.getDuration() / 60;
-                  break;
-               }
-
-               case TimeUnit.DAYS_VALUE:
-               {
-                  hours *= getDefaultHoursPerDay();
-                  break;
-               }
-
-               case TimeUnit.ELAPSED_DAYS_VALUE:
-               {
-                  hours *= 24;
-                  break;
-               }
-               
-               case TimeUnit.WEEKS_VALUE:
-               {
-                  hours *= getDefaultHoursPerWeek();
-                  break;
-               }
-
-               case TimeUnit.ELAPSED_WEEKS_VALUE:
-               {
-                  hours *= (24 * 7);
-                  break;
-               }
-               
-               case TimeUnit.MONTHS_VALUE:
-               {
-                  hours *= (getDefaultHoursPerWeek() * 4);
-                  break;
-               }
-
-               case TimeUnit.ELAPSED_MONTHS_VALUE:
-               {
-                  hours *= (24 * 7 * 4);
-                  break;
-               }
-               
-               case TimeUnit.YEARS_VALUE:
-               {
-                  hours *= (getDefaultHoursPerWeek() * 52);
-                  break;
-               }
-               
-               case TimeUnit.ELAPSED_YEARS_VALUE:
-               {
-                  hours *= (24 * 7 * 52);
-                  break;
-               }               
-            }
-
-            result = new XsdDuration(new MPXDuration (hours, TimeUnit.HOURS)).toString();
-         }
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert an MPXDuration into an xsd:duration.
-    *
-    * @param duration MPXDuration value
-    * @return xsd:duration value
-    */
-   private BigInteger getDurationFormat (MPXDuration duration)
-   {
-      BigInteger result = null;
-
-      if (duration != null)
-      {
-         result = getXmlDurationUnits(duration.getUnits());
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert a BigInteger into a symbol position.
-    *
-    * @param position BigInteger position value
-    * @return Symbol position
-    */
-   private CurrencySymbolPosition getMpxSymbolPosition (BigInteger position)
-   {
-      CurrencySymbolPosition result = CurrencySymbolPosition.BEFORE;
-
-      if (position != null)
-      {
-         switch (position.intValue())
-         {
-            case 0:
-            {
-               result = CurrencySymbolPosition.BEFORE;
-               break;
-            }
-
-            case 1:
-            {
-               result = CurrencySymbolPosition.AFTER;
-               break;
-            }
-
-            case 2:
-            {
-               result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
-               break;
-            }
-
-            case 3:
-            {
-               result = CurrencySymbolPosition.AFTER_WITH_SPACE;
-               break;
-            }
-         }
-      }
-
-      return (result);
-   }
-
-
-   /**
-    * Utility method to convert a symbol position into a BigInteger.
-    *
-    * @param position symbol position
-    * @return Symbol position
-    */
-   private BigInteger getXmlSymbolPosition (CurrencySymbolPosition position)
-   {
-      int result;
-
-      switch (position.getValue())
-      {
-         default:
-         case CurrencySymbolPosition.BEFORE_VALUE:
-         {
-            result = 0;
-            break;
-         }
-
-         case CurrencySymbolPosition.AFTER_VALUE:
-         {
-            result = 1;
-            break;
-         }
-
-         case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
-         {
-            result = 2;
-            break;
-         }
-
-         case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
-         {
-            result = 3;
-            break;
-         }
-      }
-
-      return (BigInteger.valueOf(result));
-   }
-
-
-   /**
-    * Utility method to convert a BigDecimal into a currency value.
-    *
-    * @param value BigDecimal value
-    * @return Currency value
-    */
-   private Double getMpxCurrency (BigDecimal value)
-   {
-      Double result = null;
-
-      if (value != null)
-      {
-         result = new Double (value.doubleValue() / 100);
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert a BigDecimal into a currency value.
-    *
-    * @param value Currency value
-    * @return BigDecimal value
-    */
-   private BigDecimal getXmlCurrency (Number value)
-   {
-      BigDecimal result = null;
-
-      if (value != null)
-      {
-         result = new BigDecimal (value.doubleValue() * 100);
-      }
-      else
-      {
-         result = BIGDECIMAL_ZERO;
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert a BigInteger value into duration units.
-    * Note that we don't differentiate between confirmed and unconfirmed
-    * durations. Unrecognised duration types are default to hours.
-    *
-    * @param value BigInteger value
-    * @return Duration units
-    */
-   private TimeUnit getMpxDurationTimeUnits (BigInteger value)
-   {
-      TimeUnit result = TimeUnit.HOURS;
-
-      if (value != null)
-      {
-         switch (value.intValue())
-         {
-            case 3:
-            case 35:
-            {
-               result = TimeUnit.MINUTES;
-               break;
-            }
-
-            case 4:
-            case 36:
-            {
-               result = TimeUnit.ELAPSED_MINUTES;
-               break;
-            }
-
-            case 5:
-            case 37:
-            {
-               result = TimeUnit.HOURS;
-               break;
-            }
-
-            case 6:
-            case 38:
-            {
-               result = TimeUnit.ELAPSED_HOURS;
-               break;
-            }
-
-            case 7:
-            case 39:
-            {
-               result = TimeUnit.DAYS;
-               break;
-            }
-
-            case 8:
-            case 40:
-            {
-               result = TimeUnit.ELAPSED_DAYS;
-               break;
-            }
-
-            case 9:
-            case 41:
-            {
-               result = TimeUnit.WEEKS;
-               break;
-            }
-
-            case 10:
-            case 42:
-            {
-               result = TimeUnit.ELAPSED_WEEKS;
-               break;
-            }
-
-            case 11:
-            case 43:
-            {
-               result = TimeUnit.MONTHS;
-               break;
-            }
-
-            case 12:
-            case 44:
-            {
-               result = TimeUnit.ELAPSED_MONTHS;
-               break;
-            }
-
-            case 19:
-            case 51:
-            {
-               result = TimeUnit.PERCENT;
-               break;
-            }
-
-            case 20:
-            case 52:
-            {
-               result = TimeUnit.ELAPSED_PERCENT;
-               break;
-            }
-         }
-      }
-
-      return (result);
-   }
-
-   /**
-    * Utility method to convert duration units into a BigInteger value.
-    * Note that we don't differentiate between confirmed and unconfirmed
-    * durations. Unrecognised duration types are default to hours.
-    *
-    * @param value Duration units
-    * @return BigInteger value
-    */
-   private BigInteger getXmlDurationUnits (TimeUnit value)
-   {
-      int result;
-
-      if (value == null)
-      {
-         value = TimeUnit.HOURS;
-      }
-
-      switch (value.getValue())
-      {
-         case TimeUnit.MINUTES_VALUE:
-         {
-            result = 3;
-            break;
-         }
-
-         case TimeUnit.ELAPSED_MINUTES_VALUE:
-         {
-            result = 4;
-            break;
-         }
-
-         case TimeUnit.ELAPSED_HOURS_VALUE:
-         {
-            result = 6;
-            break;
-         }
-
-         case TimeUnit.DAYS_VALUE:
-         {
-            result = 7;
-            break;
-         }
-
-         case TimeUnit.ELAPSED_DAYS_VALUE:
-         {
-            result = 8;
-            break;
-         }
-
-         case TimeUnit.WEEKS_VALUE:
-         {
-            result = 9;
-            break;
-         }
-
-         case TimeUnit.ELAPSED_WEEKS_VALUE:
-         {
-            result = 10;
-            break;
-         }
-
-         case TimeUnit.MONTHS_VALUE:
-         {
-            result = 11;
-            break;
-         }
-
-         case TimeUnit.ELAPSED_MONTHS_VALUE:
-         {
-            result = 12;
-            break;
-         }
-
-         case TimeUnit.PERCENT_VALUE:
-         {
-            result = 19;
-            break;
-         }
-
-         case TimeUnit.ELAPSED_PERCENT_VALUE:
-         {
-            result = 20;
-            break;
-         }
-
-         default:
-         case TimeUnit.HOURS_VALUE:
-         {
-            result = 5;
-            break;
-         }
-      }
-
-      return (BigInteger.valueOf(result));
-   }
-
-
-   /**
-    * Utility method to convert a BigInteger value
-    * into a priority.
-    *
-    * @param priority BigInteger value
-    * @return Priority value
-    */
-   private Priority getMpxPriority (BigInteger priority)
-   {
-      int result = Priority.MEDIUM;
-
-      if (priority != null)
-      {
-         if (priority.intValue() >= 1000)
-         {
-            result = Priority.DO_NOT_LEVEL;
-         }
-         else
-         {
-            result = (priority.intValue() / 100)-1;
-         }
-      }
-
-      return (Priority.getInstance (result));
-   }
-
-   /**
-    * Utility method to convert a priority into a BigInteger value.
-    *
-    * @param priority Priority value
-    * @return BigInteger value
-    */
-   private BigInteger getXmlPriority (Priority priority)
-   {
-      int result = Priority.MEDIUM;
-
-      if (priority != null)
-      {
-         result = (priority.getPriority()+1) * 100;
-      }
-
-      return (BigInteger.valueOf(result));
-   }
-
-   /**
-    * Utility method to convert a duration expressed in minutes * 1000
-    * as a BigInteger into an MPXDuration.
-    *
-    * @param value BigInteger value
-    * @return MPXDuration
-    */
-   private MPXDuration getMinutesDuration (BigInteger value)
-   {
-      MPXDuration result = null;
-
-      if (value != null)
-      {
-         result = new MPXDuration (value.intValue()/1000, TimeUnit.MINUTES);
-      }
-
-      return (result);
-   }
-
-   /**
-    * This method retrieves the cost component of a rate and handles
-    * the case where the rate is a null value.
-    *
-    * @param rate MPXRate value
-    * @return The cost component of an MPXRate
-    */
-   private double getRateCost (MPXRate rate)
-   {
-      double amount = 0;
-
-      if (rate != null)
-      {
-         amount = rate.getAmount();
-      }
-
-      return (amount);
-   }
-
-   /**
-    * Convert a Day instance into a BigInteger instance.
-    * 
-    * @param day Day instance
-    * @return BigInteger instance
-    */
-   private BigInteger getDay (Day day)
-   {
-      BigInteger result = null;
-      
-      if (day != null)
-      {
-         result = BigInteger.valueOf(day.getValue()-1);
-      }
-      
-      return (result);
-   }
-   /**
-    * This method converts an hourly rate expressed as a BigDecimal into
-    * an MPXRate object, handling the case where the rate value is null.
-    *
-    * @param value Hourly rate
-    * @return MPXRate instance
-    */
-   private MPXRate getHourlyRate (BigDecimal value)
-   {
-      MPXRate result = null;
-
-      if (value != null)
-      {
-         result = new MPXRate (value, TimeUnit.HOURS);
-      }
-
-      return (result);
-   }
-
-   /**
-    * This method converts an MPXDuration value into a duration
-    * expressed in minutes.
-    *
-    * @todo This conversion does not use a calendar and is therefore arbitrary.
-    * @param duration MPXDuration value
-    * @return Duration value in minutes
-    */
-   private double getDurationInMinutes (MPXDuration duration)
-   {
-      double result = 0;
-
-      if (duration != null)
-      {
-         result = duration.getDuration();
-
-         switch (duration.getUnits().getValue())
-         {
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
-            {
-               result *= 60;
-               break;
-            }
-
-            case TimeUnit.DAYS_VALUE:
-            case TimeUnit.ELAPSED_DAYS_VALUE:
-            {
-               result *= (60 * 8);
-               break;
-            }
-
-            case TimeUnit.WEEKS_VALUE:
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
-            {
-               result *= (60 * 8 * 5);
-               break;
-            }
-
-            case TimeUnit.MONTHS_VALUE:
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
-            {
-               result *= (60 * 8 * 5 * 4);
-               break;
-            }
-
-            case TimeUnit.YEARS_VALUE:
-            case TimeUnit.ELAPSED_YEARS_VALUE:
-            {
-               result *= (60 * 8 * 5 * 52);
-               break;
-            }
-         }
-      }
-
-      return (result);
-   }
-
    /**
     * This is the main output method provided by this class. It allows
     * project data to be written to an output stream as XML data formatted
@@ -2484,38 +1296,38 @@ public class MSPDIFile extends MPXFile
       project.setAuthor(header.getAuthor());
       project.setAutoAddNewResourcesAndTasks(header.getAutoAddNewResourcesAndTasks());
       project.setAutolink(header.getAutolink());
-      project.setBaselineForEarnedValue(getBigInteger(header.getBaselineForEarnedValue()));
+      project.setBaselineForEarnedValue(NumberUtility.getBigInteger(header.getBaselineForEarnedValue()));
       project.setCalendarUID(BigInteger.ONE);
       project.setCategory(header.getCategory());
       project.setCompany(header.getCompany());
-      project.setCreationDate(getCalendar(header.getCreationDate()));
-      project.setCriticalSlackLimit(getBigInteger(header.getCriticalSlackLimit()));
+      project.setCreationDate(DatatypeConverter.printDate(header.getCreationDate()));
+      project.setCriticalSlackLimit(NumberUtility.getBigInteger(header.getCriticalSlackLimit()));
       project.setCurrencyDigits(BigInteger.valueOf (header.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(header.getCurrencySymbol());
-      project.setCurrencySymbolPosition(getXmlSymbolPosition (header.getSymbolPosition()));
-      project.setCurrentDate(getCalendar(header.getCurrentDate()));
-      project.setDaysPerMonth(getBigInteger(header.getDaysPerMonth()));
-      project.setDefaultFinishTime(getCalendar (header.getDefaultEndTime()));
-      project.setDefaultFixedCostAccrual(BigInteger.valueOf(getAccrueType(header.getDefaultFixedCostAccrual())));
-      project.setDefaultOvertimeRate((float)getRateCost(header.getDefaultOvertimeRate()));
-      project.setDefaultStandardRate((float)getRateCost(header.getDefaultStandardRate()));
-      project.setDefaultStartTime(getCalendar (header.getDefaultStartTime()));
-      project.setDefaultTaskEVMethod(getEarnedValueMethod(header.getDefaultTaskEarnedValueMethod()));
-      project.setDefaultTaskType(getTaskType(header.getDefaultTaskType()));
-      project.setDurationFormat(getXmlDurationUnits(header.getDefaultDurationUnits()));
-      project.setEarnedValueMethod(getEarnedValueMethod(header.getEarnedValueMethod()));
+      project.setCurrencySymbolPosition(DatatypeConverter.printCurrencySymbolPosition (header.getSymbolPosition()));
+      project.setCurrentDate(DatatypeConverter.printDate(header.getCurrentDate()));
+      project.setDaysPerMonth(NumberUtility.getBigInteger(header.getDaysPerMonth()));
+      project.setDefaultFinishTime(DatatypeConverter.printTime (header.getDefaultEndTime()));
+      project.setDefaultFixedCostAccrual(BigInteger.valueOf(DatatypeConverter.printAccrueType(header.getDefaultFixedCostAccrual())));
+      project.setDefaultOvertimeRate(DatatypeConverter.printRate(header.getDefaultOvertimeRate()));
+      project.setDefaultStandardRate(DatatypeConverter.printRate(header.getDefaultStandardRate()));
+      project.setDefaultStartTime(DatatypeConverter.printTime (header.getDefaultStartTime()));
+      project.setDefaultTaskEVMethod(DatatypeConverter.printEarnedValueMethod(header.getDefaultTaskEarnedValueMethod()));
+      project.setDefaultTaskType(DatatypeConverter.printTaskType(header.getDefaultTaskType()));
+      project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(header.getDefaultDurationUnits()));
+      project.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(header.getEarnedValueMethod()));
       project.setEditableActualCosts(header.getEditableActualCosts());
-      project.setExtendedCreationDate(getCalendar(header.getExtendedCreationDate()));
-      project.setFinishDate(getCalendar(header.getFinishDate()));
+      project.setExtendedCreationDate(DatatypeConverter.printDate(header.getExtendedCreationDate()));
+      project.setFinishDate(DatatypeConverter.printDate(header.getFinishDate()));
       project.setFiscalYearStart(header.getFiscalYearStart());
-      project.setFYStartDate(getBigInteger(header.getFiscalYearStartMonth()));
+      project.setFYStartDate(NumberUtility.getBigInteger(header.getFiscalYearStartMonth()));
       project.setHonorConstraints(header.getHonorConstraints());
       project.setInsertedProjectsLikeSummary(header.getInsertedProjectsLikeSummary());
-      project.setLastSaved(getCalendar(header.getLastSaved()));
+      project.setLastSaved(DatatypeConverter.printDate(header.getLastSaved()));
       project.setManager(header.getManager());
       project.setMicrosoftProjectServerURL(header.getMicrosoftProjectServerURL());
-      project.setMinutesPerDay(getBigInteger(header.getMinutesPerDay()));
-      project.setMinutesPerWeek(getBigInteger(header.getMinutesPerWeek()));
+      project.setMinutesPerDay(NumberUtility.getBigInteger(header.getMinutesPerDay()));
+      project.setMinutesPerWeek(NumberUtility.getBigInteger(header.getMinutesPerWeek()));
       project.setMoveCompletedEndsBack(header.getMoveCompletedEndsBack());
       project.setMoveCompletedEndsForward(header.getMoveCompletedEndsForward());
       project.setMoveRemainingStartsBack(header.getMoveRemainingStartsBack());
@@ -2527,18 +1339,18 @@ public class MSPDIFile extends MPXFile
       project.setNewTaskStartDate(header.getNewTaskStartIsProjectStart()==true?BigInteger.ZERO:BigInteger.ONE);
       project.setProjectExternallyEdited(header.getProjectExternallyEdited());
       project.setRemoveFileProperties(header.getRemoveFileProperties());
-      project.setRevision(getBigInteger(header.getRevision()));
+      project.setRevision(NumberUtility.getBigInteger(header.getRevision()));
       project.setSplitsInProgressTasks(header.getSplitInProgressTasks());
       project.setSpreadActualCost(header.getSpreadActualCost());
       project.setSpreadPercentComplete(header.getSpreadPercentComplete());
-      project.setStartDate(getCalendar(header.getStartDate()));
-      project.setStatusDate(getCalendar(header.getStatusDate()));
+      project.setStartDate(DatatypeConverter.printDate(header.getStartDate()));
+      project.setStatusDate(DatatypeConverter.printDate(header.getStatusDate()));
       project.setSubject(header.getSubject());
       project.setTaskUpdatesResource(header.getUpdatingTaskStatusUpdatesResourceStatus());
       project.setTitle(header.getProjectTitle());
       project.setUID(header.getUniqueID());
-      project.setWeekStartDay(getDay(header.getWeekStartDay()));
-      project.setWorkFormat(getXmlWorkUnits(header.getDefaultWorkUnits()));
+      project.setWeekStartDay(DatatypeConverter.printDay(header.getWeekStartDay()));
+      project.setWorkFormat(DatatypeConverter.printWorkUnits(header.getDefaultWorkUnits()));
 
       //
       // Hard coded default values
@@ -2720,8 +1532,8 @@ public class MSPDIFile extends MPXFile
                         time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
                         timesList.add (time);
                         
-                        time.setFromTime(getCalendar(range.getStartDate()));
-                        time.setToTime(getCalendar(range.getEndDate()));
+                        time.setFromTime(DatatypeConverter.printTime(range.getStartDate()));
+                        time.setToTime(DatatypeConverter.printTime(range.getEndDate()));
                      }
                   }
                }
@@ -2750,8 +1562,8 @@ public class MSPDIFile extends MPXFile
 
          period = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeTimePeriodType();
          day.setTimePeriod(period);
-         period.setFromDate(getCalendar(exception.getFromDate()));
-         period.setToDate(getCalendar (exception.getToDate()));
+         period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
+         period.setToDate(DatatypeConverter.printDate (exception.getToDate()));
 
          if (working == true)
          {
@@ -2762,20 +1574,20 @@ public class MSPDIFile extends MPXFile
             time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
             timesList.add (time);
 
-            time.setFromTime(getCalendar(exception.getFromTime1()));
-            time.setToTime(getCalendar(exception.getToTime1()));
+            time.setFromTime(DatatypeConverter.printTime(exception.getFromTime1()));
+            time.setToTime(DatatypeConverter.printTime(exception.getToTime1()));
 
             time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
             timesList.add (time);
 
-            time.setFromTime(getCalendar(exception.getFromTime2()));
-            time.setToTime(getCalendar(exception.getToTime2()));
+            time.setFromTime(DatatypeConverter.printTime(exception.getFromTime2()));
+            time.setToTime(DatatypeConverter.printTime(exception.getToTime2()));
 
             time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
             timesList.add (time);
 
-            time.setFromTime(getCalendar(exception.getFromTime3()));
-            time.setToTime(getCalendar(exception.getToTime3()));
+            time.setFromTime(DatatypeConverter.printTime(exception.getFromTime3()));
+            time.setToTime(DatatypeConverter.printTime(exception.getToTime3()));
          }
       }
 
@@ -2821,29 +1633,29 @@ public class MSPDIFile extends MPXFile
          xml.setCalendarUID(BigInteger.valueOf(cal.getUniqueID()));
       }
 
-      xml.setAccrueAt(BigInteger.valueOf(getAccrueType(mpx.getAccrueAt())));
+      xml.setAccrueAt(BigInteger.valueOf(DatatypeConverter.printAccrueType(mpx.getAccrueAt())));
       xml.setActiveDirectoryGUID(mpx.getActiveDirectoryGUID());
-      xml.setActualCost(getXmlCurrency (mpx.getActualCost()));
-      xml.setActualOvertimeCost(getXmlCurrency(mpx.getActualOvertimeCost()));
-      xml.setActualOvertimeWork(getDuration(mpx.getActualOvertimeWork()));
-      xml.setActualOvertimeWorkProtected(getDuration(mpx.getActualOvertimeWorkProtected()));
-      xml.setActualWork(getDuration (mpx.getActualWork()));
-      xml.setActualWorkProtected(getDuration(mpx.getActualWorkProtected()));
-      xml.setACWP(getFloat(mpx.getACWP()));
-      xml.setAvailableFrom(getCalendar(mpx.getAvailableFrom()));
-      xml.setAvailableTo(getCalendar(mpx.getAvailableTo()));
-      xml.setBCWS(getFloat(mpx.getBCWS()));
-      xml.setBCWP(getFloat(mpx.getBCWP()));
-      xml.setBookingType(getBookingType(mpx.getBookingType()));
+      xml.setActualCost(DatatypeConverter.printCurrency (mpx.getActualCost()));
+      xml.setActualOvertimeCost(DatatypeConverter.printCurrency(mpx.getActualOvertimeCost()));
+      xml.setActualOvertimeWork(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWork()));
+      xml.setActualOvertimeWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWorkProtected()));
+      xml.setActualWork(DatatypeConverter.printDuration (this, mpx.getActualWork()));
+      xml.setActualWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualWorkProtected()));
+      xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
+      xml.setAvailableFrom(DatatypeConverter.printDate(mpx.getAvailableFrom()));
+      xml.setAvailableTo(DatatypeConverter.printDate(mpx.getAvailableTo()));
+      xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
+      xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
+      xml.setBookingType(DatatypeConverter.printBookingType(mpx.getBookingType()));
       xml.setCanLevel(mpx.getCanLevel());
       xml.setCode(mpx.getCode());
-      xml.setCost(getXmlCurrency(mpx.getCost()));
-      xml.setCostPerUse(getXmlCurrency(mpx.getCostPerUse()));
-      xml.setCostVariance(getFloat(mpx.getCostVariance())*100);
-      xml.setCreationDate(getCalendar(mpx.getCreationDate()));
-      xml.setCV(getFloat(mpx.getCV()));
+      xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
+      xml.setCostPerUse(DatatypeConverter.printCurrency(mpx.getCostPerUse()));
+      xml.setCostVariance(DatatypeConverter.printCurrency(mpx.getCostVariance()));
+      xml.setCreationDate(DatatypeConverter.printDate(mpx.getCreationDate()));
+      xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setEmailAddress(mpx.getEmailAddress());
-      xml.setFinish(getCalendar(mpx.getFinish()));
+      xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setGroup(mpx.getGroup());
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
@@ -2855,32 +1667,32 @@ public class MSPDIFile extends MPXFile
       xml.setIsInactive(mpx.getInactive());
       xml.setIsNull(mpx.getNull());
       xml.setMaterialLabel(mpx.getMaterialLabel());
-      xml.setMaxUnits(getUnits(mpx.getMaxUnits()));
+      xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
       xml.setNTAccount(mpx.getNtAccount());
       xml.setOverAllocated(mpx.getOverAllocated());
-      xml.setOvertimeCost(getXmlCurrency(mpx.getOvertimeCost()));
-      xml.setOvertimeRate(new BigDecimal (getRateCost (mpx.getOvertimeRate())));
-      xml.setOvertimeRateFormat(BigInteger.valueOf(getTimeUnit(mpx.getOvertimeRateFormat())+1));
-      xml.setOvertimeWork(getDuration (mpx.getOvertimeWork()));
-      xml.setPeakUnits(getUnits(mpx.getPeakUnits()));
-      xml.setPercentWorkComplete(getBigInteger(mpx.getPercentWorkComplete()));
+      xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
+      xml.setOvertimeRate(DatatypeConverter.printRate (mpx.getOvertimeRate()));
+      xml.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(mpx.getOvertimeRateFormat()));
+      xml.setOvertimeWork(DatatypeConverter.printDuration (this, mpx.getOvertimeWork()));
+      xml.setPeakUnits(DatatypeConverter.printUnits(mpx.getPeakUnits()));
+      xml.setPercentWorkComplete(NumberUtility.getBigInteger(mpx.getPercentWorkComplete()));
       xml.setPhonetics(mpx.getPhonetics());
-      xml.setRegularWork(getDuration(mpx.getRegularWork()));
-      xml.setRemainingCost(getXmlCurrency(mpx.getRemainingCost()));
-      xml.setRemainingOvertimeCost(getXmlCurrency(mpx.getRemainingOvertimeCost()));
-      xml.setRemainingOvertimeWork(getDuration(mpx.getRemainingOvertimeWork()));
-      xml.setRemainingWork(getDuration(mpx.getRemainingWork()));
-      xml.setStandardRate(new BigDecimal (getRateCost (mpx.getStandardRate())));
-      xml.setStandardRateFormat(BigInteger.valueOf(getTimeUnit(mpx.getStandardRateFormat())+1));
-      xml.setStart(getCalendar(mpx.getStart()));
-      xml.setSV(getFloat(mpx.getSV()));
-      xml.setType(getResourceType(mpx.getType()));
+      xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
+      xml.setRemainingCost(DatatypeConverter.printCurrency(mpx.getRemainingCost()));
+      xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
+      xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
+      xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
+      xml.setStandardRate(DatatypeConverter.printRate (mpx.getStandardRate()));
+      xml.setStandardRateFormat(DatatypeConverter.printTimeUnit(mpx.getStandardRateFormat()));
+      xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
+      xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
+      xml.setType(DatatypeConverter.printResourceType(mpx.getType()));
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
-      xml.setWork(getDuration(mpx.getWork()));
-      xml.setWorkGroup(getWorkGroup(mpx.getWorkGroup()));
-      xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);
+      xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
+      xml.setWorkGroup(DatatypeConverter.printWorkGroup(mpx.getWorkGroup()));
+      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance())*1000));
 
       writeResourceExtendedAttributes (factory, xml, mpx);
 
@@ -2917,39 +1729,8 @@ public class MSPDIFile extends MPXFile
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
-
-            if (value instanceof Date)
-            {
-               attrib.setValue(formatXsdDateTime((Date)value));
-            }
-            else
-            {
-               if (value instanceof Boolean)
-               {
-                  attrib.setValue(((Boolean)value).booleanValue()?"1":"0");
-               }
-               else
-               {
-                  if (value instanceof MPXDuration)
-                  {
-                     MPXDuration dur = (MPXDuration)value;
-                     attrib.setValue(getDuration(dur));
-                     attrib.setDurationFormat(getXmlDurationUnits(dur.getUnits()));
-                  }
-                  else
-                  {
-                     if (value instanceof MPXCurrency)
-                     {
-                        MPXCurrency cur = (MPXCurrency)value;
-                        attrib.setValue(Double.toString(cur.doubleValue()*100));
-                     }
-                     else
-                     {
-                        attrib.setValue(value.toString());
-                     }
-                  }
-               }
-            }
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value));
+            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
    }
@@ -2989,33 +1770,33 @@ public class MSPDIFile extends MPXFile
    {
       Project.TasksType.TaskType xml = factory.createProjectTypeTasksTypeTaskType();
 
-      xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
-      xml.setActualDuration(getDuration(mpx.getActualDuration()));
-      xml.setActualFinish(getCalendar(mpx.getActualFinish()));
-      xml.setActualOvertimeCost(getXmlCurrency(mpx.getActualOvertimeCost()));
-      xml.setActualOvertimeWork(getDuration(mpx.getActualOvertimeWork()));
-      xml.setActualOvertimeWorkProtected(getDuration(mpx.getActualOvertimeWorkProtected()));
-      xml.setActualStart(getCalendar(mpx.getActualStart()));
-      xml.setActualWork(getDuration(mpx.getActualWork()));
-      xml.setActualWorkProtected(getDuration(mpx.getActualWorkProtected()));
-      xml.setACWP(getFloat(mpx.getACWP()));
-      xml.setBCWP((float)mpx.getBCWPValue());
-      xml.setBCWS((float)mpx.getBCWSValue());
+      xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
+      xml.setActualDuration(DatatypeConverter.printDuration(this, mpx.getActualDuration()));
+      xml.setActualFinish(DatatypeConverter.printDate(mpx.getActualFinish()));
+      xml.setActualOvertimeCost(DatatypeConverter.printCurrency(mpx.getActualOvertimeCost()));
+      xml.setActualOvertimeWork(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWork()));
+      xml.setActualOvertimeWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWorkProtected()));
+      xml.setActualStart(DatatypeConverter.printDate(mpx.getActualStart()));
+      xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
+      xml.setActualWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualWorkProtected()));
+      xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
+      xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
+      xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
       xml.setCalendarUID(getTaskCalendarID(mpx));
-      xml.setConstraintDate(getCalendar(mpx.getConstraintDate()));
-      xml.setConstraintType(BigInteger.valueOf(mpx.getConstraintTypeValue()));
+      xml.setConstraintDate(DatatypeConverter.printDate(mpx.getConstraintDate()));
+      xml.setConstraintType(DatatypeConverter.printConstraintType(mpx.getConstraintType()));
       xml.setContact(mpx.getContact());
-      xml.setCost(getXmlCurrency(mpx.getCost()));
-      xml.setCreateDate(getCalendar(mpx.getCreateDate()));
+      xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
+      xml.setCreateDate(DatatypeConverter.printDate(mpx.getCreateDate()));
       xml.setCritical(mpx.getCriticalValue());
-      xml.setCV((float)(mpx.getCVValue()*100));
-      xml.setDeadline(getCalendar(mpx.getDeadline()));
-      xml.setDuration(getDuration(mpx.getDuration()));
-      xml.setDurationFormat(getXmlDurationUnits(mpx.getDurationFormat()));
-      xml.setDurationFormat(getDurationFormat(mpx.getDuration()));
-      xml.setEarlyFinish(getCalendar(mpx.getEarlyFinish()));
-      xml.setEarlyStart(getCalendar(mpx.getEarlyStart()));
-      xml.setEarnedValueMethod(getEarnedValueMethod(mpx.getEarnedValueMethod()));
+      xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
+      xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
+      xml.setDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
+      xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDurationFormat()));
+      xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration()));
+      xml.setEarlyFinish(DatatypeConverter.printDate(mpx.getEarlyFinish()));
+      xml.setEarlyStart(DatatypeConverter.printDate(mpx.getEarlyStart()));
+      xml.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(mpx.getEarnedValueMethod()));
       xml.setEffortDriven(mpx.getEffortDriven());
       xml.setEstimated(mpx.getEstimated());
       xml.setExternalTask(mpx.getExternalTask());
@@ -3024,11 +1805,11 @@ public class MSPDIFile extends MPXFile
       Date finishDate = mpx.getFinish();
       if (finishDate != null)
       {
-         xml.setFinish(getCalendar(finishDate));
+         xml.setFinish(DatatypeConverter.printDate(finishDate));
       }
 
-      xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
-      xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
+      xml.setFinishVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getFinishVariance())*1000));
+      xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
 
       AccrueType fixedCostAccrual = mpx.getFixedCostAccrual();
       if (fixedCostAccrual == null)
@@ -3037,7 +1818,7 @@ public class MSPDIFile extends MPXFile
       }
       xml.setFixedCostAccrual(Integer.toString(fixedCostAccrual.getType()));
 
-      xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));
+      xml.setFreeSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setHideBar(mpx.getHideBarValue());
       xml.setIsNull(mpx.getNull());
       xml.setIsSubproject(mpx.getSubproject());
@@ -3047,15 +1828,15 @@ public class MSPDIFile extends MPXFile
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setID(BigInteger.valueOf(mpx.getIDValue()));
       xml.setIgnoreResourceCalendar(mpx.getIgnoreResourceCalendar());
-      xml.setLateFinish(getCalendar(mpx.getLateFinish()));
-      xml.setLateStart(getCalendar(mpx.getLateStart()));
+      xml.setLateFinish(DatatypeConverter.printDate(mpx.getLateFinish()));
+      xml.setLateStart(DatatypeConverter.printDate(mpx.getLateStart()));
       xml.setLevelAssignments(mpx.getLevelAssignments());
       xml.setLevelingCanSplit(mpx.getLevelingCanSplit());
 
       if (mpx.getLevelingDelay() != null)
       {
          xml.setLevelingDelay(BigInteger.valueOf((long)mpx.getLevelingDelay().getDuration()));
-         xml.setLevelingDelayFormat(getXmlDurationUnits(mpx.getLevelingDelayFormat()));
+         xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat()));
       }
 
       xml.setMilestone(mpx.getMilestoneValue());
@@ -3064,15 +1845,15 @@ public class MSPDIFile extends MPXFile
       xml.setOutlineLevel(BigInteger.valueOf(mpx.getOutlineLevelValue()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
       xml.setOverAllocated(mpx.getOverAllocated());
-      xml.setOvertimeCost(getXmlCurrency(mpx.getOvertimeCost()));
-      xml.setOvertimeWork(getDuration(mpx.getOvertimeWork()));
+      xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
+      xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setPercentComplete(BigInteger.valueOf((long)mpx.getPercentageCompleteValue()));
       xml.setPercentWorkComplete(BigInteger.valueOf((long)mpx.getPercentageWorkCompleteValue()));
-      xml.setPhysicalPercentComplete(getBigInteger(mpx.getPhysicalPercentComplete()));
-      xml.setPriority(getXmlPriority(mpx.getPriority()));
+      xml.setPhysicalPercentComplete(NumberUtility.getBigInteger(mpx.getPhysicalPercentComplete()));
+      xml.setPriority(DatatypeConverter.printPriority(mpx.getPriority()));
       xml.setRecurring(mpx.getRecurring());
-      xml.setRegularWork(getDuration(mpx.getRegularWork()));
-      xml.setRemainingCost(getXmlCurrency(mpx.getRemainingCost()));
+      xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
+      xml.setRemainingCost(DatatypeConverter.printCurrency(mpx.getRemainingCost()));
 
       if (m_compatibleOutput == true && mpx.getRemainingDuration() == null)
       {
@@ -3082,39 +1863,32 @@ public class MSPDIFile extends MPXFile
          {
             double amount = duration.getDuration();
             amount -= ((amount * mpx.getPercentageCompleteValue())/100);
-            xml.setRemainingDuration(getDuration(new MPXDuration (amount, duration.getUnits())));
+            xml.setRemainingDuration(DatatypeConverter.printDuration(this, new MPXDuration (amount, duration.getUnits())));
          }
       }
       else
       {
-         xml.setRemainingDuration(getDuration(mpx.getRemainingDuration()));
+         xml.setRemainingDuration(DatatypeConverter.printDuration(this, mpx.getRemainingDuration()));
       }
 
-      xml.setRemainingOvertimeCost(getXmlCurrency(mpx.getRemainingOvertimeCost()));
-      xml.setRemainingOvertimeWork(getDuration(mpx.getRemainingOvertimeWork()));
-      xml.setRemainingWork(getDuration(mpx.getRemainingWork()));
-      xml.setResume(getCalendar(mpx.getResume()));
+      xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
+      xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
+      xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
+      xml.setResume(DatatypeConverter.printDate(mpx.getResume()));
       xml.setResumeValid(mpx.getResumeValid());
       xml.setRollup(mpx.getRollupValue());
-
-      Date startDate = mpx.getStart();
-      if (startDate != null)
-      {
-         xml.setStart(getCalendar(startDate));
-      }
-
-
-      xml.setStartVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getStartVariance())*1000));
-      xml.setStop(getCalendar (mpx.getStop()));
+      xml.setStart(DatatypeConverter.printDate(mpx.getStart()));      
+      xml.setStartVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getStartVariance())*1000));
+      xml.setStop(DatatypeConverter.printDate (mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
       xml.setSummary(mpx.getSummaryValue());
-      xml.setTotalSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getTotalSlack())*1000));
-      xml.setType(getTaskType(mpx.getType()));
+      xml.setTotalSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack())*1000));
+      xml.setType(DatatypeConverter.printTaskType(mpx.getType()));
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
       xml.setWBS(mpx.getWBS());
       xml.setWBSLevel(mpx.getWBSLevel());
-      xml.setWork(getDuration(mpx.getWork()));
-      xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);
+      xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
+      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance())*1000));
 
       writePredecessors (factory, xml, mpx);
 
@@ -3153,43 +1927,22 @@ public class MSPDIFile extends MPXFile
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
-
-            if (value instanceof Date)
-            {
-               attrib.setValue(formatXsdDateTime((Date)value));
-            }
-            else
-            {
-               if (value instanceof Boolean)
-               {
-                  attrib.setValue(((Boolean)value).booleanValue()?"1":"0");
-               }
-               else
-               {
-                  if (value instanceof MPXDuration)
-                  {
-                     MPXDuration dur = (MPXDuration)value;
-                     attrib.setValue(getDuration(dur));
-                     attrib.setDurationFormat(getXmlDurationUnits(dur.getUnits()));
-                  }
-                  else
-                  {
-                     if (value instanceof MPXCurrency)
-                     {
-                        MPXCurrency cur = (MPXCurrency)value;
-                        attrib.setValue(Double.toString(cur.doubleValue()*100));
-                     }
-                     else
-                     {
-                        attrib.setValue(value.toString());
-                     }
-                  }
-               }
-            }
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value));
+            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
    }
 
+   private BigInteger printExtendedAttributeDurationFormat (Object value)
+   {            
+      BigInteger result = null;
+      if (value instanceof MPXDuration)
+      {
+         result = DatatypeConverter.printDurationTimeUnits(((MPXDuration)value).getUnits());
+      }
+      return (result);
+   }
+   
    /**
     * This method retrieves the UID for a calendar associated with a task.
     *
@@ -3303,8 +2056,8 @@ public class MSPDIFile extends MPXFile
 
       if (lag != null && lag.getDuration() != 0)
       {
-         link.setLinkLag(BigInteger.valueOf((long)getDurationInMinutes(lag)*10));
-         link.setLagFormat(getXmlDurationUnits (lag.getUnits()));
+         link.setLinkLag(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(lag)*10));
+         link.setLagFormat(DatatypeConverter.printDurationTimeUnits (lag.getUnits()));
       }
 
       return (link);
@@ -3348,79 +2101,25 @@ public class MSPDIFile extends MPXFile
    {
       Project.AssignmentsType.AssignmentType xml = factory.createProjectTypeAssignmentsTypeAssignmentType();
 
-      xml.setActualCost(getXmlCurrency (mpx.getActualCost()));
-      xml.setActualWork(getDuration (mpx.getActualWork()));
-      xml.setCost(getXmlCurrency (mpx.getCost()));
-      xml.setDelay(BigInteger.valueOf((long)getDurationInMinutes(mpx.getDelay())*1000));
-      xml.setFinish(getCalendar(mpx.getFinish()));
-      xml.setOvertimeWork(getDuration(mpx.getOvertimeWork()));
-      xml.setRemainingWork(getDuration (mpx.getRemainingWork()));
+      xml.setActualCost(DatatypeConverter.printCurrency (mpx.getActualCost()));
+      xml.setActualWork(DatatypeConverter.printDuration (this, mpx.getActualWork()));
+      xml.setCost(DatatypeConverter.printCurrency (mpx.getCost()));
+      xml.setDelay(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getDelay())*1000));
+      xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
+      xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
+      xml.setRemainingWork(DatatypeConverter.printDuration (this, mpx.getRemainingWork()));
       xml.setResourceUID(BigInteger.valueOf(mpx.getResourceUniqueIDValue()));
-      xml.setStart(getCalendar (mpx.getStart()));
+      xml.setStart(DatatypeConverter.printDate (mpx.getStart()));
       xml.setTaskUID(BigInteger.valueOf(mpx.getTask().getUniqueIDValue()));
       xml.setUID(BigInteger.valueOf(uid));
-      xml.setUnits(getUnits(mpx.getUnits()));
-      xml.setWork(getDuration (mpx.getWork()));
-      xml.setWorkContour(getWorkContour(mpx.getWorkContour()));
+      xml.setUnits(DatatypeConverter.printUnits(mpx.getUnits()));
+      xml.setWork(DatatypeConverter.printDuration (this, mpx.getWork()));
+      xml.setWorkContour(DatatypeConverter.printWorkContour(mpx.getWorkContour()));
       return (xml);
-   }
-
-   /**
-    * Formats a date as an xsd date time value.
-    *
-    * @param date date
-    * @return xsd date time
-    */
-   private static String formatXsdDateTime (Date date)
-   {
-      return (getXsdDateTimeFormat().format(date));
-   }
-
-   /**
-    * Parses a date in xsd date time format
-    *
-    * @param text xsd date time
-    * @return date value
-    */
-   private static Date parseXsdDateTime (String text)
-   {
-      Date result;
-
-      try
-      {
-         result = getXsdDateTimeFormat().parse(text);
-      }
-
-      catch (ParseException ex)
-      {
-         result = null;
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieves a date format instance suitable for working
-    * with xsd date time values.
-    *
-    * @return date format instance
-    */
-   private static DateFormat getXsdDateTimeFormat ()
-   {
-      DateFormat df = (DateFormat)XSD_DATETIME_FORMAT.get();
-      if (df == null)
-      {
-         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-         df.setLenient(false);
-      }
-      return (df);
    }
 
    private boolean m_compatibleOutput = true;
    private boolean m_compatibleInput = true;
-
-   private static final ThreadLocal XSD_DATETIME_FORMAT = new ThreadLocal ();
-
 
    /**
     * This class is used to work around a number of problems with
@@ -3567,12 +2266,12 @@ public class MSPDIFile extends MPXFile
    private static final int MSPDI_FIELD_NAME = 2;
    private static final int FIELD_DATA_TYPE = 3;
 
-   private static final int STRING_ATTRIBUTE = 1;
-   private static final int DATE_ATTRIBUTE = 2;
-   private static final int CURRENCY_ATTRIBUTE = 3;
-   private static final int BOOLEAN_ATTRIBUTE = 4;
-   private static final int NUMERIC_ATTRIBUTE = 5;
-   private static final int DURATION_ATTRIBUTE = 6;
+   static final int STRING_ATTRIBUTE = 1;
+   static final int DATE_ATTRIBUTE = 2;
+   static final int CURRENCY_ATTRIBUTE = 3;
+   static final int BOOLEAN_ATTRIBUTE = 4;
+   static final int NUMERIC_ATTRIBUTE = 5;
+   static final int DURATION_ATTRIBUTE = 6;
 
    private static final Integer STRING_ATTRIBUTE_OBJECT = new Integer (STRING_ATTRIBUTE);
    private static final Integer DATE_ATTRIBUTE_OBJECT = new Integer (DATE_ATTRIBUTE);
@@ -3880,9 +2579,6 @@ public class MSPDIFile extends MPXFile
       }
    }
 
-   private static final String ZERO_DURATION = "PT0H0M0S";
-   private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
-   private static final int MS_PER_MINUTE = 1000 * 60;
 }
 

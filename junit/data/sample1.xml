@@ -2950,7 +2950,7 @@
             <IsNull>0</IsNull>
             <Initials>FR</Initials>
             <WorkGroup>0</WorkGroup>
-            <MaxUnits>1.0</MaxUnits>
+            <MaxUnits>1</MaxUnits>
             <PeakUnits>1.5</PeakUnits>
             <OverAllocated>0</OverAllocated>
             <CanLevel>0</CanLevel>
@@ -2974,8 +2974,8 @@
             <ActualOvertimeCost>0</ActualOvertimeCost>
             <RemainingCost>0</RemainingCost>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <WorkVariance>1.44E7</WorkVariance>
-            <CostVariance>201500.0</CostVariance>
+            <WorkVariance>14400000</WorkVariance>
+            <CostVariance>201500</CostVariance>
             <SV>0</SV>
             <CV>0</CV>
             <ACWP>0</ACWP>
@@ -3013,7 +3013,7 @@ formatting.
             <IsNull>0</IsNull>
             <Initials>SR</Initials>
             <WorkGroup>0</WorkGroup>
-            <MaxUnits>1.0</MaxUnits>
+            <MaxUnits>1</MaxUnits>
             <PeakUnits>1.75</PeakUnits>
             <OverAllocated>0</OverAllocated>
             <CanLevel>0</CanLevel>
@@ -3037,8 +3037,8 @@ formatting.
             <ActualOvertimeCost>0</ActualOvertimeCost>
             <RemainingCost>0</RemainingCost>
             <RemainingOvertimeCost>0</RemainingOvertimeCost>
-            <WorkVariance>2.04E7</WorkVariance>
-            <CostVariance>151125.0</CostVariance>
+            <WorkVariance>20400000</WorkVariance>
+            <CostVariance>151125</CostVariance>
             <SV>0</SV>
             <CV>0</CV>
             <ACWP>0</ACWP>
@@ -3100,7 +3100,7 @@ formatting.
             <OvertimeWork>PT0H0M0S</OvertimeWork>
             <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
-            <Units>1.0</Units>
+            <Units>1</Units>
             <Work>PT40H0M0S</Work>
             <WorkContour>0</WorkContour>
         </Assignment>
@@ -3116,7 +3116,7 @@ formatting.
             <OvertimeWork>PT0H0M0S</OvertimeWork>
             <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
-            <Units>1.0</Units>
+            <Units>1</Units>
             <Work>PT40H0M0S</Work>
             <WorkContour>0</WorkContour>
         </Assignment>

@@ -31,7 +31,7 @@ import java.util.LinkedList;
 /**
  * This class represents the Resource record as found in an MPX file.
  */
-public final class Resource extends MPXRecord
+public final class Resource extends MPXRecord implements ExtendedAttributeContainer
 {
    /**
     * Default constructor.

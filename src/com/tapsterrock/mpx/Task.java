@@ -32,7 +32,7 @@ import java.util.Date;
 /**
  * This class represents a task record from an MPX file.
  */
-public final class Task extends MPXRecord implements Comparable
+public final class Task extends MPXRecord implements Comparable, ExtendedAttributeContainer
 {
    /**
     * Default constructor.

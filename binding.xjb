@@ -1,0 +1,17 @@
+<jxb:bindings version="1.0"
+               xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+               
+  <!-- note that the schemaLocation will need to be changed to be correct for your system -->
+  <jxb:bindings schemaLocation="file:/C:/TapsterRock/docs/msp/Project2003-MSPDI-correct.XSD" node="/xsd:schema">
+
+   <jxb:globalBindings>
+      <!-- map float types to BigDecimal for consistency -->
+      <jxb:javaType name="java.math.BigDecimal"
+                    xmlType="xsd:float"     
+                    parseMethod="javax.xml.bind.DatatypeConverter.parseDecimal" 
+                    printMethod="javax.xml.bind.DatatypeConverter.printDecimal"/>      
+   </jxb:globalBindings>      
+   
+  </jxb:bindings>
+</jxb:bindings>

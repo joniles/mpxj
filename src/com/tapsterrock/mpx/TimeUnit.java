@@ -51,7 +51,7 @@ public final class TimeUnit
    {
       return (m_value);
    }
-
+   
    /**
     * Returns an integer representation of the time unit.
     *
