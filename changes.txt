@@ -1,9 +1,12 @@
 Version 0.0.10
-Updated to retrieve the work field for a task.
 Corrected Actual Start and Actual End fields from MPP file.
-Added support for deadline field.
-Added support for actual, remaining, and baseline work fields for a task.
-Added support for task cost variance.
+Fixed bug where time values were being broken by daylight saving time in the user's default locale.
+Updated to extract the following fields from task data in an MPP file which were previously not imported:
+	Actual Work, Baseline Work, Cost Variance, Deadline, Remaining Work, Work
+Updated to extract the following fields from resource data in an MPP file which were previously not imported:
+	Actual Cost, Actual Overtime Cost, Actual Work, Baseline Work, Cost, Cost Variance, Max Units, 
+	Overtime Cost, Overtime Rate, Overtime Work, Peak, Regular work, Remaining Cost, Remaining 
+	Overtime Cost, Remaining Work, Standard Rate, Work, Work Variance
 
 Version 0.0.9
 Fixed bug when handling certain types of modified MPP file where resources have been updated.
