@@ -1067,7 +1067,7 @@ final class MPP9File
          table = new Table ();
          
          table.setID(MPPUtility.getInt(data, 0));
-         table.setFlag(MPPUtility.getShort(data, 108) == 1);
+         table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
          name = MPPUtility.getUnicodeString(data, 4);
          
          if (name != null)
@@ -1095,7 +1095,7 @@ final class MPP9File
          table.setName(name); 
          file.addTable(table);
                       
-         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
+         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));         
       }      
    }
 
@@ -1121,7 +1121,7 @@ final class MPP9File
             
       for (int loop=0; loop < columnCount; loop++)
       {
-         column = new Column ();
+         column = new Column (table);
          
          column.setFieldType (MPPUtility.getShort(data, index));
          column.setWidth (MPPUtility.getByte(data, index+4));

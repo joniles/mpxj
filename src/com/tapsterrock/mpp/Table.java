@@ -86,27 +86,27 @@ public final class Table
    }
 
    /**
-    * This method retrieves the flag attribute of the table. For MPP9 files
-    * this attribute appears to represent whether the table refers to
+    * This method retrieves the resource flag attribute of the table. 
+    * This attribute represents whether the table refers to
     * task data (false) or resource data (true).
     * 
     * @return boolean flag
     */
-   public boolean getFlag ()
+   public boolean getResourceFlag ()
    {
-      return (m_flag);   
+      return (m_resourceFlag);   
    }
         
    /**
-    * This method sets the flag attribute of the table. For MPP9 files
-    * this attribute appears to represent whether the table refers to
+    * This method sets the resource flag attribute of the table. 
+    * This attribute represents whether the table refers to
     * task data (false) or resource data (true).
     * 
     * @param flag boolean flag
     */
-   public void setFlag (boolean flag)
+   public void setResourceFlag (boolean flag)
    {
-      m_flag = flag;
+      m_resourceFlag = flag;
    }
    
    /**
@@ -144,8 +144,8 @@ public final class Table
       pw.print (m_id);
       pw.print (" name=");
       pw.print (m_name);
-      pw.print (" flag=");
-      pw.println (m_flag);
+      pw.print (" resourceFlag=");
+      pw.println (m_resourceFlag);
       
       Iterator iter = m_columns.iterator();
       while (iter.hasNext() == true)
@@ -162,6 +162,6 @@ public final class Table
          
    private int m_id;
    private String m_name;   
-   private boolean m_flag;
+   private boolean m_resourceFlag;
    private ArrayList m_columns = new ArrayList ();
 }

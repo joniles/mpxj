@@ -25,14 +25,27 @@ package com.tapsterrock.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * This class represents a column in an MS Project table. The attributes held
- * here describe the layout of the column, along with any user defined
- * title that has been associated with the column.
+ * here describe the layout of the column, along with the title text that has 
+ * been associated with the column. The title text will either be the default
+ * value supplied by MS Project, or it will be a user defined value.
  */
 public final class Column
 {
+   /**
+    * Constructor
+    * 
+    * @param parent table to which this column belongs
+    */
+   public Column (Table parent)
+   {
+      m_parent = parent;   
+   }
+   
    /**
     * Retrieves a value representing the alignment of data displayed in
     * the column.
@@ -55,11 +68,13 @@ public final class Column
    }
 
    /**
-    * Retrieves the type of the column. This identifier indicates what data will
-    * appear in the column, and the default column title that will appear
-    * if the user has not provided a user defined column title.
+    * Retrieves the type data displayed in the column. This identifier indicates 
+    * what data will appear in the column, and the default column title 
+    * that will appear if the user has not provided a user defined column title.
+    * The constants located at the end of this file define the valid values
+    * for task and resource fields.
     * 
-    * @return column type
+    * @return field type
     */
    public int getFieldType()
    {
@@ -75,7 +90,46 @@ public final class Column
     */
    public String getTitle()
    {
-      return m_title;
+      return (getTitle(Locale.getDefault()));
+   }
+   
+   /**
+    * Retrieves the user defined column title. If the column has not had a
+    * user defined title provided for it, then the column will be headed
+    * by the default title text, and this method will return null.
+    * 
+    * @param local required locale for the default column title
+    * @return user defined column title
+    */
+   public String getTitle (Locale locale)
+   {
+      String result = null;
+      
+      if (m_title != null)
+      {
+         result = m_title;
+      }
+      else
+      {      
+         ResourceBundle bundle = ResourceBundle.getBundle("com.tapsterrock.mpp.ColumnTitles", locale);
+         String[] titles;
+         
+         if (m_parent.getResourceFlag() == false)
+         {
+            titles = bundle.getStringArray("TASK_COLUMNS");
+         }
+         else
+         {
+            titles = bundle.getStringArray("RESOURCE_COLUMNS");            
+         }
+         
+         if (m_fieldType < titles.length)
+         {
+            result = titles[m_fieldType];
+         }
+      }
+      
+      return (result);            
    }
 
    /**
@@ -110,9 +164,13 @@ public final class Column
    }
 
    /**
-    * Sets the column type
+    * Sets the type data displayed in the column. This identifier indicates 
+    * what data will appear in the column, and the default column title 
+    * that will appear if the user has not provided a user defined column title.
+    * The constants located at the end of this file define the valid values
+    * for task and resource fields.
     * 
-    * @param type column type
+    * @param type field type
     */
    public void setFieldType(int type)
    {
@@ -126,7 +184,7 @@ public final class Column
     */
    public void setTitle(String title)
    {
-      m_title = title;
+      m_title = title;      
    }
 
    /**
@@ -190,8 +248,8 @@ public final class Column
          }         
       }
 
-      pw.print (" userDefinedTitle=");
-      pw.print (m_title);
+      pw.print (" title=");
+      pw.print (getTitle());
       pw.println ("]");
       pw.close();
       
@@ -445,7 +503,7 @@ public final class Column
    public static final int TASK_OUTLINE_CODE10 = 434;     
    public static final int TASK_DEADLINE = 437;
    public static final int TASK_START_SLACK = 438;
-   public static final int TASK_FINISG_SLACK = 439;
+   public static final int TASK_FINISH_SLACK = 439;
    public static final int TASK_VAC = 441;   
    public static final int TASK_GROUP_BY_SUMMARY = 446;
    public static final int TASK_WBS_PREDECESSORS = 449;
@@ -637,7 +695,7 @@ public final class Column
    public static final int RESOURCE_LEVELING_DELAY = 263;   
    public static final int RESOURCE_RESPONSE_PENDING = 264;   
    public static final int RESOURCE_START = 265;   
-   public static final int RESOURCE_TEAM_STATUS_PENDING = 266;   
+   public static final int RESOURCE_TEAMSTATUS_PENDING = 266;   
    public static final int RESOURCE_CV = 268;
    public static final int RESOURCE_UPDATE_NEEDED = 267;   
    public static final int RESOURCE_COST_RATE_TABLE = 269;   
@@ -661,11 +719,11 @@ public final class Column
    public static final int RESOURCE_GROUP_BY_SUMMARY = 306;     
    public static final int RESOURCE_WINDOWS_USER_ACCOUNT = 311;
    
-  
- 
+   
+   private Table m_parent;
    private int m_fieldType;
    private int m_width;
    private int m_alignTitle;
    private int m_alignData;
-   private String m_title;
+   private String m_title;   
 }

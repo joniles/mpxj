@@ -26,6 +26,7 @@ package com.tapsterrock.mpp;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -1080,6 +1081,21 @@ final class MPP8File
          columnData = fdf.getByteArray(getOffset(extendedData, 8));
          
          processColumnData (table, columnData);         
+         
+         //
+         // As MPP8 files don't seem to have an explicit flag
+         // indicating that a table relates to tasks or resources,
+         // we look at the type of the first (hidden) column in the
+         // table. This seems to be either TASK_ID or RESOURCE_ID.
+         //
+         ArrayList columns = table.getColumns();
+         if (columns.size() != 0)
+         {
+            if (((Column)columns.get(0)).getFieldType() == Column.RESOURCE_ID)
+            {
+               table.setResourceFlag(true);
+            }
+         }
       }            
    }
 
@@ -1106,7 +1122,7 @@ final class MPP8File
             
       for (int loop=0; loop < columnCount; loop++)
       {
-         column = new Column ();
+         column = new Column (table);
          
          column.setFieldType (MPPUtility.getShort(data, index));
          column.setWidth (MPPUtility.getByte(data, index+4));
