@@ -234,6 +234,16 @@ public class Task extends MPXRecord
                break;
             }
 
+            case NUMBER1:
+            case NUMBER2:
+            case NUMBER3:
+            case NUMBER4:
+            case NUMBER5:
+            {
+               set(x, Double.valueOf(field));
+               break;
+            }
+
             case PRIORITY:
             {
                setPriority (field);
@@ -1533,7 +1543,7 @@ public class Task extends MPXRecord
     *
     * @param val - string
     */
-   public void setNumber1 (String val)
+   public void setNumber1 (Double val)
    {
       set (NUMBER1, val);
    }
@@ -1544,7 +1554,7 @@ public class Task extends MPXRecord
     *
     * @param val - string
     */
-   public void setNumber2 (String val)
+   public void setNumber2 (Double val)
    {
       set (NUMBER2, val);
    }
@@ -1555,7 +1565,7 @@ public class Task extends MPXRecord
     *
     * @param val - string
     */
-   public void setNumber3 (String val)
+   public void setNumber3 (Double val)
    {
       set (NUMBER3, val);
    }
@@ -1566,7 +1576,7 @@ public class Task extends MPXRecord
     *
     * @param val - string
     */
-   public void setNumber4 (String val)
+   public void setNumber4 (Double val)
    {
       set (NUMBER4, val);
    }
@@ -1577,7 +1587,7 @@ public class Task extends MPXRecord
     *
     * @param val - string
     */
-   public void setNumber5 (String val)
+   public void setNumber5 (Double val)
    {
       set (NUMBER5, val);
    }
@@ -2889,9 +2899,9 @@ public class Task extends MPXRecord
     *
     * @return String of numeric info.
     */
-   public String getNumber1 ()
+   public Double getNumber1 ()
    {
-      return ((String)get(NUMBER1));
+      return ((Double)get(NUMBER1));
    }
 
    /**
@@ -2900,9 +2910,9 @@ public class Task extends MPXRecord
     *
     * @return String of numeric info.
     */
-   public String getNumber2 ()
+   public Double getNumber2 ()
    {
-      return ((String)get(NUMBER2));
+      return ((Double)get(NUMBER2));
    }
 
    /**
@@ -2911,9 +2921,9 @@ public class Task extends MPXRecord
     *
     * @return String of numeric info.
     */
-   public String getNumber3 ()
+   public Double getNumber3 ()
    {
-      return ((String)get(NUMBER3));
+      return ((Double)get(NUMBER3));
    }
 
    /**
@@ -2922,9 +2932,9 @@ public class Task extends MPXRecord
     *
     * @return String of numeric info.
     */
-   public String getNumber4 ()
+   public Double getNumber4 ()
    {
-      return ((String)get(NUMBER4));
+      return ((Double)get(NUMBER4));
    }
 
    /**
@@ -2933,9 +2943,9 @@ public class Task extends MPXRecord
     *
     * @return String of numeric info.
     */
-   public String getNumber5 ()
+   public Double getNumber5 ()
    {
-      return ((String)get(NUMBER5));
+      return ((Double)get(NUMBER5));
    }
 
    /**

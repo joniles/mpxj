@@ -71,9 +71,9 @@ class MPXRecord
          }
          else
          {
-            if (o instanceof Float == true)
+            if (o instanceof Float == true || o instanceof Double)
             {
-               result = (FLOAT_FORMAT.format(((Float)o).doubleValue()));
+               result = (DECIMAL_FORMAT.format(((Number)o).doubleValue()));
             }
             else
             {
@@ -280,11 +280,11 @@ class MPXRecord
 
 
    /**
-    * Reference to parent MPXFile. Used for accessing Separator character. Used by all subclasses.
+    * Reference to parent MPXFile.
     */
    private MPXFile m_mpx;
 
    private TreeMap m_map = new TreeMap ();
 
-   private static final DecimalFormat FLOAT_FORMAT = new DecimalFormat ("0.00#");
+   private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat ("0.00#");
 }
