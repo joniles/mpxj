@@ -24,6 +24,7 @@
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
@@ -46,7 +47,7 @@ public class MpxCreate
       {
          if (args.length != 1)
          {
-            System.out.println ("Usage: MppCreate <output file name>");
+            System.out.println ("Usage: MpxCreate <output file name>");
          }
          else
          {
@@ -96,8 +97,10 @@ public class MpxCreate
 
       //
       // Configure the file to automatically generate outline levels
+      // and outline numbers.
       //
       file.setAutoOutlineLevel(true);
+      file.setAutoOutlineNumber(true);
 
       //
       // Configure the file to automatically generate WBS labels
@@ -109,6 +112,16 @@ public class MpxCreate
       //
       file.addDefaultBaseCalendar();
 
+		//
+		// Retrieve the project header and set the start date. Note Microsoft
+		// Project appears to reset all task dates relative to this date, so this
+		// date must match the start date of the earliest task for you to see
+		// the expected results. If this value is not set, it will default to
+		// today's date.
+		//		
+		ProjectHeader header = file.getProjectHeader();
+		header.setStartDate(df.parse("01/01/2003"));
+		
       //
       // Add resources
       //
