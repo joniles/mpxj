@@ -1685,42 +1685,12 @@ final class MPP9File
       int items = ff.getItemCount();
       byte[] data;
       View view;
-      String name;
-      StringBuffer sb = new StringBuffer();
 
       for (int loop=0; loop < items; loop++)
       {
-         data = ff.getByteArrayValue(loop);
-         view = new View ();
-
-         view.setID(MPPUtility.getInt(data, 0));
-         name = MPPUtility.getUnicodeString(data, 4);
-
-         if (name != null)
-         {
-            if (name.indexOf('&') != -1)
-            {
-               sb.setLength(0);
-               int index = 0;
-               char c;
-
-               while (index < name.length())
-               {
-                  c = name.charAt(index);
-                  if (c != '&')
-                  {
-                     sb.append(c);
-                  }
-                  ++index;
-               }
-
-               name = sb.toString();
-            }
-         }
-
-         view.setName(name);
-         file.addView(view);
-      }
+         view = new View9 (ff.getByteArrayValue(loop));
+         file.addView(view);         
+      }      
    }
 
    /**

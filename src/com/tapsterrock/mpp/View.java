@@ -32,8 +32,16 @@ package com.tapsterrock.mpp;
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public final class View
+public class View
 {
+   /**
+    * Constructor, protected to prevent direct instantiation.
+    */
+   protected View ()
+   {
+      
+   }
+      
    /**
     * This method is used to retrieve the unique view identifier. This
     * value identifies the view within the file. It does not identify
@@ -44,17 +52,6 @@ public final class View
    public int getID ()
    {
       return (m_id);
-   }
-
-   /**
-    * This method is used to to set the unique identifier associated with
-    * this view.
-    *
-    * @param id unique view identifier
-    */
-   public void setID (int id)
-   {
-      m_id = id;
    }
 
    /**
@@ -71,15 +68,38 @@ public final class View
    }
 
    /**
-    * This method is used to set the name associated with this view.
-    *
+    * Remove the ampersand embedded in the view name.
+    * 
     * @param name view name
+    * @return view name without the ampersand
     */
-   public void setName (String name)
+   protected String removeAmpersand (String name)
    {
-      m_name = name;
-   }
+      if (name != null)
+      {
+         if (name.indexOf('&') != -1)
+         {
+            StringBuffer sb = new StringBuffer();
+            int index = 0;
+            char c;
 
+            while (index < name.length())
+            {
+               c = name.charAt(index);
+               if (c != '&')
+               {
+                  sb.append(c);
+               }
+               ++index;
+            }
+
+            name = sb.toString();
+         }
+      }
+
+      return (name);
+   }
+   
    /**
     * This method dumps the contents of this View as a String.
     * Note that this facility is provided as a debugging aid.
@@ -88,9 +108,28 @@ public final class View
     */
    public String toString ()
    {
-      return ("[VIEW id=" + m_id + " name=" + m_name +"]");
+      return ("[VIEW id=" + m_id + " type=" + m_type + " name=" + m_name +"]");
    }
 
-   private int m_id;
-   private String m_name;
+   /**
+    * Constants representing known view types.
+    */
+   public static final int GANTT_CHART = 1;
+   public static final int NETWORK_DIAGRAM = 2;
+   public static final int RELATIONSHIP_DIAGRAM = 3;
+   public static final int TASK_FORM = 4;
+   public static final int TASK_SHEET = 5;
+   public static final int RESOURCE_FORM = 6;
+   public static final int RESOURCE_SHEET = 7;
+   public static final int RESOURCE_GRAPH=8;
+   public static final int TASK_DETAILS_FORM = 10;
+   public static final int TASK_NAME_FORM = 11;
+   public static final int RESOURCE_NAME_FORM = 12;
+   public static final int CALENDAR = 13;
+   public static final int TASK_USAGE = 14;
+   public static final int RESOURCE_USAGE=15;
+   
+   protected int m_id;
+   protected String m_name;
+   protected int m_type;
 }

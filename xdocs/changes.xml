@@ -28,6 +28,7 @@
       <action dev="joniles" type="add">Introduced the Day class to replace the use of arbitrary integers to represent days of the week.</action>
       <action dev="joniles" type="add">Added the ability to query the task assignments for a resource using the Resource.getTaskAssignments() method.</action>
       <action dev="joniles" type="fix">Fixed a problem with number formats in MSPDI files.</action>      
+      <action dev="joniles" type="update">Updated the MPP View class to extract the view type.</action>            
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 
