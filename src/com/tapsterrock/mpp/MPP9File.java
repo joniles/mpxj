@@ -63,7 +63,7 @@ final class MPP9File
 {
    /**
     * This method is used to process an MPP9 file. This is the file format
-    * used by Project 2000 and Project 2002.
+    * used by Project 2000, 2002, and 2003.
     *
     * @param file parent MPP file
     * @param root Root of the POI file system.
@@ -88,10 +88,10 @@ final class MPP9File
 
       processPropertyData (file, projectDir);
       processCalendarData (file, projectDir, resourceMap);
-        processResourceData (file, projectDir, outlineCodeVarData, resourceMap);
-        processTaskData (file, projectDir, outlineCodeVarData);
-        processConstraintData (file, projectDir);
-        processAssignmentData (file, projectDir);
+      processResourceData (file, projectDir, outlineCodeVarData, resourceMap);
+      processTaskData (file, projectDir, outlineCodeVarData);
+      processConstraintData (file, projectDir);
+      processAssignmentData (file, projectDir);
 
       projectDir = (DirectoryEntry)root.getEntry ("   29");
       processViewData (file, projectDir);
@@ -229,7 +229,11 @@ final class MPP9File
          {
             offset = 0;
 
-            while (offset < fixedData.length)
+            //
+            // Bug 890909, here we ensure that we have a complete 12 byte
+            // block before attempting to process the data.
+            //
+            while (offset+12 <= fixedData.length)
             {
                calendarID = new Integer (MPPUtility.getInt (fixedData, offset+0));
 
@@ -1413,62 +1417,65 @@ final class MPP9File
     */
    private static void processColumnData (Table table, byte[] data)
    {
-      int columnCount = MPPUtility.getShort(data, 4)+1;
-      int index = 8;
-      int columnTitleOffset;
-      Column  column;
-      int alignment;
-
-      for (int loop=0; loop < columnCount; loop++)
+      if (data != null)
       {
-         column = new Column (table);
-
-         column.setFieldType (MPPUtility.getShort(data, index));
-         column.setWidth (MPPUtility.getByte(data, index+4));
-
-         columnTitleOffset = MPPUtility.getShort(data, index+6);
-         if (columnTitleOffset != 0)
+         int columnCount = MPPUtility.getShort(data, 4)+1;
+         int index = 8;
+         int columnTitleOffset;
+         Column  column;
+         int alignment;
+   
+         for (int loop=0; loop < columnCount; loop++)
          {
-            column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
-         }
-
-         alignment = MPPUtility.getByte(data, index+8);
-         if (alignment == 32)
-         {
-            column.setAlignTitle(Column.ALIGN_LEFT);
-         }
-         else
-         {
-            if (alignment == 33)
+            column = new Column (table);
+   
+            column.setFieldType (MPPUtility.getShort(data, index));
+            column.setWidth (MPPUtility.getByte(data, index+4));
+   
+            columnTitleOffset = MPPUtility.getShort(data, index+6);
+            if (columnTitleOffset != 0)
             {
-               column.setAlignTitle(Column.ALIGN_CENTER);
+               column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
+            }
+   
+            alignment = MPPUtility.getByte(data, index+8);
+            if (alignment == 32)
+            {
+               column.setAlignTitle(Column.ALIGN_LEFT);
             }
             else
             {
-               column.setAlignTitle(Column.ALIGN_RIGHT);
+               if (alignment == 33)
+               {
+                  column.setAlignTitle(Column.ALIGN_CENTER);
+               }
+               else
+               {
+                  column.setAlignTitle(Column.ALIGN_RIGHT);
+               }
             }
-         }
-
-         alignment = MPPUtility.getByte(data, index+10);
-         if (alignment == 32)
-         {
-            column.setAlignData(Column.ALIGN_LEFT);
-         }
-         else
-         {
-            if (alignment == 33)
+   
+            alignment = MPPUtility.getByte(data, index+10);
+            if (alignment == 32)
             {
-               column.setAlignData(Column.ALIGN_CENTER);
+               column.setAlignData(Column.ALIGN_LEFT);
             }
             else
             {
-               column.setAlignData(Column.ALIGN_RIGHT);
+               if (alignment == 33)
+               {
+                  column.setAlignData(Column.ALIGN_CENTER);
+               }
+               else
+               {
+                  column.setAlignData(Column.ALIGN_RIGHT);
+               }
             }
+   
+            table.addColumn(column);
+            index += 12;
          }
-
-         table.addColumn(column);
-         index += 12;
-      }
+      }         
    }
 
 
