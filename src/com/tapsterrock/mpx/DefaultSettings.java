@@ -293,9 +293,9 @@ public class DefaultSettings extends MPXRecord
     *
     * @return rate
     */
-   public String getDefaultOvertimeRate ()
+   public MPXRate getDefaultOvertimeRate ()
    {
-      return ((String)get(DEFAULT_OVERTIME_RATE));
+      return ((MPXRate)get(DEFAULT_OVERTIME_RATE));
    }
 
    /**

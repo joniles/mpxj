@@ -623,7 +623,7 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Retrieve the default time specified as after midnight.
+    * Retrieve the default time specified as minutes after midnight.
     *
     * @return string
     */
@@ -633,13 +633,31 @@ public class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * Retrieve the default time specified as after midnight.
+    * Retrieve the default time specified as minutes after midnight.
     *
     * @return string
     */
    public Integer getDefaultTime ()
    {
       return ((Integer)get (DEFAULT_TIME));
+   }
+
+   /**
+    * Retrieve the default time as a Date object
+    *
+    * @return string
+    */
+   public Date getDefaultTimeAsDate ()
+   {
+      Date result = null;
+
+      Integer minutes = (Integer)get (DEFAULT_TIME);
+      if (minutes != null)
+      {
+         result = new Date (minutes.longValue() * MS_PER_MINUTE);
+      }
+
+      return (result);
    }
 
    /**

@@ -813,6 +813,30 @@ public class Resource extends MPXRecord
     *
     * @return accrue type
     */
+   public int getAccrueAtValue ()
+   {
+      int result;
+      AccrueType accrue = (AccrueType)get(ACCRUE_AT);
+      if (accrue == null)
+      {
+         result = AccrueType.PRORATED;
+      }
+      else
+      {
+         result = accrue.getType();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Gets the Accrue at type.The Accrue At field provides choices for how
+    * and when resource standard
+    * and overtime costs are to be charged, or accrued, to the cost of a task.
+    * The options are: Start, End and Proraetd (Default)
+    *
+    * @return accrue type
+    */
    public AccrueType getAccrueAt ()
    {
       return ((AccrueType)get(ACCRUE_AT));
@@ -921,6 +945,17 @@ public class Resource extends MPXRecord
     * @return value
     * @see #COST_VARIANCE Constants for explanation
     */
+   public double getCostVarianceValue ()
+   {
+      return (getDoubleValue(COST_VARIANCE));
+   }
+
+   /**
+    * Gets Cost Variance field value
+    *
+    * @return value
+    * @see #COST_VARIANCE Constants for explanation
+    */
    public Number getCostVariance ()
    {
       return ((Number)get(COST_VARIANCE));
@@ -990,6 +1025,17 @@ public class Resource extends MPXRecord
    public String getLinkedFields ()
    {
       return ((String)get(LINKED_FIELDS));
+   }
+
+   /**
+    * Gets Max Units field value
+    *
+    * @return value
+    * @see #MAX_UNITS Constants for explanation
+    */
+   public double getMaxUnitsValue ()
+   {
+      return (getDoubleValue (MAX_UNITS));
    }
 
    /**
@@ -1086,9 +1132,20 @@ public class Resource extends MPXRecord
     * @return value
     * @see #PEAK Constants for explanation
     */
-   public String getPeak ()
+   public double getPeakValue ()
    {
-      return ((String)get(PEAK));
+      return (getDoubleValue (PEAK));
+   }
+
+   /**
+    * Gets Peak field value
+    *
+    * @return value
+    * @see #PEAK Constants for explanation
+    */
+   public Number getPeak ()
+   {
+      return ((Number)get(PEAK));
    }
 
    /**

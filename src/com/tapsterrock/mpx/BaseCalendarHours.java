@@ -92,7 +92,7 @@ public class BaseCalendarHours extends MPXRecord
     *
     * @param d day number
     */
-   public void setDay (int d)
+   void setDay (int d)
    {
       put (DAY,d);
    }
@@ -102,7 +102,7 @@ public class BaseCalendarHours extends MPXRecord
     *
     * @param d day number
     */
-   public void setDay (Integer d)
+   private void setDay (Integer d)
    {
       put (DAY, d);
    }

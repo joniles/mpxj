@@ -167,6 +167,17 @@ public class ResourceAssignment extends MPXRecord
     * @return units
     * @see #UNITS CONSTANTS for description
     */
+   public double getUnitsValue ()
+   {
+      return (getDoubleValue(UNITS));
+   }
+
+   /**
+    * Returns the units of this resource assignment
+    *
+    * @return units
+    * @see #UNITS CONSTANTS for description
+    */
    public Number getUnits ()
    {
       return ((Number)get(UNITS));

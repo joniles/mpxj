@@ -35,6 +35,9 @@ import java.util.Calendar;
  * This class represents the Base Calendar Definition record. It is used to
  * define the working and non-working days of the week. The default calendar
  * defined Monday to Friday as working days.
+ *
+ * @todo sort out individual day methods
+ * @todo sort out numeric boolean values
  */
 public class BaseCalendar extends MPXRecord
 {
@@ -104,6 +107,17 @@ public class BaseCalendar extends MPXRecord
    }
 
    /**
+    * This method retrieves a list of exceptions to the current
+    * base calendar.
+    *
+    * @return List of base calendar exceptions
+    */
+   public LinkedList getBaseCalendarExceptions ()
+   {
+      return (m_exceptions);
+   }
+
+   /**
     * Used to add working hours to the calendar. Note that the MPX file
     * definitiona allows a maximum of 7 calendar hours records to be added to
     * a single calendar.
@@ -111,10 +125,22 @@ public class BaseCalendar extends MPXRecord
     * @return <tt>BaseCalendarHours</tt>
     * @throws MPXException if maximum number of records is exceeded
     */
-   public BaseCalendarHours addBaseCalendarHours()
+   public BaseCalendarHours addBaseCalendarHours(int day)
       throws MPXException
    {
-      return (addBaseCalendarHours (Record.EMPTY_RECORD));
+      BaseCalendarHours bch = new BaseCalendarHours (getParentFile(), Record.EMPTY_RECORD);
+
+      bch.setDay (day);
+      --day;
+
+      if (day < 0 || day > m_hours.length)
+      {
+         throw new MPXException (MPXException.MAXIMUM_RECORDS);
+      }
+
+      m_hours[day] = bch;
+
+      return (bch);
    }
 
    /**
@@ -129,15 +155,30 @@ public class BaseCalendar extends MPXRecord
    BaseCalendarHours addBaseCalendarHours (Record record)
       throws MPXException
    {
-      if (m_hours.size() == MAX_CALENDAR_HOURS)
+      BaseCalendarHours bch = new BaseCalendarHours(getParentFile(), record);
+      int day = bch.getDayValue()-1;
+
+      if (day < 0 || day > m_hours.length)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      BaseCalendarHours bch = new BaseCalendarHours(getParentFile(), record);
-      m_hours.add(bch);
-      return bch;
+      m_hours[day] = bch;
+
+      return (bch);
    }
+
+   /**
+    * This method retrieves the bae calendar hours for the specified day.
+    *
+    * @param day Day number
+    * @return Base calendar hours
+    */
+   public BaseCalendarHours getBaseCalendarHours (int day)
+   {
+      return (m_hours[day-1]);
+   }
+
 
    /**
     * Calendar name
@@ -449,12 +490,11 @@ public class BaseCalendar extends MPXRecord
    {
       StringBuffer buf = new StringBuffer(super.toString(RECORD_NUMBER));
 
-      if (m_hours.isEmpty() == false)
+      for (int loop=0; loop < m_hours.length; loop++)
       {
-         Iterator iter = m_hours.iterator();
-         while (iter.hasNext() == true)
+         if (m_hours[loop] != null)
          {
-            buf.append((iter.next()).toString());
+            buf.append (m_hours[loop].toString());
          }
       }
 
@@ -526,46 +566,39 @@ public class BaseCalendar extends MPXRecord
          Date from2 = df.parse ("13:00");
          Date to2 = df.parse ("17:00");
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.SUNDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.SUNDAY);
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.MONDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.MONDAY);
          hours.setFromTime1 (from1);
          hours.setToTime1 (to1);
          hours.setFromTime2 (from2);
          hours.setToTime2 (to2);
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.TUESDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.TUESDAY);
          hours.setFromTime1 (from1);
          hours.setToTime1 (to1);
          hours.setFromTime2 (from2);
          hours.setToTime2 (to2);
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.WEDNESDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.WEDNESDAY);
          hours.setFromTime1 (from1);
          hours.setToTime1 (to1);
          hours.setFromTime2 (from2);
          hours.setToTime2 (to2);
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.THURSDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.THURSDAY);
          hours.setFromTime1 (from1);
          hours.setToTime1 (to1);
          hours.setFromTime2 (from2);
          hours.setToTime2 (to2);
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.FRIDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.FRIDAY);
          hours.setFromTime1 (from1);
          hours.setToTime1 (to1);
          hours.setFromTime2 (from2);
          hours.setToTime2 (to2);
 
-         hours = addBaseCalendarHours ();
-         hours.setDay(BaseCalendarHours.SATURDAY);
+         hours = addBaseCalendarHours (BaseCalendarHours.SATURDAY);
       }
 
       catch (ParseException ex)
@@ -643,7 +676,7 @@ public class BaseCalendar extends MPXRecord
    /**
     * List of working hours for the base calendar.
     */
-   private LinkedList m_hours = new LinkedList();
+   private BaseCalendarHours[] m_hours = new BaseCalendarHours[7];
 
    /**
     * Constant representing the number of milliseconds in a day.
@@ -699,12 +732,6 @@ public class BaseCalendar extends MPXRecord
     * Constant used to represent working days
     */
    public static final int WORKING = 1;
-
-   /**
-    * Constant representing maximum number of BaseCalendarHours
-    * records per BaseCalendar.
-    */
-   static final int MAX_CALENDAR_HOURS = 7;
 
    /**
     * Maximum number of fields in this record.

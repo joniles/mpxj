@@ -454,6 +454,16 @@ public class Task extends MPXRecord implements Comparable
       return (m_recurring);
    }
 
+   /**
+    * This method retrieves the recurring task record. If the current
+    * task is not a recurring task, then this method will return null.
+    *
+    * @return Recurring task record.
+    */
+   public RecurringTask getRecurringTask ()
+   {
+      return (m_recurring);
+   }
 
    /**
     * This method allows a resource assignment to be added to the
@@ -2711,9 +2721,34 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - currency amount as float
     */
+   public double getBCWPValue ()
+   {
+      return (getDoubleValue(BCWP));
+   }
+
+   /**
+    * The BCWP (budgeted cost of work performed) field contains
+    * the cumulative value of the assignment's timephased percent complete
+    * multiplied by the assignment's timephased baseline cost.
+    * BCWP is calculated up to the status date or today's date.
+    * This information is also known as earned value.
+    *
+    * @return - currency amount as float
+    */
    public Number getBCWP ()
    {
       return ((Number)get(BCWP));
+   }
+
+   /**
+    * The BCWS (budgeted cost of work scheduled) field contains the cumulative
+    * timephased baseline costs up to the status date or today's date.
+    *
+    * @return - currency amount as float
+    */
+   public double getBCWSValue ()
+   {
+      return (getDoubleValue(BCWS));
    }
 
    /**
@@ -2762,6 +2797,29 @@ public class Task extends MPXRecord implements Comparable
    public Date getConstraintDate ()
    {
       return ((Date)get(CONSTRAINT_DATE));
+   }
+
+   /**
+    * The Constraint Type field provides choices for the type of constraint you
+    * can apply for scheduling a task.
+    *
+    * @return constraint type
+    */
+   public int getConstraintTypeValue ()
+   {
+      int result;
+      ConstraintType type = (ConstraintType)get(CONSTRAINT_TYPE);
+
+      if (type == null)
+      {
+         result = ConstraintType.AS_SOON_AS_POSSIBLE;
+      }
+      else
+      {
+         result = type.getType();
+      }
+
+      return (result);
    }
 
    /**
@@ -2878,6 +2936,20 @@ public class Task extends MPXRecord implements Comparable
    public Boolean getCritical ()
    {
       return ((Boolean)get (CRITICAL));
+   }
+
+
+   /**
+    * The CV (earned value cost variance) field shows the difference between
+    * how much it should have cost to achieve the current level of completion
+    * on the task, and how much it has actually cost to achieve the current
+    * level of completion up to the status date or today's date.
+    *
+    * @return sum of earned value cost variance
+    */
+   public double getCVValue ()
+   {
+      return (getDoubleValue(CV));
    }
 
    /**
@@ -3069,9 +3141,9 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - String
     */
-   public String getFinishVariance ()
+   public MPXDuration getFinishVariance ()
    {
-      return ((String)get(FINISH_VARIANCE));
+      return ((MPXDuration)get(FINISH_VARIANCE));
    }
 
    /**
@@ -3094,6 +3166,17 @@ public class Task extends MPXRecord implements Comparable
    public Boolean getFixed ()
    {
       return ((Boolean)get (FIXED));
+   }
+
+   /**
+    * The Fixed Cost field shows any task expense that is not associated
+    * with a resource cost.
+    *
+    * @return - currenct amount as float
+    */
+   public double getFixedCostValue ()
+   {
+      return (getDoubleValue(FIXED_COST));
    }
 
    /**

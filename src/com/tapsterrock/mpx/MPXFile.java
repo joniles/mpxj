@@ -60,6 +60,53 @@ public class MPXFile
    }
 
    /**
+    * Copy constructor. WARNING: this provides a shallow copy only.
+    *
+    * @param file File to be copied
+    */
+   public MPXFile (MPXFile file)
+   {
+      m_allResourceAssignments = file.m_allResourceAssignments;
+      m_allResources = file.m_allResources;
+      m_allTasks = file.m_allTasks;
+      m_autoOutlineLevel = file.m_autoOutlineLevel;
+      m_autoResourceID = file.m_autoResourceID;
+      m_autoResourceUniqueID = file.m_autoResourceUniqueID;
+      m_autoTaskID = file.m_autoTaskID;
+      m_autoTaskUniqueID = file.m_autoTaskUniqueID;
+      m_autoWBS = file.m_autoWBS;
+      m_baseCalendars = file.m_baseCalendars;
+      m_baseOutlineLevel = file.m_baseOutlineLevel;
+      m_childTasks = file.m_childTasks;
+      m_currencyFormat = file.m_currencyFormat;
+      m_currencySettings = file.m_currencySettings;
+      m_dateFormat = file.m_dateFormat;
+      m_dateTimeSettings = file.m_dateTimeSettings;
+      m_ddeOleClientLinks = file.m_ddeOleClientLinks;
+      m_defaultSettings = file.m_defaultSettings;
+      m_delimiter = file.m_delimiter;
+      m_fileCreationRecord = file.m_fileCreationRecord;
+      m_ignoreCurrencyThousandsSeparator = file.m_ignoreCurrencyThousandsSeparator;
+      m_lastBaseCalendar = file.m_lastBaseCalendar;
+      m_lastResource = file.m_lastResource;
+      m_lastResourceAssignment = file.m_lastResourceAssignment;
+      m_lastResourceCalendar = file.m_lastResourceCalendar;
+      m_lastTask = file.m_lastTask;
+      m_projectHeader = file.m_projectHeader;
+      m_projectNames = file.m_projectNames;
+      m_records = file.m_records;
+      m_resourceID = file.m_resourceID;
+      m_resourceModel = file.m_resourceModel;
+      m_resourceTableDefinition = file.m_resourceTableDefinition;
+      m_resourceUniqueID = file.m_resourceUniqueID;
+      m_taskID = file.m_taskID;
+      m_taskModel = file.m_taskModel;
+      m_taskTableDefinition = file.m_taskTableDefinition;
+      m_taskUniqueID = file.m_taskUniqueID;
+      m_timeFormat = file.m_timeFormat;
+   }
+
+   /**
     * This constructor is the primary mechanism for reading an
     * existing MPX file.
     *
@@ -292,13 +339,12 @@ public class MPXFile
 
          case BaseCalendar.RECORD_NUMBER:
          {
-            if (m_baseCalendarCount < MAX_BASE_CALENDARS)
+            if (m_baseCalendars.size() < MAX_BASE_CALENDARS)
             {
                m_lastBaseCalendar = new BaseCalendar (this, record);
                current = m_lastBaseCalendar;
                m_records.add (current);
                m_baseCalendars.add (current);
-               ++m_baseCalendarCount;
             }
             break;
          }
@@ -352,7 +398,7 @@ public class MPXFile
 
          case Resource.RECORD_NUMBER:
          {
-            if (m_resourceCount < MAX_RESOURCES)
+            if (m_allResources.size() < MAX_RESOURCES)
             {
                m_lastResource = new Resource (this, record);
                current = m_lastResource;
@@ -862,6 +908,17 @@ public class MPXFile
       calendar.addDefaultBaseCalendarHours ();
 
       return (calendar);
+   }
+
+   /**
+    * This method retrieves the list of base calendars defined in
+    * this file.
+    *
+    * @return List of calendars
+    */
+   public LinkedList getBaseCalendars ()
+   {
+      return (m_baseCalendars);
    }
 
    /**
@@ -1453,19 +1510,9 @@ public class MPXFile
    private BaseCalendar m_lastBaseCalendar = null;
 
    /**
-    * Count of the number of base calendars.
-    */
-   private int m_baseCalendarCount = 0;
-
-   /**
     * Flag indicating the existence of a resource model record.
     */
    private boolean m_resourceTableDefinition = false;
-
-   /**
-    * Count of the number of resources.
-    */
-   private int m_resourceCount = 0;
 
    /**
     * Flag indicating the existence of a task model record.

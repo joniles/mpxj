@@ -23,6 +23,10 @@
 
 package com.tapsterrock.mspdi;
 
+import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.TimeUnit;
+import java.text.DecimalFormat;
+
 /**
  * This class parses and represents an xsd:duration value.
  */
@@ -75,6 +79,65 @@ class XsdDuration
                m_hours = -m_hours;
                m_minutes = -m_minutes;
                m_seconds = -m_seconds;
+            }
+         }
+      }
+   }
+
+   /**
+    * This constructor allows an xsd:duration to be created from
+    * an MPX duration.
+    *
+    * @param duration An MPX duration.
+    */
+   public XsdDuration (MPXDuration duration)
+   {
+      if (duration != null)
+      {
+         int amount = (int)duration.getDuration();
+
+         switch (duration.getType())
+         {
+            case TimeUnit.MINUTES:
+            case TimeUnit.ELAPSED_MINUTES:
+            {
+               m_minutes = amount;
+               break;
+            }
+
+            case TimeUnit.HOURS:
+            case TimeUnit.ELAPSED_HOURS:
+            {
+               m_hours = amount;
+               break;
+            }
+
+            case TimeUnit.DAYS:
+            case TimeUnit.ELAPSED_DAYS:
+            {
+               m_days = amount;
+               break;
+            }
+
+            case TimeUnit.WEEKS:
+            case TimeUnit.ELAPSED_WEEKS:
+            {
+               m_days = amount * 7;
+               break;
+            }
+
+            case TimeUnit.MONTHS:
+            case TimeUnit.ELAPSED_MONTHS:
+            {
+               m_months = amount;
+               break;
+            }
+
+            case TimeUnit.YEARS:
+            case TimeUnit.ELAPSED_YEARS:
+            {
+               m_years = amount;
+               break;
             }
          }
       }
@@ -227,6 +290,95 @@ class XsdDuration
       return (m_years);
    }
 
+   /**
+    * This method generates the string representation of an xsd:duration value.
+    *
+    * @return xsd:duration value
+    */
+   public String toString ()
+   {
+      StringBuffer buffer = new StringBuffer ("P");
+      boolean negative = false;
+
+      if (m_years != 0 || m_months != 0 || m_days != 0)
+      {
+         if (m_years < 0)
+         {
+            negative = true;
+            buffer.append (-m_years);
+         }
+         else
+         {
+            buffer.append (m_years);
+         }
+         buffer.append ("Y");
+
+         if (m_months < 0)
+         {
+            negative = true;
+            buffer.append (-m_months);
+         }
+         else
+         {
+            buffer.append (m_months);
+         }
+         buffer.append ("M");
+
+         if (m_days < 0)
+         {
+            negative = true;
+            buffer.append (-m_days);
+         }
+         else
+         {
+            buffer.append (m_days);
+         }
+         buffer.append ("D");
+      }
+
+      buffer.append ("T");
+
+      if (m_hours < 0)
+      {
+         negative = true;
+         buffer.append (-m_hours);
+      }
+      else
+      {
+         buffer.append (m_hours);
+      }
+      buffer.append ("H");
+
+      if (m_minutes < 0)
+      {
+         negative = true;
+         buffer.append (-m_minutes);
+      }
+      else
+      {
+         buffer.append (m_minutes);
+      }
+      buffer.append ("M");
+
+      if (m_seconds < 0)
+      {
+         negative = true;
+         buffer.append (FORMAT.format(-m_seconds));
+      }
+      else
+      {
+         buffer.append (FORMAT.format(m_seconds));
+      }
+      buffer.append ("S");
+
+      if (negative == true)
+      {
+         buffer.insert(0, '-');
+      }
+
+      return (buffer.toString());
+   }
+
    private boolean m_hasTime = false;
    private int m_years = 0;
    private int m_months = 0;
@@ -234,5 +386,6 @@ class XsdDuration
    private int m_hours = 0;
    private int m_minutes = 0;
    private double m_seconds = 0;
+   private static final DecimalFormat FORMAT = new DecimalFormat ("#");
 }
 

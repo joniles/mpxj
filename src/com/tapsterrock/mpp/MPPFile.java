@@ -320,8 +320,7 @@ public class MPPFile extends MPXFile
                   cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(index+1) == true)
                   {
-                     hours = cal.addBaseCalendarHours();
-                     hours.setDay(index+1);
+                     hours = cal.addBaseCalendarHours(index+1);
                      hours.setFromTime1(defaultStart1);
                      hours.setToTime1(defaultEnd1);
                      hours.setFromTime2(defaultStart2);
@@ -338,8 +337,7 @@ public class MPPFile extends MPXFile
                   else
                   {
                      cal.setWorkingDay(index+1, true);
-                     hours = cal.addBaseCalendarHours();
-                     hours.setDay(index+1);
+                     hours = cal.addBaseCalendarHours(index+1);
 
                      start = MPPUtility.getTime (data, offset + 8);
                      duration = MPPUtility.getTime (data, offset + 20);
@@ -385,11 +383,11 @@ public class MPPFile extends MPXFile
                   periodCount = MPPUtility.getShort (data, offset+6);
                   if (periodCount == 0)
                   {
-                     exception.setWorking(BaseCalendar.NONWORKING);
+                     exception.setWorking (false);
                   }
                   else
                   {
-                     exception.setWorking(BaseCalendar.WORKING);
+                     exception.setWorking (true);
 
                      start = MPPUtility.getTime (data, offset+12);
                      duration = MPPUtility.getTime (data, offset+24);
