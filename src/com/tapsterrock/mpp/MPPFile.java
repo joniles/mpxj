@@ -240,7 +240,7 @@ public class MPPFile extends MPXFile
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
-         if (data != null && data.length > 0)
+         if (data != null && data.length > 4)
          {
             uniqueID = MPPUtility.getInt (data, 0);
             taskMap.put(new Integer (uniqueID), new Integer (loop));
@@ -264,7 +264,7 @@ public class MPPFile extends MPXFile
       for (int loop=0; loop < itemCount; loop++)
       {
          data = rscFixedData.getByteArrayValue(loop);
-         if (data != null && data.length > 0)
+         if (data != null && data.length > 4)
          {         
 	         uniqueID = MPPUtility.getInt (data, 0);
 	         resourceMap.put(new Integer (uniqueID), new Integer (loop));
