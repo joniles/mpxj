@@ -31,7 +31,7 @@ import java.io.IOException;
  * of an MPP file. The bits we can decypher allow us to determine
  * the file format.
  */
-class CompObj extends MPPComponent
+final class CompObj extends MPPComponent
 {
    /**
     * Constructor. Reads and processes the block data.
@@ -39,11 +39,10 @@ class CompObj extends MPPComponent
     * @param is input stream
     * @throws IOException on read failure
     */
-   public CompObj (InputStream is)
+   CompObj (InputStream is)
       throws IOException
    {
       int length;
-      String string;
 
       is.skip(28);
 
