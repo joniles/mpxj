@@ -79,7 +79,7 @@
    <jar jarfile="${junit.dir}/mpxjtest.jar" basedir="${junit.classes.dir}"/>
 </target>
 
-<target name="distribute" depends="compile,archive,document,clean-classes" description="Create distribution">
+<target name="distribute" depends="compile,archive,clean-classes" description="Create distribution">
    <zip zipfile="${distribution}">
       <zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*"/>
    </zip>
