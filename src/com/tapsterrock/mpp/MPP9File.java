@@ -126,6 +126,7 @@ final class MPP9File
     * This method extracts and collates global property data.
     *
     * @param file Parent MPX file
+    * @param rootDir root direcory of the file
     * @param projectDir Project data directory
     * @throws IOException
     */
