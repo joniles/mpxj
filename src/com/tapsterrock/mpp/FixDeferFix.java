@@ -161,7 +161,7 @@ final class FixDeferFix extends MPPComponent
       // 4 byte header
       //
       int fileOffset = 0;             
-      int int1 = MPPUtility.getInt(m_data, fileOffset);
+      MPPUtility.getInt(m_data, fileOffset);
       fileOffset += 4;
                
       //

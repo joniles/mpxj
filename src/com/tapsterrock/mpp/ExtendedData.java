@@ -53,7 +53,6 @@ final class ExtendedData
          int index = 0;
          int size;
          int type;
-         byte[] item;
             
          while (index < data.length)
          {
