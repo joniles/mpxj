@@ -113,6 +113,7 @@ Thanks to:
 Scott Melville
 Pasha Ashpak
 Pramodh C
+Harald Hett
 
 Licensing
 

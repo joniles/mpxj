@@ -411,6 +411,7 @@ final class MPP8File
       byte[] data;
       int uniqueID;
       int id;
+      int deleted;
       Task task;
       String notes;
       RTFUtility rtf = new RTFUtility ();
@@ -431,8 +432,14 @@ final class MPP8File
 
          //
          // Test to ensure this task has not been deleted
+         // This appears to be a set of flags rather than a
+         // single value. A sample file from a bug report
+         // seems to indicate that a value of 0x40 indicates
+         // a valid task. The test below filters out values
+         // >= 0x40 as representing valid tasks.
          //
-         if (MPPUtility.getShort(data, 272) != 0)
+         deleted = MPPUtility.getShort(data, 272);
+         if ((deleted & 0x3F) != 0)
          {
             continue;
          }
@@ -829,6 +836,9 @@ final class MPP8File
 
          //
          // Test to ensure this resource has not been deleted
+         // This may be an array of bit flags, as per the task
+         // record. I have yet to see data to support this, so 
+         // the simple non-zero test remains.
          //
          if (MPPUtility.getShort(data, 164) != 0)
          {
