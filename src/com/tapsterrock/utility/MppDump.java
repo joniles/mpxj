@@ -101,6 +101,8 @@ public class MppDump
    private static void dumpTree (PrintWriter pw, DirectoryEntry dir, String prefix)
       throws Exception
    {
+      long byteCount;
+      
       prefix += " ";
 
       for (Iterator iter = dir.getEntries(); iter.hasNext(); )
@@ -115,8 +117,8 @@ public class MppDump
          else if (entry instanceof DocumentEntry)
          {
             pw.println ("start doc: " + entry.getName());
-            hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
-            pw.println ("end doc: " + entry.getName());
+            byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
+            pw.println ("end doc: " + entry.getName() + " (" + byteCount +" bytes read)");
          }
          else
          {
@@ -133,11 +135,12 @@ public class MppDump
     * @param pw Output PrintWriter
     * @throws Exception Thrown on file read errors
     */
-   private static void hexdump (InputStream is, PrintWriter pw)
+   private static long hexdump (InputStream is, PrintWriter pw)
       throws Exception
    {
       byte[] buffer = new byte[BUFFER_SIZE];
-
+      long byteCount = 0;
+      
       char c;
       int loop;
       int count;
@@ -152,6 +155,8 @@ public class MppDump
             break;
          }
 
+         byteCount += count;
+         
          sb.setLength(0);
 
          for (loop=0; loop < count; loop++)
@@ -184,6 +189,8 @@ public class MppDump
 
          address += count;
       }
+      
+      return (byteCount);      
    }
 
    /**
