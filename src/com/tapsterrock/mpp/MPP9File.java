@@ -1629,7 +1629,7 @@ final class MPP9File
       }
       else
       {
-         result = priority / 100;
+         result = (priority-1) / 100;
       }
 
       return (Priority.getInstance (result));
