@@ -52,16 +52,24 @@ final class Props9 extends Props
 
       int headerCount = MPPUtility.getShort(header, 12);
       int foundCount = 0;
-
+      int availableBytes = is.available();
+            
       while (foundCount < headerCount)
       {
          int attrib1 = readInt(is);
          int attrib2 = readInt(is);
          int attrib3 = readInt(is);
-
+         availableBytes -= 12;
+         
+         if (availableBytes < attrib1)
+         {
+            break;
+         }
+         
          data = new byte[attrib1];
          is.read(data);
-
+         availableBytes -= attrib1;
+         
          m_map.put(new Integer (attrib2), data);
          //pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;

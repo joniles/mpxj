@@ -47,6 +47,25 @@ class Props extends MPPComponent
    }
 
    /**
+    * Retrieves a byte value from the property data
+    *
+    * @param type Type identifier
+    * @return byte value
+    */
+   public byte getByte (Integer type)
+   {
+      byte result = 0;
+
+      byte[] item = (byte[])m_map.get (type);
+      if (item != null)
+      {
+         result = item[0];
+      }
+
+      return (result);
+   }
+
+   /**
     * Retrieves a short int value from the property data
     *
     * @param type Type identifier
@@ -182,6 +201,7 @@ class Props extends MPPComponent
    public static final Integer TASK_FIELD_NAME_ALIASES = new Integer (1048577);
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
-
+   public static final Integer PASSWORD_FLAG = new Integer (893386752);
+   
    protected TreeMap m_map = new TreeMap ();
 }

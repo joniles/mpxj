@@ -131,7 +131,10 @@ public final class CurrencySettings extends MPXRecord
     */
    public void setCurrencySymbol (String symbol)
    {
-      put (CURRENCY_SYMBOL, symbol);
+      if (symbol != null)
+      {
+         put (CURRENCY_SYMBOL, symbol);
+      }
    }
 
    /**

@@ -709,11 +709,14 @@ public final class DateTimeSettings extends MPXRecord
     */
    public void setDefaultStartTime (Date time)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(time);
-      int result = cal.get(Calendar.HOUR_OF_DAY) * 60;
-      result += cal.get(Calendar.MINUTE);
-      put (DEFAULT_TIME, result);
+      if (time != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(time);
+         int result = cal.get(Calendar.HOUR_OF_DAY) * 60;
+         result += cal.get(Calendar.MINUTE);
+         put (DEFAULT_TIME, result);
+      }
    }
 
    /**
