@@ -28,6 +28,7 @@ package com.tapsterrock.mpx.test;
 import junit.framework.*;
 import com.tapsterrock.mpx.*;
 import com.tapsterrock.mpp.*;
+import com.tapsterrock.mspdi.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.LinkedList;
@@ -167,7 +168,7 @@ public class TestMPXFile extends TestCase
    /**
     * Exercise the MPP import code.
     */
-   public void testConversion ()
+   public void testConversion1 ()
       throws Exception
    {
       File out = null;
@@ -178,6 +179,32 @@ public class TestMPXFile extends TestCase
          MPPFile mpp = new MPPFile (in);
          out = File.createTempFile ("junit", ".mpx");
          mpp.write (out);
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+
+   }
+
+   /**
+    * Exercise the XML import code.
+    */
+   public void testConversion2 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample.xml");
+         MSPDIFile xml = new MSPDIFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         xml.write (out);
       }
 
       finally
