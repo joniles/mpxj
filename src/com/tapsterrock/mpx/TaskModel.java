@@ -56,6 +56,7 @@ final class TaskModel extends MPXRecord
       m_taskNames = LocaleData.getStringArray(locale, LocaleData.TASK_NAMES);
       
       String name;
+      m_taskNumbers.clear();
    
       for (int loop=0; loop < m_taskNames.length; loop++)
       {
@@ -241,7 +242,7 @@ final class TaskModel extends MPXRecord
    private int m_count;
 
    /**
-    * Array of task names, indexed by ID
+    * Array of task column names, indexed by ID
     */
    private String[] m_taskNames;
    

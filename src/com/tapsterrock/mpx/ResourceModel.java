@@ -25,6 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * This class represents the resource table definition record in an MPX file.
@@ -42,8 +43,31 @@ final class ResourceModel extends MPXRecord
    ResourceModel (MPXFile file)
    {
       super (file, 0);
+      setLocale(file.getLocale());
    }
 
+   /**
+    * This method is used to update the locale specific data used by this class.
+    * 
+    * @param locale
+    */
+   void setLocale (Locale locale)
+   {
+      m_resourceNames = LocaleData.getStringArray(locale, LocaleData.RESOURCE_NAMES);
+      
+      String name;
+      m_resourceNumbers.clear();
+         
+      for (int loop=0; loop < m_resourceNames.length; loop++)
+      {
+         name = m_resourceNames[loop];
+         if (name != null)
+         {
+            m_resourceNumbers.put(name, new Integer (loop));
+         }            
+      }        
+   }         
+   
    /**
     * This method populates the resource model from data read from an MPX file.
     *
@@ -59,7 +83,7 @@ final class ResourceModel extends MPXRecord
       {
          if (isText == true)
          {
-            add (Integer.parseInt(getResourceCode (record.getString (i))));
+            add (getResourceCode (record.getString (i)));
          }
          else
          {
@@ -163,9 +187,16 @@ final class ResourceModel extends MPXRecord
     * @param key resource field number
     * @return resource field name
     */
-   public static String getResourceField (int key)
+   private String getResourceField (int key)
    {
-      return ((String)RESOURCE_NAME.get(Integer.toString(key)));
+      String result = null;
+      
+      if (key > 0 && key < m_resourceNames.length)
+      {
+         result = m_resourceNames[key];
+      }
+               
+      return (result);
    }
 
    /**
@@ -174,17 +205,17 @@ final class ResourceModel extends MPXRecord
     * @param field resource field name
     * @return resource field number
     */
-   public static String getResourceCode (String field)
+   private int getResourceCode (String field)
       throws MPXException
    {
-      String result = (String)RESOURCE_NUMBER.get(field);
+      Integer result = (Integer)m_resourceNumbers.get(field);
 
       if (result == null)
       {
          throw new MPXException (MPXException.INVALID_RESOURCE_FIELD_NAME + " " + field);
       }
 
-      return (result);
+      return (result.intValue());
    }
 
    /**
@@ -209,46 +240,14 @@ final class ResourceModel extends MPXRecord
    private int m_count;
 
    /**
-    * Resource record field names
+    * Array of resource column names, indexed by ID
     */
-   private static final String[] RESOURCE_NAMES =
-   {
-      "% Work Complete", "Accrue At", "Actual Cost", "Actual Work",
-      "Base Calendar", "Baseline Cost", "Baseline Work", "Code", "Cost",
-      "Cost Per Use", "Cost Variance", "Email Address", "Group", "ID",
-      "Initials", "Linked Fields", "Max Units", "Name", "Notes", "Objects",
-      "Overallocated", "Overtime Rate", "Overtime Work", "Peak",
-      "Remaining Cost", "Remaining Work", "Standard Rate", "Text1", "Text2",
-      "Text3", "Text4", "Text5", "Unique ID", "Work", "Work Variance"
-   };
-
-   /**
-    * Resource record field numbers
-    */
-   private static final String[] RESOURCE_NUMBERS =
-   {
-      "26", "45", "32", "22", "48", "31", "21", "4", "30", "44", "34", "11",
-      "3", "40", "2", "51", "41", "1", "10", "50", "46", "43", "24", "47",
-      "33", "23", "42", "5", "6", "7", "8", "9", "49", "20", "25"
-   };
-
+   private String[] m_resourceNames;   
+   
    /**
     * Map to store Resource field Numbers
     */
-   private static final HashMap RESOURCE_NUMBER = new HashMap();
-
-   /**
-    * Map to store Resource field Names
-    */
-   private static final HashMap RESOURCE_NAME = new HashMap();
-
-   {
-      for (int i=0; i < RESOURCE_NUMBERS.length; i++)
-      {
-         RESOURCE_NAME.put (RESOURCE_NUMBERS[i], RESOURCE_NAMES[i]);
-         RESOURCE_NUMBER.put (RESOURCE_NAMES[i], RESOURCE_NUMBERS[i]);
-      }
-   }
+   private HashMap m_resourceNumbers = new HashMap();
 
    /**
     * Constant containing the record number associated with this record.

@@ -204,7 +204,63 @@ public final class LocaleData_sv extends ListResourceBundle
       "Fortsätt tidigast",
       "Resume", // Translate
    };
-   
+  
+   private static final String[] RESOURCE_NAMES_DATA =
+   {
+      null,
+      "Namn",
+      "Initialer",
+      "Grupp",
+      "Kod",
+      "Text1",
+      "Text2",
+      "Text3",
+      "Text4",
+      "Text5",
+      "Notes", // translate
+      "e-post",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Arbete",
+      "Originalarbete",
+      "Verkligt arbete",
+      "Remaining Work", // translate
+      "Övertidsarbete", 
+      "Work Variance", // translate
+      "% Work Complete",  // translate
+      null,
+      null,
+      null,
+      "Kostnad",
+      "Originalkostnad",
+      "Verklig kostnad",
+      "Remaining Cost", // translate
+      "Cost Variance", // translate
+      null,
+      null,
+      null,
+      null,
+      null,
+      "ID",
+      "Max enheter",
+      "Standardkostnad",
+      "Övertidskostnad",
+      "Kostnad per tillfälle",
+      "Påförs",
+      "Overallocated", // translate
+      "Peak", // translated
+      "Base Calendar", // translate
+      "Eget ID", 
+      "Objects", // translate
+      "Linked Fields" // translate      
+   };
+    
    private static final Object[][] RESOURCE_DATA =
    {
       {LocaleData.FILE_DELIMITER, ";"},
@@ -231,6 +287,7 @@ public final class LocaleData_sv extends ListResourceBundle
       {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
       {LocaleData.TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
       
-      {LocaleData.TASK_NAMES, TASK_NAMES_DATA}      
+      {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
+      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}      
    };
 }

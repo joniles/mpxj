@@ -137,6 +137,7 @@ public final class LocaleData extends ListResourceBundle
    public static final String TIME_UNITS_MAP = "TIME_UNITS_MAP";
 
    public static final String TASK_NAMES = "TASK_NAMES";
+   public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
    
    private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "h", "d", "w", "mon", "y", "%", "em", "eh", "ed", "ew", "emon", "ey", "e%"};
    private static final HashMap TIME_UNITS_MAP_DATA = new HashMap ();
@@ -306,6 +307,62 @@ public final class LocaleData extends ListResourceBundle
       "Resume"
    };
 
+   private static final String[] RESOURCE_NAMES_DATA =
+   {
+      null,
+      "Name", 
+      "Initials",
+      "Group",
+      "Code",
+      "Text1",
+      "Text2",
+      "Text3",
+      "Text4",
+      "Text5",
+      "Notes",
+      "Email Address",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Work", 
+      "Baseline Work",
+      "Actual Work",
+      "Remaining Work",
+      "Overtime Work",
+      "Work Variance",
+      "% Work Complete", 
+      null,
+      null,
+      null,
+      "Cost",
+      "Baseline Cost",
+      "Actual Cost",
+      "Remaining Cost",
+      "Cost Variance",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "ID",
+      "Max Units",
+      "Standard Rate",
+      "Overtime Rate",
+      "Cost Per Use",
+      "Accrue At",
+      "Overallocated",
+      "Peak",
+      "Base Calendar",
+      "Unique ID",
+      "Objects",
+      "Linked Fields",      
+   };
+
    private static final Object[][] RESOURCE_DATA =
    {
       {FILE_DELIMITER, ","},
@@ -335,6 +392,7 @@ public final class LocaleData extends ListResourceBundle
       {TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
       {TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
 
-      {TASK_NAMES, TASK_NAMES_DATA}
+      {TASK_NAMES, TASK_NAMES_DATA},
+      {RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };
 }

@@ -1736,6 +1736,7 @@ public class MPXFile
       m_dateTimeSettings.setLocale(locale);
       m_dateFormat.setLocale(locale);
       m_taskModel.setLocale(locale);
+      m_resourceModel.setLocale(locale);
    }
 
    /**
