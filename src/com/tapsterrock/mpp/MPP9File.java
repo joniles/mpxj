@@ -46,6 +46,7 @@ import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
+import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
 
@@ -928,8 +929,6 @@ final class MPP9File
 
    /**
     * This method extracts and collates resource assignment data
-    *
-    * TODO Extract more attributes from each record, particularly the work attributes.
     * 
     * @param file Parent MPX file
     * @param projectDir Project data directory
@@ -945,7 +944,8 @@ final class MPP9File
       int count = assnFixedData.getItemCount();
       byte[] data;
       Task task;
-      Resource resource;
+      Resource resource;      ResourceAssignment assignment;
+      
       for (int loop=0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
@@ -953,13 +953,21 @@ final class MPP9File
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
          if (task != null && resource != null)
          {
-            task.addResourceAssignment (resource);
+            assignment = task.addResourceAssignment (resource);
+            assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
+            assignment.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
+            assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
+            //assignment.setDelay(); // Not sure what this field maps on to in MSP
+            assignment.setFinish(MPPUtility.getTimestamp(data, 16));
+            //assignment.setOvertimeWork(); // Can't find in data block
+            //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
+            //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+            assignment.setStart(MPPUtility.getTimestamp(data, 12));            
+            assignment.setUnits(((double)MPPUtility.getDouble(data, 54))/100);
+            assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
          }
       }
    }
-
-
-
 
 	/**
 	 * This method is used to determine if a duration is estimated.

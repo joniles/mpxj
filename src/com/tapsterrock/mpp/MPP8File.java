@@ -852,8 +852,6 @@ final class MPP8File
    /**
     * This method extracts and collates resource assignment data.
     * 
-    * TODO Extract more attributes from each record.
-    * 
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
