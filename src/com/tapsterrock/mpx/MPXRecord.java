@@ -46,6 +46,14 @@ class MPXRecord
       m_array = new Object[size];
    }
 
+   /**
+    * This method removes line breaks from a piece of text, and replaces
+    * them with the supplied text.
+    * 
+    * @param text source text
+    * @param replacement line break replacement text
+    * @return text with line breaks removed.
+    */
    protected final String stripLineBreaks (String text, String replacement)
    {
       if (text.indexOf('\r') != -1 || text.indexOf('\n') != -1)
