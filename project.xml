@@ -9,7 +9,7 @@
     <logo>/images/tapster.gif</logo>
   </organization>
   <inceptionYear>2000</inceptionYear>
-  <package>com.tapsterrock.mpxj</package>
+  <package>com.tapsterrock</package>
   <logo></logo>
   <shortDescription>Microsoft Project Exchange For Java</shortDescription>
 
