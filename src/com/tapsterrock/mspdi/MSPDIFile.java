@@ -682,8 +682,11 @@ public class MSPDIFile extends MPXFile
       mpx.setInitials(xml.getInitials());
       //mpx.setLinkedFields();
       mpx.setMaxUnits(xml.getMaxUnits()*100);
-      mpx.setName(xml.getName());
-      mpx.setNotes(xml.getNotes());
+      mpx.setName(xml.getName());      
+      if (xml.getNotes() != null && xml.getNotes().length() != 0)
+      {
+         mpx.setNotes(xml.getNotes());
+      }      
       //mpx.setObjects();
       //mpx.setOverallocated();
       mpx.setOvertimeCost(getMpxCurrency(xml.getOvertimeCost()));
@@ -891,7 +894,10 @@ public class MSPDIFile extends MPXFile
       //mpx.setMarked();
       mpx.setMilestone(xml.isMilestone());
       mpx.setName(xml.getName());
-      mpx.setNotes(xml.getNotes());
+      if (xml.getNotes() != null && xml.getNotes().length() != 0)
+      {
+         mpx.setNotes(xml.getNotes());
+      }
       //mpx.setNumber1();
       //mpx.setNumber2();
       //mpx.setNumber3();
