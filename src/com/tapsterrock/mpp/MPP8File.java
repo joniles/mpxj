@@ -617,7 +617,7 @@ final class MPP8File
          task.setResume(MPPUtility.getTimestamp(data, 32));
          //task.setResumeNoEarlierThan(); // Not in MSP98?
          task.setRollup((data[15] & 0x04) != 0);
-         task.setStart (MPPUtility.getTimestamp (data, 24));
+         task.setStart (MPPUtility.getTimestamp (data, 96));
          task.setStart1(taskExtData.getTimestamp(TASK_START1));
          task.setStart2(taskExtData.getTimestamp(TASK_START2));
          task.setStart3(taskExtData.getTimestamp(TASK_START3));
