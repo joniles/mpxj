@@ -135,34 +135,41 @@ public class TestMPXFile extends TestCase
       assertEquals (task1.getOutlineNumber(), "1.0");      
       assertEquals (task1.getIDValue(), 1);
       assertEquals (task1.getUniqueIDValue(), 1);
-
+      assertEquals (task1.getSummaryValue(), false);
+      
       task1 = file.addTask();
       assertEquals (task1.getWBS(), "2.0");
       assertEquals (task1.getOutlineLevelValue(), 1);
       assertEquals (task1.getOutlineNumber(), "2.0");      
       assertEquals (task1.getIDValue(), 2);
       assertEquals (task1.getUniqueIDValue(), 2);
-
+      assertEquals (task1.getSummaryValue(), false);
+      
       task1 = file.addTask();
       assertEquals (task1.getWBS(), "3.0");
       assertEquals (task1.getOutlineLevelValue(), 1);
       assertEquals (task1.getOutlineNumber(), "3.0");      
       assertEquals (task1.getIDValue(), 3);
       assertEquals (task1.getUniqueIDValue(), 3);
-
+      assertEquals (task1.getSummaryValue(), false);
+      
       Task task2 = task1.addTask();
       assertEquals (task2.getWBS(), "3.1");
       assertEquals (task2.getOutlineLevelValue(), 2);
       assertEquals (task2.getOutlineNumber(), "3.1");      
       assertEquals (task2.getIDValue(), 4);
       assertEquals (task2.getUniqueIDValue(), 4);
-
+		assertEquals (task1.getSummaryValue(), true);
+      assertEquals (task2.getSummaryValue(), false);
+      		
       task2 = task1.addTask();
       assertEquals (task2.getWBS(), "3.2");
       assertEquals (task2.getOutlineLevelValue(), 2);
       assertEquals (task2.getOutlineNumber(), "3.2");      
       assertEquals (task2.getIDValue(), 5);
       assertEquals (task2.getUniqueIDValue(), 5);
+      assertEquals (task1.getSummaryValue(), true);
+      assertEquals (task2.getSummaryValue(), false);
 
       Task task3 = task2.addTask();
       assertEquals (task3.getWBS(), "3.2.1");
@@ -170,13 +177,19 @@ public class TestMPXFile extends TestCase
       assertEquals (task3.getOutlineNumber(), "3.2.1");      
       assertEquals (task3.getIDValue(), 6);
       assertEquals (task3.getUniqueIDValue(), 6);
-
+      assertEquals (task1.getSummaryValue(), true);
+      assertEquals (task2.getSummaryValue(), true);
+      assertEquals (task3.getSummaryValue(), false);
+      
       task3 = task2.addTask();
       assertEquals (task3.getWBS(), "3.2.2");
       assertEquals (task3.getOutlineLevelValue(), 3);
       assertEquals (task3.getOutlineNumber(), "3.2.2");      
       assertEquals (task3.getIDValue(), 7);
       assertEquals (task3.getUniqueIDValue(), 7);
+      assertEquals (task1.getSummaryValue(), true);
+      assertEquals (task2.getSummaryValue(), true);
+      assertEquals (task3.getSummaryValue(), false);      
    }
 
    public void testStructure ()
@@ -226,7 +239,6 @@ public class TestMPXFile extends TestCase
             out.delete();
          }
       }
-
    }
 
    /**
@@ -253,6 +265,56 @@ public class TestMPXFile extends TestCase
          }
       }
 
+   }
+
+   /**
+    * Read an MPP file that caused problems.
+    */
+   public void testBug1 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/bug1.mpp");
+         MPPFile mpp = new MPPFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpp.write (out);
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   /**
+    * Read an MPP file that caused problems.
+    */
+   public void testBug2 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/bug2.mpp");
+         MPPFile mpp = new MPPFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpp.write (out);
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
    }
 
    /**

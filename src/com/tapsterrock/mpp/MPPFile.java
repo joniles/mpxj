@@ -45,6 +45,8 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.TreeMap;
+import java.util.LinkedList;
+import java.util.Iterator;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -631,6 +633,18 @@ public class MPPFile extends MPXFile
 		setAutoOutlineNumber(true);
       updateStructure ();
       setAutoOutlineNumber(false);      
+      
+      //
+      // Perform post-processing to set the summary flag
+      //
+      LinkedList tasks = getAllTasks();
+      Iterator iter = tasks.iterator();     
+      
+      while (iter.hasNext() == true)
+      {
+			task = (Task)iter.next();
+			task.setSummary(task.getChildTasks().size() != 0);
+      }
    }
 
    /**

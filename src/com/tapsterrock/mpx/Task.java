@@ -417,6 +417,8 @@ public class Task extends MPXRecord implements Comparable
 
       parent.addTask (task);
 
+		setSummary (true);
+		
       return (task);
    }
 
