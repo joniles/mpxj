@@ -1567,21 +1567,25 @@ final class MPP9File
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
 
-      int count = assnFixedData.getItemCount();
+      int count = assnFixedMeta.getItemCount();
       byte[] meta;
       byte[] data;
       Task task;
       Resource resource;
       ResourceAssignment assignment;
+      int offset;
       
       for (int loop=0; loop < count; loop++)
       {
          meta = assnFixedMeta.getByteArrayValue(loop);
-         if (meta == null || meta[0] == 0)
+         if (meta[0] == 0)
          {         
-            data = assnFixedData.getByteArrayValue(loop);                          
+            offset = MPPUtility.getInt(meta, 4);
+            data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));                          
+            
             task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
             resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
+            
             if (task != null && resource != null)
             {
                assignment = task.addResourceAssignment (resource);
