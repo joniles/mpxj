@@ -29,7 +29,8 @@ requests for inclusion here.</p>
 <li>Investigate extracting recurring task information (MPP8 taskExtData items 167 and 168?).</li>
 <li>Investigate implementing support for password protected files. (Encryption believed to be simple XOR.)</li>
 <li>Investigate subproject task attributes.</li>
-<li>Version 1.0 release: on completin of the bulk of the above changes.</li>
+<li>Investigate the use of an alternative JAXB implementation such as JAXMe.</li>
+<li>Version 1.0 release: on completion of the bulk of the above changes.</li>
 <li>Version 2.0 release: rewrite MPXJ to use a generic data structure not tied to MPX.</li>
 </ul>
 </section>
