@@ -90,14 +90,14 @@ public final class Resource extends MPXRecord
 
             case MAX_UNITS:
             {
-               set(x, new MPXUnits(field));
+               set(x, new MPXUnits(field, getParentFile().getUnitsDecimalFormat()));
                break;
             }
 
             case PERCENTAGE_WORK_COMPLETE:
             case PEAK:
             {
-               set(x, new MPXPercentage (field));
+               set(x, new MPXPercentage (field, getParentFile().getPercentageDecimalFormat()));
                break;
             }
 
@@ -126,7 +126,7 @@ public final class Resource extends MPXRecord
             case WORK:
             case WORK_VARIANCE:
             {
-               set (x, new MPXDuration (field));
+               set (x, new MPXDuration (field, getParentFile().getDurationDecimalFormat()));
                break;
             }
 

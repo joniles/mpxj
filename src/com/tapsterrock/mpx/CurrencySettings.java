@@ -231,27 +231,40 @@ public final class CurrencySettings extends MPXRecord
    }
 
    /**
-    * Sets the thousands separator. Normally ','
+    * Sets the thousands separator.
+    * Note that this separator defines the thousands separator for all decimal
+    * numbers that appear in the MPX file.
     *
     * @param sep character
     */
    public void setThousandsSeparator (char sep)
    {
       putChar (THOUSANDS_SEPARATOR, sep);
+      if (getParentFile().getThousandsSeparator() != sep)
+      {
+         getParentFile().setThousandsSeparator(sep);      
+      }         
    }
 
    /**
-    * Sets the thousands separator. Normally ','
-    *
+    * Sets the thousands separator.
+    * Note that this separator defines the thousands separator for all decimal
+    * numbers that appear in the MPX file.
+    * 
     * @param sep character
     */
    public void setThousandsSeparator (Character sep)
    {
-      put (THOUSANDS_SEPARATOR, sep);
+      if (sep != null)
+      {
+         setThousandsSeparator (sep.charValue());  
+      }
    }
 
    /**
-    * Gets the thousands separator. Normally ','
+    * Gets the thousands separator. 
+    * Note that this separator defines the thousands separator for all decimal
+    * numbers that appear in the MPX file.
     *
     * @return character
     */
@@ -261,27 +274,40 @@ public final class CurrencySettings extends MPXRecord
    }
 
    /**
-    * Sets the decimal separator. Normally '.'
+    * Sets the decimal separator.
+    * Note that this separator defines the decimal separator for all decimal
+    * numbers that appear in the MPX file.
     *
     * @param decSep character
     */
    public void setDecimalSeparator (char decSep)
    {
       putChar (DECIMAL_SEPARATOR, decSep);
+      if (getParentFile().getDecimalSeparator() != decSep)
+      {
+         getParentFile().setDecimalSeparator(decSep);
+      }         
    }
 
    /**
-    * Sets the decimal separator. Normally '.'
+    * Sets the decimal separator.
+    * Note that this separator defines the decimal separator for all decimal
+    * numbers that appear in the MPX file.
     *
     * @param decSep character
     */
    public void setDecimalSeparator (Character decSep)
    {
-      put (DECIMAL_SEPARATOR, decSep);
+      if (decSep != null)
+      {
+         setDecimalSeparator (decSep.charValue());
+      }
    }
 
    /**
-    * Gets the decimal separator. Normally '.'
+    * Gets the decimal separator.
+    * Note that this separator defines the decimal separator for all decimal
+    * numbers that appear in the MPX file.
     *
     * @return character
     */
@@ -332,7 +358,7 @@ public final class CurrencySettings extends MPXRecord
 
          StringBuffer pattern = new StringBuffer(prefix);
          pattern.append("#");
-         if (parent.getIgnoreCurrencyThousandsSeparator() == false)
+         if (parent.getIgnoreThousandsSeparator() == false)
          {
             pattern.append(',');
          }

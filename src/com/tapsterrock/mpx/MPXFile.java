@@ -88,7 +88,7 @@ public class MPXFile
       m_defaultSettings = file.m_defaultSettings;
       m_delimiter = file.m_delimiter;
       m_fileCreationRecord = file.m_fileCreationRecord;
-      m_ignoreCurrencyThousandsSeparator = file.m_ignoreCurrencyThousandsSeparator;
+      m_ignoreThousandsSeparator = file.m_ignoreThousandsSeparator;
       m_lastBaseCalendar = file.m_lastBaseCalendar;
       m_lastResource = file.m_lastResource;
       m_lastResourceAssignment = file.m_lastResourceAssignment;
@@ -350,6 +350,7 @@ public class MPXFile
          case CurrencySettings.RECORD_NUMBER:
          {
             m_currencySettings.update (record);
+            updateFormats();
             current = m_currencySettings;
             break;
          }
@@ -1196,6 +1197,8 @@ public class MPXFile
    public void write (OutputStreamWriter w)
       throws IOException
    {
+      updateFormats();
+      
       Iterator iter = m_records.iterator();
 
       while(iter.hasNext())
@@ -1298,9 +1301,9 @@ public class MPXFile
     *
     * @param ignore boolean flag
     */
-   public void setIgnoreCurrencyThousandsSeparator (boolean ignore)
+   public void setIgnoreThousandsSeparator (boolean ignore)
    {
-      m_ignoreCurrencyThousandsSeparator = ignore;
+      m_ignoreThousandsSeparator = ignore;
    }
 
    /**
@@ -1309,9 +1312,9 @@ public class MPXFile
     *
     * @return boolean flag
     */
-   public boolean getIgnoreCurrencyThousandsSeparator ()
+   public boolean getIgnoreThousandsSeparator ()
    {
-      return (m_ignoreCurrencyThousandsSeparator);
+      return (m_ignoreThousandsSeparator);
    }
 
    /**
@@ -1559,7 +1562,122 @@ public class MPXFile
       }
    }
 
+   /**
+    * Accessor method used to retrieve the decimal separator character.
+    * Note that this value is synchronized with the same value in the
+    * currency settings record. This value affects all decimal numbers 
+    * that appear in the MPX file.
+    * 
+    * @return decimal separator character
+    */
+   public char getDecimalSeparator ()
+   {
+      return (m_decimalSeparator);   
+   }
 
+   /**
+    * Modifier method used to set the decimal separator character.
+    * Note that this value is synchronized with the same value in the
+    * currency settings record. This value affects all decimal numbers 
+    * that appear in the MPX file.
+    * 
+    * @param separator decimal separator character
+    */
+   public void setDecimalSeparator (char separator)
+   {
+      m_decimalSeparator = separator;
+      if (m_currencySettings != null && m_currencySettings.getDecimalSeparator() != separator)
+      {      
+         m_currencySettings.setDecimalSeparator(separator);
+      }                  
+   }
+
+   /**
+    * Accessor method used to retrieve the thousands separator character.
+    * Note that this value is synchronized with the same value in the
+    * currency settings record. This value affects all decimal numbers 
+    * that appear in the MPX file.
+    * 
+    * @return thousands separator character
+    */
+   public char getThousandsSeparator ()
+   {
+      return (m_thousandsSeparator);   
+   }
+
+   /**
+    * Modifier method used to set the thousands separator character.
+    * Note that this value is synchronized with the same value in the
+    * currency settings record. This value affects all decimal numbers 
+    * that appear in the MPX file.
+    * 
+    * @param separator thousands separator character
+    */
+   public void setThousandsSeparator (char separator)
+   {
+      m_thousandsSeparator = separator;   
+      if (m_currencySettings != null && m_currencySettings.getThousandsSeparator() != separator)
+      {
+         m_currencySettings.setThousandsSeparator(separator);
+      }         
+   }
+
+   /**
+    * This method is called prior to writing an MPX file to ensure that all of
+    * the required number formats are up to date.
+    */
+   private void updateFormats ()
+   {
+      m_decimalFormat = new MPXNumberFormat ("0.00#", m_decimalSeparator, m_thousandsSeparator);
+      m_durationDecimalFormat = new MPXNumberFormat (MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
+      m_percentageDecimalFormat = new MPXNumberFormat (MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
+      m_unitsDecimalFormat = new MPXNumberFormat (MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
+   }
+   
+   /**
+    * Package private method used to retrieve the standard decimal format
+    * used for writing MPX records.
+    * 
+    * @return MPXNumberFormat instance
+    */
+   MPXNumberFormat getDecimalFormat ()
+   {
+      return (new MPXNumberFormat ("0.00#", m_decimalSeparator, m_thousandsSeparator));
+   }
+
+   /**
+    * Package private method used to retrieve the standard decimal format
+    * used for writing MPXDuration values.
+    * 
+    * @return MPXNumberFormat instance
+    */
+   MPXNumberFormat getDurationDecimalFormat ()
+   {
+      return (new MPXNumberFormat (MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+   }
+
+   /**
+    * Package private method used to retrieve the standard decimal format
+    * used for writing MPXPercentage values.
+    * 
+    * @return MPXNumberFormat instance
+    */
+   MPXNumberFormat getPercentageDecimalFormat ()
+   {
+      return (new MPXNumberFormat (MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+   }
+
+   /**
+    * Package private method used to retrieve the standard decimal format
+    * used for writing MPXUnits values.
+    * 
+    * @return MPXNumberFormat instance
+    */
+   MPXNumberFormat getUnitsDecimalFormat ()
+   {
+      return (new MPXNumberFormat (MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+   }
+   
    /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
@@ -1796,12 +1914,43 @@ public class MPXFile
     * reading and writing MPX files, or whether to ignore them. Microsoft
     * Project appears to ignore them when reading and writing files, so the
     * default value is true.
-    *
-    * @todo move this into the currency settings class?
     */
-   private boolean m_ignoreCurrencyThousandsSeparator = true;
+   private boolean m_ignoreThousandsSeparator = true;
 
+   /**
+    * Default thousands separator character. Despite the fact that this
+    * value appears as part of the CurrencySettings, it is in fact a global
+    * setting, which is why this attribute is defined here.
+    */
+   private char m_thousandsSeparator = ',';
 
+   /**
+    * Default decimal separator character. Despite the fact that this
+    * value appears as part of the CurrencySettings, it is in fact a global
+    * setting, which is why this attribute is defined here.
+    */   
+   private char m_decimalSeparator = '.';
+
+   /**
+    * Number format used for writing decimal values.
+    */     
+   private MPXNumberFormat m_decimalFormat;
+   
+   /**
+    * Number format used for writing MPXDuration values.
+    */        
+   private MPXNumberFormat m_durationDecimalFormat;
+   
+   /**
+    * Number format used for writing MPXPercentage values.
+    */           
+   private MPXNumberFormat m_percentageDecimalFormat;
+   
+   /**
+    * Number format used for writing MPXUnits values.
+    */           
+   private MPXNumberFormat m_unitsDecimalFormat;
+   
    /**
     * Constant representing maximum number of BaseCalendars per MPX file.
     */

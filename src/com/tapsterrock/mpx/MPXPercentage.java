@@ -36,10 +36,10 @@ final class MPXPercentage extends Number
     * @param value percentage value
     * @throws MPXException when the string parse fails
     */
-   MPXPercentage (String value)
+   MPXPercentage (String value, MPXNumberFormat format)
       throws MPXException
    {
-      m_value = FORMAT.parse(value).doubleValue();
+      m_value = format.parse(value).doubleValue();
    }
 
    /**
@@ -70,9 +70,21 @@ final class MPXPercentage extends Number
     */
    public String toString ()
    {
-      return (FORMAT.format(m_value) + "%");
+      return (toString(DEFAULT_DECIMAL_FORMAT));
    }
 
+   /**
+    * This method builds a String representation of the percentage represented
+    * by this instance.
+    *
+    * @param format number format to use
+    * @return string representation of the rate
+    */
+   String toString (MPXNumberFormat format)
+   {
+      return (format.format(m_value) + "%");      
+   }
+   
    /**
     * Returns the value of the specified number as an <code>int</code>.
     * This may involve rounding.
@@ -127,7 +139,12 @@ final class MPXPercentage extends Number
    private double m_value;
 
    /**
+    * Number formatter format string.
+    */
+   static final String DECIMAL_FORMAT_STRING = "##0.##";
+
+   /**
     * Number formatter.
     */
-   private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##", '.', ',');
+   private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat(DECIMAL_FORMAT_STRING, '.', ',');
 }

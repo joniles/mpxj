@@ -48,7 +48,7 @@ public final class Relation
     * @param relationship String representation of a relationship
     * @throws MPXException normally indicating that parsing the string has failed
     */
-   Relation (String relationship)
+   Relation (String relationship, MPXNumberFormat format)
       throws MPXException
    {
       int index = 0;
@@ -147,7 +147,11 @@ public final class Relation
          }
          else
          {
-            m_duration = new MPXDuration (relationship.substring(index));
+            if (relationship.charAt(index) == '+')
+            {
+               ++index;
+            }
+            m_duration = new MPXDuration (relationship.substring(index), format);
          }
       }
    }

@@ -71,7 +71,7 @@ class MPXRecord
          {
             if (o instanceof Float == true || o instanceof Double == true)
             {
-               result = (DECIMAL_FORMAT.format(((Number)o).doubleValue()));
+               result = (m_mpx.getDecimalFormat().format(((Number)o).doubleValue()));
             }
             else
             {
@@ -81,7 +81,28 @@ class MPXRecord
                }
                else
                {
-                  result = o.toString();
+                  if (o instanceof MPXDuration == true)
+                  {
+                     result = ((MPXDuration)o).toString(m_mpx.getDurationDecimalFormat());   
+                  }
+                  else
+                  {      
+                     if (o instanceof MPXPercentage == true)
+                     {
+                        result = ((MPXPercentage)o).toString(m_mpx.getPercentageDecimalFormat());
+                     }
+                     else
+                     {
+                        if (o instanceof MPXUnits == true)
+                        {
+                           result = ((MPXUnits)o).toString(m_mpx.getUnitsDecimalFormat());
+                        }
+                        else
+                        {
+                           result = o.toString();                           
+                        }  
+                     }                           
+                  }                     
                }
             }
          }
@@ -144,7 +165,7 @@ class MPXRecord
     * @return MPX formatted String for supplied record type.
     */
    protected String toString (int code, int[] fields)
-   {
+   {            
       StringBuffer buf = new StringBuffer(String.valueOf(code));
       char sepchar = m_mpx.getDelimiter();
       String str;
@@ -555,9 +576,4 @@ class MPXRecord
     * Array of field values.
     */
    private Object[] m_array;
-
-   /**
-    * Number formatter.
-    */
-   private static final MPXNumberFormat DECIMAL_FORMAT = new MPXNumberFormat ("0.00#", '.', ',');
 }

@@ -1,3 +1,7 @@
+Version 0.0.20
+Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.
+Fixed a bug causing a null pointer exception when writing an MSPDI file.
+
 Version 0.0.19
 Fixed a bug reading table data from certain MPP8 files
 Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)

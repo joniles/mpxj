@@ -46,7 +46,7 @@ public final class RelationList
     * @param data data read from an MPX file
     * @throws MPXException nroamlly thrown on parse errors
     */
-   RelationList (String data)
+   RelationList (String data, MPXNumberFormat format)
       throws MPXException
    {
       int length = data.length();
@@ -64,7 +64,7 @@ public final class RelationList
                end = length;
             }
 
-            m_list.add (new Relation (data.substring(start, end)));
+            m_list.add (new Relation (data.substring(start, end), format));
 
             start = end + 1;
          }

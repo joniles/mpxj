@@ -35,10 +35,17 @@ public final class MPXDuration
     *
     * @param dur String representation of a duration
     * @throws MPXException normally indicating that parsing the string has failed
-    */
+    */  
    public MPXDuration (String dur)
       throws MPXException
    {
+      this(dur, DEFAULT_DECIMAL_FORMAT);      
+   }
+
+   public MPXDuration (String dur, MPXNumberFormat format)
+      throws MPXException
+   {
+              
       int index = dur.length() - 1;
 
       while (index > 0 && Character.isDigit(dur.charAt(index)) == false)
@@ -53,7 +60,7 @@ public final class MPXDuration
 
       ++index;
 
-      m_duration = Double.parseDouble(dur.substring(0, index));
+      m_duration = format.parse(dur.substring(0, index)).doubleValue();
       m_type = TimeUnit.parse(dur.substring(index));
    }
 
@@ -102,9 +109,21 @@ public final class MPXDuration
     */
    public String toString ()
    {
-      return (FLOAT_FORMAT.format(m_duration) + TimeUnit.format(m_type));
+      return (toString(DEFAULT_DECIMAL_FORMAT));
    }
 
+   /**
+    * This method generates a string in MPX format representing the
+    * contents of this record.
+    *
+    * @param format number format to use for the duration value
+    * @return string containing the data for this record in MPX format.
+    */
+   String toString (MPXNumberFormat format)
+   {
+      return (format.format(m_duration) + TimeUnit.format(m_type));      
+   }
+   
    /**
     * This method is used to retrieve the size of the duration.
     *
@@ -236,7 +255,7 @@ public final class MPXDuration
       
       return (result);
    }
-   
+      
    /**
     * Duration amount.
     */
@@ -248,9 +267,14 @@ public final class MPXDuration
    private int m_type;
 
    /**
+    * Number formatter format string.
+    */
+   static final String DECIMAL_FORMAT_STRING = "#.#";
+   
+   /**
     * Number formatter.
     */
-   private static final MPXNumberFormat FLOAT_FORMAT = new MPXNumberFormat ("#.#", '.', ',');
+   private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat (DECIMAL_FORMAT_STRING, '.', ',');
    
    /**
     * Constants used for duration type conversion.

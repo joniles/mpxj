@@ -85,6 +85,14 @@ public class MpxCreate
       MPXFile file = new MPXFile ();
 
       //
+      // Uncomment these lines to test the use of alternative 
+      // delimiters and separators.      
+      //      
+      //file.setDelimiter(';');
+      //file.setDecimalSeparator(',');
+      //file.setThousandsSeparator('.');
+      
+      //
       // Configure the file to automatically generate identifiers for tasks.
       //
       file.setAutoTaskID(true);
@@ -134,10 +142,17 @@ public class MpxCreate
       //
       Resource resource1 = file.addResource();
       resource1.setName("Resource1");
-
+      
       Resource resource2 = file.addResource();
       resource2.setName("Resource2");
-
+      
+      //
+      // This next line is not required, it is here simply to test the
+      // output file format when alternative separators and delimiters
+      // are used.
+      //
+      resource2.setMaxUnits(50.0);
+      
       //
       // Create a summary task
       //
@@ -149,7 +164,7 @@ public class MpxCreate
       //
       Task task2 = task1.addTask();
       task2.setName ("First Sub Task");
-      task2.setDuration (new MPXDuration (10, TimeUnit.DAYS));
+      task2.setDuration (new MPXDuration (10.5, TimeUnit.DAYS));
       task2.setStart (df.parse("01/01/2003"));     
       
       //
@@ -160,7 +175,7 @@ public class MpxCreate
       // correct values in order for MS project to mark the task as complete
       // or partially complete.
       //
-      task2.setPercentageComplete(50.0);      
+      task2.setPercentageComplete(55.5);      
       task2.setActualStart(df.parse("01/01/2003"));
                   
       //

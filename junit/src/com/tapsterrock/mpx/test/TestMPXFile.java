@@ -129,6 +129,37 @@ public class TestMPXFile extends TestCase
    }
 
    /**
+    * This method performs a simple data driven test to read then write
+    * the contents of a single MPX file. The difference between this test
+    * and testRewrite1 is that the sample MPX file uses alternative
+    * field separators, decimal separators and thousands separators.
+    */
+   public void testRewrite3 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample1.mpx");
+         MPXFile mpx = new MPXFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.write (out);
+         success = compareFiles (in, out);
+         assertTrue ("Files are not identical", success);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   /**
     * This test exercises the automatic generation of WBS and outline levels.
     */
    public void testAutomaticGeneration ()

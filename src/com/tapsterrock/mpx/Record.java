@@ -142,12 +142,13 @@ final class Record
     * @return the value of the required field
     */
    public Float getFloat (int field)
+      throws MPXException
    {
       Float result;
 
       if (field < m_fields.length && m_fields[field].length() != 0)
       {
-         result = Float.valueOf(m_fields[field]);
+         result = new Float (m_parent.getDecimalFormat().parse(m_fields[field]).floatValue());
       }
       else
       {
@@ -325,7 +326,7 @@ final class Record
 
       if (field < m_fields.length && m_fields[field].length() != 0)
       {
-         result = new MPXPercentage (m_fields[field]);
+         result = new MPXPercentage (m_fields[field], m_parent.getPercentageDecimalFormat());
       }
       else
       {
@@ -351,7 +352,7 @@ final class Record
 
       if (field < m_fields.length && m_fields[field].length() != 0)
       {
-         result = new MPXDuration (m_fields[field]);
+         result = new MPXDuration (m_fields[field], m_parent.getDurationDecimalFormat());
       }
       else
       {
@@ -377,7 +378,7 @@ final class Record
 
       if (field < m_fields.length && m_fields[field].length() != 0)
       {
-         result = new MPXUnits (m_fields[field]);
+         result = new MPXUnits (m_fields[field], m_parent.getUnitsDecimalFormat());
       }
       else
       {

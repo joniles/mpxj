@@ -39,9 +39,10 @@ final class MPXUnits extends Number
     *
     * @param value value
     */
-   MPXUnits (String value)
+   MPXUnits (String value, MPXNumberFormat format)
+      throws MPXException
    {
-      m_value = Double.parseDouble(value) * 100;
+      m_value = format.parse(value).doubleValue() * 100;
    }
 
    /**
@@ -74,9 +75,21 @@ final class MPXUnits extends Number
     */
    public String toString ()
    {
-      return (FORMAT.format(m_value/100));
+      return (toString(DEFAULT_DECIMAL_FORMAT));
    }
 
+   /**
+    * This method generates a string in MPX format representing the
+    * contents of this record.
+    *
+    * @param format number format to use
+    * @return string containing the data for this record in MPX format.
+    */
+   String toString (MPXNumberFormat format)
+   {
+      return (format.format(m_value/100));   
+   }
+   
    /**
     * Returns the value of the specified number as an <code>int</code>.
     * This may involve rounding.
@@ -131,7 +144,12 @@ final class MPXUnits extends Number
    private double m_value;
 
    /**
+    * Number formatter format string.
+    */
+   static final String DECIMAL_FORMAT_STRING = "#.##";
+   
+   /**
     * Number formatter.
     */
-   private static final MPXNumberFormat FORMAT = new MPXNumberFormat ("#.##", '.', ',');
+   private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat (DECIMAL_FORMAT_STRING, '.', ',');
 }
