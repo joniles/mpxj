@@ -1863,9 +1863,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param flag boolean value
     */
-   public void setLinkedFields (Boolean val)
+   public void setLinkedFields (Boolean flag)
    {
-      set (LINKED_FIELDS, val);
+      set (LINKED_FIELDS, flag);
    }
 
    /**
@@ -1905,9 +1905,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param flag boolean value
     */
-   public void setMilestone (Boolean val)
+   public void setMilestone (Boolean flag)
    {
-      set (MILESTONE, val);
+      set (MILESTONE, flag);
    }
 
    /**

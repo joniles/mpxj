@@ -98,7 +98,7 @@ public final class Column
     * user defined title provided for it, then the column will be headed
     * by the default title text, and this method will return null.
     * 
-    * @param local required locale for the default column title
+    * @param locale required locale for the default column title
     * @return user defined column title
     */
    public String getTitle (Locale locale)
