@@ -4526,6 +4526,52 @@ public class Task extends MPXRecord implements Comparable
 		m_estimated = estimated;	   			
 	}
 	
+	/**
+	 * This method retrieves the deadline for this task.
+	 * 
+	 * @return Task deadline
+	 */
+	public Date getDeadline ()
+	{
+		return (m_deadline);	
+	}
+
+	/**
+	 * This method sets the deadline for this task.
+	 * 
+	 * @param deadline
+	 */
+	public void setDeadline (Date deadline)
+	{
+		m_deadline = deadline;	
+	}
+	
+	/**
+	 * This method retrieves the task type. The options are
+	 * 0 - fixed units, 1 - fixed duration, 2 - fixed work.
+	 * Constants are available as part of the this class to
+	 * represent these values.
+	 * 
+	 * @return int representing the task type
+	 */
+	public int getType ()
+	{
+		return (m_type);	
+	}
+
+	/**
+	 * This method sets the task type. The options are
+	 * 0 - fixed units, 1 - fixed duration, 2 - fixed work.
+	 * Constants are available as part of the this class to
+	 * represent these values.
+
+	 * @param type
+	 */
+	public void setType (int type)
+	{
+		m_type = type;	
+	}
+				
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -4569,7 +4615,16 @@ public class Task extends MPXRecord implements Comparable
 	 * when they have been retrieved from file formats other than MPX.
 	 */
 	private boolean m_estimated;
-		
+	private Date m_deadline;
+	private int m_type = FIXED_UNITS;
+
+	/**
+	 * Constants used to define the task type.
+	 */
+	public static final int FIXED_UNITS = 0;
+	public static final int FIXED_DURATION = 1;
+	public static final int FIXED_WORK = 2;
+							
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage
     * of the task's duration that has been completed. You can enter percent complete, or you

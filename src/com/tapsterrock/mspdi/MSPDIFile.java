@@ -630,6 +630,7 @@ public class MSPDIFile extends MPXFile
       mpx.setCreated(getDate(task.getCreateDate()));
       mpx.setCritical(task.isCritical());
       mpx.setCV(task.getCV()/100);
+      mpx.setDeadline(getDate(task.getDeadline()));
       //mpx.setDelay();
       mpx.setDuration(getDuration (task.getDuration()));
       //mpx.setDuration1();
@@ -712,6 +713,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setText9();
       //mpx.setText10();
       mpx.setTotalSlack(getMinutesDuration(task.getTotalSlack()));
+      mpx.setType(getInteger(task.getType()).intValue());
       mpx.setUniqueID(getInteger(task.getUID()));
       //mpx.setUpdateNeeded();
       mpx.setWBS(task.getWBS());
@@ -2144,6 +2146,7 @@ public class MSPDIFile extends MPXFile
       xml.setCreateDate(getCalendar(mpx.getCreated()));
       xml.setCritical(mpx.getCriticalValue());
       xml.setCV((float)(mpx.getCVValue()*100));
+      xml.setDeadline(getCalendar(mpx.getDeadline()));
       xml.setDuration(getDuration(mpx.getDuration()));
       xml.setDurationFormat(getDurationFormat(mpx.getDuration()));
       xml.setEarlyFinish(getCalendar(mpx.getEarlyFinish()));
@@ -2205,6 +2208,7 @@ public class MSPDIFile extends MPXFile
       xml.setStop(getCalendar (mpx.getStop()));
       xml.setSummary(mpx.getSummaryValue());
       xml.setTotalSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getTotalSlack())*1000));
+		xml.setType(BigInteger.valueOf((long)mpx.getType()));      
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
       xml.setWBS(mpx.getWBS());
       xml.setWork(getDuration(mpx.getWork()));
@@ -2213,7 +2217,6 @@ public class MSPDIFile extends MPXFile
       //
       // Default values for fields not represented in the MPX data structures
       //
-      xml.setType(BIGINTEGER_ZERO);
       xml.setIsNull(false);
       xml.setResumeValid(false);
       xml.setEffortDriven(false);

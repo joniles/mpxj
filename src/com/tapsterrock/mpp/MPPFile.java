@@ -490,18 +490,18 @@ public class MPPFile extends MPXFile
          {
             continue;
          }
-						
+							
          task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
-         //task.setActualDuration();
-         task.setActualFinish(MPPUtility.getTimestamp (data, 16));
-         //task.setActualStart();
-         //task.setActualWork();
+         task.setActualDuration(getDuration (MPPUtility.getInt (data, 66), getDurationUnits(MPPUtility.getShort (data, 64))));
+         task.setActualFinish(MPPUtility.getTimestamp (data, 100));
+         task.setActualStart(MPPUtility.getTimestamp (data, 96));
+         task.setActualWork(new MPXDuration (MPPUtility.getDouble (data, 184)/60000, TimeUnit.HOURS));
          task.setBaselineCost(new Double (MPPUtility.getDouble (data, 232) / 100));
          task.setBaselineDuration(getDuration (MPPUtility.getInt (data, 74), getDurationUnits (MPPUtility.getShort (data, 78))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 108));
          task.setBaselineStart(MPPUtility.getTimestamp (data, 104));
-         //task.setBaselineWork();
+         task.setBaselineWork(new MPXDuration (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
          //task.setBCWP(); // Calculated value
          //task.setBCWS(); // Calculated value
          //task.setConfirmed(); // Calculated value
@@ -512,11 +512,11 @@ public class MPPFile extends MPXFile
          task.setCost1(new Double (taskVarData.getDouble (id, TASK_COST1) / 100));
          task.setCost2(new Double (taskVarData.getDouble (id, TASK_COST2) / 100));
          task.setCost3(new Double (taskVarData.getDouble (id, TASK_COST3) / 100));
-         //task.setCostVariance(); // Calculated value
          task.setCreated(MPPUtility.getTimestamp (data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
-         //task.setDelay();
+         task.setDeadline (MPPUtility.getTimestamp (data, 152));
+         //task.setDelay(); // Field does not appear in Project 2000
          task.setDuration (getDuration (MPPUtility.getInt (data, 70), getDurationUnits(MPPUtility.getShort (data, 64))));
          task.setDuration1(getDuration (taskVarData.getInt(id, TASK_DURATION1), getDurationUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
          task.setDuration2(getDuration (taskVarData.getInt(id, TASK_DURATION2), getDurationUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
@@ -567,7 +567,7 @@ public class MPPFile extends MPXFile
          //task.setProject(); // Calculated value
          task.setRemainingCost(new Double (MPPUtility.getDouble (data, 224)/100));
          //task.setRemainingDuration(); // Calculated value form percent complete?
-         //task.setRemainingWork(); // Calculated value from percent complete?
+         task.setRemainingWork(new MPXDuration (MPPUtility.getDouble (data, 192)/60000, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
          //task.setResourceInitials(); // Calculated value from resource
          //task.setResourceNames(); // Calculated value from resource
@@ -580,10 +580,9 @@ public class MPPFile extends MPXFile
          task.setStart3(taskVarData.getTimestamp (id, TASK_START3));
          task.setStart4(taskVarData.getTimestamp (id, TASK_START4));
          task.setStart5(taskVarData.getTimestamp (id, TASK_START5));
-         //task.setStartVariance();
+         //task.setStartVariance(); // Calculated value
          task.setStop(MPPUtility.getTimestamp (data, 16));
          //task.setSubprojectFile();
-         //task.setSummary(); // Calculated value
          //task.setSV(); // Calculated value
          task.setText1(taskVarData.getUnicodeString (id, TASK_TEXT1));
          task.setText2(taskVarData.getUnicodeString (id, TASK_TEXT2));
@@ -596,62 +595,35 @@ public class MPPFile extends MPXFile
          task.setText9(taskVarData.getUnicodeString (id, TASK_TEXT9));
          task.setText10(taskVarData.getUnicodeString (id, TASK_TEXT10));
          //task.setTotalSlack(); // Calculated value
+         task.setType(MPPUtility.getShort(data, 126));
          task.setUniqueID(id.intValue());
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
          task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkVariance(); // Calculated value
 
+			//
+			// Retrieve the task notes.
+			// This has been disbaled until we can do something with the
+			// RTF formatting.
+			//
+			
          //notes = taskVarData.getString (id, TASK_NOTES);
          //if (notes != null)
          //{
          //   task.addTaskNotes(notes);
          //}
-
-         // Calendar number
-         // MPPUtility.getInt (data, 160); // 160-163 0xFFFFFFFF = default
-
-         // Other start date candidates
-         // MPPUtility.getTimestamp (data, 92);
-         // MPPUtility.getTimestamp (data, 148);
-
-         // Other duration related candidates
-         // MPPUtility.getInt (data, 24); // 24-27
-         // MPPUtility.getInt (data, 28); // 28-31
-         // MPPUtility.getInt (data, 32); // 32-35
-
-         // Other end date related attributes
-         // MPPUtility.getTimestamp (data, 12); //12-15 actual start?
-         // MPPUtility.getTimestamp (data, 130); // 130-133
-
-         // task type
-         // MPPUtility.getShort (data, 126); // 126-127
-
-         // deadline
-         // MPPUtility.getTimestamp (data, 152); // 152-155
-         // MPPUtility.getTimestamp (data, 164); // 164-167
-
-			// work
-			// MPPUtility.getDouble (data, 167); // 167-174
-			// MPPUtility.getDouble (data, 192); // 192-199
-			
-         // priority *** need to work out mapping between MPX and MSP2K
-         // getPriority (MPPUtility.getShort (data, 120))
-
-         // percent complete
-         // MPPUtility.getShort (data, 122); // 122-123
-         // MPPUtility.getShort (data, 124); // 124-125 ?
-
-         // costs values (8 byte IEEE doubles) seem to be duplicates of cost
-         // 248 duplicate of fixed cost?
-
-         // duplicate of resume?
-         // 116
-
-         // duplicate of actual cost / overtime cost?
-         // 240
+         
+			//
+			// Calculate the cost variance
+			//
+			if (task.getCost() != null && task.getBaselineCost() != null)
+			{
+				task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));	
+			}       																																	
       }
 
+		
 		//
 		// Update the internal structure. We'll take this opportunity to 
 		// generate outline numbers for the tasks as they don't appear to

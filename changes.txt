@@ -1,5 +1,9 @@
 Version 0.0.10
 Updated to retrieve the work field for a task.
+Corrected Actual Start and Actual End fields from MPP file.
+Added support for deadline field.
+Added support for actual, remaining, and baseline work fields for a task.
+Added support for task cost variance.
 
 Version 0.0.9
 Fixed bug when handling certain types of modified MPP file where resources have been updated.
