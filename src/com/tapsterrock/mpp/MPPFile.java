@@ -620,7 +620,14 @@ public class MPPFile extends MPXFile
          // 240
       }
 
+		//
+		// Update the internal structure. We'll take this opportunity to 
+		// generate outline numbers for the tasks as they don't appear to
+		// be present in the MPP file.
+		//
+		setAutoOutlineNumber(true);
       updateStructure ();
+      setAutoOutlineNumber(false);      
    }
 
    /**

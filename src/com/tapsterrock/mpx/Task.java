@@ -50,14 +50,12 @@ public class Task extends MPXRecord implements Comparable
 
       if (file.getAutoWBS() == true)
       {
-         String wbs = parent.getWBS();
-         int index = wbs.lastIndexOf(".0");
-         if (index != -1)
-         {
-            wbs = wbs.substring (0, index);
-         }
+      	generateWBS (parent);
+      }
 
-         setWBS (wbs + "." + (parent.getChildTaskCount()+1));
+      if (file.getAutoOutlineNumber() == true)
+      {
+			generateOutlineNumber (parent);         	
       }
 
       if (file.getAutoOutlineLevel() == true)
@@ -263,8 +261,13 @@ public class Task extends MPXRecord implements Comparable
       }
 
       if (file.getAutoWBS() == true)
+      {         
+         generateWBS (null);
+      }
+
+      if (file.getAutoOutlineNumber() == true)
       {
-         setWBS (Integer.toString(getParentFile().getChildTaskCount()+1) + ".0");
+         generateOutlineNumber (null);
       }
 
       if (file.getAutoOutlineLevel() == true)
@@ -281,6 +284,64 @@ public class Task extends MPXRecord implements Comparable
       {
          setID (file.getTaskID ());
       }
+   }
+
+	/**
+	 * This package-access method is used to automatically generate a value
+	 * for the WBS field of this task.
+	 * 
+	 * @param parent Parent Task
+	 */
+	void generateWBS (Task parent)
+	{
+		String wbs;
+		
+		if (parent == null)
+		{
+      	wbs = Integer.toString(getParentFile().getChildTaskCount()+1) + ".0";
+		}
+		else
+		{
+	   	wbs = parent.getWBS();
+    	 	int index = wbs.lastIndexOf(".0");
+		   if (index != -1)
+		   {
+		   	wbs = wbs.substring (0, index);
+		   }
+
+     		wbs += ("." + (parent.getChildTaskCount()+1));
+  		}
+
+  		setWBS (wbs);
+	}
+
+   /**
+    * This package-access method is used to automatically generate a value
+    * for the Outline Number field of this task.
+    * 
+    * @param parent Parent Task
+    */
+   void generateOutlineNumber (Task parent)
+   {
+      String outline;
+		
+      if (parent == null)
+      {
+         outline = Integer.toString(getParentFile().getChildTaskCount()+1) + ".0";
+      }
+      else
+      {
+         outline = parent.getOutlineNumber();
+         int index = outline.lastIndexOf(".0");
+         if (index != -1)
+         {
+            outline = outline.substring (0, index);
+         }
+
+         outline += ("." + (parent.getChildTaskCount()+1));
+      }
+
+      setOutlineNumber (outline);
    }
 
    /**

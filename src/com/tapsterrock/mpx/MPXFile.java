@@ -70,6 +70,7 @@ public class MPXFile
       m_allResources = file.m_allResources;
       m_allTasks = file.m_allTasks;
       m_autoOutlineLevel = file.m_autoOutlineLevel;
+      m_autoOutlineNumber = file.m_autoOutlineNumber;
       m_autoResourceID = file.m_autoResourceID;
       m_autoResourceUniqueID = file.m_autoResourceUniqueID;
       m_autoTaskID = file.m_autoTaskID;
@@ -677,6 +678,16 @@ public class MPXFile
    }
 
    /**
+    * Used to set whether outline numbers are automatically created.
+    *
+    * @param flag true if automatic outline number required.
+    */
+   public void setAutoOutlineNumber (boolean flag)
+   {
+      m_autoOutlineNumber = flag;
+   }
+
+   /**
     * Used to set whether the task unique ID field is automatically populated.
     *
     * @param flag true if automatic unique ID required.
@@ -716,6 +727,17 @@ public class MPXFile
    public boolean getAutoOutlineLevel ()
    {
       return (m_autoOutlineLevel);
+   }
+
+   /**
+    * Retrieve the flag that determines whether outline numbers are generated
+    * automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoOutlineNumber ()
+   {
+      return (m_autoOutlineNumber);
    }
 
    /**
@@ -1339,30 +1361,19 @@ public class MPXFile
             task = (Task)iter.next();
             task.clearChildTasks ();
             level = task.getOutlineLevelValue();
-
-            if (lastTask == null)
-            {
-               m_childTasks.add (task);
-            }
-            else
+				parent = null;
+				
+            if (lastTask != null)
             {
                if (level == lastLevel)
                {
                   parent = lastTask.getParentTask();
-                  if (parent == null)
-                  {
-                     m_childTasks.add (task);
-                  }
-                  else
-                  {
-                     parent.addChildTask (task);
-                  }
                }
                else
                {
                   if (level > lastLevel)
                   {
-                     lastTask.addChildTask (task);
+                     parent = lastTask;                     
                   }
                   else
                   {
@@ -1371,21 +1382,31 @@ public class MPXFile
                      {
                         parent = parent.getParentTask();
                      }
-
-                     if (parent == null)
-                     {
-                        m_childTasks.add (task);
-                     }
-                     else
-                     {
-                        parent.addChildTask (task);
-                     }
                   }
                }
             }
 
             lastTask = task;
             lastLevel = level;
+            
+            if (getAutoWBS() == true)
+            {
+               task.generateWBS (parent);             	  
+            }
+            
+            if (getAutoOutlineNumber() == true)
+            {
+               task.generateOutlineNumber(parent);  
+            }
+            
+            if (parent == null)
+            {
+            	m_childTasks.add (task);
+            }
+            else
+            {
+               parent.addChildTask (task);               
+            }                                    		
          }
       }
    }
@@ -1558,10 +1579,16 @@ public class MPXFile
    private boolean m_autoWBS = false;
 
    /**
-    * Indicating whether OutlineLevel value should be calculated on creation,
-    * or will be manually set.
+    * Indicating whether the Outline Level value should be calculated on 
+    * creation, or will be manually set.
     */
    private boolean m_autoOutlineLevel = false;
+
+   /**
+    * Indicating whether the Outline Number value should be calculated on 
+    * creation, or will be manually set.
+    */
+   private boolean m_autoOutlineNumber = false;
 
    /**
     * Indicating whether the unique ID of a task should be
