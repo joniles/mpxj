@@ -883,7 +883,10 @@ public class MSPDIFile extends MPXFile
       mpx.setLateStart(getDate(xml.getLateStart()));
       mpx.setLevelAssignments(xml.isLevelAssignments());
       mpx.setLevelingCanSplit(xml.isLevelingCanSplit());
-      mpx.setLevelingDelay(new MPXDuration (xml.getLevelingDelay().doubleValue(), getMpxDurationUnits(xml.getLevelingDelayFormat())));
+      if (xml.getLevelingDelay() != null && xml.getLevelingDelayFormat() != null)
+      {
+         mpx.setLevelingDelay(new MPXDuration (xml.getLevelingDelay().doubleValue(), getMpxDurationUnits(xml.getLevelingDelayFormat())));
+      }
       //mpx.setLinkedFields();
       //mpx.setMarked();
       mpx.setMilestone(xml.isMilestone());
