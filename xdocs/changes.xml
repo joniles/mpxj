@@ -13,6 +13,7 @@
       <action dev="joniles" type="fix">Fixed a bug where the incorrect record delimiter was being used in by the MPX RelationList class.</action>
       <action dev="joniles" type="fix">Fixed a bug where the method Task.getText21 was not retrieving the correct text value.</action>
       <action dev="joniles" type="fix">Fixed a bug where the task unique ID values were being truncated unnecessarily.</action>
+      <action dev="joniles" type="fix">Fixed a bug where calendar exceptions were not testing the range of dates between the start and end date correctly.</action>
       <action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
       <action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
       <action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>
