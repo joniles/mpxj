@@ -54,7 +54,6 @@ final class ResourceModel extends MPXRecord
       throws MPXException
    {
       int length = record.getLength ();
-      int field;
 
       for (int i = 0 ; i < length ; i++)
       {
