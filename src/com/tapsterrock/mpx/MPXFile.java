@@ -204,6 +204,8 @@ public class MPXFile
    public void read (InputStream is)
       throws MPXException
    {
+      int line = 1;
+      
       try
       {
          //
@@ -238,12 +240,13 @@ public class MPXFile
          tk.setDelimiter(m_delimiter);
          Record record;
          String number;
-
+         
          //
          // Add the header record using a dummy value for the record number
          //
          add ("999", new Record (this, tk));
-
+         ++line;
+         
          //
          // Read the remainder of the records
          //
@@ -257,6 +260,7 @@ public class MPXFile
             }
 
             add (number, record);
+            ++line;
          }
 
          //
@@ -265,11 +269,10 @@ public class MPXFile
          updateStructure();
       }
 
-      catch (IOException ex)
+      catch (Exception ex)
       {
-         throw new MPXException (MPXException.READ_ERROR, ex);
+         throw new MPXException (MPXException.READ_ERROR + " (failed at line " + line + ")", ex);
       }
-
    }
 
    /**

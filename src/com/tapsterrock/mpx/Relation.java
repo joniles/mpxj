@@ -66,8 +66,15 @@ public final class Relation
          ++index;
       }
 
-      m_taskIDValue = Integer.parseInt(relationship.substring (0, index));
-
+      try
+      {
+         m_taskIDValue = Integer.parseInt(relationship.substring (0, index));
+      }
+      
+      catch (NumberFormatException ex)
+      {
+         throw new MPXException (MPXException.INVALID_FORMAT + " '" + relationship + "'");         
+      }
 
       //
       // If we haven't reached the end, we next expect to find
@@ -82,7 +89,7 @@ public final class Relation
       {
          if (index+1 == length)
          {
-            throw new MPXException (MPXException.INVALID_FORMAT);
+            throw new MPXException (MPXException.INVALID_FORMAT + " '" + relationship + "'");         
          }
 
          String relationType = relationship.substring(index, index+2);
@@ -98,7 +105,7 @@ public final class Relation
 
          if (m_type == relationTypes.length)
          {
-            throw new MPXException (MPXException.INVALID_FORMAT + " " + relationType);
+            throw new MPXException (MPXException.INVALID_FORMAT + " '" + relationType + "'");
          }
 
          index += 2;

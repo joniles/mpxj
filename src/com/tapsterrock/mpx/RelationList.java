@@ -67,7 +67,7 @@ public final class RelationList implements ToStringRequiresFile
                end = length;
             }
 
-            m_list.add (new Relation (data.substring(start, end), format, locale));
+            m_list.add (new Relation (data.substring(start, end).trim(), format, locale));
 
             start = end + 1;
          }
