@@ -26,7 +26,6 @@ package com.tapsterrock.mpx;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 /**
@@ -657,7 +656,14 @@ public final class DateTimeSettings extends MPXRecord
       Integer minutes = (Integer)get (DEFAULT_TIME);
       if (minutes != null)
       {
-         result = getTime(minutes.longValue() * MS_PER_MINUTE);
+         Calendar cal = Calendar.getInstance();
+         int hval = minutes.intValue() / 60;
+         int mval = minutes.intValue() - (hval * 60);
+         cal.set(Calendar.HOUR_OF_DAY, hval);
+         cal.set(Calendar.MINUTE, mval);
+         cal.set(Calendar.SECOND, 0);
+         cal.set(Calendar.MILLISECOND, 0);
+         result = cal.getTime();
       }
 
       return (result);
@@ -893,37 +899,6 @@ public final class DateTimeSettings extends MPXRecord
 
 
    /**
-    * This utility method takes a time value specified in milliseconds
-    * and generates a Date instance whose time component correctly represents
-    * the required time. Note that this method takes account of timezones and
-    * daylight saving tims.
-    * 
-    * @param time a time value represented as a number of milliseconds
-    * @return a Date instance whose time component represents the required time
-    */
-   public static final Date getTime (long time)
-   {
-      TimeZone tz = TimeZone.getDefault();
-      int rawOffset = tz.getRawOffset();
-            
-      time -= rawOffset;
-
-      if (rawOffset == 0 && tz.inDaylightTime(new Date()) == true)
-      {
-         if (m_hasDSTSavings == true)
-         {
-            time -= tz.getDSTSavings();   
-         }
-         else
-         {
-            time -= DEFAULT_DST_SAVINGS;
-         }            
-      }
-      
-      return (new Date (time));
-   }
-
-   /**
     * Retrieve the default time specified as minutes after midnight.
     *
     * @return string
@@ -982,35 +957,7 @@ public final class DateTimeSettings extends MPXRecord
     * when they have been retrieved from file formats other than MPX.
     */
    private Date m_defaultEndTime;
-
-   /**
-    * Default value to use for DST savings if we are using a version
-    * of Java < 1.4
-    */
-   private static final int DEFAULT_DST_SAVINGS = 3600000;
-   
-   /**
-    * Flag used to indicate the existance of the getDSTSavings
-    * method that was introduced in Java 1.4
-    */
-   private static boolean m_hasDSTSavings;   
-   
-   static
-   {
-      Class tz = TimeZone.class;
-      
-      try
-      {
-         tz.getMethod("getDSTSavings", null);
-         m_hasDSTSavings = true;
-      }
-      
-      catch (NoSuchMethodException ex)
-      {
-         m_hasDSTSavings = false;         
-      }
-   }   
-
+  
    /**
     * All the following formats are as per Project '98.
     */
@@ -1200,11 +1147,6 @@ public final class DateTimeSettings extends MPXRecord
     * Maximum number of fields in this record.
     */
    private static final int MAX_FIELDS = 9;
-
-   /**
-    * Constant representing the number of milliseconds per minute.
-    */
-   private static final int MS_PER_MINUTE = 1000 * 60;
 
    /**
     * Constant containing the record number associated with this record.
