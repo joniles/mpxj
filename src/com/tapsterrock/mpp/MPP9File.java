@@ -83,6 +83,10 @@ final class MPP9File
 	  	processTaskData (file, projectDir);
 	  	processConstraintData (file, projectDir);
 	  	processAssignmentData (file, projectDir);
+      
+      projectDir = (DirectoryEntry)root.getEntry ("   29");
+      processViewData (file, projectDir);
+      processTableData (file, projectDir);
 	}
 	
    
@@ -978,6 +982,114 @@ final class MPP9File
       }
 
       return (Priority.getInstance (result));
+   }
+
+   /**
+    * This method extracts view data from the MPP file
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
+    */
+   private static void processViewData (MPPFile file, DirectoryEntry projectDir)
+      throws MPXException, IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");      
+      FixedData ff = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      int items = ff.getItemCount();      
+      byte[] data;
+      View view;                  
+      String name;
+      StringBuffer sb = new StringBuffer();
+      
+      for (int loop=0; loop < items; loop++)
+      {
+         data = ff.getByteArrayValue(loop);
+         view = new View ();
+         
+         view.setID(MPPUtility.getInt(data, 0));
+         name = MPPUtility.getUnicodeString(data, 4);
+         
+         if (name != null)
+         {
+            if (name.indexOf('&') != -1)
+            {
+               sb.setLength(0);
+               int index = 0;
+               char c;
+            
+               while (index < name.length())
+               {
+                  c = name.charAt(index);
+                  if (c != '&')
+                  {
+                     sb.append(c);
+                  }
+                  ++index;   
+               }            
+            
+               name = sb.toString();
+            }
+         }     
+         
+         view.setName(name); 
+         file.addView(view);
+      }      
+   }
+
+   /**
+    * This method extracts table data from the MPP file
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
+    */
+   private static void processTableData (MPPFile file, DirectoryEntry projectDir)
+      throws MPXException, IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");      
+      FixedData ff = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      int items = ff.getItemCount();      
+      byte[] data;
+      Table table;                  
+      String name;
+      StringBuffer sb = new StringBuffer();
+      
+      for (int loop=0; loop < items; loop++)
+      {
+         data = ff.getByteArrayValue(loop);
+         table = new Table ();
+         
+         table.setID(MPPUtility.getInt(data, 0));
+         name = MPPUtility.getUnicodeString(data, 4);
+         
+         if (name != null)
+         {
+            if (name.indexOf('&') != -1)
+            {
+               sb.setLength(0);
+               int index = 0;
+               char c;
+            
+               while (index < name.length())
+               {
+                  c = name.charAt(index);
+                  if (c != '&')
+                  {
+                     sb.append(c);
+                  }
+                  ++index;   
+               }            
+            
+               name = sb.toString();
+            }
+         }     
+         
+         table.setName(name); 
+         file.addTable(table);
+      }      
    }
       
    /**

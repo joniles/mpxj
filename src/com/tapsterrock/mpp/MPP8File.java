@@ -83,6 +83,13 @@ final class MPP8File
       processConstraintData (file, projectDir);      
       
       processAssignmentData (file, projectDir);      
+      
+            
+      projectDir = (DirectoryEntry)root.getEntry ("   2");
+      
+      processViewData (file, projectDir);
+      
+      processTableData (file, projectDir);      
    }
 
 
@@ -543,7 +550,7 @@ final class MPP8File
          task.setText8(taskExtData.getUnicodeString(TASK_TEXT8));
          task.setText9(taskExtData.getUnicodeString(TASK_TEXT9));
          task.setText10(taskExtData.getUnicodeString(TASK_TEXT10));
-         task.setText11(taskExtData.getUnicodeString(TASK_TEXT10));
+         task.setText11(taskExtData.getUnicodeString(TASK_TEXT11));
          task.setText12(taskExtData.getUnicodeString(TASK_TEXT12));
          task.setText13(taskExtData.getUnicodeString(TASK_TEXT13));
          task.setText14(taskExtData.getUnicodeString(TASK_TEXT14));
@@ -610,7 +617,6 @@ final class MPP8File
       FixFix consFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixFix   0"))));      
       
       int count = consFixedData.getItemCount();
-      int index;
       byte[] data;
       Task task1;
       Task task2;
@@ -618,7 +624,6 @@ final class MPP8File
       int durationUnits;
       int taskID1;
       int taskID2;
-      byte[] metaData;
             
       for (int loop=0; loop < count; loop++)
       {
@@ -961,7 +966,116 @@ final class MPP8File
       
       return (result);
    }
+
+   /**
+    * This method extracts view data from the MPP file
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
+    */
+   private static void processViewData (MPPFile file, DirectoryEntry projectDir)
+      throws MPXException, IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");      
+      FixFix ff = new FixFix (138, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
+      int items = ff.getItemCount();      
+      byte[] data;
+      View view;                  
+      String name;
+      StringBuffer sb = new StringBuffer();
       
+      for (int loop=0; loop < items; loop++)
+      {
+         data = ff.getByteArrayValue(loop);
+         view = new View ();
+         
+         view.setID(MPPUtility.getInt(data, 0));
+         name = MPPUtility.getUnicodeString(data, 4);
+         
+         if (name != null)
+         {
+            if (name.indexOf('&') != -1)
+            {
+               sb.setLength(0);
+               int index = 0;
+               char c;
+            
+               while (index < name.length())
+               {
+                  c = name.charAt(index);
+                  if (c != '&')
+                  {
+                     sb.append(c);
+                  }
+                  ++index;   
+               }            
+            
+               name = sb.toString();
+            }
+         }     
+         
+         view.setName(name); 
+         file.addView(view);
+      }      
+   }
+
+   /**
+    * This method extracts table data from the MPP file
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
+    */
+   private static void processTableData (MPPFile file, DirectoryEntry projectDir)
+      throws MPXException, IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");      
+      FixFix ff = new FixFix (126, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
+      int items = ff.getItemCount();      
+      byte[] data;
+      Table table;
+      String name;
+      StringBuffer sb = new StringBuffer();
+      
+      for (int loop=0; loop < items; loop++)
+      {
+         data = ff.getByteArrayValue(loop);
+         table = new Table ();
+            
+         table.setID(MPPUtility.getInt(data, 0));
+         
+         name = MPPUtility.getUnicodeString(data, 4);
+         if (name != null)
+         {
+            if (name.indexOf('&') != -1)
+            {
+               sb.setLength(0);
+               int index = 0;
+               char c;
+            
+               while (index < name.length())
+               {
+                  c = name.charAt(index);
+                  if (c != '&')
+                  {
+                     sb.append(c);
+                  }
+                  ++index;   
+               }            
+            
+               name = sb.toString();
+            }            
+         }      
+         
+         table.setName(name);
+         file.addTable(table);
+      }      
+   }
+
+         
    /**
     * This method is used to extract a value from a fixed data block,
     * which represents an offset into a variable data block.
@@ -974,7 +1088,7 @@ final class MPP8File
    {
       return (-1 - MPPUtility.getInt(data, offset));      
    }      
-         
+            
    /**
     * Task data types.
     */

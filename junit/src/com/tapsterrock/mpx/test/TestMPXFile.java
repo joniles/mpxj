@@ -28,6 +28,7 @@ package com.tapsterrock.mpx.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -240,7 +241,7 @@ public class TestMPXFile extends TestCase
       Task task2 = task1.addTask();
       assertEquals (task2.getParentTask(), task1);
 
-      Task task3 = task1.addTask();
+      task1.addTask();
       LinkedList children = task1.getChildTasks();
       assertEquals (children.size(), 2);
 
@@ -348,7 +349,7 @@ public class TestMPXFile extends TestCase
             while (relIter.hasNext() == true)
             {
                Relation rel = (Relation)relIter.next();               
-               Task relatedTask = mpx.getTaskByUniqueID(rel.getTaskIDValue());            
+               mpx.getTaskByUniqueID(rel.getTaskIDValue());            
             }
          }            
       }
@@ -709,19 +710,19 @@ public class TestMPXFile extends TestCase
       
       duration = new MPXDuration (1, TimeUnit.DAYS);
       Date endDate = cal.getDate(startDate, duration);
-      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));
+      assertEquals(endDate.getTime(), df.parse("10/10/2003").getTime());      
       
       duration = new MPXDuration (7, TimeUnit.DAYS);
       endDate = cal.getDate(startDate, duration);
-      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));
+      assertEquals(endDate.getTime(), df.parse("18/10/2003").getTime());      
 
       duration = new MPXDuration (1, TimeUnit.WEEKS);
       endDate = cal.getDate(startDate, duration);
-      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));
+      assertEquals(endDate.getTime(), df.parse("18/10/2003").getTime());      
       
       duration = new MPXDuration (-1, TimeUnit.DAYS);
       endDate = cal.getDate(startDate, duration);
-      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));      
+      assertEquals(endDate.getTime(), df.parse("08/10/2003").getTime());      
    }
 
    /**
@@ -962,7 +963,7 @@ public class TestMPXFile extends TestCase
       {
          if (flags[loop] == true && loop != index)
          {
-            System.out.println ("found flag at " + loop);
+            //System.out.println ("found flag at " + loop);
             result = false;
             break;
          }               
@@ -970,7 +971,43 @@ public class TestMPXFile extends TestCase
       
       return (result);   
    }
-   
+
+   public void testViews ()
+      throws Exception
+   {
+      MPPFile mpp = new MPPFile (m_basedir + "/sample98.mpp");
+      ArrayList views = mpp.getViews();
+      assertEquals("Incorrect number of views", 1, views.size());
+      
+      mpp = new MPPFile (m_basedir + "/sample.mpp");
+      views = mpp.getViews();
+      assertEquals("Incorrect number of views", 3, views.size());      
+   }
+
+   public void testTables ()
+      throws Exception
+   {
+      MPPFile mpp = new MPPFile (m_basedir + "/sample98.mpp");
+      ArrayList tables = mpp.getTables();
+//      Iterator iter = tables.iterator();
+//      while (iter.hasNext() == true)
+//      {
+//         System.out.println(iter.next());   
+//      }
+      
+      assertEquals("Incorrect number of tables", 1, tables.size());
+      
+      mpp = new MPPFile (m_basedir + "/sample.mpp");
+      tables = mpp.getTables();
+//      iter = tables.iterator();
+//      while (iter.hasNext() == true)
+//      {
+//         System.out.println(iter.next());   
+//      }
+
+      assertEquals("Incorrect number of tables", 2, tables.size());      
+   }
+      
    private String m_basedir;
 }
 
