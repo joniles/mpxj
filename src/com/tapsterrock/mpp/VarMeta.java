@@ -23,11 +23,12 @@
 
 package com.tapsterrock.mpp;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -109,7 +110,7 @@ final class VarMeta extends MPPComponent
     *
     * @return array of unique identifiers
     */
-   public Integer[] getUniqueIdentifiers ()
+   public Integer[] getUniqueIdentifierArray ()
    {
       Integer[] result = new Integer [m_table.size()];
       Iterator iter = m_table.keySet().iterator();
@@ -123,6 +124,17 @@ final class VarMeta extends MPPComponent
       return (result);
    }
 
+   /**
+    * This method returns an set containing all of the unique identifiers
+    * for which data has been stored in the Var2Data block.
+    *
+    * @return set of unique identifiers
+    */   
+   public Set getUniqueIdentifierSet ()
+   {
+      return (m_table.keySet());
+   }
+   
    /**
     * This method retrieves the offset of a given entry in the Var2Data block.
     * Each entry can be uniquely located by the identifier of the object to

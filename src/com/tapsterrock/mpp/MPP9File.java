@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -862,7 +863,7 @@ final class MPP9File
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
 
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
-      Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
+      Integer[] uniqueid = taskVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer offset;
       byte[] data;
@@ -1320,7 +1321,7 @@ final class MPP9File
       FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
 
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
-      Integer[] uniqueid = rscVarMeta.getUniqueIdentifiers();
+      Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer calendarID;
       Integer offset;
@@ -1567,6 +1568,7 @@ final class MPP9File
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
 
+      Set set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       byte[] meta;
       byte[] data;
@@ -1574,17 +1576,23 @@ final class MPP9File
       Resource resource;
       ResourceAssignment assignment;
       int offset;
+      int id;
       
       for (int loop=0; loop < count; loop++)
       {
          meta = assnFixedMeta.getByteArrayValue(loop);
          if (meta[0] != 0)
          {         
-            break;
+            continue;
          }
          
          offset = MPPUtility.getInt(meta, 4);            
          data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));                          
+         id = MPPUtility.getInt(data, 0);         
+         if (set.contains(new Integer(id)) == false)
+         {
+            continue;
+         }
          
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));

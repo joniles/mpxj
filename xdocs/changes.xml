@@ -9,6 +9,7 @@
    <body> 
 
    <release version="0.0.24" date="CVS HEAD"> 
+      <action dev="joniles" type="fix">Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
    </release>
 
    <release version="0.0.23" date="17/11/2004"> 
