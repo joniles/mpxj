@@ -364,14 +364,11 @@ public class Task extends MPXRecord implements Comparable
     * @throws MPXException if maximum number of task notes is exceeded
     */
    public TaskNotes addTaskNotes (String notes)
-      throws MPXException
    {
-      if (m_notes != null)
+      if (m_notes == null)
       {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
+         m_notes = new TaskNotes(getParentFile());
       }
-
-      m_notes = new TaskNotes(getParentFile());
 
       m_notes.setNotes (notes);
 
@@ -1945,7 +1942,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setNotes (String val)
    {
-      set (NOTES, val);
+      addTaskNotes (val);
    }
 
    /**
@@ -3667,7 +3664,18 @@ public class Task extends MPXRecord implements Comparable
     */
    public String getNotes ()
    {
-      return ((String)get(NOTES));
+      String result;
+      
+      if (m_notes != null)
+      {
+         result = m_notes.getNotes();
+      }
+      else
+      {
+         result = "";      
+      }
+                  
+      return (result);
    }
 
    /**
