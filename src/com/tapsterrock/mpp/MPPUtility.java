@@ -293,7 +293,7 @@ final class MPPUtility
 
       if (rawOffset == 0 && tz.inDaylightTime(new Date()) == true)
       {
-         if (m_hasDSTSavings == true)
+         if (HAS_DST_SAVINGS == true)
          {
             time -= tz.getDSTSavings();   
          }
@@ -356,7 +356,7 @@ final class MPPUtility
          {
             int savings;
             
-            if (m_hasDSTSavings == true)
+            if (HAS_DST_SAVINGS == true)
             {
                savings = tz.getDSTSavings();
             }
@@ -798,7 +798,7 @@ final class MPPUtility
     * Flag used to indicate the existance of the getDSTSavings
     * method that was introduced in Java 1.4
     */
-   private static boolean m_hasDSTSavings;   
+   private static boolean HAS_DST_SAVINGS;   
    
    static
    {
@@ -807,12 +807,12 @@ final class MPPUtility
       try
       {
          tz.getMethod("getDSTSavings", null);
-         m_hasDSTSavings = true;
+         HAS_DST_SAVINGS = true;
       }
       
       catch (NoSuchMethodException ex)
       {
-         m_hasDSTSavings = false;         
+         HAS_DST_SAVINGS = false;         
       }
    }   
 }

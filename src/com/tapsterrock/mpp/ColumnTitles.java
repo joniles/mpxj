@@ -498,7 +498,7 @@ public class ColumnTitles extends ListResourceBundle
       RESOURCE_COLUMNS[Column.RESOURCE_WINDOWS_USER_ACCOUNT] = "Windows User Account";      
    }
       
-   private static final Object RESOURCES [][] =
+   private static final Object[][] RESOURCES =
    {
       {"TASK_COLUMNS", TASK_COLUMNS},
       {"RESOURCE_COLUMNS", RESOURCE_COLUMNS}
