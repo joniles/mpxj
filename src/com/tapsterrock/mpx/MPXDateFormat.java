@@ -24,16 +24,17 @@
 
 package com.tapsterrock.mpx;
 
+import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.text.ParseException;
 
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the date conventions used in MPX files.
  */
-final class MPXDateFormat
+final class MPXDateFormat implements Serializable
 {
    /**
     * This method is used to configure the format pattern.
