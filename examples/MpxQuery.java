@@ -26,9 +26,11 @@ import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
+import com.tapsterrock.mpx.MPXDuration;
 import java.util.Iterator;
 import java.util.List;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * This example shows an MPP or an MPX file being read, and basic task and resource
@@ -147,11 +149,47 @@ public class MpxQuery
       List allTasks = file.getAllTasks();
       Iterator iter = allTasks.iterator();
       Task task;
-
+      String startDate;
+      String finishDate;
+      String duration;
+      Date date;
+      MPXDuration dur;
+      
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         System.out.println ("Task: " + task.getName() + " (" + df.format(task.getStart()) + " - " + df.format(task.getFinish()) + ")");
+         
+         date = task.getStart();
+         if (date != null)
+         {
+            startDate = df.format(date);
+         }
+         else
+         {
+            startDate = "(no date supplied)";
+         }            
+         
+         date = task.getFinish();
+         if (date != null)
+         {
+            finishDate = df.format(date);
+         }
+         else
+         {
+            finishDate = "(no date supplied)";
+         }            
+      
+         dur = task.getDuration();
+         if (dur != null)
+         {
+            duration = dur.toString();   
+         }
+         else
+         {
+            duration = "(no duration supplied)";   
+         }
+                 
+         System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + ")");
       }
       System.out.println ();
    }
