@@ -594,7 +594,7 @@ public class MSPDIFile extends MPXFile
       throws MPXException
    {
       Task mpx = addTask ();
-
+		
       mpx.setActualCost(getMpxCurrency (task.getActualCost()));
       mpx.setActualDuration(getDuration (task.getActualDuration()));
       mpx.setActualFinish(getDate (task.getActualFinish()));
@@ -627,6 +627,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setDurationVariance();
       mpx.setEarlyFinish(getDate(task.getEarlyFinish()));
       mpx.setEarlyStart(getDate(task.getEarlyStart()));
+      mpx.setEstimated(task.isEstimated());
       mpx.setFinish(getDate(task.getFinish()));
       //mpx.setFinish1();
       //mpx.setFinish2();
@@ -2136,6 +2137,7 @@ public class MSPDIFile extends MPXFile
       xml.setDurationFormat(getDurationFormat(mpx.getDuration()));
       xml.setEarlyFinish(getCalendar(mpx.getEarlyFinish()));
       xml.setEarlyStart(getCalendar(mpx.getEarlyStart()));
+      xml.setEstimated(mpx.getEstimated());
       xml.setFinish(getCalendar(mpx.getFinish()));
       xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));

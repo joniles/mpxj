@@ -462,7 +462,7 @@ public class MPPFile extends MPXFile
          {
             continue;
          }
-
+			
          task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
          //task.setActualDuration();
@@ -476,7 +476,7 @@ public class MPPFile extends MPXFile
          //task.setBaselineWork();
          //task.setBCWP(); // Calculated value
          //task.setBCWS(); // Calculated value
-         //task.setConfirmed();
+         //task.setConfirmed(); // Calculated value
          task.setConstraintDate (MPPUtility.getTimestamp (data, 112));
          task.setConstraintType (ConstraintType.getInstance (MPPUtility.getShort (data, 80)));
          task.setContact(taskVarData.getUnicodeString (id, TASK_CONTACT));
@@ -496,6 +496,7 @@ public class MPPFile extends MPXFile
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
+         task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
          task.setFinish (MPPUtility.getTimestamp (data, 8));
          task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
          task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
@@ -696,7 +697,7 @@ public class MPPFile extends MPXFile
          //resource.setCost(); // Calculated value
          resource.setCostPerUse(new Double(MPPUtility.getDouble(data, 84)/100));
          //resource.setCostVariance(); // Calculated value
-         resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
+         resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));         
          resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
          resource.setID (MPPUtility.getInt (data, 4));
          resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
@@ -821,6 +822,17 @@ public class MPPFile extends MPXFile
       return (new MPXDuration (duration, type));
    }
 
+	/**
+	 * This method is used to determine if a duration is estimated.
+	 *  
+	 * @param type Duration units value
+	 * @return boolean Estimated flag
+	 */
+   private boolean getDurationEstimated (int type)
+   { 
+		return ((type & DURATION_CONFIRMED_MASK) != 0);      	
+   }
+   
    /**
     * This method converts between the duration units representation
     * used in the MPP file, and the standard MPX duration units.
@@ -833,7 +845,7 @@ public class MPPFile extends MPXFile
    {
       int units;
 
-      switch (type)
+      switch (type & DURATION_UNITS_MASK)
       {
          case 3:
          {
@@ -1101,6 +1113,16 @@ public class MPPFile extends MPXFile
    private static final Integer RESOURCE_TEXT5 = new Integer (14);
    private static final Integer RESOURCE_NOTES = new Integer (124);
 
+	/**
+	 * Mask used to remove flags from the duration units field.
+	 */
+	private static final int DURATION_UNITS_MASK = 0x1F;
+	
+	/**
+	 * Mask used to isolate confirmed flag from the duration units field.
+	 */
+   private static final int DURATION_CONFIRMED_MASK = 0x20;
+   
    /**
     * Default working week
     */

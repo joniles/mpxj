@@ -4441,7 +4441,28 @@ public class Task extends MPXRecord implements Comparable
       return (id1 < id2 ? -1 : (id1 == id2 ? 0 : 1));
    }
 
-
+	/**
+	 * This method retrieves a flag indicating whether the duration of the
+	 * task has only been estimated.
+	 * 
+	 * @return boolean
+	 */
+	public boolean getEstimated ()
+	{
+		return (m_estimated);   
+	}
+	
+	/**
+	 * This method retrieves a flag indicating whether the duration of the
+	 * task has only been estimated.
+ 
+	 * @param estimated Boolean flag
+	 */
+	public void setEstimated (boolean estimated)
+	{
+		m_estimated = estimated;	   			
+	}
+	
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -4476,6 +4497,16 @@ public class Task extends MPXRecord implements Comparable
    private RecurringTask m_recurring;
 
 
+	/**
+	 * The following member variables are extended attributes. They are
+	 * do not form part of the MPX file format definition, and are neither
+	 * loaded from an MPX file, or saved to an MPX file. Their purpose
+	 * is to provide storage for attributes which are defined by later versions
+	 * of Microsoft Project. This allows these attributes to be manipulated
+	 * when they have been retrieved from file formats other than MPX.
+	 */
+	private boolean m_estimated;
+		
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage
     * of the task's duration that has been completed. You can enter percent complete, or you
