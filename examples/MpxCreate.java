@@ -76,7 +76,7 @@ public class MpxCreate
       // Create a simple date format to allow us to
       // easily set date values.
       //
-      SimpleDateFormat df = new SimpleDateFormat ("dd/mm/yyyy");
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 
       //
       // Create an empty MPX file
