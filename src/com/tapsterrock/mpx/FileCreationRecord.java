@@ -38,7 +38,7 @@ public class FileCreationRecord extends MPXRecord
     */
    FileCreationRecord (MPXFile file)
    {
-      super (file);
+      super (file, 0);
 
       setDelimiter(',');
       setProgramName("Microsoft Project for Windows");

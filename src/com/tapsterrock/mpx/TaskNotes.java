@@ -49,7 +49,7 @@ public class TaskNotes extends MPXRecord
     */
    TaskNotes (MPXFile file, Record record)
    {
-      super(file);
+      super(file, 0);
       m_note = record.getString(0);
    }
 

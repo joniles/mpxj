@@ -38,7 +38,7 @@ public class DefaultSettings extends MPXRecord
     */
    DefaultSettings (MPXFile file)
    {
-      super(file);
+      super(file, MAX_FIELDS);
 
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationType(0);
@@ -402,47 +402,52 @@ public class DefaultSettings extends MPXRecord
    /**
     * Constant value representing Default Duration Units.  eg 'w','m','d','h'
     */
-   public static final Integer DEFAULT_DURATION_UNITS = new Integer(0);
+   private static final int DEFAULT_DURATION_UNITS = 0;
 
    /**
     * Constant value representing Default Duration Type. eg 'w','m','d','h'
     */
-   public static final Integer DEFAULT_DURATION_TYPE = new Integer(1);
+   private static final int DEFAULT_DURATION_TYPE = 1;
 
    /**
     * Constant value representing Default Work Units. eg 'w','m','d','h'
     */
-   public static final Integer DEFAULT_WORK_UNITS = new Integer(2);
+   private static final int DEFAULT_WORK_UNITS = 2;
 
    /**
     * Constant value representing Hours in Day field.
     */
-   public static final Integer DEFAULT_HOURS_IN_DAY = new Integer(3);
+   private static final int DEFAULT_HOURS_IN_DAY = 3;
 
    /**
     * Constant value representing Default hours In Week field.
     */
-   public static final Integer DEFAULT_HOURS_IN_WEEK = new Integer(4);
+   private static final int DEFAULT_HOURS_IN_WEEK = 4;
 
    /**
     * Constant value representing Default Standard Rate  field.
     */
-   public static final Integer DEFAULT_STANDARD_RATE = new Integer(5);
+   private static final int DEFAULT_STANDARD_RATE = 5;
 
    /**
     * Constant value representing Default Overtine Rate field.
     */
-   public static final Integer DEFAULT_OVERTIME_RATE = new Integer(6);
+   private static final int DEFAULT_OVERTIME_RATE = 6;
 
    /**
     * Constant value representing Updating Task Status Updates Resource Status field.
     */
-   public static final Integer UPDATE = new Integer(7);
+   private static final int UPDATE = 7;
 
    /**
     * Constant value representing Split Tasks field.
     */
-   public static final Integer SPLIT = new Integer(8);
+   private static final int SPLIT = 8;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 9;
 
    /**
     * Constant containing the record number associated with this record.

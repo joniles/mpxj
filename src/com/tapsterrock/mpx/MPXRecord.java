@@ -25,10 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.util.Date;
-import java.util.TreeMap;
 import java.text.DecimalFormat;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * This is the base class from which all classes representing records found
@@ -42,9 +39,10 @@ class MPXRecord
     *
     * @param mpx Parent MPX file
     */
-   protected MPXRecord (MPXFile mpx)
+   protected MPXRecord (MPXFile mpx, int size)
    {
       m_mpx = mpx;
+      m_array = new Object[size];
    }
 
    /**
@@ -95,8 +93,7 @@ class MPXRecord
 
    /**
     * This is a generic method to convert an MPX record into a correctly
-    * formatted string. Note that this method uses the property of a
-    * TreeMap that the keys are retrieved by a key set iterator in order.
+    * formatted string.
     *
     * @param code the MPX record number of this record type.
     * @return MPX formatted String for supplied record type.
@@ -107,10 +104,9 @@ class MPXRecord
       char sepchar = m_mpx.getDelimiter();
       String str;
 
-      Iterator iter = m_map.keySet().iterator();
-      while (iter.hasNext() == true)
+      for (int loop=0; loop < m_array.length; loop++)
       {
-         str = format (m_map.get(iter.next()));
+         str = format (m_array[loop]);
 
          buf.append (sepchar);
 
@@ -144,19 +140,25 @@ class MPXRecord
     * the map is supplied.
     *
     * @param code the MPX record number of this record type.
-    * @param names array of keys
+    * @param fields array of fields
     * @return MPX formatted String for supplied record type.
     */
-   protected String toString (int code, LinkedList names)
+   protected String toString (int code, int[] fields)
    {
       StringBuffer buf = new StringBuffer(String.valueOf(code));
       char sepchar = m_mpx.getDelimiter();
       String str;
-      Iterator iter = names.iterator();
+      int field;
 
-      while (iter.hasNext() == true)
+      for (int loop=0; loop < fields.length; loop++)
       {
-         str = format (m_map.get(iter.next()));
+         field = fields[loop];
+         if (field == -1)
+         {
+            break;
+         }
+
+         str = format (get(field));
 
          buf.append (sepchar);
 
@@ -206,9 +208,9 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void put (Integer key, Object value)
+   protected void put (int key, Object value)
    {
-      m_map.put (key, value);
+      m_array[key] = value;
    }
 
    /**
@@ -217,9 +219,9 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void put (Integer key, char value)
+   protected void put (int key, char value)
    {
-      m_map.put (key, new Character (value));
+      put (key, new Character (value));
    }
 
    /**
@@ -228,9 +230,9 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void put (Integer key, int value)
+   protected void put (int key, int value)
    {
-      m_map.put (key, new Integer (value));
+      put (key, new Integer (value));
    }
 
    /**
@@ -240,14 +242,14 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void putDate (Integer key, Date value)
+   protected void putDate (int key, Date value)
    {
       if (value != null && value instanceof MPXDate == false)
       {
          value = new MPXDate (m_mpx.getDateFormat(), value);
       }
 
-      m_map.put (key, value);
+      put (key, value);
    }
 
    /**
@@ -257,14 +259,14 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void putCurrency (Integer key, Number value)
+   protected void putCurrency (int key, Number value)
    {
       if (value != null && value instanceof MPXCurrency == false)
       {
          value = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
       }
 
-      m_map.put (key, value);
+      put (key, value);
    }
 
    /**
@@ -274,14 +276,14 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void putUnits (Integer key, Number value)
+   protected void putUnits (int key, Number value)
    {
       if (value != null && value instanceof MPXUnits == false)
       {
          value = new MPXUnits (value);
       }
 
-      m_map.put (key, value);
+      put (key, value);
    }
 
    /**
@@ -291,14 +293,14 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void putPercentage (Integer key, Number value)
+   protected void putPercentage (int key, Number value)
    {
       if (value != null && value instanceof MPXPercentage == false)
       {
          value = new MPXPercentage (value);
       }
 
-      m_map.put (key, value);
+      put (key, value);
    }
 
    /**
@@ -308,14 +310,14 @@ class MPXRecord
     * @param key attribute identifier
     * @param value attribute value
     */
-   protected void putTime (Integer key, Date value)
+   protected void putTime (int key, Date value)
    {
       if (value != null && value instanceof MPXTime == false)
       {
          value = new MPXTime (m_mpx.getTimeFormat(), value);
       }
 
-      m_map.put (key, value);
+      put (key, value);
    }
 
    /**
@@ -325,9 +327,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected Object get (Integer key)
+   protected Object get (int key)
    {
-      return (m_map.get(key));
+      return (m_array[key]);
    }
 
    /**
@@ -339,9 +341,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected byte getByteValue (Integer key)
+   protected byte getByteValue (int key)
    {
-      Number value = (Number)m_map.get(key);
+      Number value = (Number)get(key);
 
       byte result;
       if (value == null)
@@ -365,9 +367,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected boolean getBooleanValue (Integer key)
+   protected boolean getBooleanValue (int key)
    {
-      Boolean value = (Boolean)m_map.get(key);
+      Boolean value = (Boolean)get(key);
 
       boolean result;
       if (value == null)
@@ -391,9 +393,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected char getCharValue (Integer key)
+   protected char getCharValue (int key)
    {
-      Character value = (Character)m_map.get(key);
+      Character value = (Character)get(key);
 
       char result;
       if (value == null)
@@ -417,9 +419,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected int getIntValue (Integer key)
+   protected int getIntValue (int key)
    {
-      Integer value = (Integer)m_map.get(key);
+      Integer value = (Integer)get(key);
 
       int result;
       if (value == null)
@@ -443,9 +445,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected float getFloatValue (Integer key)
+   protected float getFloatValue (int key)
    {
-      Number value = (Number)m_map.get(key);
+      Number value = (Number)get(key);
 
       float result;
       if (value == null)
@@ -469,9 +471,9 @@ class MPXRecord
     * @param key name of requested field value
     * @return requested value
     */
-   protected double getDoubleValue (Integer key)
+   protected double getDoubleValue (int key)
    {
-      Number value = (Number)m_map.get(key);
+      Number value = (Number)get(key);
 
       double result;
       if (value == null)
@@ -502,7 +504,7 @@ class MPXRecord
     */
    private MPXFile m_mpx;
 
-   private TreeMap m_map = new TreeMap ();
+   private Object[] m_array;
 
    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat ("0.00#");
 }

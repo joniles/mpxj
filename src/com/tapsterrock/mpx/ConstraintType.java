@@ -28,6 +28,8 @@ package com.tapsterrock.mpx;
  * between the textual description of a constraint type found in an MPX
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
+ *
+ * @todo review these types of files to allow static instances to be used?
  */
 public class ConstraintType
 {

@@ -53,7 +53,7 @@ public class BaseCalendarHours extends MPXRecord
    BaseCalendarHours (MPXFile file, Record record)
       throws MPXException
    {
-      super(file);
+      super(file, MAX_FIELDS);
 
       setDay(record.getInteger(0));
       setFromTime1(record.getTime(1));
@@ -274,37 +274,42 @@ public class BaseCalendarHours extends MPXRecord
    /**
     * Constant representing Day field.
     */
-   private static final Integer DAY = new Integer(0);
+   private static final int DAY = 0;
 
    /**
     * Constant representing From Time 1 field.
     */
-   private static final Integer FROM_TIME_1 = new Integer(1);
+   private static final int FROM_TIME_1 = 1;
 
    /**
     * Constant representing To Time 1 field.
     */
-   private static final Integer TO_TIME_1 = new Integer(2);
+   private static final int TO_TIME_1 = 2;
 
    /**
     * Constant representing From Time 2 field.
     */
-   private static final Integer FROM_TIME_2 = new Integer(3);
+   private static final int FROM_TIME_2 = 3;
 
    /**
     * Constant representing To Time 2 field.
     */
-   private static final Integer TO_TIME_2 = new Integer(4);
+   private static final int TO_TIME_2 = 4;
 
    /**
     * Constant representing From Time 3 field.
     */
-   private static final Integer FROM_TIME_3 = new Integer(5);
+   private static final int FROM_TIME_3 = 5;
 
    /**
     * Constant representing To Time 3 field.
     */
-   private static final Integer TO_TIME_3 = new Integer(6);
+   private static final int TO_TIME_3 = 6;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 7;
 
    /**
     * Constant containing the record number associated with this record.

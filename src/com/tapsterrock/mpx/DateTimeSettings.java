@@ -38,7 +38,7 @@ public class DateTimeSettings extends MPXRecord
     */
    DateTimeSettings (MPXFile file)
    {
-      super(file);
+      super(file, MAX_FIELDS);
 
       m_update = false;
       setDateOrder(DATE_ORDER_DMY);
@@ -505,7 +505,7 @@ public class DateTimeSettings extends MPXRecord
     * @param key identifier of the value being changed
     * @param val new value
     */
-   protected void put (Integer key, Object value)
+   protected void put (int key, Object value)
    {
       super.put (key, value);
       updateFormats ();
@@ -519,7 +519,7 @@ public class DateTimeSettings extends MPXRecord
     * @param key identifier of the value being changed
     * @param val new value
     */
-   protected void put (Integer key, int value)
+   protected void put (int key, int value)
    {
       super.put (key, value);
       updateFormats ();
@@ -533,7 +533,7 @@ public class DateTimeSettings extends MPXRecord
     * @param key identifier of the value being changed
     * @param val new value
     */
-   protected void putChar (Integer key, char value)
+   protected void putChar (int key, char value)
    {
       super.put (key, value);
       updateFormats ();
@@ -996,47 +996,52 @@ public class DateTimeSettings extends MPXRecord
    /**
     * Constant value representing Date Order field
     */
-   private static final Integer DATE_ORDER = new Integer(0);
+   private static final int DATE_ORDER = 0;
 
    /**
     * Constant value representing Time Format field
     */
-   private static final Integer TIME_FORMAT = new Integer(1);
+   private static final int TIME_FORMAT = 1;
 
    /**
     * Constant value representing Default Time field
     */
-   private static final Integer DEFAULT_TIME = new Integer(2);
+   private static final int DEFAULT_TIME = 2;
 
    /**
     * Constant value representing Date Separator field
     */
-   private static final Integer DATE_SEPARATOR = new Integer(3);
+   private static final int DATE_SEPARATOR = 3;
 
    /**
     * Constant value representing Time Separator field
     */
-   private static final Integer TIME_SEPARATOR = new Integer(4);
+   private static final int TIME_SEPARATOR = 4;
 
    /**
     * Constant value representing AMText field
     */
-   private static final Integer AMTEXT = new Integer(5);
+   private static final int AMTEXT = 5;
 
    /**
     * Constant value representing PMText field
     */
-   private static final Integer PMTEXT = new Integer(6);
+   private static final int PMTEXT = 6;
 
    /**
     * Constant value representing Date Format field
     */
-   private static final Integer DATE_FORMAT = new Integer(7);
+   private static final int DATE_FORMAT = 7;
 
    /**
     * Constant value representing Bar text Date Format field
     */
-   private static final Integer BAR_TEXT_DATE_FORMAT = new Integer(8);
+   private static final int BAR_TEXT_DATE_FORMAT = 8;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 9;
 
    /**
     * Constant containing the record number associated with this record.

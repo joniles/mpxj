@@ -1538,7 +1538,7 @@ public class MPXFile
     * Project appears to ignore them when reading and writing files, so the
     * default value is true.
     *
-    * @todo move this into the currency settings class
+    * @todo move this into the currency settings class?
     */
    private boolean m_ignoreCurrencyThousandsSeparator = true;
 

@@ -55,7 +55,7 @@ public class ResourceCalendar extends MPXRecord
    ResourceCalendar (MPXFile file, Record record)
       throws MPXException
    {
-      super(file);
+      super(file, MAX_FIELDS);
 
       setBaseCalendarName(record.getString(0));
       setSunday(record.getInteger(1));
@@ -513,42 +513,47 @@ public class ResourceCalendar extends MPXRecord
    /**
     * Name of the base calendar used by the related resource
     */
-   private static final Integer BASE_CALENDAR_NAME = new Integer(0);
+   private static final int BASE_CALENDAR_NAME = 0;
 
    /**
     * Constant value representing day of week - Sunday
     */
-   private static final Integer SUNDAY = new Integer(1);
+   private static final int SUNDAY = 1;
 
    /**
     * Constant value representing day of week - Monday
     */
-   private static final Integer MONDAY = new Integer(2);
+   private static final int MONDAY = 2;
 
    /**
     * Constant value representing day of week - Tuesday
     */
-   private static final Integer TUESDAY = new Integer(3);
+   private static final int TUESDAY = 3;
 
    /**
     * Constant value representing day of week - Wednesday
     */
-   private static final Integer WEDNESDAY = new Integer(4);
+   private static final int WEDNESDAY = 4;
 
    /**
     * Constant value representing day of week - Thursday
     */
-   private static final Integer THURSDAY = new Integer(5);
+   private static final int THURSDAY = 5;
 
    /**
     * Constant value representing day of week - Friday
     */
-   private static final Integer FRIDAY = new Integer(6);
+   private static final int FRIDAY = 6;
 
    /**
     * Constant value representing day of week - Saturday
     */
-   private static final Integer SATURDAY = new Integer(7);
+   private static final int SATURDAY = 7;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 8;
 
    /**
     * Constant representing maximum number of ResourceCalendarException

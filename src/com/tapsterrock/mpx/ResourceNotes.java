@@ -50,7 +50,7 @@ public class ResourceNotes extends MPXRecord
     */
    ResourceNotes (MPXFile file, Record record)
    {
-      super (file);
+      super (file, 0);
       m_note = record.getString(0);
    }
 

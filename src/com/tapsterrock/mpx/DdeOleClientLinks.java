@@ -50,7 +50,7 @@ public class DdeOleClientLinks extends MPXRecord
     */
    DdeOleClientLinks(MPXFile file, Record record)
    {
-      super (file);
+      super (file, 0);
       m_source = record.getString(0);
       m_linkTo = record.getString(1);
    }

@@ -43,7 +43,7 @@ public class ProjectHeader extends MPXRecord
    ProjectHeader (MPXFile file)
       throws MPXException
    {
-      super (file);
+      super (file, MAX_FIELDS);
    }
 
 
@@ -752,147 +752,152 @@ public class ProjectHeader extends MPXRecord
    /**
     * Constant value representing Project Tab field
     */
-   private static final Integer PROJECT_TAB = new Integer(0);
+   private static final int PROJECT_TAB = 0;
 
    /**
     * Constant value representing Company field
     */
-   private static final Integer COMPANY = new Integer(1);
+   private static final int COMPANY = 1;
 
    /**
     * Constant value representing Manager field
     */
-   private static final Integer MANAGER = new Integer(2);
+   private static final int MANAGER = 2;
 
    /**
     * Constant value representing Project Tab field
     */
-   private static final Integer CALENDAR = new Integer(3);
+   private static final int CALENDAR = 3;
 
    /**
     * Constant value representing Start Date field
     */
-   private static final Integer START_DATE = new Integer(4);
+   private static final int START_DATE = 4;
 
    /**
     * Constant value representing Finish Date field
     */
-   private static final Integer FINISH_DATE = new Integer(5);
+   private static final int FINISH_DATE = 5;
 
    /**
     * Constant value representing Schedule From field
     */
-   private static final Integer SCHEDULE_FROM = new Integer(6);
+   private static final int SCHEDULE_FROM = 6;
 
    /**
     * Constant value representing Current Date field
     */
-   private static final Integer CURRENT_DATE = new Integer(7);
+   private static final int CURRENT_DATE = 7;
 
    /**
     * Constant value representing Comments field
     */
-   private static final Integer COMMENTS = new Integer(8);
+   private static final int COMMENTS = 8;
 
    /**
     * Constant value representing Cost field
     */
-   private static final Integer COST = new Integer(9);
+   private static final int COST = 9;
 
    /**
     * Constant value representing Baseline Cost field
     */
-   private static final Integer BASELINE_COST = new Integer(10);
+   private static final int BASELINE_COST = 10;
 
    /**
     * Constant value representing Actual Cost field
     */
-   private static final Integer ACTUAL_COST = new Integer(11);
+   private static final int ACTUAL_COST = 11;
 
    /**
     * Constant value representing Work field
     */
-   private static final Integer WORK = new Integer(12);
+   private static final int WORK = 12;
 
    /**
     * Constant value representing Baseline Work field
     */
-   private static final Integer BASELINE_WORK = new Integer(13);
+   private static final int BASELINE_WORK = 13;
 
    /**
     * Constant value representing Actual Work field
     */
-   private static final Integer ACTUAL_WORK = new Integer(14);
+   private static final int ACTUAL_WORK = 14;
 
    /**
     * Constant value representing Work2 field. This field is calculated by MSP
     */
-   private static final Integer WORK2 = new Integer(15);
+   private static final int WORK2 = 15;
 
    /**
     * Constant value representing Duration field
     */
-   private static final Integer DURATION = new Integer(16);
+   private static final int DURATION = 16;
 
    /**
     * Constant value representing Baseline Duration field
     */
-   private static final Integer BASELINE_DURATION = new Integer(17);
+   private static final int BASELINE_DURATION = 17;
 
    /**
     * Constant value representing Actual Duration field
     */
-   private static final Integer ACTUAL_DURATION = new Integer(18);
+   private static final int ACTUAL_DURATION = 18;
 
    /**
     * Constant value representing Percentage Complete field
     */
-   private static final Integer PERCENTAGE_COMPLETE = new Integer(19);
+   private static final int PERCENTAGE_COMPLETE = 19;
 
    /**
     * Constant value representing Baseline Start field
     */
-   private static final Integer BASELINE_START = new Integer(20);
+   private static final int BASELINE_START = 20;
 
    /**
     * Constant value representing Baseline Finish field
     */
-   private static final Integer BASELINE_FINISH = new Integer(21);
+   private static final int BASELINE_FINISH = 21;
 
    /**
     * Constant value representing Actual Start field
     */
-   private static final Integer ACTUAL_START = new Integer(22);
+   private static final int ACTUAL_START = 22;
 
    /**
     * Constant value representing Actual Finish field
     */
-   private static final Integer ACTUAL_FINISH = new Integer(23);
+   private static final int ACTUAL_FINISH = 23;
 
    /**
     * Constant value representing Start Variance field
     */
-   private static final Integer START_VARIANCE = new Integer(24);
+   private static final int START_VARIANCE = 24;
 
    /**
     * Constant value representing Finish Variance field
     */
-   private static final Integer FINISH_VARIANCE = new Integer(25);
+   private static final int FINISH_VARIANCE = 25;
 
    /**
     * Constant value representing Subject field
     */
-   private static final Integer SUBJECT = new Integer(26);
+   private static final int SUBJECT = 26;
 
    /**
     * Constant value representing Author field
     */
-   private static final Integer AUTHOR = new Integer(27);
+   private static final int AUTHOR = 27;
 
    /**
     * Constant value representing Keywords field
     */
-   private static final Integer KEYWORDS = new Integer(28);
+   private static final int KEYWORDS = 28;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 29;
 
    /**
     * Constant containing the record number associated with this record.

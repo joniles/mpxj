@@ -24,8 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.LinkedList;
-import java.util.Iterator;
 import java.util.HashMap;
 
 /**
@@ -43,7 +41,7 @@ class TaskModel extends MPXRecord
     */
    TaskModel (MPXFile file)
    {
-      super(file);
+      super(file, 0);
    }
 
    /**
@@ -52,9 +50,10 @@ class TaskModel extends MPXRecord
     *
     * @return list of field names
     */
-   public LinkedList getModel ()
+   public int[] getModel ()
    {
-      return (m_list);
+      m_fields[m_count] = -1;
+      return (m_fields);
    }
 
    /**
@@ -71,25 +70,15 @@ class TaskModel extends MPXRecord
       {
          if (isText == true)
          {
-            add (new Integer (getTaskCode (record.getString (i))));
+            add (Integer.parseInt(getTaskCode (record.getString (i))));
          }
          else
          {
-            add (record.getInteger (i));
+            add (record.getInteger (i).intValue());
          }
       }
    }
 
-   /**
-    * This method retrieves an iterator, allowing the list of field
-    * names to be traversed.
-    *
-    * @return an iterator
-    */
-   public Iterator iterator()
-   {
-      return (m_list.iterator());
-   }
 
    /**
     * Retrieves a flag indicating whether this model has been written
@@ -121,11 +110,13 @@ class TaskModel extends MPXRecord
     *
     * @param attrib field identifier
     */
-   public void add (Integer attrib)
+   public void add (int field)
    {
-      if (m_list.contains(attrib) == false)
+      if (m_flags[field] == false)
       {
-         m_list.add (attrib);
+         m_flags[field] = true;
+         m_fields[m_count] = field;
+         ++m_count;
       }
    }
 
@@ -138,7 +129,7 @@ class TaskModel extends MPXRecord
     */
    public String toString()
    {
-      Integer number;
+      int number;
       char delimiter = getParentFile().getDelimiter();
 
       StringBuffer textual = new StringBuffer();
@@ -147,11 +138,9 @@ class TaskModel extends MPXRecord
       textual.append (RECORD_NUMBER_TEXT);
       numeric.append (RECORD_NUMBER_NUMERIC);
 
-      Iterator iter = m_list.iterator();
-
-      while (iter.hasNext() == true)
+      for (int loop=0; loop < m_count; loop++)
       {
-         number = (Integer)iter.next();
+         number = m_fields[loop];
 
          textual.append (delimiter);
          numeric.append (delimiter);
@@ -175,9 +164,9 @@ class TaskModel extends MPXRecord
     * @param key - the code no of required Task field
     * @return - field name
     */
-   public static String getTaskField (Integer key)
+   public static String getTaskField (int key)
    {
-      return ((String)TASK_NAME.get(key.toString()));
+      return ((String)TASK_NAME.get(Integer.toString(key)));
    }
 
    /**
@@ -197,9 +186,20 @@ class TaskModel extends MPXRecord
    private boolean m_written = false;
 
    /**
-    * List of ordered fields for task definition.
+    * Array of flags indicting whether each field has already been
+    * added to the model.
     */
-   private LinkedList m_list = new LinkedList();
+   private boolean[] m_flags = new boolean [Task.MAX_FIELDS];
+
+   /**
+    * Array of field numbers in order of their appearance.
+    */
+   private int[] m_fields = new int [Task.MAX_FIELDS+1];
+
+   /**
+    * Count of the number of fields present.
+    */
+   private int m_count = 0;
 
    /**
     * Array of task field numbers corresponding to the task field names.

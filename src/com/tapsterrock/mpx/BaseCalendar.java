@@ -58,7 +58,7 @@ public class BaseCalendar extends MPXRecord
     */
    BaseCalendar (MPXFile file, Record record)
    {
-      super (file);
+      super (file, MAX_FIELDS);
 
       setName(record.getString(0));
       setSunday(record.getInteger(1));
@@ -476,14 +476,12 @@ public class BaseCalendar extends MPXRecord
     *
     * @param day number of required day (1=Sunday, 7=Saturday)
     * @return true if this is a working day
-    * @throws MPXException when an invalid day is specified
     */
    public boolean isWorkingDay (int day)
-      throws MPXException
    {
       boolean result;
 
-      int working = getIntValue (getKey(day));
+      int working = getIntValue (day);
 
       if (working == 0)
       {
@@ -504,76 +502,12 @@ public class BaseCalendar extends MPXRecord
     *
     * @param day number of required day (1=Sunday, 7=Saturday)
     * @param working flag indicating if the day is a working day
-    * @throws MPXException when an invalid day is specified
     */
    public void setWorkingDay (int day, boolean working)
-      throws MPXException
    {
-      put (getKey (day), (working==false?0:1));
+      put (day, (working==false?0:1));
    }
 
-   /**
-    * This method is used to map between int day numbers and Integer
-    * objects used internally. The idea here is to avoid repeated
-    * creation of new Integer objects.
-    */
-   private Integer getKey (int day)
-      throws MPXException
-   {
-      Integer key;
-
-      switch (day)
-      {
-         case 1:
-         {
-            key = SUNDAY;
-            break;
-         }
-
-         case 2:
-         {
-            key = MONDAY;
-            break;
-         }
-
-         case 3:
-         {
-            key = TUESDAY;
-            break;
-         }
-
-         case 4:
-         {
-            key = WEDNESDAY;
-            break;
-         }
-
-         case 5:
-         {
-            key = THURSDAY;
-            break;
-         }
-
-         case 6:
-         {
-            key = FRIDAY;
-            break;
-         }
-
-         case 7:
-         {
-            key = SATURDAY;
-            break;
-         }
-
-         default:
-         {
-            throw new MPXException ("Invalid day");
-         }
-      }
-
-      return (key);
-   }
 
    /**
     * This is a convenience method used to add a default set of calendar
@@ -714,42 +648,42 @@ public class BaseCalendar extends MPXRecord
    /**
     * Constant used to retrieve the name of the calendar
     */
-   private static final Integer NAME = new Integer(0);
+   private static final int NAME = 0;
 
    /**
     * Constant used to retrieve the data for Sunday
     */
-   private static final Integer SUNDAY = new Integer(1);
+   private static final int SUNDAY = 1;
 
    /**
     * Constant used to retrieve the data for Monday
     */
-   private static final Integer MONDAY = new Integer(2);
+   private static final int MONDAY = 2;
 
    /**
     * Constant used to retrieve the data for Tuesday
     */
-   private static final Integer TUESDAY = new Integer(3);
+   private static final int TUESDAY = 3;
 
    /**
     * Constant used to retrieve the data for Wednesday
     */
-   private static final Integer WEDNESDAY = new Integer(4);
+   private static final int WEDNESDAY = 4;
 
    /**
     * Constant used to retrieve the data for Thursday
     */
-   private static final Integer THURSDAY = new Integer(5);
+   private static final int THURSDAY = 5;
 
    /**
     * Constant used to retrieve the data for Friday
     */
-   private static final Integer FRIDAY = new Integer(6);
+   private static final int FRIDAY = 6;
 
    /**
     * Constant used to retrieve the data for Saturday
     */
-   private static final Integer SATURDAY = new Integer(7);
+   private static final int SATURDAY = 7;
 
    /**
     * Constant used to represent non-working days
@@ -766,6 +700,11 @@ public class BaseCalendar extends MPXRecord
     * records per BaseCalendar.
     */
    static final int MAX_CALENDAR_HOURS = 7;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 8;
 
    /**
     * Constant representing maximum number of BaseCalendarException records

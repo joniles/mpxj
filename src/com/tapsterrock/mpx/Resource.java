@@ -24,7 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Iterator;
 
 /**
  * This class represents the Resource record as found in an MPX file.
@@ -35,10 +34,16 @@ public class Resource extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @throws MPXException normally thrown for paring errors
     */
    Resource (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      /** @todo use empty record? */
+
+      this (file, Record.EMPTY_RECORD);
+/*
+      super (file, MAX_FIELDS);
 
       m_model = getParentFile().getResourceModel();
 
@@ -51,6 +56,7 @@ public class Resource extends MPXRecord
       {
          setID (file.getResourceID ());
       }
+*/
    }
 
    /**
@@ -64,16 +70,22 @@ public class Resource extends MPXRecord
    Resource (MPXFile file, Record record)
       throws MPXException
    {
-      super (file);
+      super (file, MAX_FIELDS);
+
       m_model = getParentFile().getResourceModel();
 
       int i = 0;
       int length = record.getLength();
-      Iterator mod = m_model.iterator();
+      int[] model = m_model.getModel();
 
-      while (i < length && mod.hasNext() == true)
+      while (i < length)
       {
-         int x = ((Integer)mod.next()).intValue();
+         int x = model[i];
+         if (x == -1)
+         {
+            break;
+         }
+
          String field = record.getString (i++);
 
          switch (x)
@@ -258,9 +270,8 @@ public class Resource extends MPXRecord
     */
    private void set (int field, Object val)
    {
-      Integer key = new Integer (field);
-      m_model.add (key);
-      put (key, val);
+      m_model.add (field);
+      put (field, val);
    }
 
    /**
@@ -273,9 +284,8 @@ public class Resource extends MPXRecord
     */
    private void set (int field, int val)
    {
-      Integer key = new Integer (field);
-      m_model.add (key);
-      put (key, val);
+      m_model.add (field);
+      put (field, val);
    }
 
    /**
@@ -288,9 +298,8 @@ public class Resource extends MPXRecord
     */
    private void setCurrency (int field, Number val)
    {
-      Integer key = new Integer (field);
-      m_model.add(key);
-      putCurrency (key, val);
+      m_model.add (field);
+      putCurrency (field, val);
    }
 
    /**
@@ -303,9 +312,8 @@ public class Resource extends MPXRecord
     */
    private void setUnits (int field, Number val)
    {
-      Integer key = new Integer (field);
-      m_model.add(key);
-      putUnits (key, val);
+      m_model.add (field);
+      putUnits (field, val);
    }
 
    /**
@@ -318,42 +326,8 @@ public class Resource extends MPXRecord
     */
    private void setPercentage (int field, Number val)
    {
-      Integer key = new Integer (field);
-      m_model.add(key);
-      putPercentage (key, val);
-   }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private Object get (int field)
-   {
-      return (get(new Integer(field)));
-   }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private int getIntValue (int field)
-   {
-      return (getIntValue(new Integer(field)));
-   }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private double getDoubleValue (int field)
-   {
-      return (getDoubleValue(new Integer(field)));
+      m_model.add (field);
+      putPercentage (field, val);
    }
 
    /**
@@ -1531,6 +1505,12 @@ public class Resource extends MPXRecord
     * and the currently scheduled work.
     */
    private static final int WORK_VARIANCE = 25;
+
+   /**
+    * Maximum number of fields in this record. Note that this is
+    * package access to allow the model to get at it.
+    */
+   static final int MAX_FIELDS = 52;
 
    /**
     * Constant containing the record number associated with this record.

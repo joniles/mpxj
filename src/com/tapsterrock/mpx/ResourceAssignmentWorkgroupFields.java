@@ -54,7 +54,7 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
    ResourceAssignmentWorkgroupFields (MPXFile file, Record record)
       throws MPXException
    {
-      super(file);
+      super(file, MAX_FIELDS);
 
       setMessageUniqueID(record.getString(0));
       setConfirmed(record.getInteger(1));
@@ -237,32 +237,37 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
    /**
     * Constant value representing Message Unique ID.
     */
-   private static final Integer MESSAGE_UNIQUE_ID = new Integer(0);
+   private static final int MESSAGE_UNIQUE_ID = 0;
 
    /**
     * Constant value representing Confirmed.
     */
-   private static final Integer CONFIRMED = new Integer(1);
+   private static final int CONFIRMED = 1;
 
    /**
     * Constant value representing Response Pending.
     */
-   private static final Integer RESPONSE_PENDING = new Integer(2);
+   private static final int RESPONSE_PENDING = 2;
 
    /**
     * Constant value representing Update Start.
     */
-   private static final Integer UPDATE_START = new Integer(3);
+   private static final int UPDATE_START = 3;
 
    /**
     * Constant value representing Update Finish.
     */
-   private static final Integer UPDATE_FINISH = new Integer(4);
+   private static final int UPDATE_FINISH = 4;
 
    /**
     * Constant value representing Schedule IDmed.
     */
-   private static final Integer SCHEDULE_ID = new Integer(5);
+   private static final int SCHEDULE_ID = 5;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 6;
 
    /**
     * Constant containing the record number associated with this record.

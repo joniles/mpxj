@@ -52,7 +52,7 @@ public class RecurringTask extends MPXRecord
    RecurringTask (MPXFile file, Record record)
       throws MPXException
    {
-      super (file);
+      super (file, MAX_FIELDS);
 
       setID(record.getString(0));
       setStartDate(record.getDate(1));
@@ -1290,44 +1290,44 @@ public class RecurringTask extends MPXRecord
     * Unique ID. If this <tt>RecurrentTask</tt> is a child of another recurring task,
     * then only this field appears, signifying the parent.
     */
-   private static final Integer ID = new Integer(0);
+   private static final int ID = 0;
 
    /**
     * Start date of recurring task
     */
-   private static final Integer START_DATE = new Integer(1);
+   private static final int START_DATE = 1;
 
    /**
     * End final date of recurring task
     */
-   private static final Integer FINISH_DATE = new Integer(2);
+   private static final int FINISH_DATE = 2;
 
    /**
     * Duration as minutes.
     */
-   private static final Integer DURATION = new Integer(3);
+   private static final int DURATION = 3;
 
    /**
     * Unimportant as Duration appears as minutes.
     */
-   private static final Integer DURATION_TYPE = new Integer(4);
+   private static final int DURATION_TYPE = 4;
 
    /**
     * No of Occurances scheduled
     */
-   private static final Integer NO_OF_OCCURANCES = new Integer(5);
+   private static final int NO_OF_OCCURANCES = 5;
 
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
     * @see #PERIOD_DAILY frequency constants
     */
-   private static final Integer RECURRANCE_TYPE = new Integer(6);
+   private static final int RECURRANCE_TYPE = 6;
 
    /**
     * This field seems redundant
     */
-   private static final Integer NOT_SURE_INDEX = new Integer(7);
+   private static final int NOT_SURE_INDEX = 7;
 
   /**
    * Referring to the 2 radio buttons in the 'Length' option box
@@ -1335,7 +1335,7 @@ public class RecurringTask extends MPXRecord
    * The top option (To X Date) = 1 .
    * The bottom option (For X Occurances) = 0
    */
-   private static final Integer LENGTH_RADIO_INDEX = new Integer(8);
+   private static final int LENGTH_RADIO_INDEX = 8;
 
    /**
     * Referring to the 2 radio buttons in the 'Daily' option box
@@ -1343,7 +1343,7 @@ public class RecurringTask extends MPXRecord
     * The top option (Day) = 0 .
     * The bottom option (Workday) = 1
     */
-   private static final Integer DAILY_BOX_RADIO_INDEX = new Integer(9);
+   private static final int DAILY_BOX_RADIO_INDEX = 9;
 
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
@@ -1352,35 +1352,35 @@ public class RecurringTask extends MPXRecord
     * The string is eg '0010010' if 'Tue' and 'Fri' are selected
     * @see #PERIOD_DAILY frequency constants
     */
-   private static final Integer WEEKLY_BOX_DAY_OF_WEEK_INDEX = new Integer(10);
+   private static final int WEEKLY_BOX_DAY_OF_WEEK_INDEX = 10;
 
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * The top option (Day x of...) = 0 .
     * The bottom option (The Xth day of...) = 1
     */
-   private static final Integer MONTHLY_BOX_RADIO_INDEX = new Integer(11);
+   private static final int MONTHLY_BOX_RADIO_INDEX = 11;
 
    /**
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * The top option (Date) = 1 .
     * The bottom option (The Xth day of...) = 0
     */
-   private static final Integer YEARLY_BOX_RADIO_INDEX = new Integer(12);
+   private static final int YEARLY_BOX_RADIO_INDEX = 12;
 
    /**
     * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
     * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
-   private static final Integer DAILY_BOX_COMBO_INDEX = new Integer(13);
+   private static final int DAILY_BOX_COMBO_INDEX = 13;
 
    /**
     * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
     * 'Every...' eg 'Every 7th'
     * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
-   private static final Integer WEEKLY_BOX_COMBO_INDEX = new Integer(14);
+   private static final int WEEKLY_BOX_COMBO_INDEX = 14;
 
    /**
     * Refers to the 'The' (eg Second) 'Monthly' option boxes of the
@@ -1389,7 +1389,7 @@ public class RecurringTask extends MPXRecord
     * Values for first,second,third,fourth and last.
     * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     */
-   private static final Integer MONTHLY_BOX_FIRSTLAST_COMBO_INDEX = new Integer(15);
+   private static final int MONTHLY_BOX_FIRSTLAST_COMBO_INDEX = 15;
 
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
@@ -1397,7 +1397,7 @@ public class RecurringTask extends MPXRecord
     * Values for day of the week
     * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     */
-   private static final Integer MONTHLY_BOX_DAY_COMBO_INDEX = new Integer(16);
+   private static final int MONTHLY_BOX_DAY_COMBO_INDEX = 16;
 
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
@@ -1405,13 +1405,13 @@ public class RecurringTask extends MPXRecord
     * 'Every...' combo box. eg 'Every 5th Month'
     * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
-   private static final Integer MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX = new Integer(17);
+   private static final int MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX = 17;
 
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
     * This refers to the box Day X, (where X is 1-31) of the month.
     */
-   private static final Integer MONTHLY_BOX_DAY_INDEX = new Integer(18);
+   private static final int MONTHLY_BOX_DAY_INDEX = 18;
 
    /**
     * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
@@ -1419,7 +1419,7 @@ public class RecurringTask extends MPXRecord
     * 'Every...' combo box. eg 'Every 5th Month'
     * @see #INDEX_TYPE_EVERY CONSTANTS eg  'Every 7th','Every Other','Every'
     */
-   private static final Integer MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX = new Integer(19);
+   private static final int MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX = 19;
 
    /**
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
@@ -1427,7 +1427,7 @@ public class RecurringTask extends MPXRecord
     * Values for first,second,third,fourth and last.
     * @see #FIRST CONSTANTS eg 'FIRST'=1,'LAST'=5,'THIRD'=3
     */
-   private static final Integer FIRSTLAST_COMBO_INDEX_YEARLY_BOX = new Integer(20);
+   private static final int FIRSTLAST_COMBO_INDEX_YEARLY_BOX = 20;
 
    /**
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
@@ -1435,7 +1435,7 @@ public class RecurringTask extends MPXRecord
     * Values for day of the week
     * @see #SUNDAY CONSTANTS eg 'MONDAY'=2,'FRIDAY'=5
     */
-   private static final Integer DAY_COMBO_INDEX_YEARLY_BOX = new Integer(21);
+   private static final int DAY_COMBO_INDEX_YEARLY_BOX = 21;
 
    /**
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
@@ -1443,14 +1443,19 @@ public class RecurringTask extends MPXRecord
     * Values for month of the year
     * @see #JANUARY CONSTANTS eg 'JANUARY','MAY'
     */
-   private static final Integer MONTH_COMBO_INDEX_YEARLY_BOX = new Integer(22);
+   private static final int MONTH_COMBO_INDEX_YEARLY_BOX = 22;
 
    /**
     * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
     * This is the date shown when the top radio button is selected. eg 11 December.
     * This represents the first scheduled occurance of this <tt>RecurringTask</tt>
     */
-   private static final Integer YEARLY_BOX_DATE = new Integer(23);
+   private static final int YEARLY_BOX_DATE = 23;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 24;
 
    /**
     * Constant containing the record number associated with this record.

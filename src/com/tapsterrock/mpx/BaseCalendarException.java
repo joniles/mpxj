@@ -54,7 +54,7 @@ public class BaseCalendarException extends MPXRecord
    BaseCalendarException (MPXFile file, Record record)
       throws MPXException
    {
-      super(file);
+      super(file, MAX_FIELDS);
 
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
@@ -283,47 +283,52 @@ public class BaseCalendarException extends MPXRecord
    /**
     * Constant identifier for the FromDate field
     */
-   private static final Integer FROM_DATE = new Integer(0);
+   private static final int FROM_DATE = 0;
 
    /**
     * Constant identifier for the ToDate field
     */
-   private static final Integer TO_DATE = new Integer(1);
+   private static final int TO_DATE = 1;
 
    /**
     * Constant identifier for the Working field
     */
-   private static final Integer WORKING = new Integer(2);
+   private static final int WORKING = 2;
 
    /**
     * Constant identifier for the FromTime 1 field
     */
-   private static final Integer FROM_TIME_1 = new Integer(3);
+   private static final int FROM_TIME_1 = 3;
 
    /**
     * Constant identifier for the To Time 1 field
     */
-   private static final Integer TO_TIME_1 = new Integer(4);
+   private static final int TO_TIME_1 = 4;
 
    /**
     * Constant identifier for the From Time 2 field
     */
-   private static final Integer FROM_TIME_2 = new Integer(5);
+   private static final int FROM_TIME_2 = 5;
 
    /**
     * Constant identifier for the To Time 2 field
     */
-   private static final Integer TO_TIME_2 = new Integer(6);
+   private static final int TO_TIME_2 = 6;
 
    /**
     * Constant identifier for the From Time 3 field
     */
-   private static final Integer FROM_TIME_3 = new Integer(7);
+   private static final int FROM_TIME_3 = 7;
 
    /**
     * Constant identifier for the To Time 3 field
     */
-   private static final Integer TO_TIME_3 = new Integer(8);
+   private static final int TO_TIME_3 = 8;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 9;
 
    /**
     * Constant containing the record number associated with this record.

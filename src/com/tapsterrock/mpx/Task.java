@@ -41,7 +41,7 @@ public class Task extends MPXRecord implements Comparable
     */
    Task (MPXFile file, Task parent)
    {
-      super (file);
+      super (file, MAX_FIELDS);
 
       m_model = getParentFile().getTaskModel();
 
@@ -83,12 +83,12 @@ public class Task extends MPXRecord implements Comparable
     * @param file parent MPX file
     * @param record record from MPX file
     * @throws MPXException normally thrown for paring errors
-    * @todo null pointer handling here must be reviewed
     */
    Task (MPXFile file, Record record)
       throws MPXException
    {
-      super (file);
+      super (file, MAX_FIELDS);
+
       m_model = getParentFile().getTaskModel();
 
       int x = 0;
@@ -96,11 +96,16 @@ public class Task extends MPXRecord implements Comparable
 
       int i = 0;
       int length = record.getLength();
-      Iterator mod = m_model.iterator();
+      int[] model = m_model.getModel();
 
-      while (i < length && mod.hasNext() == true)
+      while (i < length)
       {
-         x = ((Integer)mod.next()).intValue();
+         x = model[i];
+         if (x == -1)
+         {
+            break;
+         }
+
          field = record.getString(i++);
 
          switch (x)
@@ -774,9 +779,8 @@ public class Task extends MPXRecord implements Comparable
     */
    private void set(int field, Object val)
    {
-      Integer key = new Integer (field);
-      m_model.add (key);
-      put (key, val);
+      m_model.add (field);
+      put (field, val);
    }
 
    /**
@@ -789,9 +793,8 @@ public class Task extends MPXRecord implements Comparable
     */
    private void set (int field, int val)
    {
-      Integer key = new Integer (field);
-      m_model.add (key);
-      put (key, val);
+      m_model.add (field);
+      put (field, val);
    }
 
    /**
@@ -804,9 +807,8 @@ public class Task extends MPXRecord implements Comparable
     */
    private void setDate (int field, Date val)
    {
-      Integer key = new Integer (field);
-      m_model.add(key);
-      putDate (key, val);
+      m_model.add(field);
+      putDate (field, val);
    }
 
    /**
@@ -819,9 +821,8 @@ public class Task extends MPXRecord implements Comparable
     */
    private void setPercentage (int field, Number val)
    {
-      Integer key = new Integer (field);
-      m_model.add(key);
-      putPercentage (key, val);
+      m_model.add(field);
+      putPercentage (field, val);
    }
 
    /**
@@ -834,55 +835,9 @@ public class Task extends MPXRecord implements Comparable
     */
    private void setCurrency (int field, Number val)
    {
-      Integer key = new Integer (field);
-      m_model.add(key);
-      putCurrency (key, val);
+      m_model.add(field);
+      putCurrency (field, val);
    }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private Object get (int field)
-   {
-      return (get(new Integer(field)));
-   }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private int getIntValue (int field)
-   {
-      return (getIntValue(new Integer(field)));
-   }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private double getDoubleValue (int field)
-   {
-      return (getDoubleValue(new Integer(field)));
-   }
-
-   /**
-    * This method is used to retrieve a particular field value.
-    *
-    * @param field requested field
-    * @return field value
-    */
-   private boolean getBooleanValue (int field)
-   {
-      return (getBooleanValue(new Integer(field)));
-   }
-
 
    /**
     * The % Complete field contains the current status of a task, expressed
@@ -4883,6 +4838,13 @@ public class Task extends MPXRecord implements Comparable
     * Constant representing maximum number of ResourceAssignments children per Task.
     */
    public static final int MAX_RESOURCE_ASSIGNMENTS = 100;
+
+
+   /**
+    * Maximum number of fields in this record. Note that this is package
+    * access to allow the task model to get at it.
+    */
+   static final int MAX_FIELDS = 153;
 
    /**
     * Constant containing the record number associated with this record.

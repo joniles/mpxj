@@ -52,7 +52,7 @@ public class ResourceAssignment extends MPXRecord
    ResourceAssignment (MPXFile file, Record record, Task task)
       throws MPXException
    {
-      super (file);
+      super (file, MAX_FIELDS);
 
       m_task = task;
 
@@ -506,37 +506,37 @@ public class ResourceAssignment extends MPXRecord
    /**
     * ID of the resource.
     */
-   private static final Integer RESOURCE_ID = new Integer(0);
+   private static final int RESOURCE_ID = 0;
 
    /**
     * Units assigned
     */
-   private static final Integer UNITS = new Integer(1);
+   private static final int UNITS = 1;
 
    /**
     * The Work field shows the total amount of work scheduled to be performed
     * by a resource on a task. This field shows the total work, or person-hours,
     * scheduled for an assignment.
     */
-   private static final Integer WORK = new Integer(2);
+   private static final int WORK = 2;
 
    /**
     * The Planned Work field shows the amount of work planned to be done by
     * a resource on a task.
     */
-   private static final Integer PLANNED_WORK = new Integer(3);
+   private static final int PLANNED_WORK = 3;
 
    /**
     * The Actual Work field shows the amount of work that has already been
     * done by a resource on a task.
     */
-   private static final Integer ACTUAL_WORK = new Integer(4);
+   private static final int ACTUAL_WORK = 4;
 
    /**
     * The Overtime Work field shows the amount of overtime to be performed
     * by a resource on a task, and charged at the resource's overtime rate.
     */
-   private static final Integer OVERTIME_WORK = new Integer(5);
+   private static final int OVERTIME_WORK = 5;
 
    /**
     * The Cost field shows the total scheduled, or projected, cost for a
@@ -547,20 +547,20 @@ public class ResourceAssignment extends MPXRecord
     * assignment. This is also
     * referred to as estimate at completion (EAC).
     */
-   private static final Integer COST = new Integer(6);
+   private static final int COST = 6;
 
    /**
     * The Planned Cost field shows costs for work planned to be performed
     * by a resource on a task.
     */
-   private static final Integer PLANNED_COST = new Integer(7);
+   private static final int PLANNED_COST = 7;
 
    /**
     * The Actual Cost field shows costs incurred for work already performed
     * by a resource on a task. You can enter all the actual costs or have
     * Microsoft Project calculate them for you
     */
-   private static final Integer ACTUAL_COST = new Integer(8);
+   private static final int ACTUAL_COST = 8;
 
    /**
     * The Start field contains the date and time that an assigned resource
@@ -571,7 +571,7 @@ public class ResourceAssignment extends MPXRecord
     * Microsoft Project calculate
     * the start date.
     */
-   private static final Integer START = new Integer(9);
+   private static final int START = 9;
 
    /**
     * The Finish field shows the date and time that an assigned resource is
@@ -582,17 +582,22 @@ public class ResourceAssignment extends MPXRecord
     * Project calculate
     * the finish date.
     */
-   private static final Integer FINISH = new Integer(10);
+   private static final int FINISH = 10;
 
    /**
     * Delay
     */
-   private static final Integer DELAY = new Integer(11);
+   private static final int DELAY = 11;
 
    /**
     * Unique ID of the resource
     */
-   private static final Integer RESOURCE_UNIQUE_ID = new Integer(12);
+   private static final int RESOURCE_UNIQUE_ID = 12;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 13;
 
    /**
     * Constant containing the record number associated with this record.

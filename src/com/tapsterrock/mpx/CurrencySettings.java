@@ -38,7 +38,7 @@ public class CurrencySettings extends MPXRecord
     */
    CurrencySettings (MPXFile file)
    {
-      super (file);
+      super (file, MAX_FIELDS);
 
       m_update = false;
       setCurrencySymbol("$");
@@ -77,7 +77,7 @@ public class CurrencySettings extends MPXRecord
     * @param key Field to be added/updated.
     * @param value new value for field.
     */
-   protected void put (Integer key, Object value)
+   protected void put (int key, Object value)
    {
       super.put (key, value);
       updateFormats ();
@@ -91,7 +91,7 @@ public class CurrencySettings extends MPXRecord
     * @param key Field to be added/updated.
     * @param value new value for field.
     */
-   protected void put (Integer key, int value)
+   protected void put (int key, int value)
    {
       super.put (key, value);
       updateFormats ();
@@ -105,7 +105,7 @@ public class CurrencySettings extends MPXRecord
     * @param key Field to be added/updated.
     * @param value new value for field.
     */
-   protected void putChar (Integer key, char value)
+   protected void putChar (int key, char value)
    {
       super.put (key, value);
       updateFormats ();
@@ -387,30 +387,36 @@ public class CurrencySettings extends MPXRecord
     */
    private static final int SYMBOLPOS_BEFORE_W_SPACE = 3;
 
+
    /**
     * Constant referring to Currency Symbol field.
     */
-   private static final Integer CURRENCY_SYMBOL = new Integer(0);
+   private static final int CURRENCY_SYMBOL = 0;
 
    /**
     * Constant referring to Symbol Position field.
     */
-   private static final Integer SYMBOL_POSITION = new Integer(1);
+   private static final int SYMBOL_POSITION = 1;
 
    /**
     * Constant referring to Currency Digits field.
     */
-   private static final Integer CURRENCY_DIGITS = new Integer(2);
+   private static final int CURRENCY_DIGITS = 2;
 
    /**
     * Constant referring to Thousands Separator field.
     */
-   private static final Integer THOUSANDS_SEPARATOR = new Integer(3);
+   private static final int THOUSANDS_SEPARATOR = 3;
 
    /**
     * Constant referring to Decimal Separator field.
     */
-   private static final Integer DECIMAL_SEPARATOR = new Integer(4);
+   private static final int DECIMAL_SEPARATOR = 4;
+
+   /**
+    * Maximum number of fields in this record.
+    */
+   private static final int MAX_FIELDS = 5;
 
    /**
     * Constant containing the record number associated with this record.

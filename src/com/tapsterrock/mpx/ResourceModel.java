@@ -24,8 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.HashMap;
 
 /**
@@ -43,7 +41,7 @@ class ResourceModel extends MPXRecord
     */
    public ResourceModel (MPXFile file)
    {
-      super (file);
+      super (file, 0);
    }
 
    /**
@@ -55,40 +53,32 @@ class ResourceModel extends MPXRecord
    public void update (Record record, boolean isText)
    {
       int length = record.getLength ();
+      int field;
 
       for (int i = 0 ; i < length ; i++)
       {
          if (isText == true)
          {
-            m_list.add (new Integer (getResourceCode (record.getString (i))));
+            add (Integer.parseInt(getResourceCode (record.getString (i))));
          }
          else
          {
-            m_list.add (record.getInteger (i));
+            add (record.getInteger(i).intValue());
          }
       }
    }
 
    /**
-    * This method is used to retrieve a linked list of field identifiers
-    * indicating the fields present in a resource record.
+    * This method is used to retrieve an array of field identifiers
+    * indicating the fields present in a resource record. Note that
+    * the values in this array will be terminated by -1.
     *
     * @return list of field names
     */
-   public LinkedList getModel ()
+   public int[] getModel ()
    {
-      return (m_list);
-   }
-
-   /**
-    * This method retrieves an iterator, allowing the list of field
-    * names to be traversed.
-    *
-    * @return an iterator
-    */
-   public Iterator iterator ()
-   {
-      return (m_list.iterator());
+      m_fields[m_count] = -1;
+      return (m_fields);
    }
 
    /**
@@ -100,7 +90,7 @@ class ResourceModel extends MPXRecord
     */
    public String toString()
    {
-      Integer number;
+      int number;
       char delimiter = getParentFile().getDelimiter();
 
       StringBuffer textual = new StringBuffer();
@@ -109,11 +99,9 @@ class ResourceModel extends MPXRecord
       textual.append (RECORD_NUMBER_TEXT);
       numeric.append (RECORD_NUMBER_NUMERIC);
 
-      Iterator iter = m_list.iterator();
-
-      while (iter.hasNext() == true)
+      for (int loop=0; loop < m_count; loop++)
       {
-         number = (Integer)iter.next();
+         number = m_fields[loop];
 
          textual.append (delimiter);
          numeric.append (delimiter);
@@ -157,11 +145,13 @@ class ResourceModel extends MPXRecord
     *
     * @param attrib field identifier
     */
-   public void add (Integer attrib)
+   public void add (int field)
    {
-      if (m_list.contains (attrib) == false)
+      if (m_flags[field] == false)
       {
-         m_list.add (attrib);
+         m_flags[field] = true;
+         m_fields[m_count] = field;
+         ++m_count;
       }
    }
 
@@ -171,9 +161,9 @@ class ResourceModel extends MPXRecord
     * @param key resource field number
     * @return resource field name
     */
-   public static String getResourceField (Integer key)
+   public static String getResourceField (int key)
    {
-      return ((String)RESOURCE_NAME.get(key.toString()));
+      return ((String)RESOURCE_NAME.get(Integer.toString(key)));
    }
 
    /**
@@ -193,9 +183,20 @@ class ResourceModel extends MPXRecord
    private boolean m_written = false;
 
    /**
-    * List of ordered fields for Resource definition.
+    * Array of flags indicting whether each field has already been
+    * added to the model.
     */
-   private LinkedList m_list = new LinkedList();
+   private boolean[] m_flags = new boolean [Resource.MAX_FIELDS];
+
+   /**
+    * Array of field numbers in order of their appearance.
+    */
+   private int[] m_fields = new int [Resource.MAX_FIELDS+1];
+
+   /**
+    * Count of the number of fields present.
+    */
+   private int m_count = 0;
 
    /**
     * Resource record field names
