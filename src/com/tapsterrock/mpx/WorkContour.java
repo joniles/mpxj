@@ -30,7 +30,7 @@ public final class WorkContour
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value work contour value
     */
    private WorkContour (int value)
@@ -40,24 +40,24 @@ public final class WorkContour
 
    /**
     * Retrieves the int representation of the work contour.
-    * 
+    *
     * @return work group value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a WorkContour instance representing the supplied value.
-    * 
+    *
     * @param value work group value
     * @return WorkContour instance
     */
    public static WorkContour getInstance (int value)
    {
       WorkContour result;
-      
+
       switch (value)
       {
          case BACK_LOADED_VALUE:
@@ -65,62 +65,62 @@ public final class WorkContour
             result = BACK_LOADED;
             break;
          }
-       
+
          case FRONT_LOADED_VALUE:
          {
             result = FRONT_LOADED;
             break;
          }
-            
+
          case DOUBLE_PEAK_VALUE:
          {
             result = DOUBLE_PEAK;
             break;
          }
-            
+
          case EARLY_PEAK_VALUE:
          {
             result = EARLY_PEAK;
             break;
          }
-            
+
          case LATE_PEAK_VALUE:
          {
             result = LATE_PEAK;
             break;
          }
-            
+
          case BELL_VALUE:
          {
             result = BELL;
             break;
          }
-            
+
          case TURTLE_VALUE:
          {
             result = TURTLE;
             break;
          }
-            
+
          case CONTOURED_VALUE:
          {
             result = CONTOURED;
             break;
          }
-         
-         default:                  
-         case FLAT_VALUE:            
+
+         default:
+         case FLAT_VALUE:
          {
             result = FLAT;
             break;
          }
       }
-      
+
       return (result);
    }
-      
+
    private int m_value;
-   
+
    public static final int FLAT_VALUE = 0;
    public static final int BACK_LOADED_VALUE = 1;
    public static final int FRONT_LOADED_VALUE = 2;
@@ -130,14 +130,14 @@ public final class WorkContour
    public static final int BELL_VALUE = 6;
    public static final int TURTLE_VALUE = 7;
    public static final int CONTOURED_VALUE = 8;
-   
+
    public static final WorkContour FLAT = new WorkContour(FLAT_VALUE);
-   public static final WorkContour BACK_LOADED = new WorkContour(BACK_LOADED_VALUE);   
-   public static final WorkContour FRONT_LOADED = new WorkContour(FRONT_LOADED_VALUE);   
-   public static final WorkContour DOUBLE_PEAK = new WorkContour(DOUBLE_PEAK_VALUE);   
-   public static final WorkContour EARLY_PEAK = new WorkContour(EARLY_PEAK_VALUE);   
-   public static final WorkContour LATE_PEAK = new WorkContour(LATE_PEAK_VALUE);   
-   public static final WorkContour BELL = new WorkContour(BELL_VALUE);   
-   public static final WorkContour TURTLE = new WorkContour(TURTLE_VALUE);   
-   public static final WorkContour CONTOURED = new WorkContour(CONTOURED_VALUE);      
+   public static final WorkContour BACK_LOADED = new WorkContour(BACK_LOADED_VALUE);
+   public static final WorkContour FRONT_LOADED = new WorkContour(FRONT_LOADED_VALUE);
+   public static final WorkContour DOUBLE_PEAK = new WorkContour(DOUBLE_PEAK_VALUE);
+   public static final WorkContour EARLY_PEAK = new WorkContour(EARLY_PEAK_VALUE);
+   public static final WorkContour LATE_PEAK = new WorkContour(LATE_PEAK_VALUE);
+   public static final WorkContour BELL = new WorkContour(BELL_VALUE);
+   public static final WorkContour TURTLE = new WorkContour(TURTLE_VALUE);
+   public static final WorkContour CONTOURED = new WorkContour(CONTOURED_VALUE);
 }

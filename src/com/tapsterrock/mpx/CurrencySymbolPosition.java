@@ -30,7 +30,7 @@ public final class CurrencySymbolPosition
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value currency symbol position value
     */
    private CurrencySymbolPosition (int value)
@@ -40,68 +40,68 @@ public final class CurrencySymbolPosition
 
    /**
     * Retrieves the int representation of the currency symbol position value.
-    * 
+    *
     * @return currency symbol position value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a CurrencySymbolPosition instance representing the supplied value.
-    * 
+    *
     * @param value currency symbol position value
     * @return CurrencySymbolPosition instance
     */
    public static CurrencySymbolPosition getInstance (int value)
    {
       CurrencySymbolPosition result;
-      
+
       switch (value)
       {
          case AFTER_VALUE:
          {
             result = AFTER;
             break;
-         }            
-         
+         }
+
          case AFTER_WITH_SPACE_VALUE:
          {
             result = AFTER_WITH_SPACE;
             break;
-         }            
+         }
 
          case BEFORE_WITH_SPACE_VALUE:
          {
             result = BEFORE_WITH_SPACE;
             break;
-         }            
-         
-         default:         
+         }
+
+         default:
          case BEFORE_VALUE:
          {
             result = BEFORE;
             break;
-         }            
+         }
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Returns a string representation of the currency symbol position type
     * to be used as part of an MPX file.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
    {
       return (Integer.toString(m_value));
    }
-   
+
    private int m_value;
-   
+
    /**
     * Constant representing symbol position after.
     */
@@ -111,7 +111,7 @@ public final class CurrencySymbolPosition
     * Constant representing symbol position before.
     */
    public static final int BEFORE_VALUE = 1;
-   
+
    /**
     * Constant representing symbol position after with space.
     */
@@ -121,7 +121,7 @@ public final class CurrencySymbolPosition
     * Constant representing symbol position before with space.
     */
    public static final int BEFORE_WITH_SPACE_VALUE = 3;
-   
+
    /**
     * Constant representing symbol position after.
     */
@@ -130,8 +130,8 @@ public final class CurrencySymbolPosition
    /**
     * Constant representing symbol position before.
     */
-   public static final CurrencySymbolPosition BEFORE = new CurrencySymbolPosition(BEFORE_VALUE);      
-   
+   public static final CurrencySymbolPosition BEFORE = new CurrencySymbolPosition(BEFORE_VALUE);
+
    /**
     * Constant representing symbol position after with space.
     */
@@ -140,5 +140,5 @@ public final class CurrencySymbolPosition
    /**
     * Constant representing symbol position before with space.
     */
-   public static final CurrencySymbolPosition BEFORE_WITH_SPACE = new CurrencySymbolPosition(BEFORE_WITH_SPACE_VALUE);   
+   public static final CurrencySymbolPosition BEFORE_WITH_SPACE = new CurrencySymbolPosition(BEFORE_WITH_SPACE_VALUE);
 }

@@ -25,7 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.io.Serializable;
-import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -46,6 +46,7 @@ final class MPXDateFormat implements Serializable
    void setLocale (Locale locale)
    {
       m_format = new SimpleDateFormat (m_format.toPattern(), locale);
+      m_alternativeFormat = new SimpleDateFormat (m_alternativeFormat.toPattern(), locale);
       m_null = LocaleData.getString(locale, LocaleData.NA);
    }
 
@@ -57,6 +58,13 @@ final class MPXDateFormat implements Serializable
    public void applyPattern (String pattern)
    {
       m_format.applyPattern (pattern);
+
+      if (pattern.endsWith(" a") == true)
+      {
+         pattern = pattern.substring(0, pattern.length()-2) + "a";
+      }
+
+      m_alternativeFormat.applyPattern(pattern);
    }
 
    /**
@@ -97,15 +105,17 @@ final class MPXDateFormat implements Serializable
          }
          else
          {
-            try
+            ParsePosition pos = new ParsePosition(0);
+            Date javaDate = m_format.parse(str, pos);
+            if (pos.getIndex() == 0)
             {
-               result = new MPXDate (this, m_format.parse(str));
+               javaDate = m_alternativeFormat.parse(str, pos);
+               if (pos.getIndex() == 0)
+               {
+                  throw new MPXException (MPXException.INVALID_DATE + " " + str);
+               }
             }
-
-            catch (ParseException ex)
-            {
-               throw new MPXException (MPXException.INVALID_DATE + " " + str, ex);
-            }
+            result = new MPXDate (this, javaDate);
          }
       }
 
@@ -122,5 +132,6 @@ final class MPXDateFormat implements Serializable
     * English day names.
     */
    private SimpleDateFormat m_format = new SimpleDateFormat ("dd/MM/yyyy", Locale.ENGLISH);
+   private SimpleDateFormat m_alternativeFormat = new SimpleDateFormat ("dd/MM/yyyy", Locale.ENGLISH);
    private String m_null = "NA";
 }

@@ -30,7 +30,7 @@ public final class ResourceType
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value resource type value
     */
    private ResourceType (int value)
@@ -40,24 +40,24 @@ public final class ResourceType
 
    /**
     * Retrieves the int representation of the resource type.
-    * 
+    *
     * @return resource type value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a ResourceType instance representing the supplied value.
-    * 
+    *
     * @param value resource type value
     * @return ResourceType instance
     */
    public static ResourceType getInstance (int value)
    {
       ResourceType result;
-      
+
       switch (value)
       {
          case MATERIAL_VALUE:
@@ -66,21 +66,21 @@ public final class ResourceType
             break;
          }
 
-         default:         
+         default:
          case WORK_VALUE:
          {
             result = WORK;
             break;
          }
       }
-      
+
       return (result);
    }
-   
 
-   
+
+
    private int m_value;
-   
+
    /**
     * Constant representing Material
     */
@@ -91,7 +91,7 @@ public final class ResourceType
     */
    public static final int WORK_VALUE = 1;
 
-   
+
 
    /**
     * Constant representing Material
@@ -101,5 +101,5 @@ public final class ResourceType
    /**
     * Constant representing Work
     */
-   public static final ResourceType WORK = new ResourceType(WORK_VALUE);   
+   public static final ResourceType WORK = new ResourceType(WORK_VALUE);
 }

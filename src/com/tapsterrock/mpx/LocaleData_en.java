@@ -26,7 +26,7 @@ package com.tapsterrock.mpx;
 import java.util.ListResourceBundle;
 
 /**
- * This class defines the English resources required by MPX files. 
+ * This class defines the English resources required by MPX files.
  * Note that all resources for this locale come from the default set.
  */
 public final class LocaleData_en extends ListResourceBundle

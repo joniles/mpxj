@@ -61,8 +61,8 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
       setMessageUniqueID(record.getString(0));
       setConfirmed(record.getInteger(1));
       setResponsePending(record.getInteger(2));
-      setUpdateStart(record.getDate(3));
-      setUpdateFinish(record.getDate(4));
+      setUpdateStart(record.getDateTime(3));
+      setUpdateFinish(record.getDateTime(4));
       setScheduleID(record.getString(5));
    }
 

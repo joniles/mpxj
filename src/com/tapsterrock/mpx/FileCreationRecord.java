@@ -26,6 +26,7 @@ package com.tapsterrock.mpx;
 
 import java.util.Locale;
 
+
 /**
  * This class represents the first record to appear in an MPX file. This record
  * identifies the file type, version number, originating software and the
@@ -40,13 +41,14 @@ public final class FileCreationRecord extends MPXRecord
     */
    FileCreationRecord (MPXFile file)
    {
-      super (file, 0);
+      super(file, 0);
 
-      setLocale (file.getLocale());
+      setLocale(file.getLocale());
+      setFileVersion(FileVersion.VERSION_4_0);
    }
 
    /**
-    * This method is calkled when the locale of the parent file is updated.
+    * This method is called when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
     * for the new locale.
     *
@@ -56,7 +58,6 @@ public final class FileCreationRecord extends MPXRecord
    {
       setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
       setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
-      setFileVersion(LocaleData.getString(locale, LocaleData.FILE_VERSION));
       setCodePage((CodePage)LocaleData.getObject(locale, LocaleData.CODE_PAGE));
    }
 
@@ -68,9 +69,9 @@ public final class FileCreationRecord extends MPXRecord
     */
    void setValues (Record record)
    {
-      m_programName = record.getString(0);
-      m_fileVersion = record.getString(1);
-      m_codePage = record.getCodePage(2);
+      setProgramName(record.getString(0));
+      setFileVersion(FileVersion.getInstance(record.getString(1)));
+      setCodePage(record.getCodePage(2));
    }
 
    /**
@@ -81,7 +82,7 @@ public final class FileCreationRecord extends MPXRecord
    public void setDelimiter (char delimiter)
    {
       m_delimiter = delimiter;
-      getParentFile().setDelimiter (m_delimiter);
+      getParentFile().setDelimiter(m_delimiter);
    }
 
    /**
@@ -89,7 +90,7 @@ public final class FileCreationRecord extends MPXRecord
     *
     * @return delimiter character
     */
-   public char getDelimiter()
+   public char getDelimiter ()
    {
       return (m_delimiter);
    }
@@ -119,7 +120,7 @@ public final class FileCreationRecord extends MPXRecord
     *
     * @param version MPX file version
     */
-   public void setFileVersion (String version)
+   public void setFileVersion (FileVersion version)
    {
       m_fileVersion = version;
    }
@@ -129,7 +130,7 @@ public final class FileCreationRecord extends MPXRecord
     *
     * @return MPX file version
     */
-   public String getFileVersion ()
+   public FileVersion getFileVersion ()
    {
       return (m_fileVersion);
    }
@@ -160,23 +161,22 @@ public final class FileCreationRecord extends MPXRecord
     *
     * @return string containing the data for this record in MPX format.
     */
-   public String toString()
+   public String toString ()
    {
-      StringBuffer buffer = new StringBuffer ();
+      StringBuffer buffer = new StringBuffer();
       char delimiter = getParentFile().getDelimiter();
 
-      buffer.append ("MPX");
-      buffer.append (delimiter);
-      buffer.append (m_programName);
-      buffer.append (delimiter);
-      buffer.append (m_fileVersion);
-      buffer.append (delimiter);
-      buffer.append (m_codePage);
-      buffer.append (MPXFile.EOL);
+      buffer.append("MPX");
+      buffer.append(delimiter);
+      buffer.append(m_programName);
+      buffer.append(delimiter);
+      buffer.append(m_fileVersion);
+      buffer.append(delimiter);
+      buffer.append(m_codePage);
+      buffer.append(MPXFile.EOL);
 
       return (buffer.toString());
    }
-
 
    /**
     * The character to be used throughout as a delimiter for MPX files.
@@ -191,7 +191,7 @@ public final class FileCreationRecord extends MPXRecord
    /**
     * The version number of the MPX file format used in the file
     */
-   private String m_fileVersion;
+   private FileVersion m_fileVersion;
 
    /**
     * The code page used to create the file
@@ -206,4 +206,3 @@ public final class FileCreationRecord extends MPXRecord
     */
    static final int RECORD_NUMBER = 999;
 }
-

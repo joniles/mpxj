@@ -26,6 +26,7 @@ package com.tapsterrock.mpx;
 
 import java.util.Locale;
 
+
 /**
  * This represents time durations as specified in an MPX file.
  */
@@ -57,23 +58,28 @@ public final class MPXDuration implements ToStringRequiresFile
    public MPXDuration (String dur, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
+      int lastIndex = dur.length() - 1;
+      int index = lastIndex;
 
-      int index = dur.length() - 1;
-
-      while (index > 0 && Character.isDigit(dur.charAt(index)) == false)
+      while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
       {
          --index;
       }
 
-      if (index == -1)
+      //
+      // If we have no units suffix, assume days to allow for MPX3
+      //
+      if (index == lastIndex)
       {
-         throw new MPXException (MPXException.INVALID_DURATION + " " + dur);
+         m_duration = format.parse(dur).doubleValue();
+         m_units = TimeUnit.DAYS;
       }
-
-      ++index;
-
-      m_duration = format.parse(dur.substring(0, index)).doubleValue();
-      m_units = TimeUnit.parse(dur.substring(index), locale);
+      else
+      {
+         ++index;
+         m_duration = format.parse(dur.substring(0, index)).doubleValue();
+         m_units = TimeUnit.parse(dur.substring(index), locale);
+      }
    }
 
    /**
@@ -115,25 +121,14 @@ public final class MPXDuration implements ToStringRequiresFile
 
    /**
     * This method generates a string in MPX format representing the
-    * contents of this record.
+    * contents of this record. Note that this method is useful for
+    * testing but it is not used to write data into the MPX record.
     *
     * @return string containing the data for this record in MPX format.
     */
    public String toString ()
    {
       return (toString(DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH));
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param locale target locale
-    * @return string containing the data for this record in MPX format.
-    */
-   String toString (Locale locale)
-   {
-      return (toString(DEFAULT_DECIMAL_FORMAT, locale));
    }
 
    /**
@@ -156,7 +151,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param locale target locale
     * @return string containing the data for this record in MPX format.
     */
-   String toString (MPXNumberFormat format, Locale locale)
+   private String toString (MPXNumberFormat format, Locale locale)
    {
       return (format.format(m_duration) + TimeUnit.format(m_units, locale));
    }
@@ -288,7 +283,7 @@ public final class MPXDuration implements ToStringRequiresFile
             }
          }
 
-         result = new MPXDuration (duration, type);
+         result = new MPXDuration(duration, type);
       }
 
       return (result);
@@ -312,7 +307,7 @@ public final class MPXDuration implements ToStringRequiresFile
    /**
     * Number formatter.
     */
-   private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat (DECIMAL_FORMAT_STRING, '.', ',');
+   private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat(DECIMAL_FORMAT_STRING, '.', ',');
 
    /**
     * Constants used for duration type conversion.

@@ -30,7 +30,7 @@ public final class DateFormat
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value date format value
     */
    private DateFormat (int value)
@@ -40,24 +40,24 @@ public final class DateFormat
 
    /**
     * Retrieves the int representation of the date format.
-    * 
+    *
     * @return date format value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a DateFormat instance representing the supplied value.
-    * 
+    *
     * @param value date format value
     * @return DateFormat instance
     */
    public static DateFormat getInstance (int value)
    {
       DateFormat result;
-      
+
       switch (value)
       {
          case DD_MM_YY_HH_MM_VALUE:
@@ -185,16 +185,16 @@ public final class DateFormat
          {
             result = DD_MM_YYYY;
             break;
-         }         
+         }
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Returns a string representation of the date format type
     * to be used as part of an MPX file.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
@@ -202,9 +202,9 @@ public final class DateFormat
       return (Integer.toString(m_value));
    }
 
-   
+
    private int m_value;
-   
+
    /**
     * This format represents dates in the form 25/12/98 12:56
     */
@@ -309,7 +309,7 @@ public final class DateFormat
     * This format represents dates in the form 25/05/1998
     */
    public static final int DD_MM_YYYY_VALUE = 20;
-   
+
    /**
     * This format represents dates in the form 25/12/98 12:56
     */
@@ -414,5 +414,5 @@ public final class DateFormat
     * This format represents dates in the form 25/05/1998
     */
    public static final DateFormat DD_MM_YYYY = new DateFormat(DD_MM_YYYY_VALUE);
-   
+
 }

@@ -26,7 +26,7 @@ package com.tapsterrock.mpx;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
+import java.text.ParsePosition;
 
 /**
  * This class is used to provide a simple wrapper around the functionality
@@ -44,31 +44,68 @@ final class MPXNumberFormat
    }
 
    /**
-    * Constructor allowing format pattern to be supplied.
+    * Constructor allowing primary format pattern to be supplied.
     *
-    * @param pattern new format pattern
+    * @param primaryPattern new format pattern
     * @param decimalSeparator Locale specific decimal separator to replace placeholder
     * @param groupingSeparator Locale specific grouping separator to replace placeholder    *
     */
-   MPXNumberFormat (String pattern, char decimalSeparator, char groupingSeparator)
+   MPXNumberFormat (String primaryPattern, char decimalSeparator, char groupingSeparator)
    {
-      applyPattern (pattern, decimalSeparator, groupingSeparator);
+      applyPattern (primaryPattern, null, decimalSeparator, groupingSeparator);
    }
 
    /**
-    * This method is used to configure the format pattern.
+    * Constructor allowing primary format and alternative format
+    * patterns to be supplied.
     *
-    * @param pattern new format pattern
+    * @param primaryPattern new format pattern
+    * @param alternativePatterns alternative format patterns
+    * @param decimalSeparator Locale specific decimal separator to replace placeholder
+    * @param groupingSeparator Locale specific grouping separator to replace placeholder    *
+    */
+   MPXNumberFormat (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
+   {
+      applyPattern (primaryPattern, alternativePatterns, decimalSeparator, groupingSeparator);
+   }
+
+   /**
+    * This method is used to configure the primary and alternative
+    * format patterns.
+    *
+    * @param primaryPattern new format pattern
+    * @param alternativePatterns alternative format patterns
     * @param decimalSeparator Locale specific decimal separator to replace placeholder
     * @param groupingSeparator Locale specific grouping separator to replace placeholder
     */
-   public void applyPattern (String pattern, char decimalSeparator, char groupingSeparator)
+   public void applyPattern (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
    {
       m_symbols.setDecimalSeparator(decimalSeparator);
       m_symbols.setGroupingSeparator(groupingSeparator);
-      m_format.setDecimalFormatSymbols(m_symbols);
-      m_format.applyPattern (pattern);
-      m_pattern = pattern;
+
+      m_primaryFormat.setDecimalFormatSymbols(m_symbols);
+      m_primaryFormat.applyPattern (primaryPattern);
+
+      if (alternativePatterns != null && alternativePatterns.length != 0)
+      {
+         int loop;
+         if (m_alternativeFormats == null || m_alternativeFormats.length != alternativePatterns.length)
+         {
+            m_alternativeFormats = new DecimalFormat[alternativePatterns.length];
+            for (loop=0; loop < alternativePatterns.length; loop++)
+            {
+               m_alternativeFormats[loop] = new DecimalFormat();
+            }
+         }
+
+         for (loop=0; loop < alternativePatterns.length; loop++)
+         {
+            m_alternativeFormats[loop].setDecimalFormatSymbols(m_symbols);
+            m_alternativeFormats[loop].applyPattern(alternativePatterns[loop]);
+         }
+      }
+
+      m_primaryPattern = primaryPattern;
    }
 
 
@@ -81,7 +118,7 @@ final class MPXNumberFormat
     */
    public String format (float number)
    {
-      return (m_format.format(number));
+      return (m_primaryFormat.format(number));
    }
 
    /**
@@ -93,7 +130,7 @@ final class MPXNumberFormat
     */
    public String format (double number)
    {
-      return (m_format.format(number));
+      return (m_primaryFormat.format(number));
    }
 
    /**
@@ -107,23 +144,30 @@ final class MPXNumberFormat
    public Number parse (String str)
      throws MPXException
    {
-      Number result;
+      Number result = null;
 
-      if (str == null || str.trim().length() == 0)
+      if (str != null && str.trim().length() != 0)
       {
-         result = null;
-      }
-      else
-      {
-         try
+         ParsePosition parsePosition = new ParsePosition(0);
+         result = m_primaryFormat.parse(str, parsePosition);
+         if (parsePosition.getIndex() == 0)
          {
-            result = m_format.parse (str);
-         }
+            if (m_alternativeFormats != null)
+            {
+               for (int loop=0; loop < m_alternativeFormats.length; loop++)
+               {
+                  result = m_alternativeFormats[loop].parse(str, parsePosition);
+                  if (parsePosition.getIndex() != 0)
+                  {
+                     break;
+                  }
+               }
 
-         catch (ParseException ex)
-         {
-            throw new MPXException (MPXException.INVALID_NUMBER + " number=" +
-               str + " expected format=" + m_pattern);
+               if (parsePosition.getIndex() == 0)
+               {
+                  throw new MPXException (MPXException.INVALID_NUMBER + " number=" + str + " expected format=" + m_primaryPattern);
+               }
+            }
          }
       }
 
@@ -134,6 +178,7 @@ final class MPXNumberFormat
     * Number formatter.
     */
    private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols ();
-   private DecimalFormat m_format = new DecimalFormat ();
-   private String m_pattern = "";
+   private DecimalFormat m_primaryFormat = new DecimalFormat ();
+   private DecimalFormat[] m_alternativeFormats;
+   private String m_primaryPattern = "";
 }

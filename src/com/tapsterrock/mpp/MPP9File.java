@@ -155,7 +155,7 @@ final class MPP9File
 
       processTaskFieldNameAliases(file, props.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
       processResourceFieldNameAliases(file, props.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
-      
+
       SummaryInformation summary = new SummaryInformation (rootDir);
       ph.setProjectTitle(summary.getProjectTitle());
       ph.setSubject(summary.getSubject());
@@ -163,7 +163,7 @@ final class MPP9File
       ph.setKeywords(summary.getKeywords());
       ph.setComments(summary.getComments());
       ph.setCompany(summary.getCompany());
-      ph.setManager(summary.getManager()); 
+      ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
       ph.setStartDate(summary.getStartDate());
       ph.setFinishDate(summary.getFinishDate());
@@ -536,7 +536,7 @@ final class MPP9File
 
       return (resourceMap);
    }
-   
+
    /**
     * The format of the calandar data is a 4 byte header followed
     * by 7x 60 byte blocks, one for each day of the week. Optionally
@@ -1186,7 +1186,7 @@ final class MPP9File
          // Set the MPX file fixed flag
          //
          task.setFixed(task.getType() == TaskType.FIXED_DURATION);
-         
+
          //
          // Retrieve the task notes.
          //
@@ -1221,7 +1221,7 @@ final class MPP9File
                task.setCalendarName(calendar.getName());
             }
          }
-                 
+
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
    }
@@ -1361,7 +1361,7 @@ final class MPP9File
          {
             continue;
          }
-         
+
          resource = file.addResource();
 
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
@@ -1582,7 +1582,7 @@ final class MPP9File
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
-   
+
       Set set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       byte[] meta;
@@ -1593,7 +1593,7 @@ final class MPP9File
       ResourceAssignment assignment;
       int offset;
       int id;
-   
+
       for (int loop=0; loop < count; loop++)
       {
          meta = assnFixedMeta.getByteArrayValue(loop);
@@ -1601,7 +1601,7 @@ final class MPP9File
          {
             continue;
          }
-         
+
          offset = MPPUtility.getInt(meta, 4);
          data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          id = MPPUtility.getInt(data, 0);
@@ -1610,17 +1610,17 @@ final class MPP9File
          {
             continue;
          }
-   
+
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
-          
+
          if (task != null && resource != null)
-         {             
+         {
             assignment = task.addResourceAssignment (resource);
             assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
             assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
             assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
-            assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));   
+            assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
             assignment.setFinish(MPPUtility.getTimestamp(data, 16));
             //assignment.setOvertimeWork(); // Can't find in data block
             //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
@@ -1629,7 +1629,7 @@ final class MPP9File
             assignment.setStart(MPPUtility.getTimestamp(data, 12));
             assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
             assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
-   
+
             varDataBlock = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, WORK_CONTOUR));
             assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(varDataBlock, 28)));
          }
@@ -2179,7 +2179,7 @@ final class MPP9File
    private static final Integer TABLE_COLUMN_DATA = new Integer (1);
    private static final Integer OUTLINECODE_DATA = new Integer (1);
    private static final Integer WORK_CONTOUR = new Integer(7);
-  
+
    /**
     * Mask used to isolate confirmed flag from the duration units field.
     */

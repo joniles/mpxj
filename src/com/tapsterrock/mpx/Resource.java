@@ -151,7 +151,7 @@ public final class Resource extends MPXRecord
                set (x, (field.equals("No")==true?Boolean.FALSE:Boolean.TRUE));
                break;
             }
-            
+
             default:
             {
                set (x, field);
@@ -190,7 +190,7 @@ public final class Resource extends MPXRecord
    {
       return ((String)get(NAME));
    }
-   
+
    /**
     * Set the resource type. Can be TYPE_MATERIAL, or TYPE_WORK.
     *
@@ -200,7 +200,7 @@ public final class Resource extends MPXRecord
    {
       m_type = type;
    }
-   
+
    /**
     * Retrieves the resource type. Can return TYPE_MATERIAL, or TYPE_WORK.
     *
@@ -210,27 +210,27 @@ public final class Resource extends MPXRecord
    {
       return (m_type);
    }
-   
+
    /**
     * Set the flag indicating that this is a null resource
-    * 
+    *
     * @param isNull null resource flag
     */
    public void setIsNull (boolean isNull)
    {
       m_null = isNull;
    }
-   
+
    /**
     * Retrieve a flag indicating if this is a null resource.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getNull ()
    {
       return (m_null);
    }
-      
+
    /**
     * Sets Initials field value
     *
@@ -240,7 +240,7 @@ public final class Resource extends MPXRecord
    {
       set (INITIALS, val);
    }
-   
+
    /**
     * Gets Initials of name field value
     *
@@ -250,10 +250,10 @@ public final class Resource extends MPXRecord
    {
       return ((String)get(INITIALS));
    }
-   
+
    /**
     * Sets phonetic information for the Japanese version of MS Project.
-    * 
+    *
     * @param phonetics Japanese phonetic information
     */
    public void setPhonetics (String phonetics)
@@ -263,37 +263,37 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves phonetic information for the Japanese version of MS Project.
-    * 
+    *
     * @return Japanese phonetic information
     */
    public String getPhonetics ()
    {
       return (m_phonetics);
    }
-   
+
    /**
     * Sets the Windows account name for a resource.
-    * 
+    *
     * @param ntAccount windows account name
     */
    public void setNtAccount (String ntAccount)
    {
       m_ntAccount = ntAccount;
    }
-   
+
    /**
     * Retrieves the Windows account name for a resource.
-    * 
+    *
     * @return windows account name
     */
    public String getNtAccount ()
    {
       return (m_ntAccount);
    }
-   
+
    /**
     * Set the units label for a metarial resource.
-    * 
+    *
     * @param materialLabel material resource units label
     */
    public void setMaterialLabel (String materialLabel)
@@ -303,14 +303,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the units label for a metarial resource.
-    * 
+    *
     * @return material resource units label
     */
    public String getMaterialLabel ()
    {
       return (m_materialLabel);
    }
-   
+
    /**
     * Sets code field value
     *
@@ -320,7 +320,7 @@ public final class Resource extends MPXRecord
    {
       set (CODE, val);
    }
-   
+
    /**
     * Gets code field value
     *
@@ -330,7 +330,7 @@ public final class Resource extends MPXRecord
    {
       return ((String)get(CODE));
    }
-   
+
    /**
     * Sets Group field value
     *
@@ -340,7 +340,7 @@ public final class Resource extends MPXRecord
    {
       set (GROUP, val);
    }
-   
+
    /**
     * Gets Group field value
     *
@@ -350,10 +350,10 @@ public final class Resource extends MPXRecord
    {
       return ((String)get(GROUP));
    }
-   
+
    /**
     * Set the messaging method used to communicate with a project team.
-    * 
+    *
     * @param workGroup messaging method
     */
    public void setWorkGroup (WorkGroup workGroup)
@@ -363,14 +363,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieve the messaging method used to communicate with a project team.
-    * 
+    *
     * @return messaging method
     */
    public WorkGroup getWorkGroup ()
    {
       return (m_workGroup);
    }
-   
+
    /**
     * Set the resource's email address
     *
@@ -380,7 +380,7 @@ public final class Resource extends MPXRecord
    {
       set (EMAIL_ADDRESS, emailAddress);
    }
-   
+
    /**
     * Retrieves the resource's email address
     *
@@ -390,20 +390,20 @@ public final class Resource extends MPXRecord
    {
       return ((String)get(EMAIL_ADDRESS));
    }
-   
+
    /**
     * Sets the hyperlink text
-    * 
+    *
     * @param hyperlink hyperlink text
     */
    public void setHyperlink (String hyperlink)
    {
       m_hyperlink = hyperlink;
    }
-   
+
    /**
     * Retrieves the hyperlink text.
-    * 
+    *
     * @return hyperlink text
     */
    public String getHyperlink ()
@@ -413,7 +413,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the hyperlink address
-    * 
+    *
     * @param hyperlinkAddress hyperlink address
     */
    public void setHyperlinkAddress (String hyperlinkAddress)
@@ -423,7 +423,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the hyperlink address
-    * 
+    *
     * @return hyperlink address
     */
    public String getHyperlinkAddress ()
@@ -433,7 +433,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the hyperlink sub-address
-    * 
+    *
     * @param hyperlinkSubAddress hyperlink sub-address
     */
    public void setHyperlinkSubAddress (String hyperlinkSubAddress)
@@ -443,7 +443,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the hyperlink sub-address
-    * 
+    *
     * @return hyperlink sub-address
     */
    public String getHyperlinkSubAddress ()
@@ -460,7 +460,7 @@ public final class Resource extends MPXRecord
    {
       setUnits (MAX_UNITS, maxUnits);
    }
-   
+
    /**
     * Retrieves the maximum availability of a resource.
     *
@@ -470,7 +470,7 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(MAX_UNITS));
    }
-   
+
    /**
     * Sets peak resource utilisation.
     *
@@ -480,7 +480,7 @@ public final class Resource extends MPXRecord
    {
       setPercentage (PEAK_UNITS, peakUnits);
    }
-   
+
    /**
     * Retrieves the peak resource utilisation.
     *
@@ -490,7 +490,7 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(PEAK_UNITS));
    }
-   
+
    /**
     * Set the overallocated flag.
     *
@@ -500,7 +500,7 @@ public final class Resource extends MPXRecord
    {
       set (OVERALLOCATED, overallocated);
    }
-   
+
    /**
     * Retrieves the overallocated flag.
     *
@@ -510,7 +510,7 @@ public final class Resource extends MPXRecord
    {
       return (getBooleanValue(OVERALLOCATED));
    }
-   
+
    /**
     * Retrieves the "available from" date
     *
@@ -520,7 +520,7 @@ public final class Resource extends MPXRecord
    {
       return (m_availableFrom);
    }
-   
+
    /**
     * Set the "available from" date
     *
@@ -550,10 +550,10 @@ public final class Resource extends MPXRecord
    {
       m_availableTo = date;
    }
-   
+
    /**
     * Sets the earliest start date for all assigned tasks
-    * 
+    *
     * @param start start date
     */
    public void setStart (Date start)
@@ -563,7 +563,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the earliest start date for all assigned tasks
-    * 
+    *
     * @return start date
     */
    public Date getStart ()
@@ -573,7 +573,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the latest finish date for all assigned tasks
-    * 
+    *
     * @param finish finish date
     */
    public void setFinish (Date finish)
@@ -583,18 +583,18 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the latest finish date for all assigned tasks
-    * 
+    *
     * @return finish date
     */
    public Date getFinish ()
    {
       return (m_finish);
    }
-   
+
    /**
-    * Sets the flag indicating if the resource levelling can be applied 
+    * Sets the flag indicating if the resource levelling can be applied
     * to this resource.
-    * 
+    *
     * @param canLevel boolean flag
     */
    public void setCanLevel (boolean canLevel)
@@ -603,9 +603,9 @@ public final class Resource extends MPXRecord
    }
 
    /**
-    * Retrieves the flag indicating if the resource levelling can be applied 
+    * Retrieves the flag indicating if the resource levelling can be applied
     * to this resource.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getCanLevel ()
@@ -638,7 +638,7 @@ public final class Resource extends MPXRecord
    {
       return ((AccrueType)get(ACCRUE_AT));
    }
-   
+
    /**
     * This field is ignored on import into MS Project
     *
@@ -648,7 +648,7 @@ public final class Resource extends MPXRecord
    {
       set (WORK, val);
    }
-   
+
    /**
     * Gets Work field value
     *
@@ -658,7 +658,7 @@ public final class Resource extends MPXRecord
    {
       return ((MPXDuration)get(WORK));
    }
-   
+
    /**
     * Retrieve the value of the regular work field.
     * Note that this value is an extension to the MPX specification.
@@ -680,7 +680,7 @@ public final class Resource extends MPXRecord
    {
       m_regularWork = duration;
    }
-   
+
    /**
     * Sets the Actual Work field contains the amount of work that has already
     * been done for all
@@ -692,7 +692,7 @@ public final class Resource extends MPXRecord
    {
       set (ACTUAL_WORK, val);
    }
-   
+
    /**
     * Retrieves the Actual Work field contains the amount of work that has
     * already been done for all assignments assigned to a resource.
@@ -703,7 +703,7 @@ public final class Resource extends MPXRecord
    {
       return ((MPXDuration)get(ACTUAL_WORK));
    }
-   
+
    /**
     * Sets the amount of overtime work.
     *
@@ -713,7 +713,7 @@ public final class Resource extends MPXRecord
    {
       set (OVERTIME_WORK, overtimeWork);
    }
-   
+
    /**
     * Retrieves the amount of overtime work.
     *
@@ -743,7 +743,7 @@ public final class Resource extends MPXRecord
    {
       return ((MPXDuration)get(REMAINING_WORK));
    }
-   
+
    /**
     * Retrieve the value of the actual overtime work field.
     *
@@ -783,7 +783,7 @@ public final class Resource extends MPXRecord
    {
       m_remainingOvertimeWork = duration;
    }
-   
+
    /**
     * Sets the value of the percent work complete field.
     *
@@ -793,7 +793,7 @@ public final class Resource extends MPXRecord
    {
       setPercentage (PERCENT_WORK_COMPLETE, percentWorkComplete);
    }
-   
+
    /**
     * Retrieves the value of the percent work complete field.
     *
@@ -803,7 +803,7 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(PERCENT_WORK_COMPLETE));
    }
-   
+
    /**
     * Sets standard rate for this resource
     *
@@ -813,7 +813,7 @@ public final class Resource extends MPXRecord
    {
       set (STANDARD_RATE, val);
    }
-   
+
    /**
     * Gets Standard Rate field value
     *
@@ -823,10 +823,10 @@ public final class Resource extends MPXRecord
    {
       return ((MPXRate)get(STANDARD_RATE));
    }
-   
+
    /**
     * Sets the format of the standard rate.
-    * 
+    *
     * @param format standard rate format
     */
    public void setStandardRateFormat (TimeUnit format)
@@ -836,7 +836,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the format of the standard rate
-    * 
+    *
     * @return standard rate format
     */
    public TimeUnit getStandardRateFormat ()
@@ -853,7 +853,7 @@ public final class Resource extends MPXRecord
    {
       setCurrency (COST, cost);
    }
-   
+
    /**
     * Retrieves the cost field value.
     *
@@ -863,7 +863,7 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(COST));
    }
-   
+
    /**
     * Sets the overtime rate for this resource
     *
@@ -886,7 +886,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the format of the overtime rate.
-    * 
+    *
     * @param format overtime rate format
     */
    public void setOvertimeRateFormat (TimeUnit format)
@@ -896,14 +896,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the format of the overtime rate
-    * 
+    *
     * @return overtime rate format
     */
    public TimeUnit getOvertimeRateFormat ()
    {
       return (m_overtimeRateFormat);
    }
-   
+
    /**
     * Retrieve the value of the overtime cost field.
     *
@@ -923,7 +923,7 @@ public final class Resource extends MPXRecord
    {
       m_overtimeCost = currency;
    }
-   
+
    /**
     * Set the cost per use.
     *
@@ -933,7 +933,7 @@ public final class Resource extends MPXRecord
    {
       setCurrency (COST_PER_USE, costPerUse);
    }
-   
+
    /**
     * Retrieve the cost per use.
     *
@@ -943,7 +943,7 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(COST_PER_USE));
    }
-   
+
    /**
     * Set the actual cost for the work already performed by this resource.
     *
@@ -953,10 +953,10 @@ public final class Resource extends MPXRecord
    {
       setCurrency (ACTUAL_COST, actualCost);
    }
-   
+
    /**
     * Retrieves the actual cost for the work already performed by this resource.
-    * 
+    *
     * @return actual cost
     */
    public Number getActualCost ()
@@ -983,7 +983,7 @@ public final class Resource extends MPXRecord
    {
       m_actualOvertimeCost = actualOvertimeCost;
    }
-   
+
    /**
     * Sets the remaining cost for this resource.
     *
@@ -993,7 +993,7 @@ public final class Resource extends MPXRecord
    {
       setCurrency (REMAINING_COST, remainingCost);
    }
-   
+
    /**
     * Retrieves the remaining cost for this resource.
     *
@@ -1003,7 +1003,7 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(REMAINING_COST));
    }
-   
+
    /**
     * Retrieve the remaining overtime cost.
     *
@@ -1023,7 +1023,7 @@ public final class Resource extends MPXRecord
    {
       m_remainingOvertimeCost = remainingOvertimeCost;
    }
-   
+
    /**
     * Sets the work variance
     *
@@ -1033,7 +1033,7 @@ public final class Resource extends MPXRecord
    {
       set (WORK_VARIANCE, workVariance);
    }
-   
+
    /**
     * Retrieves the work variance
     *
@@ -1053,7 +1053,7 @@ public final class Resource extends MPXRecord
    {
       setCurrency (COST_VARIANCE, costVariance);
    }
-   
+
    /**
     * Retrieves the cost variance.
     *
@@ -1063,40 +1063,40 @@ public final class Resource extends MPXRecord
    {
       return ((Number)get(COST_VARIANCE));
    }
-   
+
    /**
     * Set the schedule variance.
-    * 
+    *
     * @param sv schedule variance
     */
    public void setSV (Number sv)
    {
       m_sv = sv;
    }
-   
+
    /**
     * Retrieve the schedule variance
-    * 
+    *
     * @return schedule variance
     */
    public Number getSV ()
    {
       return (m_sv);
    }
-   
+
    /**
     * Set the cost variance
-    * 
+    *
     * @param cv cost variance
     */
    public void setCV (Number cv)
    {
       m_cv = cv;
    }
-   
+
    /**
     * Retrieve the cost variance
-    * 
+    *
     * @return cost variance
     */
    public Number getCV ()
@@ -1106,24 +1106,24 @@ public final class Resource extends MPXRecord
 
    /**
     * Set the actual cost of work performed
-    * 
+    *
     * @param acwp actual cost of work performed
     */
    public void setACWP (Number acwp)
    {
       m_acwp = acwp;
    }
-   
+
    /**
     * Set the actual cost of work performed
-    * 
+    *
     * @return actual cost of work performed
     */
    public Number getACWP ()
    {
       return (m_acwp);
    }
-   
+
    /**
     * Sets the notes text for this resource
     *
@@ -1140,7 +1140,7 @@ public final class Resource extends MPXRecord
       {
          notes = "";
       }
-      
+
       m_notes.setNotes(notes);
    }
 
@@ -1163,10 +1163,10 @@ public final class Resource extends MPXRecord
 
       return (result);
    }
-   
+
    /**
     * Sets the budgeted cost of work scheduled.
-    * 
+    *
     * @param bcws budgeted cost of work scheduled
     */
    public void setBCWS (Number bcws)
@@ -1176,7 +1176,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the budgeted cost of work scheduled.
-    * 
+    *
     * @return budgeted cost of work scheduled
     */
    public Number getBCWS ()
@@ -1186,9 +1186,9 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the budgeted cost of work performed.
-    * 
+    *
     * @param bcwp budgeted cost of work performed
-    */   
+    */
    public void setBCWP (Number bcwp)
    {
       m_bcwp = bcwp;
@@ -1196,7 +1196,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrievesthe budgeted cost of work performed.
-    * 
+    *
     * @return budgeted cost of work performed
     */
    public Number getBCWP ()
@@ -1206,77 +1206,77 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the generic flag
-    * 
+    *
     * @param isGeneric generic flag
     */
    public void setIsGeneric (boolean isGeneric)
    {
       m_generic = isGeneric;
    }
-   
+
    /**
     * Retrieves the generic flag
-    * 
+    *
     * @return generic flag
     */
-   public boolean getGeneric ()   
+   public boolean getGeneric ()
    {
       return (m_generic);
    }
-   
+
    /**
     * Sets the inactive flag
-    * 
+    *
     * @param isInactive inactive flag
     */
    public void setIsInactive (boolean isInactive)
    {
       m_inactive = isInactive;
    }
-   
+
    /**
     * Retrieves the inactive flag
-    * 
+    *
     * @return inactive flag
     */
    public boolean getInactive ()
    {
       return (m_inactive);
    }
-   
+
    /**
     * Sets the active directory GUID for this resource.
-    * 
+    *
     * @param guid active directory GUID
     */
    public void setActveDirectoryGUID (String guid)
    {
       m_activeDirectoryGUID = guid;
    }
-   
+
    /**
     * Retrieves the active directory GUID for this resource.
-    * 
+    *
     * @return active directory GUID
     */
    public String getActiveDirectoryGUID()
    {
       return (m_activeDirectoryGUID);
    }
-   
+
    /**
     * Sets the actual overtime work protected duration.
-    * 
+    *
     * @param duration actual overtime work protected
     */
    public void setActualOvertimeWorkProtected (MPXDuration duration)
    {
       m_actualOvertimeWorkProtected = duration;
    }
-   
+
    /**
     * Retrieves the actual overtime work protected duration.
-    * 
+    *
     * @return actual overtime work protected
     */
    public MPXDuration getActualOvertimeWorkProtected ()
@@ -1286,27 +1286,27 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the actual work protected duration.
-    * 
+    *
     * @param duration actual work protected
     */
    public void setActualWorkProtected (MPXDuration duration)
    {
       m_actualWorkProtected = duration;
    }
-   
+
    /**
     * Retrieves the actual work protected duration.
-    * 
+    *
     * @return actual work protected
     */
    public MPXDuration getActualWorkProtected ()
    {
       return (m_actualWorkProtected);
    }
-   
+
    /**
     * Sets the booking type
-    * 
+    *
     * @param bookingType booking type
     */
    public void setBookingType (BookingType bookingType)
@@ -1316,17 +1316,17 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the booking type
-    * 
+    *
     * @return booking type
     */
    public BookingType getBookingType ()
    {
       return (m_bookingType);
    }
-   
+
    /**
     * Sets the creation date.
-    * 
+    *
     * @param creationDate creation date
     */
    public void setCreationDate (Date creationDate)
@@ -1336,17 +1336,17 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves the creation date.
-    * 
+    *
     * @return creation date
     */
    public Date getCreationDate ()
    {
       return (m_creationDate);
    }
-   
+
    /**
     * Sets a flag indicating that a resource is an enterprise resource.
-    * 
+    *
     * @param enterprise boolean flag
     */
    public void setIsEnterprise (boolean enterprise)
@@ -1356,14 +1356,14 @@ public final class Resource extends MPXRecord
 
    /**
     * Retrieves a flag indicating that a resource is an enterprise resource.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getEnterprise ()
    {
       return (m_enterprise);
    }
-   
+
    /**
     * This method allows a resource note to be added to a resource.
     * The data to populate the resource note comes from a record
@@ -4772,7 +4772,7 @@ public final class Resource extends MPXRecord
       return ((String)get(OUTLINECODE10));
    }
 
-   
+
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
@@ -4908,7 +4908,7 @@ public final class Resource extends MPXRecord
    private BookingType m_bookingType;
    private Date m_creationDate;
    private boolean m_enterprise;
-   
+
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,

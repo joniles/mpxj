@@ -646,7 +646,7 @@ public final class MPXCalendar extends MPXRecord
       int endDateDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
 
       cal.setTime(startDate);
-      
+
       if (endDateYear == cal.get(Calendar.YEAR))
       {
          result = (endDateDayOfYear - cal.get(Calendar.DAY_OF_YEAR)) + 1;
@@ -658,12 +658,12 @@ public final class MPXCalendar extends MPXRecord
          {
             result += (cal.getActualMaximum(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR)) + 1;
             cal.roll(Calendar.YEAR, 1);
-            cal.set(Calendar.DAY_OF_YEAR, 1);            
+            cal.set(Calendar.DAY_OF_YEAR, 1);
          }
          while (cal.get(Calendar.YEAR) < endDateYear);
          result += endDateDayOfYear;
       }
-      
+
       return (result);
    }
 

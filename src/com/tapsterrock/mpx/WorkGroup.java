@@ -30,7 +30,7 @@ public final class WorkGroup
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value work group value
     */
    private WorkGroup (int value)
@@ -40,24 +40,24 @@ public final class WorkGroup
 
    /**
     * Retrieves the int representation of the work group.
-    * 
+    *
     * @return work group value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a WorkGroup instance representing the supplied value.
-    * 
+    *
     * @param value work group value
     * @return WorkGroup instance
     */
    public static WorkGroup getInstance (int value)
    {
       WorkGroup result;
-      
+
       switch (value)
       {
          case DEFAULT_VALUE:
@@ -66,26 +66,26 @@ public final class WorkGroup
             break;
          }
 
-         default:         
+         default:
          case NONE_VALUE:
          {
             result = NONE;
             break;
          }
       }
-      
+
       return (result);
    }
-      
+
    private int m_value;
-   
+
    public static final int DEFAULT_VALUE = 0;
    public static final int NONE_VALUE = 1;
    public static final int EMAIL_VALUE = 2;
    public static final int WEB_VALUE = 3;
-   
+
    public static final WorkGroup DEFAULT = new WorkGroup(DEFAULT_VALUE);
-   public static final WorkGroup NONE = new WorkGroup(NONE_VALUE);   
-   public static final WorkGroup EMAIL = new WorkGroup(EMAIL_VALUE);   
-   public static final WorkGroup WEB = new WorkGroup(WEB_VALUE);   
+   public static final WorkGroup NONE = new WorkGroup(NONE_VALUE);
+   public static final WorkGroup EMAIL = new WorkGroup(EMAIL_VALUE);
+   public static final WorkGroup WEB = new WorkGroup(WEB_VALUE);
 }

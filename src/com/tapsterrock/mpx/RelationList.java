@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 
+
 /**
  * This class represents a list of relationships between tasks.
  */
@@ -37,7 +38,6 @@ public final class RelationList implements ToStringRequiresFile
     */
    RelationList ()
    {
-
    }
 
    /**
@@ -61,13 +61,14 @@ public final class RelationList implements ToStringRequiresFile
 
          while (end != length)
          {
-            end = data.indexOf (',', start);
+            end = data.indexOf(',', start);
+
             if (end == -1)
             {
                end = length;
             }
 
-            m_list.add (new Relation (data.substring(start, end).trim(), format, locale));
+            m_list.add(new Relation(data.substring(start, end).trim(), format, locale));
 
             start = end + 1;
          }
@@ -84,18 +85,17 @@ public final class RelationList implements ToStringRequiresFile
    public String toString (MPXFile mpx)
    {
       char sepchar = mpx.getDelimiter();
-      Locale locale = mpx.getLocale();
-      StringBuffer sb = new StringBuffer ();
+      StringBuffer sb = new StringBuffer();
       Iterator iter = m_list.iterator();
 
       while (iter.hasNext() == true)
       {
          if (sb.length() != 0)
          {
-            sb.append (sepchar);
+            sb.append(sepchar);
          }
 
-         sb.append (((Relation)iter.next()).toString(locale));
+         sb.append(((Relation)iter.next()).toString(mpx));
       }
 
       return (sb.toString());
@@ -119,11 +119,11 @@ public final class RelationList implements ToStringRequiresFile
     */
    void add (Relation relation)
    {
-      m_list.add (relation);
+      m_list.add(relation);
    }
 
    /**
     * List of relationships.
     */
-   private LinkedList m_list = new LinkedList ();
+   private LinkedList m_list = new LinkedList();
 }

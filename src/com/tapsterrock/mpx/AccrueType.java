@@ -155,11 +155,11 @@ public final class AccrueType implements ToStringRequiresFile
    public static final int START_VALUE = 1;
    public static final int END_VALUE = 2;
    public static final int PRORATED_VALUE = 3;
-   
+
    public static final AccrueType START = new AccrueType (START_VALUE);
    public static final AccrueType END = new AccrueType (END_VALUE);
    public static final AccrueType PRORATED = new AccrueType (PRORATED_VALUE);
-   
+
    /**
     * Array of type values matching the above constants.
     */

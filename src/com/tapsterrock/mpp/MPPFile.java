@@ -56,7 +56,7 @@ public class MPPFile extends MPXFile
    {
       super ();
    }
-   
+
    /**
     * Constructor allowing an MPP file to be read from an input stream
     *
@@ -102,7 +102,7 @@ public class MPPFile extends MPXFile
    {
       super.configure();
       m_views = new ArrayList ();
-      m_tables = new ArrayList ();      
+      m_tables = new ArrayList ();
    }
 
    /**
@@ -288,7 +288,7 @@ public class MPPFile extends MPXFile
    {
       attachResourceCalendar (resource, calendar);
    }
-   
+
    /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.

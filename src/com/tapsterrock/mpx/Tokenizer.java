@@ -36,13 +36,13 @@ abstract class Tokenizer
    /**
     * This method mustbe implemented to read the next character from the
     * data source.
-    * 
+    *
     * @return next character
     * @throws IOException
     */
    protected abstract int read ()
       throws IOException;
-   
+
    /**
     * This method retrieves the next token and returns a constant representing
     * the type of token found.

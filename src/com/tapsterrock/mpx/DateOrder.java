@@ -30,7 +30,7 @@ public final class DateOrder
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value date order value
     */
    private DateOrder (int value)
@@ -40,24 +40,24 @@ public final class DateOrder
 
    /**
     * Retrieves the int representation of the date order.
-    * 
+    *
     * @return date order value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a DateOrder instance representing the supplied value.
-    * 
+    *
     * @param value date order value
     * @return DateOrder instance
     */
    public static DateOrder getInstance (int value)
    {
       DateOrder result;
-      
+
       switch (value)
       {
          case DMY_VALUE:
@@ -65,28 +65,28 @@ public final class DateOrder
             result = DMY;
             break;
          }
-         
+
          case YMD_VALUE:
          {
             result = YMD;
             break;
-         }         
-         
-         default:                  
+         }
+
+         default:
          case MDY_VALUE:
          {
             result = MDY;
             break;
-         }         
+         }
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Returns a string representation of the date order type
     * to be used as part of an MPX file.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
@@ -94,9 +94,9 @@ public final class DateOrder
       return (Integer.toString(m_value));
    }
 
-   
+
    private int m_value;
-   
+
    /**
     * Constant representing MDY
     */
@@ -111,7 +111,7 @@ public final class DateOrder
     * Constant representing YMD
     */
    public static final int YMD_VALUE = 2;
-   
+
 
    /**
     * Constant representing MDY
@@ -121,11 +121,11 @@ public final class DateOrder
    /**
     * Constant representing DMY
     */
-   public static final DateOrder DMY = new DateOrder(DMY_VALUE);   
-   
+   public static final DateOrder DMY = new DateOrder(DMY_VALUE);
+
    /**
     * Constant representing YMD
     */
-   public static final DateOrder YMD = new DateOrder(YMD_VALUE);   
-   
+   public static final DateOrder YMD = new DateOrder(YMD_VALUE);
+
 }

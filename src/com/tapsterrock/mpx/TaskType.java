@@ -30,7 +30,7 @@ public final class TaskType
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value task type value
     */
    private TaskType (int value)
@@ -40,24 +40,24 @@ public final class TaskType
 
    /**
     * Retrieves the int representation of the task type.
-    * 
+    *
     * @return task type value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a TaskType instance representing the supplied value.
-    * 
+    *
     * @param value task type value
     * @return TaskType instance
     */
    public static TaskType getInstance (int value)
    {
       TaskType result;
-      
+
       switch (value)
       {
          case FIXED_UNITS_VALUE:
@@ -71,22 +71,22 @@ public final class TaskType
             result = FIXED_DURATION;
             break;
          }
-         
-         default:         
+
+         default:
          case FIXED_WORK_VALUE:
          {
             result = FIXED_WORK;
             break;
-         }         
+         }
       }
-      
+
       return (result);
    }
-   
 
-   
+
+
    private int m_value;
-   
+
    /**
     * Constant representing Fixed Units
     */
@@ -101,7 +101,7 @@ public final class TaskType
     * Constant representing Fixed Work
     */
    public static final int FIXED_WORK_VALUE = 2;
-   
+
 
    /**
     * Constant representing Fixed Units
@@ -111,11 +111,11 @@ public final class TaskType
    /**
     * Constant representing Fixed Duration
     */
-   public static final TaskType FIXED_DURATION = new TaskType(FIXED_DURATION_VALUE);   
-   
+   public static final TaskType FIXED_DURATION = new TaskType(FIXED_DURATION_VALUE);
+
    /**
     * Constant representing Fixed Work
     */
-   public static final TaskType FIXED_WORK = new TaskType(FIXED_WORK_VALUE);   
-   
+   public static final TaskType FIXED_WORK = new TaskType(FIXED_WORK_VALUE);
+
 }

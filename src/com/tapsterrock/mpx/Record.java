@@ -26,6 +26,7 @@ package com.tapsterrock.mpx;
 import java.io.IOException;
 import java.util.LinkedList;
 
+
 /**
  * This class is used to represent a record in an MPX file.
  */
@@ -37,7 +38,7 @@ final class Record
    private Record ()
    {
       m_parent = null;
-      m_fields = new String [0];
+      m_fields = new String[0];
    }
 
    /**
@@ -55,11 +56,11 @@ final class Record
       {
          m_parent = parent;
 
-         LinkedList list = new LinkedList ();
+         LinkedList list = new LinkedList();
 
          while (tk.nextToken() == Tokenizer.TT_WORD)
          {
-            list.add (tk.getToken());
+            list.add(tk.getToken());
          }
 
          if (list.size() > 0)
@@ -71,7 +72,7 @@ final class Record
 
       catch (IOException ex)
       {
-         throw new MPXException (MPXException.INVALID_RECORD, ex);
+         throw new MPXException(MPXException.INVALID_RECORD, ex);
       }
    }
 
@@ -100,6 +101,7 @@ final class Record
       if (field < m_fields.length)
       {
          result = m_fields[field];
+
          if (result != null)
          {
             result = result.replace(MPXRecord.EOL_PLACEHOLDER, '\n');
@@ -125,9 +127,9 @@ final class Record
    {
       Character result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new Character (m_fields[field].charAt(0));
+         result = new Character(m_fields[field].charAt(0));
       }
       else
       {
@@ -150,9 +152,9 @@ final class Record
    {
       Float result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new Float (m_parent.getDecimalFormat().parse(m_fields[field]).floatValue());
+         result = new Float(m_parent.getDecimalFormat().parse(m_fields[field]).floatValue());
       }
       else
       {
@@ -174,9 +176,35 @@ final class Record
    {
       Integer result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
          result = Integer.valueOf(m_fields[field]);
+      }
+      else
+      {
+         result = null;
+      }
+
+      return (result);
+   }
+
+   /**
+    * Accessor method used to retrieve an MPXDate object representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
+    */
+   public MPXDate getDateTime (int field)
+      throws MPXException
+   {
+      MPXDate result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
+         result = m_parent.getDateTimeFormat().parse(m_fields[field]);
       }
       else
       {
@@ -200,7 +228,7 @@ final class Record
    {
       MPXDate result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
          result = m_parent.getDateFormat().parse(m_fields[field]);
       }
@@ -226,7 +254,7 @@ final class Record
    {
       MPXTime result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
          result = m_parent.getTimeFormat().parse(m_fields[field]);
       }
@@ -250,9 +278,9 @@ final class Record
    {
       NumericBoolean result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = NumericBoolean.getInstance (m_fields[field]);
+         result = NumericBoolean.getInstance(m_fields[field]);
       }
       else
       {
@@ -276,9 +304,9 @@ final class Record
    {
       MPXRate result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXRate (m_parent.getCurrencyFormat(), m_fields[field], m_parent.getLocale());
+         result = new MPXRate(m_parent.getCurrencyFormat(), m_fields[field], m_parent.getLocale());
       }
       else
       {
@@ -302,9 +330,9 @@ final class Record
    {
       MPXCurrency result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXCurrency (m_parent.getCurrencyFormat(), m_fields[field]);
+         result = new MPXCurrency(m_parent.getCurrencyFormat(), m_fields[field]);
       }
       else
       {
@@ -328,9 +356,9 @@ final class Record
    {
       MPXPercentage result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXPercentage (m_fields[field], m_parent.getPercentageDecimalFormat());
+         result = new MPXPercentage(m_fields[field], m_parent.getPercentageDecimalFormat());
       }
       else
       {
@@ -354,9 +382,9 @@ final class Record
    {
       MPXDuration result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXDuration (m_fields[field], m_parent.getDurationDecimalFormat(), m_parent.getLocale());
+         result = new MPXDuration(m_fields[field], m_parent.getDurationDecimalFormat(), m_parent.getLocale());
       }
       else
       {
@@ -380,9 +408,9 @@ final class Record
    {
       MPXUnits result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXUnits (m_fields[field], m_parent.getUnitsDecimalFormat());
+         result = new MPXUnits(m_fields[field], m_parent.getUnitsDecimalFormat());
       }
       else
       {
@@ -404,8 +432,8 @@ final class Record
    {
       TimeUnit result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = TimeUnit.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
@@ -428,8 +456,8 @@ final class Record
    {
       TimeFormat result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = TimeFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
@@ -439,7 +467,7 @@ final class Record
 
       return (result);
    }
-   
+
    /**
     * Accessor method used to retrieve an Integer object representing the
     * contents of an individual field. If the field does not exist in the
@@ -452,8 +480,8 @@ final class Record
    {
       ScheduleFrom result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = ScheduleFrom.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
@@ -476,8 +504,8 @@ final class Record
    {
       DateOrder result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = DateOrder.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
@@ -500,8 +528,8 @@ final class Record
    {
       CurrencySymbolPosition result;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = CurrencySymbolPosition.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
@@ -511,7 +539,7 @@ final class Record
 
       return (result);
    }
-   
+
    /**
     * Accessor method used to retrieve an Integer object representing the
     * contents of an individual field. If the field does not exist in the
@@ -524,9 +552,13 @@ final class Record
    {
       DateFormat result = null;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = DateFormat.getInstance(Integer.parseInt(m_fields[field]));
+      }
+      else
+      {
+         result = DateFormat.DD_MM_YY;
       }
 
       return (result);
@@ -544,14 +576,14 @@ final class Record
    {
       CodePage result = null;
 
-      if (field < m_fields.length && m_fields[field].length() != 0)
-      {         
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
          result = CodePage.getInstance(m_fields[field]);
       }
 
       return (result);
    }
-   
+
    /**
     * This method returns the number of fields present in this record.
     *
@@ -580,5 +612,5 @@ final class Record
    /**
     * Constant value representing an empty record.
     */
-   public static final Record EMPTY_RECORD = new Record ();
+   public static final Record EMPTY_RECORD = new Record();
 }

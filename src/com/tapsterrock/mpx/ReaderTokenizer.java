@@ -50,6 +50,6 @@ final class ReaderTokenizer extends Tokenizer
    {
       return (m_reader.read());
    }
-   
+
    private Reader m_reader;
 }

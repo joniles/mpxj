@@ -129,12 +129,12 @@ final class VarMeta extends MPPComponent
     * for which data has been stored in the Var2Data block.
     *
     * @return set of unique identifiers
-    */   
+    */
    public Set getUniqueIdentifierSet ()
    {
       return (m_table.keySet());
    }
-   
+
    /**
     * This method retrieves the offset of a given entry in the Var2Data block.
     * Each entry can be uniquely located by the identifier of the object to

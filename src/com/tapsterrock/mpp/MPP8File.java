@@ -139,7 +139,7 @@ final class MPP8File
       ph.setKeywords(summary.getKeywords());
       ph.setComments(summary.getComments());
       ph.setCompany(summary.getCompany());
-      ph.setManager(summary.getManager());    
+      ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
       ph.setStartDate(summary.getStartDate());
       ph.setFinishDate(summary.getFinishDate());
@@ -428,7 +428,7 @@ final class MPP8File
       String notes;
       RTFUtility rtf = new RTFUtility ();
       byte[] flags = new byte[3];
-      
+
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -454,7 +454,7 @@ final class MPP8File
          {
             continue;
          }
-         
+
          //
          // Load the var data if we have not already done so
          //
@@ -467,12 +467,12 @@ final class MPP8File
          // Blank rows can be present in MPP files. The following flag
          // appears to indicate that a row is blank, and should be
          // ignored.
-         //         
+         //
          if ((data[8] & 0x01)  != 0)
          {
             continue;
          }
-         
+
          taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
 
          id = MPPUtility.getInt (data, 4);
@@ -884,12 +884,12 @@ final class MPP8File
          // Blank rows can be present in MPP files. The following flag
          // appears to indicate that a row is blank, and should be
          // ignored.
-         //         
+         //
          if ((data[8] & 0x01)  != 0)
          {
             continue;
          }
-         
+
          //
          // Test to ensure this resource has not been deleted
          // This may be an array of bit flags, as per the task
@@ -1111,16 +1111,16 @@ final class MPP8File
       Task task;
       Resource resource;
       FixDeferFix assnVarData = null;
-            
+
       for (int loop=0; loop < count; loop++)
       {
          if (assnVarData == null)
          {
             assnVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixDeferFix   0"))));
          }
-         
+
          data = assnFixedData.getByteArrayValue(loop);
-                  
+
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
          if (task != null && resource != null)
@@ -1406,7 +1406,7 @@ final class MPP8File
    {
       return (-1 - MPPUtility.getInt(data, offset));
    }
-   
+
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
 //      System.out.println (name);

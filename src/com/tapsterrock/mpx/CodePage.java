@@ -32,7 +32,7 @@ public final class CodePage
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value work group value
     */
    private CodePage (String value, String charset)
@@ -40,17 +40,17 @@ public final class CodePage
       m_value = value;
       m_charset = charset;
    }
-   
+
    /**
     * Retrieve a WorkGroup instance representing the supplied value.
-    * 
+    *
     * @param value work group value
     * @return WorkGroup instance
     */
    public static CodePage getInstance (String value)
    {
       CodePage result;
-      
+
       if (value == null || value.equalsIgnoreCase(ANSI.toString()) == true)
       {
          result = ANSI;
@@ -80,33 +80,33 @@ public final class CodePage
             }
          }
       }
-      
+
       return (result);
    }
-     
+
    /**
     * Retrieve the Java character set represented by the codepage.
-    * 
+    *
     * @return Java charset
     */
    public Charset getCharset ()
    {
       return (Charset.forName(m_charset));
    }
-   
+
    /**
     * Returns the string representation of the codepage.
-    * 
+    *
     * @return codepage
-    */   
+    */
    public String toString ()
    {
       return (m_value);
    }
-   
+
    private String m_value;
    private String m_charset;
-   
+
    public static final CodePage ANSI = new CodePage("ANSI", "Cp1252");
    public static final CodePage MAC = new CodePage("MAC", "MacRoman");
    public static final CodePage LATIN = new CodePage("850", "Cp850");

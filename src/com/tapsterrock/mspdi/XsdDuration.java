@@ -108,17 +108,17 @@ final class XsdDuration
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
-   
+
                case TimeUnit.HOURS_VALUE:
                case TimeUnit.ELAPSED_HOURS_VALUE:
                {
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
                   m_minutes = (int)amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);               
+                  m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
-   
+
                case TimeUnit.DAYS_VALUE:
                case TimeUnit.ELAPSED_DAYS_VALUE:
                {
@@ -127,10 +127,10 @@ final class XsdDuration
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
                   m_minutes = (int)amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);                              
+                  m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
-   
+
                case TimeUnit.WEEKS_VALUE:
                case TimeUnit.ELAPSED_WEEKS_VALUE:
                {
@@ -140,10 +140,10 @@ final class XsdDuration
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
                   m_minutes = (int)amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);                                             
+                  m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
-   
+
                case TimeUnit.MONTHS_VALUE:
                case TimeUnit.ELAPSED_MONTHS_VALUE:
                {
@@ -154,10 +154,10 @@ final class XsdDuration
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
                   m_minutes = (int)amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);                                                            
+                  m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
-   
+
                case TimeUnit.YEARS_VALUE:
                case TimeUnit.ELAPSED_YEARS_VALUE:
                {
@@ -170,7 +170,7 @@ final class XsdDuration
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
                   m_minutes = (int)amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);                                                                           
+                  m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
             }

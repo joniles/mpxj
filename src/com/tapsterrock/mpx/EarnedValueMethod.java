@@ -30,7 +30,7 @@ public final class EarnedValueMethod
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value earned value method value
     */
    private EarnedValueMethod (int value)
@@ -40,24 +40,24 @@ public final class EarnedValueMethod
 
    /**
     * Retrieves the int representation of the earned value method.
-    * 
+    *
     * @return earned value method value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve an EarnedValueMethod instance representing the supplied value.
-    * 
-    * @param value earned value method 
+    *
+    * @param value earned value method
     * @return EarnedValueMethod instance
     */
    public static EarnedValueMethod getInstance (int value)
    {
       EarnedValueMethod result;
-      
+
       switch (value)
       {
          case PERCENT_COMPLETE_VALUE:
@@ -66,21 +66,21 @@ public final class EarnedValueMethod
             break;
          }
 
-         default:         
+         default:
          case PHYSICAL_PERCENT_COMPLETE_VALUE:
          {
             result = PHYSICAL_PERCENT_COMPLETE;
             break;
          }
       }
-      
+
       return (result);
    }
-   
 
-   
+
+
    private int m_value;
-   
+
    /**
     * Constant representing Percent Complete
     */
@@ -90,7 +90,7 @@ public final class EarnedValueMethod
     * Constant representing Physical Percent Complete
     */
    public static final int PHYSICAL_PERCENT_COMPLETE_VALUE = 1;
-   
+
    /**
     * Constant representing Percent Complete
     */
@@ -99,5 +99,5 @@ public final class EarnedValueMethod
    /**
     * Constant representing Physical Percent Complete
     */
-   public static final EarnedValueMethod PHYSICAL_PERCENT_COMPLETE = new EarnedValueMethod(PHYSICAL_PERCENT_COMPLETE_VALUE);   
+   public static final EarnedValueMethod PHYSICAL_PERCENT_COMPLETE = new EarnedValueMethod(PHYSICAL_PERCENT_COMPLETE_VALUE);
 }

@@ -27,6 +27,7 @@ package com.tapsterrock.mpx;
 import java.util.HashMap;
 import java.util.Locale;
 
+
 /**
  * This class represents the task table definition record in an MPX file.
  * This record defines which fields are present in a task record.
@@ -58,12 +59,13 @@ final class TaskModel extends MPXRecord
       String name;
       m_taskNumbers.clear();
 
-      for (int loop=0; loop < m_taskNames.length; loop++)
+      for (int loop = 0; loop < m_taskNames.length; loop++)
       {
          name = m_taskNames[loop];
+
          if (name != null)
          {
-            m_taskNumbers.put(name, new Integer (loop));
+            m_taskNumbers.put(name, new Integer(loop));
          }
       }
    }
@@ -91,19 +93,18 @@ final class TaskModel extends MPXRecord
    {
       int length = record.getLength();
 
-      for  (int i = 0 ; i < length ; i++ )
+      for (int i = 0; i < length; i++)
       {
          if (isText == true)
          {
-            add (getTaskCode (record.getString (i)));
+            add(getTaskCode(record.getString(i)));
          }
          else
          {
-            add (record.getInteger (i).intValue());
+            add(record.getInteger(i).intValue());
          }
       }
    }
-
 
    /**
     * Retrieves a flag indicating whether this model has been written
@@ -126,7 +127,6 @@ final class TaskModel extends MPXRecord
    {
       m_written = written;
    }
-
 
    /**
     * This method is called from the task class each time an attribute
@@ -155,7 +155,7 @@ final class TaskModel extends MPXRecord
     *
     * @return string containing the data for this record in MPX format.
     */
-   public String toString()
+   public String toString ()
    {
       int number;
       char delimiter = getParentFile().getDelimiter();
@@ -163,28 +163,27 @@ final class TaskModel extends MPXRecord
       StringBuffer textual = new StringBuffer();
       StringBuffer numeric = new StringBuffer();
 
-      textual.append (RECORD_NUMBER_TEXT);
-      numeric.append (RECORD_NUMBER_NUMERIC);
+      textual.append(RECORD_NUMBER_TEXT);
+      numeric.append(RECORD_NUMBER_NUMERIC);
 
-      for (int loop=0; loop < m_count; loop++)
+      for (int loop = 0; loop < m_count; loop++)
       {
          number = m_fields[loop];
 
-         textual.append (delimiter);
-         numeric.append (delimiter);
+         textual.append(delimiter);
+         numeric.append(delimiter);
 
          textual.append(getTaskField(number));
-         numeric.append (number);
+         numeric.append(number);
       }
 
-      textual.append (MPXFile.EOL);
-      numeric.append (MPXFile.EOL);
+      textual.append(MPXFile.EOL);
+      numeric.append(MPXFile.EOL);
 
-      textual.append (numeric.toString());
+      textual.append(numeric.toString());
 
       return (textual.toString());
    }
-
 
    /**
     * Returns Task field name of supplied code no.
@@ -196,7 +195,7 @@ final class TaskModel extends MPXRecord
    {
       String result = null;
 
-      if (key > 0 && key < m_taskNames.length)
+      if ((key > 0) && (key < m_taskNames.length))
       {
          result = m_taskNames[key];
       }
@@ -217,7 +216,7 @@ final class TaskModel extends MPXRecord
 
       if (result == null)
       {
-         throw new MPXException (MPXException.INVALID_TASK_FIELD_NAME + " " + field);
+         throw new MPXException(MPXException.INVALID_TASK_FIELD_NAME + " " + field);
       }
 
       return (result.intValue());
@@ -232,12 +231,12 @@ final class TaskModel extends MPXRecord
     * Array of flags indicting whether each field has already been
     * added to the model.
     */
-   private boolean[] m_flags = new boolean [Task.MAX_FIELDS];
+   private boolean[] m_flags = new boolean[Task.MAX_FIELDS];
 
    /**
     * Array of field numbers in order of their appearance.
     */
-   private int[] m_fields = new int [Task.MAX_FIELDS+1];
+   private int[] m_fields = new int[Task.MAX_FIELDS + 1];
 
    /**
     * Count of the number of fields present.
@@ -264,4 +263,3 @@ final class TaskModel extends MPXRecord
     */
    static final int RECORD_NUMBER_NUMERIC = 61;
 }
-

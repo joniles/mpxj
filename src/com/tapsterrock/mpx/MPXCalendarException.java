@@ -99,7 +99,7 @@ public final class MPXCalendarException extends MPXRecord
          }
          else
          {
-            date = new MPXDate(getParentFile().getDateFormat(), from);
+            date = new MPXDate(getParentFile().getDateTimeFormat(), from);
          }
          date = date.getDayStartDate();
       }
@@ -132,11 +132,11 @@ public final class MPXCalendarException extends MPXRecord
          }
          else
          {
-            date = new MPXDate(getParentFile().getDateFormat(), to);
+            date = new MPXDate(getParentFile().getDateTimeFormat(), to);
          }
          date = date.getDayEndDate();
       }
-      
+
       putDate (TO_DATE,to);
    }
 

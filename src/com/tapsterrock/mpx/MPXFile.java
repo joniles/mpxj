@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 
+
 /**
  * This class encapsulates all functionality relating to creating, read
  * and writing MPX files and their constituent records.
@@ -52,9 +53,9 @@ public class MPXFile
    /**
     * Default constructor.
     */
-   public MPXFile()
+   public MPXFile ()
    {
-      configure ();
+      configure();
    }
 
    /**
@@ -79,11 +80,11 @@ public class MPXFile
       m_baseOutlineLevel = file.m_baseOutlineLevel;
       m_childTasks = file.m_childTasks;
       m_currencyFormat = file.m_currencyFormat;
+      m_dateTimeFormat = file.m_dateTimeFormat;
       m_dateFormat = file.m_dateFormat;
       m_ddeOleClientLinks = file.m_ddeOleClientLinks;
       m_delimiter = file.m_delimiter;
       m_fileCreationRecord = file.m_fileCreationRecord;
-      m_ignoreThousandsSeparator = file.m_ignoreThousandsSeparator;
       m_lastBaseCalendar = file.m_lastBaseCalendar;
       m_lastResource = file.m_lastResource;
       m_lastResourceAssignment = file.m_lastResourceAssignment;
@@ -110,7 +111,7 @@ public class MPXFile
       m_taskUniqueIDMap = file.m_taskUniqueIDMap;
       m_taskIDMap = file.m_taskIDMap;
       m_resourceUniqueIDMap = file.m_resourceUniqueIDMap;
-      m_resourceIDMap = file.m_resourceIDMap;      
+      m_resourceIDMap = file.m_resourceIDMap;
    }
 
    /**
@@ -123,8 +124,8 @@ public class MPXFile
    public MPXFile (InputStream stream)
       throws MPXException
    {
-      configure ();
-      read (stream);
+      configure();
+      read(stream);
    }
 
    /**
@@ -139,7 +140,7 @@ public class MPXFile
       throws MPXException
    {
       configure();
-      read (new File (path));
+      read(new File(path));
    }
 
    /**
@@ -153,10 +154,9 @@ public class MPXFile
    public MPXFile (File file)
       throws MPXException
    {
-      configure ();
-      read (file);
+      configure();
+      read(file);
    }
-
 
    /**
     * This method configures the basic MPX file.
@@ -168,9 +168,9 @@ public class MPXFile
     */
    protected void configure ()
    {
-      setLocale (Locale.ENGLISH);
-      m_records.add (m_fileCreationRecord);
-      m_records.add (m_projectHeader);
+      setLocale(Locale.ENGLISH);
+      m_records.add(m_fileCreationRecord);
+      m_records.add(m_projectHeader);
    }
 
    /**
@@ -178,7 +178,7 @@ public class MPXFile
     *
     * @return delimiter character
     */
-   public char getDelimiter()
+   public char getDelimiter ()
    {
       return (m_delimiter);
    }
@@ -203,7 +203,7 @@ public class MPXFile
       throws MPXException
    {
       int line = 1;
-      
+
       try
       {
          //
@@ -213,7 +213,7 @@ public class MPXFile
          // zero, so the first record we will read will get "PX" rather than
          // "MPX" in the first field position.
          //
-         BufferedInputStream bis = new BufferedInputStream (is);
+         BufferedInputStream bis = new BufferedInputStream(is);
          byte[] data = new byte[4];
          data[0] = (byte)bis.read();
          bis.mark(1024);
@@ -221,12 +221,12 @@ public class MPXFile
          data[2] = (byte)bis.read();
          data[3] = (byte)bis.read();
 
-         if (data[0] != 'M' || data[1] != 'P' || data[2] != 'X')
+         if ((data[0] != 'M') || (data[1] != 'P') || (data[2] != 'X'))
          {
-            throw new MPXException (MPXException.INVALID_FILE);
+            throw new MPXException(MPXException.INVALID_FILE);
          }
 
-         setDelimiter ((char)data[3]);
+         setDelimiter((char)data[3]);
 
          bis.reset();
 
@@ -236,17 +236,18 @@ public class MPXFile
          // taking place. We assume that any text in this record will not
          // require decoding.
          //
-         Tokenizer tk = new InputStreamTokenizer (bis);
+         Tokenizer tk = new InputStreamTokenizer(bis);
          tk.setDelimiter(m_delimiter);
+
          Record record;
          String number;
-         
+
          //
          // Add the header record
          //
-         add (Integer.toString(FileCreationRecord.RECORD_NUMBER), new Record (this, tk));
+         add(Integer.toString(FileCreationRecord.RECORD_NUMBER), new Record(this, tk));
          ++line;
-         
+
          //
          // Now process the remainder of the file in full. As we have read the
          // file creation record we have access to the field which specifies the
@@ -254,35 +255,36 @@ public class MPXFile
          // an input stream reader using the appropriate character set, and
          // create a new tokenizer to read from this Reader instance.
          //
-         InputStreamReader reader = new InputStreamReader (bis, getFileCreationRecord().getCodePage().getCharset());
-         tk = new ReaderTokenizer (reader);
+         InputStreamReader reader = new InputStreamReader(bis, getFileCreationRecord().getCodePage().getCharset());
+         tk = new ReaderTokenizer(reader);
          tk.setDelimiter(m_delimiter);
-         
+
          //
          // Read the remainder of the records
          //
          while (true)
          {
-            record = new Record (this, tk);
+            record = new Record(this, tk);
             number = record.getRecordNumber();
+
             if (number == null)
             {
                break;
             }
 
-            add (number, record);
+            add(number, record);
             ++line;
          }
 
          //
          // Ensure that the structure is consistent
          //
-         updateStructure();         
+         updateStructure();
       }
 
       catch (Exception ex)
       {
-         throw new MPXException (MPXException.READ_ERROR + " (failed at line " + line + ")", ex);
+         throw new MPXException(MPXException.READ_ERROR + " (failed at line " + line + ")", ex);
       }
    }
 
@@ -294,18 +296,18 @@ public class MPXFile
     * @throws MPXException thrown if a file read error occurs
     */
    public void read (String file)
-     throws MPXException
+      throws MPXException
    {
       try
       {
-         FileInputStream fis = new FileInputStream (file);
-         read (fis);
+         FileInputStream fis = new FileInputStream(file);
+         read(fis);
          fis.close();
       }
 
       catch (IOException ex)
       {
-         throw new MPXException (MPXException.READ_ERROR, ex);
+         throw new MPXException(MPXException.READ_ERROR, ex);
       }
    }
 
@@ -317,21 +319,20 @@ public class MPXFile
     * @throws MPXException thrown if a file read error occurs
     */
    public void read (File file)
-     throws MPXException
+      throws MPXException
    {
       try
       {
-         FileInputStream fis = new FileInputStream (file);
-         read (fis);
+         FileInputStream fis = new FileInputStream(file);
+         read(fis);
          fis.close();
       }
 
       catch (IOException ex)
       {
-         throw new MPXException (MPXException.READ_ERROR, ex);
+         throw new MPXException(MPXException.READ_ERROR, ex);
       }
    }
-
 
    /**
     * This is a convenience method provided to allow an empty record
@@ -344,7 +345,7 @@ public class MPXFile
    private MPXRecord add (int recordNumber)
       throws MPXException
    {
-      return (add (String.valueOf(recordNumber), Record.EMPTY_RECORD));
+      return (add(String.valueOf(recordNumber), Record.EMPTY_RECORD));
    }
 
    /**
@@ -361,18 +362,18 @@ public class MPXFile
    {
       MPXRecord current = null;
 
-      switch (Integer.parseInt (recordNumber))
+      switch (Integer.parseInt(recordNumber))
       {
          case Comments.RECORD_NUMBER:
          {
-            current = new Comments (this, record);
-            m_records.add (current);
+            current = new Comments(this, record);
+            m_records.add(current);
             break;
          }
 
          case ProjectHeader.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
-            m_projectHeader.updateCurrencySettings (record);
+            m_projectHeader.updateCurrencySettings(record);
             updateFormats();
             current = m_projectHeader;
             break;
@@ -380,24 +381,24 @@ public class MPXFile
 
          case ProjectHeader.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
-            m_projectHeader.updateDefaultSettings (record);
+            m_projectHeader.updateDefaultSettings(record);
             current = m_projectHeader;
             break;
          }
 
          case ProjectHeader.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
-            m_projectHeader.updateDateTimeSettings (record);
+            m_projectHeader.updateDateTimeSettings(record);
             current = m_projectHeader;
             break;
          }
 
          case MPXCalendar.BASE_CALENDAR_RECORD_NUMBER:
          {
-            m_lastBaseCalendar = new MPXCalendar (this, record, true);
+            m_lastBaseCalendar = new MPXCalendar(this, record, true);
             current = m_lastBaseCalendar;
-            m_records.add (current);
-            m_baseCalendars.add (current);
+            m_records.add(current);
+            m_baseCalendars.add(current);
             break;
          }
 
@@ -405,8 +406,9 @@ public class MPXFile
          {
             if (m_lastBaseCalendar != null)
             {
-               current = m_lastBaseCalendar.addCalendarHours (record);
+               current = m_lastBaseCalendar.addCalendarHours(record);
             }
+
             break;
          }
 
@@ -414,26 +416,28 @@ public class MPXFile
          {
             if (m_lastBaseCalendar != null)
             {
-               current = m_lastBaseCalendar.addCalendarException (record);
+               current = m_lastBaseCalendar.addCalendarException(record);
             }
+
             break;
          }
 
          case ProjectHeader.PROJECT_HEADER_RECORD_NUMBER:
          {
-            m_projectHeader.updateProjectHeader (record);
+            m_projectHeader.updateProjectHeader(record);
             current = m_projectHeader;
             break;
          }
 
          case ResourceModel.RECORD_NUMBER_TEXT:
          {
-            if (m_resourceTableDefinition == false && m_ignoreTextModel == false)
+            if ((m_resourceTableDefinition == false) && (m_ignoreTextModels == false))
             {
                current = m_resourceModel;
-               m_resourceModel.update (record, true);
-               m_resourceTableDefinition=true;
+               m_resourceModel.update(record, true);
+               m_resourceTableDefinition = true;
             }
+
             break;
          }
 
@@ -442,18 +446,19 @@ public class MPXFile
             if (m_resourceTableDefinition == false)
             {
                current = m_resourceModel;
-               m_resourceModel.update (record, false);
-               m_resourceTableDefinition=true;
+               m_resourceModel.update(record, false);
+               m_resourceTableDefinition = true;
             }
+
             break;
          }
 
          case Resource.RECORD_NUMBER:
          {
-            m_lastResource = new Resource (this, record);
+            m_lastResource = new Resource(this, record);
             current = m_lastResource;
-            m_records.add (current);
-            m_allResources.add (current);
+            m_records.add(current);
+            m_allResources.add(current);
             break;
          }
 
@@ -461,8 +466,9 @@ public class MPXFile
          {
             if (m_lastResource != null)
             {
-               current = m_lastResource.addResourceNotes (record);
+               current = m_lastResource.addResourceNotes(record);
             }
+
             break;
          }
 
@@ -470,9 +476,10 @@ public class MPXFile
          {
             if (m_lastResource != null)
             {
-               m_lastResourceCalendar = m_lastResource.addResourceCalendar (record);
+               m_lastResourceCalendar = m_lastResource.addResourceCalendar(record);
                current = m_lastResourceCalendar;
             }
+
             break;
          }
 
@@ -480,8 +487,9 @@ public class MPXFile
          {
             if (m_lastResourceCalendar != null)
             {
-               current = m_lastResourceCalendar.addCalendarHours (record);
+               current = m_lastResourceCalendar.addCalendarHours(record);
             }
+
             break;
          }
 
@@ -489,19 +497,21 @@ public class MPXFile
          {
             if (m_lastResourceCalendar != null)
             {
-               current = m_lastResourceCalendar.addCalendarException (record);
+               current = m_lastResourceCalendar.addCalendarException(record);
             }
+
             break;
          }
 
          case TaskModel.RECORD_NUMBER_TEXT:
          {
-            if (m_taskTableDefinition == false && m_ignoreTextModel == false)
+            if ((m_taskTableDefinition == false) && (m_ignoreTextModels == false))
             {
                current = m_taskModel;
-               m_taskModel.update (record, true);
-               m_taskTableDefinition=true;
+               m_taskModel.update(record, true);
+               m_taskTableDefinition = true;
             }
+
             break;
          }
 
@@ -510,9 +520,10 @@ public class MPXFile
             if (m_taskTableDefinition == false)
             {
                current = m_taskModel;
-               m_taskModel.update (record, false);
-               m_taskTableDefinition=true;
+               m_taskModel.update(record, false);
+               m_taskTableDefinition = true;
             }
+
             break;
          }
 
@@ -520,8 +531,8 @@ public class MPXFile
          {
             m_lastTask = new Task(this, record);
             current = m_lastTask;
-            m_records.add (current);
-            m_allTasks.add (current);
+            m_records.add(current);
+            m_allTasks.add(current);
 
             int outlineLevel = m_lastTask.getOutlineLevelValue();
 
@@ -532,17 +543,18 @@ public class MPXFile
 
             if (outlineLevel == m_baseOutlineLevel)
             {
-               m_childTasks.add (m_lastTask);
+               m_childTasks.add(m_lastTask);
             }
             else
             {
                if (m_childTasks.isEmpty() == true)
                {
-                  throw new MPXException (MPXException.INVALID_OUTLINE);
+                  throw new MPXException(MPXException.INVALID_OUTLINE);
                }
 
-               ((Task)m_childTasks.getLast()).addChildTask (m_lastTask, outlineLevel);
+               ((Task)m_childTasks.getLast()).addChildTask(m_lastTask, outlineLevel);
             }
+
             break;
          }
 
@@ -550,8 +562,9 @@ public class MPXFile
          {
             if (m_lastTask != null)
             {
-               current = m_lastTask.addTaskNotes (record);
+               current = m_lastTask.addTaskNotes(record);
             }
+
             break;
          }
 
@@ -559,8 +572,9 @@ public class MPXFile
          {
             if (m_lastTask != null)
             {
-               current = m_lastTask.addRecurringTask (record);
+               current = m_lastTask.addRecurringTask(record);
             }
+
             break;
          }
 
@@ -568,10 +582,11 @@ public class MPXFile
          {
             if (m_lastTask != null)
             {
-               m_lastResourceAssignment = m_lastTask.addResourceAssignment (record);
+               m_lastResourceAssignment = m_lastTask.addResourceAssignment(record);
                current = m_lastResourceAssignment;
-               m_allResourceAssignments.add (m_lastResourceAssignment);
+               m_allResourceAssignments.add(m_lastResourceAssignment);
             }
+
             break;
          }
 
@@ -579,22 +594,23 @@ public class MPXFile
          {
             if (m_lastResourceAssignment != null)
             {
-               current = m_lastResourceAssignment.addWorkgroupAssignment (record);
+               current = m_lastResourceAssignment.addWorkgroupAssignment(record);
             }
+
             break;
          }
 
          case ProjectNames.RECORD_NUMBER:
          {
-            current = new ProjectNames (this, record);
-            m_records.add (current);
+            current = new ProjectNames(this, record);
+            m_records.add(current);
             ++m_projectNames;
             break;
          }
 
          case DdeOleClientLinks.RECORD_NUMBER:
          {
-            current = new DdeOleClientLinks (this, record);
+            current = new DdeOleClientLinks(this, record);
             m_records.add(current);
             m_ddeOleClientLinks++;
             break;
@@ -603,19 +619,16 @@ public class MPXFile
          case FileCreationRecord.RECORD_NUMBER:
          {
             current = getFileCreationRecord();
-            ((FileCreationRecord)current).setValues (record);
+            ((FileCreationRecord)current).setValues(record);
             break;
          }
 
          default:
-         {
-            throw new MPXException (MPXException.INVALID_RECORD);
-         }
+            throw new MPXException(MPXException.INVALID_RECORD);
       }
 
       return (current);
    }
-
 
    /**
     * This method is provided to allow child tasks that have been created
@@ -625,8 +638,8 @@ public class MPXFile
     */
    void addTask (Task task)
    {
-      m_records.add (task);
-      m_allTasks.add (task);
+      m_records.add(task);
+      m_allTasks.add(task);
    }
 
    /**
@@ -879,9 +892,9 @@ public class MPXFile
     *
     * @param flag Boolean flag
     */
-   public void setIgnoreTextModel (boolean flag)
+   public void setIgnoreTextModels (boolean flag)
    {
-      m_ignoreTextModel = flag;
+      m_ignoreTextModels = flag;
    }
 
    /**
@@ -890,9 +903,9 @@ public class MPXFile
     *
     * @return Boolean flag
     */
-   public boolean getIgnoreTextModel ()
+   public boolean getIgnoreTextModels ()
    {
-      return (m_ignoreTextModel);
+      return (m_ignoreTextModels);
    }
 
    /**
@@ -932,7 +945,7 @@ public class MPXFile
     * @return new comment object
     * @throws MPXException normally thrown on parse errors
     */
-   public Comments addComments()
+   public Comments addComments ()
       throws MPXException
    {
       return ((Comments)add(Comments.RECORD_NUMBER));
@@ -956,7 +969,7 @@ public class MPXFile
     */
    protected MPXCalendar addResourceCalendar ()
    {
-      return (new MPXCalendar (this, false));
+      return (new MPXCalendar(this, false));
    }
 
    /**
@@ -994,7 +1007,7 @@ public class MPXFile
       calendar.setWorkingDay(6, true);
       calendar.setWorkingDay(7, false);
 
-      calendar.addDefaultCalendarHours ();
+      calendar.addDefaultCalendarHours();
 
       return (calendar);
    }
@@ -1010,7 +1023,7 @@ public class MPXFile
     */
    protected MPXCalendar addDefaultResourceCalendar ()
    {
-      MPXCalendar calendar = new MPXCalendar (this, false);
+      MPXCalendar calendar = new MPXCalendar(this, false);
 
       calendar.setWorkingDay(1, MPXCalendar.DEFAULT);
       calendar.setWorkingDay(2, MPXCalendar.DEFAULT);
@@ -1098,7 +1111,7 @@ public class MPXFile
     */
    void addResourceAssignment (ResourceAssignment assignment)
    {
-      m_allResourceAssignments.add (assignment);
+      m_allResourceAssignments.add(assignment);
    }
 
    /**
@@ -1107,7 +1120,7 @@ public class MPXFile
     * @return new project names object
     * @throws MPXException normally thrown on parse errors
     */
-   public ProjectNames addProjectNames()
+   public ProjectNames addProjectNames ()
       throws MPXException
    {
       return ((ProjectNames)add(ProjectNames.RECORD_NUMBER));
@@ -1119,7 +1132,7 @@ public class MPXFile
     * @return new dde/ole links object
     * @throws MPXException normally thrown on parse errors
     */
-   public DdeOleClientLinks addDdeOleClientLinks()
+   public DdeOleClientLinks addDdeOleClientLinks ()
       throws MPXException
    {
       return ((DdeOleClientLinks)add(DdeOleClientLinks.RECORD_NUMBER));
@@ -1143,7 +1156,7 @@ public class MPXFile
          calendar = (MPXCalendar)iter.next();
          name = calendar.getName();
 
-         if (name != null && name.equalsIgnoreCase(calendarName) == true)
+         if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
          {
             break;
          }
@@ -1186,7 +1199,7 @@ public class MPXFile
     * This method writes each record in an MPX file to an output stream, via
     * the specified OutputStreamWriter. By providing the OutputStreamWriter
     * as an argument, the caller can control the character encoding used
-    * when writing the file. Note that this is not recommended, the other 
+    * when writing the file. Note that this is not recommended, the other
     * write methods made available with this class will use the correct
     * encoding as specified as part of the MPX file creation record.
     *
@@ -1200,7 +1213,7 @@ public class MPXFile
 
       Iterator iter = m_records.iterator();
 
-      while(iter.hasNext())
+      while (iter.hasNext())
       {
          w.write((iter.next()).toString());
       }
@@ -1210,8 +1223,8 @@ public class MPXFile
       //
       // Reset the model written flags to allow them to be written again
       //
-      m_taskModel.setWritten (false);
-      m_resourceModel.setWritten (false);
+      m_taskModel.setWritten(false);
+      m_resourceModel.setWritten(false);
    }
 
    /**
@@ -1223,7 +1236,7 @@ public class MPXFile
    public void write (OutputStream out)
       throws IOException
    {
-      write (new OutputStreamWriter (new BufferedOutputStream (out), getFileCreationRecord().getCodePage().getCharset()));
+      write(new OutputStreamWriter(new BufferedOutputStream(out), getFileCreationRecord().getCodePage().getCharset()));
    }
 
    /**
@@ -1237,8 +1250,8 @@ public class MPXFile
    public void write (File out)
       throws IOException
    {
-      FileOutputStream fos = new FileOutputStream (out);
-      write (fos);
+      FileOutputStream fos = new FileOutputStream(out);
+      write(fos);
       fos.flush();
       fos.close();
    }
@@ -1254,8 +1267,8 @@ public class MPXFile
    public void write (String file)
       throws IOException
    {
-      FileOutputStream fos = new FileOutputStream (file);
-      write (fos);
+      FileOutputStream fos = new FileOutputStream(file);
+      write(fos);
       fos.flush();
       fos.close();
    }
@@ -1271,6 +1284,16 @@ public class MPXFile
    }
 
    /**
+    * This method retrieves the date time formatter.
+    *
+    * @return date time formatter
+    */
+   MPXDateFormat getDateTimeFormat ()
+   {
+      return (m_dateTimeFormat);
+   }
+
+   /**
     * This method retrieves the date formatter.
     *
     * @return date formatter
@@ -1280,7 +1303,6 @@ public class MPXFile
       return (m_dateFormat);
    }
 
-
    /**
     * This method retrieves the currency formatter.
     *
@@ -1289,28 +1311,6 @@ public class MPXFile
    MPXNumberFormat getCurrencyFormat ()
    {
       return (m_currencyFormat);
-   }
-
-   /**
-    * Sets the flag that tells the library whether or not to
-    * ignore the thousands separator specified in the currency format.
-    *
-    * @param ignore boolean flag
-    */
-   public void setIgnoreThousandsSeparator (boolean ignore)
-   {
-      m_ignoreThousandsSeparator = ignore;
-   }
-
-   /**
-    * Retrieves the flag that tells the library whether or not to
-    * ignore the thousands separator specified in the currency format.
-    *
-    * @return boolean flag
-    */
-   public boolean getIgnoreThousandsSeparator ()
-   {
-      return (m_ignoreThousandsSeparator);
    }
 
    /**
@@ -1339,7 +1339,7 @@ public class MPXFile
    public MPXDuration getDuration (Date startDate, Date endDate)
       throws MPXException
    {
-      return (getDuration ("Standard", startDate, endDate));
+      return (getDuration("Standard", startDate, endDate));
    }
 
    /**
@@ -1357,12 +1357,13 @@ public class MPXFile
       throws MPXException
    {
       MPXCalendar calendar = getBaseCalendar(calendarName);
+
       if (calendar == null)
       {
-         throw new MPXException (MPXException.CALENDAR_ERROR + ": " + calendarName);
+         throw new MPXException(MPXException.CALENDAR_ERROR + ": " + calendarName);
       }
 
-      return (calendar.getDuration (startDate, endDate));
+      return (calendar.getDuration(startDate, endDate));
    }
 
    /**
@@ -1423,8 +1424,8 @@ public class MPXFile
    {
       if (m_allTasks.size() > 1)
       {
-         Collections.sort (m_allTasks);
-         m_childTasks.clear ();
+         Collections.sort(m_allTasks);
+         m_childTasks.clear();
 
          Task task;
          Task lastTask = null;
@@ -1437,7 +1438,7 @@ public class MPXFile
          while (iter.hasNext() == true)
          {
             task = (Task)iter.next();
-            task.clearChildTasks ();
+            task.clearChildTasks();
             level = task.getOutlineLevelValue();
             parent = null;
 
@@ -1458,10 +1459,12 @@ public class MPXFile
                      while (level <= lastLevel)
                      {
                         parent = lastTask.getParentTask();
+
                         if (parent == null)
                         {
                            break;
                         }
+
                         lastLevel = parent.getOutlineLevelValue();
                         lastTask = parent;
                      }
@@ -1474,7 +1477,7 @@ public class MPXFile
 
             if (getAutoWBS() == true)
             {
-               task.generateWBS (parent);
+               task.generateWBS(parent);
             }
 
             if (getAutoOutlineNumber() == true)
@@ -1484,11 +1487,11 @@ public class MPXFile
 
             if (parent == null)
             {
-               m_childTasks.add (task);
+               m_childTasks.add(task);
             }
             else
             {
-               parent.addChildTask (task);
+               parent.addChildTask(task);
             }
          }
       }
@@ -1518,7 +1521,8 @@ public class MPXFile
    public void setDecimalSeparator (char separator)
    {
       m_decimalSeparator = separator;
-      if (m_projectHeader != null && m_projectHeader.getDecimalSeparator() != separator)
+
+      if ((m_projectHeader != null) && (m_projectHeader.getDecimalSeparator() != separator))
       {
          m_projectHeader.setDecimalSeparator(separator);
       }
@@ -1548,7 +1552,8 @@ public class MPXFile
    public void setThousandsSeparator (char separator)
    {
       m_thousandsSeparator = separator;
-      if (m_projectHeader != null && m_projectHeader.getThousandsSeparator() != separator)
+
+      if ((m_projectHeader != null) && (m_projectHeader.getThousandsSeparator() != separator))
       {
          m_projectHeader.setThousandsSeparator(separator);
       }
@@ -1557,22 +1562,22 @@ public class MPXFile
    /**
     * Find the earliest task start date. We treat this as the
     * start date for the project.
-    * 
+    *
     * @return start date
     */
    public Date getStartDate ()
    {
       Date startDate = null;
-      
+
       Iterator iter = m_allTasks.iterator();
       Task task;
       Date taskStartDate;
-      
+
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
          taskStartDate = task.getStart();
-         
+
          if (taskStartDate != null)
          {
             if (startDate == null)
@@ -1584,33 +1589,33 @@ public class MPXFile
                if (taskStartDate.getTime() < startDate.getTime())
                {
                   startDate = taskStartDate;
-               }               
+               }
             }
          }
       }
-      
+
       return (startDate);
    }
 
    /**
     * Find the latest task finish date. We treat this as the
     * finish date for the project.
-    * 
+    *
     * @return finish date
     */
    public Date getFinishDate ()
    {
       Date finishDate = null;
-      
+
       Iterator iter = m_allTasks.iterator();
       Task task;
       Date taskFinishDate;
-      
+
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
          taskFinishDate = task.getFinish();
-         
+
          if (taskFinishDate != null)
          {
             if (finishDate == null)
@@ -1626,20 +1631,20 @@ public class MPXFile
             }
          }
       }
-      
+
       return (finishDate);
    }
-   
+
    /**
     * This method is called prior to writing an MPX file to ensure that all of
     * the required number formats are up to date.
     */
    private void updateFormats ()
    {
-      m_decimalFormat = new MPXNumberFormat ("0.00#", m_decimalSeparator, m_thousandsSeparator);
-      m_durationDecimalFormat = new MPXNumberFormat (MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
-      m_percentageDecimalFormat = new MPXNumberFormat (MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
-      m_unitsDecimalFormat = new MPXNumberFormat (MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
+      m_decimalFormat = new MPXNumberFormat("0.00#", m_decimalSeparator, m_thousandsSeparator);
+      m_durationDecimalFormat = new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
+      m_percentageDecimalFormat = new MPXNumberFormat(MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
+      m_unitsDecimalFormat = new MPXNumberFormat(MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
    }
 
    /**
@@ -1650,7 +1655,7 @@ public class MPXFile
     */
    MPXNumberFormat getDecimalFormat ()
    {
-      return (new MPXNumberFormat ("0.00#", m_decimalSeparator, m_thousandsSeparator));
+      return (new MPXNumberFormat("0.00#", m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**
@@ -1661,7 +1666,7 @@ public class MPXFile
     */
    MPXNumberFormat getDurationDecimalFormat ()
    {
-      return (new MPXNumberFormat (MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+      return (new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**
@@ -1672,7 +1677,7 @@ public class MPXFile
     */
    MPXNumberFormat getPercentageDecimalFormat ()
    {
-      return (new MPXNumberFormat (MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+      return (new MPXNumberFormat(MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**
@@ -1683,7 +1688,7 @@ public class MPXFile
     */
    MPXNumberFormat getUnitsDecimalFormat ()
    {
-      return (new MPXNumberFormat (MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+      return (new MPXNumberFormat(MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**
@@ -1715,6 +1720,7 @@ public class MPXFile
       m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
       m_fileCreationRecord.setLocale(locale);
       m_projectHeader.setLocale(locale);
+      m_dateTimeFormat.setLocale(locale);
       m_dateFormat.setLocale(locale);
       m_timeFormat.setLocale(locale);
       m_taskModel.setLocale(locale);
@@ -1729,9 +1735,9 @@ public class MPXFile
     */
    public void setTaskFieldAlias (int field, String alias)
    {
-      if (alias != null && alias.length() != 0)
+      if ((alias != null) && (alias.length() != 0))
       {
-         Integer id = new Integer (field);
+         Integer id = new Integer(field);
          m_taskFieldAlias.put(id, alias);
          m_aliasTaskField.put(alias, id);
       }
@@ -1761,6 +1767,7 @@ public class MPXFile
    {
       Integer result = (Integer)m_aliasTaskField.get(alias);
       int field;
+
       if (result == null)
       {
          field = -1;
@@ -1769,6 +1776,7 @@ public class MPXFile
       {
          field = result.intValue();
       }
+
       return (field);
    }
 
@@ -1780,9 +1788,9 @@ public class MPXFile
     */
    public void setResourceFieldAlias (int field, String alias)
    {
-      if (alias != null && alias.length() != 0)
+      if ((alias != null) && (alias.length() != 0))
       {
-         Integer id = new Integer (field);
+         Integer id = new Integer(field);
          m_resourceFieldAlias.put(id, alias);
          m_aliasResourceField.put(alias, id);
       }
@@ -1812,6 +1820,7 @@ public class MPXFile
    {
       Integer result = (Integer)m_aliasResourceField.get(alias);
       int field;
+
       if (result == null)
       {
          field = -1;
@@ -1820,6 +1829,7 @@ public class MPXFile
       {
          field = result.intValue();
       }
+
       return (field);
    }
 
@@ -1991,30 +2001,35 @@ public class MPXFile
     * This list holds a reference to all resources defined in the
     * MPX file.
     */
-   private LinkedList m_allResources = new LinkedList ();
+   private LinkedList m_allResources = new LinkedList();
 
    /**
     * This list holds a reference to all tasks defined in the
     * MPX file.
     */
-   private LinkedList m_allTasks = new LinkedList ();
+   private LinkedList m_allTasks = new LinkedList();
 
    /**
     * List holding references to the top level tasks
     * as defined by the outline level.
     */
-   private LinkedList m_childTasks = new LinkedList ();
+   private LinkedList m_childTasks = new LinkedList();
 
    /**
     * This list holds a reference to all resource assignments defined in the
     * MPX file.
     */
-   private LinkedList m_allResourceAssignments = new LinkedList ();
+   private LinkedList m_allResourceAssignments = new LinkedList();
 
    /**
     * List holding references to all base calendars.
     */
-   private LinkedList m_baseCalendars = new LinkedList ();
+   private LinkedList m_baseCalendars = new LinkedList();
+
+   /**
+    * Date time formatter.
+    */
+   private MPXDateFormat m_dateTimeFormat = new MPXDateFormat();
 
    /**
     * Date formatter.
@@ -2024,22 +2039,22 @@ public class MPXFile
    /**
     * Time formatter.
     */
-   private MPXTimeFormat m_timeFormat = new MPXTimeFormat ();
+   private MPXTimeFormat m_timeFormat = new MPXTimeFormat();
 
    /**
     * Currency formatter.
     */
-   private MPXNumberFormat m_currencyFormat = new MPXNumberFormat ();
+   private MPXNumberFormat m_currencyFormat = new MPXNumberFormat();
 
    /**
     * File creation record.
     */
-   private FileCreationRecord m_fileCreationRecord = new FileCreationRecord (this);
+   private FileCreationRecord m_fileCreationRecord = new FileCreationRecord(this);
 
    /**
     * Project header record.
     */
-   private ProjectHeader m_projectHeader = new ProjectHeader (this);
+   private ProjectHeader m_projectHeader = new ProjectHeader(this);
 
    /**
     * Task model.
@@ -2085,7 +2100,6 @@ public class MPXFile
     * Flag indicating the existence of a task model record.
     */
    private boolean m_taskTableDefinition;
-
 
    /**
     * Count of the number of project names.
@@ -2151,9 +2165,10 @@ public class MPXFile
    private boolean m_autoResourceID;
 
    /**
-    * Flag indicating that the text form of the task model should be ignored.
+    * Flag indicating that the text form of the task and resource
+    * models should be ignored.
     */
-   private boolean m_ignoreTextModel;
+   private boolean m_ignoreTextModels = true;
 
    /**
     * This member data is used to hold the outline level number of the
@@ -2166,14 +2181,6 @@ public class MPXFile
     * >= 1.
     */
    private int m_baseOutlineLevel = -1;
-
-   /**
-    * Flag used to tell the library whether to use thousands separators when
-    * reading and writing MPX files, or whether to ignore them. Microsoft
-    * Project appears to ignore them when reading and writing files, so the
-    * default value is true.
-    */
-   private boolean m_ignoreThousandsSeparator = true;
 
    /**
     * Default thousands separator character. Despite the fact that this
@@ -2212,42 +2219,40 @@ public class MPXFile
    /**
     * Maps from a task field number to a task alias.
     */
-   private HashMap m_taskFieldAlias = new HashMap ();
+   private HashMap m_taskFieldAlias = new HashMap();
 
    /**
     * Maps from a task field alias to a task field number
     */
-   private HashMap m_aliasTaskField = new HashMap ();
+   private HashMap m_aliasTaskField = new HashMap();
 
    /**
     * Maps from a resource field number to a resource alias.
     */
-   private HashMap m_resourceFieldAlias = new HashMap ();
+   private HashMap m_resourceFieldAlias = new HashMap();
 
    /**
     * Maps from a resource field alias to a resource field number
     */
-   private HashMap m_aliasResourceField = new HashMap ();
+   private HashMap m_aliasResourceField = new HashMap();
 
    /**
     * Maps from a task unique ID to a task instance
     */
-   private HashMap m_taskUniqueIDMap = new HashMap ();
+   private HashMap m_taskUniqueIDMap = new HashMap();
 
    /**
     * Maps from a task ID to a task instance
     */
-   private HashMap m_taskIDMap = new HashMap ();
+   private HashMap m_taskIDMap = new HashMap();
 
    /**
     * Maps from a resource unique ID to a resource instance
     */
-   private HashMap m_resourceUniqueIDMap = new HashMap ();
+   private HashMap m_resourceUniqueIDMap = new HashMap();
 
    /**
     * Maps from a resource ID to a resource instance
     */
-   private HashMap m_resourceIDMap = new HashMap ();
+   private HashMap m_resourceIDMap = new HashMap();
 }
-
-

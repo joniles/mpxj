@@ -50,7 +50,7 @@ public final class ProjectHeader extends MPXRecord
       // Configure Date Time Settings and Currency Settings Records
       //
       setLocale (file.getLocale());
-      
+
       //
       // Configure Default Settings Record
       //
@@ -63,7 +63,7 @@ public final class ProjectHeader extends MPXRecord
       setDefaultOvertimeRate(new MPXRate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
       setSplitInProgressTasks(false);
-            
+
       //
       // Configure Project Header Record
       //
@@ -96,7 +96,7 @@ public final class ProjectHeader extends MPXRecord
       setSubject(null);
       setAuthor(null);
       setKeywords(null);
-      
+
       //
       // Configure non-MPX attributes
       //
@@ -183,7 +183,7 @@ public final class ProjectHeader extends MPXRecord
    {
       m_defaultDurationIsFixed = fixed;
    }
-   
+
    /**
     * Retrieves a flag indicating if the default duration type is fixed.
     *
@@ -327,7 +327,7 @@ public final class ProjectHeader extends MPXRecord
    {
       m_updatingTaskStatusUpdatesResourceStatus = flag;
    }
-   
+
    /**
     * Flags whether updating Task status also updates resource status.
     *
@@ -367,7 +367,7 @@ public final class ProjectHeader extends MPXRecord
    {
       m_splitInProgressTasks = flag;
    }
-   
+
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
@@ -387,7 +387,7 @@ public final class ProjectHeader extends MPXRecord
    {
       m_splitInProgressTasks = NumericBoolean.getInstance(flag);
    }
-   
+
    /**
     * This method is calkled when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
@@ -405,7 +405,7 @@ public final class ProjectHeader extends MPXRecord
       setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
       m_updateCurrencyFormat = true;
       updateCurrencyFormats ();
-      
+
       m_updateDateTimeFormats = false;
       setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
       setTimeFormat((TimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
@@ -417,7 +417,7 @@ public final class ProjectHeader extends MPXRecord
       setDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       setBarTextDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       m_updateDateTimeFormats = true;
-      updateDateTimeFormats ();           
+      updateDateTimeFormats ();
    }
 
    /**
@@ -451,10 +451,34 @@ public final class ProjectHeader extends MPXRecord
    {
       if (m_updateDateTimeFormats == true)
       {
-         String pattern= "";
+         String datePattern = "";
+         String dateTimePattern= "";
+         String timePattern = getTimeElement();
+
          char datesep = getDateSeparator();
          int dateOrderValue = getDateOrder().getValue();
-         
+
+         switch (dateOrderValue)
+         {
+            case DateOrder.DMY_VALUE:
+            {
+               datePattern="dd"+datesep+"MM"+datesep+"yy";
+               break;
+            }
+
+            case DateOrder.MDY_VALUE:
+            {
+               datePattern="MM"+datesep+"dd"+datesep+"yy";
+               break;
+            }
+
+            case DateOrder.YMD_VALUE:
+            {
+               datePattern="yy"+datesep+"MM"+datesep+"dd";
+               break;
+            }
+         }
+
          switch (getDateFormat().getValue())
          {
             case DateFormat.DD_MM_YY_HH_MM_VALUE:
@@ -463,19 +487,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd"+datesep+"MM"+datesep+"yy "+getTimeElement();
+                     dateTimePattern="dd"+datesep+"MM"+datesep+"yy "+timePattern;
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MM"+datesep+"dd"+datesep+"yy "+getTimeElement();
+                     dateTimePattern="MM"+datesep+"dd"+datesep+"yy "+timePattern;
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="yy"+datesep+"MM"+datesep+"dd "+getTimeElement();
+                     dateTimePattern="yy"+datesep+"MM"+datesep+"dd "+timePattern;
                      break;
                   }
                }
@@ -488,19 +512,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd"+datesep+"MM"+datesep+"yy";
+                     dateTimePattern="dd"+datesep+"MM"+datesep+"yy";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MM"+datesep+"dd"+datesep+"yy";
+                     dateTimePattern="MM"+datesep+"dd"+datesep+"yy";
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="yy"+datesep+"MM"+datesep+"dd";
+                     dateTimePattern="yy"+datesep+"MM"+datesep+"dd";
                      break;
 
                   }
@@ -514,19 +538,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd MMMMM yyyy "+getTimeElement();
+                     dateTimePattern="dd MMMMM yyyy "+timePattern;
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MMMMM dd yyyy "+getTimeElement();
+                     dateTimePattern="MMMMM dd yyyy "+timePattern;
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="yyyy MMMMM dd "+getTimeElement();
+                     dateTimePattern="yyyy MMMMM dd "+timePattern;
                      break;
                   }
                }
@@ -539,19 +563,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd MMMMM yyyy";
+                     dateTimePattern="dd MMMMM yyyy";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MMMMM dd yyyy";
+                     dateTimePattern="MMMMM dd yyyy";
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="yyyy MMMMM dd";
+                     dateTimePattern="yyyy MMMMM dd";
                      break;
                   }
                }
@@ -564,13 +588,13 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd MMM "+getTimeElement();
+                     dateTimePattern="dd MMM "+timePattern;
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern=" MMM dd "+getTimeElement();
+                     dateTimePattern=" MMM dd "+timePattern;
                      break;
                   }
                }
@@ -583,19 +607,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd MMM ''yy";
+                     dateTimePattern="dd MMM ''yy";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MMM dd ''yy";
+                     dateTimePattern="MMM dd ''yy";
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="''yy MMM dd";
+                     dateTimePattern="''yy MMM dd";
                      break;
                   }
                }
@@ -608,13 +632,13 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd MMMMM";
+                     dateTimePattern="dd MMMMM";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MMMMM dd";
+                     dateTimePattern="MMMMM dd";
                      break;
                   }
                }
@@ -627,13 +651,13 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd MMM";
+                     dateTimePattern="dd MMM";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MMM dd";
+                     dateTimePattern="MMM dd";
                      break;
                   }
                }
@@ -646,19 +670,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="EEE "+"dd"+datesep+"MM"+datesep+"yy "+getTimeElement();
+                     dateTimePattern="EEE "+"dd"+datesep+"MM"+datesep+"yy "+timePattern;
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="EEE "+"MM"+datesep+"dd"+datesep+"yy "+getTimeElement();
+                     dateTimePattern="EEE "+"MM"+datesep+"dd"+datesep+"yy "+timePattern;
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="EEE "+"yy"+datesep+"MM"+datesep+"dd "+getTimeElement();
+                     dateTimePattern="EEE "+"yy"+datesep+"MM"+datesep+"dd "+timePattern;
                      break;
                   }
                }
@@ -671,19 +695,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="EEE dd"+datesep+"MM"+datesep+"yy";
+                     dateTimePattern="EEE dd"+datesep+"MM"+datesep+"yy";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="EEE MM"+datesep+"dd"+datesep+"yy";
+                     dateTimePattern="EEE MM"+datesep+"dd"+datesep+"yy";
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="EEE yy"+datesep+"MM"+datesep+"dd";
+                     dateTimePattern="EEE yy"+datesep+"MM"+datesep+"dd";
                      break;
                   }
                }
@@ -696,19 +720,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="EEE dd MMM ''yy";
+                     dateTimePattern="EEE dd MMM ''yy";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="EEE MM dd ''yy";
+                     dateTimePattern="EEE MM dd ''yy";
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="EEE ''yy MMM dd";
+                     dateTimePattern="EEE ''yy MMM dd";
                      break;
                   }
                }
@@ -717,7 +741,7 @@ public final class ProjectHeader extends MPXRecord
 
             case DateFormat.EEE_HH_MM_VALUE:
             {
-               pattern="EEE "+getTimeElement();
+               dateTimePattern="EEE "+timePattern;
                break;
             }
 
@@ -727,13 +751,13 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd"+datesep+"MM";
+                     dateTimePattern="dd"+datesep+"MM";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MM"+datesep+"dd";
+                     dateTimePattern="MM"+datesep+"dd";
                      break;
                   }
                }
@@ -742,13 +766,13 @@ public final class ProjectHeader extends MPXRecord
 
             case DateFormat.DD_VALUE:
             {
-               pattern="dd";
+               dateTimePattern="dd";
                break;
             }
 
             case DateFormat.HH_MM_VALUE:
             {
-               pattern = getTimeElement();
+               dateTimePattern = timePattern;
                break;
             }
 
@@ -758,13 +782,13 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="EEE dd MMM";
+                     dateTimePattern="EEE dd MMM";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="EEE MMM dd";
+                     dateTimePattern="EEE MMM dd";
                      break;
                   }
                }
@@ -777,13 +801,13 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="EEE dd"+datesep+"MM";
+                     dateTimePattern="EEE dd"+datesep+"MM";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="EEE MM"+datesep+"dd";
+                     dateTimePattern="EEE MM"+datesep+"dd";
                      break;
                   }
                }
@@ -792,19 +816,19 @@ public final class ProjectHeader extends MPXRecord
 
             case DateFormat.EEE_DD_VALUE:
             {
-               pattern="EEE dd";
+               dateTimePattern="EEE dd";
                break;
             }
 
             case DateFormat.DD_WWW_VALUE:
             {
-               pattern="F"+datesep+"'W'ww";
+               dateTimePattern="F"+datesep+"'W'ww";
                break;
             }
 
             case DateFormat.DD_WWW_YY_HH_MM_VALUE:
             {
-               pattern="F"+datesep+"'W'ww"+datesep+"yy "+getTimeElement();
+               dateTimePattern="F"+datesep+"'W'ww"+datesep+"yy "+timePattern;
                break;
             }
 
@@ -814,19 +838,19 @@ public final class ProjectHeader extends MPXRecord
                {
                   case DateOrder.DMY_VALUE:
                   {
-                     pattern="dd"+datesep+"MM"+datesep+"yyyy";
+                     dateTimePattern="dd"+datesep+"MM"+datesep+"yyyy";
                      break;
                   }
 
                   case DateOrder.MDY_VALUE:
                   {
-                     pattern="MM"+datesep+"dd"+datesep+"yyyy";
+                     dateTimePattern="MM"+datesep+"dd"+datesep+"yyyy";
                      break;
                   }
 
                   case DateOrder.YMD_VALUE:
                   {
-                     pattern="yyyy"+datesep+"MM"+datesep+"dd";
+                     dateTimePattern="yyyy"+datesep+"MM"+datesep+"dd";
                      break;
                   }
                }
@@ -835,8 +859,9 @@ public final class ProjectHeader extends MPXRecord
          }
 
          MPXFile parent = getParentFile();
-         parent.getDateFormat().applyPattern(pattern);
-         parent.getTimeFormat().applyPattern(getTimeElement());
+         parent.getDateTimeFormat().applyPattern(dateTimePattern);
+         parent.getDateFormat().applyPattern(datePattern);
+         parent.getTimeFormat().applyPattern(timePattern);
       }
    }
 
@@ -850,7 +875,7 @@ public final class ProjectHeader extends MPXRecord
       String time;
       char timesep = getTimeSeparator();
       TimeFormat format = getTimeFormat();
-      
+
       if (format == null || format.getValue() == TimeFormat.TWELVE_HOUR_VALUE)
       {
          time = "hh"+timesep+"mm a";
@@ -909,7 +934,7 @@ public final class ProjectHeader extends MPXRecord
     * This internal method is used to convert from an integer representing
     * minutes past midnight into a Date instance whose time component
     * represents the start time.
-    * 
+    *
     * @param time integer representing the start time in minutes past midnight
     */
    private void setIntegerDefaultStartTime (Integer time)
@@ -919,13 +944,13 @@ public final class ProjectHeader extends MPXRecord
          int minutes = time.intValue();
          int hours = minutes / 60;
          minutes -= (hours * 60);
-         
+
          Calendar cal = Calendar.getInstance();
          cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);         
+         cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MINUTE, minutes);
          cal.set(Calendar.HOUR_OF_DAY, hours);
-         
+
          Date date = cal.getTime();
          setDefaultStartTime(date);
       }
@@ -934,7 +959,7 @@ public final class ProjectHeader extends MPXRecord
    /**
     * This internal method is used to convert from a Date instance to an
     * integer representing the number of minutes past midnight.
-    * 
+    *
     * @return minutes past midnight as an integer
     */
    private Integer getIntegerDefaultStartTime ()
@@ -948,10 +973,10 @@ public final class ProjectHeader extends MPXRecord
          int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
          time += cal.get(Calendar.MINUTE);
          result = new Integer (time);
-      }      
+      }
       return (result);
    }
-   
+
    /**
     * Retrieve the default start time, specified using the Java Date type.
     * Note that this assumes that the value returned from
@@ -964,7 +989,7 @@ public final class ProjectHeader extends MPXRecord
    {
       return (m_defaultStartTime);
    }
-   
+
    /**
     * Set the default start time, specified using the Java Date type.
     * Note that this assumes that the value returned from
@@ -1142,7 +1167,7 @@ public final class ProjectHeader extends MPXRecord
    {
       m_defaultEndTime = date;
    }
-   
+
    /**
     * This method allows an existing instance of a ProjectHeader object
     * to be updated with data taken from a record in an MPX file.
@@ -1157,10 +1182,10 @@ public final class ProjectHeader extends MPXRecord
       setCompany(record.getString(1));
       setManager(record.getString(2));
       setCalendarName(record.getString(3));
-      setStartDate(record.getDate(4));
-      setFinishDate(record.getDate(5));
+      setStartDate(record.getDateTime(4));
+      setFinishDate(record.getDateTime(5));
       setScheduleFrom(record.getScheduleFrom(6));
-      setCurrentDate(record.getDate(7));
+      setCurrentDate(record.getDateTime(7));
       setComments(record.getString(8));
       setCost(record.getCurrency(9));
       setBaselineCost(record.getCurrency(10));
@@ -1173,17 +1198,17 @@ public final class ProjectHeader extends MPXRecord
       setBaselineDuration(record.getDuration(17));
       setActualDuration(record.getDuration(18));
       setPercentageComplete(record.getPercentage(19));
-      setBaselineStart(record.getDate(20));
-      setBaselineFinish(record.getDate(21));
-      setActualStart(record.getDate(22));
-      setActualFinish(record.getDate(23));
+      setBaselineStart(record.getDateTime(20));
+      setBaselineFinish(record.getDateTime(21));
+      setActualStart(record.getDateTime(22));
+      setActualFinish(record.getDateTime(23));
       setStartVariance(record.getDuration(24));
       setFinishVariance(record.getDuration(25));
       setSubject(record.getString(26));
       setAuthor(record.getString(27));
       setKeywords(record.getString(28));
    }
-   
+
    /**
     * Sets the project title
     *
@@ -1288,7 +1313,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public Date getStartDate ()
    {
-      Date result = m_startDate;     
+      Date result = m_startDate;
       if (result == null)
       {
          result = getParentFile().getStartDate();
@@ -1326,7 +1351,7 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Retrieves an enumerated value indicating if tasks in this project are
     * scheduled from a start or a finish date.
-    * 
+    *
     * @return schedule from flag
     */
    public ScheduleFrom getScheduleFrom ()
@@ -1367,7 +1392,7 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Returns any comments.
-    * 
+    *
     * @return comments attached to the Project Header
     */
    public String getComments ()
@@ -1417,7 +1442,7 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieves the baseline project cost.
-    * 
+    *
     * @return baseline project cost
     */
    public Number getBaselineCost ()
@@ -1427,7 +1452,7 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the actual project cost.
-    * 
+    *
     * @param actualCost actual project cost
     */
    public void setActualCost (Number actualCost)
@@ -1507,7 +1532,7 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieves the project's "Work 2" attribute.
-    * 
+    *
     * @return Work 2 attribute
     */
    public Number getWork2 ()
@@ -1737,7 +1762,7 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the project subject text.
-    * 
+    *
     * @param subject subject text
     */
    public void setSubject (String subject)
@@ -1747,7 +1772,7 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieves the project author text.
-    * 
+    *
     * @return author text
     */
    public String getAuthor ()
@@ -1812,7 +1837,7 @@ public final class ProjectHeader extends MPXRecord
       buffer.append(format(delimiter, new Character(getDecimalSeparator())));
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
-      
+
       //
       // Default Settings Record
       //
@@ -1834,10 +1859,10 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter,getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus()));
       buffer.append (delimiter);
-      buffer.append(format(delimiter,getNumericBooleanSplitInProgressTasks()));      
+      buffer.append(format(delimiter,getNumericBooleanSplitInProgressTasks()));
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
-      
+
       //
       // Date Time Settings Record
       //
@@ -1859,10 +1884,10 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter,getDateFormat()));
       buffer.append (delimiter);
-      buffer.append(format(delimiter,getBarTextDateFormat()));      
+      buffer.append(format(delimiter,getBarTextDateFormat()));
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
-      
+
       //
       // Project Header Record
       //
@@ -1924,11 +1949,11 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter,getAuthor()));
       buffer.append (delimiter);
-      buffer.append(format(delimiter,getKeywords()));      
+      buffer.append(format(delimiter,getKeywords()));
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
-            
-      return (buffer.toString());      
+
+      return (buffer.toString());
    }
 
    /**
@@ -2103,97 +2128,97 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieve the externally edited flag.
-    * 
+    *
     * @return externally edited flag
     */
    public boolean getProjectExternallyEdited()
    {
       return (m_projectExternallyEdited);
    }
-   
+
    /**
     * Set the externally edited flag
-    * 
+    *
     * @param projectExternallyEdited externally edited flag
     */
    public void setProjectExternallyEdited(boolean projectExternallyEdited)
    {
       m_projectExternallyEdited = projectExternallyEdited;
    }
-   
+
    /**
     * Retrieves the category text.
-    * 
+    *
     * @return category text
     */
    public String getCategory ()
    {
       return (m_category);
    }
-   
+
    /**
     * Sets the category text.
-    * 
+    *
     * @param category category text
     */
    public void setCategory (String category)
    {
       m_category = category;
    }
-   
+
    /**
     * Retrieve the number of days per month.
-    * 
+    *
     * @return days per month
     */
    public Integer getDaysPerMonth()
    {
       return (m_daysPerMonth);
    }
-   
+
    /**
     * Set the number of days per month.
-    * 
+    *
     * @param daysPerMonth days per month
     */
    public void setDaysPerMonth(Integer daysPerMonth)
    {
       m_daysPerMonth = daysPerMonth;
    }
-   
+
    /**
     * Retrieve the number of minutes per day.
-    * 
+    *
     * @return minutes per day
     */
    public Integer getMinutesPerDay()
    {
       return (m_minutesPerDay);
    }
-   
+
    /**
     * Set the number of minutes per day.
-    * 
+    *
     * @param minutesPerDay minutes per day
     */
    public void setMinutesPerDay(Integer minutesPerDay)
    {
       m_minutesPerDay = minutesPerDay;
    }
-   
+
    /**
     * Retrieve the number of minutes per week.
-    * 
+    *
     * @return minutes per week
     */
    public Integer getMinutesPerWeek()
    {
       return m_minutesPerWeek;
    }
-   
+
    /**
     * Set the number of minutes per week
-    * 
+    *
     * @param minutesPerWeek minutes per week
     */
    public void setMinutesPerWeek(Integer minutesPerWeek)
@@ -2203,47 +2228,47 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieve the fiscal year start flag.
-    * 
+    *
     * @return fiscal year start flag
     */
    public boolean getFiscalYearStart()
    {
       return (m_fiscalYearStart);
    }
-   
+
    /**
     * Set the fiscal year start flag.
-    * 
+    *
     * @param fiscalYearStart fiscal year start
     */
    public void setFiscalYearStart(boolean fiscalYearStart)
    {
       m_fiscalYearStart = fiscalYearStart;
    }
-   
+
    /**
     * Retrieves the default task earned value method
-    * 
+    *
     * @return default task earned value method
     */
    public EarnedValueMethod getDefaultTaskEarnedValueMethod()
    {
       return m_defaultTaskEarnedValueMethod;
    }
-   
+
    /**
     * Sets the default task earned value method
-    * 
+    *
     * @param defaultTaskEarnedValueMethod default task earned value method
     */
    public void setDefaultTaskEarnedValueMethod(EarnedValueMethod defaultTaskEarnedValueMethod)
    {
       m_defaultTaskEarnedValueMethod = defaultTaskEarnedValueMethod;
    }
-   
+
    /**
     * Retrieve the remove file properties flag.
-    * 
+    *
     * @return remove file properties flag
     */
    public boolean getRemoveFileProperties ()
@@ -2253,77 +2278,77 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Set the remove file properties flag.
-    * 
+    *
     * @param removeFileProperties remove file properties flag
     */
    public void setRemoveFileProperties (boolean removeFileProperties)
    {
       m_removeFileProperties = removeFileProperties;
    }
-   
+
    /**
     * Retrieve the move completed ends back flag.
-    * 
+    *
     * @return move completed ends back flag
     */
    public boolean getMoveCompletedEndsBack ()
    {
       return (m_moveCompletedEndsBack);
    }
-   
+
    /**
     * Set the move completed ends back flag.
-    * 
+    *
     * @param moveCompletedEndsBack move completed ends back flag
     */
    public void setMoveCompletedEndsBack (boolean moveCompletedEndsBack)
    {
       m_moveCompletedEndsBack = moveCompletedEndsBack;
    }
-   
+
    /**
     * Retrieve the new tasks estimated flag.
-    * 
+    *
     * @return new tasks estimated flag
     */
    public boolean getNewTasksEstimated ()
    {
       return (m_newTasksEstimated);
    }
-   
+
    /**
     * Set the new tasks estimated flag.
-    * 
+    *
     * @param newTasksEstimated new tasks estimated flag
     */
    public void setNewTasksEstimated (boolean newTasksEstimated)
    {
       m_newTasksEstimated = newTasksEstimated;
    }
-   
+
    /**
     * Retrieve the spread actual cost flag.
-    * 
+    *
     * @return spread actual cost flag
     */
    public boolean getSpreadActualCost ()
    {
       return (m_spreadActualCost);
    }
-   
+
    /**
     * Set the spread actual cost flag.
-    * 
+    *
     * @param spreadActualCost spread actual cost flag
     */
    public void setSpreadActualCost (boolean spreadActualCost)
    {
       m_spreadActualCost = spreadActualCost;
    }
-   
+
    /**
     * Retrieve the multiple critical paths flag.
-    * 
+    *
     * @return multiple critical paths flag
     */
    public boolean getMultipleCriticalPaths ()
@@ -2333,17 +2358,17 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Set the multiple critical paths flag.
-    * 
+    *
     * @param multipleCriticalPaths multiple critical paths flag
     */
    public void setMultipleCriticalPaths (boolean multipleCriticalPaths)
    {
       m_multipleCriticalPaths = multipleCriticalPaths;
    }
-   
+
    /**
     * Retrieve the auto add new resources and tasks flag.
-    * 
+    *
     * @return auto add new resources and tasks flag
     */
    public boolean getAutoAddNewResourcesAndTasks ()
@@ -2353,17 +2378,17 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Set the auto add new resources and tasks flag.
-    * 
+    *
     * @param autoAddNewResourcesAndTasks auto add new resources and tasks flag
     */
    public void setAutoAddNewResourcesAndTasks (boolean autoAddNewResourcesAndTasks)
    {
       m_autoAddNewResourcesAndTasks = autoAddNewResourcesAndTasks;
    }
-   
+
    /**
     * Retrieve the last saved date.
-    * 
+    *
     * @return last saved date
     */
    public Date getLastSaved ()
@@ -2373,17 +2398,17 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Set the last saved date.
-    * 
+    *
     * @param lastSaved last saved date
     */
    public void setLastSaved (Date lastSaved)
    {
       m_lastSaved = lastSaved;
    }
-   
+
    /**
     * Retrieve the status date.
-    * 
+    *
     * @return status date
     */
    public Date getStatusDate ()
@@ -2393,17 +2418,17 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Set the status date.
-    * 
+    *
     * @param statusDate status date
     */
    public void setStatusDate (Date statusDate)
    {
       m_statusDate = statusDate;
    }
-   
+
    /**
     * Retrieves the move remaining starts back flag.
-    * 
+    *
     * @return move remaining starts back flag
     */
    public boolean getMoveRemainingStartsBack ()
@@ -2413,37 +2438,37 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the move remaining starts back flag.
-    * 
+    *
     * @param moveRemainingStartsBack remaining starts back flag
     */
    public void setMoveRemainingStartsBack (boolean moveRemainingStartsBack)
    {
       m_moveRemainingStartsBack = moveRemainingStartsBack;
    }
-   
+
    /**
     * Retrieves the autolink flag.
-    * 
+    *
     * @return autolink flag
     */
    public boolean getAutolink ()
    {
       return (m_autolink);
    }
-   
+
    /**
     * Sets the autolink flag.
-    * 
+    *
     * @param autolink autolink flag
     */
    public void setAutolink (boolean autolink)
    {
       m_autolink = autolink;
    }
-   
+
    /**
     * Retrieves the Microsoft Project Server URL flag.
-    * 
+    *
     * @return Microsoft Project Server URL flag
     */
    public boolean getMicrosoftProjectServerURL ()
@@ -2453,77 +2478,77 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the Microsoft Project Server URL flag.
-    * 
+    *
     * @param microsoftProjectServerURL Microsoft Project Server URL flag
     */
    public void setMicrosoftProjectServerURL (boolean microsoftProjectServerURL)
    {
       m_microsoftProjectServerURL = microsoftProjectServerURL;
    }
-   
+
    /**
     * Retrieves the honor constraints flag.
-    * 
+    *
     * @return honor constraints flag
     */
    public boolean getHonorConstraints ()
    {
       return(m_honorConstraints);
    }
-   
+
    /**
     * Sets the honor constraints flag.
-    * 
+    *
     * @param honorConstraints honor constraints flag
     */
    public void setHonorConstraints (boolean honorConstraints)
    {
       m_honorConstraints = honorConstraints;
    }
-   
+
    /**
     * Retrieve the admin project flag.
-    * 
+    *
     * @return admin project flag
     */
    public boolean getAdminProject ()
    {
       return (m_adminProject);
    }
-   
+
    /**
     * Set the admin project flag.
-    * 
+    *
     * @param adminProject admin project flag
     */
    public void setAdminProject (boolean adminProject)
    {
       m_adminProject = adminProject;
    }
-   
+
    /**
     * Retrieves the inserted projects like summary flag.
-    * 
+    *
     * @return inserted projects like summary flag
     */
    public boolean getInsertedProjectsLikeSummary ()
    {
       return (m_insertedProjectsLikeSummary);
    }
-   
+
    /**
     * Sets the inserted projects like summary flag.
-    * 
+    *
     * @param insertedProjectsLikeSummary inserted projects like summary flag
     */
    public void setInsertedProjectsLikeSummary (boolean insertedProjectsLikeSummary)
    {
       m_insertedProjectsLikeSummary = insertedProjectsLikeSummary;
    }
-   
+
    /**
     * Retrieves the project name.
-    * 
+    *
     * @return project name
     */
    public String getName ()
@@ -2533,107 +2558,107 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the project name.
-    * 
+    *
     * @param name project name
     */
    public void setName (String name)
    {
       m_name = name;
    }
-   
+
    /**
     * Retrieves the spread percent complete flag.
-    * 
+    *
     * @return spread percent complete flag
     */
    public boolean getSpreadPercentComplete ()
    {
       return (m_spreadPercentComplete);
    }
-   
+
    /**
     * Sets the spread percent complete flag.
-    * 
+    *
     * @param spreadPercentComplete spread percent complete flag
     */
    public void setSpreadPercentComplete (boolean spreadPercentComplete)
    {
       m_spreadPercentComplete = spreadPercentComplete;
    }
-   
+
    /**
     * Retrieve the move completed ends forward flag.
-    * 
+    *
     * @return move completed ends forward flag
     */
    public boolean getMoveCompletedEndsForward ()
    {
       return (m_moveCompletedEndsForward);
    }
-   
+
    /**
     * Sets the move completed ends forward flag.
-    * 
+    *
     * @param moveCompletedEndsForward move completed ends forward flag
     */
    public void setMoveCompletedEndsForward (boolean moveCompletedEndsForward)
    {
       m_moveCompletedEndsForward = moveCompletedEndsForward;
    }
-   
+
    /**
     * Retrieve the editable actual costs flag.
-    * 
+    *
     * @return editable actual costs flag
     */
    public boolean getEditableActualCosts ()
    {
       return (m_editableActualCosts);
    }
-   
+
    /**
     * Set the editable actual costs flag
-    * 
+    *
     * @param editableActualCosts editable actual costs flag
     */
    public void setEditableActualCosts (boolean editableActualCosts)
    {
       m_editableActualCosts = editableActualCosts;
    }
-   
+
    /**
     * Retrieve the unique ID for this project.
-    * 
+    *
     * @return unique ID
     */
    public String getUniqueID ()
    {
       return (m_uniqueID);
    }
-   
+
    /**
     * Set the unique ID for this project.
-    * 
+    *
     * @param uniqueID unique ID
     */
    public void setUniqueID (String uniqueID)
    {
       m_uniqueID = uniqueID;
    }
-   
+
    /**
     * Retrieve the project revision number.
-    * 
+    *
     * @return revision number
     */
    public Integer getRevision ()
    {
       return (m_revision);
    }
-   
+
    /**
     * Retrieve the new tasks effort driven flag.
-    * 
+    *
     * @return new tasks effort driven flag
     */
    public boolean getNewTasksEffortDriven ()
@@ -2643,117 +2668,117 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the new tasks effort driven flag.
-    * 
+    *
     * @param newTasksEffortDriven new tasks effort driven flag
     */
    public void setNewTasksEffortDriven (boolean newTasksEffortDriven)
    {
       m_newTasksEffortDriven = newTasksEffortDriven;
    }
-   
+
    /**
     * Set the project revision number.
-    * 
+    *
     * @param revision revision number
     */
    public void setRevision (Integer revision)
    {
       m_revision = revision;
    }
-   
+
    /**
     * Retrieve the move remaining starts forward flag.
-    * 
+    *
     * @return move remaining starts forward flag
     */
    public boolean getMoveRemainingStartsForward ()
    {
       return (m_moveRemainingStartsForward);
    }
-   
+
    /**
     * Set the move remaining starts forward flag.
-    * 
+    *
     * @param moveRemainingStartsForward move remaining starts forward flag
     */
    public void setMoveRemainingStartsForward (boolean moveRemainingStartsForward)
    {
       m_moveRemainingStartsForward = moveRemainingStartsForward;
    }
-   
+
    /**
     * Retrieve the actuals in sync flag.
-    * 
+    *
     * @return actuals in sync flag
     */
    public boolean getActualsInSync ()
    {
       return (m_actualsInSync);
    }
-   
+
    /**
     * Set the actuals in sync flag.
-    * 
+    *
     * @param actualsInSync actuals in sync flag
     */
    public void setActualsInSync (boolean actualsInSync)
    {
       m_actualsInSync = actualsInSync;
    }
-   
+
    /**
     * Retrieve the default task type.
-    * 
+    *
     * @return default task type
     */
    public TaskType getDefaultTaskType ()
    {
       return (m_defaultTaskType);
    }
-   
+
    /**
     * Set the default task type
-    * 
+    *
     * @param defaultTaskType default task type
     */
    public void setDefaultTaskType (TaskType defaultTaskType)
    {
       m_defaultTaskType = defaultTaskType;
    }
-   
+
    /**
     * Retrieve the earned value method.
-    * 
+    *
     * @return earned value method
     */
    public EarnedValueMethod getEarnedValueMethod ()
    {
       return (m_earnedValueMethod);
    }
-   
+
    /**
     * Set the earned value method.
-    * 
+    *
     * @param earnedValueMethod earned value method
     */
    public void setEarnedValueMethod (EarnedValueMethod earnedValueMethod)
    {
       m_earnedValueMethod = earnedValueMethod;
    }
-   
+
    /**
     * Retrieve the project creation date.
-    * 
+    *
     * @return project creation date
     */
    public Date getCreationDate ()
    {
       return (m_creationDate);
    }
-   
+
    /**
     * Set the project creation date.
-    * 
+    *
     * @param creationDate project creation date
     */
    public void setCreationDate (Date creationDate)
@@ -2763,37 +2788,37 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieve the extended creation date.
-    * 
+    *
     * @return extended creation date
     */
    public Date getExtendedCreationDate ()
    {
       return (m_extendedCreationDate);
    }
-   
+
    /**
     * Retrieve the default fixed cost accrual type.
-    * 
+    *
     * @return default fixed cost accrual type
     */
    public AccrueType getDefaultFixedCostAccrual ()
    {
       return (m_defaultFixedCostAccrual);
    }
-   
+
    /**
     * Sets the default fixed cost accrual type.
-    * 
+    *
     * @param defaultFixedCostAccrual default fixed cost accrual type
     */
    public void setDefaultFixedCostAccrual (AccrueType defaultFixedCostAccrual)
    {
       m_defaultFixedCostAccrual = defaultFixedCostAccrual;
    }
-   
+
    /**
     * Set the extended creation date.
-    * 
+    *
     * @param creationDate extended creation date
     */
    public void setExtendedCreationDate (Date creationDate)
@@ -2803,49 +2828,49 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Retrieve the critical slack limit.
-    * 
+    *
     * @return critical slack limit
     */
    public Integer getCriticalSlackLimit ()
    {
       return (m_criticalSlackLimit);
    }
-   
+
    /**
     * Set the critical slack limit.
-    * 
+    *
     * @param criticalSlackLimit critical slack limit
     */
    public void setCriticalSlackLimit (Integer criticalSlackLimit)
    {
       m_criticalSlackLimit = criticalSlackLimit;
    }
-   
+
    /**
     * Retrieve the number of the baseline to use for earned value
     * calculations.
-    * 
+    *
     * @return baseline for earned value
     */
    public Integer getBaselineForEarnedValue ()
    {
       return (m_baselineForEarnedValue);
    }
-   
+
    /**
     * Set the number of the baseline to use for earned value
     * calculations.
-    * 
+    *
     * @param baselineForEarnedValue baseline for earned value
     */
    public void setBaselineForEarnedValue (Integer baselineForEarnedValue)
    {
       m_baselineForEarnedValue = baselineForEarnedValue;
    }
-   
+
    /**
     * Retrieves the fiscal year start month (January=1, December=12).
-    * 
+    *
     * @return fiscal year start month
     */
    public Integer getFiscalYearStartMonth ()
@@ -2855,39 +2880,39 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Sets the fiscal year start month (January=1, December=12).
-    * 
+    *
     * @param fiscalYearStartMonth fiscal year start month
     */
    public void setFiscalYearStartMonth (Integer fiscalYearStartMonth)
    {
       m_fiscalYearStartMonth = fiscalYearStartMonth;
    }
-   
+
    /**
     * Retrieve the flag indicating if new tasks should default to the
     * project start date (true) or the current date (false).
-    * 
+    *
     * @return new task start is project start
     */
    public boolean getNewTaskStartIsProjectStart ()
    {
       return (m_newTaskStartIsProjectStart);
    }
-   
+
    /**
     * Sets the flag indicating if new tasks should default to the
     * project start date (true) or the current date (false).
-    * 
+    *
     * @param newTaskStartIsProjectStart new task start is project start
     */
    public void setNewTaskStartIsProjectStart (boolean newTaskStartIsProjectStart)
    {
       m_newTaskStartIsProjectStart = newTaskStartIsProjectStart;
    }
-   
+
    /**
     * Retrieve the week start day (1=Monday, 7=Sunday).
-    * 
+    *
     * @return week start day
     */
    public Integer getWeekStartDay ()
@@ -2897,14 +2922,14 @@ public final class ProjectHeader extends MPXRecord
 
    /**
     * Set the week start day (1=Monday, 7=Sunday).
-    * 
+    *
     * @param weekStartDay week start day
     */
    public void setWeekStartDay (Integer weekStartDay)
    {
       m_weekStartDay = weekStartDay;
    }
-   
+
    /**
     * This method updates the formatters used to control the currency
     * formatting.
@@ -2946,13 +2971,7 @@ public final class ProjectHeader extends MPXRecord
          }
 
          StringBuffer pattern = new StringBuffer(prefix);
-         pattern.append("#");
-         if (parent.getIgnoreThousandsSeparator() == false)
-         {
-            pattern.append(',');
-         }
-         pattern.append("##0");
-
+         pattern.append("#0");
 
          int digits = getCurrencyDigits().intValue();
          if (digits > 0)
@@ -2966,7 +2985,15 @@ public final class ProjectHeader extends MPXRecord
 
          pattern.append(suffix);
 
-         parent.getCurrencyFormat().applyPattern(pattern.toString(), getDecimalSeparator(), getThousandsSeparator());
+         String primaryPattern = pattern.toString();
+         String[] alternativePatterns = new String[3];
+         alternativePatterns[0] = primaryPattern + ";(" + primaryPattern + ")";
+         pattern.insert(prefix.length(), "#,#");
+         String secondaryPattern = pattern.toString();
+         alternativePatterns[1] = secondaryPattern;
+         alternativePatterns[2] = secondaryPattern + ";(" + secondaryPattern + ")";
+
+         parent.getCurrencyFormat().applyPattern(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
       }
    }
 
@@ -3019,7 +3046,7 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_currencyDigits;
    private char m_thousandsSeparator;
    private char m_decimalSeparator;
-   
+
    /**
     * flag used to indicate whether the currency format
     * can be automatically updated. The default value for this
@@ -3031,7 +3058,7 @@ public final class ProjectHeader extends MPXRecord
     * Constant containing the record number associated with this record.
     */
    static final int CURRENCY_SETTINGS_RECORD_NUMBER = 10;
-   
+
    /**
     * Default Settings Attributes
     */
@@ -3043,12 +3070,12 @@ public final class ProjectHeader extends MPXRecord
    private MPXRate m_defaultStandardRate;
    private MPXRate m_defaultOvertimeRate;
    private NumericBoolean m_updatingTaskStatusUpdatesResourceStatus;
-   private NumericBoolean m_splitInProgressTasks; 
-      
+   private NumericBoolean m_splitInProgressTasks;
+
    /**
     * Date Time Settings Attributes
     */
-   private DateOrder m_dateOrder;  
+   private DateOrder m_dateOrder;
    private TimeFormat m_timeFormat;
    private Date m_defaultStartTime;
    private char m_dateSeparator;
@@ -3057,7 +3084,7 @@ public final class ProjectHeader extends MPXRecord
    private String m_pmText;
    private DateFormat m_dateFormat;
    private DateFormat m_barTextDateFormat;
-   
+
    /**
     * Project Header Attributes
     */
@@ -3090,7 +3117,7 @@ public final class ProjectHeader extends MPXRecord
    private String m_subject;
    private String m_author;
    private String m_keywords;
-           
+
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither
@@ -3101,8 +3128,8 @@ public final class ProjectHeader extends MPXRecord
     */
    private Date m_defaultEndTime;
    private boolean m_projectExternallyEdited;
-   private String m_category;      
-   private Integer m_minutesPerDay;       
+   private String m_category;
+   private Integer m_minutesPerDay;
    private Integer m_daysPerMonth;
    private Integer m_minutesPerWeek;
    private boolean m_fiscalYearStart;
@@ -3140,16 +3167,16 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_fiscalYearStartMonth;
    private boolean m_newTaskStartIsProjectStart;
    private Integer m_weekStartDay;
-   
+
    /*
-    * Missing MSPDI attributes 
-    *                             
+    * Missing MSPDI attributes
+    *
        // this is probably the schedule from value, we could remove
        // the ScheduleFrom type, and replace it with a boolean
        // we just need to ensure that the MPX read/write works OK
-       void setScheduleFromStart(boolean value); 
-    */   
-   
+       void setScheduleFromStart(boolean value);
+    */
+
    /**
     * Flag used to indicate whether the formats can be automatically updated.
     * The default value for this flag is false.
@@ -3165,7 +3192,7 @@ public final class ProjectHeader extends MPXRecord
     * Default time separator character.
     */
    private static final char DEFAULT_TIME_SEPARATOR = ':';
-      
+
    /**
     * Default cost value.
     */
@@ -3175,22 +3202,22 @@ public final class ProjectHeader extends MPXRecord
     * Default critical slack limit.
     */
    private static final Integer DEFAULT_CRITICAL_SLACK_LIMIT = new Integer (0);
-   
+
    /**
     * Default baseline for earned value.
     */
    private static final Integer DEFAULT_BASELINE_FOR_EARNED_VALUE = new Integer (0);
-   
+
    /**
     * Default fiscal year start month.
     */
    private static final Integer DEFAULT_FISCAL_YEAR_START_MONTH = new Integer (1);
-   
+
    /**
     * Default week start day.
     */
    private static final Integer DEFAULT_WEEK_START_DAY = new Integer (1);
-   
+
    /**
     * Default work value.
     */
@@ -3200,7 +3227,7 @@ public final class ProjectHeader extends MPXRecord
     * Default work 2 value.
     */
    private static final MPXPercentage DEFAULT_WORK2 = new MPXPercentage (0);
-   
+
    /**
     * Default duration value.
     */
@@ -3230,22 +3257,22 @@ public final class ProjectHeader extends MPXRecord
     * Default days per month.
     */
    private static final Integer DEFAULT_DAYS_PER_MONTH = new Integer (20);
-   
+
    /**
     * Default minutes per week.
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = new Integer (2400);
-      
+
    /**
     * Constant containing the record number associated with this record.
     */
    static final int DEFAULT_SETTINGS_RECORD_NUMBER = 11;
-   
+
    /**
     * Constant containing the record number associated with this record.
     */
    static final int DATE_TIME_SETTINGS_RECORD_NUMBER = 12;
-   
+
    /**
     * Constant containing the record number associated with this record.
     */

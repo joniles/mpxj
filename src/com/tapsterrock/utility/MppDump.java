@@ -120,13 +120,13 @@ public class MppDump
          {
             pw.println ("start doc: " + entry.getName());
             if (hex == true)
-            {               
+            {
                byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
             }
             else
             {
-               byteCount = asciidump (new DocumentInputStream ((DocumentEntry)entry), pw);               
-            }            
+               byteCount = asciidump (new DocumentInputStream ((DocumentEntry)entry), pw);
+            }
             pw.println ("end doc: " + entry.getName() + " (" + byteCount +" bytes read)");
          }
          else
@@ -253,7 +253,7 @@ public class MppDump
 
       return (byteCount);
    }
-   
+
    /**
     * Buffer size for data output.
     */

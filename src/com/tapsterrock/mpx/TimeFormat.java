@@ -30,7 +30,7 @@ public final class TimeFormat
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value time format value
     */
    private TimeFormat (int value)
@@ -40,24 +40,24 @@ public final class TimeFormat
 
    /**
     * Retrieves the int representation of the time format.
-    * 
+    *
     * @return time format value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a TimeFormat instance representing the supplied value.
-    * 
+    *
     * @param value time format value
     * @return TimeFormat instance
     */
    public static TimeFormat getInstance (int value)
    {
       TimeFormat result;
-      
+
       switch (value)
       {
          case TWENTY_FOUR_HOUR_VALUE:
@@ -65,32 +65,32 @@ public final class TimeFormat
             result = TWENTY_FOUR_HOUR;
             break;
          }
-         
-         default:         
+
+         default:
          case TWELVE_HOUR_VALUE:
          {
             result = TWELVE_HOUR;
             break;
-         }            
+         }
       }
-      
+
       return (result);
    }
-   
+
 
    /**
     * Returns a string representation of the time format type
     * to be used as part of an MPX file.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
    {
       return (Integer.toString(m_value));
    }
-   
+
    private int m_value;
-   
+
    /**
     * Constant representing 12 hour time.
     */
@@ -109,6 +109,6 @@ public final class TimeFormat
    /**
     * Constant representing 24 hour time.
     */
-   public static final TimeFormat TWENTY_FOUR_HOUR = new TimeFormat(TWENTY_FOUR_HOUR_VALUE);   
-   
+   public static final TimeFormat TWENTY_FOUR_HOUR = new TimeFormat(TWENTY_FOUR_HOUR_VALUE);
+
 }

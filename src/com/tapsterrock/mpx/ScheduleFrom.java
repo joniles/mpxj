@@ -30,7 +30,7 @@ public final class ScheduleFrom
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value schedule from value
     */
    private ScheduleFrom (int value)
@@ -40,24 +40,24 @@ public final class ScheduleFrom
 
    /**
     * Retrieves the int representation of the schedule from value.
-    * 
+    *
     * @return schedule from value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a ScheduleFrom instance representing the supplied value.
-    * 
+    *
     * @param value schedule from value
     * @return ScheduleFrom instance
     */
    public static ScheduleFrom getInstance (int value)
    {
       ScheduleFrom result;
-      
+
       switch (value)
       {
          case FINISH_VALUE:
@@ -65,31 +65,31 @@ public final class ScheduleFrom
             result = FINISH;
             break;
          }
-         
-         default:         
+
+         default:
          case START_VALUE:
          {
             result = START;
             break;
-         }            
+         }
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Returns a string representation of the schedule from type
     * to be used as part of an MPX file.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
    {
       return (Integer.toString(m_value));
    }
-   
+
    private int m_value;
-   
+
    /**
     * Constant representing Schedule From Start
     */
@@ -99,7 +99,7 @@ public final class ScheduleFrom
     * Constant representing Schedule From Finish
     */
    public static final int FINISH_VALUE = 1;
-   
+
 
    /**
     * Constant representing Schedule From Start
@@ -109,5 +109,5 @@ public final class ScheduleFrom
    /**
     * Constant representing Schedule From Finish
     */
-   public static final ScheduleFrom FINISH = new ScheduleFrom(FINISH_VALUE);      
+   public static final ScheduleFrom FINISH = new ScheduleFrom(FINISH_VALUE);
 }

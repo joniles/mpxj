@@ -49,7 +49,7 @@ class MPXRecord
    /**
     * This method removes line breaks from a piece of text, and replaces
     * them with the supplied text.
-    * 
+    *
     * @param text source text
     * @param replacement line break replacement text
     * @return text with line breaks removed.
@@ -285,19 +285,19 @@ class MPXRecord
     * This method is called to ensure that a Date value is actually
     * represented as an MPXDate instance rather than a raw date
     * type.
-    * 
+    *
     * @param value date value
     * @return date value
-    */   
+    */
    protected MPXDate toDate (Date value)
    {
       MPXDate result = null;
-      
+
       if (value != null)
       {
          if (value instanceof MPXDate == false)
          {
-            result = new MPXDate (m_mpx.getDateFormat(), value);
+            result = new MPXDate (m_mpx.getDateTimeFormat(), value);
          }
          else
          {
@@ -307,7 +307,7 @@ class MPXRecord
 
       return (result);
    }
-   
+
    /**
     * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXDate objects.
@@ -324,14 +324,14 @@ class MPXRecord
     * This method is called to ensure that a Number value is actually
     * represented as an MPXCurrency instance rather than a raw numeric
     * type.
-    * 
+    *
     * @param value numeric value
     * @return currency value
     */
    protected MPXCurrency toCurrency (Number value)
    {
       MPXCurrency result = null;
-      
+
       if (value != null)
       {
          if (value instanceof MPXCurrency == false)
@@ -343,7 +343,7 @@ class MPXRecord
             result = (MPXCurrency)value;
          }
       }
-      
+
       return (result);
    }
 
@@ -380,15 +380,15 @@ class MPXRecord
     * This method is called to ensure that a Number value is actually
     * represented as an MPXPercentage instance rather than a raw numeric
     * type.
-    * 
+    *
     * @param value numeric value
     * @return percentage value
-    */   
+    */
    protected MPXPercentage toPercentage (Number value)
    {
       MPXPercentage result = null;
-      
-      if (value != null) 
+
+      if (value != null)
       {
          if (value instanceof MPXPercentage == false)
          {
@@ -399,10 +399,10 @@ class MPXRecord
             result = (MPXPercentage)value;
          }
       }
-      
+
       return (result);
    }
-   
+
    /**
     * This method inserts a name value pair into internal storage.
     * Note that this method maps Number objects into MPXPercentage objects.

@@ -82,7 +82,7 @@ public final class LocaleData extends ListResourceBundle
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getObject(key));
    }
-   
+
    /**
     * Convenience method for retrieving a Map resource
     *

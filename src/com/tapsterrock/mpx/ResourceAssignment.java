@@ -69,8 +69,8 @@ public final class ResourceAssignment extends MPXRecord
       setCost(record.getCurrency(6));
       setPlannedCost(record.getCurrency(7));
       setActualCost(record.getCurrency(8));
-      setStart(record.getDate(9));
-      setFinish(record.getDate(10));
+      setStart(record.getDateTime(9));
+      setFinish(record.getDateTime(10));
       setDelay(record.getDuration(11));
       setResourceUniqueID(record.getInteger(12));
    }
@@ -475,20 +475,20 @@ public final class ResourceAssignment extends MPXRecord
 
    /**
     * This method returns the Work Contour type of this Assignment
-    * 
+    *
     * @return the Work Contour type
     */
-   public WorkContour getWorkContour() 
+   public WorkContour getWorkContour()
    {
       return (m_workContour);
    }
 
    /**
     * This method sets the Work Contour type of this Assignment
-    * 
+    *
     * @param workContour the Work Contour type
     */
-   public void setWorkContour(WorkContour workContour) 
+   public void setWorkContour(WorkContour workContour)
    {
       m_workContour = workContour;
    }

@@ -50,6 +50,6 @@ final class InputStreamTokenizer extends Tokenizer
    {
       return (m_stream.read());
    }
-   
+
    private InputStream m_stream;
 }

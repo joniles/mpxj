@@ -34,7 +34,7 @@ public final class TimeUnit
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value time unit value
     */
    private TimeUnit (int value)
@@ -44,34 +44,34 @@ public final class TimeUnit
 
    /**
     * Retrieves the int representation of the time unit.
-    * 
+    *
     * @return time unit value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Returns an integer representation of the time unit.
-    * 
+    *
     * @return integer representation of the time unit.
     */
    public String toString ()
    {
       return (Integer.toString(m_value));
    }
-   
+
    /**
     * Retrieve a TimeUnit instance representing the supplied value.
-    * 
+    *
     * @param value time unit value
     * @return TimeUnit instance
     */
    public static TimeUnit getInstance (int value)
    {
       TimeUnit result;
-      
+
       switch (value)
       {
          case MINUTES_VALUE:
@@ -79,7 +79,7 @@ public final class TimeUnit
             result = MINUTES;
             break;
          }
-         
+
          case HOURS_VALUE:
          {
             result = HOURS;
@@ -109,7 +109,7 @@ public final class TimeUnit
             result = YEARS;
             break;
          }
-            
+
          case PERCENT_VALUE:
          {
             result = PERCENT;
@@ -139,7 +139,7 @@ public final class TimeUnit
             result = ELAPSED_WEEKS;
             break;
          }
-            
+
          case ELAPSED_MONTHS_VALUE:
          {
             result = ELAPSED_MONTHS;
@@ -156,18 +156,18 @@ public final class TimeUnit
          {
             result = ELAPSED_PERCENT;
             break;
-         }         
-         
+         }
+
          default:
          {
             result = DAYS;
             break;
          }
       }
-      
+
       return (result);
    }
-   
+
    /**
     * This method is used to parse a string representation of a time
     * unit, and return the appropriate constant value.
@@ -216,9 +216,9 @@ public final class TimeUnit
       return (result);
    }
 
-   
+
    private int m_value;
-   
+
    /**
     * Constant representing Minutes
     */
@@ -288,7 +288,7 @@ public final class TimeUnit
     * Constant representing Elapsed Percent
     */
    public static final int ELAPSED_PERCENT_VALUE = 13;
-   
+
 
    /**
     * Constant representing Minutes
@@ -359,5 +359,5 @@ public final class TimeUnit
     * Constant representing Elapsed Percent
     */
    public static final TimeUnit ELAPSED_PERCENT = new TimeUnit(ELAPSED_PERCENT_VALUE);
-   
+
 }

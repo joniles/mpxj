@@ -604,7 +604,7 @@ final class MPPUtility
     * file, this method creates a new MPXDuration to represent the given
     * duration. This instance has been adjusted to take into account the
     * number of "hours per day" specified for the current project.
-    * 
+    *
     * @param file parent file
     * @param duration duration length
     * @param timeUnit duration units
@@ -625,7 +625,7 @@ final class MPPUtility
       }
       return (result);
    }
-      
+
 
    /**
     * This method maps from the value used to specify default work units in the

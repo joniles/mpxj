@@ -267,7 +267,7 @@ public class TestMPXFile extends TestCase
          }
       }
    }
-   
+
    /**
     * Read a file created by a German version of MS Proiject 98.
     *
@@ -1824,12 +1824,12 @@ public class TestMPXFile extends TestCase
 
    /**
     * Exercise the code which handles password protected files.
-    * 
+    *
     * @throws Exception
     */
    public void testPasswordProtection ()
       throws Exception
-   {   
+   {
       File in;
       MPPFile mpp;
 
@@ -1847,7 +1847,7 @@ public class TestMPXFile extends TestCase
       {
          assertEquals(MPXException.PASSWORD_PROTECTED, ex.getMessage());
       }
-    
+
       //
       // Write password (password2)
       //
@@ -1867,13 +1867,13 @@ public class TestMPXFile extends TestCase
       catch (MPXException ex)
       {
          assertEquals(MPXException.PASSWORD_PROTECTED, ex.getMessage());
-      }      
+      }
    }
-  
+
    /**
     * This test ensures that the task and resource extended attributes are
     * read and writen correctly for MSPDI files.
-    * 
+    *
     * @throws Exception
     */
    public void testMspdiExtendedAttributes ()
@@ -1881,19 +1881,19 @@ public class TestMPXFile extends TestCase
    {
       MSPDIFile xml = new MSPDIFile (m_basedir + "/mspextattr.xml");
       commonMspdiExtendedAttributeTests (xml);
-      
+
       File out = File.createTempFile ("junit", ".xml");
       xml.write (out);
 
-      xml = new MSPDIFile (out);      
+      xml = new MSPDIFile (out);
       commonMspdiExtendedAttributeTests (xml);
-      
+
       out.delete();
    }
 
    /**
     * Common tests for MSPDI fileExtended Attribute values.
-    * 
+    *
     * @param xml MSPDI file
     */
    private void commonMspdiExtendedAttributeTests (MSPDIFile xml)
@@ -1901,7 +1901,7 @@ public class TestMPXFile extends TestCase
       LinkedList tasks = xml.getAllTasks();
       assertEquals (2, tasks.size());
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-      
+
       Task task = (Task)tasks.get(1);
       assertEquals("Task Text One", task.getText1());
       assertEquals("01/01/2004", df.format(task.getStart1()));
@@ -1912,10 +1912,10 @@ public class TestMPXFile extends TestCase
       assertEquals(55.56, task.getNumber1Value(), 0.0);
       assertEquals(104.0, task.getDuration1().getDuration(), 0.0);
       assertEquals(TimeUnit.HOURS, task.getDuration1().getUnits());
-      
+
       LinkedList resources = xml.getAllResources();
       assertEquals(2, resources.size());
-      
+
       Resource resource = (Resource)resources.get(1);
       assertEquals("Resource Text One", resource.getText1());
       assertEquals("01/01/2003", df.format(resource.getStart1()));
@@ -1925,20 +1925,20 @@ public class TestMPXFile extends TestCase
       assertTrue(resource.getFlag1());
       assertEquals(5.99, resource.getNumber1Value(), 0.0);
       assertEquals(176.0, resource.getDuration1().getDuration(), 0.0);
-      assertEquals(TimeUnit.HOURS, resource.getDuration1().getUnits());      
+      assertEquals(TimeUnit.HOURS, resource.getDuration1().getUnits());
    }
 
    /**
     * This ensures that values in the project header are read and written
     * as expected.
-    * 
+    *
     * @throws Exception
     */
    public void testProjectHeader ()
       throws Exception
    {
       File out = null;
-      
+
       try
       {
          //
@@ -1947,7 +1947,7 @@ public class TestMPXFile extends TestCase
          //
          MPXFile mpx = new MPXFile (m_basedir + "/headertest.mpx");
          testHeaderFields(mpx);
-         
+
          //
          // Write the file, re-read it and test to ensure that
          // the project header fields have the expected values
@@ -1955,43 +1955,43 @@ public class TestMPXFile extends TestCase
          out = File.createTempFile ("junit", ".mpx");
          mpx.write (out);
          mpx = new MPXFile(out);
-         testHeaderFields(mpx);         
+         testHeaderFields(mpx);
          out.delete();
          out = null;
-         
+
          //
          // Read the MPP8 file and ensure that the project header fields
          // have the expected values.
          //
          mpx = new MPPFile (m_basedir + "/headertest8.mpp");
          testHeaderFields(mpx);
-         
+
          //
          // Read the MPP9 file and ensure that the project header fields
          // have the expected values.
          //
          mpx = new MPPFile (m_basedir + "/headertest9.mpp");
-         testHeaderFields(mpx);         
-         
+         testHeaderFields(mpx);
+
          //
          // Read the MSPDI file and ensure that the project header fields
          // have the expected values.
          //
          mpx = new MSPDIFile (m_basedir + "/headertest.xml");
-         testHeaderFields(mpx);         
+         testHeaderFields(mpx);
 
          //
          // Write the file, re-read it and test to ensure that
          // the project header fields have the expected values
-         //         
+         //
          out = File.createTempFile ("junit", ".xml");
          mpx.write (out);
          mpx = new MSPDIFile(out);
-         testHeaderFields(mpx);         
+         testHeaderFields(mpx);
          out.delete();
-         out = null;         
+         out = null;
       }
-      
+
       catch (Exception ex)
       {
          if (out != null)
@@ -2000,10 +2000,10 @@ public class TestMPXFile extends TestCase
          }
       }
    }
-   
+
    /**
     * Implements common project header tests
-    * 
+    *
     * @param file target project file
     */
    private void testHeaderFields (MPXFile file)
@@ -2015,7 +2015,7 @@ public class TestMPXFile extends TestCase
       assertEquals ("Company Text", header.getCompany());
       assertEquals ("Keywords Text", header.getKeywords());
       assertEquals ("Manager Text", header.getManager());
-      assertEquals ("Subject Text", header.getSubject());        
+      assertEquals ("Subject Text", header.getSubject());
    }
 
    /**
@@ -2030,13 +2030,13 @@ public class TestMPXFile extends TestCase
       Task task = mpp.getTaskByUniqueID(2);
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
-      
+
       mpp = new MPPFile (m_basedir + "/sample.mpp");
       task = mpp.getTaskByUniqueID(2);
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
    }
-   
+
    private String m_basedir;
 }
 

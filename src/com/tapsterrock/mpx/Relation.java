@@ -31,7 +31,7 @@ import java.util.Locale;
  * relationships normally found in the lists of predecessors and
  * successors associated with a task record in an MPX file.
  */
-public final class Relation
+public final class Relation implements ToStringRequiresFile
 {
    /**
     * Default constructor.
@@ -40,7 +40,7 @@ public final class Relation
    {
       m_taskIDValue = 0;
       m_type = FINISH_START;
-      m_duration = new MPXDuration (0, TimeUnit.DAYS);
+      m_duration = new MPXDuration(0, TimeUnit.DAYS);
    }
 
    /**
@@ -61,19 +61,19 @@ public final class Relation
       //
       // Extract the identifier
       //
-      while (index < length && Character.isDigit(relationship.charAt(index)) == true)
+      while ((index < length) && (Character.isDigit(relationship.charAt(index)) == true))
       {
          ++index;
       }
 
       try
       {
-         m_taskIDValue = Integer.parseInt(relationship.substring (0, index));
+         m_taskIDValue = Integer.parseInt(relationship.substring(0, index));
       }
-      
+
       catch (NumberFormatException ex)
       {
-         throw new MPXException (MPXException.INVALID_FORMAT + " '" + relationship + "'");         
+         throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationship + "'");
       }
 
       //
@@ -83,19 +83,19 @@ public final class Relation
       if (index == length)
       {
          m_type = FINISH_START;
-         m_duration = new MPXDuration (0, TimeUnit.DAYS);
+         m_duration = new MPXDuration(0, TimeUnit.DAYS);
       }
       else
       {
-         if (index+1 == length)
+         if ((index + 1) == length)
          {
-            throw new MPXException (MPXException.INVALID_FORMAT + " '" + relationship + "'");         
+            throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationship + "'");
          }
 
-         String relationType = relationship.substring(index, index+2);
+         String relationType = relationship.substring(index, index + 2);
          String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
 
-         for (m_type=0; m_type < relationTypes.length; m_type++)
+         for (m_type = 0; m_type < relationTypes.length; m_type++)
          {
             if (relationTypes[m_type].equals(relationType) == true)
             {
@@ -105,14 +105,14 @@ public final class Relation
 
          if (m_type == relationTypes.length)
          {
-            throw new MPXException (MPXException.INVALID_FORMAT + " '" + relationType + "'");
+            throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationType + "'");
          }
 
          index += 2;
 
          if (index == length)
          {
-            m_duration = new MPXDuration (0, TimeUnit.DAYS);
+            m_duration = new MPXDuration(0, TimeUnit.DAYS);
          }
          else
          {
@@ -120,37 +120,39 @@ public final class Relation
             {
                ++index;
             }
-            m_duration = new MPXDuration (relationship.substring(index), format, locale);
+
+            m_duration = new MPXDuration(relationship.substring(index), format, locale);
          }
       }
    }
-
 
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
-    * @param locale target locale
+    * @param file parent file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString (Locale locale)
+   public String toString (MPXFile file)
    {
-      StringBuffer sb = new StringBuffer (Integer.toString(m_taskIDValue));
+      StringBuffer sb = new StringBuffer(Integer.toString(m_taskIDValue));
 
-      if (m_duration.getDuration() != 0 || m_type != FINISH_START)
+      if ((m_duration.getDuration() != 0) || (m_type != FINISH_START))
       {
-         String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
-         sb.append (relationTypes[m_type]);
+         String[] relationTypes = LocaleData.getStringArray(file.getLocale(), LocaleData.RELATION_TYPES);
+         sb.append(relationTypes[m_type]);
       }
 
       double duration = m_duration.getDuration();
+
       if (duration != 0)
       {
          if (duration > 0)
          {
-            sb.append ('+');
+            sb.append('+');
          }
-         sb.append (m_duration.toString(locale));
+
+         sb.append(m_duration.toString(file));
       }
 
       return (sb.toString());

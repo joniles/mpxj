@@ -57,8 +57,8 @@ public final class RecurringTask extends MPXRecord
       super (file, MAX_FIELDS);
 
       setID(record.getString(0));
-      setStartDate(record.getDate(1));
-      setFinishDate(record.getDate(2));
+      setStartDate(record.getDateTime(1));
+      setFinishDate(record.getDateTime(2));
       setDuration(record.getInteger(3));
       setDurationType(record.getString(4));
       setNumberOfOccurances(record.getInteger(5));
@@ -79,7 +79,7 @@ public final class RecurringTask extends MPXRecord
       setYearlyBoxFirstLastComboIndex(record.getInteger(20));
       setYearlyBoxDayComboIndex(record.getInteger(21));
       setYearlyBoxMonthComboIndex(record.getInteger(22));
-      setYearlyBoxDate(record.getDate(23));
+      setYearlyBoxDate(record.getDateTime(23));
    }
 
 

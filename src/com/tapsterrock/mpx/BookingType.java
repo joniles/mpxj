@@ -30,7 +30,7 @@ public final class BookingType
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value resource type value
     */
    private BookingType (int value)
@@ -40,24 +40,24 @@ public final class BookingType
 
    /**
     * Retrieves the int representation of the booking type.
-    * 
+    *
     * @return booking type value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve a BookingType instance representing the supplied value.
-    * 
+    *
     * @param value resource type value
     * @return BookingType instance
     */
    public static BookingType getInstance (int value)
    {
       BookingType result;
-      
+
       switch (value)
       {
          case COMMITTED_VALUE:
@@ -66,21 +66,21 @@ public final class BookingType
             break;
          }
 
-         default:         
+         default:
          case PROPOSED_VALUE:
          {
             result = PROPOSED;
             break;
          }
       }
-      
+
       return (result);
    }
-   
 
-   
+
+
    private int m_value;
-   
+
    /**
     * Constant representing Material
     */
@@ -91,7 +91,7 @@ public final class BookingType
     */
    public static final int PROPOSED_VALUE = 1;
 
-   
+
 
    /**
     * Constant representing Material
@@ -101,5 +101,5 @@ public final class BookingType
    /**
     * Constant representing Work
     */
-   public static final BookingType PROPOSED = new BookingType(PROPOSED_VALUE);   
+   public static final BookingType PROPOSED = new BookingType(PROPOSED_VALUE);
 }
