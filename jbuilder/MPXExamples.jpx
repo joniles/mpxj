@@ -5,8 +5,8 @@
   <property category="idl" name="Compiler" value="VisiBroker" />
   <property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
   <property category="runtime.0" name="applet.vmparameters" value="-classic" />
-  <property category="runtime.0" name="application.class" value="MpxCreate" />
-  <property category="runtime.0" name="application.parameters" value="c:\temp\mpxcreate.mpx" />
+  <property category="runtime.0" name="application.class" value="MpxQuery" />
+  <property category="runtime.0" name="application.parameters" value="c:\tapsterrock\msp\aerospace.mpx" />
   <property category="runtime.0" name="appserver.ejbJarsSaved" value="1" />
   <property category="runtime.0" name="appserver.parameters" value="-jts -jns -jss -jdb" />
   <property category="runtime.0" name="appserver.servername" value="ejbcontainer" />
@@ -65,5 +65,6 @@
   <property category="webapp" name="last.wizard" value="Oriel" />
   <file path="../examples/MppMpxConvert.java" />
   <file path="../examples/MpxCreate.java" />
+  <file path="../examples/MpxQuery.java" />
 </project>
 
