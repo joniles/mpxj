@@ -23,57 +23,81 @@
 
 package com.tapsterrock.mpp;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.TreeMap;
-import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * This class represents the a block of variable length data items that appears
  * in the Microsoft Project 98 file format.
  */
-public class FixDeferFix extends MPPComponent
+final class FixDeferFix extends MPPComponent
 {
 	/**
 	 * Extract the variable size data items from the input stream.
 	 * 
 	 * @param is Input stream
 	 * @throws IOException Thrown on read errors
-	 */
-   public FixDeferFix (InputStream is)
+	 */   
+   FixDeferFix (InputStream is)
       throws IOException
-   {		
-		//
-		// 8 byte header
-		//			
-		int int1 = readInt(is);
-		int int2 = readInt(is);
-		
-		//
-		// Read data
-		//
-		int offset = 8;
-		int size;
-		int skip;
-		int available = is.available();
-					
-		while (offset < available)
-		{
-			size = readInt(is);				
-			if ((offset+4+size) > available)
-			{
-				break;
-			}
-							
-			m_map.put(new Integer(offset), new ByteArray (readByteArray(is, size)));
-			
-			offset += (size+4);		
-			skip = (((size / 32) + 1) * 32) - size;				
-			is.skip(skip);
-			offset += skip;
-		}		
+   {
+      m_data = new byte[is.available()];
+      is.read(m_data);
+   }
+
+   /**
+    * Retrieve a byte array of containing the data starting at the supplied
+    * offset in the FixDeferFix file. Note that this method will return null
+    * if the requested data is not found for some reason.
+    * 
+    * @param offset Offset into the file
+    * @return Byte array containing the requested data
+    */
+   public byte[] getByteArray (int offset)
+   {
+      byte[] result = null;
+
+      if (offset > 0 && offset < m_data.length)
+      {
+         int nextBlockOffset = MPPUtility.getInt(m_data, offset);
+         offset += 4;
+            
+         int itemSize = MPPUtility.getInt(m_data, offset); 
+         offset += 4;         
+            
+         int blockRemainingSize = 28;
+                     
+         if (nextBlockOffset != -1 || itemSize <= blockRemainingSize)
+         {
+            int itemRemainingSize = itemSize;
+            result = new byte[itemSize];
+            int resultOffset = 0;
+                           
+            while (nextBlockOffset != -1)
+            {
+               MPPUtility.getByteArray (m_data, offset, blockRemainingSize, result, resultOffset);
+               resultOffset += blockRemainingSize;
+               offset += blockRemainingSize;
+               itemRemainingSize -= blockRemainingSize;
+   
+               if (offset != nextBlockOffset)
+               {
+                  offset = nextBlockOffset;            
+               }
+                           
+               nextBlockOffset = MPPUtility.getInt(m_data, offset);
+               offset += 4;
+               blockRemainingSize = 32;
+            }
+   
+            MPPUtility.getByteArray (m_data, offset, itemRemainingSize, result, resultOffset);                                                             
+         }
+      }
+            
+      return (result);
    }
 
    /**
@@ -86,27 +110,117 @@ public class FixDeferFix extends MPPComponent
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
-      Iterator iter = m_map.keySet().iterator();
-      Integer offset;
-      ByteArray data;
-
+   
       pw.println ("BEGIN FixDeferFix");
-      while (iter.hasNext() == true)
-      {
-         offset = (Integer)iter.next();
-         data = (ByteArray)m_map.get(offset);
-         pw.println ("   Data at offset: " + offset + " size: " + data.byteArrayValue().length);
-         pw.println ("  " + MPPUtility.hexdump (data.byteArrayValue(), true));
-      }
+         
+      //
+      // Calculate the block size
+      //    
+      int available = m_data.length;
+         
+      //
+      // 4 byte header
+      //
+      int fileOffset = 0;             
+      int int1 = MPPUtility.getInt(m_data, fileOffset);
+      fileOffset += 4;
+               
+      //
+      // Read data
+      //
+      int itemSize;
+      int itemRemainingSize;
+      int blockRemainingSize;
+      int skip;
+      int nextBlockOffset;
+      byte[] buffer;
+      int bufferOffset;
+      TreeSet skipped = new TreeSet ();
+      TreeSet read = new TreeSet ();
+      int startOffset;
+                                             
+      while (fileOffset < available || skipped.size() != 0)
+      {     
+         Integer temp;
+                         
+         if (fileOffset >= available)
+         {
+            temp = (Integer)skipped.first();
+            skipped.remove(temp);
+            fileOffset = temp.intValue();
+         }
+         
+         temp = new Integer (fileOffset);
+         if (read.add(temp) == false)
+         {
+            fileOffset = available;
+            continue;   
+         }
+         
+         startOffset = fileOffset;
+               
+         nextBlockOffset = MPPUtility.getInt(m_data, fileOffset);
+         fileOffset += 4;
+            
+         itemSize = MPPUtility.getInt(m_data, fileOffset); 
+         fileOffset += 4;         
+            
+         blockRemainingSize = 28;
+                     
+         if (nextBlockOffset == -1 && itemSize > blockRemainingSize)
+         {
+            fileOffset += blockRemainingSize;
+            continue;
+         }
+            
+         itemRemainingSize = itemSize;
+         buffer = new byte[itemSize];
+         bufferOffset = 0;
+                           
+         while (nextBlockOffset != -1)
+         {
+            MPPUtility.getByteArray (m_data, fileOffset, blockRemainingSize, buffer, bufferOffset);                       
+            bufferOffset += blockRemainingSize;
+            fileOffset += blockRemainingSize;
+            itemRemainingSize -= blockRemainingSize;
+   
+            if (fileOffset != nextBlockOffset)
+            {
+               skipped.add(new Integer (fileOffset));
+               fileOffset = nextBlockOffset;            
+            }
+   
+            temp = new Integer (fileOffset);
+            if (read.add(temp) == false)
+            {
+               fileOffset = available;
+               continue;   
+            }
+                           
+            nextBlockOffset = MPPUtility.getInt(m_data, fileOffset);
+            fileOffset += 4;
+            blockRemainingSize = 32;
+         }
+   
+         MPPUtility.getByteArray (m_data, fileOffset, itemRemainingSize, buffer, bufferOffset);                                                    
+         fileOffset += itemRemainingSize;
+            
+         if (itemRemainingSize < blockRemainingSize)
+         {                    
+            skip = blockRemainingSize - itemRemainingSize;
+            fileOffset += skip;
+         }
 
+         pw.println ("   Data: offset: " + startOffset + " size: " + buffer.length);
+         pw.println ("  " + MPPUtility.hexdump (buffer, true));            
+      }     
+      
       pw.println ("END FixDeferFix");
       pw.println ();
       pw.close();
-      return (sw.toString());
+      
+      return (sw.toString());      
    }
 
-   /**
-    * Map containing data items indexed by offset.
-    */
-   private TreeMap m_map = new TreeMap ();
+   private byte[] m_data;
 }
