@@ -365,6 +365,72 @@ public final class BaseCalendar extends MPXRecord
    }
 
    /**
+    * This method generates an end date given a start date and a duration.
+    * The underlying implementation of this method uses an <i>approximation</i>
+    * in order to conver the supplied duration to a number of days. This number
+    * of days is treated as the required offset in <i>working</i> days from 
+    * the startDate parameter. The method then steps through that number of 
+    * working days (as defined by this calendar), and returns the end date
+    * that it finds. Note that this method can deal with both positive and
+    * negative duration values.
+    * 
+    * @param startDate start date
+    * @param duration required working offset, will be converted to working days
+    * @return end date
+    */
+   public Date getDate (Date startDate, MPXDuration duration)
+   {
+      MPXDuration dur = duration.convertUnits(TimeUnit.DAYS);
+      int days = (int)dur.getDuration();
+      boolean negative;
+      
+      if (days < 0)
+      {
+         negative = true;
+         days = -days;
+      }
+      else
+      {
+         negative = false;
+      }
+                        
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(startDate);
+      int day = cal.get(Calendar.DAY_OF_WEEK);
+      
+      while (days > 0)
+      {
+         if (isWorkingDate(cal.getTime(), day) == true)
+         {
+            --days;
+         }
+
+         if (negative == false)
+         {
+            ++day;
+            if (day > 7)
+            {
+               day = 1;
+            }
+            
+            cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
+         }
+         else
+         {
+            --day;
+            if (day < 1)
+            {
+               day = 7;
+            }
+            
+            cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
+         }
+      }      
+      
+      return (cal.getTime());
+   }
+   
+   /**
     * This method allows the caller to determine if a given date is a
     * working day. This method takes account of calendar exceptions.
     * 

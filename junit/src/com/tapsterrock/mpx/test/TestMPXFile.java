@@ -27,6 +27,7 @@ package com.tapsterrock.mpx.test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,6 +35,7 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 
 import com.tapsterrock.mpp.MPPFile;
+import com.tapsterrock.mpx.BaseCalendar;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Relation;
@@ -691,6 +693,37 @@ public class TestMPXFile extends TestCase
       return (result);
    }
 
+   /**
+    * Simple tests to exercise the BaseCalendar.getDate method
+    * 
+    * @throws Exception
+    */
+   public void testBaseCalendarGetDate ()
+      throws Exception
+   {
+      MPXFile file = new MPXFile ();
+      MPXDuration duration;
+      BaseCalendar cal = file.addDefaultBaseCalendar();  
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");      
+      Date startDate = df.parse("09/10/2003");
+      
+      duration = new MPXDuration (1, TimeUnit.DAYS);
+      Date endDate = cal.getDate(startDate, duration);
+      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));
+      
+      duration = new MPXDuration (7, TimeUnit.DAYS);
+      endDate = cal.getDate(startDate, duration);
+      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));
+
+      duration = new MPXDuration (1, TimeUnit.WEEKS);
+      endDate = cal.getDate(startDate, duration);
+      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));
+      
+      duration = new MPXDuration (-1, TimeUnit.DAYS);
+      endDate = cal.getDate(startDate, duration);
+      //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));      
+   }
+   
    private String m_basedir;
 }
 

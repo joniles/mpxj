@@ -58,6 +58,17 @@ public final class MPXDuration
    }
 
    /**
+    * Copy constructor.
+    * 
+    * @param duration original MPXDuration instance
+    */
+   public MPXDuration (MPXDuration duration)
+   {
+      m_duration = duration.m_duration;
+      m_type = duration.m_type;
+   }
+
+   /**
     * Constructs an instance of this class from a duration amount and
     * time unit type.
     *
@@ -117,6 +128,116 @@ public final class MPXDuration
    }
 
    /**
+    * This method provides an <i>approximate</i> conversion between duration
+    * units. It does not take account of calendar details, and the results 
+    * obtained from it should therefore be treated with caution.
+    * 
+    * @param type target duration type
+    */
+   public MPXDuration convertUnits (int type)
+   {
+      MPXDuration result;
+      
+      //
+      // If the types are not already the same, then attempt a conversion
+      //
+      if (type == m_type)
+      {
+         result = this;
+      }
+      else
+      {            
+         //
+         // First convert the duration to days
+         //
+         double duration = m_duration;
+         
+         switch (m_type)
+         {
+            case TimeUnit.MINUTES:
+            case TimeUnit.ELAPSED_MINUTES:
+            {
+               duration /= MINUTES_PER_DAY;
+               break;                
+            }  
+            
+            case TimeUnit.HOURS:
+            case TimeUnit.ELAPSED_HOURS:
+            {
+               duration /= HOURS_PER_DAY;
+               break;               
+            }
+            
+            case TimeUnit.WEEKS:
+            case TimeUnit.ELAPSED_WEEKS:
+            {
+               duration *= DAYS_PER_WEEK;
+               break;   
+            }
+            
+            case TimeUnit.MONTHS:
+            case TimeUnit.ELAPSED_MONTHS:
+            {
+               duration *= DAYS_PER_MONTH;
+               break;                        
+            }            
+            
+            case TimeUnit.YEARS:
+            case TimeUnit.ELAPSED_YEARS:
+            {
+               duration *= DAYS_PER_YEAR;
+               break;  
+            }
+         }         
+         
+         //
+         // Now convert the duration to the target type
+         //
+         switch (type)
+         {
+            case TimeUnit.MINUTES:
+            case TimeUnit.ELAPSED_MINUTES:
+            {
+               duration *= MINUTES_PER_DAY;
+               break;               
+            }    
+            
+            case TimeUnit.HOURS:
+            case TimeUnit.ELAPSED_HOURS:
+            {
+               duration *= HOURS_PER_DAY;
+               break;
+            }
+            
+            case TimeUnit.WEEKS:
+            case TimeUnit.ELAPSED_WEEKS:
+            {
+               duration /= DAYS_PER_WEEK;
+               break;
+            }
+            
+            case TimeUnit.MONTHS:
+            case TimeUnit.ELAPSED_MONTHS:
+            {
+               duration /= DAYS_PER_MONTH;
+               break;
+            }
+            
+            case TimeUnit.YEARS:
+            case TimeUnit.ELAPSED_YEARS:
+            {
+               duration /= DAYS_PER_YEAR;
+               break;
+            }
+         }
+      
+         result = new MPXDuration (duration, type);         
+      }      
+      
+      return (result);
+   }
+   
+   /**
     * Duration amount.
     */
    private double m_duration;
@@ -130,4 +251,13 @@ public final class MPXDuration
     * Number formatter.
     */
    private static final MPXNumberFormat FLOAT_FORMAT = new MPXNumberFormat ("#", '.', ',');
+   
+   /**
+    * Constants used for duration type conversion.
+    */
+   private static final double MINUTES_PER_DAY = 1440;
+   private static final double HOURS_PER_DAY = 24; 
+   private static final double DAYS_PER_WEEK = 7;
+   private static final double DAYS_PER_MONTH = 28; 
+   private static final double DAYS_PER_YEAR = 365; 
 }
