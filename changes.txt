@@ -1,0 +1,4 @@
+Version 0.0.8
+Added support for estimated durations.
+Fixed bug in handling certain types of modified MPP file.
+Added the facility to auto generate outline numbers.
