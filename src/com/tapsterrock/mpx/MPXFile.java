@@ -277,7 +277,7 @@ public class MPXFile
          //
          // Ensure that the structure is consistent
          //
-         updateStructure();
+         updateStructure();         
       }
 
       catch (Exception ex)

@@ -559,7 +559,6 @@ final class MPP8File
          task.setFinish9(taskExtData.getTimestamp(TASK_FINISH9));
          task.setFinish10(taskExtData.getTimestamp(TASK_FINISH10));
          //task.setFinishVariance(); // Calculated value
-         //task.setFixed(); // Not in MSP98?
          task.setFixedCost(new Double (((double)MPPUtility.getLong6(data, 228)) / 100));
          task.setFixedCostAccrual(AccrueType.getInstance (MPPUtility.getShort (data, 136)));
          task.setFlag1((flags[0] & 0x02) != 0);
@@ -703,6 +702,11 @@ final class MPP8File
          task.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
+
+         //
+         // Set the MPX file fixed flag
+         //
+         task.setFixed(task.getType() == TaskType.FIXED_DURATION);
 
          //
          // Retrieve the task notes.

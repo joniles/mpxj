@@ -299,6 +299,15 @@ public final class Task extends MPXRecord implements Comparable
       {
          setID (file.getTaskID ());
       }
+      
+      if (getFixedValue() == true)
+      {
+         setType (TaskType.FIXED_DURATION);
+      }
+      else
+      {
+         setType (TaskType.FIXED_UNITS);
+      }
    }
 
    /**

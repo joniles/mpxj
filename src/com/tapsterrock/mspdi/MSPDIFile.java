@@ -1041,6 +1041,11 @@ public class MSPDIFile extends MPXFile
       mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
       
       readTaskExtendedAttributes(xml, mpx);
+      
+      //
+      // Set the MPX file fixed flag
+      //
+      mpx.setFixed(mpx.getType() == TaskType.FIXED_DURATION);      
    }
 
    /**

@@ -14,6 +14,7 @@
       <action dev="joniles" type="update">Implemented the resource assignment work contour property (contributed by Wade Golden).</action>
       <action dev="joniles" type="update">Implemented correct handling for MPX files using different character set encodings (suggested by Frank Illenberger).</action>
       <action dev="joniles" type="fix">Fixed task duration calculation when importing an MPP file with a "non-standard" hours-per-day setting (contributed by Wade Golden).</action>
+      <action dev="joniles" type="update">Updated to ensure that the MPX task fixed attribute, and the MPP/MSPDI task type attribute are correctly handled.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

@@ -1008,7 +1008,6 @@ final class MPP9File
          task.setFinish8(taskVarData.getTimestamp (id, TASK_FINISH8));
          task.setFinish9(taskVarData.getTimestamp (id, TASK_FINISH9));
          task.setFinish10(taskVarData.getTimestamp (id, TASK_FINISH10));
-         //task.setFixed(); // Unsure of mapping from MPX->MSP2K
          task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));
          task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 128)));
          task.setFlag1((metaData[37] & 0x20) != 0);
@@ -1183,6 +1182,11 @@ final class MPP9File
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
+         //
+         // Set the MPX file fixed flag
+         //
+         task.setFixed(task.getType() == TaskType.FIXED_DURATION);
+         
          //
          // Retrieve the task notes.
          //
