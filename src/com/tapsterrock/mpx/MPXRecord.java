@@ -49,11 +49,11 @@ class MPXRecord
    protected final String stripLineBreaks (String text, String replacement)
    {
       if (text.indexOf('\r') != -1 || text.indexOf('\n') != -1)
-      {         
+      {
          StringBuffer sb = new StringBuffer (text);
-         
+
          int index;
-         
+
          while ((index = sb.indexOf("\r\n")) != -1)
          {
             sb.replace(index, index+2, replacement);
@@ -76,10 +76,10 @@ class MPXRecord
 
          text = sb.toString();
       }
-      
+
       return (text);
    }
-   
+
    /**
     * This method returns the string representation of an object. In most
     * cases this will simply involve calling the normal toString method
@@ -120,7 +120,7 @@ class MPXRecord
                }
             }
          }
-         
+
          //
          // At this point there should be no line break characters in
          // the file. If we find any, replace them with spaces
@@ -615,11 +615,11 @@ class MPXRecord
     */
    private Object[] m_array;
    private HashMap m_extended = new HashMap ();
-   
+
    /**
     * Placeholder character used in MPX files to represent
     * carriage returns embedded in note text.
     */
    static final char EOL_PLACEHOLDER = (char)0x7F;
-   static final String EOL_PLACEHOLDER_STRING = new String(new byte[]{EOL_PLACEHOLDER});   
+   static final String EOL_PLACEHOLDER_STRING = new String(new byte[]{EOL_PLACEHOLDER});
 }

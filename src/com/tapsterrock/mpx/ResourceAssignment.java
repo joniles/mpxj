@@ -520,9 +520,9 @@ public final class ResourceAssignment extends MPXRecord
     * is to provide storage for attributes which are defined by later versions
     * of Microsoft Project. This allows these attributes to be manipulated
     * when they have been retrieved from file formats other than MPX.
-    */   
+    */
    private MPXDuration m_remainingWork;
-   
+
    /**
     * Reference to the parent task of this assignment
     */

@@ -77,7 +77,7 @@ final class MPP9File
       // Retrieve the high level document properties
       //
       Props9 props9 = new Props9 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props9"))));
-      
+
       //
       // Test for password protection. In the single byte retrieved here:
       //
@@ -90,13 +90,13 @@ final class MPP9File
       {
          throw new MPXException ("File is password protected.");
       }
-      
+
       //
       // Retrieve the project directory
       //
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
 
-      
+
       DirectoryEntry outlineCodeDir = (DirectoryEntry)projectDir.getEntry ("TBkndOutlCode");
       VarMeta outlineCodeVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
       Var2Data outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
@@ -170,14 +170,14 @@ final class MPP9File
          int offset = 0;
          String alias;
          ArrayList aliases = new ArrayList();
-   
+
          while (offset < data.length)
          {
             alias = MPPUtility.getUnicodeString(data, offset);
             aliases.add(alias);
             offset += (alias.length()+1)*2;
          }
-   
+
          file.setTaskFieldAlias(Task.TEXT1, (String)aliases.get(118));
          file.setTaskFieldAlias(Task.TEXT2, (String)aliases.get(119));
          file.setTaskFieldAlias(Task.TEXT3, (String)aliases.get(120));
@@ -324,14 +324,14 @@ final class MPP9File
          int offset = 0;
          String alias;
          ArrayList aliases = new ArrayList();
-   
+
          while (offset < data.length)
          {
             alias = MPPUtility.getUnicodeString(data, offset);
             aliases.add(alias);
             offset += (alias.length()+1)*2;
          }
-   
+
          file.setResourceFieldAlias(Resource.TEXT1, (String)aliases.get(52));
          file.setResourceFieldAlias(Resource.TEXT2, (String)aliases.get(53));
          file.setResourceFieldAlias(Resource.TEXT3, (String)aliases.get(54));

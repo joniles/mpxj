@@ -69,7 +69,7 @@ public class MpxCreate
    /**
     * Based on the suffix of the filename supplied by the caller, this
     * method will return either an empty MPX file, or an empty MSPDI file.
-    * 
+    *
     * @param filename target filename
     * @return empty MPX or MSPDI file instance
     */
@@ -77,7 +77,7 @@ public class MpxCreate
    {
       MPXFile result;
       String suffix;
-      
+
       if (filename.length() < 4)
       {
          suffix = ".MPX";
@@ -86,7 +86,7 @@ public class MpxCreate
       {
          suffix = filename.substring(filename.length()-4).toUpperCase();
       }
-      
+
       if (suffix.equals(".XML") == true)
       {
          result = new MSPDIFile ();
@@ -95,10 +95,10 @@ public class MpxCreate
       {
          result = new MPXFile ();
       }
-      
+
       return (result);
    }
-   
+
    /**
     * This method creates a summary task, two sub-tasks and a milestone,
     * all with the appropriate constraints between them. The tasks are
@@ -217,8 +217,8 @@ public class MpxCreate
       // or partially complete.
       //
       task2.setPercentageComplete(55.5);
-      task2.setActualStart(df.parse("01/01/2003"));      
-      
+      task2.setActualStart(df.parse("01/01/2003"));
+
       //
       // Create the second sub task
       //
@@ -226,7 +226,7 @@ public class MpxCreate
       task3.setName ("Second Sub Task");
       task3.setStart (df.parse("11/01/2003"));
       task3.setDuration (new MPXDuration (10, TimeUnit.DAYS));
-      
+
       //
       // Link these two tasks
       //
@@ -256,13 +256,13 @@ public class MpxCreate
       // won't recognise the task as being complete or partially complete
       //
       assignment1.setWork(new MPXDuration (80, TimeUnit.HOURS));
-      assignment1.setActualWork(new MPXDuration (40, TimeUnit.HOURS));      
-      
+      assignment1.setActualWork(new MPXDuration (40, TimeUnit.HOURS));
+
       //
       // If we were just generating an MPX file, we would already have enough
       // attributes set to create the file correctly. If we want to generate
       // an MSPDI file, we must also set the assignment start dates and
-      // the remaining work attribute. The assignment start dates will normally 
+      // the remaining work attribute. The assignment start dates will normally
       // be the same as the task start dates.
       //
       assignment1.setRemainingWork(new MPXDuration (40, TimeUnit.HOURS));

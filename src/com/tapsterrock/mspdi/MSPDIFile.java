@@ -1011,7 +1011,7 @@ public class MSPDIFile extends MPXFile
          if (task != null && resource != null)
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
-            
+
             mpx.setActualCost(getMpxCurrency(assignment.getActualCost()));
             //assignment.getActualFinish()
             //assignment.getActualOvertimeCost()
@@ -1042,7 +1042,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getNotes()
             //assignment.getOvertimeCost()
             mpx.setOvertimeWork(getDuration(assignment.getOvertimeWork()));
-            //assignment.getPercentWorkComplete()            
+            //assignment.getPercentWorkComplete()
             //mpx.setPlannedCost();
             //mpx.setPlannedWork();
             //assignment.getRegularWork()
@@ -1056,7 +1056,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getStop()
             //assignment.getTimephasedData()
             mpx.setUnits(assignment.getUnits()*100);
-            //assignment.getVAC()            
+            //assignment.getVAC()
             mpx.setWork(getDuration(assignment.getWork()));
             //assignment.getWorkContour()
             //assignment.getWorkVariance()
@@ -2760,7 +2760,7 @@ public class MSPDIFile extends MPXFile
       xml.setUID(BigInteger.valueOf(uid));
       xml.setUnits((float)mpx.getUnitsValue()/100);
       xml.setWork(getDuration (mpx.getWork()));
-      
+
       return (xml);
    }
 

@@ -202,6 +202,6 @@ class Props extends MPPComponent
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
    public static final Integer PASSWORD_FLAG = new Integer (893386752);
-   
+
    protected TreeMap m_map = new TreeMap ();
 }

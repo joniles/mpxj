@@ -50,7 +50,7 @@ public class XmlXml
          {
             System.out.println ("Conversion started.");
             long start = System.currentTimeMillis();
-            MSPDIFile xml = new MSPDIFile (args[0]);            
+            MSPDIFile xml = new MSPDIFile (args[0]);
             xml.write(args[1]);
             long elapsed = System.currentTimeMillis() - start;
             System.out.println ("Conversion completed in " + elapsed + "ms.");

@@ -162,7 +162,7 @@ final class FixedData extends MPPComponent
    /**
     * Returns a flag indicating if the supplied offset is valid for
     * the data in this fixed data block.
-    * 
+    *
     * @param offset offset value
     * @return boolean flag
     */
@@ -174,7 +174,7 @@ final class FixedData extends MPPComponent
    /**
     * Returns a flag indicating if the supplied offset is valid for
     * the data in this fixed data block.
-    * 
+    *
     * @param offset offset value
     * @return boolean flag
     */

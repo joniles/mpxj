@@ -103,7 +103,7 @@ final class Record
          if (result != null)
          {
             result = result.replace(MPXRecord.EOL_PLACEHOLDER, '\n');
-         }      
+         }
       }
       else
       {

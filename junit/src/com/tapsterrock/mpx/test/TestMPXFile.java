@@ -455,7 +455,7 @@ public class TestMPXFile extends TestCase
     * data produced by MS Project. This method contains validation tests
     * on that data to ensure that the three file formats are being read
     * consistently.
-    * 
+    *
     * @param file MPXFile instance
     */
    private void commonTests (MPXFile file)
@@ -466,14 +466,14 @@ public class TestMPXFile extends TestCase
       Task task = file.getTaskByUniqueID(2);
       LinkedList assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
-            
+
       Iterator iter = assignments.iterator();
       ResourceAssignment assignment;
-      
+
       while (iter.hasNext() == true)
       {
          assignment = (ResourceAssignment)iter.next();
-         
+
          switch (assignment.getResourceIDValue())
          {
             case 1:
@@ -481,13 +481,13 @@ public class TestMPXFile extends TestCase
                assertEquals("200h", assignment.getRemainingWork().toString());
                break;
             }
-            
+
             case 2:
             {
                assertEquals("300h", assignment.getRemainingWork().toString());
                break;
             }
-            
+
             default:
             {
                assertTrue("Unexpected resource", false);
@@ -496,7 +496,7 @@ public class TestMPXFile extends TestCase
          }
       }
    }
-   
+
    /**
     * This method tests two stages of conversion, MPP->MPX->MSPDI. This
     * jhas been designed to exercise bug 896189, which was exhibited
@@ -1644,7 +1644,7 @@ public class TestMPXFile extends TestCase
     * be redistributed as test cases. These files reside in a directory on
     * my development machine, and asuming that this directory exists, this
     * test will attempt of read each of the files in turn.
-    * 
+    *
     * @throws Exception
     */
    public void testCustomerData ()
@@ -1674,17 +1674,17 @@ public class TestMPXFile extends TestCase
                   if (name.endsWith(".MPX") == true)
                   {
                      mpxj = new MPXFile ();
-                     
+
                      if (name.indexOf(".DE.") != -1)
                      {
                         mpxj.setLocale(Locale.GERMAN);
                      }
-                     
+
                      if (name.indexOf(".SV.") != -1)
                      {
                         mpxj.setLocale(new Locale ("sv"));
                      }
-                     
+
                      mpxj.read(file);
                   }
                   else
@@ -1696,24 +1696,24 @@ public class TestMPXFile extends TestCase
                   }
                }
             }
-            
+
             catch (Exception ex)
             {
                System.out.println ("Failed to read " + name);
                ex.printStackTrace();
                ++failures;
             }
-         }         
-         
+         }
+
          assertEquals("Failed to read " + failures + " files", 0, failures);
       }
    }
-   
+
    /**
     * Write a file with embedded line break (\r and \n) characters in
     * various text fields. Ensure that a valid file is written,
     * and that it can be read successfully.
-    * 
+    *
     * @throws Exception
     */
    public void testEmbeddedLineBreaks ()
@@ -1723,7 +1723,7 @@ public class TestMPXFile extends TestCase
       boolean success = false;
 
       try
-      {      
+      {
          //
          // Create a simple MPX file
          //
@@ -1738,45 +1738,45 @@ public class TestMPXFile extends TestCase
          file.setAutoWBS(true);
          file.setAutoCalendarUniqueID(true);
          file.addDefaultBaseCalendar();
-         
+
          ProjectHeader header = file.getProjectHeader();
          header.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
          header.setStartDate(df.parse("01/01/2003"));
-         
+
          Resource resource1 = file.addResource();
          resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
          resource1.addResourceNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
-         
+
          Task task1 = file.addTask();
          task1.setName ("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
          task1.addTaskNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
-   
+
          //
          // Write the file
          //
          out = File.createTempFile ("junit", ".mpx");
          file.write(out);
-         
+
          //
          // Ensure we can read it successfully
-         //     
+         //
          file = new MPXFile(out);
          assertEquals(1, file.getAllTasks().size());
          assertEquals(1, file.getAllResources().size());
-         
+
          header = file.getProjectHeader();
          assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", header.getComments());
-         
+
          task1 = file.getTaskByUniqueID(1);
          assertEquals("Task1: Some\nExample\nText\nWith\nBreaks", task1.getName());
          assertEquals("Task1 Notes: Some\nExample\nText\nWith\nBreaks", task1.getNotes());
-         
+
          resource1 = file.getResourceByUniqueID(1);
          assertEquals("Resource1: Some\nExample\nText\nWith\nBreaks", resource1.getName());
          assertEquals("Resource1 Notes: Some\nExample\nText\nWith\nBreaks", resource1.getNotes());
          success = true;
       }
-      
+
       finally
       {
          if (success == true && out != null)
@@ -1785,7 +1785,7 @@ public class TestMPXFile extends TestCase
          }
       }
    }
-   
+
    private String m_basedir;
 }
 

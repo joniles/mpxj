@@ -134,7 +134,7 @@ public final class ResourceNotes extends MPXRecord
    */
    private String m_note;
 
-   
+
    /**
     * Constant containing the record number associated with this record.
     */
