@@ -110,6 +110,10 @@ public class MpxQuery
       listAssignmentsByTask (mpx);
       
       listHierarchy (mpx);
+      
+      listTaskNotes (mpx);
+      
+      listResourceNotes (mpx);
    }
 
    /**
@@ -249,5 +253,55 @@ public class MpxQuery
       
       System.out.println ();      
    }
+   
+
+   /**
+    * This method lists any notes attached to tasks.
+    * 
+    * @param file MPX file
+    */   
+   private static void listTaskNotes (MPXFile file)
+   {
+      List tasks = file.getAllTasks();
+      Iterator taskIter = tasks.iterator();
+            
+      while (taskIter.hasNext() == true)
+      {
+         Task task = (Task)taskIter.next();   
+         String notes = task.getNotes();
+         
+         if (notes != null && notes.length() != 0)
+         {
+            System.out.println ("Notes for " + task.getName() + ": " + notes);
+         }
+      }      
+      
+      System.out.println ();      
+   }   
+
+   /**
+    * This method lists any notes attached to resources.
+    * 
+    * @param file MPX file
+    */      
+   private static void listResourceNotes (MPXFile file)
+   {
+      List resources = file.getAllResources();
+      Iterator resourceIter = resources.iterator();
+            
+      while (resourceIter.hasNext() == true)
+      {
+         Resource resource = (Resource)resourceIter.next();   
+         String notes = resource.getNotes();
+         
+         if (notes != null && notes.length() != 0)
+         {
+            System.out.println ("Notes for " + resource.getName() + ": " + notes);
+         }
+      }      
+      
+      System.out.println ();      
+   }   
+   
 }
 
