@@ -682,6 +682,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setObjects();
       mpx.setOutlineLevel(getInteger(task.getOutlineLevel()));
       mpx.setOutlineNumber(task.getOutlineNumber());
+      mpx.setOvertimeCost(getMpxCurrency(task.getOvertimeCost()));
       mpx.setPercentageComplete(task.getPercentComplete());
       mpx.setPercentageWorkComplete(task.getPercentWorkComplete());
       mpx.setPriority(getMpxPriority(task.getPriority()));
@@ -2140,7 +2141,7 @@ public class MSPDIFile extends MPXFile
       Project.TasksType.TaskType xml = ObjectFactory.createProjectTypeTasksTypeTaskType();
       DateTimeSettings settings = getDateTimeSettings();
       Date defaultStartTime = settings.getDefaultTimeAsDate();
-
+      
       xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
       xml.setActualDuration(getDuration(mpx.getActualDuration()));
       xml.setActualFinish(getCalendar(mpx.getActualFinish()));
@@ -2175,6 +2176,7 @@ public class MSPDIFile extends MPXFile
       xml.setNotes(mpx.getNotes());
       xml.setOutlineLevel(BigInteger.valueOf(mpx.getOutlineLevelValue()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
+      xml.setOvertimeCost(getXmlCurrency(mpx.getOvertimeCost()));
       xml.setPercentComplete(BigInteger.valueOf((long)mpx.getPercentageCompleteValue()));
       xml.setPercentWorkComplete(BigInteger.valueOf((long)mpx.getPercentageWorkCompleteValue()));
       xml.setPriority(getXmlPriority(mpx.getPriority()));
@@ -2235,7 +2237,6 @@ public class MSPDIFile extends MPXFile
       xml.setIsSubprojectReadOnly(false);
       xml.setExternalTask(false);
       xml.setFixedCostAccrual("2");
-      xml.setOvertimeCost(BIGDECIMAL_ZERO);
       xml.setOvertimeWork(ZERO_DURATION);
       xml.setActualOvertimeCost(BIGDECIMAL_ZERO);
       xml.setActualOvertimeWork(ZERO_DURATION);

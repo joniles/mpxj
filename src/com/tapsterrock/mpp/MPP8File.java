@@ -178,13 +178,12 @@ final class MPP8File
          }
                                        
          task = file.addTask();
-                                      
+                                               
          task.setActualCost(new Double (((double)MPPUtility.getLong6(data, 234)) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 108));
          task.setActualStart(MPPUtility.getTimestamp (data, 104));
-         // TODO sort out the actual work value
-//         task.setActualWork(new MPXDuration (MPPUtility.getDouble (data, 184)/60000, TimeUnit.HOURS));
+         task.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 180))/100, TimeUnit.HOURS));
          task.setBaselineCost(new Double ((double)MPPUtility.getLong6 (data, 246) / 100));
          task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 82), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 72))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 116));
@@ -302,8 +301,7 @@ final class MPP8File
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (MPPUtility.getShort (data, 48));
          //task.setOutlineNumber(); // Calculated value 
-         // TODO add overtime cost?
-         //task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));
+         task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));
          task.setPercentageComplete((double)MPPUtility.getShort(data, 130));
          task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 132));
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 128)));

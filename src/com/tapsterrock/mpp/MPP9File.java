@@ -491,6 +491,7 @@ final class MPP9File
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (MPPUtility.getShort (data, 40));
          //task.setOutlineNumber(); // Calculated value
+         task.setOvertimeCost(new Double (MPPUtility.getDouble (data, 240)/100));         
          task.setPercentageComplete((double)MPPUtility.getShort(data, 122));
          task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 124));
          task.setPriority(getPriority (MPPUtility.getShort (data, 120)));

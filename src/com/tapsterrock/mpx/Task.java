@@ -6314,6 +6314,26 @@ public final class Task extends MPXRecord implements Comparable
    {
       m_finish9 = date;
    }
+              
+   /**
+    * Retrieves the overtime cost.
+    * 
+    * @return Cost value
+    */
+   public Number getOvertimeCost()
+   {
+      return m_overtimeCost;
+   }
+
+   /**
+    * Sets the overtime cost value.
+    * 
+    * @param number Cost value
+    */
+   public void setOvertimeCost(Number number)
+   {
+      m_overtimeCost = number;
+   }
                
    /**
     * This is a reference to the parent task, as specified by the
@@ -6440,7 +6460,8 @@ public final class Task extends MPXRecord implements Comparable
    private Date m_finish8;
    private Date m_finish9;
    private Date m_finish10;
-                                             
+   private Number m_overtimeCost;
+                                                
 	/**
 	 * Constants used to define the task type.
 	 */
