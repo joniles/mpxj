@@ -44,7 +44,7 @@ public final class ProjectHeader extends MPXRecord
    {
       super (file, MAX_FIELDS);
 
-      setProjectTab("Project1");
+      setProjectTitle("Project1");
       setCompany(null);
       setManager(null);
       setCalendar("Standard");
@@ -86,7 +86,7 @@ public final class ProjectHeader extends MPXRecord
    void update (Record record)
       throws MPXException
    {
-      setProjectTab(record.getString(0));
+      setProjectTitle(record.getString(0));
       setCompany(record.getString(1));
       setManager(record.getString(2));
       setCalendar(record.getString(3));
@@ -118,23 +118,23 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project tab field
+    * Sets the project title
     *
-    * @param val value
+    * @param projectTitle project title
     */
-   public void setProjectTab (String val)
+   public void setProjectTitle (String projectTitle)
    {
-      put (PROJECT_TAB, val);
+      put (PROJECT_TITLE, projectTitle);
    }
 
    /**
-    * Gets the project tab field
+    * Gets the project title
     *
-    * @return value
+    * @return project title
     */
-   public String getProjectTab ()
+   public String getProjectTitle ()
    {
-      return ((String)get(PROJECT_TAB));
+      return ((String)get(PROJECT_TITLE));
    }
 
    /**
@@ -795,9 +795,9 @@ public final class ProjectHeader extends MPXRecord
    private static final MPXDuration DEFAULT_DURATION = new MPXDuration (0, TimeUnit.DAYS);
 
    /**
-    * Constant value representing Project Tab field
+    * Constant value representing Project Title field
     */
-   private static final int PROJECT_TAB = 0;
+   private static final int PROJECT_TITLE = 0;
 
    /**
     * Constant value representing Company field
@@ -810,7 +810,7 @@ public final class ProjectHeader extends MPXRecord
    private static final int MANAGER = 2;
 
    /**
-    * Constant value representing Project Tab field
+    * Constant value representing Calendar field
     */
    private static final int CALENDAR = 3;
 

@@ -49,11 +49,13 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
+import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.ResourceType;
 import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
 
 /**
@@ -108,7 +110,7 @@ final class MPP9File
       //
       HashMap resourceMap = new HashMap ();
 
-      processPropertyData (file, projectDir);
+      processPropertyData (file, root, projectDir);
       processCalendarData (file, projectDir, resourceMap);
       processResourceData (file, projectDir, outlineCodeVarData, resourceMap);
       processTaskData (file, projectDir, outlineCodeVarData);
@@ -120,7 +122,6 @@ final class MPP9File
       processTableData (file, projectDir);
    }
 
-
    /**
     * This method extracts and collates global property data.
     *
@@ -128,8 +129,8 @@ final class MPP9File
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
-      throws IOException
+   private static void processPropertyData (MPPFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
+      throws IOException, MPXException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
@@ -157,6 +158,16 @@ final class MPP9File
 
       processTaskFieldNameAliases(file, props.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
       processResourceFieldNameAliases(file, props.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
+      
+      SummaryInformation summary = new SummaryInformation (rootDir);
+      ProjectHeader ph = file.getProjectHeader();
+      ph.setProjectTitle(summary.getProjectTitle());
+      ph.setSubject(summary.getSubject());
+      ph.setAuthor(summary.getAuthor());
+      ph.setKeywords(summary.getKeywords());
+      ph.setComments(summary.getComments());
+      ph.setCompany(summary.getCompany());
+      ph.setManager(summary.getManager());               
    }
 
    /**
@@ -947,7 +958,7 @@ final class MPP9File
 // From MS Project 2003
 //         task.setCPI();
 
-         task.setCreated(MPPUtility.getTimestamp (data, 130));
+         task.setCreateDate(MPPUtility.getTimestamp (data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
          //task.setCVPercent(); // Calculate value
@@ -1161,7 +1172,7 @@ final class MPP9File
          task.setText29(taskVarData.getUnicodeString (id, TASK_TEXT29));
          task.setText30(taskVarData.getUnicodeString (id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
-         task.setType(MPPUtility.getShort(data, 126));
+         task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
          task.setUniqueID(MPPUtility.getInt(data, 0));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
@@ -1169,7 +1180,7 @@ final class MPP9File
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
          //task.setWBSPredecessors(); // Calculated value
          //task.setWBSSuccessors(); // Calculated value
-         task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
+         task.setRegularWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
@@ -1184,7 +1195,7 @@ final class MPP9File
                notes = rtf.strip(notes);
             }
 
-            task.addTaskNotes(notes);
+            task.setNotes(notes);
          }
 
          //

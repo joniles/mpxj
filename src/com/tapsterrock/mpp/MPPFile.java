@@ -285,7 +285,7 @@ public class MPPFile extends MPXFile
    {
       attachResourceCalendar (resource, calendar);
    }
-
+   
    /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.

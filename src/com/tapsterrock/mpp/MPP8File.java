@@ -48,10 +48,12 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
+import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
 
 /**
@@ -78,7 +80,7 @@ final class MPP8File
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
-      processPropertyData (file, projectDir);
+      processPropertyData (file, root, projectDir);
 
       processCalendarData (file, projectDir, calendarMap);
 
@@ -106,8 +108,8 @@ final class MPP8File
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
-      throws IOException
+   private static void processPropertyData (MPPFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
+      throws MPXException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
@@ -132,6 +134,16 @@ final class MPP8File
       //cs.setDecimalSeparator();
       cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //cs.setThousandsSeparator();
+
+      SummaryInformation summary = new SummaryInformation (rootDir);
+      ProjectHeader ph = file.getProjectHeader();
+      ph.setProjectTitle(summary.getProjectTitle());
+      ph.setSubject(summary.getSubject());
+      ph.setAuthor(summary.getAuthor());
+      ph.setKeywords(summary.getKeywords());
+      ph.setComments(summary.getComments());
+      ph.setCompany(summary.getCompany());
+      ph.setManager(summary.getManager());         
    }
 
    /**
@@ -506,7 +518,7 @@ final class MPP8File
          task.setCost10(new Double (((double)taskExtData.getLong (TASK_COST10)) / 100));
          //task.setCostRateTable(); // Calculated value
          //task.setCostVariance(); // Populated below
-         task.setCreated(MPPUtility.getTimestamp (data, 138));
+         task.setCreateDate(MPPUtility.getTimestamp (data, 138));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
          task.setDate1(taskExtData.getTimestamp(TASK_DATE1));
@@ -683,13 +695,13 @@ final class MPP8File
          task.setText29(taskExtData.getUnicodeString(TASK_TEXT29));
          task.setText30(taskExtData.getUnicodeString(TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
-         task.setType(MPPUtility.getShort(data, 134));
+         task.setType(TaskType.getInstance(MPPUtility.getShort(data, 134)));
          task.setUniqueID(uniqueID);
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskExtData.getUnicodeString (TASK_WBS));
-         task.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));
+         task.setRegularWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
@@ -704,7 +716,7 @@ final class MPP8File
                notes = rtf.strip (notes);
             }
 
-            task.addTaskNotes(notes);
+            task.setNotes(notes);
          }
 
          //
@@ -1391,7 +1403,7 @@ final class MPP8File
    {
       return (-1 - MPPUtility.getInt(data, offset));
    }
-
+   
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
 //      System.out.println (name);

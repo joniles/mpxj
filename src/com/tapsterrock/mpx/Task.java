@@ -163,7 +163,7 @@ public final class Task extends MPXRecord implements Comparable
             case REMAINING_WORK:
             case START_VARIANCE:
             case TOTAL_SLACK:
-            case WORK:
+            case REGULAR_WORK:
             case WORK_VARIANCE:
             case DELAY:
             {
@@ -176,7 +176,7 @@ public final class Task extends MPXRecord implements Comparable
             case BASELINE_FINISH:
             case BASELINE_START:
             case CONSTRAINT_DATE:
-            case CREATED:
+            case CREATE_DATE:
             case EARLY_FINISH:
             case EARLY_START:
             case FINISH:
@@ -362,20 +362,10 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * This method is used to add notes to the current task.
     *
-    * @return TaskNotes object
-    */
-   public TaskNotes addTaskNotes ()
-   {
-      return (addTaskNotes(""));
-   }
-
-   /**
-    * This method is used to add notes to the current task.
-    *
     * @param notes notes to be added
     * @return TaskNotes object
     */
-   public TaskNotes addTaskNotes (String notes)
+   public TaskNotes setNotes (String notes)
    {
       if (m_notes == null)
       {
@@ -492,14 +482,14 @@ public final class Task extends MPXRecord implements Comparable
    public RecurringTask addRecurringTask ()
       throws MPXException
    {
-      if (m_recurring != null)
+      if (m_recurringTask != null)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_recurring = new RecurringTask (getParentFile());
+      m_recurringTask = new RecurringTask (getParentFile());
 
-      return (m_recurring);
+      return (m_recurringTask);
    }
 
    /**
@@ -514,14 +504,14 @@ public final class Task extends MPXRecord implements Comparable
    RecurringTask addRecurringTask (Record record)
       throws MPXException
    {
-      if (m_recurring != null)
+      if (m_recurringTask != null)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_recurring = new RecurringTask (getParentFile(), record);
+      m_recurringTask = new RecurringTask (getParentFile(), record);
 
-      return (m_recurring);
+      return (m_recurringTask);
    }
 
    /**
@@ -532,7 +522,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public RecurringTask getRecurringTask ()
    {
-      return (m_recurring);
+      return (m_recurringTask);
    }
 
    /**
@@ -1275,9 +1265,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param val date
     */
-   public void setCreated (Date val)
+   public void setCreateDate (Date val)
    {
-      setDate (CREATED, val);
+      setDate (CREATE_DATE, val);
    }
 
    /**
@@ -1920,17 +1910,6 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Notes field contains notes that you can enter about a task.
-    * You can use task notes to help maintain a history for a task.
-    *
-    * @param notes note text
-    */
-   public void setNotes (String notes)
-   {
-      addTaskNotes (notes);
-   }
-
-   /**
     * Sets a numeric value.
     *
     * @param val Numeric value
@@ -2305,9 +2284,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param val - String
     */
-   public void setSubprojectFile (String val)
+   public void setSubprojectName (String val)
    {
-      set (SUBPROJECT_FILE, val);
+      set (SUBPROJECT_NAME, val);
    }
 
    /**
@@ -2584,9 +2563,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param val - duration
     */
-   public void setWork (MPXDuration val)
+   public void setRegularWork (MPXDuration val)
    {
-      set (WORK, val);
+      set (REGULAR_WORK, val);
    }
 
    /**
@@ -2971,9 +2950,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @return Date
     */
-   public Date getCreated ()
+   public Date getCreateDate ()
    {
-      return ((Date)get(CREATED));
+      return ((Date)get(CREATE_DATE));
    }
 
    /**
@@ -4128,9 +4107,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @return String path
     */
-   public String getSubprojectFile ()
+   public String getSubprojectName ()
    {
-      return ((String)get(SUBPROJECT_FILE));
+      return ((String)get(SUBPROJECT_NAME));
    }
 
    /**
@@ -4400,9 +4379,9 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @return MPXDuration representing duration .
     */
-   public MPXDuration getWork ()
+   public MPXDuration getRegularWork ()
    {
-      return ((MPXDuration)get(WORK));
+      return ((MPXDuration)get(REGULAR_WORK));
    }
 
    /**
@@ -4452,9 +4431,9 @@ public final class Task extends MPXRecord implements Comparable
       //
       // Write the recurring task
       //
-      if (m_recurring != null)
+      if (m_recurringTask != null)
       {
-         buf.append (m_recurring.toString ());
+         buf.append (m_recurringTask.toString ());
       }
 
       //
@@ -4569,32 +4548,365 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * This method retrieves the task type. The options are
-    * 0 - fixed units, 1 - fixed duration, 2 - fixed work.
-    * Constants are available as part of the this class to
-    * represent these values.
+    * This method retrieves the task type.
     *
     * @return int representing the task type
     */
-   public int getType ()
+   public TaskType getType ()
    {
       return (m_type);
    }
 
    /**
-    * This method sets the task type. The options are
-    * 0 - fixed units, 1 - fixed duration, 2 - fixed work.
-    * Constants are available as part of the this class to
-    * represent these values.
-
+    * This method sets the task type.
+    *
     * @param type task type
     */
-   public void setType (int type)
+   public void setType (TaskType type)
    {
       m_type = type;
    }
 
+   /**
+    * Retrieves the flag indicating if this is a null task.
+    * 
+    * @return boolean flag
+    */
+   public boolean getNull ()
+   {
+      return (m_null);
+   }
+   
+   /**
+    * Sets the flag indicating if this is a null task.
+    * 
+    * @param isNull boolean flag
+    */
+   public void setNull (boolean isNull)
+   {
+      m_null = isNull;
+   }
+      
+   /**
+    * Retrieve the WBS level.
+    * 
+    * @return WBS level
+    */
+   public String getWBSLevel ()
+   {
+      return (m_wbsLevel);
+   }
+   
+   /**
+    * Set the WBS level.
+    * 
+    * @param wbsLevel WBS level
+    */
+   public void setWBSLevel (String wbsLevel)
+   {
+      m_wbsLevel = wbsLevel;
+   }
+   
+   /**
+    * Retrieve the duration format
+    * 
+    * @return duration format
+    */
+   public TimeUnit getDurationFormat ()
+   {
+      return (m_durationFormat);
+   }
+   
+   /**
+    * Set the duration format
+    * 
+    * @param durationFormat duration format
+    */
+   public void setDurationFormat (TimeUnit durationFormat)
+   {
+      m_durationFormat = durationFormat;
+   }
+   
+   /**
+    * Retrieve the resume valid flag.
+    * 
+    * @return resume valie flag
+    */
+   public boolean getResumeValid ()
+   {
+      return (m_resumeValid);
+   }
+   
+   /**
+    * Set the resume valid flag.
+    * 
+    * @param resumeValid resume valid flag
+    */
+   public void setResumeValid (boolean resumeValid)
+   {
+      m_resumeValid = resumeValid;
+   }
+   
+   /**
+    * Retrieve the recurring flag.
+    * 
+    * @return recurring flag
+    */
+   public boolean getRecurring ()
+   {
+      return (m_recurring);
+   }
+   
+   /**
+    * Set the recurring flag.
+    * 
+    * @param recurring recurring flag
+    */
+   public void setRecurring (boolean recurring)
+   {
+      m_recurring = recurring;
+   }
+   
+   /**
+    * Retrieve the over allocated flag.
+    * 
+    * @return over allocated flag
+    */
+   public boolean getOverAllocated ()
+   {
+      return (m_overAllocated);
+   }
 
+   /**
+    * Set the over allocated flag.
+    * 
+    * @param overAllocated over allocated flag
+    */
+   public void setOverAllocated (boolean overAllocated)
+   {
+      m_overAllocated = overAllocated;
+   }
+   
+   /**
+    * Retrieve the subproject flag.
+    * 
+    * @return subproject flag
+    */
+   public boolean getSubproject ()
+   {
+      return (m_subproject);
+   }
+   
+   /**
+    * Set the subproject flag.
+    * 
+    * @param subproject subproject flag
+    */
+   public void setSubproject (boolean subproject)
+   {
+      m_subproject = subproject;
+   }
+
+   /**
+    * Retrieve the subproject read only flag.
+    * 
+    * @return subproject read only flag
+    */
+   public boolean getSubprojectReadOnly ()
+   {
+      return (m_subprojectReadOnly);
+   }
+      
+   /**
+    * Set the subproject read only flag.
+    * 
+    * @param subprojectReadOnly subproject read only flag
+    */
+   public void setSubprojectReadOnly (boolean subprojectReadOnly)
+   {
+      m_subprojectReadOnly = subprojectReadOnly;
+   }
+   
+   /**
+    * Retrieves the external task flag.
+    * 
+    * @return external task flag
+    */
+   public boolean getExternalTask ()
+   {
+      return (m_externalTask);
+   }
+   
+   /**
+    * Sets the external task flag.
+    * 
+    * @param externalTask external task flag
+    */
+   public void setExternalTask (boolean externalTask)
+   {
+      m_externalTask = externalTask;
+   }
+   
+   /**
+    * Retrieves the external task project file name.
+    * 
+    * @return external task project file name
+    */
+   public String getExternalTaskProject ()
+   {
+      return (m_externalTaskProject);
+   }
+   
+   /**
+    * Sets the external task project file name
+    * 
+    * @param externalTaskProject external task project file name
+    */
+   public void setExternalTaskProject (String externalTaskProject)
+   {
+      m_externalTaskProject = externalTaskProject;
+   }
+      
+   /**
+    * Retrieve the ACWP value.
+    * 
+    * @return ACWP value
+    */
+   public Number getACWP ()
+   {
+      return (m_acwp);
+   }
+   
+   /**
+    * Set the ACWP value.
+    * 
+    * @param acwp ACWP value
+    */
+   public void setACWP (Number acwp)
+   {
+      m_acwp = acwp;
+   }
+   
+   /**
+    * Retrieve the leveling delay format
+    * 
+    * @return leveling delay  format
+    */
+   public TimeUnit getLevelingDelayFormat ()
+   {
+      return (m_levelingDelayFormat);
+   }
+   
+   /**
+    * Set the leveling delay format
+    * 
+    * @param levelingDelayFormat leveling delay format
+    */
+   public void setLevelingDelayFormat (TimeUnit levelingDelayFormat)
+   {
+      m_levelingDelayFormat = levelingDelayFormat;
+   }
+   
+   /**
+    * Retrieves the ignore resource celandar flag.
+    * 
+    * @return ignore resource celandar flag
+    */
+   public boolean getIgnoreResourceCalendar ()
+   {
+      return (m_ignoreResourceCalendar);
+   }
+   
+   /**
+    * Sets the ignore resource celandar flag.
+    * 
+    * @param ignoreResourceCalendar ignore resource celandar flag
+    */
+   public void setIgnoreResourceCalendar (boolean ignoreResourceCalendar)
+   {
+      m_ignoreResourceCalendar = ignoreResourceCalendar;
+   }
+   
+   /**
+    * Retrieves the physical percent complete value.
+    * 
+    * @return physical percent complete value
+    */
+   public Integer getPhysicalPercentComplete ()
+   {
+      return (m_physicalPercentComplete);
+   }
+   
+   /**
+    * Srts the physical percent complete value.
+    * 
+    * @param physicalPercentComplete physical percent complete value
+    */
+   public void setPhysicalPercentComplete (Integer physicalPercentComplete)
+   {
+      m_physicalPercentComplete = physicalPercentComplete;
+   }
+   
+   /**
+    * Retrieves the earned value method.
+    * 
+    * @return earned value method
+    */
+   public EarnedValueMethod getEarnedValueMethod ()
+   {
+      return (m_earnedValueMethod);
+   }
+   
+   /**
+    * Sets the earned value method.
+    * 
+    * @param earnedValueMethod earned value method
+    */
+   public void setEarnedValueMethod (EarnedValueMethod earnedValueMethod)
+   {
+      m_earnedValueMethod = earnedValueMethod;
+   }
+   
+   /**
+    * Retrieves the actual work protected value.
+    * 
+    * @return actual work protected value
+    */
+   public MPXDuration getActualWorkProtected ()
+   {
+      return (m_actualWorkProtected);
+   }
+   
+   /**
+    * Sets the actual work protected value.
+    * 
+    * @param actualWorkProtected actual work protected value
+    */
+   public void setActualWorkProtected (MPXDuration actualWorkProtected)
+   {
+      m_actualWorkProtected = actualWorkProtected;
+   }
+
+   /**
+    * Retrieves the actual overtime work protected value.
+    * 
+    * @return actual overtime work protected value
+    */
+   public MPXDuration getActualOvertimeWorkProtected ()
+   {
+      return (m_actualOvertimeWorkProtected);
+   }
+   
+   /**
+    * Sets the actual overtime work protected value.
+    * 
+    * @param actualOvertimeWorkProtected actual overtime work protected value
+    */
+   public void setActualOvertimeWorkProtected (MPXDuration actualOvertimeWorkProtected)
+   {
+      m_actualOvertimeWorkProtected = actualOvertimeWorkProtected;
+   }
+   
    /**
     * Retrieves the flag value.
     *
@@ -6944,7 +7256,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * Recurring task details associated with this task.
     */
-   private RecurringTask m_recurring;
+   private RecurringTask m_recurringTask;
 
 
    /**
@@ -6957,7 +7269,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    private boolean m_estimated;
    private Date m_deadline;
-   private int m_type = FIXED_UNITS;
+   private TaskType m_type = TaskType.FIXED_UNITS;
    private boolean m_effortDriven;
    private Number m_overtimeCost;
    private Number m_actualOvertimeCost;
@@ -6975,14 +7287,24 @@ public final class Task extends MPXRecord implements Comparable
    private MPXDuration m_remainingOvertimeWork;
    private Number m_remainingOvertimeCost;
    private String m_calendarName;
-
-   /**
-    * Constants used to define the task type.
-    */
-   public static final int FIXED_UNITS = 0;
-   public static final int FIXED_DURATION = 1;
-   public static final int FIXED_WORK = 2;
-
+   private boolean m_null;
+   private String m_wbsLevel;
+   private TimeUnit m_durationFormat;
+   private boolean m_resumeValid;
+   private boolean m_recurring;
+   private boolean m_overAllocated;
+   private boolean m_subproject;
+   private boolean m_subprojectReadOnly;
+   private boolean m_externalTask;
+   private String m_externalTaskProject;
+   private Number m_acwp;
+   private TimeUnit m_levelingDelayFormat;
+   private boolean m_ignoreResourceCalendar;
+   private Integer m_physicalPercentComplete;
+   private EarnedValueMethod m_earnedValueMethod;
+   private MPXDuration m_actualWorkProtected;
+   private MPXDuration m_actualOvertimeWorkProtected;
+   
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage
     * of the task's duration that has been completed. You can enter percent complete, or you
@@ -7145,7 +7467,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Created field contains the date and time when a task was added to the project.
     */
-   private static final int CREATED = 125;
+   private static final int CREATE_DATE = 125;
 
    /**
     * The Critical field indicates whether a task has any room in the schedule to slip,
@@ -7588,7 +7910,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Subproject File field contains the name of a project inserted into the active project file.
     * The Subproject File field contains the inserted project's path and file name.
     */
-   private static final int SUBPROJECT_FILE = 96;
+   private static final int SUBPROJECT_NAME = 96;
 
    /**
     * The Successors field lists the task ID numbers for the successor tasks to a task.
@@ -7706,7 +8028,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Work field shows the total amount of work scheduled to be performed on a task
     * by all assigned resources. This field shows the total work, or person-hours, for a task.
     */
-   private static final int WORK = 20;
+   private static final int REGULAR_WORK = 20;
 
    /**
     *  The Work Variance field contains the difference between a task's baseline work and

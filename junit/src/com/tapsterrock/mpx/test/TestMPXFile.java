@@ -1785,7 +1785,7 @@ public class TestMPXFile extends TestCase
 
          Task task1 = file.addTask();
          task1.setName ("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
-         task1.addTaskNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
+         task1.setNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
 
          //
          // Write the file
@@ -1926,6 +1926,96 @@ public class TestMPXFile extends TestCase
       assertEquals(5.99, resource.getNumber1Value(), 0.0);
       assertEquals(176.0, resource.getDuration1().getDuration(), 0.0);
       assertEquals(TimeUnit.HOURS, resource.getDuration1().getUnits());      
+   }
+
+   /**
+    * This ensures that values in the project header are read and written
+    * as expected.
+    * 
+    * @throws Exception
+    */
+   public void testProjectHeader ()
+      throws Exception
+   {
+      File out = null;
+      
+      try
+      {
+         //
+         // Read the MPX file and ensure that the project header fields
+         // have the expected values.
+         //
+         MPXFile mpx = new MPXFile (m_basedir + "/headertest.mpx");
+         testHeaderFields(mpx);
+         
+         //
+         // Write the file, re-read it and test to ensure that
+         // the project header fields have the expected values
+         //
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.write (out);
+         mpx = new MPXFile(out);
+         testHeaderFields(mpx);         
+         out.delete();
+         out = null;
+         
+         //
+         // Read the MPP8 file and ensure that the project header fields
+         // have the expected values.
+         //
+         mpx = new MPPFile (m_basedir + "/headertest8.mpp");
+         testHeaderFields(mpx);
+         
+         //
+         // Read the MPP9 file and ensure that the project header fields
+         // have the expected values.
+         //
+         mpx = new MPPFile (m_basedir + "/headertest9.mpp");
+         testHeaderFields(mpx);         
+         
+         //
+         // Read the MSPDI file and ensure that the project header fields
+         // have the expected values.
+         //
+         mpx = new MSPDIFile (m_basedir + "/headertest.xml");
+         testHeaderFields(mpx);         
+
+         //
+         // Write the file, re-read it and test to ensure that
+         // the project header fields have the expected values
+         //         
+         out = File.createTempFile ("junit", ".xml");
+         mpx.write (out);
+         mpx = new MSPDIFile(out);
+         testHeaderFields(mpx);         
+         out.delete();
+         out = null;         
+      }
+      
+      catch (Exception ex)
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+   }
+   
+   /**
+    * Implements common project header tests
+    * 
+    * @param file target project file
+    */
+   private void testHeaderFields (MPXFile file)
+   {
+      ProjectHeader header = file.getProjectHeader();
+      assertEquals ("Project Title Text", header.getProjectTitle());
+      assertEquals ("Author Text", header.getAuthor());
+      assertEquals ("Comments Text", header.getComments());
+      assertEquals ("Company Text", header.getCompany());
+      assertEquals ("Keywords Text", header.getKeywords());
+      assertEquals ("Manager Text", header.getManager());
+      assertEquals ("Subject Text", header.getSubject());        
    }
    
    private String m_basedir;
