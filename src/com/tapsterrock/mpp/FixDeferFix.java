@@ -100,6 +100,18 @@ final class FixDeferFix extends MPPComponent
       return (result);
    }
 
+   public String getUnicodeString (int offset)
+   {
+      String result = null;
+      byte[] data = getByteArray (offset);
+      if (data != null)
+      {
+         result = MPPUtility.getUnicodeString(data);
+      }
+
+      return (result);
+   }
+
    /**
     * This method dumps the contents of this FixDeferFix block as a String.
     * Note that this facility is provided as a debugging aid.

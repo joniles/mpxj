@@ -146,16 +146,38 @@ public class MPPFile extends MPXFile
 			}
 			else
 			{
-				// Under development
-//				if (format.equals("MSProject.MPP8") == true)				
-//				{
-//					processMpp8 (root);	
-//				}
-//				else
+				if (format.equals("MSProject.MPP8") == true)				
+				{
+               MPP8File.process(this, root);
+				}
+				else
 				{
 					throw new MPXException (MPXException.INVALID_FILE + ": " + format);					
 				}
 			}			
+         
+         //
+         // Update the internal structure. We'll take this opportunity to 
+         // generate outline numbers for the tasks as they don't appear to
+         // be present in the MPP file.
+         //
+         setAutoOutlineNumber(true);
+         updateStructure ();
+         setAutoOutlineNumber(false);      
+      
+         //
+         // Perform post-processing to set the summary flag
+         //
+         LinkedList tasks = getAllTasks();
+         Iterator iter = tasks.iterator();     
+         Task task;
+         
+         while (iter.hasNext() == true)
+         {
+            task = (Task)iter.next();
+            task.setSummary(task.getChildTasks().size() != 0);
+         }
+         
 		}
 		
 		catch (IOException ex)
@@ -493,7 +515,6 @@ public class MPPFile extends MPXFile
     * section of the task data, which we have yet to decode.
     *
     * @throws Exception on unexpected file format
-    * @todo we need to strip the RTF formatting from the task note text
     */
    private void processTaskData (VarMeta taskVarMeta, Var2Data taskVarData, FixedMeta taskFixedMeta, FixedData taskFixedData)
       throws MPXException
@@ -536,12 +557,12 @@ public class MPPFile extends MPXFile
 			                     
          task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
-         task.setActualDuration(getDuration (MPPUtility.getInt (data, 66), getDurationUnits(MPPUtility.getShort (data, 64))));
+         task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 100));
          task.setActualStart(MPPUtility.getTimestamp (data, 96));
          task.setActualWork(new MPXDuration (MPPUtility.getDouble (data, 184)/60000, TimeUnit.HOURS));
          task.setBaselineCost(new Double (MPPUtility.getDouble (data, 232) / 100));
-         task.setBaselineDuration(getDuration (MPPUtility.getInt (data, 74), getDurationUnits (MPPUtility.getShort (data, 78))));
+         task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 78))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 108));
          task.setBaselineStart(MPPUtility.getTimestamp (data, 104));
          task.setBaselineWork(new MPXDuration (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
@@ -577,17 +598,17 @@ public class MPPFile extends MPXFile
          task.setDate10(taskVarData.getTimestamp (id, TASK_DATE10));                                                                        
          task.setDeadline (MPPUtility.getTimestamp (data, 152));
          //task.setDelay(); // Field does not appear in Project 2000
-         task.setDuration (getDuration (MPPUtility.getInt (data, 70), getDurationUnits(MPPUtility.getShort (data, 64))));
-         task.setDuration1(getDuration (taskVarData.getInt(id, TASK_DURATION1), getDurationUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
-         task.setDuration2(getDuration (taskVarData.getInt(id, TASK_DURATION2), getDurationUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
-         task.setDuration3(getDuration (taskVarData.getInt(id, TASK_DURATION3), getDurationUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
-         task.setDuration4(getDuration (taskVarData.getInt(id, TASK_DURATION4), getDurationUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
-         task.setDuration5(getDuration (taskVarData.getInt(id, TASK_DURATION5), getDurationUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
-         task.setDuration6(getDuration (taskVarData.getInt(id, TASK_DURATION6), getDurationUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
-         task.setDuration7(getDuration (taskVarData.getInt(id, TASK_DURATION7), getDurationUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
-         task.setDuration8(getDuration (taskVarData.getInt(id, TASK_DURATION8), getDurationUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
-         task.setDuration9(getDuration (taskVarData.getInt(id, TASK_DURATION9), getDurationUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
-         task.setDuration10(getDuration (taskVarData.getInt(id, TASK_DURATION10), getDurationUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
+         task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 64))));
+         task.setDuration1(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION1), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
+         task.setDuration2(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION2), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
+         task.setDuration3(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION3), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
+         task.setDuration4(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION4), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
+         task.setDuration5(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION5), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
+         task.setDuration6(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION6), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
+         task.setDuration7(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION7), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
+         task.setDuration8(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION8), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
+         task.setDuration9(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION9), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
+         task.setDuration10(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
@@ -764,21 +785,21 @@ public class MPPFile extends MPXFile
 		// generate outline numbers for the tasks as they don't appear to
 		// be present in the MPP file.
 		//
-		setAutoOutlineNumber(true);
-      updateStructure ();
-      setAutoOutlineNumber(false);      
+//		  setAutoOutlineNumber(true);
+//      updateStructure ();
+//      setAutoOutlineNumber(false);      
       
       //
       // Perform post-processing to set the summary flag
       //
-      LinkedList tasks = getAllTasks();
-      Iterator iter = tasks.iterator();     
-      
-      while (iter.hasNext() == true)
-      {
-			task = (Task)iter.next();
-			task.setSummary(task.getChildTasks().size() != 0);
-      }
+//      LinkedList tasks = getAllTasks();
+//      Iterator iter = tasks.iterator();     
+//      
+//      while (iter.hasNext() == true)
+//      {
+//			task = (Task)iter.next();
+//			task.setSummary(task.getChildTasks().size() != 0);
+//      }
    }
 
    /**
@@ -818,8 +839,8 @@ public class MPPFile extends MPXFile
                   {
                      rel = task2.addPredecessor(task1);
                      rel.setType (MPPUtility.getShort(data, 12));
-                     durationUnits = getDurationUnits(MPPUtility.getShort (data, 14));
-                     rel.setDuration(getDuration (MPPUtility.getInt (data, 16), durationUnits));
+                     durationUnits = MPPUtility.getDurationUnits(MPPUtility.getShort (data, 14));
+                     rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 16), durationUnits));
                   }
                }               
             }
@@ -832,7 +853,6 @@ public class MPPFile extends MPXFile
     * This method extracts and collates resource data
     *
     * @throws Exception on unexpected file format
-    * @todo we need to strip the RTF formatting from the resource notes text
     */
    private void processResourceData (VarMeta rscVarMeta, Var2Data rscVarData, FixedMeta rscFixedMeta, FixedData rscFixedData)
       throws MPXException
@@ -898,16 +918,16 @@ public class MPPFile extends MPXFile
          resource.setDate8(rscVarData.getTimestamp (id, RESOURCE_DATE8));
          resource.setDate9(rscVarData.getTimestamp (id, RESOURCE_DATE9));
          resource.setDate10(rscVarData.getTimestamp (id, RESOURCE_DATE10));                           
-         resource.setDuration1(getDuration (rscVarData.getInt(id, RESOURCE_DURATION1), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION1_UNITS))));
-         resource.setDuration2(getDuration (rscVarData.getInt(id, RESOURCE_DURATION2), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION2_UNITS))));
-         resource.setDuration3(getDuration (rscVarData.getInt(id, RESOURCE_DURATION3), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION3_UNITS))));
-         resource.setDuration4(getDuration (rscVarData.getInt(id, RESOURCE_DURATION4), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION4_UNITS))));
-         resource.setDuration5(getDuration (rscVarData.getInt(id, RESOURCE_DURATION5), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION5_UNITS))));
-         resource.setDuration6(getDuration (rscVarData.getInt(id, RESOURCE_DURATION6), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION6_UNITS))));
-         resource.setDuration7(getDuration (rscVarData.getInt(id, RESOURCE_DURATION7), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION7_UNITS))));
-         resource.setDuration8(getDuration (rscVarData.getInt(id, RESOURCE_DURATION8), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION8_UNITS))));
-         resource.setDuration9(getDuration (rscVarData.getInt(id, RESOURCE_DURATION9), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION9_UNITS))));
-         resource.setDuration10(getDuration (rscVarData.getInt(id, RESOURCE_DURATION10), getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION10_UNITS))));                                    
+         resource.setDuration1(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION1), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION1_UNITS))));
+         resource.setDuration2(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION2), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION2_UNITS))));
+         resource.setDuration3(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION3), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION3_UNITS))));
+         resource.setDuration4(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION4), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION4_UNITS))));
+         resource.setDuration5(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION5), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION5_UNITS))));
+         resource.setDuration6(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION6), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION6_UNITS))));
+         resource.setDuration7(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION7), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION7_UNITS))));
+         resource.setDuration8(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION8), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION8_UNITS))));
+         resource.setDuration9(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION9), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION9_UNITS))));
+         resource.setDuration10(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION10), MPPUtility.getDurationUnits(rscVarData.getShort(id, RESOURCE_DURATION10_UNITS))));                                    
          resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));         
          resource.setFinish1(rscVarData.getTimestamp (id, RESOURCE_FINISH1));         
          resource.setFinish2(rscVarData.getTimestamp (id, RESOURCE_FINISH2));
@@ -1056,65 +1076,6 @@ public class MPPFile extends MPXFile
 
 
 
-   /**
-    * Reads a duration value. This method relies on the fact that
-    * the units of the duration have been specified elsewhere.
-    *
-    * @param data byte array of data
-    * @param offset location of data as offset into the array
-    * @param type type of units of the duration
-    * @param integer value
-    */
-   private MPXDuration getDuration (int value, int type)
-   {
-      double duration;
-
-      switch (type)
-      {
-         case TimeUnit.MINUTES:
-         case TimeUnit.ELAPSED_MINUTES:
-         {
-            duration = (double)value / 10;
-            break;
-         }
-
-         case TimeUnit.HOURS:
-         case TimeUnit.ELAPSED_HOURS:
-         {
-            duration = (double)value / 600;
-            break;
-         }
-
-         case TimeUnit.DAYS:
-         case TimeUnit.ELAPSED_DAYS:
-         {
-            duration = (double)value / 4800;
-            break;
-         }
-
-         case TimeUnit.WEEKS:
-         case TimeUnit.ELAPSED_WEEKS:
-         {
-            duration = (double)value / 24000;
-            break;
-         }
-
-         case TimeUnit.MONTHS:
-         case TimeUnit.ELAPSED_MONTHS:
-         {
-            duration = (double)value / 96000;
-            break;
-         }
-
-         default:
-         {
-            duration = (double)value;
-            break;
-         }
-      }
-
-      return (new MPXDuration (duration, type));
-   }
 
 	/**
 	 * This method is used to determine if a duration is estimated.
@@ -1127,84 +1088,6 @@ public class MPPFile extends MPXFile
 		return ((type & DURATION_CONFIRMED_MASK) != 0);      	
    }
    
-   /**
-    * This method converts between the duration units representation
-    * used in the MPP file, and the standard MPX duration units.
-    * If the supplied units are unrecognised, the units default to days.
-    *
-    * @param type MPP units
-    * @return MPX units
-    */
-   private int getDurationUnits (int type)
-   {
-      int units;
-
-      switch (type & DURATION_UNITS_MASK)
-      {
-         case 3:
-         {
-            units = TimeUnit.MINUTES;
-            break;
-         }
-
-         case 4:
-         {
-            units = TimeUnit.ELAPSED_MINUTES;
-            break;
-         }
-
-         case 5:
-         {
-            units = TimeUnit.HOURS;
-            break;
-         }
-
-         case 6:
-         {
-            units = TimeUnit.ELAPSED_HOURS;
-            break;
-         }
-
-         case 8:
-         {
-            units = TimeUnit.ELAPSED_DAYS;
-            break;
-         }
-
-         case 9:
-         {
-            units = TimeUnit.WEEKS;
-            break;
-         }
-
-         case 10:
-         {
-            units = TimeUnit.ELAPSED_WEEKS;
-            break;
-         }
-
-         case 11:
-         {
-            units = TimeUnit.MONTHS;
-            break;
-         }
-
-         case 12:
-         {
-            units = TimeUnit.ELAPSED_MONTHS;
-            break;
-         }
-
-         default:
-         case 7:
-         {
-            units = TimeUnit.DAYS;
-            break;
-         }
-      }
-
-      return (units);
-   }
 
    /**
     * This method converts between the numeric priority value
@@ -1228,51 +1111,6 @@ public class MPPFile extends MPXFile
 
       return (Priority.getInstance (result));
    }
-
-	/**
-	 * This method is used to process an MPP8 file. This is the file format
-	 * used by Project 98.
-	 * 
-	 * @param root Root of the POI file system.
-	 * @throws MPXException Normally thrown on dat validation errors
-	 */
-	private void processMpp8 (DirectoryEntry root)
-		throws MPXException, IOException
-	{
-		//
-		// Retrieve the project directory
-		//
-		DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
-
-		//
-		// Retrieve calendar data
-		//
-		DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
-		FixFix calendarFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixFix   0"))));
-		FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));		
-		
-		//
-		// Retrieve task data
-		//
-		DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
-		FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
-		FixDeferFix taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));		
-		System.out.println (taskFixedData);
-      System.out.println (taskVarData);   
-      
-      for (int loop=0; loop < taskFixedData.getItemCount(); loop++)
-      {
-         byte[] data = taskFixedData.getByteArrayValue(loop);
-         int nameOffset = -1 - MPPUtility.getInt(data, 264);
-         int dataOffset = -1 - MPPUtility.getInt(data, data.length-4);
-         System.out.println("Data offset="+dataOffset + " Name offset="+ nameOffset);
-         System.out.println ("Name: " + MPPUtility.hexdump(taskVarData.getByteArray(nameOffset), true));
-         System.out.println ("Data: " + MPPUtility.hexdump(taskVarData.getByteArray(dataOffset), true));         
-         System.out.println();
-      }
-               
-		// Under development		
-	}
 
    /**
     * This method is used to remove RTF formatting from notes.
@@ -1620,12 +1458,7 @@ public class MPPFile extends MPXFile
    private static final Integer RESOURCE_COST8 = new Integer (132);
    private static final Integer RESOURCE_COST9 = new Integer (133);
    private static final Integer RESOURCE_COST10 = new Integer (134);
-                              
-	/**
-	 * Mask used to remove flags from the duration units field.
-	 */
-	private static final int DURATION_UNITS_MASK = 0x1F;
-	
+                              	
 	/**
 	 * Mask used to isolate confirmed flag from the duration units field.
 	 */

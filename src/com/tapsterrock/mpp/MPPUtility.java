@@ -26,6 +26,9 @@ package com.tapsterrock.mpp;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.TimeUnit;
+
 /**
  * This class provides common functionality used by each of the classes
  * that read the different sections of the MPP file.
@@ -252,7 +255,14 @@ final class MPPUtility
 
       if (rawOffset == 0 && tz.inDaylightTime(new Date()) == true)
       {
-         time -= tz.getDSTSavings();   
+         if (m_hasDSTSavings == true)
+         {
+            time -= tz.getDSTSavings();   
+         }
+         else
+         {
+            time -= DEFAULT_DST_SAVINGS;
+         }            
       }
       
       return (new Date (time));
@@ -294,7 +304,18 @@ final class MPPUtility
          result = new Date (EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE)/10) - tz.getRawOffset());
          if (tz.inDaylightTime(result) == true)
          {
-            result = new Date (result.getTime() - tz.getDSTSavings());            
+            int savings;
+            
+            if (m_hasDSTSavings == true)
+            {
+               savings = tz.getDSTSavings();
+            }
+            else
+            {
+               savings = DEFAULT_DST_SAVINGS;
+            }
+                     
+            result = new Date (result.getTime() - savings);            
          }
       }
 
@@ -327,7 +348,7 @@ final class MPPUtility
       StringBuffer buffer = new StringBuffer ();
       char c;
 
-      for (int loop=0; loop < data.length; loop += 2)
+      for (int loop=0; loop < data.length-1; loop += 2)
       {
          c = (char)getShort (data, loop);
          if (c == 0)
@@ -365,6 +386,156 @@ final class MPPUtility
       }
 
       return (buffer.toString());
+   }
+
+   /**
+    * Reads a duration value. This method relies on the fact that
+    * the units of the duration have been specified elsewhere.
+    *
+    * @param value Duration value
+    * @param type type of units of the duration
+    */
+   public static MPXDuration getDuration (int value, int type)
+   {
+      return (getDuration ((double)value, type));      
+   }
+   
+   /**
+    * Reads a duration value. This method relies on the fact that
+    * the units of the duration have been specified elsewhere.
+    *
+    * @param value Duration value
+    * @param type type of units of the duration
+    */
+   public static MPXDuration getDuration (double value, int type)
+   {
+      double duration;
+
+      switch (type)
+      {
+         case TimeUnit.MINUTES:
+         case TimeUnit.ELAPSED_MINUTES:
+         {
+            duration = value / 10;
+            break;
+         }
+
+         case TimeUnit.HOURS:
+         case TimeUnit.ELAPSED_HOURS:
+         {
+            duration = value / 600;
+            break;
+         }
+
+         case TimeUnit.DAYS:
+         case TimeUnit.ELAPSED_DAYS:
+         {
+            duration = value / 4800;
+            break;
+         }
+
+         case TimeUnit.WEEKS:
+         case TimeUnit.ELAPSED_WEEKS:
+         {
+            duration = value / 24000;
+            break;
+         }
+
+         case TimeUnit.MONTHS:
+         case TimeUnit.ELAPSED_MONTHS:
+         {
+            duration = value / 96000;
+            break;
+         }
+
+         default:
+         {
+            duration = value;
+            break;
+         }
+      }
+
+      return (new MPXDuration (duration, type));
+   }
+
+
+   /**
+    * This method converts between the duration units representation
+    * used in the MPP file, and the standard MPX duration units.
+    * If the supplied units are unrecognised, the units default to days.
+    *
+    * @param type MPP units
+    * @return MPX units
+    */
+   public static int getDurationUnits (int type)
+   {
+      int units;
+
+      switch (type & DURATION_UNITS_MASK)
+      {
+         case 3:
+         {
+            units = TimeUnit.MINUTES;
+            break;
+         }
+
+         case 4:
+         {
+            units = TimeUnit.ELAPSED_MINUTES;
+            break;
+         }
+
+         case 5:
+         {
+            units = TimeUnit.HOURS;
+            break;
+         }
+
+         case 6:
+         {
+            units = TimeUnit.ELAPSED_HOURS;
+            break;
+         }
+
+         case 8:
+         {
+            units = TimeUnit.ELAPSED_DAYS;
+            break;
+         }
+
+         case 9:
+         {
+            units = TimeUnit.WEEKS;
+            break;
+         }
+
+         case 10:
+         {
+            units = TimeUnit.ELAPSED_WEEKS;
+            break;
+         }
+
+         case 11:
+         {
+            units = TimeUnit.MONTHS;
+            break;
+         }
+
+         case 12:
+         {
+            units = TimeUnit.ELAPSED_MONTHS;
+            break;
+         }
+
+         default:
+         case 7:
+         {
+            units = TimeUnit.DAYS;
+            break;
+         }
+      }
+
+      return (units);
    }
 
 
@@ -460,5 +631,38 @@ final class MPPUtility
       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
       'A', 'B', 'C', 'D', 'E', 'F'
    };
+
+   /**
+    * Mask used to remove flags from the duration units field.
+    */
+   private static final int DURATION_UNITS_MASK = 0x1F;
+   
+   /**
+    * Default value to use for DST savings if we are using a version
+    * of Java < 1.4
+    */
+   private static final int DEFAULT_DST_SAVINGS = 3600000;
+   
+   /**
+    * Flag used to indicate the existance of the getDSTSavings
+    * method that was introduced in Java 1.4
+    */
+   private static boolean m_hasDSTSavings;   
+   
+   static
+   {
+      Class tz = TimeZone.class;
+      
+      try
+      {
+         tz.getMethod("getDSTSavings", null);
+         m_hasDSTSavings = true;
+      }
+      
+      catch (NoSuchMethodException ex)
+      {
+         m_hasDSTSavings = false;         
+      }
+   }   
 }
 
