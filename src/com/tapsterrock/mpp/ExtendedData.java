@@ -81,6 +81,25 @@ final class ExtendedData
       ByteArray item = (ByteArray)m_map.get (type);         
       if (item != null)
       {
+         result = m_data.getString(getOffset(item.byteArrayValue()));
+      }
+         
+      return (result);
+   }
+
+   /**
+    * Retrieves a string value from the extended data
+    * 
+    * @param type Type identifier
+    * @return string value
+    */      
+   public String getUnicodeString (Integer type)
+   {
+      String result = null;
+         
+      ByteArray item = (ByteArray)m_map.get (type);         
+      if (item != null)
+      {
          result = m_data.getUnicodeString(getOffset(item.byteArrayValue()));
       }
          

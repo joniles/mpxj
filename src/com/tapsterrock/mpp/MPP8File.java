@@ -126,8 +126,6 @@ final class MPP8File
    /**
     * This method extracts and collates task data.
     * 
-    * TODO extract extended attributes
-    * 
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
@@ -146,7 +144,8 @@ final class MPP8File
       int id;
       Task task;
       String notes;
-      
+      RTFUtility rtf = new RTFUtility ();
+            
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -196,7 +195,7 @@ final class MPP8File
          //task.setConfirmed(); // Calculated value
          task.setConstraintDate (MPPUtility.getTimestamp (data, 120));
          task.setConstraintType (ConstraintType.getInstance (MPPUtility.getShort (data, 88)));
-         task.setContact(taskExtData.getString (TASK_CONTACT));
+         task.setContact(taskExtData.getUnicodeString (TASK_CONTACT));
          task.setCost(new Double (((double)MPPUtility.getLong6(data, 222)) / 100));
          task.setCost1(new Double (((double)taskExtData.getLong (TASK_COST1)) / 100));
          task.setCost2(new Double (((double)taskExtData.getLong (TASK_COST2)) / 100));
@@ -333,58 +332,57 @@ final class MPP8File
          task.setStop(MPPUtility.getTimestamp (data, 124));
          //task.setSubprojectFile();
          //task.setSV(); // Calculated value
-         task.setText1(taskExtData.getString(TASK_TEXT1));
-         task.setText2(taskExtData.getString(TASK_TEXT2));
-         task.setText3(taskExtData.getString(TASK_TEXT3));
-         task.setText4(taskExtData.getString(TASK_TEXT4));
-         task.setText5(taskExtData.getString(TASK_TEXT5));
-         task.setText6(taskExtData.getString(TASK_TEXT6));
-         task.setText7(taskExtData.getString(TASK_TEXT7));
-         task.setText8(taskExtData.getString(TASK_TEXT8));
-         task.setText9(taskExtData.getString(TASK_TEXT9));
-         task.setText10(taskExtData.getString(TASK_TEXT10));
-         task.setText11(taskExtData.getString(TASK_TEXT10));
-         task.setText12(taskExtData.getString(TASK_TEXT12));
-         task.setText13(taskExtData.getString(TASK_TEXT13));
-         task.setText14(taskExtData.getString(TASK_TEXT14));
-         task.setText15(taskExtData.getString(TASK_TEXT15));
-         task.setText16(taskExtData.getString(TASK_TEXT16));
-         task.setText17(taskExtData.getString(TASK_TEXT17));
-         task.setText18(taskExtData.getString(TASK_TEXT18));
-         task.setText19(taskExtData.getString(TASK_TEXT19));
-         task.setText20(taskExtData.getString(TASK_TEXT20));
-         task.setText21(taskExtData.getString(TASK_TEXT21));
-         task.setText22(taskExtData.getString(TASK_TEXT22));
-         task.setText23(taskExtData.getString(TASK_TEXT23));
-         task.setText24(taskExtData.getString(TASK_TEXT24));
-         task.setText25(taskExtData.getString(TASK_TEXT25));
-         task.setText26(taskExtData.getString(TASK_TEXT26));
-         task.setText27(taskExtData.getString(TASK_TEXT27));
-         task.setText28(taskExtData.getString(TASK_TEXT28));
-         task.setText29(taskExtData.getString(TASK_TEXT29));
-         task.setText30(taskExtData.getString(TASK_TEXT30)); 
+         task.setText1(taskExtData.getUnicodeString(TASK_TEXT1));
+         task.setText2(taskExtData.getUnicodeString(TASK_TEXT2));
+         task.setText3(taskExtData.getUnicodeString(TASK_TEXT3));
+         task.setText4(taskExtData.getUnicodeString(TASK_TEXT4));
+         task.setText5(taskExtData.getUnicodeString(TASK_TEXT5));
+         task.setText6(taskExtData.getUnicodeString(TASK_TEXT6));
+         task.setText7(taskExtData.getUnicodeString(TASK_TEXT7));
+         task.setText8(taskExtData.getUnicodeString(TASK_TEXT8));
+         task.setText9(taskExtData.getUnicodeString(TASK_TEXT9));
+         task.setText10(taskExtData.getUnicodeString(TASK_TEXT10));
+         task.setText11(taskExtData.getUnicodeString(TASK_TEXT10));
+         task.setText12(taskExtData.getUnicodeString(TASK_TEXT12));
+         task.setText13(taskExtData.getUnicodeString(TASK_TEXT13));
+         task.setText14(taskExtData.getUnicodeString(TASK_TEXT14));
+         task.setText15(taskExtData.getUnicodeString(TASK_TEXT15));
+         task.setText16(taskExtData.getUnicodeString(TASK_TEXT16));
+         task.setText17(taskExtData.getUnicodeString(TASK_TEXT17));
+         task.setText18(taskExtData.getUnicodeString(TASK_TEXT18));
+         task.setText19(taskExtData.getUnicodeString(TASK_TEXT19));
+         task.setText20(taskExtData.getUnicodeString(TASK_TEXT20));
+         task.setText21(taskExtData.getUnicodeString(TASK_TEXT21));
+         task.setText22(taskExtData.getUnicodeString(TASK_TEXT22));
+         task.setText23(taskExtData.getUnicodeString(TASK_TEXT23));
+         task.setText24(taskExtData.getUnicodeString(TASK_TEXT24));
+         task.setText25(taskExtData.getUnicodeString(TASK_TEXT25));
+         task.setText26(taskExtData.getUnicodeString(TASK_TEXT26));
+         task.setText27(taskExtData.getUnicodeString(TASK_TEXT27));
+         task.setText28(taskExtData.getUnicodeString(TASK_TEXT28));
+         task.setText29(taskExtData.getUnicodeString(TASK_TEXT29));
+         task.setText30(taskExtData.getUnicodeString(TASK_TEXT30)); 
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 134));
          task.setUniqueID(id);
          //task.setUpdateNeeded(); // Calculated value
-         task.setWBS(taskExtData.getString (TASK_WBS));
+         task.setWBS(taskExtData.getUnicodeString (TASK_WBS));
          task.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));
          //task.setWorkVariance(); // Calculated value
          
          //
          // Retrieve the task notes.
-         // TODO fix reading notes in FixDeferFix         
          //
-//         notes = taskExtData.getString (TASK_NOTES);
-//         if (notes != null)
-//         {
-//            if (m_preserveNoteFormatting == false)
-//            {
-//               notes = removeNoteFormatting (rtfEditor, rtfDoc, notes);
-//            }
-//                                      
-//            task.addTaskNotes(notes);
-//         }
+         notes = taskExtData.getString (TASK_NOTES);
+         if (notes != null)
+         {
+            if (file.getPreserveNoteFormatting() == false)
+            {
+               notes = rtf.strip (notes);
+            }
+                                      
+            task.addTaskNotes(notes);
+         }
          
          //
          // Calculate the cost variance
@@ -450,8 +448,6 @@ final class MPP8File
    /**
     * This method extracts and collates resource data.
     * 
-    * TODO extract extended attributes
-    * 
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws MPXException
@@ -469,6 +465,8 @@ final class MPP8File
       byte[] data;
       int id;
       Resource resource;
+      String notes;
+      RTFUtility rtf = new RTFUtility ();
             
       for (int loop=0; loop < resources; loop++)
       {
@@ -509,7 +507,7 @@ final class MPP8File
          //resource.setBaseCalendar();
          resource.setBaselineCost(new Double(((double)MPPUtility.getLong6(data, 126))/100));
          resource.setBaselineWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 68))/100, TimeUnit.HOURS));
-         resource.setCode (rscExtData.getString (RESOURCE_CODE));
+         resource.setCode (rscExtData.getUnicodeString (RESOURCE_CODE));
          resource.setCost(new Double(((double)MPPUtility.getLong6(data, 120))/100));
          resource.setCost1(new Double (((double)rscExtData.getLong (RESOURCE_COST1)) / 100));
          resource.setCost2(new Double (((double)rscExtData.getLong (RESOURCE_COST2)) / 100));
@@ -542,7 +540,7 @@ final class MPP8File
          resource.setDuration8(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION8), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION8_UNITS))));
          resource.setDuration9(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION9), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION9_UNITS))));
          resource.setDuration10(MPPUtility.getDuration (rscExtData.getInt (RESOURCE_DURATION10), MPPUtility.getDurationUnits(rscExtData.getShort (RESOURCE_DURATION10_UNITS))));
-         resource.setEmailAddress(rscExtData.getString (RESOURCE_EMAIL));
+         resource.setEmailAddress(rscExtData.getUnicodeString (RESOURCE_EMAIL));
          resource.setFinish1(rscExtData.getTimestamp (RESOURCE_FINISH1));         
          resource.setFinish2(rscExtData.getTimestamp (RESOURCE_FINISH2));
          resource.setFinish3(rscExtData.getTimestamp (RESOURCE_FINISH3));
@@ -553,7 +551,7 @@ final class MPP8File
          resource.setFinish8(rscExtData.getTimestamp (RESOURCE_FINISH8));
          resource.setFinish9(rscExtData.getTimestamp (RESOURCE_FINISH9));
          resource.setFinish10(rscExtData.getTimestamp (RESOURCE_FINISH10));
-         resource.setGroup(rscExtData.getString (RESOURCE_GROUP));
+         resource.setGroup(rscExtData.getUnicodeString (RESOURCE_GROUP));
          resource.setID (MPPUtility.getInt (data, 4));
          resource.setInitials (rscVarData.getUnicodeString(getOffset (data, 160)));
          //resource.setLinkedFields(); // Calculated value
@@ -601,49 +599,52 @@ final class MPP8File
          resource.setStart8(rscExtData.getTimestamp (RESOURCE_START8));
          resource.setStart9(rscExtData.getTimestamp (RESOURCE_START9));
          resource.setStart10(rscExtData.getTimestamp (RESOURCE_START10));
-         resource.setText1(rscExtData.getString (RESOURCE_TEXT1));
-         resource.setText2(rscExtData.getString (RESOURCE_TEXT2));
-         resource.setText3(rscExtData.getString (RESOURCE_TEXT3));
-         resource.setText4(rscExtData.getString (RESOURCE_TEXT4));
-         resource.setText5(rscExtData.getString (RESOURCE_TEXT5));
-         resource.setText6(rscExtData.getString (RESOURCE_TEXT6));
-         resource.setText7(rscExtData.getString (RESOURCE_TEXT7));
-         resource.setText8(rscExtData.getString (RESOURCE_TEXT8));
-         resource.setText9(rscExtData.getString (RESOURCE_TEXT9));
-         resource.setText10(rscExtData.getString (RESOURCE_TEXT10));
-         resource.setText11(rscExtData.getString (RESOURCE_TEXT11));
-         resource.setText12(rscExtData.getString (RESOURCE_TEXT12));
-         resource.setText13(rscExtData.getString (RESOURCE_TEXT13));
-         resource.setText14(rscExtData.getString (RESOURCE_TEXT14));
-         resource.setText15(rscExtData.getString (RESOURCE_TEXT15));
-         resource.setText16(rscExtData.getString (RESOURCE_TEXT16));
-         resource.setText17(rscExtData.getString (RESOURCE_TEXT17));
-         resource.setText18(rscExtData.getString (RESOURCE_TEXT18));
-         resource.setText19(rscExtData.getString (RESOURCE_TEXT19));
-         resource.setText20(rscExtData.getString (RESOURCE_TEXT20));
-         resource.setText21(rscExtData.getString (RESOURCE_TEXT21));
-         resource.setText22(rscExtData.getString (RESOURCE_TEXT22));
-         resource.setText23(rscExtData.getString (RESOURCE_TEXT23));
-         resource.setText24(rscExtData.getString (RESOURCE_TEXT24));
-         resource.setText25(rscExtData.getString (RESOURCE_TEXT25));
-         resource.setText26(rscExtData.getString (RESOURCE_TEXT26));
-         resource.setText27(rscExtData.getString (RESOURCE_TEXT27));
-         resource.setText28(rscExtData.getString (RESOURCE_TEXT28));
-         resource.setText29(rscExtData.getString (RESOURCE_TEXT29));
-         resource.setText30(rscExtData.getString (RESOURCE_TEXT30));         
+         resource.setText1(rscExtData.getUnicodeString (RESOURCE_TEXT1));
+         resource.setText2(rscExtData.getUnicodeString (RESOURCE_TEXT2));
+         resource.setText3(rscExtData.getUnicodeString (RESOURCE_TEXT3));
+         resource.setText4(rscExtData.getUnicodeString (RESOURCE_TEXT4));
+         resource.setText5(rscExtData.getUnicodeString (RESOURCE_TEXT5));
+         resource.setText6(rscExtData.getUnicodeString (RESOURCE_TEXT6));
+         resource.setText7(rscExtData.getUnicodeString (RESOURCE_TEXT7));
+         resource.setText8(rscExtData.getUnicodeString (RESOURCE_TEXT8));
+         resource.setText9(rscExtData.getUnicodeString (RESOURCE_TEXT9));
+         resource.setText10(rscExtData.getUnicodeString (RESOURCE_TEXT10));
+         resource.setText11(rscExtData.getUnicodeString (RESOURCE_TEXT11));
+         resource.setText12(rscExtData.getUnicodeString (RESOURCE_TEXT12));
+         resource.setText13(rscExtData.getUnicodeString (RESOURCE_TEXT13));
+         resource.setText14(rscExtData.getUnicodeString (RESOURCE_TEXT14));
+         resource.setText15(rscExtData.getUnicodeString (RESOURCE_TEXT15));
+         resource.setText16(rscExtData.getUnicodeString (RESOURCE_TEXT16));
+         resource.setText17(rscExtData.getUnicodeString (RESOURCE_TEXT17));
+         resource.setText18(rscExtData.getUnicodeString (RESOURCE_TEXT18));
+         resource.setText19(rscExtData.getUnicodeString (RESOURCE_TEXT19));
+         resource.setText20(rscExtData.getUnicodeString (RESOURCE_TEXT20));
+         resource.setText21(rscExtData.getUnicodeString (RESOURCE_TEXT21));
+         resource.setText22(rscExtData.getUnicodeString (RESOURCE_TEXT22));
+         resource.setText23(rscExtData.getUnicodeString (RESOURCE_TEXT23));
+         resource.setText24(rscExtData.getUnicodeString (RESOURCE_TEXT24));
+         resource.setText25(rscExtData.getUnicodeString (RESOURCE_TEXT25));
+         resource.setText26(rscExtData.getUnicodeString (RESOURCE_TEXT26));
+         resource.setText27(rscExtData.getUnicodeString (RESOURCE_TEXT27));
+         resource.setText28(rscExtData.getUnicodeString (RESOURCE_TEXT28));
+         resource.setText29(rscExtData.getUnicodeString (RESOURCE_TEXT29));
+         resource.setText30(rscExtData.getUnicodeString (RESOURCE_TEXT30));         
          resource.setUniqueID(id);
          resource.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 56))/100, TimeUnit.HOURS));
-//
-//         notes = rscVarData.getString (id, RESOURCE_NOTES);
-//         if (notes != null)
-//         {
-//            if (m_preserveNoteFormatting == false)
-//            {
-//               notes = removeNoteFormatting (rtfEditor, rtfDoc, notes);
-//            }
-//            
-//            resource.addResourceNotes(notes);
-//         }
+
+         //
+         // Retrieve the resource notes.
+         //
+         notes = rscExtData.getString (RESOURCE_NOTES);
+         if (notes != null)
+         {
+            if (file.getPreserveNoteFormatting() == false)
+            {
+               notes = rtf.strip(notes);
+            }
+            
+            resource.addResourceNotes(notes);
+         }
 
          //
          // Calculate the cost variance

@@ -100,6 +100,30 @@ final class FixDeferFix extends MPPComponent
       return (result);
    }
 
+   /**
+    * This method retrieves the string at the specified offset.
+    * 
+    * @param offset Offset into var data
+    * @return String value
+    */
+   public String getString (int offset)
+   {
+      String result = null;
+      byte[] data = getByteArray (offset);
+      if (data != null)
+      {
+         result = new String (data);
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method retrieves the string at the specified offset.
+    * 
+    * @param offset Offset into var data
+    * @return String value
+    */
    public String getUnicodeString (int offset)
    {
       String result = null;

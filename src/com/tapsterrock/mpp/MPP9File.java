@@ -24,14 +24,10 @@
 package com.tapsterrock.mpp;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TreeMap;
-
-import javax.swing.text.Document;
-import javax.swing.text.rtf.RTFEditorKit;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -373,16 +369,8 @@ final class MPP9File
       byte[] data;
       byte[] metaData;
       Task task;
-      RTFEditorKit rtfEditor = null;
-      Document rtfDoc = null;
-      String notes;
-            
-      if (file.getPreserveNoteFormatting() == false)
-      {
-         rtfEditor = new RTFEditorKit ();
-         rtfDoc = rtfEditor.createDefaultDocument();
-      }
-      
+      RTFUtility rtf = new RTFUtility ();
+      String notes;                  
 
       for (int loop=0; loop < uniqueid.length; loop++)
       {
@@ -472,8 +460,7 @@ final class MPP9File
          task.setFinish10(taskVarData.getTimestamp (id, TASK_FINISH10));
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Unsure of mapping from MPX->MSP2K
-         task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));
-                        
+         task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));                        
          //task.setFreeSlack();  // Calculated value
          task.setID (MPPUtility.getInt (data, 4));
          //task.setLateFinish();  // Calculated value
@@ -610,7 +597,7 @@ final class MPP9File
          {
             if (file.getPreserveNoteFormatting() == false)
             {
-               notes = removeNoteFormatting (rtfEditor, rtfDoc, notes);
+               notes = rtf.strip(notes);
             }
                                       
             task.addTaskNotes(notes);
@@ -623,29 +610,7 @@ final class MPP9File
 			{
 				task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));	
 			}       																																	
-      }
-
-		
-		//
-		// Update the internal structure. We'll take this opportunity to 
-		// generate outline numbers for the tasks as they don't appear to
-		// be present in the MPP file.
-		//
-//		  setAutoOutlineNumber(true);
-//      updateStructure ();
-//      setAutoOutlineNumber(false);      
-      
-      //
-      // Perform post-processing to set the summary flag
-      //
-//      LinkedList tasks = getAllTasks();
-//      Iterator iter = tasks.iterator();     
-//      
-//      while (iter.hasNext() == true)
-//      {
-//			task = (Task)iter.next();
-//			task.setSummary(task.getChildTasks().size() != 0);
-//      }
+      }		
    }
 
    /**
@@ -721,17 +686,9 @@ final class MPP9File
       byte[] data;
       byte[] metaData;      
       Resource resource;
-      
-      RTFEditorKit rtfEditor = null;
-      Document rtfDoc = null;
-      String notes;
-            
-      if (file.getPreserveNoteFormatting() == false)
-      {
-         rtfEditor = new RTFEditorKit ();
-         rtfDoc = rtfEditor.createDefaultDocument();
-      }
 
+      RTFUtility rtf = new RTFUtility ();      
+      String notes;            
 
       for (int loop=0; loop < uniqueid.length; loop++)
       {
@@ -905,7 +862,7 @@ final class MPP9File
          {
             if (file.getPreserveNoteFormatting() == false)
             {
-               notes = removeNoteFormatting (rtfEditor, rtfDoc, notes);
+               notes = rtf.strip(notes);
             }
             
             resource.addResourceNotes(notes);
@@ -993,41 +950,6 @@ final class MPP9File
       }
 
       return (Priority.getInstance (result));
-   }
-
-   /**
-    * This method is used to remove RTF formatting from notes.
-    * 
-    * @param editor RTF editor instance
-    * @param doc RTF document instance
-    * @param note Note from which formatting is to be removed
-    * @return Plain text
-    */
-   private static String removeNoteFormatting (RTFEditorKit editor, Document doc, String note)
-   {
-      String result;
-      
-      try
-      {
-         int length = doc.getLength();
-         if (length != 0)
-         {
-            doc.remove(0, length);
-         }
-           
-         StringReader reader = new StringReader (note);
-               
-         editor.read(reader, doc, 0);
-               
-         result = doc.getText(0, doc.getLength());
-      }
-      
-      catch (Exception ex)
-      {
-         result = note;
-      }         
-
-      return (result);      
    }
       
    /**
