@@ -106,6 +106,17 @@ public final class ProjectHeader extends MPXRecord
       setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);
       setFiscalYearStart(false);
       setDefaultTaskEarnedValueMethod(EarnedValueMethod.PERCENT_COMPLETE);
+      setNewTasksEstimated(true);
+      setAutoAddNewResourcesAndTasks(true);
+      setAutolink(true);
+      setMicrosoftProjectServerURL(true);
+      setDefaultTaskType(TaskType.FIXED_UNITS);
+      setDefaultFixedCostAccrual(AccrueType.END);
+      setCriticalSlackLimit(DEFAULT_CRITICAL_SLACK_LIMIT);
+      setBaselineForEarnedValue(DEFAULT_BASELINE_FOR_EARNED_VALUE);
+      setFiscalYearStartMonth(DEFAULT_FISCAL_YEAR_START_MONTH);
+      setNewTaskStartIsProjectStart(true);
+      setWeekStartDay(DEFAULT_WEEK_START_DAY);
    }
 
    /**
@@ -1269,23 +1280,37 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets the Start Date
+    * Retrieves the project start date. If an explicit start date has not been
+    * set, this method calculates the start date by looking for
+    * the earliest task start date.
     *
-    * @return Start Date
+    * @return project start date
     */
    public Date getStartDate ()
    {
-      return (m_startDate);
+      Date result = m_startDate;     
+      if (result == null)
+      {
+         result = getParentFile().getStartDate();
+      }
+      return (result);
    }
 
    /**
-    * Gets the Finish Date
+    * Retrieves the project finish date. If an explicit finish date has not been
+    * set, this method calculates the finish date by looking for
+    * the latest task finish date.
     *
     * @return Finish Date
     */
    public Date getFinishDate ()
    {
-      return (m_finishDate);
+      Date result = m_finishDate;
+      if (result == null)
+      {
+         result = getParentFile().getFinishDate();
+      }
+      return (result);
    }
 
    /**
@@ -2217,6 +2242,670 @@ public final class ProjectHeader extends MPXRecord
    }
    
    /**
+    * Retrieve the remove file properties flag.
+    * 
+    * @return remove file properties flag
+    */
+   public boolean getRemoveFileProperties ()
+   {
+      return (m_removeFileProperties);
+   }
+
+   /**
+    * Set the remove file properties flag.
+    * 
+    * @param removeFileProperties remove file properties flag
+    */
+   public void setRemoveFileProperties (boolean removeFileProperties)
+   {
+      m_removeFileProperties = removeFileProperties;
+   }
+   
+   /**
+    * Retrieve the move completed ends back flag.
+    * 
+    * @return move completed ends back flag
+    */
+   public boolean getMoveCompletedEndsBack ()
+   {
+      return (m_moveCompletedEndsBack);
+   }
+   
+   /**
+    * Set the move completed ends back flag.
+    * 
+    * @param moveCompletedEndsBack move completed ends back flag
+    */
+   public void setMoveCompletedEndsBack (boolean moveCompletedEndsBack)
+   {
+      m_moveCompletedEndsBack = moveCompletedEndsBack;
+   }
+   
+   /**
+    * Retrieve the new tasks estimated flag.
+    * 
+    * @return new tasks estimated flag
+    */
+   public boolean getNewTasksEstimated ()
+   {
+      return (m_newTasksEstimated);
+   }
+   
+   /**
+    * Set the new tasks estimated flag.
+    * 
+    * @param newTasksEstimated new tasks estimated flag
+    */
+   public void setNewTasksEstimated (boolean newTasksEstimated)
+   {
+      m_newTasksEstimated = newTasksEstimated;
+   }
+   
+   /**
+    * Retrieve the spread actual cost flag.
+    * 
+    * @return spread actual cost flag
+    */
+   public boolean getSpreadActualCost ()
+   {
+      return (m_spreadActualCost);
+   }
+   
+   /**
+    * Set the spread actual cost flag.
+    * 
+    * @param spreadActualCost spread actual cost flag
+    */
+   public void setSpreadActualCost (boolean spreadActualCost)
+   {
+      m_spreadActualCost = spreadActualCost;
+   }
+   
+   /**
+    * Retrieve the multiple critical paths flag.
+    * 
+    * @return multiple critical paths flag
+    */
+   public boolean getMultipleCriticalPaths ()
+   {
+      return(m_multipleCriticalPaths);
+   }
+
+   /**
+    * Set the multiple critical paths flag.
+    * 
+    * @param multipleCriticalPaths multiple critical paths flag
+    */
+   public void setMultipleCriticalPaths (boolean multipleCriticalPaths)
+   {
+      m_multipleCriticalPaths = multipleCriticalPaths;
+   }
+   
+   /**
+    * Retrieve the auto add new resources and tasks flag.
+    * 
+    * @return auto add new resources and tasks flag
+    */
+   public boolean getAutoAddNewResourcesAndTasks ()
+   {
+      return (m_autoAddNewResourcesAndTasks);
+   }
+
+   /**
+    * Set the auto add new resources and tasks flag.
+    * 
+    * @param autoAddNewResourcesAndTasks auto add new resources and tasks flag
+    */
+   public void setAutoAddNewResourcesAndTasks (boolean autoAddNewResourcesAndTasks)
+   {
+      m_autoAddNewResourcesAndTasks = autoAddNewResourcesAndTasks;
+   }
+   
+   /**
+    * Retrieve the last saved date.
+    * 
+    * @return last saved date
+    */
+   public Date getLastSaved ()
+   {
+      return (m_lastSaved);
+   }
+
+   /**
+    * Set the last saved date.
+    * 
+    * @param lastSaved last saved date
+    */
+   public void setLastSaved (Date lastSaved)
+   {
+      m_lastSaved = lastSaved;
+   }
+   
+   /**
+    * Retrieve the status date.
+    * 
+    * @return status date
+    */
+   public Date getStatusDate ()
+   {
+      return (m_statusDate);
+   }
+
+   /**
+    * Set the status date.
+    * 
+    * @param statusDate status date
+    */
+   public void setStatusDate (Date statusDate)
+   {
+      m_statusDate = statusDate;
+   }
+   
+   /**
+    * Retrieves the move remaining starts back flag.
+    * 
+    * @return move remaining starts back flag
+    */
+   public boolean getMoveRemainingStartsBack ()
+   {
+      return (m_moveRemainingStartsBack);
+   }
+
+   /**
+    * Sets the move remaining starts back flag.
+    * 
+    * @param moveRemainingStartsBack remaining starts back flag
+    */
+   public void setMoveRemainingStartsBack (boolean moveRemainingStartsBack)
+   {
+      m_moveRemainingStartsBack = moveRemainingStartsBack;
+   }
+   
+   /**
+    * Retrieves the autolink flag.
+    * 
+    * @return autolink flag
+    */
+   public boolean getAutolink ()
+   {
+      return (m_autolink);
+   }
+   
+   /**
+    * Sets the autolink flag.
+    * 
+    * @param autolink autolink flag
+    */
+   public void setAutolink (boolean autolink)
+   {
+      m_autolink = autolink;
+   }
+   
+   /**
+    * Retrieves the Microsoft Project Server URL flag.
+    * 
+    * @return Microsoft Project Server URL flag
+    */
+   public boolean getMicrosoftProjectServerURL ()
+   {
+      return (m_microsoftProjectServerURL);
+   }
+
+   /**
+    * Sets the Microsoft Project Server URL flag.
+    * 
+    * @param microsoftProjectServerURL Microsoft Project Server URL flag
+    */
+   public void setMicrosoftProjectServerURL (boolean microsoftProjectServerURL)
+   {
+      m_microsoftProjectServerURL = microsoftProjectServerURL;
+   }
+   
+   /**
+    * Retrieves the honor constraints flag.
+    * 
+    * @return honor constraints flag
+    */
+   public boolean getHonorConstraints ()
+   {
+      return(m_honorConstraints);
+   }
+   
+   /**
+    * Sets the honor constraints flag.
+    * 
+    * @param honorConstraints honor constraints flag
+    */
+   public void setHonorConstraints (boolean honorConstraints)
+   {
+      m_honorConstraints = honorConstraints;
+   }
+   
+   /**
+    * Retrieve the admin project flag.
+    * 
+    * @return admin project flag
+    */
+   public boolean getAdminProject ()
+   {
+      return (m_adminProject);
+   }
+   
+   /**
+    * Set the admin project flag.
+    * 
+    * @param adminProject admin project flag
+    */
+   public void setAdminProject (boolean adminProject)
+   {
+      m_adminProject = adminProject;
+   }
+   
+   /**
+    * Retrieves the inserted projects like summary flag.
+    * 
+    * @return inserted projects like summary flag
+    */
+   public boolean getInsertedProjectsLikeSummary ()
+   {
+      return (m_insertedProjectsLikeSummary);
+   }
+   
+   /**
+    * Sets the inserted projects like summary flag.
+    * 
+    * @param insertedProjectsLikeSummary inserted projects like summary flag
+    */
+   public void setInsertedProjectsLikeSummary (boolean insertedProjectsLikeSummary)
+   {
+      m_insertedProjectsLikeSummary = insertedProjectsLikeSummary;
+   }
+   
+   /**
+    * Retrieves the project name.
+    * 
+    * @return project name
+    */
+   public String getName ()
+   {
+      return (m_name);
+   }
+
+   /**
+    * Sets the project name.
+    * 
+    * @param name project name
+    */
+   public void setName (String name)
+   {
+      m_name = name;
+   }
+   
+   /**
+    * Retrieves the spread percent complete flag.
+    * 
+    * @return spread percent complete flag
+    */
+   public boolean getSpreadPercentComplete ()
+   {
+      return (m_spreadPercentComplete);
+   }
+   
+   /**
+    * Sets the spread percent complete flag.
+    * 
+    * @param spreadPercentComplete spread percent complete flag
+    */
+   public void setSpreadPercentComplete (boolean spreadPercentComplete)
+   {
+      m_spreadPercentComplete = spreadPercentComplete;
+   }
+   
+   /**
+    * Retrieve the move completed ends forward flag.
+    * 
+    * @return move completed ends forward flag
+    */
+   public boolean getMoveCompletedEndsForward ()
+   {
+      return (m_moveCompletedEndsForward);
+   }
+   
+   /**
+    * Sets the move completed ends forward flag.
+    * 
+    * @param moveCompletedEndsForward move completed ends forward flag
+    */
+   public void setMoveCompletedEndsForward (boolean moveCompletedEndsForward)
+   {
+      m_moveCompletedEndsForward = moveCompletedEndsForward;
+   }
+   
+   /**
+    * Retrieve the editable actual costs flag.
+    * 
+    * @return editable actual costs flag
+    */
+   public boolean getEditableActualCosts ()
+   {
+      return (m_editableActualCosts);
+   }
+   
+   /**
+    * Set the editable actual costs flag
+    * 
+    * @param editableActualCosts editable actual costs flag
+    */
+   public void setEditableActualCosts (boolean editableActualCosts)
+   {
+      m_editableActualCosts = editableActualCosts;
+   }
+   
+   /**
+    * Retrieve the unique ID for this project.
+    * 
+    * @return unique ID
+    */
+   public String getUniqueID ()
+   {
+      return (m_uniqueID);
+   }
+   
+   /**
+    * Set the unique ID for this project.
+    * 
+    * @param uniqueID unique ID
+    */
+   public void setUniqueID (String uniqueID)
+   {
+      m_uniqueID = uniqueID;
+   }
+   
+   /**
+    * Retrieve the project revision number.
+    * 
+    * @return revision number
+    */
+   public Integer getRevision ()
+   {
+      return (m_revision);
+   }
+   
+   /**
+    * Retrieve the new tasks effort driven flag.
+    * 
+    * @return new tasks effort driven flag
+    */
+   public boolean getNewTasksEffortDriven ()
+   {
+      return (m_newTasksEffortDriven);
+   }
+
+   /**
+    * Sets the new tasks effort driven flag.
+    * 
+    * @param newTasksEffortDriven new tasks effort driven flag
+    */
+   public void setNewTasksEffortDriven (boolean newTasksEffortDriven)
+   {
+      m_newTasksEffortDriven = newTasksEffortDriven;
+   }
+   
+   /**
+    * Set the project revision number.
+    * 
+    * @param revision revision number
+    */
+   public void setRevision (Integer revision)
+   {
+      m_revision = revision;
+   }
+   
+   /**
+    * Retrieve the move remaining starts forward flag.
+    * 
+    * @return move remaining starts forward flag
+    */
+   public boolean getMoveRemainingStartsForward ()
+   {
+      return (m_moveRemainingStartsForward);
+   }
+   
+   /**
+    * Set the move remaining starts forward flag.
+    * 
+    * @param moveRemainingStartsForward move remaining starts forward flag
+    */
+   public void setMoveRemainingStartsForward (boolean moveRemainingStartsForward)
+   {
+      m_moveRemainingStartsForward = moveRemainingStartsForward;
+   }
+   
+   /**
+    * Retrieve the actuals in sync flag.
+    * 
+    * @return actuals in sync flag
+    */
+   public boolean getActualsInSync ()
+   {
+      return (m_actualsInSync);
+   }
+   
+   /**
+    * Set the actuals in sync flag.
+    * 
+    * @param actualsInSync actuals in sync flag
+    */
+   public void setActualsInSync (boolean actualsInSync)
+   {
+      m_actualsInSync = actualsInSync;
+   }
+   
+   /**
+    * Retrieve the default task type.
+    * 
+    * @return default task type
+    */
+   public TaskType getDefaultTaskType ()
+   {
+      return (m_defaultTaskType);
+   }
+   
+   /**
+    * Set the default task type
+    * 
+    * @param defaultTaskType default task type
+    */
+   public void setDefaultTaskType (TaskType defaultTaskType)
+   {
+      m_defaultTaskType = defaultTaskType;
+   }
+   
+   /**
+    * Retrieve the earned value method.
+    * 
+    * @return earned value method
+    */
+   public EarnedValueMethod getEarnedValueMethod ()
+   {
+      return (m_earnedValueMethod);
+   }
+   
+   /**
+    * Set the earned value method.
+    * 
+    * @param earnedValueMethod earned value method
+    */
+   public void setEarnedValueMethod (EarnedValueMethod earnedValueMethod)
+   {
+      m_earnedValueMethod = earnedValueMethod;
+   }
+   
+   /**
+    * Retrieve the project creation date.
+    * 
+    * @return project creation date
+    */
+   public Date getCreationDate ()
+   {
+      return (m_creationDate);
+   }
+   
+   /**
+    * Set the project creation date.
+    * 
+    * @param creationDate project creation date
+    */
+   public void setCreationDate (Date creationDate)
+   {
+      m_creationDate = creationDate;
+   }
+
+   /**
+    * Retrieve the extended creation date.
+    * 
+    * @return extended creation date
+    */
+   public Date getExtendedCreationDate ()
+   {
+      return (m_extendedCreationDate);
+   }
+   
+   /**
+    * Retrieve the default fixed cost accrual type.
+    * 
+    * @return default fixed cost accrual type
+    */
+   public AccrueType getDefaultFixedCostAccrual ()
+   {
+      return (m_defaultFixedCostAccrual);
+   }
+   
+   /**
+    * Sets the default fixed cost accrual type.
+    * 
+    * @param defaultFixedCostAccrual default fixed cost accrual type
+    */
+   public void setDefaultFixedCostAccrual (AccrueType defaultFixedCostAccrual)
+   {
+      m_defaultFixedCostAccrual = defaultFixedCostAccrual;
+   }
+   
+   /**
+    * Set the extended creation date.
+    * 
+    * @param creationDate extended creation date
+    */
+   public void setExtendedCreationDate (Date creationDate)
+   {
+      m_extendedCreationDate = creationDate;
+   }
+
+   /**
+    * Retrieve the critical slack limit.
+    * 
+    * @return critical slack limit
+    */
+   public Integer getCriticalSlackLimit ()
+   {
+      return (m_criticalSlackLimit);
+   }
+   
+   /**
+    * Set the critical slack limit.
+    * 
+    * @param criticalSlackLimit critical slack limit
+    */
+   public void setCriticalSlackLimit (Integer criticalSlackLimit)
+   {
+      m_criticalSlackLimit = criticalSlackLimit;
+   }
+   
+   /**
+    * Retrieve the number of the baseline to use for earned value
+    * calculations.
+    * 
+    * @return baseline for earned value
+    */
+   public Integer getBaselineForEarnedValue ()
+   {
+      return (m_baselineForEarnedValue);
+   }
+   
+   /**
+    * Set the number of the baseline to use for earned value
+    * calculations.
+    * 
+    * @param baselineForEarnedValue baseline for earned value
+    */
+   public void setBaselineForEarnedValue (Integer baselineForEarnedValue)
+   {
+      m_baselineForEarnedValue = baselineForEarnedValue;
+   }
+   
+   /**
+    * Retrieves the fiscal year start month (January=1, December=12).
+    * 
+    * @return fiscal year start month
+    */
+   public Integer getFiscalYearStartMonth ()
+   {
+      return (m_fiscalYearStartMonth);
+   }
+
+   /**
+    * Sets the fiscal year start month (January=1, December=12).
+    * 
+    * @param fiscalYearStartMonth fiscal year start month
+    */
+   public void setFiscalYearStartMonth (Integer fiscalYearStartMonth)
+   {
+      m_fiscalYearStartMonth = fiscalYearStartMonth;
+   }
+   
+   /**
+    * Retrieve the flag indicating if new tasks should default to the
+    * project start date (true) or the current date (false).
+    * 
+    * @return new task start is project start
+    */
+   public boolean getNewTaskStartIsProjectStart ()
+   {
+      return (m_newTaskStartIsProjectStart);
+   }
+   
+   /**
+    * Sets the flag indicating if new tasks should default to the
+    * project start date (true) or the current date (false).
+    * 
+    * @param newTaskStartIsProjectStart new task start is project start
+    */
+   public void setNewTaskStartIsProjectStart (boolean newTaskStartIsProjectStart)
+   {
+      m_newTaskStartIsProjectStart = newTaskStartIsProjectStart;
+   }
+   
+   /**
+    * Retrieve the week start day (1=Monday, 7=Sunday).
+    * 
+    * @return week start day
+    */
+   public Integer getWeekStartDay ()
+   {
+      return (m_weekStartDay);
+   }
+
+   /**
+    * Set the week start day (1=Monday, 7=Sunday).
+    * 
+    * @param weekStartDay week start day
+    */
+   public void setWeekStartDay (Integer weekStartDay)
+   {
+      m_weekStartDay = weekStartDay;
+   }
+   
+   /**
     * This method updates the formatters used to control the currency
     * formatting.
     */
@@ -2418,48 +3107,47 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_minutesPerWeek;
    private boolean m_fiscalYearStart;
    private EarnedValueMethod m_defaultTaskEarnedValueMethod;
+   private boolean m_removeFileProperties;
+   private boolean m_moveCompletedEndsBack;
+   private boolean m_newTasksEstimated;
+   private boolean m_spreadActualCost;
+   private boolean m_multipleCriticalPaths;
+   private boolean m_autoAddNewResourcesAndTasks;
+   private Date m_lastSaved;
+   private Date m_statusDate;
+   private boolean m_moveRemainingStartsBack;
+   private boolean m_autolink;
+   private boolean m_microsoftProjectServerURL;
+   private boolean m_honorConstraints;
+   private boolean m_adminProject;
+   private boolean m_insertedProjectsLikeSummary;
+   private String m_name;
+   private boolean m_spreadPercentComplete;
+   private boolean m_moveCompletedEndsForward;
+   private boolean m_editableActualCosts;
+   private String m_uniqueID;
+   private Integer m_revision;
+   private boolean m_newTasksEffortDriven;
+   private boolean m_moveRemainingStartsForward;
+   private boolean m_actualsInSync;
+   private TaskType m_defaultTaskType;
+   private EarnedValueMethod m_earnedValueMethod;
+   private Date m_creationDate;
+   private Date m_extendedCreationDate;
+   private AccrueType m_defaultFixedCostAccrual;
+   private Integer m_criticalSlackLimit;
+   private Integer m_baselineForEarnedValue;
+   private Integer m_fiscalYearStartMonth;
+   private boolean m_newTaskStartIsProjectStart;
+   private Integer m_weekStartDay;
    
    /*
     * Missing MSPDI attributes 
-    * 
-       void setRemoveFileProperties(boolean value);    
-       void setDefaultTaskEVMethod(java.math.BigInteger value);    
-       void setFinishDate(java.util.Calendar value); // auto if null?   
-       void setMoveCompletedEndsBack(boolean value);    
-       void setBaselineForEarnedValue(java.math.BigInteger value);    
-       void setCalendarUID(java.math.BigInteger value);    
-       void setNewTasksEstimated(boolean value);    
-       void setSpreadActualCost(boolean value);    
-       void setDefaultFixedCostAccrual(java.math.BigInteger value);    
-       void setMultipleCriticalPaths(boolean value);    
-       void setAutoAddNewResourcesAndTasks(boolean value);    
-       void setStartDate(java.util.Calendar value); // auto if null?    
-       void setFYStartDate(java.math.BigInteger value);    
-       void setLastSaved(java.util.Calendar value);    
-       void setStatusDate(java.util.Calendar value);    
-       void setMoveRemainingStartsBack(boolean value);    
-       void setAutolink(boolean value);    
-       void setExtendedCreationDate(java.util.Calendar value);
-       void setMicrosoftProjectServerURL(boolean value);    
-       void setNewTaskStartDate(java.math.BigInteger value);
-       void setHonorConstraints(boolean value);
-       void setAdminProject(boolean value);    
-       void setScheduleFromStart(boolean value); // this is probably the schedule from value
-       void setInsertedProjectsLikeSummary(boolean value);    
-       void setName(java.lang.String value);
-       void setSpreadPercentComplete(boolean value);
-       void setWeekStartDay(java.math.BigInteger value);
-       void setMoveCompletedEndsForward(boolean value);
-       void setEditableActualCosts(boolean value);
-       void setUID(java.lang.String value);
-       void setCriticalSlackLimit(java.math.BigInteger value);
-       void setRevision(java.math.BigInteger value);
-       void setNewTasksEffortDriven(boolean value);
-       void setEarnedValueMethod(java.math.BigInteger value);
-       void setMoveRemainingStartsForward(boolean value);
-       void setDefaultTaskType(java.math.BigInteger value);
-       void setActualsInSync(boolean value);
-       void setCreationDate(java.util.Calendar value);
+    *                             
+       // this is probably the schedule from value, we could remove
+       // the ScheduleFrom type, and replace it with a boolean
+       // we just need to ensure that the MPX read/write works OK
+       void setScheduleFromStart(boolean value); 
     */   
    
    /**
@@ -2483,6 +3171,26 @@ public final class ProjectHeader extends MPXRecord
     */
    private static final Double DEFAULT_COST = new Double (0);
 
+   /**
+    * Default critical slack limit.
+    */
+   private static final Integer DEFAULT_CRITICAL_SLACK_LIMIT = new Integer (0);
+   
+   /**
+    * Default baseline for earned value.
+    */
+   private static final Integer DEFAULT_BASELINE_FOR_EARNED_VALUE = new Integer (0);
+   
+   /**
+    * Default fiscal year start month.
+    */
+   private static final Integer DEFAULT_FISCAL_YEAR_START_MONTH = new Integer (1);
+   
+   /**
+    * Default week start day.
+    */
+   private static final Integer DEFAULT_WEEK_START_DAY = new Integer (1);
+   
    /**
     * Default work value.
     */

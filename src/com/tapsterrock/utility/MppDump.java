@@ -86,7 +86,7 @@ public class MppDump
       PrintWriter pw = new PrintWriter (new FileWriter (output));
 
       POIFSFileSystem fs = new POIFSFileSystem (is);
-      dumpTree (pw, fs.getRoot(), "");
+      dumpTree (pw, fs.getRoot(), true);
 
       is.close();
       pw.flush();
@@ -99,15 +99,13 @@ public class MppDump
     *
     * @param pw Output PrintWriter
     * @param dir DirectoryEntry to dump
-    * @param prefix Prefix to prepend to output
+    * @param hex set to true if hex output is required
     * @throws Exception Thrown on file read errors
     */
-   private static void dumpTree (PrintWriter pw, DirectoryEntry dir, String prefix)
+   private static void dumpTree (PrintWriter pw, DirectoryEntry dir, boolean hex)
       throws Exception
    {
       long byteCount;
-
-      prefix += " ";
 
       for (Iterator iter = dir.getEntries(); iter.hasNext(); )
       {
@@ -115,18 +113,25 @@ public class MppDump
          if (entry instanceof DirectoryEntry)
          {
             pw.println ("start dir: " + entry.getName());
-            dumpTree (pw, (DirectoryEntry)entry, prefix);
+            dumpTree (pw, (DirectoryEntry)entry, hex);
             pw.println ("end dir: " + entry.getName());
          }
          else if (entry instanceof DocumentEntry)
          {
             pw.println ("start doc: " + entry.getName());
-            byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
+            if (hex == true)
+            {               
+               byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
+            }
+            else
+            {
+               byteCount = asciidump (new DocumentInputStream ((DocumentEntry)entry), pw);               
+            }            
             pw.println ("end doc: " + entry.getName() + " (" + byteCount +" bytes read)");
          }
          else
          {
-            pw.println (prefix + "found unknown: " + entry.getName());
+            pw.println ("found unknown: " + entry.getName());
          }
       }
    }
@@ -198,6 +203,57 @@ public class MppDump
       return (byteCount);
    }
 
+   /**
+    * This method dumps the entire contents of a file to an output
+    * print writer as ascii data.
+    *
+    * @param is Input Stream
+    * @param pw Output PrintWriter
+    * @return number of bytes read
+    * @throws Exception Thrown on file read errors
+    */
+   private static long asciidump (InputStream is, PrintWriter pw)
+      throws Exception
+   {
+      byte[] buffer = new byte[BUFFER_SIZE];
+      long byteCount = 0;
+
+      char c;
+      int loop;
+      int count;
+      long address = 0;
+      StringBuffer sb = new StringBuffer ();
+
+      while (true)
+      {
+         count = is.read(buffer);
+         if (count == -1)
+         {
+            break;
+         }
+
+         byteCount += count;
+
+         sb.setLength(0);
+         for (loop=0; loop < count; loop++)
+         {
+            c = (char)buffer[loop];
+            if (c > 200 || c < 27)
+            {
+               c = ' ';
+            }
+
+            sb.append (c);
+         }
+
+         pw.print (sb.toString());
+
+         address += count;
+      }
+
+      return (byteCount);
+   }
+   
    /**
     * Buffer size for data output.
     */

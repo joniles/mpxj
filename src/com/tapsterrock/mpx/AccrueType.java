@@ -42,9 +42,9 @@ public final class AccrueType implements ToStringRequiresFile
     */
    private AccrueType (int type)
    {
-      if (type < START || type > PRORATED)
+      if (type < START_VALUE || type > PRORATED_VALUE)
       {
-         m_type = PRORATED;
+         m_type = PRORATED_VALUE;
       }
       else
       {
@@ -78,7 +78,7 @@ public final class AccrueType implements ToStringRequiresFile
 
       if (result == null)
       {
-         result = TYPE_VALUES[PRORATED-1];
+         result = TYPE_VALUES[PRORATED_VALUE-1];
       }
 
       return (result);
@@ -98,7 +98,7 @@ public final class AccrueType implements ToStringRequiresFile
 
       if (type == null)
       {
-         result = TYPE_VALUES[PRORATED-1];
+         result = TYPE_VALUES[PRORATED_VALUE-1];
       }
       else
       {
@@ -118,9 +118,9 @@ public final class AccrueType implements ToStringRequiresFile
     */
    public static AccrueType getInstance (int type)
    {
-      if (type < START || type > PRORATED)
+      if (type < START_VALUE || type > PRORATED_VALUE)
       {
-         type = PRORATED;
+         type = PRORATED_VALUE;
       }
 
       return (TYPE_VALUES[type-1]);
@@ -152,29 +152,22 @@ public final class AccrueType implements ToStringRequiresFile
       return (typeNames[m_type-1]);
    }
 
-   /**
-    * Integer representing the "Start" accrue type.
-    */
-   public static final int START = 1;
-
-   /**
-    * Integer representing the "End" accrue type.
-    */
-   public static final int END = 2;
-
-   /**
-    * Integer representing the "Prorated" accrue type.
-    */
-   public static final int PRORATED = 3;
-
+   public static final int START_VALUE = 1;
+   public static final int END_VALUE = 2;
+   public static final int PRORATED_VALUE = 3;
+   
+   public static final AccrueType START = new AccrueType (START_VALUE);
+   public static final AccrueType END = new AccrueType (END_VALUE);
+   public static final AccrueType PRORATED = new AccrueType (PRORATED_VALUE);
+   
    /**
     * Array of type values matching the above constants.
     */
    private static final AccrueType[] TYPE_VALUES =
    {
-      new AccrueType (START),
-      new AccrueType (END),
-      new AccrueType (PRORATED),
+      START,
+      END,
+      PRORATED,
    };
 
    /**

@@ -24,6 +24,7 @@
     <WorkFormat>2</WorkFormat>
     <EditableActualCosts>0</EditableActualCosts>
     <HonorConstraints>0</HonorConstraints>
+    <EarnedValueMethod>0</EarnedValueMethod>
     <InsertedProjectsLikeSummary>0</InsertedProjectsLikeSummary>
     <MultipleCriticalPaths>0</MultipleCriticalPaths>
     <NewTasksEffortDriven>0</NewTasksEffortDriven>
@@ -46,6 +47,9 @@
     <NewTaskStartDate>0</NewTaskStartDate>
     <DefaultTaskEVMethod>0</DefaultTaskEVMethod>
     <ProjectExternallyEdited>1</ProjectExternallyEdited>
+    <ActualsInSync>0</ActualsInSync>
+    <RemoveFileProperties>0</RemoveFileProperties>
+    <AdminProject>0</AdminProject>
     <ExtendedAttributes>
         <ExtendedAttribute>
             <FieldID>188744000</FieldID>
