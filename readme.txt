@@ -106,6 +106,9 @@ expect. The more of this feedback you can give us, the
 better we can make MPXJ!
 
 
+Thanks to:
+Scott Melville
+Pasha Ashpak
 
 Licensing
 
