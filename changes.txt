@@ -1,3 +1,8 @@
+Version 0.0.13
+Fixed a bug that prevented task and resource note text from being read.
+Updated to remove a Java 1.4 dependency introduced in 0.0.12. Will now work with Java 1.3.
+Updated to correct handling of carriage returns embedded in note fields.
+
 Version 0.0.12
 Fixed incorrect handling of timezones and daylight saving time.
 Fixed incorrect task structure generated from outline levels.
