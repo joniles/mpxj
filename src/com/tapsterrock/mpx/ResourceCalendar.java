@@ -53,7 +53,6 @@ public class ResourceCalendar extends MPXRecord
     * @param record record containing the data for  this object.
     */
    ResourceCalendar (MPXFile file, Record record)
-      throws MPXException
    {
       super(file, MAX_FIELDS);
 

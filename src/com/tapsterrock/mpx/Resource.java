@@ -39,24 +39,7 @@ public class Resource extends MPXRecord
    Resource (MPXFile file)
       throws MPXException
    {
-      /** @todo use empty record? */
-
       this (file, Record.EMPTY_RECORD);
-/*
-      super (file, MAX_FIELDS);
-
-      m_model = getParentFile().getResourceModel();
-
-      if (file.getAutoResourceUniqueID() == true)
-      {
-         setUniqueID (file.getResourceUniqueID ());
-      }
-
-      if (file.getAutoResourceID() == true)
-      {
-         setID (file.getResourceID ());
-      }
-*/
    }
 
    /**

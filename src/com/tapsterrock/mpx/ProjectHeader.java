@@ -41,7 +41,6 @@ public class ProjectHeader extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ProjectHeader (MPXFile file)
-      throws MPXException
    {
       super (file, MAX_FIELDS);
    }
