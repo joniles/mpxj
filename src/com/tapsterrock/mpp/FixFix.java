@@ -74,7 +74,17 @@ final class FixFix extends MPPComponent
    {
       return (m_diff);   
    }
-   
+
+   /**
+    * This method retrieves the overall data block size.
+    * 
+    * @return data block size
+    */
+   public int getSize ()
+   {
+      return (m_size);   
+   }
+      
    /**
     * This method retrieves a byte array containing the data at the
     * given index in the block. If no data is found at the given index
@@ -134,6 +144,11 @@ final class FixFix extends MPPComponent
     * An array containing all of the items of data held in this block.
     */
    private ByteArray[] m_array;
+   
+   /**
+    * Overall data block size.
+    */
+   private int m_size;
    
    /**
     * Variable containing the remainder after the available size has

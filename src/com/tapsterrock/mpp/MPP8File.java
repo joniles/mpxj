@@ -867,7 +867,7 @@ final class MPP8File
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
-      if (assnFixedData.getDiff() != 0)
+      if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && testAssignmentTasks(file, assnFixedData) == false))
       {
          assnFixedData = new FixFix (238, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));            
       }
@@ -881,7 +881,7 @@ final class MPP8File
 
       for (int loop=0; loop < count; loop++)
       {
-         data = assnFixedData.getByteArrayValue(loop);
+         data = assnFixedData.getByteArrayValue(loop);         
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
          if (task != null && resource != null)
@@ -901,7 +901,54 @@ final class MPP8File
          }
       }
    }
-   
+
+   /**
+    * It appears that its is possible for task assignment data blocks to be
+    * one of two sizes, 204 or 238 bytes. In most cases, simply dividing the
+    * overall block size by these values will determine which of these is
+    * the one to use, i.e. the one that returns a remainder of zero.
+    * 
+    * Unfortunately it is possible that an overall block size will appear which 
+    * can be divided exactly by both of these values. In this case we call this
+    * method to perform a "rule of thumb" test to determine if the selected
+    * block size is correct. From observation it appears that assignment data
+    * will always have a valid resource or task associated with it. If both 
+    * values are invalid, then we assume that we are not using the correct
+    * block size.
+    * 
+    * As stated above, this is a "rule of thumb" test, and it is quite likely 
+    * that we will encounter cases which incorrectly fail this test. We'll
+    * just have to keep looking for a better way to determine the correct
+    * block size!
+    * 
+    * @param file Parent MPP file
+    * @param assnFixedData Task assignment fixed data
+    * @return boolean flag
+    */
+   private static boolean testAssignmentTasks (MPPFile file, FixFix assnFixedData)
+   {
+      boolean result = true;      
+      int count = assnFixedData.getItemCount();
+      byte[] data;
+      Task task;
+      Resource resource;
+      
+      for (int loop=0; loop < count; loop++)
+      {
+         data = assnFixedData.getByteArrayValue(loop);
+         task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
+         resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
+         
+         if (task == null && resource == null)
+         {
+            result = false;
+            break;
+         }
+      }                           
+      
+      return (result);
+   }
+      
    /**
     * This method is used to extract a value from a fixed data block,
     * which represents an offset into a variable data block.
