@@ -90,7 +90,20 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromDate (Date from)
    {
-      putDate (FROM_DATE,from);
+      MPXDate date = null;
+      if (from != null)
+      {
+         if (from instanceof MPXDate == true)
+         {
+            date = (MPXDate)from;
+         }
+         else
+         {
+            date = new MPXDate(getParentFile().getDateFormat(), from);
+         }
+         date = date.getDayStartDate();
+      }
+      putDate (FROM_DATE, date);
    }
 
    /**
@@ -110,6 +123,20 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToDate (Date to)
    {
+      MPXDate date = null;
+      if (to != null)
+      {
+         if (to instanceof MPXDate == true)
+         {
+            date = (MPXDate)to;
+         }
+         else
+         {
+            date = new MPXDate(getParentFile().getDateFormat(), to);
+         }
+         date = date.getDayEndDate();
+      }
+      
       putDate (TO_DATE,to);
    }
 
