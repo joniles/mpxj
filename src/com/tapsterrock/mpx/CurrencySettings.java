@@ -42,10 +42,10 @@ public class CurrencySettings extends MPXRecord
 
       m_update = false;
       setCurrencySymbol("$");
-      setSymbolPosition(new Byte((byte)1));
-      setCurrencyDigits(new Byte((byte)2));
-      setThousandsSeparator(new Character (','));
-      setDecimalSeparator(new Character ('.'));
+      setSymbolPosition(1);
+      setCurrencyDigits(2);
+      setThousandsSeparator(',');
+      setDecimalSeparator('.');
       m_update = true;
 
       updateFormats ();
@@ -60,8 +60,8 @@ public class CurrencySettings extends MPXRecord
    {
       m_update = false;
       setCurrencySymbol (record.getString(0));
-      setSymbolPosition (record.getByte(1));
-      setCurrencyDigits (record.getByte(2));
+      setSymbolPosition (record.getInteger(1));
+      setCurrencyDigits (record.getInteger(2));
       setThousandsSeparator (record.getCharacter(3));
       setDecimalSeparator (record.getCharacter(4));
       m_update = true;
@@ -83,6 +83,33 @@ public class CurrencySettings extends MPXRecord
       updateFormats ();
    }
 
+   /**
+    * This method overrides the put method defined in MPXRecord.
+    * It allows the formats to be updated immediately whenever a change
+    * is made to any of the currency settings.
+    *
+    * @param key Field to be added/updated.
+    * @param value new value for field.
+    */
+   protected void put (Integer key, int value)
+   {
+      super.put (key, value);
+      updateFormats ();
+   }
+
+   /**
+    * This method overrides the put method defined in MPXRecord.
+    * It allows the formats to be updated immediately whenever a change
+    * is made to any of the currency settings.
+    *
+    * @param key Field to be added/updated.
+    * @param value new value for field.
+    */
+   protected void putChar (Integer key, char value)
+   {
+      super.put (key, value);
+      updateFormats ();
+   }
 
    /**
     * Sets currency symbol ie $, £, DM
@@ -118,9 +145,28 @@ public class CurrencySettings extends MPXRecord
     *
     * @param posn currency symbol position.
     */
-   public void setSymbolPosition (Byte posn)
+   public void setSymbolPosition (int posn)
    {
-      put (SYMBOL_POSITION,posn);
+      put (SYMBOL_POSITION, posn);
+   }
+
+   /**
+    * Sets the position of the currency symbol.
+    *
+    * Permissable value are as follows:
+    *
+    * 0 = after
+    * 1 = before
+    * 2 = after with a space
+    * 3 = before with a space
+    *
+    * The SYMBOLPOS_* are used a enumerated vaules for this parameter.
+    *
+    * @param posn currency symbol position.
+    */
+   public void setSymbolPosition (Integer posn)
+   {
+      put (SYMBOL_POSITION, posn);
    }
 
    /**
@@ -128,9 +174,19 @@ public class CurrencySettings extends MPXRecord
     *
     * @return position
     */
-   public byte getSymbolPosition ()
+   public int getSymbolPositionValue ()
    {
-      return (getByteValue (SYMBOL_POSITION));
+      return (getIntValue (SYMBOL_POSITION));
+   }
+
+   /**
+    * Retrieves a constant representing the position of the currency symbol.
+    *
+    * @return position
+    */
+   public Integer getSymbolPosition ()
+   {
+      return ((Integer)get (SYMBOL_POSITION));
    }
 
    /**
@@ -138,9 +194,19 @@ public class CurrencySettings extends MPXRecord
     *
     * @param currDigs Available values, 0,1,2
     */
-   public void setCurrencyDigits (Byte currDigs)
+   public void setCurrencyDigits (int currDigs)
    {
-      put (CURRENCY_DIGITS,currDigs);
+      put (CURRENCY_DIGITS, currDigs);
+   }
+
+   /**
+    * Sets no of currency digits.
+    *
+    * @param currDigs Available values, 0,1,2
+    */
+   public void setCurrencyDigits (Integer currDigs)
+   {
+      put (CURRENCY_DIGITS, currDigs);
    }
 
    /**
@@ -148,9 +214,29 @@ public class CurrencySettings extends MPXRecord
     *
     * @return Available values, 0,1,2
     */
-   public byte getCurrencyDigits ()
+   public int getCurrencyDigitsValue ()
    {
-      return (getByteValue (CURRENCY_DIGITS));
+      return (getIntValue (CURRENCY_DIGITS));
+   }
+
+   /**
+    * Gets no of currency digits.
+    *
+    * @return Available values, 0,1,2
+    */
+   public Integer getCurrencyDigits ()
+   {
+      return ((Integer)get (CURRENCY_DIGITS));
+   }
+
+   /**
+    * Sets the thousands separator. Normally ','
+    *
+    * @param sep character
+    */
+   public void setThousandsSeparator (char sep)
+   {
+      putChar (THOUSANDS_SEPARATOR, sep);
    }
 
    /**
@@ -170,7 +256,17 @@ public class CurrencySettings extends MPXRecord
     */
    public char getThousandsSeparator ()
    {
-      return (((Character)get(THOUSANDS_SEPARATOR)).charValue());
+      return (getCharValue(THOUSANDS_SEPARATOR));
+   }
+
+   /**
+    * Sets the decimal separator. Normally '.'
+    *
+    * @param decSep character
+    */
+   public void setDecimalSeparator (char decSep)
+   {
+      putChar (DECIMAL_SEPARATOR, decSep);
    }
 
    /**
@@ -206,7 +302,7 @@ public class CurrencySettings extends MPXRecord
          String prefix = "";
          String suffix = "";
 
-         switch (getSymbolPosition())
+         switch (getSymbolPositionValue())
          {
             case SYMBOLPOS_AFTER:
             {
@@ -243,7 +339,7 @@ public class CurrencySettings extends MPXRecord
 
          pattern.append(getDecimalSeparator());
 
-         int digits = getCurrencyDigits();
+         int digits = getCurrencyDigitsValue();
          for(int i = 0 ; i < digits ; i++)
          {
             pattern.append("0");
@@ -274,22 +370,22 @@ public class CurrencySettings extends MPXRecord
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final byte SYMBOLPOS_AFTER = 0;
+   private static final int SYMBOLPOS_AFTER = 0;
 
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final byte SYMBOLPOS_BEFORE = 1;
+   private static final int SYMBOLPOS_BEFORE = 1;
 
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final byte SYMBOLPOS_AFTER_W_SPACE = 2;
+   private static final int SYMBOLPOS_AFTER_W_SPACE = 2;
 
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final byte SYMBOLPOS_BEFORE_W_SPACE = 3;
+   private static final int SYMBOLPOS_BEFORE_W_SPACE = 3;
 
    /**
     * Constant referring to Currency Symbol field.

@@ -430,14 +430,14 @@ public class MPXFile
                m_records.add (current);
                m_allTasks.add (current);
 
-               Integer outlineLevel = m_lastTask.getOutlineLevel();
+               int outlineLevel = m_lastTask.getOutlineLevelValue();
 
-               if (m_baseOutlineLevel == -1 && outlineLevel != null)
+               if (m_baseOutlineLevel == -1)
                {
-                  m_baseOutlineLevel = outlineLevel.intValue();
+                  m_baseOutlineLevel = outlineLevel;
                }
 
-               if (outlineLevel == null || outlineLevel.intValue() == m_baseOutlineLevel)
+               if (outlineLevel == m_baseOutlineLevel)
                {
                   m_childTasks.add (m_lastTask);
                }
@@ -1136,13 +1136,13 @@ public class MPXFile
       Task result = null;
       Iterator iter = m_allTasks.iterator();
       Task task;
-      Integer taskID;
+      int taskID;
 
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         taskID = task.getID();
-         if (taskID != null && taskID.intValue() == id)
+         taskID = task.getIDValue();
+         if (taskID == id)
          {
             result = task;
             break;
@@ -1164,13 +1164,13 @@ public class MPXFile
       Task result = null;
       Iterator iter = m_allTasks.iterator();
       Task task;
-      Integer taskID;
+      int taskID;
 
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         taskID = task.getUniqueID();
-         if (taskID != null && taskID.intValue() == id)
+         taskID = task.getUniqueIDValue();
+         if (taskID == id)
          {
             result = task;
             break;
@@ -1192,13 +1192,13 @@ public class MPXFile
       Resource result = null;
       Iterator iter = m_allResources.iterator();
       Resource resource;
-      Integer resourceID;
+      int resourceID;
 
       while (iter.hasNext() == true)
       {
          resource = (Resource)iter.next();
-         resourceID = resource.getID();
-         if (resourceID != null && resourceID.intValue() == id)
+         resourceID = resource.getIDValue();
+         if (resourceID == id)
          {
             result = resource;
             break;
@@ -1220,13 +1220,13 @@ public class MPXFile
       Resource result = null;
       Iterator iter = m_allResources.iterator();
       Resource resource;
-      Integer resourceID;
+      int resourceID;
 
       while (iter.hasNext() == true)
       {
          resource = (Resource)iter.next();
-         resourceID = resource.getUniqueID();
-         if (resourceID != null && resourceID.intValue() == id)
+         resourceID = resource.getUniqueIDValue();
+         if (resourceID == id)
          {
             result = resource;
             break;
@@ -1261,7 +1261,7 @@ public class MPXFile
          {
             task = (Task)iter.next();
             task.clearChildTasks ();
-            level = task.getOutlineLevel().intValue();
+            level = task.getOutlineLevelValue();
 
             if (lastTask == null)
             {

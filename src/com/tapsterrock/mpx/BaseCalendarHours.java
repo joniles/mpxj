@@ -68,19 +68,29 @@ public class BaseCalendarHours extends MPXRecord
    /**
     * Get day (1=Sunday 7=Saturday)
     *
-    * @return byte value of day
+    * @return day number
     */
-   public int getDay ()
+   public int getDayValue ()
    {
       return (getIntValue (DAY));
    }
 
    /**
+    * Get day (1=Sunday 7=Saturday)
+    *
+    * @return day number
+    */
+   public Integer getDay ()
+   {
+      return ((Integer)get (DAY));
+   }
+
+   /**
     * Set day (1=Sunday 7=Saturday)
     *
-    * @param d byte value of day
+    * @param d day number
     */
-   public void setDay (Integer d)
+   public void setDay (int d)
    {
       put (DAY,d);
    }
@@ -88,11 +98,11 @@ public class BaseCalendarHours extends MPXRecord
    /**
     * Set day (1=Sunday 7=Saturday)
     *
-    * @param d byte value of day
+    * @param d day number
     */
-   public void setDay (int d)
+   public void setDay (Integer d)
    {
-      put (DAY, new Integer (d));
+      put (DAY, d);
    }
 
    /**

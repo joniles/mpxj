@@ -61,18 +61,17 @@ public class Task extends MPXRecord implements Comparable
 
       if (file.getAutoOutlineLevel() == true)
       {
-         Integer outline = parent.getOutlineLevel();
-         setOutlineLevel (new Integer (outline.intValue()+1));
+         setOutlineLevel (parent.getOutlineLevelValue()+1);
       }
 
       if (file.getAutoTaskUniqueID() == true)
       {
-         setUniqueID (new Integer (file.getTaskUniqueID ()));
+         setUniqueID (file.getTaskUniqueID ());
       }
 
       if (file.getAutoTaskID() == true)
       {
-         setID (new Integer (file.getTaskID ()));
+         setID (file.getTaskID ());
       }
    }
 
@@ -264,17 +263,17 @@ public class Task extends MPXRecord implements Comparable
 
       if (file.getAutoOutlineLevel() == true)
       {
-         setOutlineLevel (new Integer (1));
+         setOutlineLevel (1);
       }
 
       if (file.getAutoTaskUniqueID() == true)
       {
-         setUniqueID (new Integer (file.getTaskUniqueID ()));
+         setUniqueID (file.getTaskUniqueID ());
       }
 
       if (file.getAutoTaskID() == true)
       {
-         setID (new Integer (file.getTaskID ()));
+         setID (file.getTaskID ());
       }
    }
 
@@ -362,16 +361,12 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param child child task
     */
-   void addChildTask (Task child, Integer childOutlineLevel)
+   void addChildTask (Task child, int childOutlineLevel)
       throws MPXException
    {
-      Integer outlineLevel = getOutlineLevel ();
-      if (outlineLevel == null)
-      {
-         throw new MPXException (MPXException.INVALID_OUTLINE);
-      }
+      int outlineLevel = getOutlineLevelValue ();
 
-      if (outlineLevel.intValue()+1 == childOutlineLevel.intValue())
+      if (outlineLevel+1 == childOutlineLevel)
       {
          m_children.add (child);
       }
@@ -487,14 +482,14 @@ public class Task extends MPXRecord implements Comparable
    {
       Iterator iter = m_assignments.iterator();
       ResourceAssignment assignment = null;
-      Integer resourceUniqueID = resource.getUniqueID();
-      Integer uniqueID;
+      int resourceUniqueID = resource.getUniqueIDValue();
+      int uniqueID;
 
       while (iter.hasNext() == true)
       {
          assignment = (ResourceAssignment)iter.next();
-         uniqueID = assignment.getResourceUniqueID();
-         if (uniqueID != null && uniqueID.intValue() == resourceUniqueID.intValue())
+         uniqueID = assignment.getResourceUniqueIDValue();
+         if (uniqueID == resourceUniqueID)
          {
             break;
          }
@@ -592,7 +587,7 @@ public class Task extends MPXRecord implements Comparable
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            if (rel.getID() == task.getID().intValue())
+            if (rel.getTaskIDValue() == task.getIDValue())
             {
                break;
             }
@@ -612,7 +607,7 @@ public class Task extends MPXRecord implements Comparable
 
          if (task != null)
          {
-            rel.setID(task.getID().intValue());
+            rel.setTaskIDValue(task.getIDValue());
          }
 
          list.add (rel);
@@ -662,7 +657,7 @@ public class Task extends MPXRecord implements Comparable
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            if (rel.getID() == task.getUniqueID().intValue())
+            if (rel.getTaskIDValue() == task.getUniqueIDValue())
             {
                break;
             }
@@ -682,7 +677,7 @@ public class Task extends MPXRecord implements Comparable
 
          if (task != null)
          {
-            rel.setID(task.getUniqueID().intValue());
+            rel.setTaskIDValue(task.getUniqueIDValue());
          }
 
          list.add (rel);
@@ -722,7 +717,7 @@ public class Task extends MPXRecord implements Comparable
 
       if (task != null)
       {
-         rel.setID(task.getID().intValue());
+         rel.setTaskIDValue(task.getIDValue());
       }
 
       list.add (rel);
@@ -761,7 +756,7 @@ public class Task extends MPXRecord implements Comparable
 
       if (task != null)
       {
-         rel.setID(task.getUniqueID().intValue());
+         rel.setTaskIDValue(task.getUniqueIDValue());
       }
 
       list.add (rel);
@@ -778,6 +773,21 @@ public class Task extends MPXRecord implements Comparable
     * @param val new value for field.
     */
    private void set(int field, Object val)
+   {
+      Integer key = new Integer (field);
+      m_model.add (key);
+      put (key, val);
+   }
+
+   /**
+    * This method is used to set the value of a field in the task,
+    * and also to ensure that the field exists in the task model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void set (int field, int val)
    {
       Integer key = new Integer (field);
       m_model.add (key);
@@ -825,6 +835,38 @@ public class Task extends MPXRecord implements Comparable
       return (get(new Integer(field)));
    }
 
+   /**
+    * This method is used to retrieve a particular field value.
+    *
+    * @param field requested field
+    * @return field value
+    */
+   private int getIntValue (int field)
+   {
+      return (getIntValue(new Integer(field)));
+   }
+
+   /**
+    * This method is used to retrieve a particular field value.
+    *
+    * @param field requested field
+    * @return field value
+    */
+   private double getDoubleValue (int field)
+   {
+      return (getDoubleValue(new Integer(field)));
+   }
+
+   /**
+    * This method is used to retrieve a particular field value.
+    *
+    * @param field requested field
+    * @return field value
+    */
+   private boolean getBooleanValue (int field)
+   {
+      return (getBooleanValue(new Integer(field)));
+   }
 
    /**
     * The % Complete field contains the current status of a task, expressed
@@ -1516,7 +1558,7 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val ID
     */
-   public void setID (Integer val)
+   public void setID (int val)
    {
       set (ID, val);
    }
@@ -1663,7 +1705,7 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - integer value
     */
-   public void setObjects (Integer val)
+   public void setObjects (int val)
    {
       set (OBJECTS, val);
    }
@@ -1674,7 +1716,7 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - int
     */
-   public void setOutlineLevel (Integer val)
+   public void setOutlineLevel (int val)
    {
       set (OUTLINE_LEVEL, val);
    }
@@ -2115,7 +2157,7 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val unique ID
     */
-   public void setUniqueID (Integer val)
+   public void setUniqueID (int val)
    {
       set (UNIQUE_ID, val);
    }
@@ -2377,9 +2419,21 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - boolean
     */
+   public boolean getConfirmedValue ()
+   {
+      return (getBooleanValue (CONFIRMED));
+   }
+
+   /**
+    * The Confirmed field indicates whether all resources assigned to a task
+    * have accepted or rejected the task assignment in response to a TeamAssign
+    * message regarding their assignments.
+    *
+    * @return - boolean
+    */
    public Boolean getConfirmed ()
    {
-      return ((Boolean)get(CONFIRMED));
+      return ((Boolean)get (CONFIRMED));
    }
 
    /**
@@ -2494,9 +2548,21 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - boolean
     */
+   public boolean getCriticalValue ()
+   {
+      return (getBooleanValue (CRITICAL));
+   }
+
+   /**
+    * The Critical field indicates whether a task has any room in the schedule
+    * to slip, or if a task is on the critical path. The Critical field contains
+    * Yes if the task is critical and No if the task is not critical.
+    *
+    * @return - boolean
+    */
    public Boolean getCritical ()
    {
-      return ((Boolean)get(CRITICAL));
+      return ((Boolean)get (CRITICAL));
    }
 
    /**
@@ -2699,9 +2765,20 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - boolean
     */
+   public boolean getFixedValue ()
+   {
+      return (getBooleanValue (FIXED));
+   }
+
+   /**
+    * Assuming this field is boolean. Referring to whether
+    * or not task is of fixed duration.
+    *
+    * @return - boolean
+    */
    public Boolean getFixed ()
    {
-      return ((Boolean)get(FIXED));
+      return ((Boolean)get (FIXED));
    }
 
    /**
@@ -2722,9 +2799,33 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - boolean
     */
+   public boolean getFlag1Value ()
+   {
+      return (getBooleanValue (FLAG1));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
    public Boolean getFlag1 ()
    {
-      return ((Boolean)get(FLAG1));
+      return ((Boolean)get (FLAG1));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag2Value ()
+   {
+      return (getBooleanValue (FLAG2));
    }
 
    /**
@@ -2736,7 +2837,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag2 ()
    {
-      return ((Boolean)get(FLAG2));
+      return ((Boolean)get (FLAG2));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag3Value ()
+   {
+      return (getBooleanValue (FLAG3));
    }
 
    /**
@@ -2748,7 +2861,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag3 ()
    {
-      return ((Boolean)get(FLAG3));
+      return ((Boolean)get (FLAG3));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag4Value ()
+   {
+      return (getBooleanValue (FLAG4));
    }
 
    /**
@@ -2760,7 +2885,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag4 ()
    {
-      return ((Boolean)get(FLAG4));
+      return ((Boolean)get (FLAG4));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag5Value ()
+   {
+      return (getBooleanValue (FLAG5));
    }
 
    /**
@@ -2772,7 +2909,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag5 ()
    {
-      return ((Boolean)get(FLAG5));
+      return ((Boolean)get (FLAG5));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag6Value ()
+   {
+      return (getBooleanValue (FLAG6));
    }
 
    /**
@@ -2784,7 +2933,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag6 ()
    {
-      return ((Boolean)get(FLAG6));
+      return ((Boolean)get (FLAG6));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag7Value ()
+   {
+      return (getBooleanValue (FLAG7));
    }
 
    /**
@@ -2796,7 +2957,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag7 ()
    {
-      return ((Boolean)get(FLAG7));
+      return ((Boolean)get (FLAG7));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag8Value ()
+   {
+      return (getBooleanValue (FLAG8));
    }
 
    /**
@@ -2808,7 +2981,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag8 ()
    {
-      return ((Boolean)get(FLAG8));
+      return ((Boolean)get (FLAG8));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag9Value ()
+   {
+      return (getBooleanValue (FLAG9));
    }
 
    /**
@@ -2820,7 +3005,19 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag9 ()
    {
-      return ((Boolean)get(FLAG9));
+      return ((Boolean)get (FLAG9));
+   }
+
+   /**
+    * The Flag1-20 fields indicate whether a task is marked for further
+    * action or identification of some kind. To mark a task, click Yes
+    * in a Flag field. If you don't want a task marked, click No.
+    *
+    * @return - boolean
+    */
+   public boolean getFlag10Value ()
+   {
+      return (getBooleanValue (FLAG10));
    }
 
    /**
@@ -2832,7 +3029,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getFlag10 ()
    {
-      return ((Boolean)get(FLAG10));
+      return ((Boolean)get (FLAG10));
    }
 
    /**
@@ -2856,9 +3053,34 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - boolean
     */
+   public boolean getHideBarValue ()
+   {
+      return (getBooleanValue (HIDE_BAR));
+   }
+
+   /**
+    * The Hide Bar field indicates whether the Gantt bars and Calendar bars
+    * for a task are hidden. Click Yes in the Hide Bar field to hide the
+    * bar for the task. Click No in the Hide Bar field to show the bar
+    * for the task.
+    *
+    * @return - boolean
+    */
    public Boolean getHideBar ()
    {
-      return ((Boolean)get(HIDE_BAR));
+      return ((Boolean)get (HIDE_BAR));
+   }
+
+   /**
+    * The ID field contains the identifier number that Microsoft Project
+    * automatically assigns to each task as you add it to the project.
+    * The ID indicates the position of a task with respect to the other tasks.
+    *
+    * @return the task ID
+    */
+   public int getIDValue ()
+   {
+      return (getIntValue(ID));
    }
 
    /**
@@ -2870,7 +3092,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public Integer getID ()
    {
-      return ((Integer)get(ID));
+      return ((Integer)get (ID));
    }
 
    /**
@@ -2907,9 +3129,33 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return boolean
     */
+   public boolean getLinkedFieldsValue ()
+   {
+      return (getBooleanValue (LINKED_FIELDS));
+   }
+
+   /**
+    * The Linked Fields field indicates whether there are OLE links to the task,
+    * either from elsewhere in the active project, another Microsoft Project file,
+    * or from another program.
+    *
+    * @return boolean
+    */
    public Boolean getLinkedFields ()
    {
-      return ((Boolean)get(LINKED_FIELDS));
+      return ((Boolean)get (LINKED_FIELDS));
+   }
+
+   /**
+    * The Marked field indicates whether a task is marked for further action or
+    * identification of some kind. To mark a task, click Yes in the Marked field.
+    * If you don't want a task marked, click No.
+    *
+    * @return true for marked
+    */
+   public boolean getMarkedValue ()
+   {
+      return (getBooleanValue (MARKED));
    }
 
    /**
@@ -2921,7 +3167,17 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getMarked ()
    {
-      return ((Boolean)get(MARKED));
+      return ((Boolean)get (MARKED));
+   }
+
+   /**
+    * The Milestone field indicates whether a task is a milestone
+    *
+    * @return - boolean
+    */
+   public boolean getMilestoneValue ()
+   {
+      return (getBooleanValue (MILESTONE));
    }
 
    /**
@@ -2931,7 +3187,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public Boolean getMilestone ()
    {
-      return ((Boolean)get(MILESTONE));
+      return ((Boolean)get (MILESTONE));
    }
 
    /**
@@ -2959,9 +3215,31 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return String of numeric info.
     */
+   public double getNumber1Value ()
+   {
+      return (getDoubleValue (NUMBER1));
+   }
+
+   /**
+    * The Number fields show any custom numeric information you
+    * enter in your project regarding tasks. eg dept.no.
+    *
+    * @return String of numeric info.
+    */
    public Double getNumber1 ()
    {
-      return ((Double)get(NUMBER1));
+      return ((Double)get (NUMBER1));
+   }
+
+   /**
+    * The Number fields show any custom numeric information you enter in
+    * your project regarding tasks. eg dept.no.
+    *
+    * @return String of numeric info.
+    */
+   public double getNumber2Value ()
+   {
+      return (getDoubleValue (NUMBER2));
    }
 
    /**
@@ -2972,7 +3250,18 @@ public class Task extends MPXRecord implements Comparable
     */
    public Double getNumber2 ()
    {
-      return ((Double)get(NUMBER2));
+      return ((Double)get (NUMBER2));
+   }
+
+   /**
+    * The Number fields show any custom numeric information you enter
+    * in your project regarding tasks. eg dept.no.
+    *
+    * @return String of numeric info.
+    */
+   public double getNumber3Value ()
+   {
+      return (getDoubleValue (NUMBER3));
    }
 
    /**
@@ -2983,7 +3272,18 @@ public class Task extends MPXRecord implements Comparable
     */
    public Double getNumber3 ()
    {
-      return ((Double)get(NUMBER3));
+      return ((Double)get (NUMBER3));
+   }
+
+   /**
+    * The Number fields show any custom numeric information you enter
+    * in your project regarding tasks. eg dept.no.
+    *
+    * @return String of numeric info.
+    */
+   public double getNumber4Value ()
+   {
+      return (getDoubleValue (NUMBER4));
    }
 
    /**
@@ -2994,7 +3294,18 @@ public class Task extends MPXRecord implements Comparable
     */
    public Double getNumber4 ()
    {
-      return ((Double)get(NUMBER4));
+      return ((Double)get (NUMBER4));
+   }
+
+   /**
+    * The Number fields show any custom numeric information you enter in
+    * your project regarding tasks. eg dept.no.
+    *
+    * @return String of numeric info.
+    */
+   public double getNumber5Value ()
+   {
+      return (getDoubleValue (NUMBER5));
    }
 
    /**
@@ -3005,7 +3316,20 @@ public class Task extends MPXRecord implements Comparable
     */
    public Double getNumber5 ()
    {
-      return ((Double)get(NUMBER5));
+      return ((Double)get (NUMBER5));
+   }
+
+   /**
+    * The Objects field contains the number of objects attached to a task.
+    * Microsoft Project counts the number of objects linked or embedded to a task.
+    * However, objects in the Notes box in the Resource Form are not included
+    * in this count.
+    *
+    * @return - int
+    */
+   public int getObjectsValue ()
+   {
+      return (getIntValue(OBJECTS));
    }
 
    /**
@@ -3018,7 +3342,18 @@ public class Task extends MPXRecord implements Comparable
     */
    public Integer getObjects ()
    {
-      return ((Integer)get(OBJECTS));
+      return ((Integer)get (OBJECTS));
+   }
+
+   /**
+    * The Outline Level field contains the number that indicates the level
+    * of the task in the project outline hierarchy.
+    *
+    * @return - int
+    */
+   public int getOutlineLevelValue ()
+   {
+      return (getIntValue(OUTLINE_LEVEL));
    }
 
    /**
@@ -3029,7 +3364,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public Integer getOutlineLevel ()
    {
-      return ((Integer)get(OUTLINE_LEVEL));
+      return ((Integer)get (OUTLINE_LEVEL));
    }
 
    /**
@@ -3190,9 +3525,25 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return boolean
     */
+   public boolean getRollupValue ()
+   {
+      return (getBooleanValue (ROLLUP));
+   }
+
+   /**
+    * For subtasks, the Rollup field indicates whether information on the
+    * subtask Gantt bars
+    * will be rolled up to the summary task bar. For summary tasks, the
+    * Rollup field indicates
+    * whether the summary task bar displays rolled up bars. You must
+    * have the Rollup field for
+    * summary tasks set to Yes for any subtasks to roll up to them.
+    *
+    * @return boolean
+    */
    public Boolean getRollup ()
    {
-      return ((Boolean)get(ROLLUP));
+      return ((Boolean)get (ROLLUP));
    }
 
    /**
@@ -3321,9 +3672,19 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return boolean, true-is summary task
     */
+   public boolean getSummaryValue ()
+   {
+      return (getBooleanValue (SUMMARY));
+   }
+
+   /**
+    * The Summary field indicates whether a task is a summary task.
+    *
+    * @return boolean, true-is summary task
+    */
    public Boolean getSummary ()
    {
-      return ((Boolean)get(SUMMARY));
+      return ((Boolean)get (SUMMARY));
    }
 
    /**
@@ -3468,9 +3829,22 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - String
     */
+   public int getUniqueIDValue ()
+   {
+      return (getIntValue(UNIQUE_ID));
+   }
+
+   /**
+    * The Unique ID field contains the number that Microsoft Project
+    * automatically designates whenever a new task is created. This number
+    * indicates the sequence in which the task was
+    * created, regardless of placement in the schedule.
+    *
+    * @return - String
+    */
    public Integer getUniqueID ()
    {
-      return ((Integer)get(UNIQUE_ID));
+      return ((Integer)get (UNIQUE_ID));
    }
 
    /**
@@ -3506,9 +3880,21 @@ public class Task extends MPXRecord implements Comparable
     *
     * @return - true if needed.
     */
+   public boolean getUpdateNeededValue ()
+   {
+      return (getBooleanValue (UPDATE_NEEDED));
+   }
+
+   /**
+    * The Update Needed field indicates whether a TeamUpdate message
+    * should be sent to the assigned resources because of changes to the
+    * start date, finish date, or resource reassignments of the task.
+    *
+    * @return - true if needed.
+    */
    public Boolean getUpdateNeeded ()
    {
-      return ((Boolean)get(UPDATE_NEEDED));
+      return ((Boolean)get (UPDATE_NEEDED));
    }
 
    /**
@@ -3649,34 +4035,10 @@ public class Task extends MPXRecord implements Comparable
     */
    public int compareTo (Object o)
    {
-      int result;
+      int id1 = getIDValue();
+      int id2 = ((Task)o).getIDValue();
 
-      Integer id1 = getID();
-      Integer id2 = ((Task)o).getID();
-      if (id1 == null || id2 == null)
-      {
-         if (id1 == null && id2 == null)
-         {
-            result = 0;
-         }
-         else
-         {
-            if (id1 != null)
-            {
-               result = -1;
-            }
-            else
-            {
-               result = 1;
-            }
-         }
-      }
-      else
-      {
-         result = id1.compareTo (id2);
-      }
-
-      return (result);
+      return (id1 < id2 ? -1 : (id1 == id2 ? 0 : 1));
    }
 
 

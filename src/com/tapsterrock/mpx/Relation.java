@@ -36,7 +36,7 @@ public class Relation
     */
    Relation ()
    {
-      m_id = 0;
+      m_taskIDValue = 0;
       m_type = FINISH_START;
       m_duration = new MPXDuration (0, TimeUnit.DAYS);
    }
@@ -62,7 +62,7 @@ public class Relation
          ++index;
       }
 
-      m_id = Integer.parseInt(relationship.substring (0, index));
+      m_taskIDValue = Integer.parseInt(relationship.substring (0, index));
 
 
       //
@@ -161,7 +161,7 @@ public class Relation
     */
    public String toString ()
    {
-      StringBuffer sb = new StringBuffer (Integer.toString(m_id));
+      StringBuffer sb = new StringBuffer (Integer.toString(m_taskIDValue));
 
       if (m_duration.getDuration() != 0 || m_type != FINISH_START)
       {
@@ -212,9 +212,9 @@ public class Relation
     *
     * @return task identifier
     */
-   public int getID ()
+   public int getTaskIDValue ()
    {
-      return (m_id);
+      return (m_taskIDValue);
    }
 
    /**
@@ -223,9 +223,9 @@ public class Relation
     *
     * @param id task identifier
     */
-   public void setID (int id)
+   public void setTaskIDValue (int id)
    {
-      m_id = id;
+      m_taskIDValue = id;
    }
 
    /**
@@ -294,7 +294,7 @@ public class Relation
 
 
 
-   private int m_id;
+   private int m_taskIDValue;
    private int m_type;
    private MPXDuration m_duration;
 }

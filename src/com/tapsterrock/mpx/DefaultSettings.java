@@ -40,15 +40,15 @@ public class DefaultSettings extends MPXRecord
    {
       super(file);
 
-      setDefaultDurationUnits((byte)TimeUnit.DAYS);
-      setDefaultDurationType((byte)0);
-      setDefaultWorkUnits((byte)TimeUnit.HOURS);
+      setDefaultDurationUnits(TimeUnit.DAYS);
+      setDefaultDurationType(0);
+      setDefaultWorkUnits(TimeUnit.HOURS);
       setDefaultHoursInDay(new Float(8));
       setDefaultHoursInWeek(new Float (40));
       setDefaultStandardRate(new MPXRate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new MPXRate(15, TimeUnit.HOURS));
-      setUpdatingTaskStatusUpdatesResourceStatus(new Byte((byte)1));
-      setSplitInProgressTasks(new Byte((byte)0));
+      setUpdatingTaskStatusUpdatesResourceStatus(1);
+      setSplitInProgressTasks(0);
    }
 
    /**
@@ -60,27 +60,39 @@ public class DefaultSettings extends MPXRecord
    void update (Record record)
       throws MPXException
    {
-      setDefaultDurationUnits(record.getByteValue(0));
-      setDefaultDurationType(record.getByteValue(1));
-      setDefaultWorkUnits(record.getByteValue(2));
+      setDefaultDurationUnits(record.getInteger(0));
+      setDefaultDurationType(record.getInteger(1));
+      setDefaultWorkUnits(record.getInteger(2));
       setDefaultHoursInDay(record.getFloat(3));
       setDefaultHoursInWeek(record.getFloat(4));
       setDefaultStandardRate(record.getRate(5));
       setDefaultOvertimeRate(record.getRate(6));
-      setUpdatingTaskStatusUpdatesResourceStatus(record.getByte(7));
-      setSplitInProgressTasks(record.getByte(8));
+      setUpdatingTaskStatusUpdatesResourceStatus(record.getInteger(7));
+      setSplitInProgressTasks(record.getInteger(8));
    }
 
    /**
     * Gets Default Duration units. The constants used to define the
     * duration units are defined by the <code>TimeUnit</code> class.
     *
-    * @return byte constant
+    * @return int constant
     * @see TimeUnit
     */
-   public byte getDefaultDurationUnits ()
+   public int getDefaultDurationUnitsValue ()
    {
-      return (getByteValue (DEFAULT_DURATION_UNITS));
+      return (getIntValue (DEFAULT_DURATION_UNITS));
+   }
+
+   /**
+    * Gets Default Duration units. The constants used to define the
+    * duration units are defined by the <code>TimeUnit</code> class.
+    *
+    * @return int constant
+    * @see TimeUnit
+    */
+   public Integer getDefaultDurationUnits ()
+   {
+      return ((Integer)get (DEFAULT_DURATION_UNITS));
    }
 
    /**
@@ -90,9 +102,21 @@ public class DefaultSettings extends MPXRecord
     * @param units default time units
     * @see TimeUnit
     */
-   public void setDefaultDurationUnits (byte units)
+   public void setDefaultDurationUnits (int units)
    {
-      put (DEFAULT_DURATION_UNITS, new Byte(units));
+      put (DEFAULT_DURATION_UNITS, units);
+   }
+
+   /**
+    * Default duration units. The constants used to define the
+    * duration units are defined by the <code>TimeUnit</code> class.
+    *
+    * @param units default time units
+    * @see TimeUnit
+    */
+   public void setDefaultDurationUnits (Integer units)
+   {
+      put (DEFAULT_DURATION_UNITS, units);
    }
 
    /**
@@ -100,9 +124,19 @@ public class DefaultSettings extends MPXRecord
     *
     * @return  0-not fixed,1-fixed
     */
-   public byte getDefaultDurationType ()
+   public int getDefaultDurationTypeValue ()
    {
-      return (getByteValue (DEFAULT_DURATION_TYPE));
+      return (getIntValue (DEFAULT_DURATION_TYPE));
+   }
+
+   /**
+    * Gets whether the Default Type is fixed or not
+    *
+    * @return  0-not fixed,1-fixed
+    */
+   public Integer getDefaultDurationType ()
+   {
+      return ((Integer)get (DEFAULT_DURATION_TYPE));
    }
 
    /**
@@ -110,33 +144,67 @@ public class DefaultSettings extends MPXRecord
     *
     * @param type  0-not fixed,1-fixed
     */
-   public void setDefaultDurationType (byte type)
+   public void setDefaultDurationType (int type)
    {
-      put (DEFAULT_DURATION_TYPE, new Byte(type));
+      put (DEFAULT_DURATION_TYPE, type);
+   }
+
+   /**
+    * Sets whether the Default Type is fixed or not
+    *
+    * @param type  0-not fixed,1-fixed
+    */
+   public void setDefaultDurationType (Integer type)
+   {
+      put (DEFAULT_DURATION_TYPE, type);
    }
 
    /**
     * Default work units. The constants used to define the
     * work units are defined by the <code>TimeUnit</code> class.
     *
-    * @return byte representing default
+    * @return int representing default
     * @see TimeUnit
     */
-   public byte getDefaultWorkUnits ()
+   public int getDefaultWorkUnitsValue ()
    {
-      return (getByteValue (DEFAULT_WORK_UNITS));
+      return (getIntValue (DEFAULT_WORK_UNITS));
    }
 
    /**
     * Default work units. The constants used to define the
     * work units are defined by the <code>TimeUnit</code> class.
     *
-    * @param units  byte representing default
+    * @return int representing default
     * @see TimeUnit
     */
-   public void setDefaultWorkUnits (byte units)
+   public Integer getDefaultWorkUnits ()
    {
-      put (DEFAULT_WORK_UNITS, new Byte(units));
+      return ((Integer)get (DEFAULT_WORK_UNITS));
+   }
+
+   /**
+    * Default work units. The constants used to define the
+    * work units are defined by the <code>TimeUnit</code> class.
+    *
+    * @param units  int representing default
+    * @see TimeUnit
+    */
+   public void setDefaultWorkUnits (int units)
+   {
+      put (DEFAULT_WORK_UNITS, units);
+   }
+
+   /**
+    * Default work units. The constants used to define the
+    * work units are defined by the <code>TimeUnit</code> class.
+    *
+    * @param units  int representing default
+    * @see TimeUnit
+    */
+   public void setDefaultWorkUnits (Integer units)
+   {
+      put (DEFAULT_WORK_UNITS, units);
    }
 
    /**
@@ -144,9 +212,19 @@ public class DefaultSettings extends MPXRecord
     *
     * @return number of hours
     */
-   public float getDefaultHoursInDay ()
+   public float getDefaultHoursInDayValue ()
    {
       return (getFloatValue (DEFAULT_HOURS_IN_DAY));
+   }
+
+   /**
+    * Gets the default number of hours in a day
+    *
+    * @return number of hours
+    */
+   public Float getDefaultHoursInDay ()
+   {
+      return ((Float)get (DEFAULT_HOURS_IN_DAY));
    }
 
    /**
@@ -164,9 +242,19 @@ public class DefaultSettings extends MPXRecord
     *
     * @return number of hours
     */
-   public float getDefaultHoursInWeek ()
+   public float getDefaultHoursInWeekValue ()
    {
       return (getFloatValue (DEFAULT_HOURS_IN_WEEK));
+   }
+
+   /**
+    * Gets the default number of hours in a week
+    *
+    * @return number of hours
+    */
+   public Float getDefaultHoursInWeek ()
+   {
+      return ((Float)get (DEFAULT_HOURS_IN_WEEK));
    }
 
    /**
@@ -224,17 +312,37 @@ public class DefaultSettings extends MPXRecord
     *
     * @return - 0-no,1-yes
     */
-   public byte getUpdatingTaskStatusUpdatesResourceStatus ()
+   public int getUpdatingTaskStatusUpdatesResourceStatusValue ()
    {
-      return (getByteValue (UPDATE));
+      return (getIntValue (UPDATE));
    }
 
    /**
     * Flags whether updating Task status also updates resource status.
     *
-    * @param flag - byte, 0-no,1-yes
+    * @return - 0-no,1-yes
     */
-   public void setUpdatingTaskStatusUpdatesResourceStatus (Byte flag)
+   public Integer getUpdatingTaskStatusUpdatesResourceStatus ()
+   {
+      return ((Integer)get (UPDATE));
+   }
+
+   /**
+    * Flags whether updating Task status also updates resource status.
+    *
+    * @param flag - int, 0-no,1-yes
+    */
+   public void setUpdatingTaskStatusUpdatesResourceStatus (int flag)
+   {
+      put (UPDATE, flag);
+   }
+
+   /**
+    * Flags whether updating Task status also updates resource status.
+    *
+    * @param flag - int, 0-no,1-yes
+    */
+   public void setUpdatingTaskStatusUpdatesResourceStatus (Integer flag)
    {
       put (UPDATE, flag);
    }
@@ -242,23 +350,42 @@ public class DefaultSettings extends MPXRecord
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
-    * @return - byte, 0-no, 1-yes
+    * @return - int, 0-no, 1-yes
     */
-   public byte getSplitInProgressTasks ()
+   public int getSplitInProgressTasksValue ()
    {
-      return (getByteValue (SPLIT));
+      return (getIntValue (SPLIT));
    }
 
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
-    * @param flag - byte, 0-no, 1-yes
+    * @return - int, 0-no, 1-yes
     */
-   public void setSplitInProgressTasks (Byte flag)
+   public Integer getSplitInProgressTasks ()
+   {
+      return ((Integer)get (SPLIT));
+   }
+
+   /**
+    * Flag representing whether or not to split in-progress tasks.
+    *
+    * @param flag - int, 0-no, 1-yes
+    */
+   public void setSplitInProgressTasks (int flag)
    {
       put (SPLIT,flag);
    }
 
+   /**
+    * Flag representing whether or not to split in-progress tasks.
+    *
+    * @param flag - int, 0-no, 1-yes
+    */
+   public void setSplitInProgressTasks (Integer flag)
+   {
+      put (SPLIT,flag);
+   }
 
    /**
     * This method generates a string in MPX format representing the

@@ -122,9 +122,29 @@ public class ResourceAssignment extends MPXRecord
     *
     * @return ID
     */
+   public int getResourceIDValue ()
+   {
+      return (getIntValue(RESOURCE_ID));
+   }
+
+   /**
+    * Returns the resource ID associated with this assignment.
+    *
+    * @return ID
+    */
    public Integer getResourceID ()
    {
-      return ((Integer)get(RESOURCE_ID));
+      return ((Integer)get (RESOURCE_ID));
+   }
+
+   /**
+    * Sets the resource ID associated with this assignment.
+    *
+    * @param val  ID
+    */
+   public void setResourceID (int val)
+   {
+      put (RESOURCE_ID, val);
    }
 
    /**
@@ -380,9 +400,30 @@ public class ResourceAssignment extends MPXRecord
     * @return resources unique id
     * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
     */
+   public int getResourceUniqueIDValue ()
+   {
+      return (getIntValue(RESOURCE_UNIQUE_ID));
+   }
+
+   /**
+    * Returns the resources unique id for this resource assignment
+    * @return resources unique id
+    * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
+    */
    public Integer getResourceUniqueID ()
    {
-      return ((Integer)get(RESOURCE_UNIQUE_ID));
+      return ((Integer)get (RESOURCE_UNIQUE_ID));
+   }
+
+   /**
+    * Sets the resources unique id for this resource assignment
+    *
+    * @param val resources unique id
+    * @see #RESOURCE_UNIQUE_ID CONSTANTS for description
+    */
+   public void setResourceUniqueID (int val)
+   {
+      put (RESOURCE_UNIQUE_ID, val);
    }
 
    /**
@@ -424,9 +465,7 @@ public class ResourceAssignment extends MPXRecord
     */
    public Resource getResource ()
    {
-      MPXFile file = getParentFile();
-      Integer resourceID = getResourceUniqueID();
-      return (file.getResourceByUniqueID(resourceID.intValue()));
+      return (getParentFile().getResourceByUniqueID(getResourceUniqueIDValue()));
    }
 
    /**

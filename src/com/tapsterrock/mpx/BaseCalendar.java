@@ -61,13 +61,13 @@ public class BaseCalendar extends MPXRecord
       super (file);
 
       setName(record.getString(0));
-      setSunday(record.getByte(1));
-      setMonday(record.getByte(2));
-      setTuesday(record.getByte(3));
-      setWednesday(record.getByte(4));
-      setThursday(record.getByte(5));
-      setFriday(record.getByte(6));
-      setSaturday(record.getByte(7));
+      setSunday(record.getInteger(1));
+      setMonday(record.getInteger(2));
+      setTuesday(record.getInteger(3));
+      setWednesday(record.getInteger(4));
+      setThursday(record.getInteger(5));
+      setFriday(record.getInteger(6));
+      setSaturday(record.getInteger(7));
    }
 
    /**
@@ -165,9 +165,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getSunday()
+   public int getSundayValue ()
    {
-      return ((Byte)get(SUNDAY));
+      return (getIntValue (SUNDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getSunday ()
+   {
+      return ((Integer) get (SUNDAY));
    }
 
    /**
@@ -175,7 +185,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setSunday (Byte val)
+   public void setSunday (int val)
+   {
+      put (SUNDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setSunday (Integer val)
    {
       put (SUNDAY, val);
    }
@@ -185,9 +205,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getMonday()
+   public int getMondayValue ()
    {
-      return ((Byte)get(MONDAY));
+      return (getIntValue (MONDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getMonday ()
+   {
+      return ((Integer)get (MONDAY));
    }
 
    /**
@@ -195,7 +225,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setMonday (Byte val)
+   public void setMonday (int val)
+   {
+      put (MONDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setMonday (Integer val)
    {
       put (MONDAY, val);
    }
@@ -205,9 +245,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getTuesday()
+   public int getTuesdayValue ()
    {
-      return ((Byte)get(TUESDAY));
+      return (getIntValue (TUESDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getTuesday ()
+   {
+      return ((Integer)get (TUESDAY));
    }
 
    /**
@@ -215,7 +265,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setTuesday (Byte val)
+   public void setTuesday (int val)
+   {
+      put (TUESDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setTuesday (Integer val)
    {
       put (TUESDAY, val);
    }
@@ -225,9 +285,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getWednesday()
+   public int getWednesdayValue ()
    {
-      return ((Byte)get(WEDNESDAY));
+      return (getIntValue (WEDNESDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getWednesday ()
+   {
+      return ((Integer)get (WEDNESDAY));
    }
 
    /**
@@ -235,7 +305,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setWednesday (Byte val)
+   public void setWednesday (int val)
+   {
+      put (WEDNESDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setWednesday (Integer val)
    {
       put (WEDNESDAY, val);
    }
@@ -245,9 +325,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getThursday()
+   public int getThursdayValue ()
    {
-      return ((Byte)get(THURSDAY));
+      return (getIntValue (THURSDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getThursday ()
+   {
+      return ((Integer)get (THURSDAY));
    }
 
    /**
@@ -255,7 +345,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setThursday (Byte val)
+   public void setThursday (int val)
+   {
+      put (THURSDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setThursday (Integer val)
    {
       put (THURSDAY, val);
    }
@@ -265,9 +365,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getFriday()
+   public int getFridayValue ()
    {
-      return ((Byte)get(FRIDAY));
+      return (getIntValue (FRIDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getFriday ()
+   {
+      return ((Integer)get (FRIDAY));
    }
 
    /**
@@ -275,7 +385,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setFriday (Byte val)
+   public void setFriday (int val)
+   {
+      put (FRIDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setFriday (Integer val)
    {
       put (FRIDAY, val);
    }
@@ -285,9 +405,19 @@ public class BaseCalendar extends MPXRecord
     *
     * @return non-working=0, working=1
     */
-   public Byte getSaturday()
+   public int getSaturdayValue ()
    {
-      return ((Byte)get(SATURDAY));
+      return (getIntValue (SATURDAY));
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @return non-working=0, working=1
+    */
+   public Integer getSaturday ()
+   {
+      return ((Integer)get (SATURDAY));
    }
 
    /**
@@ -295,7 +425,17 @@ public class BaseCalendar extends MPXRecord
     *
     * @param val non-working=0, working=1
     */
-   public void setSaturday (Byte val)
+   public void setSaturday (int val)
+   {
+      put (SATURDAY, val);
+   }
+
+   /**
+    * Flag indicating if this day is working or non-working.
+    *
+    * @param val non-working=0, working=1
+    */
+   public void setSaturday (Integer val)
    {
       put (SATURDAY, val);
    }
@@ -343,9 +483,9 @@ public class BaseCalendar extends MPXRecord
    {
       boolean result;
 
-      Byte working = (Byte)get(getKey(day));
+      int working = getIntValue (getKey(day));
 
-      if (working == null || working.intValue() == 0)
+      if (working == 0)
       {
          result = false;
       }
@@ -366,10 +506,10 @@ public class BaseCalendar extends MPXRecord
     * @param working flag indicating if the day is a working day
     * @throws MPXException when an invalid day is specified
     */
-   public void setDay (int day, Byte working)
+   public void setWorkingDay (int day, boolean working)
       throws MPXException
    {
-      put(getKey (day), working);
+      put (getKey (day), (working==false?0:1));
    }
 
    /**
@@ -614,12 +754,12 @@ public class BaseCalendar extends MPXRecord
    /**
     * Constant used to represent non-working days
     */
-   public static final Byte NONWORKING = new Byte ((byte)0);
+   public static final int NONWORKING = 0;
 
    /**
     * Constant used to represent working days
     */
-   public static final Byte WORKING = new Byte ((byte)1);
+   public static final int WORKING = 1;
 
    /**
     * Constant representing maximum number of BaseCalendarHours

@@ -99,45 +99,45 @@ public class TestMPXFile extends TestCase
 
       Task task1 = file.addTask();
       assertEquals (task1.getWBS(), "1.0");
-      assertEquals (task1.getOutlineLevel().intValue(), 1);
-      assertEquals (task1.getID().intValue(), 1);
-      assertEquals (task1.getUniqueID().intValue(), 1);
+      assertEquals (task1.getOutlineLevelValue(), 1);
+      assertEquals (task1.getIDValue(), 1);
+      assertEquals (task1.getUniqueIDValue(), 1);
 
       task1 = file.addTask();
       assertEquals (task1.getWBS(), "2.0");
-      assertEquals (task1.getOutlineLevel().intValue(), 1);
-      assertEquals (task1.getID().intValue(), 2);
-      assertEquals (task1.getUniqueID().intValue(), 2);
+      assertEquals (task1.getOutlineLevelValue(), 1);
+      assertEquals (task1.getIDValue(), 2);
+      assertEquals (task1.getUniqueIDValue(), 2);
 
       task1 = file.addTask();
       assertEquals (task1.getWBS(), "3.0");
-      assertEquals (task1.getOutlineLevel().intValue(), 1);
-      assertEquals (task1.getID().intValue(), 3);
-      assertEquals (task1.getUniqueID().intValue(), 3);
+      assertEquals (task1.getOutlineLevelValue(), 1);
+      assertEquals (task1.getIDValue(), 3);
+      assertEquals (task1.getUniqueIDValue(), 3);
 
       Task task2 = task1.addTask();
       assertEquals (task2.getWBS(), "3.1");
-      assertEquals (task2.getOutlineLevel().intValue(), 2);
-      assertEquals (task2.getID().intValue(), 4);
-      assertEquals (task2.getUniqueID().intValue(), 4);
+      assertEquals (task2.getOutlineLevelValue(), 2);
+      assertEquals (task2.getIDValue(), 4);
+      assertEquals (task2.getUniqueIDValue(), 4);
 
       task2 = task1.addTask();
       assertEquals (task2.getWBS(), "3.2");
-      assertEquals (task2.getOutlineLevel().intValue(), 2);
-      assertEquals (task2.getID().intValue(), 5);
-      assertEquals (task2.getUniqueID().intValue(), 5);
+      assertEquals (task2.getOutlineLevelValue(), 2);
+      assertEquals (task2.getIDValue(), 5);
+      assertEquals (task2.getUniqueIDValue(), 5);
 
       Task task3 = task2.addTask();
       assertEquals (task3.getWBS(), "3.2.1");
-      assertEquals (task3.getOutlineLevel().intValue(), 3);
-      assertEquals (task3.getID().intValue(), 6);
-      assertEquals (task3.getUniqueID().intValue(), 6);
+      assertEquals (task3.getOutlineLevelValue(), 3);
+      assertEquals (task3.getIDValue(), 6);
+      assertEquals (task3.getUniqueIDValue(), 6);
 
       task3 = task2.addTask();
       assertEquals (task3.getWBS(), "3.2.2");
-      assertEquals (task3.getOutlineLevel().intValue(), 3);
-      assertEquals (task3.getID().intValue(), 7);
-      assertEquals (task3.getUniqueID().intValue(), 7);
+      assertEquals (task3.getOutlineLevelValue(), 3);
+      assertEquals (task3.getIDValue(), 7);
+      assertEquals (task3.getUniqueIDValue(), 7);
    }
 
    public void testStructure ()

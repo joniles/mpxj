@@ -34,15 +34,6 @@ import java.text.ParseException;
  */
 class MPXDateFormat
 {
-  /**
-   * Default constructor.
-   *
-   * @todo do we need this?
-   */
-   public MPXDateFormat()
-   {
-   }
-
    /**
     * This method is used to configure the format pattern.
     *

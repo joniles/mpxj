@@ -57,8 +57,8 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
       super(file);
 
       setMessageUniqueID(record.getString(0));
-      setConfirmed(record.getByte(1));
-      setResponsePending(record.getByte(2));
+      setConfirmed(record.getInteger(1));
+      setResponsePending(record.getInteger(2));
       setUpdateStart(record.getDate(3));
       setUpdateFinish(record.getDate(4));
       setScheduleID(record.getString(5));
@@ -89,9 +89,19 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     *
     * @return 0-false, 1-true
     */
-   public byte getConfirmed ()
+   public int getConfirmedValue ()
    {
-      return (getByteValue(CONFIRMED));
+      return (getIntValue(CONFIRMED));
+   }
+
+   /**
+    * Gets  confirmed value
+    *
+    * @return 0-false, 1-true
+    */
+   public Integer getConfirmed ()
+   {
+      return ((Integer)get (CONFIRMED));
    }
 
    /**
@@ -99,7 +109,17 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     *
     * @param val 0-false, 1-true
     */
-   public void setConfirmed (Byte val)
+   public void setConfirmed (int val)
+   {
+      put (CONFIRMED, val);
+   }
+
+   /**
+    * Sets to confirmed
+    *
+    * @param val 0-false, 1-true
+    */
+   public void setConfirmed (Integer val)
    {
       put (CONFIRMED, val);
    }
@@ -109,7 +129,17 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     *
     * @param val 0-false, 1-true
     */
-   public void setResponsePending (Byte val)
+   public void setResponsePending (int val)
+   {
+      put (RESPONSE_PENDING, val);
+   }
+
+   /**
+    * Sets to response pending
+    *
+    * @param val 0-false, 1-true
+    */
+   public void setResponsePending (Integer val)
    {
       put (RESPONSE_PENDING, val);
    }
@@ -119,9 +149,19 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     *
     * @return 0-false, 1-true
     */
-   public byte getResponsePending ()
+   public int getResponsePendingValue ()
    {
-      return (getByteValue(RESPONSE_PENDING));
+      return (getIntValue(RESPONSE_PENDING));
+   }
+
+   /**
+    * Gets  response pending value
+    *
+    * @return 0-false, 1-true
+    */
+   public Integer getResponsePending ()
+   {
+      return ((Integer)get (RESPONSE_PENDING));
    }
 
    /**

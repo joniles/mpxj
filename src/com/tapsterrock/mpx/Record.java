@@ -109,69 +109,9 @@ class Record
    }
 
    /**
-    * Accessor method used to retrieve a String value representing the
+    * Accessor method used to retrieve a char representing the
     * contents of an individual field. If the field does not exist in the
-    * record, a default value is returned.
-    *
-    * @param field the index number of the field to be retrieved
-    * @return the value of the required field
-    */
-   public String getStringValue (int field)
-   {
-      String result = getString (field);
-      if (result == null)
-      {
-         result = DEFAULT_STRING;
-      }
-      return (result);
-   }
-
-   /**
-    * Accessor method used to retrieve a Byte object representing the
-    * contents of an individual field. If the field does not exist in the
-    * record, null is returned.
-    *
-    * @param field the index number of the field to be retrieved
-    * @return the value of the required field
-    */
-   public Byte getByte (int field)
-   {
-      Byte result;
-
-      if (field < m_fields.length)
-      {
-         result = Byte.valueOf(m_fields[field]);
-      }
-      else
-      {
-         result = null;
-      }
-
-      return (result);
-   }
-
-   /**
-    * Accessor method used to retrieve a byte value representing the
-    * contents of an individual field. If the field does not exist in the
-    * record, a default value is returned.
-    *
-    * @param field the index number of the field to be retrieved
-    * @return the value of the required field
-    */
-   public byte getByteValue (int field)
-   {
-      Byte result = getByte (field);
-      if (result == null)
-      {
-         result = DEFAULT_BYTE;
-      }
-      return (result.byteValue());
-   }
-
-   /**
-    * Accessor method used to retrieve a Character object representing the
-    * contents of an individual field. If the field does not exist in the
-    * record, null is returned.
+    * record, the default character is returned.
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
@@ -182,7 +122,7 @@ class Record
 
       if (field < m_fields.length)
       {
-         result = new Character(m_fields[field].charAt(0));
+         result = new Character (m_fields[field].charAt(0));
       }
       else
       {
@@ -452,9 +392,6 @@ class Record
    private MPXFile m_parent;
    private String m_recordNumber;
    private String[] m_fields;
-
-   private static final Byte DEFAULT_BYTE = new Byte ((byte)0);
-   private static final String DEFAULT_STRING = "";
 
    public static final Record EMPTY_RECORD = new Record ();
 }

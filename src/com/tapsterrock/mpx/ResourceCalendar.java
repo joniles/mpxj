@@ -58,13 +58,13 @@ public class ResourceCalendar extends MPXRecord
       super(file);
 
       setBaseCalendarName(record.getString(0));
-      setSunday(record.getByte(1));
-      setMonday(record.getByte(2));
-      setTuesday(record.getByte(3));
-      setWednesday(record.getByte(4));
-      setThursday(record.getByte(5));
-      setFriday(record.getByte(6));
-      setSaturday(record.getByte(7));
+      setSunday(record.getInteger(1));
+      setMonday(record.getInteger(2));
+      setTuesday(record.getInteger(3));
+      setWednesday(record.getInteger(4));
+      setThursday(record.getInteger(5));
+      setFriday(record.getInteger(6));
+      setSaturday(record.getInteger(7));
    }
 
    /**
@@ -181,17 +181,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getMonday ()
+   public int getMondayValue ()
    {
-      return (getByteValue (MONDAY));
+      return (getIntValue (MONDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getMonday ()
+   {
+      return ((Integer)get (MONDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param mon - byte- 0 - non-working, 1 - Working, 2 - use dafault
+    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setMonday (Byte mon)
+   public void setMonday (int mon)
+   {
+      put (MONDAY, mon);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setMonday (Integer mon)
    {
       put (MONDAY, mon);
    }
@@ -201,17 +221,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getTuesday ()
+   public int getTuesdayValue ()
    {
-       return (getByteValue (TUESDAY));
+       return (getIntValue (TUESDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getTuesday ()
+   {
+       return ((Integer)get (TUESDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param mon - byte- 0 - non-working, 1 - Working, 2 - use dafault
+    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setTuesday (Byte mon)
+   public void setTuesday (int mon)
+   {
+      put (TUESDAY, mon);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setTuesday (Integer mon)
    {
       put (TUESDAY, mon);
    }
@@ -221,17 +261,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getWednesday ()
+   public int getWednesdayValue ()
    {
-      return (getByteValue (WEDNESDAY));
+      return (getIntValue (WEDNESDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getWednesday ()
+   {
+      return ((Integer)get (WEDNESDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param wed - byte  0 - non-working, 1 - Working, 2 - use dafault
+    * @param wed - int  0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setWednesday (Byte wed)
+   public void setWednesday (int wed)
+   {
+      put (WEDNESDAY, wed);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param wed - int  0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setWednesday (Integer wed)
    {
       put (WEDNESDAY, wed);
    }
@@ -241,17 +301,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getThursday ()
+   public int getThursdayValue ()
    {
-       return (getByteValue (THURSDAY));
+       return (getIntValue (THURSDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getThursday ()
+   {
+       return ((Integer)get (THURSDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param mon - byte  0 - non-working, 1 - Working, 2 - use dafault
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setThursday (Byte mon)
+   public void setThursday (int mon)
+   {
+      put (THURSDAY, mon);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setThursday (Integer mon)
    {
       put (THURSDAY, mon);
    }
@@ -261,17 +341,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getFriday ()
+   public int getFridayValue ()
    {
-      return (getByteValue(FRIDAY));
+      return (getIntValue(FRIDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getFriday ()
+   {
+      return ((Integer)get (FRIDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param mon - byte  0 - non-working, 1 - Working, 2 - use dafault
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setFriday (Byte mon)
+   public void setFriday (int mon)
+   {
+      put (FRIDAY, mon);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setFriday (Integer mon)
    {
       put (FRIDAY, mon);
    }
@@ -281,17 +381,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getSaturday ()
+   public int getSaturdayValue ()
    {
-      return (getByteValue (SATURDAY));
+      return (getIntValue (SATURDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getSaturday ()
+   {
+      return ((Integer)get (SATURDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param mon - byte  0 - non-working, 1 - Working, 2 - use dafault
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setSaturday (Byte mon)
+   public void setSaturday (int mon)
+   {
+      put (SATURDAY, mon);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setSaturday (Integer mon)
    {
       put (SATURDAY, mon);
    }
@@ -301,17 +421,37 @@ public class ResourceCalendar extends MPXRecord
     *
     * @return - 0 - non-working, 1 - Working, 2 - use dafault
     */
-   public byte getSunday ()
+   public int getSundayValue ()
    {
-       return (getByteValue (SUNDAY));
+       return (getIntValue (SUNDAY));
+   }
+
+   /**
+    * Gets working status.
+    *
+    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public Integer getSunday ()
+   {
+       return ((Integer)get (SUNDAY));
    }
 
    /**
     * Sets working status.
     *
-    * @param mon - byte  0 - non-working, 1 - Working, 2 - use dafault
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
     */
-   public void setSunday (Byte mon)
+   public void setSunday (int mon)
+   {
+      put (SUNDAY, mon);
+   }
+
+   /**
+    * Sets working status.
+    *
+    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
+    */
+   public void setSunday (Integer mon)
    {
       put (SUNDAY, mon);
    }
@@ -357,18 +497,18 @@ public class ResourceCalendar extends MPXRecord
    /**
     * Constant signifying a Working condition (of a day)
     */
-   public static final byte WORKING = 1;
+   public static final int WORKING = 1;
 
    /**
     * Constant signifying a Non Working condition (of a day)
     */
-   public static final byte NON_WORKING = 0;
+   public static final int NON_WORKING = 0;
 
    /**
     * Constant signifying the default condition.
     * (As in the default calendar 'Standard')
     */
-   public static final byte DEFAULT = 2;
+   public static final int DEFAULT = 2;
 
    /**
     * Name of the base calendar used by the related resource

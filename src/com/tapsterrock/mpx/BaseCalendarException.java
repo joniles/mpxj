@@ -58,7 +58,7 @@ public class BaseCalendarException extends MPXRecord
 
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
-      setWorking(record.getByte(2));
+      setWorking(record.getInteger(2));
       setFromTime1(record.getTime(3));
       setToTime1(record.getTime(4));
       setFromTime2(record.getTime(5));
@@ -113,9 +113,19 @@ public class BaseCalendarException extends MPXRecord
     *
     * @return boolean value
     */
-   public Byte getWorking ()
+   public int getWorkingValue ()
    {
-      return  ((Byte)get(WORKING));
+      return  (getIntValue (WORKING));
+   }
+
+   /**
+    * gets working status
+    *
+    * @return boolean value
+    */
+   public Integer getWorking ()
+   {
+      return  ((Integer)get (WORKING));
    }
 
    /**
@@ -123,7 +133,17 @@ public class BaseCalendarException extends MPXRecord
     *
     * @param w false=non-working, true=working
     */
-   public void setWorking (Byte w)
+   public void setWorking (int w)
+   {
+      put (WORKING, w);
+   }
+
+   /**
+    * Sets working status of this exception.
+    *
+    * @param w false=non-working, true=working
+    */
+   public void setWorking (Integer w)
    {
       put (WORKING, w);
    }

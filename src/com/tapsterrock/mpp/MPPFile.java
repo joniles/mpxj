@@ -314,7 +314,7 @@ public class MPPFile extends MPXFile
 
                if (defaultFlag == 1)
                {
-                  cal.setDay(index+1, DEFAULT_WEEK[index]);
+                  cal.setWorkingDay(index+1, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(index+1) == true)
                   {
                      hours = cal.addBaseCalendarHours();
@@ -330,11 +330,11 @@ public class MPPFile extends MPXFile
                   periodCount = MPPUtility.getShort (data, offset+2);
                   if (periodCount == 0)
                   {
-                     cal.setDay(index+1, BaseCalendar.NONWORKING);
+                     cal.setWorkingDay(index+1, false);
                   }
                   else
                   {
-                     cal.setDay(index+1, BaseCalendar.WORKING);
+                     cal.setWorkingDay(index+1, true);
                      hours = cal.addBaseCalendarHours();
                      hours.setDay(index+1);
 
@@ -508,7 +508,7 @@ public class MPPFile extends MPXFile
          //task.setFlag10();
          //task.setFreeSlack();  // Calculated value
          //task.setHideBar();
-         task.setID (new Integer (MPPUtility.getInt (data, 4)));
+         task.setID (MPPUtility.getInt (data, 4));
          //task.setLateFinish();  // Calculated value
          //task.setLateStart();  // Calculated value
          //task.setLinkedFields();  // Calculated value
@@ -521,7 +521,7 @@ public class MPPFile extends MPXFile
          task.setNumber4(new Double (taskVarData.getDouble(id, TASK_NUMBER4)));
          task.setNumber5(new Double (taskVarData.getDouble(id, TASK_NUMBER5)));
          //task.setObjects(); // Calculated value
-         task.setOutlineLevel (new Integer (MPPUtility.getShort (data, 40)));
+         task.setOutlineLevel (MPPUtility.getShort (data, 40));
          //task.setOutlineNumber(); // Calculated value
          task.setPercentageComplete(new MPXPercentage ((float)MPPUtility.getShort(data, 122)));
          task.setPercentageWorkComplete(new MPXPercentage ((float)MPPUtility.getShort(data, 124)));
@@ -558,7 +558,7 @@ public class MPPFile extends MPXFile
          task.setText9(taskVarData.getUnicodeString (id, TASK_TEXT9));
          task.setText10(taskVarData.getUnicodeString (id, TASK_TEXT10));
          //task.setTotalSlack(); // Calculated value
-         task.setUniqueID(id);
+         task.setUniqueID(id.intValue());
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
          //task.setWork();
@@ -685,7 +685,7 @@ public class MPPFile extends MPXFile
          //resource.setCostVariance(); // Calculated value
          resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
          resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
-         resource.setID (new Integer (MPPUtility.getInt (data, 4)));
+         resource.setID (MPPUtility.getInt (data, 4));
          resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value
          //resource.setMaxUnits();
@@ -707,7 +707,7 @@ public class MPPFile extends MPXFile
          resource.setText3(rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
          resource.setText4(rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
          resource.setText5(rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
-         resource.setUniqueID(id);
+         resource.setUniqueID(id.intValue());
          //resource.setWork(); // Calculated value
          //resource.setWorkVariance(); // Calculated value
 
@@ -1091,14 +1091,14 @@ public class MPPFile extends MPXFile
    /**
     * Default working week
     */
-   private static final Byte[] DEFAULT_WEEK =
+   private static final boolean[] DEFAULT_WORKING_WEEK =
    {
-      BaseCalendar.NONWORKING,
-      BaseCalendar.WORKING,
-      BaseCalendar.WORKING,
-      BaseCalendar.WORKING,
-      BaseCalendar.WORKING,
-      BaseCalendar.WORKING,
-      BaseCalendar.NONWORKING
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
    };
 }

@@ -57,7 +57,7 @@ public class ResourceCalendarException extends MPXRecord
 
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
-      setWorking(record.getByte(2));
+      setWorking(record.getInteger(2));
       setFromTime1(record.getTime(3));
       setToTime1(record.getTime(4));
       setFromTime2(record.getTime(5));
@@ -71,18 +71,37 @@ public class ResourceCalendarException extends MPXRecord
     *
     * @return 0=non-working, 1=working, 2=default
     */
-   public byte getWorking ()
+   public int getWorkingValue ()
    {
-      return (getByteValue (WORKING));
+      return (getIntValue (WORKING));
    }
 
+   /**
+    * Retrieves whether this is a working or non working period.
+    *
+    * @return 0=non-working, 1=working, 2=default
+    */
+   public Integer getWorking ()
+   {
+      return ((Integer)get (WORKING));
+   }
 
    /**
     * Sets whether this is a working or non working period.
     *
     * @param val 0=non-working, 1=working, 2=default
     */
-   public void setWorking (Byte val)
+   public void setWorking (int val)
+   {
+      put (WORKING, val);
+   }
+
+   /**
+    * Sets whether this is a working or non working period.
+    *
+    * @param val 0=non-working, 1=working, 2=default
+    */
+   public void setWorking (Integer val)
    {
       put (WORKING, val);
    }

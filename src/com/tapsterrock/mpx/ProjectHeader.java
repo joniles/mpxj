@@ -62,7 +62,7 @@ public class ProjectHeader extends MPXRecord
       setCalendar(record.getString(3));
       setStartDate(record.getDate(4));
       setFinishDate(record.getDate(5));
-      setScheduleFrom(record.getByte(6));
+      setScheduleFrom(record.getInteger(6));
       setCurrentDate(record.getDate(7));
       setComments(record.getString(8));
       setCost(record.getCurrency(9));
@@ -84,7 +84,7 @@ public class ProjectHeader extends MPXRecord
       setFinishVariance(record.getDuration(25));
       setSubject(record.getString(26));
       setAuthor(record.getString(27));
-      setKeywords(record.getStringValue(28));
+      setKeywords(record.getString(28));
    }
 
    /**
@@ -214,11 +214,20 @@ public class ProjectHeader extends MPXRecord
 
    /**
     * To flag whether start date(0) or finish date(1) is included in file.
-    * @return byte - possible values 0-start, 1-finish
+    * @return int - possible values 0-start, 1-finish
     */
-   public byte getScheduleFrom ()
+   public int getScheduleFromValue ()
    {
-      return (getByteValue (SCHEDULE_FROM));
+      return (getIntValue (SCHEDULE_FROM));
+   }
+
+   /**
+    * To flag whether start date(0) or finish date(1) is included in file.
+    * @return int - possible values 0-start, 1-finish
+    */
+   public Integer getScheduleFrom ()
+   {
+      return ((Integer)get (SCHEDULE_FROM));
    }
 
    /**
@@ -226,7 +235,17 @@ public class ProjectHeader extends MPXRecord
     *
     * @param val - possible values 0-start,1-finish
     */
-   public void setScheduleFrom (Byte val)
+   public void setScheduleFrom (int val)
+   {
+      put (SCHEDULE_FROM, val);
+   }
+
+   /**
+    * To flag whether start date(0) or finish date(1) is included in file.
+    *
+    * @param val - possible values 0-start,1-finish
+    */
+   public void setScheduleFrom (Integer val)
    {
       put (SCHEDULE_FROM, val);
    }
@@ -402,9 +421,9 @@ public class ProjectHeader extends MPXRecord
     *
     * @return percentage
     */
-   public float getWork2 ()
+   public MPXPercentage getWork2 ()
    {
-      return ((MPXPercentage)get(WORK2)).getValue(); /** @todo potential NPE */
+      return ((MPXPercentage)get (WORK2));
    }
 
    /**
@@ -483,9 +502,9 @@ public class ProjectHeader extends MPXRecord
     *
     * @return percentage value
     */
-   public float getPercentageComplete ()
+   public MPXPercentage getPercentageComplete ()
    {
-      return ((MPXPercentage)get(PERCENTAGE_COMPLETE)).getValue();
+      return ((MPXPercentage)get(PERCENTAGE_COMPLETE));
    }
 
    /**

@@ -1,49 +1,33 @@
 /*
- * file:  ResourceCalendarHours.java
- * author:  Scott Melville
- * copyright:  Tapster Rock Limited
- * date:  15/8/2002
+ * file:       ResourceCalendarHours.java
+ * author:     Scott Melville
+ * copyright:  (c) Tapster Rock Limited 2002-2003
+ * date:       15/08/2002
  */
 
 /*
- * CHANGELOG
- * $Log$
- * Revision 1.1.1.2  2003/01/15 14:35:17  joniles
- * Initial revision.
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
  *
- * Revision 1.1.1.1  2003/01/07 21:53:53  joniles
- * Initial revision.
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
  *
- *
- * $Nokeywords: $
- *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
 package com.tapsterrock.mpx;
 
 import java.util.Date;
 
-/**Resource Calendar Hours - 56  These records define the working hours for the resource that
- * differ from the base calendar used by the resource. These records apply to the Resource Calendar
- * Definition record immediately preceding this record. Up to seven of these records can follow each
- * Resource Calendar Definition record.
- *
- * The fields included in this record are:
- * - Day of the Week (1-7, where 1 = Sunday and 7 = Saturday)
- * - From Time 1
- * - To Time 1
- * - From Time 2
- * - To Time 2
- * - From Time 3
- * - To Time 3
- *
- * Example: 56,3,7:00,11:00,12:00,4:00
- *
- * This example specifies that on Tuesdays, the immediately preceding resource
- * (in this case, carpenter) works from 7:00 A.M. to 4:00 P.M. with an hour off
- * from 11:00 A.M. to 12:00 P.M.
+/**
+ * This class represents working hours in a resource calendar.
  */
-
 public class ResourceCalendarHours extends MPXRecord
 {
    /**
@@ -70,7 +54,7 @@ public class ResourceCalendarHours extends MPXRecord
    {
       super(file);
 
-      setDayOfTheWeek(record.getByte(0));
+      setDayOfTheWeek(record.getInteger(0));
       setFromTime1(record.getTime(1));
       setToTime1(record.getTime(2));
       setFromTime2(record.getTime(3));
@@ -81,20 +65,38 @@ public class ResourceCalendarHours extends MPXRecord
 
    /**
     * Get day of the week.
-    * @return -byte 1 - 7 , sunday - saturday.
+    * @return -int 1 - 7 , sunday - saturday.
     */
-   public byte getDayOfTheWeek()
+   public int getDayOfTheWeekValue()
    {
-      return (getByteValue (DAY));
+      return (getIntValue (DAY));
+   }
+
+   /**
+    * Get day of the week.
+    * @return -int 1 - 7 , sunday - saturday.
+    */
+   public Integer getDayOfTheWeek()
+   {
+      return ((Integer)get (DAY));
    }
 
    /**
     * Set day of the week.
     * @param val - 1 - 7 , sunday - saturday.
     */
-   public void setDayOfTheWeek(Byte val)
+   public void setDayOfTheWeek(int  val)
    {
-      put(DAY,val);
+      put (DAY,val);
+   }
+
+   /**
+    * Set day of the week.
+    * @param val - 1 - 7 , sunday - saturday.
+    */
+   public void setDayOfTheWeek (Integer  val)
+   {
+      put (DAY,val);
    }
 
    /**
@@ -220,31 +222,31 @@ public class ResourceCalendarHours extends MPXRecord
    /**
     * Constant for Sunday
     */
-   public static final byte SUNDAY = 1;
+   public static final int SUNDAY = 1;
    /**
     * Constant for Monday
     */
-   public static final byte MONDAY = 2;
+   public static final int MONDAY = 2;
    /**
     * Constant for Tuesday
     */
-   public static final byte TUESDAY = 3;
+   public static final int TUESDAY = 3;
    /**
     * Constant for Wednesday
     */
-   public static final byte WEDNESDAY = 4;
+   public static final int WEDNESDAY = 4;
    /**
     * Constant for Thursday
     */
-   public static final byte THURSDAY = 5;
+   public static final int THURSDAY = 5;
    /**
     * Constant for Friday
     */
-   public static final byte FRIDAY = 6;
+   public static final int FRIDAY = 6;
    /**
     * Constant for Saturday
     */
-   public static final byte SATURDAY = 7;
+   public static final int SATURDAY = 7;
 
 
    /**

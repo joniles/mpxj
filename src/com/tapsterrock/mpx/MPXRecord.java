@@ -211,6 +211,27 @@ class MPXRecord
       m_map.put (key, value);
    }
 
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   protected void put (Integer key, char value)
+   {
+      m_map.put (key, new Character (value));
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   protected void put (Integer key, int value)
+   {
+      m_map.put (key, new Integer (value));
+   }
 
    /**
     * This method inserts a name value pair into internal storage.
@@ -320,6 +341,58 @@ class MPXRecord
 
    /**
     * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a boolean value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default boolean value, false.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected boolean getBooleanValue (Integer key)
+   {
+      Boolean value = (Boolean)m_map.get(key);
+
+      boolean result;
+      if (value == null)
+      {
+         result = false;
+      }
+      else
+      {
+         result = value.booleanValue();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a char value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default char value, zero.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected char getCharValue (Integer key)
+   {
+      Character value = (Character)m_map.get(key);
+
+      char result;
+      if (value == null)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = value.charValue();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
     * value from internal storage and maps it to a int value. If
     * no value has been stored (i.e. we find a null pointer) we
     * map this to the default int value, zero.
@@ -365,6 +438,32 @@ class MPXRecord
       else
       {
          result = value.floatValue();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a double value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default double value, zero.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected double getDoubleValue (Integer key)
+   {
+      Double value = (Double)m_map.get(key);
+
+      double result;
+      if (value == null)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = value.doubleValue();
       }
 
       return (result);

@@ -44,12 +44,12 @@ public class Resource extends MPXRecord
 
       if (file.getAutoResourceUniqueID() == true)
       {
-         setUniqueID (new Integer (file.getResourceUniqueID ()));
+         setUniqueID (file.getResourceUniqueID ());
       }
 
       if (file.getAutoResourceID() == true)
       {
-         setID (new Integer (file.getResourceID ()));
+         setID (file.getResourceID ());
       }
    }
 
@@ -144,12 +144,12 @@ public class Resource extends MPXRecord
 
       if (file.getAutoResourceUniqueID() == true)
       {
-         setUniqueID (new Integer (file.getResourceUniqueID ()));
+         setUniqueID (file.getResourceUniqueID ());
       }
 
       if (file.getAutoResourceID() == true)
       {
-         setID (new Integer (file.getResourceID ()));
+         setID (file.getResourceID ());
       }
    }
 
@@ -264,6 +264,21 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * This method is used to set the value of a field in the resource,
+    * and also to ensure that the field exists in the resource model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void set (int field, int val)
+   {
+      Integer key = new Integer (field);
+      m_model.add (key);
+      put (key, val);
+   }
+
+   /**
     * This method is used to set the value of a currency field in the resource,
     * and also to ensure that the field exists in the resource model
     * record.
@@ -304,6 +319,16 @@ public class Resource extends MPXRecord
       return (get(new Integer(field)));
    }
 
+   /**
+    * This method is used to retrieve a particular field value.
+    *
+    * @param field requested field
+    * @return field value
+    */
+   private int getIntValue (int field)
+   {
+      return (getIntValue(new Integer(field)));
+   }
 
    /**
     * Sets the percentage work Complete
@@ -466,7 +491,7 @@ public class Resource extends MPXRecord
     * @param val value
     * @see #ID Constants for explanation
     */
-   public void setID (Integer val)
+   public void setID (int val)
    {
       set (ID, val);
    }
@@ -533,7 +558,7 @@ public class Resource extends MPXRecord
     * @param val - value to be set
     * @see #OBJECTS Constants for explanation
     */
-   public void setObjects (Integer val)
+   public void setObjects (int val)
    {
       set (OBJECTS, val);
    }
@@ -679,7 +704,7 @@ public class Resource extends MPXRecord
     * @param val UID
     * @see #UNIQUE_ID Constants for explanation
     */
-   public void setUniqueID (Integer val)
+   public void setUniqueID (int val)
    {
       set (UNIQUE_ID, val);
    }
@@ -867,9 +892,20 @@ public class Resource extends MPXRecord
     * @return value
     * @see #ID Constants for explanation
     */
+   public int getIDValue ()
+   {
+      return (getIntValue(ID));
+   }
+
+   /**
+    * Gets ID field value
+    *
+    * @return value
+    * @see #ID Constants for explanation
+    */
    public Integer getID ()
    {
-      return ((Integer)get(ID));
+      return ((Integer) get(ID));
    }
 
    /**
@@ -933,9 +969,20 @@ public class Resource extends MPXRecord
     * @return value
     * @see #OBJECTS Constants for explanation
     */
+   public int getObjectsValue ()
+   {
+      return (getIntValue(OBJECTS));
+   }
+
+   /**
+    * Gets objects field value
+    *
+    * @return value
+    * @see #OBJECTS Constants for explanation
+    */
    public Integer getObjects ()
    {
-      return ((Integer)get(OBJECTS));
+      return ((Integer)get (OBJECTS));
    }
 
    /**
@@ -1076,9 +1123,20 @@ public class Resource extends MPXRecord
     * @return value
     * @see #UNIQUE_ID for explanation
     */
+   public int getUniqueIDValue ()
+   {
+      return (getIntValue(UNIQUE_ID));
+   }
+
+   /**
+    * Gets Unique ID field value
+    *
+    * @return value
+    * @see #UNIQUE_ID for explanation
+    */
    public Integer getUniqueID ()
    {
-      return ((Integer)get(UNIQUE_ID));
+      return ((Integer)get (UNIQUE_ID));
    }
 
    /**
