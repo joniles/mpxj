@@ -3,7 +3,7 @@
 <!--JBuilder XML Project-->
 <project>
   <property category="idl" name="Compiler" value="VisiBroker" />
-  <property category="runtime" name="ConfigurationCount" value="4" />
+  <property category="runtime" name="ConfigurationCount" value="5" />
   <property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
   <property category="runtime.0" name="applet.vmparameters" value="-classic" />
   <property category="runtime.0" name="application.class" value="junit.swingui.TestRunner" />
@@ -46,12 +46,21 @@
   <property category="runtime.4" name="ConfigurationName" value="MPX XML" />
   <property category="runtime.4" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
   <property category="runtime.4" name="application.class" value="com.tapsterrock.utility.MpxXml" />
-  <property category="runtime.4" name="application.parameters" value="c:\java\mpxj\junit\data\sample.mpx c:\temp\sample.xml" />
+  <property category="runtime.4" name="application.parameters" value="c:\temp\project1.mpx c:\temp\project1.xml" />
   <property category="runtime.4" name="appserver.ejbJarsSaved" value="1" />
   <property category="runtime.4" name="appserver.parameters" value="-jts -jns -jss -jdb" />
   <property category="runtime.4" name="appserver.servername" value="ejbcontainer" />
   <property category="runtime.4" name="appserver.vmparameters" value="-Dvbroker.agent.port=14000 -Djava.library.path=C:/Inprise/AppServer/lib;C:/Inprise/AppServer/bin" />
   <property category="runtime.4" name="jsprunner.launchuri" value="/" />
+  <property category="runtime.5" name="ConfigurationName" value="MPX MPX" />
+  <property category="runtime.5" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner" />
+  <property category="runtime.5" name="application.class" value="com.tapsterrock.utility.MpxMpx" />
+  <property category="runtime.5" name="application.parameters" value="c:\temp\project1.mpx c:\temp\project1a.mpx" />
+  <property category="runtime.5" name="appserver.ejbJarsSaved" value="1" />
+  <property category="runtime.5" name="appserver.parameters" value="-jts -jns -jss -jdb" />
+  <property category="runtime.5" name="appserver.servername" value="ejbcontainer" />
+  <property category="runtime.5" name="appserver.vmparameters" value="-Dvbroker.agent.port=14000 -Djava.library.path=C:/Inprise/AppServer/lib;C:/Inprise/AppServer/bin" />
+  <property category="runtime.5" name="jsprunner.launchuri" value="/" />
   <property category="sys" name="AuthorLabel" value="@author" />
   <property category="sys" name="BackupPath" value="../bak" />
   <property category="sys" name="BeansInstantiate" value="false" />

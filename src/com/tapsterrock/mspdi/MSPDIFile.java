@@ -197,14 +197,14 @@ public class MSPDIFile extends MPXFile
          Project project = (Project)unmarshaller.unmarshal (stream);
          HashMap calendarMap = new HashMap ();
 
-         processCurrencySettings (project);
-         processDateTimeSettings (project);
-         processDefaultSettings (project);
-         processProjectHeader (project);
-         processCalendars (project, calendarMap);
-         processResources (project, calendarMap);
-         processTasks (project);
-         processAssignments (project);
+         readCurrencySettings (project);
+         readDateTimeSettings (project);
+         readDefaultSettings (project);
+         readProjectHeader (project);
+         readCalendars (project, calendarMap);
+         readResources (project, calendarMap);
+         readTasks (project);
+         readAssignments (project);
       }
 
       catch (JAXBException ex)
@@ -218,7 +218,7 @@ public class MSPDIFile extends MPXFile
     *
     * @param project Root node of the MSPDI file
     */
-   private void processCurrencySettings (Project project)
+   private void readCurrencySettings (Project project)
    {
       CurrencySettings currency = getCurrencySettings();
       currency.setCurrencyDigits (getInteger(project.getCurrencyDigits()));
@@ -233,7 +233,7 @@ public class MSPDIFile extends MPXFile
     *
     * @param project Root node of the MSPDI file
     */
-   private void processDateTimeSettings (Project project)
+   private void readDateTimeSettings (Project project)
    {
       DateTimeSettings settings = getDateTimeSettings();
       //settings.setAMText();
@@ -253,7 +253,7 @@ public class MSPDIFile extends MPXFile
     *
     * @param project Root node of the MSPDI file
     */
-   private void processDefaultSettings (Project project)
+   private void readDefaultSettings (Project project)
    {
       DefaultSettings settings = getDefaultSettings();
 
@@ -274,7 +274,7 @@ public class MSPDIFile extends MPXFile
     *
     * @param project Root node of the MSPDI file
     */
-   private void processProjectHeader (Project project)
+   private void readProjectHeader (Project project)
    {
       ProjectHeader header = getProjectHeader ();
       //header.setActualCost();
@@ -315,7 +315,7 @@ public class MSPDIFile extends MPXFile
     * @param map Map of calendar UIDs to names
     * @throws MPXException on file read errors
     */
-   private void processCalendars (Project project, HashMap map)
+   private void readCalendars (Project project, HashMap map)
       throws MPXException
    {
       Project.CalendarsType calendars = project.getCalendars();
@@ -326,7 +326,7 @@ public class MSPDIFile extends MPXFile
 
          while (iter.hasNext() == true)
          {
-            processCalendar ((Project.CalendarsType.CalendarType)iter.next(), map);
+            readCalendar ((Project.CalendarsType.CalendarType)iter.next(), map);
          }
       }
    }
@@ -338,7 +338,7 @@ public class MSPDIFile extends MPXFile
     * @param map Map of calendar UIDs to names
     * @throws MPXException on file read errors
     */
-   private void processCalendar (Project.CalendarsType.CalendarType calendar, HashMap map)
+   private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map)
       throws MPXException
    {
       BaseCalendar bc;
@@ -355,7 +355,7 @@ public class MSPDIFile extends MPXFile
 
          while (iter.hasNext() == true)
          {
-            processDay (bc, (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType)iter.next());
+            readDay (bc, (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType)iter.next());
          }
       }
 
@@ -369,7 +369,7 @@ public class MSPDIFile extends MPXFile
     * @param day Day data
     * @throws MPXException on file read errors
     */
-   private void processDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
       BigInteger dayType = day.getDayType();
@@ -377,11 +377,11 @@ public class MSPDIFile extends MPXFile
       {
          if (dayType.intValue() == 0)
          {
-            processExceptionDay (calendar, day);
+            readExceptionDay (calendar, day);
          }
          else
          {
-            processNormalDay (calendar, day);
+            readNormalDay (calendar, day);
          }
       }
    }
@@ -393,7 +393,7 @@ public class MSPDIFile extends MPXFile
     * @param day Day data
     * @throws MPXException on file read errors
     */
-   private void processNormalDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readNormalDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
       int dayNumber = day.getDayType().intValue() + 1;
@@ -443,7 +443,7 @@ public class MSPDIFile extends MPXFile
     * @param day Day data
     * @throws MPXException on file read errors
     */
-   private void processExceptionDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
+   private void readExceptionDay (BaseCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
       BaseCalendarException exception = calendar.addBaseCalendarException();
@@ -489,7 +489,7 @@ public class MSPDIFile extends MPXFile
     * @param calendarMap Map of calendar UIDs to names
     * @throws MPXException on file read errors
     */
-   private void processResources (Project project, HashMap calendarMap)
+   private void readResources (Project project, HashMap calendarMap)
       throws MPXException
    {
       Project.ResourcesType resources = project.getResources();
@@ -499,7 +499,7 @@ public class MSPDIFile extends MPXFile
          Iterator iter = resource.iterator();
          while (iter.hasNext() == true)
          {
-            processResource ((Project.ResourcesType.ResourceType)iter.next(), calendarMap);
+            readResource ((Project.ResourcesType.ResourceType)iter.next(), calendarMap);
          }
       }
    }
@@ -511,7 +511,7 @@ public class MSPDIFile extends MPXFile
     * @param calendarMap Map of calendar UIDs to names
     * @throws MPXException on file read errors
     */
-   private void processResource (Project.ResourcesType.ResourceType resource, HashMap calendarMap)
+   private void readResource (Project.ResourcesType.ResourceType resource, HashMap calendarMap)
       throws MPXException
    {
       Resource mpx = addResource();
@@ -560,7 +560,7 @@ public class MSPDIFile extends MPXFile
     * @param project Root node of the MSPDI file
     * @throws MPXException on file read errors
     */
-   private void processTasks (Project project)
+   private void readTasks (Project project)
       throws MPXException
    {
       Project.TasksType tasks = project.getTasks();
@@ -570,13 +570,13 @@ public class MSPDIFile extends MPXFile
          Iterator iter = task.iterator();
          while (iter.hasNext() == true)
          {
-            processTask ((Project.TasksType.TaskType)iter.next());
+            readTask ((Project.TasksType.TaskType)iter.next());
          }
 
          iter = task.iterator();
          while (iter.hasNext() == true)
          {
-            processPredecessors ((Project.TasksType.TaskType)iter.next());
+            readPredecessors ((Project.TasksType.TaskType)iter.next());
          }
       }
 
@@ -590,7 +590,7 @@ public class MSPDIFile extends MPXFile
     * @param task Task data
     * @throws MPXException on file read errors
     */
-   private void processTask (Project.TasksType.TaskType task)
+   private void readTask (Project.TasksType.TaskType task)
       throws MPXException
    {
       Task mpx = addTask ();
@@ -712,7 +712,7 @@ public class MSPDIFile extends MPXFile
     *
     * @param task Task data
     */
-   private void processPredecessors (Project.TasksType.TaskType task)
+   private void readPredecessors (Project.TasksType.TaskType task)
    {
       BigInteger uid = task.getUID();
       if (uid != null)
@@ -725,7 +725,7 @@ public class MSPDIFile extends MPXFile
 
             while (iter.hasNext() == true)
             {
-               processPredecessor (currTask, (Project.TasksType.TaskType.PredecessorLinkType)iter.next());
+               readPredecessor (currTask, (Project.TasksType.TaskType.PredecessorLinkType)iter.next());
             }
          }
       }
@@ -737,7 +737,7 @@ public class MSPDIFile extends MPXFile
     * @param currTask Current task object
     * @param link Predecessor data
     */
-   private void processPredecessor (Task currTask, Project.TasksType.TaskType.PredecessorLinkType link)
+   private void readPredecessor (Task currTask, Project.TasksType.TaskType.PredecessorLinkType link)
    {
       BigInteger uid = link.getPredecessorUID();
       if (uid != null)
@@ -779,7 +779,7 @@ public class MSPDIFile extends MPXFile
     * @param project Root node of the MSPDI file
     * @throws MPXException on file read errors
     */
-   private void processAssignments (Project project)
+   private void readAssignments (Project project)
       throws MPXException
    {
       Project.AssignmentsType assignments = project.getAssignments();
@@ -789,7 +789,7 @@ public class MSPDIFile extends MPXFile
          Iterator iter = assignment.iterator();
          while (iter.hasNext() == true)
          {
-            processAssignment ((Project.AssignmentsType.AssignmentType)iter.next());
+            readAssignment ((Project.AssignmentsType.AssignmentType)iter.next());
          }
       }
    }
@@ -801,7 +801,7 @@ public class MSPDIFile extends MPXFile
     * @param assignment Assignment data
     * @throws MPXException on file read errors
     */
-   private void processAssignment (Project.AssignmentsType.AssignmentType assignment)
+   private void readAssignment (Project.AssignmentsType.AssignmentType assignment)
       throws MPXException
    {
       BigInteger taskUID = assignment.getTaskUID();
@@ -1553,7 +1553,7 @@ public class MSPDIFile extends MPXFile
          }
          else
          {
-            result = priority.intValue() / 100;
+            result = (priority.intValue() / 100)-1;
          }
       }
 
@@ -2137,9 +2137,9 @@ public class MSPDIFile extends MPXFile
       xml.setEarlyFinish(getCalendar(mpx.getEarlyFinish()));
       xml.setEarlyStart(getCalendar(mpx.getEarlyStart()));
       xml.setFinish(getCalendar(mpx.getFinish()));
-      xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())));
+      xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
-      xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())));
+      xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setHideBar(mpx.getHideBarValue());
       xml.setID(BigInteger.valueOf(mpx.getIDValue()));
       xml.setLateFinish(getCalendar(mpx.getLateFinish()));
@@ -2188,14 +2188,14 @@ public class MSPDIFile extends MPXFile
       }
 
 
-      xml.setStartVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getStartVariance())));
+      xml.setStartVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getStartVariance())*1000));
       xml.setStop(getCalendar (mpx.getStop()));
       xml.setSummary(mpx.getSummaryValue());
-      xml.setTotalSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getTotalSlack())));
+      xml.setTotalSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getTotalSlack())*1000));
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
       xml.setWBS(mpx.getWBS());
       xml.setWork(getDuration(mpx.getWork()));
-      xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance()));
+      xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);
 
       //
       // Default values for fields not represented in the MPX data structures
@@ -2317,7 +2317,7 @@ public class MSPDIFile extends MPXFile
 
       if (lag != null && lag.getDuration() != 0)
       {
-         link.setLinkLag(BigInteger.valueOf((long)lag.getDuration()));
+         link.setLinkLag(BigInteger.valueOf((long)getDurationInMinutes(lag)*10));
          link.setLagFormat(getXmlDurationUnits (lag.getType()));
       }
 
@@ -2363,7 +2363,7 @@ public class MSPDIFile extends MPXFile
       xml.setActualCost(getXmlCurrency (mpx.getActualCost()));
       xml.setActualWork(getDuration (mpx.getActualWork()));
       xml.setCost(getXmlCurrency (mpx.getCost()));
-      xml.setDelay(BigInteger.valueOf((long)getDurationInMinutes(mpx.getDelay())));
+      xml.setDelay(BigInteger.valueOf((long)getDurationInMinutes(mpx.getDelay())*1000));
       xml.setFinish(getCalendar(mpx.getFinish()));
       xml.setOvertimeWork(getDuration(mpx.getOvertimeWork()));
       xml.setResourceUID(BigInteger.valueOf(mpx.getResourceUniqueIDValue()));

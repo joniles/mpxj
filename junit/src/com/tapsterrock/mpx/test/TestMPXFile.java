@@ -59,7 +59,7 @@ public class TestMPXFile extends TestCase
     * at least one example of each type of record, this test will be able
     * to exercise a large part of the MPX library.
     */
-   public void testRewrite ()
+   public void testRewrite1 ()
       throws Exception
    {
       File out = null;
@@ -84,6 +84,36 @@ public class TestMPXFile extends TestCase
       }
    }
 
+   /**
+    * This method performs a simple data driven test to read then write
+    * the contents of a single MPX file. Assuming the MPX file contains
+    * at least one example of each type of record, this test will be able
+    * to exercise a large part of the MPX library.
+    */
+   public void testRewrite2 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample1.xml");
+         MSPDIFile xml = new MSPDIFile (in);
+         out = File.createTempFile ("junit", ".xml");
+         xml.write (out);
+         success = compareFiles (in, out);
+         assertTrue ("Files are not identical", success);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
 
    /**
     * This test exercises the automatic generation of WBS and outline levels.

@@ -478,11 +478,13 @@ public class Task extends MPXRecord implements Comparable
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceAssignment tra = new ResourceAssignment(getParentFile(), this);
+      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
 
-      m_assignments.add (tra);
+      m_assignments.add (assignment);
 
-      return (tra);
+      getParentFile().addResourceAssignment (assignment);
+
+      return (assignment);
    }
 
    /**

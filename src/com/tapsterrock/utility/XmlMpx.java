@@ -24,6 +24,7 @@
 package com.tapsterrock.utility;
 
 import com.tapsterrock.mspdi.MSPDIFile;
+import com.tapsterrock.mpx.MPXFile;
 
 /**
  * This is a trivial utility class used to provide a simple file
@@ -49,7 +50,8 @@ public class XmlMpx
          else
          {
             MSPDIFile xml = new MSPDIFile (args[0]);
-            xml.write(args[1]);
+            MPXFile mpx = new MPXFile (xml);
+            mpx.write(args[1]);
          }
       }
 

@@ -971,6 +971,18 @@ public class MPXFile
    }
 
    /**
+    * This method is provided to allow resource assignments that have been created
+    * programatically to be added as a record to the main file.
+    *
+    * @param assignment Resource assignment created as part of a task
+    */
+   void addResourceAssignment (ResourceAssignment assignment)
+   {
+      m_records.add (assignment);
+      m_allResourceAssignments.add (assignment);
+   }
+
+   /**
     * This method is used to add project names to the file.
     *
     * @return new project names object
