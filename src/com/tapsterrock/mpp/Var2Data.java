@@ -37,7 +37,7 @@ import java.util.Date;
  * Each Var2Data block should be associated with a MetaData block
  * which describes the layout of the data in the Var2Data block.
  */
-public class Var2Data extends MPPComponent
+final class Var2Data extends MPPComponent
 {
    /**
     * Constructor. Extracts the content of the data block, with reference
@@ -47,18 +47,14 @@ public class Var2Data extends MPPComponent
     * @param is InputStream from which data is read
     * @throws IOException on file read error
     */
-   public Var2Data (VarMeta meta, InputStream is)
+   Var2Data (VarMeta meta, InputStream is)
       throws IOException
    {
       m_meta = meta;
       ByteArray data;
 
       int itemCount = m_meta.getItemCount();
-
-      int index;
-      int offset = 0;
       int itemOffset;
-      int itemSize;
 
       for (int loop=0; loop < itemCount; loop++)
       {
