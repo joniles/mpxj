@@ -946,6 +946,17 @@ public class MPXFile
    }
 
    /**
+    * This method is provided to create a resource calendar, before it
+    * has been attached to a resource.
+    * 
+    * @return new MPXCalendar instance
+    */
+   protected MPXCalendar addResourceCalendar ()
+   {
+      return (new MPXCalendar (this, false));
+   }
+
+   /**
     * This method is used to add a new base calendar to the file.
     *
     * @return new base calendar object
@@ -970,7 +981,7 @@ public class MPXFile
    {
       MPXCalendar calendar = (MPXCalendar)add(MPXCalendar.BASE_CALENDAR_RECORD_NUMBER);
 
-      calendar.setName("Standard");
+      calendar.setName(MPXCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
       calendar.setWorkingDay(1, false);
       calendar.setWorkingDay(2, true);
@@ -985,6 +996,42 @@ public class MPXFile
       return (calendar);
    }
 
+   /**
+    * This is a protected convenience method to add a default resource
+    * calendar. This is used when the calendar data is available before
+    * the resource data has been read, a situation which occurs with MPP
+    * files.
+    * 
+    * @return new MPXCalendar instance
+    * @throws MPXException
+    */
+   protected MPXCalendar addDefaultResourceCalendar ()
+   {
+      MPXCalendar calendar = new MPXCalendar (this, false);
+
+      calendar.setWorkingDay(1, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(2, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(3, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(4, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(5, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(6, MPXCalendar.DEFAULT);
+      calendar.setWorkingDay(7, MPXCalendar.DEFAULT);
+
+      return (calendar);
+   }
+
+   /** 
+    * This is a convenience method to allow a pre-existing calendar
+    * to be attached to a resource
+    * 
+    * @param resource Resource instance
+    * @param calendar MPXCalendar instance
+    */
+   protected void attachResourceCalendar (Resource resource, MPXCalendar calendar)
+   {
+      resource.attachResourceCalendar(calendar);
+   }
+   
    /**
     * This method retrieves the list of base calendars defined in
     * this file.

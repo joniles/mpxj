@@ -210,6 +210,17 @@ public final class Resource extends MPXRecord
    }
 
    /**
+    * This package private method allows a pre-existing resource calendar
+    * to be attched to a resource.
+    * 
+    * @param calendar resource calendar
+    */
+   void attachResourceCalendar (MPXCalendar calendar)
+   {
+      m_calendar = calendar;   
+   }
+   
+   /**
     * This method allows a resource calendar to be added to a resource.
     *
     * @return ResourceCalendar

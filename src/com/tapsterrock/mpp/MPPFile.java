@@ -36,8 +36,10 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.Task;
 
 /**
@@ -245,6 +247,42 @@ public class MPPFile extends MPXFile
    public ArrayList getTables ()
    {
       return (m_tables);   
+   }
+   
+   /**
+    * This package-private method is provided as a convenience to allow the
+    * MPP8 and MPP9 file handling classes gain access to the addResourceCalendar
+    * method.
+    * 
+    * @return new MPXCalendar instance
+    */
+   MPXCalendar mppAddResourceCalendar ()
+   {
+      return (addResourceCalendar());  
+   }
+
+   /**
+    * This package-private method is provided as a convenience to allow the
+    * MPP8 and MPP9 file handling classes gain access to the 
+    * addDefaultResourceCalendar method.
+    * 
+    * @return new MPXCalendar instance
+    */   
+   MPXCalendar mppAddDefaultResourceCalendar ()
+   {
+      return (addDefaultResourceCalendar());      
+   }
+
+   /**
+    * This package-private method is provided as a convenience to allow the
+    * MPP8 and MPP9 file handling classes gain access to the 
+    * attachResourceCalendar method.
+    * 
+    * @return new MPXCalendar instance
+    */      
+   void mppAttachResourceCalendar (Resource resource, MPXCalendar calendar)
+   {
+      attachResourceCalendar (resource, calendar);
    }
    
    /**

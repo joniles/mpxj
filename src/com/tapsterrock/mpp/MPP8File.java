@@ -28,19 +28,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.MPXCalendar;
-import com.tapsterrock.mpx.MPXCalendarException;
-import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.DateTimeSettings;
 import com.tapsterrock.mpx.DefaultSettings;
+import com.tapsterrock.mpx.MPXCalendar;
+import com.tapsterrock.mpx.MPXCalendarException;
+import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
@@ -71,13 +73,15 @@ final class MPP8File
    static void process (MPPFile file, DirectoryEntry root)
       throws MPXException, IOException
    {
+      HashMap calendarMap = new HashMap ();
+      
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
       processPropertyData (file, projectDir);
       
-      processCalendarData (file, projectDir);
+      processCalendarData (file, projectDir, calendarMap);
              
-      processResourceData (file, projectDir);
+      processResourceData (file, projectDir, calendarMap);
 
       processTaskData (file, projectDir);
       
@@ -138,7 +142,7 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */   
-   private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir)
+   private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");      
@@ -183,20 +187,30 @@ final class MPP8File
       }
 
       int calendars = calendarFixedData.getItemCount();      
-            
+      int calendarID;
+      int baseCalendarID;
+                
       for (int loop=0; loop < calendars; loop++)
       {
          baseData = calendarFixedData.getByteArrayValue(loop);
+         calendarID = MPPUtility.getInt(baseData, 0);
+         baseCalendarID = MPPUtility.getInt(baseData, 4);         
          name = calendarVarData.getUnicodeString(getOffset(baseData, 20));
+                  
+         //
+         // Uncommenting the call to this method is useful when trying 
+         // to determine the function of unknown task data.
+         //
+         //dumpUnknownData (name + " " + MPPUtility.getInt(baseData), UNKNOWN_CALENDAR_DATA, baseData);                                                                                                            
          
          //
-         // Ignore calendars with the same name as existing calendars
+         // Skip calendars with negative ID values
          //
-         if (name==null || file.getBaseCalendar(name) != null)
+         if (calendarID < 0)
          {
             continue;
          }
-
+                                 
          //
          // Populate the basic calendar
          //
@@ -205,15 +219,34 @@ final class MPP8File
          
          if (offset == -1)
          {
-            cal = file.addDefaultBaseCalendar();
-            cal.setName (name);            
+            if (baseCalendarID > 0)
+            {
+               cal = file.mppAddDefaultResourceCalendar ();
+               cal.setBaseCalendarName(Integer.toString(baseCalendarID));               
+            }
+            else
+            {               
+               cal = file.addDefaultBaseCalendar();               
+               cal.setName (name);                           
+            }
          }
          else
-         {
+         {                        
+            if (baseCalendarID > 0)
+            {
+               cal = file.mppAddResourceCalendar ();
+               cal.setBaseCalendarName(Integer.toString(baseCalendarID));               
+            }
+            else
+            {               
+               cal = file.addBaseCalendar();               
+               cal.setName (name);               
+            }
+                
+            
             extData = calendarVarData.getByteArray(offset);           
                         
-            cal = file.addBaseCalendar();
-            cal.setName (name);
+
 
             for (index=0; index < 7; index++)
             {
@@ -268,7 +301,7 @@ final class MPP8File
                   }
                }
             }
-
+            
             //
             // Handle any exceptions
             //
@@ -315,9 +348,45 @@ final class MPP8File
                }
             }
          }
+         
+         calendarMap.put(new Integer (calendarID), cal);
       }
+      
+      updateBaseCalendarNames (calendarMap);
    }
 
+   /**
+    * The way calendars are stored in an MPP8 file means that there
+    * can be forward references between the base calendar unique ID for a
+    * derived calendar, and the base calendar itself. To get around this,
+    * we initially populatethe base calendar name attribute with the
+    * base calendar unique ID, and now in this method we can convert those
+    * ID values into the correct names.
+    * 
+    * @param map map of calendar ID values and calendar objects
+    */
+   private static void updateBaseCalendarNames (HashMap map)
+   {
+      Iterator iter = map.keySet().iterator();
+      MPXCalendar cal;
+      MPXCalendar baseCal;
+      String baseCalendarName;
+      
+      while (iter.hasNext() == true)
+      {
+         cal = (MPXCalendar)map.get(iter.next());
+         baseCalendarName = cal.getBaseCalendarName();
+         if (baseCalendarName != null)
+         {
+            baseCal = (MPXCalendar)map.get(new Integer (baseCalendarName));
+            if (baseCal != null)
+            {
+               cal.setBaseCalendarName(baseCal.getName());
+            }               
+         }
+      }   
+   }
+   
    /**
     * This method extracts and collates task data.
     * 
@@ -666,7 +735,7 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */   
-   private static void processResourceData (MPPFile file, DirectoryEntry projectDir)
+   private static void processResourceData (MPPFile file, DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -680,7 +749,8 @@ final class MPP8File
       Resource resource;
       String notes;
       RTFUtility rtf = new RTFUtility ();
-            
+      MPXCalendar calendar;
+                  
       for (int loop=0; loop < resources; loop++)
       {
          data = rscFixedData.getByteArrayValue(loop);
@@ -848,6 +918,12 @@ final class MPP8File
          resource.setUniqueID(id);
          resource.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 56))/100, TimeUnit.HOURS));
 
+         //
+         // Attach the resource calendar 
+         //
+         calendar = (MPXCalendar)calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
+         file.mppAttachResourceCalendar(resource, calendar);
+         
          //
          // Retrieve the resource notes.
          //
@@ -1219,6 +1295,12 @@ final class MPP8File
 //      {274, 32}, // includes known flags
 //      {306, 6}, 
 //   };
+//
+// private static final int[][] UNKNOWN_CALENDAR_DATA = new int[][]
+// {
+//    {8, 12}, 
+//    {24, 8}, 
+// };
    
    /**
     * Task data types.

@@ -23,6 +23,7 @@
 
 package com.tapsterrock.mpp;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -284,26 +285,13 @@ final class MPPUtility
     */
    public static final Date getTime (byte[] data, int offset)
    {
-      TimeZone tz = TimeZone.getDefault();
-      int rawOffset = tz.getRawOffset();
-      
-      long time = (long)getShort (data, offset);
-      
-      time = ((time * MS_PER_MINUTE)/10) - rawOffset;
-
-      if (rawOffset == 0 && tz.inDaylightTime(new Date()) == true)
-      {
-         if (HAS_DST_SAVINGS == true)
-         {
-            time -= tz.getDSTSavings();   
-         }
-         else
-         {
-            time -= DEFAULT_DST_SAVINGS;
-         }            
-      }
-      
-      return (new Date (time));
+      int time = getShort (data, offset) / 10;      
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.HOUR_OF_DAY, (time/60));
+      cal.set(Calendar.MINUTE, (time%60));
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);      
+      return (cal.getTime());
    }
 
    /**

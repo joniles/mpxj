@@ -674,7 +674,7 @@ public final class MPXCalendar extends MPXRecord
    /**
     * Default base calendar name to use when none is supplied
     */
-   private static final String DEFAULT_BASE_CALENDAR_NAME = "Standard";
+   public static final String DEFAULT_BASE_CALENDAR_NAME = "Standard";
 
    /**
     * Constant used to represent a non-working day
