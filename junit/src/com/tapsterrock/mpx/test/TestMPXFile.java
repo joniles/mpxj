@@ -517,7 +517,7 @@ public class TestMPXFile extends TestCase
       {
          if (out != null)
          {
-            //out.delete();
+            out.delete();
          }
       }               
    }
@@ -594,6 +594,31 @@ public class TestMPXFile extends TestCase
             task = (Task)iter.next();  
             assertEquals("Outline levels do not match", task.getOutlineLevelValue(), calculateOutlineLevel(task));            
          }         
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   /**
+    * Read an MPP8 file with a non-standard task fixed data block size
+    */
+   public void testBug4 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/bug4.mpp");
+         MPPFile mpp = new MPPFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpp.write (out);
       }
 
       finally
