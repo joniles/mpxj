@@ -41,7 +41,11 @@ public final class LocaleData_de extends ListResourceBundle
 
    private static final Object[][] RESOURCE_DATA =
    {
+      {LocaleData.FILE_DELIMITER, ";"},
       {LocaleData.YES, "Ja"},
-      {LocaleData.NO, "Nein"}
+      {LocaleData.NO, "Nein"},
+      {LocaleData.CURRENCY_SYMBOL, "EUR"},
+      {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
+      {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},      
    };
 }
