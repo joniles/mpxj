@@ -8,6 +8,8 @@ Fixed a problem with writing MS Project compatible MSPDI XML files in non-GMT ti
 Fixed a problem with writing MSPDI XML files in non-GMT timezones.
 Rationalised setDefaultStartTime and setDefaultEndTime methods
 Added MppXml utility
+Fixed a bug causing an exception when zero length calendar names were present
+Fixed a bug causing MPP8 flags to be read incorrectly. Note that flag 20 is still not read correctly.
 
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.

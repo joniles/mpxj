@@ -333,11 +333,13 @@ final class MPP8File
            
       int tasks = taskFixedData.getItemCount();
       byte[] data;
+      int uniqueID;
       int id;
       Task task;
       String notes;
       RTFUtility rtf = new RTFUtility ();
-                        
+      byte[] flags = new byte[3];
+                              
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -345,8 +347,8 @@ final class MPP8File
          //
          // Test for a valid unique id
          //         
-         id = MPPUtility.getInt(data, 0);
-         if (id < 1)
+         uniqueID = MPPUtility.getInt(data, 0);
+         if (uniqueID < 1)
          {
             continue;
          }
@@ -369,7 +371,9 @@ final class MPP8File
          }
                                        
          taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
-                                                
+
+         id = MPPUtility.getInt (data, 4);
+         
          task = file.addTask();
                                                
          task.setActualCost(new Double (((double)MPPUtility.getLong6(data, 234)) / 100));
@@ -442,29 +446,35 @@ final class MPP8File
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Not in MSP98?
          task.setFixedCost(new Double (((double)MPPUtility.getLong6(data, 228)) / 100));
-         task.setFlag1((data[268] & 0x02) != 0);
-         task.setFlag2((data[268] & 0x04) != 0);
-         task.setFlag3((data[268] & 0x08) != 0);
-         task.setFlag4((data[268] & 0x10) != 0);
-         task.setFlag5((data[268] & 0x20) != 0);
-         task.setFlag6((data[268] & 0x40) != 0);         
-         task.setFlag7((data[268] & 0x80) != 0);                  
-         task.setFlag8((data[269] & 0x01) != 0);
-         task.setFlag9((data[269] & 0x02) != 0);
-         task.setFlag10((data[269] & 0x04) != 0);
-         task.setFlag11((data[269] & 0x08) != 0);
-         task.setFlag12((data[269] & 0x10) != 0);
-         task.setFlag13((data[269] & 0x20) != 0);
-         task.setFlag14((data[269] & 0x40) != 0);
-         task.setFlag15((data[269] & 0x80) != 0);
-         task.setFlag16((data[270] & 0x01) != 0);
-         task.setFlag17((data[270] & 0x02) != 0);
-         task.setFlag18((data[270] & 0x04) != 0);
-         task.setFlag19((data[270] & 0x08) != 0);
-         task.setFlag20((data[270] & 0x10) != 0);
+         
+         flags[0] = (byte)(data[268] & data[303]);         
+         flags[1] = (byte)(data[269] & data[304]);
+         flags[2] = (byte)(data[270] & data[305]);         
+
+         task.setFlag1((flags[0] & 0x02) != 0);
+         task.setFlag2((flags[0] & 0x04) != 0);
+         task.setFlag3((flags[0] & 0x08) != 0);
+         task.setFlag4((flags[0] & 0x10) != 0);
+         task.setFlag5((flags[0] & 0x20) != 0);
+         task.setFlag6((flags[0] & 0x40) != 0);         
+         task.setFlag7((flags[0] & 0x80) != 0);                  
+         task.setFlag8((flags[1] & 0x01) != 0);
+         task.setFlag9((flags[1] & 0x02) != 0);
+         task.setFlag10((flags[1] & 0x04) != 0);
+         task.setFlag11((flags[1] & 0x08) != 0);
+         task.setFlag12((flags[1] & 0x10) != 0);
+         task.setFlag13((flags[1] & 0x20) != 0);
+         task.setFlag14((flags[1] & 0x40) != 0);
+         task.setFlag15((flags[1] & 0x80) != 0);
+         task.setFlag16((flags[2] & 0x01) != 0);
+         task.setFlag17((flags[2] & 0x02) != 0);
+         task.setFlag18((flags[2] & 0x04) != 0);
+         task.setFlag19((flags[2] & 0x08) != 0);         
+         task.setFlag20((flags[2] & 0x10) != 0); // note that this is not correct
+         
          //task.setFreeSlack();  // Calculated value
          task.setHideBar((data[16] & 0x01) != 0);
-         task.setID (MPPUtility.getInt (data, 4));
+         task.setID (id);
          //task.setLateFinish();  // Calculated value
          //task.setLateStart();  // Calculated value
          //task.setLinkedFields();  // Calculated value
@@ -555,7 +565,7 @@ final class MPP8File
          task.setText30(taskExtData.getUnicodeString(TASK_TEXT30)); 
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 134));
-         task.setUniqueID(id);
+         task.setUniqueID(uniqueID);
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskExtData.getUnicodeString (TASK_WBS));
          task.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));

@@ -723,6 +723,253 @@ public class TestMPXFile extends TestCase
       endDate = cal.getDate(startDate, duration);
       //System.out.println ("Start Date=" + df.format(startDate) + " Duration=" + duration + " End Date=" + df.format(endDate));      
    }
+
+   /**
+    * Ensure that we are reading MPP8 flags correctly. This test reads a
+    * file where the tasks alternately have values of either all true, or
+    * all false. Each pair of tasks increases by one in outline level.
+    * 
+    * @throws Exception
+    */
+   public void testMPP8Flags1 ()
+      throws Exception
+   {
+      File in = new File (m_basedir + "/mpp8flags1.mpp");
+      MPPFile mpp = new MPPFile (in);
+      LinkedList tasks = mpp.getAllTasks();
+      assertTrue ("Not enough tasks", (tasks.size() > 0));
+      assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
+      
+      Iterator iter = tasks.iterator();
+      Task task;
+      while (iter.hasNext())
+      {
+         task = (Task)iter.next();
+         assertFalse(task.getName(), task.getFlag1Value());
+         assertFalse(task.getName(), task.getFlag2Value());
+         assertFalse(task.getName(), task.getFlag3Value());
+         assertFalse(task.getName(), task.getFlag4Value());
+         assertFalse(task.getName(), task.getFlag5Value());
+         assertFalse(task.getName(), task.getFlag6Value());
+         assertFalse(task.getName(), task.getFlag7Value());
+         assertFalse(task.getName(), task.getFlag8Value());
+         assertFalse(task.getName(), task.getFlag9Value());
+         assertFalse(task.getName(), task.getFlag10Value());
+         assertFalse(task.getName(), task.getFlag11());
+         assertFalse(task.getName(), task.getFlag12());
+         assertFalse(task.getName(), task.getFlag13());
+         assertFalse(task.getName(), task.getFlag14());
+         assertFalse(task.getName(), task.getFlag15());
+         assertFalse(task.getName(), task.getFlag16());
+         assertFalse(task.getName(), task.getFlag17());
+         assertFalse(task.getName(), task.getFlag18());
+         assertFalse(task.getName(), task.getFlag19());
+         //assertFalse(task.getName(), task.getFlag20());
+         
+         task = (Task)iter.next();
+         assertTrue(task.getName(), task.getFlag1Value());
+         assertTrue(task.getName(), task.getFlag2Value());
+         assertTrue(task.getName(), task.getFlag3Value());
+         assertTrue(task.getName(), task.getFlag4Value());
+         assertTrue(task.getName(), task.getFlag5Value());
+         assertTrue(task.getName(), task.getFlag6Value());
+         assertTrue(task.getName(), task.getFlag7Value());
+         assertTrue(task.getName(), task.getFlag8Value());
+         assertTrue(task.getName(), task.getFlag9Value());
+         assertTrue(task.getName(), task.getFlag10Value());
+         assertTrue(task.getName(), task.getFlag11());
+         assertTrue(task.getName(), task.getFlag12());
+         assertTrue(task.getName(), task.getFlag13());
+         assertTrue(task.getName(), task.getFlag14());
+         assertTrue(task.getName(), task.getFlag15());
+         assertTrue(task.getName(), task.getFlag16());
+         assertTrue(task.getName(), task.getFlag17());
+         assertTrue(task.getName(), task.getFlag18());
+         assertTrue(task.getName(), task.getFlag19());
+         //assertTrue(task.getName(), task.getFlag20());
+      }
+   }
+
+   /**
+    * This test reads flags from an MPP8 file where each set of 20 tasks has
+    * a sngle flag from 1-20 set. The next set of 20 tasks increases by
+    * one outline level.
+    * 
+    * @throws Exception
+    */
+   public void testMPP8Flags2 ()
+      throws Exception
+   {
+      File in = new File (m_basedir + "/mpp8flags2.mpp");
+      MPPFile mpp = new MPPFile (in);
+      LinkedList tasks = mpp.getAllTasks();
+      
+      Iterator iter = tasks.iterator();
+      Task task;
+      int index = 0;
+      boolean[] flags;
+      
+      while (iter.hasNext())
+      {
+         task = (Task)iter.next();
+         if (task.getName().startsWith("Parent") == false)
+         {            
+            flags = getFlagArray(task);   
+            assertTrue ("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
+            ++index;
+            if (index == 20)
+            {
+               index = 0;
+            }                  
+         }            
+      }
+   }
+
+   /**
+    * Ensure that we are reading MPP9 flags correctly. This test reads a
+    * file where the tasks alternately have values of either all true, or
+    * all false. Each pair of tasks increases by one in outline level.
+    * 
+    * @throws Exception
+    */
+   public void testMPP9Flags1 ()
+      throws Exception
+   {
+      File in = new File (m_basedir + "/mpp9flags1.mpp");
+      MPPFile mpp = new MPPFile (in);
+      LinkedList tasks = mpp.getAllTasks();
+      assertTrue ("Not enough tasks", (tasks.size() > 0));
+      assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
+      
+      Iterator iter = tasks.iterator();
+      Task task;
+      while (iter.hasNext())
+      {
+         task = (Task)iter.next();
+         assertFalse(task.getName(), task.getFlag1Value());
+         assertFalse(task.getName(), task.getFlag2Value());
+         assertFalse(task.getName(), task.getFlag3Value());
+         assertFalse(task.getName(), task.getFlag4Value());
+         assertFalse(task.getName(), task.getFlag5Value());
+         assertFalse(task.getName(), task.getFlag6Value());
+         assertFalse(task.getName(), task.getFlag7Value());
+         assertFalse(task.getName(), task.getFlag8Value());
+         assertFalse(task.getName(), task.getFlag9Value());
+         assertFalse(task.getName(), task.getFlag10Value());
+         assertFalse(task.getName(), task.getFlag11());
+         assertFalse(task.getName(), task.getFlag12());
+         assertFalse(task.getName(), task.getFlag13());
+         assertFalse(task.getName(), task.getFlag14());
+         assertFalse(task.getName(), task.getFlag15());
+         assertFalse(task.getName(), task.getFlag16());
+         assertFalse(task.getName(), task.getFlag17());
+         assertFalse(task.getName(), task.getFlag18());
+         assertFalse(task.getName(), task.getFlag19());
+         assertFalse(task.getName(), task.getFlag20());
+         
+         task = (Task)iter.next();
+         assertTrue(task.getName(), task.getFlag1Value());
+         assertTrue(task.getName(), task.getFlag2Value());
+         assertTrue(task.getName(), task.getFlag3Value());
+         assertTrue(task.getName(), task.getFlag4Value());
+         assertTrue(task.getName(), task.getFlag5Value());
+         assertTrue(task.getName(), task.getFlag6Value());
+         assertTrue(task.getName(), task.getFlag7Value());
+         assertTrue(task.getName(), task.getFlag8Value());
+         assertTrue(task.getName(), task.getFlag9Value());
+         assertTrue(task.getName(), task.getFlag10Value());
+         assertTrue(task.getName(), task.getFlag11());
+         assertTrue(task.getName(), task.getFlag12());
+         assertTrue(task.getName(), task.getFlag13());
+         assertTrue(task.getName(), task.getFlag14());
+         assertTrue(task.getName(), task.getFlag15());
+         assertTrue(task.getName(), task.getFlag16());
+         assertTrue(task.getName(), task.getFlag17());
+         assertTrue(task.getName(), task.getFlag18());
+         assertTrue(task.getName(), task.getFlag19());
+         assertTrue(task.getName(), task.getFlag20());
+      }
+   }
+
+   /**
+    * This test reads flags from an MPP9 file where each set of 20 tasks has
+    * a sngle flag from 1-20 set. The next set of 20 tasks increases by
+    * one outline level.
+    * 
+    * @throws Exception
+    */
+   public void testMPP9Flags2 ()
+      throws Exception
+   {
+      File in = new File (m_basedir + "/mpp8flags2.mpp");
+      MPPFile mpp = new MPPFile (in);
+      LinkedList tasks = mpp.getAllTasks();
+      
+      Iterator iter = tasks.iterator();
+      Task task;
+      int index = 0;
+      boolean[] flags;
+      
+      while (iter.hasNext())
+      {
+         task = (Task)iter.next();
+         if (task.getName().startsWith("Parent") == false)
+         {            
+            flags = getFlagArray(task);   
+            assertTrue ("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
+            ++index;
+            if (index == 20)
+            {
+               index = 0;
+            }                  
+         }            
+      }
+   }
+         
+   private boolean[] getFlagArray (Task task)
+   {
+      boolean[] flags = new boolean[20];
+      
+      flags[0] = task.getFlag1Value();
+      flags[1] = task.getFlag2Value();
+      flags[2] = task.getFlag3Value();
+      flags[3] = task.getFlag4Value();
+      flags[4] = task.getFlag5Value();
+      flags[5] = task.getFlag6Value();
+      flags[6] = task.getFlag7Value();
+      flags[7] = task.getFlag8Value();
+      flags[8] = task.getFlag9Value();
+      flags[9] = task.getFlag10Value();
+      flags[10] = task.getFlag11();
+      flags[11] = task.getFlag12();
+      flags[12] = task.getFlag13();
+      flags[13] = task.getFlag14();
+      flags[14] = task.getFlag15();
+      flags[15] = task.getFlag16();
+      flags[16] = task.getFlag17();
+      flags[17] = task.getFlag18();
+      flags[18] = task.getFlag19();
+      flags[19] = task.getFlag20();
+      
+      return (flags);     
+   }
+      
+   private boolean testSingleFlagTrue (boolean[] flags, int index)
+   {
+      boolean result = true;
+      
+      for (int loop=0; loop < flags.length; loop++)
+      {
+         if (flags[loop] == true && loop != index)
+         {
+            System.out.println ("found flag at " + loop);
+            result = false;
+            break;
+         }               
+      }
+      
+      return (result);   
+   }
    
    private String m_basedir;
 }
