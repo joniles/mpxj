@@ -40,55 +40,6 @@ import java.io.StringWriter;
 class FixedMeta extends MPPComponent
 {
    /**
-    * Constructor. Reads the meta data from an input stream.
-    *
-    * @param is input stream from whic the meta data is read
-    * @throws IOException on file read failure
-    */
-   public FixedMeta (InputStream is)
-      throws IOException
-   {
-      //
-      // The POI file system guarantees that this is accurate
-      //
-      int fileSize = is.available();
-
-      //
-      // First 8 bytes
-      //
-      if (readInt (is) != MAGIC)
-      {
-         throw new IOException ("Bad magic number");
-      }
-
-      m_unknown1 = readInt (is);
-      m_itemCount = readInt (is);
-      m_dataSize = readInt (is);
-
-      int itemSize;
-
-      if (m_itemCount == 0)
-      {
-         itemSize = 0;
-      }
-      else
-      {
-         itemSize = (fileSize - 16) / m_itemCount;
-      }
-
-      m_size = new int [m_itemCount];
-      m_offset = new int [m_itemCount];
-      m_unknown2 = new ByteArray[m_itemCount];
-
-      for (int loop=0; loop < m_itemCount; loop++)
-      {
-         m_size[loop] = readInt (is);
-         m_offset[loop] = readInt (is);
-         m_unknown2[loop] = new ByteArray (readByteArray (is, itemSize - 8));
-      }
-   }
-
-   /**
     * Constructor. Reads the meta data from an input stream. Note that
     * this version of the constructor copes with more MSP inconsistencies.
     * We already know the block size, so we ignore the item count in the
@@ -114,21 +65,17 @@ class FixedMeta extends MPPComponent
          throw new IOException ("Bad magic number");
       }
 
-      m_unknown1 = readInt (is);
+      int unknown1 = readInt (is);
       m_itemCount = readInt (is);
-      m_dataSize = readInt (is);
+      int dataSize = readInt (is);
 
       m_itemCount = (fileSize - 16) / itemSize;
 
-      m_size = new int [m_itemCount];
-      m_offset = new int [m_itemCount];
-      m_unknown2 = new ByteArray[m_itemCount];
+      m_array = new ByteArray[m_itemCount];
 
       for (int loop=0; loop < m_itemCount; loop++)
       {
-         m_size[loop] = readInt (is);
-         m_offset[loop] = readInt (is);
-         m_unknown2[loop] = new ByteArray (readByteArray (is, itemSize - 8));
+         m_array[loop] = new ByteArray (readByteArray (is, itemSize));         
       }
    }
 
@@ -143,37 +90,23 @@ class FixedMeta extends MPPComponent
    }
 
    /**
-    * This method retrieves the size of the FixedData block.
+    * This method retrieves a byte array containing the data at the
+    * given index in the block. If no data is found at the given index
+    * this method returns null.
     *
-    * @return the size of the fixed data block
+    * @param index index of the data item to be retrieved
+    * @return byte array containing the requested data
     */
-   public int getDataSize ()
+   public byte[] getByteArrayValue (int index)
    {
-      return (m_dataSize);
-   }
+      byte[] result = null;
 
-   /**
-    * This method retrieves the offset of a given item of data within
-    * the fixed data block.
-    *
-    * @param item index of the required item
-    * @return the offset of the item within the data block
-    */
-   public int getItemOffset (int item)
-   {
-      return (m_offset[item]);
-   }
+      if (m_array[index] != null)
+      {
+         result = m_array[index].byteArrayValue();
+      }
 
-   /**
-    * This method retrieves the size of a given item of data within
-    * the fixed data block.
-    *
-    * @param item index of the required item
-    * @return the size of the item within the data block
-    */
-   public int getItemSize (int item)
-   {
-      return (m_size[item]);
+      return (result);
    }
 
    /**
@@ -189,11 +122,11 @@ class FixedMeta extends MPPComponent
 
       pw.println ("BEGIN: FixedMeta");
       pw.println ("   Item count: " + m_itemCount);
-      pw.println ("   Data size: " + m_dataSize);
 
       for (int loop=0; loop < m_itemCount; loop++)
       {
-         pw.println ("   Offset: " + m_offset[loop] + " size=" + m_size[loop]);
+         pw.println ("   Data at index: " + loop);
+         pw.println ("  " + MPPUtility.hexdump (m_array[loop].byteArrayValue(), true));         
       }
 
       pw.println ("END: FixedMeta");
@@ -204,34 +137,14 @@ class FixedMeta extends MPPComponent
    }
 
    /**
-    * Unknown data item
-    */
-   private int m_unknown1;
-
-   /**
     * Number of items in the data block
     */
    private int m_itemCount;
 
    /**
-    * Overall size of the data block
-    */
-   private int m_dataSize;
-
-   /**
-    * Size of each item within the data block
-    */
-   private int[] m_size;
-
-   /**
-    * Offset of each item within the data block
-    */
-   private int[] m_offset;
-
-   /**
     * Unknown data items relating to each entry in the fixed data block.
     */
-   private ByteArray[] m_unknown2;
+   private ByteArray[] m_array;
 
    /**
     * Constant representing the magic number appearing

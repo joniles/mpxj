@@ -1,6 +1,9 @@
 Version 0.0.11
 Fixed error in format string used in one of the example files.
 Fixed error where double byte characters were being read incorrectly.
+Fixed error where deleted constraints were being resurrected when read from an MPP file.
+Updated to extract the following fields from task data in an MPP file which were previously not imported:
+	Flag11-Flag20, Rollup, HideBar, EffortDriven
 
 Version 0.0.10
 Corrected Actual Start and Actual End fields from MPP file.

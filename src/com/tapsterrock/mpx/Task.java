@@ -1600,7 +1600,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag2 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG2, val);
    }
 
    /**
@@ -1620,7 +1620,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag3 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG3, val);
    }
 
    /**
@@ -1640,7 +1640,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag4 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG4, val);
    }
 
    /**
@@ -1660,7 +1660,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag5 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG5, val);
    }
 
    /**
@@ -1680,7 +1680,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag6 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG6, val);
    }
 
    /**
@@ -1700,7 +1700,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag7 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG7, val);
    }
 
    /**
@@ -1720,7 +1720,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag8 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG8, val);
    }
 
    /**
@@ -1740,7 +1740,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag9 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG9, val);
    }
 
    /**
@@ -1760,7 +1760,7 @@ public class Task extends MPXRecord implements Comparable
     */
    public void setFlag10 (boolean val)
    {
-      set (FLAG1, val);
+      set (FLAG10, val);
    }
 
    /**
@@ -4571,7 +4571,228 @@ public class Task extends MPXRecord implements Comparable
 	{
 		m_type = type;	
 	}
-				
+		
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag11()
+   {
+      return m_flag11;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag12()
+   {
+      return m_flag12;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag13()
+   {
+      return m_flag13;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag14()
+   {
+      return m_flag14;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag15()
+   {
+      return m_flag15;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag16()
+   {
+      return m_flag16;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag17()
+   {
+      return m_flag17;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag18()
+   {
+      return m_flag18;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag19()
+   {
+      return m_flag19;
+   }
+
+   /**
+    * Retrieves the flag value.
+    * 
+    * @return flag value
+    */
+   public boolean getFlag20()
+   {
+      return m_flag20;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag11(boolean b)
+   {
+      m_flag11 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag12(boolean b)
+   {
+      m_flag12 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag13(boolean b)
+   {
+      m_flag13 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag14(boolean b)
+   {
+      m_flag14 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag15(boolean b)
+   {
+      m_flag15 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag16(boolean b)
+   {
+      m_flag16 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag17(boolean b)
+   {
+      m_flag17 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag18(boolean b)
+   {
+      m_flag18 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag19(boolean b)
+   {
+      m_flag19 = b;
+   }
+
+   /**
+    * Sets the flag value
+    * 
+    * @param b flag value
+    */
+   public void setFlag20(boolean b)
+   {
+      m_flag20 = b;
+   }
+
+   /**
+    * Sets the effort driven flag.
+    * 
+    * @param flag value
+    */
+   public void setEffortDriven (boolean flag)
+   {
+      m_effortDriven = flag;
+   }
+
+   /**
+    * Retrieves the effort friven flag.
+    * 
+    * @return Flag value
+    */   
+   public boolean getEffortDriven ()
+   {
+      return (m_effortDriven);   
+   }
+               
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -4617,7 +4838,18 @@ public class Task extends MPXRecord implements Comparable
 	private boolean m_estimated;
 	private Date m_deadline;
 	private int m_type = FIXED_UNITS;
-
+   private boolean m_flag11;
+   private boolean m_flag12;
+   private boolean m_flag13;
+   private boolean m_flag14;
+   private boolean m_flag15;
+   private boolean m_flag16;
+   private boolean m_flag17;
+   private boolean m_flag18;
+   private boolean m_flag19;
+   private boolean m_flag20;
+   private boolean m_effortDriven;
+                                 
 	/**
 	 * Constants used to define the task type.
 	 */

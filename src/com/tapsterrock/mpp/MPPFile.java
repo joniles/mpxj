@@ -192,7 +192,7 @@ public class MPPFile extends MPXFile
 		Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
 		FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
 		FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-
+      
 		//
 		// Retrieve constraint data
 		//
@@ -251,6 +251,33 @@ public class MPPFile extends MPXFile
       }
 
       return (taskMap);
+   }
+
+   /**
+    * This method creates a mapping between task unique identifiers, and the
+    * entries in the fixed meta data block.
+    * 
+    * @param taskFixedMeta Fixed meta data block
+    * @return mapping
+    */
+   private TreeMap createTaskMetaMap (FixedMeta taskFixedMeta)
+   {
+      TreeMap taskMetaMap = new TreeMap ();
+      int itemCount = taskFixedMeta.getItemCount();
+      byte[] data;
+      int uniqueID;
+
+      for (int loop=0; loop < itemCount; loop++)
+      {
+         data = taskFixedMeta.getByteArrayValue(loop);
+         if (data != null && data.length > 6)
+         {
+            uniqueID = MPPUtility.getShort (data, 5);
+            taskMetaMap.put(new Integer (uniqueID), new Integer (loop));
+         }
+      }
+
+      return (taskMetaMap);
    }
 
    /**
@@ -472,29 +499,32 @@ public class MPPFile extends MPXFile
       throws MPXException
    {
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
+      TreeMap taskMetaMap = createTaskMetaMap (taskFixedMeta);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
       Integer id;
       Integer offset;
       byte[] data;
+      byte[] metaData;
       Task task;
       String notes;
 
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
+         
          offset = (Integer)taskMap.get(id);
          if (offset == null)
          {
             throw new MPXException (MPXException.INVALID_FILE);
          }
 
-         data = taskFixedData.getByteArrayValue(offset.intValue());
-
+         data = taskFixedData.getByteArrayValue(offset.intValue());        
+                  
          if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
          {
             continue;
          }
-							
+			                     
          task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
          task.setActualDuration(getDuration (MPPUtility.getInt (data, 66), getDurationUnits(MPPUtility.getShort (data, 64))));
@@ -538,24 +568,13 @@ public class MPPFile extends MPXFile
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Unsure of mapping from MPX->MSP2K
          task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));
-         //task.setFlag1();
-         //task.setFlag2();
-         //task.setFlag3();
-         //task.setFlag4();
-         //task.setFlag5();
-         //task.setFlag6();
-         //task.setFlag7();
-         //task.setFlag8();
-         //task.setFlag9();
-         //task.setFlag10();
+                        
          //task.setFreeSlack();  // Calculated value
-         //task.setHideBar();
          task.setID (MPPUtility.getInt (data, 4));
          //task.setLateFinish();  // Calculated value
          //task.setLateStart();  // Calculated value
          //task.setLinkedFields();  // Calculated value
          //task.setMarked();
-         //task.setMilestone();
          task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
          task.setNumber1(new Double (taskVarData.getDouble(id, TASK_NUMBER1)));
          task.setNumber2(new Double (taskVarData.getDouble(id, TASK_NUMBER2)));
@@ -577,7 +596,6 @@ public class MPPFile extends MPXFile
          //task.setResourceNames(); // Calculated value from resource
          task.setResume(MPPUtility.getTimestamp(data, 20));
          //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
-         //task.setRollup();
          task.setStart (MPPUtility.getTimestamp (data, 88));
          task.setStart1(taskVarData.getTimestamp (id, TASK_START1));
          task.setStart2(taskVarData.getTimestamp (id, TASK_START2));
@@ -605,6 +623,39 @@ public class MPPFile extends MPXFile
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
          task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkVariance(); // Calculated value
+
+
+         offset = (Integer)taskMetaMap.get(id);
+         if (offset != null)
+         {
+            metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
+
+            task.setFlag1((metaData[37] & 0x20) != 0);
+            task.setFlag2((metaData[37] & 0x40) != 0);
+            task.setFlag3((metaData[37] & 0x80) != 0);
+            task.setFlag4((metaData[38] & 0x01) != 0);
+            task.setFlag5((metaData[38] & 0x02) != 0);
+            task.setFlag6((metaData[38] & 0x04) != 0);
+            task.setFlag7((metaData[38] & 0x08) != 0);
+            task.setFlag8((metaData[38] & 0x10) != 0);
+            task.setFlag9((metaData[38] & 0x20) != 0);
+            task.setFlag10((metaData[38] & 0x40) != 0);            
+            task.setFlag11((metaData[38] & 0x80) != 0);
+            task.setFlag12((metaData[39] & 0x01) != 0);
+            task.setFlag13((metaData[39] & 0x02) != 0);
+            task.setFlag14((metaData[39] & 0x04) != 0);
+            task.setFlag15((metaData[39] & 0x08) != 0);
+            task.setFlag16((metaData[39] & 0x10) != 0);
+            task.setFlag17((metaData[39] & 0x20) != 0);
+            task.setFlag18((metaData[39] & 0x40) != 0);
+            task.setFlag19((metaData[39] & 0x80) != 0);
+            task.setFlag20((metaData[40] & 0x01) != 0);
+            
+            task.setMilestone((metaData[8] & 0x20) != 0);
+            task.setRollup((metaData[10] & 0x08) != 0);            
+            task.setHideBar((metaData[10] & 0x80) != 0);                        
+            task.setEffortDriven((metaData[11] & 0x10) != 0);  
+         }
 
 			//
 			// Retrieve the task notes.
@@ -664,12 +715,15 @@ public class MPPFile extends MPXFile
       int durationUnits;
       int taskID1;
       int taskID2;
-      
+      byte[] metaData;
+            
       for (int loop=0; loop < count; loop++)
       {
-         if (consFixedMeta.getItemSize(loop) == 0)
+         metaData = consFixedMeta.getByteArrayValue(loop);
+         
+         if (MPPUtility.getInt(metaData, 0) == 0)
          {
-            index = consFixedData.getIndexFromOffset(consFixedMeta.getItemOffset(loop));
+            index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
             if (index != -1)
             {
                data = consFixedData.getByteArrayValue(index);

@@ -643,6 +643,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setDurationVariance();
       mpx.setEarlyFinish(getDate(task.getEarlyFinish()));
       mpx.setEarlyStart(getDate(task.getEarlyStart()));
+      mpx.setEffortDriven(task.isEffortDriven());
       mpx.setEstimated(task.isEstimated());
       mpx.setFinish(getDate(task.getFinish()));
       //mpx.setFinish1();
@@ -2159,6 +2160,7 @@ public class MSPDIFile extends MPXFile
       xml.setDurationFormat(getDurationFormat(mpx.getDuration()));
       xml.setEarlyFinish(getCalendar(mpx.getEarlyFinish()));
       xml.setEarlyStart(getCalendar(mpx.getEarlyStart()));
+      xml.setEffortDriven(mpx.getEffortDriven());
       xml.setEstimated(mpx.getEstimated());
       xml.setFinish(getCalendar(mpx.getFinish()));
       xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
@@ -2227,7 +2229,6 @@ public class MSPDIFile extends MPXFile
       //
       xml.setIsNull(false);
       xml.setResumeValid(false);
-      xml.setEffortDriven(false);
       xml.setOverAllocated(false);
       xml.setEstimated(false);
       xml.setIsSubproject(false);
