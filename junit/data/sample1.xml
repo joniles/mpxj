@@ -1114,7 +1114,6 @@
                             <FromTime>13:00:00</FromTime>
                             <ToTime>17:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
                 <WeekDay>
@@ -1129,7 +1128,6 @@
                             <FromTime>13:00:00</FromTime>
                             <ToTime>17:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
                 <WeekDay>
@@ -1144,7 +1142,6 @@
                             <FromTime>13:00:00</FromTime>
                             <ToTime>17:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
                 <WeekDay>
@@ -1159,7 +1156,6 @@
                             <FromTime>13:00:00</FromTime>
                             <ToTime>17:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
                 <WeekDay>
@@ -1174,7 +1170,6 @@
                             <FromTime>13:00:00</FromTime>
                             <ToTime>17:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
                 <WeekDay>
@@ -1200,8 +1195,6 @@
                             <FromTime>23:00:00</FromTime>
                             <ToTime>00:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
                 <WeekDay>
@@ -1288,7 +1281,6 @@
                             <FromTime>04:00:00</FromTime>
                             <ToTime>08:00:00</ToTime>
                         </WorkingTime>
-                        <WorkingTime/>
                     </WorkingTimes>
                 </WeekDay>
             </WeekDays>

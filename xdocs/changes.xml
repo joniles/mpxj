@@ -24,6 +24,7 @@
       <action dev="joniles" type="update">Rationalised the location of the JUnit tests and the sample files.</action>      
       <action dev="joniles" type="fix">Fixed a problem where the project start and end dates reported in the project header were incorrect.</action>
       <action dev="joniles" type="fix">Fixed an array out of bounds exception when reading an MPP9 file.</action>
+      <action dev="joniles" type="update">Updated to allow MPXCalendarHours to accept an arbitrary number of time periods.</action>      
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

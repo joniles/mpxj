@@ -60,6 +60,7 @@ import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySymbolPosition;
+import com.tapsterrock.mpx.DateRange;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
@@ -534,26 +535,18 @@ public class MSPDIFile extends MPXFile
          Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType period;
          List time = times.getWorkingTime();
          Iterator iter = time.iterator();
-
-         if (iter.hasNext() == true)
+         Date startTime;
+         Date endTime;
+         while (iter.hasNext() == true)
          {
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            hours.setFromTime1(getTime(period.getFromTime()));
-            hours.setToTime1(getTime(period.getToTime()));
-         }
-
-         if (iter.hasNext() == true)
-         {
-            period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            hours.setFromTime2(getTime(period.getFromTime()));
-            hours.setToTime2(getTime(period.getToTime()));
-         }
-
-         if (iter.hasNext() == true)
-         {
-            period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
-            hours.setFromTime3(getTime(period.getFromTime()));
-            hours.setToTime3(getTime(period.getToTime()));
+            startTime = getTime(period.getFromTime());
+            endTime = getTime(period.getToTime());
+            
+            if (startTime != null && endTime != null)
+            {
+               hours.addDateRange(new DateRange(startTime, endTime));
+            }
          }
       }
    }
@@ -2676,7 +2669,9 @@ public class MSPDIFile extends MPXFile
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day;
       int loop;
       int workingFlag;
-
+      DateRange range;
+      Iterator rangeIter;
+      
       for (loop=1; loop < 8; loop++)
       {
          workingFlag = bc.getWorkingDay(loop);
@@ -2697,23 +2692,19 @@ public class MSPDIFile extends MPXFile
                bch = bc.getCalendarHours (loop);
                if (bch != null)
                {
-                  time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
-                  timesList.add (time);
-
-                  time.setFromTime(getCalendar(bch.getFromTime1()));
-                  time.setToTime(getCalendar(bch.getToTime1()));
-
-                  time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
-                  timesList.add (time);
-
-                  time.setFromTime(getCalendar(bch.getFromTime2()));
-                  time.setToTime(getCalendar(bch.getToTime2()));
-
-                  time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
-                  timesList.add (time);
-
-                  time.setFromTime(getCalendar(bch.getFromTime3()));
-                  time.setToTime(getCalendar(bch.getToTime3()));
+                  rangeIter = bch.iterator();
+                  while (rangeIter.hasNext() == true)
+                  {
+                     range = (DateRange)rangeIter.next();
+                     if (range != null)
+                     {
+                        time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+                        timesList.add (time);
+                        
+                        time.setFromTime(getCalendar(range.getStartDate()));
+                        time.setToTime(getCalendar(range.getEndDate()));
+                     }
+                  }
                }
             }
          }

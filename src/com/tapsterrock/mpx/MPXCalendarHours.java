@@ -23,7 +23,8 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * This class is used to represent the records in an MPX file that define
@@ -59,14 +60,14 @@ public final class MPXCalendarHours extends MPXRecord
       super(file, 0);
 
       m_parentCalendar = parentCalendar;
-
-      setDay(record.getInteger(0));
-      setFromTime1(record.getTime(1));
-      setToTime1(record.getTime(2));
-      setFromTime2(record.getTime(3));
-      setToTime2(record.getTime(4));
-      setFromTime3(record.getTime(5));
-      setToTime3(record.getTime(6));
+    
+      if (record != Record.EMPTY_RECORD)
+      {
+         setDay(record.getInteger(0));
+         addDateRange(new DateRange(record.getTime(1), record.getTime(2)));
+         addDateRange(new DateRange(record.getTime(3), record.getTime(4)));
+         addDateRange(new DateRange(record.getTime(5), record.getTime(6)));      
+      }
    }
 
    /**
@@ -100,125 +101,45 @@ public final class MPXCalendarHours extends MPXRecord
    }
 
    /**
-    * Get FromTime1
-    *
-    * @return Time
+    * Add a date range to the list of date ranges.
+    * 
+    * @param range date range
     */
-   public Date getFromTime1()
+   public void addDateRange (DateRange range)
    {
-      return (m_fromTime1);
+      m_dateRanges.add(range);
    }
-
+   
    /**
-    * Sets from time 1
-    *
-    * @param from Time
+    * Retrieve the date range at the specified index.
+    * The index is zero based, and this method will return
+    * null if the requested date range does not exist.
+    * 
+    * @param index range index
+    * @return date range instance
     */
-   public void setFromTime1(Date from)
+   public DateRange getDateRange (int index)
    {
-      m_fromTime1 = toTime(from);
+      DateRange result = null;
+      
+      if (index >= 0 && index < m_dateRanges.size())
+      {
+         result = (DateRange)m_dateRanges.get(index);
+      }
+      
+      return (result);
    }
-
+   
    /**
-    * Get ToTime1
-    *
-    * @return Time
+    * Retrieve an iterator to allow the list of date ranges to be traversed.
+    * 
+    * @return iterator.
     */
-   public Date getToTime1()
+   public Iterator iterator ()
    {
-      return (m_toTime1);
+      return (m_dateRanges.iterator());
    }
-
-   /**
-    * Sets to time 1
-    *
-    * @param to Time
-    */
-   public void setToTime1 (Date to)
-   {
-      m_toTime1 = toTime(to);
-   }
-
-   /**
-    * Get FromTime2
-    *
-    * @return Time
-    */
-   public Date getFromTime2 ()
-   {
-      return (m_fromTime2);
-   }
-
-   /**
-    * Sets from time 2
-    *
-    * @param from Time
-    */
-   public void setFromTime2 (Date from)
-   {
-      m_fromTime2 = toTime(from);
-   }
-
-   /**
-    * Get ToTime2
-    *
-    * @return Time
-    */
-   public Date getToTime2 ()
-   {
-      return (m_toTime2);
-   }
-
-   /**
-    * Sets to time 2
-    *
-    * @param to Time
-    */
-   public void setToTime2 (Date to)
-   {
-      m_toTime2 = toTime(to);
-   }
-
-   /**
-    * Get FromTime3
-    *
-    * @return Time
-    */
-   public Date getFromTime3 ()
-   {      
-      return (m_fromTime3);
-   }
-
-   /**
-    * Sets from time 3
-    *
-    * @param from Time
-    */
-   public void setFromTime3 (Date from)
-   {
-      m_fromTime3 = toTime(from);
-   }
-
-   /**
-    * Get ToTime3
-    *
-    * @return Time
-    */
-   public Date getToTime3 ()
-   {
-      return (m_toTime3);
-   }
-
-   /**
-    * Sets to time 3
-    *
-    * @param to Time
-    */
-   public void setToTime3 (Date to)
-   {
-      m_toTime3 = toTime(to);
-   }
-
+   
    /**
     * This method generates a string in MPX format representing the
     * contents of this record.
@@ -240,22 +161,40 @@ public final class MPXCalendarHours extends MPXRecord
 
       StringBuffer buffer = new StringBuffer ();
       char delimiter = getParentFile().getDelimiter();
+      
+      DateRange range1 = getDateRange(0);
+      if (range1 == null)
+      {
+         range1 = DateRange.EMPTY_RANGE;
+      }
 
+      DateRange range2 = getDateRange(1);
+      if (range2 == null)
+      {
+         range2 = DateRange.EMPTY_RANGE;
+      }
+      
+      DateRange range3 = getDateRange(2);
+      if (range3 == null)
+      {
+         range3 = DateRange.EMPTY_RANGE;
+      }
+      
       buffer.append (recordNumber);
       buffer.append (delimiter);
       buffer.append(format(delimiter, m_day));
       buffer.append (delimiter);
-      buffer.append(format(delimiter, m_fromTime1));
+      buffer.append(format(delimiter, toTime(range1.getStartDate())));
       buffer.append (delimiter);
-      buffer.append(format(delimiter, m_toTime1));
+      buffer.append(format(delimiter, toTime(range1.getEndDate())));
       buffer.append (delimiter);
-      buffer.append(format(delimiter, m_fromTime2));
+      buffer.append(format(delimiter, toTime(range2.getStartDate())));
       buffer.append (delimiter);
-      buffer.append(format(delimiter, m_toTime2));
+      buffer.append(format(delimiter, toTime(range2.getEndDate())));
       buffer.append (delimiter);
-      buffer.append(format(delimiter, m_fromTime3));
+      buffer.append(format(delimiter, toTime(range3.getStartDate())));
       buffer.append (delimiter);
-      buffer.append(format(delimiter, m_toTime3));      
+      buffer.append(format(delimiter, toTime(range3.getEndDate())));
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
       
@@ -303,12 +242,7 @@ public final class MPXCalendarHours extends MPXRecord
    public static final int SATURDAY = 7;
 
    private Integer m_day;
-   private Date m_fromTime1;
-   private Date m_toTime1;
-   private Date m_fromTime2;
-   private Date m_toTime2;
-   private Date m_fromTime3;
-   private Date m_toTime3;
+   private LinkedList m_dateRanges = new LinkedList ();
    
    /**
     * Constant containing the record number associated with this record if
@@ -320,5 +254,5 @@ public final class MPXCalendarHours extends MPXRecord
     * Constant containing the record number associated with this record if
     * this instance represents resource calendar hours.
     */
-   static final int RESOURCE_CALENDAR_HOURS_RECORD_NUMBER = 56;
+   static final int RESOURCE_CALENDAR_HOURS_RECORD_NUMBER = 56;   
 }

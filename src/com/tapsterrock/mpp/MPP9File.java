@@ -39,6 +39,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.ConstraintType;
+import com.tapsterrock.mpx.DateRange;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
@@ -653,6 +654,7 @@ final class MPP9File
       String name;
 
       int periodCount;
+      int periodIndex;
       int index;
       int defaultFlag;
       Date start;
@@ -694,10 +696,8 @@ final class MPP9File
                if (cal.isWorkingDay(index+1) == true)
                {
                   hours = cal.addCalendarHours(index+1);
-                  hours.setFromTime1(defaultStart1);
-                  hours.setToTime1(defaultEnd1);
-                  hours.setFromTime2(defaultStart2);
-                  hours.setToTime2(defaultEnd2);
+                  hours.addDateRange(new DateRange(defaultStart1, defaultEnd1));
+                  hours.addDateRange(new DateRange(defaultStart2, defaultEnd2));
                }
             }
             else
@@ -717,30 +717,12 @@ final class MPP9File
                cal.setWorkingDay(index+1, true);
                hours = cal.addCalendarHours(index+1);
 
-               start = MPPUtility.getTime (data, offset + 8);
-               duration = MPPUtility.getDuration (data, offset + 20);
-               hours.setFromTime1(start);
-               hours.setToTime1(new Date (start.getTime()+duration));
-
-               if (periodCount > 1)
+               for (periodIndex=0; periodIndex < periodCount; periodIndex++)
                {
-                  start = MPPUtility.getTime (data, offset + 10);
-                  duration = MPPUtility.getDuration (data, offset + 24);
-                  hours.setFromTime2(start);
-                  hours.setToTime2(new Date (start.getTime()+duration));
-
-                  if (periodCount > 2)
-                  {
-                     start = MPPUtility.getTime (data, offset + 12);
-                     duration = MPPUtility.getDuration (data, offset + 28);
-                     hours.setFromTime3(start);
-                     hours.setToTime3(new Date (start.getTime()+duration));
-                  }
-               }
-
-               // Note that MPP defines 5 time ranges, the additional
-               // start times are at offsets 14, 16 and the additional
-               // durations are at offsets 32 and 36.
+                  start = MPPUtility.getTime (data, offset + 8 + (periodIndex * 2));
+                  duration = MPPUtility.getDuration (data, offset + 20 + (periodIndex * 4));
+                  hours.addDateRange(new DateRange (start, new Date (start.getTime()+duration)));
+               }               
             }
          }
       }

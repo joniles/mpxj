@@ -421,34 +421,24 @@ public final class MPXCalendar extends MPXRecord
          hours = addCalendarHours (MPXCalendarHours.SUNDAY);
 
          hours = addCalendarHours (MPXCalendarHours.MONDAY);
-         hours.setFromTime1 (from1);
-         hours.setToTime1 (to1);
-         hours.setFromTime2 (from2);
-         hours.setToTime2 (to2);
+         hours.addDateRange(new DateRange (from1, to1));
+         hours.addDateRange(new DateRange (from2, to2));
 
          hours = addCalendarHours (MPXCalendarHours.TUESDAY);
-         hours.setFromTime1 (from1);
-         hours.setToTime1 (to1);
-         hours.setFromTime2 (from2);
-         hours.setToTime2 (to2);
+         hours.addDateRange(new DateRange (from1, to1));
+         hours.addDateRange(new DateRange (from2, to2));
 
          hours = addCalendarHours (MPXCalendarHours.WEDNESDAY);
-         hours.setFromTime1 (from1);
-         hours.setToTime1 (to1);
-         hours.setFromTime2 (from2);
-         hours.setToTime2 (to2);
-
+         hours.addDateRange(new DateRange (from1, to1));
+         hours.addDateRange(new DateRange (from2, to2));
+         
          hours = addCalendarHours (MPXCalendarHours.THURSDAY);
-         hours.setFromTime1 (from1);
-         hours.setToTime1 (to1);
-         hours.setFromTime2 (from2);
-         hours.setToTime2 (to2);
+         hours.addDateRange(new DateRange (from1, to1));
+         hours.addDateRange(new DateRange (from2, to2));
 
          hours = addCalendarHours (MPXCalendarHours.FRIDAY);
-         hours.setFromTime1 (from1);
-         hours.setToTime1 (to1);
-         hours.setFromTime2 (from2);
-         hours.setToTime2 (to2);
+         hours.addDateRange(new DateRange (from1, to1));
+         hours.addDateRange(new DateRange (from2, to2));         
 
          hours = addCalendarHours (MPXCalendarHours.SATURDAY);
       }
