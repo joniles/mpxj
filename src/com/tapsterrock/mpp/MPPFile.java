@@ -239,8 +239,11 @@ public class MPPFile extends MPXFile
       for (int loop=0; loop < itemCount; loop++)
       {
          data = rscFixedData.getByteArrayValue(loop);
-         uniqueID = MPPUtility.getInt (data, 0);
-         resourceMap.put(new Integer (uniqueID), new Integer (loop));
+         if (data != null && data.length > 0)
+         {         
+	         uniqueID = MPPUtility.getInt (data, 0);
+	         resourceMap.put(new Integer (uniqueID), new Integer (loop));
+         }	         
       }
 
       return (resourceMap);
