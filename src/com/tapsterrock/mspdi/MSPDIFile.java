@@ -2261,6 +2261,7 @@ public class MSPDIFile extends MPXFile
     * @param factory object factory
     * @param fieldAliasMap map of MPX field numbers to their aliases
     * @param mpxXmlMap map of mpx field numbers to MSPDI field numbers
+    * @param mpxNameMap map of mpx field names to MSPDI field numbers
     * @param list list of extended attributes
     * @throws JAXBException
     */
@@ -3035,11 +3036,23 @@ public class MSPDIFile extends MPXFile
       return (xml);
    }
 
+   /**
+    * Formats a date as an xsd date time value.
+    * 
+    * @param date date
+    * @return xsd date time
+    */
    private static String formatXsdDateTime (Date date)
    {
       return (getXsdDateTimeFormat().format(date));
    }
    
+   /**
+    * Parses a date in xsd date time format
+    * 
+    * @param text xsd date time
+    * @return date value
+    */
    private static Date parseXsdDateTime (String text)
    {
       Date result;
@@ -3057,6 +3070,12 @@ public class MSPDIFile extends MPXFile
       return (result);
    }
    
+   /**
+    * Retrieves a date format instance suitable for working
+    * with xsd date time values.
+    * 
+    * @return date format instance
+    */
    private static DateFormat getXsdDateTimeFormat ()
    {
       DateFormat df = (DateFormat)XSD_DATETIME_FORMAT.get();

@@ -137,6 +137,7 @@ public class MppDump
     *
     * @param is Input Stream
     * @param pw Output PrintWriter
+    * @return number of bytes read
     * @throws Exception Thrown on file read errors
     */
    private static long hexdump (InputStream is, PrintWriter pw)
