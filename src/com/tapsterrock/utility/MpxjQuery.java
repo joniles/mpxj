@@ -117,6 +117,8 @@ public class MpxjQuery
 
       listAssignmentsByTask (mpx);
 
+      listAssignmentsByResource (mpx);
+      
       listHierarchy (mpx);
 
       listTaskNotes (mpx);
@@ -273,13 +275,33 @@ public class MpxjQuery
       ResourceAssignment assignment;
       Task task;
       Resource resource;
-
+      String taskName;
+      String resourceName;
+      
       while (iter.hasNext() == true)
       {
          assignment = (ResourceAssignment)iter.next();
          task = assignment.getTask ();
+         if (task == null)
+         {
+            taskName = "(null task)";
+         }
+         else
+         {
+            taskName = task.getName();
+         }
+         
          resource = assignment.getResource ();
-         System.out.println ("Assignment: Task=" + task.getName() + " Resource=" + resource.getName());
+         if (resource == null)
+         {
+            resourceName = "(null resource)";
+         }
+         else
+         {
+            resourceName = resource.getName();
+         }
+         
+         System.out.println ("Assignment: Task=" + taskName + " Resource=" + resourceName);
       }
 
       System.out.println ();
@@ -296,20 +318,35 @@ public class MpxjQuery
    {
       List tasks = file.getAllTasks();
       Iterator taskIter = tasks.iterator();
-
+      Task task;
+      List assignments;
+      Iterator assignmentIter;
+      ResourceAssignment assignment;
+      Resource resource;
+      String resourceName;
+      
       while (taskIter.hasNext() == true)
       {
-         Task task = (Task)taskIter.next();
-         System.out.println ("Assignments for " + task.getName() + ":");
+         task = (Task)taskIter.next();
+         System.out.println ("Assignments for task " + task.getName() + ":");
 
-         List assignments = task.getResourceAssignments();
-         Iterator assignmentIter = assignments.iterator();
+         assignments = task.getResourceAssignments();
+         assignmentIter = assignments.iterator();
 
          while (assignmentIter.hasNext() == true)
          {
-            ResourceAssignment assignment = (ResourceAssignment)assignmentIter.next();
-            Resource resource = assignment.getResource();
-            System.out.println ("   " + resource.getName());
+            assignment = (ResourceAssignment)assignmentIter.next();
+            resource = assignment.getResource();
+            if (resource == null)
+            {
+               resourceName = "(null resource)";
+            }
+            else
+            {
+               resourceName = resource.getName();
+            }
+            
+            System.out.println ("   " + resourceName);
          }
       }
 
@@ -317,6 +354,42 @@ public class MpxjQuery
    }
 
 
+   /**
+    * This method displays the resource assignemnts for each resource. This time
+    * rather than just iterating through the list of all assignments in
+    * the file, we extract the assignemnts on a resource-by-resource basis.
+    *
+    * @param file MPX file
+    */
+   private static void listAssignmentsByResource (MPXFile file)
+   {
+      List resources = file.getAllResources();
+      Iterator taskIter = resources.iterator();
+      Resource resource;
+      List assignments;
+      Iterator assignmentIter;
+      ResourceAssignment assignment;
+      Task task;
+      
+      while (taskIter.hasNext() == true)
+      {
+         resource = (Resource)taskIter.next();
+         System.out.println ("Assignments for resource " + resource.getName() + ":");
+
+         assignments = resource.getTaskAssignments();
+         assignmentIter = assignments.iterator();
+
+         while (assignmentIter.hasNext() == true)
+         {
+            assignment = (ResourceAssignment)assignmentIter.next();
+            task = assignment.getTask();
+            System.out.println ("   " + task.getName());
+         }
+      }
+
+      System.out.println ();
+   }
+   
    /**
     * This method lists any notes attached to tasks.
     *

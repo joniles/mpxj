@@ -26,6 +26,7 @@
       <action dev="joniles" type="fix">Fixed an array out of bounds exception when reading an MPP9 file.</action>
       <action dev="joniles" type="update">Updated to allow MPXCalendarHours to accept an arbitrary number of time periods.</action>      
       <action dev="joniles" type="add">Introduced the Day class to replace the use of arbitrary integers to represent days of the week.</action>
+      <action dev="joniles" type="add">Added the ability to query the task assignments for a resource using the Resource.getTaskAssignments() method.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

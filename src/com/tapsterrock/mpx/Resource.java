@@ -25,6 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.util.Date;
+import java.util.LinkedList;
 
 
 /**
@@ -683,8 +684,7 @@ public final class Resource extends MPXRecord
 
    /**
     * Sets the Actual Work field contains the amount of work that has already
-    * been done for all
-    * assignments assigned to a resource.
+    * been done for all assignments assigned to a resource.
     *
     * @param val duration value
     */
@@ -4851,6 +4851,31 @@ public final class Resource extends MPXRecord
    }
 
    /**
+    * This method is used internally within MPXJ to track tasks which 
+    * are assigned to a particular resource.
+    * 
+    * @param assignment resource assignment instance
+    */
+   void addAssignment (ResourceAssignment assignment)
+   {
+      m_assignments.add(assignment);
+   }
+   
+   /**
+    * Retrieve a list of tasks assigned to this resource. Note that if this
+    * project data has been read from an MPX file which declared some or all
+    * of the resources assignments before the tasks and resources to which 
+    * the assignments relate, then these assignments may not appear in this
+    * list. Caveat emptor!
+    * 
+    * @return list of tasks assigned to this resource
+    */
+   public LinkedList getTaskAssignments ()
+   {
+      return (m_assignments);
+   }
+   
+   /**
     * Resource Model record controlling fields written to resource record
     */
    private ResourceModel m_model;
@@ -4865,6 +4890,11 @@ public final class Resource extends MPXRecord
     */
    private ResourceNotes m_notes;
 
+   /**
+    * List of all assignments for this resource.
+    */   
+   private LinkedList m_assignments = new LinkedList();
+   
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither

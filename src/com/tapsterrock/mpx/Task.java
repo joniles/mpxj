@@ -544,28 +544,9 @@ public final class Task extends MPXRecord implements Comparable
     * This method allows a resource assignment to be added to the
     * current task.
     *
-    * @return ResourceAssignment object
-    * @throws MPXException thrown if more than the maximum permitted assignments is added
-    */
-   public ResourceAssignment addResourceAssignment ()
-      throws MPXException
-   {
-      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
-
-      m_assignments.add(assignment);
-
-      getParentFile().addResourceAssignment(assignment);
-
-      return (assignment);
-   }
-
-   /**
-    * This method allows a resource assignment to be added to the
-    * current task.
-    *
     * @param resource the resource to assign
     * @return ResourceAssignment object
-    * @throws MPXException thrown if more than the maximum permitted assignments is added
+    * @throws MPXException
     */
    public ResourceAssignment addResourceAssignment (Resource resource)
       throws MPXException
@@ -592,11 +573,16 @@ public final class Task extends MPXRecord implements Comparable
 
       if (assignment == null)
       {
-         assignment = addResourceAssignment();
+         assignment = new ResourceAssignment(getParentFile(), this);
+         m_assignments.add(assignment);
+         getParentFile().addResourceAssignment(assignment);
+         
          assignment.setResourceID(resource.getID());
          assignment.setResourceUniqueID(resourceUniqueID);
          assignment.setWork(getDuration());
          assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
+         
+         resource.addAssignment(assignment);
       }
 
       return (assignment);
@@ -609,16 +595,22 @@ public final class Task extends MPXRecord implements Comparable
     *
     * @param record data from MPX file record
     * @return ResourceAssignment object
-    * @throws MPXException thrown if more than the maximum permitted assignments is added
+    * @throws MPXException
     */
    ResourceAssignment addResourceAssignment (Record record)
       throws MPXException
    {
-      ResourceAssignment tra = new ResourceAssignment(getParentFile(), record, this);
+      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), record, this);
 
-      m_assignments.add(tra);
-
-      return (tra);
+      m_assignments.add(assignment);
+      
+      Resource resource = assignment.getResource();
+      if (resource != null)
+      {
+         resource.addAssignment(assignment);
+      }
+      
+      return (assignment);
    }
 
    /**
