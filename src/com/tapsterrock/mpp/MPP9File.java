@@ -74,13 +74,17 @@ final class MPP9File
 		//
 		DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
                   
+      DirectoryEntry outlineCodeDir = (DirectoryEntry)projectDir.getEntry ("TBkndOutlCode");
+      VarMeta outlineCodeVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
+      Var2Data outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
+                  
 		//
 		// Extract the required data from the MPP file
 		//
       processPropertyData (file, projectDir);      
 		processCalendarData (file, projectDir);
-  		processResourceData (file, projectDir);
-	  	processTaskData (file, projectDir);
+  		processResourceData (file, projectDir, outlineCodeVarData);
+	  	processTaskData (file, projectDir, outlineCodeVarData);
 	  	processConstraintData (file, projectDir);
 	  	processAssignmentData (file, projectDir);
       
@@ -373,7 +377,7 @@ final class MPP9File
     *
     * @throws Exception on unexpected file format
     */
-   private static void processTaskData (MPPFile file,  DirectoryEntry projectDir)
+   private static void processTaskData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
       throws MPXException, IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
@@ -381,7 +385,7 @@ final class MPP9File
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-      
+                        
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
       Integer id;
@@ -510,6 +514,16 @@ final class MPP9File
          task.setNumber19(new Double (taskVarData.getDouble(id, TASK_NUMBER19)));
          task.setNumber20(new Double (taskVarData.getDouble(id, TASK_NUMBER20)));                                                                                                   
          //task.setObjects(); // Calculated value
+         task.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
+         task.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
+         task.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
+         task.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
+         task.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
+         task.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
+         task.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
+         task.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
+         task.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
+         task.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
          task.setOutlineLevel (MPPUtility.getShort (data, 40));
          //task.setOutlineNumber(); // Calculated value
          task.setOvertimeCost(new Double (MPPUtility.getDouble (data, 240)/100));         
@@ -604,8 +618,7 @@ final class MPP9File
          task.setRollup((metaData[10] & 0x08) != 0);            
          task.setHideBar((metaData[10] & 0x80) != 0);                        
          task.setEffortDriven((metaData[11] & 0x10) != 0);  
-
-
+         
 			//
 			// Retrieve the task notes.
 			//			
@@ -687,7 +700,7 @@ final class MPP9File
     *
     * @throws Exception on unexpected file format
     */
-   private static void processResourceData (MPPFile file,  DirectoryEntry projectDir)
+   private static void processResourceData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -798,6 +811,16 @@ final class MPP9File
          resource.setNumber19(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER19)));
          resource.setNumber20(new Double (rscVarData.getDouble(id, RESOURCE_NUMBER20)));                           
          //resource.setObjects(); // Calculated value
+         resource.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
+         resource.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
+         resource.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
+         resource.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
+         resource.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
+         resource.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
+         resource.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
+         resource.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
+         resource.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
+         resource.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));         
          //resource.setOverallocated(); // Calculated value
 			resource.setOvertimeCost(new Double(MPPUtility.getDouble(data, 164)/100));         
          resource.setOvertimeRate(new MPXRate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
@@ -1456,7 +1479,8 @@ final class MPP9File
    private static final Integer RESOURCE_COST10 = new Integer (134);
                               	
    private static final Integer TABLE_COLUMN_DATA = new Integer (1);
-   
+   private static final Integer OUTLINECODE_DATA = new Integer (1);
+      
 	/**
 	 * Mask used to isolate confirmed flag from the duration units field.
 	 */

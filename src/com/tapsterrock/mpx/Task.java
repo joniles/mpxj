@@ -6354,7 +6354,207 @@ public final class Task extends MPXRecord implements Comparable
    {
       m_overtimeCost = number;
    }
-               
+
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode1 (String value)
+   {
+      m_outlineCode1 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode1 ()
+   {
+      return (m_outlineCode1);         
+   }
+
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode2 (String value)
+   {
+      m_outlineCode2 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode2 ()
+   {
+      return (m_outlineCode2);         
+   }
+
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode3 (String value)
+   {
+      m_outlineCode3 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode3 ()
+   {
+      return (m_outlineCode3);         
+   }
+
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode4 (String value)
+   {
+      m_outlineCode4 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode4 ()
+   {
+      return (m_outlineCode4);         
+   }
+                  
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode5 (String value)
+   {
+      m_outlineCode5 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode5 ()
+   {
+      return (m_outlineCode5);         
+   }
+                  
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode6 (String value)
+   {
+      m_outlineCode6 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode6 ()
+   {
+      return (m_outlineCode6);         
+   }
+                  
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode7 (String value)
+   {
+      m_outlineCode7 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode7 ()
+   {
+      return (m_outlineCode7);         
+   }
+                  
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode8 (String value)
+   {
+      m_outlineCode8 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode8 ()
+   {
+      return (m_outlineCode8);         
+   }
+                  
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode9 (String value)
+   {
+      m_outlineCode9 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode9 ()
+   {
+      return (m_outlineCode9);         
+   }
+                  
+   /**
+    * Sets the value of an outline code field.
+    *
+    * @param value outline code value
+    */
+   public void setOutlineCode10 (String value)
+   {
+      m_outlineCode10 = value;
+   }
+
+   /**
+    * Retrieves the value of an outline code field.
+    * 
+    * @return outline code value
+    */
+   public String getOutlineCode10 ()
+   {
+      return (m_outlineCode10);         
+   }
+                  
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -6481,7 +6681,17 @@ public final class Task extends MPXRecord implements Comparable
    private Date m_finish9;
    private Date m_finish10;
    private Number m_overtimeCost;
-                                                
+   private String m_outlineCode1;
+   private String m_outlineCode2;
+   private String m_outlineCode3;
+   private String m_outlineCode4;
+   private String m_outlineCode5;
+   private String m_outlineCode6;
+   private String m_outlineCode7;
+   private String m_outlineCode8;
+   private String m_outlineCode9;
+   private String m_outlineCode10;
+                                                                              
 	/**
 	 * Constants used to define the task type.
 	 */
