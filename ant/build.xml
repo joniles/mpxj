@@ -11,6 +11,7 @@
    <property name="docdir" value="${basedir}/doc/api" />
    <property name="antdir" value="${basedir}/ant" />
    <property name="srcdir" value="${basedir}/src" />
+   <property name="libdir" value="${basedir}/lib" />
    <property name="jbuilder" value="${basedir}/jbuilder" />
    <property name="classes" value="${basedir}/classes" />
    <property name="bak" value="${basedir}/bak" />
@@ -27,7 +28,7 @@
 </target>
 
 <target name="compile" depends="init" description="Compile">
-   <javac srcdir="${basedir}/src" destdir="${classes}" />
+   <javac srcdir="${basedir}/src" destdir="${classes}" classpath="${classpath}:${libdir}/jakarta-poi-1.5.1.jar" />
    <javac srcdir="${junitdir}/src" destdir="${junitclasses}" classpath="${classpath}:${classes}:${junitdir}/junit.jar" />
 </target>
 
@@ -35,7 +36,7 @@
    <delete dir="${docdir}"/>
    <mkdir dir="${docdir}"/>
    <javadoc sourcepath="${basedir}/src"
-      packagenames="com.tapsterrock.mpx"
+      packagenames="com.tapsterrock.mpx.*,com.tapsterrock.mpp.*"
       destdir="${docdir}"
       verbose="no"
       access="public">
