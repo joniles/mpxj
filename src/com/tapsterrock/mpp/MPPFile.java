@@ -122,83 +122,106 @@ public class MPPFile extends MPXFile
    private void process (InputStream is)
       throws MPXException
    {
-      try
-      {
-         //
-         // Open the file system and retrieve the root directory
-         //
-         POIFSFileSystem fs = new POIFSFileSystem (is);
-         DirectoryEntry root = fs.getRoot ();
-
-         //
-         // Retrieve the CompObj data and validate the file format
-         //
-         CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
-         if (compObj.getFileFormat().equals("MSProject.MPP9") == false)
-         {
-            throw new MPXException (MPXException.INVALID_FILE + ": " + compObj.getFileFormat());
-         }
-
-         //
-         // Retrieve the project directory
-         //
-         DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
-
-         //
-         // Retrieve calendar data
-         //
-         DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
-         VarMeta calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-         Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
-
-         //
-         // Retrieve task data
-         //
-         DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
-         VarMeta taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
-         Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
-         FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-         FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-
-         //
-         // Retrieve constraint data
-         //
-         DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
-         FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
-
-         //
-         // Retrieve resource data
-         //
-         DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
-         VarMeta rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
-         Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
-         FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
-         FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-
-         //
-         // Retrieve resource assignment data
-         //
-         DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
-         FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
-
-         //
-         // Extract the required data from the MPP file
-         //
-         processCalendarData (calVarMeta, calVarData);
-         processResourceData (rscVarMeta, rscVarData, rscFixedMeta, rscFixedData);
-         processTaskData (taskVarMeta, taskVarData, taskFixedMeta, taskFixedData);
-         processConstraintData (consFixedData);
-         processAssignmentData (assnFixedData);
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXException (MPXException.READ_ERROR, ex);
-      }
+		try
+		{   	
+	      //
+	      // Open the file system and retrieve the root directory
+	      //
+	      POIFSFileSystem fs = new POIFSFileSystem (is);
+	      DirectoryEntry root = fs.getRoot ();
+	
+	      //
+	      // Retrieve the CompObj data and validate the file format
+	      //
+	      CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));			         
+	
+			String format = compObj.getFileFormat();
+			if (format.equals("MSProject.MPP9") == true)
+			{
+				processMpp9 (root);
+			}
+			else
+			{
+				// Under development
+//				if (format.equals("MSProject.MPP8") == true)				
+//				{
+//					processMpp8 (root);	
+//				}
+//				else
+				{
+					throw new MPXException (MPXException.INVALID_FILE + ": " + format);					
+				}
+			}			
+		}
+		
+		catch (IOException ex)
+		{
+			throw new MPXException (MPXException.READ_ERROR, ex);
+		}		
    }
 
+	/**
+	 * This method is used to process an MPP9 file. This is the file format
+	 * used by Project 2000 and Project 2002.
+	 * 
+	 * @param root Root of the POI file system.
+	 * @throws MPXException Normally thrown on dat validation errors
+	 */
+	private void processMpp9 (DirectoryEntry root)
+		throws MPXException, IOException
+	{
+		//
+		// Retrieve the project directory
+		//
+		DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
 
+		//
+		// Retrieve calendar data
+		//
+		DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
+		VarMeta calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
+		Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
 
+		//
+		// Retrieve task data
+		//
+		DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
+		VarMeta taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
+		Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
+		FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
+		FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
+
+		//
+		// Retrieve constraint data
+		//
+		DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
+		FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
+
+		//
+		// Retrieve resource data
+		//
+		DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
+		VarMeta rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
+		Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
+		FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
+		FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
+
+		//
+		// Retrieve resource assignment data
+		//
+		DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
+		FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
+
+		//
+		// Extract the required data from the MPP file
+		//
+		processCalendarData (calVarMeta, calVarData);
+  		processResourceData (rscVarMeta, rscVarData, rscFixedMeta, rscFixedData);
+	  	processTaskData (taskVarMeta, taskVarData, taskFixedMeta, taskFixedData);
+	  	processConstraintData (consFixedData);
+	  	processAssignmentData (assnFixedData);
+	}
+	
    /**
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.
@@ -1020,6 +1043,38 @@ public class MPPFile extends MPXFile
 
       return (Priority.getInstance (result));
    }
+
+	/**
+	 * This method is used to process an MPP8 file. This is the file format
+	 * used by Project 98.
+	 * 
+	 * @param root Root of the POI file system.
+	 * @throws MPXException Normally thrown on dat validation errors
+	 */
+	private void processMpp8 (DirectoryEntry root)
+		throws MPXException, IOException
+	{
+		//
+		// Retrieve the project directory
+		//
+		DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
+
+		//
+		// Retrieve calendar data
+		//
+		DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
+		FixFix calendarFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixFix   0"))));
+		FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));		
+		
+		//
+		// Retrieve task data
+		//
+		DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
+		FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
+		FixDeferFix taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));		
+		
+		// Under development		
+	}
 
    /**
     * Calendar data types.
