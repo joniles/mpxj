@@ -37,7 +37,7 @@ import java.io.StringWriter;
  * Note that this class has package level access only, and is not intended
  * for use outside of this context.
  */
-class FixedData extends MPPComponent
+final class FixedData extends MPPComponent
 {
    /**
     * This constructor retrieves the data from the input stream. It
@@ -55,7 +55,7 @@ class FixedData extends MPPComponent
     * @param is input stream from which the data is read
     * @throws IOException on file read failure
     */
-   public FixedData (FixedMeta meta, InputStream is)
+   FixedData (FixedMeta meta, InputStream is)
       throws IOException
    {      
 		byte[] buffer = new byte[is.available()];
@@ -111,7 +111,7 @@ class FixedData extends MPPComponent
     * @param is input stream from which the data is read
     * @throws IOException on file read failure
     */
-   public FixedData (int itemSize, InputStream is)
+   FixedData (int itemSize, InputStream is)
       throws IOException
    {
       int offset = 0;
@@ -215,11 +215,5 @@ class FixedData extends MPPComponent
    /**
     * Array containing offset values for each item in the array.
     */
-   private int[] m_offset;
-   
-   /**
-    * Constant representing the magic number appearing
-    * at the start of the block.
-    */
-   private static final int MAGIC = 0xFADFADBA;
+   private int[] m_offset;   
 }
