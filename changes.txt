@@ -1,5 +1,6 @@
 Version 0.0.22
 Fixed a bug where task data was not being read correctly from very large MPP9 files.
+Fixed another bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.
 Removed arbitrary restrictions on the number of various entities, originally taken from the MPX spec.
 Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).
 
