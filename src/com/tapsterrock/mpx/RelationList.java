@@ -83,6 +83,7 @@ public final class RelationList implements ToStringRequiresFile
     */
    public String toString (MPXFile mpx)
    {
+      char sepchar = mpx.getDelimiter();
       Locale locale = mpx.getLocale();
       StringBuffer sb = new StringBuffer ();
       Iterator iter = m_list.iterator();
@@ -91,7 +92,7 @@ public final class RelationList implements ToStringRequiresFile
       {
          if (sb.length() != 0)
          {
-            sb.append (',');
+            sb.append (sepchar);
          }
 
          sb.append (((Relation)iter.next()).toString(locale));
