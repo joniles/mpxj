@@ -45,7 +45,7 @@ public final class CurrencySettings extends MPXRecord
    }
 
    /**
-    * This method is calkled when the locale of the parent file is updated.
+    * This method is called when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
     * for the new locale.
     *
