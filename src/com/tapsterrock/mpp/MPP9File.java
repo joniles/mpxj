@@ -1578,30 +1578,32 @@ final class MPP9File
       for (int loop=0; loop < count; loop++)
       {
          meta = assnFixedMeta.getByteArrayValue(loop);
-         if (meta[0] == 0)
+         if (meta[0] != 0)
          {         
-            offset = MPPUtility.getInt(meta, 4);
-            data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));                          
-            
-            task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
-            resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
-            
-            if (task != null && resource != null)
-            {
-               assignment = task.addResourceAssignment (resource);
-               assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
-               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
-               assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
-               //assignment.setDelay(); // Not sure what this field maps on to in MSP
-               assignment.setFinish(MPPUtility.getTimestamp(data, 16));
-               //assignment.setOvertimeWork(); // Can't find in data block
-               //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
-               //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
-               assignment.setStart(MPPUtility.getTimestamp(data, 12));
-               assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
-            }
+            break;
+         }
+         
+         offset = MPPUtility.getInt(meta, 4);            
+         data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));                          
+         
+         task = file.getTaskByUniqueID (MPPUtility.getInt (data, 4));
+         resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 8));
+         
+         if (task != null && resource != null)
+         {
+            assignment = task.addResourceAssignment (resource);
+            assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
+            assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
+            assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
+            //assignment.setDelay(); // Not sure what this field maps on to in MSP
+            assignment.setFinish(MPPUtility.getTimestamp(data, 16));
+            //assignment.setOvertimeWork(); // Can't find in data block
+            //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
+            //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+            assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
+            assignment.setStart(MPPUtility.getTimestamp(data, 12));
+            assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
+            assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
          }
       }
    }
