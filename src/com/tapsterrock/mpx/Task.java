@@ -467,7 +467,7 @@ public class Task extends MPXRecord implements Comparable
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceAssignment tra = new ResourceAssignment(getParentFile());
+      ResourceAssignment tra = new ResourceAssignment(getParentFile(), this);
 
       m_assignments.add (tra);
 
@@ -507,7 +507,7 @@ public class Task extends MPXRecord implements Comparable
       if (assignment == null)
       {
          assignment = addResourceAssignment ();
-         assignment.setID(resource.getID());
+         assignment.setResourceID(resource.getID());
          assignment.setResourceUniqueID(resourceUniqueID);
          assignment.setWork(getDuration());
          assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
@@ -526,18 +526,29 @@ public class Task extends MPXRecord implements Comparable
     * @throws MPXException thrown if more than the maximum permitted assignments is added
     */
    ResourceAssignment addResourceAssignment (Record record)
-     throws MPXException
+      throws MPXException
    {
       if (m_assignments.size() == MAX_RESOURCE_ASSIGNMENTS)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceAssignment tra = new ResourceAssignment (getParentFile(), record);
+      ResourceAssignment tra = new ResourceAssignment (getParentFile(), record, this);
 
       m_assignments.add(tra);
 
       return (tra);
+   }
+
+   /**
+    * This method allows the list of resource assignments for this
+    * task to be retrieved.
+    *
+    * @return list of resource assignments
+    */
+   public LinkedList getResourceAssignments ()
+   {
+      return (m_assignments);
    }
 
    /**

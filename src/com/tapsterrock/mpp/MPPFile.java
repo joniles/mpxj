@@ -741,8 +741,7 @@ public class MPPFile extends MPXFile
          resource = getResourceByUniqueID (MPPUtility.getInt (data, 8));
          if (task != null && resource != null)
          {
-            assignment = task.addResourceAssignment (resource);
-            assignment.setID(resource.getID());
+            task.addResourceAssignment (resource);
          }
       }
    }

@@ -478,6 +478,7 @@ public class MPXFile
             {
                m_lastResourceAssignment = m_lastTask.addResourceAssignment (record);
                current = m_lastResourceAssignment;
+               m_allResourceAssignments.add (m_lastResourceAssignment);
             }
             break;
          }
@@ -893,6 +894,17 @@ public class MPXFile
    public LinkedList getAllResources ()
    {
       return (m_allResources);
+   }
+
+   /**
+    * This method is used to retrieve a list of all of the resource assignments
+    * that are defined in this MPX file.
+    *
+    * @return list of all resources
+    */
+   public LinkedList getAllResourceAssignments ()
+   {
+      return (m_allResourceAssignments);
    }
 
    /**
@@ -1350,6 +1362,12 @@ public class MPXFile
     * as defined by the outline level.
     */
    private LinkedList m_childTasks = new LinkedList ();
+
+   /**
+    * This list holds a reference to all resource assignments defined in the
+    * MPX file.
+    */
+   private LinkedList m_allResourceAssignments = new LinkedList ();
 
    /**
     * List holding references to all base calendars.

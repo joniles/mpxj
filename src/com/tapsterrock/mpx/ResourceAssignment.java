@@ -36,10 +36,10 @@ public class ResourceAssignment extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   ResourceAssignment (MPXFile file)
+   ResourceAssignment (MPXFile file, Task task)
       throws MPXException
    {
-      this (file, Record.EMPTY_RECORD);
+      this (file, Record.EMPTY_RECORD, task);
    }
 
    /**
@@ -49,12 +49,14 @@ public class ResourceAssignment extends MPXRecord
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
     */
-   ResourceAssignment (MPXFile file, Record record)
+   ResourceAssignment (MPXFile file, Record record, Task task)
       throws MPXException
    {
-      super(file);
+      super (file);
 
-      setID(record.getInteger(0));
+      m_task = task;
+
+      setResourceID(record.getInteger(0));
       setUnits(record.getUnits(1));
       setWork(record.getDuration(2));
       setPlannedWork(record.getDuration(3));
@@ -116,24 +118,23 @@ public class ResourceAssignment extends MPXRecord
 
 
    /**
-    * Returns the ID of this resource assignment
+    * Returns the resource ID associated with this assignment.
     *
     * @return ID
-    * @see #ID for description
     */
-   public Integer getID ()
+   public Integer getResourceID ()
    {
-      return ((Integer)get(ID));
+      return ((Integer)get(RESOURCE_ID));
    }
 
    /**
-    * Set the ID of this resource assignment
+    * Sets the resource ID associated with this assignment.
     *
     * @param val  ID
     */
-   public void setID (Integer val)
+   public void setResourceID (Integer val)
    {
-      put (ID, val);
+      put (RESOURCE_ID, val);
    }
 
    /**
@@ -405,6 +406,30 @@ public class ResourceAssignment extends MPXRecord
    }
 
    /**
+    * This method retrieves a reference to the task with which this
+    * assignment is associated.
+    *
+    * @return task
+    */
+   public Task getTask ()
+   {
+      return (m_task);
+   }
+
+   /**
+    * This method retrieves a reference to the resource with which this
+    * assignment is associated.
+    *
+    * @return resource
+    */
+   public Resource getResource ()
+   {
+      MPXFile file = getParentFile();
+      Integer resourceID = getResourceUniqueID();
+      return (file.getResourceByUniqueID(resourceID.intValue()));
+   }
+
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
@@ -425,6 +450,11 @@ public class ResourceAssignment extends MPXRecord
    }
 
    /**
+    * Reference to the parent task of this assignment
+    */
+   private Task m_task;
+
+   /**
     *  Child record for Workgroup fields.
     */
    private ResourceAssignmentWorkgroupFields m_workgroup;
@@ -435,13 +465,9 @@ public class ResourceAssignment extends MPXRecord
    public static final Double DEFAULT_UNITS = new Double (100);
 
    /**
-    * The Unique ID field contains the number that Microsoft Project
-    * automatically designates
-    * whenever a new assignment is created. This number indicates the sequence
-    * in which the
-    * assignment was made, regardless of placement in the schedule.
+    * ID of the resource.
     */
-   private static final Integer ID = new Integer(0);
+   private static final Integer RESOURCE_ID = new Integer(0);
 
    /**
     * Units assigned
