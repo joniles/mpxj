@@ -39,5 +39,26 @@
             </p> 
          </answer>
       </faq>
+      
+      <faq id="mpx-record-order">
+         <question>
+            When I create an MPX file, my resources/tasks/calendars aren't visible when I open the file using Microsoft Project.
+         </question> 
+         <answer>
+            <p>
+               Microsoft Project is sensitive to the order in which records
+               appear in the MPX file. The correct order is Calendars,
+               Resources, and Tasks. The current MPX implementation provided
+               by MPXJ simply adds records to the file in the order
+               in which you as a developer add them to the MPXJ
+               project data structure. Therefore if you don't add them in 
+               the order expected by Microsoft Project, you won't get the 
+               results you expect. This is likely to change in a future
+               release of MPXJ when the project data structure is decoupled
+               from the underlying MPX implementation.
+            </p> 
+         </answer>
+      </faq>
+      
    </part>   
 </faqs>
