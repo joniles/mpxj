@@ -221,7 +221,7 @@ public class Task extends MPXRecord
 
             case CONSTRAINT_TYPE:
             {
-               setConstraintType(field);
+               set (x, new ConstraintType (field));
                break;
             }
 
@@ -865,9 +865,9 @@ public class Task extends MPXRecord
     * Private method for dealing with string parameters from File
     * @param type string constraint type
     */
-   private void setConstraintType (String type)
+   public void setConstraintType (ConstraintType type)
    {
-      set (CONSTRAINT_TYPE,type);
+      set (CONSTRAINT_TYPE, type);
    }
 
    /**
@@ -2227,21 +2227,12 @@ public class Task extends MPXRecord
    /**
     * The Constraint Type field provides choices for the type of constraint you
     * can apply for scheduling a task.
-    * The options are:
-    *    CONSTRAINTTYPE_AS_SOON_AS_POSSIBLE = 1;
-    *    CONSTRAINTTYPE_AS_LATE_AS_POSSIBLE = 2;
-    *    CONSTRAINTTYPE_FINISH_NO_LATER_THAN = 3;
-    *    CONSTRAINTTYPE_FINISH_NO_EARLIER_THAN = 4;
-    *    CONSTRAINTTYPE_MUST_FINISH_ON = 5;
-    *    CONSTRAINTTYPE_MUST_START_ON = 6;
-    *    CONSTRAINTTYPE_START_NO_LATER_THAN = 7;
-    *    CONSTRAINTTYPE_START_NO_EARLIER_THAN = 8;
     *
-    * @return  -  String value representing one of these constants
+    * @return constraint type
     */
-   public String getConstraintType ()
+   public ConstraintType getConstraintType ()
    {
-      return ((String)get(CONSTRAINT_TYPE));
+      return ((ConstraintType)get(CONSTRAINT_TYPE));
    }
 
    /**
@@ -3510,46 +3501,6 @@ public class Task extends MPXRecord
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurring;
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_AS_SOON_AS_POSSIBLE = "As Soon As Possible";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_AS_LATE_AS_POSSIBLE = "As Late As Possible";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_FINISH_NO_LATER_THAN = "Finish No Later Than";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_FINISH_NO_EARLIER_THAN = "Finish No Earlier Than";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_MUST_FINISH_ON = "Must Finish On";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_MUST_START_ON = "Must Start On";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_START_NO_LATER_THAN = "Start No Later Than";
-
-   /**
-    * Constants for the Constraint type
-    */
-   public static final String CONSTRAINTTYPE_START_NO_EARLIER_THAN = "Start No Earlier Than";
 
    /**
     * Constants for Priority
