@@ -2251,7 +2251,7 @@ public final class ProjectHeader extends MPXRecord
    private String m_subject;
    private String m_author;
    private String m_keywords;
-        
+           
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither
@@ -2262,6 +2262,55 @@ public final class ProjectHeader extends MPXRecord
     */
    private Date m_defaultEndTime;
 
+   /*
+    * Missing MSPDI attributes 
+    * 
+       void setMinutesPerDay(java.math.BigInteger value);    
+       void setFiscalYearStart(boolean value);    
+       void setRemoveFileProperties(boolean value);    
+       void setDefaultTaskEVMethod(java.math.BigInteger value);    
+       void setFinishDate(java.util.Calendar value); // auto if null?   
+       void setMoveCompletedEndsBack(boolean value);    
+       void setBaselineForEarnedValue(java.math.BigInteger value);    
+       void setCalendarUID(java.math.BigInteger value);    
+       void setNewTasksEstimated(boolean value);    
+       void setSpreadActualCost(boolean value);    
+       void setDefaultFixedCostAccrual(java.math.BigInteger value);    
+       void setMultipleCriticalPaths(boolean value);    
+       void setAutoAddNewResourcesAndTasks(boolean value);    
+       void setStartDate(java.util.Calendar value); // auto if null?    
+       void setFYStartDate(java.math.BigInteger value);    
+       void setLastSaved(java.util.Calendar value);    
+       void setStatusDate(java.util.Calendar value);    
+       void setMoveRemainingStartsBack(boolean value);    
+       void setAutolink(boolean value);    
+       void setExtendedCreationDate(java.util.Calendar value);
+       void setMicrosoftProjectServerURL(boolean value);    
+       void setNewTaskStartDate(java.math.BigInteger value);
+       void setHonorConstraints(boolean value);
+       void setDaysPerMonth(java.math.BigInteger value);
+       void setAdminProject(boolean value);    
+       void setScheduleFromStart(boolean value); // this is probably the schedule from value
+       void setMinutesPerWeek(java.math.BigInteger value);    
+       void setInsertedProjectsLikeSummary(boolean value);    
+       void setName(java.lang.String value);
+       void setSpreadPercentComplete(boolean value);
+       void setWeekStartDay(java.math.BigInteger value);
+       void setMoveCompletedEndsForward(boolean value);
+       void setEditableActualCosts(boolean value);
+       void setUID(java.lang.String value);
+       void setCriticalSlackLimit(java.math.BigInteger value);
+       void setRevision(java.math.BigInteger value);
+       void setNewTasksEffortDriven(boolean value);
+       void setEarnedValueMethod(java.math.BigInteger value);
+       void setMoveRemainingStartsForward(boolean value);
+       void setDefaultTaskType(java.math.BigInteger value);
+       void setProjectExternallyEdited(boolean value);
+       void setActualsInSync(boolean value);
+       void setCategory(java.lang.String value);
+       void setCreationDate(java.util.Calendar value);
+    */   
+   
    /**
     * Flag used to indicate whether the formats can be automatically updated.
     * The default value for this flag is false.
