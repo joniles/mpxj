@@ -39,7 +39,18 @@ public class Resource extends MPXRecord
    Resource (MPXFile file)
    {
       super (file);
-      m_model = getParent().getResourceModel();
+
+      m_model = getParentFile().getResourceModel();
+
+      if (file.getAutoResourceUniqueID() == true)
+      {
+         setUniqueID (new Integer (file.getResourceUniqueID ()));
+      }
+
+      if (file.getAutoResourceID() == true)
+      {
+         setID (new Integer (file.getResourceID ()));
+      }
    }
 
    /**
@@ -54,7 +65,7 @@ public class Resource extends MPXRecord
       throws MPXException
    {
       super (file);
-      m_model = getParent().getResourceModel();
+      m_model = getParentFile().getResourceModel();
 
       int i = 0;
       int length = record.getLength();
@@ -67,6 +78,8 @@ public class Resource extends MPXRecord
 
          switch (x)
          {
+            case ID:
+            case UNIQUE_ID:
             case OBJECTS:
             {
                set(x,Integer.valueOf(field));
@@ -93,14 +106,14 @@ public class Resource extends MPXRecord
             case ACTUAL_COST:
             case REMAINING_COST:
             {
-               set(x, new MPXCurrency(getParent(), field));
+               set(x, new MPXCurrency(getParentFile(), field));
                break;
             }
 
             case OVERTIME_RATE:
             case STANDARD_RATE:
             {
-               set (x, new MPXRate(getParent(), field));
+               set (x, new MPXRate(getParentFile(), field));
                break;
             }
 
@@ -122,6 +135,16 @@ public class Resource extends MPXRecord
             }
          }
       }
+
+      if (file.getAutoResourceUniqueID() == true)
+      {
+         setUniqueID (new Integer (file.getResourceUniqueID ()));
+      }
+
+      if (file.getAutoResourceID() == true)
+      {
+         setID (new Integer (file.getResourceID ()));
+      }
    }
 
 
@@ -139,7 +162,7 @@ public class Resource extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_notes = new ResourceNotes(getParent());
+      m_notes = new ResourceNotes(getParentFile());
 
       return (m_notes);
    }
@@ -160,7 +183,7 @@ public class Resource extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_notes = new ResourceNotes(getParent(), record);
+      m_notes = new ResourceNotes(getParentFile(), record);
 
       return (m_notes);
    }
@@ -179,7 +202,7 @@ public class Resource extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_calendar = new ResourceCalendar(getParent());
+      m_calendar = new ResourceCalendar(getParentFile());
 
       return (m_calendar);
    }
@@ -199,7 +222,7 @@ public class Resource extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_calendar = new ResourceCalendar(getParent(), record);
+      m_calendar = new ResourceCalendar(getParentFile(), record);
 
       return (m_calendar);
    }
@@ -393,7 +416,7 @@ public class Resource extends MPXRecord
     * @param val value
     * @see #ID Constants for explanation
     */
-   public void setID (String val)
+   public void setID (Integer val)
    {
       set (ID, val);
    }
@@ -606,7 +629,7 @@ public class Resource extends MPXRecord
     * @param val UID
     * @see #UNIQUE_ID Constants for explanation
     */
-   public void setUniqueID (String val)
+   public void setUniqueID (Integer val)
    {
       set (UNIQUE_ID, val);
    }
@@ -795,9 +818,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #ID Constants for explanation
     */
-   public String getID ()
+   public Integer getID ()
    {
-      return ((String)get(ID));
+      return ((Integer)get(ID));
    }
 
    /**
@@ -1004,9 +1027,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #UNIQUE_ID for explanation
     */
-   public String getUniqueID ()
+   public Integer getUniqueID ()
    {
-      return ((String)get(UNIQUE_ID));
+      return ((Integer)get(UNIQUE_ID));
    }
 
    /**

@@ -80,7 +80,7 @@ public class ResourceCalendar extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceCalendarException rce = new ResourceCalendarException(getParent());
+      ResourceCalendarException rce = new ResourceCalendarException(getParentFile());
 
       m_exceptions.add (rce);
 
@@ -103,7 +103,7 @@ public class ResourceCalendar extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceCalendarException rce = new ResourceCalendarException (getParent(), record);
+      ResourceCalendarException rce = new ResourceCalendarException (getParentFile(), record);
 
       m_exceptions.add (rce);
 
@@ -124,7 +124,7 @@ public class ResourceCalendar extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceCalendarHours rch = new ResourceCalendarHours (getParent());
+      ResourceCalendarHours rch = new ResourceCalendarHours (getParentFile());
 
       m_hours.add (rch);
 
@@ -147,7 +147,7 @@ public class ResourceCalendar extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceCalendarHours rch = new ResourceCalendarHours (getParent(), record);
+      ResourceCalendarHours rch = new ResourceCalendarHours (getParentFile(), record);
 
       m_hours.add (rch);
 

@@ -125,4 +125,8 @@ public class MPXException extends Exception
     */
    public static final String CALENDAR_ERROR = "Invalid calendar";
 
+   /**
+    * Invalid outline error message.
+    */
+   public static final String INVALID_OUTLINE = "Invalid outline level";
 }

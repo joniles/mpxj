@@ -34,7 +34,7 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.Date;
 import java.io.FileInputStream;
-
+import java.util.LinkedList;
 
 /**
  * This class contains a small set of tests to exercise the MPX library.
@@ -98,36 +98,75 @@ public class TestMPXFile extends TestCase
 
       file.setAutoWBS(true);
       file.setAutoOutlineLevel(true);
+      file.setAutoTaskID(true);
+      file.setAutoTaskUniqueID(true);
 
       Task task1 = file.addTask();
       assertEquals (task1.getWBS(), "1.0");
       assertEquals (task1.getOutlineLevel().intValue(), 1);
+      assertEquals (task1.getID().intValue(), 1);
+      assertEquals (task1.getUniqueID().intValue(), 1);
 
       task1 = file.addTask();
       assertEquals (task1.getWBS(), "2.0");
       assertEquals (task1.getOutlineLevel().intValue(), 1);
+      assertEquals (task1.getID().intValue(), 2);
+      assertEquals (task1.getUniqueID().intValue(), 2);
 
       task1 = file.addTask();
       assertEquals (task1.getWBS(), "3.0");
       assertEquals (task1.getOutlineLevel().intValue(), 1);
+      assertEquals (task1.getID().intValue(), 3);
+      assertEquals (task1.getUniqueID().intValue(), 3);
 
       Task task2 = task1.addTask();
       assertEquals (task2.getWBS(), "3.1");
       assertEquals (task2.getOutlineLevel().intValue(), 2);
+      assertEquals (task2.getID().intValue(), 4);
+      assertEquals (task2.getUniqueID().intValue(), 4);
 
       task2 = task1.addTask();
       assertEquals (task2.getWBS(), "3.2");
       assertEquals (task2.getOutlineLevel().intValue(), 2);
+      assertEquals (task2.getID().intValue(), 5);
+      assertEquals (task2.getUniqueID().intValue(), 5);
 
       Task task3 = task2.addTask();
       assertEquals (task3.getWBS(), "3.2.1");
       assertEquals (task3.getOutlineLevel().intValue(), 3);
+      assertEquals (task3.getID().intValue(), 6);
+      assertEquals (task3.getUniqueID().intValue(), 6);
 
       task3 = task2.addTask();
       assertEquals (task3.getWBS(), "3.2.2");
       assertEquals (task3.getOutlineLevel().intValue(), 3);
+      assertEquals (task3.getID().intValue(), 7);
+      assertEquals (task3.getUniqueID().intValue(), 7);
    }
 
+   public void testStructure ()
+      throws Exception
+   {
+      MPXFile file = new MPXFile();
+
+      file.setAutoWBS(true);
+      file.setAutoOutlineLevel(true);
+      file.setAutoTaskID(true);
+      file.setAutoTaskUniqueID(true);
+
+      Task task1 = file.addTask();
+      assertNull (task1.getParentTask());
+
+      Task task2 = task1.addTask();
+      assertEquals (task2.getParentTask(), task1);
+
+      Task task3 = task1.addTask();
+      LinkedList children = task1.getChildTasks();
+      assertEquals (children.size(), 2);
+
+      LinkedList toplevel = file.getChildTasks();
+      assertEquals (toplevel.size(), 1);
+   }
 
    /**
     * Utility function to ensure that two files contain identical data.

@@ -469,7 +469,7 @@ public class DateTimeSettings extends MPXRecord
             }
          }
 
-         MPXFile parent = getParent();
+         MPXFile parent = getParentFile();
          parent.getDateFormat().applyPattern(pattern);
          parent.getTimeFormat().applyPattern(getTimeElement());
       }

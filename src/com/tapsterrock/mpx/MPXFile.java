@@ -169,7 +169,6 @@ public class MPXFile
 
          bis.reset();
 
-
          //
          // Now process the file in full
          //
@@ -421,13 +420,33 @@ public class MPXFile
 
          case Task.RECORD_NUMBER:
          {
-            if (m_taskCount < MAX_TASKS)
+            if (m_totalTaskCount < MAX_TASKS)
             {
-               ++m_taskCount;
-               ++m_childTaskCount;
+               ++m_totalTaskCount;
                m_lastTask = new Task(this, record);
                current = m_lastTask;
                m_records.add (current);
+
+               Integer outlineLevel = m_lastTask.getOutlineLevel();
+
+               if (m_baseOutlineLevel == -1 && outlineLevel != null)
+               {
+                  m_baseOutlineLevel = outlineLevel.intValue();
+               }
+
+               if (outlineLevel == null || outlineLevel.intValue() == m_baseOutlineLevel)
+               {
+                  m_childTasks.add (m_lastTask);
+               }
+               else
+               {
+                  if (m_childTasks.isEmpty() == true)
+                  {
+                     throw new MPXException (MPXException.INVALID_OUTLINE);
+                  }
+
+                  ((Task)m_childTasks.getLast()).addChildTask (m_lastTask, outlineLevel);
+               }
             }
             break;
          }
@@ -518,12 +537,12 @@ public class MPXFile
    void addTask (Task task)
       throws MPXException
    {
-      if (m_taskCount == MAX_TASKS)
+      if (m_totalTaskCount == MAX_TASKS)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ++ m_taskCount;
+      ++ m_totalTaskCount;
       m_records.add (task);
    }
 
@@ -539,6 +558,16 @@ public class MPXFile
       return ((Task)add(Task.RECORD_NUMBER));
    }
 
+   /**
+    * This method is used to retrieve all of the top level tasks
+    * that are defined in this MPX file.
+    *
+    * @return list of tasks
+    */
+   public LinkedList getChildTasks ()
+   {
+      return (m_childTasks);
+   }
 
    /**
     * Method for accessing the Task Model
@@ -581,6 +610,26 @@ public class MPXFile
    }
 
    /**
+    * Used to set whether the task unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoTaskUniqueID (boolean flag)
+   {
+      m_autoTaskUniqueID = flag;
+   }
+
+   /**
+    * Used to set whether the task ID field is automatically populated.
+    *
+    * @param flag true if automatic ID required.
+    */
+   public void setAutoTaskID (boolean flag)
+   {
+      m_autoTaskID = flag;
+   }
+
+   /**
     * Retrieve the flag that determines whether WBS is generated
     * automatically.
     *
@@ -602,7 +651,109 @@ public class MPXFile
       return (m_autoOutlineLevel);
    }
 
+   /**
+    * Retrieve the flag that determines whether the task unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoTaskUniqueID ()
+   {
+      return (m_autoTaskUniqueID);
+   }
 
+   /**
+    * Retrieve the flag that determines whether the task ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoTaskID ()
+   {
+      return (m_autoTaskID);
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for a task.
+    *
+    * @return next unique ID
+    */
+   int getTaskUniqueID ()
+   {
+      return (++m_taskUniqueID);
+   }
+
+   /**
+    * This method is used to retrieve the next ID for a task.
+    *
+    * @return next ID
+    */
+   int getTaskID ()
+   {
+      return (++m_taskID);
+   }
+
+   /**
+    * Used to set whether the resource unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoResourceUniqueID (boolean flag)
+   {
+      m_autoResourceUniqueID = flag;
+   }
+
+   /**
+    * Used to set whether the resource ID field is automatically populated.
+    *
+    * @param flag true if automatic ID required.
+    */
+   public void setAutoResourceID (boolean flag)
+   {
+      m_autoResourceID = flag;
+   }
+
+   /**
+    * Retrieve the flag that determines whether the resource unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoResourceUniqueID ()
+   {
+      return (m_autoResourceUniqueID);
+   }
+
+   /**
+    * Retrieve the flag that determines whether the resource ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoResourceID ()
+   {
+      return (m_autoResourceID);
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for a resource.
+    *
+    * @return next unique ID
+    */
+   int getResourceUniqueID ()
+   {
+      return (++m_resourceUniqueID);
+   }
+
+   /**
+    * This method is used to retrieve the next ID for a resource.
+    *
+    * @return next ID
+    */
+   int getResourceID ()
+   {
+      return (++m_resourceID);
+   }
 
    /**
     * Programatically add a new comment to the MPX file.
@@ -876,7 +1027,7 @@ public class MPXFile
     */
    int getChildTaskCount ()
    {
-      return (m_childTaskCount);
+      return (m_childTasks.size());
    }
 
    /**
@@ -927,16 +1078,35 @@ public class MPXFile
    static final String EOL = "\r\n";
 
    /**
-    * Counter representing nthe number of child tasks associated with
-    * this parent task.
+    * Counter used to populate the unique ID field of a task
     */
-   private int m_childTaskCount;
-
+   private int m_taskUniqueID = 0;
 
    /**
-    * List to maintain order of objects added.
+    * Counter used to populate the ID field of a task
+    */
+   private int m_taskID = 0;
+
+   /**
+    * Counter used to populate the unique ID field of a resource
+    */
+   private int m_resourceUniqueID = 0;
+
+   /**
+    * Counter used to populate the ID field of a resource
+    */
+   private int m_resourceID = 0;
+
+   /**
+    * List to maintain records in the order that they are added.
     */
    private LinkedList m_records = new LinkedList();
+
+   /**
+    * List holding references to the top level tasks
+    * as defined by the outline level.
+    */
+   private LinkedList m_childTasks = new LinkedList ();
 
    /**
     * List holding references to all base calendars.
@@ -1041,7 +1211,7 @@ public class MPXFile
    /**
     * Count of the number of tasks.
     */
-   private int m_taskCount = 0;
+   private int m_totalTaskCount = 0;
 
    /**
     * Count of the number of project names.
@@ -1069,6 +1239,42 @@ public class MPXFile
     * or will be manually set.
     */
    private boolean m_autoOutlineLevel = false;
+
+   /**
+    * Indicating whether the unique ID of a task should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoTaskUniqueID = false;
+
+   /**
+    * Indicating whether the ID of a task should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoTaskID = false;
+
+   /**
+    * Indicating whether the unique ID of a tresource should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoResourceUniqueID = false;
+
+   /**
+    * Indicating whether the ID of a tresource should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoResourceID = false;
+
+   /**
+    * This member data is used to hold the outline level number of the
+    * first outline level used in the MPX file. When data from
+    * Microsoft Project is saved in MPX format, MSP creates an invisible
+    * task with an outline level as zero, which acts as an umbrella
+    * task for all of the other tasks defined in the file. This is not
+    * a strict requirement, and an MPX file could be generated from another
+    * source that only contains "visible" tasks that have outline levels
+    * >= 1.
+    */
+   private int m_baseOutlineLevel = -1;
 
    /**
     * Flag used to tell the library whether to use thousands separators when

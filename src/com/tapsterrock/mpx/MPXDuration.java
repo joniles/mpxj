@@ -96,6 +96,28 @@ public class MPXDuration
       return (FLOAT_FORMAT.format(m_duration) + TimeUnit.format(m_type));
    }
 
+   /**
+    * This method is used to retrieve the size of the duration.
+    *
+    * @return size of the duration
+    */
+   public double getDuration ()
+   {
+      return (m_duration);
+   }
+
+   /**
+    * This method is used to retreve the type of units the duration
+    * is expressed in. The valid types of units are found in the TimeUnit
+    * class.
+    *
+    * @return type of units
+    */
+   public int getType ()
+   {
+      return (m_type);
+   }
+
    private double m_duration;
 
    private int m_type;

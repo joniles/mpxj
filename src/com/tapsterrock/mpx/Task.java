@@ -1,6 +1,7 @@
 /*
  * file:       Task.java
  * author:     Scott Melville
+ *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       15/08/2002
  */
@@ -43,7 +44,9 @@ public class Task extends MPXRecord
    {
       super (file);
 
-      m_model = getParent().getTaskModel();
+      m_model = getParentFile().getTaskModel();
+
+      m_parent = parent;
 
       if (file.getAutoWBS() == true)
       {
@@ -54,13 +57,23 @@ public class Task extends MPXRecord
             wbs = wbs.substring (0, index);
          }
 
-         setWBS (wbs + "." + parent.getChildTaskCount());
+         setWBS (wbs + "." + (parent.getChildTaskCount()+1));
       }
 
       if (file.getAutoOutlineLevel() == true)
       {
          Integer outline = parent.getOutlineLevel();
          setOutlineLevel (new Integer (outline.intValue()+1));
+      }
+
+      if (file.getAutoTaskUniqueID() == true)
+      {
+         setUniqueID (new Integer (file.getTaskUniqueID ()));
+      }
+
+      if (file.getAutoTaskID() == true)
+      {
+         setID (new Integer (file.getTaskID ()));
       }
    }
 
@@ -78,7 +91,7 @@ public class Task extends MPXRecord
       throws MPXException
    {
       super (file);
-      m_model = getParent().getTaskModel();
+      m_model = getParentFile().getTaskModel();
 
       int x = 0;
       String field;
@@ -115,7 +128,7 @@ public class Task extends MPXRecord
             case REMAINING_COST:
             case SV:
             {
-               set (x, new MPXCurrency(getParent(), field));
+               set (x, new MPXCurrency(getParentFile(), field));
                break;
             }
 
@@ -168,7 +181,7 @@ public class Task extends MPXRecord
             case START5:
             case STOP:
             {
-               set(x, getParent().getDateFormat().parse(field));
+               set(x, getParentFile().getDateFormat().parse(field));
                break;
             }
 
@@ -205,6 +218,8 @@ public class Task extends MPXRecord
 
             case OBJECTS:
             case OUTLINE_LEVEL:
+            case UNIQUE_ID:
+            case ID:
             {
                set(x,Integer.valueOf(field));
                break;
@@ -226,12 +241,22 @@ public class Task extends MPXRecord
 
       if (file.getAutoWBS() == true)
       {
-         setWBS (Integer.toString(getParent().getChildTaskCount()) + ".0");
+         setWBS (Integer.toString(getParentFile().getChildTaskCount()+1) + ".0");
       }
 
       if (file.getAutoOutlineLevel() == true)
       {
          setOutlineLevel (new Integer (1));
+      }
+
+      if (file.getAutoTaskUniqueID() == true)
+      {
+         setUniqueID (new Integer (file.getTaskUniqueID ()));
+      }
+
+      if (file.getAutoTaskID() == true)
+      {
+         setID (new Integer (file.getTaskID ()));
       }
    }
 
@@ -249,7 +274,7 @@ public class Task extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_notes = new TaskNotes(getParent());
+      m_notes = new TaskNotes(getParentFile());
 
       return (m_notes);
    }
@@ -270,7 +295,7 @@ public class Task extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_notes = new TaskNotes(getParent(), record);
+      m_notes = new TaskNotes(getParentFile(), record);
 
       return (m_notes);
    }
@@ -285,15 +310,47 @@ public class Task extends MPXRecord
    public Task addTask ()
       throws MPXException
    {
-      MPXFile parent = getParent ();
-
-      ++m_childTaskCount;
+      MPXFile parent = getParentFile ();
 
       Task task = new Task (parent, this);
+
+      m_children.add (task);
 
       parent.addTask (task);
 
       return (task);
+   }
+
+   /**
+    * This method is used to associate a child task with the current
+    * task instance. It has package access, and has been designed to
+    * allow the hierarchical outline structure of tasks in an MPX
+    * file to be constructed as the file is read in.
+    *
+    * @param child child task
+    */
+   void addChildTask (Task child, Integer childOutlineLevel)
+      throws MPXException
+   {
+      Integer outlineLevel = getOutlineLevel ();
+      if (outlineLevel == null)
+      {
+         throw new MPXException (MPXException.INVALID_OUTLINE);
+      }
+
+      if (outlineLevel.intValue()+1 == childOutlineLevel.intValue())
+      {
+         m_children.add (child);
+      }
+      else
+      {
+         if (m_children.isEmpty() == true)
+         {
+            throw new MPXException (MPXException.INVALID_OUTLINE);
+         }
+
+         ((Task)m_children.getLast()).addChildTask(child, childOutlineLevel);
+      }
    }
 
    /**
@@ -311,7 +368,7 @@ public class Task extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_recurring = new RecurringTask (getParent());
+      m_recurring = new RecurringTask (getParentFile());
 
       return (m_recurring);
    }
@@ -333,7 +390,7 @@ public class Task extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_recurring = new RecurringTask (getParent(), record);
+      m_recurring = new RecurringTask (getParentFile(), record);
 
       return (m_recurring);
    }
@@ -354,7 +411,7 @@ public class Task extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceAssignment tra = new ResourceAssignment(getParent());
+      ResourceAssignment tra = new ResourceAssignment(getParentFile());
 
       m_assignments.add (tra);
 
@@ -378,7 +435,7 @@ public class Task extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceAssignment tra = new ResourceAssignment (getParent(), record);
+      ResourceAssignment tra = new ResourceAssignment (getParentFile(), record);
 
       m_assignments.add(tra);
 
@@ -1114,9 +1171,10 @@ public class Task extends MPXRecord
     * The ID field contains the identifier number that Microsoft Project
     * automatically assigns to each task as you add it to the project.
     * The ID indicates the position of a task with respect to the other tasks.
-    * @param val - id, string
+    *
+    * @param new ID
     */
-   public void setID (String val)
+   public void setID (Integer val)
    {
       set (ID, val);
    }
@@ -1721,9 +1779,9 @@ public class Task extends MPXRecord
     * This number indicates the sequence in which the task was created,
     * regardless of placement in the schedule.
     *
-    * @param val - String
+    * @param the unique ID
     */
-   public void setUniqueID (String val)
+   public void setUniqueID (Integer val)
    {
       set (UNIQUE_ID, val);
    }
@@ -2483,11 +2541,11 @@ public class Task extends MPXRecord
     * automatically assigns to each task as you add it to the project.
     * The ID indicates the position of a task with respect to the other tasks.
     *
-    * @return - String
+    * @return the task ID
     */
-   public String getID ()
+   public Integer getID ()
    {
-      return ((String)get(ID));
+      return ((Integer)get(ID));
    }
 
    /**
@@ -3090,9 +3148,9 @@ public class Task extends MPXRecord
     *
     * @return - String
     */
-   public String getUniqueID ()
+   public Integer getUniqueID ()
    {
-      return ((String)get(UNIQUE_ID));
+      return ((Integer)get(UNIQUE_ID));
    }
 
    /**
@@ -3230,13 +3288,44 @@ public class Task extends MPXRecord
     */
    int getChildTaskCount ()
    {
-      return (m_childTaskCount);
+      return (m_children.size());
    }
 
    /**
-    * Count of the number of children for automatic WBS generation.
+    * This method retrieves a reference to the parent of this task, as
+    * defined by the outline level. If this task is at the top level,
+    * this method will return null.
+    *
+    * @return parent task
     */
-   private int m_childTaskCount;
+   public Task getParentTask ()
+   {
+      return (m_parent);
+   }
+
+   /**
+    * This method retrieves a list of child tasks relative to the
+    * current task, as defined by the outine level. If there
+    * are no child tasks, this method will return an empty list.
+    *
+    * @return child tasks
+    */
+   public LinkedList getChildTasks ()
+   {
+      return (m_children);
+   }
+
+   /**
+    * This is a reference to the parent task, as specified by the
+    * outline level.
+    */
+   private Task m_parent;
+
+   /**
+    * This list holds references to all tasks that are children of the
+    * current task as specified by the outline level.
+    */
+   private LinkedList m_children = new LinkedList ();
 
    /**
     * Reference to the task model controlling which fields from the task

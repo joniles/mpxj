@@ -81,7 +81,7 @@ public class Comments extends MPXRecord
    {
       StringBuffer buffer = new StringBuffer ();
       buffer.append (RECORD_NUMBER);
-      buffer.append (getParent().getDelimiter());
+      buffer.append (getParentFile().getDelimiter());
       buffer.append (m_text);
       buffer.append (MPXFile.EOL);
       return (buffer.toString());

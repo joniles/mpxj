@@ -101,7 +101,7 @@ class ResourceModel extends MPXRecord
    public String toString()
    {
       Integer number;
-      char delimiter = getParent().getDelimiter();
+      char delimiter = getParentFile().getDelimiter();
 
       StringBuffer textual = new StringBuffer();
       StringBuffer numeric = new StringBuffer();

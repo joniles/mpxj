@@ -98,7 +98,7 @@ public class BaseCalendar extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      BaseCalendarException bce = new BaseCalendarException(getParent(), record);
+      BaseCalendarException bce = new BaseCalendarException(getParentFile(), record);
       m_exceptions.add(bce);
       return (bce);
    }
@@ -134,7 +134,7 @@ public class BaseCalendar extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      BaseCalendarHours bch = new BaseCalendarHours(getParent(), record);
+      BaseCalendarHours bch = new BaseCalendarHours(getParentFile(), record);
       m_hours.add(bch);
       return bch;
    }
