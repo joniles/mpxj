@@ -102,7 +102,7 @@
    <delete dir="${examples.classes.dir}"/>
 </target>
 
-<target name="clean" depends="init-props, clean-temp, clean-classes" description="">
+<target name="clean" depends="init-props, clean-temp, clean-classes" description="Clean up all files">
    <delete file="${basedir}/mpxj.jar"/>
    <delete file="${junit.dir}/mpxjtest.jar"/>
    <delete dir="${doc.dir}"/>
