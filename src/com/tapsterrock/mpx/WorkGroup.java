@@ -82,7 +82,7 @@ public final class WorkGroup
    public static final int DEFAULT_VALUE = 0;
    public static final int NONE_VALUE = 1;
    public static final int EMAIL_VALUE = 2;
-   public static final int WEB_VALUE = 1;
+   public static final int WEB_VALUE = 3;
    
    public static final WorkGroup DEFAULT = new WorkGroup(DEFAULT_VALUE);
    public static final WorkGroup NONE = new WorkGroup(NONE_VALUE);   
