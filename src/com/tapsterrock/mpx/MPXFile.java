@@ -82,7 +82,6 @@ public class MPXFile
       m_currencySettings = file.m_currencySettings;
       m_dateFormat = file.m_dateFormat;
       m_ddeOleClientLinks = file.m_ddeOleClientLinks;
-      m_defaultSettings = file.m_defaultSettings;
       m_delimiter = file.m_delimiter;
       m_fileCreationRecord = file.m_fileCreationRecord;
       m_ignoreThousandsSeparator = file.m_ignoreThousandsSeparator;
@@ -173,7 +172,6 @@ public class MPXFile
       setLocale (Locale.ENGLISH);
       m_records.add (m_fileCreationRecord);
       m_records.add (m_currencySettings);
-      m_records.add (m_defaultSettings);
       m_records.add (m_projectHeader);
    }
 
@@ -369,10 +367,10 @@ public class MPXFile
             break;
          }
 
-         case DefaultSettings.RECORD_NUMBER:
+         case ProjectHeader.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
-            m_defaultSettings.update (record);
-            current = m_defaultSettings;
+            m_projectHeader.updateDefaultSettings (record);
+            current = m_projectHeader;
             break;
          }
 
@@ -948,16 +946,6 @@ public class MPXFile
    public CurrencySettings getCurrencySettings ()
    {
       return (m_currencySettings);
-   }
-
-   /**
-    * Retrieves the default settings.
-    *
-    * @return default settings
-    */
-   public DefaultSettings getDefaultSettings ()
-   {
-      return (m_defaultSettings);
    }
 
    /**
@@ -2054,11 +2042,6 @@ public class MPXFile
     * Currency settings record.
     */
    private CurrencySettings m_currencySettings = new CurrencySettings (this);
-
-   /**
-    * Default settings record.
-    */
-   private DefaultSettings m_defaultSettings = new DefaultSettings (this);
 
    /**
     * Project header record.

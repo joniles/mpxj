@@ -39,7 +39,6 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
-import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
@@ -117,16 +116,16 @@ final class MPP8File
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime (props.getTime(Props.END_TIME));
 
-      DefaultSettings ds = file.getDefaultSettings();
+
       //ds.setDefaultDurationIsFixed();
-      ds.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
-      ds.setDefaultHoursInDay(new Float(((float)props.getInt(Props.HOURS_PER_DAY))/60));
-      ds.setDefaultHoursInWeek(new Float(((float)props.getInt(Props.HOURS_PER_WEEK))/60));
-      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
-      ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
-      ds.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
-      ds.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
-      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
+      ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
+      ph.setDefaultHoursInDay(new Float(((float)props.getInt(Props.HOURS_PER_DAY))/60));
+      ph.setDefaultHoursInWeek(new Float(((float)props.getInt(Props.HOURS_PER_WEEK))/60));
+      ph.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
+      ph.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
+      ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
+      ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
+      ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
       CurrencySettings cs = file.getCurrencySettings();
       cs.setCurrencyDigits(props.getShort(Props.CURRENCY_DIGITS));

@@ -62,7 +62,6 @@ import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
-import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXCalendarException;
@@ -324,7 +323,6 @@ public class MSPDIFile extends MPXFile
          HashMap calendarMap = new HashMap ();
                           
          readCurrencySettings (project);
-         readDefaultSettings (project);
          readProjectHeader (project);
          readProjectExtendedAttributes(project);
          readCalendars (project, calendarMap);
@@ -370,27 +368,6 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method extracts default settings data from an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
-    */
-   private void readDefaultSettings (Project project)
-   {
-      DefaultSettings settings = getDefaultSettings();
-
-      //settings.setDefaultDurationIsFixed();
-      settings.setDefaultDurationUnits(getMpxDurationTimeUnits(project.getDurationFormat()));
-      //settings.setDefaultHoursInDay();
-      //settings.setDefaultHoursInWeek();
-      // The default overtime rate always seems to be specified in hours
-      settings.setDefaultOvertimeRate(new MPXRate(project.getDefaultOvertimeRate(), TimeUnit.HOURS));
-      settings.setDefaultStandardRate(new MPXRate(project.getDefaultStandardRate(), TimeUnit.HOURS));
-      settings.setDefaultWorkUnits(getMpxWorkTimeUnits (project.getWorkFormat()));
-      settings.setSplitInProgressTasks(project.isSplitsInProgressTasks());
-      settings.setUpdatingTaskStatusUpdatesResourceStatus(project.isTaskUpdatesResource());
-   }
-
-   /**
     * This method extracts project header data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
@@ -398,6 +375,17 @@ public class MSPDIFile extends MPXFile
    private void readProjectHeader (Project project)
    {
       ProjectHeader header = getProjectHeader ();
+
+      //settings.setDefaultDurationIsFixed();
+      header.setDefaultDurationUnits(getMpxDurationTimeUnits(project.getDurationFormat()));
+      //settings.setDefaultHoursInDay();
+      //settings.setDefaultHoursInWeek();
+      // The default overtime rate always seems to be specified in hours
+      header.setDefaultOvertimeRate(new MPXRate(project.getDefaultOvertimeRate(), TimeUnit.HOURS));
+      header.setDefaultStandardRate(new MPXRate(project.getDefaultStandardRate(), TimeUnit.HOURS));
+      header.setDefaultWorkUnits(getMpxWorkTimeUnits (project.getWorkFormat()));
+      header.setSplitInProgressTasks(project.isSplitsInProgressTasks());
+      header.setUpdatingTaskStatusUpdatesResourceStatus(project.isTaskUpdatesResource());
       
       //settings.setAMText();
       //settings.setBarTextDateFormat();
@@ -2457,7 +2445,6 @@ public class MSPDIFile extends MPXFile
 
          writeMspdiHeader(project);
          writeCurrencySettings (project);
-         writeDefaultSettings (project);
          writeProjectHeader (project);
          writeProjectExtendedAttributes (factory, project);
          writeCalendars (factory, project);
@@ -2535,22 +2522,6 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method writes default settings data to an MSPDI file.
-    *
-    * @param project Root node of the MSPDI file
-    */
-   private void writeDefaultSettings (Project project)
-   {
-      DefaultSettings settings = getDefaultSettings();
-      project.setDurationFormat(getXmlDurationUnits(settings.getDefaultDurationUnits()));
-      project.setDefaultOvertimeRate((float)getRateCost(settings.getDefaultOvertimeRate()));
-      project.setDefaultStandardRate((float)getRateCost(settings.getDefaultStandardRate()));
-      project.setWorkFormat(getXmlWorkUnits(settings.getDefaultWorkUnits()));
-      project.setSplitsInProgressTasks(settings.getSplitInProgressTasks());
-      project.setTaskUpdatesResource(settings.getUpdatingTaskStatusUpdatesResourceStatus());
-   }
-
-   /**
     * This method writes project header data to an MSPDI file.
     *
     * @param project Root node of the MSPDI file
@@ -2559,6 +2530,13 @@ public class MSPDIFile extends MPXFile
    {
       ProjectHeader header = getProjectHeader ();
 
+      project.setDurationFormat(getXmlDurationUnits(header.getDefaultDurationUnits()));
+      project.setDefaultOvertimeRate((float)getRateCost(header.getDefaultOvertimeRate()));
+      project.setDefaultStandardRate((float)getRateCost(header.getDefaultStandardRate()));
+      project.setWorkFormat(getXmlWorkUnits(header.getDefaultWorkUnits()));
+      project.setSplitsInProgressTasks(header.getSplitInProgressTasks());
+      project.setTaskUpdatesResource(header.getUpdatingTaskStatusUpdatesResourceStatus());
+      
       project.setDefaultFinishTime(getCalendar (header.getDefaultEndTime()));
       project.setDefaultStartTime(getCalendar (header.getDefaultStartTime()));
       
