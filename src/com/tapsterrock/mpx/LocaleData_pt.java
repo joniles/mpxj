@@ -302,9 +302,6 @@ public final class LocaleData_pt extends ListResourceBundle
 
 	private static final Object[][] RESOURCE_DATA = {
 		{LocaleData.FILE_DELIMITER, ";"},
-		{LocaleData.PROGRAM_NAME, "Microsoft Project for Windows"},
-		{LocaleData.FILE_VERSION, "4.0"},
-		{LocaleData.CODE_PAGE, "ANSI"},
 
 		{LocaleData.CURRENCY_SYMBOL, ""},
 		{LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},

@@ -428,7 +428,7 @@ public final class LocaleData extends ListResourceBundle
       {FILE_DELIMITER, ","},
       {PROGRAM_NAME, "Microsoft Project for Windows"},
       {FILE_VERSION, "4.0"},
-      {CODE_PAGE, "ANSI"},
+      {CODE_PAGE, CodePage.ANSI},
 
       {CURRENCY_SYMBOL, "$"},
       {CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},

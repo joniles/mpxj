@@ -57,7 +57,7 @@ public final class FileCreationRecord extends MPXRecord
       setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
       setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
       setFileVersion(LocaleData.getString(locale, LocaleData.FILE_VERSION));
-      setCodePage(LocaleData.getString(locale, LocaleData.CODE_PAGE));
+      setCodePage((CodePage)LocaleData.getObject(locale, LocaleData.CODE_PAGE));
    }
 
    /**
@@ -70,7 +70,7 @@ public final class FileCreationRecord extends MPXRecord
    {
       m_programName = record.getString(0);
       m_fileVersion = record.getString(1);
-      m_codePage = record.getString(2);
+      m_codePage = record.getCodePage(2);
    }
 
    /**
@@ -135,11 +135,11 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Code page, for example: 850, 437, MAC, ANSI
+    * Code page
     *
     * @param codePage code page type
     */
-   public void setCodePage (String codePage)
+   public void setCodePage (CodePage codePage)
    {
       m_codePage = codePage;
    }
@@ -149,7 +149,7 @@ public final class FileCreationRecord extends MPXRecord
     *
     * @return code page type
     */
-   public String getCodePage ()
+   public CodePage getCodePage ()
    {
       return (m_codePage);
    }
@@ -195,9 +195,8 @@ public final class FileCreationRecord extends MPXRecord
 
    /**
     * The code page used to create the file
-    * eg (850,437,MAC,ANSI)
     */
-   private String m_codePage;
+   private CodePage m_codePage;
 
    /**
     * Constant containing the record number associated with this record.

@@ -23,27 +23,26 @@
 
 package com.tapsterrock.mpx;
 
-import java.io.Reader;
 import java.io.IOException;
 
 /**
- * This class implements a stream tokenizer based loosely on
+ * This class implements a tokenizer based loosely on
  * java.io.StreamTokenizer. This tokenizer is designed to parse records from
  * an MPX file correctly. In particular it will handle empty fields,
  * represented by adjacent field delimiters.
  */
-final class Tokenizer
+abstract class Tokenizer
 {
    /**
-    * Constructor.
-    *
-    * @param r Reader instance
+    * This method mustbe implemented to read the next character from the
+    * data source.
+    * 
+    * @return next character
+    * @throws IOException
     */
-   Tokenizer (Reader r)
-   {
-      m_reader = r;
-   }
-
+   protected abstract int read ()
+      throws IOException;
+   
    /**
     * This method retrieves the next token and returns a constant representing
     * the type of token found.
@@ -73,7 +72,7 @@ final class Tokenizer
          }
          else
          {
-            c = m_reader.read();
+            c = read();
          }
 
          switch (c)
@@ -125,7 +124,7 @@ final class Tokenizer
                   }
                   else
                   {
-                     nextc = m_reader.read();
+                     nextc = read();
                      if (nextc == m_quote)
                      {
                         m_buffer.append ((char)c);
@@ -184,5 +183,4 @@ final class Tokenizer
    private char m_delimiter = ',';
    private int m_next;
    private StringBuffer m_buffer = new StringBuffer ();
-   private Reader m_reader;
 }

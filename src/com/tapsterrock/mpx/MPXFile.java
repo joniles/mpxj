@@ -231,19 +231,32 @@ public class MPXFile
          bis.reset();
 
          //
-         // Now process the file in full
+         // Read the file creation record. At this point we are reading
+         // directly from an input stream so no character set decoding is
+         // taking place. We assume that any text in this record will not
+         // require decoding.
          //
-         InputStreamReader reader = new InputStreamReader (bis);
-         Tokenizer tk = new Tokenizer (reader);
+         Tokenizer tk = new InputStreamTokenizer (bis);
          tk.setDelimiter(m_delimiter);
          Record record;
          String number;
          
          //
-         // Add the header record using a dummy value for the record number
+         // Add the header record
          //
-         add ("999", new Record (this, tk));
+         add (Integer.toString(FileCreationRecord.RECORD_NUMBER), new Record (this, tk));
          ++line;
+         
+         //
+         // Now process the remainder of the file in full. As we have read the
+         // file creation record we have access to the field which specifies the
+         // codepage used to encode the character set in this file. We set up
+         // an input stream reader using the appropriate character set, and
+         // create a new tokenizer to read from this Reader instance.
+         //
+         InputStreamReader reader = new InputStreamReader (bis, getFileCreationRecord().getCodePage().getCharset());
+         tk = new ReaderTokenizer (reader);
+         tk.setDelimiter(m_delimiter);
          
          //
          // Read the remainder of the records
@@ -1173,7 +1186,9 @@ public class MPXFile
     * This method writes each record in an MPX file to an output stream, via
     * the specified OutputStreamWriter. By providing the OutputStreamWriter
     * as an argument, the caller can control the character encoding used
-    * when writing the file.
+    * when writing the file. Note that this is not recommended, the other 
+    * write methods made available with this class will use the correct
+    * encoding as specified as part of the MPX file creation record.
     *
     * @param w OutputStreamWriterinstance
     * @throws IOException thrown on failure to write to the output stream
@@ -1201,9 +1216,6 @@ public class MPXFile
 
    /**
     * This method writes each record in the MPX file to an output stream.
-    * Note that the default OutputStreamWriter is used, which may not
-    * provide you with the character set encoding appropriate for the
-    * data represented in the file.
     *
     * @param out destination output stream
     * @throws IOException thrown on failure to write to the output stream
@@ -1211,7 +1223,7 @@ public class MPXFile
    public void write (OutputStream out)
       throws IOException
    {
-      write (new OutputStreamWriter (new BufferedOutputStream (out)));
+      write (new OutputStreamWriter (new BufferedOutputStream (out), getFileCreationRecord().getCodePage().getCharset()));
    }
 
    /**
