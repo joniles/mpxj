@@ -37,6 +37,12 @@ final class FixFix extends MPPComponent
 {
 	/**
 	 * Constructor. Extract fixed size data items from the input stream.
+    * Note that for MSP98 we normally expect the data blocks to be a standard
+    * size, as supplied in the itemSize parameter. However we have found
+    * example files where the block size is larger, hence the requirement for
+    * the code to check for a remainder when the overall size is divided by
+    * the block size. If the remainder is non-zero, we iteratively increase the
+    * itemSize until we find one that fits the overall available data size.
 	 * 
 	 * @param itemSize Size of the items held in this block
 	 * @param is Input stream
@@ -44,8 +50,16 @@ final class FixFix extends MPPComponent
 	 */
    FixFix (int itemSize, InputStream is)
       throws IOException
-   {      
-      int itemCount = is.available() / itemSize;
+   {   
+      int available = is.available();   
+      int diff = available % itemSize;
+      while (diff != 0)
+      {
+         ++itemSize;
+         diff = available % itemSize;
+      }
+      
+      int itemCount = available / itemSize;
       m_array = new ByteArray[itemCount];
 		
 		for (int loop=0; loop < itemCount; loop++)
