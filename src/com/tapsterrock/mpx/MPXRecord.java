@@ -224,6 +224,23 @@ class MPXRecord
 
    /**
     * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXCurrency objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   protected void putCurrency (Integer key, Number value)
+   {
+      if (value != null && value instanceof MPXCurrency == false)
+      {
+         value = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
+      }
+
+      m_map.put (key, value);
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXTime objects.
     *
     * @param key attribute identifier

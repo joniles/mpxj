@@ -76,6 +76,18 @@ public class MPXNumberFormat
    }
 
    /**
+    * This method returns a String containing the formatted version
+    * of the number parameter.
+    *
+    * @param number number to be formatted
+    * @return formatted number
+    */
+   public String format (double number)
+   {
+      return (m_format.format(number));
+   }
+
+   /**
     * This method parses a String representation of a number and returns
     * an Number object.
     *

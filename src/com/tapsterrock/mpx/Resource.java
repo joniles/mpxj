@@ -106,7 +106,7 @@ public class Resource extends MPXRecord
             case ACTUAL_COST:
             case REMAINING_COST:
             {
-               set(x, new MPXCurrency(getParentFile(), field));
+               set(x, new MPXCurrency(getParentFile().getCurrencyFormat(), field));
                break;
             }
 
@@ -258,6 +258,21 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * This method is used to set the value of a currency field in the resource,
+    * and also to ensure that the field exists in the resource model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void setCurrency (int field, Number val)
+   {
+      Integer key = new Integer (field);
+      m_model.add(key);
+      putCurrency (key, val);
+   }
+
+   /**
     * This method is used to retrieve a particular field value.
     *
     * @param field requested field
@@ -275,7 +290,7 @@ public class Resource extends MPXRecord
     * @param val percentage value
     * @see #PERCENTAGE_WORK_COMPLETE Constants for explanation
     */
-   private void setPercentageWorkComplete (MPXPercentage val)
+   public void setPercentageWorkComplete (MPXPercentage val)
    {
       set (PERCENTAGE_WORK_COMPLETE, val);
    }
@@ -302,9 +317,9 @@ public class Resource extends MPXRecord
     * @param val financial value
     * @see #ACTUAL_COST Constants for explanation
     */
-   public void setActualCost (MPXCurrency val)
+   public void setActualCost (Number val)
    {
-      set (ACTUAL_COST, val);
+      setCurrency (ACTUAL_COST, val);
    }
 
    /**
@@ -342,9 +357,9 @@ public class Resource extends MPXRecord
     * @param val - value to be set
     * @see #BASELINE_COST for explanation
     */
-   public void setBaselineCost (MPXCurrency val)
+   public void setBaselineCost (Number val)
    {
-      set (BASELINE_COST, val);
+      setCurrency (BASELINE_COST, val);
    }
 
    /**
@@ -376,9 +391,9 @@ public class Resource extends MPXRecord
     * @param val - val to be set
     * @see #COST Constants for explanation
     */
-   public void setCost (MPXCurrency val)
+   public void setCost (Number val)
    {
-      set (COST, val);
+      setCurrency (COST, val);
    }
 
    /**
@@ -387,9 +402,9 @@ public class Resource extends MPXRecord
     * @param val value
     * @see #COST_PER_USE Constants for explanation
     */
-   public void setCostPerUse (MPXCurrency val)
+   public void setCostPerUse (Number val)
    {
-      set (COST_PER_USE, val);
+      setCurrency (COST_PER_USE, val);
    }
 
    /**
@@ -398,9 +413,9 @@ public class Resource extends MPXRecord
     * @param val - val to be set
     * @see #COST_VARIANCE Constants for explanation
     */
-   public void setCostVariance (MPXCurrency val)
+   public void setCostVariance (Number val)
    {
-      set (COST_VARIANCE, val);
+      setCurrency (COST_VARIANCE, val);
    }
 
    /**
@@ -556,9 +571,9 @@ public class Resource extends MPXRecord
     * @param val - val to be set
     * @see #REMAINING_COST Constants for explanation
     */
-   public void setRemainingCost (MPXCurrency val)
+   public void setRemainingCost (Number val)
    {
-      set (REMAINING_COST, val);
+      setCurrency (REMAINING_COST, val);
    }
 
    /**
@@ -704,9 +719,9 @@ public class Resource extends MPXRecord
     * @return financial value
     * @see #ACTUAL_COST Constants
     */
-   public MPXCurrency getActualCost ()
+   public Number getActualCost ()
    {
-      return (((MPXCurrency)get(ACTUAL_COST)));
+      return ((Number)get(ACTUAL_COST));
    }
 
    /**
@@ -744,9 +759,9 @@ public class Resource extends MPXRecord
     * @return currency value
     * @see #BASELINE_COST Constants for explanation
     */
-   public MPXCurrency getBaselineCost ()
+   public Number getBaselineCost ()
    {
-      return ((MPXCurrency)get(BASELINE_COST));
+      return ((Number)get(BASELINE_COST));
    }
 
    /**
@@ -778,9 +793,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #COST Constants for explanation
     */
-   public MPXCurrency getCost ()
+   public Number getCost ()
    {
-      return ((MPXCurrency)get(COST));
+      return ((Number)get(COST));
    }
 
    /**
@@ -789,9 +804,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #COST_PER_USE Constants for explanation
     */
-   public MPXCurrency getCostPerUse ()
+   public Number getCostPerUse ()
    {
-      return ((MPXCurrency)get(COST_PER_USE));
+      return ((Number)get(COST_PER_USE));
    }
 
    /**
@@ -800,9 +815,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #COST_VARIANCE Constants for explanation
     */
-   public MPXCurrency getCostVariance ()
+   public Number getCostVariance ()
    {
-      return ((MPXCurrency)get(COST_VARIANCE));
+      return ((Number)get(COST_VARIANCE));
    }
 
    /**
@@ -954,9 +969,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #REMAINING_COST Constants for explanation
     */
-   public MPXCurrency getRemainingCost ()
+   public Number getRemainingCost ()
    {
-      return ((MPXCurrency)get(REMAINING_COST));
+      return ((Number)get(REMAINING_COST));
    }
 
    /**

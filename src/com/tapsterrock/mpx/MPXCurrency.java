@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
 /**
  * This class is used to represent the monetary amounts found in an MPX file.
  */
-public class MPXCurrency
+class MPXCurrency extends Number
 {
    /**
     * Constructor used to parse a string to extract details of the
@@ -37,22 +37,22 @@ public class MPXCurrency
     * @param amount string representation of a currency amount
     * @throws MPXException when string parse fails
     */
-   public MPXCurrency (MPXFile parent, String amount)
+   public MPXCurrency (MPXNumberFormat format, String amount)
       throws MPXException
    {
-      m_format = parent.getCurrencyFormat();
-      m_amount = m_format.parse(amount).floatValue();
+      m_format = format;
+      m_amount = m_format.parse(amount).doubleValue();
    }
 
    /**
-    * Constructor used to pass details of the currency amount as a float.
+    * Constructor used to pass details of the currency amount as a double.
     *
     * @param parent parent MPX file
-    * @param amount float representation of a currency amount
+    * @param amount double representation of a currency amount
     */
-   public MPXCurrency (MPXFile parent, float amount)
+   public MPXCurrency (MPXNumberFormat format, double amount)
    {
-      m_format = parent.getCurrencyFormat();
+      m_format = format;
       m_amount = amount;
    }
 
@@ -61,7 +61,7 @@ public class MPXCurrency
     *
     * @return value
     */
-   public float getAmount()
+   public double getAmount()
    {
       return (m_amount);
    }
@@ -77,7 +77,55 @@ public class MPXCurrency
       return (m_format.format (m_amount));
    }
 
+   /**
+    * Returns the value of the specified number as an <code>int</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>int</code>.
+    */
+   public int intValue()
+   {
+      return ((int)m_amount);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>long</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>long</code>.
+    */
+   public long longValue()
+   {
+      return ((long)m_amount);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>float</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>float</code>.
+    */
+   public float floatValue()
+   {
+      return ((float)m_amount);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>double</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>double</code>.
+    */
+   public double doubleValue ()
+   {
+      return (m_amount);
+   }
+
    private MPXNumberFormat m_format;
 
-   private float m_amount;
+   private double m_amount;
 }

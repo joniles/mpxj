@@ -250,9 +250,9 @@ public class ResourceAssignment extends MPXRecord
     * @return cost
     * @see #COST CONSTANTS for description
     */
-   public MPXCurrency getCost ()
+   public Number getCost ()
    {
-      return ((MPXCurrency)get(COST));
+      return ((Number)get(COST));
    }
 
    /**
@@ -260,9 +260,9 @@ public class ResourceAssignment extends MPXRecord
     * @param val cost
     * @see #COST CONSTANTS for description
     */
-   public void setCost (MPXCurrency val)
+   public void setCost (Number val)
    {
-      put (COST, val);
+      putCurrency (COST, val);
    }
 
    /**
@@ -271,9 +271,9 @@ public class ResourceAssignment extends MPXRecord
     * @return planned cost
     * @see #PLANNED_COST CONSTANTS for description
     */
-   public MPXCurrency getPlannedCost ()
+   public Number getPlannedCost ()
    {
-      return ((MPXCurrency)get(PLANNED_COST));
+      return ((Number)get(PLANNED_COST));
    }
 
    /**
@@ -282,9 +282,9 @@ public class ResourceAssignment extends MPXRecord
     * @param val planned cost
     * @see #PLANNED_COST CONSTANTS for description
     */
-   public void setPlannedCost (MPXCurrency val)
+   public void setPlannedCost (Number val)
    {
-      put (PLANNED_COST, val);
+      putCurrency (PLANNED_COST, val);
    }
 
    /**
@@ -292,9 +292,9 @@ public class ResourceAssignment extends MPXRecord
     * @return actual cost
     * @see #ACTUAL_COST CONSTANTS for description
     */
-   public MPXCurrency getActualCost ()
+   public Number getActualCost ()
    {
-      return ((MPXCurrency)get(ACTUAL_COST));
+      return ((Number)get(ACTUAL_COST));
    }
 
    /**
@@ -303,9 +303,9 @@ public class ResourceAssignment extends MPXRecord
     * @param val actual cost
     * @see #ACTUAL_COST CONSTANTS for description
     */
-   public void setActualCost (MPXCurrency val)
+   public void setActualCost (Number val)
    {
-      put (ACTUAL_COST, val);
+      putCurrency (ACTUAL_COST, val);
    }
 
    /**

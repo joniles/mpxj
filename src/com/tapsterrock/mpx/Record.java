@@ -354,7 +354,7 @@ class Record
 
       if (field < m_fields.length)
       {
-         result = new MPXCurrency (m_parent, m_fields[field]);
+         result = new MPXCurrency (m_parent.getCurrencyFormat(), m_fields[field]);
       }
       else
       {

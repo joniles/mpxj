@@ -137,7 +137,7 @@ public class Task extends MPXRecord
             case REMAINING_COST:
             case SV:
             {
-               set (x, new MPXCurrency(getParentFile(), field));
+               set (x, new MPXCurrency(getParentFile().getCurrencyFormat(), field));
                break;
             }
 
@@ -724,6 +724,21 @@ public class Task extends MPXRecord
    }
 
    /**
+    * This method is used to set the value of a currency field in the task,
+    * and also to ensure that the field exists in the task model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void setCurrency (int field, Number val)
+   {
+      Integer key = new Integer (field);
+      m_model.add(key);
+      putCurrency (key, val);
+   }
+
+   /**
     * This method is used to retrieve a particular field value.
     *
     * @param field requested field
@@ -774,9 +789,9 @@ public class Task extends MPXRecord
     *
     * @param val - value to be set
     */
-   public void setActualCost (MPXCurrency val)
+   public void setActualCost (Number val)
    {
-      set (ACTUAL_COST, val);
+      setCurrency (ACTUAL_COST, val);
    }
 
    /**
@@ -836,9 +851,9 @@ public class Task extends MPXRecord
     * Baseline cost is also referred to as budget at completion (BAC).
     * @param val - the amount to be set
     */
-   public void setBaselineCost (MPXCurrency val)
+   public void setBaselineCost (Number val)
    {
-      set (BASELINE_COST, val);
+      setCurrency (BASELINE_COST, val);
    }
 
    /**
@@ -905,9 +920,9 @@ public class Task extends MPXRecord
      *
      * @param val - the ampunt to be set
      */
-   public void setBCWP (MPXCurrency val)
+   public void setBCWP (Number val)
    {
-      set (BCWP, val);
+      setCurrency (BCWP, val);
    }
 
 
@@ -916,9 +931,9 @@ public class Task extends MPXRecord
     * timephased baseline costs up to the status date or today's date.
     * @param val - the amount to set.
     */
-   public void setBCWS (MPXCurrency val)
+   public void setBCWS (Number val)
    {
-      set (BCWS, val);
+      setCurrency (BCWS, val);
    }
 
    /**
@@ -973,9 +988,9 @@ public class Task extends MPXRecord
     * assignment. This can also be referred to as estimate at completion (EAC).
     * @param val - amount
     */
-   public void setCost (MPXCurrency val)
+   public void setCost (Number val)
    {
-      set (COST, val);
+      setCurrency (COST, val);
    }
 
    /**
@@ -984,9 +999,9 @@ public class Task extends MPXRecord
     *
     * @param val -amount
     */
-   public void setCost1(MPXCurrency val)
+   public void setCost1(Number val)
    {
-      set (COST1, val);
+      setCurrency (COST1, val);
    }
 
    /**
@@ -995,9 +1010,9 @@ public class Task extends MPXRecord
     *
     * @param val -amount
     */
-   public void setCost2 (MPXCurrency val)
+   public void setCost2 (Number val)
    {
-      set (COST2, val);
+      setCurrency (COST2, val);
    }
 
    /**
@@ -1006,9 +1021,9 @@ public class Task extends MPXRecord
     *
     * @param val -amount
     */
-   public void setCost3 (MPXCurrency val)
+   public void setCost3 (Number val)
    {
-      set (COST3, val);
+      setCurrency (COST3, val);
    }
 
    /**
@@ -1021,9 +1036,9 @@ public class Task extends MPXRecord
     *
     * @param val  amount
     */
-   public void setCostVariance (MPXCurrency val)
+   public void setCostVariance (Number val)
    {
-      set (COST_VARIANCE, val);
+      setCurrency (COST_VARIANCE, val);
    }
 
    /**
@@ -1062,9 +1077,9 @@ public class Task extends MPXRecord
     *
     * @param val - value to set
     */
-   public void setCV (MPXCurrency val)
+   public void setCV (Number val)
    {
-      set (CV, val);
+      setCurrency (CV, val);
    }
 
    /**
@@ -1276,9 +1291,9 @@ public class Task extends MPXRecord
     *
     * @param val - amount
     */
-   public void setFixedCost (MPXCurrency val)
+   public void setFixedCost (Number val)
    {
-      set (FIXED_COST, val);
+      setCurrency (FIXED_COST, val);
    }
 
    /**
@@ -1661,9 +1676,9 @@ public class Task extends MPXRecord
     *
     * @param val - currency amount
     */
-   public void setRemainingCost (MPXCurrency val)
+   public void setRemainingCost (Number val)
    {
-      set (REMAINING_COST, val);
+      setCurrency (REMAINING_COST, val);
    }
 
    /**
@@ -1896,9 +1911,9 @@ public class Task extends MPXRecord
     * to check costs to determine whether tasks are on schedule.
     * @param val - currency amount
     */
-   public void setSV (MPXCurrency val)
+   public void setSV (Number val)
    {
-      set (SV, val);
+      setCurrency (SV, val);
    }
 
    /**
@@ -2146,9 +2161,9 @@ public class Task extends MPXRecord
     *
     * @return - currency amount as float
     */
-   public MPXCurrency getActualCost ()
+   public Number getActualCost ()
    {
-      return ((MPXCurrency)get(ACTUAL_COST));
+      return ((Number)get(ACTUAL_COST));
    }
 
    /**
@@ -2207,9 +2222,9 @@ public class Task extends MPXRecord
     * Baseline cost is also referred to as budget at completion (BAC).
     * @return - currency amount as float
     */
-   public MPXCurrency getBaselineCost ()
+   public Number getBaselineCost ()
    {
-      return ((MPXCurrency)get(BASELINE_COST));
+      return ((Number)get(BASELINE_COST));
    }
 
    /**
@@ -2269,9 +2284,9 @@ public class Task extends MPXRecord
     *
     * @return - currency amount as float
     */
-   public MPXCurrency getBCWP ()
+   public Number getBCWP ()
    {
-      return ((MPXCurrency)get(BCWP));
+      return ((Number)get(BCWP));
    }
 
    /**
@@ -2280,9 +2295,9 @@ public class Task extends MPXRecord
     *
     * @return - currency amount as float
     */
-   public MPXCurrency getBCWS ()
+   public Number getBCWS ()
    {
-      return ((MPXCurrency)get(BCWS));
+      return ((Number)get(BCWS));
    }
 
    /**
@@ -2338,44 +2353,44 @@ public class Task extends MPXRecord
     * to the task, in addition to the costs planned for the remaining work for the
     * assignment. This can also be referred to as estimate at completion (EAC).
     *
-    * @return - currency amount as MPXCurrency
+    * @return cost amount
     */
-   public MPXCurrency getCost ()
+   public Number getCost ()
    {
-      return ((MPXCurrency)get(COST));
+      return ((Number)get(COST));
    }
 
    /**
     * The Cost1-10 fields show any custom task cost information you
     * want to enter in your project.
     *
-    * @return - currency amount as MPXCurrency
+    * @return cost amount
     */
-   public MPXCurrency getCost1 ()
+   public Number getCost1 ()
    {
-      return ((MPXCurrency)get(COST1));
+      return ((Number)get(COST1));
    }
 
    /**
     * The Cost1-10 fields show any custom task cost information
     * you want to enter in your project.
     *
-    * @return - currency amount as MPXCurrency
+    * @return amount
     */
-   public MPXCurrency getCost2 ()
+   public Number getCost2 ()
    {
-      return ((MPXCurrency)get(COST2));
+      return ((Number)get(COST2));
    }
 
    /**
     * The Cost1-10 fields show any custom task cost information you want to enter
     * in your project.
     *
-    * @return - currency amount as MPXCurrency
+    * @return amount
     */
-   public MPXCurrency getCost3 ()
+   public Number getCost3 ()
    {
-      return ((MPXCurrency)get(COST3));
+      return ((Number)get(COST3));
    }
 
    /**
@@ -2384,11 +2399,11 @@ public class Task extends MPXRecord
     * based on actual costs and remaining costs. This is also referred to as
     * variance at completion (VAC).
     *
-    * @return - currency amount as MPXCurrency
+    * @return amount
     */
-   public MPXCurrency getCostVariance ()
+   public Number getCostVariance ()
    {
-      return ((MPXCurrency)get(COST_VARIANCE));
+      return ((Number)get(COST_VARIANCE));
    }
 
    /**
@@ -2426,9 +2441,9 @@ public class Task extends MPXRecord
     *
     * @return sum of earned value cost variance
     */
-   public MPXCurrency getCV ()
+   public Number getCV ()
    {
-      return ((MPXCurrency)get(CV));
+      return ((Number)get(CV));
    }
 
    /**
@@ -2625,9 +2640,9 @@ public class Task extends MPXRecord
     *
     * @return - currenct amount as float
     */
-   public MPXCurrency getFixedCost ()
+   public Number getFixedCost ()
    {
-      return ((MPXCurrency)get(FIXED_COST));
+      return ((Number)get(FIXED_COST));
    }
 
    /**
@@ -3015,9 +3030,9 @@ public class Task extends MPXRecord
     *
     * @return remaining cost
     */
-   public MPXCurrency getRemainingCost ()
+   public Number getRemainingCost ()
    {
-      return ((MPXCurrency)get(REMAINING_COST));
+      return ((Number)get(REMAINING_COST));
    }
 
    /**
@@ -3254,9 +3269,9 @@ public class Task extends MPXRecord
     *
     * @return -earned value schedule variance
     */
-   public MPXCurrency getSV ()
+   public Number getSV ()
    {
-      return ((MPXCurrency)get(SV));
+      return ((Number)get(SV));
    }
 
    /**

@@ -307,9 +307,9 @@ public class ProjectHeader extends MPXRecord
     *
     * @return - Cost
     */
-   public MPXCurrency getCost ()
+   public Number getCost ()
    {
-      return ((MPXCurrency)get(COST));
+      return ((Number)get(COST));
    }
 
    /**
@@ -318,9 +318,9 @@ public class ProjectHeader extends MPXRecord
     *
     * @param val - float value
     */
-   public void setCost (MPXCurrency val)
+   public void setCost (Number val)
    {
-      put (COST, val);
+      putCurrency (COST, val);
    }
 
    /**
@@ -329,9 +329,9 @@ public class ProjectHeader extends MPXRecord
     *
     * @param val - BaselineCost
     */
-   public void setBaselineCost (MPXCurrency val)
+   public void setBaselineCost (Number val)
    {
-      put (BASELINE_COST, val);
+      putCurrency (BASELINE_COST, val);
    }
 
    /**
@@ -339,9 +339,9 @@ public class ProjectHeader extends MPXRecord
     * file for import to MS Project
     * @return - float BaselineCost
     */
-   public MPXCurrency getBaselineCost ()
+   public Number getBaselineCost ()
    {
-      return ((MPXCurrency)get(BASELINE_COST));
+      return ((Number)get(BASELINE_COST));
    }
 
    /**
@@ -349,9 +349,9 @@ public class ProjectHeader extends MPXRecord
     * file for import to MS Project
     * @param val - value of actual cost
     */
-   public void setActualCost (MPXCurrency val)
+   public void setActualCost (Number val)
    {
-      put (ACTUAL_COST, val);
+      putCurrency (ACTUAL_COST, val);
    }
 
    /**
@@ -360,9 +360,9 @@ public class ProjectHeader extends MPXRecord
     *
     * @return actual cost
     */
-   public MPXCurrency getActualCost ()
+   public Number getActualCost ()
    {
-      return ((MPXCurrency)get(ACTUAL_COST));
+      return ((Number)get(ACTUAL_COST));
    }
 
    /**
