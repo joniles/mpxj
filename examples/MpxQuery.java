@@ -21,16 +21,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import java.util.Iterator;
 import java.util.List;
-
+import java.text.SimpleDateFormat;
 
 /**
- * This example shows an MPX file being read, and basic task and resource
+ * This example shows an MPP or an MPX file being read, and basic task and resource
  * data being extracted.
  */
 public class MpxQuery
@@ -46,7 +47,7 @@ public class MpxQuery
       {
          if (args.length != 1)
          {
-            System.out.println ("Usage: MppQuery <input mpx file name>");
+            System.out.println ("Usage: MpxQuery <input file name>");
          }
          else
          {
@@ -62,7 +63,7 @@ public class MpxQuery
 
    /**
     * This method performs a set of queries to retrieve information
-    * from the MPX file.
+    * from the an MPP or an MPX file.
     *
     * @param filename name of the MPX file
     * @throws Exception on file read error
@@ -70,15 +71,43 @@ public class MpxQuery
    private static void query (String filename)
       throws Exception
    {
-      MPXFile file = new MPXFile (filename);
+      MPXFile mpx = null;
+      
+      try
+      {
+         mpx = new MPXFile (filename);
+      }
+      
+      catch (Exception ex)
+      {
+         mpx = null;         
+      }         
 
-      listResources (file);
+      if (mpx == null)
+      {
+         try
+         {
+            mpx = new MPPFile (filename);
+         }
+      
+         catch (Exception ex)
+         {
+            mpx = null;         
+         }                  
+      }
 
-      listTasks (file);
+      if (mpx == null)
+      {
+         throw new Exception ("Failed to read file");   
+      }
+            
+      listResources (mpx);
 
-      listAssignments (file);
+      listTasks (mpx);
 
-      listHierarchy (file);
+      listAssignments (mpx);
+
+      listHierarchy (mpx);
    }
 
    /**
@@ -108,6 +137,7 @@ public class MpxQuery
     */
    private static void listTasks (MPXFile file)
    {
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");
       List allTasks = file.getAllTasks();
       Iterator iter = allTasks.iterator();
       Task task;
@@ -115,7 +145,7 @@ public class MpxQuery
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         System.out.println ("Task: " + task.getName());
+         System.out.println ("Task: " + task.getName() + " (" + df.format(task.getStart()) + " - " + df.format(task.getFinish()) + ")");
       }
       System.out.println ();
    }

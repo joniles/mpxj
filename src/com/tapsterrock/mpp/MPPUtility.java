@@ -24,6 +24,7 @@
 package com.tapsterrock.mpp;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * This class provides common functionality used by each of the classes
@@ -216,7 +217,7 @@ class MPPUtility
 
    /**
     * Reads a time value. The time is represented as tenths of a
-    * minute since midnight.
+    * minute since midnight. 
     *
     * @param data byte array of data
     * @param offset location of data as offset into the array
@@ -224,11 +225,32 @@ class MPPUtility
     */
    public static final Date getTime (byte[] data, int offset)
    {
+      TimeZone tz = TimeZone.getDefault();
+      int rawOffset = tz.getRawOffset();
+      
       long time = (long)getShort (data, offset);
+      
+      time = ((time * MS_PER_MINUTE)/10) - rawOffset;
 
-      Date result = new Date ((time * MS_PER_MINUTE)/10);
+      if (rawOffset == 0 && tz.inDaylightTime(new Date()) == true)
+      {
+         time -= tz.getDSTSavings();   
+      }
+      
+      return (new Date (time));
+   }
 
-      return (result);
+   /**
+    * Reads a duration value in milliseconds. The time is represented as 
+    * tenths of a minute since midnight. 
+    * 
+    * @param data byte array of data
+    * @param offset location of data as offset into the array
+    * @return duration value
+    */
+   public static final long getDuration (byte[] data, int offset)
+   {
+      return ((long)(getShort (data, offset) * MS_PER_MINUTE)/10);
    }
 
    /**
@@ -249,8 +271,13 @@ class MPPUtility
       }
       else
       {
+         TimeZone tz = TimeZone.getDefault();
          long time = (long)getShort (data, offset);
-         result = new Date (EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE)/10));
+         result = new Date (EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE)/10) - tz.getRawOffset());
+         if (tz.inDaylightTime(result) == true)
+         {
+            result = new Date (result.getTime() - tz.getDSTSavings());            
+         }
       }
 
       return (result);

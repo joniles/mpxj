@@ -48,7 +48,6 @@ import java.util.Date;
 import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.Iterator;
-import java.util.TimeZone;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -328,14 +327,13 @@ public class MPPFile extends MPXFile
       int offset;
       int defaultFlag;
       Date start;
-      Date duration;
+      long duration;
       int exceptionCount;
 
       //
       // Configure default time ranges
       //
       SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
-		df.setTimeZone(TimeZone.getTimeZone("GMT"));      
       Date defaultStart1;
       Date defaultEnd1;
       Date defaultStart2;
@@ -402,23 +400,23 @@ public class MPPFile extends MPXFile
                      hours = cal.addBaseCalendarHours(index+1);
 
                      start = MPPUtility.getTime (data, offset + 8);
-                     duration = MPPUtility.getTime (data, offset + 20);
+                     duration = MPPUtility.getDuration (data, offset + 20);
                      hours.setFromTime1(start);
-                     hours.setToTime1(new Date (start.getTime()+duration.getTime()));
+                     hours.setToTime1(new Date (start.getTime()+duration));
 						
                      if (periodCount > 1)
                      {
                         start = MPPUtility.getTime (data, offset + 10);
-                        duration = MPPUtility.getTime (data, offset + 24);
+                        duration = MPPUtility.getDuration (data, offset + 24);
                         hours.setFromTime2(start);
-                        hours.setToTime2(new Date (start.getTime()+duration.getTime()));
+                        hours.setToTime2(new Date (start.getTime()+duration));
 
                         if (periodCount > 2)
                         {                        	
                            start = MPPUtility.getTime (data, offset + 12);
-                           duration = MPPUtility.getTime (data, offset + 28);
+                           duration = MPPUtility.getDuration (data, offset + 28);
                            hours.setFromTime3(start);
-                           hours.setToTime3(new Date (start.getTime()+duration.getTime()));
+                           hours.setToTime3(new Date (start.getTime()+duration));
                         }
                      }
 
@@ -452,23 +450,23 @@ public class MPPFile extends MPXFile
                      exception.setWorking (true);
 
                      start = MPPUtility.getTime (data, offset+12);
-                     duration = MPPUtility.getTime (data, offset+24);
+                     duration = MPPUtility.getDuration (data, offset+24);
                      exception.setFromTime1(start);
-                     exception.setToTime1(new Date (start.getTime() + duration.getTime()));
+                     exception.setToTime1(new Date (start.getTime() + duration));
 
                      if (periodCount > 1)
                      {
                         start = MPPUtility.getTime (data, offset+14);
-                        duration = MPPUtility.getTime (data, offset+28);
+                        duration = MPPUtility.getDuration (data, offset+28);
                         exception.setFromTime2(start);
-                        exception.setToTime2(new Date (start.getTime() + duration.getTime()));
+                        exception.setToTime2(new Date (start.getTime() + duration));
 
                         if (periodCount > 2)
                         {
                            start = MPPUtility.getTime (data, offset+16);
-                           duration = MPPUtility.getTime (data, offset+32);
+                           duration = MPPUtility.getDuration (data, offset+32);
                            exception.setFromTime3(start);
-                           exception.setToTime3(new Date (start.getTime() + duration.getTime()));
+                           exception.setToTime3(new Date (start.getTime() + duration));
                         }
                      }
                      //

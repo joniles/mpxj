@@ -34,29 +34,6 @@ import java.util.Date;
 class MPXDate extends Date
 {
    /**
-    * Default constructor.
-    *
-    * @param format Date format
-    */
-   public MPXDate (MPXDateFormat format)
-   {
-      super ();
-      m_format = format;
-   }
-
-   /**
-    * Constructor allowing a specific date to be set.
-    *
-    * @param format Date format
-    * @param date date required expressed in milliseconds.
-    */
-   public MPXDate (MPXDateFormat format, long date)
-   {
-      super (date);
-      m_format = format;
-   }
-
-   /**
     * Constructor allowing a specific date to be set.
     *
     * @param format Date format
