@@ -16,7 +16,7 @@ Added support for task and resource note fields in MPP8 files.
 Added support for the OvertimeCost task attribute for all file formats.
 Updated to extract calendar data from MPP8 files.
 Updated resource notes to fix end of line handling problem.
-Added functionality to read default settings and currency settings data from MPP8 files.
+Added functionality to read default settings and currency settings data from MPP files.
 
 Version 0.0.13
 Implemented support for the Microsoft Project 98 file format.
