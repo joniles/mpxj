@@ -415,6 +415,30 @@ final class Record
 
       return (result);
    }
+
+   /**
+    * Accessor method used to retrieve an Integer object representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
+   public ScheduleFrom getScheduleFrom (int field)
+   {
+      ScheduleFrom result;
+
+      if (field < m_fields.length && m_fields[field].length() != 0)
+      {         
+         result = ScheduleFrom.getInstance(Integer.parseInt(m_fields[field]));
+      }
+      else
+      {
+         result = ScheduleFrom.START;
+      }
+
+      return (result);
+   }
    
    /**
     * This method returns the number of fields present in this record.

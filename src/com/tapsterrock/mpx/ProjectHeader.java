@@ -42,15 +42,15 @@ public final class ProjectHeader extends MPXRecord
     */
    ProjectHeader (MPXFile file)
    {
-      super (file, MAX_FIELDS);
+      super (file, 0);
 
       setProjectTitle("Project1");
       setCompany(null);
       setManager(null);
-      setCalendar("Standard");
+      setCalendarName(DEFAULT_CALENDAR_NAME);
       setStartDate(null);
       setFinishDate(null);
-      setScheduleFrom(0);
+      setScheduleFrom(DEFAULT_SCHEDULE_FROM);
       setCurrentDate(new Date());
       setComments(null);
       setCost(DEFAULT_COST);
@@ -59,11 +59,11 @@ public final class ProjectHeader extends MPXRecord
       setWork(DEFAULT_WORK);
       setBaselineWork(DEFAULT_WORK);
       setActualWork(DEFAULT_WORK);
-      setWork2(0);
+      setWork2(DEFAULT_WORK2);
       setDuration(DEFAULT_DURATION);
       setBaselineDuration(DEFAULT_DURATION);
       setActualDuration(DEFAULT_DURATION);
-      setPercentageComplete(0);
+      setPercentageComplete(DEFAULT_PERCENT_COMPLETE);
       setBaselineStart(null);
       setBaselineFinish(null);
       setActualStart(null);
@@ -89,10 +89,10 @@ public final class ProjectHeader extends MPXRecord
       setProjectTitle(record.getString(0));
       setCompany(record.getString(1));
       setManager(record.getString(2));
-      setCalendar(record.getString(3));
+      setCalendarName(record.getString(3));
       setStartDate(record.getDate(4));
       setFinishDate(record.getDate(5));
-      setScheduleFrom(record.getInteger(6));
+      setScheduleFrom(record.getScheduleFrom(6));
       setCurrentDate(record.getDate(7));
       setComments(record.getString(8));
       setCost(record.getCurrency(9));
@@ -124,7 +124,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setProjectTitle (String projectTitle)
    {
-      put (PROJECT_TITLE, projectTitle);
+      m_projectTitle = projectTitle;
    }
 
    /**
@@ -134,62 +134,62 @@ public final class ProjectHeader extends MPXRecord
     */
    public String getProjectTitle ()
    {
-      return ((String)get(PROJECT_TITLE));
+      return (m_projectTitle);
    }
 
    /**
-    * Sets the Company field
+    * Sets the company name
     *
-    * @param val value
+    * @param company company name
     */
-   public void setCompany (String val)
+   public void setCompany (String company)
    {
-      put (COMPANY, val);
+      m_company = company;
    }
 
    /**
-    * Gets the Company field
+    * Retrieves the company name
     *
-    * @return compant name
+    * @return company name
     */
    public String getCompany ()
    {
-      return ((String)get(COMPANY));
+      return (m_company);
    }
 
    /**
-    * Sets the Manager name
+    * Sets the manager name
     *
-    * @param val value
+    * @param manager manager name
     */
-   public void setManager (String val)
+   public void setManager (String manager)
    {
-      put (MANAGER, val);
+      m_manager = manager;
    }
 
    /**
-    * Gets the Manager name
+    * Retrieves the manager name
     *
-    * @return Manager name
+    * @return manager name
     */
    public String getManager ()
    {
-      return ((String)get(MANAGER));
+      return (m_manager);
    }
 
    /**
     * Sets the Calendar used. 'Standard' if no value is set
     *
-    * @param val Calendar name
+    * @param calendarName Calendar name
     */
-   public void setCalendar (String val)
+   public void setCalendarName (String calendarName)
    {
-      if (val == null || val.length() == 0)
+      if (calendarName == null || calendarName.length() == 0)
       {
-         val = "Standard";
+         calendarName = DEFAULT_CALENDAR_NAME;
       }
 
-      put (CALENDAR, val);
+      m_calendarName = calendarName;
    }
 
    /**
@@ -197,19 +197,19 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return Calendar name
     */
-   public String getCalendar ()
+   public String getCalendarName ()
    {
-      return ((String)get(CALENDAR));
+      return (m_calendarName);
    }
 
    /**
-    * Sets the Start Date
+    * Sets the project start date
     *
-    * @param val Start Date
+    * @param startDate project start date
     */
-   public void setStartDate (Date val)
+   public void setStartDate (Date startDate)
    {
-      putDate (START_DATE, val);
+      m_startDate = toDate(startDate);
    }
 
    /**
@@ -219,7 +219,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public Date getStartDate ()
    {
-      return ((Date)get(START_DATE));
+      return (m_startDate);
    }
 
    /**
@@ -229,542 +229,479 @@ public final class ProjectHeader extends MPXRecord
     */
    public Date getFinishDate ()
    {
-      return ((Date)get(FINISH_DATE));
+      return (m_finishDate);
    }
 
    /**
-    * Sets the Finish Date
+    * Sets the project finish date
     *
-    * @param val Finish Date
+    * @param finishDate project finish date
     */
-   public void setFinishDate (Date val)
+   public void setFinishDate (Date finishDate)
    {
-      putDate (FINISH_DATE, val);
+      m_finishDate = toDate(finishDate);
    }
 
    /**
-    * To flag whether start date(0) or finish date(1) is included in file.
-    * @return int - possible values 0-start, 1-finish
+    * Retrieves an enumerated value indicating if tasks in this project are
+    * scheduled from a start or a finish date.
+    * 
+    * @return schedule from flag
     */
-   public int getScheduleFromValue ()
+   public ScheduleFrom getScheduleFrom ()
    {
-      return (getIntValue (SCHEDULE_FROM));
+      return (m_scheduleFrom);
    }
 
    /**
-    * To flag whether start date(0) or finish date(1) is included in file.
-    * @return int - possible values 0-start, 1-finish
-    */
-   public Integer getScheduleFrom ()
-   {
-      return ((Integer)get (SCHEDULE_FROM));
-   }
-
-   /**
-    * To flag whether start date(0) or finish date(1) is included in file.
+    * Sets an enumerated value indicating if tasks in this project are
+    * scheduled from a start or a finish date.
     *
-    * @param val - possible values 0-start,1-finish
+    * @param scheduleFrom schedule from value
     */
-   public void setScheduleFrom (int val)
+   public void setScheduleFrom (ScheduleFrom scheduleFrom)
    {
-      put (SCHEDULE_FROM, val);
+      m_scheduleFrom = scheduleFrom;
    }
 
    /**
-    * To flag whether start date(0) or finish date(1) is included in file.
+    * Retrieves the current date.
     *
-    * @param val - possible values 0-start,1-finish
-    */
-   public void setScheduleFrom (Integer val)
-   {
-      put (SCHEDULE_FROM, val);
-   }
-
-   /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
-    *
-    * @return CurrentDate
+    * @return current date
     */
    public Date getCurrentDate()
    {
-      return ((Date)get(CURRENT_DATE));
+      return (m_currentDate);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Sets the current date.
     *
-    * @param val - Date to set as CurrentDate
+    * @param currentDate current date
     */
-   public void setCurrentDate (Date val)
+   public void setCurrentDate (Date currentDate)
    {
-      putDate (CURRENT_DATE, val);
+      m_currentDate = toDate(currentDate);
    }
 
    /**
-    * Returns any comments
+    * Returns any comments.
+    * 
     * @return comments attached to the Project Header
     */
    public String getComments ()
    {
-      return ((String)get(COMMENTS));
+      return (m_comments);
    }
 
    /**
-    * Set comments
+    * Set comment text.
     *
-    * @param val attach comments to the Project Header
+    * @param comments comment text
     */
-   public void setComments (String val)
+   public void setComments (String comments)
    {
-      put (COMMENTS, val);
+      m_comments = comments;
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Retrieves the project cost.
     *
-    * @return - Cost
+    * @return project cost
     */
    public Number getCost ()
    {
-      return ((Number)get(COST));
+      return (m_cost);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Sets the project cost.
     *
-    * @param val - float value
+    * @param cost project cost
     */
-   public void setCost (Number val)
+   public void setCost (Number cost)
    {
-      putCurrency (COST, val);
+      m_cost = toCurrency(cost);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Sets the baseline project cost.
     *
-    * @param val - BaselineCost
+    * @param baselineCost baseline project cost
     */
-   public void setBaselineCost (Number val)
+   public void setBaselineCost (Number baselineCost)
    {
-      putCurrency (BASELINE_COST, val);
+      m_baselineCost = toCurrency(baselineCost);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
-    * @return - float BaselineCost
+    * Retrieves the baseline project cost.
+    * 
+    * @return baseline project cost
     */
    public Number getBaselineCost ()
    {
-      return ((Number)get(BASELINE_COST));
+      return (m_baselineCost);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
-    * @param val - value of actual cost
+    * Sets the actual project cost.
+    * 
+    * @param actualCost actual project cost
     */
-   public void setActualCost (Number val)
+   public void setActualCost (Number actualCost)
    {
-      putCurrency (ACTUAL_COST, val);
+      m_actualCost = toCurrency(actualCost);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Retrieves the actual project cost.
     *
-    * @return actual cost
+    * @return actual project cost
     */
    public Number getActualCost ()
    {
-      return ((Number)get(ACTUAL_COST));
+      return (m_actualCost);
    }
 
    /**
-    * Set Work duration
+    * Sets the project work duration
     *
-    * @param val duration
+    * @param work project work duration
     */
-   public void setWork (MPXDuration val)
+   public void setWork (MPXDuration work)
    {
-      put (WORK, val);
+      m_work = work;
    }
 
    /**
-    * Get Work duration
+    * Retrieves the project work duration
     *
-    * @return duration
+    * @return project work duration
     */
    public MPXDuration getWork ()
    {
-      return ((MPXDuration)get(WORK));
+      return (m_work);
    }
 
    /**
-    * Set Baseline Work duration
+    * Set the baseline project work duration
     *
-    * @param val duration
+    * @param baselineWork baseline project work duration
     */
-   public void setBaselineWork (MPXDuration val)
+   public void setBaselineWork (MPXDuration baselineWork)
    {
-      put (BASELINE_WORK, val);
+      m_baselineWork = baselineWork;
    }
 
    /**
-    * Get Baseline Work duration
+    * Retrieves the baseline project work duration
     *
-    * @return duration
+    * @return baseline project work duration
     */
    public MPXDuration getBaselineWork ()
    {
-      return ((MPXDuration)get(BASELINE_WORK));
+      return (m_baselineWork);
    }
 
    /**
-    * Set Actual Work duration
+    * Sets the actual project work duration
     *
-    * @param val duration
+    * @param actualWork actual project work duration
     */
-   public void setActualWork (MPXDuration val)
+   public void setActualWork (MPXDuration actualWork)
    {
-      put (ACTUAL_WORK, val);
+      m_actualWork = actualWork;
    }
 
    /**
-    * Get Actual Work duration
+    * Retrieves the actual project work duration
     *
-    * @return duration
+    * @return actual project work duration
     */
    public MPXDuration getActualWork ()
    {
-      return ((MPXDuration)get(ACTUAL_WORK));
+      return (m_actualWork);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
-    *
-    * @return percentage
-    */
-   public double getWork2Value ()
-   {
-      return (getDoubleValue (WORK2));
-   }
-
-   /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
-    *
-    * @return percentage
+    * Retrieves the project's "Work 2" attribute.
+    * 
+    * @return Work 2 attribute
     */
    public Number getWork2 ()
    {
-      return ((Number)get (WORK2));
+      return (m_work2);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Sets the project's "Work 2" attribute.
     *
-    * @param val percentage
+    * @param work2 work2 percentage value
     */
-   public void setWork2 (double val)
+   public void setWork2 (Number work2)
    {
-      putPercentage (WORK2, new MPXPercentage (val));
+      m_work2 = toPercentage(work2);
    }
 
    /**
-    * Calculated by MS Project on import, so not required if creating
-    * file for import to MS Project
+    * Retrieves the project duration
     *
-    * @param val percentage
-    */
-   public void setWork2 (Number val)
-   {
-      putPercentage (WORK2, val);
-   }
-
-   /**
-    * Returns Duration value
-    *
-    * @return duration value
+    * @return project duration
     */
    public MPXDuration getDuration ()
    {
-      return ((MPXDuration)get(DURATION));
+      return (m_duration);
    }
 
    /**
-    * Sets Duration value
+    * Sets the project duration.
     *
-    * @param val duration value
+    * @param duration project duration
     */
-   public void setDuration (MPXDuration val)
+   public void setDuration (MPXDuration duration)
    {
-      put (DURATION, val);
+      m_duration = duration;
    }
 
    /**
-    * Returns Baseline Duration value
+    * Retrieves the baseline duration value.
     *
-    * @return duration value
+    * @return baseline project duration value
     */
    public MPXDuration getBaselineDuration ()
    {
-      return ((MPXDuration)get(BASELINE_DURATION));
+      return (m_baselineDuration);
    }
 
    /**
-    * Sets Baseline Duration value
+    * Sets the baseline project duration value.
     *
-    * @param val duration value
+    * @param baselineDuration baseline project duration
     */
-   public void setBaselineDuration (MPXDuration val)
+   public void setBaselineDuration (MPXDuration baselineDuration)
    {
-      put (BASELINE_DURATION, val);
+      m_baselineDuration = baselineDuration;
    }
 
    /**
-    * Returns Actual Duration value
+    * Retrieves the actual project duration.
     *
-    * @return duration value
+    * @return actual project duration
     */
    public MPXDuration getActualDuration ()
    {
-      return ((MPXDuration)get(ACTUAL_DURATION));
+      return (m_actualDuration);
    }
 
    /**
-    * Sets Actual Duration value
+    * Sets the actual project duration.
     *
-    * @param val duration value
+    * @param actualDuration actual project duration
     */
-   public void setActualDuration (MPXDuration val)
+   public void setActualDuration (MPXDuration actualDuration)
    {
-      put (ACTUAL_DURATION, val);
+      m_actualDuration = actualDuration;
    }
 
    /**
-    * Gets percentage complete
-    *
-    * @return percentage value
-    */
-   public double getPercentageCompleteValue ()
-   {
-      return (getDoubleValue(PERCENTAGE_COMPLETE));
-   }
-
-   /**
-    * Gets percentage complete
+    * Retrieves the project percentage complete
     *
     * @return percentage value
     */
    public Number getPercentageComplete ()
    {
-      return ((Number)get(PERCENTAGE_COMPLETE));
+      return (m_percentageComplete);
    }
 
    /**
-    * Sets percentage complete
+    * Sets project percentage complete
     *
-    * @param val percentage value
+    * @param percentComplete project percent complete
     */
-   public void setPercentageComplete (double val)
+   public void setPercentageComplete (Number percentComplete)
    {
-      putPercentage (PERCENTAGE_COMPLETE, new MPXPercentage (val));
+      m_percentageComplete = toPercentage(percentComplete);
    }
 
    /**
-    * Sets percentage complete
+    * Sets the baseline project start date.
     *
-    * @param val percentage value
+    * @param baselineStartDate baseline project start date
     */
-   public void setPercentageComplete (Number val)
+   public void setBaselineStart (Date baselineStartDate)
    {
-      putPercentage (PERCENTAGE_COMPLETE, val);
+      m_baselineStart = toDate(baselineStartDate);
    }
 
    /**
-    * Sets the Baseline project start
+    * Retrieves the baseline project start date.
     *
-    * @param val baseline start date
-    */
-   public void setBaselineStart (Date val)
-   {
-      putDate (BASELINE_START, val);
-   }
-
-   /**
-    * Gets the Baseline project start
-    *
-    * @return baseline start date
+    * @return baseline project start date
     */
    public Date getBaselineStart ()
    {
-      return ((Date)get(BASELINE_START));
+      return (m_baselineStart);
    }
 
    /**
-    * Sets the Baseline project finish
+    * Sets the baseline project finish date
     *
-    * @param val baseline finish date
+    * @param baselineFinishDate baseline project finish date
     */
-   public void setBaselineFinish (Date val)
+   public void setBaselineFinish (Date baselineFinishDate)
    {
-      putDate (BASELINE_FINISH, val);
+      m_baselineFinish = toDate(baselineFinishDate);
    }
 
    /**
-    * Gets the Baseline project finish
+    * Retrieves the baseline project finish date.
     *
-    * @return baseline finish date
+    * @return baseline project finish date
     */
    public Date getBaselineFinish()
    {
-      return ((Date)get(BASELINE_FINISH));
+      return (m_baselineFinish);
    }
 
    /**
-    * Sets the Actual Start
+    * Sets the actual project start date
     *
-    * @param val actual start date
+    * @param actualStartDate actual project start date
     */
-   public void setActualStart (Date val)
+   public void setActualStart (Date actualStartDate)
    {
-      putDate(ACTUAL_START, val);
+      m_actualStart = toDate(actualStartDate);
    }
 
    /**
-    * Gets the Actual project start
+    * Retrieves the actual project start date.
     *
-    * @return actual start date
+    * @return actual project start date
     */
    public Date getActualStart ()
    {
-      return ((Date)get(ACTUAL_START));
+      return (m_actualStart);
    }
 
    /**
-    * Sets the Actual Finish
+    * Sets the actual project finish date.
     *
-    * @param val actual finish date
+    * @param actualFinishDate actual project finish date
     */
-   public void setActualFinish (Date val)
+   public void setActualFinish (Date actualFinishDate)
    {
-      putDate (ACTUAL_FINISH, val);
+      m_actualFinish = toDate(actualFinishDate);
    }
 
    /**
-    * Gets the Actual project finish
+    * Retrieves the actual project finish date.
     *
-    * @return actual finish date
+    * @return actual project finish date
     */
    public Date getActualFinish ()
    {
-      return ((Date)get(ACTUAL_FINISH));
+      return (m_actualFinish);
    }
 
    /**
-    * gets the start variance duration
+    * Retrieves the start variance duration.
     *
-    * @return the start date variance
+    * @return start date variance
     */
    public MPXDuration getStartVariance()
    {
-      return ((MPXDuration)get(START_VARIANCE));
+      return (m_startVariance);
    }
 
    /**
-    * Sets the start variance duration
+    * Sets the start variance duration.
     *
-    * @param val the start date variance
+    * @param startVariance the start date variance
     */
-   public void setStartVariance (MPXDuration val)
+   public void setStartVariance (MPXDuration startVariance)
    {
-      put (START_VARIANCE, val);
+      m_startVariance = startVariance;
    }
 
    /**
-    * gets the finish variance duration
+    * Retrieves the project finish variance duration
     *
-    * @return the finish date variance
+    * @return project finish variance duration
     */
    public MPXDuration getFinishVariance ()
    {
-      return ((MPXDuration)get(FINISH_VARIANCE));
+      return (m_finishVariance);
    }
 
    /**
-    * Sets the finish variance duration
+    * Sets the project finish variance duration
     *
-    * @param val the finish date variance
+    * @param finishVariance project finish variance duration
     */
-   public void setFinishVariance (MPXDuration val)
+   public void setFinishVariance (MPXDuration finishVariance)
    {
-      put (FINISH_VARIANCE, val);
+      m_finishVariance = finishVariance;
    }
 
    /**
-    * Returns the subject field
+    * Returns the project subject text.
     *
-    * @return string Subject
+    * @return subject text
     */
    public String getSubject ()
    {
-      return ((String)get(SUBJECT));
+      return (m_subject);
    }
 
    /**
-    * Sets the subject field
-    * @param val string Subject
+    * Sets the project subject text.
+    * 
+    * @param subject subject text
     */
-   public void setSubject (String val)
+   public void setSubject (String subject)
    {
-      put (SUBJECT, val);
+      m_subject = subject;
    }
 
    /**
-    * Returns the Author field
-    * @return string Author
+    * Retrieves the project author text.
+    * 
+    * @return author text
     */
    public String getAuthor ()
    {
-      return (String)get(AUTHOR);
+      return (m_author);
    }
 
    /**
-    * Sets the Author field
+    * Sets the project author text
     *
-    * @param val string Author
+    * @param author project author text
     */
-   public void setAuthor (String val)
+   public void setAuthor (String author)
    {
-      put (AUTHOR, val);
+      m_author = author;
    }
 
    /**
-    * Gets the Keywords field
+    * Retrieves the project keyword text.
     *
-    * @return string Keywords
+    * @return project keyword text
     */
    public String getKeywords ()
    {
-      return ((String)get(KEYWORDS));
+      return (m_keywords);
    }
 
    /**
-    * Sets the Keywords field
+    * Sets the project keyword text
     *
-    * @param val string Keywords
+    * @param keywords project keyword text
     */
-   public void setKeywords (String val)
+   public void setKeywords (String keywords)
    {
-      put (KEYWORDS, val);
+      m_keywords = keywords;
    }
 
    /**
@@ -775,9 +712,104 @@ public final class ProjectHeader extends MPXRecord
     */
    public String toString ()
    {
-      return (toString(RECORD_NUMBER));
+      StringBuffer buffer = new StringBuffer ();
+      char delimiter = getParentFile().getDelimiter();
+
+      buffer.append (RECORD_NUMBER);
+      buffer.append (delimiter);
+      buffer.append(format(getProjectTitle()));
+      buffer.append (delimiter);
+      buffer.append(format(getCompany()));
+      buffer.append (delimiter);
+      buffer.append(format(getManager()));
+      buffer.append (delimiter);
+      buffer.append(format(getCalendarName()));
+      buffer.append (delimiter);
+      buffer.append(format(getStartDate()));
+      buffer.append (delimiter);
+      buffer.append(format(getFinishDate()));
+      buffer.append (delimiter);
+      buffer.append(format(getScheduleFrom()));
+      buffer.append (delimiter);
+      buffer.append(format(getCurrentDate()));
+      buffer.append (delimiter);
+      buffer.append(format(getComments()));
+      buffer.append (delimiter);
+      buffer.append(format(getCost()));
+      buffer.append (delimiter);
+      buffer.append(format(getBaselineCost()));
+      buffer.append (delimiter);
+      buffer.append(format(getActualCost()));
+      buffer.append (delimiter);
+      buffer.append(format(getWork()));
+      buffer.append (delimiter);
+      buffer.append(format(getBaselineWork()));
+      buffer.append (delimiter);
+      buffer.append(format(getActualWork()));
+      buffer.append (delimiter);
+      buffer.append(format(getWork2()));
+      buffer.append (delimiter);
+      buffer.append(format(getDuration()));
+      buffer.append (delimiter);
+      buffer.append(format(getBaselineDuration()));
+      buffer.append (delimiter);
+      buffer.append(format(getActualDuration()));
+      buffer.append (delimiter);
+      buffer.append(format(getPercentageComplete()));
+      buffer.append (delimiter);
+      buffer.append(format(getBaselineStart()));
+      buffer.append (delimiter);
+      buffer.append(format(getBaselineFinish()));
+      buffer.append (delimiter);
+      buffer.append(format(getActualStart()));
+      buffer.append (delimiter);
+      buffer.append(format(getActualFinish()));
+      buffer.append (delimiter);
+      buffer.append(format(getStartVariance()));
+      buffer.append (delimiter);
+      buffer.append(format(getFinishVariance()));
+      buffer.append (delimiter);
+      buffer.append(format(getSubject()));
+      buffer.append (delimiter);
+      buffer.append(format(getAuthor()));
+      buffer.append (delimiter);
+      buffer.append(format(getKeywords()));
+      
+      stripTrailingDelimiters(buffer, delimiter);
+      buffer.append (MPXFile.EOL);
+            
+      return (buffer.toString());      
    }
 
+   private String m_projectTitle;
+   private String m_company;
+   private String m_manager;
+   private String m_calendarName;
+   private MPXDate m_startDate;
+   private MPXDate m_finishDate;
+   private ScheduleFrom m_scheduleFrom;
+   private MPXDate m_currentDate;
+   private String m_comments;
+   private MPXCurrency m_cost;
+   private MPXCurrency m_baselineCost;
+   private MPXCurrency m_actualCost;
+   private MPXDuration m_work;
+   private MPXDuration m_baselineWork;
+   private MPXDuration m_actualWork;
+   private MPXPercentage m_work2;
+   private MPXDuration m_duration;
+   private MPXDuration m_baselineDuration;
+   private MPXDuration m_actualDuration;
+   private MPXPercentage m_percentageComplete;
+   private MPXDate m_baselineStart;
+   private MPXDate m_baselineFinish;
+   private MPXDate m_actualStart;
+   private MPXDate m_actualFinish;
+   private MPXDuration m_startVariance;
+   private MPXDuration m_finishVariance;
+   private String m_subject;
+   private String m_author;
+   private String m_keywords;
 
    /**
     * Default cost value.
@@ -790,160 +822,30 @@ public final class ProjectHeader extends MPXRecord
    private static final MPXDuration DEFAULT_WORK = new MPXDuration (0, TimeUnit.HOURS);
 
    /**
+    * Default work 2 value.
+    */
+   private static final MPXPercentage DEFAULT_WORK2 = new MPXPercentage (0);
+   
+   /**
     * Default duration value.
     */
    private static final MPXDuration DEFAULT_DURATION = new MPXDuration (0, TimeUnit.DAYS);
 
    /**
-    * Constant value representing Project Title field
+    * Default schedule from value.
     */
-   private static final int PROJECT_TITLE = 0;
+   private static final ScheduleFrom DEFAULT_SCHEDULE_FROM = ScheduleFrom.START;
 
    /**
-    * Constant value representing Company field
+    * Default percent complete value.
     */
-   private static final int COMPANY = 1;
+   private static final Integer DEFAULT_PERCENT_COMPLETE = new Integer (0);
 
    /**
-    * Constant value representing Manager field
+    * Default calendar name.
     */
-   private static final int MANAGER = 2;
-
-   /**
-    * Constant value representing Calendar field
-    */
-   private static final int CALENDAR = 3;
-
-   /**
-    * Constant value representing Start Date field
-    */
-   private static final int START_DATE = 4;
-
-   /**
-    * Constant value representing Finish Date field
-    */
-   private static final int FINISH_DATE = 5;
-
-   /**
-    * Constant value representing Schedule From field
-    */
-   private static final int SCHEDULE_FROM = 6;
-
-   /**
-    * Constant value representing Current Date field
-    */
-   private static final int CURRENT_DATE = 7;
-
-   /**
-    * Constant value representing Comments field
-    */
-   private static final int COMMENTS = 8;
-
-   /**
-    * Constant value representing Cost field
-    */
-   private static final int COST = 9;
-
-   /**
-    * Constant value representing Baseline Cost field
-    */
-   private static final int BASELINE_COST = 10;
-
-   /**
-    * Constant value representing Actual Cost field
-    */
-   private static final int ACTUAL_COST = 11;
-
-   /**
-    * Constant value representing Work field
-    */
-   private static final int WORK = 12;
-
-   /**
-    * Constant value representing Baseline Work field
-    */
-   private static final int BASELINE_WORK = 13;
-
-   /**
-    * Constant value representing Actual Work field
-    */
-   private static final int ACTUAL_WORK = 14;
-
-   /**
-    * Constant value representing Work2 field. This field is calculated by MSP
-    */
-   private static final int WORK2 = 15;
-
-   /**
-    * Constant value representing Duration field
-    */
-   private static final int DURATION = 16;
-
-   /**
-    * Constant value representing Baseline Duration field
-    */
-   private static final int BASELINE_DURATION = 17;
-
-   /**
-    * Constant value representing Actual Duration field
-    */
-   private static final int ACTUAL_DURATION = 18;
-
-   /**
-    * Constant value representing Percentage Complete field
-    */
-   private static final int PERCENTAGE_COMPLETE = 19;
-
-   /**
-    * Constant value representing Baseline Start field
-    */
-   private static final int BASELINE_START = 20;
-
-   /**
-    * Constant value representing Baseline Finish field
-    */
-   private static final int BASELINE_FINISH = 21;
-
-   /**
-    * Constant value representing Actual Start field
-    */
-   private static final int ACTUAL_START = 22;
-
-   /**
-    * Constant value representing Actual Finish field
-    */
-   private static final int ACTUAL_FINISH = 23;
-
-   /**
-    * Constant value representing Start Variance field
-    */
-   private static final int START_VARIANCE = 24;
-
-   /**
-    * Constant value representing Finish Variance field
-    */
-   private static final int FINISH_VARIANCE = 25;
-
-   /**
-    * Constant value representing Subject field
-    */
-   private static final int SUBJECT = 26;
-
-   /**
-    * Constant value representing Author field
-    */
-   private static final int AUTHOR = 27;
-
-   /**
-    * Constant value representing Keywords field
-    */
-   private static final int KEYWORDS = 28;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 29;
-
+   private static final String DEFAULT_CALENDAR_NAME = "Standard";
+   
    /**
     * Constant containing the record number associated with this record.
     */

@@ -96,7 +96,7 @@ class MPXRecord
     * @param o the object to formatted
     * @return formatted string representing input Object
     */
-   private final String format (Object o)
+   protected final String format (Object o)
    {
       String result;
 
@@ -239,7 +239,7 @@ class MPXRecord
     * @param buffer input sring buffer
     * @param delimiter delimiter character
     */
-   private final void stripTrailingDelimiters (StringBuffer buffer, char delimiter)
+   protected final void stripTrailingDelimiters (StringBuffer buffer, char delimiter)
    {
       int index = buffer.length() - 1;
 
@@ -303,6 +303,33 @@ class MPXRecord
    }
 
    /**
+    * This method is called to ensure that a Date value is actually
+    * represented as an MPXDate instance rather than a raw date
+    * type.
+    * 
+    * @param value date value
+    * @return date value
+    */   
+   protected MPXDate toDate (Date value)
+   {
+      MPXDate result = null;
+      
+      if (value != null)
+      {
+         if (value instanceof MPXDate == false)
+         {
+            result = new MPXDate (m_mpx.getDateFormat(), value);
+         }
+         else
+         {
+            result = (MPXDate)value;
+         }
+      }
+
+      return (result);
+   }
+   
+   /**
     * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXDate objects.
     *
@@ -311,12 +338,34 @@ class MPXRecord
     */
    protected void putDate (int key, Date value)
    {
-      if (value != null && value instanceof MPXDate == false)
-      {
-         value = new MPXDate (m_mpx.getDateFormat(), value);
-      }
+      put (key, toDate(value));
+   }
 
-      put (key, value);
+   /**
+    * This method is called to ensure that a Number value is actually
+    * represented as an MPXCurrency instance rather than a raw numeric
+    * type.
+    * 
+    * @param value numeric value
+    * @return currency value
+    */
+   protected MPXCurrency toCurrency (Number value)
+   {
+      MPXCurrency result = null;
+      
+      if (value != null)
+      {
+         if (value instanceof MPXCurrency == false)
+         {
+            result = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
+         }
+         else
+         {
+            result = (MPXCurrency)value;
+         }
+      }
+      
+      return (result);
    }
 
    /**
@@ -328,12 +377,7 @@ class MPXRecord
     */
    protected void putCurrency (int key, Number value)
    {
-      if (value != null && value instanceof MPXCurrency == false)
-      {
-         value = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
-      }
-
-      put (key, value);
+      put (key, toCurrency(value));
    }
 
    /**
@@ -354,6 +398,33 @@ class MPXRecord
    }
 
    /**
+    * This method is called to ensure that a Number value is actually
+    * represented as an MPXPercentage instance rather than a raw numeric
+    * type.
+    * 
+    * @param value numeric value
+    * @return percentage value
+    */   
+   protected MPXPercentage toPercentage (Number value)
+   {
+      MPXPercentage result = null;
+      
+      if (value != null) 
+      {
+         if (value instanceof MPXPercentage == false)
+         {
+            result = new MPXPercentage (value);
+         }
+         else
+         {
+            result = (MPXPercentage)value;
+         }
+      }
+      
+      return (result);
+   }
+   
+   /**
     * This method inserts a name value pair into internal storage.
     * Note that this method maps Number objects into MPXPercentage objects.
     *
@@ -362,12 +433,7 @@ class MPXRecord
     */
    protected void putPercentage (int key, Number value)
    {
-      if (value != null && value instanceof MPXPercentage == false)
-      {
-         value = new MPXPercentage (value);
-      }
-
-      put (key, value);
+      put (key, toPercentage(value));
    }
 
    /**
