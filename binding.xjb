@@ -6,12 +6,102 @@
   <jxb:bindings schemaLocation="file:/C:/TapsterRock/docs/msp/Project2003-MSPDI-correct.XSD" node="/xsd:schema">
 
    <jxb:globalBindings>
-      <!-- map float types to BigDecimal for consistency -->
+      <!-- globally map float types to BigDecimal for consistency -->
       <jxb:javaType name="java.math.BigDecimal"
                     xmlType="xsd:float"     
                     parseMethod="javax.xml.bind.DatatypeConverter.parseDecimal" 
                     printMethod="javax.xml.bind.DatatypeConverter.printDecimal"/>      
    </jxb:globalBindings>      
+   
+   <!-- Project.CurrencySymbolPosition -->      
+   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='CurrencySymbolPosition']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.CurrencySymbolPosition"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseCurrencySymbolPosition"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printCurrencySymbolPosition"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Project.DefaultFixedCostAccrual -->      
+   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='DefaultFixedCostAccrual']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.AccrueType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseAccrueType"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printAccrueType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Project.DefaultTaskType -->      
+   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='DefaultTaskType']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.TaskType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseTaskType"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printTaskType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+   
+   <!-- Resource.ResourceType -->      
+   <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='Type']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.ResourceType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseResourceType" 
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printResourceType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Resource.WorkGroup -->      
+   <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='WorkGroup']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.WorkGroup"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseWorkGroup" 
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printWorkGroup"/>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Resource.AccrueAt -->      
+   <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='AccrueAt']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.AccrueType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseAccrueType"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printAccrueType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Resource.BookingType -->      
+   <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='BookingType']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.BookingType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseBookingType"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printBookingType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Task.FixedCostAccrual -->      
+   <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='FixedCostAccrual']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.AccrueType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseAccrueType"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printAccrueType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Task.Type -->      
+   <jxb:bindings node="//xsd:element[@name='Task']/xsd:complexType/xsd:sequence/xsd:element[@name='Type']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.TaskType"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseTaskType"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printTaskType"/>      
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Assignment.WorkContour -->      
+   <jxb:bindings node="//xsd:element[@name='Assignment']//xsd:element[@name='WorkContour']">
+      <jxb:bindings node="./xsd:simpleType">      
+         <jxb:javaType name="com.tapsterrock.mpx.WorkContour"
+                       parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseWorkContour"
+                       printMethod="com.tapsterrock.mspdi.DatatypeConverter.printWorkContour"/>      
+      </jxb:bindings>
+   </jxb:bindings>
    
   </jxb:bindings>
 </jxb:bindings>

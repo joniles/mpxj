@@ -265,39 +265,39 @@ public final class DatatypeConverter
     * @param value CurrencySymbolPosition instance
     * @return currency symbol position
     */
-   public static final BigInteger printCurrencySymbolPosition (CurrencySymbolPosition value)
+   public static final String printCurrencySymbolPosition (CurrencySymbolPosition value)
    {
-      int result;
+      String result;
    
       switch (value.getValue())
       {
          default:
          case CurrencySymbolPosition.BEFORE_VALUE:
          {
-            result = 0;
+            result = "0";
             break;
          }
    
          case CurrencySymbolPosition.AFTER_VALUE:
          {
-            result = 1;
+            result = "1";
             break;
          }
    
          case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
          {
-            result = 2;
+            result = "2";
             break;
          }
    
          case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
          {
-            result = 3;
+            result = "3";
             break;
          }
       }
    
-      return (BigInteger.valueOf(result));
+      return (result);
    }
    
    /**
@@ -306,37 +306,34 @@ public final class DatatypeConverter
     * @param value currency symbol position
     * @return CurrencySymbolPosition instance
     */
-   public static final CurrencySymbolPosition parseCurrencySymbolPosition (BigInteger value)
+   public static final CurrencySymbolPosition parseCurrencySymbolPosition (String value)
    {
       CurrencySymbolPosition result = CurrencySymbolPosition.BEFORE;
    
-      if (value != null)
+      switch (NumberUtility.getInt(value))
       {
-         switch (value.intValue())
+         case 0:
          {
-            case 0:
-            {
-               result = CurrencySymbolPosition.BEFORE;
-               break;
-            }
-   
-            case 1:
-            {
-               result = CurrencySymbolPosition.AFTER;
-               break;
-            }
-   
-            case 2:
-            {
-               result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
-               break;
-            }
-   
-            case 3:
-            {
-               result = CurrencySymbolPosition.AFTER_WITH_SPACE;
-               break;
-            }
+            result = CurrencySymbolPosition.BEFORE;
+            break;
+         }
+
+         case 1:
+         {
+            result = CurrencySymbolPosition.AFTER;
+            break;
+         }
+
+         case 2:
+         {
+            result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
+            break;
+         }
+
+         case 3:
+         {
+            result = CurrencySymbolPosition.AFTER_WITH_SPACE;
+            break;
          }
       }
    
@@ -350,9 +347,9 @@ public final class DatatypeConverter
     * @param value AccrueType instance
     * @return accrue type value
     */
-   public static final int printAccrueType (AccrueType value)
+   public static final String printAccrueType (AccrueType value)
    {
-      return ((value==null?AccrueType.PRORATED_VALUE:value.getType()));
+      return (Integer.toString(value==null?AccrueType.PRORATED_VALUE:value.getType()));
    }
 
    /**
@@ -361,9 +358,9 @@ public final class DatatypeConverter
     * @param value accrue type value
     * @return AccrueType instance
     */
-   public static final AccrueType parseAccrueType (Number value)
+   public static final AccrueType parseAccrueType (String value)
    {
-      return (AccrueType.getInstance(value));
+      return (AccrueType.getInstance(NumberUtility.getInt(value)));
    }
    
    /**
@@ -372,9 +369,9 @@ public final class DatatypeConverter
     * @param value ResourceType instance
     * @return resource type value
     */
-   public static final BigInteger printResourceType (ResourceType value)
+   public static final String  printResourceType (ResourceType value)
    {
-      return (value==null?BigInteger.valueOf(ResourceType.WORK_VALUE):BigInteger.valueOf(value.getValue()));
+      return (Integer.toString(value==null?ResourceType.WORK_VALUE:value.getValue()));
    }
 
    /**
@@ -383,7 +380,7 @@ public final class DatatypeConverter
     * @param value resource type value
     * @return ResourceType instance
     */
-   public static final ResourceType parseResourceType (Number value)
+   public static final ResourceType parseResourceType (String value)
    {
       return (ResourceType.getInstance(NumberUtility.getInt(value)));      
    }
@@ -394,9 +391,9 @@ public final class DatatypeConverter
     * @param value WorkGroup instance
     * @return work group value
     */
-   public static final BigInteger printWorkGroup (WorkGroup value)
+   public static final String printWorkGroup (WorkGroup value)
    {
-      return (value==null?BigInteger.valueOf(WorkGroup.DEFAULT_VALUE):BigInteger.valueOf(value.getValue()));
+      return (Integer.toString(value==null?WorkGroup.DEFAULT_VALUE:value.getValue()));
    }
 
    /**
@@ -405,7 +402,7 @@ public final class DatatypeConverter
     * @param value work group value
     * @return WorkGroup instance
     */
-   public static final WorkGroup parseWorkGroup (Number value)
+   public static final WorkGroup parseWorkGroup (String value)
    {
       return (WorkGroup.getInstance(NumberUtility.getInt(value)));      
    }
@@ -416,9 +413,9 @@ public final class DatatypeConverter
     * @param value WorkContour instance
     * @return work contour value
     */
-   public static final BigInteger printWorkContour (WorkContour value)
+   public static final String printWorkContour (WorkContour value)
    {
-      return (value==null?BigInteger.valueOf(WorkContour.FLAT_VALUE):BigInteger.valueOf(value.getValue()));
+      return (Integer.toString(value==null?WorkContour.FLAT_VALUE:value.getValue()));
    }
 
    /**
@@ -427,7 +424,7 @@ public final class DatatypeConverter
     * @param value work contour value
     * @return WorkContour instance
     */
-   public static final WorkContour parseWorkContour (Number value)
+   public static final WorkContour parseWorkContour (String value)
    {
       return (WorkContour.getInstance(NumberUtility.getInt(value)));
    }
@@ -438,9 +435,9 @@ public final class DatatypeConverter
     * @param value BookingType instance
     * @return booking type value
     */
-   public static final BigInteger printBookingType (BookingType value)
+   public static final String printBookingType (BookingType value)
    {
-      return (value==null?BigInteger.valueOf(BookingType.COMMITTED_VALUE):BigInteger.valueOf(value.getValue()));
+      return (Integer.toString(value==null?BookingType.COMMITTED_VALUE:value.getValue()));
    }
 
    /**
@@ -449,7 +446,7 @@ public final class DatatypeConverter
     * @param value booking type value
     * @return BookingType instance
     */
-   public static final BookingType parseBookingType (Number value)
+   public static final BookingType parseBookingType (String value)
    {
       return (BookingType.getInstance(NumberUtility.getInt(value)));
    }
@@ -460,9 +457,9 @@ public final class DatatypeConverter
     * @param value TaskType instance
     * @return task type value
     */
-   public static final BigInteger printTaskType (TaskType value)
+   public static final String printTaskType (TaskType value)
    {
-      return (value==null?BigInteger.valueOf(TaskType.FIXED_UNITS_VALUE):BigInteger.valueOf(value.getValue()));
+      return (Integer.toString(value==null?TaskType.FIXED_UNITS_VALUE:value.getValue()));
    }
 
    /**
@@ -471,7 +468,7 @@ public final class DatatypeConverter
     * @param value task type value
     * @return TaskType instance
     */
-   public static final TaskType parseTaskType (Number value)
+   public static final TaskType parseTaskType (String value)
    {
       return (TaskType.getInstance(NumberUtility.getInt(value)));
    }

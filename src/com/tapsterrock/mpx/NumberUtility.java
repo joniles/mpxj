@@ -44,6 +44,18 @@ public final class NumberUtility
    }
 
    /**
+    * This method retrieves an int value from a String instance.
+    * It returns zero by default if a null value or an empty string is supplied.
+    * 
+    * @param value string representation of an integer
+    * @return int value
+    */
+   public static final int getInt (String value)
+   {
+      return (value==null||value.length()==0?0:Integer.parseInt(value));
+   }
+   
+   /**
     * Utility method used to convert an arbitrary Number into an Integer.
     *
     * @param value Number instance
