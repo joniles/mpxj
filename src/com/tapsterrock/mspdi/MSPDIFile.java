@@ -704,6 +704,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setText3();
       //mpx.setText4();
       //mpx.setText5();
+      mpx.setType(getInteger(xml.getType()));
       mpx.setUniqueID(getInteger(xml.getUID()));
       mpx.setWork(getDuration (xml.getWork()));
       mpx.setWorkVariance(new MPXDuration (xml.getWorkVariance()/1000, TimeUnit.MINUTES));
@@ -1226,6 +1227,24 @@ public class MSPDIFile extends MPXFile
       return (result);
    }
 
+   /**
+    * Utility method used to convert an Integer into a BigINteger.
+    * 
+    * @param value Integer value
+    * @return BigInteger value
+    */
+   private BigInteger getBigInteger (Integer value)
+   {
+      BigInteger result = null;
+      
+      if (value != null)
+      {
+         result = BigInteger.valueOf(value.longValue());
+      }
+      
+      return (result);
+   }
+   
    /**
     * Utility to convert a Calendar instance into a Date instance.
     *
@@ -2595,6 +2614,7 @@ public class MSPDIFile extends MPXFile
       xml.setRemainingOvertimeCost(getXmlCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingWork(getDuration(mpx.getRemainingWork()));
       xml.setStandardRate(new BigDecimal (getRateCost (mpx.getStandardRate())));
+      xml.setType(getBigInteger(mpx.getType()));
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
       xml.setWork(getDuration(mpx.getWork()));
       xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);

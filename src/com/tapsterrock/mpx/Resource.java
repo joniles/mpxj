@@ -4324,6 +4324,26 @@ public final class Resource extends MPXRecord
    }
 
    /**
+    * Set the resource type. Can be TYPE_MATERIAL, or TYPE_WORK.
+    *
+    * @param type resource type
+    */
+   public void setType (Integer type)
+   {
+      m_type = type;
+   }
+
+   /**
+    * Retrieves the resource type. Can return TYPE_MATERIAL, or TYPE_WORK.
+    *
+    * @return resource type
+    */
+   public Integer getType ()
+   {
+      return (m_type);
+   }
+   
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
@@ -4429,7 +4449,8 @@ public final class Resource extends MPXRecord
    private Number m_remainingOvertimeCost;
    private Date m_availableFrom;
    private Date m_availableTo;
-
+   private Integer m_type;
+   
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,
@@ -4828,6 +4849,12 @@ public final class Resource extends MPXRecord
    public static final int OUTLINECODE9 = 1809;
    public static final int OUTLINECODE10 = 1810;
 
+   /**
+    * Constants representing the resource type
+    */
+   public static final Integer TYPE_MATERIAL = new Integer (0);
+   public static final Integer TYPE_WORK = new Integer (1);
+   
    /**
     * Constant containing the record number associated with this record.
     */
