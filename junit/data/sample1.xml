@@ -45,7 +45,7 @@
     <Autolink>1</Autolink>
     <NewTaskStartDate>0</NewTaskStartDate>
     <DefaultTaskEVMethod>0</DefaultTaskEVMethod>
-    <ProjectExternallyEdited>0</ProjectExternallyEdited>
+    <ProjectExternallyEdited>1</ProjectExternallyEdited>
     <ExtendedAttributes>
         <ExtendedAttribute>
             <FieldID>188744000</FieldID>

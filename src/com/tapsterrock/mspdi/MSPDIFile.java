@@ -419,7 +419,7 @@ public class MSPDIFile extends MPXFile
       //header.setEarnedValueMethod();
       //header.setMoveRemainingStartsForward();
       //header.setDefaultTaskType();
-      //header.setProjectExternallyEdited();
+      header.setProjectExternallyEdited(project.isProjectExternallyEdited());
       //header.setActualsInSync();
       //header.setCategory();
       //header.setCreationDate();
@@ -2526,7 +2526,7 @@ public class MSPDIFile extends MPXFile
       //project.setEarnedValueMethod
       project.setMoveRemainingStartsForward(false);
       project.setDefaultTaskType(BigInteger.ZERO);      
-      project.setProjectExternallyEdited(true);                  
+      project.setProjectExternallyEdited(header.getProjectExternallyEdited());
       //project.setActualsInSync();
       //project.setCategory();
       //project.setCreationDate();

@@ -96,6 +96,11 @@ public final class ProjectHeader extends MPXRecord
       setSubject(null);
       setAuthor(null);
       setKeywords(null);
+      
+      //
+      // Configure non-MPX attributes
+      //
+      setProjectExternallyEdited(true);
    }
 
    /**
@@ -2067,6 +2072,26 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
+    * Retrieve the externally edited flag.
+    * 
+    * @return externally edited flag
+    */
+   public boolean getProjectExternallyEdited()
+   {
+      return (m_projectExternallyEdited);
+   }
+   
+   /**
+    * Set the externally edited flag
+    * 
+    * @param projectExternallyEdited externally edited flag
+    */
+   public void setProjectExternallyEdited(boolean projectExternallyEdited)
+   {
+      m_projectExternallyEdited = projectExternallyEdited;
+   }
+   
+   /**
     * This method updates the formatters used to control the currency
     * formatting.
     */
@@ -2261,7 +2286,8 @@ public final class ProjectHeader extends MPXRecord
     * when they have been retrieved from file formats other than MPX.
     */
    private Date m_defaultEndTime;
-
+   private boolean m_projectExternallyEdited;
+      
    /*
     * Missing MSPDI attributes 
     * 
@@ -2305,7 +2331,6 @@ public final class ProjectHeader extends MPXRecord
        void setEarnedValueMethod(java.math.BigInteger value);
        void setMoveRemainingStartsForward(boolean value);
        void setDefaultTaskType(java.math.BigInteger value);
-       void setProjectExternallyEdited(boolean value);
        void setActualsInSync(boolean value);
        void setCategory(java.lang.String value);
        void setCreationDate(java.util.Calendar value);
