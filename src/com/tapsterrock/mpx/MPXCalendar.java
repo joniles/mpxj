@@ -165,7 +165,7 @@ public final class MPXCalendar extends MPXRecord
       throws MPXException
    {
       MPXCalendarHours bch = new MPXCalendarHours(getParentFile(), this, record);
-      int day = bch.getDayValue()-1;
+      int day = NumberUtility.getInt(bch.getDay())-1;
 
       if (day < 0 || day > m_hours.length)
       {
@@ -699,12 +699,6 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
-    * Flag indicating if this is a base calendar, i.e. a calendar from
-    * which other calendars are derived.
-    */
-   private boolean m_baseCalendar;
-
-   /**
     * Unique identifier of this calendar
     */
    private int m_uniqueID;
@@ -715,12 +709,18 @@ public final class MPXCalendar extends MPXRecord
    private String m_name;
 
    /**
+    * Flag indicating if this is a base calendar, i.e. a calendar from
+    * which other calendars are derived.
+    */
+   private boolean m_baseCalendar;
+   
+   /**
     * Name of the calendar from which this calendar is derived.
     */
    private String m_baseCalendarName;
 
    /**
-    * Array holing working/non-working/default flags for each
+    * Array holding working/non-working/default flags for each
     * day of the week.
     */
    private int[] m_days = new int [7];
@@ -734,11 +734,6 @@ public final class MPXCalendar extends MPXRecord
     * List of working hours for the base calendar.
     */
    private MPXCalendarHours[] m_hours = new MPXCalendarHours[7];
-
-   /**
-    * Constant representing the number of milliseconds in a day.
-    */
-   private static final long MS_PER_DAY = (1000 * 60 * 60 * 24);
 
    /**
     * Default base calendar name to use when none is supplied

@@ -453,6 +453,31 @@ class MPXRecord
    }
 
    /**
+    * Convert a generic Date instance to an MPXTime instance.
+    * 
+    * @param value Date instance
+    * @return MPXTime instance
+    */
+   protected MPXTime toTime (Date value)
+   {
+      MPXTime result = null;
+      
+      if (value != null)
+      {
+         if (value instanceof MPXTime == false)
+         {
+            result = new MPXTime (m_mpx.getTimeFormat(), value);
+         }      
+         else
+         {
+            result = (MPXTime)value;
+         }
+      }
+      
+      return (result);
+   }
+   
+   /**
     * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXTime objects.
     *
@@ -461,12 +486,7 @@ class MPXRecord
     */
    protected void putTime (int key, Date value)
    {
-      if (value != null && value instanceof MPXTime == false)
-      {
-         value = new MPXTime (m_mpx.getTimeFormat(), value);
-      }
-
-      put (key, value);
+      put (key, toTime(value));
    }
 
    /**

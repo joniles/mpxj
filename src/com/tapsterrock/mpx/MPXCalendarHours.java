@@ -27,7 +27,7 @@ import java.util.Date;
 
 /**
  * This class is used to represent the records in an MPX file that define
- * working hours.
+ * working hours in a calendar.
  */
 public final class MPXCalendarHours extends MPXRecord
 {
@@ -56,7 +56,7 @@ public final class MPXCalendarHours extends MPXRecord
    MPXCalendarHours (MPXFile file, MPXCalendar parentCalendar, Record record)
       throws MPXException
    {
-      super(file, MAX_FIELDS);
+      super(file, 0);
 
       m_parentCalendar = parentCalendar;
 
@@ -69,17 +69,6 @@ public final class MPXCalendarHours extends MPXRecord
       setToTime3(record.getTime(6));
    }
 
-
-   /**
-    * Get day (1=Sunday 7=Saturday)
-    *
-    * @return day number
-    */
-   public int getDayValue ()
-   {
-      return (getIntValue (DAY));
-   }
-
    /**
     * Get day (1=Sunday 7=Saturday)
     *
@@ -87,7 +76,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public Integer getDay ()
    {
-      return ((Integer)get (DAY));
+      return (m_day);
    }
 
    /**
@@ -97,7 +86,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    void setDay (int d)
    {
-      put (DAY,d);
+      setDay (new Integer (d));
    }
 
    /**
@@ -107,7 +96,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    private void setDay (Integer d)
    {
-      put (DAY, d);
+      m_day = d;
    }
 
    /**
@@ -117,7 +106,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public Date getFromTime1()
    {
-      return ((Date)get(FROM_TIME_1));
+      return (m_fromTime1);
    }
 
    /**
@@ -127,7 +116,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public void setFromTime1(Date from)
    {
-      putTime (FROM_TIME_1,from);
+      m_fromTime1 = toTime(from);
    }
 
    /**
@@ -137,7 +126,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public Date getToTime1()
    {
-      return ((Date)get(TO_TIME_1));
+      return (m_toTime1);
    }
 
    /**
@@ -147,7 +136,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public void setToTime1 (Date to)
    {
-      putTime (TO_TIME_1,to);
+      m_toTime1 = toTime(to);
    }
 
    /**
@@ -157,7 +146,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public Date getFromTime2 ()
    {
-      return ((Date)get(FROM_TIME_2));
+      return (m_fromTime2);
    }
 
    /**
@@ -167,7 +156,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public void setFromTime2 (Date from)
    {
-      putTime (FROM_TIME_2,from);
+      m_fromTime2 = toTime(from);
    }
 
    /**
@@ -177,7 +166,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public Date getToTime2 ()
    {
-      return ((Date)get(TO_TIME_2));
+      return (m_toTime2);
    }
 
    /**
@@ -187,7 +176,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public void setToTime2 (Date to)
    {
-      putTime (TO_TIME_2,to);
+      m_toTime2 = toTime(to);
    }
 
    /**
@@ -196,8 +185,8 @@ public final class MPXCalendarHours extends MPXRecord
     * @return Time
     */
    public Date getFromTime3 ()
-   {
-      return ((Date)get(FROM_TIME_3));
+   {      
+      return (m_fromTime3);
    }
 
    /**
@@ -207,7 +196,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public void setFromTime3 (Date from)
    {
-      putTime (FROM_TIME_3,from);
+      m_fromTime3 = toTime(from);
    }
 
    /**
@@ -217,7 +206,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public Date getToTime3 ()
    {
-      return ((Date)get(TO_TIME_3));
+      return (m_toTime3);
    }
 
    /**
@@ -227,7 +216,7 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public void setToTime3 (Date to)
    {
-      putTime (TO_TIME_3,to);
+      m_toTime3 = toTime(to);
    }
 
    /**
@@ -249,7 +238,28 @@ public final class MPXCalendarHours extends MPXRecord
          recordNumber = RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
 
-      return (toString(recordNumber));
+      StringBuffer buffer = new StringBuffer ();
+      char delimiter = getParentFile().getDelimiter();
+
+      buffer.append (recordNumber);
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_day));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_fromTime1));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_toTime1));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_fromTime2));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_toTime2));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_fromTime3));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, m_toTime3));      
+      stripTrailingDelimiters(buffer, delimiter);
+      buffer.append (MPXFile.EOL);
+      
+      return (buffer.toString());
    }
 
    /**
@@ -292,46 +302,14 @@ public final class MPXCalendarHours extends MPXRecord
     */
    public static final int SATURDAY = 7;
 
-   /**
-    * Constant representing Day field.
-    */
-   private static final int DAY = 0;
-
-   /**
-    * Constant representing From Time 1 field.
-    */
-   private static final int FROM_TIME_1 = 1;
-
-   /**
-    * Constant representing To Time 1 field.
-    */
-   private static final int TO_TIME_1 = 2;
-
-   /**
-    * Constant representing From Time 2 field.
-    */
-   private static final int FROM_TIME_2 = 3;
-
-   /**
-    * Constant representing To Time 2 field.
-    */
-   private static final int TO_TIME_2 = 4;
-
-   /**
-    * Constant representing From Time 3 field.
-    */
-   private static final int FROM_TIME_3 = 5;
-
-   /**
-    * Constant representing To Time 3 field.
-    */
-   private static final int TO_TIME_3 = 6;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 7;
-
+   private Integer m_day;
+   private Date m_fromTime1;
+   private Date m_toTime1;
+   private Date m_fromTime2;
+   private Date m_toTime2;
+   private Date m_fromTime3;
+   private Date m_toTime3;
+   
    /**
     * Constant containing the record number associated with this record if
     * this instance represents base calendar hours.
