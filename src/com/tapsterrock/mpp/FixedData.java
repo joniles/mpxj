@@ -59,9 +59,16 @@ class FixedData extends MPPComponent
       int offset = 0;
       int itemOffset;
       int itemSize;
+      int available;
 
       for (int loop=0; loop < itemCount; loop++)
       {
+         available = is.available();
+         if (available == 0)
+         {
+            break;
+         }
+
          itemOffset = meta.getItemOffset (loop);
 
          if (loop == itemCount-1)
@@ -77,6 +84,18 @@ class FixedData extends MPPComponent
          {
             is.skip (itemOffset-offset);
             offset = itemOffset;
+         }
+
+         if (itemSize < 0)
+         {
+            itemSize = available;
+         }
+         else
+         {
+            if (itemSize > available)
+            {
+               itemSize = available;
+            }
          }
 
          m_array[loop] = new ByteArray (readByteArray (is, itemSize));
@@ -118,7 +137,14 @@ class FixedData extends MPPComponent
     */
    public byte[] getByteArrayValue (int index)
    {
-      return (m_array[index].byteArrayValue());
+      byte[] result = null;
+
+      if (m_array[index] != null)
+      {
+         result = m_array[index].byteArrayValue();
+      }
+
+      return (result);
    }
 
    /**

@@ -134,7 +134,7 @@ public class MPPFile extends MPXFile
          CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
          if (compObj.getFileFormat().equals("MSProject.MPP9") == false)
          {
-            throw new MPXException (MPXException.INVALID_FILE);
+            throw new MPXException (MPXException.INVALID_FILE + ": " + compObj.getFileFormat());
          }
 
          //
@@ -155,7 +155,7 @@ public class MPPFile extends MPXFile
          DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
          VarMeta taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
          Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
-         FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))));
+         FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
          FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
 
          //
@@ -215,8 +215,11 @@ public class MPPFile extends MPXFile
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
-         uniqueID = MPPUtility.getInt (data, 0);
-         taskMap.put(new Integer (uniqueID), new Integer (loop));
+         if (data != null && data.length > 0)
+         {
+            uniqueID = MPPUtility.getInt (data, 0);
+            taskMap.put(new Integer (uniqueID), new Integer (loop));
+         }
       }
 
       return (taskMap);
@@ -454,6 +457,11 @@ public class MPPFile extends MPXFile
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
+
+         if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
+         {
+            continue;
+         }
 
          task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
@@ -1106,4 +1114,6 @@ public class MPPFile extends MPXFile
       true,
       false
    };
+
+   private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
 }
