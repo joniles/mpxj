@@ -22,13 +22,13 @@ MPXJ allows MPX files to be created, read and written.
 
 MPP: The MPP file format is Microsoft’s proprietary way of storing
 project data. MPXJ supports read only access to MPP files produced
-by Microsoft Project 98, Microsoft Project 2000 and Microsoft 
-Project 2002.
+by Microsoft Project 98, Microsoft Project 2000, Microsoft 
+Project 2002, and Microsoft Project 2003.
 
-MSPDI: The MSPDI file format is the new XML file format for
-storing project data. Currently only Microsoft Project 2002 can
-read and write MSPDI files. MPXJ allows MSPDI files to be created,
-read, and written.
+MSPDI: The MSPDI file format is Microsoft's XML file format for
+storing project data. Microsoft Project 2002 and Microsoft Project
+2003 can read and write MSPDI files. MPXJ allows MSPDI files to be 
+created, read, and written.
 
 
 
@@ -68,16 +68,16 @@ If you want to build MPXJ yourself using the supplied source and
 ant build.xml file, there are a few points to note:
 
 The XML schema file from which the JAXB code has been generated is
-supplied by Microsoft as part of the Project 2002 distribution.
-The file name is mspdi.xsd. The copyright for this file belongs to
-Microsoft, and unfortunately the copyright text makes no mention
-of redistribution. We therefore have to assume that at present we
-are unable to redistribute this file. If you are able to locate a
-copy of this file, you can rebuild the JAXB source using the xjc
-target found in the ant build.xml file. Note that the xjc target
-is platform specific, you will need to change the reference to the
-xjc tool to be xjc.bat or xjc.sh depending on your operating
-system.
+supplied by Microsoft as part of the Microsoft Project 2002 and
+Microsoft Project 2003 distributions. The file name is mspdi.xsd. 
+The copyright for this file belongs to Microsoft, and unfortunately 
+the copyright text makes no mention of redistribution. We therefore 
+have to assume that at present we are unable to redistribute this 
+file. If you are able to locate a copy of this file, you can rebuild 
+the JAXB source using the xjc target found in the ant build.xml file. 
+Note that the xjc target is platform specific, you will need to 
+change the reference to the xjc tool to be xjc.bat or xjc.sh 
+depending on your operating system.
 
 You will need to have a copy of the JAXB libraries installed
 locally in order to build MPXJ. You will need to edit the property
