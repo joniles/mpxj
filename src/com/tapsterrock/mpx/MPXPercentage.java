@@ -70,11 +70,11 @@ public class MPXPercentage
     */
    public String toString ()
    {
-      return (FORMAT.format(m_value));
+      return (FORMAT.format(m_value) + "%");
    }
 
 
    private float m_value;
 
-   private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##%");
+   private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##");
 }
