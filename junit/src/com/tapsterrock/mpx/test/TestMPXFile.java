@@ -30,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import junit.framework.*;
 import com.tapsterrock.mpx.*;
+import com.tapsterrock.mpp.*;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.Date;
@@ -166,6 +167,32 @@ public class TestMPXFile extends TestCase
 
       LinkedList toplevel = file.getChildTasks();
       assertEquals (toplevel.size(), 1);
+   }
+
+   /**
+    * Exercise the MPP import code.
+    */
+   public void testConversion ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample.mpp");
+         MPPFile mpp = new MPPFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpp.write (out);
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+
    }
 
    /**

@@ -53,7 +53,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
  * exported as a set of MPX objects. These objects can be interrogated
  * to retrieve any required data, or stored as an MPX file.
  */
-public class MPPFile
+public class MPPFile extends MPXFile
 {
    /**
     * Constructor allowing an MPP file to be read from an input stream
@@ -92,17 +92,6 @@ public class MPPFile
    }
 
    /**
-    * This method retrieves an MPXFile object representing the
-    * data extracted from the MPP file.
-    *
-    * @return an MPXFile instance
-    */
-   public MPXFile getMpxFile ()
-   {
-      return (m_mpx);
-   }
-
-   /**
     * This method brings together all of the processing required to
     * read data from an MPP file, and populate an MPXFile object.
     *
@@ -121,8 +110,8 @@ public class MPPFile
       //
       // Retrieve the CompObj data and validate the file format
       //
-      m_compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
-      if (m_compObj.getFileFormat().equals("MSProject.MPP9") == false)
+      CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
+      if (compObj.getFileFormat().equals("MSProject.MPP9") == false)
       {
          throw new Exception ("File format error");
       }
@@ -136,52 +125,47 @@ public class MPPFile
       // Retrieve calendar data
       //
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
-      m_calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-      m_calVarData = new Var2Data (m_calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
+      VarMeta calVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
+      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
 
       //
       // Retrieve task data
       //
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
-      m_taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
-      m_taskVarData = new Var2Data (m_taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
-      m_taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))));
-      m_taskFixedData = new FixedData (m_taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
+      VarMeta taskVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
+      Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
+      FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))));
+      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
 
       //
       // Retrieve constraint data
       //
       DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
-      m_consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
+      FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
 
       //
       // Retrieve resource data
       //
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
-      m_rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
-      m_rscVarData = new Var2Data (m_rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
-      m_rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
-      m_rscFixedData = new FixedData (m_rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
+      VarMeta rscVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
+      Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
+      FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
+      FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
 
       //
       // Retrieve resource assignment data
       //
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
-      m_assnVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
-      m_assnVarData = new Var2Data (m_assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
-      m_assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
+      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
 
       //
       // Extract the required data from the MPP file
       //
-      m_mpx = new MPXFile ();
-      createTaskMap ();
-      createResourceMap ();
-      processCalendarData ();
-      processResourceData ();
-      processTaskData ();
-      processConstraintData ();
-      processAssignmentData ();
+      processCalendarData (calVarMeta, calVarData);
+      processResourceData (rscVarMeta, rscVarData, rscFixedMeta, rscFixedData);
+      processTaskData (taskVarMeta, taskVarData, taskFixedMeta, taskFixedData);
+      processConstraintData (consFixedData);
+      processAssignmentData (assnFixedData);
    }
 
 
@@ -190,36 +174,42 @@ public class MPPFile
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.
     */
-   private void createTaskMap ()
+   private TreeMap createTaskMap (FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
-      int itemCount = m_taskFixedMeta.getItemCount();
+      TreeMap taskMap = new TreeMap ();
+      int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
 
       for (int loop=0; loop < itemCount; loop++)
       {
-         data = m_taskFixedData.getByteArrayValue(loop);
+         data = taskFixedData.getByteArrayValue(loop);
          uniqueID = MPPUtility.getInt (data, 0);
-         m_taskMap.put(new Integer (uniqueID), new Integer (loop));
+         taskMap.put(new Integer (uniqueID), new Integer (loop));
       }
+
+      return (taskMap);
    }
 
    /**
     * This method maps the resource unique identifiers to their index number
     * within the FixedData block.
     */
-   private void createResourceMap ()
+   private TreeMap createResourceMap (FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      int itemCount = m_rscFixedMeta.getItemCount();
+      TreeMap resourceMap = new TreeMap ();
+      int itemCount = rscFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
 
       for (int loop=0; loop < itemCount; loop++)
       {
-         data = m_rscFixedData.getByteArrayValue(loop);
+         data = rscFixedData.getByteArrayValue(loop);
          uniqueID = MPPUtility.getInt (data, 0);
-         m_resourceMap.put(new Integer (uniqueID), new Integer (loop));
+         resourceMap.put(new Integer (uniqueID), new Integer (loop));
       }
+
+      return (resourceMap);
    }
 
    /**
@@ -230,10 +220,10 @@ public class MPPFile
     *
     * @throws Exception on unexpected file format
     */
-   private void processCalendarData ()
+   private void processCalendarData (VarMeta calVarMeta, Var2Data calVarData)
       throws Exception
    {
-      Integer[] uniqueid = m_calVarMeta.getUniqueIdentifiers();
+      Integer[] uniqueid = calVarMeta.getUniqueIdentifiers();
       Integer id;
       BaseCalendar cal;
       BaseCalendarHours hours;
@@ -261,11 +251,11 @@ public class MPPFile
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
-         name = m_calVarData.getUnicodeString (id, CALENDAR_NAME);
-         data = m_calVarData.getByteArray (id, CALENDAR_DATA);
+         name = calVarData.getUnicodeString (id, CALENDAR_NAME);
+         data = calVarData.getByteArray (id, CALENDAR_DATA);
          if (data == null)
          {
-            cal = m_mpx.addDefaultBaseCalendar();
+            cal = addDefaultBaseCalendar();
             cal.setName (name);
          }
          else
@@ -273,7 +263,7 @@ public class MPPFile
             //
             // Populate the basic calendar
             //
-            cal = m_mpx.addBaseCalendar();
+            cal = addBaseCalendar();
             cal.setName (name);
 
             for (index=0; index < 7; index++)
@@ -401,10 +391,11 @@ public class MPPFile
     * @throws Exception on unexpected file format
     * @todo we need to strip the RTF formatting from the task note text
     */
-   private void processTaskData ()
+   private void processTaskData (VarMeta taskVarMeta, Var2Data taskVarData, FixedMeta taskFixedMeta, FixedData taskFixedData)
       throws Exception
    {
-      Integer[] uniqueid = m_taskVarMeta.getUniqueIdentifiers();
+      TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
+      Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
       Integer id;
       Integer offset;
       byte[] data;
@@ -414,15 +405,15 @@ public class MPPFile
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
-         offset = (Integer)m_taskMap.get(id);
+         offset = (Integer)taskMap.get(id);
          if (offset == null)
          {
             throw new Exception ("File format error");
          }
 
-         data = m_taskFixedData.getByteArrayValue(offset.intValue());
+         data = taskFixedData.getByteArrayValue(offset.intValue());
 
-         task = m_mpx.addTask();
+         task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
          //task.setActualDuration();
          task.setActualFinish(MPPUtility.getTimestamp (data, 16));
@@ -438,29 +429,29 @@ public class MPPFile
          //task.setConfirmed();
          task.setConstraintDate (MPPUtility.getTimestamp (data, 112));
          task.setConstraintType (new ConstraintType (MPPUtility.getShort (data, 80)));
-         task.setContact(m_taskVarData.getUnicodeString (id, TASK_CONTACT));
+         task.setContact(taskVarData.getUnicodeString (id, TASK_CONTACT));
          task.setCost(new Double (MPPUtility.getDouble(data, 200) / 100));
-         task.setCost1(new Double (m_taskVarData.getDouble (id, TASK_COST1) / 100));
-         task.setCost2(new Double (m_taskVarData.getDouble (id, TASK_COST2) / 100));
-         task.setCost3(new Double (m_taskVarData.getDouble (id, TASK_COST3) / 100));
+         task.setCost1(new Double (taskVarData.getDouble (id, TASK_COST1) / 100));
+         task.setCost2(new Double (taskVarData.getDouble (id, TASK_COST2) / 100));
+         task.setCost3(new Double (taskVarData.getDouble (id, TASK_COST3) / 100));
          //task.setCostVariance(); // Calculated value
          task.setCreated(MPPUtility.getTimestamp (data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
          //task.setDelay();
          task.setDuration (getDuration (MPPUtility.getInt (data, 70), getDurationUnits(MPPUtility.getShort (data, 64))));
-         task.setDuration1(getDuration (m_taskVarData.getInt(id, TASK_DURATION1), getDurationUnits(m_taskVarData.getShort(id, TASK_DURATION1_UNITS))));
-         task.setDuration2(getDuration (m_taskVarData.getInt(id, TASK_DURATION2), getDurationUnits(m_taskVarData.getShort(id, TASK_DURATION2_UNITS))));
-         task.setDuration3(getDuration (m_taskVarData.getInt(id, TASK_DURATION3), getDurationUnits(m_taskVarData.getShort(id, TASK_DURATION3_UNITS))));
+         task.setDuration1(getDuration (taskVarData.getInt(id, TASK_DURATION1), getDurationUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
+         task.setDuration2(getDuration (taskVarData.getInt(id, TASK_DURATION2), getDurationUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
+         task.setDuration3(getDuration (taskVarData.getInt(id, TASK_DURATION3), getDurationUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
          //task.setDurationVariance(); // Calculated value
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 8));
-         task.setFinish1(m_taskVarData.getTimestamp (id, TASK_FINISH1));
-         task.setFinish2(m_taskVarData.getTimestamp (id, TASK_FINISH2));
-         task.setFinish3(m_taskVarData.getTimestamp (id, TASK_FINISH3));
-         task.setFinish4(m_taskVarData.getTimestamp (id, TASK_FINISH4));
-         task.setFinish5(m_taskVarData.getTimestamp (id, TASK_FINISH5));
+         task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
+         task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
+         task.setFinish3(taskVarData.getTimestamp (id, TASK_FINISH3));
+         task.setFinish4(taskVarData.getTimestamp (id, TASK_FINISH4));
+         task.setFinish5(taskVarData.getTimestamp (id, TASK_FINISH5));
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Unsure of mapping from MPX->MSP2K
          task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));
@@ -482,12 +473,12 @@ public class MPPFile
          //task.setLinkedFields();  // Calculated value
          //task.setMarked();
          //task.setMilestone();
-         task.setName(m_taskVarData.getUnicodeString (id, TASK_NAME));
-         task.setNumber1(new Double (m_taskVarData.getDouble(id, TASK_NUMBER1)));
-         task.setNumber2(new Double (m_taskVarData.getDouble(id, TASK_NUMBER2)));
-         task.setNumber3(new Double (m_taskVarData.getDouble(id, TASK_NUMBER3)));
-         task.setNumber4(new Double (m_taskVarData.getDouble(id, TASK_NUMBER4)));
-         task.setNumber5(new Double (m_taskVarData.getDouble(id, TASK_NUMBER5)));
+         task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
+         task.setNumber1(new Double (taskVarData.getDouble(id, TASK_NUMBER1)));
+         task.setNumber2(new Double (taskVarData.getDouble(id, TASK_NUMBER2)));
+         task.setNumber3(new Double (taskVarData.getDouble(id, TASK_NUMBER3)));
+         task.setNumber4(new Double (taskVarData.getDouble(id, TASK_NUMBER4)));
+         task.setNumber5(new Double (taskVarData.getDouble(id, TASK_NUMBER5)));
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (new Integer (MPPUtility.getShort (data, 40)));
          //task.setOutlineNumber(); // Calculated value
@@ -504,34 +495,34 @@ public class MPPFile
          //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
          //task.setRollup();
          task.setStart (MPPUtility.getTimestamp (data, 88));
-         task.setStart1(m_taskVarData.getTimestamp (id, TASK_START1));
-         task.setStart2(m_taskVarData.getTimestamp (id, TASK_START2));
-         task.setStart3(m_taskVarData.getTimestamp (id, TASK_START3));
-         task.setStart4(m_taskVarData.getTimestamp (id, TASK_START4));
-         task.setStart5(m_taskVarData.getTimestamp (id, TASK_START5));
+         task.setStart1(taskVarData.getTimestamp (id, TASK_START1));
+         task.setStart2(taskVarData.getTimestamp (id, TASK_START2));
+         task.setStart3(taskVarData.getTimestamp (id, TASK_START3));
+         task.setStart4(taskVarData.getTimestamp (id, TASK_START4));
+         task.setStart5(taskVarData.getTimestamp (id, TASK_START5));
          //task.setStartVariance();
          task.setStop(MPPUtility.getTimestamp (data, 16));
          //task.setSubprojectFile();
          //task.setSummary(); // Calculated value
          //task.setSV(); // Calculated value
-         task.setText1(m_taskVarData.getUnicodeString (id, TASK_TEXT1));
-         task.setText2(m_taskVarData.getUnicodeString (id, TASK_TEXT2));
-         task.setText3(m_taskVarData.getUnicodeString (id, TASK_TEXT3));
-         task.setText4(m_taskVarData.getUnicodeString (id, TASK_TEXT4));
-         task.setText5(m_taskVarData.getUnicodeString (id, TASK_TEXT5));
-         task.setText6(m_taskVarData.getUnicodeString (id, TASK_TEXT6));
-         task.setText7(m_taskVarData.getUnicodeString (id, TASK_TEXT7));
-         task.setText8(m_taskVarData.getUnicodeString (id, TASK_TEXT8));
-         task.setText9(m_taskVarData.getUnicodeString (id, TASK_TEXT9));
-         task.setText10(m_taskVarData.getUnicodeString (id, TASK_TEXT10));
+         task.setText1(taskVarData.getUnicodeString (id, TASK_TEXT1));
+         task.setText2(taskVarData.getUnicodeString (id, TASK_TEXT2));
+         task.setText3(taskVarData.getUnicodeString (id, TASK_TEXT3));
+         task.setText4(taskVarData.getUnicodeString (id, TASK_TEXT4));
+         task.setText5(taskVarData.getUnicodeString (id, TASK_TEXT5));
+         task.setText6(taskVarData.getUnicodeString (id, TASK_TEXT6));
+         task.setText7(taskVarData.getUnicodeString (id, TASK_TEXT7));
+         task.setText8(taskVarData.getUnicodeString (id, TASK_TEXT8));
+         task.setText9(taskVarData.getUnicodeString (id, TASK_TEXT9));
+         task.setText10(taskVarData.getUnicodeString (id, TASK_TEXT10));
          //task.setTotalSlack(); // Calculated value
          task.setUniqueID(id);
          //task.setUpdateNeeded(); // Calculated value
-         task.setWBS(m_taskVarData.getUnicodeString (id, TASK_WBS));
+         task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
          //task.setWork();
          //task.setWorkVariance(); // Calculated value
 
-         //notes = m_taskVarData.getString (id, TASK_NOTES);
+         //notes = taskVarData.getString (id, TASK_NOTES);
          //if (notes != null)
          //{
          //   task.addTaskNotes(notes);
@@ -581,9 +572,9 @@ public class MPPFile
    /**
     * This method extracts and collates constraint data
     */
-   private void processConstraintData ()
+   private void processConstraintData (FixedData consFixedData)
    {
-      int count = m_consFixedData.getItemCount();
+      int count = consFixedData.getItemCount();
       byte[] data;
       Task task1;
       Task task2;
@@ -592,11 +583,11 @@ public class MPPFile
 
       for (int loop=0; loop < count; loop++)
       {
-         data = m_consFixedData.getByteArrayValue(loop);
+         data = consFixedData.getByteArrayValue(loop);
          int taskID1 = MPPUtility.getInt (data, 4);
          int taskID2 = MPPUtility.getInt (data, 8);
-         task1 = m_mpx.getTaskByUniqueID (taskID1);
-         task2 = m_mpx.getTaskByUniqueID (taskID2);
+         task1 = getTaskByUniqueID (taskID1);
+         task2 = getTaskByUniqueID (taskID2);
          if (task1 != null && task2 != null)
          {
             rel = task2.addPredecessor(task1);
@@ -614,10 +605,11 @@ public class MPPFile
     * @throws Exception on unexpected file format
     * @todo we need to strip the RTF formatting from the resource notes text
     */
-   private void processResourceData ()
+   private void processResourceData (VarMeta rscVarMeta, Var2Data rscVarData, FixedMeta rscFixedMeta, FixedData rscFixedData)
       throws Exception
    {
-      Integer[] uniqueid = m_rscVarMeta.getUniqueIdentifiers();
+      TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
+      Integer[] uniqueid = rscVarMeta.getUniqueIdentifiers();
       Integer id;
       Integer offset;
       byte[] data;
@@ -627,15 +619,15 @@ public class MPPFile
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
-         offset = (Integer)m_resourceMap.get(id);
+         offset = (Integer)resourceMap.get(id);
          if (offset == null)
          {
             throw new Exception ("File format error");
          }
 
-         data = m_rscFixedData.getByteArrayValue(offset.intValue());
+         data = rscFixedData.getByteArrayValue(offset.intValue());
 
-         resource = m_mpx.addResource();
+         resource = addResource();
 
          resource.setAccrueAt(new AccrueType (MPPUtility.getShort (data, 12)));
          //resource.setActualCost(); // Calculated value
@@ -643,17 +635,17 @@ public class MPPFile
          //resource.setBaseCalendar();
          resource.setBaselineCost(new Double(MPPUtility.getDouble(data, 148)/100));
          //resource.setBaselineWork();
-         resource.setCode (m_rscVarData.getUnicodeString (id, RESOURCE_CODE));
+         resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
          //resource.setCost(); // Calculated value
          resource.setCostPerUse(new Double(MPPUtility.getDouble(data, 84)/100));
          //resource.setCostVariance(); // Calculated value
-         resource.setEmailAddress(m_rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
-         resource.setGroup(m_rscVarData.getUnicodeString (id, RESOURCE_GROUP));
+         resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
+         resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
          resource.setID (new Integer (MPPUtility.getInt (data, 4)));
-         resource.setInitials (m_rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
+         resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value
          //resource.setMaxUnits();
-         resource.setName (m_rscVarData.getUnicodeString (id, RESOURCE_NAME));
+         resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));
          //resource.setNotes();
          //resource.setObjects(); // Calculated value
          //resource.setOverallocated(); // Calculated value
@@ -666,16 +658,16 @@ public class MPPFile
          //resource.setRemainingWork(); // Calculated value
          // need to look at the format?
          //resource.setStandardRate(new MPXRate (MPPUtility.getDouble(data, 28)/100, getRateDurationUnits(MPPUtility.getShort(data, 8))));
-         resource.setText1(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
-         resource.setText2(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
-         resource.setText3(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
-         resource.setText4(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
-         resource.setText5(m_rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
+         resource.setText1(rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
+         resource.setText2(rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
+         resource.setText3(rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
+         resource.setText4(rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
+         resource.setText5(rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
          resource.setUniqueID(id);
          //resource.setWork(); // Calculated value
          //resource.setWorkVariance(); // Calculated value
 
-         //notes = m_rscVarData.getString (id, RESOURCE_NOTES);
+         //notes = rscVarData.getString (id, RESOURCE_NOTES);
          //if (notes != null)
          //{
          //   resource.addResourceNotes(notes);
@@ -689,10 +681,10 @@ public class MPPFile
     *
     * @throws Exception on unexpected file format
     */
-   private void processAssignmentData ()
+   private void processAssignmentData (FixedData assnFixedData)
       throws Exception
    {
-      int count = m_assnFixedData.getItemCount();
+      int count = assnFixedData.getItemCount();
       byte[] data;
       Task task;
       Resource resource;
@@ -700,9 +692,9 @@ public class MPPFile
 
       for (int loop=0; loop < count; loop++)
       {
-         data = m_assnFixedData.getByteArrayValue(loop);
-         task = m_mpx.getTaskByUniqueID (MPPUtility.getInt (data, 4));
-         resource = m_mpx.getResourceByUniqueID (MPPUtility.getInt (data, 8));
+         data = assnFixedData.getByteArrayValue(loop);
+         task = getTaskByUniqueID (MPPUtility.getInt (data, 4));
+         resource = getResourceByUniqueID (MPPUtility.getInt (data, 8));
          if (task != null && resource != null)
          {
             assignment = task.addResourceAssignment (resource);
@@ -1044,30 +1036,4 @@ public class MPPFile
       BaseCalendar.WORKING,
       BaseCalendar.NONWORKING
    };
-
-   private MPXFile m_mpx;
-
-   private CompObj m_compObj;
-
-   private VarMeta m_calVarMeta;
-   private Var2Data m_calVarData;
-
-   private VarMeta m_taskVarMeta;
-   private Var2Data m_taskVarData;
-   private FixedMeta m_taskFixedMeta;
-   private FixedData m_taskFixedData;
-
-   private FixedData m_consFixedData;
-
-   private VarMeta m_rscVarMeta;
-   private Var2Data m_rscVarData;
-   private FixedMeta m_rscFixedMeta;
-   private FixedData m_rscFixedData;
-
-   private VarMeta m_assnVarMeta;
-   private Var2Data m_assnVarData;
-   private FixedData m_assnFixedData;
-
-   private TreeMap m_taskMap = new TreeMap ();
-   private TreeMap m_resourceMap = new TreeMap ();
 }

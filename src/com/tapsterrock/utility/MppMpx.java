@@ -50,8 +50,7 @@ public class MppMpx
          else
          {
             MPPFile mpp = new MPPFile (args[0]);
-            MPXFile file = mpp.getMpxFile();
-            file.write(args[1]);
+            mpp.write(args[1]);
          }
       }
 
