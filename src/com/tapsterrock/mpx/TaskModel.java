@@ -213,7 +213,7 @@ final class TaskModel extends MPXRecord
    private int getTaskCode (String field)
       throws MPXException
    {
-      Integer result = (Integer)m_taskNumbers.get(field);
+      Integer result = (Integer)m_taskNumbers.get(field.trim());
 
       if (result == null)
       {
