@@ -17,7 +17,6 @@
    <property name="jaxb.classpath" value="${lib.dir}/jaxb-api.jar:${lib.dir}/jaxb-impl.jar:${lib.dir}/jaxb-libs.jar:${lib.dir}/jax-qname.jar:${lib.dir}/namespace.jar:${lib.dir}/relaxngDatatype.jar:${lib.dir}/xsdlib.jar" />
    <property name="poi.classpath" value="${lib.dir}/jakarta-poi-2.5.jar" />
    <property name="doc.dir" value="${basedir}/doc/api" />
-   <property name="jbuilder.dir" value="${basedir}/jbuilder" />
    <property name="classes.dir" value="${basedir}/classes" />
    <property name="bak.dir" value="${basedir}/bak" />
    <property name="distribution" value="${basedir}/../mpxj.zip" />
@@ -67,9 +66,6 @@
    <delete dir="${bak.dir}"/>
    <delete>
       <fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/>
-   </delete>
-   <delete>
-      <fileset dir="${jbuilder.dir}" includes="**/*.local" />
    </delete>
 </target>
 
