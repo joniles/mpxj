@@ -104,7 +104,7 @@ public class ProjectNames extends MPXRecord
    public String toString()
    {
       StringBuffer buffer = new StringBuffer ();
-      char delimiter = getParent().getDelimiter();
+      char delimiter = getParentFile().getDelimiter();
 
       buffer.append (RECORD_NUMBER);
       buffer.append (delimiter);

@@ -36,7 +36,7 @@ class MPXDate extends Date
    /**
     * Default constructor.
     */
-   MPXDate (MPXDateFormat format)
+   public MPXDate (MPXDateFormat format)
    {
       super ();
       m_format = format;
@@ -47,7 +47,7 @@ class MPXDate extends Date
     *
     * @param date date required expressed in milliseconds.
     */
-   MPXDate (MPXDateFormat format, long date)
+   public MPXDate (MPXDateFormat format, long date)
    {
       super (date);
       m_format = format;
@@ -58,32 +58,22 @@ class MPXDate extends Date
     *
     * @param date date required expressed in milliseconds.
     */
-   MPXDate (MPXDateFormat format, Date date)
+   public MPXDate (MPXDateFormat format, Date date)
    {
       super (date.getTime());
       m_format = format;
    }
 
+   /**
+    * This method builds a String representation of the date represented
+    * by this instance.
+    *
+    * @return string representation of the date
+    */
    public String toString ()
    {
-      String result;
-
-      if (this.equals(MPXDate.NA_DATE) == true)
-      {
-         result = "NA";
-      }
-      else
-      {
-         result = m_format.format (this);
-      }
-
-      return (result);
+      return (m_format.format (this));
    }
 
    private MPXDateFormat m_format;
-
-   /**
-    * Special constant used to represent an NA date.
-    */
-   public static final MPXDate NA_DATE = new MPXDate (null, 0);
 }

@@ -22,10 +22,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/**
- * @todo sort out exception text
- */
-
 package com.tapsterrock.mpx;
 
 import java.io.File;
@@ -35,12 +31,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * This class encapsulates all functionality relating to creating, read
@@ -108,12 +105,13 @@ public class MPXFile
    /**
     * This method configures the basic MPX file.
     */
-   private void configure()
+   private void configure ()
    {
       m_records.add (m_fileCreationRecord);
       m_records.add (m_currencySettings);
       m_records.add (m_defaultSettings);
       m_records.add (m_dateTimeSettings);
+      m_records.add (m_projectHeader);
    }
 
    /**
@@ -170,7 +168,6 @@ public class MPXFile
          setDelimiter ((char)data[3]);
 
          bis.reset();
-
 
          //
          // Now process the file in full
@@ -323,12 +320,8 @@ public class MPXFile
 
          case ProjectHeader.RECORD_NUMBER:
          {
-            if (m_projectHeader == false)
-            {
-               current = new ProjectHeader (this, record);
-               m_records.add (current);
-               m_projectHeader=true;
-            }
+            m_projectHeader.update (record);
+            current = m_projectHeader;
             break;
          }
 
@@ -427,13 +420,33 @@ public class MPXFile
 
          case Task.RECORD_NUMBER:
          {
-            if (m_taskCount < MAX_TASKS)
+            if (m_allTasks.size() < MAX_TASKS)
             {
-               ++m_taskCount;
-               ++m_childTaskCount;
                m_lastTask = new Task(this, record);
                current = m_lastTask;
                m_records.add (current);
+               m_allTasks.add (current);
+
+               Integer outlineLevel = m_lastTask.getOutlineLevel();
+
+               if (m_baseOutlineLevel == -1 && outlineLevel != null)
+               {
+                  m_baseOutlineLevel = outlineLevel.intValue();
+               }
+
+               if (outlineLevel == null || outlineLevel.intValue() == m_baseOutlineLevel)
+               {
+                  m_childTasks.add (m_lastTask);
+               }
+               else
+               {
+                  if (m_childTasks.isEmpty() == true)
+                  {
+                     throw new MPXException (MPXException.INVALID_OUTLINE);
+                  }
+
+                  ((Task)m_childTasks.getLast()).addChildTask (m_lastTask, outlineLevel);
+               }
             }
             break;
          }
@@ -524,13 +537,13 @@ public class MPXFile
    void addTask (Task task)
       throws MPXException
    {
-      if (m_taskCount == MAX_TASKS)
+      if (m_allTasks.size() == MAX_TASKS)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ++ m_taskCount;
       m_records.add (task);
+      m_allTasks.add (task);
    }
 
    /**
@@ -545,6 +558,16 @@ public class MPXFile
       return ((Task)add(Task.RECORD_NUMBER));
    }
 
+   /**
+    * This method is used to retrieve all of the top level tasks
+    * that are defined in this MPX file.
+    *
+    * @return list of tasks
+    */
+   public LinkedList getChildTasks ()
+   {
+      return (m_childTasks);
+   }
 
    /**
     * Method for accessing the Task Model
@@ -587,6 +610,26 @@ public class MPXFile
    }
 
    /**
+    * Used to set whether the task unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoTaskUniqueID (boolean flag)
+   {
+      m_autoTaskUniqueID = flag;
+   }
+
+   /**
+    * Used to set whether the task ID field is automatically populated.
+    *
+    * @param flag true if automatic ID required.
+    */
+   public void setAutoTaskID (boolean flag)
+   {
+      m_autoTaskID = flag;
+   }
+
+   /**
     * Retrieve the flag that determines whether WBS is generated
     * automatically.
     *
@@ -608,7 +651,109 @@ public class MPXFile
       return (m_autoOutlineLevel);
    }
 
+   /**
+    * Retrieve the flag that determines whether the task unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoTaskUniqueID ()
+   {
+      return (m_autoTaskUniqueID);
+   }
 
+   /**
+    * Retrieve the flag that determines whether the task ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoTaskID ()
+   {
+      return (m_autoTaskID);
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for a task.
+    *
+    * @return next unique ID
+    */
+   int getTaskUniqueID ()
+   {
+      return (++m_taskUniqueID);
+   }
+
+   /**
+    * This method is used to retrieve the next ID for a task.
+    *
+    * @return next ID
+    */
+   int getTaskID ()
+   {
+      return (++m_taskID);
+   }
+
+   /**
+    * Used to set whether the resource unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoResourceUniqueID (boolean flag)
+   {
+      m_autoResourceUniqueID = flag;
+   }
+
+   /**
+    * Used to set whether the resource ID field is automatically populated.
+    *
+    * @param flag true if automatic ID required.
+    */
+   public void setAutoResourceID (boolean flag)
+   {
+      m_autoResourceID = flag;
+   }
+
+   /**
+    * Retrieve the flag that determines whether the resource unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoResourceUniqueID ()
+   {
+      return (m_autoResourceUniqueID);
+   }
+
+   /**
+    * Retrieve the flag that determines whether the resource ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoResourceID ()
+   {
+      return (m_autoResourceID);
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for a resource.
+    *
+    * @return next unique ID
+    */
+   int getResourceUniqueID ()
+   {
+      return (++m_resourceUniqueID);
+   }
+
+   /**
+    * This method is used to retrieve the next ID for a resource.
+    *
+    * @return next ID
+    */
+   int getResourceID ()
+   {
+      return (++m_resourceID);
+   }
 
    /**
     * Programatically add a new comment to the MPX file.
@@ -688,6 +833,8 @@ public class MPXFile
    {
       BaseCalendar calendar = (BaseCalendar)add(BaseCalendar.RECORD_NUMBER);
 
+      calendar.setName("Standard");
+
       calendar.setSunday(BaseCalendar.NONWORKING);
       calendar.setMonday(BaseCalendar.WORKING);
       calendar.setTuesday(BaseCalendar.WORKING);
@@ -702,15 +849,13 @@ public class MPXFile
    }
 
    /**
-    * This method is used to add a project header to the file.
+    * This method is used to retrieve the project header record.
     *
-    * @return new project header object
-    * @throws MPXException normally thrown on parse errors
+    * @return project header object
     */
-   public ProjectHeader addProjectHeader ()
-      throws MPXException
+   public ProjectHeader getProjectHeader ()
    {
-      return ((ProjectHeader)add(ProjectHeader.RECORD_NUMBER));
+      return (m_projectHeader);
    }
 
    /**
@@ -882,7 +1027,103 @@ public class MPXFile
     */
    int getChildTaskCount ()
    {
-      return (m_childTaskCount);
+      return (m_childTasks.size());
+   }
+
+   /**
+    * This method is used to calculate the duration of work between two fixed
+    * dates according to the work schedule defined in the named calendar. The
+    * calendar used is the "Standard" calendar. If this calendar does not exist,
+    * and exception will be thrown.
+    *
+    * @param startDate start of the period
+    * @param endDate end of the period
+    * @return new MPXDuration object
+    * @throws MPXException normally when no Standard calendar is available
+    */
+   public MPXDuration getDuration (Date startDate, Date endDate)
+      throws MPXException
+   {
+      return (getDuration ("Standard", startDate, endDate));
+   }
+
+   /**
+    * This method is used to calculate the duration of work between two fixed
+    * dates according to the work schedule defined in the named calendar.
+    * The name of the calendar to be used is passed as an argument.
+    *
+    * @param calendarName name of the calendar to use
+    * @param startDate start of the period
+    * @param endDate end of the period
+    * @return new MPXDuration object
+    * @throws MPXException normally when no Standard calendar is available
+    */
+   public MPXDuration getDuration (String calendarName, Date startDate, Date endDate)
+      throws MPXException
+   {
+      BaseCalendar calendar = getBaseCalendar(calendarName);
+      if (calendar == null)
+      {
+         throw new MPXException (MPXException.CALENDAR_ERROR + ": " + calendarName);
+      }
+
+      return (calendar.getDuration (startDate, endDate));
+   }
+
+   /**
+    * This method allows an arbitrary task to be retrieved based
+    * on its ID field.
+    *
+    * @param id task identified
+    * @return the requested task, or null if not found
+    */
+   public Task getTaskByID (int id)
+   {
+      Task result = null;
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      Integer taskID;
+
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         taskID = task.getID();
+         if (taskID != null && taskID.intValue() == id)
+         {
+            result = task;
+            break;
+         }
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method allows an arbitrary task to be retrieved based
+    * on its UniqueID field.
+    *
+    * @param id task identified
+    * @return the requested task, or null if not found
+    */
+   public Task getTaskByUniqueID (int id)
+   {
+      Task result = null;
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      Integer taskID;
+
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         taskID = task.getUniqueID();
+         if (taskID != null && taskID.intValue() == id)
+         {
+            result = task;
+            break;
+         }
+      }
+
+      return (result);
    }
 
    /**
@@ -892,16 +1133,41 @@ public class MPXFile
    static final String EOL = "\r\n";
 
    /**
-    * Counter representing nthe number of child tasks associated with
-    * this parent task.
+    * Counter used to populate the unique ID field of a task
     */
-   private int m_childTaskCount;
-
+   private int m_taskUniqueID = 0;
 
    /**
-    * List to maintain order of objects added.
+    * Counter used to populate the ID field of a task
+    */
+   private int m_taskID = 0;
+
+   /**
+    * Counter used to populate the unique ID field of a resource
+    */
+   private int m_resourceUniqueID = 0;
+
+   /**
+    * Counter used to populate the ID field of a resource
+    */
+   private int m_resourceID = 0;
+
+   /**
+    * List to maintain records in the order that they are added.
     */
    private LinkedList m_records = new LinkedList();
+
+   /**
+    * This list holds a reference to all tasks defined in the
+    * MPX file.
+    */
+   private LinkedList m_allTasks = new LinkedList ();
+
+   /**
+    * List holding references to the top level tasks
+    * as defined by the outline level.
+    */
+   private LinkedList m_childTasks = new LinkedList ();
 
    /**
     * List holding references to all base calendars.
@@ -944,6 +1210,11 @@ public class MPXFile
    private DateTimeSettings m_dateTimeSettings = new DateTimeSettings (this);
 
    /**
+    * Project header record.
+    */
+   private ProjectHeader m_projectHeader = new ProjectHeader (this);
+
+   /**
     * Task model.
     */
    private TaskModel m_taskModel = new TaskModel(this);
@@ -984,11 +1255,6 @@ public class MPXFile
    private int m_baseCalendarCount = 0;
 
    /**
-    * Flag indicating the existence of a project header record.
-    */
-   private boolean m_projectHeader = false;
-
-   /**
     * Flag indicating the existence of a resource model record.
     */
    private boolean m_resourceTableDefinition = false;
@@ -1002,11 +1268,6 @@ public class MPXFile
     * Flag indicating the existence of a task model record.
     */
    private boolean m_taskTableDefinition = false;
-
-   /**
-    * Count of the number of tasks.
-    */
-   private int m_taskCount = 0;
 
    /**
     * Count of the number of project names.
@@ -1034,6 +1295,42 @@ public class MPXFile
     * or will be manually set.
     */
    private boolean m_autoOutlineLevel = false;
+
+   /**
+    * Indicating whether the unique ID of a task should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoTaskUniqueID = false;
+
+   /**
+    * Indicating whether the ID of a task should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoTaskID = false;
+
+   /**
+    * Indicating whether the unique ID of a tresource should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoResourceUniqueID = false;
+
+   /**
+    * Indicating whether the ID of a tresource should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoResourceID = false;
+
+   /**
+    * This member data is used to hold the outline level number of the
+    * first outline level used in the MPX file. When data from
+    * Microsoft Project is saved in MPX format, MSP creates an invisible
+    * task with an outline level as zero, which acts as an umbrella
+    * task for all of the other tasks defined in the file. This is not
+    * a strict requirement, and an MPX file could be generated from another
+    * source that only contains "visible" tasks that have outline levels
+    * >= 1.
+    */
+   private int m_baseOutlineLevel = -1;
 
    /**
     * Flag used to tell the library whether to use thousands separators when

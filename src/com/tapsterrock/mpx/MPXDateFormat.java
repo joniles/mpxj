@@ -86,7 +86,7 @@ class MPXDateFormat
       {
          if (str.equals("NA") == true)
          {
-            result = MPXDate.NA_DATE;
+            result = null;
          }
          else
          {

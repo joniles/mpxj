@@ -201,7 +201,7 @@ public class CurrencySettings extends MPXRecord
    {
       if (m_update == true)
       {
-         MPXFile parent = getParent();
+         MPXFile parent = getParentFile();
          MPXNumberFormat currencyFormat = parent.getCurrencyFormat();
          String prefix = "";
          String suffix = "";

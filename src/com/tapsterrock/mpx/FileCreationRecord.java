@@ -67,7 +67,7 @@ public class FileCreationRecord extends MPXRecord
    public void setDelimiter (char delimiter)
    {
       m_delimiter = delimiter;
-      getParent().setDelimiter (m_delimiter);
+      getParentFile().setDelimiter (m_delimiter);
    }
 
    /**
@@ -149,7 +149,7 @@ public class FileCreationRecord extends MPXRecord
    public String toString()
    {
       StringBuffer buffer = new StringBuffer ();
-      char delimiter = getParent().getDelimiter();
+      char delimiter = getParentFile().getDelimiter();
 
       buffer.append ("MPX");
       buffer.append (delimiter);

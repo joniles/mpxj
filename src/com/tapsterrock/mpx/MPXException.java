@@ -120,4 +120,19 @@ public class MPXException extends Exception
     */
    public static final String READ_ERROR = "Error reading file";
 
+   /**
+    * Invalid calendar error message.
+    */
+   public static final String CALENDAR_ERROR = "Invalid calendar";
+
+   /**
+    * Invalid outline error message.
+    */
+   public static final String INVALID_OUTLINE = "Invalid outline level";
+
+   /**
+    * Invalid format error message.
+    */
+   public static final String INVALID_FORMAT = "Invalid format";
+
 }

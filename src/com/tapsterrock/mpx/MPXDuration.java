@@ -72,6 +72,18 @@ public class MPXDuration
       m_type = type;
    }
 
+   /**
+    * Constructs an instance of this class from a duration amount and
+    * time unit type.
+    *
+    * @param duration amount of duration
+    * @param type time unit of duration
+    */
+   public MPXDuration (int duration, int type)
+   {
+      m_duration = (double)duration;
+      m_type = type;
+   }
 
    /**
     * This method generates a string in MPX format representing the
@@ -82,6 +94,28 @@ public class MPXDuration
    public String toString ()
    {
       return (FLOAT_FORMAT.format(m_duration) + TimeUnit.format(m_type));
+   }
+
+   /**
+    * This method is used to retrieve the size of the duration.
+    *
+    * @return size of the duration
+    */
+   public double getDuration ()
+   {
+      return (m_duration);
+   }
+
+   /**
+    * This method is used to retreve the type of units the duration
+    * is expressed in. The valid types of units are found in the TimeUnit
+    * class.
+    *
+    * @return type of units
+    */
+   public int getType ()
+   {
+      return (m_type);
    }
 
    private double m_duration;

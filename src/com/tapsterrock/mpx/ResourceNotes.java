@@ -83,7 +83,7 @@ public class ResourceNotes extends MPXRecord
       StringBuffer buffer = new StringBuffer ();
 
       buffer.append (RECORD_NUMBER);
-      buffer.append (getParent().getDelimiter());
+      buffer.append (getParentFile().getDelimiter());
       buffer.append (m_note);
       buffer.append (MPXFile.EOL);
 

@@ -256,7 +256,7 @@ class MPXRecord
     *
     * @return reference to this MPXFile
     */
-   public MPXFile getParent()
+   public MPXFile getParentFile ()
    {
       return (m_mpx);
    }

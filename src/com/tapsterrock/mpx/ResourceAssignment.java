@@ -84,7 +84,7 @@ public class ResourceAssignment extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_workgroup = new ResourceAssignmentWorkgroupFields (getParent());
+      m_workgroup = new ResourceAssignmentWorkgroupFields (getParentFile());
 
       return (m_workgroup);
    }
@@ -108,7 +108,7 @@ public class ResourceAssignment extends MPXRecord
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_workgroup = new ResourceAssignmentWorkgroupFields (getParent(), record);
+      m_workgroup = new ResourceAssignmentWorkgroupFields (getParentFile(), record);
 
       return (m_workgroup);
    }
