@@ -2092,6 +2092,26 @@ public final class ProjectHeader extends MPXRecord
    }
    
    /**
+    * Retrieves the category text.
+    * 
+    * @return category text
+    */
+   public String getCategory ()
+   {
+      return (m_category);
+   }
+   
+   /**
+    * Sets the category text.
+    * 
+    * @param category category text
+    */
+   public void setCategory (String category)
+   {
+      m_category = category;
+   }
+   
+   /**
     * This method updates the formatters used to control the currency
     * formatting.
     */
@@ -2287,7 +2307,8 @@ public final class ProjectHeader extends MPXRecord
     */
    private Date m_defaultEndTime;
    private boolean m_projectExternallyEdited;
-      
+   private String m_category;      
+   
    /*
     * Missing MSPDI attributes 
     * 
@@ -2332,7 +2353,6 @@ public final class ProjectHeader extends MPXRecord
        void setMoveRemainingStartsForward(boolean value);
        void setDefaultTaskType(java.math.BigInteger value);
        void setActualsInSync(boolean value);
-       void setCategory(java.lang.String value);
        void setCreationDate(java.util.Calendar value);
     */   
    

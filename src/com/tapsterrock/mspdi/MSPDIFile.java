@@ -421,7 +421,7 @@ public class MSPDIFile extends MPXFile
       //header.setDefaultTaskType();
       header.setProjectExternallyEdited(project.isProjectExternallyEdited());
       //header.setActualsInSync();
-      //header.setCategory();
+      header.setCategory(project.getCategory());
       //header.setCreationDate();
    }
 
@@ -2528,7 +2528,7 @@ public class MSPDIFile extends MPXFile
       project.setDefaultTaskType(BigInteger.ZERO);      
       project.setProjectExternallyEdited(header.getProjectExternallyEdited());
       //project.setActualsInSync();
-      //project.setCategory();
+      project.setCategory(header.getCategory());
       //project.setCreationDate();
    }
 

@@ -49,6 +49,7 @@ final class SummaryInformation
          
          ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005DocumentSummaryInformation"))));         
          map = getPropertyMap(ps);
+         m_category = (String)map.get(CATEGORY);
          m_company = (String)map.get(COMPANY);
          m_manager = (String)map.get(MANAGER);               
       }
@@ -166,17 +167,24 @@ final class SummaryInformation
    private String m_author;
    private String m_keywords;
    private String m_comments;
+   
+   private String m_category;
    private String m_manager;
    private String m_company;
    
    /**
-    * Constants representing properties
+    * Constants representing Summary Information properties
     */
    private static final Integer PROJECT_TITLE = new Integer (102);   
    private static final Integer SUBJECT = new Integer (103);   
    private static final Integer AUTHOR = new Integer (104);   
    private static final Integer KEYWORDS = new Integer (105);   
    private static final Integer COMMENTS = new Integer (106);      
+
+   /**
+    * Constants representing Document Summary Information properties
+    */   
+   private static final Integer CATEGORY = new Integer (102);      
    private static final Integer MANAGER = new Integer (114);   
    private static final Integer COMPANY = new Integer (115);   
 }
