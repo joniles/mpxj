@@ -968,6 +968,23 @@ public class MPXFile
    }
 
    /**
+    * This is a convenience method provided to allow the contents of the MPX
+    * file to be written to a file specified by the file name passed as
+    * a parameter.
+    *
+    * @param file destination output file
+    * @throws IOException thrown on failure to write to the file
+    */
+   public void write (String file)
+      throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream (file);
+      write (fos);
+      fos.flush();
+      fos.close();
+   }
+
+   /**
     * This method retrieves the time formatter.
     *
     * @return time formatter
