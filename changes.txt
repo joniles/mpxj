@@ -8,6 +8,7 @@ Fixed a bug processing tables where column data is null
 Added support for task calendars.
 Fixed checkstyle code warnings.
 Fixed Eclipse code warnings.
+Updated to include version 2.5 of the POI library.
 
 Version 0.0.19
 Fixed a bug reading table data from certain MPP8 files

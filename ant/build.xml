@@ -18,7 +18,7 @@
    <property name="jaxb.dir" value="${jwsdp.dir}\jaxb" />
    <property name="jaxb.classpath" value="${jaxb.dir}/lib/jaxb-api.jar:${jaxb.dir}/lib/jaxb-impl.jar:${jaxb.dir}/lib/jaxb-libs.jar:${jwsdp.dir}\jwsdp-shared\lib\jax-qname.jar:${jwsdp.dir}\jwsdp-shared\lib\namespace.jar:${jwsdp.dir}\jwsdp-shared\lib\relaxngDatatype.jar:${jwsdp.dir}\jwsdp-shared\lib\xsdlib.jar" />
    <property name="mspdi.xsd" value="c:\tapsterrock\docs\msp\project2003-mspdi.xsd"/>
-   <property name="poi.classpath" value="${basedir}/lib/jakarta-poi-1.5.1.jar" />
+   <property name="poi.classpath" value="${basedir}/lib/jakarta-poi-2.5.jar" />
 
    <property name="doc.dir" value="${basedir}/doc/api" />
    <property name="jbuilder.dir" value="${basedir}/jbuilder" />
