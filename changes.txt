@@ -1,3 +1,15 @@
+Version 0.0.12
+Fixed incorrect handling of timezones and daylight saving time.
+Fixed incorrect task structure generated from outline levels.
+Updated to extract the notes fields from tasks and resources read from an MPP file.
+Added the option to remove or preserve the RTF formatting from the note fields from an MPP file.
+Updated to extract the following fields from task data in an MPP file which were previously not imported:
+	Text11-Text30, Number6-Number20, Duration4-Duration10, Date1-Date10, 
+	Cost4-Cost10, Start6-Start10, Finish6-Finish10
+Updated to extract the following fields from resource data in an MPP file which were previously not imported:
+	Text6-Text30, Start1-Start10, Finish1-Finish10, Number1-Number20, 
+	Duration1-Duration10, Date1-Date10, Cost1-Cost10
+
 Version 0.0.11
 Fixed error in format string used in one of the example files.
 Fixed error where double byte characters were being read incorrectly.
