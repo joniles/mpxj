@@ -590,6 +590,91 @@ final class MPPUtility
 
 
    /**
+    * This method maps from the value used to specify default work units in the
+    * MPP file to a standard TimeUnit.
+    * 
+    * @param value Default work units
+    * @return TimeUnit value
+    */
+   public static int getWorkUnits (int value)
+   {
+      int result;
+      
+      switch (value)
+      {
+         case 1:
+         {
+            result = TimeUnit.MINUTES;
+            break;
+         }
+         
+         case 3:
+         {
+            result = TimeUnit.DAYS;
+            break;
+         }
+
+         case 4:
+         {
+            result = TimeUnit.WEEKS;
+            break;
+         }
+
+         case 2:                           
+         default:
+         {
+            result = TimeUnit.HOURS;
+            break;  
+         }   
+      }
+      
+      return (result);      
+   }
+
+   /**
+    * This method maps the currency symbol position from the
+    * representation used in the MPP file to the representation
+    * used by MPX.
+    * 
+    * @param value MPP symbol position
+    * @return MPX symbol position
+    */
+   public static int getSymbolPosition (int value)   
+   {
+      int result;
+      
+      switch (value)
+      {
+         case 1:
+         {
+            result = 0;
+            break;
+         }
+         
+         case 2:
+         {
+            result = 3;
+            break;   
+         }
+
+         case 3:
+         {
+            result = 2;
+            break;   
+         }
+         
+         case 0:
+         default:
+         {
+            result = 1;
+            break;
+         }  
+      }  
+      
+      return (result);
+   }
+
+   /**
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
     * characters.

@@ -38,6 +38,8 @@ import com.tapsterrock.mpx.BaseCalendar;
 import com.tapsterrock.mpx.BaseCalendarException;
 import com.tapsterrock.mpx.BaseCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
+import com.tapsterrock.mpx.CurrencySettings;
+import com.tapsterrock.mpx.DefaultSettings;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
@@ -73,6 +75,7 @@ final class MPP9File
 		//
 		// Extract the required data from the MPP file
 		//
+      processPropertyData (file, projectDir);      
 		processCalendarData (file, projectDir);
   		processResourceData (file, projectDir);
 	  	processTaskData (file, projectDir);
@@ -80,6 +83,41 @@ final class MPP9File
 	  	processAssignmentData (file, projectDir);
 	}
 	
+   
+   /**
+    * This method extracts and collates global property data.
+    * 
+    * @param file Parent MPX file
+    * @param projectDir Project data directory
+    * @throws MPXException
+    * @throws IOException
+    */   
+   private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
+      throws MPXException, IOException
+   {
+      Props props = new Props (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      
+      DefaultSettings ds = file.getDefaultSettings();           
+      //ds.setDefaultDurationIsFixed();
+      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props.DURATION_UNITS)));
+      ds.setDefaultEndTime(props.getTime(Props.END_TIME));
+      ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
+      ds.setDefaultHoursInWeek(((float)props.getInt(Props.HOURS_PER_WEEK))/60);
+      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
+      ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
+      ds.setDefaultStartTime(props.getTime(Props.START_TIME));
+      ds.setDefaultWorkUnits(MPPUtility.getWorkUnits(props.getShort(Props.WORK_UNITS)));
+      ds.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
+      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
+
+      CurrencySettings cs = file.getCurrencySettings();
+      cs.setCurrencyDigits(props.getShort(Props.CURRENCY_DIGITS));
+      cs.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
+      //cs.setDecimalSeparator();
+      cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
+      //cs.setThousandsSeparator();
+   }
+   
    /**
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.

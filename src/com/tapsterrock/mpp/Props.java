@@ -24,14 +24,14 @@ import java.util.TreeMap;
  * indicate that the property data has not been fully retrieved. All properties
  * retrieved up to the point of failure will be available.
  */
-public final class Props extends MPPComponent
+final class Props extends MPPComponent
 {
    /**
     * Constructor, reads the property data from an input stream.
     * 
     * @param is
     */
-   public Props (InputStream is)
+   Props (InputStream is)
    {
       try
       {
@@ -247,6 +247,24 @@ public final class Props extends MPPComponent
       pw.close();
       return (sw.toString());
    }
+   
+   /**
+    * Data types
+    */
+   public static final Integer CURRENCY_SYMBOL = new Integer (16);
+   public static final Integer CURRENCY_PLACEMENT = new Integer (17);   
+   public static final Integer CURRENCY_DIGITS = new Integer (18);
+      
+   public static final Integer DURATION_UNITS = new Integer (21);
+   public static final Integer WORK_UNITS = new Integer (22);
+   public static final Integer TASK_UPDATES_RESOURCE = new Integer (25);
+   public static final Integer SPLIT_TASKS = new Integer (26);
+   public static final Integer START_TIME = new Integer (28);
+   public static final Integer HOURS_PER_DAY = new Integer (29);
+   public static final Integer HOURS_PER_WEEK = new Integer (30);
+   public static final Integer STANDARD_RATE = new Integer (31);
+   public static final Integer OVERTIME_RATE = new Integer (32);
+   public static final Integer END_TIME = new Integer (33);
    
    private boolean m_complete = true;
    private TreeMap m_map = new TreeMap (); 

@@ -99,22 +99,22 @@ final class MPP8File
       
       DefaultSettings ds = file.getDefaultSettings();           
       //ds.setDefaultDurationIsFixed();
-      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(PROP_DURATION_UNITS)));
-      ds.setDefaultEndTime(props.getTime(PROP_END_TIME));
-      ds.setDefaultHoursInDay(((float)props.getInt(PROP_HOURS_PER_DAY))/60);
-      ds.setDefaultHoursInWeek(((float)props.getInt(PROP_HOURS_PER_WEEK))/60);
-      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(PROP_OVERTIME_RATE), TimeUnit.HOURS));
-      ds.setDefaultStandardRate(new MPXRate (props.getDouble(PROP_STANDARD_RATE), TimeUnit.HOURS));
-      ds.setDefaultStartTime(props.getTime(PROP_START_TIME));
-      ds.setDefaultWorkUnits(getWorkUnits(props.getShort(PROP_WORK_UNITS)));
-      ds.setSplitInProgressTasks(props.getBoolean(PROP_SPLIT_TASKS));
-      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(PROP_TASK_UPDATES_RESOURCE));
+      ds.setDefaultDurationUnits(MPPUtility.getDurationUnits(props.getShort(Props.DURATION_UNITS)));
+      ds.setDefaultEndTime(props.getTime(Props.END_TIME));
+      ds.setDefaultHoursInDay(((float)props.getInt(Props.HOURS_PER_DAY))/60);
+      ds.setDefaultHoursInWeek(((float)props.getInt(Props.HOURS_PER_WEEK))/60);
+      ds.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
+      ds.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
+      ds.setDefaultStartTime(props.getTime(Props.START_TIME));
+      ds.setDefaultWorkUnits(MPPUtility.getWorkUnits(props.getShort(Props.WORK_UNITS)));
+      ds.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
+      ds.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
       CurrencySettings cs = file.getCurrencySettings();
-      cs.setCurrencyDigits(props.getShort(PROP_CURRENCY_DIGITS));
-      cs.setCurrencySymbol(props.getUnicodeString(PROP_CURRENCY_SYMBOL));
+      cs.setCurrencyDigits(props.getShort(Props.CURRENCY_DIGITS));
+      cs.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
       //cs.setDecimalSeparator();
-      cs.setSymbolPosition(getSymbolPosition(props.getShort(PROP_CURRENCY_PLACEMENT)));
+      cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //cs.setThousandsSeparator();
    }
    
@@ -893,110 +893,7 @@ final class MPP8File
    {
       return (-1 - MPPUtility.getInt(data, offset));      
    }      
-
-   /**
-    * This method maps from the value used to specify default work units in the
-    * MPP file to a standard TimeUnit.
-    * 
-    * @param value Default work units
-    * @return TimeUnit value
-    */
-   private static int getWorkUnits (int value)
-   {
-      int result;
-      
-      switch (value)
-      {
-         case 1:
-         {
-            result = TimeUnit.MINUTES;
-            break;
-         }
          
-         case 3:
-         {
-            result = TimeUnit.DAYS;
-            break;
-         }
-
-         case 4:
-         {
-            result = TimeUnit.WEEKS;
-            break;
-         }
-
-         case 2:                           
-         default:
-         {
-            result = TimeUnit.HOURS;
-            break;  
-         }   
-      }
-      
-      return (result);      
-   }
-
-   /**
-    * This method maps the currency symbol position from the
-    * representation used in the MPP file to the representation
-    * used by MPX.
-    * 
-    * @param value MPP symbol position
-    * @return MPX symbol position
-    */
-   private static int getSymbolPosition (int value)   
-   {
-      int result;
-      
-      switch (value)
-      {
-         case 1:
-         {
-            result = 0;
-            break;
-         }
-         
-         case 2:
-         {
-            result = 3;
-            break;   
-         }
-
-         case 3:
-         {
-            result = 2;
-            break;   
-         }
-         
-         case 0:
-         default:
-         {
-            result = 1;
-            break;
-         }  
-      }  
-      
-      return (result);
-   }
-   
-   /**
-    * Property data types
-    */
-   private static final Integer PROP_CURRENCY_SYMBOL = new Integer (16);
-   private static final Integer PROP_CURRENCY_PLACEMENT = new Integer (17);   
-   private static final Integer PROP_CURRENCY_DIGITS = new Integer (18);
-      
-   private static final Integer PROP_DURATION_UNITS = new Integer (21);
-   private static final Integer PROP_WORK_UNITS = new Integer (22);
-   private static final Integer PROP_TASK_UPDATES_RESOURCE = new Integer (25);
-   private static final Integer PROP_SPLIT_TASKS = new Integer (26);
-   private static final Integer PROP_START_TIME = new Integer (28);
-   private static final Integer PROP_HOURS_PER_DAY = new Integer (29);
-   private static final Integer PROP_HOURS_PER_WEEK = new Integer (30);
-   private static final Integer PROP_STANDARD_RATE = new Integer (31);
-   private static final Integer PROP_OVERTIME_RATE = new Integer (32);
-   private static final Integer PROP_END_TIME = new Integer (33);
-      
    /**
     * Task data types.
     */
