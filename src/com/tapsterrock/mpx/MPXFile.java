@@ -1057,15 +1057,17 @@ public class MPXFile
    }
 
    /**
-    * This method writes each record in the MPX file to an output stream.
-    *
-    * @param out destination output stream
+    * This method writes each record in an MPX file to an output stream, via
+    * the specified OutputStreamWriter. By providing the OutputStreamWriter
+    * as an argument, the caller can control the character encoding used
+    * when writing the file.
+    * 
+    * @param w OutputStreamWriterinstance
     * @throws IOException thrown on failure to write to the output stream
     */
-   public void write (OutputStream out)
+   public void write (OutputStreamWriter w)
       throws IOException
    {
-      OutputStreamWriter w = new OutputStreamWriter (new BufferedOutputStream (out));
       Iterator iter = m_records.iterator();
       String str;
 
@@ -1081,6 +1083,21 @@ public class MPXFile
       //
       m_taskModel.setWritten (false);
       m_resourceModel.setWritten (false);
+   }
+
+   /**
+    * This method writes each record in the MPX file to an output stream.
+    * Note that the default OutputStreamWriter is used, which may not
+    * provide you with the character set encoding appropriate for the
+    * data represented in the file.
+    *
+    * @param out destination output stream
+    * @throws IOException thrown on failure to write to the output stream
+    */
+   public void write (OutputStream out)
+      throws IOException
+   {
+      write (new OutputStreamWriter (new BufferedOutputStream (out)));
    }
 
    /**
