@@ -46,7 +46,14 @@ public class TimeUnit
       {
          case 'm':
          {
-            result = MINUTES;
+            if (units.length() > 1 && units.charAt(1) == 'o')
+            {
+               result = MONTHS;
+            }
+            else
+            {
+               result = MINUTES;
+            }
             break;
          }
 
@@ -85,7 +92,14 @@ public class TimeUnit
             {
                case 'm':
                {
-                  result = ELAPSED_MINUTES;
+                  if (units.length() > 2 && units.charAt(2) == 'o')
+                  {
+                     result = ELAPSED_MONTHS;
+                  }
+                  else
+                  {
+                     result = ELAPSED_MINUTES;
+                  }
                   break;
                }
 
@@ -143,73 +157,13 @@ public class TimeUnit
    {
       String result;
 
-      switch (units)
+      if (units < 0 || units >= UNIT_NAMES.length)
       {
-         case MINUTES:
-         {
-            result = "m";
-            break;
-         }
-
-         case HOURS:
-         {
-            result = "h";
-            break;
-         }
-
-         case DAYS:
-         {
-            result = "d";
-            break;
-         }
-
-         case WEEKS:
-         {
-            result = "w";
-            break;
-         }
-
-         case YEARS:
-         {
-            result = "y";
-            break;
-         }
-
-         case ELAPSED_MINUTES:
-         {
-            result = "em";
-            break;
-         }
-
-         case ELAPSED_HOURS:
-         {
-            result = "eh";
-            break;
-         }
-
-         case ELAPSED_DAYS:
-         {
-            result = "ed";
-            break;
-         }
-
-         case ELAPSED_WEEKS:
-         {
-            result = "ew";
-            break;
-         }
-
-         case ELAPSED_YEARS:
-         {
-            result = "ey";
-            break;
-         }
-
-         default:
-         {
-            result = "";
-            break;
-         }
+         result = "";
+      }
+      else
+      {
+         result = UNIT_NAMES[units];
       }
 
       return (result);
@@ -236,33 +190,64 @@ public class TimeUnit
    public static final int WEEKS = 3;
 
    /**
+    * Constant representing Months
+    */
+   public static final int MONTHS = 4;
+
+   /**
     * Constant representing Years
     */
-   public static final int YEARS = 4;
+   public static final int YEARS = 5;
 
 
    /**
     * Constant representing Elapsed Minutes
     */
-   public static final int ELAPSED_MINUTES = 5;
+   public static final int ELAPSED_MINUTES = 6;
 
    /**
     * Constant representing Elapsed Hours
     */
-   public static final int ELAPSED_HOURS = 6;
+   public static final int ELAPSED_HOURS = 7;
 
    /**
     * Constant representing Elapsed Days
     */
-   public static final int ELAPSED_DAYS = 7;
+   public static final int ELAPSED_DAYS = 8;
 
    /**
     * Constant representing Elapsed Weeks
     */
-   public static final int ELAPSED_WEEKS = 8;
+   public static final int ELAPSED_WEEKS = 9;
+
+   /**
+    * Constant representing Elapsed Months
+    */
+   public static final int ELAPSED_MONTHS = 10;
 
    /**
     * Constant representing Elapsed Years
     */
-   public static final int ELAPSED_YEARS = 9;
+   public static final int ELAPSED_YEARS = 11;
+
+   /**
+    * Array of text names for the above time units.
+    * The position of the name in the array corresponds to
+    * the value of the constants.
+    */
+   private static final String[] UNIT_NAMES =
+   {
+      "m",
+      "h",
+      "d",
+      "w",
+      "mon",
+      "y",
+      "em",
+      "eh",
+      "ed",
+      "ew",
+      "emon",
+      "ey"
+   };
 }
