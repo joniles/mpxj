@@ -26,6 +26,7 @@ package com.tapsterrock.mspdi;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.TimeUnit;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * This class parses and represents an xsd:duration value.
@@ -386,6 +387,17 @@ final class XsdDuration
    private int m_hours = 0;
    private int m_minutes = 0;
    private double m_seconds = 0;
-   private static final DecimalFormat FORMAT = new DecimalFormat ("#");
+   
+   /**
+    * Configure the decimal separator to be independent of the 
+    * one used by the default locale.
+    */
+   private static final DecimalFormatSymbols SYMBOLS = new DecimalFormatSymbols ();
+   static
+   {
+      SYMBOLS.setDecimalSeparator('.');
+   }      
+   
+   private static final DecimalFormat FORMAT = new DecimalFormat ("#", SYMBOLS);
 }
 

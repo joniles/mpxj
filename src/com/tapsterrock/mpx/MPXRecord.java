@@ -25,7 +25,6 @@
 package com.tapsterrock.mpx;
 
 import java.util.Date;
-import java.text.DecimalFormat;
 
 /**
  * This is the base class from which all classes representing records found
@@ -70,7 +69,7 @@ class MPXRecord
          }
          else
          {
-            if (o instanceof Float == true || o instanceof Double)
+            if (o instanceof Float == true || o instanceof Double == true)
             {
                result = (DECIMAL_FORMAT.format(((Number)o).doubleValue()));
             }
@@ -560,5 +559,5 @@ class MPXRecord
    /**
     * Number formatter.
     */
-   private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat ("0.00#");
+   private static final MPXNumberFormat DECIMAL_FORMAT = new MPXNumberFormat ("0.00#", '.', ',');
 }

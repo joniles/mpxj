@@ -129,5 +129,5 @@ final class MPXPercentage extends Number
    /**
     * Number formatter.
     */
-   private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##");
+   private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##", '.', ',');
 }

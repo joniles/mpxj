@@ -26,6 +26,7 @@ package com.tapsterrock.mpx;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.text.ParseException;
 
 /**
@@ -99,6 +100,12 @@ final class MPXDateFormat
 
    /**
     * Internal SimpleDateFormat object used to carry out the formatting work.
+    * Note that we force the locale to English at this point. This is done
+    * because it is not clear whether MPX date formats that contain the names
+    * of the days of the week support localised day names, or just the
+    * English names. To make things consistent and to ensure we generate
+    * MPX files that can be moved between locales, we default to using the
+    * English day names.
     */
-   private SimpleDateFormat m_format = new SimpleDateFormat ();
+   private SimpleDateFormat m_format = new SimpleDateFormat ("dd/MM/yyyy", Locale.ENGLISH);
 }

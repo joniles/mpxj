@@ -23,8 +23,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.DecimalFormat;
-
 /**
  * This class deals with an odd case where the max units value,
  * which is a percentage, is represented as a float between 0 and 1.
@@ -135,5 +133,5 @@ final class MPXUnits extends Number
    /**
     * Number formatter.
     */
-   private static final DecimalFormat FORMAT = new DecimalFormat ("#.##");
+   private static final MPXNumberFormat FORMAT = new MPXNumberFormat ("#.##", '.', ',');
 }

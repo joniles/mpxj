@@ -24,8 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.DecimalFormat;
-
 /**
  * This represents time durations as specified in an MPX file.
  */
@@ -131,5 +129,5 @@ public final class MPXDuration
    /**
     * Number formatter.
     */
-   private static final DecimalFormat FLOAT_FORMAT = new DecimalFormat ("#");
+   private static final MPXNumberFormat FLOAT_FORMAT = new MPXNumberFormat ("#", '.', ',');
 }

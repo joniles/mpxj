@@ -334,11 +334,11 @@ public final class CurrencySettings extends MPXRecord
          pattern.append("#");
          if (parent.getIgnoreCurrencyThousandsSeparator() == false)
          {
-            pattern.append(getThousandsSeparator());
+            pattern.append(',');
          }
          pattern.append("##0");
 
-         pattern.append(getDecimalSeparator());
+         pattern.append('.');
 
          int digits = getCurrencyDigitsValue();
          for(int i = 0 ; i < digits ; i++)
@@ -347,7 +347,7 @@ public final class CurrencySettings extends MPXRecord
          }
          pattern.append(suffix);
 
-         parent.getCurrencyFormat().applyPattern(pattern.toString());
+         parent.getCurrencyFormat().applyPattern(pattern.toString(), getDecimalSeparator(), getThousandsSeparator());
       }
    }
 

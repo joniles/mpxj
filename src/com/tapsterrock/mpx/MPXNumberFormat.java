@@ -25,6 +25,7 @@
 package com.tapsterrock.mpx;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 
 /**
@@ -46,19 +47,26 @@ final class MPXNumberFormat
     * Constructor allowing format pattern to be supplied.
     *
     * @param pattern new format pattern
+    * @param decimalSeparator Locale specific decimal separator to replace placeholder
+    * @param groupingSeparator Locale specific grouping separator to replace placeholder    * 
     */
-   MPXNumberFormat (String pattern)
-   {
-      m_format.applyPattern (pattern);
+   MPXNumberFormat (String pattern, char decimalSeparator, char groupingSeparator)
+   {    
+      applyPattern (pattern, decimalSeparator, groupingSeparator);      
    }
 
    /**
     * This method is used to configure the format pattern.
     *
     * @param pattern new format pattern
+    * @param decimalSeparator Locale specific decimal separator to replace placeholder
+    * @param groupingSeparator Locale specific grouping separator to replace placeholder
     */
-   public void applyPattern (String pattern)
+   public void applyPattern (String pattern, char decimalSeparator, char groupingSeparator)
    {
+      m_symbols.setDecimalSeparator(decimalSeparator);
+      m_symbols.setGroupingSeparator(groupingSeparator);
+      m_format.setDecimalFormatSymbols(m_symbols);
       m_format.applyPattern (pattern);
    }
 
@@ -112,5 +120,6 @@ final class MPXNumberFormat
    /**
     * Number formatter.
     */
+   private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols ();
    private DecimalFormat m_format = new DecimalFormat ();
 }
