@@ -28,6 +28,7 @@ import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
+import com.tapsterrock.mpx.ResourceAssignment;
 import java.text.SimpleDateFormat;
 
 
@@ -121,7 +122,7 @@ public class MpxCreate
 		//		
 		ProjectHeader header = file.getProjectHeader();
 		header.setStartDate(df.parse("01/01/2003"));
-		
+            
       //
       // Add resources
       //
@@ -142,9 +143,20 @@ public class MpxCreate
       //
       Task task2 = task1.addTask();
       task2.setName ("First Sub Task");
-      task2.setStart (df.parse("01/01/2003"));
       task2.setDuration (new MPXDuration (10, TimeUnit.DAYS));
-
+      task2.setStart (df.parse("01/01/2003"));     
+      
+      //
+      // We'll set this task up as being 50% complete. If we have no resource
+      // assignments for this task, this is enough information for MS Project.
+      // If we do have resource assignments, the assignment record needs to
+      // contain the corresponding work and actual work fields set to the
+      // correct values in order for MS project to mark the task as complete
+      // or partially complete.
+      //
+      task2.setPercentageComplete(50.0);      
+      task2.setActualStart(df.parse("01/01/2003"));
+                  
       //
       // Create the second sub task
       //
@@ -172,10 +184,18 @@ public class MpxCreate
       //
       // Assign resources to tasks
       //
-      task2.addResourceAssignment (resource1);
-      task3.addResourceAssignment (resource2);
-
-
+      ResourceAssignment assignment1 = task2.addResourceAssignment (resource1);
+      ResourceAssignment assignment2 = task3.addResourceAssignment (resource2);      
+      
+      //
+      // As the first task is partially complete, and we are adding
+      // a resource assignment, we must set the work and actual work
+      // fields in the assignment to appropriate values, or MS Project
+      // won't recognise the task as being complete or partially complete
+      //
+      assignment1.setWork(new MPXDuration (80, TimeUnit.HOURS));
+      assignment1.setActualWork(new MPXDuration (40, TimeUnit.HOURS));
+      
       //
       // Write the file
       //
