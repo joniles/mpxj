@@ -52,13 +52,7 @@ final class FixFix extends MPPComponent
       throws IOException
    {   
       int available = is.available();   
-      int diff = available % itemSize;
-      while (diff != 0)
-      {
-         ++itemSize;
-         diff = available % itemSize;
-      }
-      
+      m_diff = available % itemSize;      
       int itemCount = available / itemSize;
       m_array = new ByteArray[itemCount];
 		
@@ -68,7 +62,19 @@ final class FixFix extends MPPComponent
 		}
    }
 
-
+   /**
+    * This method is used to retrieve the remainder obtained when the
+    * available data size is divided by the expected item size. If this
+    * value is non-zero, it suggests that the available data contains
+    * items of a different size.
+    * 
+    * @return remainder
+    */
+   public int getDiff ()
+   {
+      return (m_diff);   
+   }
+   
    /**
     * This method retrieves a byte array containing the data at the
     * given index in the block. If no data is found at the given index
@@ -128,4 +134,10 @@ final class FixFix extends MPPComponent
     * An array containing all of the items of data held in this block.
     */
    private ByteArray[] m_array;
+   
+   /**
+    * Variable containing the remainder after the available size has
+    * been divided by the item size.
+    */
+   private int m_diff;
 }

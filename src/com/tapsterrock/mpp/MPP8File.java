@@ -320,6 +320,11 @@ final class MPP8File
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
       FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
+      if (taskFixedData.getDiff() != 0)
+      {
+         taskFixedData = new FixFix (366, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));         
+      }
+      
       FixDeferFix taskVarData = null;
       ExtendedData taskExtData = null;
            
