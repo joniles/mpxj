@@ -163,7 +163,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setResourceID (int val)
    {
-      put (RESOURCE_ID, val);
+      setResourceID(new Integer (val));
    }
 
    /**
@@ -173,7 +173,19 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setResourceID (Integer val)
    {
-      put (RESOURCE_ID, val);
+      if (val != null)
+      {
+         put (RESOURCE_ID, val);
+         
+         //
+         // If the resource unique ID has not yet been set,
+         // use the resource ID as the default value.
+         //
+         if (getResourceUniqueID() == null)
+         {
+            setResourceUniqueID(val);
+         }
+      }
    }
 
    /**
@@ -443,7 +455,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setResourceUniqueID (int val)
    {
-      put (RESOURCE_UNIQUE_ID, val);
+      setResourceUniqueID(new Integer(val));
    }
 
    /**
@@ -453,7 +465,19 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setResourceUniqueID (Integer val)
    {
-      put (RESOURCE_UNIQUE_ID, val);
+      if (val != null)
+      {
+         put (RESOURCE_UNIQUE_ID, val);
+         
+         //
+         // If the resource ID has not been set, then use
+         // the resource unique ID as the default value.
+         //
+         if (getResourceID() == null)
+         {
+            setResourceID(val);
+         }
+      }
    }
 
    /**

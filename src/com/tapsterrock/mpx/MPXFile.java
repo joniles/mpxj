@@ -276,6 +276,11 @@ public class MPXFile
          }
 
          //
+         // Ensure that all tasks and resources have valid Unique IDs
+         //
+         updateUniqueIdentifiers();
+         
+         //
          // Ensure that the structure is consistent
          //
          updateStructure();
@@ -287,6 +292,37 @@ public class MPXFile
       }
    }
 
+   /**
+    * This method post-processes tasks and resources read from an MPX
+    * file to ensure that they all have valid unique ID fields. This is
+    * designed to cope with poorly formed MPX files where tasks and resources
+    * have ID values, but not unique ID values.
+    */
+   private void updateUniqueIdentifiers ()
+   {
+      Iterator iter = m_allTasks.iterator();
+      Task task;
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         if (task.getUniqueID() == null)
+         {
+            task.setUniqueID(task.getID());
+         }
+      }
+      
+      iter = m_allResources.iterator();
+      Resource resource;
+      while (iter.hasNext() == true)
+      {
+         resource = (Resource)iter.next();
+         if (resource.getUniqueID() == null)
+         {
+            resource.setUniqueID(resource.getID());
+         }
+      }
+   }
+   
    /**
     * This is a convenience method to read an MPX file
     * given a file name.
