@@ -75,6 +75,7 @@ public class MPXFile
       m_autoResourceUniqueID = file.m_autoResourceUniqueID;
       m_autoTaskID = file.m_autoTaskID;
       m_autoTaskUniqueID = file.m_autoTaskUniqueID;
+      m_autoCalendarUniqueID = file.m_autoCalendarUniqueID;      
       m_autoWBS = file.m_autoWBS;
       m_baseCalendars = file.m_baseCalendars;
       m_baseOutlineLevel = file.m_baseOutlineLevel;
@@ -104,6 +105,7 @@ public class MPXFile
       m_taskModel = file.m_taskModel;
       m_taskTableDefinition = file.m_taskTableDefinition;
       m_taskUniqueID = file.m_taskUniqueID;
+      m_calendarUniqueID = file.m_calendarUniqueID;
       m_timeFormat = file.m_timeFormat;
    }
 
@@ -721,6 +723,16 @@ public class MPXFile
    }
 
    /**
+    * Used to set whether the calendar unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoCalendarUniqueID (boolean flag)
+   {
+      m_autoCalendarUniqueID = flag;
+   }
+
+   /**
     * Used to set whether the task ID field is automatically populated.
     *
     * @param flag true if automatic ID required.
@@ -775,6 +787,17 @@ public class MPXFile
    }
 
    /**
+    * Retrieve the flag that determines whether the calendar unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoCalendarUniqueID ()
+   {
+      return (m_autoCalendarUniqueID);
+   }
+
+   /**
     * Retrieve the flag that determines whether the task ID
     * is generated automatically.
     *
@@ -793,6 +816,16 @@ public class MPXFile
    int getTaskUniqueID ()
    {
       return (++m_taskUniqueID);
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for a calendar.
+    *
+    * @return next unique ID
+    */
+   int getCalendarUniqueID ()
+   {
+      return (++m_calendarUniqueID);
    }
 
    /**
@@ -1539,6 +1572,11 @@ public class MPXFile
    private int m_taskUniqueID = 0;
 
    /**
+    * Counter used to populate the unique ID field of a calendar
+    */
+   private int m_calendarUniqueID = 0;
+
+   /**
     * Counter used to populate the ID field of a task
     */
    private int m_taskID = 0;
@@ -1711,6 +1749,12 @@ public class MPXFile
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoTaskUniqueID = false;
+
+   /**
+    * Indicating whether the unique ID of a calendar should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoCalendarUniqueID = false;
 
    /**
     * Indicating whether the ID of a task should be

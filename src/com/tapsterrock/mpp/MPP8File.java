@@ -243,10 +243,9 @@ final class MPP8File
                cal.setName (name);               
             }
                 
+            cal.setUniqueID(calendarID);
             
-            extData = calendarVarData.getByteArray(offset);           
-                        
-
+            extData = calendarVarData.getByteArray(offset);                                   
 
             for (index=0; index < 7; index++)
             {

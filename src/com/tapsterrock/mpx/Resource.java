@@ -210,6 +210,16 @@ public final class Resource extends MPXRecord
    }
 
    /**
+    * This method retrieves the calendar associated with this resource.
+    * 
+    * @return MPXCalendar instance
+    */
+   public MPXCalendar getResourceCalendar ()
+   {
+      return (m_calendar);   
+   }
+   
+   /**
     * This package private method allows a pre-existing resource calendar
     * to be attched to a resource.
     * 
@@ -219,7 +229,7 @@ public final class Resource extends MPXRecord
    {
       m_calendar = calendar;   
    }
-   
+      
    /**
     * This method allows a resource calendar to be added to a resource.
     *

@@ -77,6 +77,11 @@ public final class MPXCalendar extends MPXRecord
       setWorkingDay(5, record.getInteger(5));
       setWorkingDay(6, record.getInteger(6));
       setWorkingDay(7, record.getInteger(7));
+      
+      if (file.getAutoCalendarUniqueID() == true)
+      {
+         setUniqueID (file.getCalendarUniqueID());  
+      }
    }
 
    /**
@@ -319,6 +324,24 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
+    * This method allows the retrieval of the actual working day flag,
+    * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
+    * from ths isWorkingDay method as it retrieves the actual flag value.
+    * The isWorkingDay method will always refer back to the base calendar 
+    * to get a boolean value if the underlying flag value is DEFAULT. If
+    * isWorkingDay were the only method available to access this flag,
+    * it would not be possible to determine that a resource calendar
+    * had one or moe flags set to DEFAULT.
+    * 
+    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @return value of underlying working day flag
+    */
+   public int getWorkingDay (int day)
+   {
+      return (m_days[day-1]);
+   }
+   
+   /**
     * This is a convenience method provided to allow a day to be set
     * as working or non-working, by using the day number to
     * identify the required day.
@@ -356,7 +379,7 @@ public final class MPXCalendar extends MPXRecord
       
       if (working == null)
       {
-         if (m_baseCalendar == true)
+         if (m_baseCalendar == false)
          {
             value = DEFAULT;        
          }         
@@ -633,13 +656,38 @@ public final class MPXCalendar extends MPXRecord
    {
       return (m_baseCalendar);   
    }
-   
+ 
+   /**
+    * Modifier method to set the unique ID of this calendar
+    * 
+    * @param uniqueID unique identifier
+    */
+   public void setUniqueID (int uniqueID)
+   {
+      m_uniqueID = uniqueID;   
+   }
+     
+   /**
+    * Accessor method to retrieve the unique ID of this calendar
+    * 
+    * @return calendar unique identifier
+    */     
+   public int getUniqueID ()
+   {
+      return (m_uniqueID);   
+   }
+        
    /** 
     * Flag indicating if this is a base calendar, i.e. a calendar from
     * which other calendars are derived.
     */
    private boolean m_baseCalendar;
  
+   /**
+    * Unique identifier of this calendar
+    */
+   private int m_uniqueID;
+   
    /**
     * Calendar name, normally only populated if this is a base calendar.
     */

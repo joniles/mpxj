@@ -109,6 +109,12 @@ public class MpxCreate
       file.setAutoWBS(true);
 
       //
+      // Configure the file to automatically generate identifiers for calendars
+      // (not strictly necessary here, but required if generating MSPDI files)
+      //
+      file.setAutoCalendarUniqueID(true);
+      
+      //
       // Add a default calendar called "Standard"
       //
       file.addDefaultBaseCalendar();

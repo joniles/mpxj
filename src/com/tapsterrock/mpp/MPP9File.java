@@ -259,7 +259,9 @@ final class MPP9File
                      resourceID = new Integer (MPPUtility.getInt(fixedData, offset+8));                     
                      resourceMap.put (resourceID, cal);
                   }
-                                    
+                  
+                  cal.setUniqueID(calendarID.intValue());
+                  
                   if (varData != null)
                   {
                      processCalendarHours (varData, cal);

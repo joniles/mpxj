@@ -58,6 +58,7 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 import javax.xml.bind.JAXBContext;
@@ -352,7 +353,7 @@ public class MSPDIFile extends MPXFile
     */
    private void readCalendars (Project project, HashMap map)
       throws MPXException
-   {
+   {      
       Project.CalendarsType calendars = project.getCalendars();
       if (calendars != null)
       {
@@ -363,7 +364,41 @@ public class MSPDIFile extends MPXFile
          {
             readCalendar ((Project.CalendarsType.CalendarType)iter.next(), map);
          }
+         
+         updateBaseCalendarNames (map);
       }
+   }
+
+   /**
+    * The way calendars are stored in an MPP8 file means that there
+    * can be forward references between the base calendar unique ID for a
+    * derived calendar, and the base calendar itself. To get around this,
+    * we initially populatethe base calendar name attribute with the
+    * base calendar unique ID, and now in this method we can convert those
+    * ID values into the correct names.
+    * 
+    * @param map map of calendar ID values and calendar objects
+    */
+   private static void updateBaseCalendarNames (HashMap map)
+   {
+      Iterator iter = map.keySet().iterator();
+      MPXCalendar cal;
+      MPXCalendar baseCal;
+      String baseCalendarName;
+      
+      while (iter.hasNext() == true)
+      {
+         cal = (MPXCalendar)map.get(iter.next());
+         baseCalendarName = cal.getBaseCalendarName();
+         if (baseCalendarName != null)
+         {
+            baseCal = (MPXCalendar)map.get(new BigInteger (baseCalendarName));
+            if (baseCal != null)
+            {
+               cal.setBaseCalendarName(baseCal.getName());
+            }               
+         }
+      }   
    }
 
    /**
@@ -379,9 +414,23 @@ public class MSPDIFile extends MPXFile
       MPXCalendar bc;
       Iterator iter;
 
-      bc = addBaseCalendar();
-      bc.setName(calendar.getName());
+      if (calendar.isIsBaseCalendar() == true)
+      {
+         bc = addBaseCalendar();
+      }
+      else
+      {
+         bc = addResourceCalendar();   
+      }
 
+      bc.setUniqueID(calendar.getUID().intValue());
+      bc.setName(calendar.getName());
+      BigInteger baseCalendarID = calendar.getBaseCalendarUID();
+      if (baseCalendarID != null)
+      {
+         bc.setBaseCalendarName(baseCalendarID.toString());
+      }
+      
       Project.CalendarsType.CalendarType.WeekDaysType days = calendar.getWeekDays();
       if (days != null)
       {
@@ -394,8 +443,9 @@ public class MSPDIFile extends MPXFile
          }
       }
 
-      map.put(calendar.getBaseCalendarUID(), bc.getName());
+      map.put (calendar.getUID(), bc);
    }
+
 
    /**
     * This method extracts data for a single day from an MSPDI file.
@@ -431,11 +481,7 @@ public class MSPDIFile extends MPXFile
    private void readNormalDay (MPXCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
       throws MPXException
    {
-      int dayNumber = day.getDayType().intValue() + 1;
-      if (dayNumber == 8)
-      {
-         dayNumber = 1;
-      }
+      int dayNumber = day.getDayType().intValue();
 
       calendar.setWorkingDay(dayNumber, day.isDayWorking());
       MPXCalendarHours hours = calendar.addCalendarHours(dayNumber);
@@ -557,7 +603,7 @@ public class MSPDIFile extends MPXFile
       mpx.setActualWork(getDuration (resource.getActualWork()));
       mpx.setAvailableFrom(getDate(resource.getAvailableFrom()));
       mpx.setAvailableTo(getDate(resource.getAvailableTo()));
-      mpx.setBaseCalendar ((String)calendarMap.get(resource.getCalendarUID()));
+      //mpx.setBaseCalendar ();
       //mpx.setBaselineCost();
       //mpx.setBaselineWork();
       mpx.setCode(resource.getCode());
@@ -592,6 +638,8 @@ public class MSPDIFile extends MPXFile
       mpx.setUniqueID(getInteger(resource.getUID()));
       mpx.setWork(getDuration (resource.getWork()));
       mpx.setWorkVariance(new MPXDuration (resource.getWorkVariance()/1000, TimeUnit.MINUTES));
+
+      attachResourceCalendar(mpx, (MPXCalendar)calendarMap.get(resource.getCalendarUID()));
    }
 
 
@@ -691,7 +739,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setFlag9();
       //mpx.setFlag10();
       mpx.setFreeSlack(getMinutesDuration(task.getFreeSlack()));
-      //mpx.setHideBar();
+      mpx.setHideBar(task.isHideBar());
       mpx.setID(getInteger(task.getID()));
       mpx.setLateFinish(getDate(task.getLateFinish()));
       mpx.setLateStart(getDate(task.getLateStart()));
@@ -1801,16 +1849,14 @@ public class MSPDIFile extends MPXFile
          Marshaller marshaller = context.createMarshaller();
          marshaller.setProperty (Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-         HashMap calendarMap = new HashMap();
-
          Project project = ObjectFactory.createProject();
 
          writeCurrencySettings (project);
          writeDateTimeSettings (project);
          writeDefaultSettings (project);
          writeProjectHeader (project);
-         writeCalendars (project, calendarMap);
-         writeResources (project, calendarMap);
+         writeCalendars (project);
+         writeResources (project);
          writeTasks (project);
          writeAssignments (project);
 
@@ -1895,11 +1941,30 @@ public class MSPDIFile extends MPXFile
     * @param map Map of calendar UIDs to names
     * @throws JAXBException on xml creation errors
     */
-   private void writeCalendars (Project project, HashMap map)
+   private void writeCalendars (Project project)
       throws JAXBException
    {
       //
-      // Create the new calendar list
+      // First step, find all of the base calendars and resource calendars,
+      // add them to a list ready for processing, and create a map between
+      // names and unique IDs
+      //
+      LinkedList calendarList = new LinkedList(getBaseCalendars ());
+      Iterator iter = getAllResources().iterator();
+      MPXCalendar cal;
+      
+      while (iter.hasNext() == true)
+      {
+         cal = ((Resource)iter.next()).getResourceCalendar();
+         if (cal != null)
+         {
+            calendarList.add(cal);  
+         }
+      }
+
+                   
+      //
+      // Create the new MSPDI calendar list
       //
       Project.CalendarsType calendars = ObjectFactory.createProjectTypeCalendarsType();
       project.setCalendars (calendars);
@@ -1908,18 +1973,13 @@ public class MSPDIFile extends MPXFile
       //
       // Process each calendar in turn
       //
-      List list = getBaseCalendars ();
-      Iterator iter = list.iterator();
-      MPXCalendar bc;
-      int uid = 0;
+      iter = calendarList.iterator();
       ObjectFactory.createProjectTypeCalendarsTypeCalendarType();
 
       while (iter.hasNext() == true)
       {
-         ++uid;
-         bc = (MPXCalendar)iter.next();
-         map.put(bc.getName(), new Integer (uid));
-         calendar.add (writeCalendar (bc, uid));
+         cal = (MPXCalendar)iter.next();
+         calendar.add (writeCalendar (cal));
       }
    }
 
@@ -1931,23 +1991,22 @@ public class MSPDIFile extends MPXFile
     * @return New MSPDI calendar instance
     * @throws JAXBException on xml creation errors
     */
-   private Project.CalendarsType.CalendarType writeCalendar (MPXCalendar bc, int uid)
+   private Project.CalendarsType.CalendarType writeCalendar (MPXCalendar bc)
       throws JAXBException
    {
       //
       // Create a calendar
       //
       Project.CalendarsType.CalendarType calendar = ObjectFactory.createProjectTypeCalendarsTypeCalendarType();
-      calendar.setUID(BigInteger.valueOf(uid));
-      calendar.setIsBaseCalendar(true);
-      if (bc.getName().equalsIgnoreCase("Standard") == true)
+      calendar.setUID(BigInteger.valueOf((long)bc.getUniqueID()));
+      calendar.setIsBaseCalendar(bc.isBaseCalendar());
+      
+      if (bc.isBaseCalendar() == false)
       {
-         calendar.setBaseCalendarUID(BigInteger.valueOf(-1));
+         MPXCalendar base = bc.getBaseCalendar();
+         calendar.setBaseCalendarUID(BigInteger.valueOf((long)base.getUniqueID()));
       }
-      else
-      {
-         calendar.setBaseCalendarUID(BigInteger.valueOf(uid));
-      }
+      
       calendar.setName(bc.getName());
 
       //
@@ -1963,50 +2022,47 @@ public class MSPDIFile extends MPXFile
       List dayList = days.getWeekDay();
 
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day;
-      int dayType;
       int loop;
-      boolean working;
+      int workingFlag;
 
       for (loop=1; loop < 8; loop++)
       {
-         dayType = loop - 1;
-         if (dayType == 0)
+         workingFlag = bc.getWorkingDay(loop);
+         
+         if (workingFlag != MPXCalendar.DEFAULT)
          {
-            dayType = 7;
-         }
-
-         working = bc.isWorkingDay(loop);
-
-         day = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
-         dayList.add(day);
-         day.setDayType(BigInteger.valueOf(dayType));
-         day.setDayWorking(working);
-         if (working == true)
-         {
-            times = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
-            day.setWorkingTimes(times);
-            timesList = times.getWorkingTime();
-
-            bch = bc.getCalendarHours (loop);
-            if (bch != null)
+            day = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
+            dayList.add(day);
+            day.setDayType(BigInteger.valueOf(loop));
+            day.setDayWorking(workingFlag == MPXCalendar.WORKING);
+            
+            if (workingFlag == MPXCalendar.WORKING)
             {
-               time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
-               timesList.add (time);
-
-               time.setFromTime(getCalendar(bch.getFromTime1()));
-               time.setToTime(getCalendar(bch.getToTime1()));
-
-               time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
-               timesList.add (time);
-
-               time.setFromTime(getCalendar(bch.getFromTime2()));
-               time.setToTime(getCalendar(bch.getToTime2()));
-
-               time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
-               timesList.add (time);
-
-               time.setFromTime(getCalendar(bch.getFromTime3()));
-               time.setToTime(getCalendar(bch.getToTime3()));
+               times = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
+               day.setWorkingTimes(times);
+               timesList = times.getWorkingTime();
+   
+               bch = bc.getCalendarHours (loop);
+               if (bch != null)
+               {
+                  time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+                  timesList.add (time);
+   
+                  time.setFromTime(getCalendar(bch.getFromTime1()));
+                  time.setToTime(getCalendar(bch.getToTime1()));
+   
+                  time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+                  timesList.add (time);
+   
+                  time.setFromTime(getCalendar(bch.getFromTime2()));
+                  time.setToTime(getCalendar(bch.getToTime2()));
+   
+                  time = ObjectFactory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+                  timesList.add (time);
+   
+                  time.setFromTime(getCalendar(bch.getFromTime3()));
+                  time.setToTime(getCalendar(bch.getToTime3()));
+               }
             }
          }
       }
@@ -2018,7 +2074,8 @@ public class MSPDIFile extends MPXFile
       Iterator iter = exceptions.iterator();
       MPXCalendarException exception;
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType period;
-
+      boolean working;
+      
       while (iter.hasNext() == true)
       {
          exception = (MPXCalendarException)iter.next();
@@ -2070,7 +2127,7 @@ public class MSPDIFile extends MPXFile
     * @param calendarMap Map of calendar names to UIDs
     * @throws JAXBException on xml creation errors
     */
-   private void writeResources (Project project, HashMap calendarMap)
+   private void writeResources (Project project)
       throws JAXBException
    {
       Project.ResourcesType resources = ObjectFactory.createProjectTypeResourcesType();
@@ -2080,7 +2137,7 @@ public class MSPDIFile extends MPXFile
       Iterator iter = getAllResources().iterator();
       while (iter.hasNext() == true)
       {
-         list.add (writeResource ((Resource)iter.next(), calendarMap));
+         list.add (writeResource ((Resource)iter.next()));
       }
    }
 
@@ -2092,16 +2149,16 @@ public class MSPDIFile extends MPXFile
     * @return New MSPDI resource instance
     * @throws JAXBException on xml creation errors
     */
-   private Project.ResourcesType.ResourceType writeResource (Resource mpx, HashMap calendarMap)
+   private Project.ResourcesType.ResourceType writeResource (Resource mpx)
       throws JAXBException
-   {
+   {     
       Project.ResourcesType.ResourceType xml = ObjectFactory.createProjectTypeResourcesTypeResourceType();
-      Integer calendarUID = (Integer)calendarMap.get(mpx.getBaseCalendar());
-      if (calendarUID != null)
+      MPXCalendar cal = mpx.getResourceCalendar();
+      if (cal != null)
       {
-         xml.setCalendarUID(BigInteger.valueOf(calendarUID.longValue()));
+         xml.setCalendarUID(BigInteger.valueOf((long)cal.getUniqueID()));         
       }
-
+      
       xml.setAccrueAt(BigInteger.valueOf(mpx.getAccrueAtValue()));
       xml.setActualCost(getXmlCurrency (mpx.getActualCost()));
       xml.setActualOvertimeCost(getXmlCurrency(mpx.getActualOvertimeCost()));
