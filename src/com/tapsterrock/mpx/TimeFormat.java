@@ -1,5 +1,5 @@
 /*
- * file:       ScheduleFrom.java
+ * file:       TimeFormat.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       04/01/2005
@@ -24,24 +24,24 @@
 package com.tapsterrock.mpx;
 
 /**
- * Instances of this class represent enumerated schedule from values.
+ * Instances of this class represent enumerated time format values.
  */
-public final class ScheduleFrom
+public final class TimeFormat
 {
    /**
     * Private constructor.
     * 
-    * @param value schedule from value
+    * @param value time format value
     */
-   private ScheduleFrom (int value)
+   private TimeFormat (int value)
    {
       m_value = value;
    }
 
    /**
-    * Retrieves the int representation of the schedule from value.
+    * Retrieves the int representation of the time format.
     * 
-    * @return schedule from value
+    * @return time format value
     */
    public int getValue ()
    {
@@ -49,27 +49,27 @@ public final class ScheduleFrom
    }
    
    /**
-    * Retrieve a ScheduleFrom instance representing the supplied value.
+    * Retrieve a TimeFormat instance representing the supplied value.
     * 
-    * @param value schedule from value
-    * @return ScheduleFrom instance
+    * @param value time format value
+    * @return TimeFormat instance
     */
-   public static ScheduleFrom getInstance (int value)
+   public static TimeFormat getInstance (int value)
    {
-      ScheduleFrom result;
+      TimeFormat result;
       
       switch (value)
       {
-         case FINISH_VALUE:
+         case TWENTY_FOUR_HOUR_VALUE:
          {
-            result = FINISH;
+            result = TWENTY_FOUR_HOUR;
             break;
          }
          
          default:         
-         case START_VALUE:
+         case TWELVE_HOUR_VALUE:
          {
-            result = START;
+            result = TWELVE_HOUR;
             break;
          }            
       }
@@ -77,8 +77,9 @@ public final class ScheduleFrom
       return (result);
    }
    
+
    /**
-    * Returns a string representation of the schedule from type
+    * Returns a string representation of the time format type
     * to be used as part of an MPX file.
     * 
     * @return string representation
@@ -91,23 +92,23 @@ public final class ScheduleFrom
    private int m_value;
    
    /**
-    * Constant representing Schedule From Start
+    * Constant representing 12 hour time.
     */
-   public static final int START_VALUE = 0;
+   public static final int TWELVE_HOUR_VALUE = 0;
 
    /**
-    * Constant representing Schedule From Finish
+    * Constant representing 24 hour time.
     */
-   public static final int FINISH_VALUE = 1;
+   public static final int TWENTY_FOUR_HOUR_VALUE = 1;
+
+   /**
+    * Constant representing 12 hour time.
+    */
+   public static final TimeFormat TWELVE_HOUR = new TimeFormat(TWELVE_HOUR_VALUE);
+
+   /**
+    * Constant representing 24 hour time.
+    */
+   public static final TimeFormat TWENTY_FOUR_HOUR = new TimeFormat(TWENTY_FOUR_HOUR_VALUE);   
    
-
-   /**
-    * Constant representing Schedule From Start
-    */
-   public static final ScheduleFrom START = new ScheduleFrom(START_VALUE);
-
-   /**
-    * Constant representing Schedule From Finish
-    */
-   public static final ScheduleFrom FINISH = new ScheduleFrom(FINISH_VALUE);      
 }

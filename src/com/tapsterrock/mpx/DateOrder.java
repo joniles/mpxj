@@ -1,5 +1,5 @@
 /*
- * file:       ScheduleFrom.java
+ * file:       DateOrder.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       04/01/2005
@@ -24,24 +24,24 @@
 package com.tapsterrock.mpx;
 
 /**
- * Instances of this class represent enumerated schedule from values.
+ * Instances of this class represent enumerated date order values.
  */
-public final class ScheduleFrom
+public final class DateOrder
 {
    /**
     * Private constructor.
     * 
-    * @param value schedule from value
+    * @param value date order value
     */
-   private ScheduleFrom (int value)
+   private DateOrder (int value)
    {
       m_value = value;
    }
 
    /**
-    * Retrieves the int representation of the schedule from value.
+    * Retrieves the int representation of the date order.
     * 
-    * @return schedule from value
+    * @return date order value
     */
    public int getValue ()
    {
@@ -49,36 +49,42 @@ public final class ScheduleFrom
    }
    
    /**
-    * Retrieve a ScheduleFrom instance representing the supplied value.
+    * Retrieve a DateOrder instance representing the supplied value.
     * 
-    * @param value schedule from value
-    * @return ScheduleFrom instance
+    * @param value date order value
+    * @return DateOrder instance
     */
-   public static ScheduleFrom getInstance (int value)
+   public static DateOrder getInstance (int value)
    {
-      ScheduleFrom result;
+      DateOrder result;
       
       switch (value)
       {
-         case FINISH_VALUE:
+         case DMY_VALUE:
          {
-            result = FINISH;
+            result = DMY;
             break;
          }
          
-         default:         
-         case START_VALUE:
+         case YMD_VALUE:
          {
-            result = START;
+            result = YMD;
             break;
-         }            
+         }         
+         
+         default:                  
+         case MDY_VALUE:
+         {
+            result = MDY;
+            break;
+         }         
       }
       
       return (result);
    }
    
    /**
-    * Returns a string representation of the schedule from type
+    * Returns a string representation of the date order type
     * to be used as part of an MPX file.
     * 
     * @return string representation
@@ -87,27 +93,39 @@ public final class ScheduleFrom
    {
       return (Integer.toString(m_value));
    }
+
    
    private int m_value;
    
    /**
-    * Constant representing Schedule From Start
+    * Constant representing MDY
     */
-   public static final int START_VALUE = 0;
+   public static final int MDY_VALUE = 0;
 
    /**
-    * Constant representing Schedule From Finish
+    * Constant representing DMY
     */
-   public static final int FINISH_VALUE = 1;
+   public static final int DMY_VALUE = 1;
+
+   /**
+    * Constant representing YMD
+    */
+   public static final int YMD_VALUE = 2;
    
 
    /**
-    * Constant representing Schedule From Start
+    * Constant representing MDY
     */
-   public static final ScheduleFrom START = new ScheduleFrom(START_VALUE);
+   public static final DateOrder MDY = new DateOrder(MDY_VALUE);
 
    /**
-    * Constant representing Schedule From Finish
+    * Constant representing DMY
     */
-   public static final ScheduleFrom FINISH = new ScheduleFrom(FINISH_VALUE);      
+   public static final DateOrder DMY = new DateOrder(DMY_VALUE);   
+   
+   /**
+    * Constant representing YMD
+    */
+   public static final DateOrder YMD = new DateOrder(YMD_VALUE);   
+   
 }

@@ -71,6 +71,19 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
+    * Convenience method for retrieving an Object resource
+    *
+    * @param locale locale identifier
+    * @param key resource key
+    * @return resource value
+    */
+   public static final Object getObject (Locale locale, String key)
+   {
+      ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
+      return (bundle.getObject(key));
+   }
+   
+   /**
     * Convenience method for retrieving a Map resource
     *
     * @param locale locale identifier
@@ -423,14 +436,14 @@ public final class LocaleData extends ListResourceBundle
       {CURRENCY_THOUSANDS_SEPARATOR, ","},
       {CURRENCY_DECIMAL_SEPARATOR, "."},
 
-      {DATE_ORDER, new Integer(1)},
-      {TIME_FORMAT, new Integer(0)},
+      {DATE_ORDER, DateOrder.DMY},
+      {TIME_FORMAT, TimeFormat.TWELVE_HOUR},
       {DEFAULT_START_TIME, new Integer(480)},
       {DATE_SEPARATOR, "/"},
       {TIME_SEPARATOR, ":"},
       {AM_TEXT, "am"},
       {PM_TEXT, "pm"},
-      {DATE_FORMAT, new Integer (20)},
+      {DATE_FORMAT, DateFormat.DD_MM_YYYY},
       {BAR_TEXT_DATE_FORMAT, new Integer (0)},
       {NA, "NA"},
 

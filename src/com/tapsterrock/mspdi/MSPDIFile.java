@@ -2554,8 +2554,8 @@ public class MSPDIFile extends MPXFile
    private void writeDateTimeSettings (Project project)
    {
       DateTimeSettings settings = getDateTimeSettings();
-      project.setDefaultFinishTime(getCalendar (settings.getDefaultEndTimeAsDate()));
-      project.setDefaultStartTime(getCalendar (settings.getDefaultStartTimeAsDate()));
+      project.setDefaultFinishTime(getCalendar (settings.getDefaultEndTime()));
+      project.setDefaultStartTime(getCalendar (settings.getDefaultStartTime()));
    }
 
 
@@ -3039,8 +3039,6 @@ public class MSPDIFile extends MPXFile
    {
       Project.TasksType.TaskType xml = factory.createProjectTypeTasksTypeTaskType();
       DateTimeSettings settings = getDateTimeSettings();
-      int defaultStartTime = settings.getDefaultStartTimeValue();
-      int defaultFinishTime = settings.getDefaultEndTimeValue();
 
       xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
       xml.setActualDuration(getDuration(mpx.getActualDuration()));
@@ -3077,15 +3075,6 @@ public class MSPDIFile extends MPXFile
       Date finishDate = mpx.getFinish();
       if (finishDate != null)
       {
-//         long finishTime = finishDate.getTime();
-//         Calendar cal = Calendar.getInstance();
-//         cal.setTime(finishDate);
-//
-//         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
-//         {
-//            finishDate = new Date(finishTime + (defaultFinishTime * MS_PER_MINUTE));
-//         }
-
          xml.setFinish(getCalendar(finishDate));
       }
 
@@ -3162,15 +3151,6 @@ public class MSPDIFile extends MPXFile
       Date startDate = mpx.getStart();
       if (startDate != null)
       {
-//         long startTime = startDate.getTime();
-//         Calendar cal = Calendar.getInstance();
-//         cal.setTime(startDate);
-//
-//         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0)
-//         {
-//            startDate = new Date(startTime + (defaultStartTime * MS_PER_MINUTE));
-//         }
-
          xml.setStart(getCalendar(startDate));
       }
 

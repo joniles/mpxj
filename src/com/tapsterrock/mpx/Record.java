@@ -424,6 +424,30 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
+   public TimeFormat getTimeFormat (int field)
+   {
+      TimeFormat result;
+
+      if (field < m_fields.length && m_fields[field].length() != 0)
+      {         
+         result = TimeFormat.getInstance(Integer.parseInt(m_fields[field]));
+      }
+      else
+      {
+         result = TimeFormat.TWELVE_HOUR;
+      }
+
+      return (result);
+   }
+   
+   /**
+    * Accessor method used to retrieve an Integer object representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
    public ScheduleFrom getScheduleFrom (int field)
    {
       ScheduleFrom result;
@@ -435,6 +459,50 @@ final class Record
       else
       {
          result = ScheduleFrom.START;
+      }
+
+      return (result);
+   }
+
+   /**
+    * Accessor method used to retrieve an Integer object representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
+   public DateOrder getDateOrder (int field)
+   {
+      DateOrder result;
+
+      if (field < m_fields.length && m_fields[field].length() != 0)
+      {         
+         result = DateOrder.getInstance(Integer.parseInt(m_fields[field]));
+      }
+      else
+      {
+         result = DateOrder.MDY;
+      }
+
+      return (result);
+   }
+
+   /**
+    * Accessor method used to retrieve an Integer object representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
+   public DateFormat getDateFormat (int field)
+   {
+      DateFormat result = null;
+
+      if (field < m_fields.length && m_fields[field].length() != 0)
+      {         
+         result = DateFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
 
       return (result);

@@ -42,7 +42,7 @@ public final class DateTimeSettings extends MPXRecord
     */
    DateTimeSettings (MPXFile file)
    {
-      super(file, MAX_FIELDS);
+      super(file, 0);
       setLocale (file.getLocale());
    }
 
@@ -56,15 +56,15 @@ public final class DateTimeSettings extends MPXRecord
    void setLocale (Locale locale)
    {
       m_update = false;
-      setDateOrder(LocaleData.getInteger(locale, LocaleData.DATE_ORDER));
-      setTimeFormat(LocaleData.getInteger(locale, LocaleData.TIME_FORMAT));
-      setDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
+      setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
+      setTimeFormat((TimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
+      setIntegerDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
       setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
       setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
       setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
       setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
-      setDateFormat(LocaleData.getInteger(locale, LocaleData.DATE_FORMAT));
-      setBarTextDateFormat(LocaleData.getInteger(locale, LocaleData.TIME_FORMAT));
+      setDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      setBarTextDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       m_update = true;
       updateFormats ();
    }
@@ -78,15 +78,15 @@ public final class DateTimeSettings extends MPXRecord
    void update (Record record)
    {
       m_update = false;
-      setDateOrder(record.getInteger(0));
-      setTimeFormat(record.getInteger(1));
-      setDefaultStartTime(record.getInteger(2));
+      setDateOrder(record.getDateOrder(0));
+      setTimeFormat(record.getTimeFormat(1));
+      setIntegerDefaultStartTime(record.getInteger(2));
       setDateSeparator(record.getCharacter(3));
       setTimeSeparator(record.getCharacter(4));
       setAMText(record.getString(5));
       setPMText(record.getString(6));
-      setDateFormat(record.getInteger(7));
-      setBarTextDateFormat(record.getInteger(8));
+      setDateFormat(record.getDateFormat(7));
+      setBarTextDateFormat(record.getDateFormat(8));
       m_update = true;
 
       updateFormats ();
@@ -102,26 +102,27 @@ public final class DateTimeSettings extends MPXRecord
       {
          String pattern= "";
          char datesep = getDateSeparator();
-
-         switch (getDateFormatValue())
+         int dateOrderValue = getDateOrder().getValue();
+         
+         switch (getDateFormat().getValue())
          {
-            case DATE_TIME_FORMAT_DD_MM_YY_HH_MM:
+            case DateFormat.DD_MM_YY_HH_MM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd"+datesep+"MM"+datesep+"yy "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MM"+datesep+"dd"+datesep+"yy "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="yy"+datesep+"MM"+datesep+"dd "+getTimeElement();
                      break;
@@ -130,23 +131,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MM_YY:
+            case DateFormat.DD_MM_YY_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd"+datesep+"MM"+datesep+"yy";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MM"+datesep+"dd"+datesep+"yy";
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="yy"+datesep+"MM"+datesep+"dd";
                      break;
@@ -156,23 +157,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MMMMM_YYYY_HH_MM:
+            case DateFormat.DD_MMMMM_YYYY_HH_MM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd MMMMM yyyy "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MMMMM dd yyyy "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="yyyy MMMMM dd "+getTimeElement();
                      break;
@@ -181,23 +182,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MMMMM_YYYY:
+            case DateFormat.DD_MMMMM_YYYY_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd MMMMM yyyy";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MMMMM dd yyyy";
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="yyyy MMMMM dd";
                      break;
@@ -206,17 +207,17 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MMM_HH_MM:
+            case DateFormat.DD_MMM_HH_MM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd MMM "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern=" MMM dd "+getTimeElement();
                      break;
@@ -225,23 +226,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MMM_YY:
+            case DateFormat.DD_MMM_YY_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd MMM ''yy";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MMM dd ''yy";
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="''yy MMM dd";
                      break;
@@ -250,17 +251,17 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MMMMM:
+            case DateFormat.DD_MMMMM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd MMMMM";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MMMMM dd";
                      break;
@@ -269,17 +270,17 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MMM:
+            case DateFormat.DD_MMM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd MMM";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MMM dd";
                      break;
@@ -288,23 +289,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_DD_MM_YY_HH_MM:
+            case DateFormat.EEE_DD_MM_YY_HH_MM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="EEE "+"dd"+datesep+"MM"+datesep+"yy "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="EEE "+"MM"+datesep+"dd"+datesep+"yy "+getTimeElement();
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="EEE "+"yy"+datesep+"MM"+datesep+"dd "+getTimeElement();
                      break;
@@ -313,23 +314,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_DD_MM_YY:
+            case DateFormat.EEE_DD_MM_YY_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="EEE dd"+datesep+"MM"+datesep+"yy";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="EEE MM"+datesep+"dd"+datesep+"yy";
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="EEE yy"+datesep+"MM"+datesep+"dd";
                      break;
@@ -338,23 +339,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_DD_MMM_YY:
+            case DateFormat.EEE_DD_MMM_YY_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="EEE dd MMM ''yy";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="EEE MM dd ''yy";
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="EEE ''yy MMM dd";
                      break;
@@ -363,23 +364,23 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_HH_MM:
+            case DateFormat.EEE_HH_MM_VALUE:
             {
                pattern="EEE "+getTimeElement();
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MM:
+            case DateFormat.DD_MM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd"+datesep+"MM";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MM"+datesep+"dd";
                      break;
@@ -388,29 +389,29 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_DD:
+            case DateFormat.DD_VALUE:
             {
                pattern="dd";
                break;
             }
 
-            case DATE_TIME_FORMAT_HH_MM:
+            case DateFormat.HH_MM_VALUE:
             {
                pattern = getTimeElement();
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_DD_MMM:
+            case DateFormat.EEE_DD_MMM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="EEE dd MMM";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="EEE MMM dd";
                      break;
@@ -419,17 +420,17 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_DD_MM:
+            case DateFormat.EEE_DD_MM_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="EEE dd"+datesep+"MM";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="EEE MM"+datesep+"dd";
                      break;
@@ -438,41 +439,41 @@ public final class DateTimeSettings extends MPXRecord
                break;
             }
 
-            case DATE_TIME_FORMAT_EEE_DD:
+            case DateFormat.EEE_DD_VALUE:
             {
                pattern="EEE dd";
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_WWW:
+            case DateFormat.DD_WWW_VALUE:
             {
                pattern="F"+datesep+"'W'ww";
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_WWW_YY_HH_MM:
+            case DateFormat.DD_WWW_YY_HH_MM_VALUE:
             {
                pattern="F"+datesep+"'W'ww"+datesep+"yy "+getTimeElement();
                break;
             }
 
-            case DATE_TIME_FORMAT_DD_MM_YYYY:
+            case DateFormat.DD_MM_YYYY_VALUE:
             {
-               switch (getDateOrderValue())
+               switch (dateOrderValue)
                {
-                  case DATE_ORDER_DMY:
+                  case DateOrder.DMY_VALUE:
                   {
                      pattern="dd"+datesep+"MM"+datesep+"yyyy";
                      break;
                   }
 
-                  case DATE_ORDER_MDY:
+                  case DateOrder.MDY_VALUE:
                   {
                      pattern="MM"+datesep+"dd"+datesep+"yyyy";
                      break;
                   }
 
-                  case DATE_ORDER_YMD:
+                  case DateOrder.YMD_VALUE:
                   {
                      pattern="yyyy"+datesep+"MM"+datesep+"dd";
                      break;
@@ -497,8 +498,9 @@ public final class DateTimeSettings extends MPXRecord
    {
       String time;
       char timesep = getTimeSeparator();
-
-      if (getTimeFormatValue() == TIME_FORMAT_12HR)
+      TimeFormat format = getTimeFormat();
+      
+      if (format == null || format.getValue() == TimeFormat.TWELVE_HOUR_VALUE)
       {
          time = "hh"+timesep+"mm a";
       }
@@ -511,87 +513,24 @@ public final class DateTimeSettings extends MPXRecord
    }
 
    /**
-    * This method overrides the put method defined in MPXRecord allowing
-    * the date and time formats to be updated whenever one of the attributes
-    * controlling these formats is changed.
-    *
-    * @param key identifier of the value being changed
-    * @param value new value
-    */
-   public void put (int key, Object value)
-   {
-      super.put (key, value);
-      updateFormats ();
-   }
-
-   /**
-    * This method overrides the put method defined in MPXRecord allowing
-    * the date and time formats to be updated whenever one of the attributes
-    * controlling these formats is changed.
-    *
-    * @param key identifier of the value being changed
-    * @param value new value
-    */
-   protected void put (int key, int value)
-   {
-      super.put (key, value);
-      updateFormats ();
-   }
-
-   /**
-    * This method overrides the put method defined in MPXRecord allowing
-    * the date and time formats to be updated whenever one of the attributes
-    * controlling these formats is changed.
-    *
-    * @param key identifier of the value being changed
-    * @param value new value
-    */
-   protected void putChar (int key, char value)
-   {
-      super.put (key, value);
-      updateFormats ();
-   }
-
-   /**
     * Gets constant representing set Date order eg DMY, MDY
     *
     * @return constant value for date order
-    * @see #DATE_ORDER_MDY for Date order constants
     */
-   public int getDateOrderValue ()
+   public DateOrder getDateOrder ()
    {
-      return (getIntValue (DATE_ORDER));
-   }
-
-   /**
-    * Gets constant representing set Date order eg DMY, MDY
-    *
-    * @return constant value for date order
-    * @see #DATE_ORDER_MDY for Date order constants
-    */
-   public Integer getDateOrder ()
-   {
-      return ((Integer)get (DATE_ORDER));
+      return (m_dateOrder);
    }
 
    /**
     * Sets constant representing set Date order eg DMY, MDY
     *
-    * @param date see CONSTANTS
+    * @param dateOrder date order value
     */
-   public void setDateOrder (int date)
+   public void setDateOrder (DateOrder dateOrder)
    {
-      put (DATE_ORDER, new Integer(date));
-   }
-
-   /**
-    * Sets constant representing set Date order eg DMY, MDY
-    *
-    * @param date see CONSTANTS
-    */
-   public void setDateOrder (Integer date)
-   {
-      put (DATE_ORDER, date);
+      m_dateOrder = dateOrder;
+      updateFormats();
    }
 
    /**
@@ -599,124 +538,93 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return time format constant
     */
-   public int getTimeFormatValue ()
+   public TimeFormat getTimeFormat ()
    {
-      return (getIntValue (TIME_FORMAT));
-   }
-
-   /**
-    * Gets constant representing the Time Format
-    *
-    * @return time format constant
-    */
-   public Integer getTimeFormat ()
-   {
-      return ((Integer)get (TIME_FORMAT));
+      return (m_timeFormat);
    }
 
    /**
     * Sets constant representing the time format
     *
-    * @param time constant value
+    * @param timeFormat constant value
     */
-   public void setTimeFormat (int time)
+   public void setTimeFormat (TimeFormat timeFormat)
    {
-      put (TIME_FORMAT, time);
+      m_timeFormat = timeFormat;
+      updateFormats();
    }
 
    /**
-    * Sets constant representing the time format
-    *
-    * @param time constant value
+    * This internal method is used to convert from an integer representing
+    * minutes past midnight into a Date instance whose time component
+    * represents the start time.
+    * 
+    * @param time integer representing the start time in minutes past midnight
     */
-   public void setTimeFormat (Integer time)
+   private void setIntegerDefaultStartTime (Integer time)
    {
-      put (TIME_FORMAT, time);
+      if (time != null)
+      {
+         int minutes = time.intValue();
+         int hours = minutes / 60;
+         minutes -= (hours * 60);
+         
+         Calendar cal = Calendar.getInstance();
+         cal.set(Calendar.MILLISECOND, 0);
+         cal.set(Calendar.SECOND, 0);         
+         cal.set(Calendar.MINUTE, minutes);
+         cal.set(Calendar.HOUR_OF_DAY, hours);
+         
+         Date date = cal.getTime();
+         setDefaultStartTime(date);
+      }
    }
 
    /**
-    * Retrieve the default time specified as minutes after midnight.
-    *
-    * @return string
+    * This internal method is used to convert from a Date instance to an
+    * integer representing the number of minutes past midnight.
+    * 
+    * @return minutes past midnight as an integer
     */
-   public int getDefaultStartTimeValue ()
+   private Integer getIntegerDefaultStartTime ()
    {
-      return (getIntValue (DEFAULT_TIME));
-   }
-
-   /**
-    * Retrieve the default time specified as minutes after midnight.
-    *
-    * @return string
-    */
-   public Integer getDefaultStartTime ()
-   {
-      return ((Integer)get (DEFAULT_TIME));
-   }
-
-   /**
-    * Retrieve the default time as a Date object
-    *
-    * @return string
-    */
-   public Date getDefaultStartTimeAsDate ()
-   {
-      Date result = null;
-
-      Integer minutes = (Integer)get (DEFAULT_TIME);
-      if (minutes != null)
+      Integer result = null;
+      Date date = getDefaultStartTime();
+      if (date != null)
       {
          Calendar cal = Calendar.getInstance();
-         int hval = minutes.intValue() / 60;
-         int mval = minutes.intValue() - (hval * 60);
-         cal.set(Calendar.HOUR_OF_DAY, hval);
-         cal.set(Calendar.MINUTE, mval);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         result = cal.getTime();
-      }
-
+         cal.setTime(date);
+         int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
+         time += cal.get(Calendar.MINUTE);
+         result = new Integer (time);
+      }      
       return (result);
    }
-
+   
    /**
-    * Set the default time, specified as minutes after midnight.
-    *
-    * @param time time in minutes after midnight
-    */
-   public void setDefaultStartTime (int time)
-   {
-      put (DEFAULT_TIME, time);
-   }
-
-   /**
-    * Set the default time, specified as minutes after midnight.
-    *
-    * @param time time in minutes after midnight
-    */
-   public void setDefaultStartTime (Integer time)
-   {
-      put (DEFAULT_TIME, time);
-   }
-
-   /**
-    * Set the default time, specified using the Java Date type.
+    * Retrieve the default start time, specified using the Java Date type.
     * Note that this assumes that the value returned from
     * the getTime method starts at zero... i.e. the date part
     * of the date/time value has not been set.
     *
-    * @param time default time
+    * @return default start time
     */
-   public void setDefaultStartTime (Date time)
+   public Date getDefaultStartTime ()
    {
-      if (time != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(time);
-         int result = cal.get(Calendar.HOUR_OF_DAY) * 60;
-         result += cal.get(Calendar.MINUTE);
-         put (DEFAULT_TIME, result);
-      }
+      return (m_defaultStartTime);
+   }
+   
+   /**
+    * Set the default start time, specified using the Java Date type.
+    * Note that this assumes that the value returned from
+    * the getTime method starts at zero... i.e. the date part
+    * of the date/time value has not been set.
+    *
+    * @param defaultStartTime default time
+    */
+   public void setDefaultStartTime (Date defaultStartTime)
+   {
+      m_defaultStartTime = defaultStartTime;
    }
 
    /**
@@ -726,27 +634,28 @@ public final class DateTimeSettings extends MPXRecord
     */
    public char getDateSeparator ()
    {
-      return (getCharValue(DATE_SEPARATOR));
+      return (m_dateSeparator);
    }
 
    /**
     * Sets the date separator.
     *
-    * @param sep date separator as set.
+    * @param dateSeparator date separator as set.
     */
-   public void setDateSeparator (char sep)
+   public void setDateSeparator (char dateSeparator)
    {
-      putChar (DATE_SEPARATOR, sep);
+      m_dateSeparator = dateSeparator;
+      updateFormats();
    }
 
    /**
     * Sets the date separator.
     *
-    * @param sep date separator as set.
+    * @param dateSeparator date separator as set.
     */
-   public void setDateSeparator (Character sep)
+   private void setDateSeparator (Character dateSeparator)
    {
-      put (DATE_SEPARATOR, sep);
+      setDateSeparator ((dateSeparator==null?DEFAULT_DATE_SEPARATOR:dateSeparator.charValue()));
    }
 
    /**
@@ -756,27 +665,28 @@ public final class DateTimeSettings extends MPXRecord
     */
    public char getTimeSeparator ()
    {
-      return (getCharValue(TIME_SEPARATOR));
+      return (m_timeSeparator);
    }
 
    /**
     * Sets the time separator.
     *
-    * @param sep time separator
+    * @param timeSeparator time separator
     */
-   public void setTimeSeparator (char sep)
+   public void setTimeSeparator (char timeSeparator)
    {
-      putChar (TIME_SEPARATOR, sep);
+      m_timeSeparator = timeSeparator;
+      updateFormats();
    }
 
    /**
     * Sets the time separator.
     *
-    * @param sep time separator
+    * @param timeSeparator time separator
     */
-   public void setTimeSeparator (Character sep)
+   public void setTimeSeparator (Character timeSeparator)
    {
-      put (TIME_SEPARATOR, sep);
+      setTimeSeparator ((timeSeparator==null?DEFAULT_TIME_SEPARATOR:timeSeparator.charValue()));
    }
 
    /**
@@ -786,17 +696,18 @@ public final class DateTimeSettings extends MPXRecord
     */
    public String getAMText ()
    {
-      return ((String)get(AMTEXT));
+      return (m_amText);
    }
 
    /**
     * Sets the AM text.
     *
-    * @param am AM Text as set.
+    * @param amText AM Text as set.
     */
-   public void setAMText (String am)
+   public void setAMText (String amText)
    {
-      put (AMTEXT, am);
+      m_amText = amText;
+      updateFormats();
    }
 
    /**
@@ -806,17 +717,18 @@ public final class DateTimeSettings extends MPXRecord
     */
    public String getPMText ()
    {
-      return ((String)get(PMTEXT));
+      return (m_pmText);
    }
 
    /**
     * Sets the PM text.
     *
-    * @param pm PM Text as set.
+    * @param pmText PM Text as set.
     */
-   public void setPMText (String pm)
+   public void setPMText (String pmText)
    {
-      put (PMTEXT, pm);
+      m_pmText = pmText;
+      updateFormats();
    }
 
    /**
@@ -824,39 +736,20 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return int representing Date Format
     */
-   public int getDateFormatValue ()
+   public DateFormat getDateFormat ()
    {
-      return (getIntValue (DATE_FORMAT));
-   }
-
-   /**
-    * Gets the set Date Format.
-    *
-    * @return int representing Date Format
-    */
-   public Integer getDateFormat ()
-   {
-      return ((Integer)get (DATE_FORMAT));
+      return (m_dateFormat);
    }
 
    /**
     * Sets the set Date Format.
     *
-    * @param df int representing Date Format
+    * @param dateFormat int representing Date Format
     */
-   public void setDateFormat (int df)
+   public void setDateFormat (DateFormat dateFormat)
    {
-      put (DATE_FORMAT, new Integer(df));
-   }
-
-   /**
-    * Sets the set Date Format.
-    *
-    * @param df int representing Date Format
-    */
-   public void setDateFormat (Integer df)
-   {
-      put (DATE_FORMAT, df);
+      m_dateFormat = dateFormat;
+      updateFormats();
    }
 
    /**
@@ -864,19 +757,9 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return int value
     */
-   public int getBarTextDateFormatValue ()
+   public DateFormat getBarTextDateFormat ()
    {
-      return (getIntValue (BAR_TEXT_DATE_FORMAT));
-   }
-
-   /**
-    * Gets Bar Text Date Format
-    *
-    * @return int value
-    */
-   public Integer getBarTextDateFormat ()
-   {
-      return ((Integer)get (BAR_TEXT_DATE_FORMAT));
+      return (m_barTextDateFormat);
    }
 
    /**
@@ -884,61 +767,9 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @param dateFormat value to be set
     */
-   public void setBarTextDateFormat (int dateFormat)
+   public void setBarTextDateFormat (DateFormat dateFormat)
    {
-      put (BAR_TEXT_DATE_FORMAT, dateFormat);
-   }
-
-   /**
-    * Sets Bar Text Date Format.
-    *
-    * @param dateFormat value to be set
-    */
-   public void setBarTextDateFormat (Integer dateFormat)
-   {
-      put (BAR_TEXT_DATE_FORMAT, dateFormat);
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString()
-   {
-      return (toString(RECORD_NUMBER));
-   }
-
-
-   /**
-    * Retrieve the default time specified as minutes after midnight.
-    *
-    * @return string
-    */
-   public Integer getDefaultEndTime ()
-   {
-      return (new Integer (getDefaultEndTimeValue()));
-   }
-
-   /**
-    * Retrieve the default time specified as minutes after midnight.
-    *
-    * @return string
-    */
-   public int getDefaultEndTimeValue ()
-   {
-      int result = 0;
-
-      if (m_defaultEndTime != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(m_defaultEndTime);
-         result = cal.get(Calendar.HOUR_OF_DAY) * 60;
-         result += cal.get(Calendar.MINUTE);
-      }
-
-      return (result);
+      m_barTextDateFormat = dateFormat;
    }
 
    /**
@@ -946,7 +777,7 @@ public final class DateTimeSettings extends MPXRecord
     *
     * @return End time
     */
-   public Date getDefaultEndTimeAsDate ()
+   public Date getDefaultEndTime ()
    {
       return (m_defaultEndTime);
    }
@@ -960,7 +791,55 @@ public final class DateTimeSettings extends MPXRecord
    {
       m_defaultEndTime = date;
    }
+   
+   /**
+    * This method generates a string in MPX format representing the
+    * contents of this record.
+    *
+    * @return string containing the data for this record in MPX format.
+    */
+   public String toString ()
+   {
+      StringBuffer buffer = new StringBuffer ();
+      char delimiter = getParentFile().getDelimiter();
 
+      buffer.append (RECORD_NUMBER);
+      buffer.append (delimiter);
+      buffer.append(format(getDateOrder()));
+      buffer.append (delimiter);
+      buffer.append(format(getTimeFormat()));
+      buffer.append (delimiter);
+      buffer.append(format(getIntegerDefaultStartTime()));
+      buffer.append (delimiter);
+      buffer.append(getDateSeparator());
+      buffer.append (delimiter);
+      buffer.append(getTimeSeparator());
+      buffer.append (delimiter);
+      buffer.append(format(getAMText()));
+      buffer.append (delimiter);
+      buffer.append(format(getPMText()));
+      buffer.append (delimiter);
+      buffer.append(format(getDateFormat()));
+      buffer.append (delimiter);
+      buffer.append(format(getBarTextDateFormat()));
+      
+      stripTrailingDelimiters(buffer, delimiter);
+      buffer.append (MPXFile.EOL);
+            
+      return (buffer.toString());      
+   }
+   
+   private DateOrder m_dateOrder;  
+   private TimeFormat m_timeFormat;
+   private Date m_defaultStartTime;
+   private char m_dateSeparator;
+   private char m_timeSeparator;
+   private String m_amText;
+   private String m_pmText;
+   private DateFormat m_dateFormat;
+   private DateFormat m_barTextDateFormat;
+      
+   
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither
@@ -971,140 +850,6 @@ public final class DateTimeSettings extends MPXRecord
     */
    private Date m_defaultEndTime;
 
-   /**
-    * All the following formats are as per Project '98.
-    */
-
-   /**
-    * This format represents dates in the form 25/12/98 12:56
-    */
-   public static final int DATE_TIME_FORMAT_DD_MM_YY_HH_MM = 0;
-
-   /**
-    * This format represents dates in the form 25/05/98
-    */
-   public static final int DATE_TIME_FORMAT_DD_MM_YY = 1;
-
-   /**
-    * This format represents dates in the form 13 December 2002 12:56
-    */
-   public static final int DATE_TIME_FORMAT_DD_MMMMM_YYYY_HH_MM = 2;
-
-   /**
-    * This format represents dates in the form 13 December 2002
-    */
-   public static final int DATE_TIME_FORMAT_DD_MMMMM_YYYY = 3;
-
-   /**
-    * This format represents dates in the form 24 Nov 12:56
-    */
-   public static final int DATE_TIME_FORMAT_DD_MMM_HH_MM = 4;
-
-   /**
-    * This format represents dates in the form 25 Aug '98
-    */
-   public static final int DATE_TIME_FORMAT_DD_MMM_YY = 5;
-
-   /**
-    * This format represents dates in the form 25 September
-    */
-   public static final int DATE_TIME_FORMAT_DD_MMMMM = 6;
-
-   /**
-    * This format represents dates in the form 25 Aug
-    */
-   public static final int DATE_TIME_FORMAT_DD_MMM = 7;
-
-   /**
-    * This format represents dates in the form Thu 25/05/98 12:56
-    */
-   public static final int DATE_TIME_FORMAT_EEE_DD_MM_YY_HH_MM = 8;
-
-   /**
-    * This format represents dates in the form Wed 25/05/98
-    */
-   public static final int DATE_TIME_FORMAT_EEE_DD_MM_YY = 9;
-
-   /**
-    * This format represents dates in the form Wed 25 Mar '98
-    */
-   public static final int DATE_TIME_FORMAT_EEE_DD_MMM_YY = 10;
-
-   /**
-    * This format represents dates in the form Wed 12:56
-    */
-   public static final int DATE_TIME_FORMAT_EEE_HH_MM = 11;
-
-   /**
-    * This format represents dates in the form 25/5
-    */
-   public static final int DATE_TIME_FORMAT_DD_MM = 12;
-
-   /**
-    * This format represents dates in the form 23
-    */
-   public static final int DATE_TIME_FORMAT_DD = 13;
-
-   /**
-    * This format represents dates in the form 12:56
-    */
-   public static final int DATE_TIME_FORMAT_HH_MM = 14;
-
-   /**
-    * This format represents dates in the form Wed 23 Mar
-    */
-   public static final int DATE_TIME_FORMAT_EEE_DD_MMM = 15;
-
-   /**
-    * This format represents dates in the form Wed 25/5
-    */
-   public static final int DATE_TIME_FORMAT_EEE_DD_MM = 16;
-
-   /**
-    * This format represents dates in the form Wed 05
-    */
-   public static final int DATE_TIME_FORMAT_EEE_DD = 17;
-
-   /**
-    * This format represents dates in the form 5/W25
-    */
-   public static final int DATE_TIME_FORMAT_DD_WWW = 18;
-
-   /**
-    * This format represents dates in the form 5/W25/98 12:56
-    */
-   public static final int DATE_TIME_FORMAT_DD_WWW_YY_HH_MM = 19;
-
-   /**
-    * This format represents dates in the form 25/05/1998
-    */
-   public static final int DATE_TIME_FORMAT_DD_MM_YYYY = 20;
-
-   /**
-    * This format represents dates ordered month-day-year for example, 12/25/99
-    */
-   public static final int DATE_ORDER_MDY = 0;
-
-   /**
-    * This format represents dates ordered day-month-year for example,  25/12/99
-    */
-   public static final int DATE_ORDER_DMY = 1;
-
-   /**
-    * This format represents dates ordered year-month-day for example,  99/12/25
-    */
-   public static final int DATE_ORDER_YMD = 2;
-
-   /**
-    *  12 hour clock time format, for example, 11:59
-    */
-   public static final int TIME_FORMAT_12HR = 0;
-
-   /**
-    * 24 hour clock time format, for example, 23:59
-    */
-   public static final int TIME_FORMAT_24HR = 1;
-
 
    /**
     * Flag used to indicate whether the formats can be automatically updated.
@@ -1113,55 +858,15 @@ public final class DateTimeSettings extends MPXRecord
    private boolean m_update;
 
    /**
-    * Constant value representing Date Order field
+    * Default date separator character.
     */
-   private static final int DATE_ORDER = 0;
+   private static final char DEFAULT_DATE_SEPARATOR = '/';
 
    /**
-    * Constant value representing Time Format field
+    * Default time separator character.
     */
-   private static final int TIME_FORMAT = 1;
-
-   /**
-    * Constant value representing Default Time field
-    */
-   private static final int DEFAULT_TIME = 2;
-
-   /**
-    * Constant value representing Date Separator field
-    */
-   private static final int DATE_SEPARATOR = 3;
-
-   /**
-    * Constant value representing Time Separator field
-    */
-   private static final int TIME_SEPARATOR = 4;
-
-   /**
-    * Constant value representing AMText field
-    */
-   private static final int AMTEXT = 5;
-
-   /**
-    * Constant value representing PMText field
-    */
-   private static final int PMTEXT = 6;
-
-   /**
-    * Constant value representing Date Format field
-    */
-   private static final int DATE_FORMAT = 7;
-
-   /**
-    * Constant value representing Bar text Date Format field
-    */
-   private static final int BAR_TEXT_DATE_FORMAT = 8;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 9;
-
+   private static final char DEFAULT_TIME_SEPARATOR = ':';
+   
    /**
     * Constant containing the record number associated with this record.
     */
