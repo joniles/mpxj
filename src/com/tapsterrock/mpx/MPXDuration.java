@@ -51,6 +51,7 @@ public final class MPXDuration
     *
     * @param dur formatted duration value
     * @param format format description
+    * @param locale current file locale
     * @throws MPXException
     */
    public MPXDuration (String dur, MPXNumberFormat format, Locale locale)

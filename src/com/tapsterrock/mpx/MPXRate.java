@@ -116,6 +116,7 @@ public final class MPXRate
     * by this instance.
     *
     * @param format currency format to be used
+    * @param locale current file locale
     * @return string representation of the rate
     */
    public String toString (MPXNumberFormat format, Locale locale)

@@ -32,6 +32,9 @@ import java.util.ListResourceBundle;
  */
 public final class LocaleData_sv extends ListResourceBundle
 {
+   /**
+    * @see ListResourceBundle#getContents
+    */   
    public Object[][] getContents()
    {
       return (RESOURCE_DATA);
