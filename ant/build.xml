@@ -49,7 +49,7 @@
 
 <target name="distribute" depends="clean,compile,archive,document" description="Create distribution">
    <zip zipfile="${distribution}">
-      <zipfileset dir="${basedir}" prefix="mpxj"/>
+      <zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*"/>
    </zip>
 </target>
 
