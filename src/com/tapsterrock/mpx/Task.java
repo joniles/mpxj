@@ -933,7 +933,7 @@ public final class Task extends MPXRecord implements Comparable
     * or you can have
     * Microsoft Project calculate it for you based on actual duration.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setPercentageComplete (double val)
    {
@@ -947,7 +947,7 @@ public final class Task extends MPXRecord implements Comparable
     * or you can have
     * Microsoft Project calculate it for you based on actual duration.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setPercentageComplete (Number val)
    {
@@ -964,7 +964,7 @@ public final class Task extends MPXRecord implements Comparable
     * based on actual
     * work on the task.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setPercentageWorkComplete (double val)
    {
@@ -980,7 +980,7 @@ public final class Task extends MPXRecord implements Comparable
     * based on actual
     * work on the task.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setPercentageWorkComplete (Number val)
    {
@@ -994,7 +994,7 @@ public final class Task extends MPXRecord implements Comparable
     * You can enter
     * all the actual costs or have Microsoft Project calculate them for you.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setActualCost (Number val)
    {
@@ -1007,7 +1007,7 @@ public final class Task extends MPXRecord implements Comparable
     * based on the scheduled duration and current remaining work or
     * completion percentage.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setActualDuration (MPXDuration val)
    {
@@ -1023,7 +1023,7 @@ public final class Task extends MPXRecord implements Comparable
     * enter actual
     * information or set the completion percentage to 100.
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setActualFinish (Date val)
    {
@@ -1035,7 +1035,7 @@ public final class Task extends MPXRecord implements Comparable
     * When a task is first created, the Actual Start field contains "NA." Once you
     * enter the first actual work or a completion percentage for a task, Microsoft
     * Project sets the actual start date to the scheduled start date.
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setActualStart (Date val)
    {
@@ -1046,7 +1046,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Actual Work field shows the amount of work that has already been
     * done by the
     * resources assigned to a task.
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setActualWork (MPXDuration val)
    {
@@ -1056,7 +1056,8 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Baseline Cost field shows the total planned cost for a task.
     * Baseline cost is also referred to as budget at completion (BAC).
-    * @param val - the amount to be set
+    * 
+    * @param val the amount to be set
     */
    public void setBaselineCost (Number val)
    {
@@ -1066,7 +1067,8 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Baseline Duration field shows the original span of time planned to
     * complete a task.
-    * @param val - duration
+    * 
+    * @param val duration
     */
    public void setBaselineDuration (MPXDuration val)
    {
@@ -1080,7 +1082,7 @@ public final class Task extends MPXRecord implements Comparable
     * when you set a
     * baseline for a task.
     *
-    * @param val - Date to be set
+    * @param val Date to be set
     */
    public void setBaselineFinish (Date val)
    {
@@ -1093,7 +1095,7 @@ public final class Task extends MPXRecord implements Comparable
     * you saved a baseline. Information in this field becomes available when you
     * set a baseline.
     *
-    * @param val - Date to be set
+    * @param val Date to be set
     */
    public void setBaselineStart (Date val)
    {
@@ -1109,7 +1111,7 @@ public final class Task extends MPXRecord implements Comparable
     * becomes available
     * when you set a baseline for the project.
     *
-    * @param val - the duration to be set.
+    * @param val the duration to be set.
     */
     public void setBaselineWork (MPXDuration val)
     {
@@ -1125,7 +1127,7 @@ public final class Task extends MPXRecord implements Comparable
      * date or todays
      * date. This information is also known as earned value.
      *
-     * @param val - the ampunt to be set
+     * @param val the amount to be set
      */
    public void setBCWP (Number val)
    {
@@ -1136,7 +1138,8 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The BCWS (budgeted cost of work scheduled) field contains the cumulative
     * timephased baseline costs up to the status date or today's date.
-    * @param val - the amount to set.
+    * 
+    * @param val the amount to set
     */
    public void setBCWS (Number val)
    {
@@ -1147,7 +1150,8 @@ public final class Task extends MPXRecord implements Comparable
     * The Confirmed field indicates whether all resources assigned to a task have
     * accepted or rejected the task assignment in response to a TeamAssign message
     * regarding their assignments.
-    * @param val - boolean value
+    * 
+    * @param val boolean value
     */
    public void setConfirmed (Boolean val)
    {
@@ -1158,7 +1162,8 @@ public final class Task extends MPXRecord implements Comparable
     * The Confirmed field indicates whether all resources assigned to a task have
     * accepted or rejected the task assignment in response to a TeamAssign message
     * regarding their assignments.
-    * @param val - boolean value
+    * 
+    * @param val boolean value
     */
    public void setConfirmed (boolean val)
    {
@@ -1173,7 +1178,7 @@ public final class Task extends MPXRecord implements Comparable
     *  Finish No Earlier Than, and Finish No Later Than.
     *  SEE class constants
     *
-    * @param val - Date to be set
+    * @param val Date to be set
     */
    public void setConstraintDate (Date val)
    {
@@ -1182,6 +1187,7 @@ public final class Task extends MPXRecord implements Comparable
 
    /**
     * Private method for dealing with string parameters from File
+    * 
     * @param type string constraint type
     */
    public void setConstraintType (ConstraintType type)
@@ -1192,7 +1198,8 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Contact field contains the name of an individual
     * responsible for a task.
-    * @param val - value to be set
+    * 
+    * @param val value to be set
     */
    public void setContact (String val)
    {
@@ -1204,7 +1211,8 @@ public final class Task extends MPXRecord implements Comparable
     * based on costs already incurred for work performed by all resources assigned
     * to the task, in addition to the costs planned for the remaining work for the
     * assignment. This can also be referred to as estimate at completion (EAC).
-    * @param val - amount
+    * 
+    * @param val amount
     */
    public void setCost (Number val)
    {
@@ -1215,7 +1223,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Cost1-10 fields show any custom task cost information you want to enter
     * in your project.
     *
-    * @param val -amount
+    * @param val amount
     */
    public void setCost1(Number val)
    {
@@ -1226,7 +1234,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Cost1-10 fields show any custom task cost information you want to
     * enter in your project.
     *
-    * @param val -amount
+    * @param val amount
     */
    public void setCost2 (Number val)
    {
@@ -1237,7 +1245,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Cost1-10 fields show any custom task cost information you want to
     * enter in your project.
     *
-    * @param val -amount
+    * @param val amount
     */
    public void setCost3 (Number val)
    {
@@ -1252,7 +1260,7 @@ public final class Task extends MPXRecord implements Comparable
     * costs and remaining costs. This is also referred to as variance
     * at completion (VAC).
     *
-    * @param val  amount
+    * @param val amount
     */
    public void setCostVariance (Number val)
    {
@@ -1263,7 +1271,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Created field contains the date and time when a task was
     * added to the project.
     *
-    * @param val - date
+    * @param val date
     */
    public void setCreated (Date val)
    {
@@ -1277,7 +1285,7 @@ public final class Task extends MPXRecord implements Comparable
     * Yes if the task
     * is critical and No if the task is not critical.
     *
-    * @param val - whether task is critical or not
+    * @param val whether task is critical or not
     */
    public void setCritical (boolean val)
    {
@@ -1291,7 +1299,7 @@ public final class Task extends MPXRecord implements Comparable
     * Yes if the task
     * is critical and No if the task is not critical.
     *
-    * @param val - whether task is critical or not
+    * @param val whether task is critical or not
     */
    public void setCritical (Boolean val)
    {
@@ -1307,7 +1315,7 @@ public final class Task extends MPXRecord implements Comparable
     * completion up to
     * the status date or today's date.
     *
-    * @param val - value to set
+    * @param val value to set
     */
    public void setCV (double val)
    {
@@ -1323,7 +1331,7 @@ public final class Task extends MPXRecord implements Comparable
     * completion up to
     * the status date or today's date.
     *
-    * @param val - value to set
+    * @param val value to set
     */
    public void setCV (Number val)
    {
@@ -1345,7 +1353,7 @@ public final class Task extends MPXRecord implements Comparable
     * This is generally the amount of time from the start to the finish of a task.
     * The default for new tasks is 1 day (1d).
     *
-    * @param val - duration
+    * @param val duration
     */
    public void setDuration (MPXDuration val)
    {
@@ -1353,169 +1361,145 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Duration1 through Duration10 fields are custom fields that show
-    * any specialized
-    * task duration information you want to enter and store
-    * separately in your project.
-    * @param val - duration
+    * User defined duration field.
+    * 
+    * @param duration Duration value
     */
-   public void setDuration1 (MPXDuration val)
+   public void setDuration1 (MPXDuration duration)
    {
-      set (DURATION1, val);
+      set (DURATION1, duration);
    }
 
    /**
-    * The Duration1 through Duration10 fields are custom fields that show
-    * any specialized
-    * task duration information you want to enter and store separately
-    * in your project.
-    *
-    * @param val - duration
+    * User defined duration field.
+    * 
+    * @param duration Duration value
     */
-   public void setDuration2 (MPXDuration val)
+   public void setDuration2 (MPXDuration duration)
    {
-      set (DURATION2, val);
+      set (DURATION2, duration);
    }
 
    /**
-    * The Duration1 through Duration10 fields are custom fields that show
-    * any specialized
-    * task duration information you want to enter and store separately
-    * in your project.
-    * @param val - duration
+    * User defined duration field.
+    * 
+    * @param duration Duration value
     */
-   public void setDuration3 (MPXDuration val)
+   public void setDuration3 (MPXDuration duration)
    {
-      set (DURATION3, val);
+      set (DURATION3, duration);
    }
 
 
    /**
     * The Duration Variance field contains the difference between the
-    * baseline duration
-    * of a task and the total duration (current estimate) of a task.
+    * baseline duration of a task and the forecast or actual duration
+    * of the task.
     *
-    * @param val - duration
+    * @param duration duration value
     */
-   public void setDurationVariance (MPXDuration val)
+   public void setDurationVariance (MPXDuration duration)
    {
-      set (DURATION_VARIANCE, val);
+      set (DURATION_VARIANCE, duration);
    }
 
    /**
     * The Early Finish field contains the earliest date that a task
-    * could possibly finish,
-    * based on early finish dates of predecessor and successor tasks,
-    * other constraints,
-    * and any leveling delay.
+    * could possibly finish, based on early finish dates of predecessor 
+    * and successor tasks, other constraints, and any leveling delay.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setEarlyFinish (Date val)
+   public void setEarlyFinish (Date date)
    {
-      setDate (EARLY_FINISH, val);
+      setDate (EARLY_FINISH, date);
    }
 
    /**
     * The Early Start field contains the earliest date that a task could
-    * possibly begin,
-    * based on the early start dates of predecessor and successor tasks,
-    * and other constraints.
+    * possibly begin, based on the early start dates of predecessor and 
+    * successor tasks, and other constraints.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setEarlyStart (Date val)
+   public void setEarlyStart (Date date)
    {
-      setDate (EARLY_START, val);
+      setDate (EARLY_START, date);
    }
 
    /**
     * The Finish field shows the date and time that a task is scheduled to be
-    * completed.
-    * You can enter the finish date you want, to indicate the date when the
-    * task should
-    * be completed. Or, you can have Microsoft Project calculate the finish date.
+    * completed. MS project allows a finish date to be entered, and will
+    * calculate the duartion, or a duration can be supplied and MS Project
+    * will calculate the finish date.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setFinish (Date val)
+   public void setFinish (Date date)
    {
-      setDate (FINISH, val);
+      setDate (FINISH, date);
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task
-    * finish date information you want to enter and store separately in
-    * your project.
+    * User defined finish date field.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setFinish1 (Date val)
+   public void setFinish1 (Date date)
    {
-      setDate (FINISH1, val);
+      setDate (FINISH1, date);
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task
-    * finish date information you want to enter and store separately in
-    * your project.
+    * User defined finish date field.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setFinish2 (Date val)
+   public void setFinish2 (Date date)
    {
-      setDate (FINISH2, val);
+      setDate (FINISH2, date);
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task
-    * finish date information you want to enter and store separately in
-    * your project.
+    * User defined finish date field.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setFinish3 (Date val)
+   public void setFinish3 (Date date)
    {
-      setDate (FINISH3, val);
+      setDate (FINISH3, date);
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task
-    * finish date information you want to enter and store separately in
-    * your project.
+    * User defined finish date field.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setFinish4 (Date val)
+   public void setFinish4 (Date date)
    {
-      setDate (FINISH4, val);
+      setDate (FINISH4, date);
    }
 
    /**
-    * The Finish1 through Finish10 fields are custom fields that show any
-    * specific task
-    * finish date information you want to enter and store separately in
-    * your project.
+    * User defined finish date field.
     *
-    * @param val - Date
+    * @param date Date value
     */
-   public void setFinish5 (Date val)
+   public void setFinish5 (Date date)
    {
-      setDate (FINISH5, val);
+      setDate (FINISH5, date);
    }
 
    /**
     * The Finish Variance field contains the amount of time that represents the
-    * difference between a task's baseline finish date and its current finish date.
-    * @param val - duration
+    * difference between a task's baseline finish date and its forecast
+    * or actual finish date.
+    * 
+    * @param duration duration value
     */
-   public void setFinishVariance (MPXDuration val)
+   public void setFinishVariance (MPXDuration duration)
    {
-      set (FINISH_VARIANCE, val);
+      set (FINISH_VARIANCE, duration);
    }
 
    /**
@@ -1526,7 +1510,7 @@ public final class Task extends MPXRecord implements Comparable
     * task's work.
     * Work = Duration x Units
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setFixed (boolean val)
    {
@@ -1541,7 +1525,7 @@ public final class Task extends MPXRecord implements Comparable
     * task's work.
     * Work = Duration x Units
     *
-    * @param val - value to be set
+    * @param val value to be set
     */
    public void setFixed (Boolean val)
    {
@@ -1552,7 +1536,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     *
-    * @param val - amount
+    * @param val amount
     */
    public void setFixedCost (double val)
    {
@@ -1563,7 +1547,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     *
-    * @param val - amount
+    * @param val amount
     */
    public void setFixedCost (Number val)
    {
@@ -1771,38 +1755,38 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Free Slack field contains the amount of time that a task can be delayed
-    * without delaying any successor tasks. If the task has no successors, free
-    * slack is the amount of time that a task can be delayed without delaying
-    * the entire project's finish date.
+    * The Free Slack field contains the amount of time that a task can be 
+    * delayed without delaying any successor tasks. If the task has no 
+    * successors, free slack is the amount of time that a task can be delayed 
+    * without delaying the entire project's finish date.
     *
-    * @param val - duration
+    * @param duration duration value
     */
-   public void setFreeSlack (MPXDuration val)
+   public void setFreeSlack (MPXDuration duration)
    {
-      set (FREE_SLACK, val);
+      set (FREE_SLACK, duration);
    }
 
    /**
-    * The Hide Bar field indicates whether the Gantt bars and Calendar bars
-    * for a task are hidden. Click Yes in the Hide Bar field to hide the bar
-    * for the task. Click No in the Hide Bar field to show the bar for the task.
-    * @param val - boolean
+    * The Hide Bar flag indicates whether the Gantt bars and Calendar bars
+    * for a task are hidden when this project's data is displayed in MS Project. 
+    * 
+    * @param flag boolean value
     */
-   public void setHideBar (boolean val)
+   public void setHideBar (boolean flag)
    {
-      set (HIDE_BAR, val);
+      set (HIDE_BAR, flag);
    }
 
    /**
-    * The Hide Bar field indicates whether the Gantt bars and Calendar bars
-    * for a task are hidden. Click Yes in the Hide Bar field to hide the bar
-    * for the task. Click No in the Hide Bar field to show the bar for the task.
-    * @param val - boolean
+    * The Hide Bar flag indicates whether the Gantt bars and Calendar bars
+    * for a task are hidden when this project's data is displayed in MS Project. 
+    * 
+    * @param flag boolean value
     */
-   public void setHideBar (Boolean val)
+   public void setHideBar (Boolean flag)
    {
-      set (HIDE_BAR, val);
+      set (HIDE_BAR, flag);
    }
 
    /**
@@ -1830,50 +1814,49 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Late Finish field contains the latest date that a task can finish without
-    * delaying the finish of the project. This date is based on the task's late
-    * start date, as well as the late start and late finish dates of predecessor
-    * and successor tasks, and other constraints.
-    * @param val - Date
+    * The Late Finish field contains the latest date that a task can finish 
+    * without delaying the finish of the project. This date is based on the 
+    * task's late start date, as well as the late start and late finish dates 
+    * of predecessor and successor tasks, and other constraints.
+    * 
+    * @param date date value
     */
-   public void setLateFinish (Date val)
+   public void setLateFinish (Date date)
    {
-      setDate (LATE_FINISH, val);
+      setDate (LATE_FINISH, date);
    }
 
    /**
-    * The Late Start field contains the latest date that a task can start without
-    * delaying the finish of the project. This date is based on the
-    * task's start date,
-    * as well as the late start and late finish dates of predecessor
-    * and successor tasks,
-    * and other constraints.
+    * The Late Start field contains the latest date that a task can start 
+    * without delaying the finish of the project. This date is based on the
+    * task's start date, as well as the late start and late finish dates of 
+    * predecessor and successor tasks, and other constraints.
     *
-    * @param val - Date
+    * @param date date value
     */
-   public void setLateStart (Date val)
+   public void setLateStart (Date date)
    {
-      setDate (LATE_START, val);
-   }
-
-   /**
-    * The Linked Fields field indicates whether there are OLE links to the task,
-    * either from elsewhere in the active project, another Microsoft Project file,
-    * or from another program.
-    *
-    * @param val - boolean
-    */
-   public void setLinkedFields (boolean val)
-   {
-      set (LINKED_FIELDS, val);
+      setDate (LATE_START, date);
    }
 
    /**
     * The Linked Fields field indicates whether there are OLE links to the task,
-    * either from elsewhere in the active project, another Microsoft Project file,
-    * or from another program.
+    * either from elsewhere in the active project, another Microsoft Project
+    * file, or from another program.
     *
-    * @param val - boolean
+    * @param flag boolean value
+    */
+   public void setLinkedFields (boolean flag)
+   {
+      set (LINKED_FIELDS, flag);
+   }
+
+   /**
+    * The Linked Fields field indicates whether there are OLE links to the task,
+    * either from elsewhere in the active project, another Microsoft Project
+    * file, or from another program.
+    *
+    * @param flag boolean value
     */
    public void setLinkedFields (Boolean val)
    {
@@ -1881,43 +1864,41 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Marked field indicates whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in the Marked field.
-    * If you don't want a task marked, click No.
+    * This is a user defined field used to mark a task for some form of
+    * additional action.
     *
-    * @param val - boolean
+    * @param flag boolean value
     */
-   public void setMarked (boolean val)
+   public void setMarked (boolean flag)
    {
-      set (MARKED, val);
+      set (MARKED, flag);
    }
 
    /**
-    * The Marked field indicates whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in the Marked field.
-    * If you don't want a task marked, click No.
+    * This is a user defined field used to mark a task for some form of
+    * additional action.
     *
-    * @param val - boolean
+    * @param flag boolean value
     */
-   public void setMarked (Boolean val)
+   public void setMarked (Boolean flag)
    {
-      set (MARKED, val);
-   }
-
-   /**
-    * The Milestone field indicates whether a task is a milestone.
-    *
-    * @param val - boolean
-    */
-   public void setMilestone (boolean val)
-   {
-      set (MILESTONE, val);
+      set (MARKED, flag);
    }
 
    /**
     * The Milestone field indicates whether a task is a milestone.
     *
-    * @param val - boolean
+    * @param flag boolean value
+    */
+   public void setMilestone (boolean flag)
+   {
+      set (MILESTONE, flag);
+   }
+
+   /**
+    * The Milestone field indicates whether a task is a milestone.
+    *
+    * @param flag boolean value
     */
    public void setMilestone (Boolean val)
    {
@@ -1927,22 +1908,22 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Name field contains the name of a task.
     *
-    * @param val - value to set as name
+    * @param name task name
     */
-   public void setName (String val)
+   public void setName (String name)
    {
-      set (NAME, val);
+      set (NAME, name);
    }
 
    /**
     * The Notes field contains notes that you can enter about a task.
     * You can use task notes to help maintain a history for a task.
     *
-    * @param val - string
+    * @param notes note text
     */
-   public void setNotes (String val)
+   public void setNotes (String notes)
    {
-      addTaskNotes (val);
+      addTaskNotes (notes);
    }
 
    /**
@@ -2135,8 +2116,15 @@ public final class Task extends MPXRecord implements Comparable
     * The Resource Initials field lists the abbreviations for the names of
     * resources assigned to a task. These initials can serve as substitutes
     * for the names.
+    * 
+    * Note that MS Project 98 does no normally populate this field when
+    * it generates an MPX file, and will therefore not expect to see values
+    * in this field when it reads an MPX file. Supplying values for this
+    * field will cause MS Project 98, 2000, and 2002 to create new resources
+    * and ignore any other resource assignments that have been defined
+    * in the MPX file.
     *
-    * @param val - text list
+    * @param val String containing a comma separated list of initials
     */
    public void setResourceInitials (String val)
    {
@@ -2147,7 +2135,14 @@ public final class Task extends MPXRecord implements Comparable
     * The Resource Names field lists the names of all resources
     * assigned to a task.
     *
-    * @param val - text list
+    * Note that MS Project 98 does no normally populate this field when
+    * it generates an MPX file, and will therefore not expect to see values
+    * in this field when it reads an MPX file. Supplying values for this
+    * field will cause MS Project 98, 2000, and 2002 to create new resources
+    * and ignore any other resource assignments that have been defined
+    * in the MPX file.
+    *
+    * @param val String containing a comma separated list of names
     */
    public void setResourceNames (String val)
    {
@@ -2598,7 +2593,7 @@ public final class Task extends MPXRecord implements Comparable
     * expressed as the percentage of the task's duration that has been completed.
     * You can enter percent complete, or you can have Microsoft Project calculate
     * it for you based on actual duration.
-    * @return - percentage as float
+    * @return percentage as float
     */
    public double getPercentageCompleteValue ()
    {
@@ -2610,7 +2605,7 @@ public final class Task extends MPXRecord implements Comparable
     * expressed as the percentage of the task's duration that has been completed.
     * You can enter percent complete, or you can have Microsoft Project calculate
     * it for you based on actual duration.
-    * @return - percentage as float
+    * @return percentage as float
     */
    public Number getPercentageComplete ()
    {
@@ -2624,7 +2619,7 @@ public final class Task extends MPXRecord implements Comparable
     * You can enter percent work complete, or you can have Microsoft Project
     * calculate it for you based on actual work on the task.
     *
-    * @return - percentage as float
+    * @return percentage as float
     */
    public double getPercentageWorkCompleteValue ()
    {
@@ -2637,7 +2632,7 @@ public final class Task extends MPXRecord implements Comparable
     * You can enter percent work complete, or you can have Microsoft Project
     * calculate it for you based on actual work on the task.
     *
-    * @return - percentage as float
+    * @return percentage as float
     */
    public Number getPercentageWorkComplete ()
    {
@@ -2651,7 +2646,7 @@ public final class Task extends MPXRecord implements Comparable
     * with the task. You can enter all the actual costs or have Microsoft Project
     * calculate them for you.
     *
-    * @return - currency amount as float
+    * @return currency amount as float
     */
    public Number getActualCost ()
    {
@@ -2663,7 +2658,7 @@ public final class Task extends MPXRecord implements Comparable
     * task so far, based on the scheduled duration and current remaining work
     * or completion percentage.
     *
-    * @return - duration string
+    * @return duration string
     */
    public MPXDuration getActualDuration ()
    {
@@ -2677,7 +2672,7 @@ public final class Task extends MPXRecord implements Comparable
     * until you enter actual information or set the completion percentage to 100.
     * If "NA" is entered as value, arbitrary year zero Date is used. Date(0);
     *
-    * @return - Date
+    * @return Date
     */
    public Date getActualFinish ()
    {
@@ -2691,7 +2686,7 @@ public final class Task extends MPXRecord implements Comparable
     * Microsoft Project sets the actual start date to the scheduled start date.
     * If "NA" is entered as value, arbitrary year zero Date is used. Date(0);
     *
-    * @return - Date
+    * @return Date
     */
    public Date getActualStart ()
    {
@@ -2702,7 +2697,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Actual Work field shows the amount of work that has already been done
     * by the resources assigned to a task.
     *
-    * @return - duration string
+    * @return duration string
     */
    public MPXDuration getActualWork ()
    {
@@ -2712,7 +2707,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Baseline Cost field shows the total planned cost for a task.
     * Baseline cost is also referred to as budget at completion (BAC).
-    * @return - currency amount as float
+    * @return currency amount as float
     */
    public Number getBaselineCost ()
    {
@@ -2735,7 +2730,7 @@ public final class Task extends MPXRecord implements Comparable
     * at the time you saved a baseline. Information in this field becomes
     * available when you set a baseline for a task.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getBaselineFinish ()
    {
@@ -2747,7 +2742,7 @@ public final class Task extends MPXRecord implements Comparable
     * the time you saved a baseline. Information in this field becomes available
     * when you set a baseline.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getBaselineStart ()
    {
@@ -2760,7 +2755,7 @@ public final class Task extends MPXRecord implements Comparable
     * person-hours scheduled for a task. Information in the Baseline Work field
     * becomes available when you set a baseline for the project.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getBaselineWork ()
    {
@@ -2774,7 +2769,7 @@ public final class Task extends MPXRecord implements Comparable
     * BCWP is calculated up to the status date or today's date.
     * This information is also known as earned value.
     *
-    * @return - currency amount as float
+    * @return currency amount as float
     */
    public double getBCWPValue ()
    {
@@ -2788,7 +2783,7 @@ public final class Task extends MPXRecord implements Comparable
     * BCWP is calculated up to the status date or today's date.
     * This information is also known as earned value.
     *
-    * @return - currency amount as float
+    * @return currency amount as float
     */
    public Number getBCWP ()
    {
@@ -2799,7 +2794,7 @@ public final class Task extends MPXRecord implements Comparable
     * The BCWS (budgeted cost of work scheduled) field contains the cumulative
     * timephased baseline costs up to the status date or today's date.
     *
-    * @return - currency amount as float
+    * @return currency amount as float
     */
    public double getBCWSValue ()
    {
@@ -2810,7 +2805,7 @@ public final class Task extends MPXRecord implements Comparable
     * The BCWS (budgeted cost of work scheduled) field contains the cumulative
     * timephased baseline costs up to the status date or today's date.
     *
-    * @return - currency amount as float
+    * @return currency amount as float
     */
    public Number getBCWS ()
    {
@@ -2822,7 +2817,7 @@ public final class Task extends MPXRecord implements Comparable
     * have accepted or rejected the task assignment in response to a TeamAssign
     * message regarding their assignments.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getConfirmedValue ()
    {
@@ -2834,7 +2829,7 @@ public final class Task extends MPXRecord implements Comparable
     * have accepted or rejected the task assignment in response to a TeamAssign
     * message regarding their assignments.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getConfirmed ()
    {
@@ -2847,7 +2842,7 @@ public final class Task extends MPXRecord implements Comparable
     * Start No Earlier Than,
     * Start No Later Than, Finish No Earlier Than, and Finish No Later Than.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getConstraintDate ()
    {
@@ -2892,7 +2887,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Contact field contains the name of an individual
     * responsible for a task.
     *
-    * @return - String
+    * @return String
     */
    public String getContact ()
    {
@@ -2962,7 +2957,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Created field contains the date and time when a task was added
     * to the project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getCreated ()
    {
@@ -2974,7 +2969,7 @@ public final class Task extends MPXRecord implements Comparable
     * to slip, or if a task is on the critical path. The Critical field contains
     * Yes if the task is critical and No if the task is not critical.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getCriticalValue ()
    {
@@ -2986,7 +2981,7 @@ public final class Task extends MPXRecord implements Comparable
     * to slip, or if a task is on the critical path. The Critical field contains
     * Yes if the task is critical and No if the task is not critical.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getCritical ()
    {
@@ -3039,7 +3034,7 @@ public final class Task extends MPXRecord implements Comparable
     * This is generally the amount of time from the start to the finish of a task.
     * The default for new tasks is 1 day (1d).
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getDuration ()
    {
@@ -3051,7 +3046,7 @@ public final class Task extends MPXRecord implements Comparable
     * specialized task duration information you want to enter and store separately
     * in your project.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getDuration1 ()
    {
@@ -3063,7 +3058,7 @@ public final class Task extends MPXRecord implements Comparable
     * specialized task duration information you want to enter and store separately
     * in your project.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getDuration2 ()
    {
@@ -3075,7 +3070,7 @@ public final class Task extends MPXRecord implements Comparable
     * specialized task duration information you want to enter and store separately
     * in your project.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getDuration3 ()
    {
@@ -3087,7 +3082,7 @@ public final class Task extends MPXRecord implements Comparable
     * baseline duration of a task and the total duration (current estimate)
     * of a task.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getDurationVariance ()
    {
@@ -3099,7 +3094,7 @@ public final class Task extends MPXRecord implements Comparable
     * possibly finish, based on early finish dates of predecessor and
     * successor tasks, other constraints, and any leveling delay.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getEarlyFinish ()
    {
@@ -3111,7 +3106,7 @@ public final class Task extends MPXRecord implements Comparable
     * possibly begin, based on the early start dates of predecessor and
     * successor tasks, and other constraints.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getEarlyStart ()
    {
@@ -3124,7 +3119,7 @@ public final class Task extends MPXRecord implements Comparable
     * date when the task should be completed. Or, you can have Microsoft
     * Project calculate the finish date.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getFinish ()
    {
@@ -3136,7 +3131,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task finish date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getFinish1 ()
    {
@@ -3148,7 +3143,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task finish date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getFinish2 ()
    {
@@ -3160,7 +3155,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task finish date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getFinish3 ()
    {
@@ -3172,7 +3167,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task finish date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getFinish4 ()
    {
@@ -3184,7 +3179,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task finish date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getFinish5 ()
    {
@@ -3194,7 +3189,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * This field will be ignored on input into MS Project
     *
-    * @return - String
+    * @return String
     */
    public MPXDuration getFinishVariance ()
    {
@@ -3205,7 +3200,7 @@ public final class Task extends MPXRecord implements Comparable
     * Assuming this field is boolean. Referring to whether
     * or not task is of fixed duration.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFixedValue ()
    {
@@ -3216,7 +3211,7 @@ public final class Task extends MPXRecord implements Comparable
     * Assuming this field is boolean. Referring to whether
     * or not task is of fixed duration.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFixed ()
    {
@@ -3227,7 +3222,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     *
-    * @return - currenct amount as float
+    * @return currenct amount as float
     */
    public double getFixedCostValue ()
    {
@@ -3238,7 +3233,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     *
-    * @return - currenct amount as float
+    * @return currenct amount as float
     */
    public Number getFixedCost ()
    {
@@ -3250,7 +3245,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag1Value ()
    {
@@ -3262,7 +3257,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag1 ()
    {
@@ -3274,7 +3269,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag2Value ()
    {
@@ -3286,7 +3281,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag2 ()
    {
@@ -3298,7 +3293,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag3Value ()
    {
@@ -3310,7 +3305,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag3 ()
    {
@@ -3322,7 +3317,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag4Value ()
    {
@@ -3334,7 +3329,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag4 ()
    {
@@ -3346,7 +3341,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag5Value ()
    {
@@ -3358,7 +3353,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag5 ()
    {
@@ -3370,7 +3365,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag6Value ()
    {
@@ -3382,7 +3377,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag6 ()
    {
@@ -3394,7 +3389,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag7Value ()
    {
@@ -3406,7 +3401,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag7 ()
    {
@@ -3418,7 +3413,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag8Value ()
    {
@@ -3430,7 +3425,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag8 ()
    {
@@ -3442,7 +3437,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag9Value ()
    {
@@ -3454,7 +3449,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag9 ()
    {
@@ -3466,7 +3461,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getFlag10Value ()
    {
@@ -3478,7 +3473,7 @@ public final class Task extends MPXRecord implements Comparable
     * action or identification of some kind. To mark a task, click Yes
     * in a Flag field. If you don't want a task marked, click No.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getFlag10 ()
    {
@@ -3491,7 +3486,7 @@ public final class Task extends MPXRecord implements Comparable
     * successors, free slack is the amount of time that a task can be
     * delayed without delaying the entire project's finish date.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getFreeSlack ()
    {
@@ -3504,7 +3499,7 @@ public final class Task extends MPXRecord implements Comparable
     * bar for the task. Click No in the Hide Bar field to show the bar
     * for the task.
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getHideBarValue ()
    {
@@ -3517,7 +3512,7 @@ public final class Task extends MPXRecord implements Comparable
     * bar for the task. Click No in the Hide Bar field to show the bar
     * for the task.
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getHideBar ()
    {
@@ -3555,7 +3550,7 @@ public final class Task extends MPXRecord implements Comparable
     * dates of predecessor and successor
     * tasks, and other constraints.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getLateFinish ()
    {
@@ -3568,7 +3563,7 @@ public final class Task extends MPXRecord implements Comparable
     * the task's start date, as well as the late start and late finish
     * dates of predecessor and successor tasks, and other constraints.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getLateStart ()
    {
@@ -3626,7 +3621,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Milestone field indicates whether a task is a milestone
     *
-    * @return - boolean
+    * @return boolean
     */
    public boolean getMilestoneValue ()
    {
@@ -3636,7 +3631,7 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Milestone field indicates whether a task is a milestone
     *
-    * @return - boolean
+    * @return boolean
     */
    public Boolean getMilestone ()
    {
@@ -3779,7 +3774,7 @@ public final class Task extends MPXRecord implements Comparable
     * However, objects in the Notes box in the Resource Form are not included
     * in this count.
     *
-    * @return - int
+    * @return int
     */
    public int getObjectsValue ()
    {
@@ -3792,7 +3787,7 @@ public final class Task extends MPXRecord implements Comparable
     * However, objects in the Notes box in the Resource Form are not included
     * in this count.
     *
-    * @return - int
+    * @return int
     */
    public Integer getObjects ()
    {
@@ -3803,7 +3798,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Outline Level field contains the number that indicates the level
     * of the task in the project outline hierarchy.
     *
-    * @return - int
+    * @return int
     */
    public int getOutlineLevelValue ()
    {
@@ -3814,7 +3809,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Outline Level field contains the number that indicates the level
     * of the task in the project outline hierarchy.
     *
-    * @return - int
+    * @return int
     */
    public Integer getOutlineLevel ()
    {
@@ -3829,7 +3824,7 @@ public final class Task extends MPXRecord implements Comparable
     * except that the outline number is automatically entered by
     * Microsoft Project.
     *
-    * @return - String
+    * @return String
     */
    public String getOutlineNumber ()
    {
@@ -3901,7 +3896,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Remaining Duration field shows the amount of time required
     * to complete the unfinished portion of a task.
     *
-    * @return - MPXDuration
+    * @return MPXDuration
     */
    public MPXDuration getRemainingDuration ()
    {
@@ -3912,8 +3907,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Remaining Work field shows the amount of time, or person-hours,
     * still required by all assigned resources to complete a task.
     *
-    * @return - the amount of time, or person-hours, still required by all assigned
-    * resources to complete a task.MPXDuration
+    * @return the amount of time still required to complete a task
     */
    public MPXDuration getRemainingWork ()
    {
@@ -3924,7 +3918,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Resource Group field contains the list of resource groups to which
     * the resources assigned to a task belong.
     *
-    * @return - single string list of groups
+    * @return single string list of groups
     */
    public String getResourceGroup ()
    {
@@ -3935,8 +3929,12 @@ public final class Task extends MPXRecord implements Comparable
     * The Resource Initials field lists the abbreviations for the names of
     * resources assigned to a task. These initials can serve as substitutes
     * for the names.
+    * 
+    * Note that MS Project 98 does not export values for this field when 
+    * writing an MPX file, and the field is not currently populated by MPXJ
+    * when reading an MPP file.
     *
-    * @return - String list
+    * @return String containing a comma separated list of initials
     */
    public String getResourceInitials ()
    {
@@ -3944,9 +3942,14 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Resource Names field lists the names of all resources assigned to a task.
+    * The Resource Names field lists the names of all resources assigned 
+    * to a task.
     *
-    * @return - String list
+    * Note that MS Project 98 does not export values for this field when 
+    * writing an MPX file, and the field is not currently populated by MPXJ
+    * when reading an MPP file.
+    *
+    * @return String containing a comma separated list of names
     */
    public String getResourceNames ()
    {
@@ -3959,7 +3962,7 @@ public final class Task extends MPXRecord implements Comparable
     * field. The Resume field is also recalculated when the remaining portion
     * of a task is moved to a new date.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getResume ()
    {
@@ -4013,7 +4016,7 @@ public final class Task extends MPXRecord implements Comparable
     * You can enter the start date you want, to indicate the date when the task
     * should begin. Or, you can have Microsoft Project calculate the start date.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStart ()
    {
@@ -4025,7 +4028,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task start date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStart1 ()
    {
@@ -4037,7 +4040,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task start date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStart2 ()
    {
@@ -4049,7 +4052,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task start date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStart3 ()
    {
@@ -4061,7 +4064,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task start date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStart4 ()
    {
@@ -4073,7 +4076,7 @@ public final class Task extends MPXRecord implements Comparable
     * specific task start date information you want to enter and store
     * separately in your project.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStart5 ()
    {
@@ -4085,7 +4088,7 @@ public final class Task extends MPXRecord implements Comparable
     * the difference between a tasks baseline start date and its currently
     * scheduled start date.
     *
-    * @return - value of duration. MPXDuration
+    * @return value of duration. MPXDuration
     */
    public MPXDuration getStartVariance ()
    {
@@ -4097,7 +4100,7 @@ public final class Task extends MPXRecord implements Comparable
     * portion of a task. Typically, Microsoft Project calculates the stop date.
     * However, you can edit this date as well.
     *
-    * @return - Date
+    * @return Date
     */
    public Date getStop ()
    {
@@ -4109,7 +4112,7 @@ public final class Task extends MPXRecord implements Comparable
     * into the active project file. The Subproject File field contains the
     * inserted project's path and file name.
     *
-    * @return - String path
+    * @return String path
     */
    public String getSubprojectFile ()
    {
@@ -4170,7 +4173,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText1 ()
    {
@@ -4181,7 +4184,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText2 ()
    {
@@ -4192,7 +4195,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText3 ()
    {
@@ -4203,7 +4206,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText4 ()
    {
@@ -4214,7 +4217,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText5 ()
    {
@@ -4225,7 +4228,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText6 ()
    {
@@ -4236,7 +4239,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText7 ()
    {
@@ -4247,7 +4250,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText8 ()
    {
@@ -4258,7 +4261,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText9 ()
    {
@@ -4269,7 +4272,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Text1-30 fields show any custom text information you want
     * to enter in your project about tasks.
     *
-    * @return - String
+    * @return String
     */
    public String getText10 ()
    {
@@ -4280,7 +4283,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Total Slack field contains the amount of time a task can be
     * delayed without delaying the project's finish date.
     *
-    * @return - string representing duration
+    * @return string representing duration
     */
    public MPXDuration getTotalSlack ()
    {
@@ -4293,7 +4296,7 @@ public final class Task extends MPXRecord implements Comparable
     * indicates the sequence in which the task was
     * created, regardless of placement in the schedule.
     *
-    * @return - String
+    * @return String
     */
    public int getUniqueIDValue ()
    {
@@ -4306,7 +4309,7 @@ public final class Task extends MPXRecord implements Comparable
     * indicates the sequence in which the task was
     * created, regardless of placement in the schedule.
     *
-    * @return - String
+    * @return String
     */
    public Integer getUniqueID ()
    {
@@ -4319,7 +4322,7 @@ public final class Task extends MPXRecord implements Comparable
     * finished. Each predecessor is linked to the task by a specific type of
     * task dependency and a lead time or lag time.
     *
-    * @return - list of predecessor UniqueIDs
+    * @return list of predecessor UniqueIDs
     */
    public RelationList getUniqueIDPredecessors ()
    {
@@ -4332,7 +4335,7 @@ public final class Task extends MPXRecord implements Comparable
     * finished. Each predecessor is linked to the task by a specific type of
     * task dependency and a lead time or lag time.
     *
-    * @return - list of predecessor UniqueIDs
+    * @return list of predecessor UniqueIDs
     */
    public RelationList getUniqueIDSuccessors ()
    {
@@ -4344,7 +4347,7 @@ public final class Task extends MPXRecord implements Comparable
     * should be sent to the assigned resources because of changes to the
     * start date, finish date, or resource reassignments of the task.
     *
-    * @return - true if needed.
+    * @return true if needed.
     */
    public boolean getUpdateNeededValue ()
    {
@@ -4356,7 +4359,7 @@ public final class Task extends MPXRecord implements Comparable
     * should be sent to the assigned resources because of changes to the
     * start date, finish date, or resource reassignments of the task.
     *
-    * @return - true if needed.
+    * @return true if needed.
     */
    public Boolean getUpdateNeeded ()
    {
@@ -4369,7 +4372,7 @@ public final class Task extends MPXRecord implements Comparable
     * the hierarchical structure of the project. This field is similar to
     * the outline number, except that you can edit it.
     *
-    * @return - string
+    * @return string
     */
    public String getWBS ()
    {
@@ -4381,7 +4384,7 @@ public final class Task extends MPXRecord implements Comparable
     * on a task by all assigned resources. This field shows the total work,
     * or person-hours, for a task.
     *
-    * @return - MPXDuration representing duration .
+    * @return MPXDuration representing duration .
     */
    public MPXDuration getWork ()
    {
@@ -4392,7 +4395,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Work Variance field contains the difference between a task's
     * baseline work and the currently scheduled work.
     *
-    * @return - MPXDuration representing duration.
+    * @return MPXDuration representing duration.
     */
    public MPXDuration getWorkVariance ()
    {
@@ -5718,7 +5721,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -5728,7 +5731,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -5738,7 +5741,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -5748,7 +5751,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -5758,7 +5761,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -5768,7 +5771,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -5778,7 +5781,7 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a duration value
+    * User defined duration field.
     * 
     * @param duration Duration value
     */
@@ -6278,9 +6281,9 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a finish date
-    * 
-    * @param date Finish date
+    * User defined finish date field.
+    *
+    * @param date Date value
     */
    public void setFinish10(Date date)
    {
@@ -6288,9 +6291,9 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a finish date
-    * 
-    * @param date Finish date
+    * User defined finish date field.
+    *
+    * @param date Date value
     */
    public void setFinish6(Date date)
    {
@@ -6298,9 +6301,9 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a finish date
-    * 
-    * @param date Finish date
+    * User defined finish date field.
+    *
+    * @param date Date value
     */
    public void setFinish7(Date date)
    {
@@ -6308,9 +6311,9 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a finish date
-    * 
-    * @param date Finish date
+    * User defined finish date field.
+    *
+    * @param date Date value
     */
    public void setFinish8(Date date)
    {
@@ -6318,9 +6321,9 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Sets a finish date
-    * 
-    * @param date Finish date
+    * User defined finish date field.
+    *
+    * @param date Date value
     */
    public void setFinish9(Date date)
    {
