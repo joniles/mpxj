@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+
+<document>
+   <properties>
+      <title>Roadmap</title> 
+      <author email="jon.iles@tapsterrock.com">Jon Iles</author> 
+   </properties> 
+
+   <body> 
+
+<section name="Roadmap">
+
+<p>The following is a list of some of the development work we are planning to carry 
+out on MPXJ. This is by no means an exhaustive list, feel free to submit your own 
+requests for inclusion here.</p>
+
+<ul>
+<li>Investigate extracting more fields from MPP files for resource assignments.</li>
+<li>Complete implementation of Props structure for MPP8 files.</li>
+<li>Extract custom task field headings from Props table for MPP8 files.</li>
+<li>Extract custom resource field headings from Props table for MPP8 files.</li>
+<li>Implement missing resource fields for MPP8 files.</li>
+<li>Implement missing task fields for MPP9 files.</li>
+<li>Implement missing resource fields for MPP9 files.</li>
+<li>Implement missing task fields for MSPDI files.</li>
+<li>Implement missing resource fields for MSPDI files.</li>
+<li>Implement missing project attributes for MPP/MSPDI files (e.g. project file start/end dates).</li>
+<li>Investigate extracting recurring task information (MPP8 taskExtData items 167 and 168?).</li>
+<li>Investigate subproject task attributes.</li>
+<li>Version 1.0 release: on completin of the bulk of the above changes.</li>
+<li>Version 2.0 release: rewrite MPXJ to use a generic data structure not tied to MPX.</li>
+</ul>
+</section>
+</body>
+</document>
+
+
+
+

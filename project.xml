@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <name>MPXJ</name>
+  <id>MPXJ</id>
+  <organization>
+    <name>Tapster Rock Limited</name>
+    <url>http://www.tapsterrock.com/</url>
+    <logo>/images/tapster.gif</logo>
+  </organization>
+  <inceptionYear>2000</inceptionYear>
+  <package>com.tapsterrock.mpxj</package>
+  <logo></logo>
+  <shortDescription>Microsoft Project Exchange For Java</shortDescription>
+
+  <description/>
+
+  <url>http://mpxj.sourceforge.net/</url>
+  <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=70649&amp;atid=528541</issueTrackingUrl>
+  <siteAddress/>
+  <siteDirectory/>
+  <distributionDirectory/>
+
+  <repository>
+    <connection>
+      scm:cvs:pserver:anonymous@cvs.sf.net:/cvsroot/mpxj:src
+    </connection>
+    <url>
+      http://cvs.sourceforge.net/viewcvs.py/mpxj/
+    </url>
+  </repository>
+
+
+  <mailingLists>
+    <mailingList>
+      <name>MPXJ Developers List</name>
+      <subscribe>http://lists.sourceforge.net/lists/listinfo/mpxj-developers</subscribe>
+      <unsubscribe>http://lists.sourceforge.net/lists/listinfo/mpxj-developers</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=mpxj-developers</archive>
+    </mailingList>    
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Jon Iles</name>
+      <id>joniles</id>
+      <email>jon.iles@tapsterrock.com</email>
+      <organization>Tapster Rock Limited</organization>
+    </developer>    
+  </developers>
+
+  <contributors>
+   <contributor>
+      <name>Scott Melville</name>
+    </contributor>
+   <contributor>
+      <name>Pasha Ashpak</name>
+    </contributor>
+   <contributor>
+      <name>Pramodh C</name>
+    </contributor>
+   <contributor>
+      <name>Harald Hett</name>
+    </contributor>
+   <contributor>
+      <name>Brian Leach</name>
+    </contributor>
+  </contributors>
+    
+  <dependencies>
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>jaxb-api.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>jaxb-impl.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>jaxb-libs</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>jaxb-libs.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>xsdlib</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>xsdlib.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>namespace</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>namespace.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>relaxngDatatype</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>relaxngDatatype.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>sun</groupId>
+            <artifactId>jax-qname</artifactId>
+            <version>JWSDP-1.3</version>
+            <jar>jax-qname.jar</jar>
+            <type>jar</type>
+            <url>http://java.sun.com/webservices/downloads/webservicespack.html</url>
+            <properties/>
+        </dependency>    
+
+	<dependency>
+            <groupId>poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>2.0-final-20040126</version>
+            <jar/>
+            <type>jar</type>
+            <url/>
+            <properties/>
+        </dependency>    
+
+  </dependencies>
+
+  <build>
+      <sourceDirectory>src</sourceDirectory>
+  </build>
+
+  <reports>
+    <report>maven-changes-plugin</report>
+    <report>maven-statcvs-plugin</report>
+    <report>maven-javadoc-plugin</report>
+  </reports>
+
+</project>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+
+<document>
+   <properties>
+      <title>Microsoft Project Exchange in Java</title> 
+      <author email="jon.iles@tapsterrock.com">Jon Iles</author> 
+   </properties> 
+
+   <body> 
+
+<section name="Introduction">
+
+<p>Welcome to MPXJ! This library provides a set of facilities to
+allow project information to be manipulated in Java. MPXJ supports
+three file formats, Microsoft Project Exchange (MPX), Microsoft
+Project (MPP), and Microsoft Project Data Interchange (MSPDI).</p>
+
+<p>The library is currently based around a set of data structures
+modelled on the data described by the MPX file format. All
+manipulation of project data takes place using these data
+structures, which can be read from or written to the various
+supported file formats. The following notes explain what
+facilities MPXJ offers for each file format.</p>
+
+<p>MPX: The MPX file format can be read by all versions of Microsoft
+Project, and written by all versions up to Microsoft Project 98.
+MPXJ allows MPX files to be created, read and written.</p>
+
+<p>MPP: The MPP file format is Microsoft's proprietary way of storing
+project data. MPXJ supports read only access to MPP files produced
+by Microsoft Project 98, Microsoft Project 2000, Microsoft 
+Project 2002, and Microsoft Project 2003.</p>
+
+<p>MSPDI: The MSPDI file format is Microsoft's XML file format for
+storing project data. Microsoft Project 2002 and Microsoft Project
+2003 can read and write MSPDI files. MPXJ allows MSPDI files to be 
+created, read, and written.</p>
+</section>
+
+
+<section name="Getting started">
+
+<p>The library is fairly simple to use, and to illustrate this, a
+small number of sample files have been included in the examples
+directory of the distribution.</p>
+
+<p>If you are only reading and writing MPX files, you will not need
+to add any files to your classpath apart from the MPXJ JAR itself.</p>
+
+<p>The MPP functionality depends on the <a href="http://jakarta.apache.org/poi/" target="_blank">POI</a> library produced by the
+<a href="http://jakarta.apache.org/" target="_blank">Apache Jakarta</a> project. In order to use the MPP functionality the
+POI JAR file must be present on your classpath. A copy of this
+library can be found in the lib directory of the distribution.</p>
+
+<p>The MSPDI functionality depends on the Sun JAXB implementation
+as distributed in the Java Web Services Developer Pack version 1.3. 
+This is not included in the distribution, and must
+be downloaded from:
+<a href="http://java.sun.com/webservices/downloads/webservicespack.html" target="_blank">
+http://java.sun.com/webservices/downloads/webservicespack.html</a></p>
+</section>
+
+
+<section name="JUnit">
+
+<p>Should you wish to run the <a href="http://junit.sourceforge.net/" target="_blank">JUnit</a> tests provided with MPXJ, you
+need to be aware that the JUnit classloader doesn't get on well
+with JAXB, so it is recommended that you execute the JUnit test
+runner with the -noloading command line option, or otherwise
+disable class reloading.</p>
+</section>
+
+
+<section name="Build">
+
+<p>If you want to build MPXJ yourself using the supplied source and
+ant build.xml file, there are a few points to note:</p>
+
+<p>The XML schema file from which the JAXB code has been generated is
+supplied by Microsoft as part of the Microsoft Project 2002 and
+Microsoft Project 2003 distributions. The file name is mspdi.xsd. 
+The copyright for this file belongs to Microsoft, and unfortunately 
+the copyright text makes no mention of redistribution. We therefore 
+have to assume that at present we are unable to redistribute this 
+file. If you are able to locate a copy of this file, you can rebuild 
+the JAXB source using the xjc target found in the ant build.xml file. 
+Note that the xjc target is platform specific, you will need to 
+change the reference to the xjc tool to be xjc.bat or xjc.sh 
+depending on your operating system.</p>
+
+<p>You will need to have a copy of the JAXB libraries installed
+locally in order to build MPXJ. You will need to edit the property
+jsdp.dir in the build.xml file to point to your local installation.</p>
+</section>
+
+
+<section name="Keep in touch">
+
+<p>We're keen to hear from you about how you are using MPXJ,
+please drop us a note at 
+<a href="mailto:mpxj@tapsterrock.com">mpxj@tapsterrock.com</a>. 
+If you use MPXJ as a part of an application that you redistribute,
+commercially or otherwise, drop us a line and we'll include
+a link to your website on the MPXJ page</p>
+</section>
+
+
+<section name="You can help">
+<p>Please let us know what features you'd like to see added
+to MPXJ. In addition, the MPP functionality is not
+complete as we have had to reverse engineer the data from
+the MPP file format, so we need to know if you have MPP
+files that can't be read, or don't contain the data you
+expect. The more of this feedback you can give us, the
+better we can make MPXJ!</p>
+</section>
+
+
+<section name="Licensing">
+<p>MPXJ is distributed under the terms of the 
+<a href="http://www.gnu.org/licenses/licenses.html#LGPL" target="_blank">GNU LGPL</a>,
+a copy of which can be found in the legal directory of the
+distribution.</p>
+
+<p>As mentioned above, the MPP functionality depends on the
+use of the POI library. The license for this library can
+be found in the legal directory of the distribution. To
+comply with the Apache license, we must state that "this
+product includes software developed by the Apache
+Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org/</a>)."</p>
+
+<p>A copy of the JUnit library is provided for you
+convenience to allow you to run the regression tests
+provided with MPXJ. The license for JUnit can be found in
+the legal directory of the distribution.</p>
+</section>
+
+   </body> 
+</document>
+
