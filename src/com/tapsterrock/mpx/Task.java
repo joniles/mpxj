@@ -1505,10 +1505,10 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Despite the name, this flag sets the task type. If the suppied value is 
-    * false, the task type shown in MS Project will be set to fixed units. If 
+    * Despite the name, this flag sets the task type. If the suppied value is
+    * false, the task type shown in MS Project will be set to fixed units. If
     * the value is true, the task type will be set to fixed duration.
-    * 
+    *
     * @param val value to be set
     */
    public void setFixed (boolean val)
@@ -1517,10 +1517,10 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Despite the name, this flag sets the task type. If the suppied value is 
-    * false, the task type shown in MS Project will be set to fixed units. If 
+    * Despite the name, this flag sets the task type. If the suppied value is
+    * false, the task type shown in MS Project will be set to fixed units. If
     * the value is true, the task type will be set to fixed duration.
-    * 
+    *
     * @param val value to be set
     */
    public void setFixed (Boolean val)
@@ -3209,8 +3209,8 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Despite the name, this flag represents the task type. If the value is 
-    * false, the task type shown in MS Project will be fixed units. If 
+    * Despite the name, this flag represents the task type. If the value is
+    * false, the task type shown in MS Project will be fixed units. If
     * the value is true, the task type will be fixed duration.
     *
     * @return boolean
@@ -3221,8 +3221,8 @@ public final class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * Despite the name, this flag represents the task type. If the value is 
-    * false, the task type shown in MS Project will be fixed units. If 
+    * Despite the name, this flag represents the task type. If the value is
+    * false, the task type shown in MS Project will be fixed units. If
     * the value is true, the task type will be fixed duration.
     *
     * @return boolean

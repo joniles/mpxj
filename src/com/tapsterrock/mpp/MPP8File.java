@@ -417,7 +417,7 @@ final class MPP8File
       String notes;
       RTFUtility rtf = new RTFUtility ();
       byte[] flags = new byte[3];
-      
+
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -433,12 +433,12 @@ final class MPP8File
 
          //
          // Test to ensure this task has not been deleted.
-         // This appears to be a set of flags rather than a single value. 
-         // The data I have seen to date shows deleted tasks having values of 
-         // 0x0001 and 0x0002. Valid tasks have had values 0f 0x0000, 0x0914, 
+         // This appears to be a set of flags rather than a single value.
+         // The data I have seen to date shows deleted tasks having values of
+         // 0x0001 and 0x0002. Valid tasks have had values 0f 0x0000, 0x0914,
          // and 0x0040.
          //
-         deleted = MPPUtility.getShort(data, 272);   
+         deleted = MPPUtility.getShort(data, 272);
          if ((deleted & 0x03) != 0)
          {
             continue;
@@ -761,12 +761,12 @@ final class MPP8File
       // Locate the directory containing the constraints
       //
       DirectoryEntry consDir;
-      
+
       try
       {
          consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
       }
-      
+
       catch (FileNotFoundException ex)
       {
          consDir = null;
@@ -776,11 +776,11 @@ final class MPP8File
       // It appears possible that valid MPP8 files can be generated without
       // this directory, so only process constraints if the directory
       // exists.
-      //        
+      //
       if (consDir != null)
-      {        
+      {
          FixFix consFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixFix   0"))));
-   
+
          int count = consFixedData.getItemCount();
          byte[] data;
          Task task1;
@@ -789,16 +789,16 @@ final class MPP8File
          int durationUnits;
          int taskID1;
          int taskID2;
-   
+
          for (int loop=0; loop < count; loop++)
          {
             data = consFixedData.getByteArrayValue(loop);
-   
+
             if (MPPUtility.getInt(data, 28) == 0)
             {
                taskID1 = MPPUtility.getInt (data, 12);
                taskID2 = MPPUtility.getInt (data, 16);
-   
+
                if (taskID1 != taskID2)
                {
                   task1 = file.getTaskByUniqueID (taskID1);
@@ -813,7 +813,7 @@ final class MPP8File
                }
             }
          }
-      }         
+      }
    }
 
 
