@@ -329,7 +329,7 @@ final class MPP8File
       Task task;
       String notes;
       RTFUtility rtf = new RTFUtility ();
-            
+                        
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -344,7 +344,7 @@ final class MPP8File
          }
 
          //
-         // Test to ensure this resource has not been deleted
+         // Test to ensure this task has not been deleted
          //         
          if (MPPUtility.getShort(data, 272) != 0)
          {
