@@ -395,10 +395,26 @@ final class MPPUtility
     */
    public static final String getUnicodeString (byte[] data)
    {
+      return (getUnicodeString(data, 0));
+   }
+
+   /**
+    * Reads a string of two byte characters from the input array.
+    * This method assumes that the string finishes either at the
+    * end of the array, or when char zero is encountered.
+    * The value starts at the position specified by the offset
+    * parameter.
+    *
+    * @param data byte array of data
+    * @param offset start point of unicode string
+    * @return string value
+    */
+   public static final String getUnicodeString (byte[] data, int offset)
+   {
       StringBuffer buffer = new StringBuffer ();
       char c;
 
-      for (int loop=0; loop < data.length-1; loop += 2)
+      for (int loop=offset; loop < data.length-1; loop += 2)
       {
          c = (char)getShort (data, loop);
          if (c == 0)
