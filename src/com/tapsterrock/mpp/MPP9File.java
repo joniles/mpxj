@@ -148,7 +148,7 @@ final class MPP9File
       ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
       CurrencySettings cs = file.getCurrencySettings();
-      cs.setCurrencyDigits(props.getShort(Props.CURRENCY_DIGITS));
+      cs.setCurrencyDigits(new Integer(props.getShort(Props.CURRENCY_DIGITS)));
       cs.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
       //cs.setDecimalSeparator();
       cs.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));

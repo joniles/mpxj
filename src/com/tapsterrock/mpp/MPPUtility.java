@@ -644,7 +644,7 @@ final class MPPUtility
     * @param value MPP symbol position
     * @return MPX symbol position
     */
-   public static int getSymbolPosition (int value)
+   public static Integer getSymbolPosition (int value)
    {
       int result;
 
@@ -676,7 +676,7 @@ final class MPPUtility
          }
       }
 
-      return (result);
+      return (new Integer (result));
    }
 
    /**

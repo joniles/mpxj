@@ -376,7 +376,7 @@ public final class ProjectHeader extends MPXRecord
     */
    void setLocale (Locale locale)
    {
-      m_update = false;
+      m_updateDateTimeFormats = false;
       setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
       setTimeFormat((TimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
       setIntegerDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
@@ -386,7 +386,7 @@ public final class ProjectHeader extends MPXRecord
       setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
       setDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       setBarTextDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      m_update = true;
+      m_updateDateTimeFormats = true;
       updateFormats ();
    }
 
@@ -398,7 +398,7 @@ public final class ProjectHeader extends MPXRecord
     */
    void updateDateTimeSettings (Record record)
    {
-      m_update = false;
+      m_updateDateTimeFormats = false;
       setDateOrder(record.getDateOrder(0));
       setTimeFormat(record.getTimeFormat(1));
       setIntegerDefaultStartTime(record.getInteger(2));
@@ -408,7 +408,7 @@ public final class ProjectHeader extends MPXRecord
       setPMText(record.getString(6));
       setDateFormat(record.getDateFormat(7));
       setBarTextDateFormat(record.getDateFormat(8));
-      m_update = true;
+      m_updateDateTimeFormats = true;
 
       updateFormats ();
    }
@@ -419,7 +419,7 @@ public final class ProjectHeader extends MPXRecord
     */
    private void updateFormats ()
    {
-      if (m_update == true)
+      if (m_updateDateTimeFormats == true)
       {
          String pattern= "";
          char datesep = getDateSeparator();
@@ -1757,23 +1757,23 @@ public final class ProjectHeader extends MPXRecord
       //
       buffer.append (DEFAULT_SETTINGS_RECORD_NUMBER);
       buffer.append (delimiter);
-      buffer.append(format(getDefaultDurationUnits()));
+      buffer.append(format(delimiter,getDefaultDurationUnits()));
       buffer.append (delimiter);
-      buffer.append(format(getNumericBooleanDefaultDurationIsFixed()));
+      buffer.append(format(delimiter,getNumericBooleanDefaultDurationIsFixed()));
       buffer.append (delimiter);
-      buffer.append(format(getDefaultWorkUnits()));
+      buffer.append(format(delimiter,getDefaultWorkUnits()));
       buffer.append (delimiter);
-      buffer.append(format(getDefaultHoursInDay()));
+      buffer.append(format(delimiter,getDefaultHoursInDay()));
       buffer.append (delimiter);
-      buffer.append(format(getDefaultHoursInWeek()));
+      buffer.append(format(delimiter,getDefaultHoursInWeek()));
       buffer.append (delimiter);
-      buffer.append(format(getDefaultStandardRate()));
+      buffer.append(format(delimiter,getDefaultStandardRate()));
       buffer.append (delimiter);
-      buffer.append(format(getDefaultOvertimeRate()));
+      buffer.append(format(delimiter,getDefaultOvertimeRate()));
       buffer.append (delimiter);
-      buffer.append(format(getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus()));
+      buffer.append(format(delimiter,getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus()));
       buffer.append (delimiter);
-      buffer.append(format(getNumericBooleanSplitInProgressTasks()));      
+      buffer.append(format(delimiter,getNumericBooleanSplitInProgressTasks()));      
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
       
@@ -1782,23 +1782,23 @@ public final class ProjectHeader extends MPXRecord
       //
       buffer.append (DATE_TIME_SETTINGS_RECORD_NUMBER);
       buffer.append (delimiter);
-      buffer.append(format(getDateOrder()));
+      buffer.append(format(delimiter,getDateOrder()));
       buffer.append (delimiter);
-      buffer.append(format(getTimeFormat()));
+      buffer.append(format(delimiter,getTimeFormat()));
       buffer.append (delimiter);
-      buffer.append(format(getIntegerDefaultStartTime()));
+      buffer.append(format(delimiter,getIntegerDefaultStartTime()));
       buffer.append (delimiter);
-      buffer.append(getDateSeparator());
+      buffer.append(format(delimiter, new Character(getDateSeparator())));
       buffer.append (delimiter);
-      buffer.append(getTimeSeparator());
+      buffer.append(format(delimiter, new Character(getTimeSeparator())));
       buffer.append (delimiter);
-      buffer.append(format(getAMText()));
+      buffer.append(format(delimiter,getAMText()));
       buffer.append (delimiter);
-      buffer.append(format(getPMText()));
+      buffer.append(format(delimiter,getPMText()));
       buffer.append (delimiter);
-      buffer.append(format(getDateFormat()));
+      buffer.append(format(delimiter,getDateFormat()));
       buffer.append (delimiter);
-      buffer.append(format(getBarTextDateFormat()));      
+      buffer.append(format(delimiter,getBarTextDateFormat()));      
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
       
@@ -1807,63 +1807,63 @@ public final class ProjectHeader extends MPXRecord
       //
       buffer.append (PROJECT_HEADER_RECORD_NUMBER);
       buffer.append (delimiter);
-      buffer.append(format(getProjectTitle()));
+      buffer.append(format(delimiter,getProjectTitle()));
       buffer.append (delimiter);
-      buffer.append(format(getCompany()));
+      buffer.append(format(delimiter,getCompany()));
       buffer.append (delimiter);
-      buffer.append(format(getManager()));
+      buffer.append(format(delimiter,getManager()));
       buffer.append (delimiter);
-      buffer.append(format(getCalendarName()));
+      buffer.append(format(delimiter,getCalendarName()));
       buffer.append (delimiter);
-      buffer.append(format(getStartDate()));
+      buffer.append(format(delimiter,getStartDate()));
       buffer.append (delimiter);
-      buffer.append(format(getFinishDate()));
+      buffer.append(format(delimiter,getFinishDate()));
       buffer.append (delimiter);
-      buffer.append(format(getScheduleFrom()));
+      buffer.append(format(delimiter,getScheduleFrom()));
       buffer.append (delimiter);
-      buffer.append(format(getCurrentDate()));
+      buffer.append(format(delimiter,getCurrentDate()));
       buffer.append (delimiter);
-      buffer.append(format(getComments()));
+      buffer.append(format(delimiter,getComments()));
       buffer.append (delimiter);
-      buffer.append(format(getCost()));
+      buffer.append(format(delimiter,getCost()));
       buffer.append (delimiter);
-      buffer.append(format(getBaselineCost()));
+      buffer.append(format(delimiter,getBaselineCost()));
       buffer.append (delimiter);
-      buffer.append(format(getActualCost()));
+      buffer.append(format(delimiter,getActualCost()));
       buffer.append (delimiter);
-      buffer.append(format(getWork()));
+      buffer.append(format(delimiter,getWork()));
       buffer.append (delimiter);
-      buffer.append(format(getBaselineWork()));
+      buffer.append(format(delimiter,getBaselineWork()));
       buffer.append (delimiter);
-      buffer.append(format(getActualWork()));
+      buffer.append(format(delimiter,getActualWork()));
       buffer.append (delimiter);
-      buffer.append(format(getWork2()));
+      buffer.append(format(delimiter,getWork2()));
       buffer.append (delimiter);
-      buffer.append(format(getDuration()));
+      buffer.append(format(delimiter,getDuration()));
       buffer.append (delimiter);
-      buffer.append(format(getBaselineDuration()));
+      buffer.append(format(delimiter,getBaselineDuration()));
       buffer.append (delimiter);
-      buffer.append(format(getActualDuration()));
+      buffer.append(format(delimiter,getActualDuration()));
       buffer.append (delimiter);
-      buffer.append(format(getPercentageComplete()));
+      buffer.append(format(delimiter,getPercentageComplete()));
       buffer.append (delimiter);
-      buffer.append(format(getBaselineStart()));
+      buffer.append(format(delimiter,getBaselineStart()));
       buffer.append (delimiter);
-      buffer.append(format(getBaselineFinish()));
+      buffer.append(format(delimiter,getBaselineFinish()));
       buffer.append (delimiter);
-      buffer.append(format(getActualStart()));
+      buffer.append(format(delimiter,getActualStart()));
       buffer.append (delimiter);
-      buffer.append(format(getActualFinish()));
+      buffer.append(format(delimiter,getActualFinish()));
       buffer.append (delimiter);
-      buffer.append(format(getStartVariance()));
+      buffer.append(format(delimiter,getStartVariance()));
       buffer.append (delimiter);
-      buffer.append(format(getFinishVariance()));
+      buffer.append(format(delimiter,getFinishVariance()));
       buffer.append (delimiter);
-      buffer.append(format(getSubject()));
+      buffer.append(format(delimiter,getSubject()));
       buffer.append (delimiter);
-      buffer.append(format(getAuthor()));
+      buffer.append(format(delimiter,getAuthor()));
       buffer.append (delimiter);
-      buffer.append(format(getKeywords()));      
+      buffer.append(format(delimiter,getKeywords()));      
       stripTrailingDelimiters(buffer, delimiter);
       buffer.append (MPXFile.EOL);
             
@@ -1944,7 +1944,7 @@ public final class ProjectHeader extends MPXRecord
     * Flag used to indicate whether the formats can be automatically updated.
     * The default value for this flag is false.
     */
-   private boolean m_update;
+   private boolean m_updateDateTimeFormats;
 
    /**
     * Default date separator character.

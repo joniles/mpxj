@@ -1907,7 +1907,7 @@ public class MSPDIFile extends MPXFile
     * @param position BigInteger position value
     * @return Symbol position
     */
-   private int getMpxSymbolPosition (BigInteger position)
+   private Integer getMpxSymbolPosition (BigInteger position)
    {
       int result = CurrencySettings.SYMBOLPOS_BEFORE;
 
@@ -1941,7 +1941,7 @@ public class MSPDIFile extends MPXFile
          }
       }
 
-      return (result);
+      return (new Integer(result));
    }
 
 
@@ -2516,9 +2516,9 @@ public class MSPDIFile extends MPXFile
    private void writeCurrencySettings (Project project)
    {
       CurrencySettings currency = getCurrencySettings();
-      project.setCurrencyDigits(BigInteger.valueOf (currency.getCurrencyDigitsValue()));
+      project.setCurrencyDigits(BigInteger.valueOf (currency.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(currency.getCurrencySymbol());
-      project.setCurrencySymbolPosition(getXmlSymbolPosition (currency.getSymbolPositionValue()));
+      project.setCurrencySymbolPosition(getXmlSymbolPosition (currency.getSymbolPosition().intValue()));
    }
 
    /**

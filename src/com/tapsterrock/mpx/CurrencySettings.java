@@ -40,7 +40,7 @@ public final class CurrencySettings extends MPXRecord
     */
    CurrencySettings (MPXFile file)
    {
-      super (file, MAX_FIELDS);
+      super (file, 0);
       setLocale (file.getLocale());
    }
 
@@ -53,13 +53,13 @@ public final class CurrencySettings extends MPXRecord
     */
    void setLocale (Locale locale)
    {
-      m_update = false;
+      m_updateCurrencyFormat = false;
       setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
       setSymbolPosition(LocaleData.getInteger(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
       setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-      m_update = true;
+      m_updateCurrencyFormat = true;
       updateFormats ();
    }
 
@@ -71,56 +71,14 @@ public final class CurrencySettings extends MPXRecord
     */
    void update (Record record)
    {
-      m_update = false;
+      m_updateCurrencyFormat = false;
       setCurrencySymbol (record.getString(0));
       setSymbolPosition (record.getInteger(1));
       setCurrencyDigits (record.getInteger(2));
       setThousandsSeparator (record.getCharacter(3));
       setDecimalSeparator (record.getCharacter(4));
-      m_update = true;
+      m_updateCurrencyFormat = true;
 
-      updateFormats ();
-   }
-
-   /**
-    * This method overrides the put method defined in MPXRecord.
-    * It allows the formats to be updated immediately whenever a change
-    * is made to any of the currency settings.
-    *
-    * @param key Field to be added/updated.
-    * @param value new value for field.
-    */
-   public void put (int key, Object value)
-   {
-      super.put (key, value);
-      updateFormats ();
-   }
-
-   /**
-    * This method overrides the put method defined in MPXRecord.
-    * It allows the formats to be updated immediately whenever a change
-    * is made to any of the currency settings.
-    *
-    * @param key Field to be added/updated.
-    * @param value new value for field.
-    */
-   protected void put (int key, int value)
-   {
-      super.put (key, value);
-      updateFormats ();
-   }
-
-   /**
-    * This method overrides the put method defined in MPXRecord.
-    * It allows the formats to be updated immediately whenever a change
-    * is made to any of the currency settings.
-    *
-    * @param key Field to be added/updated.
-    * @param value new value for field.
-    */
-   protected void putChar (int key, char value)
-   {
-      super.put (key, value);
       updateFormats ();
    }
 
@@ -131,10 +89,8 @@ public final class CurrencySettings extends MPXRecord
     */
    public void setCurrencySymbol (String symbol)
    {
-      if (symbol != null)
-      {
-         put (CURRENCY_SYMBOL, symbol);
-      }
+      m_currencySymbol = symbol;
+      updateFormats();
    }
 
    /**
@@ -144,26 +100,7 @@ public final class CurrencySettings extends MPXRecord
     */
    public String getCurrencySymbol ()
    {
-      return ((String)get(CURRENCY_SYMBOL));
-   }
-
-   /**
-    * Sets the position of the currency symbol.
-    *
-    * Permissable value are as follows:
-    *
-    * 0 = after
-    * 1 = before
-    * 2 = after with a space
-    * 3 = before with a space
-    *
-    * The SYMBOLPOS_* are used a enumerated vaules for this parameter.
-    *
-    * @param posn currency symbol position.
-    */
-   public void setSymbolPosition (int posn)
-   {
-      put (SYMBOL_POSITION, posn);
+      return (m_currencySymbol);
    }
 
    /**
@@ -182,17 +119,8 @@ public final class CurrencySettings extends MPXRecord
     */
    public void setSymbolPosition (Integer posn)
    {
-      put (SYMBOL_POSITION, posn);
-   }
-
-   /**
-    * Retrieves a constant representing the position of the currency symbol.
-    *
-    * @return position
-    */
-   public int getSymbolPositionValue ()
-   {
-      return (getIntValue (SYMBOL_POSITION));
+      m_symbolPosition = posn;
+      updateFormats();
    }
 
    /**
@@ -202,17 +130,7 @@ public final class CurrencySettings extends MPXRecord
     */
    public Integer getSymbolPosition ()
    {
-      return ((Integer)get (SYMBOL_POSITION));
-   }
-
-   /**
-    * Sets no of currency digits.
-    *
-    * @param currDigs Available values, 0,1,2
-    */
-   public void setCurrencyDigits (int currDigs)
-   {
-      put (CURRENCY_DIGITS, currDigs);
+      return (m_symbolPosition);
    }
 
    /**
@@ -222,17 +140,8 @@ public final class CurrencySettings extends MPXRecord
     */
    public void setCurrencyDigits (Integer currDigs)
    {
-      put (CURRENCY_DIGITS, currDigs);
-   }
-
-   /**
-    * Gets no of currency digits.
-    *
-    * @return Available values, 0,1,2
-    */
-   public int getCurrencyDigitsValue ()
-   {
-      return (getIntValue (CURRENCY_DIGITS));
+      m_currencyDigits = currDigs;
+      updateFormats();
    }
 
    /**
@@ -242,7 +151,7 @@ public final class CurrencySettings extends MPXRecord
     */
    public Integer getCurrencyDigits ()
    {
-      return ((Integer)get (CURRENCY_DIGITS));
+      return (m_currencyDigits);
    }
 
    /**
@@ -254,7 +163,8 @@ public final class CurrencySettings extends MPXRecord
     */
    public void setThousandsSeparator (char sep)
    {
-      putChar (THOUSANDS_SEPARATOR, sep);
+      m_thousandsSeparator = sep;
+      updateFormats();
       if (getParentFile().getThousandsSeparator() != sep)
       {
          getParentFile().setThousandsSeparator(sep);
@@ -268,7 +178,7 @@ public final class CurrencySettings extends MPXRecord
     *
     * @param sep character
     */
-   public void setThousandsSeparator (Character sep)
+   private void setThousandsSeparator (Character sep)
    {
       if (sep != null)
       {
@@ -285,7 +195,7 @@ public final class CurrencySettings extends MPXRecord
     */
    public char getThousandsSeparator ()
    {
-      return (getCharValue(THOUSANDS_SEPARATOR));
+      return (m_thousandsSeparator);
    }
 
    /**
@@ -297,7 +207,8 @@ public final class CurrencySettings extends MPXRecord
     */
    public void setDecimalSeparator (char decSep)
    {
-      putChar (DECIMAL_SEPARATOR, decSep);
+      m_decimalSeparator = decSep;
+      updateFormats();
       if (getParentFile().getDecimalSeparator() != decSep)
       {
          getParentFile().setDecimalSeparator(decSep);
@@ -311,7 +222,7 @@ public final class CurrencySettings extends MPXRecord
     *
     * @param decSep character
     */
-   public void setDecimalSeparator (Character decSep)
+   private void setDecimalSeparator (Character decSep)
    {
       if (decSep != null)
       {
@@ -328,7 +239,7 @@ public final class CurrencySettings extends MPXRecord
     */
    public char getDecimalSeparator ()
    {
-      return (((Character)get(DECIMAL_SEPARATOR)).charValue());
+      return (m_decimalSeparator);
    }
 
    /**
@@ -337,14 +248,14 @@ public final class CurrencySettings extends MPXRecord
     */
    private void updateFormats ()
    {
-      if (m_update == true)
+      if (m_updateCurrencyFormat == true)
       {
          MPXFile parent = getParentFile();
          String prefix = "";
          String suffix = "";
          String currencySymbol = quoteFormatCharacters (getCurrencySymbol());
 
-         switch (getSymbolPositionValue())
+         switch (getSymbolPosition().intValue())
          {
             case SYMBOLPOS_AFTER:
             {
@@ -380,7 +291,7 @@ public final class CurrencySettings extends MPXRecord
          pattern.append("##0");
 
 
-         int digits = getCurrencyDigitsValue();
+         int digits = getCurrencyDigits().intValue();
          if (digits > 0)
          {
             pattern.append('.');
@@ -448,15 +359,38 @@ public final class CurrencySettings extends MPXRecord
     */
    public String toString ()
    {
-      return (toString (RECORD_NUMBER));
+      StringBuffer buffer = new StringBuffer ();
+      char delimiter = getParentFile().getDelimiter();
+
+      buffer.append (RECORD_NUMBER);
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, getCurrencySymbol()));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, getSymbolPosition()));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, getCurrencyDigits()));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, new Character(getThousandsSeparator())));
+      buffer.append (delimiter);
+      buffer.append(format(delimiter, new Character(getDecimalSeparator())));
+      stripTrailingDelimiters(buffer, delimiter);
+      buffer.append (MPXFile.EOL);
+                  
+      return (buffer.toString());      
    }
 
+   private String m_currencySymbol;
+   private Integer m_symbolPosition;
+   private Integer m_currencyDigits;
+   private char m_thousandsSeparator;
+   private char m_decimalSeparator;
+   
    /**
     * flag used to indicate whether the currency format
     * can be automatically updated. The default value for this
     * flag is false.
     */
-   private boolean m_update;
+   private boolean m_updateCurrencyFormat;
 
    /**
     * Represents a constant from Symbol Position field
@@ -477,37 +411,6 @@ public final class CurrencySettings extends MPXRecord
     * Represents a constant from Symbol Position field
     */
    public static final int SYMBOLPOS_BEFORE_WITH_SPACE = 3;
-
-
-   /**
-    * Constant referring to Currency Symbol field.
-    */
-   private static final int CURRENCY_SYMBOL = 0;
-
-   /**
-    * Constant referring to Symbol Position field.
-    */
-   private static final int SYMBOL_POSITION = 1;
-
-   /**
-    * Constant referring to Currency Digits field.
-    */
-   private static final int CURRENCY_DIGITS = 2;
-
-   /**
-    * Constant referring to Thousands Separator field.
-    */
-   private static final int THOUSANDS_SEPARATOR = 3;
-
-   /**
-    * Constant referring to Decimal Separator field.
-    */
-   private static final int DECIMAL_SEPARATOR = 4;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 5;
 
    /**
     * Constant containing the record number associated with this record.

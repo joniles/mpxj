@@ -93,10 +93,11 @@ class MPXRecord
     * cases this will simply involve calling the normal toString method
     * on the object, but a couple of exceptions are handled here.
     *
+    * @param sepchar separator character
     * @param o the object to formatted
     * @return formatted string representing input Object
     */
-   protected final String format (Object o)
+   protected final String format (char sepchar, Object o)
    {
       String result;
 
@@ -134,6 +135,16 @@ class MPXRecord
          // the file. If we find any, replace them with spaces
          //
          result = stripLineBreaks(result, EOL_PLACEHOLDER_STRING);
+
+         //
+         // Finally we check to ensure that there are no embedded
+         // separator characters in the value. If there are, then
+         // we quote the value.
+         //
+         if (result.indexOf(sepchar) != -1)
+         {
+            result = '"' + result + '"';
+         }
       }
 
       return (result);
@@ -151,27 +162,11 @@ class MPXRecord
    {
       StringBuffer buf = new StringBuffer(String.valueOf(code));
       char sepchar = m_mpx.getDelimiter();
-      String str;
 
       for (int loop=0; loop < m_array.length; loop++)
       {
-         str = format (m_array[loop]);
-
          buf.append (sepchar);
-
-         if (str != null)
-         {
-            if (str.indexOf(sepchar) != -1)
-            {
-               buf.append ('"');
-               buf.append (str);
-               buf.append ('"');
-            }
-            else
-            {
-               buf.append (str);
-            }
-         }
+         buf.append (format (sepchar, m_array[loop]));
       }
 
       stripTrailingDelimiters (buf, sepchar);
@@ -196,7 +191,6 @@ class MPXRecord
    {
       StringBuffer buf = new StringBuffer(String.valueOf(code));
       char sepchar = m_mpx.getDelimiter();
-      String str;
       int field;
 
       for (int loop=0; loop < fields.length; loop++)
@@ -207,23 +201,8 @@ class MPXRecord
             break;
          }
 
-         str = format (get(field));
-
          buf.append (sepchar);
-
-         if (str != null)
-         {
-            if (str.indexOf (sepchar) != -1)
-            {
-               buf.append ('"');
-               buf.append (str);
-               buf.append ('"');
-            }
-            else
-            {
-               buf.append (str);
-            }
-         }
+         buf.append (format (sepchar, get(field)));
       }
 
       stripTrailingDelimiters (buf, sepchar);
