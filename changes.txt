@@ -1,6 +1,9 @@
 Version 0.0.18
 Added new MPXFile.setIgnoreTextModel() method to allow MPXJ to ignore faulty text version of task or resource model records in MPX files.
 Improved invalid MPX data error handling and reporting.
+Added BaseCalendar.getDate method to allow end dates to be calculated based on a start date and a duration of working time.
+Made MPXDateFormat implement java.io.Serializable to allow MPXDate to serialize correctly.
+Updated the ant build file to allow MPXJ to be built without the components that depend on JAXB
 
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
