@@ -189,7 +189,7 @@ public class MpxQuery
             duration = "(no duration supplied)";
          }
 
-         System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + ")");
+         System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + ")");
       }
       System.out.println ();
    }
