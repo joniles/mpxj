@@ -1606,6 +1606,11 @@ final class MPP9File
 
          offset = MPPUtility.getInt(meta, 4);
          data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
+         if (data == null)
+         {
+            continue;
+         }
+         
          id = MPPUtility.getInt(data, 0);
          final Integer varDataId = new Integer(id);
          if (set.contains(varDataId) == false)

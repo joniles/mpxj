@@ -139,7 +139,7 @@ final class FixedData extends MPPComponent
    {
       byte[] result = null;
 
-      if (m_array[index] != null)
+      if (index >= 0 && index < m_array.length && m_array[index] != null)
       {
          result = (byte[])m_array[index];
       }
