@@ -62,14 +62,13 @@ final class VarMeta extends MPPComponent
       Integer uniqueID;
       Integer type;
       Integer offset;
-      int unknown;
       TreeMap map;
       m_offsets = new int[m_itemCount];
 
       for (int loop=0; loop < m_itemCount; loop++)
       {
          uniqueID = new Integer (readShort (is));
-         unknown = readByte (is);
+         readByte (is);
          type = new Integer (readByte (is));
          offset = new Integer (readInt (is));
 
