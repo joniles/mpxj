@@ -10,8 +10,10 @@
 
    <release version="0.0.22" date="Latest CVS Revision"> 
       <action dev="joniles" type="fix">Fixed a bug where task data was not being read correctly from very large MPP9 files.</action>
-      <action dev="joniles" type="fix">Fixed a bug where certain MPP8 files were not read correctlyt when no constraint data is present.</action>
+      <action dev="joniles" type="fix">Fixed a bug where certain MPP8 files were not read correctly when no constraint data is present.</action>
+      <action dev="joniles" type="fix">Fixed a bug where certain MPP9 files were not read correctly.</action>
       <action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX spec.</action>
+      <action dev="joniles" type="update">Updated MPX documentation for Task.getFixed and Task.setFixed.</action>
       <action dev="joniles" type="add">Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).</action>
       <action dev="joniles" type="add">Implemented support for Maven.</action>
    </release>
