@@ -446,11 +446,11 @@ final class MPP8File
          // Test to ensure this task has not been deleted.
          // This appears to be a set of flags rather than a single value.
          // The data I have seen to date shows deleted tasks having values of
-         // 0x0001 and 0x0002. Valid tasks have had values 0f 0x0000, 0x0914,
-         // and 0x0040.
+         // 0x0001 and 0x0002. Valid tasks have had values of 0x0000, 0x0914,
+         // 0x0040 and 0x004A.
          //
          deleted = MPPUtility.getShort(data, 272);
-         if ((deleted & 0x03) != 0)
+         if ((deleted & 0xC0) == 0 && (deleted & 0x03) != 0)
          {
             continue;
          }
