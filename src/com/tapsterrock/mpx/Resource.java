@@ -4322,7 +4322,7 @@ public final class Resource extends MPXRecord
     * You can use resource
     * notes to help maintain information about a resource.
     */
-   private static final int NOTES = 10;
+   //private static final int NOTES = 10;
 
    /**
     * The Objects field contains the number of objects associated
