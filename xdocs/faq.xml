@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faqs title="Frequently Asked Questions">
+   <part id="general">
+      <title>Known Issues with MPXJ</title> 
+      <faq id="mpp8-flags">
+         <question>
+            I have an MPP file created by MS Project 98, and some of the Flag
+            field values are incorrect.
+         </question> 
+         <answer>
+            <p>
+               The MPP8 file format is rather cryptic, and one part of it that
+               I have yet to really understand fully is how the Flag fields
+               are stored. I've spent a lot of time looking at this and have
+               not made a lot of progress, so at the moment no further work is
+               being undertaken to fix this. Contributions of insights, 
+               knowledge or fixed code for this problem are welcome. You'll 
+               find a bug for this item logged in the 
+               <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=816347%26group_id=70649%26atid=528541" target="_blank">SourgeForge bug tracker</a>.
+            </p> 
+         </answer>
+      </faq>
+      
+      <faq id="corrupt-note-text">
+         <question>
+            My Task/Resource notes field text is corrupt.
+         </question> 
+         <answer>
+            <p>
+               Your notes field probably contains characters that are not in 
+               Codepage 1252 (Latin 1). The notes text is stored as RTF by
+               MS Project. MPXJ uses Sun's RTF processor to strip the RTF 
+               formatting and return the plain text of the notes fields. The
+               RTF processor does not handle characters from other codepages
+               correctly, hence it returns rubblish. See the 
+               <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=1081156%26group_id=70649%26atid=528541" target="_blank">SourgeForge bug tracker</a>
+               for further details, and a suggested workaround.               
+            </p> 
+         </answer>
+      </faq>
+   </part>   
+</faqs>

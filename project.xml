@@ -161,6 +161,7 @@
     <report>maven-changes-plugin</report>
     <report>maven-statcvs-plugin</report>
     <report>maven-javadoc-plugin</report>
+    <report>maven-faq-plugin</report>
   </reports>
 
 </project>
