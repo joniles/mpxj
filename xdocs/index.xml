@@ -44,7 +44,9 @@ created, read, and written.</p>
 
 <section name="Getting started">
 
-<p>The library is fairly simple to use, and to illustrate this, a
+<p>The latest release of MPXJ can be downloaded by following
+<a href="http://sourceforge.net/project/showfiles.php?group_id=70649">this link</a>.
+The library is fairly simple to use, and to illustrate this, a
 small number of sample files have been included in the examples
 directory of the distribution.</p>
 
