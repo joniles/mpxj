@@ -24,7 +24,6 @@
 package com.tapsterrock.mpp;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,6 +50,14 @@ import com.tapsterrock.mpx.Task;
 public class MPPFile extends MPXFile
 {
    /**
+    * Default constructor.
+    */
+   public MPPFile ()
+   {
+      super ();
+   }
+   
+   /**
     * Constructor allowing an MPP file to be read from an input stream
     *
     * @param is an input stream
@@ -59,7 +66,7 @@ public class MPPFile extends MPXFile
    public MPPFile (InputStream is)
       throws MPXException
    {
-      process (is);
+      super (is);
    }
 
    /**
@@ -71,15 +78,7 @@ public class MPPFile extends MPXFile
    public MPPFile (File file)
       throws MPXException
    {
-      try
-      {
-         process (new FileInputStream (file));
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXException (MPXException.READ_ERROR, ex);
-      }
+      super (file);
    }
 
    /**
@@ -91,15 +90,19 @@ public class MPPFile extends MPXFile
    public MPPFile (String name)
       throws MPXException
    {
-      try
-      {
-         process (new FileInputStream (name));
-      }
+      super (name);
+   }
 
-      catch (IOException ex)
-      {
-         throw new MPXException (MPXException.READ_ERROR, ex);
-      }
+   /**
+    * Initialise member variables here. This avoid problems with uninitialised
+    * data being used when reading an MPP file using one of the MPPFile class
+    * constructors.
+    */
+   protected void configure ()
+   {
+      super.configure();
+      m_views = new ArrayList ();
+      m_tables = new ArrayList ();      
    }
 
    /**
@@ -109,7 +112,7 @@ public class MPPFile extends MPXFile
     * @param is input stream
     * @throws MPXException on file read errors
     */
-   private void process (InputStream is)
+   public void read (InputStream is)
       throws MPXException
    {
       try
@@ -301,11 +304,10 @@ public class MPPFile extends MPXFile
    /**
     * List of views defined in this file.
     */
-   private ArrayList m_views = new ArrayList ();
+   private ArrayList m_views;
 
    /**
     * List of tables defined in this file.
     */
-   private ArrayList m_tables = new ArrayList ();
-
+   private ArrayList m_tables;
 }

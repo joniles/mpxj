@@ -9,6 +9,7 @@
    <body> 
 
    <release version="0.0.25" date="CVS HEAD"> 
+      <action dev="joniles" type="update">Tidied up constructors. Added no-argument constructors to the MPPFile and MSPDIFile classes.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

@@ -166,7 +166,7 @@ public class MPXFile
     * not localised ones. Users of localised MPX file versions must call
     * the setLocale method explicitly.
     */
-   private void configure ()
+   protected void configure ()
    {
       setLocale (Locale.ENGLISH);
       m_records.add (m_fileCreationRecord);
