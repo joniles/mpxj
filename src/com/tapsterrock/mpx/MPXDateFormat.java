@@ -37,8 +37,8 @@ import java.util.Locale;
 final class MPXDateFormat implements Serializable
 {
    /**
-    * This method is calkled when the locale of the parent file is updated.
-    * It resets the locale specific currency attributes to the default values
+    * This method is called when the locale of the parent file is updated.
+    * It resets the locale specific date attributes to the default values
     * for the new locale.
     *
     * @param locale new locale
@@ -46,6 +46,7 @@ final class MPXDateFormat implements Serializable
    void setLocale (Locale locale)
    {
       m_format = new SimpleDateFormat (m_format.toPattern(), locale);
+      m_null = LocaleData.getString(locale, LocaleData.NA);
    }
 
    /**
@@ -90,7 +91,7 @@ final class MPXDateFormat implements Serializable
       }
       else
       {
-         if (str.equals("NA") == true)
+         if (str.equals(m_null) == true)
          {
             result = null;
          }
@@ -121,4 +122,5 @@ final class MPXDateFormat implements Serializable
     * English day names.
     */
    private SimpleDateFormat m_format = new SimpleDateFormat ("dd/MM/yyyy", Locale.ENGLISH);
+   private String m_null = "NA";
 }

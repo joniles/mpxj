@@ -132,10 +132,13 @@ public final class LocaleData extends ListResourceBundle
    public static final String PM_TEXT = "PM_TEXT";
    public static final String DATE_FORMAT = "DATE_FORMAT";
    public static final String BAR_TEXT_DATE_FORMAT = "BAR_TEXT_DATE_FORMAT";
-
+   public static final String NA = "NA";
+   
    public static final String TIME_UNITS_ARRAY = "TIME_UNITS_ARRAY";
    public static final String TIME_UNITS_MAP = "TIME_UNITS_MAP";
 
+   public static final String ACCRUE_TYPES = "ACCRUE_TYPES";
+   public static final String RELATION_TYPES = "RELATION_TYPES";
    public static final String TASK_NAMES = "TASK_NAMES";
    public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
    
@@ -149,6 +152,21 @@ public final class LocaleData extends ListResourceBundle
          TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], new Integer(loop));
       }
    }
+
+   private static final String[] ACCRUE_TYPES_DATA =
+   {
+      "Start",
+      "End",
+      "Prorated"
+   };
+
+   private static final String[] RELATION_TYPES_DATA = 
+   {
+      "FF",
+      "FS",
+      "SF",
+      "SS"
+   };
 
    private static final String[] TASK_NAMES_DATA = 
    {
@@ -385,13 +403,16 @@ public final class LocaleData extends ListResourceBundle
       {PM_TEXT, "pm"},
       {DATE_FORMAT, new Integer (20)},
       {BAR_TEXT_DATE_FORMAT, new Integer (0)},
-
+      {NA, "NA"},
+      
       {YES, "Yes"},
       {NO, "No"},
 
       {TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
       {TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
 
+      {ACCRUE_TYPES, ACCRUE_TYPES_DATA},
+      {RELATION_TYPES, RELATION_TYPES_DATA},      
       {TASK_NAMES, TASK_NAMES_DATA},
       {RESOURCE_NAMES, RESOURCE_NAMES_DATA}
    };

@@ -84,64 +84,22 @@ public final class Relation
             throw new MPXException (MPXException.INVALID_FORMAT);
          }
 
-         switch (relationship.charAt(index))
+         String relationType = relationship.substring(index, index+2);         
+         String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
+         
+         for (m_type=0; m_type < relationTypes.length; m_type++)
          {
-            case 'S':
+            if (relationTypes[m_type].equals(relationType) == true)
             {
-               switch (relationship.charAt(index+1))
-               {
-                  case 'S':
-                  {
-                     m_type = START_START;
-                     break;
-                  }
-
-                  case 'F':
-                  {
-                     m_type = START_FINISH;
-                     break;
-                  }
-
-                  default:
-                  {
-                     throw new MPXException (MPXException.INVALID_FORMAT);
-                  }
-               }
-
                break;
-            }
-
-            case 'F':
-            {
-               switch (relationship.charAt(index+1))
-               {
-                  case 'S':
-                  {
-                     m_type = FINISH_START;
-                     break;
-                  }
-
-                  case 'F':
-                  {
-                     m_type = FINISH_FINISH;
-                     break;
-                  }
-
-                  default:
-                  {
-                     throw new MPXException (MPXException.INVALID_FORMAT);
-                  }
-               }
-
-               break;
-            }
-
-            default:
-            {
-               throw new MPXException (MPXException.INVALID_FORMAT);
-            }
+            }               
          }
 
+         if (m_type == relationTypes.length)
+         {
+            throw new MPXException (MPXException.INVALID_FORMAT + " " + relationType);   
+         }
+                 
          index += 2;
 
          if (index == length)
@@ -164,40 +122,17 @@ public final class Relation
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param locale target locale
     * @return string containing the data for this record in MPX format.
     */
-   public String toString ()
+   public String toString (Locale locale)
    {
       StringBuffer sb = new StringBuffer (Integer.toString(m_taskIDValue));
 
       if (m_duration.getDuration() != 0 || m_type != FINISH_START)
       {
-         switch (m_type)
-         {
-            case FINISH_START:
-            {
-               sb.append ("FS");
-               break;
-            }
-
-            case START_START:
-            {
-               sb.append ("SS");
-               break;
-            }
-
-            case START_FINISH:
-            {
-               sb.append ("SF");
-               break;
-            }
-
-            case FINISH_FINISH:
-            {
-               sb.append ("FF");
-               break;
-            }
-         }
+         String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);         
+         sb.append (relationTypes[m_type]);
       }
 
       double duration = m_duration.getDuration();
@@ -207,7 +142,7 @@ public final class Relation
          {
             sb.append ('+');
          }
-         sb.append (m_duration.toString());
+         sb.append (m_duration.toString(locale));
       }
 
       return (sb.toString());
@@ -299,8 +234,7 @@ public final class Relation
     * Constant representing a start-start relationship.
     */
    public static final int START_START = 3;
-
-
+   
    /**
     * Identifier of task with which this relationship is held.
     */

@@ -76,10 +76,11 @@ public final class RelationList
    /**
     * This method generates a string in MPX format representing the
     * contents of this rlist.
-    *
+    * 
+    * @param locale target locale
     * @return string containing the data for this list in MPX format.
     */
-   public String toString ()
+   public String toString (Locale locale)
    {
       StringBuffer sb = new StringBuffer ();
       Iterator iter = m_list.iterator();
@@ -91,7 +92,7 @@ public final class RelationList
             sb.append (',');
          }
 
-         sb.append ((iter.next()).toString());
+         sb.append (((Relation)iter.next()).toString(locale));
       }
 
       return (sb.toString());

@@ -128,6 +128,18 @@ public final class MPXDuration
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param locale target locale
+    * @return string containing the data for this record in MPX format.
+    */
+   String toString (Locale locale)
+   {
+      return (toString(DEFAULT_DECIMAL_FORMAT, locale));
+   }
+
+   /**
+    * This method generates a string in MPX format representing the
+    * contents of this record.
+    *
     * @param format number format to use for the duration value
     * @return string containing the data for this record in MPX format.
     */

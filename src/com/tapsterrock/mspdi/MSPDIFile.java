@@ -23,48 +23,51 @@
 
 package com.tapsterrock.mspdi;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.TreeSet;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import com.tapsterrock.mpx.AccrueType;
-import com.tapsterrock.mpx.MPXCalendar;
-import com.tapsterrock.mpx.MPXCalendarException;
-import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySettings;
 import com.tapsterrock.mpx.DateTimeSettings;
 import com.tapsterrock.mpx.DefaultSettings;
+import com.tapsterrock.mpx.MPXCalendar;
+import com.tapsterrock.mpx.MPXCalendarException;
+import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.MPXRate;
-import com.tapsterrock.mpx.Task;
-import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
+import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mspdi.schema.ObjectFactory;
 import com.tapsterrock.mspdi.schema.Project;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 /**
  * This class is used to represent a Microsoft Project Data Interchange
@@ -728,7 +731,7 @@ public class MSPDIFile extends MPXFile
       mpx.setFinishVariance(getMinutesDuration(task.getFinishVariance()));
       //mpx.setFixed();
       mpx.setFixedCost(task.getFixedCost()/100);
-      mpx.setFixedCostAccrual(AccrueType.getInstance(task.getFixedCostAccrual()));
+      mpx.setFixedCostAccrual(AccrueType.getInstance(task.getFixedCostAccrual(), Locale.ENGLISH));
       //mpx.setFlag1();
       //mpx.setFlag2();
       //mpx.setFlag3();

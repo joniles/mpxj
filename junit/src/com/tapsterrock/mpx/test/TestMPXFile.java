@@ -190,7 +190,7 @@ public class TestMPXFile extends TestCase
       {
          if (out != null && success == true)
          {
-            out.delete();
+            //out.delete();
          }
       }
    }
@@ -225,10 +225,11 @@ public class TestMPXFile extends TestCase
       {
          if (out != null && success == true)
          {
-            //out.delete();
+            out.delete();
          }
       }
    }
+
 
    /**
     * This test exercises the automatic generation of WBS and outline levels.

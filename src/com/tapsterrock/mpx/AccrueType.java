@@ -23,6 +23,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Locale;
+
 /**
  * This class is used to represent an accrue type. It provides a mapping
  * between the textual description of a accrue type found in an MPX
@@ -56,15 +58,18 @@ public final class AccrueType
     * values are treated as "Prorated".
     *
     * @param type text version of the accrue type
+    * @param locale target locale
     * @return AccrueType class instance
     */
-   public static AccrueType getInstance (String type)
+   public static AccrueType getInstance (String type, Locale locale)
    {
       AccrueType result = null;
 
-      for (int loop=0; loop < TYPE_NAMES.length; loop++)
+      String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);
+      
+      for (int loop=0; loop < typeNames.length; loop++)
       {
-         if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
+         if (typeNames[loop].equalsIgnoreCase(type) == true)
          {
             result = TYPE_VALUES[loop];
             break;
@@ -137,11 +142,13 @@ public final class AccrueType
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param locale target locale
     * @return string containing the data for this record in MPX format.
     */
-   public String toString ()
+   public String toString (Locale locale)
    {
-      return (TYPE_NAMES[m_type-1]);
+      String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);
+      return (typeNames[m_type-1]);
    }
 
    /**
@@ -158,16 +165,6 @@ public final class AccrueType
     * Integer representing the "Prorated" accrue type.
     */
    public static final int PRORATED = 3;
-
-   /**
-    * Array of type names matching the above constants.
-    */
-   private static final String[] TYPE_NAMES =
-   {
-      "Start",
-      "End",
-      "Prorated"
-   };
 
    /**
     * Array of type values matching the above constants.

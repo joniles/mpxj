@@ -132,7 +132,7 @@ public final class Resource extends MPXRecord
 
             case ACCRUE_AT:
             {
-               set (x, AccrueType.getInstance (field));
+               set (x, AccrueType.getInstance (field, getParentFile().getLocale()));
                break;
             }
 

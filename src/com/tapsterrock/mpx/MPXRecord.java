@@ -65,14 +65,7 @@ class MPXRecord
       {
          if (o instanceof Boolean == true)
          {
-            if (((Boolean)o).booleanValue() == true)
-            {
-               result = LocaleData.getString(m_mpx.getLocale(), LocaleData.YES);
-            }
-            else
-            {
-               result = LocaleData.getString(m_mpx.getLocale(), LocaleData.NO);
-            }
+            result = LocaleData.getString(m_mpx.getLocale(), (((Boolean)o).booleanValue() == true?LocaleData.YES:LocaleData.NO));
          }
          else
          {
@@ -106,7 +99,21 @@ class MPXRecord
                         }
                         else
                         {
-                           result = o.toString();
+                           if (o instanceof AccrueType == true)
+                           {
+                              result = ((AccrueType)o).toString(m_mpx.getLocale());  
+                           }
+                           else
+                           {
+                              if (o instanceof RelationList == true)
+                              {
+                                 result = ((RelationList)o).toString(m_mpx.getLocale()); 
+                              }
+                              else
+                              {
+                                 result = o.toString();
+                              }                                 
+                           }
                         }
                      }
                   }

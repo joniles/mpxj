@@ -24,9 +24,10 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
@@ -35,11 +36,15 @@ import java.text.ParseException;
 final class MPXTimeFormat
 {
    /**
-    * Default constructor
+    * This method is called when the locale of the parent file is updated.
+    * It resets the locale specific time attributes to the default values
+    * for the new locale.
+    *
+    * @param locale new locale
     */
-   MPXTimeFormat()
+   void setLocale (Locale locale)
    {
-      m_format = new SimpleDateFormat ();
+      m_null = LocaleData.getString(locale, LocaleData.NA);
    }
 
    /**
@@ -84,7 +89,7 @@ final class MPXTimeFormat
       }
       else
       {
-         if (str.equals("NA") == true)
+         if (str.equals(m_null) == true)
          {
             result = null;
          }
@@ -108,5 +113,7 @@ final class MPXTimeFormat
    /**
     * Internal SimpleDateFormat object used to carry out the formatting work.
     */
-   private SimpleDateFormat m_format;
+   private SimpleDateFormat m_format = new SimpleDateFormat ();
+   
+   private String m_null = "NA";
 }
