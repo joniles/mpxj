@@ -38,8 +38,8 @@
 </target>
 
 <target name="compile" depends="init" description="Compile everything">
-   <javac srcdir="${basedir}/src" destdir="${classes}" classpath="${classpath}:${poilib}:${jaxblibs}" />
-   <javac srcdir="${junitdir}/src" destdir="${junitclasses}" classpath="${classpath}:${classes}:${junitdir}/junit.jar" />
+   <javac srcdir="${basedir}/src" destdir="${classes}" classpath="${classpath}:${poilib}:${jaxblibs}" debug="on" />
+   <javac srcdir="${junitdir}/src" destdir="${junitclasses}" classpath="${classpath}:${classes}:${junitdir}/junit.jar" debug="on" />
    <copy file="${basedir}/src${schemadir}/bgm.ser" todir="${classes}${schemadir}"/>
    <copy file="${basedir}/src${schemadir}/jaxb.properties" todir="${classes}${schemadir}"/>
 </target>
