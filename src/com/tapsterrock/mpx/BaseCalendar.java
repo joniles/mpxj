@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * This class represents the Base Calendar Definition record. It is used to
@@ -280,6 +281,7 @@ public class BaseCalendar extends MPXRecord
       {
          BaseCalendarHours hours;
          SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
+         df.setTimeZone(TimeZone.getTimeZone("GMT"));
          Date from1 = df.parse ("08:00");
          Date to1 = df.parse ("12:00");
          Date from2 = df.parse ("13:00");
