@@ -6908,7 +6908,7 @@ public final class Task extends MPXRecord implements Comparable
     * The Notes field contains notes that you can enter about a task. You can use task
     * notes to help maintain a history for a task.
     */
-   private static final int NOTES = 14;
+   //private static final int NOTES = 14;
 
    /**
     * The Number fields show any custom numeric information you enter in your project
