@@ -609,6 +609,8 @@ public class MPPFile extends MPXFile
          // duplicate of actual cost / overtime cost?
          // 240
       }
+
+      updateStructure ();
    }
 
    /**

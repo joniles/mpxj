@@ -38,6 +38,7 @@ import java.io.FileInputStream;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Collections;
 
 /**
  * This class encapsulates all functionality relating to creating, read
@@ -1222,6 +1223,84 @@ public class MPXFile
 
       return (result);
    }
+
+   /**
+    * This method is used to recreate the hierarchical structure of the
+    * MPX file from scratch. The method sorts the list of all tasks,
+    * then iterates through it creating the parent-child structure defined
+    * by the outline level field.
+    */
+   protected void updateStructure ()
+   {
+      if (m_allTasks.size() > 1)
+      {
+         Collections.sort (m_allTasks);
+         m_childTasks.clear ();
+
+         Task task;
+         Task lastTask = null;
+         Task parent;
+         int level;
+         int lastLevel = -1;
+
+         Iterator iter = m_allTasks.iterator();
+
+         while (iter.hasNext() == true)
+         {
+            task = (Task)iter.next();
+            task.clearChildTasks ();
+            level = task.getOutlineLevel().intValue();
+
+            if (lastTask == null)
+            {
+               m_childTasks.add (task);
+            }
+            else
+            {
+               if (level == lastLevel)
+               {
+                  parent = lastTask.getParentTask();
+                  if (parent == null)
+                  {
+                     m_childTasks.add (task);
+                  }
+                  else
+                  {
+                     parent.addChildTask (task);
+                  }
+               }
+               else
+               {
+                  if (level > lastLevel)
+                  {
+                     lastTask.addChildTask (task);
+                  }
+                  else
+                  {
+                     parent = lastTask.getParentTask();
+                     if (parent != null)
+                     {
+                        parent = parent.getParentTask();
+                     }
+
+                     if (parent == null)
+                     {
+                        m_childTasks.add (task);
+                     }
+                     else
+                     {
+                        parent.addChildTask (task);
+                     }
+                  }
+               }
+            }
+
+            lastTask = task;
+            lastLevel = level;
+         }
+      }
+   }
+
 
    /**
     * Constant containing the end of line characters used in MPX files.
