@@ -8,6 +8,9 @@
 /*
  * CHANGELOG
  * $Log$
+ * Revision 1.1.1.2  2003/01/15 14:35:17  joniles
+ * Initial revision.
+ *
  * Revision 1.1.1.1  2003/01/07 21:53:53  joniles
  * Initial revision.
  *
@@ -49,8 +52,9 @@ public class ResourceCalendarHours extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceCalendarHours (MPXFile file)
+      throws MPXException
    {
-      super(file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -81,8 +85,9 @@ public class ResourceCalendarHours extends MPXRecord
     */
    public byte getDayOfTheWeek()
    {
-      return ((Byte)get(DAY)).byteValue();
+      return (getByteValue (DAY));
    }
+
    /**
     * Set day of the week.
     * @param val - 1 - 7 , sunday - saturday.

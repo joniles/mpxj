@@ -39,8 +39,9 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceAssignmentWorkgroupFields (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -90,7 +91,7 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public byte getConfirmed ()
    {
-      return (((Byte)get(CONFIRMED)).byteValue()); /** @todo potential NPE */
+      return (getByteValue(CONFIRMED));
    }
 
    /**
@@ -120,7 +121,7 @@ public class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public byte getResponsePending ()
    {
-      return (((Byte)get(RESPONSE_PENDING)).byteValue());
+      return (getByteValue(RESPONSE_PENDING));
    }
 
    /**

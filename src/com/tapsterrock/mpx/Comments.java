@@ -34,8 +34,9 @@ public class Comments extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    Comments (MPXFile file)
+      throws MPXException
    {
-      super(file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**

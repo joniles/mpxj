@@ -40,9 +40,9 @@ public class DefaultSettings extends MPXRecord
    {
       super(file);
 
-      setDefaultDurationUnits((byte)2);
+      setDefaultDurationUnits((byte)TimeUnit.DAYS);
       setDefaultDurationType((byte)0);
-      setDefaultWorkUnits((byte)1);
+      setDefaultWorkUnits((byte)TimeUnit.HOURS);
       setDefaultHoursInDay(new Float(8));
       setDefaultHoursInWeek(new Float (40));
       setDefaultStandardRate(new MPXRate(10, TimeUnit.HOURS));
@@ -72,19 +72,23 @@ public class DefaultSettings extends MPXRecord
    }
 
    /**
-    * Gets Default Duration units
+    * Gets Default Duration units. The constants used to define the
+    * duration units are defined by the <code>TimeUnit</code> class.
     *
     * @return byte constant
+    * @see TimeUnit
     */
    public byte getDefaultDurationUnits ()
    {
-      return (((Byte)get(DEFAULT_DURATION_UNITS)).byteValue()); /** @todo potential NPE */
+      return (getByteValue (DEFAULT_DURATION_UNITS));
    }
 
    /**
-    * Default duration units
+    * Default duration units. The constants used to define the
+    * duration units are defined by the <code>TimeUnit</code> class.
     *
     * @param units default time units
+    * @see TimeUnit
     */
    public void setDefaultDurationUnits (byte units)
    {
@@ -98,7 +102,7 @@ public class DefaultSettings extends MPXRecord
     */
    public byte getDefaultDurationType ()
    {
-      return (((Byte)get(DEFAULT_DURATION_TYPE)).byteValue());
+      return (getByteValue (DEFAULT_DURATION_TYPE));
    }
 
    /**
@@ -112,19 +116,23 @@ public class DefaultSettings extends MPXRecord
    }
 
    /**
-    * Default work units. Values, 0-minutes,1-hours,2-days,3-weeks
+    * Default work units. The constants used to define the
+    * work units are defined by the <code>TimeUnit</code> class.
     *
-    * @return  byte representing default
+    * @return byte representing default
+    * @see TimeUnit
     */
    public byte getDefaultWorkUnits ()
    {
-      return (((Byte)get(DEFAULT_WORK_UNITS)).byteValue());
+      return (getByteValue (DEFAULT_WORK_UNITS));
    }
 
    /**
-    * Default work units. Values, 0-minutes,1-hours,2-days,3-weeks
+    * Default work units. The constants used to define the
+    * work units are defined by the <code>TimeUnit</code> class.
     *
     * @param units  byte representing default
+    * @see TimeUnit
     */
    public void setDefaultWorkUnits (byte units)
    {
@@ -138,7 +146,7 @@ public class DefaultSettings extends MPXRecord
     */
    public float getDefaultHoursInDay ()
    {
-      return (((Float)get(DEFAULT_HOURS_IN_DAY)).floatValue());
+      return (getFloatValue (DEFAULT_HOURS_IN_DAY));
    }
 
    /**
@@ -158,7 +166,7 @@ public class DefaultSettings extends MPXRecord
     */
    public float getDefaultHoursInWeek ()
    {
-      return (((Float)get(DEFAULT_HOURS_IN_WEEK)).floatValue());
+      return (getFloatValue (DEFAULT_HOURS_IN_WEEK));
    }
 
    /**
@@ -218,7 +226,7 @@ public class DefaultSettings extends MPXRecord
     */
    public byte getUpdatingTaskStatusUpdatesResourceStatus ()
    {
-      return (((Byte)get(UPDATE)).byteValue());
+      return (getByteValue (UPDATE));
    }
 
    /**
@@ -238,7 +246,7 @@ public class DefaultSettings extends MPXRecord
     */
    public byte getSplitInProgressTasks ()
    {
-      return (((Byte)get(SPLIT)).byteValue());
+      return (getByteValue (SPLIT));
    }
 
    /**

@@ -279,6 +279,21 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * This method is used to set the value of a units field in the resource,
+    * and also to ensure that the field exists in the resource model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void setUnits (int field, Number val)
+   {
+      Integer key = new Integer (field);
+      m_model.add(key);
+      putUnits (key, val);
+   }
+
+   /**
     * This method is used to retrieve a particular field value.
     *
     * @param field requested field
@@ -484,9 +499,9 @@ public class Resource extends MPXRecord
     * @param val value
     * @see #MAX_UNITS Constants for explanation
     */
-   public void setMaxUnits (MPXUnits val)
+   public void setMaxUnits (Number val)
    {
-      set (MAX_UNITS, val);
+      setUnits (MAX_UNITS, val);
    }
 
    /**
@@ -885,9 +900,9 @@ public class Resource extends MPXRecord
     * @return value
     * @see #MAX_UNITS Constants for explanation
     */
-   public MPXUnits getMaxUnits ()
+   public Number getMaxUnits ()
    {
-      return ((MPXUnits)get(MAX_UNITS));
+      return ((Number)get(MAX_UNITS));
    }
 
    /**

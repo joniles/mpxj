@@ -37,8 +37,9 @@ public class RecurringTask extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    RecurringTask (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -51,7 +52,7 @@ public class RecurringTask extends MPXRecord
    RecurringTask (MPXFile file, Record record)
       throws MPXException
    {
-      this(file);
+      super (file);
 
       setID(record.getString(0));
       setStartDate(record.getDate(1));
@@ -147,7 +148,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getDuration ()
    {
-      return (((Integer)get(DURATION)).intValue());
+      return (getIntValue (DURATION));
    }
 
    /**
@@ -187,7 +188,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getNumberOfOccurances ()
    {
-      return (((Integer)get(NO_OF_OCCURANCES)).intValue());
+      return (getIntValue (NO_OF_OCCURANCES));
    }
 
    /**
@@ -231,7 +232,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getLengthRadioIndex()
    {
-      return (((Integer)get(LENGTH_RADIO_INDEX)).intValue());
+      return (getIntValue (LENGTH_RADIO_INDEX));
    }
 
    /**
@@ -256,7 +257,7 @@ public class RecurringTask extends MPXRecord
     */
    public byte getDailyBoxRadioIndex ()
    {
-      return (((Byte)get(DAILY_BOX_RADIO_INDEX)).byteValue());
+      return (getByteValue (DAILY_BOX_RADIO_INDEX));
    }
 
    /**
@@ -307,7 +308,7 @@ public class RecurringTask extends MPXRecord
     */
    public byte getMonthlyBoxRadioIndex ()
    {
-      return (((Byte)get(MONTHLY_BOX_RADIO_INDEX)).byteValue());
+      return (getByteValue(MONTHLY_BOX_RADIO_INDEX));
    }
 
    /**
@@ -330,7 +331,7 @@ public class RecurringTask extends MPXRecord
     */
    public byte getYearlyBoxRadioIndex()
    {
-      return (((Byte)get(YEARLY_BOX_RADIO_INDEX)).byteValue());
+      return (getByteValue(YEARLY_BOX_RADIO_INDEX));
    }
 
    /**
@@ -354,7 +355,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getDailyBoxComboIndex ()
    {
-      return (((Integer)get(DAILY_BOX_COMBO_INDEX)).intValue());
+      return (getIntValue (DAILY_BOX_COMBO_INDEX));
    }
 
    /**
@@ -378,7 +379,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getWeeklyBoxComboIndex()
    {
-      return (((Integer)get(WEEKLY_BOX_COMBO_INDEX)).intValue());
+      return (getIntValue (WEEKLY_BOX_COMBO_INDEX));
    }
 
    /**
@@ -404,7 +405,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getMonthlyBoxFirstLastComboIndex ()
    {
-      return (((Integer)get(MONTHLY_BOX_FIRSTLAST_COMBO_INDEX)).intValue());
+      return (getIntValue (MONTHLY_BOX_FIRSTLAST_COMBO_INDEX));
    }
 
    /**
@@ -430,7 +431,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getMonthlyBoxDayComboIndex ()
    {
-      return (((Integer)get(MONTHLY_BOX_DAY_COMBO_INDEX)).intValue());
+      return (getIntValue (MONTHLY_BOX_DAY_COMBO_INDEX));
    }
 
    /**
@@ -456,7 +457,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getMonthlyBoxBottomRadioFrequencyComboIndex()
    {
-      return (((Integer)get(MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX)).intValue());
+      return (getIntValue (MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX));
    }
 
    /**
@@ -480,7 +481,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getMonthlyBoxDayIndex()
    {
-      return (((Integer)get(MONTHLY_BOX_DAY_INDEX)).intValue());
+      return (getIntValue (MONTHLY_BOX_DAY_INDEX));
    }
 
    /**
@@ -503,7 +504,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getMonthlyBoxTopRadioFrequencyComboIndex ()
    {
-      return (((Integer)get(MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX)).intValue());
+      return (getIntValue (MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX));
    }
 
    /**
@@ -530,7 +531,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getYearlyBoxFirstLastComboIndex ()
    {
-      return (((Integer)get(FIRSTLAST_COMBO_INDEX_YEARLY_BOX)).intValue());
+      return (getIntValue (FIRSTLAST_COMBO_INDEX_YEARLY_BOX));
    }
 
    /**
@@ -556,7 +557,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getYearlyBoxDayComboIndex ()
    {
-      return (((Integer)get(DAY_COMBO_INDEX_YEARLY_BOX)).intValue());
+      return (getIntValue (DAY_COMBO_INDEX_YEARLY_BOX));
    }
 
    /**
@@ -582,7 +583,7 @@ public class RecurringTask extends MPXRecord
     */
    public int getYearlyBoxMonthComboIndex ()
    {
-      return (((Integer)get(MONTH_COMBO_INDEX_YEARLY_BOX)).intValue());
+      return (getIntValue (MONTH_COMBO_INDEX_YEARLY_BOX));
    }
 
    /**

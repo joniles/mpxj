@@ -31,47 +31,32 @@ import java.text.DecimalFormat;
  * The formatting used by MSP is not the same as that used for all other
  * floats, hence this special case.
  */
-public class MPXUnits
+class MPXUnits extends Number
 {
    /**
-    * Constructs instance from a float value.
-    *
-    * @param value value
-    */
-   public MPXUnits (float value)
-   {
-      m_value = value;
-   }
-
-   /**
-    * Constructs instance from a Number value.
-    *
-    * @param value value
-    */
-   public MPXUnits (Number value)
-   {
-      this (value.floatValue());
-   }
-
-   /**
-    * Constructs instance from a String value.
+    * Constructs instance from a String value. This constructor is used
+    * when reading the units value from an MPX file. Note that in an
+    * MPX file the value is in the range 0.0 to 1.0, whereas we hold
+    * the value as a percentage in the range 0.0 to 100.0.
     *
     * @param value value
     */
    public MPXUnits (String value)
    {
-      this (Float.parseFloat(value));
+      m_value = Double.parseDouble(value) * 100;
    }
 
    /**
-    * Accessor method for value
+    * Constructs instance from a Number value. Note that the value
+    * should be in the range 0.0 to 100.0.
     *
-    * @return value
+    * @param value value
     */
-   public float getValue()
+   public MPXUnits (Number value)
    {
-      return (m_value);
+      m_value = value.doubleValue();
    }
+
 
    /**
     * This method generates a string in MPX format representing the
@@ -81,13 +66,61 @@ public class MPXUnits
     */
    public String toString ()
    {
-      return (FLOAT_FORMAT.format(m_value));
+      return (FORMAT.format(m_value/100));
+   }
+
+   /**
+    * Returns the value of the specified number as an <code>int</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>int</code>.
+    */
+   public int intValue()
+   {
+      return ((int)m_value);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>long</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>long</code>.
+    */
+   public long longValue()
+   {
+      return ((long)m_value);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>float</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>float</code>.
+    */
+   public float floatValue()
+   {
+      return ((float)m_value);
+   }
+
+   /**
+    * Returns the value of the specified number as a <code>double</code>.
+    * This may involve rounding.
+    *
+    * @return  the numeric value represented by this object after conversion
+    *          to type <code>double</code>.
+    */
+   public double doubleValue ()
+   {
+      return (m_value);
    }
 
    /**
     * Internal value
     */
-   private float m_value;
+   private double m_value;
 
-   private static final DecimalFormat FLOAT_FORMAT = new DecimalFormat ("#.##");
+   private static final DecimalFormat FORMAT = new DecimalFormat ("#.##");
 }

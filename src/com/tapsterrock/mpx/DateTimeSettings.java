@@ -520,7 +520,7 @@ public class DateTimeSettings extends MPXRecord
     */
    public byte getDateOrder ()
    {
-      return ((Byte)get(DATE_ORDER)).byteValue();
+      return (getByteValue (DATE_ORDER));
    }
 
    /**
@@ -540,7 +540,7 @@ public class DateTimeSettings extends MPXRecord
     */
    public byte getTimeFormat ()
    {
-      return ((Byte)get(TIME_FORMAT)).byteValue(); /** @todo potential NPE */
+      return (getByteValue (TIME_FORMAT));
    }
 
    /**
@@ -560,7 +560,7 @@ public class DateTimeSettings extends MPXRecord
     */
    public int getDefaultTime ()
    {
-      return ((Integer)get(DEFAULT_TIME)).intValue();
+      return (getIntValue (DEFAULT_TIME));
    }
 
    /**
@@ -660,7 +660,7 @@ public class DateTimeSettings extends MPXRecord
     */
    public byte getDateFormat ()
    {
-      return ((Byte)get(DATE_FORMAT)).byteValue();
+      return (getByteValue (DATE_FORMAT));
    }
 
    /**
@@ -680,7 +680,7 @@ public class DateTimeSettings extends MPXRecord
     */
    public int getBarTextDateFormat()
    {
-      return ((Integer)get(BAR_TEXT_DATE_FORMAT)).intValue();
+      return (getIntValue (BAR_TEXT_DATE_FORMAT));
    }
 
    /**

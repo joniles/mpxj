@@ -35,8 +35,9 @@ public class TaskNotes extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    TaskNotes (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**

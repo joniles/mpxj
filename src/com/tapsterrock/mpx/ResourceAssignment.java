@@ -37,8 +37,9 @@ public class ResourceAssignment extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceAssignment (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -141,9 +142,9 @@ public class ResourceAssignment extends MPXRecord
     * @return units
     * @see #UNITS CONSTANTS for description
     */
-   public MPXUnits getUnits ()
+   public Number getUnits ()
    {
-      return ((MPXUnits)get(UNITS));
+      return ((Number)get(UNITS));
    }
 
    /**
@@ -152,9 +153,9 @@ public class ResourceAssignment extends MPXRecord
     * @param val units
     * @see #UNITS CONSTANTS for description
     */
-   public void setUnits (MPXUnits val)
+   public void setUnits (Number val)
    {
-      put (UNITS, val);
+      putUnits (UNITS, val);
    }
 
    /**
@@ -427,6 +428,11 @@ public class ResourceAssignment extends MPXRecord
     *  Child record for Workgroup fields.
     */
    private ResourceAssignmentWorkgroupFields m_workgroup;
+
+   /**
+    * Default units value: 100%
+    */
+   public static final Double DEFAULT_UNITS = new Double (100);
 
    /**
     * The Unique ID field contains the number that Microsoft Project

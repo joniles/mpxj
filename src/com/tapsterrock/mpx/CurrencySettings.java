@@ -130,7 +130,7 @@ public class CurrencySettings extends MPXRecord
     */
    public byte getSymbolPosition ()
    {
-      return (((Byte)get(SYMBOL_POSITION)).byteValue());
+      return (getByteValue (SYMBOL_POSITION));
    }
 
    /**
@@ -150,7 +150,7 @@ public class CurrencySettings extends MPXRecord
     */
    public byte getCurrencyDigits ()
    {
-      return (((Byte)get(CURRENCY_DIGITS)).byteValue());
+      return (getByteValue (CURRENCY_DIGITS));
    }
 
    /**

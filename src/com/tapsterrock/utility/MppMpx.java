@@ -24,7 +24,6 @@
 package com.tapsterrock.utility;
 
 import com.tapsterrock.mpp.MPPFile;
-import com.tapsterrock.mpx.MPXFile;
 
 /**
  * This is a trivial utility class used to provide a simple file

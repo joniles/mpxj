@@ -26,6 +26,7 @@ import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mpx.Relation;
+import com.tapsterrock.mpx.Resource;
 import java.text.SimpleDateFormat;
 
 
@@ -61,7 +62,11 @@ public class MpxCreate
 
    /**
     * This method creates a summary task, two sub-tasks and a milestone,
-    * all with the appropriate constraints between them.
+    * all with the appropriate constraints between them. The tasks are
+    * assigned to two resources. Note that Microsoft Project is fussy
+    * about the order in which things appear in the file. If you are going
+    * to assign resources to tasks, the resources must appear in the
+    * file before the tasks.
     */
    private static void create (String filename)
       throws Exception
@@ -84,6 +89,12 @@ public class MpxCreate
       file.setAutoTaskUniqueID(true);
 
       //
+      // Configure the file to automatically generate identifiers for resources.
+      //
+      file.setAutoResourceID(true);
+      file.setAutoResourceUniqueID(true);
+
+      //
       // Configure the file to automatically generate outline levels
       //
       file.setAutoOutlineLevel(true);
@@ -99,7 +110,17 @@ public class MpxCreate
       file.addDefaultBaseCalendar();
 
       //
+      // Add resources
+      //
+      Resource resource1 = file.addResource();
+      resource1.setName("Resource1");
+
+      Resource resource2 = file.addResource();
+      resource2.setName("Resource2");
+
+      //
       // Create a summary task
+      //
       Task task1 = file.addTask();
       task1.setName ("Summary Task");
 
@@ -134,6 +155,13 @@ public class MpxCreate
       milestone1.setDuration (new MPXDuration (0, TimeUnit.DAYS));
       Relation rel2 = milestone1.addPredecessor (task3);
       rel2.setType (Relation.FINISH_START);
+
+      //
+      // Assign resources to tasks
+      //
+      task2.addResourceAssignment (resource1);
+      task3.addResourceAssignment (resource2);
+
 
       //
       // Write the file

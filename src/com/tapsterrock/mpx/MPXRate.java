@@ -58,7 +58,6 @@ public class MPXRate
     * This constructor builds an instance of this class from a currency
     * amount and a time unit.
     *
-    * @param parent parent MPXFile
     * @param amount currency amount
     * @param time time units
     */
@@ -93,6 +92,7 @@ public class MPXRate
     * This method builds a String representation of the rate represented
     * by this instance.
     *
+    * @param format currency format to be used
     * @return string representation of the rate
     */
    public String toString (MPXNumberFormat format)

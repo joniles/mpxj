@@ -487,6 +487,8 @@ public class Task extends MPXRecord
          assignment = addResourceAssignment ();
          assignment.setID(resource.getID());
          assignment.setResourceUniqueID(resourceUniqueID);
+         assignment.setWork(getDuration());
+         assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
       }
 
       return (assignment);
@@ -1680,7 +1682,7 @@ public class Task extends MPXRecord
     * of Do Not Level are never delayed or split when Microsoft Project levels
     * tasks that have overallocated resources assigned.
     *
-    * @param priority
+    * @param priority the priority value
     */
    public void setPriority (Priority priority)
    {

@@ -40,8 +40,9 @@ public class ResourceCalendar extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceCalendar (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -182,7 +183,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getMonday ()
    {
-      return (((Byte)get(MONDAY)).byteValue()); /** @todo potential NPE */
+      return (getByteValue (MONDAY));
    }
 
    /**
@@ -202,7 +203,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getTuesday ()
    {
-       return (((Byte)get(TUESDAY)).byteValue());
+       return (getByteValue (TUESDAY));
    }
 
    /**
@@ -222,7 +223,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getWednesday ()
    {
-      return (((Byte)get(WEDNESDAY)).byteValue());
+      return (getByteValue (WEDNESDAY));
    }
 
    /**
@@ -242,7 +243,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getThursday ()
    {
-       return (((Byte)get(THURSDAY)).byteValue());
+       return (getByteValue (THURSDAY));
    }
 
    /**
@@ -262,7 +263,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getFriday ()
    {
-      return (((Byte)get(FRIDAY)).byteValue());
+      return (getByteValue(FRIDAY));
    }
 
    /**
@@ -282,7 +283,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getSaturday ()
    {
-      return (((Byte)get(SATURDAY)).byteValue());
+      return (getByteValue (SATURDAY));
    }
 
    /**
@@ -302,7 +303,7 @@ public class ResourceCalendar extends MPXRecord
     */
    public byte getSunday ()
    {
-       return (((Byte)get(SUNDAY)).byteValue());
+       return (getByteValue (SUNDAY));
    }
 
    /**

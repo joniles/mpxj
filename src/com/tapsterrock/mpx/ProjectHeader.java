@@ -41,38 +41,9 @@ public class ProjectHeader extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ProjectHeader (MPXFile file)
+      throws MPXException
    {
       super (file);
-
-      setProjectTab(null);
-      setCompany(null);
-      setManager(null);
-      setCalendar(null);
-      setStartDate(null);
-      setFinishDate(null);
-      setScheduleFrom(null);
-      setCurrentDate(null);
-      setComments(null);
-      setCost(null);
-      setBaselineCost(null);
-      setActualCost(null);
-      setWork(null);
-      setBaselineWork(null);
-      setActualWork(null);
-      setWork2(null);
-      setDuration(null);
-      setBaselineDuration(null);
-      setActualDuration(null);
-      setPercentageComplete(null);
-      setBaselineStart(null);
-      setBaselineFinish(null);
-      setActualStart(null);
-      setActualFinish(null);
-      setStartVariance(null);
-      setFinishVariance(null);
-      setSubject(null);
-      setAuthor(null);
-      setKeywords(null);
    }
 
 
@@ -247,7 +218,7 @@ public class ProjectHeader extends MPXRecord
     */
    public byte getScheduleFrom ()
    {
-      return (((Byte)get(SCHEDULE_FROM)).byteValue()); /** @todo potential NPE */
+      return (getByteValue (SCHEDULE_FROM));
    }
 
    /**

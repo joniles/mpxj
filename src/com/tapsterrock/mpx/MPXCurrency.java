@@ -57,16 +57,6 @@ class MPXCurrency extends Number
    }
 
    /**
-    * Accessor method to retrieve the amount
-    *
-    * @return value
-    */
-   public double getAmount()
-   {
-      return (m_amount);
-   }
-
-   /**
     * This method builds a String representation of the amount represented
     * by this instance.
     *

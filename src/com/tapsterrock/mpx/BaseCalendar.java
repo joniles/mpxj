@@ -44,8 +44,9 @@ public class BaseCalendar extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    BaseCalendar (MPXFile file)
+      throws MPXException
    {
-      super (file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**

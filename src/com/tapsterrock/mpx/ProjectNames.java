@@ -37,8 +37,9 @@ public class ProjectNames extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ProjectNames (MPXFile file)
+      throws MPXException
    {
-      super(file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**

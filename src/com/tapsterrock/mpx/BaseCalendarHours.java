@@ -38,8 +38,9 @@ public class BaseCalendarHours extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    BaseCalendarHours (MPXFile file)
+      throws MPXException
    {
-      super(file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -71,7 +72,7 @@ public class BaseCalendarHours extends MPXRecord
     */
    public int getDay ()
    {
-      return (((Integer)get(DAY)).intValue());
+      return (getIntValue (DAY));
    }
 
    /**

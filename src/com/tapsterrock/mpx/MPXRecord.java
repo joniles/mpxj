@@ -248,6 +248,23 @@ class MPXRecord
 
    /**
     * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXUnits objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   protected void putUnits (Integer key, Number value)
+   {
+      if (value != null && value instanceof MPXUnits == false)
+      {
+         value = new MPXUnits (value);
+      }
+
+      m_map.put (key, value);
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXTime objects.
     *
     * @param key attribute identifier
@@ -273,6 +290,84 @@ class MPXRecord
    protected Object get (Integer key)
    {
       return (m_map.get(key));
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a byte value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default byte value, zero.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected byte getByteValue (Integer key)
+   {
+      Byte value = (Byte)m_map.get(key);
+
+      byte result;
+      if (value == null)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = value.byteValue();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a int value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default int value, zero.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected int getIntValue (Integer key)
+   {
+      Integer value = (Integer)m_map.get(key);
+
+      int result;
+      if (value == null)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = value.intValue();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a float value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default float value, zero.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected float getFloatValue (Integer key)
+   {
+      Float value = (Float)m_map.get(key);
+
+      float result;
+      if (value == null)
+      {
+         result = 0;
+      }
+      else
+      {
+         result = value.floatValue();
+      }
+
+      return (result);
    }
 
    /**

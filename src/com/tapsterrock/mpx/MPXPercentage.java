@@ -26,6 +26,8 @@ package com.tapsterrock.mpx;
 
 /**
  * This class represents percentage values as found in an MPX file.
+ *
+ * @todo extend Number class?
  */
 public class MPXPercentage
 {

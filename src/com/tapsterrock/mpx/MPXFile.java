@@ -42,6 +42,8 @@ import java.util.LinkedList;
 /**
  * This class encapsulates all functionality relating to creating, read
  * and writing MPX files and their constituent records.
+ *
+ * @todo Ensure that the underlying lists are returned unmodifyable
  */
 public class MPXFile
 {
@@ -559,7 +561,7 @@ public class MPXFile
    }
 
    /**
-    * This method is used to retrieve all of the top level tasks
+    * This method is used to retrieve a list of all of the top level tasks
     * that are defined in this MPX file.
     *
     * @return list of tasks
@@ -567,6 +569,17 @@ public class MPXFile
    public LinkedList getChildTasks ()
    {
       return (m_childTasks);
+   }
+
+   /**
+    * This method is used to retrieve a list of all of the tasks
+    * that are defined in this MPX file.
+    *
+    * @return list of all tasks
+    */
+   public LinkedList getAllTasks ()
+   {
+      return (m_allTasks);
    }
 
    /**
@@ -868,6 +881,17 @@ public class MPXFile
       throws MPXException
    {
       return ((Resource)add(Resource.RECORD_NUMBER));
+   }
+
+   /**
+    * This method is used to retrieve a list of all of the resources
+    * that are defined in this MPX file.
+    *
+    * @return list of all resources
+    */
+   public LinkedList getAllResources ()
+   {
+      return (m_allResources);
    }
 
    /**

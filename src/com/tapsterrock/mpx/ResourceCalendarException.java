@@ -38,8 +38,9 @@ public class ResourceCalendarException extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceCalendarException (MPXFile file)
+      throws MPXException
    {
-      super(file);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -72,7 +73,7 @@ public class ResourceCalendarException extends MPXRecord
     */
    public byte getWorking ()
    {
-      return (((Byte)get(WORKING)).byteValue()); /**@todo potential NPE */
+      return (getByteValue (WORKING));
    }
 
 
