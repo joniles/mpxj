@@ -28,7 +28,7 @@ import java.util.Date;
 /**
  * This class represents working hours in a resource calendar.
  */
-public class ResourceCalendarHours extends MPXRecord
+public final class ResourceCalendarHours extends MPXRecord
 {
    /**
     * Default constructor.

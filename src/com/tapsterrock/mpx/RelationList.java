@@ -29,7 +29,7 @@ import java.util.Iterator;
 /**
  * This class represents a list of relationships between tasks.
  */
-public class RelationList
+public final class RelationList
 {
    /**
     * Default constructor.

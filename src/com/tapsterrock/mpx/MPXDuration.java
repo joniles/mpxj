@@ -29,7 +29,7 @@ import java.text.DecimalFormat;
 /**
  * This represents time durations as specified in an MPX file.
  */
-public class MPXDuration
+public final class MPXDuration
 {
    /**
     * Constructs an instance of this class from a String representation

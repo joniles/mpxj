@@ -31,7 +31,7 @@ import java.util.Date;
  * This class represents a resorce assignment workgrouo fields record
  * from an MPX file.
  */
-public class ResourceAssignmentWorkgroupFields extends MPXRecord
+public final class ResourceAssignmentWorkgroupFields extends MPXRecord
 {
    /**
     * Default constructor.

@@ -36,7 +36,7 @@ import java.util.Calendar;
  * define the working and non-working days of the week. The default calendar
  * defined Monday to Friday as working days.
  */
-public class BaseCalendar extends MPXRecord
+public final class BaseCalendar extends MPXRecord
 {
    /**
     * Default constructor.

@@ -32,7 +32,7 @@ import java.util.Iterator;
  * define the working and non-working days of the week for a resource.
  * The default calendar defines Monday to Friday as working days.
  */
-public class ResourceCalendar extends MPXRecord
+public final class ResourceCalendar extends MPXRecord
 {
    /**
     * Default constructor.

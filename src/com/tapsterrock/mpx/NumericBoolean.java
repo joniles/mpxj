@@ -31,7 +31,7 @@ package com.tapsterrock.mpx;
  * converted into instances of this class
  *
  */
-public class NumericBoolean
+public final class NumericBoolean
 {
    /**
     * Constructor. Creates an instance of this class from a boolean value.

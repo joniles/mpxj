@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * This class represents resource calendar exception records from an MPX file.
  */
-public class ResourceCalendarException extends MPXRecord
+public final class ResourceCalendarException extends MPXRecord
 {
    /**
     * Default constructor.

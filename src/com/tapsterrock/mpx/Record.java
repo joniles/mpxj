@@ -29,7 +29,7 @@ import java.util.LinkedList;
 /**
  * This class is used to represent a record in an MPX file.
  */
-class Record
+final class Record
 {
    /**
     * Default constructor used to create an empty record.
@@ -48,7 +48,7 @@ class Record
     * @param tk tokenizer providing the input stream of tokens
     * @throws MPXException normally thrown when parsing fails
     */
-   public Record (MPXFile parent, Tokenizer tk)
+   Record (MPXFile parent, Tokenizer tk)
       throws MPXException
    {
       try

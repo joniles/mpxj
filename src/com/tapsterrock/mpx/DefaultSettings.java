@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * This class represents the record in an MPX file that holds a range of
  * default value relating to the current project plan.
  */
-public class DefaultSettings extends MPXRecord
+public final class DefaultSettings extends MPXRecord
 {
    /**
     * Default constructor.

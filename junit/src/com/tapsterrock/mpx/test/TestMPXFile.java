@@ -412,7 +412,7 @@ public class TestMPXFile extends TestCase
       
       return (level);      
    }
-   
+      
    /**
     * Utility function to ensure that two files contain identical data.
     */

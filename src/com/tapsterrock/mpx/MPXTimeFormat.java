@@ -32,12 +32,12 @@ import java.text.ParseException;
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the time conventions used in MPX files.
  */
-class MPXTimeFormat
+final class MPXTimeFormat
 {
    /**
     * Default constructor
     */
-   public MPXTimeFormat()
+   MPXTimeFormat()
    {
 		m_format = new SimpleDateFormat ();
    }

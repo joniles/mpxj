@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
  * The formatting used by MSP is not the same as that used for all other
  * floats, hence this special case.
  */
-class MPXUnits extends Number
+final class MPXUnits extends Number
 {
    /**
     * Constructs instance from a String value. This constructor is used
@@ -41,7 +41,7 @@ class MPXUnits extends Number
     *
     * @param value value
     */
-   public MPXUnits (String value)
+   MPXUnits (String value)
    {
       m_value = Double.parseDouble(value) * 100;
    }
@@ -52,7 +52,7 @@ class MPXUnits extends Number
     *
     * @param value value
     */
-   public MPXUnits (Number value)
+   MPXUnits (Number value)
    {
       m_value = value.doubleValue();
    }
@@ -63,7 +63,7 @@ class MPXUnits extends Number
     *
     * @param value value
     */
-   public MPXUnits (double value)
+   MPXUnits (double value)
    {
       m_value = value;
    }

@@ -31,7 +31,7 @@ import java.util.Date;
  * This class represents the record in an MPX file containing details of
  * how date and time values are formatted.
  */
-public class DateTimeSettings extends MPXRecord
+public final class DateTimeSettings extends MPXRecord
 {
    /**
     * Default constructor.

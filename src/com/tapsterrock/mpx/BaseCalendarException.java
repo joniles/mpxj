@@ -31,7 +31,7 @@ import java.util.Date;
  * an MPX file. It is used to define exceptions to the working days described
  * in the base calendar.
  */
-public class BaseCalendarException extends MPXRecord
+public final class BaseCalendarException extends MPXRecord
 {
    /**
     * Default constructor.

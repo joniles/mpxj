@@ -31,31 +31,8 @@ import java.util.Date;
  * distinguish between dates and times, which both use Date objects
  * as their underlying representation.
  */
-class MPXTime extends Date
+final class MPXTime extends Date
 {
-   /**
-    * Default constructor.
-    *
-    * @param format Time formatter
-    */
-   MPXTime (MPXTimeFormat format)
-   {
-      super ();
-      m_format = format;
-   }
-
-   /**
-    * Constructor allowing a specific time to be set.
-    *
-    * @param format Time formatter
-    * @param time time required expressed in milliseconds.
-    */
-   MPXTime (MPXTimeFormat format, long time)
-   {
-      super (time);
-      m_format = format;
-   }
-
    /**
     * Constructor allowing a specific time to be set.
     *

@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * This record lists all of the DDE link names stored in a Microsoft Project
  * file.
  */
-public class ProjectNames extends MPXRecord
+public final class ProjectNames extends MPXRecord
 {
    /**
     * Default constructor.

@@ -29,7 +29,7 @@ import java.util.Date;
 /**
  * This class represents the Recurring Task Record as found in an MPX file.
  */
-public class RecurringTask extends MPXRecord
+public final class RecurringTask extends MPXRecord
 {
    /**
     * Default constructor.

@@ -33,7 +33,7 @@ import java.util.Date;
  * project plan. Note that a number of the fields in this record are
  * calculated by Microsoft Project, and will therefore be ignored on import.
  */
-public class ProjectHeader extends MPXRecord
+public final class ProjectHeader extends MPXRecord
 {
    /**
     * Default constructor.

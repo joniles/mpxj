@@ -32,12 +32,12 @@ import java.io.IOException;
  * an MPX file correctly. In particular it will handle empty fields,
  * represented by adjacent field delimiters.
  */
-class Tokenizer
+final class Tokenizer
 {
    /**
     * Constructor.
     */
-   public Tokenizer (Reader r)
+   Tokenizer (Reader r)
    {
       m_reader = r;
    }

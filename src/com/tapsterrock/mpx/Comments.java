@@ -26,7 +26,7 @@ package com.tapsterrock.mpx;
 /**
  * This class represents comments that appear in an MPX file
  */
-public class Comments extends MPXRecord
+public final class Comments extends MPXRecord
 {
    /**
     * Default constructor.

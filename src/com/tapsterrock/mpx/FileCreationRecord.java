@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * identifies the file type, version number, originating software and the
  * separator to be used in the remainder of the file.
  */
-public class FileCreationRecord extends MPXRecord
+public final class FileCreationRecord extends MPXRecord
 {
    /**
     * Default constructor.

@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
 /**
  * This class is used to represent the monetary amounts found in an MPX file.
  */
-class MPXCurrency extends Number
+final class MPXCurrency extends Number
 {
    /**
     * Constructor used to parse a string to extract details of the
@@ -37,7 +37,7 @@ class MPXCurrency extends Number
     * @param amount string representation of a currency amount
     * @throws MPXException when string parse fails
     */
-   public MPXCurrency (MPXNumberFormat format, String amount)
+   MPXCurrency (MPXNumberFormat format, String amount)
       throws MPXException
    {
       m_format = format;
@@ -50,7 +50,7 @@ class MPXCurrency extends Number
     * @param format Currency format
     * @param amount double representation of a currency amount
     */
-   public MPXCurrency (MPXNumberFormat format, double amount)
+   MPXCurrency (MPXNumberFormat format, double amount)
    {
       m_format = format;
       m_amount = amount;

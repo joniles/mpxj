@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public class ConstraintType
+public final class ConstraintType
 {
    /**
     * This constructor takes the numeric enumerated representation of a

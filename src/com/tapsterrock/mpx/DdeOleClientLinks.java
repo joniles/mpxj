@@ -28,7 +28,7 @@ package com.tapsterrock.mpx;
  * This class represents the record in an MPX file that holds details of any
  * DDE links that have been made into a Microsoft Project file.
  */
-public class DdeOleClientLinks extends MPXRecord
+public final class DdeOleClientLinks extends MPXRecord
 {
    /**
     * Default constructor.

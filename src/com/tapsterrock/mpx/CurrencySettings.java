@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * This class is used to represent the content of the currency options
  * record from an MPX file.
  */
-public class CurrencySettings extends MPXRecord
+public final class CurrencySettings extends MPXRecord
 {
    /**
     * Default constructor.

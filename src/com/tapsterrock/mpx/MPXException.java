@@ -27,16 +27,8 @@ package com.tapsterrock.mpx;
 /**
  * Standard exception type thrown by the MPXJ library.
  */
-public class MPXException extends Exception
+public final class MPXException extends Exception
 {
-  /**
-   * Default constructor.
-   */
-   public MPXException ()
-   {
-      super ();
-   }
-
    /**
     * Constructor allowing a message to be added to this exception.
     *

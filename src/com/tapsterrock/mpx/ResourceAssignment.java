@@ -29,7 +29,7 @@ import java.util.Date;
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public class ResourceAssignment extends MPXRecord
+public final class ResourceAssignment extends MPXRecord
 {
    /**
     * Default constructor.

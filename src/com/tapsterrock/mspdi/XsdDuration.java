@@ -30,7 +30,7 @@ import java.text.DecimalFormat;
 /**
  * This class parses and represents an xsd:duration value.
  */
-class XsdDuration
+final class XsdDuration
 {
    /**
     * Constructor. Parses the xsd:duration value and extracts the
@@ -38,7 +38,7 @@ class XsdDuration
     *
     * @param duration value formatted as an xsd:duration
     */
-   public XsdDuration (String duration)
+   XsdDuration (String duration)
    {
       if (duration != null)
       {
@@ -90,7 +90,7 @@ class XsdDuration
     *
     * @param duration An MPX duration.
     */
-   public XsdDuration (MPXDuration duration)
+   XsdDuration (MPXDuration duration)
    {
       if (duration != null)
       {

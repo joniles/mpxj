@@ -32,7 +32,7 @@ import java.text.ParseException;
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the date conventions used in MPX files.
  */
-class MPXDateFormat
+final class MPXDateFormat
 {
    /**
     * This method is used to configure the format pattern.

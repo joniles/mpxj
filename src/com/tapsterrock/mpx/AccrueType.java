@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public class AccrueType
+public final class AccrueType
 {
    /**
     * This constructor takes the numeric enumerated representation of an

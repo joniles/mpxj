@@ -32,7 +32,7 @@ import java.util.HashMap;
  * This record has two forms, one textual and one numeric. Both
  * variants are handled by this class.
  */
-class TaskModel extends MPXRecord
+final class TaskModel extends MPXRecord
 {
    /**
     * Default constructor.

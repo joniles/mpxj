@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
 /**
  * This class represents the a task note record from an MPX file.
  */
-public class TaskNotes extends MPXRecord
+public final class TaskNotes extends MPXRecord
 {
    /**
     * Default constructor.

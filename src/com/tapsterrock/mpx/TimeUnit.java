@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
  * This class contains utility functions allowing time unit specifications
  * to be parsed and formatted.
  */
-public class TimeUnit
+public final class TimeUnit
 {
    /**
     * This method is used to parse a string representation of a time

@@ -29,7 +29,7 @@ package com.tapsterrock.mpx;
  * relationships normally found in the lists of predecessors and
  * successors associated with a task record in an MPX file.
  */
-public class Relation
+public final class Relation
 {
    /**
     * Default constructor.

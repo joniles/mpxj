@@ -32,14 +32,14 @@ import java.util.HashMap;
  * This record has two forms, one textual and one numeric. Both
  * variants are handled by this class.
  */
-class ResourceModel extends MPXRecord
+final class ResourceModel extends MPXRecord
 {
    /**
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
     */
-   public ResourceModel (MPXFile file)
+   ResourceModel (MPXFile file)
    {
       super (file, 0);
    }

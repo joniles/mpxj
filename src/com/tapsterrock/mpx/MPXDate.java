@@ -31,7 +31,7 @@ import java.util.Date;
  * distinguish between dates and times, which both use Date objects
  * as their underlying representation.
  */
-class MPXDate extends Date
+final class MPXDate extends Date
 {
    /**
     * Constructor allowing a specific date to be set.
@@ -39,7 +39,7 @@ class MPXDate extends Date
     * @param format Date format
     * @param date date required expressed in milliseconds.
     */
-   public MPXDate (MPXDateFormat format, Date date)
+   MPXDate (MPXDateFormat format, Date date)
    {
       super (date.getTime());
       m_format = format;

@@ -30,7 +30,7 @@ import java.util.Date;
  * This class is used to represent the records in an MPX file that define
  * working hours.
  */
-public class BaseCalendarHours extends MPXRecord
+public final class BaseCalendarHours extends MPXRecord
 {
    /**
     * Default constructor.

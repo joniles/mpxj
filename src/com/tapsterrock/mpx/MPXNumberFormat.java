@@ -32,12 +32,12 @@ import java.text.ParseException;
  * of the DecimalFormat class. In particuar this class handles ParseExceptions
  * and wraps them in an MPXException.
  */
-public class MPXNumberFormat
+final class MPXNumberFormat
 {
    /**
     * Default constructor.
     */
-   public MPXNumberFormat ()
+   MPXNumberFormat ()
    {
 
    }
@@ -47,7 +47,7 @@ public class MPXNumberFormat
     *
     * @param pattern new format pattern
     */
-   public MPXNumberFormat (String pattern)
+   MPXNumberFormat (String pattern)
    {
       m_format.applyPattern (pattern);
    }

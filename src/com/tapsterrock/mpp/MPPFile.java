@@ -126,12 +126,14 @@ public class MPPFile extends MPXFile
 			if (format.equals("MSProject.MPP9") == true)
 			{
 				MPP9File.process (this, root);
+            m_fileType = 9;
 			}
 			else
 			{
 				if (format.equals("MSProject.MPP8") == true)				
 				{
                MPP8File.process (this, root);
+               m_fileType = 8;
 				}
 				else
 				{
@@ -192,8 +194,28 @@ public class MPPFile extends MPXFile
    }
 
    /**
+    * This method retrieves a value representing the type of MPP file
+    * that has been read. Currently this method will return the value 8 for 
+    * an MPP8 file (Project 98) or 9 for an MPP9 file (Project 2000 and 
+    * Project 2002).
+    * 
+    * @return File type value
+    */
+   public int getFileType()
+   {
+      return (m_fileType);
+   }
+
+
+   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved.
     */
    private boolean m_preserveNoteFormatting = false;   
+   
+   /**
+    * This value is used to represent the type of MPP file that 
+    * has been read.
+    */
+   private int m_fileType;
 }

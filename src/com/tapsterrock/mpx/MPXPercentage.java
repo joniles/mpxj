@@ -27,7 +27,7 @@ package com.tapsterrock.mpx;
 /**
  * This class represents percentage values as found in an MPX file.
  */
-class MPXPercentage extends Number
+final class MPXPercentage extends Number
 {
    /**
     * This constructor creates an instance of this class from a formatted
@@ -36,7 +36,7 @@ class MPXPercentage extends Number
     * @param value percentage value
     * @throws MPXException when the string parse fails
     */
-   public MPXPercentage (String value)
+   MPXPercentage (String value)
       throws MPXException
    {
       m_value = FORMAT.parse(value).doubleValue();
@@ -47,7 +47,7 @@ class MPXPercentage extends Number
     *
     * @param value percentage value
     */
-   public MPXPercentage (Number value)
+   MPXPercentage (Number value)
    {
       m_value = value.doubleValue();
    }
@@ -57,7 +57,7 @@ class MPXPercentage extends Number
     *
     * @param value percentage value
     */
-   public MPXPercentage (double value)
+   MPXPercentage (double value)
    {
       m_value = value;
    }

@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * This class represents the Resource record as found in an MPX file.
  */
-public class Resource extends MPXRecord
+public final class Resource extends MPXRecord
 {
    /**
     * Default constructor.

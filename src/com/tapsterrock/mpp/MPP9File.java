@@ -52,7 +52,7 @@ import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
 
 /**
- * This class is used to represent a Microsoft Project MPP file. This
+ * This class is used to represent a Microsoft Project MPP9 file. This
  * implementation allows the file to be read, and the data it contains
  * exported as a set of MPX objects. These objects can be interrogated
  * to retrieve any required data, or stored as an MPX file.

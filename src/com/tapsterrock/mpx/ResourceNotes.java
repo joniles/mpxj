@@ -28,7 +28,7 @@ package com.tapsterrock.mpx;
 /**
  * This class represents the resource notes record in an MPX file.
  */
-public class ResourceNotes extends MPXRecord
+public final class ResourceNotes extends MPXRecord
 {
    /**
     * Default constructor.
