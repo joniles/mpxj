@@ -99,6 +99,6 @@ public class TaskNotes extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 71;
+   static final int RECORD_NUMBER = 71;
 }
 

@@ -246,6 +246,11 @@ public class MPXFile
 
             add (number, record);
          }
+
+         //
+         // Ensure that the structure is consistent
+         //
+         updateStructure();
       }
 
       catch (IOException ex)
@@ -897,13 +902,13 @@ public class MPXFile
 
       calendar.setName("Standard");
 
-      calendar.setSunday(BaseCalendar.NONWORKING);
-      calendar.setMonday(BaseCalendar.WORKING);
-      calendar.setTuesday(BaseCalendar.WORKING);
-      calendar.setWednesday(BaseCalendar.WORKING);
-      calendar.setThursday(BaseCalendar.WORKING);
-      calendar.setFriday(BaseCalendar.WORKING);
-      calendar.setSaturday(BaseCalendar.NONWORKING);
+      calendar.setWorkingDay(1, false);
+      calendar.setWorkingDay(2, true);
+      calendar.setWorkingDay(3, true);
+      calendar.setWorkingDay(4, true);
+      calendar.setWorkingDay(5, true);
+      calendar.setWorkingDay(6, true);
+      calendar.setWorkingDay(7, false);
 
       calendar.addDefaultBaseCalendarHours ();
 

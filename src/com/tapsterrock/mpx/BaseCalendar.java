@@ -63,13 +63,13 @@ public class BaseCalendar extends MPXRecord
       super (file, MAX_FIELDS);
 
       setName(record.getString(0));
-      setSunday(record.getInteger(1));
-      setMonday(record.getInteger(2));
-      setTuesday(record.getInteger(3));
-      setWednesday(record.getInteger(4));
-      setThursday(record.getInteger(5));
-      setFriday(record.getInteger(6));
-      setSaturday(record.getInteger(7));
+      setWorkingDay(1, record.getNumericBoolean(1));
+      setWorkingDay(2, record.getNumericBoolean(2));
+      setWorkingDay(3, record.getNumericBoolean(3));
+      setWorkingDay(4, record.getNumericBoolean(4));
+      setWorkingDay(5, record.getNumericBoolean(5));
+      setWorkingDay(6, record.getNumericBoolean(6));
+      setWorkingDay(7, record.getNumericBoolean(7));
    }
 
    /**
@@ -169,7 +169,7 @@ public class BaseCalendar extends MPXRecord
    }
 
    /**
-    * This method retrieves the bae calendar hours for the specified day.
+    * This method retrieves the base calendar hours for the specified day.
     *
     * @param day Day number
     * @return Base calendar hours
@@ -198,286 +198,6 @@ public class BaseCalendar extends MPXRecord
    public void setName(String val)
    {
       put (NAME, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getSundayValue ()
-   {
-      return (getIntValue (SUNDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getSunday ()
-   {
-      return ((Integer) get (SUNDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setSunday (int val)
-   {
-      put (SUNDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setSunday (Integer val)
-   {
-      put (SUNDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getMondayValue ()
-   {
-      return (getIntValue (MONDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getMonday ()
-   {
-      return ((Integer)get (MONDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setMonday (int val)
-   {
-      put (MONDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setMonday (Integer val)
-   {
-      put (MONDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getTuesdayValue ()
-   {
-      return (getIntValue (TUESDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getTuesday ()
-   {
-      return ((Integer)get (TUESDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setTuesday (int val)
-   {
-      put (TUESDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setTuesday (Integer val)
-   {
-      put (TUESDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getWednesdayValue ()
-   {
-      return (getIntValue (WEDNESDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getWednesday ()
-   {
-      return ((Integer)get (WEDNESDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setWednesday (int val)
-   {
-      put (WEDNESDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setWednesday (Integer val)
-   {
-      put (WEDNESDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getThursdayValue ()
-   {
-      return (getIntValue (THURSDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getThursday ()
-   {
-      return ((Integer)get (THURSDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setThursday (int val)
-   {
-      put (THURSDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setThursday (Integer val)
-   {
-      put (THURSDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getFridayValue ()
-   {
-      return (getIntValue (FRIDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getFriday ()
-   {
-      return ((Integer)get (FRIDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setFriday (int val)
-   {
-      put (FRIDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setFriday (Integer val)
-   {
-      put (FRIDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public int getSaturdayValue ()
-   {
-      return (getIntValue (SATURDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @return non-working=0, working=1
-    */
-   public Integer getSaturday ()
-   {
-      return ((Integer)get (SATURDAY));
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setSaturday (int val)
-   {
-      put (SATURDAY, val);
-   }
-
-   /**
-    * Flag indicating if this day is working or non-working.
-    *
-    * @param val non-working=0, working=1
-    */
-   public void setSaturday (Integer val)
-   {
-      put (SATURDAY, val);
    }
 
    /**
@@ -518,20 +238,7 @@ public class BaseCalendar extends MPXRecord
     */
    public boolean isWorkingDay (int day)
    {
-      boolean result;
-
-      int working = getIntValue (day);
-
-      if (working == 0)
-      {
-         result = false;
-      }
-      else
-      {
-         result = true;
-      }
-
-      return (result);
+      return (getNumericBooleanValue(day));
    }
 
    /**
@@ -544,9 +251,21 @@ public class BaseCalendar extends MPXRecord
     */
    public void setWorkingDay (int day, boolean working)
    {
-      put (day, (working==false?0:1));
+      put (day, NumericBoolean.getInstance(working));
    }
 
+   /**
+    * This is a convenience method provided to allow a day to be set
+    * as working or non-working, by using the day number to
+    * identify the required day.
+    *
+    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param working flag indicating if the day is a working day
+    */
+   public void setWorkingDay (int day, NumericBoolean working)
+   {
+      put (day, working);
+   }
 
    /**
     * This is a convenience method used to add a default set of calendar
@@ -689,51 +408,6 @@ public class BaseCalendar extends MPXRecord
    private static final int NAME = 0;
 
    /**
-    * Constant used to retrieve the data for Sunday
-    */
-   private static final int SUNDAY = 1;
-
-   /**
-    * Constant used to retrieve the data for Monday
-    */
-   private static final int MONDAY = 2;
-
-   /**
-    * Constant used to retrieve the data for Tuesday
-    */
-   private static final int TUESDAY = 3;
-
-   /**
-    * Constant used to retrieve the data for Wednesday
-    */
-   private static final int WEDNESDAY = 4;
-
-   /**
-    * Constant used to retrieve the data for Thursday
-    */
-   private static final int THURSDAY = 5;
-
-   /**
-    * Constant used to retrieve the data for Friday
-    */
-   private static final int FRIDAY = 6;
-
-   /**
-    * Constant used to retrieve the data for Saturday
-    */
-   private static final int SATURDAY = 7;
-
-   /**
-    * Constant used to represent non-working days
-    */
-   public static final int NONWORKING = 0;
-
-   /**
-    * Constant used to represent working days
-    */
-   public static final int WORKING = 1;
-
-   /**
     * Maximum number of fields in this record.
     */
    private static final int MAX_FIELDS = 8;
@@ -747,5 +421,5 @@ public class BaseCalendar extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 20;
+   static final int RECORD_NUMBER = 20;
 }

@@ -422,5 +422,5 @@ public class CurrencySettings extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 10;
+   static final int RECORD_NUMBER = 10;
 }

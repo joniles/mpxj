@@ -335,5 +335,5 @@ public class BaseCalendarException extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 26;
+   static final int RECORD_NUMBER = 26;
 }

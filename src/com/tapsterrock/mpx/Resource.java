@@ -1601,5 +1601,5 @@ public class Resource extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 50;
+   static final int RECORD_NUMBER = 50;
 }

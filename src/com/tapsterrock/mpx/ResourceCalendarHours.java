@@ -86,7 +86,7 @@ public class ResourceCalendarHours extends MPXRecord
     * Set day of the week.
     * @param val - 1 - 7 , sunday - saturday.
     */
-   public void setDayOfTheWeek(int  val)
+   void setDayOfTheWeek(int  val)
    {
       put (DAY,val);
    }
@@ -95,7 +95,7 @@ public class ResourceCalendarHours extends MPXRecord
     * Set day of the week.
     * @param val - 1 - 7 , sunday - saturday.
     */
-   public void setDayOfTheWeek (Integer  val)
+   private void setDayOfTheWeek (Integer  val)
    {
       put (DAY,val);
    }
@@ -287,5 +287,5 @@ public class ResourceCalendarHours extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 56;
+   static final int RECORD_NUMBER = 56;
 }

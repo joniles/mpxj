@@ -380,12 +380,10 @@ public class Task extends MPXRecord implements Comparable
       }
       else
       {
-         if (m_children.isEmpty() == true)
+         if (m_children.isEmpty() == false)
          {
-            throw new MPXException (MPXException.INVALID_OUTLINE);
+            ((Task)m_children.getLast()).addChildTask(child, childOutlineLevel);
          }
-
-         ((Task)m_children.getLast()).addChildTask(child, childOutlineLevel);
       }
    }
 
@@ -5222,5 +5220,5 @@ public class Task extends MPXRecord implements Comparable
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 70;
+   static final int RECORD_NUMBER = 70;
 }

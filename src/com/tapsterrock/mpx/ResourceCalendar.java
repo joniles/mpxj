@@ -55,14 +55,14 @@ public class ResourceCalendar extends MPXRecord
    {
       super(file, MAX_FIELDS);
 
-      setBaseCalendarName(record.getString(0));
-      setSunday(record.getInteger(1));
-      setMonday(record.getInteger(2));
-      setTuesday(record.getInteger(3));
-      setWednesday(record.getInteger(4));
-      setThursday(record.getInteger(5));
-      setFriday(record.getInteger(6));
-      setSaturday(record.getInteger(7));
+      setName(record.getString(0));
+      setWorkingDay(1, record.getInteger(1));
+      setWorkingDay(2, record.getInteger(2));
+      setWorkingDay(3, record.getInteger(3));
+      setWorkingDay(4, record.getInteger(4));
+      setWorkingDay(5, record.getInteger(5));
+      setWorkingDay(6, record.getInteger(6));
+      setWorkingDay(7, record.getInteger(7));
    }
 
    /**
@@ -112,20 +112,24 @@ public class ResourceCalendar extends MPXRecord
    /**
     * This method is used to add details of working hours to a resource calendar.
     *
+    * @param day Day number
     * @return ResourceCalendarException object
     * @throws MPXException thrown if the maximum number of hours has been added
     */
-   public ResourceCalendarHours addResourceCalendarHours()
+   public ResourceCalendarHours addResourceCalendarHours(int day)
       throws MPXException
    {
-      if (m_hours.size() == MAX_HOURS)
+      ResourceCalendarHours rch = new ResourceCalendarHours (getParentFile(), Record.EMPTY_RECORD);
+
+      rch.setDayOfTheWeek (day);
+      --day;
+
+      if (day < 0 || day > m_hours.length)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceCalendarHours rch = new ResourceCalendarHours (getParentFile());
-
-      m_hours.add (rch);
+      m_hours[day] = rch;
 
       return (rch);
    }
@@ -141,317 +145,85 @@ public class ResourceCalendar extends MPXRecord
    public ResourceCalendarHours addResourceCalendarHours (Record record)
       throws MPXException
    {
-      if (m_hours.size() == MAX_HOURS)
+      ResourceCalendarHours rch = new ResourceCalendarHours(getParentFile(), record);
+      int day = rch.getDayOfTheWeekValue()-1;
+
+      if (day < 0 || day > m_hours.length)
       {
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      ResourceCalendarHours rch = new ResourceCalendarHours (getParentFile(), record);
-
-      m_hours.add (rch);
+      m_hours[day] = rch;
 
       return (rch);
    }
 
+   /**
+    * This method retrieves the resource calendar hours for the specified day.
+    *
+    * @param day Day number
+    * @return Resource calendar hours
+    */
+   public ResourceCalendarHours getResourceCalendarHours (int day)
+   {
+      return (m_hours[day-1]);
+   }
 
    /**
     * Returns the name of the BaseCalendar used by the resource
     *
     * @return calendar name
     */
-   public String getBaseCalendarName ()
+   public String getName ()
    {
-      return ((String)get(BASE_CALENDAR_NAME));
+      return ((String)get(NAME));
    }
 
    /**
     * Sets the name of the BaseCalendar used by the resource
     *
-    * @param baseCalName calendar name
+    * @param name calendar name
     */
-   public void setBaseCalendarName (String baseCalName)
+   public void setName (String name)
    {
-      put (BASE_CALENDAR_NAME,(baseCalName==null||baseCalName.equals("")?"Standard":baseCalName));
+      put (NAME, name);
    }
 
    /**
-    * Gets working status.
+    * Method indicating whether a day is a working or non-working day.
     *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @return Working day flag
     */
-   public int getMondayValue ()
+   public int isWorkingDay (int day)
    {
-      return (getIntValue (MONDAY));
+      return (getIntValue(day));
    }
 
    /**
-    * Gets working status.
+    * This is a convenience method provided to allow a day to be set
+    * as working or non-working, by using the day number to
+    * identify the required day.
     *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
+    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param working flag indicating if the day is a working day
     */
-   public Integer getMonday ()
+   public void setWorkingDay (int day, int working)
    {
-      return ((Integer)get (MONDAY));
+      put (day, new Integer (working));
    }
 
    /**
-    * Sets working status.
+    * This is a convenience method provided to allow a day to be set
+    * as working or non-working, by using the day number to
+    * identify the required day.
     *
-    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
+    * @param day number of required day (1=Sunday, 7=Saturday)
+    * @param working flag indicating if the day is a working day
     */
-   public void setMonday (int mon)
+   public void setWorkingDay (int day, Integer working)
    {
-      put (MONDAY, mon);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setMonday (Integer mon)
-   {
-      put (MONDAY, mon);
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public int getTuesdayValue ()
-   {
-       return (getIntValue (TUESDAY));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public Integer getTuesday ()
-   {
-       return ((Integer)get (TUESDAY));
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setTuesday (int mon)
-   {
-      put (TUESDAY, mon);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int- 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setTuesday (Integer mon)
-   {
-      put (TUESDAY, mon);
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public int getWednesdayValue ()
-   {
-      return (getIntValue (WEDNESDAY));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public Integer getWednesday ()
-   {
-      return ((Integer)get (WEDNESDAY));
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param wed - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setWednesday (int wed)
-   {
-      put (WEDNESDAY, wed);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param wed - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setWednesday (Integer wed)
-   {
-      put (WEDNESDAY, wed);
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public int getThursdayValue ()
-   {
-       return (getIntValue (THURSDAY));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public Integer getThursday ()
-   {
-       return ((Integer)get (THURSDAY));
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setThursday (int mon)
-   {
-      put (THURSDAY, mon);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setThursday (Integer mon)
-   {
-      put (THURSDAY, mon);
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public int getFridayValue ()
-   {
-      return (getIntValue(FRIDAY));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public Integer getFriday ()
-   {
-      return ((Integer)get (FRIDAY));
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setFriday (int mon)
-   {
-      put (FRIDAY, mon);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setFriday (Integer mon)
-   {
-      put (FRIDAY, mon);
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public int getSaturdayValue ()
-   {
-      return (getIntValue (SATURDAY));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public Integer getSaturday ()
-   {
-      return ((Integer)get (SATURDAY));
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setSaturday (int mon)
-   {
-      put (SATURDAY, mon);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setSaturday (Integer mon)
-   {
-      put (SATURDAY, mon);
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public int getSundayValue ()
-   {
-       return (getIntValue (SUNDAY));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return - 0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public Integer getSunday ()
-   {
-       return ((Integer)get (SUNDAY));
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setSunday (int mon)
-   {
-      put (SUNDAY, mon);
-   }
-
-   /**
-    * Sets working status.
-    *
-    * @param mon - int  0 - non-working, 1 - Working, 2 - use dafault
-    */
-   public void setSunday (Integer mon)
-   {
-      put (SUNDAY, mon);
+      put (day, working);
    }
 
    /**
@@ -466,13 +238,15 @@ public class ResourceCalendar extends MPXRecord
 
       buf.append(toString(RECORD_NUMBER));
 
-      Iterator iter = m_hours.iterator();
-      while (iter.hasNext() == true)
+      for (int loop=0; loop < m_hours.length; loop++)
       {
-         buf.append ((iter.next()).toString());
+         if (m_hours[loop] != null)
+         {
+            buf.append (m_hours[loop].toString());
+         }
       }
 
-      iter = m_exceptions.iterator();
+      Iterator iter = m_exceptions.iterator();
       while (iter.hasNext() == true)
       {
          buf.append ((iter.next()).toString());
@@ -483,9 +257,9 @@ public class ResourceCalendar extends MPXRecord
 
 
    /**
-    * List maintaining children of type <tt>ResourceCalendarHours</tt>.
+    * List of working hours for the base calendar.
     */
-   private LinkedList m_hours = new LinkedList();
+   private ResourceCalendarHours[] m_hours = new ResourceCalendarHours[7];
 
    /**
     * List maintaining children of type <tt>ResourceCalendarException</tt>.
@@ -511,42 +285,7 @@ public class ResourceCalendar extends MPXRecord
    /**
     * Name of the base calendar used by the related resource
     */
-   private static final int BASE_CALENDAR_NAME = 0;
-
-   /**
-    * Constant value representing day of week - Sunday
-    */
-   private static final int SUNDAY = 1;
-
-   /**
-    * Constant value representing day of week - Monday
-    */
-   private static final int MONDAY = 2;
-
-   /**
-    * Constant value representing day of week - Tuesday
-    */
-   private static final int TUESDAY = 3;
-
-   /**
-    * Constant value representing day of week - Wednesday
-    */
-   private static final int WEDNESDAY = 4;
-
-   /**
-    * Constant value representing day of week - Thursday
-    */
-   private static final int THURSDAY = 5;
-
-   /**
-    * Constant value representing day of week - Friday
-    */
-   private static final int FRIDAY = 6;
-
-   /**
-    * Constant value representing day of week - Saturday
-    */
-   private static final int SATURDAY = 7;
+   private static final int NAME = 0;
 
    /**
     * Maximum number of fields in this record.
@@ -557,16 +296,10 @@ public class ResourceCalendar extends MPXRecord
     * Constant representing maximum number of ResourceCalendarException
     * children per ResourceCalendar.
     */
-   public static final int MAX_EXCEPTIONS = 250;
-
-   /**
-    * Constant representing maximum number of ResourceCalendarHours
-    * children per ResourceCalendar.
-    */
-   public static final int MAX_HOURS = 7;
+   private static final int MAX_EXCEPTIONS = 250;
 
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 55;
+   static final int RECORD_NUMBER = 55;
 }

@@ -1083,5 +1083,5 @@ public class DateTimeSettings extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 12;
+   static final int RECORD_NUMBER = 12;
 }

@@ -245,10 +245,10 @@ class ResourceModel extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER_TEXT = 40;
+   static final int RECORD_NUMBER_TEXT = 40;
 
    /**
     * Constant value representing Numeric Resource Model class.
     */
-   public static final int RECORD_NUMBER_NUMERIC = 41;
+   static final int RECORD_NUMBER_NUMERIC = 41;
 }

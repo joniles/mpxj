@@ -191,6 +191,6 @@ public class FileCreationRecord extends MPXRecord
     * in the file is MPX. The dummy value is used to allow all record types
     * to be identified numerically.
     */
-   public static final int RECORD_NUMBER = 999;
+   static final int RECORD_NUMBER = 999;
 }
 

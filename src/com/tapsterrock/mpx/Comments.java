@@ -96,6 +96,6 @@ public class Comments extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 0;
+   static final int RECORD_NUMBER = 0;
 
 }

@@ -121,7 +121,7 @@ class Record
    {
       Character result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = new Character (m_fields[field].charAt(0));
       }
@@ -145,7 +145,7 @@ class Record
    {
       Float result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = Float.valueOf(m_fields[field]);
       }
@@ -169,7 +169,7 @@ class Record
    {
       Integer result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = Integer.valueOf(m_fields[field]);
       }
@@ -195,7 +195,7 @@ class Record
    {
       MPXDate result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = m_parent.getDateFormat().parse(m_fields[field]);
       }
@@ -221,7 +221,7 @@ class Record
    {
       MPXTime result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = m_parent.getTimeFormat().parse(m_fields[field]);
       }
@@ -245,7 +245,7 @@ class Record
    {
       NumericBoolean result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = NumericBoolean.getInstance (m_fields[field]);
       }
@@ -271,7 +271,7 @@ class Record
    {
       MPXRate result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = new MPXRate (m_parent.getCurrencyFormat(), m_fields[field]);
       }
@@ -297,7 +297,7 @@ class Record
    {
       MPXCurrency result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = new MPXCurrency (m_parent.getCurrencyFormat(), m_fields[field]);
       }
@@ -323,7 +323,7 @@ class Record
    {
       MPXPercentage result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = new MPXPercentage (m_fields[field]);
       }
@@ -349,7 +349,7 @@ class Record
    {
       MPXDuration result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = new MPXDuration (m_fields[field]);
       }
@@ -375,7 +375,7 @@ class Record
    {
       MPXUnits result;
 
-      if (field < m_fields.length)
+      if (field < m_fields.length && m_fields[field].length() != 0)
       {
          result = new MPXUnits (m_fields[field]);
       }

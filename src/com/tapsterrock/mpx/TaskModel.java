@@ -270,11 +270,11 @@ class TaskModel extends MPXRecord
    /**
     * Constant value representing Text Task Model class.
     */
-   public static final int RECORD_NUMBER_TEXT = 60;
+   static final int RECORD_NUMBER_TEXT = 60;
 
    /**
     * Constant value representing Numeric Task Model class.
     */
-   public static final int RECORD_NUMBER_NUMERIC = 61;
+   static final int RECORD_NUMBER_NUMERIC = 61;
 }
 

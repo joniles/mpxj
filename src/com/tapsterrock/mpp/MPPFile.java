@@ -631,14 +631,18 @@ public class MPPFile extends MPXFile
          data = consFixedData.getByteArrayValue(loop);
          int taskID1 = MPPUtility.getInt (data, 4);
          int taskID2 = MPPUtility.getInt (data, 8);
-         task1 = getTaskByUniqueID (taskID1);
-         task2 = getTaskByUniqueID (taskID2);
-         if (task1 != null && task2 != null)
+
+         if (taskID1 != taskID2)
          {
-            rel = task2.addPredecessor(task1);
-            rel.setType (MPPUtility.getShort(data, 12));
-            durationUnits = getDurationUnits(MPPUtility.getShort (data, 14));
-            rel.setDuration(getDuration (MPPUtility.getInt (data, 16), durationUnits));
+            task1 = getTaskByUniqueID (taskID1);
+            task2 = getTaskByUniqueID (taskID2);
+            if (task1 != null && task2 != null)
+            {
+               rel = task2.addPredecessor(task1);
+               rel.setType (MPPUtility.getShort(data, 12));
+               durationUnits = getDurationUnits(MPPUtility.getShort (data, 14));
+               rel.setDuration(getDuration (MPPUtility.getInt (data, 16), durationUnits));
+            }
          }
       }
    }

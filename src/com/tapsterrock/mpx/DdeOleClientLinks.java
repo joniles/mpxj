@@ -129,5 +129,5 @@ public class DdeOleClientLinks extends MPXRecord
    /**
     * Constant containing the record number associated with this record.
     */
-   public static final int RECORD_NUMBER = 81;
+   static final int RECORD_NUMBER = 81;
 }
