@@ -31,7 +31,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +47,16 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.ValidationEvent;
+import javax.xml.bind.ValidationEventHandler;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
@@ -153,7 +162,7 @@ public class MSPDIFile extends MPXFile
     */
    public void setMicrosoftProjectCompatibleOutput (boolean flag)
    {
-      m_compatible = flag;
+      m_compatibleOutput = flag;
    }
 
    /**
@@ -164,9 +173,35 @@ public class MSPDIFile extends MPXFile
     */
    public boolean getMicrosoftProjectCompatibleOutput ()
    {
-      return (m_compatible);
+      return (m_compatibleOutput);
    }
 
+   /**
+    * Sets a flag indicating that this class will attempt to correct
+    * and read XML which is not compliant with the XML Schema. This
+    * behaviour matches that of Microsoft Project when reading the
+    * same data.
+    * 
+    * @param flag input compatibility flag
+    */
+   public void setMicrosoftProjectCompatibleInput (boolean flag)
+   {
+      m_compatibleInput = flag;
+   }
+
+   /**
+    * Retrieves a flag indicating that this class will attempt to correct
+    * and read XML which is not compliant with the XML Schema. This
+    * behaviour matches that of Microsoft Project when reading the
+    * same data.
+    *
+    * @return Boolean flag
+    */
+   public boolean getMicrosoftProjectCompatibleInput ()
+   {
+      return (m_compatibleInput);
+   }
+   
    /**
     * This method implements reading from a named file, and
     * maps any exceptions thrown into an MPXException.
@@ -214,6 +249,32 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
+    * This method is used to recursively remove any empty element nodes
+    * found in the XML document.
+    * 
+    * @param parent parent node
+    * @param node child node
+    */
+   private void removeEmptyElementNodes (Node parent, Node node)
+   {
+      if (node.hasChildNodes() == true)
+      {
+         NodeList list = node.getChildNodes();
+         for (int loop=0; loop < list.getLength(); loop++)
+         {
+            removeEmptyElementNodes(node, list.item(loop));
+         }
+      }
+      else
+      {
+         if (node.getNodeType() == Node.ELEMENT_NODE)
+         {
+            parent.removeChild(node);
+         }
+      }
+   }
+   
+   /**
     * This method brings together all of the processing required to
     * extract data from an MSPDI file and populate the MPX data structures.
     *
@@ -225,22 +286,44 @@ public class MSPDIFile extends MPXFile
    {
       try
       {
+         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+         dbf.setNamespaceAware(true);
+         DocumentBuilder db = dbf.newDocumentBuilder();
+         Document doc = db.parse(stream);  
+         
          //
-         // Note that the line commented out below is the normal way to
-         // initialise the context. A workaround has been applied to this
-         // code to solve a problem in Sun's Beta 1.0 Reference Implementation
-         // of JAXB. See the URL below for details.
+         // If we are matching the behaviour of MS project, then we need to
+         // remove empty element nodes to avoid schema validation problems.
          //
-         // http://forum.java.sun.com/thread.jsp?forum=34&thread=320813
-         //
-
-         //JAXBContext context = JAXBContext.newInstance ("com.tapsterrock.mspdi.schema");
-         JAXBContext context = JAXBContext.newInstance ("com.tapsterrock.mspdi.schema", new JAXBClassLoader(Thread.currentThread().getContextClassLoader()));
-
+         if (m_compatibleInput == true)
+         {                     
+            removeEmptyElementNodes(doc, doc);
+         }
+         
+         JAXBContext context = JAXBContext.newInstance ("com.tapsterrock.mspdi.schema");
          Unmarshaller unmarshaller = context.createUnmarshaller ();
-         Project project = (Project)unmarshaller.unmarshal (stream);
-         HashMap calendarMap = new HashMap ();
 
+         //
+         // If we are matching the behaviour of MS project, then we need to
+         // ignore validation warnings.
+         //         
+         if (m_compatibleInput == true)
+         {
+            unmarshaller.setEventHandler 
+            (
+               new ValidationEventHandler() 
+               {
+                  public boolean handleEvent (ValidationEvent event)
+                  {
+                     return (true);
+                  }
+               }
+            );
+         }
+         
+         Project project = (Project)unmarshaller.unmarshal (doc);
+         HashMap calendarMap = new HashMap ();
+                          
          readCurrencySettings (project);
          readDateTimeSettings (project);
          readDefaultSettings (project);
@@ -251,11 +334,26 @@ public class MSPDIFile extends MPXFile
          readTasks (project);
          readAssignments (project);
       }
-
+      
+      catch (ParserConfigurationException ex)
+      {
+         throw new MPXException ("Failed to parse file", ex);
+      }
+      
       catch (JAXBException ex)
       {
          throw new MPXException ("Failed to parse file", ex);
       }
+
+      catch (SAXException ex)
+      {
+         throw new MPXException ("Failed to parse file", ex);
+      }      
+      
+      catch (IOException ex)
+      {
+         throw new MPXException ("Failed to parse file", ex);
+      }      
    }
 
    /**
@@ -1755,7 +1853,7 @@ public class MSPDIFile extends MPXFile
       {
          TimeUnit durationType = duration.getUnits();
          
-         if (m_compatible == false || durationType.getValue() == TimeUnit.HOURS_VALUE || durationType.getValue() == TimeUnit.ELAPSED_HOURS_VALUE)
+         if (m_compatibleOutput == false || durationType.getValue() == TimeUnit.HOURS_VALUE || durationType.getValue() == TimeUnit.ELAPSED_HOURS_VALUE)
          {
             result = new XsdDuration(duration).toString();
          }
@@ -2379,7 +2477,7 @@ public class MSPDIFile extends MPXFile
          writeTasks (factory, project);
          writeAssignments (factory, project);
 
-         if (m_compatible == true)
+         if (m_compatibleOutput == true)
          {
             stream = new CompatabilityOutputStream (stream);
          }
@@ -3038,7 +3136,7 @@ public class MSPDIFile extends MPXFile
       xml.setRegularWork(getDuration(mpx.getRegularWork()));
       xml.setRemainingCost(getXmlCurrency(mpx.getRemainingCost()));
 
-      if (m_compatible == true && mpx.getRemainingDuration() == null)
+      if (m_compatibleOutput == true && mpx.getRemainingDuration() == null)
       {
          MPXDuration duration = mpx.getDuration();
 
@@ -3393,39 +3491,6 @@ public class MSPDIFile extends MPXFile
 
 
    /**
-    * This class is used to provide a workaround for a bug in the Beta 1.0
-    * release of Sun's JAXB Reference Implementation. See the URL below
-    * for details.
-    *
-    * http://forum.java.sun.com/thread.jsp?forum=34&thread=320813
-    */
-   private class JAXBClassLoader extends ClassLoader
-   {
-      /**
-       * Constructor. Takes a reference to the parent class loader.
-       *
-       * @param aClassLoader parent class loader
-       */
-      public JAXBClassLoader (ClassLoader aClassLoader)
-      {
-         super (aClassLoader);
-      }
-
-      /**
-       * Overridden method used to correct bug in JAXB 1.0 Beta
-       * implementation where the code uses the wrong separator character.
-       *
-       * @param name Resource name
-       * @return URL for requested resource
-       */
-      public URL getResource (String name)
-      {
-         return (super.getResource(name.replace('\\','/')));
-      }
-   }
-
-   
-   /**
     * This class is used to work around a number of problems with
     * Microsoft's XML implementation as used in Microsoft Project 2002.
     * Essentially this class implements a very simple find and replace
@@ -3562,8 +3627,9 @@ public class MSPDIFile extends MPXFile
       };
    }
 
-   private boolean m_compatible = true;
-
+   private boolean m_compatibleOutput = true;
+   private boolean m_compatibleInput = true;
+   
    private static final int TASK_FIELD_PREFIX = 1887;
    private static final int RESOURCE_FIELD_PREFIX = 2055;
 

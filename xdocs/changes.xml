@@ -14,6 +14,7 @@
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</action>
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</action>
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</action>
+      <action dev="joniles" type="add">Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</action>
    </release>
 
    <release version="0.0.23" date="17/11/2004"> 
