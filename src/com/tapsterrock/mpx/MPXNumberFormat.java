@@ -68,6 +68,7 @@ final class MPXNumberFormat
       m_symbols.setGroupingSeparator(groupingSeparator);
       m_format.setDecimalFormatSymbols(m_symbols);
       m_format.applyPattern (pattern);
+      m_pattern = pattern;
    }
 
 
@@ -106,15 +107,27 @@ final class MPXNumberFormat
    public Number parse (String str)
      throws MPXException
    {
-      try
+      Number result;
+      
+      if (str == null || str.trim().length() == 0)
       {
-         return m_format.parse (str);
+         result = null;
       }
-
-      catch (ParseException ex)
+      else
       {
-         throw new MPXException (MPXException.INVALID_NUMBER + " " + str);
-      }
+         try
+         {
+            result = m_format.parse (str);
+         }
+   
+         catch (ParseException ex)
+         {         
+            throw new MPXException (MPXException.INVALID_NUMBER + " number=" + 
+               str + " expected format=" + m_pattern);
+         }
+      }         
+      
+      return (result);
    }
 
    /**
@@ -122,4 +135,5 @@ final class MPXNumberFormat
     */
    private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols ();
    private DecimalFormat m_format = new DecimalFormat ();
+   private String m_pattern = "";
 }

@@ -76,7 +76,7 @@ public final class Task extends MPXRecord implements Comparable
 
 
    /**
-    * This constructor populates an instance of the Taks class
+    * This constructor populates an instance of the Task class
     * using values read in from an MPXFile record.
     *
     * @param file parent MPX file
@@ -107,6 +107,11 @@ public final class Task extends MPXRecord implements Comparable
 
          field = record.getString(i++);
 
+         if (field == null || field.length() == 0)
+         {
+            continue;
+         }
+                     
          switch (x)
          {
             case PREDECESSORS:

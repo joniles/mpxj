@@ -382,7 +382,7 @@ public class MPXFile
 
          case ResourceModel.RECORD_NUMBER_TEXT:
          {
-            if (m_resourceTableDefinition == false)
+            if (m_resourceTableDefinition == false && m_ignoreTextModel == false)
             {
                current = m_resourceModel;
                m_resourceModel.update (record, true);
@@ -454,7 +454,7 @@ public class MPXFile
 
          case TaskModel.RECORD_NUMBER_TEXT:
          {
-            if (m_taskTableDefinition == false)
+            if (m_taskTableDefinition == false && m_ignoreTextModel == false)
             {
                current = m_taskModel;
                m_taskModel.update (record, true);
@@ -813,6 +813,31 @@ public class MPXFile
       return (m_autoResourceUniqueID);
    }
 
+   /**
+    * This method sets the flag indicating that the text version of the
+    * Task and Resource Table Definition records should be ignored. Ignoring 
+    * these records gets around the problem where MPX files have been generated
+    * with incorrect taks or resource field names, but correct task or resource 
+    * field numbers in the numeric version of the record.
+    * 
+    * @param flag Boolean flag
+    */
+   public void setIgnoreTextModel (boolean flag)
+   {
+      m_ignoreTextModel = flag;
+   }
+   
+   /**
+    * Retrieves the flag indicating that the text version of the Task and
+    * Resource Table Definition records should be ignored.
+    * 
+    * @return Boolean flag
+    */
+   public boolean getIgnoreTextModel ()
+   {
+      return (m_ignoreTextModel);
+   }
+   
    /**
     * Retrieve the flag that determines whether the resource ID
     * is generated automatically.
@@ -1578,6 +1603,7 @@ public class MPXFile
     */
    private boolean m_taskTableDefinition = false;
 
+
    /**
     * Count of the number of project names.
     */
@@ -1624,16 +1650,21 @@ public class MPXFile
    private boolean m_autoTaskID = false;
 
    /**
-    * Indicating whether the unique ID of a tresource should be
+    * Indicating whether the unique ID of a resource should be
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoResourceUniqueID = false;
 
    /**
-    * Indicating whether the ID of a tresource should be
+    * Indicating whether the ID of a resource should be
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoResourceID = false;
+
+   /**
+    * Flag indicating that the text form of the task model should be ignored.
+    */
+   private boolean m_ignoreTextModel = false;
 
    /**
     * This member data is used to hold the outline level number of the

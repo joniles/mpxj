@@ -73,6 +73,11 @@ public final class Resource extends MPXRecord
 
          String field = record.getString (i++);
 
+         if (field == null || field.length() == 0)
+         {
+            continue;
+         }
+
          switch (x)
          {
             case ID:

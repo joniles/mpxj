@@ -51,6 +51,7 @@ final class ResourceModel extends MPXRecord
     * @param isText flag indicating whether the tetxual or numeric data is being supplied
     */
    public void update (Record record, boolean isText)
+      throws MPXException
    {
       int length = record.getLength ();
       int field;
@@ -175,8 +176,16 @@ final class ResourceModel extends MPXRecord
     * @return resource field number
     */
    public static String getResourceCode (String field)
+      throws MPXException
    {
-      return ((String)RESOURCE_NUMBER.get(field));
+      String result = (String)RESOURCE_NUMBER.get(field);
+      
+      if (result == null)
+      {
+         throw new MPXException (MPXException.INVALID_RESOURCE_FIELD_NAME + " " + field);
+      }
+      
+      return (result);
    }
 
    /**

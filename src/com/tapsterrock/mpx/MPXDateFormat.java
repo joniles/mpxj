@@ -71,7 +71,7 @@ final class MPXDateFormat
    {
       MPXDate result;
 
-      if (str == null || str.equals("") == true)
+      if (str == null || str.trim().length() == 0)
       {
          result = null;
       }

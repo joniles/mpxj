@@ -1,3 +1,7 @@
+Version 0.0.18
+Added new MPXFile.setIgnoreTextModel() method to allow MPXJ to ignore faulty text version of task or resource model records in MPX files.
+Improved invalid MPX data error handling and reporting.
+
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
 Fixed a bug where special characters appearing in the currency symbol were not being quoted.

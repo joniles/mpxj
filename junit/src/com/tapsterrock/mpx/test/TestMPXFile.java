@@ -339,13 +339,16 @@ public class TestMPXFile extends TestCase
       {
          Task task = (Task)taskIter.next();
          RelationList rels = task.getPredecessors();
-         Iterator relIter = rels.iterator();
-         
-         while (relIter.hasNext() == true)
+         if (rels != null)
          {
-            Relation rel = (Relation)relIter.next();               
-            Task relatedTask = mpx.getTaskByUniqueID(rel.getTaskIDValue());            
-         }
+            Iterator relIter = rels.iterator();
+            
+            while (relIter.hasNext() == true)
+            {
+               Relation rel = (Relation)relIter.next();               
+               Task relatedTask = mpx.getTaskByUniqueID(rel.getTaskIDValue());            
+            }
+         }            
       }
    }
 

@@ -90,7 +90,7 @@ public final class MPXException extends Exception
    /**
     * Invalid number error message.
     */
-   public static final String INVALID_NUMBER = "Invalid number";
+   public static final String INVALID_NUMBER = "Invalid number or number format";
 
    /**
     * Invalid duration error message.
@@ -126,5 +126,15 @@ public final class MPXException extends Exception
     * Invalid format error message.
     */
    public static final String INVALID_FORMAT = "Invalid format";
+   
+   /**
+    * Invalid task field name error message
+    */
+   public static final String INVALID_TASK_FIELD_NAME = "Invalid task field name";
+
+   /**
+    * Invalid resource field name error message
+    */
+   public static final String INVALID_RESOURCE_FIELD_NAME = "Invalid resource field name";
 
 }

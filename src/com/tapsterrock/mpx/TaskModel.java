@@ -63,6 +63,7 @@ final class TaskModel extends MPXRecord
     * @param isText flag indicating whether the tetxual or numeric data is being supplied
     */
    public void update (Record record, boolean isText)
+      throws MPXException
    {
       int length = record.getLength();
 
@@ -176,8 +177,16 @@ final class TaskModel extends MPXRecord
     * @return - code no
     */
    public static String getTaskCode (String field)
+      throws MPXException
    {
-      return ((String)TASK_NUMBER.get(field));
+      String result = (String)TASK_NUMBER.get(field);
+      
+      if (result == null)
+      {
+         throw new MPXException (MPXException.INVALID_TASK_FIELD_NAME + " " + field);
+      }
+      
+      return (result);
    }
 
    /**
