@@ -234,6 +234,41 @@ public class TestMPXFile extends TestCase
    }
 
    /**
+    * Test Portuguese localisation.
+    *
+    * @throws Exception
+    */
+   public void testRewrite6 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         Locale portuguese = new Locale ("pt");
+
+         File in = new File (m_basedir + "/sample.mpx");
+         MPXFile mpx = new MPXFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.setLocale(portuguese);
+         mpx.write (out);
+
+         mpx = new MPXFile ();
+         mpx.setLocale(portuguese);
+         mpx.read(out);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+   
+   /**
     * Read a file created by a German version of MS Proiject 98.
     *
     * @throws Exception
