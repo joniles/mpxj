@@ -41,14 +41,14 @@ public class DefaultSettings extends MPXRecord
       super(file, MAX_FIELDS);
 
       setDefaultDurationUnits(TimeUnit.DAYS);
-      setDefaultDurationType(0);
+      setDefaultDurationIsFixed(false);
       setDefaultWorkUnits(TimeUnit.HOURS);
       setDefaultHoursInDay(new Float(8));
       setDefaultHoursInWeek(new Float (40));
       setDefaultStandardRate(new MPXRate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new MPXRate(15, TimeUnit.HOURS));
-      setUpdatingTaskStatusUpdatesResourceStatus(1);
-      setSplitInProgressTasks(0);
+      setUpdatingTaskStatusUpdatesResourceStatus(true);
+      setSplitInProgressTasks(false);
    }
 
    /**
@@ -56,19 +56,20 @@ public class DefaultSettings extends MPXRecord
     * an MPX file.
     *
     * @param record record containing the data for  this object.
+    * @throws MPXException Thrown on parse errors
     */
    void update (Record record)
       throws MPXException
    {
       setDefaultDurationUnits(record.getInteger(0));
-      setDefaultDurationType(record.getInteger(1));
+      setDefaultDurationIsFixed(record.getNumericBoolean(1));
       setDefaultWorkUnits(record.getInteger(2));
       setDefaultHoursInDay(record.getFloat(3));
       setDefaultHoursInWeek(record.getFloat(4));
       setDefaultStandardRate(record.getRate(5));
       setDefaultOvertimeRate(record.getRate(6));
-      setUpdatingTaskStatusUpdatesResourceStatus(record.getInteger(7));
-      setSplitInProgressTasks(record.getInteger(8));
+      setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
+      setSplitInProgressTasks(record.getNumericBoolean(8));
    }
 
    /**
@@ -120,43 +121,43 @@ public class DefaultSettings extends MPXRecord
    }
 
    /**
-    * Gets whether the Default Type is fixed or not
+    * Retrieves a flag indicating if the default duration type is fixed.
     *
-    * @return  0-not fixed,1-fixed
+    * @return boolean flag
     */
-   public int getDefaultDurationTypeValue ()
+   public boolean getDefaultDurationIsFixedValue ()
    {
-      return (getIntValue (DEFAULT_DURATION_TYPE));
+      return (getNumericBooleanValue (DEFAULT_DURATION_TYPE));
    }
 
    /**
-    * Gets whether the Default Type is fixed or not
+    * Retrieves a flag indicating if the default duration type is fixed.
     *
-    * @return  0-not fixed,1-fixed
+    * @return boolean flag
     */
-   public Integer getDefaultDurationType ()
+   public NumericBoolean getDefaultDurationIsFixed ()
    {
-      return ((Integer)get (DEFAULT_DURATION_TYPE));
+      return ((NumericBoolean)get (DEFAULT_DURATION_TYPE));
    }
 
    /**
-    * Sets whether the Default Type is fixed or not
+    * Sets a flag indicating if the default duration type is fixed.
     *
-    * @param type  0-not fixed,1-fixed
+    * @param fixed boolean flag
     */
-   public void setDefaultDurationType (int type)
+   public void setDefaultDurationIsFixed (boolean fixed)
    {
-      put (DEFAULT_DURATION_TYPE, type);
+      put (DEFAULT_DURATION_TYPE, NumericBoolean.getInstance(fixed));
    }
 
    /**
-    * Sets whether the Default Type is fixed or not
+    * Sets a flag indicating if the default duration type is fixed.
     *
-    * @param type  0-not fixed,1-fixed
+    * @param fixed boolean flag
     */
-   public void setDefaultDurationType (Integer type)
+   public void setDefaultDurationIsFixed (NumericBoolean fixed)
    {
-      put (DEFAULT_DURATION_TYPE, type);
+      put (DEFAULT_DURATION_TYPE, fixed);
    }
 
    /**
@@ -310,29 +311,29 @@ public class DefaultSettings extends MPXRecord
    /**
     * Flags whether updating Task status also updates resource status.
     *
-    * @return - 0-no,1-yes
+    * @return boolean flag
     */
-   public int getUpdatingTaskStatusUpdatesResourceStatusValue ()
+   public boolean getUpdatingTaskStatusUpdatesResourceStatusValue ()
    {
-      return (getIntValue (UPDATE));
+      return (getNumericBooleanValue (UPDATE));
    }
 
    /**
     * Flags whether updating Task status also updates resource status.
     *
-    * @return - 0-no,1-yes
+    * @return boolean flag
     */
-   public Integer getUpdatingTaskStatusUpdatesResourceStatus ()
+   public NumericBoolean getUpdatingTaskStatusUpdatesResourceStatus ()
    {
-      return ((Integer)get (UPDATE));
+      return ((NumericBoolean)get (UPDATE));
    }
 
    /**
     * Flags whether updating Task status also updates resource status.
     *
-    * @param flag - int, 0-no,1-yes
+    * @param flag boolean flag
     */
-   public void setUpdatingTaskStatusUpdatesResourceStatus (int flag)
+   public void setUpdatingTaskStatusUpdatesResourceStatus (NumericBoolean flag)
    {
       put (UPDATE, flag);
    }
@@ -340,51 +341,51 @@ public class DefaultSettings extends MPXRecord
    /**
     * Flags whether updating Task status also updates resource status.
     *
-    * @param flag - int, 0-no,1-yes
+    * @param flag boolean flag
     */
-   public void setUpdatingTaskStatusUpdatesResourceStatus (Integer flag)
+   public void setUpdatingTaskStatusUpdatesResourceStatus (boolean flag)
    {
-      put (UPDATE, flag);
+      put (UPDATE, NumericBoolean.getInstance (flag));
    }
 
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
-    * @return - int, 0-no, 1-yes
+    * @return boolean value
     */
-   public int getSplitInProgressTasksValue ()
+   public boolean getSplitInProgressTasksValue ()
    {
-      return (getIntValue (SPLIT));
+      return (getNumericBooleanValue (SPLIT));
    }
 
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
-    * @return - int, 0-no, 1-yes
+    * @return Boolean value
     */
-   public Integer getSplitInProgressTasks ()
+   public NumericBoolean getSplitInProgressTasks ()
    {
-      return ((Integer)get (SPLIT));
+      return ((NumericBoolean)get (SPLIT));
    }
 
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
-    * @param flag - int, 0-no, 1-yes
+    * @param flag boolean value
     */
-   public void setSplitInProgressTasks (int flag)
+   public void setSplitInProgressTasks (boolean flag)
    {
-      put (SPLIT,flag);
+      put (SPLIT, NumericBoolean.getInstance (flag));
    }
 
    /**
     * Flag representing whether or not to split in-progress tasks.
     *
-    * @param flag - int, 0-no, 1-yes
+    * @param flag boolean value
     */
-   public void setSplitInProgressTasks (Integer flag)
+   public void setSplitInProgressTasks (NumericBoolean flag)
    {
-      put (SPLIT,flag);
+      put (SPLIT, flag);
    }
 
    /**

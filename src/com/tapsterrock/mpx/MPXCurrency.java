@@ -33,7 +33,7 @@ class MPXCurrency extends Number
     * Constructor used to parse a string to extract details of the
     * currency amount.
     *
-    * @param parent parent MPX file
+    * @param format Currency format
     * @param amount string representation of a currency amount
     * @throws MPXException when string parse fails
     */
@@ -47,7 +47,7 @@ class MPXCurrency extends Number
    /**
     * Constructor used to pass details of the currency amount as a double.
     *
-    * @param parent parent MPX file
+    * @param format Currency format
     * @param amount double representation of a currency amount
     */
    public MPXCurrency (MPXNumberFormat format, double amount)
@@ -115,7 +115,13 @@ class MPXCurrency extends Number
       return (m_amount);
    }
 
+   /**
+    * Formatter used to format the currency amount.
+    */
    private MPXNumberFormat m_format;
 
+   /**
+    * Internal representation of the currency amount.
+    */
    private double m_amount;
 }

@@ -34,7 +34,9 @@ public class ResourceAssignment extends MPXRecord
    /**
     * Default constructor.
     *
-    * @param file the parent file to which this record belongs.
+    * @param file The parent file to which this record belongs.
+    * @param task The task to which this assignment is being made
+    * @throws MPXException Normally thrown when parsing fails
     */
    ResourceAssignment (MPXFile file, Task task)
       throws MPXException
@@ -46,8 +48,10 @@ public class ResourceAssignment extends MPXRecord
     * Constructor used to create an instance of this class from data
     * taken from an MPXFile record.
     *
-    * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for  this object.
+    * @param file The MPXFile object to which this record belongs.
+    * @param record Record containing the data for  this object.
+    * @param task The task to which this assignment is being made
+    * @throws MPXException normally thrown when parsing fails
     */
    ResourceAssignment (MPXFile file, Record record, Task task)
       throws MPXException
@@ -166,6 +170,17 @@ public class ResourceAssignment extends MPXRecord
    public Number getUnits ()
    {
       return ((Number)get(UNITS));
+   }
+
+   /**
+    * Sets the units for this resource assignment
+    *
+    * @param val units
+    * @see #UNITS CONSTANTS for description
+    */
+   public void setUnits (double val)
+   {
+      put (UNITS, new MPXUnits (val));
    }
 
    /**

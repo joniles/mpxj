@@ -40,7 +40,6 @@ public class ResourceCalendar extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceCalendar (MPXFile file)
-      throws MPXException
    {
       this (file, Record.EMPTY_RECORD);
    }

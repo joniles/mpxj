@@ -126,5 +126,8 @@ class MPXPercentage extends Number
     */
    private double m_value;
 
+   /**
+    * Number formatter.
+    */
    private static final MPXNumberFormat FORMAT = new MPXNumberFormat("##0.##");
 }

@@ -88,8 +88,16 @@ class FixedMeta extends MPPComponent
       }
    }
 
-   // copes with more inconsistencies... we already know the block size
-   // we also ignore the item count in the block and work it out for ourselves
+   /**
+    * Constructor. Reads the meta data from an input stream. Note that
+    * this version of the constructor copes with more MSP inconsistencies.
+    * We already know the block size, so we ignore the item count in the
+    * block and work it out for ourselves.
+    *
+    * @param is input stream from whic the meta data is read
+    * @param itemSize sie of each item in the block
+    * @throws IOException on file read failure
+    */
    public FixedMeta (InputStream is, int itemSize)
       throws IOException
    {

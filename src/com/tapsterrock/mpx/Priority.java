@@ -32,37 +32,13 @@ package com.tapsterrock.mpx;
 public class Priority
 {
    /**
-    * This constructor takes the textual version of a priority
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as medium priority.
-    *
-    * @param type text version of the priority
-    */
-   Priority (String priority)
-   {
-      m_priority = MEDIUM;
-
-      if (priority != null)
-      {
-         for (int loop=0; loop < TEXT.length; loop++)
-         {
-            if (TEXT[loop].equalsIgnoreCase(priority) == true)
-            {
-               m_priority = loop;
-               break;
-            }
-         }
-      }
-   }
-
-   /**
     * This constructor takes the numeric enumerated representation of a
     * priority and populates the class instance appropriately.
     * Note that unrecognised values are treated as medium priorities.
     *
     * @param priority int representation of the priority
     */
-   public Priority (int priority)
+   private Priority (int priority)
    {
       if (priority < LOWEST || priority > DO_NOT_LEVEL)
       {
@@ -72,6 +48,51 @@ public class Priority
       {
          m_priority = priority;
       }
+   }
+
+   /**
+    * This method takes the textual version of a priority
+    * and returns an appropriate instance of this class. Note that unrecognised
+    * values are treated as medium priority.
+    *
+    * @param priority text version of the priority
+    * @return Priority class instance
+    */
+   public static Priority getInstance (String priority)
+   {
+      int index = MEDIUM;
+
+      if (priority != null)
+      {
+         for (int loop=0; loop < TEXT.length; loop++)
+         {
+            if (TEXT[loop].equalsIgnoreCase(priority) == true)
+            {
+               index = loop;
+               break;
+            }
+         }
+      }
+
+      return (VALUE[index]);
+   }
+
+   /**
+    * This method takes an integer enumeration of a priority
+    * and returns an appropriate instance of this class. Note that unrecognised
+    * values are treated as medium priority.
+    *
+    * @param priority int version of the priority
+    * @return Priority class instance
+    */
+   public static Priority getInstance (int priority)
+   {
+      if (priority < LOWEST || priority > DO_NOT_LEVEL)
+      {
+         priority = MEDIUM;
+      }
+
+      return (VALUE[priority]);
    }
 
    /**
@@ -161,6 +182,23 @@ public class Priority
       "Very High",
       "Highest",
       "Do Not Level"
+   };
+
+   /**
+    * Array of type values matching the above constants.
+    */
+   private static final Priority[] VALUE =
+   {
+      new Priority (LOWEST),
+      new Priority (VERY_LOW),
+      new Priority (LOWER),
+      new Priority (LOW),
+      new Priority (MEDIUM),
+      new Priority (HIGH),
+      new Priority (HIGHER),
+      new Priority (VERY_HIGH),
+      new Priority (HIGHEST),
+      new Priority (DO_NOT_LEVEL)
    };
 
    /**

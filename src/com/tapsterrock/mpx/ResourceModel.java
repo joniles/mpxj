@@ -132,6 +132,8 @@ class ResourceModel extends MPXRecord
    /**
     * This method is used to set the written flag to indicate whether this
     * model has been written to a file.
+    *
+    * @param written Boolean flag
     */
    public void setWritten (boolean written)
    {
@@ -143,7 +145,7 @@ class ResourceModel extends MPXRecord
     * is added, ensuring that all of the attributes present in each resource
     * record are present in the resource model.
     *
-    * @param attrib field identifier
+    * @param field field identifier
     */
    public void add (int field)
    {

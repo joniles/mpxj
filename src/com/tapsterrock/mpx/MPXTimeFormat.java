@@ -70,6 +70,7 @@ class MPXTimeFormat
     *
     * @param str String representation of a time
     * @return MPXTime object
+    * @throws MPXException Thrown on parse errors
     */
    public MPXTime parse (String str)
       throws MPXException
@@ -84,7 +85,7 @@ class MPXTimeFormat
       {
          if (str.equals("NA") == true)
          {
-            result = MPXTime.NA_TIME;
+            result = null;
          }
          else
          {

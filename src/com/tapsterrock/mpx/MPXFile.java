@@ -238,6 +238,7 @@ public class MPXFile
     *
     * @param recordNumber type of record to be added
     * @return object representing the new record
+    * @throws MPXException Thrown on parse errors
     */
    private MPXRecord add (int recordNumber)
       throws MPXException
@@ -1078,6 +1079,8 @@ public class MPXFile
     * This method is used to retrieve the number of child tasks associated
     * with this parent task. This method is used as part of the process
     * of automatically generating the WBS.
+    *
+    * @return Number of child tasks
     */
    int getChildTaskCount ()
    {

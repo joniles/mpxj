@@ -38,6 +38,7 @@ class MPXRecord
     * Constructor.
     *
     * @param mpx Parent MPX file
+    * @param size Maxmum number of fields in this record
     */
    protected MPXRecord (MPXFile mpx, int size)
    {
@@ -237,6 +238,17 @@ class MPXRecord
 
    /**
     * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   protected void put (int key, boolean value)
+   {
+      put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
     * Note that this method maps Date objects into MPXDate objects.
     *
     * @param key attribute identifier
@@ -386,6 +398,32 @@ class MPXRecord
 
    /**
     * Given an attribute name, this method retrieves that attribute
+    * value from internal storage and maps it to a boolean value. If
+    * no value has been stored (i.e. we find a null pointer) we
+    * map this to the default boolean value, false.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   protected boolean getNumericBooleanValue (int key)
+   {
+      NumericBoolean value = (NumericBoolean)get(key);
+
+      boolean result;
+      if (value == null)
+      {
+         result = false;
+      }
+      else
+      {
+         result = value.booleanValue();
+      }
+
+      return (result);
+   }
+
+   /**
+    * Given an attribute name, this method retrieves that attribute
     * value from internal storage and maps it to a char value. If
     * no value has been stored (i.e. we find a null pointer) we
     * map this to the default char value, zero.
@@ -504,7 +542,13 @@ class MPXRecord
     */
    private MPXFile m_mpx;
 
+   /**
+    * Array of field values.
+    */
    private Object[] m_array;
 
+   /**
+    * Number formatter.
+    */
    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat ("0.00#");
 }

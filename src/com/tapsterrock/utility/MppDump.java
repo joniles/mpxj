@@ -70,6 +70,10 @@ public class MppDump
    /**
     * This method opens the input and output files and kicks
     * off the processing.
+    *
+    * @param input Name of the input file
+    * @param output Name of the output file
+    * @throws Exception Thrown on file read errors
     */
    private static void process (String input, String output)
       throws Exception
@@ -88,6 +92,11 @@ public class MppDump
    /**
     * This method recursively descends the directory structure, dumping
     * details of any files it finds to the output file.
+    *
+    * @param pw Output PrintWriter
+    * @param dir DirectoryEntry to dump
+    * @param prefix Prefix to prepend to output
+    * @throws Exception Thrown on file read errors
     */
    private static void dumpTree (PrintWriter pw, DirectoryEntry dir, String prefix)
       throws Exception
@@ -119,6 +128,10 @@ public class MppDump
    /**
     * This method dumps the entire contents of a file to an output
     * print writer as hex and ASCII data.
+    *
+    * @param is Input Stream
+    * @param pw Output PrintWriter
+    * @throws Exception Thrown on file read errors
     */
    private static void hexdump (InputStream is, PrintWriter pw)
       throws Exception

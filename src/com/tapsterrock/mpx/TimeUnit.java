@@ -81,6 +81,12 @@ public class TimeUnit
             break;
          }
 
+         case '%':
+         {
+            result = PERCENT;
+            break;
+         }
+
          case 'e':
          {
             if (units.length() == 1)
@@ -124,6 +130,12 @@ public class TimeUnit
                case 'y':
                {
                   result = ELAPSED_YEARS;
+                  break;
+               }
+
+               case '%':
+               {
+                  result = ELAPSED_PERCENT;
                   break;
                }
 
@@ -199,36 +211,45 @@ public class TimeUnit
     */
    public static final int YEARS = 5;
 
+   /**
+    * Constant representing Percent
+    */
+   public static final int PERCENT = 6;
 
    /**
     * Constant representing Elapsed Minutes
     */
-   public static final int ELAPSED_MINUTES = 6;
+   public static final int ELAPSED_MINUTES = 7;
 
    /**
     * Constant representing Elapsed Hours
     */
-   public static final int ELAPSED_HOURS = 7;
+   public static final int ELAPSED_HOURS = 8;
 
    /**
     * Constant representing Elapsed Days
     */
-   public static final int ELAPSED_DAYS = 8;
+   public static final int ELAPSED_DAYS = 9;
 
    /**
     * Constant representing Elapsed Weeks
     */
-   public static final int ELAPSED_WEEKS = 9;
+   public static final int ELAPSED_WEEKS = 10;
 
    /**
     * Constant representing Elapsed Months
     */
-   public static final int ELAPSED_MONTHS = 10;
+   public static final int ELAPSED_MONTHS = 11;
 
    /**
     * Constant representing Elapsed Years
     */
-   public static final int ELAPSED_YEARS = 11;
+   public static final int ELAPSED_YEARS = 12;
+
+   /**
+    * Constant representing Elapsed Percent
+    */
+   public static final int ELAPSED_PERCENT = 13;
 
    /**
     * Array of text names for the above time units.
@@ -243,11 +264,13 @@ public class TimeUnit
       "w",
       "mon",
       "y",
+      "%",
       "em",
       "eh",
       "ed",
       "ew",
       "emon",
-      "ey"
+      "ey",
+      "e%"
    };
 }

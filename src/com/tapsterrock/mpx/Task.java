@@ -37,7 +37,8 @@ public class Task extends MPXRecord implements Comparable
    /**
     * Default constructor.
     *
-    * @param file the parent file to which this record belongs.
+    * @param file Parent file to which this record belongs.
+    * @param parent Parent task
     */
    Task (MPXFile file, Task parent)
    {
@@ -224,7 +225,7 @@ public class Task extends MPXRecord implements Comparable
 
             case CONSTRAINT_TYPE:
             {
-               set (x, new ConstraintType (field));
+               set (x, ConstraintType.getInstance (field));
                break;
             }
 
@@ -249,7 +250,7 @@ public class Task extends MPXRecord implements Comparable
 
             case PRIORITY:
             {
-               set (x, new Priority (field));
+               set (x, Priority.getInstance (field));
                break;
             }
 
@@ -364,7 +365,9 @@ public class Task extends MPXRecord implements Comparable
     * allow the hierarchical outline structure of tasks in an MPX
     * file to be constructed as the file is read in.
     *
-    * @param child child task
+    * @param child Child task.
+    * @param childOutlineLevel Outline level of the child task.
+    * @throws MPXException Thrown if an invalid outline level is supplied.
     */
    void addChildTask (Task child, int childOutlineLevel)
       throws MPXException
@@ -798,6 +801,20 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
+    * This method is used to set the value of a field in the task,
+    * and also to ensure that the field exists in the task model
+    * record.
+    *
+    * @param field field to be added or updated.
+    * @param val new value for field.
+    */
+   private void set (int field, boolean val)
+   {
+      m_model.add (field);
+      put (field, val);
+   }
+
+   /**
     * This method is used to set the value of a date field in the task,
     * and also to ensure that the field exists in the task model
     * record.
@@ -1068,6 +1085,17 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
+    * The Confirmed field indicates whether all resources assigned to a task have
+    * accepted or rejected the task assignment in response to a TeamAssign message
+    * regarding their assignments.
+    * @param val - boolean value
+    */
+   public void setConfirmed (boolean val)
+   {
+      set (CONFIRMED, val);
+   }
+
+   /**
     * The Constraint Date field shows the specific date associated with certain
     * constraint types,
     *  such as Must Start On, Must Finish On, Start No Earlier Than,
@@ -1181,9 +1209,39 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - whether task is critical or not
     */
+   public void setCritical (boolean val)
+   {
+      set (CRITICAL, val);
+   }
+
+   /**
+    * The Critical field indicates whether a task has any room in the
+    * schedule to slip,
+    * or if a task is on the critical path. The Critical field contains
+    * Yes if the task
+    * is critical and No if the task is not critical.
+    *
+    * @param val - whether task is critical or not
+    */
    public void setCritical (Boolean val)
    {
       set (CRITICAL, val);
+   }
+
+   /**
+    * The CV (earned value cost variance) field shows the difference
+    * between how much
+    * it should have cost to achieve the current level of completion
+    * on the task, and
+    * how much it has actually cost to achieve the current level of
+    * completion up to
+    * the status date or today's date.
+    *
+    * @param val - value to set
+    */
+   public void setCV (double val)
+   {
+      set (CV, new MPXCurrency (getParentFile().getCurrencyFormat() ,val));
    }
 
    /**
@@ -1400,9 +1458,35 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - value to be set
     */
+   public void setFixed (boolean val)
+   {
+      set (FIXED, val);
+   }
+
+   /**
+    * Flag indicatig whether or not  the amount of work is a fixed value
+    * and any changes to
+    * the task's duration or the number of assigned units (or resources)
+    * don't impact the
+    * task's work.
+    * Work = Duration x Units
+    *
+    * @param val - value to be set
+    */
    public void setFixed (Boolean val)
    {
       set (FIXED, val);
+   }
+
+   /**
+    * The Fixed Cost field shows any task expense that is not associated
+    * with a resource cost.
+    *
+    * @param val - amount
+    */
+   public void setFixedCost (double val)
+   {
+      set (FIXED_COST, new MPXCurrency(getParentFile().getCurrencyFormat() ,val));
    }
 
    /**
@@ -1417,11 +1501,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
+    * User defined flag field.
     *
-    * @param val - boolena
+    * @param val boolean value
+    */
+   public void setFlag1 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag1 (Boolean val)
    {
@@ -1429,11 +1521,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
+    * User defined flag field.
     *
-    * @param val - boolean
+    * @param val boolean value
+    */
+   public void setFlag2 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag2 (Boolean val)
    {
@@ -1441,11 +1541,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
+    * User defined flag field.
     *
-    * @param val - boolean
+    * @param val boolean value
+    */
+   public void setFlag3 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag3(Boolean val)
    {
@@ -1453,10 +1561,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolean
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag4 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag4 (Boolean val)
    {
@@ -1464,10 +1581,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolena
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag5 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag5 (Boolean val)
    {
@@ -1475,10 +1601,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolena
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag6 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag6 (Boolean val)
    {
@@ -1486,10 +1621,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolena
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag7 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag7 (Boolean val)
    {
@@ -1497,10 +1641,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolena
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag8 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag8 (Boolean val)
    {
@@ -1508,10 +1661,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolena
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag9 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag9 (Boolean val)
    {
@@ -1519,10 +1681,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Flag1-20 fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field.
-    * If you don't want a task marked, click No.
-    * @param val - boolena
+    * User defined flag field.
+    *
+    * @param val boolean value
+    */
+   public void setFlag10 (boolean val)
+   {
+      set (FLAG1, val);
+   }
+
+   /**
+    * User defined flag field.
+    *
+    * @param val boolean value
     */
    public void setFlag10 (Boolean val)
    {
@@ -1548,6 +1719,17 @@ public class Task extends MPXRecord implements Comparable
     * for the task. Click No in the Hide Bar field to show the bar for the task.
     * @param val - boolean
     */
+   public void setHideBar (boolean val)
+   {
+      set (HIDE_BAR, val);
+   }
+
+   /**
+    * The Hide Bar field indicates whether the Gantt bars and Calendar bars
+    * for a task are hidden. Click Yes in the Hide Bar field to hide the bar
+    * for the task. Click No in the Hide Bar field to show the bar for the task.
+    * @param val - boolean
+    */
    public void setHideBar (Boolean val)
    {
       set (HIDE_BAR, val);
@@ -1561,6 +1743,18 @@ public class Task extends MPXRecord implements Comparable
     * @param val ID
     */
    public void setID (int val)
+   {
+      set (ID, val);
+   }
+
+   /**
+    * The ID field contains the identifier number that Microsoft Project
+    * automatically assigns to each task as you add it to the project.
+    * The ID indicates the position of a task with respect to the other tasks.
+    *
+    * @param val ID
+    */
+   public void setID (Integer val)
    {
       set (ID, val);
    }
@@ -1599,6 +1793,18 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - boolean
     */
+   public void setLinkedFields (boolean val)
+   {
+      set (LINKED_FIELDS, val);
+   }
+
+   /**
+    * The Linked Fields field indicates whether there are OLE links to the task,
+    * either from elsewhere in the active project, another Microsoft Project file,
+    * or from another program.
+    *
+    * @param val - boolean
+    */
    public void setLinkedFields (Boolean val)
    {
       set (LINKED_FIELDS, val);
@@ -1611,9 +1817,31 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - boolean
     */
+   public void setMarked (boolean val)
+   {
+      set (MARKED, val);
+   }
+
+   /**
+    * The Marked field indicates whether a task is marked for further action or
+    * identification of some kind. To mark a task, click Yes in the Marked field.
+    * If you don't want a task marked, click No.
+    *
+    * @param val - boolean
+    */
    public void setMarked (Boolean val)
    {
       set (MARKED, val);
+   }
+
+   /**
+    * The Milestone field indicates whether a task is a milestone.
+    *
+    * @param val - boolean
+    */
+   public void setMilestone (boolean val)
+   {
+      set (MILESTONE, val);
    }
 
    /**
@@ -1719,6 +1947,17 @@ public class Task extends MPXRecord implements Comparable
     * @param val - int
     */
    public void setOutlineLevel (int val)
+   {
+      set (OUTLINE_LEVEL, val);
+   }
+
+   /**
+    * The Outline Level field contains the number that indicates the level of
+    * the task in the project outline hierarchy.
+    *
+    * @param val - int
+    */
+   public void setOutlineLevel (Integer val)
    {
       set (OUTLINE_LEVEL, val);
    }
@@ -1881,7 +2120,21 @@ public class Task extends MPXRecord implements Comparable
     *
     * @param val - boolean
     */
-   public void setRollup(Boolean val)
+   public void setRollup (boolean val)
+   {
+      set (ROLLUP, val);
+   }
+
+   /**
+    * For subtasks, the Rollup field indicates whether information on the subtask
+    * Gantt bars will be rolled up to the summary task bar. For summary tasks, the
+    * Rollup field indicates whether the summary task bar displays rolled up bars.
+    * You must have the Rollup field for summary tasks set to Yes for any subtasks
+    * to roll up to them.
+    *
+    * @param val - boolean
+    */
+   public void setRollup (Boolean val)
    {
       set (ROLLUP, val);
    }
@@ -2007,6 +2260,16 @@ public class Task extends MPXRecord implements Comparable
       set (SUCCESSORS, list);
    }
 
+
+   /**
+    * The Summary field indicates whether a task is a summary task.
+    *
+    * @param val - boolean
+    */
+   public void setSummary (boolean val)
+   {
+      set (SUMMARY, val);
+   }
 
    /**
     * The Summary field indicates whether a task is a summary task.
@@ -2165,6 +2428,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
+    * The Unique ID field contains the number that Microsoft Project
+    * automatically designates whenever a new task is created.
+    * This number indicates the sequence in which the task was created,
+    * regardless of placement in the schedule.
+    *
+    * @param val unique ID
+    */
+   public void setUniqueID (Integer val)
+   {
+      set (UNIQUE_ID, val);
+   }
+
+   /**
     * The Unique ID Predecessors field lists the unique ID numbers for
     * the predecessor
     * tasks on which a task depends before it can be started or finished.
@@ -2193,7 +2469,19 @@ public class Task extends MPXRecord implements Comparable
    }
 
    /**
-    * The Update Needed field indicates whether a TeamUpdate messageshould
+    * The Update Needed field indicates whether a TeamUpdate message should
+    * be sent to the assigned resources because of changes to the start date,
+    * finish date, or resource reassignments of the task.
+    *
+    * @param val - boolean
+    */
+   public void setUpdateNeeded (boolean val)
+   {
+      set (UPDATE_NEEDED, val);
+   }
+
+   /**
+    * The Update Needed field indicates whether a TeamUpdate message should
     * be sent to the assigned resources because of changes to the start date,
     * finish date, or resource reassignments of the task.
     *
@@ -4018,6 +4306,8 @@ public class Task extends MPXRecord implements Comparable
 
    /**
     * Retrieve count of the number of child tasks.
+    *
+    * @return Number of child tasks.
     */
    int getChildTaskCount ()
    {

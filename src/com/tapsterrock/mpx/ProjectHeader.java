@@ -51,6 +51,7 @@ public class ProjectHeader extends MPXRecord
     * to be updated with data taken from a record in an MPX file.
     *
     * @param record record containing the data for  this object.
+    * @throws MPXException normally thrown when parsing fails
     */
    void update (Record record)
       throws MPXException

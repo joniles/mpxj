@@ -32,32 +32,13 @@ package com.tapsterrock.mpx;
 public class AccrueType
 {
    /**
-    * This constructor takes the textual version of a accrue name
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as "Prorated".
-    *
-    * @param type text version of the accrue type
-    */
-   public AccrueType (String type)
-   {
-      for (int loop=0; loop < TYPE_NAMES.length; loop++)
-      {
-         if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
-         {
-            m_type = loop+1;
-            break;
-         }
-      }
-   }
-
-   /**
     * This constructor takes the numeric enumerated representation of an
     * accrue type and populates the class instance appropriately.
     * Note that unrecognised values are treated as "Prorated".
     *
     * @param type int version of the accrue type
     */
-   public AccrueType (int type)
+   private AccrueType (int type)
    {
       if (type < START || type > PRORATED)
       {
@@ -68,6 +49,78 @@ public class AccrueType
          m_type = type;
       }
    }
+
+   /**
+    * This method takes the textual version of an accrue type name
+    * and populates the class instance appropriately. Note that unrecognised
+    * values are treated as "Prorated".
+    *
+    * @param type text version of the accrue type
+    * @return AccrueType class instance
+    */
+   public static AccrueType getInstance (String type)
+   {
+      AccrueType result = null;
+
+      for (int loop=0; loop < TYPE_NAMES.length; loop++)
+      {
+         if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
+         {
+            result = TYPE_VALUES[loop];
+            break;
+         }
+      }
+
+      if (result == null)
+      {
+         result = TYPE_VALUES[PRORATED-1];
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method takes a numeric enumerated accrue type value
+    * and populates the class instance appropriately. Note that unrecognised
+    * values are treated as "Prorated".
+    *
+    * @param type numeric enumerated accrue type
+    * @return AccrueType class instance
+    */
+   public static AccrueType getInstance (Number type)
+   {
+      AccrueType result;
+
+      if (type == null)
+      {
+         result = TYPE_VALUES[PRORATED-1];
+      }
+      else
+      {
+         result = getInstance (type.intValue());
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method takes a numeric enumerated accrue type value
+    * and populates the class instance appropriately. Note that unrecognised
+    * values are treated as "Prorated".
+    *
+    * @param type numeric enumerated accrue type
+    * @return AccrueType class instance
+    */
+   public static AccrueType getInstance (int type)
+   {
+      if (type < START || type > PRORATED)
+      {
+         type = PRORATED;
+      }
+
+      return (TYPE_VALUES[type-1]);
+   }
+
 
    /**
     * Accessor method used to retrieve the numeric representation of the
@@ -114,6 +167,16 @@ public class AccrueType
       "Start",
       "End",
       "Prorated"
+   };
+
+   /**
+    * Array of type values matching the above constants.
+    */
+   private static final AccrueType[] TYPE_VALUES =
+   {
+      new AccrueType (START),
+      new AccrueType (END),
+      new AccrueType (PRORATED),
    };
 
    /**

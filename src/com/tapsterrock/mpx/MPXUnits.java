@@ -57,6 +57,16 @@ class MPXUnits extends Number
       m_value = value.doubleValue();
    }
 
+   /**
+    * Constructs instance from a double value. Note that the value
+    * should be in the range 0.0 to 100.0.
+    *
+    * @param value value
+    */
+   public MPXUnits (double value)
+   {
+      m_value = value;
+   }
 
    /**
     * This method generates a string in MPX format representing the
@@ -122,5 +132,8 @@ class MPXUnits extends Number
     */
    private double m_value;
 
+   /**
+    * Number formatter.
+    */
    private static final DecimalFormat FORMAT = new DecimalFormat ("#.##");
 }

@@ -108,7 +108,7 @@ class TaskModel extends MPXRecord
     * is added, ensuring that all of the attributes present in each task
     * record are present in the resource model.
     *
-    * @param attrib field identifier
+    * @param field field identifier
     */
    public void add (int field)
    {

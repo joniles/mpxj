@@ -44,7 +44,6 @@ public class BaseCalendar extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    BaseCalendar (MPXFile file)
-      throws MPXException
    {
       this (file, Record.EMPTY_RECORD);
    }
@@ -91,7 +90,7 @@ public class BaseCalendar extends MPXRecord
     * @return <tt>BaseCalendarException</tt>
     * @throws MPXException if limit on number of exceptions is reached
     */
-   public BaseCalendarException addBaseCalendarException (Record record)
+   BaseCalendarException addBaseCalendarException (Record record)
       throws MPXException
    {
       if (m_exceptions.size() == MAX_EXCEPTIONS)
@@ -127,7 +126,7 @@ public class BaseCalendar extends MPXRecord
     * @return <tt>BaseCalendarHours</tt>
     * @throws MPXException if maximum number of records is exceeded
     */
-   public BaseCalendarHours addBaseCalendarHours (Record record)
+   BaseCalendarHours addBaseCalendarHours (Record record)
       throws MPXException
    {
       if (m_hours.size() == MAX_CALENDAR_HOURS)
@@ -618,6 +617,10 @@ public class BaseCalendar extends MPXRecord
     * This method calculates the absolute number of days between two dates.
     * Note that where two date objects are provided that fall on the same
     * day, this method will return one not zero.
+    *
+    * @param startDate Start date
+    * @param endDate End date
+    * @return number of days in the date range
     */
    private int getDaysInRange (Date startDate, Date endDate)
    {
@@ -642,7 +645,9 @@ public class BaseCalendar extends MPXRecord
     */
    private LinkedList m_hours = new LinkedList();
 
-
+   /**
+    * Constant representing the number of milliseconds in a day.
+    */
    private static final long MS_PER_DAY = (long)(1000 * 60 * 60 * 24);
 
    /**

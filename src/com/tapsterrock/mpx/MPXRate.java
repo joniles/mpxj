@@ -33,7 +33,7 @@ public class MPXRate
    /**
     * This constructor builds an instance of this class from a formatted String.
     *
-    * @param parent parent MPXFile
+    * @param format Number formatter
     * @param rate string containing rate value
     * @throws MPXException when string parse fails
     */
@@ -52,6 +52,27 @@ public class MPXRate
          m_amount = format.parse( rate.substring (0, index)).doubleValue();
          m_time = TimeUnit.parse(rate.substring (index+1));
       }
+   }
+
+   /**
+    * This constructor builds an instance of this class from a currency
+    * amount and a time unit.
+    *
+    * @param amount currency amount
+    * @param time time units
+    */
+   public MPXRate (Number amount, int time)
+   {
+      if (amount == null)
+      {
+         m_amount = 0;
+      }
+      else
+      {
+         m_amount = amount.doubleValue();
+      }
+
+      m_time = time;
    }
 
    /**
@@ -103,6 +124,13 @@ public class MPXRate
       return (buffer.toString());
    }
 
+   /**
+    * Rate amount.
+    */
    private double m_amount;
+
+   /**
+    * Time type.
+    */
    private int m_time;
 }

@@ -35,6 +35,8 @@ class MPXDate extends Date
 {
    /**
     * Default constructor.
+    *
+    * @param format Date format
     */
    public MPXDate (MPXDateFormat format)
    {
@@ -45,6 +47,7 @@ class MPXDate extends Date
    /**
     * Constructor allowing a specific date to be set.
     *
+    * @param format Date format
     * @param date date required expressed in milliseconds.
     */
    public MPXDate (MPXDateFormat format, long date)
@@ -56,6 +59,7 @@ class MPXDate extends Date
    /**
     * Constructor allowing a specific date to be set.
     *
+    * @param format Date format
     * @param date date required expressed in milliseconds.
     */
    public MPXDate (MPXDateFormat format, Date date)
@@ -75,5 +79,8 @@ class MPXDate extends Date
       return (m_format.format (this));
    }
 
+   /**
+    * Date formatter.
+    */
    private MPXDateFormat m_format;
 }

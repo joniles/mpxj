@@ -34,25 +34,6 @@ package com.tapsterrock.mpx;
 public class ConstraintType
 {
    /**
-    * This constructor takes the textual version of a constraint name
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as "As Soon As Possible" constraints.
-    *
-    * @param type text version of the constraint type
-    */
-   ConstraintType (String type)
-   {
-      for (int loop=0; loop < TYPE_NAMES.length; loop++)
-      {
-         if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
-         {
-            m_type = loop;
-            break;
-         }
-      }
-   }
-
-   /**
     * This constructor takes the numeric enumerated representation of a
     * constraint type and populates the class instance appropriately.
     * Note that unrecognised values are treated as "As Soon As Possible"
@@ -60,7 +41,7 @@ public class ConstraintType
     *
     * @param type int version of the constraint type
     */
-   public ConstraintType (int type)
+   private ConstraintType (int type)
    {
       if (type < 0 || type >= TYPE_NAMES.length)
       {
@@ -70,6 +51,69 @@ public class ConstraintType
       {
          m_type = type;
       }
+   }
+
+   /**
+    * This method takes the textual version of a constraint name
+    * and returns an appropriate class instance. Note that unrecognised
+    * values are treated as "As Soon As Possible" constraints.
+    *
+    * @param type text version of the constraint type
+    * @return ConstraintType instance
+    */
+   public static ConstraintType getInstance (String type)
+   {
+      int index = 0;
+
+      for (int loop=0; loop < TYPE_NAMES.length; loop++)
+      {
+         if (TYPE_NAMES[loop].equalsIgnoreCase(type) == true)
+         {
+            index = loop;
+            break;
+         }
+      }
+
+      return (TYPE_VALUES[index]);
+   }
+
+
+   /**
+    * This method takes the integer enumeration of a constraint type
+    * and returns an appropriate class instance. Note that unrecognised
+    * values are treated as "As Soon As Possible" constraints.
+    *
+    * @param type integer constraint type enumeration
+    * @return ConstraintType instance
+    */
+   public static ConstraintType getInstance (int type)
+   {
+      if (type < 0 || type >= TYPE_NAMES.length)
+      {
+         type = 0;
+      }
+
+      return (TYPE_VALUES[type]);
+   }
+
+   /**
+    * This method takes the integer enumeration of a constraint type
+    * and returns an appropriate class instance. Note that unrecognised
+    * values are treated as "As Soon As Possible" constraints.
+    *
+    * @param type integer constraint type enumeration
+    * @return ConstraintType instance
+    */
+   public static ConstraintType getInstance (Number type)
+   {
+      int index = 0;
+
+      if (type != null)
+      {
+         index= type.intValue();
+      }
+
+      return (getInstance(index));
    }
 
    /**
@@ -147,6 +191,21 @@ public class ConstraintType
       "Start No Later Than",
       "Finish No Earlier Than",
       "Finish No Later Than"
+   };
+
+   /**
+    * Array of type values matching the above constants.
+    */
+   private static final ConstraintType[] TYPE_VALUES =
+   {
+      new ConstraintType (AS_SOON_AS_POSSIBLE),
+      new ConstraintType (AS_LATE_AS_POSSIBLE),
+      new ConstraintType (MUST_START_ON),
+      new ConstraintType (MUST_FINISH_ON),
+      new ConstraintType (START_NO_EARLIER_THAN),
+      new ConstraintType (START_NO_LATER_THAN),
+      new ConstraintType (FINISH_NO_EARLIER_THAN),
+      new ConstraintType (FINISH_NO_LATER_THAN)
    };
 
    /**

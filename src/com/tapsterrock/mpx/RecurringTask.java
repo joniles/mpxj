@@ -35,6 +35,7 @@ public class RecurringTask extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @throws MPXException normally thrown when parsing fails
     */
    RecurringTask (MPXFile file)
       throws MPXException
@@ -47,7 +48,8 @@ public class RecurringTask extends MPXRecord
     * taken from an MPXFile record.
     *
     * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for  this object.
+    * @param record Record containing the data for this object.
+    * @throws MPXException normally thrown when parsing fails
     */
    RecurringTask (MPXFile file, Record record)
       throws MPXException

@@ -116,5 +116,8 @@ public class RelationList
       m_list.add (relation);
    }
 
+   /**
+    * List of relationships.
+    */
    private LinkedList m_list = new LinkedList ();
 }

@@ -118,9 +118,18 @@ public class MPXDuration
       return (m_type);
    }
 
+   /**
+    * Duration amount.
+    */
    private double m_duration;
 
+   /**
+    * Duration type.
+    */
    private int m_type;
 
+   /**
+    * Number formatter.
+    */
    private static final DecimalFormat FLOAT_FORMAT = new DecimalFormat ("#");
 }

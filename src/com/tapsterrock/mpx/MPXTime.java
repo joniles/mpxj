@@ -35,6 +35,8 @@ class MPXTime extends Date
 {
    /**
     * Default constructor.
+    *
+    * @param format Time formatter
     */
    MPXTime (MPXTimeFormat format)
    {
@@ -45,6 +47,7 @@ class MPXTime extends Date
    /**
     * Constructor allowing a specific time to be set.
     *
+    * @param format Time formatter
     * @param time time required expressed in milliseconds.
     */
    MPXTime (MPXTimeFormat format, long time)
@@ -56,6 +59,7 @@ class MPXTime extends Date
    /**
     * Constructor allowing a specific time to be set.
     *
+    * @param format Time formatter
     * @param time time required expressed in milliseconds.
     */
    MPXTime (MPXTimeFormat format, Date time)
@@ -75,10 +79,8 @@ class MPXTime extends Date
       return (m_format.format(this));
    }
 
-   private MPXTimeFormat m_format;
-
    /**
-    * Special constant used to represent an NA date.
+    * Reference to time formatter.
     */
-   public static final MPXTime NA_TIME = new MPXTime (null, 0);
+   private MPXTimeFormat m_format;
 }

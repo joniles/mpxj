@@ -36,6 +36,7 @@ public class BaseCalendarHours extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @throws MPXException Thrown on parse errors
     */
    BaseCalendarHours (MPXFile file)
       throws MPXException
@@ -49,6 +50,7 @@ public class BaseCalendarHours extends MPXRecord
     *
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
+    * @throws MPXException Thrown on parse errors
     */
    BaseCalendarHours (MPXFile file, Record record)
       throws MPXException

@@ -46,6 +46,7 @@ class Record
     *
     * @param parent parent MPX file
     * @param tk tokenizer providing the input stream of tokens
+    * @throws MPXException normally thrown when parsing fails
     */
    public Record (MPXFile parent, Tokenizer tk)
       throws MPXException
@@ -187,6 +188,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXDate getDate (int field)
       throws MPXException
@@ -212,6 +214,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXTime getTime (int field)
       throws MPXException
@@ -238,13 +241,13 @@ class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public Boolean getBoolean (int field)
+   public NumericBoolean getNumericBoolean (int field)
    {
-      Boolean result;
+      NumericBoolean result;
 
       if (field < m_fields.length)
       {
-         result = m_fields[field].equals("0") ? Boolean.FALSE : Boolean.TRUE;
+         result = NumericBoolean.getInstance (m_fields[field]);
       }
       else
       {
@@ -261,6 +264,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXRate getRate (int field)
       throws MPXException
@@ -286,6 +290,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXCurrency getCurrency (int field)
       throws MPXException
@@ -311,6 +316,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXPercentage getPercentage (int field)
       throws MPXException
@@ -336,6 +342,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXDuration getDuration (int field)
       throws MPXException
@@ -361,6 +368,7 @@ class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
+    * @throws MPXException normally thrown when parsing fails
     */
    public MPXUnits getUnits (int field)
       throws MPXException
@@ -389,9 +397,23 @@ class Record
       return (m_fields.length);
    }
 
+   /**
+    * Reference to the parent file.
+    */
    private MPXFile m_parent;
+
+   /**
+    * Current record number.
+    */
    private String m_recordNumber;
+
+   /**
+    * Array of field data.
+    */
    private String[] m_fields;
 
+   /**
+    * Constant value representing an empty record.
+    */
    public static final Record EMPTY_RECORD = new Record ();
 }

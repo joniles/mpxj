@@ -35,6 +35,9 @@ class CompObj extends MPPComponent
 {
    /**
     * Constructor. Reads and processes the block data.
+    *
+    * @param is input stream
+    * @throws IOException on read failure
     */
    public CompObj (InputStream is)
       throws IOException
@@ -56,6 +59,8 @@ class CompObj extends MPPComponent
 
    /**
     * Accessor method to retrieve the application name.
+    *
+    * @return Name of the application
     */
    public String getApplicationName ()
    {
@@ -64,6 +69,8 @@ class CompObj extends MPPComponent
 
    /**
     * Accessor method to retrieve the application ID.
+    *
+    * @return Application ID
     */
    public String getApplicationID ()
    {
@@ -72,13 +79,26 @@ class CompObj extends MPPComponent
 
    /**
     * Accessor method to retrieve the file format.
+    *
+    * @return File format
     */
    public String getFileFormat ()
    {
       return (m_fileFormat);
    }
 
+   /**
+    * Application name.
+    */
    private String m_applicationName;
+
+   /**
+    * Application identifier.
+    */
    private String m_applicationID;
+
+   /**
+    * File format.
+    */
    private String m_fileFormat;
 }

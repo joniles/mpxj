@@ -125,7 +125,7 @@ public class Resource extends MPXRecord
 
             case ACCRUE_AT:
             {
-               set (x, new AccrueType (field));
+               set (x, AccrueType.getInstance (field));
                break;
             }
 
@@ -188,8 +188,9 @@ public class Resource extends MPXRecord
     * The data to populate the resource note comes from a record
     * read from an MPX file.
     *
+    * @param record Record containing the data for this object.
     * @return ResourceNotes
-    * @throws MPXException  if MSP defined limit of 1 is exceeded
+    * @throws MPXException If MSP defined limit of 1 is exceeded
     */
    ResourceNotes addResourceNotes (Record record)
       throws MPXException
@@ -227,6 +228,7 @@ public class Resource extends MPXRecord
     * This method allows a resource calendar to be added to a resource.
     * The data to populate the resource calendar comes from a record.
     *
+    * @param record Record containing the data for this object.
     * @return ResourceCalendar
     * @throws MPXException if more than one calendar is added
     */
@@ -452,6 +454,17 @@ public class Resource extends MPXRecord
     * @param val - val to be set
     * @see #COST_VARIANCE Constants for explanation
     */
+   public void setCostVariance (double val)
+   {
+      set (COST_VARIANCE, new MPXCurrency (getParentFile().getCurrencyFormat(), val));
+   }
+
+   /**
+    * This field is ignored on import into MS Project
+    *
+    * @param val - val to be set
+    * @see #COST_VARIANCE Constants for explanation
+    */
    public void setCostVariance (Number val)
    {
       setCurrency (COST_VARIANCE, val);
@@ -491,6 +504,17 @@ public class Resource extends MPXRecord
    }
 
    /**
+    * Sets ID field value
+    *
+    * @param val value
+    * @see #ID Constants for explanation
+    */
+   public void setID (Integer val)
+   {
+      set (ID, val);
+   }
+
+   /**
     * Sets Initials field value
     *
     * @param val value
@@ -521,6 +545,17 @@ public class Resource extends MPXRecord
    public void setMaxUnits (Number val)
    {
       setUnits (MAX_UNITS, val);
+   }
+
+   /**
+    * Sets Max Units field value
+    *
+    * @param val value
+    * @see #MAX_UNITS Constants for explanation
+    */
+   public void setMaxUnits (double val)
+   {
+      set (MAX_UNITS, new MPXUnits(val));
    }
 
    /**
@@ -635,7 +670,7 @@ public class Resource extends MPXRecord
     */
    public void setRemainingWork (MPXDuration val)
    {
-      set (REMAINING_COST, val);
+      set (REMAINING_WORK, val);
    }
 
    /**
@@ -711,6 +746,17 @@ public class Resource extends MPXRecord
     * @see #UNIQUE_ID Constants for explanation
     */
    public void setUniqueID (int val)
+   {
+      set (UNIQUE_ID, val);
+   }
+
+   /**
+    * Sets Unique ID of this resource
+    *
+    * @param val UID
+    * @see #UNIQUE_ID Constants for explanation
+    */
+   public void setUniqueID (Integer val)
    {
       set (UNIQUE_ID, val);
    }

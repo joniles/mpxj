@@ -36,7 +36,6 @@ public class ResourceNotes extends MPXRecord
     * @param file the parent file to which this record belongs.
     */
    ResourceNotes (MPXFile file)
-      throws MPXException
    {
       this (file, Record.EMPTY_RECORD);
    }

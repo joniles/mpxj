@@ -54,9 +54,10 @@ public class CurrencySettings extends MPXRecord
    /**
     * This method is used to update a currency settings instance with
     * new values read from an MPX file.
+    *
+    * @param record record containing the data for  this object.
     */
    void update (Record record)
-      throws MPXException
    {
       m_update = false;
       setCurrencySymbol (record.getString(0));
@@ -316,13 +317,13 @@ public class CurrencySettings extends MPXRecord
                break;
             }
 
-            case SYMBOLPOS_AFTER_W_SPACE:
+            case SYMBOLPOS_AFTER_WITH_SPACE:
             {
                suffix = " " + getCurrencySymbol();
                break;
             }
 
-            case SYMBOLPOS_BEFORE_W_SPACE:
+            case SYMBOLPOS_BEFORE_WITH_SPACE:
             {
                prefix = getCurrencySymbol() + " ";
                break;
@@ -370,22 +371,22 @@ public class CurrencySettings extends MPXRecord
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final int SYMBOLPOS_AFTER = 0;
+   public static final int SYMBOLPOS_AFTER = 0;
 
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final int SYMBOLPOS_BEFORE = 1;
+   public static final int SYMBOLPOS_BEFORE = 1;
 
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final int SYMBOLPOS_AFTER_W_SPACE = 2;
+   public static final int SYMBOLPOS_AFTER_WITH_SPACE = 2;
 
    /**
     * Represents a constant from Symbol Position field
     */
-   private static final int SYMBOLPOS_BEFORE_W_SPACE = 3;
+   public static final int SYMBOLPOS_BEFORE_WITH_SPACE = 3;
 
 
    /**

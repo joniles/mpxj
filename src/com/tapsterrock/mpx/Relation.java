@@ -293,8 +293,18 @@ public class Relation
    public static final int START_START = 3;
 
 
-
+   /**
+    * Identifier of task with which this relationship is held.
+    */
    private int m_taskIDValue;
+
+   /**
+    * Type of relationship.
+    */
    private int m_type;
+
+   /**
+    * Lag between the two tasks.
+    */
    private MPXDuration m_duration;
 }

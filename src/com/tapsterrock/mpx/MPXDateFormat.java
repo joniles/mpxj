@@ -63,6 +63,7 @@ class MPXDateFormat
     *
     * @param str String representation of a date
     * @return MPXDate object
+    * @throws MPXException Thrown on parse errors
     */
    public MPXDate parse (String str)
       throws MPXException

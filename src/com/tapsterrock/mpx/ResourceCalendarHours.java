@@ -34,6 +34,7 @@ public class ResourceCalendarHours extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @throws MPXException normally thrown when parsing fails
     */
    ResourceCalendarHours (MPXFile file)
       throws MPXException
@@ -47,7 +48,7 @@ public class ResourceCalendarHours extends MPXRecord
     *
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
-    * @throws MPXException normallyt hrown when parsing fails
+    * @throws MPXException normally thrown when parsing fails
     */
    public ResourceCalendarHours (MPXFile file, Record record)
      throws MPXException

@@ -109,5 +109,8 @@ public class MPXNumberFormat
       }
    }
 
+   /**
+    * Number formatter.
+    */
    private DecimalFormat m_format = new DecimalFormat ();
 }

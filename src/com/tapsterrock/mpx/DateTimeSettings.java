@@ -24,6 +24,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Date;
+
 
 /**
  * This class represents the record in an MPX file containing details of
@@ -63,7 +65,6 @@ public class DateTimeSettings extends MPXRecord
     * @param record record containing the data for  this object.
     */
    void update (Record record)
-      throws MPXException
    {
       m_update = false;
       setDateOrder(record.getInteger(0));
@@ -503,7 +504,7 @@ public class DateTimeSettings extends MPXRecord
     * controlling these formats is changed.
     *
     * @param key identifier of the value being changed
-    * @param val new value
+    * @param value new value
     */
    protected void put (int key, Object value)
    {
@@ -517,7 +518,7 @@ public class DateTimeSettings extends MPXRecord
     * controlling these formats is changed.
     *
     * @param key identifier of the value being changed
-    * @param val new value
+    * @param value new value
     */
    protected void put (int key, int value)
    {
@@ -531,7 +532,7 @@ public class DateTimeSettings extends MPXRecord
     * controlling these formats is changed.
     *
     * @param key identifier of the value being changed
-    * @param val new value
+    * @param value new value
     */
    protected void putChar (int key, char value)
    {
@@ -659,6 +660,19 @@ public class DateTimeSettings extends MPXRecord
    public void setDefaultTime (Integer time)
    {
       put (DEFAULT_TIME, time);
+   }
+
+   /**
+    * Set the default time, specified using the Java Date type.
+    * Note that this assumes that the value returned from
+    * the getTime method starts at zero... i.e. the date part
+    * of the date/time value has not been set.
+    *
+    * @param time default time
+    */
+   public void setDefaultTime (Date time)
+   {
+      put (DEFAULT_TIME, (int)(time.getTime() / MS_PER_MINUTE));
    }
 
    /**
@@ -1042,6 +1056,11 @@ public class DateTimeSettings extends MPXRecord
     * Maximum number of fields in this record.
     */
    private static final int MAX_FIELDS = 9;
+
+   /**
+    * Constant representing the number of milliseconds per minute.
+    */
+   private static final int MS_PER_MINUTE = 1000 * 60;
 
    /**
     * Constant containing the record number associated with this record.

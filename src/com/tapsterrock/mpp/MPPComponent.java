@@ -102,6 +102,7 @@ class MPPComponent
     * This method reads a byte array from the input stream
     *
     * @param is the input stream
+    * @param size number of bytes to read
     * @return byte array
     * @throws IOException on file read error or EOF
     */

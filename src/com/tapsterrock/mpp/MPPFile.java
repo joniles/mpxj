@@ -200,6 +200,10 @@ public class MPPFile extends MPXFile
    /**
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.
+    *
+    * @param taskFixedMeta Fixed meta data for this task
+    * @param taskFixedData Fixed data for this task
+    * @return Mapping between task identifiers and block position
     */
    private TreeMap createTaskMap (FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
@@ -468,7 +472,7 @@ public class MPPFile extends MPXFile
          //task.setBCWS(); // Calculated value
          //task.setConfirmed();
          task.setConstraintDate (MPPUtility.getTimestamp (data, 112));
-         task.setConstraintType (new ConstraintType (MPPUtility.getShort (data, 80)));
+         task.setConstraintType (ConstraintType.getInstance (MPPUtility.getShort (data, 80)));
          task.setContact(taskVarData.getUnicodeString (id, TASK_CONTACT));
          task.setCost(new Double (MPPUtility.getDouble(data, 200) / 100));
          task.setCost1(new Double (taskVarData.getDouble (id, TASK_COST1) / 100));
@@ -672,7 +676,7 @@ public class MPPFile extends MPXFile
 
          resource = addResource();
 
-         resource.setAccrueAt(new AccrueType (MPPUtility.getShort (data, 12)));
+         resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
          //resource.setActualCost(); // Calculated value
          //resource.setActualWork(); // Calculated value
          //resource.setBaseCalendar();
@@ -968,7 +972,7 @@ public class MPPFile extends MPXFile
          result = priority / 100;
       }
 
-      return (new Priority (result));
+      return (Priority.getInstance (result));
    }
 
    /**
