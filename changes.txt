@@ -3,6 +3,12 @@ Updated to extract the following fields from resource data in an MPP9 file which
 	Flag1-Flag20
 Added the method MPPFile.getFileType to allow the type of MPP file (MPP8: 98, MPP9: 2000,2002) to be determined.
 Updated API to make classes final and constructors package access only where appropriate.
+Updated to use of 6 byte long int fields for cost and work values for MPP8.
+Fixed error in reading task fixed cost for MPP8.
+Updated to extract the following fields from task data in an MPP8 file which were previously not imported:
+	Contact, Cost1-Cost10, Date1-Date10, Duration1-Duration10, EffortDriven, Finish1-Finish10,
+	Flag1-Flag20, HideBar, Milestone, Number1-Number20, Rollup, Start1-Start10, Text1-Text30,
+	Type, WBS
 
 Version 0.0.13
 Implemented support for the Microsoft Project 98 file format.
