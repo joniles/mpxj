@@ -128,8 +128,21 @@ public class TestMPXFile extends TestCase
       file.setAutoOutlineNumber(true);      
       file.setAutoTaskID(true);
       file.setAutoTaskUniqueID(true);
+		file.setAutoResourceID(true);
+		file.setAutoResourceUniqueID(true);
+
+		Resource resource1 = file.addResource();
+		resource1.setName("R1");
+		assertEquals (resource1.getUniqueIDValue(), 1);
+		assertEquals (resource1.getIDValue(), 1);		
+
+		Resource resource2 = file.addResource();      
+		resource2.setName("R2");		
+		assertEquals (resource2.getUniqueIDValue(), 2);
+		assertEquals (resource2.getIDValue(), 2);	
 
       Task task1 = file.addTask();
+      task1.setName("1.0");
       assertEquals (task1.getWBS(), "1.0");
       assertEquals (task1.getOutlineLevelValue(), 1);
       assertEquals (task1.getOutlineNumber(), "1.0");      
@@ -138,6 +151,7 @@ public class TestMPXFile extends TestCase
       assertEquals (task1.getSummaryValue(), false);
       
       task1 = file.addTask();
+		task1.setName("2.0");      
       assertEquals (task1.getWBS(), "2.0");
       assertEquals (task1.getOutlineLevelValue(), 1);
       assertEquals (task1.getOutlineNumber(), "2.0");      
@@ -146,6 +160,7 @@ public class TestMPXFile extends TestCase
       assertEquals (task1.getSummaryValue(), false);
       
       task1 = file.addTask();
+		task1.setName("3.0");      
       assertEquals (task1.getWBS(), "3.0");
       assertEquals (task1.getOutlineLevelValue(), 1);
       assertEquals (task1.getOutlineNumber(), "3.0");      
@@ -154,6 +169,7 @@ public class TestMPXFile extends TestCase
       assertEquals (task1.getSummaryValue(), false);
       
       Task task2 = task1.addTask();
+		task2.setName("3.1");      
       assertEquals (task2.getWBS(), "3.1");
       assertEquals (task2.getOutlineLevelValue(), 2);
       assertEquals (task2.getOutlineNumber(), "3.1");      
@@ -163,6 +179,7 @@ public class TestMPXFile extends TestCase
       assertEquals (task2.getSummaryValue(), false);
       		
       task2 = task1.addTask();
+		task2.setName("3.2");
       assertEquals (task2.getWBS(), "3.2");
       assertEquals (task2.getOutlineLevelValue(), 2);
       assertEquals (task2.getOutlineNumber(), "3.2");      
@@ -172,6 +189,7 @@ public class TestMPXFile extends TestCase
       assertEquals (task2.getSummaryValue(), false);
 
       Task task3 = task2.addTask();
+		task3.setName("3.2.1");      
       assertEquals (task3.getWBS(), "3.2.1");
       assertEquals (task3.getOutlineLevelValue(), 3);
       assertEquals (task3.getOutlineNumber(), "3.2.1");      
@@ -182,6 +200,7 @@ public class TestMPXFile extends TestCase
       assertEquals (task3.getSummaryValue(), false);
       
       task3 = task2.addTask();
+		task3.setName("3.2.2");      
       assertEquals (task3.getWBS(), "3.2.2");
       assertEquals (task3.getOutlineLevelValue(), 3);
       assertEquals (task3.getOutlineNumber(), "3.2.2");      
@@ -189,9 +208,10 @@ public class TestMPXFile extends TestCase
       assertEquals (task3.getUniqueIDValue(), 7);
       assertEquals (task1.getSummaryValue(), true);
       assertEquals (task2.getSummaryValue(), true);
-      assertEquals (task3.getSummaryValue(), false);      
+      assertEquals (task3.getSummaryValue(), false);            		
    }
 
+	
    public void testStructure ()
       throws Exception
    {
@@ -201,7 +221,7 @@ public class TestMPXFile extends TestCase
       file.setAutoOutlineLevel(true);
       file.setAutoTaskID(true);
       file.setAutoTaskUniqueID(true);
-
+		
       Task task1 = file.addTask();
       assertNull (task1.getParentTask());
 
@@ -213,7 +233,7 @@ public class TestMPXFile extends TestCase
       assertEquals (children.size(), 2);
 
       LinkedList toplevel = file.getChildTasks();
-      assertEquals (toplevel.size(), 1);
+      assertEquals (toplevel.size(), 1);      
    }
 
    /**
