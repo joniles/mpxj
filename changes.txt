@@ -3,8 +3,8 @@ Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezo
 Fixed a bug with writing MSPDI XML files in non-GMT timezones.
 Fixed a bug causing an exception when zero length calendar names were present
 Fixed a bug causing MPP8 flags to be read incorrectly. Note that flag 20 is still not read correctly.
-Fixed a with the "Microsoft Project Compatible Output" flag for MSPDI files.
-Fixed a reading task text 10.
+Fixed a bug with the "Microsoft Project Compatible Output" flag for MSPDI files.
+Fixed a bug reading task text 10.
 Added new MPXFile.setIgnoreTextModel() method to allow MPXJ to ignore faulty text version of task or resource model records in MPX files.
 Improved invalid MPX data error handling and reporting.
 Added BaseCalendar.getDate method to allow end dates to be calculated based on a start date and a duration of working time.
@@ -16,6 +16,7 @@ Added support for querying view information held in MPP files.
 Added support for querying table information held in MPP files. (NB This allows the user to retrieve column information, including user defined column names)
 Added support for outlinecode1-10 fields in MPP9 files.
 Added support for resource "available from" and "available to" fields.
+Verified that MPXJ will read MPP files written by Microsoft Project 2003 (they are still MPP9 files).
 
 Version 0.0.17
 Fixed a bug where a decimal point was being appended to the currency format even if no decimal digits were required.
