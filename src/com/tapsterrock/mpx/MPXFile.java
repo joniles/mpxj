@@ -1000,7 +1000,6 @@ public class MPXFile
     */
    void addResourceAssignment (ResourceAssignment assignment)
    {
-      m_records.add (assignment);
       m_allResourceAssignments.add (assignment);
    }
 
