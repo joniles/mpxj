@@ -89,6 +89,36 @@ class MPXRecord
    }
 
    /**
+    * This method is called when double quotes are found as part of
+    * a value. The quotes are escaped by adding a second quote character
+    * and the entire value is quoted.
+    * 
+    * @param value text containing quote characters
+    * @return escaped and quoted text
+    */
+   private String escapeQuotes (String value)
+   {
+      StringBuffer sb = new StringBuffer();
+      int length = value.length();
+      char c;
+      
+      sb.append('"');
+      for (int index = 0; index < length; index++)
+      {
+         c = value.charAt(index);
+         sb.append(c);
+         
+         if (c == '"')
+         {
+            sb.append('"');
+         }         
+      }
+      sb.append('"');
+      
+      return (sb.toString());
+   }
+   
+   /**
     * This method returns the string representation of an object. In most
     * cases this will simply involve calling the normal toString method
     * on the object, but a couple of exceptions are handled here.
@@ -138,12 +168,19 @@ class MPXRecord
 
          //
          // Finally we check to ensure that there are no embedded
-         // separator characters in the value. If there are, then
-         // we quote the value.
-         //
-         if (result.indexOf(sepchar) != -1)
+         // quotes or separator characters in the value. If there are, then
+         // we quote the value and escape any existing quote characters.
+         //         
+         if (result.indexOf('"') != -1)
          {
-            result = '"' + result + '"';
+            result = escapeQuotes(result);
+         }
+         else
+         {
+            if (result.indexOf(sepchar) != -1)
+            {
+               result = '"' + result + '"';
+            }
          }
       }
 

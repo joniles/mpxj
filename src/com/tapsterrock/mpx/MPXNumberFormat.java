@@ -146,27 +146,39 @@ final class MPXNumberFormat
    {
       Number result = null;
 
-      if (str != null && str.trim().length() != 0)
+      if (str != null)
       {
-         ParsePosition parsePosition = new ParsePosition(0);
-         result = m_primaryFormat.parse(str, parsePosition);
-         if (parsePosition.getIndex() == 0)
+         str = str.trim();
+         
+         if (str.length() != 0)
          {
-            if (m_alternativeFormats != null)
+            ParsePosition parsePosition = new ParsePosition(0);
+            result = m_primaryFormat.parse(str, parsePosition);
+            if (parsePosition.getIndex() == 0)
             {
-               for (int loop=0; loop < m_alternativeFormats.length; loop++)
+               result = null;
+               
+               if (m_alternativeFormats != null)
                {
-                  result = m_alternativeFormats[loop].parse(str, parsePosition);
-                  if (parsePosition.getIndex() != 0)
+                  for (int loop=0; loop < m_alternativeFormats.length; loop++)
                   {
-                     break;
+                     result = m_alternativeFormats[loop].parse(str, parsePosition);
+                     if (parsePosition.getIndex() != 0)
+                     {
+                        break;
+                     }
+                  }
+   
+                  if (parsePosition.getIndex() == 0)
+                  {
+                     result = null;
                   }
                }
-
-               if (parsePosition.getIndex() == 0)
-               {
-                  throw new MPXException (MPXException.INVALID_NUMBER + " number=" + str + " expected format=" + m_primaryPattern);
-               }
+            }
+            
+            if (result == null)
+            {
+               throw new MPXException (MPXException.INVALID_NUMBER + " number=" + str + " expected format=" + m_primaryPattern);            
             }
          }
       }

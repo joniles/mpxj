@@ -34,7 +34,7 @@ import java.io.IOException;
 abstract class Tokenizer
 {
    /**
-    * This method mustbe implemented to read the next character from the
+    * This method must be implemented to read the next character from the
     * data source.
     *
     * @return next character
@@ -118,21 +118,28 @@ abstract class Tokenizer
             {
                if (c == m_quote)
                {
-                  if (quoted == false)
+                  if (quoted == false && m_buffer.length() == 0)
                   {
                      quoted = true;
                   }
                   else
                   {
-                     nextc = read();
-                     if (nextc == m_quote)
+                     if (quoted == false)
                      {
-                        m_buffer.append ((char)c);
-                        nextc = -1;
+                        m_buffer.append ((char)c);                        
                      }
                      else
                      {
-                        quoted = false;
+                        nextc = read();
+                        if (nextc == m_quote)
+                        {
+                           m_buffer.append ((char)c);
+                           nextc = -1;
+                        }
+                        else
+                        {
+                           quoted = false;
+                        }
                      }
                   }
                }
@@ -151,19 +158,31 @@ abstract class Tokenizer
          }
       }
 
+      m_type = result;
+      
       return (result);
    }
 
    /**
     * This method retrieves the text of the last token found.
     *
-    * @return token text
+    * @return last token text
     */
    public String getToken ()
    {
       return (m_buffer.toString());
    }
 
+   /**
+    * This method retrieves the type of the last token found.
+    * 
+    * @return last token type
+    */
+   public int getType ()
+   {
+      return (m_type);
+   }
+   
    /**
     * This method is used to set the delimiter character recognised
     * by the tokenizer.
@@ -182,5 +201,6 @@ abstract class Tokenizer
    private char m_quote = '"';
    private char m_delimiter = ',';
    private int m_next;
+   private int m_type;
    private StringBuffer m_buffer = new StringBuffer ();
 }

@@ -262,17 +262,16 @@ public class MPXFile
          //
          // Read the remainder of the records
          //
-         while (true)
+         while (tk.getType() != Tokenizer.TT_EOF)
          {
             record = new Record(this, tk);
             number = record.getRecordNumber();
 
-            if (number == null)
+            if (number != null)
             {
-               break;
+               add(number, record);
             }
-
-            add(number, record);
+            
             ++line;
          }
 
