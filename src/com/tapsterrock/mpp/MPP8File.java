@@ -417,7 +417,7 @@ final class MPP8File
       String notes;
       RTFUtility rtf = new RTFUtility ();
       byte[] flags = new byte[3];
-
+      
       for (int loop=0; loop < tasks; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
@@ -443,7 +443,7 @@ final class MPP8File
          {
             continue;
          }
-
+         
          //
          // Load the var data if we have not already done so
          //
@@ -452,6 +452,16 @@ final class MPP8File
             taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));
          }
 
+         //
+         // Blank rows can be present in MPP files. The following flag
+         // appears to indicate that a row is blank, and should be
+         // ignored.
+         //         
+         if ((data[8] & 0x01)  != 0)
+         {
+            continue;
+         }
+         
          taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
 
          id = MPPUtility.getInt (data, 4);
@@ -855,6 +865,16 @@ final class MPP8File
             continue;
          }
 
+         //
+         // Blank rows can be present in MPP files. The following flag
+         // appears to indicate that a row is blank, and should be
+         // ignored.
+         //         
+         if ((data[8] & 0x01)  != 0)
+         {
+            continue;
+         }
+         
          //
          // Test to ensure this resource has not been deleted
          // This may be an array of bit flags, as per the task

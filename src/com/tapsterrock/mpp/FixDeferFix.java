@@ -68,7 +68,7 @@ final class FixDeferFix extends MPPComponent
          int itemSize = MPPUtility.getInt(m_data, offset);
          offset += 4;
 
-         if (itemSize > 0)
+         if (itemSize > 0 && itemSize < m_data.length)
          {
             int blockRemainingSize = 28;
 
