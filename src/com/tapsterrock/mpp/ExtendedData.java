@@ -45,10 +45,11 @@ final class ExtendedData
     */
    ExtendedData (FixDeferFix varData, int offset)
    {
-      if (offset >= 0)
-      {         
-         m_data= varData;
-         byte[] data = varData.getByteArray(offset);
+      m_data= varData;
+      byte[] data = varData.getByteArray(offset);
+      
+      if (data != null)
+      {
          int index = 0;
          int size;
          int type;
