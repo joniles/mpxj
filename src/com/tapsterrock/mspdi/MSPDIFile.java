@@ -698,6 +698,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setBaselineWork();
       //mpx.setBCWP();
       //mpx.setBCWS();
+      mpx.setCalendarName(getTaskCalendarName(task));
       //mpx.setConfirmed();
       mpx.setConstraintDate(getDate(task.getConstraintDate()));
       mpx.setConstraintType(ConstraintType.getInstance(task.getConstraintType()));
@@ -812,9 +813,35 @@ public class MSPDIFile extends MPXFile
       //mpx.setUpdateNeeded();
       mpx.setWBS(task.getWBS());
       mpx.setWork(getDuration(task.getWork()));
-      mpx.setWorkVariance(new MPXDuration (task.getWorkVariance()/1000, TimeUnit.MINUTES));
+      mpx.setWorkVariance(new MPXDuration (task.getWorkVariance()/1000, TimeUnit.MINUTES));           
    }
 
+   /**
+    * This method is used to retrieve the name of the calendar associated
+    * with a task. If no calendar is associated with a task, this method
+    * returns null.
+    * 
+    * @param task MSPDI task
+    * @return name of calendar associated with this task
+    */
+   private String getTaskCalendarName (Project.TasksType.TaskType task)
+   {
+      String name = null;
+      
+      BigInteger calendarID = task.getCalendarUID();
+      if (calendarID != null)
+      {
+         MPXCalendar calendar = getBaseCalendarByUniqueID(calendarID.intValue());
+         if (calendar != null)
+         {
+            name = calendar.getName();
+         }
+      }
+      
+      return (name);
+   }
+   
+   
    /**
     * This method extracts predecessor data from an MSPDI file.
     *
@@ -967,7 +994,15 @@ public class MSPDIFile extends MPXFile
 
       if (value != null)
       {
-         result = value.getTime ();
+         Calendar cal = Calendar.getInstance();
+         cal.set(Calendar.YEAR, value.get(Calendar.YEAR));
+         cal.set(Calendar.MONTH, value.get(Calendar.MONTH));
+         cal.set(Calendar.DAY_OF_MONTH, value.get(Calendar.DAY_OF_MONTH));
+         cal.set(Calendar.HOUR_OF_DAY, value.get(Calendar.HOUR_OF_DAY));
+         cal.set(Calendar.MINUTE, value.get(Calendar.MINUTE));
+         cal.set(Calendar.SECOND, value.get(Calendar.SECOND));
+         cal.set(Calendar.MILLISECOND, value.get(Calendar.MILLISECOND));      
+         result = cal.getTime();         
       }
 
       return (result);
@@ -976,7 +1011,7 @@ public class MSPDIFile extends MPXFile
    /**
     * Utility to convert a Calendar instance into a Date instance. Note this
     * is used specifically to alleviate a problem where data in the MSPDI
-    * file contains only a time component, with no datecomponent. If
+    * file contains only a time component, with no date component. If
     * the getDate method was used in this instance, the returned time component
     * in the calendar would be incorrect.
     *
@@ -992,8 +1027,8 @@ public class MSPDIFile extends MPXFile
          Calendar cal = Calendar.getInstance();
          cal.set(Calendar.HOUR_OF_DAY, value.get(Calendar.HOUR_OF_DAY));
          cal.set(Calendar.MINUTE, value.get(Calendar.MINUTE));
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);      
+         cal.set(Calendar.SECOND, value.get(Calendar.SECOND));
+         cal.set(Calendar.MILLISECOND, value.get(Calendar.MILLISECOND));
          result = cal.getTime();
       }
                
@@ -2268,8 +2303,10 @@ public class MSPDIFile extends MPXFile
       xml.setActualOvertimeWork(getDuration(mpx.getActualOvertimeWork()));
       xml.setActualStart(getCalendar(mpx.getActualStart()));
       xml.setActualWork(getDuration(mpx.getActualWork()));
+      xml.setACWP(0);
       xml.setBCWP((float)mpx.getBCWPValue());
       xml.setBCWS((float)mpx.getBCWSValue());
+      xml.setCalendarUID(getTaskCalendarID(mpx));
       xml.setConstraintDate(getCalendar(mpx.getConstraintDate()));
       xml.setConstraintType(BigInteger.valueOf(mpx.getConstraintTypeValue()));
       xml.setContact(mpx.getContact());
@@ -2282,8 +2319,10 @@ public class MSPDIFile extends MPXFile
       xml.setDurationFormat(getDurationFormat(mpx.getDuration()));
       xml.setEarlyFinish(getCalendar(mpx.getEarlyFinish()));
       xml.setEarlyStart(getCalendar(mpx.getEarlyStart()));
+      xml.setEarnedValueMethod(BIGINTEGER_ZERO);
       xml.setEffortDriven(mpx.getEffortDriven());
       xml.setEstimated(mpx.getEstimated());
+      xml.setExternalTask(false);
       
       Date finishDate = mpx.getFinish();
       if (finishDate != null)
@@ -2302,12 +2341,14 @@ public class MSPDIFile extends MPXFile
       
       xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
+      xml.setFixedCostAccrual("2");
       xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setHideBar(mpx.getHideBarValue());
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setID(BigInteger.valueOf(mpx.getIDValue()));
+      xml.setIgnoreResourceCalendar(false);
       xml.setLateFinish(getCalendar(mpx.getLateFinish()));
       xml.setLateStart(getCalendar(mpx.getLateStart()));
       xml.setLevelAssignments(mpx.getLevelAssignments());
@@ -2322,14 +2363,18 @@ public class MSPDIFile extends MPXFile
       xml.setMilestone(mpx.getMilestoneValue());
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
+      xml.setIsNull(false);      
       xml.setOutlineLevel(BigInteger.valueOf(mpx.getOutlineLevelValue()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
+      xml.setOverAllocated(false);
       xml.setOvertimeCost(getXmlCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(getDuration(mpx.getOvertimeWork()));
       xml.setPercentComplete(BigInteger.valueOf((long)mpx.getPercentageCompleteValue()));
       xml.setPercentWorkComplete(BigInteger.valueOf((long)mpx.getPercentageWorkCompleteValue()));
+      xml.setPhysicalPercentComplete(BIGINTEGER_ZERO);      
       xml.setPriority(getXmlPriority(mpx.getPriority()));
       xml.setRecurring((mpx.getRecurringTask()!=null));
+      xml.setRegularWork(getDuration(mpx.getWork()));
       xml.setRemainingCost(getXmlCurrency(mpx.getRemainingCost()));
 
       if (m_compatible == true && mpx.getRemainingDuration() == null)
@@ -2352,6 +2397,7 @@ public class MSPDIFile extends MPXFile
       xml.setRemainingOvertimeWork(getDuration(mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(getDuration(mpx.getRemainingWork()));
       xml.setResume(getCalendar(mpx.getResume()));
+      xml.setResumeValid(false);
       xml.setRollup(mpx.getRollupValue());
 
       Date startDate = mpx.getStart();
@@ -2372,6 +2418,8 @@ public class MSPDIFile extends MPXFile
 
       xml.setStartVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getStartVariance())*1000));
       xml.setStop(getCalendar (mpx.getStop()));
+      xml.setIsSubproject(false);
+      xml.setIsSubprojectReadOnly(false);      
       xml.setSummary(mpx.getSummaryValue());
       xml.setTotalSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getTotalSlack())*1000));
 		xml.setType(BigInteger.valueOf((long)mpx.getType()));      
@@ -2380,39 +2428,39 @@ public class MSPDIFile extends MPXFile
       xml.setWork(getDuration(mpx.getWork()));
       xml.setWorkVariance((float)getDurationInMinutes(mpx.getWorkVariance())*1000);
 
-      //
-      // Default values for fields not represented in the MPX data structures
-      //
-      xml.setIsNull(false);
-      xml.setResumeValid(false);
-      xml.setOverAllocated(false);
-      xml.setEstimated(false);
-      xml.setIsSubproject(false);
-      xml.setIsSubprojectReadOnly(false);
-      xml.setExternalTask(false);
-      xml.setFixedCostAccrual("2");
-      xml.setOvertimeWork(ZERO_DURATION);
-      xml.setActualOvertimeCost(BIGDECIMAL_ZERO);
-      xml.setActualOvertimeWork(ZERO_DURATION);
-      xml.setCalendarUID(BigInteger.valueOf(-1));
-      xml.setRegularWork(getDuration(mpx.getWork()));
-      xml.setRemainingOvertimeCost(BIGDECIMAL_ZERO);
-      xml.setRemainingOvertimeWork(ZERO_DURATION);
-      xml.setACWP(0);
-      xml.setLevelAssignments(true);
-      xml.setLevelingCanSplit(true);
-      xml.setLevelingDelay(BIGINTEGER_ZERO);
-      xml.setLevelingDelayFormat(BigInteger.valueOf(8));
-      xml.setIgnoreResourceCalendar(false);
-      xml.setPhysicalPercentComplete(BIGINTEGER_ZERO);
-      xml.setEarnedValueMethod(BIGINTEGER_ZERO);
-
       writePredecessors (factory, xml, mpx);
 
       return (xml);
    }
 
 
+   /**
+    * This method retrieves the UID for a calendar associated with a task.
+    * 
+    * @param mpx MPX Task instance
+    * @return calendar UID
+    */
+   private BigInteger getTaskCalendarID (Task mpx)
+   {
+      BigInteger result = null;
+      String name = mpx.getCalendarName();
+      if (name != null)
+      {
+         MPXCalendar cal = this.getBaseCalendar(name);
+         if (cal != null)
+         {
+            result = BigInteger.valueOf((long)cal.getUniqueID());
+         }
+      }
+      
+      if (result == null)
+      {
+         result = BigInteger.valueOf(-1);
+      }
+      
+      return (result);      
+   }
+   
    /**
     * This method writes predecessor data to an MSPDI file.
     * We have to deal with a slight anomaly in this method that is introduced

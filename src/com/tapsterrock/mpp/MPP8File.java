@@ -1064,6 +1064,12 @@ final class MPP8File
             assignment.setStart(MPPUtility.getTimestamp(data, 24));            
             assignment.setUnits(((double)MPPUtility.getShort(data, 80))/100);
             assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 84))/100, TimeUnit.HOURS));
+            
+            //
+            // Uncommenting the call to this method is useful when trying 
+            // to determine the function of unknown assignment data.
+            //
+            //dumpUnknownData (task.getName() + " " + resource.getName(), UNKNOWN_ASSIGNMENT_DATA, data);
          }
       }
    }
@@ -1352,14 +1358,27 @@ final class MPP8File
 //      {164, 4}, 
 //      {268, 4}, // includes known flags
 //      {274, 32}, // includes known flags
-//      {306, 6}, 
+//      {306, 6} 
 //   };
 //
-// private static final int[][] UNKNOWN_CALENDAR_DATA = new int[][]
-// {
-//    {8, 12}, 
-//    {24, 8}, 
-// };
+//   private static final int[][] UNKNOWN_CALENDAR_DATA = new int[][]
+//   {
+//      {8, 12}, 
+//      {24, 8} 
+//   };
+//
+//   private static final int[][] UNKNOWN_ASSIGNMENT_DATA = new int[][]
+//   {
+//     {4, 12}, 
+//     {32, 79}, 
+//     {82, 2}, 
+//     {102, 6}, 
+//     {108, 6}, 
+//     {120, 12}, 
+//     {102, 6}, 
+//     {144, 12},       
+//     {162, 42}
+//   };
    
    /**
     * Task data types.

@@ -1,6 +1,9 @@
 Version 0.0.20
 Fixed a bug where alternative decimal delimiters and thousands separators were not being handled correctly when reading and writing MPX files.
 Fixed a bug causing a null pointer exception when writing an MSPDI file.
+Fixed a bug in MSPDI files where default values were being written incorrectly for some task attributes.
+Fixed a bug with MSPDI file date handling in non GMT time zones.
+Added support for task calendars.
 
 Version 0.0.19
 Fixed a bug reading table data from certain MPP8 files

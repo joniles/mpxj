@@ -230,7 +230,7 @@ final class MPP9File
                {
                   baseCalendarID = MPPUtility.getInt(fixedData, offset+4);
                   varData = calVarData.getByteArray (calendarID, CALENDAR_DATA);        
-                                          
+                                                            
                   if (baseCalendarID == -1)
                   {
                      if (varData != null)
@@ -847,7 +847,20 @@ final class MPP9File
 				task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));	
 			}  
          
-         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
+         //
+         // Set the calendar name
+         //
+         int calendarID = MPPUtility.getInt(data, 160);
+         if (calendarID != -1)
+         {
+            MPXCalendar calendar = file.getBaseCalendarByUniqueID(calendarID);
+            if (calendar != null)
+            {
+               task.setCalendarName(calendar.getName());
+            }
+         }            
+
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data); 
       }		
    }
 

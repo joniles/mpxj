@@ -6834,7 +6834,40 @@ public final class Task extends MPXRecord implements Comparable
    {
       m_remainingOvertimeCost = cost;   
    }
-                  
+
+   /**
+    * Retrieves the base calendar instance associated with this task.
+    * Note that this attribute appears in MPP9 and MSPDI files.
+    * 
+    * @return MPXCalendar instance
+    */                  
+   public MPXCalendar getCalendar ()
+   {
+      return (getParentFile().getBaseCalendar(m_calendarName));
+   }
+
+   /**
+    * Retrieves the name of the base calendar associated with this task.
+    * Note that this attribute appears in MPP9 and MSPDI files.
+    * 
+    * @return calendar name
+    */
+   public String getCalendarName ()
+   {
+      return (m_calendarName);      
+   }
+   
+   /**
+    * Sets the name of the base calendar associated with this task.
+    * Note that this attribute appears in MPP9 and MSPDI files.
+    * 
+    * @param name base calendar name
+    */   
+   public void setCalendarName (String name)
+   {
+      m_calendarName = name;      
+   }
+                        
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -6985,6 +7018,7 @@ public final class Task extends MPXRecord implements Comparable
    private Date m_preleveledFinish;
    private MPXDuration m_remainingOvertimeWork;         
    private Number m_remainingOvertimeCost;
+   private String m_calendarName;
       
 	/**
 	 * Constants used to define the task type.

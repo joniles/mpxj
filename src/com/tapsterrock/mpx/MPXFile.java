@@ -1186,6 +1186,34 @@ public class MPXFile
    }
 
    /**
+    * Retrieves the base calendar referred to by the supplied unique ID
+    * value. This method will return null if the required calendar is not 
+    * located.
+    * 
+    * @param calendarID calendar unique ID
+    * @return MPXCalendar instance
+    */
+   public MPXCalendar getBaseCalendarByUniqueID (int calendarID)
+   {
+      MPXCalendar calendar = null;
+      Iterator iter = m_baseCalendars.iterator();
+
+      while (iter.hasNext() == true)
+      {
+         calendar = (MPXCalendar)iter.next();
+
+         if (calendar.getUniqueID() == calendarID)
+         {
+            break;
+         }
+
+         calendar = null;
+      }
+
+      return (calendar);
+   }
+
+   /**
     * This method writes each record in an MPX file to an output stream, via
     * the specified OutputStreamWriter. By providing the OutputStreamWriter
     * as an argument, the caller can control the character encoding used

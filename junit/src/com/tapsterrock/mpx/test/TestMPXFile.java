@@ -1038,6 +1038,67 @@ public class TestMPXFile extends TestCase
 
       assertEquals("Incorrect number of tables", 2, tables.size());      
    }
+
+   public void testTaskCalendars ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {      
+         //
+         // Read in the MPP file. The task names should
+         // match the calendar names.
+         //
+         File in = new File (m_basedir + "/sample1.mpp");
+         MPPFile mpp = new MPPFile (in);
+         Iterator iter = mpp.getAllTasks().iterator();
+         Task task;
+         MPXCalendar cal;
+         
+         while (iter.hasNext() == true)
+         {
+            task = (Task)iter.next();
+            cal = task.getCalendar();
+            if (cal != null)
+            {
+               assertEquals(task.getName(), cal.getName());
+            }            
+         }
+         
+         //
+         // Write this out as an MSPDI file
+         //
+         MSPDIFile mspdi = new MSPDIFile (mpp);
+         out = File.createTempFile ("junit", ".xml");
+         mspdi.write (out);         
+         
+         //
+         // Read the MSPDI file in again, and check the
+         // calendar names to ensure consistency
+         //
+         mspdi = new MSPDIFile (out.getCanonicalPath());
+         iter = mspdi.getAllTasks().iterator();
+         
+         while (iter.hasNext() == true)
+         {
+            task = (Task)iter.next();
+            cal = task.getCalendar();
+            if (cal != null)
+            {
+               assertEquals(task.getName(), cal.getName());
+            }            
+         }         
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }      
+   }
       
    private String m_basedir;
 }
