@@ -512,7 +512,7 @@ final class MPP9File
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-                        
+         
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifiers();
       Integer id;
@@ -540,18 +540,41 @@ final class MPP9File
          {
             continue;
          }
-			           
+
+         metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
+         			           
          task = file.addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 100));
+         task.setActualOvertimeCost (new Double(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST)));
+         task.setActualOvertimeWork(new MPXDuration (taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK)/60000, TimeUnit.HOURS));         
          task.setActualStart(MPPUtility.getTimestamp (data, 96));
          task.setActualWork(new MPXDuration (MPPUtility.getDouble (data, 184)/60000, TimeUnit.HOURS));
+         //task.setACWP(); // Calculated value
+         //task.setAssignment(); // Calculated value
+         //task.setAssignmentDelay(); // Calculated value
+         //task.setAssignmentUnits(); // Calculated value         
          task.setBaselineCost(new Double (MPPUtility.getDouble (data, 232) / 100));
          task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 78))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 108));
          task.setBaselineStart(MPPUtility.getTimestamp (data, 104));
          task.setBaselineWork(new MPXDuration (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+         
+// From MS Project 2003
+//         task.setBaseline1Cost(new Double (MPPUtility.getDouble (data, 232) / 100));
+//         task.setBaseline1Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 78))));
+//         task.setBaseline1Finish(MPPUtility.getTimestamp (data, 108));
+//         task.setBaseline1Start(MPPUtility.getTimestamp (data, 104));
+//         task.setBaseline1Work(new MPXDuration (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+// to...
+//         task.setBaseline10Cost(new Double (MPPUtility.getDouble (data, 232) / 100));
+//         task.setBaseline10Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 78))));
+//         task.setBaseline10Finish(MPPUtility.getTimestamp (data, 108));
+//         task.setBaseline10Start(MPPUtility.getTimestamp (data, 104));
+//         task.setBaseline10Work(new MPXDuration (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+
+         
          //task.setBCWP(); // Calculated value
          //task.setBCWS(); // Calculated value
          //task.setConfirmed(); // Calculated value
@@ -559,6 +582,8 @@ final class MPP9File
          task.setConstraintType (ConstraintType.getInstance (MPPUtility.getShort (data, 80)));
          task.setContact(taskVarData.getUnicodeString (id, TASK_CONTACT));
          task.setCost(new Double (MPPUtility.getDouble(data, 200) / 100));
+         //task.setCostRateTable(); // Calculated value         
+         //task.setCostVariance(); // Populated below         
          task.setCost1(new Double (taskVarData.getDouble (id, TASK_COST1) / 100));
          task.setCost2(new Double (taskVarData.getDouble (id, TASK_COST2) / 100));
          task.setCost3(new Double (taskVarData.getDouble (id, TASK_COST3) / 100));
@@ -569,9 +594,14 @@ final class MPP9File
          task.setCost8(new Double (taskVarData.getDouble (id, TASK_COST8) / 100));
          task.setCost9(new Double (taskVarData.getDouble (id, TASK_COST9) / 100));
          task.setCost10(new Double (taskVarData.getDouble (id, TASK_COST10) / 100));         
+
+// From MS Project 2003
+//         task.setCPI();
+         
          task.setCreated(MPPUtility.getTimestamp (data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
+         //task.setCVPercent(); // Calculate value
          task.setDate1(taskVarData.getTimestamp (id, TASK_DATE1));
          task.setDate2(taskVarData.getTimestamp (id, TASK_DATE2));         
          task.setDate3(taskVarData.getTimestamp (id, TASK_DATE3));
@@ -583,8 +613,9 @@ final class MPP9File
          task.setDate9(taskVarData.getTimestamp (id, TASK_DATE9));
          task.setDate10(taskVarData.getTimestamp (id, TASK_DATE10));                                                                        
          task.setDeadline (MPPUtility.getTimestamp (data, 152));
-         //task.setDelay(); // Field does not appear in Project 2000
+         //task.setDelay(); // No longer supported by MS Project?
          task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 60), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 64))));
+         //task.setDurationVariance(); // Calculated value         
          task.setDuration1(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION1), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
          task.setDuration2(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION2), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
          task.setDuration3(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION3), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
@@ -594,12 +625,20 @@ final class MPP9File
          task.setDuration7(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION7), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
          task.setDuration8(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION8), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
          task.setDuration9(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION9), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
-         //task.setDurationVariance(); // Calculated value
+         task.setDuration10(MPPUtility.getDuration (taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));  
+//       From MS Project 2003         
+//         task.setEAC();
          //task.setEarlyFinish(); // Calculated value
-         //task.setEarlyStart(); // Calculated value
+         //task.setEarlyStart(); // Calculated value         
+//       From MS Project 2003
+//         task.setEarnedValueMethod();                  
+         task.setEffortDriven((metaData[11] & 0x10) != 0);  
          task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
+         //task.setExternalTask(); // Calculated value                  
          task.setFinish (MPPUtility.getTimestamp (data, 8));
+//       From MS Project 2003
+//         task.setFinishSlack();         
+         //task.setFinishVariance(); // Calculated value
          task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
          task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
          task.setFinish3(taskVarData.getTimestamp (id, TASK_FINISH3));
@@ -610,15 +649,46 @@ final class MPP9File
          task.setFinish8(taskVarData.getTimestamp (id, TASK_FINISH8));
          task.setFinish9(taskVarData.getTimestamp (id, TASK_FINISH9));
          task.setFinish10(taskVarData.getTimestamp (id, TASK_FINISH10));
-         //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Unsure of mapping from MPX->MSP2K
-         task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100));                        
+         task.setFixedCost(new Double (MPPUtility.getDouble (data, 208) / 100)); 
+         task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 128)));
+         task.setFlag1((metaData[37] & 0x20) != 0);
+         task.setFlag2((metaData[37] & 0x40) != 0);
+         task.setFlag3((metaData[37] & 0x80) != 0);
+         task.setFlag4((metaData[38] & 0x01) != 0);
+         task.setFlag5((metaData[38] & 0x02) != 0);
+         task.setFlag6((metaData[38] & 0x04) != 0);
+         task.setFlag7((metaData[38] & 0x08) != 0);
+         task.setFlag8((metaData[38] & 0x10) != 0);
+         task.setFlag9((metaData[38] & 0x20) != 0);
+         task.setFlag10((metaData[38] & 0x40) != 0);            
+         task.setFlag11((metaData[38] & 0x80) != 0);
+         task.setFlag12((metaData[39] & 0x01) != 0);
+         task.setFlag13((metaData[39] & 0x02) != 0);
+         task.setFlag14((metaData[39] & 0x04) != 0);
+         task.setFlag15((metaData[39] & 0x08) != 0);
+         task.setFlag16((metaData[39] & 0x10) != 0);
+         task.setFlag17((metaData[39] & 0x20) != 0);
+         task.setFlag18((metaData[39] & 0x40) != 0);
+         task.setFlag19((metaData[39] & 0x80) != 0);
+         task.setFlag20((metaData[40] & 0x01) != 0);         
          //task.setFreeSlack();  // Calculated value
+//       From MS Project 2003
+//         task.setGroupBySummary();                  
+         task.setHideBar((metaData[10] & 0x80) != 0);                                 
+         processHyperlinkData (task, taskVarData.getByteArray(id, TASK_HYPERLINK));
          task.setID (MPPUtility.getInt (data, 4));
+//       From MS Project 2003
+//         task.setIgnoreResourceCalendar();                           
+         //task.setIndicators(); // Calculated value
          //task.setLateFinish();  // Calculated value
          //task.setLateStart();  // Calculated value
+         task.setLevelAssignments((metaData[13] & 0x04) != 0);
+         task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
+         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationUnits(MPPUtility.getShort (data, 86))));         
          //task.setLinkedFields();  // Calculated value
          //task.setMarked();
+         task.setMilestone((metaData[8] & 0x20) != 0);         
          task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
          task.setNumber1(new Double (taskVarData.getDouble(id, TASK_NUMBER1)));
          task.setNumber2(new Double (taskVarData.getDouble(id, TASK_NUMBER2)));
@@ -653,20 +723,41 @@ final class MPP9File
          task.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
          task.setOutlineLevel (MPPUtility.getShort (data, 40));
          //task.setOutlineNumber(); // Calculated value
-         task.setOvertimeCost(new Double (MPPUtility.getDouble (data, 240)/100));         
+         //task.setOverallocated(); // Calculated value
+         task.setOvertimeCost(new Double(taskVarData.getDouble(id, TASK_OVERTIME_COST)));
+         //task.setOvertimeWork(); // Calculated value?  
+         //task.getPredecessors(); // Calculated value                         
          task.setPercentageComplete((double)MPPUtility.getShort(data, 122));
-         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 124));
+         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 124));   
+//       From MS Project 2003
+//         task.setPhysicalPercentComplete();                                          
+         task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
+         task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));                           
          task.setPriority(getPriority (MPPUtility.getShort (data, 120)));
          //task.setProject(); // Calculated value
+         //task.setRecurring(); // Calculated value         
+         //task.setRegularWork(); // Calculated value                  
          task.setRemainingCost(new Double (MPPUtility.getDouble (data, 224)/100));
          task.setRemainingDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 64))));
+         task.setRemainingOvertimeCost(new Double(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_COST)));
+         task.setRemainingOvertimeWork(new MPXDuration (taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK)/60000, TimeUnit.HOURS));
          task.setRemainingWork(new MPXDuration (MPPUtility.getDouble (data, 192)/60000, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
          //task.setResourceInitials(); // Calculated value from resource
          //task.setResourceNames(); // Calculated value from resource
+         //task.setResourcePhonetics(); // Calculated value from resource
+//       From MS Project 2003
+//         task.setResourceType();                                                   
+         //task.setResponsePending(); // Calculated value         
          task.setResume(MPPUtility.getTimestamp(data, 20));
          //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
+         task.setRollup((metaData[10] & 0x08) != 0); 
+//       From MS Project 2003
+//         task.setSPI();                                                                       
          task.setStart (MPPUtility.getTimestamp (data, 88));
+//       From MS Project 2003
+//         task.setStartSlack();                                                                                
+         //task.setStartVariance(); // Calculated value         
          task.setStart1(taskVarData.getTimestamp (id, TASK_START1));
          task.setStart2(taskVarData.getTimestamp (id, TASK_START2));
          task.setStart3(taskVarData.getTimestamp (id, TASK_START3));
@@ -676,11 +767,20 @@ final class MPP9File
          task.setStart7(taskVarData.getTimestamp (id, TASK_START7));
          task.setStart8(taskVarData.getTimestamp (id, TASK_START8));
          task.setStart9(taskVarData.getTimestamp (id, TASK_START9));
-         task.setStart10(taskVarData.getTimestamp (id, TASK_START10));         
-         //task.setStartVariance(); // Calculated value
+         task.setStart10(taskVarData.getTimestamp (id, TASK_START10)); 
+//       From MS Project 2003
+//         task.setStatus();                                                                       
+//         task.setStatusIndicator();                                                                                        
          task.setStop(MPPUtility.getTimestamp (data, 16));
          //task.setSubprojectFile();
+         //task.setSubprojectReadOnly();
+         //task.setSuccessors(); // Calculated value
+         //task.setSummary(); // Automatically generated by MPXJ
          //task.setSV(); // Calculated value
+//       From MS Project 2003
+//         task.setSVPercent();                                                                       
+//         task.setTCPI();                                                                                
+         //task.setTeamStatusPending(); // Calculated value
          task.setText1(taskVarData.getUnicodeString (id, TASK_TEXT1));
          task.setText2(taskVarData.getUnicodeString (id, TASK_TEXT2));
          task.setText3(taskVarData.getUnicodeString (id, TASK_TEXT3));
@@ -714,37 +814,16 @@ final class MPP9File
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 126));
          task.setUniqueID(id.intValue());
+         //task.setUniqueIDPredecessors(); // Calculated value
+         //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
+         //task.setWBSPredecessors(); // Calculated value
+         //task.setWBSSuccessors(); // Calculated value
          task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
+         //task.setWorkContour(); // Calculated from resource         
          //task.setWorkVariance(); // Calculated value
-
-         metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
-         task.setFlag1((metaData[37] & 0x20) != 0);
-         task.setFlag2((metaData[37] & 0x40) != 0);
-         task.setFlag3((metaData[37] & 0x80) != 0);
-         task.setFlag4((metaData[38] & 0x01) != 0);
-         task.setFlag5((metaData[38] & 0x02) != 0);
-         task.setFlag6((metaData[38] & 0x04) != 0);
-         task.setFlag7((metaData[38] & 0x08) != 0);
-         task.setFlag8((metaData[38] & 0x10) != 0);
-         task.setFlag9((metaData[38] & 0x20) != 0);
-         task.setFlag10((metaData[38] & 0x40) != 0);            
-         task.setFlag11((metaData[38] & 0x80) != 0);
-         task.setFlag12((metaData[39] & 0x01) != 0);
-         task.setFlag13((metaData[39] & 0x02) != 0);
-         task.setFlag14((metaData[39] & 0x04) != 0);
-         task.setFlag15((metaData[39] & 0x08) != 0);
-         task.setFlag16((metaData[39] & 0x10) != 0);
-         task.setFlag17((metaData[39] & 0x20) != 0);
-         task.setFlag18((metaData[39] & 0x40) != 0);
-         task.setFlag19((metaData[39] & 0x80) != 0);
-         task.setFlag20((metaData[40] & 0x01) != 0);
          
-         task.setMilestone((metaData[8] & 0x20) != 0);
-         task.setRollup((metaData[10] & 0x08) != 0);            
-         task.setHideBar((metaData[10] & 0x80) != 0);                        
-         task.setEffortDriven((metaData[11] & 0x10) != 0);  
          
 			//
 			// Retrieve the task notes.
@@ -766,8 +845,44 @@ final class MPP9File
 			if (task.getCost() != null && task.getBaselineCost() != null)
 			{
 				task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));	
-			}       																																	
+			}  
+         
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
       }		
+   }
+
+   /**
+    * This method is used to extract the task hyperlink attributes
+    * from a block of data and call the appropriate modifier methods
+    * to configure the specified task object.
+    * 
+    * @param task task instance
+    * @param data hyperlink data block
+    */
+   private static void processHyperlinkData (Task task, byte[] data)
+   {
+      if (data != null)
+      {
+         int offset = 12;
+         String hyperlink;
+         String address;
+         String subaddress;
+         
+         offset += 12;         
+         hyperlink = MPPUtility.getUnicodeString(data, offset);
+         offset += ((hyperlink.length()+1) * 2);
+   
+         offset += 12;         
+         address = MPPUtility.getUnicodeString(data, offset);
+         offset += ((address.length()+1) * 2);
+   
+         offset += 12;
+         subaddress = MPPUtility.getUnicodeString(data, offset);
+         
+         task.setHyperlink(hyperlink);
+         task.setHyperlinkAddress(address);
+         task.setHyperlinkSubAddress(subaddress);
+      }         
    }
 
    /**
@@ -1334,6 +1449,14 @@ final class MPP9File
 //      }
 //      System.out.println ();
 //   }
+//
+//   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
+//   {
+//      {36, 4}, 
+//      {42, 18},
+//      {134, 14},
+//      {156, 4},  
+//   };
          
 //   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
 //   {
@@ -1347,10 +1470,16 @@ final class MPP9File
     */
    private static final Integer CALENDAR_NAME = new Integer (1);
    private static final Integer CALENDAR_DATA = new Integer (3);
-
+   
    /**
     * Task data types.
     */
+   private static final Integer TASK_ACTUAL_OVERTIME_WORK = new Integer (3);
+   private static final Integer TASK_REMAINING_OVERTIME_WORK = new Integer (4);   
+   private static final Integer TASK_OVERTIME_COST = new Integer (5);   
+   private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
+   private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);   
+   
    private static final Integer TASK_WBS = new Integer (10);
    private static final Integer TASK_NAME = new Integer (11);
    private static final Integer TASK_CONTACT = new Integer (12);
@@ -1472,7 +1601,9 @@ final class MPP9File
    private static final Integer TASK_OUTLINECODE8 = new Integer (130);
    private static final Integer TASK_OUTLINECODE9 = new Integer (131);
    private static final Integer TASK_OUTLINECODE10 = new Integer (132);
-                                 
+                                
+   private static final Integer TASK_HYPERLINK = new Integer (133);
+                                    
    private static final Integer TASK_COST1 = new Integer (134);
    private static final Integer TASK_COST2 = new Integer (135);
    private static final Integer TASK_COST3 = new Integer (136);

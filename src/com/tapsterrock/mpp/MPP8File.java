@@ -443,20 +443,29 @@ final class MPP8File
          //
          if (taskVarData == null)
          {
-            taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));            
+            taskVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixDeferFix   0"))));
          }
                                        
          taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
-
+         
          id = MPPUtility.getInt (data, 4);
+         flags[0] = (byte)(data[268] & data[303]);         
+         flags[1] = (byte)(data[269] & data[304]);
+         flags[2] = (byte)(data[270] & data[305]);         
          
          task = file.addTask();
                                                
          task.setActualCost(new Double (((double)MPPUtility.getLong6(data, 234)) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 108));
+         task.setActualOvertimeCost(new Double (((double)MPPUtility.getLong6(data, 210)) / 100));
+         task.setActualOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 192))/100, TimeUnit.HOURS));
          task.setActualStart(MPPUtility.getTimestamp (data, 104));
          task.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 180))/100, TimeUnit.HOURS));
+         //task.setACWP(); // Calculated value
+         //task.setAssignment(); // Calculated value
+         //task.setAssignmentDelay(); // Calculated value
+         //task.setAssignmentUnits(); // Calculated value         
          task.setBaselineCost(new Double ((double)MPPUtility.getLong6 (data, 246) / 100));
          task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 82), MPPUtility.getDurationUnits (MPPUtility.getShort (data, 72))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 116));
@@ -478,11 +487,12 @@ final class MPP8File
          task.setCost7(new Double (((double)taskExtData.getLong (TASK_COST7)) / 100));
          task.setCost8(new Double (((double)taskExtData.getLong (TASK_COST8)) / 100));
          task.setCost9(new Double (((double)taskExtData.getLong (TASK_COST9)) / 100));
-         task.setCost10(new Double (((double)taskExtData.getLong (TASK_COST10)) / 100));         
+         task.setCost10(new Double (((double)taskExtData.getLong (TASK_COST10)) / 100));  
+         //task.setCostRateTable(); // Calculated value
+         //task.setCostVariance(); // Populated below
          task.setCreated(MPPUtility.getTimestamp (data, 138));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
-         //task.setDelay(); // Not in MSP98?
          task.setDate1(taskExtData.getTimestamp(TASK_DATE1));
          task.setDate2(taskExtData.getTimestamp(TASK_DATE2));         
          task.setDate3(taskExtData.getTimestamp(TASK_DATE3));
@@ -493,6 +503,7 @@ final class MPP8File
          task.setDate8(taskExtData.getTimestamp(TASK_DATE8));
          task.setDate9(taskExtData.getTimestamp(TASK_DATE9));
          task.setDate10(taskExtData.getTimestamp(TASK_DATE10));
+         //task.setDelay(); // No longer supported by MS Project?         
          task.setDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 68), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
          task.setDuration1(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
          task.setDuration2(MPPUtility.getDuration (taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
@@ -508,6 +519,7 @@ final class MPP8File
          //task.setEarlyFinish(); // Calculated value
          //task.setEarlyStart(); // Calculated value
          task.setEffortDriven((data[17] & 0x08) != 0);
+         //task.setExternalTask(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 20));
          task.setFinish1(taskExtData.getTimestamp(TASK_FINISH1));
          task.setFinish2(taskExtData.getTimestamp(TASK_FINISH2));
@@ -522,11 +534,7 @@ final class MPP8File
          //task.setFinishVariance(); // Calculated value
          //task.setFixed(); // Not in MSP98?
          task.setFixedCost(new Double (((double)MPPUtility.getLong6(data, 228)) / 100));
-         
-         flags[0] = (byte)(data[268] & data[303]);         
-         flags[1] = (byte)(data[269] & data[304]);
-         flags[2] = (byte)(data[270] & data[305]);         
-
+         task.setFixedCostAccrual(AccrueType.getInstance (MPPUtility.getShort (data, 136)));         
          task.setFlag1((flags[0] & 0x02) != 0);
          task.setFlag2((flags[0] & 0x04) != 0);
          task.setFlag3((flags[0] & 0x08) != 0);
@@ -546,13 +554,17 @@ final class MPP8File
          task.setFlag17((flags[2] & 0x02) != 0);
          task.setFlag18((flags[2] & 0x04) != 0);
          task.setFlag19((flags[2] & 0x08) != 0);         
-         task.setFlag20((flags[2] & 0x10) != 0); // note that this is not correct
-         
+         task.setFlag20((flags[2] & 0x10) != 0); // note that this is not correct         
          //task.setFreeSlack();  // Calculated value
          task.setHideBar((data[16] & 0x01) != 0);
+         processHyperlinkData (task, taskVarData.getByteArray(-1 - taskExtData.getInt(TASK_HYPERLINK)));
          task.setID (id);
+         //task.setIndicators(); // Calculated value
          //task.setLateFinish();  // Calculated value
-         //task.setLateStart();  // Calculated value
+         //task.setLateStart();  // Calculated value         
+         task.setLevelAssignments((data[19] & 0x10) != 0);         
+         task.setLevelingCanSplit((data[19] & 0x08) != 0);         
+         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 90))/3, MPPUtility.getDurationUnits(MPPUtility.getShort (data, 94))));         
          //task.setLinkedFields();  // Calculated value
          task.setMarked((data[13] & 0x02) != 0);
          task.setMilestone((data[12] & 0x01) != 0);
@@ -580,17 +592,28 @@ final class MPP8File
          //task.setObjects(); // Calculated value
          task.setOutlineLevel (MPPUtility.getShort (data, 48));
          //task.setOutlineNumber(); // Calculated value 
-         task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));
+         //task.setOverallocated(); // Calculated value
+         task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));                  
+         //task.setOvertimeWork(); // Calculated value
+         //task.getPredecessors(); // Calculated value                  
          task.setPercentageComplete((double)MPPUtility.getShort(data, 130));
-         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 132));
+         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 132));         
+         task.setPreleveledFinish (MPPUtility.getTimestamp(data, 148));
+         task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));         
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 128)));
          //task.setProject(); // Calculated value
+         //task.setRecurring(); // Calculated value         
+         //task.setRegularWork(); // Calculated value         
          task.setRemainingCost(new Double (((double)MPPUtility.getLong6(data, 240)) / 100));
-         task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));
+         task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationUnits(MPPUtility.getShort (data, 72))));         
+         task.setRemainingOvertimeCost(new Double(((double)MPPUtility.getLong6(data, 216))/100));
+         task.setRemainingOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 198))/100, TimeUnit.HOURS));                  
          task.setRemainingWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 186))/100, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
          //task.setResourceInitials(); // Calculated value from resource
          //task.setResourceNames(); // Calculated value from resource
+         //task.setResourcePhonetics(); // Calculated value from resource
+         //task.setResponsePending(); // Calculated value
          task.setResume(MPPUtility.getTimestamp(data, 32));
          //task.setResumeNoEarlierThan(); // Not in MSP98?
          task.setRollup((data[15] & 0x04) != 0);
@@ -608,7 +631,11 @@ final class MPP8File
          //task.setStartVariance(); // Calculated value
          task.setStop(MPPUtility.getTimestamp (data, 124));
          //task.setSubprojectFile();
+         //task.setSubprojectReadOnly();
+         //task.setSuccessors(); // Calculated value
+         //task.setSummary(); // Automatically generated by MPXJ
          //task.setSV(); // Calculated value
+         //task.teamStatusPending(); // Calculated value
          task.setText1(taskExtData.getUnicodeString(TASK_TEXT1));
          task.setText2(taskExtData.getUnicodeString(TASK_TEXT2));
          task.setText3(taskExtData.getUnicodeString(TASK_TEXT3));
@@ -642,9 +669,12 @@ final class MPP8File
          //task.setTotalSlack(); // Calculated value
          task.setType(MPPUtility.getShort(data, 134));
          task.setUniqueID(uniqueID);
+         //task.setUniqueIDPredecessors(); // Calculated value
+         //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskExtData.getUnicodeString (TASK_WBS));
          task.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 168))/100, TimeUnit.HOURS));
+         //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
          
          //
@@ -673,10 +703,44 @@ final class MPP8File
          // Uncommenting the call to this method is useful when trying 
          // to determine the function of unknown task data.
          //
-         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);                                                                                                            
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);  
       }            
    }
 
+   /**
+    * This method is used to extract the task hyperlink attributes
+    * from a block of data and call the appropriate modifier methods
+    * to configure the specified task object.
+    * 
+    * @param task task instance
+    * @param data hyperlink data block
+    */
+   private static void processHyperlinkData (Task task, byte[] data)
+   {
+      if (data != null)
+      {
+         int offset = 12;
+         String hyperlink;
+         String address;
+         String subaddress;
+         
+         offset += 12;         
+         hyperlink = MPPUtility.getUnicodeString(data, offset);
+         offset += ((hyperlink.length()+1) * 2);
+   
+         offset += 12;         
+         address = MPPUtility.getUnicodeString(data, offset);
+         offset += ((address.length()+1) * 2);
+   
+         offset += 12;
+         subaddress = MPPUtility.getUnicodeString(data, offset);
+         
+         task.setHyperlink(hyperlink);
+         task.setHyperlinkAddress(address);
+         task.setHyperlinkSubAddress(subaddress);
+      }         
+   }
+   
    /**
     * This method extracts and collates constraint data.
     * 
@@ -1277,19 +1341,15 @@ final class MPP8File
 //      
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {
-//      {8, 12}, 
+//      {8, 12}, // includes known flags
 //      {36, 12}, 
 //      {50, 18}, 
 //      {86, 2},       
-//      {90, 6},       
-//      {136, 2}, 
 //      {142, 2}, 
 //      {144, 4}, 
 //      {148, 4}, 
 //      {152, 4},       
 //      {164, 4}, 
-//      {192, 12}, 
-//      {210, 6}, 
 //      {268, 4}, // includes known flags
 //      {274, 32}, // includes known flags
 //      {306, 6}, 
@@ -1413,6 +1473,8 @@ final class MPP8File
    private static final Integer TASK_NUMBER18 = new Integer (211);
    private static final Integer TASK_NUMBER19 = new Integer (212);
    private static final Integer TASK_NUMBER20 = new Integer (213);
+   
+   private static final Integer TASK_HYPERLINK = new Integer (236);
    
    private static final Integer TASK_COST1 = new Integer (237);
    private static final Integer TASK_COST2 = new Integer (238);

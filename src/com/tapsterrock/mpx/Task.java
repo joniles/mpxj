@@ -6554,6 +6554,286 @@ public final class Task extends MPXRecord implements Comparable
    {
       return (m_outlineCode10);         
    }
+       
+   /**
+    * Retrieves the actual overtime cost for this task.
+    * 
+    * @return actual overtime cost
+    */       
+   public Number getActualOvertimeCost ()
+   {
+      return (m_actualOvertimeCost);   
+   }
+
+   /**
+    * Sets the actual overtime cost for this task.
+    * 
+    * @param cost actual overtime cost
+    */
+   public void setActualOvertimeCost (Number cost)
+   {
+      m_actualOvertimeCost = cost;   
+   }
+
+   /**
+    * Retrieves the actual overtime work value
+    * 
+    * @return actual overtime work value
+    */
+   public MPXDuration getActualOvertimeWork ()
+   {
+      return (m_actualOvertimeWork);   
+   }
+                           
+   /**
+    * Sets the actual overtime work value
+    * 
+    * @param work actual overtime work value
+    */                           
+   public void setActualOvertimeWork (MPXDuration work)
+   {
+      m_actualOvertimeWork = work;   
+   }
+   
+   /**
+    * Retrieves the fixed cost accrual flag value
+    * 
+    * @return fixed cost accrual flag
+    */
+   public AccrueType getFixedCostAccrual ()
+   {
+      return (m_fixedCostAccrual);   
+   }
+
+   /**
+    * Sets the fixed cost accrual flag value
+    * 
+    * @param type fixed cost accrual type
+    */
+   public void setFixedCostAccrual (AccrueType type)   
+   {
+      m_fixedCostAccrual = type;   
+   }
+   
+   /**
+    * Retrieves the task hyperlink attribute
+    * 
+    * @return hyperlink attribute
+    */
+   public String getHyperlink ()
+   {
+      return (m_hyperlink);   
+   }
+
+   /**
+    * Retrieves the task hyperlink address attribute
+    * 
+    * @return hyperlink address attribute
+    */
+   public String getHyperlinkAddress ()
+   {
+      return (m_hyperlinkAddress);   
+   }
+
+   /**
+    * Retrieves the task hyperlink sub-address attribute
+    * 
+    * @return hyperlink sub address attribute
+    */
+   public String getHyperlinkSubAddress ()
+   {
+      return (m_hyperlinkSubAddress);   
+   }
+
+   /**
+    * Sets the task hyperlink attribute
+    * 
+    * @param text hyperlink attribute
+    */
+   public void setHyperlink (String text)
+   {
+      m_hyperlink = text;   
+   }
+
+   /**
+    * Sets the task hyperlink address attribute
+    * 
+    * @param text hyperlink address attribute
+    */
+   public void setHyperlinkAddress (String text)
+   {
+      m_hyperlinkAddress = text;   
+   }
+
+   /**
+    * Sets the task hyperlink sub address attribute
+    * 
+    * @param text hyperlink sub address attribute
+    */
+   public void setHyperlinkSubAddress (String text)
+   {
+      m_hyperlinkSubAddress = text;   
+   }
+   
+   /**
+    * Retrieves the level assignments flag
+    * 
+    * @return level assignments flag
+    */
+   public boolean getLevelAssignments ()
+   {
+      return (m_levelAssignments);   
+   }
+            
+   /**
+    * Sets the level assignments flag
+    * 
+    * @param flag level assignments flag
+    */            
+   public void setLevelAssignments (boolean flag)
+   {
+      m_levelAssignments = flag;   
+   }
+   
+   /**
+    * Retrieves the leveling can split flag.
+    * 
+    * @return leveling can split flag
+    */
+   public boolean getLevelingCanSplit ()
+   {
+      return (m_levelingCanSplit);   
+   }
+
+   /**
+    * Sets the leveling can split flag.
+    * 
+    * @param flag leveling can split flag
+    */
+   public void setLevelingCanSplit (boolean flag)
+   {
+      m_levelingCanSplit = flag;
+   }
+   
+   /**
+    * Retrieves the task leveling delay attribute
+    * 
+    * @return task leveling delay
+    */
+   public MPXDuration getLevelingDelay ()
+   {
+      return (m_levelingDelay);   
+   }
+
+   /**
+    * Sets the task leveling delay attribute
+    * 
+    * @param delay task leveling delay attribute
+    */
+   public void setLevelingDelay (MPXDuration delay)
+   {
+      m_levelingDelay = delay;
+   }
+
+   /**
+    * Retrieves the overtime work attribute.
+    * 
+    * @return overtime work value
+    */         
+   public MPXDuration getOvertimeWork ()
+   {
+      return (m_overtimeWork);   
+   }
+   
+   /**
+    * Sets the overtime work attribute.
+    * 
+    * @param work overtime work value
+    */
+   public void setOvertimeWork (MPXDuration work)
+   {
+      m_overtimeWork = work;   
+   }
+   
+   /**
+    * Retrieves the preleveled start attribute.
+    * 
+    * @return preleveled start
+    */
+   public Date getPreleveledStart ()
+   {
+      return (m_preleveledStart);   
+   }
+
+   /**
+    * Retrieves the preleveled finish attribute
+    * 
+    * @return preleveled finish
+    */   
+   public Date getPreleveledFinish ()
+   {
+      return (m_preleveledFinish);
+   }
+
+   /**
+    * Sets the preleveled start attribute
+    * 
+    * @param date preleveled start attribute
+    */
+   public void setPreleveledStart (Date date)
+   {
+      m_preleveledStart = date;
+   }
+
+   /**
+    * Sets the preleveled finish attribute
+    * 
+    * @param date preleveled finish attribute
+    */   
+   public void setPreleveledFinish (Date date)
+   {
+      m_preleveledFinish = date;
+   }
+
+   /**
+    * Retrieves the remaining overtime work attribute
+    * 
+    * @return remaining overtime work
+    */
+   public MPXDuration getRemainingOvertimeWork ()
+   {
+      return (m_remainingOvertimeWork);   
+   }
+         
+   /**
+    * Sets the remaining overtime work attribute
+    * 
+    * @param work remaining overtime work
+    */            
+   public void setRemainingOvertimeWork (MPXDuration work)
+   {
+      m_remainingOvertimeWork = work;   
+   }
+
+   /**
+    * Retrieves the remaining overtime cost
+    * 
+    * @return remaining overtime cost value
+    */
+   public Number getRemainingOvertimeCost ()
+   {
+      return (m_remainingOvertimeCost);   
+   }
+
+   /**
+    * Sets the remaining overtime cost value
+    * 
+    * @param cost overtime cost value
+    */
+   public void setRemainingOvertimeCost (Number cost)
+   {
+      m_remainingOvertimeCost = cost;   
+   }
                   
    /**
     * This is a reference to the parent task, as specified by the
@@ -6691,7 +6971,21 @@ public final class Task extends MPXRecord implements Comparable
    private String m_outlineCode8;
    private String m_outlineCode9;
    private String m_outlineCode10;
-                                                                              
+   private Number m_actualOvertimeCost;
+   private MPXDuration m_actualOvertimeWork;
+   private AccrueType m_fixedCostAccrual;
+   private String m_hyperlink;
+   private String m_hyperlinkAddress;
+   private String m_hyperlinkSubAddress;
+   private boolean m_levelAssignments;
+   private boolean m_levelingCanSplit;
+   private MPXDuration m_levelingDelay;
+   private MPXDuration m_overtimeWork;
+   private Date m_preleveledStart;
+   private Date m_preleveledFinish;
+   private MPXDuration m_remainingOvertimeWork;         
+   private Number m_remainingOvertimeCost;
+      
 	/**
 	 * Constants used to define the task type.
 	 */

@@ -250,7 +250,7 @@ public final class MPXDuration
    /**
     * Number formatter.
     */
-   private static final MPXNumberFormat FLOAT_FORMAT = new MPXNumberFormat ("#", '.', ',');
+   private static final MPXNumberFormat FLOAT_FORMAT = new MPXNumberFormat ("#.#", '.', ',');
    
    /**
     * Constants used for duration type conversion.

@@ -687,6 +687,8 @@ public class MSPDIFile extends MPXFile
       mpx.setActualCost(getMpxCurrency (task.getActualCost()));
       mpx.setActualDuration(getDuration (task.getActualDuration()));
       mpx.setActualFinish(getDate (task.getActualFinish()));
+      mpx.setActualOvertimeCost(getMpxCurrency(task.getActualOvertimeCost()));
+      mpx.setActualOvertimeWork(getDuration (task.getActualOvertimeWork()));
       mpx.setActualStart(getDate (task.getActualStart()));
       mpx.setActualWork(getDuration (task.getActualWork()));
       //mpx.setBaselineCost();
@@ -728,6 +730,7 @@ public class MSPDIFile extends MPXFile
       mpx.setFinishVariance(getMinutesDuration(task.getFinishVariance()));
       //mpx.setFixed();
       mpx.setFixedCost(task.getFixedCost()/100);
+      mpx.setFixedCostAccrual(AccrueType.getInstance(task.getFixedCostAccrual()));
       //mpx.setFlag1();
       //mpx.setFlag2();
       //mpx.setFlag3();
@@ -740,9 +743,15 @@ public class MSPDIFile extends MPXFile
       //mpx.setFlag10();
       mpx.setFreeSlack(getMinutesDuration(task.getFreeSlack()));
       mpx.setHideBar(task.isHideBar());
+      mpx.setHyperlink(task.getHyperlink());
+      mpx.setHyperlinkAddress(task.getHyperlinkAddress());
+      mpx.setHyperlinkSubAddress(task.getHyperlinkSubAddress());
       mpx.setID(getInteger(task.getID()));
       mpx.setLateFinish(getDate(task.getLateFinish()));
       mpx.setLateStart(getDate(task.getLateStart()));
+      mpx.setLevelAssignments(task.isLevelAssignments());
+      mpx.setLevelingCanSplit(task.isLevelingCanSplit());
+      mpx.setLevelingDelay(new MPXDuration (task.getLevelingDelay().doubleValue(), getMpxDurationUnits(task.getLevelingDelayFormat())));
       //mpx.setLinkedFields();
       //mpx.setMarked();
       mpx.setMilestone(task.isMilestone());
@@ -757,12 +766,17 @@ public class MSPDIFile extends MPXFile
       mpx.setOutlineLevel(getInteger(task.getOutlineLevel()));
       mpx.setOutlineNumber(task.getOutlineNumber());
       mpx.setOvertimeCost(getMpxCurrency(task.getOvertimeCost()));
+      mpx.setOvertimeWork(getDuration(task.getOvertimeWork()));
       mpx.setPercentageComplete(task.getPercentComplete());
       mpx.setPercentageWorkComplete(task.getPercentWorkComplete());
+      mpx.setPreleveledFinish(getDate(task.getPreLeveledFinish()));
+      mpx.setPreleveledStart(getDate(task.getPreLeveledStart()));
       mpx.setPriority(getMpxPriority(task.getPriority()));
       //mpx.setProject();
       mpx.setRemainingCost(getMpxCurrency(task.getRemainingCost()));
       mpx.setRemainingDuration(getDuration(task.getRemainingDuration()));
+      mpx.setRemainingOvertimeCost(getMpxCurrency(task.getRemainingOvertimeCost()));
+      mpx.setRemainingOvertimeWork(getDuration (task.getRemainingOvertimeWork()));
       mpx.setRemainingWork(getDuration (task.getRemainingWork()));
       //mpx.setResourceGroup();
       //mpx.setResourceInitials();
@@ -2250,6 +2264,8 @@ public class MSPDIFile extends MPXFile
       xml.setActualCost(getXmlCurrency(mpx.getActualCost()));
       xml.setActualDuration(getDuration(mpx.getActualDuration()));
       xml.setActualFinish(getCalendar(mpx.getActualFinish()));
+      xml.setActualOvertimeCost(getXmlCurrency(mpx.getActualOvertimeCost()));
+      xml.setActualOvertimeWork(getDuration(mpx.getActualOvertimeWork()));
       xml.setActualStart(getCalendar(mpx.getActualStart()));
       xml.setActualWork(getDuration(mpx.getActualWork()));
       xml.setBCWP((float)mpx.getBCWPValue());
@@ -2288,15 +2304,23 @@ public class MSPDIFile extends MPXFile
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
       xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setHideBar(mpx.getHideBarValue());
+      xml.setHyperlink(mpx.getHyperlink());
+      xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
+      xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setID(BigInteger.valueOf(mpx.getIDValue()));
       xml.setLateFinish(getCalendar(mpx.getLateFinish()));
       xml.setLateStart(getCalendar(mpx.getLateStart()));
+      xml.setLevelAssignments(mpx.getLevelAssignments());
+      xml.setLevelingCanSplit(mpx.getLevelingCanSplit());
+      xml.setLevelingDelay(BigInteger.valueOf((long)mpx.getLevelingDelay().getDuration()));
+      xml.setLevelingDelayFormat(getDurationFormat(mpx.getLevelingDelay()));
       xml.setMilestone(mpx.getMilestoneValue());
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
       xml.setOutlineLevel(BigInteger.valueOf(mpx.getOutlineLevelValue()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
       xml.setOvertimeCost(getXmlCurrency(mpx.getOvertimeCost()));
+      xml.setOvertimeWork(getDuration(mpx.getOvertimeWork()));
       xml.setPercentComplete(BigInteger.valueOf((long)mpx.getPercentageCompleteValue()));
       xml.setPercentWorkComplete(BigInteger.valueOf((long)mpx.getPercentageWorkCompleteValue()));
       xml.setPriority(getXmlPriority(mpx.getPriority()));
@@ -2319,6 +2343,8 @@ public class MSPDIFile extends MPXFile
          xml.setRemainingDuration(getDuration(mpx.getRemainingDuration()));
       }
 
+      xml.setRemainingOvertimeCost(getXmlCurrency(mpx.getRemainingOvertimeCost()));
+      xml.setRemainingOvertimeWork(getDuration(mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(getDuration(mpx.getRemainingWork()));
       xml.setResume(getCalendar(mpx.getResume()));
       xml.setRollup(mpx.getRollupValue());
