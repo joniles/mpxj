@@ -23,6 +23,7 @@
 
 package com.tapsterrock.mpp;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -756,41 +757,63 @@ final class MPP8File
    private static void processConstraintData (MPPFile file, DirectoryEntry projectDir)
       throws IOException
    {
-      DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
-      FixFix consFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixFix   0"))));
-
-      int count = consFixedData.getItemCount();
-      byte[] data;
-      Task task1;
-      Task task2;
-      Relation rel;
-      int durationUnits;
-      int taskID1;
-      int taskID2;
-
-      for (int loop=0; loop < count; loop++)
+      //
+      // Locate the directory containing the constraints
+      //
+      DirectoryEntry consDir;
+      
+      try
       {
-         data = consFixedData.getByteArrayValue(loop);
+         consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
+      }
+      
+      catch (FileNotFoundException ex)
+      {
+         consDir = null;
+      }
 
-         if (MPPUtility.getInt(data, 28) == 0)
+      //
+      // It appears possible that valid MPP8 files can be generated without
+      // this directory, so only process constraints if the directory
+      // exists.
+      //        
+      if (consDir != null)
+      {        
+         FixFix consFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixFix   0"))));
+   
+         int count = consFixedData.getItemCount();
+         byte[] data;
+         Task task1;
+         Task task2;
+         Relation rel;
+         int durationUnits;
+         int taskID1;
+         int taskID2;
+   
+         for (int loop=0; loop < count; loop++)
          {
-            taskID1 = MPPUtility.getInt (data, 12);
-            taskID2 = MPPUtility.getInt (data, 16);
-
-            if (taskID1 != taskID2)
+            data = consFixedData.getByteArrayValue(loop);
+   
+            if (MPPUtility.getInt(data, 28) == 0)
             {
-               task1 = file.getTaskByUniqueID (taskID1);
-               task2 = file.getTaskByUniqueID (taskID2);
-               if (task1 != null && task2 != null)
+               taskID1 = MPPUtility.getInt (data, 12);
+               taskID2 = MPPUtility.getInt (data, 16);
+   
+               if (taskID1 != taskID2)
                {
-                  rel = task2.addPredecessor(task1);
-                  rel.setType (MPPUtility.getShort(data, 20));
-                  durationUnits = MPPUtility.getDurationUnits(MPPUtility.getShort (data, 22));
-                  rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 24), durationUnits));
+                  task1 = file.getTaskByUniqueID (taskID1);
+                  task2 = file.getTaskByUniqueID (taskID2);
+                  if (task1 != null && task2 != null)
+                  {
+                     rel = task2.addPredecessor(task1);
+                     rel.setType (MPPUtility.getShort(data, 20));
+                     durationUnits = MPPUtility.getDurationUnits(MPPUtility.getShort (data, 22));
+                     rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 24), durationUnits));
+                  }
                }
             }
          }
-      }
+      }         
    }
 
 
