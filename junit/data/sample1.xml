@@ -1643,6 +1643,7 @@
 <PeakUnits>0.0</PeakUnits>
 <AccrueAt>3</AccrueAt>
 <Work>PT200H0M0S</Work>
+<RegularWork>PT0H0M0S</RegularWork>
 <OvertimeWork>PT0H0M0S</OvertimeWork>
 <ActualWork>PT0H0M0S</ActualWork>
 <RemainingWork>PT0H0M0S</RemainingWork>
@@ -1650,9 +1651,12 @@
 <StandardRate>10</StandardRate>
 <Cost>201500</Cost>
 <OvertimeRate>20</OvertimeRate>
+<OvertimeCost>0</OvertimeCost>
 <CostPerUse>3000</CostPerUse>
 <ActualCost>0</ActualCost>
+<ActualOvertimeCost>0</ActualOvertimeCost>
 <RemainingCost>0</RemainingCost>
+<RemainingOvertimeCost>0</RemainingOvertimeCost>
 <WorkVariance>0.0</WorkVariance>
 <CostVariance>0.0</CostVariance>
 <CalendarUID>1</CalendarUID>
@@ -1666,6 +1670,7 @@
 <PeakUnits>0.0</PeakUnits>
 <AccrueAt>3</AccrueAt>
 <Work>PT300H0M0S</Work>
+<RegularWork>PT0H0M0S</RegularWork>
 <OvertimeWork>PT0H0M0S</OvertimeWork>
 <ActualWork>PT0H0M0S</ActualWork>
 <RemainingWork>PT0H0M0S</RemainingWork>
@@ -1673,9 +1678,12 @@
 <StandardRate>5</StandardRate>
 <Cost>151125</Cost>
 <OvertimeRate>10</OvertimeRate>
+<OvertimeCost>0</OvertimeCost>
 <CostPerUse>1500</CostPerUse>
 <ActualCost>0</ActualCost>
+<ActualOvertimeCost>0</ActualOvertimeCost>
 <RemainingCost>0</RemainingCost>
+<RemainingOvertimeCost>0</RemainingOvertimeCost>
 <WorkVariance>0.0</WorkVariance>
 <CostVariance>0.0</CostVariance>
 <CalendarUID>1</CalendarUID>

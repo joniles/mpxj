@@ -529,6 +529,7 @@ public class MSPDIFile extends MPXFile
 
       mpx.setAccrueAt(AccrueType.getInstance(resource.getAccrueAt()));
       mpx.setActualCost(getMpxCurrency(resource.getActualCost()));
+      mpx.setActualOvertimeCost(getMpxCurrency(resource.getActualOvertimeCost()));      
       mpx.setActualWork(getDuration (resource.getActualWork()));
       mpx.setBaseCalendar ((String)calendarMap.get(resource.getCalendarUID()));
       //mpx.setBaselineCost();
@@ -547,11 +548,14 @@ public class MSPDIFile extends MPXFile
       mpx.setNotes(resource.getNotes());
       //mpx.setObjects();
       //mpx.setOverallocated();
+      mpx.setOvertimeCost(getMpxCurrency(resource.getOvertimeCost()));      
       mpx.setOvertimeRate(getHourlyRate(resource.getOvertimeRate()));
       mpx.setOvertimeWork(getDuration (resource.getOvertimeWork()));
       mpx.setPeak(resource.getPeakUnits() * 100);
       mpx.setPercentageWorkComplete(resource.getPercentWorkComplete());
+      mpx.setRegularWork(getDuration(resource.getRegularWork()));      
       mpx.setRemainingCost(getMpxCurrency(resource.getRemainingCost()));
+      mpx.setRemainingOvertimeCost(getMpxCurrency(resource.getRemainingOvertimeCost()));      
       mpx.setRemainingWork(getDuration (resource.getRemainingWork()));
       mpx.setStandardRate(getHourlyRate(resource.getStandardRate()));
       //mpx.setText1();
@@ -2071,6 +2075,7 @@ public class MSPDIFile extends MPXFile
 
       xml.setAccrueAt(BigInteger.valueOf(mpx.getAccrueAtValue()));
       xml.setActualCost(getXmlCurrency (mpx.getActualCost()));
+      xml.setActualOvertimeCost(getXmlCurrency(mpx.getActualOvertimeCost()));
       xml.setActualWork(getDuration (mpx.getActualWork()));
       xml.setCode(mpx.getCode());
       xml.setCost(getXmlCurrency(mpx.getCost()));
@@ -2083,11 +2088,14 @@ public class MSPDIFile extends MPXFile
       xml.setMaxUnits((float)(mpx.getMaxUnitsValue()/100));
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
+      xml.setOvertimeCost(getXmlCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeRate(new BigDecimal (getRateCost (mpx.getOvertimeRate())));
       xml.setOvertimeWork(getDuration (mpx.getOvertimeWork()));
       xml.setPeakUnits((float)(mpx.getPeakValue()/100));
       xml.setPercentWorkComplete(BigInteger.valueOf((long)mpx.getPercentageWorkCompleteValue()));
+      xml.setRegularWork(getDuration(mpx.getRegularWork()));
       xml.setRemainingCost(getXmlCurrency(mpx.getRemainingCost()));
+      xml.setRemainingOvertimeCost(getXmlCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingWork(getDuration(mpx.getRemainingWork()));
       xml.setStandardRate(new BigDecimal (getRateCost (mpx.getStandardRate())));
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
