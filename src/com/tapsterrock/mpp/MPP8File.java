@@ -1075,14 +1075,14 @@ final class MPP8File
       byte[] data;
       Task task;
       Resource resource;
-
+      
       for (int loop=0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
          task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
          resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
          if (task != null && resource != null)
-         {
+         {            
             assignment = task.addResourceAssignment (resource);
             assignment.setActualCost(new Double (MPPUtility.getLong6(data, 138)/100));
             assignment.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 96))/100, TimeUnit.HOURS));
@@ -1092,6 +1092,7 @@ final class MPP8File
             assignment.setOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 90))/100, TimeUnit.HOURS));
             //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
             //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+            assignment.setRemainingWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 114))/100, TimeUnit.HOURS));
             assignment.setStart(MPPUtility.getTimestamp(data, 24));
             assignment.setUnits(((double)MPPUtility.getShort(data, 80))/100);
             assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 84))/100, TimeUnit.HOURS));
@@ -1373,6 +1374,7 @@ final class MPP8File
 //      }
 //      System.out.println ();
 //   }
+   
 //
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {

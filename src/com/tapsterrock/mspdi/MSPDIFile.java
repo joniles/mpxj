@@ -1011,17 +1011,55 @@ public class MSPDIFile extends MPXFile
          if (task != null && resource != null)
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
+            
             mpx.setActualCost(getMpxCurrency(assignment.getActualCost()));
+            //assignment.getActualFinish()
+            //assignment.getActualOvertimeCost()
+            //assignment.getActualOvertimeWork()
+            //assignment.getActualOvertimeWorkProtected()
+            //assignment.getActualStart()
             mpx.setActualWork(getDuration(assignment.getActualWork()));
+            //assignment.getActualWorkProtected()
+            //assignment.getACWP()
+            //assignment.getBaseline()
+            //assignment.getBCWP()
+            //assignment.getBCWS()
+            //assignment.getBookingType()
             mpx.setCost(getMpxCurrency(assignment.getCost()));
+            //assignment.getCostRateTable()
+            //assignment.getCostVariance()
+            //assignment.getCreationDate()
+            //assignment.getCV()
             mpx.setDelay(getMinutesDuration(assignment.getDelay()));
+            //assignment.getExtendedAttribute()
             mpx.setFinish(getDate(assignment.getFinish()));
+            //assignment.getFinishVariance()
+            //assignment.getHyperlink()
+            //assignment.getHyperlinkAddress()
+            //assignment.getHyperlinkSubAddress()
+            //assignment.getLevelingDelay()
+            //assignment.getLevelingDelayFormat()
+            //assignment.getNotes()
+            //assignment.getOvertimeCost()
             mpx.setOvertimeWork(getDuration(assignment.getOvertimeWork()));
+            //assignment.getPercentWorkComplete()            
             //mpx.setPlannedCost();
             //mpx.setPlannedWork();
+            //assignment.getRegularWork()
+            //assignment.getRemainingCost()
+            //assignment.getRemainingOvertimeCost()
+            //assignment.getRemainingOvertimeWork()
+            mpx.setRemainingWork(getDuration(assignment.getRemainingWork()));
+            //assignment.getResume()
             mpx.setStart(getDate(assignment.getStart()));
+            //assignment.getStartVariance()
+            //assignment.getStop()
+            //assignment.getTimephasedData()
             mpx.setUnits(assignment.getUnits()*100);
+            //assignment.getVAC()            
             mpx.setWork(getDuration(assignment.getWork()));
+            //assignment.getWorkContour()
+            //assignment.getWorkVariance()
          }
       }
    }
@@ -2715,13 +2753,14 @@ public class MSPDIFile extends MPXFile
       xml.setDelay(BigInteger.valueOf((long)getDurationInMinutes(mpx.getDelay())*1000));
       xml.setFinish(getCalendar(mpx.getFinish()));
       xml.setOvertimeWork(getDuration(mpx.getOvertimeWork()));
+      xml.setRemainingWork(getDuration (mpx.getRemainingWork()));
       xml.setResourceUID(BigInteger.valueOf(mpx.getResourceUniqueIDValue()));
       xml.setStart(getCalendar (mpx.getStart()));
       xml.setTaskUID(BigInteger.valueOf(mpx.getTask().getUniqueIDValue()));
       xml.setUID(BigInteger.valueOf(uid));
       xml.setUnits((float)mpx.getUnitsValue()/100);
       xml.setWork(getDuration (mpx.getWork()));
-
+      
       return (xml);
    }
 

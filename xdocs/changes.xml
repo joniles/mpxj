@@ -24,6 +24,7 @@
       <action dev="joniles" type="add">Implemented support for Maven.</action>
       <action dev="joniles" type="add">Updated MpxCreate utility to allow it to create both MPX and MSPDI files.</action>
       <action dev="joniles" type="add">Added new JUnit test for confidential customer data.</action>
+      <action dev="joniles" type="add">Added support for the resource assignment remaining work attribute for MPP8, MPP9 and MSPDI files.</action>
    </release>
 
    <release version="0.0.21" date="06/05/2004"> 

@@ -1908,6 +1908,7 @@ formatting.
             <Delay>0</Delay>
             <Finish>2003-03-17T17:00:00</Finish>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
             <Units>0.5</Units>
             <Work>PT200H0M0S</Work>
@@ -1922,6 +1923,7 @@ formatting.
             <Delay>0</Delay>
             <Finish>2003-03-18T08:00:00</Finish>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
             <Units>0.75</Units>
             <Work>PT300H0M0S</Work>
@@ -1936,6 +1938,7 @@ formatting.
             <Delay>0</Delay>
             <Finish>2003-01-13T17:00:00</Finish>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T08:00:00</Start>
             <Units>1.0</Units>
             <Work>PT40H0M0S</Work>
@@ -1950,6 +1953,7 @@ formatting.
             <Delay>0</Delay>
             <Finish>2003-01-14T08:00:00</Finish>
             <OvertimeWork>PT0H0M0S</OvertimeWork>
+            <RemainingWork>PT0H0M0S</RemainingWork>
             <Start>2003-01-07T23:00:00</Start>
             <Units>1.0</Units>
             <Work>PT40H0M0S</Work>

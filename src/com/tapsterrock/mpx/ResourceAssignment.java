@@ -494,6 +494,36 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
+    * Returns the remaining work for this resource assignment
+    *
+    * @return remaining work
+    */
+   public MPXDuration getRemainingWork ()
+   {
+      return (m_remainingWork);
+   }
+
+   /**
+    * Sets the remaining work for this resource assignment
+    *
+    * @param remainingWork remaining work
+    */
+   public void setRemainingWork (MPXDuration remainingWork)
+   {
+      m_remainingWork = remainingWork;
+   }
+
+   /**
+    * The following member variables are extended attributes. They are
+    * do not form part of the MPX file format definition, and are neither
+    * loaded from an MPX file, or saved to an MPX file. Their purpose
+    * is to provide storage for attributes which are defined by later versions
+    * of Microsoft Project. This allows these attributes to be manipulated
+    * when they have been retrieved from file formats other than MPX.
+    */   
+   private MPXDuration m_remainingWork;
+   
+   /**
     * Reference to the parent task of this assignment
     */
    private Task m_task;

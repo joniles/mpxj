@@ -44,6 +44,7 @@ import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
+import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mspdi.MSPDIFile;
@@ -385,6 +386,7 @@ public class TestMPXFile extends TestCase
          MPPFile mpp = new MPPFile (in);
          out = File.createTempFile ("junit", ".mpx");
          mpp.write (out);
+         commonTests(mpp);
       }
 
       finally
@@ -410,6 +412,7 @@ public class TestMPXFile extends TestCase
          MPPFile mpp = new MPPFile (in);
          out = File.createTempFile ("junit", ".mpx");
          mpp.write (out);
+         commonTests(mpp);
       }
 
       finally
@@ -435,6 +438,7 @@ public class TestMPXFile extends TestCase
          MSPDIFile xml = new MSPDIFile (in);
          out = File.createTempFile ("junit", ".mpx");
          xml.write (out);
+         commonTests(xml);
       }
 
       finally
@@ -446,6 +450,53 @@ public class TestMPXFile extends TestCase
       }
    }
 
+   /**
+    * The files sample.mpp, sample98.mpp and sample.xml contain identical
+    * data produced by MS Project. This method contains validation tests
+    * on that data to ensure that the three file formats are being read
+    * consistently.
+    * 
+    * @param file MPXFile instance
+    */
+   private void commonTests (MPXFile file)
+   {
+      //
+      // Test the remaining work attribute
+      //
+      Task task = file.getTaskByUniqueID(2);
+      LinkedList assignments = task.getResourceAssignments();
+      assertEquals(2, assignments.size());
+            
+      Iterator iter = assignments.iterator();
+      ResourceAssignment assignment;
+      
+      while (iter.hasNext() == true)
+      {
+         assignment = (ResourceAssignment)iter.next();
+         
+         switch (assignment.getResourceIDValue())
+         {
+            case 1:
+            {
+               assertEquals("200h", assignment.getRemainingWork().toString());
+               break;
+            }
+            
+            case 2:
+            {
+               assertEquals("300h", assignment.getRemainingWork().toString());
+               break;
+            }
+            
+            default:
+            {
+               assertTrue("Unexpected resource", false);
+               break;
+            }
+         }
+      }
+   }
+   
    /**
     * This method tests two stages of conversion, MPP->MPX->MSPDI. This
     * jhas been designed to exercise bug 896189, which was exhibited

@@ -1587,6 +1587,7 @@ final class MPP9File
             //assignment.setOvertimeWork(); // Can't find in data block
             //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
             //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+            assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
             assignment.setStart(MPPUtility.getTimestamp(data, 12));
             assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
             assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
