@@ -175,6 +175,44 @@ final class MPPUtility
       return (result);
    }
 
+
+   /**
+    * This method reads a six byte long from the input array.
+    *
+    * @param data the input array
+    * @param offset offset of integer data in the array
+    * @return integer value
+    */
+   public static final long getLong6 (byte[] data, int offset)
+   {
+      long result = (long)(data[offset] & 0x0F); // 0
+      result += (long)(data[offset] >> 4 & 0x0F) * 16; // 1
+      result += (long)(data[offset+1] & 0x0F) * 256; // 2
+      result += (long)(data[offset+1] >> 4 & 0x0F) * 4096; // 3
+      result += (long)(data[offset+2] & 0x0F) * 65536; // 4
+      result += (long)(data[offset+2] >> 4 & 0x0F) * 1048576; // 5
+      result += (long)(data[offset+3] & 0x0F) * 16777216; // 6
+      result += (long)(data[offset+3] >> 4 & 0x0F) * 268435456; // 7
+      result += (long)(data[offset+4] & 0x0F) * 4294967296L; // 8
+      result += (long)(data[offset+4] >> 4 & 0x0F) * 68719476736L; // 9
+      result += (long)(data[offset+5] & 0x0F) * 1099511627776L; // 10
+      result += (long)(data[offset+5] >> 4 & 0x0F) * 17592186044416L; // 11
+      
+      return (result);
+   }
+
+   /**
+    * This method reads a six byte long from the input array.
+    * The integer is assumed to be at the start of the array.
+    *
+    * @param data the input array
+    * @return integer value
+    */
+   public static final long getLong6 (byte[] data)
+   {
+      return (getLong6 (data, 0));
+   }
+
    /**
     * This method reads a eight byte integer from the input array.
     * The integer is assumed to be at the start of the array.
@@ -395,7 +433,7 @@ final class MPPUtility
     * @param value Duration value
     * @param type type of units of the duration
     */
-   public static MPXDuration getDuration (int value, int type)
+   public static final MPXDuration getDuration (int value, int type)
    {
       return (getDuration ((double)value, type));      
    }
@@ -407,7 +445,7 @@ final class MPPUtility
     * @param value Duration value
     * @param type type of units of the duration
     */
-   public static MPXDuration getDuration (double value, int type)
+   public static final MPXDuration getDuration (double value, int type)
    {
       double duration;
 
@@ -467,7 +505,7 @@ final class MPPUtility
     * @param type MPP units
     * @return MPX units
     */
-   public static int getDurationUnits (int type)
+   public static final int getDurationUnits (int type)
    {
       int units;
 
