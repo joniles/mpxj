@@ -22,7 +22,8 @@ MPXJ allows MPX files to be created, read and written.
 
 MPP: The MPP file format is Microsoft’s proprietary way of storing
 project data. MPXJ supports read only access to MPP files produced
-by Microsoft Project 2000 and Microsoft Project 2002.
+by Microsoft Project 98, Microsoft Project 2000 and Microsoft 
+Project 2002.
 
 MSPDI: The MSPDI file format is the new XML file format for
 storing project data. Currently only Microsoft Project 2002 can
