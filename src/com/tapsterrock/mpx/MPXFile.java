@@ -190,7 +190,7 @@ public class MPXFile
     * @param is input stream
     * @throws MPXException if file read fails
     */
-   private void read (InputStream is)
+   public void read (InputStream is)
       throws MPXException
    {
       try
@@ -263,12 +263,35 @@ public class MPXFile
 
    /**
     * This is a convenience method to read an MPX file
+    * given a file name.
+    *
+    * @param file the file to be read.
+    * @throws MPXException thrown if a file read error occurs
+    */
+   public void read (String file)
+     throws MPXException
+   {
+      try
+      {
+         FileInputStream fis = new FileInputStream (file);
+         read (fis);
+         fis.close();
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
+   }
+
+   /**
+    * This is a convenience method to read an MPX file
     * from a file object.
     *
     * @param file the file to be read.
     * @throws MPXException thrown if a file read error occurs
     */
-   private void read (File file)
+   public void read (File file)
      throws MPXException
    {
       try

@@ -158,13 +158,36 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
+    * This method implements reading from a named file, and
+    * maps any exceptions thrown into an MPXException.
+    *
+    * @param file file name
+    * @throws MPXException on file read errors
+    */
+   public void read (String file)
+     throws MPXException
+   {
+      try
+      {
+         FileInputStream fis = new FileInputStream (file);
+         read (fis);
+         fis.close();
+      }
+
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
+   }
+
+   /**
     * This method implements reading from a File object and
     * maps any exceptions thrown into an MPXException.
     *
     * @param file File object
     * @throws MPXException on file read errors
     */
-   private void read (File file)
+   public void read (File file)
      throws MPXException
    {
       try
@@ -187,7 +210,7 @@ public class MSPDIFile extends MPXFile
     * @param stream Input stream
     * @throws MPXException on file read errors
     */
-   private void read (InputStream stream)
+   public void read (InputStream stream)
       throws MPXException
    {
       try
