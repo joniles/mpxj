@@ -1774,6 +1774,46 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
+    * Retrieve the default number of hours per day.
+    * 
+    * @return hours per day
+    */
+   private float getDefaultHoursPerDay ()
+   {
+      float result;
+      Float value = getProjectHeader().getDefaultHoursInDay();
+      if (value == null)
+      {
+         result = 8;
+      }
+      else
+      {
+         result = value.floatValue();
+      }
+      return (result);
+   }
+
+   /**
+    * Retrieve the default number of hours per week.
+    * 
+    * @return hours per week
+    */
+   private float getDefaultHoursPerWeek ()
+   {
+      float result;
+      Float value = getProjectHeader().getDefaultHoursInWeek();
+      if (value == null)
+      {
+         result = 40;
+      }
+      else
+      {
+         result = value.floatValue();
+      }
+      return (result);
+   }
+   
+   /**
     * Utility method to convert an MPXDuration into an xsd:duration.
     *
     * Note that Microsoft's xsd:duration parser implementation does not
@@ -1815,32 +1855,52 @@ public class MSPDIFile extends MPXFile
                }
 
                case TimeUnit.DAYS_VALUE:
+               {
+                  hours *= getDefaultHoursPerDay();
+                  break;
+               }
+
                case TimeUnit.ELAPSED_DAYS_VALUE:
                {
-                  hours *= 8;
+                  hours *= 24;
+                  break;
+               }
+               
+               case TimeUnit.WEEKS_VALUE:
+               {
+                  hours *= getDefaultHoursPerWeek();
                   break;
                }
 
-               case TimeUnit.WEEKS_VALUE:
                case TimeUnit.ELAPSED_WEEKS_VALUE:
                {
-                  hours *= (8 * 5);
+                  hours *= (24 * 7);
+                  break;
+               }
+               
+               case TimeUnit.MONTHS_VALUE:
+               {
+                  hours *= (getDefaultHoursPerWeek() * 4);
                   break;
                }
 
-               case TimeUnit.MONTHS_VALUE:
                case TimeUnit.ELAPSED_MONTHS_VALUE:
                {
-                  hours *= (8 * 5 * 4);
+                  hours *= (24 * 7 * 4);
                   break;
                }
-
+               
                case TimeUnit.YEARS_VALUE:
+               {
+                  hours *= (getDefaultHoursPerWeek() * 52);
+                  break;
+               }
+               
                case TimeUnit.ELAPSED_YEARS_VALUE:
                {
-                  hours *= (8 * 5 * 52);
+                  hours *= (24 * 7 * 52);
                   break;
-               }
+               }               
             }
 
             result = new XsdDuration(new MPXDuration (hours, TimeUnit.HOURS)).toString();
