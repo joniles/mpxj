@@ -490,7 +490,7 @@ public class MPPFile extends MPXFile
          {
             continue;
          }
-			
+						
          task = addTask();
          task.setActualCost(new Double (MPPUtility.getDouble (data, 216) / 100));
          //task.setActualDuration();
@@ -599,7 +599,7 @@ public class MPPFile extends MPXFile
          task.setUniqueID(id.intValue());
          //task.setUpdateNeeded(); // Calculated value
          task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
-         //task.setWork();
+         task.setWork(new MPXDuration (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkVariance(); // Calculated value
 
          //notes = taskVarData.getString (id, TASK_NOTES);
@@ -631,6 +631,10 @@ public class MPPFile extends MPXFile
          // MPPUtility.getTimestamp (data, 152); // 152-155
          // MPPUtility.getTimestamp (data, 164); // 164-167
 
+			// work
+			// MPPUtility.getDouble (data, 167); // 167-174
+			// MPPUtility.getDouble (data, 192); // 192-199
+			
          // priority *** need to work out mapping between MPX and MSP2K
          // getPriority (MPPUtility.getShort (data, 120))
 
