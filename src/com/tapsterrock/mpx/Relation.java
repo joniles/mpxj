@@ -208,7 +208,8 @@ public final class Relation
 
    /**
     * Method used to retrieve the identifier of the task
-    * related to the current task instance.
+    * related to the current task instance. Note that this value
+    * is the task ID, not the task UniqueID.
     *
     * @return task identifier
     */

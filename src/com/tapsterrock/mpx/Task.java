@@ -3834,13 +3834,13 @@ public final class Task extends MPXRecord implements Comparable
    /**
     * The Predecessor field in an MPX file lists the task ID numbers for the 
     * predecessor for a given task. A predecessor task must start or finish 
-    * the current task can be started.
-    * Each predecessor is linked to the task by a 
-    * specific type of task dependency and a lead time or lag time.
+    * the current task can be started. Each predecessor is linked to the task 
+    * by a specific type of task dependency and a lead time or lag time.
     * 
     * This method returns a RelationList object which contains a list of
     * relationships between tasks. An iterator can be used to traverse
-    * this list to retrieve each relationship.
+    * this list to retrieve each relationship. Note that this method may
+    * return null if no predecessor relationships have been defined.
     *
     * @return RelationList instance
     */
