@@ -242,9 +242,34 @@ public class TestMPXFile extends TestCase
    }
 
    /**
-    * Exercise the MPP import code.
+    * Exercise the MPP8 import code.
     */
    public void testConversion1 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/sample98.mpp");
+         MPPFile mpp = new MPPFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpp.write (out);
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   /**
+    * Exercise the MPP9 import code.
+    */
+   public void testConversion2 ()
       throws Exception
    {
       File out = null;
@@ -269,7 +294,7 @@ public class TestMPXFile extends TestCase
    /**
     * Exercise the XML import code.
     */
-   public void testConversion2 ()
+   public void testConversion3 ()
       throws Exception
    {
       File out = null;
