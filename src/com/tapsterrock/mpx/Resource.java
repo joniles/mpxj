@@ -128,6 +128,12 @@ public class Resource extends MPXRecord
                break;
             }
 
+            case ACCRUE_AT:
+            {
+               set (x, new AccrueType (field));
+               break;
+            }
+
             default:
             {
                set (x, field);
@@ -299,14 +305,13 @@ public class Resource extends MPXRecord
     * Sets the Accrue at type.The Accrue At field provides choices for how
     * and when resource standard
     * and overtime costs are to be charged, or accrued, to the cost of a task.
-    * The options are: Start, End and Proraetd (Default)
+    * The options are: Start, End and Prorated (Default)
     *
-    * @param val percentage value
-    * @see #ACCRUE_AT Constants
+    * @param type accrue type
     */
-   public void setAccrueAt (String val)
+   public void setAccrueAt (AccrueType type)
    {
-      set (ACCRUE_AT, val);
+      set (ACCRUE_AT, type);
    }
 
    /**
@@ -704,12 +709,11 @@ public class Resource extends MPXRecord
     * and overtime costs are to be charged, or accrued, to the cost of a task.
     * The options are: Start, End and Proraetd (Default)
     *
-    * @return percentage value
-    * @see #ACCRUE_AT Constants
+    * @return accrue type
     */
-   public String getAccrueAt ()
+   public AccrueType getAccrueAt ()
    {
-      return ((String)get(ACCRUE_AT));
+      return ((AccrueType)get(ACCRUE_AT));
    }
 
    /**
