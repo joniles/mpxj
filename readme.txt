@@ -46,9 +46,11 @@ Apache Jakarta project. In order to use the MPP functionality the
 POI JAR file must be present on your classpath. A copy of this
 library can be found in the lib directory of the distribution.
 
-The MSPDI functionality depends on the Sun JAXB 1.0 Beta reference
-implementation. This is not included in the distribution, and must
-be downloaded from http://java.sun.com/xml/downloads/jaxb.html.
+The MSPDI functionality depends on the Sun JAXB implementation
+as distributed in the Java Web Services Developer Pack version 1.3. 
+This is not included in the distribution, and must
+be downloaded from:
+http://java.sun.com/webservices/downloads/webservicespack.html
 
 
 
@@ -81,7 +83,7 @@ depending on your operating system.
 
 You will need to have a copy of the JAXB libraries installed
 locally in order to build MPXJ. You will need to edit the property
-“jaxbdir” in the build.xml file to point to your local
+“jsdp.dir” in the build.xml file to point to your local
 installation.
 
 

@@ -1,5 +1,6 @@
 Version 0.0.19
 Fixed a bug reading table data from certain MPP8 files
+Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)
 Reimplemented base and resource calendars as a single MPXCalendar class
 Updated support for base calendars and resource calendars for all file formats
 Improved MPXException to print details of any nested exception when a stack trace is printed.
