@@ -15,8 +15,11 @@
       <action dev="joniles" type="fix">Fixed a bug where MPP9 files containing invalid resource data were not read correctly.</action>
       <action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX spec.</action>
       <action dev="joniles" type="update">Updated MPX documentation for Task.getFixed and Task.setFixed.</action>
+      <action dev="joniles" type="update">Updated MPP9 file code to improve handling invalid offset values.</action>
+      <action dev="joniles" type="update">Updated to remove leading and trailing spaces from MPX task field names before processing.</action>
       <action dev="joniles" type="add">Implemented an enhancement to improve file loading speed by an order of magnitude for files with a large number of tasks or resources (based on a contribution by Brian Leach).</action>
       <action dev="joniles" type="add">Implemented support for Maven.</action>
+      <action dev="joniles" type="add">Added new JUnit test for confidential customer data.</action>
    </release>
 
    <release version="0.0.21" date="06/05/2004"> 
