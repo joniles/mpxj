@@ -104,11 +104,10 @@ final class MPP9File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
-      throws MPXException, IOException
+      throws IOException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
@@ -202,7 +201,6 @@ final class MPP9File
     * @param file parent MPP file
     * @param projectDir root project directory
     * @param resourceMap map of resource IDs to resource data
-    * @throws MPXException
     * @throws IOException
     */
    private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap resourceMap)
@@ -740,8 +738,8 @@ final class MPP9File
          task.setOvertimeCost(new Double(taskVarData.getDouble(id, TASK_OVERTIME_COST)));
          //task.setOvertimeWork(); // Calculated value?
          //task.getPredecessors(); // Calculated value
-         task.setPercentageComplete((double)MPPUtility.getShort(data, 122));
-         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 124));
+         task.setPercentageComplete(MPPUtility.getShort(data, 122));
+         task.setPercentageWorkComplete(MPPUtility.getShort(data, 124));
 //       From MS Project 2003
 //         task.setPhysicalPercentComplete();
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
@@ -1241,7 +1239,7 @@ final class MPP9File
          {
             assignment = task.addResourceAssignment (resource);
             assignment.setActualCost(new Double (MPPUtility.getDouble(data, 110)/100));
-            assignment.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
+            assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
             assignment.setCost(new Double (MPPUtility.getDouble(data, 102)/100));
             //assignment.setDelay(); // Not sure what this field maps on to in MSP
             assignment.setFinish(MPPUtility.getTimestamp(data, 16));
@@ -1249,8 +1247,8 @@ final class MPP9File
             //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
             //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
             assignment.setStart(MPPUtility.getTimestamp(data, 12));
-            assignment.setUnits(((double)MPPUtility.getDouble(data, 54))/100);
-            assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+            assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
+            assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
          }
       }
    }
@@ -1298,11 +1296,10 @@ final class MPP9File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processViewData (MPPFile file, DirectoryEntry projectDir)
-      throws MPXException, IOException
+      throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
       FixedData ff = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
@@ -1352,11 +1349,10 @@ final class MPP9File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processTableData (MPPFile file, DirectoryEntry projectDir)
-      throws MPXException, IOException
+      throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
       FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));

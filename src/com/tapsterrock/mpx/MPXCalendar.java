@@ -467,10 +467,8 @@ public final class MPXCalendar extends MPXRecord
     * @param startDate start of the period
     * @param endDate end of the period
     * @return new MPXDuration object
-    * @throws MPXException if an invalid day is specified
     */
    public MPXDuration getDuration (Date startDate, Date endDate)
-      throws MPXException
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
@@ -720,7 +718,7 @@ public final class MPXCalendar extends MPXRecord
    /**
     * Constant representing the number of milliseconds in a day.
     */
-   private static final long MS_PER_DAY = (long)(1000 * 60 * 60 * 24);
+   private static final long MS_PER_DAY = (1000 * 60 * 60 * 24);
 
    /**
     * Default base calendar name to use when none is supplied

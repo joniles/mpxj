@@ -178,10 +178,8 @@ public final class Resource extends MPXRecord
     * This method allows a resource note to be added to a resource.
     *
     * @return ResourceNotes
-    * @throws MPXException  if MSP defined limit of 1 is exceeded
     */
    public ResourceNotes addResourceNotes ()
-      throws MPXException
    {
       return (addResourceNotes (""));
    }

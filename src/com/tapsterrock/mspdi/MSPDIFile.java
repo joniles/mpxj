@@ -77,11 +77,8 @@ public class MSPDIFile extends MPXFile
 {
    /**
     * This constructor allows a new MSPDI file to be created from scratch.
-    *
-    * @throws MPXException Normally thrown on data format errors.
     */
    public MSPDIFile ()
-      throws MPXException
    {
       super ();
    }
@@ -2065,13 +2062,13 @@ public class MSPDIFile extends MPXFile
       // Create a calendar
       //
       Project.CalendarsType.CalendarType calendar = factory.createProjectTypeCalendarsTypeCalendarType();
-      calendar.setUID(BigInteger.valueOf((long)bc.getUniqueID()));
+      calendar.setUID(BigInteger.valueOf(bc.getUniqueID()));
       calendar.setIsBaseCalendar(bc.isBaseCalendar());
 
       if (bc.isBaseCalendar() == false)
       {
          MPXCalendar base = bc.getBaseCalendar();
-         calendar.setBaseCalendarUID(BigInteger.valueOf((long)base.getUniqueID()));
+         calendar.setBaseCalendarUID(BigInteger.valueOf(base.getUniqueID()));
       }
 
       calendar.setName(bc.getName());
@@ -2223,7 +2220,7 @@ public class MSPDIFile extends MPXFile
       MPXCalendar cal = mpx.getResourceCalendar();
       if (cal != null)
       {
-         xml.setCalendarUID(BigInteger.valueOf((long)cal.getUniqueID()));
+         xml.setCalendarUID(BigInteger.valueOf(cal.getUniqueID()));
       }
 
       xml.setAccrueAt(BigInteger.valueOf(mpx.getAccrueAtValue()));
@@ -2424,7 +2421,7 @@ public class MSPDIFile extends MPXFile
       xml.setIsSubprojectReadOnly(false);
       xml.setSummary(mpx.getSummaryValue());
       xml.setTotalSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getTotalSlack())*1000));
-      xml.setType(BigInteger.valueOf((long)mpx.getType()));
+      xml.setType(BigInteger.valueOf(mpx.getType()));
       xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
       xml.setWBS(mpx.getWBS());
       xml.setWork(getDuration(mpx.getWork()));
@@ -2451,7 +2448,7 @@ public class MSPDIFile extends MPXFile
          MPXCalendar cal = this.getBaseCalendar(name);
          if (cal != null)
          {
-            result = BigInteger.valueOf((long)cal.getUniqueID());
+            result = BigInteger.valueOf(cal.getUniqueID());
          }
       }
 

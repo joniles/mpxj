@@ -353,10 +353,8 @@ public final class Task extends MPXRecord implements Comparable
     * This method is used to add notes to the current task.
     *
     * @return TaskNotes object
-    * @throws MPXException if maximum number of task notes is exceeded
     */
    public TaskNotes addTaskNotes ()
-      throws MPXException
    {
       return (addTaskNotes(""));
    }

@@ -50,11 +50,8 @@ public class MPXFile
 {
    /**
     * Default constructor.
-    *
-    * @throws MPXException if construction fails
     */
    public MPXFile()
-      throws MPXException
    {
       configure ();
    }

@@ -106,7 +106,7 @@ public final class MPXDuration
     */
    public MPXDuration (int duration, int type)
    {
-      m_duration = (double)duration;
+      m_duration = duration;
       m_type = type;
    }
 

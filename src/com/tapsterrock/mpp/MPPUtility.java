@@ -71,8 +71,8 @@ final class MPPUtility
     */
    public static final int getByte (byte[] data, int offset)
    {
-      int result = (int)(data[offset] & 0x0F);
-      result += (int)(data[offset] >> 4 & 0x0F) * 16;
+      int result = data[offset] & 0x0F;
+      result += ((data[offset] >> 4 & 0x0F) * 16);
       return (result);
    }
 
@@ -97,10 +97,10 @@ final class MPPUtility
     */
    public static final int getShort (byte[] data, int offset)
    {
-      int result = (int)(data[offset] & 0x0F);
-      result += (int)(data[offset] >> 4 & 0x0F) * 16;
-      result += (int)(data[offset+1] & 0x0F) * 256;
-      result += (int)(data[offset+1] >> 4 & 0x0F) * 4096;
+      int result = (data[offset] & 0x0F);
+      result += ((data[offset] >> 4 & 0x0F) * 16);
+      result += ((data[offset+1] & 0x0F) * 256);
+      result += ((data[offset+1] >> 4 & 0x0F) * 4096);
       return (result);
    }
 
@@ -125,14 +125,14 @@ final class MPPUtility
     */
    public static final int getInt (byte[] data, int offset)
    {
-      int result = (int)(data[offset] & 0x0F);
-      result += (int)(data[offset] >> 4 & 0x0F) * 16;
-      result += (int)(data[offset+1] & 0x0F) * 256;
-      result += (int)(data[offset+1] >> 4 & 0x0F) * 4096;
-      result += (int)(data[offset+2] & 0x0F) * 65536;
-      result += (int)(data[offset+2] >> 4 & 0x0F) * 1048576;
-      result += (int)(data[offset+3] & 0x0F) * 16777216;
-      result += (int)(data[offset+3] >> 4 & 0x0F) * 268435456;
+      int result = (data[offset] & 0x0F);
+      result += ((data[offset] >> 4 & 0x0F) * 16);
+      result += ((data[offset+1] & 0x0F) * 256);
+      result += ((data[offset+1] >> 4 & 0x0F) * 4096);
+      result += ((data[offset+2] & 0x0F) * 65536);
+      result += ((data[offset+2] >> 4 & 0x0F) * 1048576);
+      result += ((data[offset+3] & 0x0F) * 16777216);
+      result += ((data[offset+3] >> 4 & 0x0F) * 268435456);
       return (result);
    }
 
@@ -157,22 +157,22 @@ final class MPPUtility
     */
    public static final long getLong (byte[] data, int offset)
    {
-      long result = (long)(data[offset] & 0x0F); // 0
-      result += (long)(data[offset] >> 4 & 0x0F) * 16; // 1
-      result += (long)(data[offset+1] & 0x0F) * 256; // 2
-      result += (long)(data[offset+1] >> 4 & 0x0F) * 4096; // 3
-      result += (long)(data[offset+2] & 0x0F) * 65536; // 4
-      result += (long)(data[offset+2] >> 4 & 0x0F) * 1048576; // 5
-      result += (long)(data[offset+3] & 0x0F) * 16777216; // 6
-      result += (long)(data[offset+3] >> 4 & 0x0F) * 268435456; // 7
-      result += (long)(data[offset+4] & 0x0F) * 4294967296L; // 8
-      result += (long)(data[offset+4] >> 4 & 0x0F) * 68719476736L; // 9
-      result += (long)(data[offset+5] & 0x0F) * 1099511627776L; // 10
-      result += (long)(data[offset+5] >> 4 & 0x0F) * 17592186044416L; // 11
-      result += (long)(data[offset+6] & 0x0F) * 281474976710656L; // 12
-      result += (long)(data[offset+6] >> 4 & 0x0F) * 4503599627370496L; // 13
-      result += (long)(data[offset+7] & 0x0F) * 72057594037927936L; // 14
-      result += (long)(data[offset+7] >> 4 & 0x0F) * 1152921504606846976L; // 15
+      long result = (data[offset] & 0x0F); // 0
+      result += ((data[offset] >> 4 & 0x0F) * 16); // 1
+      result += ((data[offset+1] & 0x0F) * 256); // 2
+      result += ((data[offset+1] >> 4 & 0x0F) * 4096); // 3
+      result += ((data[offset+2] & 0x0F) * 65536); // 4
+      result += ((data[offset+2] >> 4 & 0x0F) * 1048576); // 5
+      result += ((data[offset+3] & 0x0F) * 16777216); // 6
+      result += ((data[offset+3] >> 4 & 0x0F) * 268435456); // 7
+      result += ((data[offset+4] & 0x0F) * 4294967296L); // 8
+      result += ((data[offset+4] >> 4 & 0x0F) * 68719476736L); // 9
+      result += ((data[offset+5] & 0x0F) * 1099511627776L); // 10
+      result += ((data[offset+5] >> 4 & 0x0F) * 17592186044416L); // 11
+      result += ((data[offset+6] & 0x0F) * 281474976710656L); // 12
+      result += ((data[offset+6] >> 4 & 0x0F) * 4503599627370496L); // 13
+      result += ((data[offset+7] & 0x0F) * 72057594037927936L); // 14
+      result += ((data[offset+7] >> 4 & 0x0F) * 1152921504606846976L); // 15
       return (result);
    }
 
@@ -186,18 +186,18 @@ final class MPPUtility
     */
    public static final long getLong6 (byte[] data, int offset)
    {
-      long result = (long)(data[offset] & 0x0F); // 0
-      result += (long)(data[offset] >> 4 & 0x0F) * 16; // 1
-      result += (long)(data[offset+1] & 0x0F) * 256; // 2
-      result += (long)(data[offset+1] >> 4 & 0x0F) * 4096; // 3
-      result += (long)(data[offset+2] & 0x0F) * 65536; // 4
-      result += (long)(data[offset+2] >> 4 & 0x0F) * 1048576; // 5
-      result += (long)(data[offset+3] & 0x0F) * 16777216; // 6
-      result += (long)(data[offset+3] >> 4 & 0x0F) * 268435456; // 7
-      result += (long)(data[offset+4] & 0x0F) * 4294967296L; // 8
-      result += (long)(data[offset+4] >> 4 & 0x0F) * 68719476736L; // 9
-      result += (long)(data[offset+5] & 0x0F) * 1099511627776L; // 10
-      result += (long)(data[offset+5] >> 4 & 0x0F) * 17592186044416L; // 11
+      long result = (data[offset] & 0x0F); // 0
+      result += ((data[offset] >> 4 & 0x0F) * 16); // 1
+      result += ((data[offset+1] & 0x0F) * 256); // 2
+      result += ((data[offset+1] >> 4 & 0x0F) * 4096); // 3
+      result += ((data[offset+2] & 0x0F) * 65536); // 4
+      result += ((data[offset+2] >> 4 & 0x0F) * 1048576); // 5
+      result += ((data[offset+3] & 0x0F) * 16777216); // 6
+      result += ((data[offset+3] >> 4 & 0x0F) * 268435456); // 7
+      result += ((data[offset+4] & 0x0F) * 4294967296L); // 8
+      result += ((data[offset+4] >> 4 & 0x0F) * 68719476736L); // 9
+      result += ((data[offset+5] & 0x0F) * 1099511627776L); // 10
+      result += ((data[offset+5] >> 4 & 0x0F) * 17592186044416L); // 11
 
       return (result);
    }
@@ -262,7 +262,7 @@ final class MPPUtility
    public static final Date getDate (byte[] data, int offset)
    {
       Date result;
-      long days = (long)getShort (data, offset);
+      long days = getShort (data, offset);
       if (days == 65535)
       {
          result = null;
@@ -316,7 +316,7 @@ final class MPPUtility
     */
    public static final long getDuration (byte[] data, int offset)
    {
-      return ((long)(getShort (data, offset) * MS_PER_MINUTE)/10);
+      return ((getShort (data, offset) * MS_PER_MINUTE)/10);
    }
 
    /**
@@ -330,7 +330,7 @@ final class MPPUtility
    {
       Date result;
 
-      long days = (long)getShort (data, offset+2);
+      long days = getShort (data, offset+2);
       if (days == 65535)
       {
          result = null;
@@ -338,7 +338,7 @@ final class MPPUtility
       else
       {
          TimeZone tz = TimeZone.getDefault();
-         long time = (long)getShort (data, offset);
+         long time = getShort (data, offset);
          result = new Date (EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE)/10) - tz.getRawOffset());
          if (tz.inDaylightTime(result) == true)
          {

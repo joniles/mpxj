@@ -103,11 +103,10 @@ final class MPP8File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
-      throws MPXException, IOException
+      throws IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
@@ -597,8 +596,8 @@ final class MPP8File
          task.setOvertimeCost (new Double(((double)MPPUtility.getLong6(data, 204))/100));
          //task.setOvertimeWork(); // Calculated value
          //task.getPredecessors(); // Calculated value
-         task.setPercentageComplete((double)MPPUtility.getShort(data, 130));
-         task.setPercentageWorkComplete((double)MPPUtility.getShort(data, 132));
+         task.setPercentageComplete(MPPUtility.getShort(data, 130));
+         task.setPercentageWorkComplete(MPPUtility.getShort(data, 132));
          task.setPreleveledFinish (MPPUtility.getTimestamp(data, 148));
          task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 128)));
@@ -747,7 +746,6 @@ final class MPP8File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processConstraintData (MPPFile file, DirectoryEntry projectDir)
@@ -1128,11 +1126,10 @@ final class MPP8File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processViewData (MPPFile file, DirectoryEntry projectDir)
-      throws MPXException, IOException
+      throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
       FixFix ff = new FixFix (138, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
@@ -1182,11 +1179,10 @@ final class MPP8File
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXException
     * @throws IOException
     */
    private static void processTableData (MPPFile file, DirectoryEntry projectDir)
-      throws MPXException, IOException
+      throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
       FixFix ff = new FixFix (126, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
