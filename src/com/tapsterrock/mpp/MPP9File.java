@@ -853,13 +853,12 @@ final class MPP9File
          id = uniqueid[loop];
 
          offset = (Integer)taskMap.get(id);
-         if (offset == null)
+         if (taskFixedData.isValidOffset(offset) == false)
          {
             continue;
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
-
          if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
          {
             continue;
@@ -1313,7 +1312,7 @@ final class MPP9File
       {
          id = uniqueid[loop];
          offset = (Integer)resourceMap.get(id);
-         if (offset == null)
+         if (rscFixedData.isValidOffset(offset) == false)
          {
             continue;
          }

@@ -160,6 +160,30 @@ final class FixedData extends MPPComponent
    }
 
    /**
+    * Returns a flag indicating if the supplied offset is valid for
+    * the data in this fixed data block.
+    * 
+    * @param offset offset value
+    * @return boolean flag
+    */
+   public boolean isValidOffset (Integer offset)
+   {
+      return (offset==null?false:isValidOffset(offset.intValue()));
+   }
+
+   /**
+    * Returns a flag indicating if the supplied offset is valid for
+    * the data in this fixed data block.
+    * 
+    * @param offset offset value
+    * @return boolean flag
+    */
+   public boolean isValidOffset (int offset)
+   {
+      return (offset >= 0 && offset < m_array.length);
+   }
+
+   /**
     * This method converts an offset value into an array index, which in
     * turn allows the data present in the fixed block to be retrieved. Note
     * that if the requested offset is not found, then this method returns -1.
