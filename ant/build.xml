@@ -9,17 +9,13 @@
 <target name="init-props" description="Initialize properties">
    <tstamp/>
 
-   <!--
-	These properties may need to be updated to reflect the location of the files on your site.
-        If jwsdp.dir does not point to a valid directory, none of the components of MPXJ that depend
-	on JAXB will be built.
-   -->
-   <property name="jwsdp.dir" value="c:\java\jwsdp-1.3" />
-   <property name="jaxb.dir" value="${jwsdp.dir}\jaxb" />
-   <property name="jaxb.classpath" value="${jaxb.dir}/lib/jaxb-api.jar:${jaxb.dir}/lib/jaxb-impl.jar:${jaxb.dir}/lib/jaxb-libs.jar:${jwsdp.dir}\jwsdp-shared\lib\jax-qname.jar:${jwsdp.dir}\jwsdp-shared\lib\namespace.jar:${jwsdp.dir}\jwsdp-shared\lib\relaxngDatatype.jar:${jwsdp.dir}\jwsdp-shared\lib\xsdlib.jar" />
-   <property name="mspdi.xsd" value="c:\tapsterrock\docs\msp\project2003-mspdi.xsd"/>
-   <property name="poi.classpath" value="${basedir}/lib/jakarta-poi-2.5.jar" />
+   <!-- The following two properties are only rtequired if you want to use the xjc target -->
+   <property name="jwsdp.dir" value="c:\java\jwsdp-1.4" />
+   <property name="mspdi.xsd" value="c:\tapsterrock\docs\msp\project2003-mspdi-correct.xsd"/>
 
+   <property name="lib.dir" value="${basedir}/lib" />
+   <property name="jaxb.classpath" value="${lib.dir}/jaxb-api.jar:${lib.dir}/jaxb-impl.jar:${lib.dir}/jaxb-libs.jar:${lib.dir}/jax-qname.jar:${lib.dir}/namespace.jar:${lib.dir}/relaxngDatatype.jar:${lib.dir}/xsdlib.jar" />
+   <property name="poi.classpath" value="${lib.dir}/jakarta-poi-2.5.jar" />
    <property name="doc.dir" value="${basedir}/doc/api" />
    <property name="jbuilder.dir" value="${basedir}/jbuilder" />
    <property name="classes.dir" value="${basedir}/classes" />
@@ -31,8 +27,6 @@
    <property name="examples.classes.dir" value="${examples.dir}/classes" />
    <property name="distribution" value="${basedir}/../mpxj.zip" />
    <property name="schema.dir" value="/com/tapsterrock/mspdi/schema" />
-
-   <available file="${jaxb.dir}" property="jaxb.available"/>
 </target>
 
 
@@ -48,19 +42,13 @@
    </exec>	
 </target>
 
-<target name="compile-without-jaxb" depends="init" description="Compile everything excluding JAXB related material">
-   <javac srcdir="${basedir}/src" excludes="**/mspdi/**/* **/XmlMpx.java **/MpxXml.java **/MppXml.java **/XmlXml.java" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}" debug="on" />   
-</target>
-
-<target name="compile-with-jaxb" if="jaxb.available" depends="init" description="Compile everything including JAXB related material">
+<target name="compile" depends="init" description="Compile Everything">
    <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}" debug="on" />
    <javac srcdir="${junit.dir}/src" destdir="${junit.classes.dir}" classpath="${classpath}:${classes.dir}:${junit.dir}/junit.jar" debug="on" />
    <javac srcdir="${examples.dir}" destdir="${examples.classes.dir}" classpath="${classpath}:${classes.dir}:${jaxb.classpath}" debug="on" />
    <copy file="${basedir}/src/${schema.dir}/bgm.ser" todir="${classes.dir}${schema.dir}"/>
    <copy file="${basedir}/src/${schema.dir}/jaxb.properties" todir="${classes.dir}${schema.dir}"/>
 </target>
-
-<target name="compile" depends="compile-without-jaxb, compile-with-jaxb"/>
 
 <target name="document" depends="init-props" description="Generate documentation">
    <mkdir dir="${doc.dir}"/>

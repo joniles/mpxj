@@ -14,6 +14,8 @@
       <action dev="joniles" type="fix">Fixed a bug where the method Task.getText21 was not retrieving the correct text value.</action>
       <action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
       <action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
+      <action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>
+      <action dev="joniles" type="update">Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</action>
       <action dev="joniles" type="add">Added support for blank task rows in MPP8 files.</action>
       <action dev="joniles" type="add">Added support for blank resource rows in MPP8 files.</action>
       <action dev="joniles" type="add">Added support for Portuguese MPX files.</action>
