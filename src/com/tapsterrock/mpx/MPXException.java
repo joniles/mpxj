@@ -174,4 +174,8 @@ public final class MPXException extends Exception
     */
    public static final String INVALID_RESOURCE_FIELD_NAME = "Invalid resource field name";
 
+   /**
+    * Password protected file error message
+    */
+   public static final String PASSWORD_PROTECTED = "File is password protected";
 }

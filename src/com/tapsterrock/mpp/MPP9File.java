@@ -84,11 +84,11 @@ final class MPP9File
       // 0x00 = no password
       // 0x01 = protection password has been supplied
       // 0x02 = write reservation password has been supplied
-      // 0x03 = both password have been supplied
+      // 0x03 = both passwords have been supplied
       //
-      if (props9.getByte(Props.PASSWORD_FLAG) != 0)
+      if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
       {
-         throw new MPXException ("File is password protected.");
+         throw new MPXException (MPXException.PASSWORD_PROTECTED);
       }
 
       //

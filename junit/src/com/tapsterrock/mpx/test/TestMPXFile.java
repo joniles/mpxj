@@ -39,6 +39,7 @@ import junit.framework.TestCase;
 import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
@@ -1786,6 +1787,54 @@ public class TestMPXFile extends TestCase
       }
    }
 
+   /**
+    * Exercise the code which handles password protected files.
+    * 
+    * @throws Exception
+    */
+   public void testPasswordProtection ()
+      throws Exception
+   {   
+      File in;
+      MPPFile mpp;
+
+      //
+      // Read password (password1)
+      //
+      try
+      {
+         in = new File (m_basedir + "/readpassword9.mpp");
+         mpp = new MPPFile (in);
+         assertTrue(false);
+      }
+
+      catch (MPXException ex)
+      {
+         assertEquals(MPXException.PASSWORD_PROTECTED, ex.getMessage());
+      }
+    
+      //
+      // Write password (password2)
+      //
+      in = new File (m_basedir + "/writepassword9.mpp");
+      mpp = new MPPFile (in);
+
+      //
+      // Read password
+      //
+      try
+      {
+         in = new File (m_basedir + "/bothpassword9.mpp");
+         mpp = new MPPFile (in);
+         assertTrue(false);
+      }
+
+      catch (MPXException ex)
+      {
+         assertEquals(MPXException.PASSWORD_PROTECTED, ex.getMessage());
+      }      
+   }
+   
    private String m_basedir;
 }
 
