@@ -162,6 +162,16 @@ final class SummaryInformation
       return (m_subject);
    }
    
+   /**
+    * Retrieve the category text.
+    * 
+    * @return category
+    */
+   public String getCategory ()
+   {
+      return (m_category);
+   }
+   
    private String m_projectTitle;
    private String m_subject;
    private String m_author;

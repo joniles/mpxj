@@ -162,7 +162,8 @@ final class MPP9File
       ph.setKeywords(summary.getKeywords());
       ph.setComments(summary.getComments());
       ph.setCompany(summary.getCompany());
-      ph.setManager(summary.getManager());               
+      ph.setManager(summary.getManager()); 
+      ph.setCategory(summary.getCategory());
    }
 
    /**
