@@ -2017,6 +2017,25 @@ public class TestMPXFile extends TestCase
       assertEquals ("Manager Text", header.getManager());
       assertEquals ("Subject Text", header.getSubject());        
    }
+
+   /**
+    * Test retrieval of WBS information.
+    *
+    * @throws Exception
+    */
+   public void testWBS ()
+      throws Exception
+   {
+      MPPFile mpp = new MPPFile (m_basedir + "/sample98.mpp");
+      Task task = mpp.getTaskByUniqueID(2);
+      assertEquals("Second Task", task.getName());
+      assertEquals("1.1", task.getWBS());
+      
+      mpp = new MPPFile (m_basedir + "/sample.mpp");
+      task = mpp.getTaskByUniqueID(2);
+      assertEquals("Second Task", task.getName());
+      assertEquals("1.1", task.getWBS());
+   }
    
    private String m_basedir;
 }
