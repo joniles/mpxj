@@ -4922,7 +4922,7 @@ public final class Task extends MPXRecord implements Comparable
     */
    public String getText21()
    {
-      return ((String)get(TEXT2));
+      return ((String)get(TEXT21));
    }
 
    /**
