@@ -22,6 +22,7 @@
    <property name="junitclasses" value="${junitdir}/classes" />
    <property name="junitbak" value="${junitdir}/bak" />
    <property name="distribution" value="${basedir}/../mpxj.zip" />
+   <property name="schemadir" value="/com/tapsterrock/mspdi/schema" />
 </target>
 
 
@@ -39,6 +40,8 @@
 <target name="compile" depends="init" description="Compile everything">
    <javac srcdir="${basedir}/src" destdir="${classes}" classpath="${classpath}:${poilib}:${jaxblibs}" />
    <javac srcdir="${junitdir}/src" destdir="${junitclasses}" classpath="${classpath}:${classes}:${junitdir}/junit.jar" />
+   <copy file="${basedir}/src${schemadir}/bgm.ser" todir="${classes}${schemadir}"/>
+   <copy file="${basedir}/src${schemadir}/jaxb.properties" todir="${classes}${schemadir}"/>
 </target>
 
 <target name="document" depends="init-props" description="Generate documentation">
