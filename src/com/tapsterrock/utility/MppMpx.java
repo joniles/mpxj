@@ -48,8 +48,12 @@ public class MppMpx
          }
          else
          {
+            System.out.println ("Conversion started.");
+            long start = System.currentTimeMillis();
             MPPFile mpp = new MPPFile (args[0]);
             mpp.write(args[1]);
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println ("Conversion completed in " + elapsed + "ms.");
          }
       }
 

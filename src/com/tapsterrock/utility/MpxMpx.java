@@ -47,8 +47,12 @@ public class MpxMpx
          }
          else
          {
+            System.out.println ("Conversion started.");
+            long start = System.currentTimeMillis();
             MPXFile mpx = new MPXFile (args[0]);
             mpx.write(args[1]);
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println ("Conversion completed in " + elapsed + "ms.");
          }
       }
 

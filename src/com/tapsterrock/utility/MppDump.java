@@ -57,7 +57,11 @@ public class MppDump
          }
          else
          {
+            System.out.println ("Dump started.");
+            long start = System.currentTimeMillis();
             process (args[0], args[1]);
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println ("Dump completed in " + elapsed + "ms");
          }
       }
 
@@ -102,7 +106,7 @@ public class MppDump
       throws Exception
    {
       long byteCount;
-      
+
       prefix += " ";
 
       for (Iterator iter = dir.getEntries(); iter.hasNext(); )
@@ -140,7 +144,7 @@ public class MppDump
    {
       byte[] buffer = new byte[BUFFER_SIZE];
       long byteCount = 0;
-      
+
       char c;
       int loop;
       int count;
@@ -156,7 +160,7 @@ public class MppDump
          }
 
          byteCount += count;
-         
+
          sb.setLength(0);
 
          for (loop=0; loop < count; loop++)
@@ -189,8 +193,8 @@ public class MppDump
 
          address += count;
       }
-      
-      return (byteCount);      
+
+      return (byteCount);
    }
 
    /**

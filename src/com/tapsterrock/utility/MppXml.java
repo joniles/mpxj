@@ -49,9 +49,13 @@ public class MppXml
          }
          else
          {
+            System.out.println ("Conversion started.");
+            long start = System.currentTimeMillis();
             MPPFile mpx = new MPPFile (args[0]);
             MSPDIFile xml = new MSPDIFile (mpx);
             xml.write(args[1]);
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println ("Conversion completed in " + elapsed + "ms.");
          }
       }
 
