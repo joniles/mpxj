@@ -1571,11 +1571,27 @@ public class MPXFile
       Iterator iter = m_allTasks.iterator();
       Task task;
       Date taskStartDate;
-
+     
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         taskStartDate = task.getStart();
+         
+         //
+         // If a hidden "summary" task is present we ignore it
+         //
+         if (task.getUniqueIDValue() == 0)
+         {
+            continue;
+         }
+         
+         //
+         // Select the actual or forecast start date
+         //
+         taskStartDate = task.getActualStart();
+         if (taskStartDate == null)
+         {
+            taskStartDate = task.getStart();
+         }
 
          if (taskStartDate != null)
          {
@@ -1613,8 +1629,24 @@ public class MPXFile
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         taskFinishDate = task.getFinish();
-
+         
+         //
+         // If a hidden "summary" task is present we ignore it
+         //
+         if (task.getUniqueIDValue() == 0)
+         {
+            continue;
+         }
+         
+         //
+         // Select the actual or forecast start date
+         //
+         taskFinishDate = task.getActualFinish();
+         if (taskFinishDate == null)
+         {
+            taskFinishDate = task.getFinish();
+         }
+         
          if (taskFinishDate != null)
          {
             if (finishDate == null)

@@ -22,6 +22,7 @@
       <action dev="joniles" type="fix">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
       <action dev="joniles" type="fix">Updated to fix a problem with reading assignment data from MPP9 files.</action>
       <action dev="joniles" type="update">Rationalised the location of the JUnit tests and the sample files.</action>      
+      <action dev="joniles" type="fix">Fixed a problem where the project start and end dates reported in the project header were incorrect.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

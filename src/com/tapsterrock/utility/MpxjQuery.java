@@ -23,16 +23,18 @@
 
 package com.tapsterrock.utility;
 
-import com.tapsterrock.mpp.MPPFile;
-import com.tapsterrock.mpx.MPXFile;
-import com.tapsterrock.mpx.Task;
-import com.tapsterrock.mpx.Resource;
-import com.tapsterrock.mpx.ResourceAssignment;
-import com.tapsterrock.mpx.MPXDuration;
-import java.util.Iterator;
-import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import com.tapsterrock.mpp.MPPFile;
+import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.ProjectHeader;
+import com.tapsterrock.mpx.Resource;
+import com.tapsterrock.mpx.ResourceAssignment;
+import com.tapsterrock.mpx.Task;
 
 /**
  * This example shows an MPP or an MPX file being read, and basic task and resource
@@ -105,6 +107,8 @@ public class MpxjQuery
          throw new Exception ("Failed to read file");
       }
 
+      listProjectHeader (mpx);
+      
       listResources (mpx);
 
       listTasks (mpx);
@@ -120,6 +124,24 @@ public class MpxjQuery
       listResourceNotes (mpx);
    }
 
+   /**
+    * Reads basic summary details from the project header.
+    * 
+    * @param file MPX file
+    */
+   private static void listProjectHeader (MPXFile file)
+   {
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");      
+      ProjectHeader header = file.getProjectHeader();
+      Date startDate = header.getStartDate();
+      Date finishDate = header.getFinishDate();
+      String formattedStartDate = startDate==null?"(none)":df.format(startDate);
+      String formattedFinishDate = finishDate==null?"(none)":df.format(finishDate);
+
+      System.out.println ("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
+      System.out.println ();
+   }
+   
    /**
     * This method lists all resources defined in the file.
     *
@@ -191,7 +213,7 @@ public class MpxjQuery
             duration = "(no duration supplied)";
          }
 
-         System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + ")");
+         System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Unique ID=" + task.getUniqueID() + ")");
       }
       System.out.println ();
    }

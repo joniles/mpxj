@@ -72,6 +72,9 @@
                and all of the resources in a project. We're not sure exactly 
                which versions of Project hold data like this, although we 
                think this is only relevant for the MPP9 file format. 
+               We've also noticed that the information in these hidden
+               tasks and resources may not be reliable, so don't place
+               too much emphasis on them in your application.
             </p>
             <p>
                You can ignore the first resource if it has a null 
