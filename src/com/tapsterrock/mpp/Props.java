@@ -4,99 +4,37 @@
  * copyright:  Tapster Rock Limited
  * date:       27/05/2003
  */
+ 
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+ 
 package com.tapsterrock.mpp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.TreeMap;
 
 /**
- * This class represents the Props files found in Microsoft Project MPP files.
- * These files appear to be collections of properties, indexed by an integer
- * key. The format of the properties section is not fully understood, so
- * reading data from the section may fail. To allow the rest of the file
- * to be read in successfully, any failure to read the props section will
- * not cause an exception, instead the complete flag is set to false to
- * indicate that the property data has not been fully retrieved. All properties
- * retrieved up to the point of failure will be available.
+ * This class represents the common structure of Props files found in 
+ * Microsoft Project MPP files. The MPP8 and MPP9 file formats both
+ * implement Props files slightly differently, so this class contains
+ * the shared implementation detail, with specific implementations for
+ * MPP8 and MPP9 Props files found in the Props8 and Props9 classes.
  */
-final class Props extends MPPComponent
+class Props extends MPPComponent
 {
-   /**
-    * Constructor, reads the property data from an input stream.
-    * 
-    * @param is
-    */
-   Props (InputStream is)
-   {
-      try
-      {
-         readInt (is); // File size
-         readInt (is); // Repeat of file size
-         readInt(is); // unknown      
-         int count = readShort(is); // Number of entries
-         readShort(is); // unknown
-         
-         
-         for (int loop=0; loop < count; loop++)
-         {
-            int attrib1 = readInt(is);
-            int attrib2 = readShort(is);
-            int attrib3 = is.read();
-            is.read(); // attrib4
-            int attrib5 = readInt(is);
-            int size;
-            byte[] data;
-            
-            if (attrib3 == 64)
-            {
-               size = attrib1;
-            }
-            else
-            {
-               size = attrib5;
-            }
-                                    
-            if (attrib5 == 65536)
-            {
-               size = 4;
-            }
-                                       
-            if (size != 0)
-            {
-               data = new byte[size];
-               is.read(data);                       
-            }         
-            else
-            {
-               // bail out here as we don't understand the structure
-               m_complete = false;
-               break;
-            }
-            
-            m_map.put(new Integer (attrib2), new ByteArray (data));
-            
-            //
-            // Align to two byte boundary
-            //
-            if (data.length % 2 != 0)
-            {
-               is.skip(1);
-            }
-         }      
-      }
-      
-      catch (IOException ex)
-      {
-         m_complete = false;         
-      }         
-   }
-
-
    /**
     * Retrieves a short int value from the property data
     * 
@@ -211,42 +149,6 @@ final class Props extends MPPComponent
       return (result);
    }
 
-   /**
-    * This method dumps the contents of this properties block as a String.
-    * Note that this facility is provided as a debugging aid.
-    *
-    * @return formatted contents of this block
-    */
-   public String toString ()
-   {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
-
-      pw.println ("BEGIN Props");
-      if (m_complete == true)
-      {
-         pw.println ("   COMPLETE");
-      }
-      else
-      {
-         pw.println ("   INCOMPLETE");         
-      }
-               
-      Iterator iter = m_map.keySet().iterator();
-      Integer key;
-      
-      while (iter.hasNext() == true)
-      {
-         key = (Integer)iter.next();
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump(((ByteArray)m_map.get(key)).byteArrayValue(), true));   
-      }
-           
-      pw.println ("END Props");
-
-      pw.println ();
-      pw.close();
-      return (sw.toString());
-   }
    
    /**
     * Data types
@@ -266,6 +168,6 @@ final class Props extends MPPComponent
    public static final Integer OVERTIME_RATE = new Integer (32);
    public static final Integer END_TIME = new Integer (33);
    
-   private boolean m_complete = true;
-   private TreeMap m_map = new TreeMap (); 
+
+   protected TreeMap m_map = new TreeMap (); 
 }

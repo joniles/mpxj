@@ -105,7 +105,7 @@ final class MPP8File
    private static void processPropertyData (MPPFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
    {
-      Props props = new Props (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
       
       DateTimeSettings dts = file.getDateTimeSettings();
       dts.setDefaultStartTime(props.getTime(Props.START_TIME));
@@ -1113,12 +1113,7 @@ final class MPP8File
    {
       int columnCount = MPPUtility.getShort(data, 4)+1;
       int index = 8;
-      int columnType;
-      int columnWidth;
       int columnTitleOffset;
-      int titleAlignment;
-      int dataAlignment;
-      String columnTitle;
       Column  column;
       int alignment;
             
