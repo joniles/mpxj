@@ -26,6 +26,7 @@ package com.tapsterrock.mpx;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.text.ParseException;
 
 /**
@@ -39,6 +40,8 @@ class MPXTimeFormat
     */
    public MPXTimeFormat()
    {
+		m_format = new SimpleDateFormat ();
+		m_format.setTimeZone(TimeZone.getTimeZone("GMT"));
    }
 
    /**
@@ -107,5 +110,5 @@ class MPXTimeFormat
    /**
     * Internal SimpleDateFormat object used to carry out the formatting work.
     */
-   private SimpleDateFormat m_format = new SimpleDateFormat ();
+   private SimpleDateFormat m_format;
 }
