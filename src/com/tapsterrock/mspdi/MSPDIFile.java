@@ -2709,7 +2709,13 @@ public class MSPDIFile extends MPXFile
 
       xml.setFinishVariance(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFinishVariance())*1000));
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
-      xml.setFixedCostAccrual("2");
+      
+      AccrueType fixedCostAccrual = mpx.getFixedCostAccrual();
+      if (fixedCostAccrual != null)
+      {
+         xml.setFixedCostAccrual(Integer.toString(fixedCostAccrual.getType()));
+      }
+      
       xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setHideBar(mpx.getHideBarValue());
       xml.setHyperlink(mpx.getHyperlink());

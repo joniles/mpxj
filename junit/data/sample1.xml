@@ -1301,7 +1301,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>417125</Cost>
@@ -1369,7 +1369,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>352625</Cost>
@@ -1438,7 +1438,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>352625</Cost>
@@ -1507,7 +1507,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -1576,7 +1576,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -1644,7 +1644,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -1713,7 +1713,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -1782,7 +1782,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>64500</Cost>
@@ -1850,7 +1850,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -1918,7 +1918,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -1990,7 +1990,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2058,7 +2058,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2132,7 +2132,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2200,7 +2200,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2274,7 +2274,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2342,7 +2342,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2414,7 +2414,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2482,7 +2482,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2554,7 +2554,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2623,7 +2623,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>0</Cost>
@@ -2695,7 +2695,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>64500</Cost>
@@ -2762,7 +2762,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>43000</Cost>
@@ -2829,7 +2829,7 @@
             <FreeSlack>0</FreeSlack>
             <TotalSlack>0</TotalSlack>
             <FixedCost>0.0</FixedCost>
-            <FixedCostAccrual>2</FixedCostAccrual>
+            <FixedCostAccrual>3</FixedCostAccrual>
             <PercentComplete>0</PercentComplete>
             <PercentWorkComplete>0</PercentWorkComplete>
             <Cost>21500</Cost>
