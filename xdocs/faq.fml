@@ -59,6 +59,34 @@
             </p> 
          </answer>
       </faq>
-      
+
+      <faq id="extra-tasks-and-resources">
+         <question>
+            When I read an MPP file I sometimes see an extra task or resource record.
+         </question> 
+         <answer>
+            <p>
+               What you are seeing are "hidden" tasks and resources 
+               which newer versions of Microsoft Project appear to use as 
+               placeholders for summary information about all of the tasks 
+               and all of the resources in a project. We're not sure exactly 
+               which versions of Project hold data like this, although we 
+               think this is only relevant for the MPP9 file format. 
+            </p>
+            <p>
+               You can ignore the first resource if it has a null 
+               value as its name. The attributes of this resource should 
+               actually be a summary of all of the resource combined, 
+               e.g. utilisation, actual work, remaining work and so on for 
+               the complete set of "real" resources. 
+            </p>
+            <p>
+               You can ignore the first task if it has an outline level 
+               of zero, this task will be a summary of all the "real" 
+               tasks in the project. You may also find that the name of
+               this task matches the name of the project.
+            </p> 
+         </answer>
+      </faq>
    </part>   
 </faqs>
