@@ -855,7 +855,7 @@ final class MPP9File
          offset = (Integer)taskMap.get(id);
          if (offset == null)
          {
-            throw new MPXException (MPXException.INVALID_FILE);
+            continue;
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
