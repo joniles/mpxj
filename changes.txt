@@ -10,7 +10,6 @@ Added support for the following task fields:
 	HyperlinkSubAddress, LevelAssignments, LevelingCanSplit, LevelingDelay,
 	PreleveledStart, PreleveledFinish, RemainingOvertimeCost, RemainingOvertimeWork
 
-
 Version 0.0.18
 Fixed a bug with writing MS Project compatible MSPDI XML files in non-GMT timezones.
 Fixed a bug with writing MSPDI XML files in non-GMT timezones.
