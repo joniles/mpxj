@@ -1,4 +1,10 @@
+Version 0.0.9
+Fixed bug when handling certain types of modified MPP file where resources have been updated.
+Added sample MPP files for bugs to the JUnit tests.
+Added support for summary flag import from MPP files.
+Added automatic summary flag update when creating an MPX file programatically.
+
 Version 0.0.8
 Added support for estimated durations.
-Fixed bug in handling certain types of modified MPP file.
+Fixed bug in handling certain types of modified MPP file where tasks have been updated.
 Added the facility to auto generate outline numbers.
