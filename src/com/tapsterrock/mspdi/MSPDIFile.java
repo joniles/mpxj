@@ -2711,10 +2711,11 @@ public class MSPDIFile extends MPXFile
       xml.setFixedCost((float)(mpx.getFixedCostValue()*100));
       
       AccrueType fixedCostAccrual = mpx.getFixedCostAccrual();
-      if (fixedCostAccrual != null)
+      if (fixedCostAccrual == null)
       {
-         xml.setFixedCostAccrual(Integer.toString(fixedCostAccrual.getType()));
+         fixedCostAccrual = AccrueType.getInstance(AccrueType.PRORATED);
       }
+      xml.setFixedCostAccrual(Integer.toString(fixedCostAccrual.getType()));
       
       xml.setFreeSlack(BigInteger.valueOf((long)getDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setHideBar(mpx.getHideBarValue());
