@@ -25,13 +25,18 @@
 
 package com.tapsterrock.mpx.test;
 
-import junit.framework.*;
-import com.tapsterrock.mpx.*;
-import com.tapsterrock.mpp.*;
-import com.tapsterrock.mspdi.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Iterator;
 import java.util.LinkedList;
+
+import junit.framework.TestCase;
+
+import com.tapsterrock.mpp.MPPFile;
+import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.Resource;
+import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mspdi.MSPDIFile;
 
 /**
  * This class contains a small set of tests to exercise the MPX library.
@@ -337,6 +342,52 @@ public class TestMPXFile extends TestCase
       }
    }
 
+   /**
+    * Read an MPP file where the structure was not being correctly
+    * set up to reflect the outline level
+    */
+   public void testBug3 ()
+      throws Exception
+   {
+      File out = null;
+
+      try
+      {
+         File in = new File (m_basedir + "/bug3.mpp");
+         MPPFile mpp = new MPPFile (in);
+         LinkedList tasks = mpp.getAllTasks();
+         Iterator iter = tasks.iterator();
+         Task task;
+         
+         while (iter.hasNext() == true)
+         {
+            task = (Task)iter.next();  
+            assertEquals("Outline levels do not match", task.getOutlineLevelValue(), calculateOutlineLevel(task));            
+         }         
+      }
+
+      finally
+      {
+         if (out != null)
+         {
+            out.delete();
+         }
+      }
+   }
+
+   private int calculateOutlineLevel (Task task)
+   {
+      int level = 0;
+      
+      while (task != null)
+      {
+         task = task.getParentTask();
+         ++level;
+      }      
+      
+      return (level);      
+   }
+   
    /**
     * Utility function to ensure that two files contain identical data.
     */
