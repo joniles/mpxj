@@ -1,10 +1,13 @@
+Version 0.0.22
+Fixed a bug where task data was not being read correctly from very large MPP9 files.
+
 Version 0.0.21
 Fixed a bug where the task start date attribute was not always correct for MPP8 files.
 Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.
 Fixed a bug causing en exception when reading certain MPP9 files.
 Updated to allow localised MPX files to be written and read.
 Implemented support for German MPX files.
-Implemented generic meachanism for dealing with task field aliases.
+Implemented generic mechanism for dealing with task field aliases.
 Implemented task field alias read/write for MSPDI files.
 Implemented task field alias read for MPP9 files.
 Implemented resource field alias read/write for MSPDI files.

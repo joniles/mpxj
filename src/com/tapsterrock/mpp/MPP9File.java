@@ -442,7 +442,10 @@ final class MPP9File
 
    /**
     * This method maps the task unique identifiers to their index number
-    * within the FixedData block.
+    * within the FixedData block. Note that although we have previously been
+    * treating the task ID as a 4 byte integer, here it appears to need
+    * to be treated as a 2 byte integer in order for us to match it with
+    * the 2 byte unqiue ID values held in the task VarMeta data.
     *
     * @param taskFixedMeta Fixed meta data for this task
     * @param taskFixedData Fixed data for this task
@@ -454,17 +457,17 @@ final class MPP9File
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
-
+                   
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length > 4)
          {
-            uniqueID = MPPUtility.getInt (data, 0);
+            uniqueID = MPPUtility.getShort(data, 0);
             taskMap.put(new Integer (uniqueID), new Integer (loop));
          }
       }
-
+            
       return (taskMap);
    }
 
@@ -489,7 +492,7 @@ final class MPP9File
          data = rscFixedData.getByteArrayValue(loop);
          if (data != null && data.length > 4)
          {
-            uniqueID = MPPUtility.getInt (data, 0);
+            uniqueID = MPPUtility.getShort (data, 0);
             resourceMap.put(new Integer (uniqueID), new Integer (loop));
          }
       }
