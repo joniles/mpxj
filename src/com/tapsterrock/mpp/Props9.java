@@ -106,7 +106,8 @@ final class Props9 extends Props
       while (iter.hasNext() == true)
       {
          key = (Integer)iter.next();
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));
+         pw.println ("   Key: " + key + " Value: ");
+         pw.println (MPPUtility.hexdump((byte[])m_map.get(key), true, 16, "      "));
       }
 
       pw.println ("END Props");

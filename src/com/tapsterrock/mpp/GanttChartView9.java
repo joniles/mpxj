@@ -35,6 +35,8 @@ public class GanttChartView9 extends View9
 
       if (props != null)
       {
+         //System.out.println(props);
+         
          byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
    
          if (viewPropertyData != null)
@@ -56,31 +58,36 @@ public class GanttChartView9 extends View9
             m_nonWorkingDaysCalendarName = MPPUtility.getUnicodeString(viewPropertyData, 352);
             
             m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 1163));
+            
+            byte flags = viewPropertyData[228];
+            
+            m_timescaleMiddleTier = new TimescaleTier ();
+            m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
+            m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
+            m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
+            m_timescaleMiddleTier.setCount(viewPropertyData[246]);
+            m_timescaleMiddleTier.setFormat(viewPropertyData[250]);
+            m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256]));
+            
+            m_timescaleBottomTier = new TimescaleTier ();
+            m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
+            m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
+            m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
+            m_timescaleBottomTier.setCount(viewPropertyData[248]);
+            m_timescaleBottomTier.setFormat(viewPropertyData[252]);            
+            m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254]));            
+            
+            m_timescaleSeparator = (flags & 0x04) != 0;            
+            m_timescaleSize = viewPropertyData[268];
+            
+            //System.out.println (MPPUtility.hexdump(viewPropertyData, true, 16, ""));            
          }
       }
-      
+            
       //key = 574619661, 38 bytes per task bar, only modified task bars appear here, first 4 bytes are the task UID
 
-      // byte 228 - bit flags, bit 4 is major scale use FY, bit 1 is major scale tick lines, but 5 minor scale use FY, bit 2 is minor scale tick lines, bit 3 is scale separator
-      
-      // byte 242 - major scale units
-      
-      // byte 244 - minor scale units
-      
-      // byte 246 - major scale count
-      
-      // byte 248 - minor scale count
-      
-      // byte 250 - major scale label format
-      
-      // byte 252 - minor scale label format
-      
-      // byte 254 - minor scale align
-      
-      // byte 256 - major scale align
-      
-      // byte 268 - timescale size percent
-      
+      // key = 574619678 top tier of the timescale
+                              
       // the last section of this block is in two parts. The first part
       // is a set of 58 byte blocks representing the default formats for the
       // gantt bars, the second part is the names associated with each of these types
@@ -270,6 +277,37 @@ public class GanttChartView9 extends View9
    }
    
    /**
+    * Retrieve a flag indicating if a separator is shown between the
+    * major and minor scales.
+    * 
+    * @return boolean flag
+    */
+   public boolean getTimescaleSeparator()
+   {
+      return (m_timescaleSeparator);
+   }
+
+   /**
+    * Retrieves a timescale tier
+    * 
+    * @return timescale tier
+    */   
+   public TimescaleTier getTimescaleMiddleTier()
+   {
+      return (m_timescaleMiddleTier);
+   }
+
+   /**
+    * Retrieves a timescale tier
+    * 
+    * @return timescale tier
+    */   
+   public TimescaleTier getTimescaleBottomTier()
+   {
+      return (m_timescaleBottomTier);
+   }
+   
+   /**
     * This method maps the encoded height of a Gantt bar to
     * the height in pixels.
     * 
@@ -352,7 +390,11 @@ public class GanttChartView9 extends View9
       pw.println ("   ProjectFinishGridLines=" + m_projectFinishGridLines);
       pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);
       pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);
-      pw.println ("   GanttBarHeight=" + m_ganttBarHeight);
+      pw.println ("   GanttBarHeight=" + m_ganttBarHeight);      
+      pw.println ("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
+      pw.println ("   TimescaleBottomTier=" + m_timescaleBottomTier);      
+      pw.println ("   TimescaleSeparator=" + m_timescaleSeparator);      
+      pw.println ("   TimescaleSize=" + m_timescaleSize + "%");            
       pw.println ("]");
       pw.flush();
       return (os.toString());
@@ -374,6 +416,11 @@ public class GanttChartView9 extends View9
 
    private String m_nonWorkingDaysCalendarName;
    private int m_ganttBarHeight;
+
+   private TimescaleTier m_timescaleMiddleTier;
+   private TimescaleTier m_timescaleBottomTier;      
+   private boolean m_timescaleSeparator;
+   private int m_timescaleSize;
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);

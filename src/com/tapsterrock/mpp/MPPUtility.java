@@ -805,9 +805,10 @@ final class MPPUtility
     * @param buffer data to be displayed
     * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
     * @param columns number of columns
+    * @param prefix prefix to be added before the start of the data
     * @return formatted string
     */   
-   public static final String hexdump (byte[] buffer, boolean ascii, int columns)
+   public static final String hexdump (byte[] buffer, boolean ascii, int columns, String prefix)
    {      
       StringBuffer sb = new StringBuffer();
       int index = 0;
@@ -819,7 +820,8 @@ final class MPPUtility
          {
             columns = buffer.length - index;
          }
-         
+
+         sb.append (prefix);
          sb.append (df.format(index));
          sb.append (":");
          sb.append (hexdump(buffer, index, columns, ascii));
