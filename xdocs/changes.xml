@@ -29,6 +29,7 @@
       <action dev="joniles" type="add">Added the ability to query the task assignments for a resource using the Resource.getTaskAssignments() method.</action>
       <action dev="joniles" type="fix">Fixed a problem with number formats in MSPDI files.</action>      
       <action dev="joniles" type="update">Updated the MPP View class to extract the view type.</action>            
+      <action dev="joniles" type="update">Updated to ensure that duration values read from an MSPDI file are converted into the appropriate duration units, rather than being left as hours as the durations are represented in the MSPDI file.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

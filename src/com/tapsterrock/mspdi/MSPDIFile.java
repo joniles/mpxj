@@ -680,15 +680,15 @@ public class MSPDIFile extends MPXFile
       throws MPXException
    {
       Resource mpx = addResource();
-
+      
       mpx.setAccrueAt(xml.getAccrueAt());
       mpx.setActveDirectoryGUID(xml.getActiveDirectoryGUID());
       mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
       mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
-      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(xml.getActualOvertimeWork()));
-      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(xml.getActualOvertimeWorkProtected()));
-      mpx.setActualWork(DatatypeConverter.parseDuration (xml.getActualWork()));
-      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(xml.getActualWorkProtected()));
+      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(this,null,xml.getActualOvertimeWork()));
+      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(this,null,xml.getActualOvertimeWorkProtected()));
+      mpx.setActualWork(DatatypeConverter.parseDuration (this,null,xml.getActualWork()));
+      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(this,null,xml.getActualWorkProtected()));
       mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
       mpx.setAvailableFrom(DatatypeConverter.parseDate(xml.getAvailableFrom()));
       mpx.setAvailableTo(DatatypeConverter.parseDate(xml.getAvailableTo()));
@@ -731,22 +731,22 @@ public class MSPDIFile extends MPXFile
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
       mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate()));
       mpx.setOvertimeRateFormat(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
-      mpx.setOvertimeWork(DatatypeConverter.parseDuration (xml.getOvertimeWork()));
+      mpx.setOvertimeWork(DatatypeConverter.parseDuration (this,null,xml.getOvertimeWork()));
       mpx.setPeakUnits(DatatypeConverter.parseUnits(xml.getPeakUnits()));
       mpx.setPercentWorkComplete(xml.getPercentWorkComplete());
       mpx.setPhonetics(xml.getPhonetics());
-      mpx.setRegularWork(DatatypeConverter.parseDuration(xml.getRegularWork()));
+      mpx.setRegularWork(DatatypeConverter.parseDuration(this,null,xml.getRegularWork()));
       mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
       mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
-      mpx.setRemainingWork(DatatypeConverter.parseDuration (xml.getRemainingWork()));
-      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(xml.getRemainingOvertimeWork()));
+      mpx.setRemainingWork(DatatypeConverter.parseDuration (this,null,xml.getRemainingWork()));
+      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(this,null,xml.getRemainingOvertimeWork()));
       mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate()));
       mpx.setStandardRateFormat(DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
       mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
       mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
-      mpx.setWork(DatatypeConverter.parseDuration (xml.getWork()));
+      mpx.setWork(DatatypeConverter.parseDuration (this,null,xml.getWork()));
       mpx.setWorkGroup(xml.getWorkGroup());
       mpx.setWorkVariance(DatatypeConverter.parseDurationInMinutes(xml.getWorkVariance()));
 
@@ -777,7 +777,7 @@ public class MSPDIFile extends MPXFile
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)RESOURCE_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
          dataType = ((Integer)RESOURCE_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
-         DatatypeConverter.parseExtendedAttribute(mpx, attrib.getValue(), mpxFieldID, dataType);         
+         DatatypeConverter.parseExtendedAttribute(this, mpx, attrib.getValue(), mpxFieldID, dataType);         
       }
    }
 
@@ -822,15 +822,16 @@ public class MSPDIFile extends MPXFile
    {
       Task mpx = addTask ();
 
+      mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));      
       mpx.setActualCost(DatatypeConverter.parseCurrency (xml.getActualCost()));
-      mpx.setActualDuration(DatatypeConverter.parseDuration (xml.getActualDuration()));
+      mpx.setActualDuration(DatatypeConverter.parseDuration (this,mpx.getDurationFormat(),xml.getActualDuration()));
       mpx.setActualFinish(DatatypeConverter.parseDate (xml.getActualFinish()));
       mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
-      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration (xml.getActualOvertimeWork()));
-      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(xml.getActualOvertimeWorkProtected()));
+      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration (this,mpx.getDurationFormat(),xml.getActualOvertimeWork()));
+      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getActualOvertimeWorkProtected()));
       mpx.setActualStart(DatatypeConverter.parseDate (xml.getActualStart()));
-      mpx.setActualWork(DatatypeConverter.parseDuration (xml.getActualWork()));
-      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(xml.getActualWorkProtected()));
+      mpx.setActualWork(DatatypeConverter.parseDuration (this,mpx.getDurationFormat(),xml.getActualWork()));
+      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getActualWorkProtected()));
       mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
       //mpx.setBaselineCost();
       //mpx.setBaselineDuration();
@@ -854,8 +855,7 @@ public class MSPDIFile extends MPXFile
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
       //mpx.setDelay();
-      mpx.setDuration(DatatypeConverter.parseDuration (xml.getDuration()));
-      mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
+      mpx.setDuration(DatatypeConverter.parseDuration (this,mpx.getDurationFormat(),xml.getDuration()));      
       //mpx.setDuration1();
       //mpx.setDuration2();
       //mpx.setDuration3();
@@ -924,7 +924,7 @@ public class MSPDIFile extends MPXFile
       mpx.setOutlineNumber(xml.getOutlineNumber());
       mpx.setOverAllocated(xml.isOverAllocated());
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
-      mpx.setOvertimeWork(DatatypeConverter.parseDuration(xml.getOvertimeWork()));
+      mpx.setOvertimeWork(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getOvertimeWork()));
       mpx.setPercentageComplete(xml.getPercentComplete());
       mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
       mpx.setPhysicalPercentComplete(NumberUtility.getInteger(xml.getPhysicalPercentComplete()));
@@ -933,12 +933,12 @@ public class MSPDIFile extends MPXFile
       mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
       //mpx.setProject();
       mpx.setRecurring(xml.isRecurring());
-      mpx.setRegularWork(DatatypeConverter.parseDuration(xml.getRegularWork()));
+      mpx.setRegularWork(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getRegularWork()));
       mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
-      mpx.setRemainingDuration(DatatypeConverter.parseDuration(xml.getRemainingDuration()));
+      mpx.setRemainingDuration(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getRemainingDuration()));
       mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
-      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration (xml.getRemainingOvertimeWork()));
-      mpx.setRemainingWork(DatatypeConverter.parseDuration (xml.getRemainingWork()));
+      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration (this,mpx.getDurationFormat(),xml.getRemainingOvertimeWork()));
+      mpx.setRemainingWork(DatatypeConverter.parseDuration (this,mpx.getDurationFormat(),xml.getRemainingWork()));
       //mpx.setResourceGroup();
       //mpx.setResourceInitials();
       //mpx.setResourceNames();
@@ -976,7 +976,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setUpdateNeeded();
       mpx.setWBS(xml.getWBS());
       mpx.setWBSLevel (xml.getWBSLevel());
-      mpx.setWork(DatatypeConverter.parseDuration(xml.getWork()));
+      mpx.setWork(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getWork()));
       mpx.setWorkVariance(new MPXDuration (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
 
       readTaskExtendedAttributes(xml, mpx);
@@ -1009,7 +1009,7 @@ public class MSPDIFile extends MPXFile
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)TASK_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
          dataType = ((Integer)TASK_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
-         DatatypeConverter.parseExtendedAttribute(mpx, attrib.getValue(), mpxFieldID, dataType);         
+         DatatypeConverter.parseExtendedAttribute(this, mpx, attrib.getValue(), mpxFieldID, dataType);         
       }
    }
 
@@ -1153,7 +1153,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getActualOvertimeWork()
             //assignment.getActualOvertimeWorkProtected()
             //assignment.getActualStart()
-            mpx.setActualWork(DatatypeConverter.parseDuration(assignment.getActualWork()));
+            mpx.setActualWork(DatatypeConverter.parseDuration(this,TimeUnit.HOURS,assignment.getActualWork()));
             //assignment.getActualWorkProtected()
             //assignment.getACWP()
             //assignment.getBaseline()
@@ -1176,7 +1176,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getLevelingDelayFormat()
             //assignment.getNotes()
             //assignment.getOvertimeCost()
-            mpx.setOvertimeWork(DatatypeConverter.parseDuration(assignment.getOvertimeWork()));
+            mpx.setOvertimeWork(DatatypeConverter.parseDuration(this,TimeUnit.HOURS,assignment.getOvertimeWork()));
             //assignment.getPercentWorkComplete()
             //mpx.setPlannedCost();
             //mpx.setPlannedWork();
@@ -1184,7 +1184,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getRemainingCost()
             //assignment.getRemainingOvertimeCost()
             //assignment.getRemainingOvertimeWork()
-            mpx.setRemainingWork(DatatypeConverter.parseDuration(assignment.getRemainingWork()));
+            mpx.setRemainingWork(DatatypeConverter.parseDuration(this,TimeUnit.HOURS,assignment.getRemainingWork()));
             //assignment.getResume()
             mpx.setStart(DatatypeConverter.parseDate(assignment.getStart()));
             //assignment.getStartVariance()
@@ -1192,7 +1192,7 @@ public class MSPDIFile extends MPXFile
             //assignment.getTimephasedData()
             mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
             //assignment.getVAC()
-            mpx.setWork(DatatypeConverter.parseDuration(assignment.getWork()));
+            mpx.setWork(DatatypeConverter.parseDuration(this,TimeUnit.HOURS,assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
             //assignment.getWorkVariance()
          }
@@ -1237,6 +1237,21 @@ public class MSPDIFile extends MPXFile
          result = value.floatValue();
       }
       return (result);
+   }
+   
+   /**
+    * Retrieve the default duration units for this project.
+    * 
+    * @return duration units
+    */
+   TimeUnit getDefaultDurationUnits ()
+   {
+      TimeUnit units = getProjectHeader().getDefaultDurationUnits();
+      if (units == null)
+      {
+         units = TimeUnit.DAYS;
+      }
+      return (units);
    }
    
    /**

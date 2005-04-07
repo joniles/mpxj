@@ -532,7 +532,7 @@ public class MPXJTest extends TestCase
          }
       }
    }
-
+   
    /**
     * This method tests two stages of conversion, MPP->MPX->MSPDI. This
     * jhas been designed to exercise bug 896189, which was exhibited
@@ -1910,8 +1910,8 @@ public class MPXJTest extends TestCase
       assertEquals("18/07/2004", df.format(task.getDate1()));
       assertTrue(task.getFlag1Value());
       assertEquals(55.56, task.getNumber1Value(), 0.0);
-      assertEquals(104.0, task.getDuration1().getDuration(), 0.0);
-      assertEquals(TimeUnit.HOURS, task.getDuration1().getUnits());
+      assertEquals(13.0, task.getDuration1().getDuration(), 0.0);
+      assertEquals(TimeUnit.DAYS, task.getDuration1().getUnits());
 
       LinkedList resources = xml.getAllResources();
       assertEquals(2, resources.size());
@@ -1924,8 +1924,8 @@ public class MPXJTest extends TestCase
       assertEquals("18/07/2003", df.format(resource.getDate1()));
       assertTrue(resource.getFlag1());
       assertEquals(5.99, resource.getNumber1Value(), 0.0);
-      assertEquals(176.0, resource.getDuration1().getDuration(), 0.0);
-      assertEquals(TimeUnit.HOURS, resource.getDuration1().getUnits());
+      assertEquals(22.0, resource.getDuration1().getDuration(), 0.0);
+      assertEquals(TimeUnit.DAYS, resource.getDuration1().getUnits());
    }
 
    /**
