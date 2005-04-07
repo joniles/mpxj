@@ -32,7 +32,7 @@ package com.tapsterrock.mpp;
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public final class View9 extends View
+public class View9 extends View
 {
    /**
     * Extract the view data from the view data block.
@@ -41,7 +41,7 @@ public final class View9 extends View
     */
    public View9 (byte[] data)
    {
-      m_id = MPPUtility.getInt(data, 0);         
+      m_id = new Integer (MPPUtility.getInt(data, 0));         
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
       m_type = MPPUtility.getShort(data, 112);
    }   

@@ -23,9 +23,11 @@
 
 package com.tapsterrock.mpp;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.TimeUnit;
@@ -795,6 +797,40 @@ final class MPPUtility
       return (hexdump(buffer, 0, length, ascii));
    }
 
+   /**
+    * This method generates a formatted version of the data contained
+    * in a byte array. The data is written both in hex, and as ASCII
+    * characters. The data is organised into fixed width columns.
+    *
+    * @param buffer data to be displayed
+    * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
+    * @param columns number of columns
+    * @return formatted string
+    */   
+   public static final String hexdump (byte[] buffer, boolean ascii, int columns)
+   {      
+      StringBuffer sb = new StringBuffer();
+      int index = 0;
+      DecimalFormat df = new DecimalFormat("00000");
+      
+      while (index < buffer.length)
+      {
+         if (index + columns > buffer.length)
+         {
+            columns = buffer.length - index;
+         }
+         
+         sb.append (df.format(index));
+         sb.append (":");
+         sb.append (hexdump(buffer, index, columns, ascii));
+         sb.append ('\n');
+         
+         index += columns;
+      }
+      
+      return (sb.toString());
+   }
+   
    /**
     * Epoch date for MPP date calculation is 31/12/1983. This constant
     * is that date expressed in milliseconds using the Java date epoch.

@@ -1681,16 +1681,20 @@ final class MPP9File
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
+      VarMeta viewVarMeta = new VarMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
       FixedData ff = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       int items = ff.getItemCount();
       byte[] data;
       View view;
-
+      ViewFactory factory = new DefaultViewFactory ();
+      
       for (int loop=0; loop < items; loop++)
       {
-         view = new View9 (ff.getByteArrayValue(loop));
+         view = factory.createView(ff.getByteArrayValue(loop), viewVarData);
+         //System.out.println (view);
          file.addView(view);         
-      }      
+      }                             
    }
 
    /**
@@ -1822,8 +1826,7 @@ final class MPP9File
          }
       }
    }
-
-
+   
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
 //      System.out.println (name);

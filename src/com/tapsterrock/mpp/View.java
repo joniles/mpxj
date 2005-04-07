@@ -49,7 +49,7 @@ public class View
     *
     * @return view identifier
     */
-   public int getID ()
+   public Integer getID ()
    {
       return (m_id);
    }
@@ -108,7 +108,7 @@ public class View
     */
    public String toString ()
    {
-      return ("[VIEW id=" + m_id + " type=" + m_type + " name=" + m_name +"]");
+      return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name +"]");
    }
 
    /**
@@ -129,7 +129,7 @@ public class View
    public static final int TASK_USAGE = 14;
    public static final int RESOURCE_USAGE=15;
    
-   protected int m_id;
+   protected Integer m_id;
    protected String m_name;
    protected int m_type;
 }

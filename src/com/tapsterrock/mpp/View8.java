@@ -41,7 +41,7 @@ public final class View8 extends View
     */
    public View8 (byte[] data)
    {
-      m_id = MPPUtility.getInt(data, 0);         
+      m_id = new Integer (MPPUtility.getInt(data, 0));         
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
       m_type = MPPUtility.getShort(data, 116);
    }   
