@@ -64,11 +64,27 @@ public final class GridLineStyle
       return (getName());
    }
 
-   public static final GridLineStyle NONE = new GridLineStyle (0);
-   public static final GridLineStyle SOLID = new GridLineStyle (1);
-   public static final GridLineStyle DOTTED1 = new GridLineStyle (2);
-   public static final GridLineStyle DOTTED2 = new GridLineStyle (3);
-   public static final GridLineStyle DASHED = new GridLineStyle (4);
+   /**
+    * Retrieve the value associated with this instance.
+    * 
+    * @return int value
+    */
+   public int getValue ()
+   {
+      return (m_value);
+   }
+   
+   public static final int NONE_VALUE = 0;
+   public static final int SOLID_VALUE = 1;
+   public static final int DOTTED1_VALUE = 2;
+   public static final int DOTTED2_VALUE = 3;
+   public static final int DASHED_VALUE = 4;
+   
+   public static final GridLineStyle NONE = new GridLineStyle (NONE_VALUE);
+   public static final GridLineStyle SOLID = new GridLineStyle (SOLID_VALUE);
+   public static final GridLineStyle DOTTED1 = new GridLineStyle (DOTTED1_VALUE);
+   public static final GridLineStyle DOTTED2 = new GridLineStyle (DOTTED2_VALUE);
+   public static final GridLineStyle DASHED = new GridLineStyle (DASHED_VALUE);
    
    private static final GridLineStyle[] STYLE_TYPES = 
    {

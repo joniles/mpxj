@@ -56,6 +56,14 @@ public class GanttChartView9 extends View9
             m_statusDateGridLines = new GridLines(viewPropertyData, 219);
             
             m_nonWorkingDaysCalendarName = MPPUtility.getUnicodeString(viewPropertyData, 352);
+            m_nonWorkingColor = ColorType.getInstance(viewPropertyData[1153]);
+            m_nonWorkingPattern = viewPropertyData[1154];
+            
+            // byte 1152 represents the non-working time draw option
+                        
+            // 0 = behind
+            // 1 = in front
+            // 2 = do not draw
             
             m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 1163));
             
@@ -94,13 +102,10 @@ public class GanttChartView9 extends View9
             m_timescaleTopTier.setCount(topTierData[32]);
             m_timescaleTopTier.setFormat(topTierData[34]);            
             m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36]-20));                        
-         }
-         
+         }         
       }
             
       //key = 574619661, 38 bytes per task bar, only modified task bars appear here, first 4 bytes are the task UID
-
-      // key = 574619678 top tier of the timescale
                               
       // the last section of this block is in two parts. The first part
       // is a set of 58 byte blocks representing the default formats for the
@@ -126,7 +131,7 @@ public class GanttChartView9 extends View9
       
       // at offset 1161 is a two byte count containing the number of bar types that have been defined
       
-      // byte 1182 represents the date style - need to check how many bytes are actually used
+      // byte 1182 represents the date style - need to check how many bytes are actually used and if this maps on to the other date styles we've seen in MPP files?
       
       // byte 1186 represents the always roll up gantt bars flag
       
@@ -306,6 +311,16 @@ public class GanttChartView9 extends View9
     * 
     * @return timescale tier
     */   
+   public TimescaleTier getTimescaleTopTier()
+   {
+      return (m_timescaleTopTier);
+   }
+   
+   /**
+    * Retrieves a timescale tier
+    * 
+    * @return timescale tier
+    */   
    public TimescaleTier getTimescaleMiddleTier()
    {
       return (m_timescaleMiddleTier);
@@ -319,6 +334,38 @@ public class GanttChartView9 extends View9
    public TimescaleTier getTimescaleBottomTier()
    {
       return (m_timescaleBottomTier);
+   }
+   
+   /**
+    * Retrieve the timescale size value. This is a percentage value.
+    * 
+    * @return timescale size value
+    */
+   public int getTimescaleSize()
+   {
+      return (m_timescaleSize);
+   }
+   
+   /**
+    * Retrieve the non-working time color.
+    * 
+    * @return non-working time color
+    */
+   public ColorType getNonWorkingColor()
+   {
+      return (m_nonWorkingColor);
+   }
+   
+   /**
+    * Retrieve the non-working time pattern. This is an integer between
+    * 0 and 10 inclusive which represents the fixed set of patterns
+    * supported by MS Project.
+    * 
+    * @return non-working time pattern
+    */
+   public int getNonWorkingPattern()
+   {
+      return (m_nonWorkingPattern);
    }
    
    /**
@@ -402,14 +449,16 @@ public class GanttChartView9 extends View9
       pw.println ("   PageBreakGridLines=" + m_pageBreakGridLines);
       pw.println ("   ProjectStartGridLines=" + m_projectStartGridLines);
       pw.println ("   ProjectFinishGridLines=" + m_projectFinishGridLines);
-      pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);
-      pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);
+      pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);  
       pw.println ("   GanttBarHeight=" + m_ganttBarHeight);      
       pw.println ("   TimescaleTopTier=" + m_timescaleTopTier);      
       pw.println ("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
       pw.println ("   TimescaleBottomTier=" + m_timescaleBottomTier);      
       pw.println ("   TimescaleSeparator=" + m_timescaleSeparator);      
-      pw.println ("   TimescaleSize=" + m_timescaleSize + "%");            
+      pw.println ("   TimescaleSize=" + m_timescaleSize + "%");      
+      pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);      
+      pw.println ("   NonWorkingColor=" + m_nonWorkingColor);            
+      pw.println ("   NonWorkingPattern=" + m_nonWorkingPattern);                  
       pw.println ("]");
       pw.flush();
       return (os.toString());
@@ -429,7 +478,6 @@ public class GanttChartView9 extends View9
    private GridLines m_projectFinishGridLines;
    private GridLines m_statusDateGridLines;
 
-   private String m_nonWorkingDaysCalendarName;
    private int m_ganttBarHeight;
 
    private TimescaleTier m_timescaleTopTier;   
@@ -437,6 +485,10 @@ public class GanttChartView9 extends View9
    private TimescaleTier m_timescaleBottomTier;      
    private boolean m_timescaleSeparator;
    private int m_timescaleSize;
+
+   private String m_nonWorkingDaysCalendarName;
+   private ColorType m_nonWorkingColor;
+   private int m_nonWorkingPattern;
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);

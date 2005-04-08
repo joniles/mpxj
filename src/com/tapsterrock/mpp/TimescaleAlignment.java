@@ -63,10 +63,24 @@ public final class TimescaleAlignment
    {
       return (getName());
    }
-      
-   public static final TimescaleAlignment LEFT = new TimescaleAlignment (0);
-   public static final TimescaleAlignment CENTER = new TimescaleAlignment (1);
-   public static final TimescaleAlignment RIGHT = new TimescaleAlignment (2);
+
+   /**
+    * Retrieve the value associated with this instance.
+    * 
+    * @return int value
+    */
+   public int getValue ()
+   {
+      return (m_value);
+   }
+   
+   public static final int LEFT_VALUE = 0;
+   public static final int CENTER_VALUE = 1;
+   public static final int RIGHT_VALUE = 2;
+   
+   public static final TimescaleAlignment LEFT = new TimescaleAlignment (LEFT_VALUE);
+   public static final TimescaleAlignment CENTER = new TimescaleAlignment (CENTER_VALUE);
+   public static final TimescaleAlignment RIGHT = new TimescaleAlignment (RIGHT_VALUE);
 
    private static final TimescaleAlignment[] ALIGNMENT_ARRAY =
    {

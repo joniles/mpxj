@@ -77,17 +77,27 @@ public final class TimescaleUnits
       return (getName());
    }
    
+   public static final int NONE_VALUE = -1;
+   public static final int MINUTES_VALUE = 0;
+   public static final int HOURS_VALUE = 1;
+   public static final int DAYS_VALUE = 2;
+   public static final int WEEKS_VALUE = 3;
+   public static final int THIRDS_OF_MONTHS_VALUE = 4;
+   public static final int MONTHS_VALUE = 5;
+   public static final int QUARTERS_VALUE = 6;
+   public static final int HALF_YEARS_VALUE = 7;
+   public static final int YEARS_VALUE = 8;
    
-   public static final TimescaleUnits NONE = new TimescaleUnits (-1);   
-   public static final TimescaleUnits MINUTES = new TimescaleUnits (0);
-   public static final TimescaleUnits HOURS = new TimescaleUnits (1);
-   public static final TimescaleUnits DAYS = new TimescaleUnits (2);
-   public static final TimescaleUnits WEEKS = new TimescaleUnits (3);
-   public static final TimescaleUnits THIRDS_OF_MONTHS = new TimescaleUnits (4);
-   public static final TimescaleUnits MONTHS = new TimescaleUnits (5);
-   public static final TimescaleUnits QUARTERS = new TimescaleUnits (6);
-   public static final TimescaleUnits HALF_YEARS = new TimescaleUnits (7);   
-   public static final TimescaleUnits YEARS = new TimescaleUnits (8);
+   public static final TimescaleUnits NONE = new TimescaleUnits (NONE_VALUE);   
+   public static final TimescaleUnits MINUTES = new TimescaleUnits (MINUTES_VALUE);
+   public static final TimescaleUnits HOURS = new TimescaleUnits (HOURS_VALUE);
+   public static final TimescaleUnits DAYS = new TimescaleUnits (DAYS_VALUE);
+   public static final TimescaleUnits WEEKS = new TimescaleUnits (WEEKS_VALUE);
+   public static final TimescaleUnits THIRDS_OF_MONTHS = new TimescaleUnits (THIRDS_OF_MONTHS_VALUE);
+   public static final TimescaleUnits MONTHS = new TimescaleUnits (MONTHS_VALUE);
+   public static final TimescaleUnits QUARTERS = new TimescaleUnits (QUARTERS_VALUE);
+   public static final TimescaleUnits HALF_YEARS = new TimescaleUnits (HALF_YEARS_VALUE);   
+   public static final TimescaleUnits YEARS = new TimescaleUnits (YEARS_VALUE);
 
    private static final TimescaleUnits[] UNITS_ARRAY =
    {

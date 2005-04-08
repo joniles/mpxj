@@ -76,24 +76,52 @@ public final class ColorType
    {
       return (getName());
    }
+
+   /**
+    * Retrieve the value associated with this instance.
+    * 
+    * @return int value
+    */
+   public int getValue ()
+   {
+      return (m_value);
+   }
    
-   public static final ColorType BLACK = new ColorType (0);
-   public static final ColorType RED = new ColorType (1);
-   public static final ColorType YELLOW = new ColorType (2);
-   public static final ColorType LIME = new ColorType (3);
-   public static final ColorType AQUA = new ColorType (4);
-   public static final ColorType BLUE = new ColorType (5);
-   public static final ColorType FUSCHIA = new ColorType (6);
-   public static final ColorType WHITE = new ColorType (7);
-   public static final ColorType MAROON = new ColorType (8);
-   public static final ColorType GREEN = new ColorType (9);
-   public static final ColorType OLIVE = new ColorType (10);
-   public static final ColorType NAVY = new ColorType (11);
-   public static final ColorType PURPLE = new ColorType (12);
-   public static final ColorType TEAL = new ColorType (13);
-   public static final ColorType GRAY = new ColorType (14);
-   public static final ColorType SILVER = new ColorType (15);
-   public static final ColorType AUTOMATIC = new ColorType (16);
+   public static final int BLACK_VALUE = 0;
+   public static final int RED_VALUE = 1;
+   public static final int YELLOW_VALUE = 2;
+   public static final int LIME_VALUE = 3;
+   public static final int AQUA_VALUE = 4;
+   public static final int BLUE_VALUE = 5;
+   public static final int FUSCHIA_VALUE = 6;
+   public static final int WHITE_VALUE = 7;
+   public static final int MAROON_VALUE = 8;
+   public static final int GREEN_VALUE = 9;
+   public static final int OLIVE_VALUE = 10;
+   public static final int NAVY_VALUE = 11;
+   public static final int PURPLE_VALUE = 12;
+   public static final int TEAL_VALUE = 13;
+   public static final int GRAY_VALUE = 14;
+   public static final int SILVER_VALUE = 15;
+   public static final int AUTOMATIC_VALUE = 16;
+   
+   public static final ColorType BLACK = new ColorType (BLACK_VALUE);
+   public static final ColorType RED = new ColorType (RED_VALUE);
+   public static final ColorType YELLOW = new ColorType (YELLOW_VALUE);
+   public static final ColorType LIME = new ColorType (LIME_VALUE);
+   public static final ColorType AQUA = new ColorType (AQUA_VALUE);
+   public static final ColorType BLUE = new ColorType (BLUE_VALUE);
+   public static final ColorType FUSCHIA = new ColorType (FUSCHIA_VALUE);
+   public static final ColorType WHITE = new ColorType (WHITE_VALUE);
+   public static final ColorType MAROON = new ColorType (MAROON_VALUE);
+   public static final ColorType GREEN = new ColorType (GREEN_VALUE);
+   public static final ColorType OLIVE = new ColorType (OLIVE_VALUE);
+   public static final ColorType NAVY = new ColorType (NAVY_VALUE);
+   public static final ColorType PURPLE = new ColorType (PURPLE_VALUE);
+   public static final ColorType TEAL = new ColorType (TEAL_VALUE);
+   public static final ColorType GRAY = new ColorType (GRAY_VALUE);
+   public static final ColorType SILVER = new ColorType (SILVER_VALUE);
+   public static final ColorType AUTOMATIC = new ColorType (AUTOMATIC_VALUE);
    
    private static final ColorType[] COLOR_TYPES = 
    {
