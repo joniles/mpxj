@@ -91,5 +91,35 @@
             </p> 
          </answer>
       </faq>
+      
+      <faq id="localised-mpx">
+         <question>
+            My localised version of MS Project won't read the MPX files created by MPXJ, or MPXJ
+            won't read the MPX files written by my localised version of MS Project.
+         </question> 
+         <answer>
+            <p>
+               Localised versions of MS Project (i.e. those which have been translated
+               for use in a non-Enlish locale) read and write MPX files which include
+               localised text strings. The end result of this is that an English/International
+               version of MS Project can't read MPX files produced by a localised version of
+               MS Project, and vice versa.
+            </p> 
+            <p>
+               MPXJ supports a small number of non-English locales, and can read and write MPX
+               files correctly for those locales. You can also use MPXJ to translate MPX
+               files from one locale to another. The MPXFile.setLocale() method must be called
+               prior to reading or writing an MPX file in order to set the required locale.
+               By default MPXJ will always produce MPX files for the International/English locale,
+               regardless of the locale for which your operating system if configured.
+            </p>
+            <p>
+               Currently supported locales for MPX files include German, Portuguese, and Swedish. 
+               Producing a translation for you locale is very easy, please contact us for details
+               on how you can help us to do this.
+            </p>
+         </answer>
+      </faq>
+      
    </part>   
 </faqs>
