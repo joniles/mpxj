@@ -67,7 +67,7 @@ public class GanttChartView9 extends View9
             m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
             m_timescaleMiddleTier.setCount(viewPropertyData[246]);
             m_timescaleMiddleTier.setFormat(viewPropertyData[250]);
-            m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256]));
+            m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256]-32));
             
             m_timescaleBottomTier = new TimescaleTier ();
             m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
@@ -75,13 +75,27 @@ public class GanttChartView9 extends View9
             m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
             m_timescaleBottomTier.setCount(viewPropertyData[248]);
             m_timescaleBottomTier.setFormat(viewPropertyData[252]);            
-            m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254]));            
+            m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254]-32));            
             
             m_timescaleSeparator = (flags & 0x04) != 0;            
             m_timescaleSize = viewPropertyData[268];
-            
+                        
             //System.out.println (MPPUtility.hexdump(viewPropertyData, true, 16, ""));            
          }
+         
+         byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);         
+         if (topTierData != null)
+         {
+            m_timescaleTopTier = new TimescaleTier ();            
+            
+            m_timescaleTopTier.setTickLines(topTierData[48]!=0);
+            m_timescaleTopTier.setUsesFiscalYear(topTierData[60]!=0);
+            m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(topTierData[30]));
+            m_timescaleTopTier.setCount(topTierData[32]);
+            m_timescaleTopTier.setFormat(topTierData[34]);            
+            m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36]-20));                        
+         }
+         
       }
             
       //key = 574619661, 38 bytes per task bar, only modified task bars appear here, first 4 bytes are the task UID
@@ -391,6 +405,7 @@ public class GanttChartView9 extends View9
       pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);
       pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);
       pw.println ("   GanttBarHeight=" + m_ganttBarHeight);      
+      pw.println ("   TimescaleTopTier=" + m_timescaleTopTier);      
       pw.println ("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
       pw.println ("   TimescaleBottomTier=" + m_timescaleBottomTier);      
       pw.println ("   TimescaleSeparator=" + m_timescaleSeparator);      
@@ -417,6 +432,7 @@ public class GanttChartView9 extends View9
    private String m_nonWorkingDaysCalendarName;
    private int m_ganttBarHeight;
 
+   private TimescaleTier m_timescaleTopTier;   
    private TimescaleTier m_timescaleMiddleTier;
    private TimescaleTier m_timescaleBottomTier;      
    private boolean m_timescaleSeparator;
@@ -424,4 +440,5 @@ public class GanttChartView9 extends View9
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
+   private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);      
 }

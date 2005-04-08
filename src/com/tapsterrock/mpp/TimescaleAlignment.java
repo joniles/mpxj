@@ -33,12 +33,12 @@ public final class TimescaleAlignment
    {  
       TimescaleAlignment result;
       
-      if (value < 32 || value > 34)
+      if (value < 0 || value >= ALIGNMENT_ARRAY.length)
       {
-         value = 33;
+         value = 1;
       }
       
-      result = ALIGNMENT_ARRAY[value-32];
+      result = ALIGNMENT_ARRAY[value];
       
       return (result);
    }
