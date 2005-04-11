@@ -58,13 +58,8 @@ public class GanttChartView9 extends View9
             m_nonWorkingDaysCalendarName = MPPUtility.getUnicodeString(viewPropertyData, 352);
             m_nonWorkingColor = ColorType.getInstance(viewPropertyData[1153]);
             m_nonWorkingPattern = viewPropertyData[1154];
-            
-            // byte 1152 represents the non-working time draw option
+            m_nonWorkingStyle = NonWorkingTimeStyle.getInstance(viewPropertyData[1152]);
                         
-            // 0 = behind
-            // 1 = in front
-            // 2 = do not draw
-            
             m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 1163));
             
             byte flags = viewPropertyData[228];
@@ -87,8 +82,49 @@ public class GanttChartView9 extends View9
             
             m_timescaleSeparator = (flags & 0x04) != 0;            
             m_timescaleSize = viewPropertyData[268];
-                        
+
+            m_showDrawings = (viewPropertyData[1156] != 0);
+            m_roundBarsToWholeDays = (viewPropertyData[1158] != 0);
+            m_showBarSplits = (viewPropertyData[1160] != 0);
+            m_alwaysRollupGanttBars = (viewPropertyData[1186] != 0);
+            m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
+            m_barDateFormat = viewPropertyData[1182];
+            m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
+            
             //System.out.println (MPPUtility.hexdump(viewPropertyData, true, 16, ""));            
+            
+            System.out.println ("Number of bar definitions=" + viewPropertyData[1161]);
+
+            System.out.println (MPPUtility.hexdump(viewPropertyData, 1190+16, 4, false));
+            
+            // byte 0 = middle shape
+            // byte 1 = middle pattern
+            // byte 2 = middle color            
+            // byte 4 = start shape and style
+            // byte 5 = start color
+            // byte 6 = end shape and style
+            // byte 7 = end color
+            
+            // bytes 8-9 = from
+            // bytes 10-11 = from unknown
+            // bytes 12-13 to
+            // bytes 14-15 to unknown
+            
+            // bytes 16-19 bit field for "show for tasks"
+            // 0x00000001 = normal
+            // 0x00000002 = milestone
+            
+            // byte 32 = row (0=1, 1=2, 2=3, 3=4)
+            // bytes 34-35 = left text (-1 if not shown)
+            // bytes 36-37 = left text unknown attribute (-1 if not shown)
+            // bytes 38-39 = right text (-1 if not shown)
+            // bytes 40-41 = right text unknown attribute (-1 if not shown)
+            // bytes 42-43 = top text (-1 if not shown)
+            // bytes 44-45 = top text unknown attribute (-1 if not shown)
+            // bytes 46-47 = bottom text (-1 if not shown)
+            // bytes 48-49 = bottom text unknown attribute (-1 if not shown)
+            // bytes 50-51 = inside text (-1 if not shown)
+            // bytes 52-53 = inside text unknown attribute (-1 if not shown)
          }
          
          byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);         
@@ -114,28 +150,9 @@ public class GanttChartView9 extends View9
       
       // at offset 350 there seems to be a 2 byte integer which states
       // the remaining size of the data block.
-
-      // byte 1152 represents the non-working time draw option
-      
-      // byte 1153 represents the non-working time color
-      
-      // byte 1154 represents the non-working time pattern
-      
-      // byte 1155 represents the link style
-      
-      // byte 1156 represents the show drawings flag
-      
-      // byte 1158 represents the round bars to whole days flag
-      
-      // byte 1160 show bar splits flag
-      
+            
       // at offset 1161 is a two byte count containing the number of bar types that have been defined
       
-      // byte 1182 represents the date style - need to check how many bytes are actually used and if this maps on to the other date styles we've seen in MPP files?
-      
-      // byte 1186 represents the always roll up gantt bars flag
-      
-      // byte 1188 represents the hide rollup bars when summary expanded flag
       
       // progress lines are not stored in this block
       
@@ -369,6 +386,86 @@ public class GanttChartView9 extends View9
    }
    
    /**
+    * Retrieve the style used to draw non-working time.
+    * 
+    * @return non working time style
+    */
+   public NonWorkingTimeStyle getNonWorkingStyle()
+   {
+      return (m_nonWorkingStyle);      
+   }
+   
+   /**
+    * Retrieve the always rollup Gantt bars flag.
+    * 
+    * @return always rollup Gantt bars flag
+    */
+   public boolean getAlwaysRollupGanttBars()
+   {
+      return (m_alwaysRollupGanttBars);
+   }
+
+   /**
+    * Retrieve the bar date format.
+    * 
+    * @return bar date format
+    */
+   public int getBarDateFormat()
+   {
+      return (m_barDateFormat);
+   }
+
+   /**
+    * Retrieve the hide rollup bars when summary expanded
+    * 
+    * @return hide rollup bars when summary expanded
+    */
+   public boolean getHideRollupBarsWhenSummaryExpanded()
+   {
+      return (m_hideRollupBarsWhenSummaryExpanded);
+   }
+
+   /**
+    * Retrieve the bar link style.
+    * 
+    * @return bar link style
+    */
+   public LinkStyle getLinkStyle()
+   {
+      return (m_linkStyle);
+   }
+   
+   /**
+    * Retrieve the round bars to whole days flag.
+    * 
+    * @return round bars to whole days flag
+    */
+   public boolean getRoundBarsToWholeDays()
+   {
+      return (m_roundBarsToWholeDays);
+   }
+
+   /**
+    * Retrieve the show bar splits flag.
+    * 
+    * @return show bar splits flag
+    */
+   public boolean getShowBarSplits()
+   {
+      return (m_showBarSplits);
+   }
+   
+   /**
+    * Retrieve the show drawings flag
+    * 
+    * @return show drawings flag
+    */
+   public boolean getShowDrawings()
+   {
+      return (m_showDrawings);
+   }
+   
+   /**
     * This method maps the encoded height of a Gantt bar to
     * the height in pixels.
     * 
@@ -459,6 +556,14 @@ public class GanttChartView9 extends View9
       pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);      
       pw.println ("   NonWorkingColor=" + m_nonWorkingColor);            
       pw.println ("   NonWorkingPattern=" + m_nonWorkingPattern);                  
+      pw.println ("   NonWorkingStyle=" + m_nonWorkingStyle);                        
+      pw.println ("   ShowDrawings=" + m_showDrawings);
+      pw.println ("   RoundBarsToWholeDays=" + m_roundBarsToWholeDays);
+      pw.println ("   ShowBarSplits=" + m_showBarSplits);
+      pw.println ("   AlwaysRollupGanttBars=" + m_alwaysRollupGanttBars);
+      pw.println ("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);      
+      pw.println ("   BarDateFormat=" + m_barDateFormat);
+      pw.println ("   LinkStyle=" + m_linkStyle);      
       pw.println ("]");
       pw.flush();
       return (os.toString());
@@ -489,6 +594,15 @@ public class GanttChartView9 extends View9
    private String m_nonWorkingDaysCalendarName;
    private ColorType m_nonWorkingColor;
    private int m_nonWorkingPattern;
+   private NonWorkingTimeStyle m_nonWorkingStyle;
+
+   private boolean m_showDrawings;
+   private boolean m_roundBarsToWholeDays;
+   private boolean m_showBarSplits;
+   private boolean m_alwaysRollupGanttBars;
+   private boolean m_hideRollupBarsWhenSummaryExpanded;
+   private int m_barDateFormat;
+   private LinkStyle m_linkStyle;
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
