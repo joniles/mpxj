@@ -93,9 +93,9 @@ public class GanttChartView9 extends View9
             
             //System.out.println (MPPUtility.hexdump(viewPropertyData, true, 16, ""));            
             
-            System.out.println ("Number of bar definitions=" + viewPropertyData[1161]);
+            //System.out.println ("Number of bar definitions=" + viewPropertyData[1162]);
 
-            System.out.println (MPPUtility.hexdump(viewPropertyData, 1190+16, 4, false));
+            //System.out.println (MPPUtility.hexdump(viewPropertyData, 1190+16, 4, false));
             
             // byte 0 = middle shape
             // byte 1 = middle pattern
@@ -111,8 +111,17 @@ public class GanttChartView9 extends View9
             // bytes 14-15 to unknown
             
             // bytes 16-19 bit field for "show for tasks"
+            // perhaps use 16-17 only?
             // 0x00000001 = normal
             // 0x00000002 = milestone
+            // 0x00000004 = summary
+            // 0x00000008 = critical
+            // 0x00000010 = noncritical
+            // 0x00000020 = marked
+            // 0x00000040 = finished
+            // 0x00000080 = in progress
+            // 0x00000100 = not finished
+            // 0x00000200 = not started            
             
             // byte 32 = row (0=1, 1=2, 2=3, 3=4)
             // bytes 34-35 = left text (-1 if not shown)
@@ -138,11 +147,37 @@ public class GanttChartView9 extends View9
             m_timescaleTopTier.setCount(topTierData[32]);
             m_timescaleTopTier.setFormat(topTierData[34]);            
             m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36]-20));                        
-         }         
-      }
+         }    
+
+         //key = 574619661, 38 bytes per task bar, only modified task bars appear here, first 4 bytes are the task UID         
+         byte[] barData = props.getByteArray(BAR_PROPERTIES);
+         if (barData != null)
+         {
+            //System.out.println (MPPUtility.hexdump(barData, false)); 
             
-      //key = 574619661, 38 bytes per task bar, only modified task bars appear here, first 4 bytes are the task UID
-                              
+            // bytes 1-4 task ID
+            
+            // byte 6 - middle shape
+            // byte 7 - middle pattenr
+            // byte 8 - middle color
+            // byte 9 - left shape and type
+            // byte 10 - left color
+            // byte 11 - right shape and type
+            // byte 12 - right color
+
+            // byte 16-17 left text (-1 if not shown)
+            // byte 18-19 left text unknown attribute (-1 if not shown)            
+            // byte 20-21 right text (-1 if not shown)
+            // byte 22-23 right text unknown attribute (-1 if not shown)
+            // byte 24-25 top text (-1 if not shown)
+            // byte 26-27 top text unknown attribute (-1 if not shown)
+            // byte 28-29 bottom text (-1 if not shown)
+            // byte 30-31 bottom text unknown attribute (-1 if not shown)
+            // byte 32-33 inside text (-1 if not shown)
+            // byte 34-35 inside text unknown attribute (-1 if not shown)            
+         }
+      }
+                                          
       // the last section of this block is in two parts. The first part
       // is a set of 58 byte blocks representing the default formats for the
       // gantt bars, the second part is the names associated with each of these types
@@ -151,7 +186,7 @@ public class GanttChartView9 extends View9
       // at offset 350 there seems to be a 2 byte integer which states
       // the remaining size of the data block.
             
-      // at offset 1161 is a two byte count containing the number of bar types that have been defined
+      // at offset 1162 is a two byte count containing the number of bar types that have been defined
       
       
       // progress lines are not stored in this block
@@ -607,4 +642,5 @@ public class GanttChartView9 extends View9
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
    private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);      
+   private static final Integer BAR_PROPERTIES = new Integer (574619661);
 }
