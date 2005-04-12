@@ -28,8 +28,7 @@ import java.util.HashMap;
 import java.util.ListResourceBundle;
 
 /**
- * This class defines utility routines for handling resources, and also
- * the default set of English resources used in MPX files.
+ * This class defines the Portuguese translation of resource required by MPX files.
  */
 public final class LocaleData_pt extends ListResourceBundle
 {
