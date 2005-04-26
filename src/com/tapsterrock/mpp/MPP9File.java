@@ -1778,7 +1778,15 @@ final class MPP9File
          {
             column = new Column (table);
 
-            column.setFieldType (MPPUtility.getShort(data, index));
+            if (table.getResourceFlag() == false)
+            {
+               column.setFieldType (TaskField.getInstance(MPPUtility.getShort(data, index)));               
+            }
+            else
+            {
+               column.setFieldType (ResourceField.getInstance(MPPUtility.getShort(data, index)));
+            }
+            
             column.setWidth (MPPUtility.getByte(data, index+4));
 
             columnTitleOffset = MPPUtility.getShort(data, index+6);

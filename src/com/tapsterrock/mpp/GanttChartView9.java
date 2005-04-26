@@ -90,12 +90,25 @@ public class GanttChartView9 extends View9
             m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
             m_barDateFormat = viewPropertyData[1182];
             m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
+                        
+            m_barStyles = new GanttBarStyle[viewPropertyData[1162]];
+            int styleOffset = 1190;
+            int nameOffset = styleOffset + (m_barStyles.length * 58);
+            String styleName;
             
-            //System.out.println (MPPUtility.hexdump(viewPropertyData, true, 16, ""));            
+            for (int loop=0; loop < m_barStyles.length; loop++)
+            {
+               styleName = MPPUtility.getUnicodeString(viewPropertyData, nameOffset);
+               nameOffset += (styleName.length()+1)*2;               
+               m_barStyles[loop] = new GanttBarStyle(styleName, viewPropertyData, styleOffset);
+               styleOffset += 58;
+            }
             
-            //System.out.println ("Number of bar definitions=" + viewPropertyData[1162]);
-
-            //System.out.println (MPPUtility.hexdump(viewPropertyData, 1190+16, 4, false));
+            // text types
+            // 65535 = not set
+            // 32 = percent complete
+            // 33 = percent work complete
+            // 7 = actual cost
             
             // byte 0 = middle shape
             // byte 1 = middle pattern
@@ -153,6 +166,14 @@ public class GanttChartView9 extends View9
          byte[] barData = props.getByteArray(BAR_PROPERTIES);
          if (barData != null)
          {
+            m_barStyleExceptions = new GanttBarStyleException[barData.length/38];
+            int offset = 0;
+            for (int loop=0; loop < m_barStyleExceptions.length; loop++)
+            {
+               m_barStyleExceptions[loop] = new GanttBarStyleException(barData, offset);
+               offset += 38;
+            }
+            
             //System.out.println (MPPUtility.hexdump(barData, false)); 
             
             // bytes 1-4 task ID
@@ -501,6 +522,28 @@ public class GanttChartView9 extends View9
    }
    
    /**
+    * Retrieve an array reprtesenting bar styles which have been defined
+    * by the user for a specific task.
+    * 
+    * @return array of bar style exceptions
+    */
+   public GanttBarStyleException[] getBarStyleExceptions()
+   {
+      return m_barStyleExceptions;
+   }
+   
+   /**
+    * Retrieve an array of bar styles which are applied to all Gantt
+    * chart bars, unless an exception has been defined.
+    * 
+    * @return array of bar styles
+    */
+   public GanttBarStyle[] getBarStyles()
+   {
+      return m_barStyles;
+   }
+   
+   /**
     * This method maps the encoded height of a Gantt bar to
     * the height in pixels.
     * 
@@ -599,6 +642,20 @@ public class GanttChartView9 extends View9
       pw.println ("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);      
       pw.println ("   BarDateFormat=" + m_barDateFormat);
       pw.println ("   LinkStyle=" + m_linkStyle);      
+      
+      for (int loop=0; loop < m_barStyles.length; loop++)
+      {
+         pw.println ("   BarStyle=" + m_barStyles[loop]);               
+      }
+
+      if (m_barStyleExceptions != null)
+      {
+         for (int loop=0; loop < m_barStyleExceptions.length; loop++)
+         {
+            pw.println ("   BarStyleException=" + m_barStyleExceptions[loop]);               
+         }
+      }
+      
       pw.println ("]");
       pw.flush();
       return (os.toString());
@@ -638,6 +695,9 @@ public class GanttChartView9 extends View9
    private boolean m_hideRollupBarsWhenSummaryExpanded;
    private int m_barDateFormat;
    private LinkStyle m_linkStyle;
+   
+   private GanttBarStyle[] m_barStyles;
+   private GanttBarStyleException[] m_barStyleExceptions;
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
