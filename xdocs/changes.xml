@@ -31,6 +31,7 @@
       <action dev="joniles" type="update">Updated the MPP View class to extract the view type.</action>            
       <action dev="joniles" type="update">Updated to ensure that duration values read from an MSPDI file are converted into the appropriate duration units, rather than being left as hours as the durations are represented in the MSPDI file.</action>
       <action dev="joniles" type="add">Implemented French MPX file format translation (contributed by Benoit Baranne).</action>      
+      <action dev="joniles" type="fix">Fixed a bug reading assignment work contour attribute.</action>      
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

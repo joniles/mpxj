@@ -1626,7 +1626,10 @@ final class MPP9File
             assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
 
             varDataBlock = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, WORK_CONTOUR));
-            assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(varDataBlock, 28)));
+            if (varDataBlock != null)
+            {
+               assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(varDataBlock, 28)));
+            }
          }
       }
    }
@@ -1692,7 +1695,6 @@ final class MPP9File
       for (int loop=0; loop < items; loop++)
       {
          view = factory.createView(ff.getByteArrayValue(loop), viewVarData);
-         //System.out.println (view);
          file.addView(view);         
       }                             
    }
@@ -1752,8 +1754,8 @@ final class MPP9File
 
          table.setName(name);
          file.addTable(table);
-
-         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
+         
+         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));         
       }
    }
 
