@@ -32,6 +32,7 @@
       <action dev="joniles" type="update">Updated to ensure that duration values read from an MSPDI file are converted into the appropriate duration units, rather than being left as hours as the durations are represented in the MSPDI file.</action>
       <action dev="joniles" type="add">Implemented French MPX file format translation (contributed by Benoit Baranne).</action>      
       <action dev="joniles" type="fix">Fixed a bug reading assignment work contour attribute.</action>      
+      <action dev="joniles" type="update">Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 
