@@ -1268,6 +1268,8 @@ final class MPP9File
       TimeUnit durationUnits;
       int taskID1;
       int taskID2;
+      int constraintID;
+      int lastConstraintID = -1;
       byte[] metaData;
 
       for (int loop=0; loop < count; loop++)
@@ -1280,19 +1282,25 @@ final class MPP9File
             if (index != -1)
             {
                data = consFixedData.getByteArrayValue(index);
-               taskID1 = MPPUtility.getInt (data, 4);
-               taskID2 = MPPUtility.getInt (data, 8);
-
-               if (taskID1 != taskID2)
+               constraintID = MPPUtility.getInt (data, 0);
+               if (constraintID > lastConstraintID)
                {
-                  task1 = file.getTaskByUniqueID (taskID1);
-                  task2 = file.getTaskByUniqueID (taskID2);
-                  if (task1 != null && task2 != null)
+                  lastConstraintID = constraintID;
+                  taskID1 = MPPUtility.getInt (data, 4);
+                  taskID2 = MPPUtility.getInt (data, 8);
+   
+                  if (taskID1 != taskID2)
                   {
-                     rel = task2.addPredecessor(task1);
-                     rel.setType (MPPUtility.getShort(data, 12));
-                     durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
-                     rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 16), durationUnits));
+                     task1 = file.getTaskByUniqueID (taskID1);
+                     task2 = file.getTaskByUniqueID (taskID2);
+                     
+                     if (task1 != null && task2 != null)
+                     {
+                        rel = task2.addPredecessor(task1);
+                        rel.setType (MPPUtility.getShort(data, 12));
+                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
+                        rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 16), durationUnits));
+                     }
                   }
                }
             }
