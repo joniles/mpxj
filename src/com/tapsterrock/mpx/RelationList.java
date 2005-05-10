@@ -23,6 +23,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -31,7 +32,7 @@ import java.util.Locale;
 /**
  * This class represents a list of relationships between tasks.
  */
-public final class RelationList implements ToStringRequiresFile
+public final class RelationList extends AbstractList implements ToStringRequiresFile
 {
    /**
     * Default constructor.
@@ -102,10 +103,7 @@ public final class RelationList implements ToStringRequiresFile
    }
 
    /**
-    * This method retrieves an iterator, allowing the list
-    * of relationships to be traversed.
-    *
-    * @return an iterator
+    * @see AbstractList#iterator()
     */
    public Iterator iterator ()
    {
@@ -113,15 +111,29 @@ public final class RelationList implements ToStringRequiresFile
    }
 
    /**
-    * This method adds a relationship to the list.
-    *
-    * @param relation relationship to be added
+    * @see AbstractList#add(java.lang.Object)
     */
-   void add (Relation relation)
+   public boolean add (Object relation)
    {
-      m_list.add(relation);
+      return (m_list.add(relation));
    }
 
+   /**
+    * @see Collection#size()
+    */
+   public int size()
+   {
+      return (m_list.size());
+   }
+
+   /**
+    * @see AbstractList#get(int)
+    */
+   public Object get (int index)
+   {
+      return (m_list.get(index));
+   }
+   
    /**
     * List of relationships.
     */

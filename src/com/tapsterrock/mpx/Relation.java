@@ -39,7 +39,7 @@ public final class Relation implements ToStringRequiresFile
    Relation ()
    {
       m_taskIDValue = 0;
-      m_type = FINISH_START;
+      m_type = RelationType.FINISH_START;
       m_duration = new MPXDuration(0, TimeUnit.DAYS);
    }
 
@@ -82,7 +82,7 @@ public final class Relation implements ToStringRequiresFile
       //
       if (index == length)
       {
-         m_type = FINISH_START;
+         m_type = RelationType.FINISH_START;
          m_duration = new MPXDuration(0, TimeUnit.DAYS);
       }
       else
@@ -93,17 +93,8 @@ public final class Relation implements ToStringRequiresFile
          }
 
          String relationType = relationship.substring(index, index + 2);
-         String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
-
-         for (m_type = 0; m_type < relationTypes.length; m_type++)
-         {
-            if (relationTypes[m_type].equals(relationType) == true)
-            {
-               break;
-            }
-         }
-
-         if (m_type == relationTypes.length)
+         m_type = RelationType.getInstance(locale, relationship.substring(index, index + 2));         
+         if (m_type == null)
          {
             throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationType + "'");
          }
@@ -137,10 +128,9 @@ public final class Relation implements ToStringRequiresFile
    {
       StringBuffer sb = new StringBuffer(Integer.toString(m_taskIDValue));
 
-      if ((m_duration.getDuration() != 0) || (m_type != FINISH_START))
+      if ((m_duration.getDuration() != 0) || (m_type != RelationType.FINISH_START))
       {
-         String[] relationTypes = LocaleData.getStringArray(file.getLocale(), LocaleData.RELATION_TYPES);
-         sb.append(relationTypes[m_type]);
+         sb.append(m_type.toString(file));
       }
 
       double duration = m_duration.getDuration();
@@ -187,7 +177,7 @@ public final class Relation implements ToStringRequiresFile
     *
     * @return relationship type
     */
-   public int getType ()
+   public RelationType getType ()
    {
       return (m_type);
    }
@@ -198,7 +188,7 @@ public final class Relation implements ToStringRequiresFile
     *
     * @param type relationship type
     */
-   public void setType (int type)
+   public void setType (RelationType type)
    {
       m_type = type;
    }
@@ -226,26 +216,6 @@ public final class Relation implements ToStringRequiresFile
    }
 
    /**
-    * Constant representing a finish-finish relationship.
-    */
-   public static final int FINISH_FINISH = 0;
-
-   /**
-    * Constant representing a finish-start relationship.
-    */
-   public static final int FINISH_START = 1;
-
-   /**
-    * Constant representing a start-finish relationship.
-    */
-   public static final int START_FINISH = 2;
-
-   /**
-    * Constant representing a start-start relationship.
-    */
-   public static final int START_START = 3;
-
-   /**
     * Identifier of task with which this relationship is held.
     */
    private int m_taskIDValue;
@@ -253,7 +223,7 @@ public final class Relation implements ToStringRequiresFile
    /**
     * Type of relationship.
     */
-   private int m_type;
+   private RelationType m_type;
 
    /**
     * Lag between the two tasks.

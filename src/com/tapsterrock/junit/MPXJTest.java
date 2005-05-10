@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import junit.framework.TestCase;
@@ -43,7 +44,6 @@ import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
-import com.tapsterrock.mpx.RelationList;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
@@ -620,7 +620,7 @@ public class MPXJTest extends TestCase
       while (taskIter.hasNext() == true)
       {
          Task task = (Task)taskIter.next();
-         RelationList rels = task.getPredecessors();
+         List rels = task.getPredecessors();
          if (rels != null)
          {
             Iterator relIter = rels.iterator();

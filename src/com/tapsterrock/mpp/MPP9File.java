@@ -50,6 +50,7 @@ import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
+import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.ResourceType;
@@ -1297,7 +1298,7 @@ final class MPP9File
                      if (task1 != null && task2 != null)
                      {
                         rel = task2.addPredecessor(task1);
-                        rel.setType (MPPUtility.getShort(data, 12));
+                        rel.setType (RelationType.getInstance(MPPUtility.getShort(data, 12)));
                         durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
                         rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 16), durationUnits));
                      }

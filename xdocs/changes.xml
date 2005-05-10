@@ -34,6 +34,10 @@
       <action dev="joniles" type="fix">Fixed a bug reading assignment work contour attribute.</action>      
       <action dev="joniles" type="update">Updated to make failure more graceful when a Microsoft Project 4.0 MPP file is encountered.</action>
       <action dev="joniles" type="fix">Fixed a bug where deleted constraints in an MPP9 file were were not being ignored.</action>      
+      <action dev="joniles" type="update">Updated to make replace the int relation type in the Relation class with instances of the RelationType class.</action>
+      <action dev="joniles" type="update">Updated to derive RelationList from AbstractList.</action>
+      <action dev="joniles" type="add">Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.</action>      
+      <action dev="joniles" type="update">Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

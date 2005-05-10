@@ -23,16 +23,18 @@
 
 package com.tapsterrock.utility;
 
-import com.tapsterrock.mpx.MPXFile;
-import com.tapsterrock.mpx.Task;
+import java.text.SimpleDateFormat;
+
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.ProjectHeader;
-import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mpx.Relation;
+import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
+import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mpx.TimeUnit;
 import com.tapsterrock.mspdi.MSPDIFile;
-import java.text.SimpleDateFormat;
 
 
 /**
@@ -233,7 +235,7 @@ public class MpxjCreate
       // Link these two tasks
       //
       Relation rel1 = task3.addPredecessor (task2);
-      rel1.setType(Relation.FINISH_START);
+      rel1.setType(RelationType.FINISH_START);
 
       //
       // Add a milestone
@@ -243,7 +245,7 @@ public class MpxjCreate
       milestone1.setStart (df.parse("21/01/2003"));
       milestone1.setDuration (new MPXDuration (0, TimeUnit.DAYS));
       Relation rel2 = milestone1.addPredecessor (task3);
-      rel2.setType (Relation.FINISH_START);
+      rel2.setType (RelationType.FINISH_START);
 
       //
       // Assign resources to tasks

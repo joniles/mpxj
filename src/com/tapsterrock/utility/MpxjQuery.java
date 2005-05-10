@@ -32,13 +32,15 @@ import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.ProjectHeader;
+import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
+import com.tapsterrock.mspdi.MSPDIFile;
 
 /**
- * This example shows an MPP or an MPX file being read, and basic task and resource
- * data being extracted.
+ * This example shows an MPP, MPX or MSPDI file being read, and basic 
+ * task and resource data being extracted.
  */
 public class MpxjQuery
 {
@@ -104,6 +106,19 @@ public class MpxjQuery
 
       if (mpx == null)
       {
+         try
+         {
+            mpx = new MSPDIFile (filename);
+         }
+
+         catch (Exception ex)
+         {
+            mpx = null;
+         }
+      }
+      
+      if (mpx == null)
+      {
          throw new Exception ("Failed to read file");
       }
 
@@ -124,6 +139,8 @@ public class MpxjQuery
       listTaskNotes (mpx);
 
       listResourceNotes (mpx);
+      
+      listPredecessors (mpx);
    }
 
    /**
@@ -438,5 +455,38 @@ public class MpxjQuery
       System.out.println ();
    }
 
+   /**
+    * This method lists the predecessors for each task which has
+    * predecessors.
+    * 
+    * @param file MPX file
+    */
+   private static void listPredecessors (MPXFile file)
+   {
+      List tasks = file.getAllTasks();
+      Iterator iter = tasks.iterator();
+      Task task;
+      List predecessors;
+      Iterator predecessorIterator;
+      Relation relation;
+      
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         predecessors = task.getPredecessors();
+         if (predecessors != null && predecessors.isEmpty() == false)
+         {
+            System.out.println (task.getName() + " predecessors:");
+            predecessorIterator = predecessors.iterator();
+            while (predecessorIterator.hasNext() == true)
+            {
+               relation = (Relation)predecessorIterator.next();
+               System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskIDValue()).getName());
+               System.out.println("   Type: " + relation.getType());
+               System.out.println("   Lag: " + relation.getDuration());
+            }
+         }         
+      }
+   }
 }
 

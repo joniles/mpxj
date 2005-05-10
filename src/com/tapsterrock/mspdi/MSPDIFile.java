@@ -63,7 +63,7 @@ import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
-import com.tapsterrock.mpx.RelationList;
+import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
@@ -1077,14 +1077,14 @@ public class MSPDIFile extends MPXFile
          Task prevTask = getTaskByUniqueID(uid.intValue());
          if (prevTask != null)
          {
-            int type;
+            RelationType type;
             if (link.getType() != null)
             {
-               type = link.getType().intValue();
+               type = RelationType.getInstance(link.getType().intValue());
             }
             else
             {
-               type = Relation.FINISH_START;
+               type = RelationType.FINISH_START;
             }
 
             int lag;
@@ -2012,7 +2012,7 @@ public class MSPDIFile extends MPXFile
       //
       // Process the list of predecessors specified by Unique ID
       //
-      RelationList predecessors = mpx.getUniqueIDPredecessors();
+      List predecessors = mpx.getUniqueIDPredecessors();
       if (predecessors != null)
       {
          iter = predecessors.iterator();
@@ -2061,13 +2061,13 @@ public class MSPDIFile extends MPXFile
     * @return A new link to be added to the MSPDI file
     * @throws JAXBException on xml creation errors
     */
-   private Project.TasksType.TaskType.PredecessorLinkType writePredecessor (ObjectFactory factory, int taskID, int type, MPXDuration lag)
+   private Project.TasksType.TaskType.PredecessorLinkType writePredecessor (ObjectFactory factory, int taskID, RelationType type, MPXDuration lag)
       throws JAXBException
    {
       Project.TasksType.TaskType.PredecessorLinkType link = factory.createProjectTypeTasksTypeTaskTypePredecessorLinkType();
 
       link.setPredecessorUID (BigInteger.valueOf(taskID));
-      link.setType (BigInteger.valueOf(type));
+      link.setType (BigInteger.valueOf(type.getType()));
 
       if (lag != null && lag.getDuration() != 0)
       {

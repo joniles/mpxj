@@ -24,9 +24,10 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -3845,9 +3846,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return RelationList instance
     */
-   public RelationList getPredecessors ()
+   public List getPredecessors ()
    {
-      return ((RelationList)get(PREDECESSORS));
+      return ((List)get(PREDECESSORS));
    }
 
    /**
