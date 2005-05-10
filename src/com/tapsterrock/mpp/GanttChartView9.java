@@ -38,21 +38,35 @@ public class GanttChartView9 extends View9
     * Create a GanttChartView from the dixed and var data blocks associated 
     * with a view.
     * 
+    * @param parent parent MPP file
     * @param fixedData fixed data block
     * @param varData var data block
     * @throws IOException
     */
-   public GanttChartView9 (byte[] fixedData, Var2Data varData)
+   public GanttChartView9 (MPPFile parent, byte[] fixedData, Var2Data varData)
       throws IOException
    {
       super (fixedData);
+      
+      m_parent = parent;
       
       Props9 props = new Props9(new ByteArrayInputStream(varData.getByteArray(m_id, PROPERTIES)));      
 
       if (props != null)
       {
-         byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
-   
+         byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
+         if (tableData != null)
+         {
+            m_tableWidth = MPPUtility.getShort(tableData, 35);
+         }
+
+         byte[] tableName = props.getByteArray(TABLE_NAME);
+         if (tableName != null)
+         {
+            m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName));
+         }
+         
+         byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);   
          if (viewPropertyData != null)
          {
             m_sheetRowsGridLines = new GridLines(viewPropertyData, 99);
@@ -471,6 +485,37 @@ public class GanttChartView9 extends View9
    {
       return m_barStyles;
    }
+
+   /**
+    * Retrieve the width ofthe table part of the view.
+    * 
+    * @return table width
+    */
+   public int getTableWidth ()
+   {
+      return (m_tableWidth);
+   }
+
+   /**
+    * Retrieve the name of the table part of the view.
+    * 
+    * @return table name
+    */
+   public String getTableName ()
+   {
+      return (m_tableName);
+   }
+   
+   /**
+    * Retrieve an instance of the Table class representing the
+    * table part of this view.
+    * 
+    * @return table instance
+    */
+   public Table getTable ()
+   {
+      return (m_parent.getTableByName(m_tableName));
+   }
    
    /**
     * This method maps the encoded height of a Gantt bar to
@@ -571,6 +616,9 @@ public class GanttChartView9 extends View9
       pw.println ("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);      
       pw.println ("   BarDateFormat=" + m_barDateFormat);
       pw.println ("   LinkStyle=" + m_linkStyle);      
+      pw.println ("   TableWidth=" + m_tableWidth);      
+      pw.println ("   TableName=" + m_tableName);      
+      pw.println ("   Table=" + getTable());
       
       for (int loop=0; loop < m_barStyles.length; loop++)
       {
@@ -590,6 +638,7 @@ public class GanttChartView9 extends View9
       return (os.toString());
    }
    
+   private MPPFile m_parent;
    private GridLines m_sheetRowsGridLines;
    private GridLines m_sheetColumnsGridLines;
    private GridLines m_titleVerticalGridLines;
@@ -628,8 +677,13 @@ public class GanttChartView9 extends View9
    private GanttBarStyle[] m_barStyles;
    private GanttBarStyleException[] m_barStyleExceptions;
    
+   private int m_tableWidth;
+   private String m_tableName;
+   
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
    private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);      
    private static final Integer BAR_PROPERTIES = new Integer (574619661);
+   private static final Integer TABLE_PROPERTIES = new Integer (574619655);
+   private static final Integer TABLE_NAME = new Integer (574619658);
 }

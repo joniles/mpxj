@@ -118,8 +118,8 @@ final class MPP9File
       processAssignmentData (file, projectDir);
 
       projectDir = (DirectoryEntry)root.getEntry ("   29");
+      processTableData (file, projectDir);      
       processViewData (file, projectDir);
-      processTableData (file, projectDir);
    }
 
    /**
@@ -1702,7 +1702,7 @@ final class MPP9File
       
       for (int loop=0; loop < items; loop++)
       {
-         view = factory.createView(ff.getByteArrayValue(loop), viewVarData);
+         view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData);
          file.addView(view);         
       }                             
    }
@@ -1725,8 +1725,6 @@ final class MPP9File
       int items = fixedData.getItemCount();
       byte[] data;
       Table table;
-      String name;
-      StringBuffer sb = new StringBuffer();
 
       for (int loop=0; loop < items; loop++)
       {
@@ -1736,31 +1734,7 @@ final class MPP9File
 
          table.setID(MPPUtility.getInt(data, 0));
          table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
-         name = MPPUtility.getUnicodeString(data, 4);
-
-         if (name != null)
-         {
-            if (name.indexOf('&') != -1)
-            {
-               sb.setLength(0);
-               int index = 0;
-               char c;
-
-               while (index < name.length())
-               {
-                  c = name.charAt(index);
-                  if (c != '&')
-                  {
-                     sb.append(c);
-                  }
-                  ++index;
-               }
-
-               name = sb.toString();
-            }
-         }
-
-         table.setName(name);
+         table.setName(MPPUtility.getUnicodeString(data, 4));
          file.addTable(table);
          
          processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));         

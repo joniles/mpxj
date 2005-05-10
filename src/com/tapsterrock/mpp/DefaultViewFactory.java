@@ -33,7 +33,7 @@ class DefaultViewFactory implements ViewFactory
    /**
     * @see ViewFactory#createView(byte[], Var2Data)
     */
-   public View createView (byte[] fixedData, Var2Data varData)
+   public View createView (MPPFile file, byte[] fixedData, Var2Data varData)
       throws IOException
    {
       View view;
@@ -42,7 +42,7 @@ class DefaultViewFactory implements ViewFactory
       {
          case View.GANTT_CHART:
          {
-            view = new GanttChartView9 (fixedData, varData);
+            view = new GanttChartView9 (file, fixedData, varData);
             break;
          }
          

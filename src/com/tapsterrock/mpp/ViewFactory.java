@@ -34,11 +34,12 @@ interface ViewFactory
    /**
     * This method is called to create a view.
     * 
+    * @param file parent MPP file
     * @param fixedData view fixed data
     * @param varData view var data
     * @return View instance
     * @throws IOException
     */
-   public View createView (byte[] fixedData, Var2Data varData)
+   public View createView (MPPFile file, byte[] fixedData, Var2Data varData)
       throws IOException;
 }

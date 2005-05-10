@@ -82,7 +82,7 @@ public final class Table
     */
    public void setName (String name)
    {
-      m_name = name;
+      m_name = MPPUtility.removeAmpersands(name);
    }
 
    /**

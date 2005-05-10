@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -103,6 +104,7 @@ public class MPPFile extends MPXFile
       super.configure();
       m_views = new ArrayList ();
       m_tables = new ArrayList ();
+      m_tablesByName = new HashMap ();
    }
 
    /**
@@ -240,6 +242,7 @@ public class MPPFile extends MPXFile
    void addTable (Table table)
    {
       m_tables.add(table);
+      m_tablesByName.put(table.getName(), table);
    }
 
    /**
@@ -252,6 +255,18 @@ public class MPPFile extends MPXFile
       return (m_tables);
    }
 
+   /**
+    * Utility method to retrieve the definition of a table by name.
+    * This method will return null if the table name is not recognised.
+    * 
+    * @param name table name
+    * @return table instance
+    */
+   public Table getTableByName (String name)
+   {
+      return ((Table)m_tablesByName.get(name));
+   }
+   
    /**
     * This package-private method is provided as a convenience to allow the
     * MPP8 and MPP9 file handling classes gain access to the addResourceCalendar
@@ -310,4 +325,9 @@ public class MPPFile extends MPXFile
     * List of tables defined in this file.
     */
    private ArrayList m_tables;
+   
+   /**
+    * Index of tables by name
+    */
+   private HashMap m_tablesByName;
 }

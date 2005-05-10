@@ -713,6 +713,39 @@ final class MPPUtility
    }
 
    /**
+    * Utility methdo to remove ampersands embedded in names.
+    * 
+    * @param name name text
+    * @return name text without embedded ampersands
+    */
+   public static final String removeAmpersands (String name)
+   {
+      if (name != null)
+      {
+         if (name.indexOf('&') != -1)
+         {
+            StringBuffer sb = new StringBuffer();
+            int index = 0;
+            char c;
+
+            while (index < name.length())
+            {
+               c = name.charAt(index);
+               if (c != '&')
+               {
+                  sb.append(c);
+               }
+               ++index;
+            }
+
+            name = sb.toString();
+         }
+      }
+      
+      return (name);
+   }
+   
+   /**
     * This method allows a subsection of a byte array to be copied.
     *
     * @param data source data
