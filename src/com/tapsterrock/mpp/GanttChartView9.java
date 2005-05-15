@@ -514,7 +514,7 @@ public class GanttChartView9 extends View9
     */
    public Table getTable ()
    {
-      return (m_parent.getTableByName(m_tableName));
+      return (m_parent.getTaskTableByName(m_tableName));
    }
    
    /**

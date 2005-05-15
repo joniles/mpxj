@@ -104,7 +104,8 @@ public class MPPFile extends MPXFile
       super.configure();
       m_views = new ArrayList ();
       m_tables = new ArrayList ();
-      m_tablesByName = new HashMap ();
+      m_taskTablesByName = new HashMap ();
+      m_resourceTablesByName = new HashMap ();
    }
 
    /**
@@ -242,7 +243,14 @@ public class MPPFile extends MPXFile
    void addTable (Table table)
    {
       m_tables.add(table);
-      m_tablesByName.put(table.getName(), table);
+      if (table.getResourceFlag() == false)
+      {
+         m_taskTablesByName.put(table.getName(), table);
+      }
+      else
+      {
+         m_resourceTablesByName.put(table.getName(), table);
+      }
    }
 
    /**
@@ -256,15 +264,27 @@ public class MPPFile extends MPXFile
    }
 
    /**
-    * Utility method to retrieve the definition of a table by name.
+    * Utility method to retrieve the definition of a task table by name.
     * This method will return null if the table name is not recognised.
     * 
     * @param name table name
     * @return table instance
     */
-   public Table getTableByName (String name)
+   public Table getTaskTableByName (String name)
    {
-      return ((Table)m_tablesByName.get(name));
+      return ((Table)m_taskTablesByName.get(name));
+   }
+
+   /**
+    * Utility method to retrieve the definition of a resource table by name.
+    * This method will return null if the table name is not recognised.
+    * 
+    * @param name table name
+    * @return table instance
+    */
+   public Table getResourceTableByName (String name)
+   {
+      return ((Table)m_resourceTablesByName.get(name));
    }
    
    /**
@@ -327,7 +347,13 @@ public class MPPFile extends MPXFile
    private ArrayList m_tables;
    
    /**
-    * Index of tables by name
+    * Index of task tables by name
     */
-   private HashMap m_tablesByName;
+   private HashMap m_taskTablesByName;
+   
+   /**
+    * Index of resource tables by name
+    */
+   private HashMap m_resourceTablesByName;
+   
 }
