@@ -50,10 +50,11 @@ public class GanttChartView9 extends View9
       
       m_parent = parent;
       
-      Props9 props = new Props9(new ByteArrayInputStream(varData.getByteArray(m_id, PROPERTIES)));      
-
-      if (props != null)
+      byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
+      if (propsData != null)
       {
+         Props9 props = new Props9(new ByteArrayInputStream(propsData));      
+
          byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
          if (tableData != null)
          {
