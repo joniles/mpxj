@@ -873,7 +873,7 @@ final class MPP9File
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
-
+         
          offset = (Integer)taskMap.get(id);
          if (taskFixedData.isValidOffset(offset) == false)
          {
@@ -885,7 +885,7 @@ final class MPP9File
          {
             continue;
          }
-
+         
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
 
          task = file.addTask();
@@ -973,8 +973,8 @@ final class MPP9File
          task.setDuration10(MPPUtility.getAdjustedDuration (file, taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
 //       From MS Project 2003
 //         task.setEAC();
-         //task.setEarlyFinish(); // Calculated value
-         //task.setEarlyStart(); // Calculated value
+         task.setEarlyFinish (MPPUtility.getTimestamp (data, 8));
+         task.setEarlyStart (MPPUtility.getTimestamp (data, 88));
 //       From MS Project 2003
 //         task.setEarnedValueMethod();
          task.setEffortDriven((metaData[11] & 0x10) != 0);
@@ -1025,8 +1025,8 @@ final class MPP9File
 //       From MS Project 2003
 //         task.setIgnoreResourceCalendar();
          //task.setIndicators(); // Calculated value
-         //task.setLateFinish();  // Calculated value
-         //task.setLateStart();  // Calculated value
+         task.setLateFinish(MPPUtility.getTimestamp(data, 92));
+         task.setLateStart(MPPUtility.getTimestamp(data, 12));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));
@@ -1173,6 +1173,16 @@ final class MPP9File
          //
          task.setFixed(task.getType() == TaskType.FIXED_DURATION);
 
+         //
+         // Adjust the start and finish dates if the task
+         // is constrained to start as late as possible.
+         //
+         if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+         {
+            task.setStart(task.getLateStart());
+            task.setFinish(task.getLateFinish());
+         }
+         
          //
          // Retrieve the task notes.
          //

@@ -2856,29 +2856,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return constraint type
     */
-   public int getConstraintTypeValue ()
-   {
-      int result;
-      ConstraintType type = (ConstraintType)get(CONSTRAINT_TYPE);
-
-      if (type == null)
-      {
-         result = ConstraintType.AS_SOON_AS_POSSIBLE;
-      }
-      else
-      {
-         result = type.getType();
-      }
-
-      return (result);
-   }
-
-   /**
-    * The Constraint Type field provides choices for the type of constraint you
-    * can apply for scheduling a task.
-    *
-    * @return constraint type
-    */
    public ConstraintType getConstraintType ()
    {
       return ((ConstraintType)get(CONSTRAINT_TYPE));

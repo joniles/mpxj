@@ -144,59 +144,34 @@ public final class ConstraintType implements ToStringRequiresFile
       return (typeNames[m_type]);
    }
 
-   /**
-    * Integer representing the "As Soon As Possible" constraint type.
-    */
-   public static final int AS_SOON_AS_POSSIBLE = 0;
+   public static final int AS_SOON_AS_POSSIBLE_VALUE = 0;
+   public static final int AS_LATE_AS_POSSIBLE_VALUE = 1;
+   public static final int MUST_START_ON_VALUE = 2;
+   public static final int MUST_FINISH_ON_VALUE = 3;
+   public static final int START_NO_EARLIER_THAN_VALUE = 4;
+   public static final int START_NO_LATER_THAN_VALUE = 5;
+   public static final int FINISH_NO_EARLIER_THAN_VALUE = 6;
+   public static final int FINISH_NO_LATER_THAN_VALUE = 7;
 
-   /**
-    * Integer representing the "As Late As Possible" constraint type.
-    */
-   public static final int AS_LATE_AS_POSSIBLE = 1;
-
-   /**
-    * Integer representing the "Must Start On" constraint type.
-    */
-   public static final int MUST_START_ON = 2;
-
-   /**
-    * Integer representing the "Must Finish On" constraint type.
-    */
-   public static final int MUST_FINISH_ON = 3;
-
-   /**
-    * Integer representing the "Start No Earlier Than" constraint type.
-    */
-   public static final int START_NO_EARLIER_THAN = 4;
-
-   /**
-    * Integer representing the "Start No Later Than" constraint type.
-    */
-   public static final int START_NO_LATER_THAN = 5;
-
-   /**
-    * Integer representing the "Finish No Earlier Than" constraint type.
-    */
-   public static final int FINISH_NO_EARLIER_THAN = 6;
-
-   /**
-    * Integer representing the "Finish No Later Than" constraint type.
-    */
-   public static final int FINISH_NO_LATER_THAN = 7;
-
-   /**
-    * Array of type values matching the above constants.
-    */
+   public static final ConstraintType AS_SOON_AS_POSSIBLE = new ConstraintType(AS_SOON_AS_POSSIBLE_VALUE);
+   public static final ConstraintType AS_LATE_AS_POSSIBLE = new ConstraintType(AS_LATE_AS_POSSIBLE_VALUE);
+   public static final ConstraintType MUST_START_ON = new ConstraintType(MUST_START_ON_VALUE);
+   public static final ConstraintType MUST_FINISH_ON = new ConstraintType(MUST_FINISH_ON_VALUE);
+   public static final ConstraintType START_NO_EARLIER_THAN = new ConstraintType(START_NO_EARLIER_THAN_VALUE);
+   public static final ConstraintType START_NO_LATER_THAN = new ConstraintType(START_NO_LATER_THAN_VALUE);
+   public static final ConstraintType FINISH_NO_EARLIER_THAN = new ConstraintType(FINISH_NO_EARLIER_THAN_VALUE);
+   public static final ConstraintType FINISH_NO_LATER_THAN = new ConstraintType(FINISH_NO_LATER_THAN_VALUE);
+   
    private static final ConstraintType[] TYPE_VALUES =
    {
-      new ConstraintType (AS_SOON_AS_POSSIBLE),
-      new ConstraintType (AS_LATE_AS_POSSIBLE),
-      new ConstraintType (MUST_START_ON),
-      new ConstraintType (MUST_FINISH_ON),
-      new ConstraintType (START_NO_EARLIER_THAN),
-      new ConstraintType (START_NO_LATER_THAN),
-      new ConstraintType (FINISH_NO_EARLIER_THAN),
-      new ConstraintType (FINISH_NO_LATER_THAN)
+      AS_SOON_AS_POSSIBLE,
+      AS_LATE_AS_POSSIBLE,
+      MUST_START_ON,
+      MUST_FINISH_ON,
+      START_NO_EARLIER_THAN,
+      START_NO_LATER_THAN,
+      FINISH_NO_EARLIER_THAN,
+      FINISH_NO_LATER_THAN
    };
 
    /**

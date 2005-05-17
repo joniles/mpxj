@@ -532,8 +532,8 @@ final class MPP8File
          task.setDuration9(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
          task.setDuration10(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
-         //task.setEarlyFinish(); // Calculated value
-         //task.setEarlyStart(); // Calculated value
+         task.setEarlyFinish (MPPUtility.getTimestamp (data, 20));
+         task.setEarlyStart (MPPUtility.getTimestamp (data, 96));
          task.setEffortDriven((data[17] & 0x08) != 0);
          //task.setExternalTask(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 20));
@@ -575,8 +575,8 @@ final class MPP8File
          processHyperlinkData (task, taskVarData.getByteArray(-1 - taskExtData.getInt(TASK_HYPERLINK)));
          task.setID (id);
          //task.setIndicators(); // Calculated value
-         //task.setLateFinish();  // Calculated value
-         //task.setLateStart();  // Calculated value
+         task.setLateFinish (MPPUtility.getTimestamp (data, 160));
+         task.setLateStart (MPPUtility.getTimestamp (data, 24));
          task.setLevelAssignments((data[19] & 0x10) != 0);
          task.setLevelingCanSplit((data[19] & 0x08) != 0);
          task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 90))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 94))));
@@ -696,7 +696,7 @@ final class MPP8File
          // Set the MPX file fixed flag
          //
          task.setFixed(task.getType() == TaskType.FIXED_DURATION);
-
+         
          //
          // Retrieve the task notes.
          //
@@ -718,7 +718,7 @@ final class MPP8File
          {
             task.setCostVariance(new Double(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
          }
-
+         
          //
          // Uncommenting the call to this method is useful when trying
          // to determine the function of unknown task data.

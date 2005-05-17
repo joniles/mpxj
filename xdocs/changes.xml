@@ -38,6 +38,8 @@
       <action dev="joniles" type="update">Updated to derive RelationList from AbstractList.</action>
       <action dev="joniles" type="add">Added sample code to MpxjQuery to illustrate retrieval of information from Relation instances.</action>      
       <action dev="joniles" type="update">Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</action>
+      <action dev="joniles" type="add">Added support for early start, early finish, late start, late finish to MPP files.</action>      
+      <action dev="joniles" type="update">Updated MPP9 file support to handle start as late as possible constraints. </action>            
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 
