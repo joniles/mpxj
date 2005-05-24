@@ -203,5 +203,8 @@ class Props extends MPPComponent
 
    public static final Integer PASSWORD_FLAG = new Integer (893386752);
 
+   public static final Integer SUBPROJECT_COUNT = new Integer(37748868);
+   public static final Integer SUBPROJECT_DATA = new Integer(37748898);
+   
    protected TreeMap m_map = new TreeMap ();
 }

@@ -420,6 +420,45 @@ final class MPPUtility
 
       return (buffer.toString());
    }
+   
+
+   /**
+    * Reads a string of two byte characters from the input array.
+    * This method assumes that the string finishes either at the
+    * end of the array, or when char zero is encountered, or
+    * when a string of a certain length in bytes has been read.
+    * The value starts at the position specified by the offset
+    * parameter.
+    *
+    * @param data byte array of data
+    * @param offset start point of unicode string
+    * @param length length in bytes of the string
+    * @return string value
+    */   
+   public static final String getUnicodeString (byte[] data, int offset, int length)
+   {
+      StringBuffer buffer = new StringBuffer();
+      char c;
+      int loop = offset;
+      int byteLength = 0;
+      
+      while (loop < (data.length - 1) && byteLength < length)
+      {
+         c = (char)getShort(data, loop);
+
+         if (c == 0)
+         {
+            break;
+         }
+
+         buffer.append(c);
+         
+         loop += 2;
+         byteLength += 2;
+      }
+
+      return (buffer.toString());
+   }
 
    /**
     * Reads a string of single byte characters from the input array.
@@ -432,12 +471,27 @@ final class MPPUtility
     */
    public static final String getString (byte[] data)
    {
+      return (getString(data, 0));
+   }
+
+   /**
+    * Reads a string of single byte characters from the input array.
+    * This method assumes that the string finishes either at the
+    * end of the array, or when char zero is encountered.
+    * Redaing begins at the supplied offset into the array.
+    *
+    * @param data byte array of data
+    * @param offset offset into the array
+    * @return string value
+    */   
+   public static final String getString (byte[] data, int offset)
+   {
       StringBuffer buffer = new StringBuffer();
       char c;
 
-      for (int loop = 0; loop < data.length; loop++)
+      for (int loop = 0; offset+loop < data.length; loop++)
       {
-         c = (char)data[loop];
+         c = (char)data[offset+loop];
 
          if (c == 0)
          {

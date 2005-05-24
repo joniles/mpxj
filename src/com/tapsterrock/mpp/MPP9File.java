@@ -170,8 +170,47 @@ final class MPP9File
       ph.setCategory(summary.getCategory());
       ph.setStartDate(summary.getStartDate());
       ph.setFinishDate(summary.getFinishDate());
+      
+      processSubProjectData(file, props);
    }
 
+   /**
+    * Read sub project data from the file, and add it to a hash map 
+    * indexed by task ID.
+    * 
+    * @param file parent file
+    * @param props file properties
+    */
+   private static void processSubProjectData (MPPFile file, Props9 props)
+   {
+      byte[] subProjectCount = props.getByteArray(Props.SUBPROJECT_COUNT);
+      if (subProjectCount != null)
+      {
+         int count = MPPUtility.getInt(subProjectCount);
+         
+         if (count != 0)
+         {
+            byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
+            //System.out.println(MPPUtility.hexdump(subProjData,true, 16, ""));
+            
+            if (subProjData != null)
+            {
+               int offset = (count+1)*16;
+               
+               SubProject sp;
+               
+               while (offset < subProjData.length)
+               {
+                  sp = new SubProject();
+                  offset = sp.read(subProjData, offset);
+                  file.addSubProject(sp);
+                  //System.out.println(sp);
+               }
+            }
+         }
+      }
+   }
+   
    /**
     * Retrieve any task field aliases defined in the MPP file.
     *

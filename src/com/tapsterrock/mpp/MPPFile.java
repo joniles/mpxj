@@ -106,6 +106,7 @@ public class MPPFile extends MPXFile
       m_tables = new ArrayList ();
       m_taskTablesByName = new HashMap ();
       m_resourceTablesByName = new HashMap ();
+      m_subProjectsByTaskUniqueID = new HashMap();
    }
 
    /**
@@ -325,6 +326,27 @@ public class MPPFile extends MPXFile
    }
 
    /**
+    * This package-private method is used to add sub project details.
+    * 
+    * @param project sub project
+    */
+   void addSubProject (SubProject project)
+   {
+      m_subProjectsByTaskUniqueID.put(project.getTaskUniqueID(), project);
+   }
+
+   /**
+    * Retrieves details of the sub project file related to a task.
+    * 
+    * @param taskUniqueID task unique ID
+    * @return sub project details
+    */
+   public SubProject getTaskSubProject (Integer taskUniqueID)
+   {
+      return ((SubProject)m_subProjectsByTaskUniqueID.get(taskUniqueID));
+   }
+   
+   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
@@ -356,4 +378,8 @@ public class MPPFile extends MPXFile
     */
    private HashMap m_resourceTablesByName;
    
+   /**
+    * Index of sub-project details by task unique ID
+    */
+   private HashMap m_subProjectsByTaskUniqueID;
 }
