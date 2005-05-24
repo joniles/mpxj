@@ -49,12 +49,13 @@ public class GanttChartView9 extends View9
       super (fixedData);
       
       m_parent = parent;
-      
+            
       byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
       if (propsData != null)
       {
          Props9 props = new Props9(new ByteArrayInputStream(propsData));      
-
+         //System.out.println (props);
+         
          byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
          if (tableData != null)
          {
@@ -70,6 +71,23 @@ public class GanttChartView9 extends View9
          byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);   
          if (viewPropertyData != null)
          {
+            m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26);
+            m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 30);
+            m_nonCriticalTasksFontStyle = getFontStyle(viewPropertyData, 34);
+            m_criticalTasksFontStyle = getFontStyle(viewPropertyData, 38);
+            m_summaryTasksFontStyle = getFontStyle(viewPropertyData, 42);
+            m_milestoneTasksFontStyle = getFontStyle(viewPropertyData, 46);
+            m_majorTimescaleFontStyle = getFontStyle(viewPropertyData, 50);
+            m_minorTimescaleFontStyle = getFontStyle(viewPropertyData, 54);
+            m_barTextLeftFontStyle = getFontStyle(viewPropertyData, 58);
+            m_barTextRightFontStyle = getFontStyle(viewPropertyData, 62);
+            m_barTextTopFontStyle = getFontStyle(viewPropertyData, 66);
+            m_barTextBottomFontStyle = getFontStyle(viewPropertyData, 70);
+            m_barTextInsideFontStyle = getFontStyle(viewPropertyData, 74);
+            m_markedTasksFontStyle = getFontStyle(viewPropertyData, 78);
+            m_projectSummaryTasksFontStyle = getFontStyle(viewPropertyData, 82);
+            m_externalTasksFontStyle = getFontStyle(viewPropertyData, 86);
+            
             m_sheetRowsGridLines = new GridLines(viewPropertyData, 99);
             m_sheetColumnsGridLines = new GridLines(viewPropertyData, 109);
             m_titleVerticalGridLines = new GridLines(viewPropertyData, 119);
@@ -508,6 +526,166 @@ public class GanttChartView9 extends View9
    }
    
    /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */
+   public FontStyle getBarTextBottomFontStyle()
+   {
+      return (m_barTextBottomFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getBarTextInsideFontStyle()
+   {
+      return (m_barTextInsideFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getBarTextLeftFontStyle()
+   {
+      return (m_barTextLeftFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getBarTextRightFontStyle()
+   {
+      return (m_barTextRightFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getBarTextTopFontStyle()
+   {
+      return (m_barTextTopFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getCriticalTasksFontStyle()
+   {
+      return (m_criticalTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getExternalTasksFontStyle()
+   {
+      return (m_externalTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getHighlightedTasksFontStyle()
+   {
+      return (m_highlightedTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getMajorTimescaleFontStyle()
+   {
+      return (m_majorTimescaleFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getMarkedTasksFontStyle()
+   {
+      return (m_markedTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getMilestoneTasksFontStyle()
+   {
+      return (m_milestoneTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getMinorTimescaleFontStyle()
+   {
+      return (m_minorTimescaleFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getNonCriticalTasksFontStyle()
+   {
+      return (m_nonCriticalTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getProjectSummaryTasksFontStyle()
+   {
+      return (m_projectSummaryTasksFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getRowAndColumnFontStyle()
+   {
+      return (m_rowAndColumnFontStyle);
+   }
+   
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getSummaryTasksFontStyle()
+   {
+      return (m_summaryTasksFontStyle);
+   }
+   
+   /**
     * Retrieve an instance of the Table class representing the
     * table part of this view.
     * 
@@ -576,6 +754,27 @@ public class GanttChartView9 extends View9
    }
    
    /**
+    * Retrieve font details from a block of property data.
+    * 
+    * @param data property data
+    * @param offset offset into property data
+    * @return FontStyle instance
+    */
+   private FontStyle getFontStyle (byte[] data, int offset)
+   {
+      Integer index = new Integer(MPPUtility.getByte(data, offset));
+      FontBase fontBase = m_parent.getFontBase(index);
+      int style = MPPUtility.getByte(data, offset+1);
+      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+2));
+      
+      boolean bold = ((style & 0x01) != 0);
+      boolean italic = ((style & 0x02) != 0);
+      boolean underline = ((style & 0x04) != 0);
+      
+      return (new FontStyle (fontBase, italic, bold, underline, color));
+   }
+   
+   /**
     * Generate a string representation of this instance.
     * 
     * @return string representation of this instance
@@ -586,6 +785,23 @@ public class GanttChartView9 extends View9
       PrintWriter pw = new PrintWriter (os);
       pw.println ("[GanttChartView");
       pw.println ("   " + super.toString());
+
+      pw.println ("   highlightedTasksFontStyle=" + m_highlightedTasksFontStyle);
+      pw.println ("   rowAndColumnFontStyle=" + m_rowAndColumnFontStyle);
+      pw.println ("   nonCriticalTasksFontStyle=" + m_nonCriticalTasksFontStyle);
+      pw.println ("   criticalTasksFontStyle=" + m_criticalTasksFontStyle);
+      pw.println ("   summaryTasksFontStyle=" + m_summaryTasksFontStyle);
+      pw.println ("   milestoneTasksFontStyle=" + m_milestoneTasksFontStyle);
+      pw.println ("   majorTimescaleFontStyle=" + m_majorTimescaleFontStyle);
+      pw.println ("   minorTimescaleFontStyle=" + m_minorTimescaleFontStyle);
+      pw.println ("   barTextLeftFontStyle=" + m_barTextLeftFontStyle);
+      pw.println ("   barTextRightFontStyle=" + m_barTextRightFontStyle);
+      pw.println ("   barTextTopFontStyle=" + m_barTextTopFontStyle);
+      pw.println ("   barTextBottomFontStyle=" + m_barTextBottomFontStyle);
+      pw.println ("   barTextInsideFontStyle=" + m_barTextInsideFontStyle);
+      pw.println ("   markedTasksFontStyle=" + m_markedTasksFontStyle);
+      pw.println ("   projectSummaryTasksFontStyle=" + m_projectSummaryTasksFontStyle);
+      pw.println ("   externalTasksFontStyle=" + m_externalTasksFontStyle);
       
       pw.println ("   SheetRowsGridLines=" + m_sheetRowsGridLines);
       pw.println ("   SheetColumnsGridLines=" + m_sheetColumnsGridLines);
@@ -680,6 +896,23 @@ public class GanttChartView9 extends View9
    
    private int m_tableWidth;
    private String m_tableName;
+
+   private FontStyle m_highlightedTasksFontStyle;
+   private FontStyle m_rowAndColumnFontStyle;   
+   private FontStyle m_nonCriticalTasksFontStyle;
+   private FontStyle m_criticalTasksFontStyle;
+   private FontStyle m_summaryTasksFontStyle;   
+   private FontStyle m_milestoneTasksFontStyle;   
+   private FontStyle m_majorTimescaleFontStyle;
+   private FontStyle m_minorTimescaleFontStyle;   
+   private FontStyle m_barTextLeftFontStyle;
+   private FontStyle m_barTextRightFontStyle;
+   private FontStyle m_barTextTopFontStyle;
+   private FontStyle m_barTextBottomFontStyle;
+   private FontStyle m_barTextInsideFontStyle;
+   private FontStyle m_markedTasksFontStyle;
+   private FontStyle m_projectSummaryTasksFontStyle;   
+   private FontStyle m_externalTasksFontStyle;
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);

@@ -107,6 +107,7 @@ public class MPPFile extends MPXFile
       m_taskTablesByName = new HashMap ();
       m_resourceTablesByName = new HashMap ();
       m_subProjectsByTaskUniqueID = new HashMap();
+      m_fontBases = new HashMap();
    }
 
    /**
@@ -347,6 +348,27 @@ public class MPPFile extends MPXFile
    }
    
    /**
+    * Add a font base definition to this file.
+    * 
+    * @param fontBase font base
+    */
+   void addFontBase (FontBase fontBase)
+   {
+      m_fontBases.put(fontBase.getIndex(), fontBase);
+   }
+
+   /**
+    * Retrieve a font base by its index number.
+    * 
+    * @param index index number
+    * @return font base instance
+    */
+   public FontBase getFontBase (Integer index)
+   {
+      return ((FontBase)m_fontBases.get(index));
+   }
+   
+   /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
@@ -382,4 +404,9 @@ public class MPPFile extends MPXFile
     * Index of sub-project details by task unique ID
     */
    private HashMap m_subProjectsByTaskUniqueID;
+   
+   /**
+    * Index of font bases by their index number.
+    */
+   private HashMap m_fontBases;
 }

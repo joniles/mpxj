@@ -82,7 +82,7 @@ final class MPP9File
       // Retrieve the high level document properties
       //
       Props9 props9 = new Props9 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props9"))));
-
+      
       //
       // Test for password protection. In the single byte retrieved here:
       //
@@ -119,8 +119,9 @@ final class MPP9File
       processAssignmentData (file, projectDir);
 
       projectDir = (DirectoryEntry)root.getEntry ("   29");
+      processViewPropertyData(file, projectDir);
       processTableData (file, projectDir);      
-      processViewData (file, projectDir);
+      processViewData (file, projectDir);      
    }
 
    /**
@@ -135,7 +136,7 @@ final class MPP9File
       throws IOException, MPXException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
-
+      
       ProjectHeader ph = file.getProjectHeader();
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
@@ -207,6 +208,58 @@ final class MPP9File
                   //System.out.println(sp);
                }
             }
+         }
+      }
+   }
+
+   /**
+    * This method process the data held in the props file specific to the
+    * visual appearance of the project data.
+    * 
+    * @param file parent file
+    * @param projectDir project directory
+    * @throws IOException
+    * @throws MPXException
+    */
+   private static void processViewPropertyData (MPPFile file,  DirectoryEntry projectDir)
+      throws IOException, MPXException
+   {
+      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      processBaseFonts (file, props.getByteArray(Props.FONT_BASES));
+   }
+   
+   /**
+    * Create an index of base font numbers and their associated base
+    * font instances.
+    * 
+    * @param file parent file
+    * @param data property data
+    */
+   private static void processBaseFonts (MPPFile file, byte[] data)
+   {
+      int offset = 0;
+      
+      int blockCount = MPPUtility.getShort(data, 0);
+      offset +=2;
+      
+      int unknownAttribute;
+      int size;
+      String name;
+
+      for (int loop=0; loop < blockCount; loop++)
+      {
+         unknownAttribute = MPPUtility.getShort(data, offset);
+         offset += 2;
+
+         size = MPPUtility.getShort(data, offset);
+         offset += 2;
+      
+         name = MPPUtility.getUnicodeString(data, offset);
+         offset += 64;
+         
+         if (name.length() != 0)
+         {
+            file.addFontBase(new FontBase(new Integer(loop), name, size));
          }
       }
    }
@@ -1753,7 +1806,7 @@ final class MPP9File
       for (int loop=0; loop < items; loop++)
       {
          view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData);
-         file.addView(view);         
+         file.addView(view);  
       }                             
    }
 
