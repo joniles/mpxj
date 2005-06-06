@@ -593,7 +593,7 @@ final class MPP9File
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
-         if (data != null && data.length > 4)
+         if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
          {
             uniqueID = MPPUtility.getShort(data, 0);
             taskMap.put(new Integer (uniqueID), new Integer (loop));
@@ -950,7 +950,7 @@ final class MPP9File
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
-
+      
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -961,7 +961,7 @@ final class MPP9File
 
       RTFUtility rtf = new RTFUtility ();
       String notes;
-
+      
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
