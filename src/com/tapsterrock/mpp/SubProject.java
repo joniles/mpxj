@@ -32,122 +32,114 @@ public class SubProject
     * Method used to read the sub project details from a byte array.
     * 
     * @param data byte array 
-    * @param offset current offset in byte array
-    * @return offset of next sub project data set
+    * @param taskUniqueIDOffset offset of task unique ID
+    * @param filePathOffset offset of file path
+    * @param fileNameOffset offset of file name
     */
-   public int read (byte[] data, int offset)
+   public void read (byte[] data, int taskUniqueIDOffset, int filePathOffset, int fileNameOffset)
    {
-      int size;
-      int originalOffset = offset;
-      
-      //
-      // 28 byte block which contains the task unique ID
-      //
-      offset += 20;
-      m_taskUniqueID = new Integer (MPPUtility.getInt(data, offset));
-      offset +=8;
-      
-      //
-      // There now follows two blocks in the same format,
-      // an 18 byte header, followed by a string, then a unicode string.
-      // The first block contains the full path, the second block
-      // contains the file name.
-      //
-      
+      m_taskUniqueID = new Integer(MPPUtility.getInt(data, taskUniqueIDOffset));
+
       //
       // First block header
       //
-      offset += 18;
+      filePathOffset += 18;
       
       //
       // String size as a 4 byte int
       //
-      offset += 4;
+      filePathOffset += 4;
       
       //
       // Full DOS path
       //
-      m_dosFullPath = MPPUtility.getString(data, offset);
-      offset += (m_dosFullPath.length()+1);
+      m_dosFullPath = MPPUtility.getString(data, filePathOffset);
+      filePathOffset += (m_dosFullPath.length()+1);
       
       //
       // 24 byte block
       //
-      offset += 24;
+      filePathOffset += 24;
       
       //
       // 4 byte block size
       //
-      size = MPPUtility.getInt(data, offset);      
-      offset +=4;
-      if (size != 0)
+      int size = MPPUtility.getInt(data, filePathOffset);      
+      filePathOffset +=4;
+      if (size == 0)
+      {
+         m_fullPath = m_dosFullPath;
+      }
+      else
       {
          //
          // 4 byte unicode string size in bytes
          //
-         size = MPPUtility.getInt(data, offset);
-         offset += 4;
+         size = MPPUtility.getInt(data, filePathOffset);
+         filePathOffset += 4;
          
          //
          // 2 byte data
          //
-         offset += 2;
+         filePathOffset += 2;
          
          //
          // Unicode string
          //
-         m_fullPath = MPPUtility.getUnicodeString(data, offset, size);
-         offset += size;
+         m_fullPath = MPPUtility.getUnicodeString(data, filePathOffset, size);
+         filePathOffset += size;
       }
       
       //
       // Second block header
       //
-      offset += 18;
+      fileNameOffset += 18;
       
       //
       // String size as a 4 byte int
       //
-      offset += 4;
+      fileNameOffset += 4;
       
       //
       // DOS file name
       //
-      m_dosFileName = MPPUtility.getString(data, offset);
-      offset += (m_dosFileName.length()+1);
+      m_dosFileName = MPPUtility.getString(data, fileNameOffset);
+      fileNameOffset += (m_dosFileName.length()+1);
       
       //
       // 24 byte block
       //
-      offset += 24;
+      fileNameOffset += 24;
       
       //
       // 4 byte block size
       //
-      size = MPPUtility.getInt(data, offset);
-      offset +=4;
+      size = MPPUtility.getInt(data, fileNameOffset);
+      fileNameOffset +=4;
       
-      if (size != 0)
+      if (size == 0)
+      {
+         m_fileName = m_dosFileName;
+      }
+      else
       {
          //
          // 4 byte unicode string size in bytes
          //
-         size = MPPUtility.getInt(data, offset);
-         offset += 4;
+         size = MPPUtility.getInt(data, fileNameOffset);
+         fileNameOffset += 4;
    
          //
          // 2 byte data
          //
-         offset += 2;
+         fileNameOffset += 2;
          
          //
          // Unicode string
          //
-         m_fileName = MPPUtility.getUnicodeString(data, offset, size);
-         offset += size;      
-      }
-      
-      return (offset);
+         m_fileName = MPPUtility.getUnicodeString(data, fileNameOffset, size);
+         fileNameOffset += size;      
+      }      
    }
 
    /**
@@ -206,7 +198,7 @@ public class SubProject
     */
    public String toString ()
    {
-      return ("[SubProject taskUID=" + m_taskUniqueID + " path="+m_fullPath);
+      return ("[SubProject taskUID=" + m_taskUniqueID + " path="+m_fullPath+"]");
    }
    
    private Integer m_taskUniqueID;

@@ -4693,6 +4693,31 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
+    * Where a task in an MPP file represents a task from a subproject,
+    * this value will be non-zero. The value itself is the unique ID
+    * value shown in the parent project. To retrieve the value of the
+    * task unique ID in the child project, remove the top two bytes:
+    * 
+    * taskID = (subprojectUniqueID & 0xFFFF)
+    * 
+    * @return sub project unique task ID
+    */
+   public Integer getSubprojectTaskUniqueID ()
+   {
+      return (m_subprojectTaskUniqueID);
+   }
+   
+   /**
+    * Sets the sub project unique task ID.
+    * 
+    * @param subprojectUniqueTaskID subproject unique task ID
+    */
+   public void setSubprojectTaskUniqueID (Integer subprojectUniqueTaskID)
+   {
+      m_subprojectTaskUniqueID = subprojectUniqueTaskID;
+   }
+   
+   /**
     * Retrieve the subproject read only flag.
     *
     * @return subproject read only flag
@@ -7300,6 +7325,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private boolean m_overAllocated;
    private boolean m_subproject;
    private boolean m_subprojectReadOnly;
+   private Integer m_subprojectTaskUniqueID;
    private boolean m_externalTask;
    private String m_externalTaskProject;
    private Number m_acwp;

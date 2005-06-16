@@ -183,29 +183,101 @@ final class MPP9File
     * @param props file properties
     */
    private static void processSubProjectData (MPPFile file, Props9 props)
+      throws MPXException
    {
-      byte[] subProjectCount = props.getByteArray(Props.SUBPROJECT_COUNT);
-      if (subProjectCount != null)
+      int projectCount = props.getInt(Props.SUBPROJECT_COUNT);
+      int taskCount = props.getInt(Props.SUBPROJECT_TASK_COUNT);      
+      if (projectCount + taskCount != 0)
       {
-         int count = MPPUtility.getInt(subProjectCount);
+         byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
          
-         if (count != 0)
+         if (subProjData != null)            
          {
-            byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
-            //System.out.println(MPPUtility.hexdump(subProjData,true, 16, ""));
+            int offset = 0;
+            int itemHeaderOffset;
+            int taskUniqueIDOffset;
+            int filePathOffset;
+            int fileNameOffset;
+            SubProject sp;
             
-            if (subProjData != null)
+            byte[] itemHeader = new byte[20];
+            
+            int blockSize = MPPUtility.getInt(subProjData, offset);
+            offset += 4;
+            
+            int unknown = MPPUtility.getInt(subProjData, offset);
+            offset += 4;
+            
+            int itemCountOffset = MPPUtility.getInt(subProjData, offset);
+            offset += 4;
+            
+            while (offset < itemCountOffset)
             {
-               int offset = (count+1)*16;
+               itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
                
-               SubProject sp;
+               MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
                
-               while (offset < subProjData.length)
+               switch (itemHeader[16])
                {
-                  sp = new SubProject();
-                  offset = sp.read(subProjData, offset);
-                  file.addSubProject(sp);
-                  //System.out.println(sp);
+                  //
+                  // Project name or file name strings, repeated twice
+                  //
+                  case 0x00:
+                  {
+                     offset += 8;
+                     break;
+                  }
+                  
+                  //
+                  // 8 byte integer, task unique ID, path, file name
+                  //
+                  case 0x09:
+                  {
+                     // offset of 8 byte integer
+                     offset += 4;
+                     
+                     taskUniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                               
+                     filePathOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     sp = new SubProject();
+                     sp.read(subProjData, taskUniqueIDOffset, filePathOffset, fileNameOffset);
+                     file.addSubProject(sp);
+                     break;
+                  }
+
+                  //
+                  // task unique ID, path, file name
+                  //                  
+                  case 0x01:
+                  case 0x08:
+                  {                     
+                     taskUniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                               
+                     filePathOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     sp = new SubProject();
+                     sp.read(subProjData, taskUniqueIDOffset, filePathOffset, fileNameOffset);
+                     file.addSubProject(sp);
+                     break;
+                  }
+                  
+                  
+                  default:
+                  {
+                     throw new MPXException ("Unknown sub project type " + itemHeader[16]);
+                  }
                }
             }
          }
@@ -1207,9 +1279,10 @@ final class MPP9File
 //       From MS Project 2003
 //         task.setStatus();
 //         task.setStatusIndicator();
-         task.setStop(MPPUtility.getTimestamp (data, 16));
+         task.setStop(MPPUtility.getTimestamp (data, 16));         
          //task.setSubprojectFile();
          //task.setSubprojectReadOnly();
+         task.setSubprojectTaskUniqueID(new Integer (taskVarData.getInt(id, TASK_SUBPROJECTTASKID)));
          //task.setSuccessors(); // Calculated value
          //task.setSummary(); // Automatically generated by MPXJ
          //task.setSV(); // Calculated value
@@ -1310,6 +1383,11 @@ final class MPP9File
             }
          }
 
+         //
+         // Set the sub project flag
+         //
+         task.setSubproject(file.getTaskSubProject(task.getUniqueID())!=null);
+         
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
    }
@@ -1962,6 +2040,8 @@ final class MPP9File
    private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
    private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);
 
+   private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);   
+   
    private static final Integer TASK_WBS = new Integer (10);
    private static final Integer TASK_NAME = new Integer (11);
    private static final Integer TASK_CONTACT = new Integer (12);

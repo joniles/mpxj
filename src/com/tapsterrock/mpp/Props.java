@@ -205,6 +205,7 @@ class Props extends MPPComponent
 
    public static final Integer SUBPROJECT_COUNT = new Integer(37748868);
    public static final Integer SUBPROJECT_DATA = new Integer(37748898);
+   public static final Integer SUBPROJECT_TASK_COUNT = new Integer(37748900);
    
    public static final Integer FONT_BASES = new Integer (54525952);
    
