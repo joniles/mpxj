@@ -327,13 +327,23 @@ public class MPPFile extends MPXFile
    }
 
    /**
-    * This package-private method is used to add sub project details.
+    * This package-private method is used to add task sub project details.
     * 
     * @param project sub project
     */
-   void addSubProject (SubProject project)
+   void addTaskSubProject (SubProject project)
    {
-      m_subProjectsByTaskUniqueID.put(project.getTaskUniqueID(), project);
+      m_subProjectsByTaskUniqueID.put(project.getUniqueID(), project);
+   }
+
+   /**
+    * This package-private method is used to add resource sub project details.
+    * 
+    * @param project sub project
+    */
+   void addResourceSubProject (SubProject project)
+   {
+      m_resourceSubProject = project;
    }
    
    /**
@@ -345,6 +355,16 @@ public class MPPFile extends MPXFile
    public SubProject getTaskSubProject (Integer taskUniqueID)
    {
       return ((SubProject)m_subProjectsByTaskUniqueID.get(taskUniqueID));
+   }
+
+   /**
+    * Retrieves details of the sub project file used as a resource pool.
+    * 
+    * @return sub project details
+    */
+   public SubProject getResourceSubProject ()
+   {
+      return (m_resourceSubProject);
    }
    
    /**
@@ -404,6 +424,11 @@ public class MPPFile extends MPXFile
     * Index of sub-project details by task unique ID
     */
    private HashMap m_subProjectsByTaskUniqueID;
+
+   /**
+    * Resource sub project
+    */
+   private SubProject m_resourceSubProject;
    
    /**
     * Index of font bases by their index number.

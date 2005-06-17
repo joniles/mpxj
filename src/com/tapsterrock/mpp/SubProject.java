@@ -32,13 +32,13 @@ public class SubProject
     * Method used to read the sub project details from a byte array.
     * 
     * @param data byte array 
-    * @param taskUniqueIDOffset offset of task unique ID
+    * @param uniqueIDOffset offset of unique ID
     * @param filePathOffset offset of file path
     * @param fileNameOffset offset of file name
     */
-   public void read (byte[] data, int taskUniqueIDOffset, int filePathOffset, int fileNameOffset)
+   public void read (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset)
    {
-      m_taskUniqueID = new Integer(MPPUtility.getInt(data, taskUniqueIDOffset));
+      m_uniqueID = new Integer(MPPUtility.getInt(data, uniqueIDOffset));
 
       //
       // First block header
@@ -188,9 +188,9 @@ public class SubProject
     * 
     * @return task Unique ID
     */
-   public Integer getTaskUniqueID()
+   public Integer getUniqueID()
    {
-      return (m_taskUniqueID);
+      return (m_uniqueID);
    }
 
    /**
@@ -198,10 +198,10 @@ public class SubProject
     */
    public String toString ()
    {
-      return ("[SubProject taskUID=" + m_taskUniqueID + " path="+m_fullPath+"]");
+      return ("[SubProject uniqueID=" + m_uniqueID + " path="+m_fullPath+"]");
    }
    
-   private Integer m_taskUniqueID;
+   private Integer m_uniqueID;
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

@@ -195,7 +195,7 @@ final class MPP9File
          {
             int offset = 0;
             int itemHeaderOffset;
-            int taskUniqueIDOffset;
+            int uniqueIDOffset;
             int filePathOffset;
             int fileNameOffset;
             SubProject sp;
@@ -237,7 +237,7 @@ final class MPP9File
                      // offset of 8 byte integer
                      offset += 4;
                      
-                     taskUniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                      offset += 4;
                                
                      filePathOffset = MPPUtility.getShort(subProjData, offset);
@@ -247,8 +247,8 @@ final class MPP9File
                      offset += 4;
                      
                      sp = new SubProject();
-                     sp.read(subProjData, taskUniqueIDOffset, filePathOffset, fileNameOffset);
-                     file.addSubProject(sp);
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                     file.addTaskSubProject(sp);
                      break;
                   }
 
@@ -258,7 +258,7 @@ final class MPP9File
                   case 0x01:
                   case 0x08:
                   {                     
-                     taskUniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                      offset += 4;
                                
                      filePathOffset = MPPUtility.getShort(subProjData, offset);
@@ -268,11 +268,31 @@ final class MPP9File
                      offset += 4;
                      
                      sp = new SubProject();
-                     sp.read(subProjData, taskUniqueIDOffset, filePathOffset, fileNameOffset);
-                     file.addSubProject(sp);
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                     file.addTaskSubProject(sp);
                      break;
                   }
                   
+
+                  //
+                  // resource unique ID, path, file name
+                  //                  
+                  case 0x05:
+                  {                     
+                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                               
+                     filePathOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     sp = new SubProject();
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                     file.addResourceSubProject(sp);
+                     break;
+                  }
                   
                   default:
                   {
@@ -1508,7 +1528,7 @@ final class MPP9File
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-
+      
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -1649,6 +1669,7 @@ final class MPP9File
          resource.setStart8(rscVarData.getTimestamp (id, RESOURCE_START8));
          resource.setStart9(rscVarData.getTimestamp (id, RESOURCE_START9));
          resource.setStart10(rscVarData.getTimestamp (id, RESOURCE_START10));
+         resource.setSubprojectResourceUniqueID(new Integer (rscVarData.getInt(id, RESOURCE_SUBPROJECTRESOURCEID)));
          resource.setText1(rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
          resource.setText2(rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
          resource.setText3(rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
@@ -1735,7 +1756,7 @@ final class MPP9File
          //
          // Configure the resource calendar
          //
-         file.mppAttachResourceCalendar(resource, (MPXCalendar)resourceCalendarMap.get(id));
+         file.mppAttachResourceCalendar(resource, (MPXCalendar)resourceCalendarMap.get(id));         
       }
    }
 
@@ -2284,6 +2305,8 @@ final class MPP9File
    private static final Integer RESOURCE_DURATION9_UNITS = new Integer (98);
    private static final Integer RESOURCE_DURATION10_UNITS = new Integer (99);
 
+   private static final Integer RESOURCE_SUBPROJECTRESOURCEID = new Integer (102);   
+   
    private static final Integer RESOURCE_DATE1 = new Integer (103);
    private static final Integer RESOURCE_DATE2 = new Integer (104);
    private static final Integer RESOURCE_DATE3 = new Integer (105);

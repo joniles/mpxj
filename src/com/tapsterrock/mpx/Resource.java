@@ -4874,6 +4874,31 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    {
       return (m_assignments);
    }
+     
+   /**
+    * Where a resource in an MPP file represents a resource from a subproject,
+    * this value will be non-zero. The value itself is the unique ID
+    * value shown in the parent project. To retrieve the value of the
+    * resource unique ID in the child project, remove the top two bytes:
+    * 
+    * resourceID = (subprojectUniqueID & 0xFFFF)
+    * 
+    * @return sub project unique resource ID
+    */
+   public Integer getSubprojectResourceUniqueID ()
+   {
+      return (m_subprojectResourceUniqueID);
+   }
+   
+   /**
+    * Sets the sub project unique resource ID.
+    * 
+    * @param subprojectUniqueResourceID subproject unique resource ID
+    */
+   public void setSubprojectResourceUniqueID (Integer subprojectUniqueResourceID)
+   {
+      m_subprojectResourceUniqueID = subprojectUniqueResourceID;
+   }
    
    /**
     * Resource Model record controlling fields written to resource record
@@ -4938,7 +4963,8 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    private BookingType m_bookingType;
    private Date m_creationDate;
    private boolean m_enterprise;
-
+   private Integer m_subprojectResourceUniqueID;
+   
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,
