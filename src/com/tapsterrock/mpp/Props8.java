@@ -89,7 +89,7 @@ final class Props8 extends Props
                size = 4;
             }
 
-            if (size != 0)
+            if (size > 0)
             {
                data = new byte[size];
                is.read(data);

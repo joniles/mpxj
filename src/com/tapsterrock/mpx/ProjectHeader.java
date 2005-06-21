@@ -1982,6 +1982,11 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setCurrencySymbol (String symbol)
    {
+      if (symbol == null)
+      {
+         symbol = "$";
+      }
+      
       m_currencySymbol = symbol;
       updateCurrencyFormats();
    }
