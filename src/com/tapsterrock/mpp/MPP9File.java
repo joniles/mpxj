@@ -1902,6 +1902,9 @@ final class MPP9File
       View view;
       ViewFactory factory = new DefaultViewFactory ();
       
+      //System.out.println(viewVarMeta);
+      //System.out.println(viewVarData);
+      
       for (int loop=0; loop < items; loop++)
       {
          view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData);

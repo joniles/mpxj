@@ -49,7 +49,7 @@ public class GanttChartView9 extends View9
       super (fixedData);
       
       m_parent = parent;
-            
+                 
       byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
       if (propsData != null)
       {
@@ -70,7 +70,7 @@ public class GanttChartView9 extends View9
          
          byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);   
          if (viewPropertyData != null)
-         {
+         {            
             m_highlightedTasksFontStyle = getFontStyle(viewPropertyData, 26);
             m_rowAndColumnFontStyle = getFontStyle(viewPropertyData, 30);
             m_nonCriticalTasksFontStyle = getFontStyle(viewPropertyData, 34);
@@ -175,6 +175,18 @@ public class GanttChartView9 extends View9
                m_barStyleExceptions[loop] = new GanttBarStyleException(barData, offset);
                offset += 38;
             }            
+         }
+         
+         byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
+         if (columnData != null)
+         {
+            m_columnFontStyles = new ColumnFontStyle[columnData.length/16];
+            int offset = 0;
+            for (int loop=0; loop < m_columnFontStyles.length; loop++)
+            {
+               m_columnFontStyles[loop] = getColumnFontStyle(columnData, offset);
+               offset += 16;               
+            }                        
          }
       }                                          
    }
@@ -697,6 +709,16 @@ public class GanttChartView9 extends View9
    }
    
    /**
+    * Retrieve any column font syles which the user has defined.
+    * 
+    * @return column font styles array
+    */
+   public ColumnFontStyle[] getColumnFontStyles ()
+   {
+      return (m_columnFontStyles);
+   }
+   
+   /**
     * This method maps the encoded height of a Gantt bar to
     * the height in pixels.
     * 
@@ -773,6 +795,28 @@ public class GanttChartView9 extends View9
       
       return (new FontStyle (fontBase, italic, bold, underline, color));
    }
+
+   /**
+    * Retrieve column font details from a block of property data.
+    * 
+    * @param data property data
+    * @param offset offset into property data
+    * @return ColumnFontStyle instance
+    */   
+   private ColumnFontStyle getColumnFontStyle (byte[] data, int offset)
+   {
+      Integer index = new Integer(MPPUtility.getByte(data, offset+8));
+      FontBase fontBase = m_parent.getFontBase(index);
+      int style = MPPUtility.getByte(data, offset+9);
+      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
+      FieldType fieldType = TaskField.getInstance(MPPUtility.getShort(data, offset+4));
+      
+      boolean bold = ((style & 0x01) != 0);
+      boolean italic = ((style & 0x02) != 0);
+      boolean underline = ((style & 0x04) != 0);
+      
+      return (new ColumnFontStyle (fieldType, fontBase, italic, bold, underline, color));
+   }
    
    /**
     * Generate a string representation of this instance.
@@ -836,6 +880,11 @@ public class GanttChartView9 extends View9
       pw.println ("   TableWidth=" + m_tableWidth);      
       pw.println ("   TableName=" + m_tableName);      
       pw.println ("   Table=" + getTable());
+
+      for (int loop=0; loop < m_columnFontStyles.length; loop++)
+      {
+         pw.println ("   ColumnFontStyle=" + m_columnFontStyles[loop]);               
+      }
       
       for (int loop=0; loop < m_barStyles.length; loop++)
       {
@@ -914,10 +963,13 @@ public class GanttChartView9 extends View9
    private FontStyle m_projectSummaryTasksFontStyle;   
    private FontStyle m_externalTasksFontStyle;
    
+   private ColumnFontStyle[] m_columnFontStyles;
+   
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
    private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);      
    private static final Integer BAR_PROPERTIES = new Integer (574619661);
    private static final Integer TABLE_PROPERTIES = new Integer (574619655);
    private static final Integer TABLE_NAME = new Integer (574619658);
+   private static final Integer COLUMN_PROPERTIES = new Integer (574619660);
 }

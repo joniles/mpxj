@@ -24,7 +24,7 @@
 package com.tapsterrock.mpp;
 
 /**
- * This class builds on the font described by a FGontBase instance
+ * This class builds on the font described by a FontBase instance
  * and add attributes for color, bold, italic and underline.
  */
 public class FontStyle
@@ -102,7 +102,7 @@ public class FontStyle
     */
    public String toString ()
    {
-      return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color);
+      return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + "]");
    }
    
    private FontBase m_fontBase;

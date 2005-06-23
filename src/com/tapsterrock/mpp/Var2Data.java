@@ -323,7 +323,7 @@ final class Var2Data extends MPPComponent
          offset = (Integer)iter.next();
          data = (byte[])m_map.get(offset);
          pw.println ("   Data at offset: " + offset + " size: " + data.length);
-         pw.println ("  " + MPPUtility.hexdump (data, true));
+         pw.println (MPPUtility.hexdump (data, true, 16, "   "));
       }
 
       pw.println ("END Var2Data");
