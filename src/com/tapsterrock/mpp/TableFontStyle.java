@@ -1,5 +1,5 @@
 /*
- * file:       ColumnFontStyle.java
+ * file:       TableFontStyle.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jun 23, 2005
@@ -25,13 +25,14 @@ package com.tapsterrock.mpp;
 
 /**
  * This class builds on the font style described by a FontStyle instance
- * to apply a style to a particular column of a table.
+ * to apply a style to a column, row, or individual cell of a table.
  */
-public class ColumnFontStyle extends FontStyle
+public class TableFontStyle extends FontStyle
 {
    /**
     * Constructor.
     * 
+    * @param rowUniqueID unique ID of the entity shown on the row
     * @param fieldType field type of the table column
     * @param fontBase font base
     * @param italic italic flag
@@ -39,11 +40,24 @@ public class ColumnFontStyle extends FontStyle
     * @param underline underline flag
     * @param color color
     */
-   public ColumnFontStyle (FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color)
+   public TableFontStyle (int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color)
    {
       super (fontBase, italic, bold, underline, color);
       
+      m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;
+   }
+
+   /**
+    * Retrieves the unique ID of the entity shown on the row
+    * affected by this style. This method will return -1 if the
+    * style applies to all rows.
+    * 
+    * @return row unique ID
+    */
+   public int getRowUniqueID ()
+   {
+      return  (m_rowUniqueID);
    }
    
    /**
@@ -61,8 +75,9 @@ public class ColumnFontStyle extends FontStyle
     */   
    public String toString ()
    {
-      return ("[ColumnFontStyle fieldType=" + m_fieldType + " " + super.toString() + "]");
+      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + " " + super.toString() + "]");
    }
    
+   private int m_rowUniqueID;
    private FieldType m_fieldType;
 }

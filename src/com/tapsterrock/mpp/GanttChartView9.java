@@ -179,12 +179,12 @@ public class GanttChartView9 extends View9
          
          byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
          if (columnData != null)
-         {
-            m_columnFontStyles = new ColumnFontStyle[columnData.length/16];
+         {            
+            m_tableFontStyles = new TableFontStyle[columnData.length/16];
             int offset = 0;
-            for (int loop=0; loop < m_columnFontStyles.length; loop++)
+            for (int loop=0; loop < m_tableFontStyles.length; loop++)
             {
-               m_columnFontStyles[loop] = getColumnFontStyle(columnData, offset);
+               m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset);
                offset += 16;               
             }                        
          }
@@ -713,9 +713,9 @@ public class GanttChartView9 extends View9
     * 
     * @return column font styles array
     */
-   public ColumnFontStyle[] getColumnFontStyles ()
+   public TableFontStyle[] getTableFontStyles ()
    {
-      return (m_columnFontStyles);
+      return (m_tableFontStyles);
    }
    
    /**
@@ -803,8 +803,9 @@ public class GanttChartView9 extends View9
     * @param offset offset into property data
     * @return ColumnFontStyle instance
     */   
-   private ColumnFontStyle getColumnFontStyle (byte[] data, int offset)
-   {
+   private TableFontStyle getColumnFontStyle (byte[] data, int offset)
+   {     
+      int uniqueID = MPPUtility.getInt(data, offset);
       Integer index = new Integer(MPPUtility.getByte(data, offset+8));
       FontBase fontBase = m_parent.getFontBase(index);
       int style = MPPUtility.getByte(data, offset+9);
@@ -815,7 +816,7 @@ public class GanttChartView9 extends View9
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
       
-      return (new ColumnFontStyle (fieldType, fontBase, italic, bold, underline, color));
+      return (new TableFontStyle (uniqueID, fieldType, fontBase, italic, bold, underline, color));
    }
    
    /**
@@ -881,9 +882,9 @@ public class GanttChartView9 extends View9
       pw.println ("   TableName=" + m_tableName);      
       pw.println ("   Table=" + getTable());
 
-      for (int loop=0; loop < m_columnFontStyles.length; loop++)
+      for (int loop=0; loop < m_tableFontStyles.length; loop++)
       {
-         pw.println ("   ColumnFontStyle=" + m_columnFontStyles[loop]);               
+         pw.println ("   ColumnFontStyle=" + m_tableFontStyles[loop]);               
       }
       
       for (int loop=0; loop < m_barStyles.length; loop++)
@@ -963,7 +964,7 @@ public class GanttChartView9 extends View9
    private FontStyle m_projectSummaryTasksFontStyle;   
    private FontStyle m_externalTasksFontStyle;
    
-   private ColumnFontStyle[] m_columnFontStyles;
+   private TableFontStyle[] m_tableFontStyles;
    
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
