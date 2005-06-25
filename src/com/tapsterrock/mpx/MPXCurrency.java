@@ -30,21 +30,6 @@ package com.tapsterrock.mpx;
 public final class MPXCurrency extends Number
 {
    /**
-    * Constructor used to parse a string to extract details of the
-    * currency amount.
-    *
-    * @param format Currency format
-    * @param amount string representation of a currency amount
-    * @throws MPXException when string parse fails
-    */
-   MPXCurrency (MPXNumberFormat format, String amount)
-      throws MPXException
-   {
-      m_format = format;
-      m_amount = m_format.parse(amount).doubleValue();
-   }
-
-   /**
     * Constructor used to pass details of the currency amount as a double.
     *
     * @param format Currency format
@@ -115,6 +100,35 @@ public final class MPXCurrency extends Number
       return (m_amount);
    }
 
+   /**
+    * Retrieve an MPXCurrency instance to represent the supplied value.
+    * This method improves memory efficiency by using shared objects
+    * to represent common values.
+    * 
+    * @param parent parent file
+    * @param amount string representation of the currency amount
+    * @return MPXCurrency instance
+    * @throws MPXException
+    */
+   public static final MPXCurrency getInstance (MPXFile parent, String amount)
+      throws MPXException
+   {
+      MPXNumberFormat format = parent.getCurrencyFormat();
+      double value = format.parse(amount).doubleValue();
+      MPXCurrency result;
+      
+      if (value == 0)
+      {
+         result = parent.getZeroCurrency();
+      }
+      else
+      {
+         result = new MPXCurrency(format, value);
+      }
+      
+      return (result);
+   }
+   
    /**
     * Formatter used to format the currency amount.
     */

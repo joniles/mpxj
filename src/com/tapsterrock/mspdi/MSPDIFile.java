@@ -901,7 +901,7 @@ public class MSPDIFile extends MPXFile
       mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
       if (xml.getLevelingDelay() != null && mpx.getLevelingDelayFormat() != null)
       {
-         mpx.setLevelingDelay(new MPXDuration (xml.getLevelingDelay().doubleValue(), mpx.getLevelingDelayFormat()));
+         mpx.setLevelingDelay(MPXDuration.getInstance (xml.getLevelingDelay().doubleValue(), mpx.getLevelingDelayFormat()));
       }
 
 
@@ -977,7 +977,7 @@ public class MSPDIFile extends MPXFile
       mpx.setWBS(xml.getWBS());
       mpx.setWBSLevel (xml.getWBSLevel());
       mpx.setWork(DatatypeConverter.parseDuration(this,mpx.getDurationFormat(),xml.getWork()));
-      mpx.setWorkVariance(new MPXDuration (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
+      mpx.setWorkVariance(MPXDuration.getInstance (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
 
       readTaskExtendedAttributes(xml, mpx);
 
@@ -1100,7 +1100,7 @@ public class MSPDIFile extends MPXFile
 
             Relation rel = currTask.addPredecessor(prevTask);
             rel.setType(type);
-            rel.setDuration(new MPXDuration (lag, TimeUnit.HOURS));
+            rel.setDuration(MPXDuration.getInstance (lag, TimeUnit.HOURS));
          }
       }
    }
@@ -1878,7 +1878,7 @@ public class MSPDIFile extends MPXFile
          {
             double amount = duration.getDuration();
             amount -= ((amount * mpx.getPercentageCompleteValue())/100);
-            xml.setRemainingDuration(DatatypeConverter.printDuration(this, new MPXDuration (amount, duration.getUnits())));
+            xml.setRemainingDuration(DatatypeConverter.printDuration(this, MPXDuration.getInstance (amount, duration.getUnits())));
          }
       }
       else

@@ -30,35 +30,11 @@ package com.tapsterrock.mpx;
 final class MPXPercentage extends Number implements ToStringRequiresFile
 {
    /**
-    * This constructor creates an instance of this class from a formatted
-    * string value.
-    *
-    * @param value percentage value
-    * @param format expected format of string percentage value
-    * @throws MPXException when the string parse fails
-    */
-   MPXPercentage (String value, MPXNumberFormat format)
-      throws MPXException
-   {
-      m_value = format.parse(value).doubleValue();
-   }
-
-   /**
     * This constructor creates an instance of this class from a number value.
     *
     * @param value percentage value
     */
-   MPXPercentage (Number value)
-   {
-      m_value = value.doubleValue();
-   }
-
-   /**
-    * This constructor creates an instance of this class from a number value.
-    *
-    * @param value percentage value
-    */
-   MPXPercentage (double value)
+   private MPXPercentage (double value)
    {
       m_value = value;
    }
@@ -145,7 +121,53 @@ final class MPXPercentage extends Number implements ToStringRequiresFile
    {
       return (m_value);
    }
+   
+   /**
+    * Retrieve an MPXPercentage instance representing the supplied value.
+    * 
+    * @param value percentage value
+    * @return MPXPercentage instance
+    */
+   public static MPXPercentage getInstance (double value)
+   {
+      MPXPercentage result;
+      
+      if (value == 0)
+      {
+         result = ZERO;
+      }
+      else
+      {
+         result = new MPXPercentage(value);
+      }
+      
+      return (result);
+   }
 
+   /**
+    * Retrieve an MPXPercentage instance representing the supplied value.
+    * 
+    * @param value percentage value
+    * @return MPXPercentage instance
+    */   
+   public static MPXPercentage getInstance (Number value)
+   {
+      return (getInstance(value.doubleValue()));
+   }
+   
+   /**
+    * Retrieve an MPXPercentage instance representing the supplied value.
+    * 
+    * @param value percentage value formatted as a string
+    * @param format number format
+    * @return MPXPercentage instance
+    */   
+   public static MPXPercentage getInstance (String value, MPXNumberFormat format)
+      throws MPXException
+   {
+      return (getInstance(format.parse(value).doubleValue()));
+   }
+   
    /**
     * Internal value
     */
@@ -160,4 +182,6 @@ final class MPXPercentage extends Number implements ToStringRequiresFile
     * Number formatter.
     */
    private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat(DECIMAL_FORMAT_STRING, '.', ',');
+   
+   private static final MPXPercentage ZERO = new MPXPercentage(0);
 }

@@ -663,31 +663,31 @@ public class MPXJTest extends TestCase
 
          Task task1 = file1.addTask();
          task1.setName("Test Task 1");
-         task1.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task1.setDuration(MPXDuration.getInstance (10, TimeUnit.DAYS));
          task1.setStart(new Date());
          task1.setNotes(notes1);
 
          Task task2 = file1.addTask();
          task2.setName("Test Task 2");
-         task2.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task2.setDuration(MPXDuration.getInstance (10, TimeUnit.DAYS));
          task2.setStart(new Date());
          task2.setNotes(notes2);
 
          Task task3 = file1.addTask();
          task3.setName("Test Task 3");
-         task3.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task3.setDuration(MPXDuration.getInstance (10, TimeUnit.DAYS));
          task3.setStart(new Date());
          task3.setNotes(notes3);
 
          Task task4 = file1.addTask();
          task4.setName("Test Task 4");
-         task4.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task4.setDuration(MPXDuration.getInstance (10, TimeUnit.DAYS));
          task4.setStart(new Date());
          task4.setNotes(notes4);
 
          Task task5 = file1.addTask();
          task5.setName("Test Task 5");
-         task5.setDuration(new MPXDuration (10, TimeUnit.DAYS));
+         task5.setDuration(MPXDuration.getInstance (10, TimeUnit.DAYS));
          task5.setStart(new Date());
          task5.setNotes(notes5);
 
@@ -999,19 +999,19 @@ public class MPXJTest extends TestCase
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
       Date startDate = df.parse("09/10/2003");
 
-      duration = new MPXDuration (1, TimeUnit.DAYS);
+      duration = MPXDuration.getInstance (1, TimeUnit.DAYS);
       Date endDate = cal.getDate(startDate, duration);
       assertEquals(endDate.getTime(), df.parse("10/10/2003").getTime());
 
-      duration = new MPXDuration (7, TimeUnit.DAYS);
+      duration = MPXDuration.getInstance (7, TimeUnit.DAYS);
       endDate = cal.getDate(startDate, duration);
       assertEquals(endDate.getTime(), df.parse("18/10/2003").getTime());
 
-      duration = new MPXDuration (1, TimeUnit.WEEKS);
+      duration = MPXDuration.getInstance (1, TimeUnit.WEEKS);
       endDate = cal.getDate(startDate, duration);
       assertEquals(endDate.getTime(), df.parse("18/10/2003").getTime());
 
-      duration = new MPXDuration (-1, TimeUnit.DAYS);
+      duration = MPXDuration.getInstance (-1, TimeUnit.DAYS);
       endDate = cal.getDate(startDate, duration);
       assertEquals(endDate.getTime(), df.parse("08/10/2003").getTime());
    }

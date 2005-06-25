@@ -43,7 +43,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    Task (MPXFile file, Task parent)
    {
-      super(file, MAX_FIELDS);
+      super(file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
 
       m_model = getParentFile().getTaskModel();
 
@@ -86,7 +86,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    Task (MPXFile file, Record record)
       throws MPXException
    {
-      super(file, MAX_FIELDS);
+      super(file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
 
       String falseText = LocaleData.getString(getParentFile().getLocale(), LocaleData.NO);
 
@@ -129,7 +129,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case PERCENTAGE_COMPLETE:
             case PERCENTAGE_WORK_COMPLETE:
             {
-               set(x, new MPXPercentage(field, getParentFile().getPercentageDecimalFormat()));
+               set(x, MPXPercentage.getInstance(field, getParentFile().getPercentageDecimalFormat()));
                break;
             }
 
@@ -147,7 +147,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case REMAINING_COST:
             case SV:
             {
-               set(x, new MPXCurrency(getParentFile().getCurrencyFormat(), field));
+               set(x, MPXCurrency.getInstance(getParentFile(), field));
                break;
             }
 
@@ -170,7 +170,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case WORK_VARIANCE:
             case DELAY:
             {
-               set(x, new MPXDuration(field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
+               set(x, MPXDuration.getInstance(field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
                break;
             }
 
@@ -948,7 +948,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setPercentageComplete (double val)
    {
-      setPercentage(PERCENTAGE_COMPLETE, new MPXPercentage(val));
+      setPercentage(PERCENTAGE_COMPLETE, MPXPercentage.getInstance(val));
    }
 
    /**
@@ -978,7 +978,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setPercentageWorkComplete (double val)
    {
-      setPercentage(PERCENTAGE_WORK_COMPLETE, new MPXPercentage(val));
+      setPercentage(PERCENTAGE_WORK_COMPLETE, MPXPercentage.getInstance(val));
    }
 
    /**
@@ -1322,20 +1322,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @param val value to set
     */
-   public void setCV (double val)
-   {
-      set(CV, new MPXCurrency(getParentFile().getCurrencyFormat(), val));
-   }
-
-   /**
-    * The CV (earned value cost variance) field shows the difference
-    * between how much it should have cost to achieve the current level of 
-    * completion on the task, and how much it has actually cost to achieve the 
-    * current level of completion up to
-    * the status date or today's date.
-    *
-    * @param val value to set
-    */
    public void setCV (Number val)
    {
       setCurrency(CV, val);
@@ -1528,16 +1514,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       set(FIXED, val);
    }
 
-   /**
-    * The Fixed Cost field shows any task expense that is not associated
-    * with a resource cost.
-    *
-    * @param val amount
-    */
-   public void setFixedCost (double val)
-   {
-      set(FIXED_COST, new MPXCurrency(getParentFile().getCurrencyFormat(), val));
-   }
 
    /**
     * The Fixed Cost field shows any task expense that is not associated
@@ -8076,98 +8052,103 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    static final int MAX_FIELDS = 153;
 
    /**
+    * Maximum number of extended fields in this record.
+    */
+   private static final int MAX_EXTENDED_FIELDS = 89;
+   
+   /**
     * The following constants are used purely to identify custom fields,
     * these field names are NOT written to the MPX file.
     */
-   public static final int TEXT11 = 1011;
-   public static final int TEXT12 = 1012;
-   public static final int TEXT13 = 1013;
-   public static final int TEXT14 = 1014;
-   public static final int TEXT15 = 1015;
-   public static final int TEXT16 = 1016;
-   public static final int TEXT17 = 1017;
-   public static final int TEXT18 = 1018;
-   public static final int TEXT19 = 1019;
-   public static final int TEXT20 = 1020;
-   public static final int TEXT21 = 1021;
-   public static final int TEXT22 = 1022;
-   public static final int TEXT23 = 1023;
-   public static final int TEXT24 = 1024;
-   public static final int TEXT25 = 1025;
-   public static final int TEXT26 = 1026;
-   public static final int TEXT27 = 1027;
-   public static final int TEXT28 = 1028;
-   public static final int TEXT29 = 1029;
-   public static final int TEXT30 = 1030;
-   public static final int START6 = 1106;
-   public static final int START7 = 1107;
-   public static final int START8 = 1108;
-   public static final int START9 = 1109;
-   public static final int START10 = 1110;
-   public static final int FINISH6 = 1206;
-   public static final int FINISH7 = 1207;
-   public static final int FINISH8 = 1208;
-   public static final int FINISH9 = 1209;
-   public static final int FINISH10 = 1210;
-   public static final int COST4 = 1304;
-   public static final int COST5 = 1305;
-   public static final int COST6 = 1306;
-   public static final int COST7 = 1307;
-   public static final int COST8 = 1308;
-   public static final int COST9 = 1309;
-   public static final int COST10 = 1310;
-   public static final int DATE1 = 1401;
-   public static final int DATE2 = 1402;
-   public static final int DATE3 = 1403;
-   public static final int DATE4 = 1404;
-   public static final int DATE5 = 1405;
-   public static final int DATE6 = 1406;
-   public static final int DATE7 = 1407;
-   public static final int DATE8 = 1408;
-   public static final int DATE9 = 1409;
-   public static final int DATE10 = 1410;
-   public static final int FLAG11 = 1511;
-   public static final int FLAG12 = 1512;
-   public static final int FLAG13 = 1513;
-   public static final int FLAG14 = 1514;
-   public static final int FLAG15 = 1515;
-   public static final int FLAG16 = 1516;
-   public static final int FLAG17 = 1517;
-   public static final int FLAG18 = 1518;
-   public static final int FLAG19 = 1519;
-   public static final int FLAG20 = 1520;
-   public static final int NUMBER6 = 1606;
-   public static final int NUMBER7 = 1607;
-   public static final int NUMBER8 = 1608;
-   public static final int NUMBER9 = 1609;
-   public static final int NUMBER10 = 1610;
-   public static final int NUMBER11 = 1611;
-   public static final int NUMBER12 = 1612;
-   public static final int NUMBER13 = 1613;
-   public static final int NUMBER14 = 1614;
-   public static final int NUMBER15 = 1615;
-   public static final int NUMBER16 = 1616;
-   public static final int NUMBER17 = 1617;
-   public static final int NUMBER18 = 1618;
-   public static final int NUMBER19 = 1619;
-   public static final int NUMBER20 = 1620;
-   public static final int DURATION4 = 1704;
-   public static final int DURATION5 = 1705;
-   public static final int DURATION6 = 1706;
-   public static final int DURATION7 = 1707;
-   public static final int DURATION8 = 1708;
-   public static final int DURATION9 = 1709;
-   public static final int DURATION10 = 1710;
-   public static final int OUTLINECODE1 = 1801;
-   public static final int OUTLINECODE2 = 1802;
-   public static final int OUTLINECODE3 = 1803;
-   public static final int OUTLINECODE4 = 1804;
-   public static final int OUTLINECODE5 = 1805;
-   public static final int OUTLINECODE6 = 1806;
-   public static final int OUTLINECODE7 = 1807;
-   public static final int OUTLINECODE8 = 1808;
-   public static final int OUTLINECODE9 = 1809;
-   public static final int OUTLINECODE10 = 1810;
+   public static final int TEXT11 = EXTENDED_OFFSET + 0;
+   public static final int TEXT12 = EXTENDED_OFFSET + 1;
+   public static final int TEXT13 = EXTENDED_OFFSET + 2;
+   public static final int TEXT14 = EXTENDED_OFFSET + 3;
+   public static final int TEXT15 = EXTENDED_OFFSET + 4;
+   public static final int TEXT16 = EXTENDED_OFFSET + 5;
+   public static final int TEXT17 = EXTENDED_OFFSET + 6;
+   public static final int TEXT18 = EXTENDED_OFFSET + 7;
+   public static final int TEXT19 = EXTENDED_OFFSET + 8;
+   public static final int TEXT20 = EXTENDED_OFFSET + 9;
+   public static final int TEXT21 = EXTENDED_OFFSET + 10;
+   public static final int TEXT22 = EXTENDED_OFFSET + 11;
+   public static final int TEXT23 = EXTENDED_OFFSET + 12;
+   public static final int TEXT24 = EXTENDED_OFFSET + 13;
+   public static final int TEXT25 = EXTENDED_OFFSET + 14;
+   public static final int TEXT26 = EXTENDED_OFFSET + 15;
+   public static final int TEXT27 = EXTENDED_OFFSET + 16;
+   public static final int TEXT28 = EXTENDED_OFFSET + 17;
+   public static final int TEXT29 = EXTENDED_OFFSET + 18;
+   public static final int TEXT30 = EXTENDED_OFFSET + 19;
+   public static final int START6 = EXTENDED_OFFSET + 20;
+   public static final int START7 = EXTENDED_OFFSET + 21;
+   public static final int START8 = EXTENDED_OFFSET + 22;
+   public static final int START9 = EXTENDED_OFFSET + 23;
+   public static final int START10 = EXTENDED_OFFSET + 24;
+   public static final int FINISH6 = EXTENDED_OFFSET + 25;
+   public static final int FINISH7 = EXTENDED_OFFSET + 26;
+   public static final int FINISH8 = EXTENDED_OFFSET + 27;
+   public static final int FINISH9 = EXTENDED_OFFSET + 28;
+   public static final int FINISH10 = EXTENDED_OFFSET + 29;
+   public static final int COST4 = EXTENDED_OFFSET + 30;
+   public static final int COST5 = EXTENDED_OFFSET + 31;
+   public static final int COST6 = EXTENDED_OFFSET + 32;
+   public static final int COST7 = EXTENDED_OFFSET + 33;
+   public static final int COST8 = EXTENDED_OFFSET + 34;
+   public static final int COST9 = EXTENDED_OFFSET + 35;
+   public static final int COST10 = EXTENDED_OFFSET + 36;
+   public static final int DATE1 = EXTENDED_OFFSET + 37;
+   public static final int DATE2 = EXTENDED_OFFSET + 38;
+   public static final int DATE3 = EXTENDED_OFFSET + 39;
+   public static final int DATE4 = EXTENDED_OFFSET + 40;
+   public static final int DATE5 = EXTENDED_OFFSET + 41;
+   public static final int DATE6 = EXTENDED_OFFSET + 42;
+   public static final int DATE7 = EXTENDED_OFFSET + 43;
+   public static final int DATE8 = EXTENDED_OFFSET + 44;
+   public static final int DATE9 = EXTENDED_OFFSET + 45;
+   public static final int DATE10 = EXTENDED_OFFSET + 46;
+   public static final int FLAG11 = EXTENDED_OFFSET + 47;
+   public static final int FLAG12 = EXTENDED_OFFSET + 48;
+   public static final int FLAG13 = EXTENDED_OFFSET + 49;
+   public static final int FLAG14 = EXTENDED_OFFSET + 50;
+   public static final int FLAG15 = EXTENDED_OFFSET + 51;
+   public static final int FLAG16 = EXTENDED_OFFSET + 52;
+   public static final int FLAG17 = EXTENDED_OFFSET + 53;
+   public static final int FLAG18 = EXTENDED_OFFSET + 54;
+   public static final int FLAG19 = EXTENDED_OFFSET + 55;
+   public static final int FLAG20 = EXTENDED_OFFSET + 56;
+   public static final int NUMBER6 = EXTENDED_OFFSET + 57;
+   public static final int NUMBER7 = EXTENDED_OFFSET + 58;
+   public static final int NUMBER8 = EXTENDED_OFFSET + 59;
+   public static final int NUMBER9 = EXTENDED_OFFSET + 60;
+   public static final int NUMBER10 = EXTENDED_OFFSET + 61;
+   public static final int NUMBER11 = EXTENDED_OFFSET + 62;
+   public static final int NUMBER12 = EXTENDED_OFFSET + 63;
+   public static final int NUMBER13 = EXTENDED_OFFSET + 64;
+   public static final int NUMBER14 = EXTENDED_OFFSET + 65;
+   public static final int NUMBER15 = EXTENDED_OFFSET + 66;
+   public static final int NUMBER16 = EXTENDED_OFFSET + 67;
+   public static final int NUMBER17 = EXTENDED_OFFSET + 68;
+   public static final int NUMBER18 = EXTENDED_OFFSET + 69;
+   public static final int NUMBER19 = EXTENDED_OFFSET + 70;
+   public static final int NUMBER20 = EXTENDED_OFFSET + 71;
+   public static final int DURATION4 = EXTENDED_OFFSET + 72;
+   public static final int DURATION5 = EXTENDED_OFFSET + 73;
+   public static final int DURATION6 = EXTENDED_OFFSET + 74;
+   public static final int DURATION7 = EXTENDED_OFFSET + 75;
+   public static final int DURATION8 = EXTENDED_OFFSET + 76;
+   public static final int DURATION9 = EXTENDED_OFFSET + 77;
+   public static final int DURATION10 = EXTENDED_OFFSET + 78;
+   public static final int OUTLINECODE1 = EXTENDED_OFFSET + 79;
+   public static final int OUTLINECODE2 = EXTENDED_OFFSET + 80;
+   public static final int OUTLINECODE3 = EXTENDED_OFFSET + 81;
+   public static final int OUTLINECODE4 = EXTENDED_OFFSET + 82;
+   public static final int OUTLINECODE5 = EXTENDED_OFFSET + 83;
+   public static final int OUTLINECODE6 = EXTENDED_OFFSET + 84;
+   public static final int OUTLINECODE7 = EXTENDED_OFFSET + 85;
+   public static final int OUTLINECODE8 = EXTENDED_OFFSET + 86;
+   public static final int OUTLINECODE9 = EXTENDED_OFFSET + 87;
+   public static final int OUTLINECODE10 = EXTENDED_OFFSET + 88;
 
    /**
     * Constant containing the record number associated with this record.

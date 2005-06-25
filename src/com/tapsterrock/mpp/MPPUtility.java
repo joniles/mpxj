@@ -573,7 +573,7 @@ final class MPPUtility
          }
       }
 
-      return (new MPXDuration(duration, type));
+      return (MPXDuration.getInstance(duration, type));
    }
 
    /**
@@ -673,7 +673,7 @@ final class MPPUtility
       {
          double unitsPerDay = file.getProjectHeader().getDefaultHoursInDay().doubleValue() * 600d;
          double totalDays = duration / unitsPerDay;
-         result = new MPXDuration(totalDays, timeUnit);
+         result = MPXDuration.getInstance(totalDays, timeUnit);
       }
       else
       {

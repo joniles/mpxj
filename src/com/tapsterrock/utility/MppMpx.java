@@ -51,6 +51,18 @@ public class MppMpx
             System.out.println ("Conversion started.");
             long start = System.currentTimeMillis();
             MPPFile mpp = new MPPFile (args[0]);
+                       
+            System.gc();
+            
+            Runtime r = Runtime.getRuntime();
+            long freeMem = r.freeMemory();
+            long totalMem = r.totalMemory();
+            long usedMem = totalMem - freeMem;
+            System.out.println("Total=" + totalMem + " used=" + usedMem + " free=" + freeMem);
+            System.out.println ("Sleeping");
+            Thread.sleep(10000);
+            
+            
             mpp.write(args[1]);
             long elapsed = System.currentTimeMillis() - start;
             System.out.println ("Conversion completed in " + elapsed + "ms.");

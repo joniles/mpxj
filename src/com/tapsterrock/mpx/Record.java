@@ -332,7 +332,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXCurrency(m_parent.getCurrencyFormat(), m_fields[field]);
+         result = MPXCurrency.getInstance(m_parent, m_fields[field]);
       }
       else
       {
@@ -358,7 +358,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXPercentage(m_fields[field], m_parent.getPercentageDecimalFormat());
+         result = MPXPercentage.getInstance(m_fields[field], m_parent.getPercentageDecimalFormat());
       }
       else
       {
@@ -384,7 +384,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXDuration(m_fields[field], m_parent.getDurationDecimalFormat(), m_parent.getLocale());
+         result = MPXDuration.getInstance(m_fields[field], m_parent.getDurationDecimalFormat(), m_parent.getLocale());
       }
       else
       {

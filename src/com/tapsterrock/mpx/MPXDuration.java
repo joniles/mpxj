@@ -39,7 +39,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param dur String representation of a duration
     * @throws MPXException normally indicating that parsing the string has failed
     */
-   public MPXDuration (String dur)
+   private MPXDuration (String dur)
       throws MPXException
    {
       this(dur, DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH);
@@ -55,7 +55,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param locale current file locale
     * @throws MPXException
     */
-   public MPXDuration (String dur, MPXNumberFormat format, Locale locale)
+   private MPXDuration (String dur, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
       int lastIndex = dur.length() - 1;
@@ -83,24 +83,13 @@ public final class MPXDuration implements ToStringRequiresFile
    }
 
    /**
-    * Copy constructor.
-    *
-    * @param duration original MPXDuration instance
-    */
-   public MPXDuration (MPXDuration duration)
-   {
-      m_duration = duration.m_duration;
-      m_units = duration.m_units;
-   }
-
-   /**
     * Constructs an instance of this class from a duration amount and
     * time unit type.
     *
     * @param duration amount of duration
     * @param type time unit of duration
     */
-   public MPXDuration (double duration, TimeUnit type)
+   private MPXDuration (double duration, TimeUnit type)
    {
       m_duration = duration;
       m_units = type;
@@ -113,7 +102,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param duration amount of duration
     * @param type time unit of duration
     */
-   public MPXDuration (int duration, TimeUnit type)
+   private MPXDuration (int duration, TimeUnit type)
    {
       m_duration = duration;
       m_units = type;
@@ -290,6 +279,105 @@ public final class MPXDuration implements ToStringRequiresFile
    }
 
    /**
+    * Retrieve an MPXDuration instance. Use shared objects to
+    * represent common values for memory efficiency.
+    * 
+    * @param duration duration value
+    * @param type duration type
+    * @return MPXDuration instance
+    */
+   public static MPXDuration getInstance (double duration, TimeUnit type)
+   {
+      MPXDuration result;
+      if (duration == 0)
+      {
+         result = ZERO_DURATIONS[type.getValue()];
+      }
+      else
+      {
+         result = new MPXDuration(duration, type);
+      }
+      return(result);
+   }
+
+   /**
+    * Retrieve an MPXDuration instance. Use shared objects to
+    * represent common values for memory efficiency.
+    * 
+    * @param duration duration value
+    * @param type duration type
+    * @return MPXDuration instance
+    */   
+   public static MPXDuration getInstance (int duration, TimeUnit type)
+   {
+      MPXDuration result;
+      if (duration == 0)
+      {
+         result = ZERO_DURATIONS[type.getValue()];
+      }
+      else
+      {
+         result = new MPXDuration(duration, type);
+      }
+      return(result);
+   }
+
+   /**
+    * Retrieve an MPXDuration instance. Use shared objects to
+    * represent common values for memory efficiency.
+    * 
+    * @param dur duration formatted as a string
+    * @param format number format
+    * @param locale target locale
+    * @return MPXDuration instance
+    * @throws MPXException
+    */
+   public static MPXDuration getInstance (String dur, MPXNumberFormat format, Locale locale)
+      throws MPXException
+   {
+      int lastIndex = dur.length() - 1;
+      int index = lastIndex;
+      double duration;
+      TimeUnit units;
+      
+      while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
+      {
+         --index;
+      }
+   
+      //
+      // If we have no units suffix, assume days to allow for MPX3
+      //
+      if (index == lastIndex)
+      {
+         duration = format.parse(dur).doubleValue();
+         units = TimeUnit.DAYS;
+      }
+      else
+      {
+         ++index;
+         duration = format.parse(dur.substring(0, index)).doubleValue();
+         units = TimeUnit.parse(dur.substring(index), locale);
+      }
+      
+      return (getInstance(duration, units));
+   }
+
+   /**
+    * Retrieve an MPXDuration instance. Use shared objects to
+    * represent common values for memory efficiency.
+    * 
+    * @param dur duration formatted as a string
+    * @return MPXDuration instance
+    * @throws MPXException
+    */   
+   public static MPXDuration getInstance (String dur)
+      throws MPXException
+   {
+      return(getInstance(dur, DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH));
+   }
+   
+   /**
     * Duration amount.
     */
    private double m_duration;
@@ -317,4 +405,22 @@ public final class MPXDuration implements ToStringRequiresFile
    private static final double DAYS_PER_WEEK = 7;
    private static final double DAYS_PER_MONTH = 28;
    private static final double DAYS_PER_YEAR = 365;
+   
+   private static final MPXDuration[] ZERO_DURATIONS =
+   {
+      new MPXDuration(0, TimeUnit.MINUTES),
+      new MPXDuration(0, TimeUnit.HOURS),
+      new MPXDuration(0, TimeUnit.DAYS),      
+      new MPXDuration(0, TimeUnit.WEEKS),      
+      new MPXDuration(0, TimeUnit.MONTHS),      
+      new MPXDuration(0, TimeUnit.YEARS),      
+      new MPXDuration(0, TimeUnit.PERCENT),      
+      new MPXDuration(0, TimeUnit.ELAPSED_MINUTES),
+      new MPXDuration(0, TimeUnit.ELAPSED_HOURS),
+      new MPXDuration(0, TimeUnit.ELAPSED_DAYS),      
+      new MPXDuration(0, TimeUnit.ELAPSED_WEEKS),      
+      new MPXDuration(0, TimeUnit.ELAPSED_MONTHS),      
+      new MPXDuration(0, TimeUnit.ELAPSED_YEARS),      
+      new MPXDuration(0, TimeUnit.ELAPSED_PERCENT)            
+   };
 }

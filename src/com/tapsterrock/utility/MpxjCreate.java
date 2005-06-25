@@ -209,7 +209,7 @@ public class MpxjCreate
       //
       Task task2 = task1.addTask();
       task2.setName ("First Sub Task");
-      task2.setDuration (new MPXDuration (10.5, TimeUnit.DAYS));
+      task2.setDuration (MPXDuration.getInstance (10.5, TimeUnit.DAYS));
       task2.setStart (df.parse("01/01/2003"));
 
       //
@@ -229,7 +229,7 @@ public class MpxjCreate
       Task task3 = task1.addTask();
       task3.setName ("Second Sub Task");
       task3.setStart (df.parse("11/01/2003"));
-      task3.setDuration (new MPXDuration (10, TimeUnit.DAYS));
+      task3.setDuration (MPXDuration.getInstance (10, TimeUnit.DAYS));
 
       //
       // Link these two tasks
@@ -243,7 +243,7 @@ public class MpxjCreate
       Task milestone1 = task1.addTask();
       milestone1.setName ("Milestone");
       milestone1.setStart (df.parse("21/01/2003"));
-      milestone1.setDuration (new MPXDuration (0, TimeUnit.DAYS));
+      milestone1.setDuration (MPXDuration.getInstance (0, TimeUnit.DAYS));
       Relation rel2 = milestone1.addPredecessor (task3);
       rel2.setType (RelationType.FINISH_START);
 
@@ -259,8 +259,8 @@ public class MpxjCreate
       // fields in the assignment to appropriate values, or MS Project
       // won't recognise the task as being complete or partially complete
       //
-      assignment1.setWork(new MPXDuration (80, TimeUnit.HOURS));
-      assignment1.setActualWork(new MPXDuration (40, TimeUnit.HOURS));
+      assignment1.setWork(MPXDuration.getInstance (80, TimeUnit.HOURS));
+      assignment1.setActualWork(MPXDuration.getInstance (40, TimeUnit.HOURS));
 
       //
       // If we were just generating an MPX file, we would already have enough
@@ -269,8 +269,8 @@ public class MpxjCreate
       // the remaining work attribute. The assignment start dates will normally
       // be the same as the task start dates.
       //
-      assignment1.setRemainingWork(new MPXDuration (40, TimeUnit.HOURS));
-      assignment2.setRemainingWork(new MPXDuration (80, TimeUnit.HOURS));
+      assignment1.setRemainingWork(MPXDuration.getInstance (40, TimeUnit.HOURS));
+      assignment2.setRemainingWork(MPXDuration.getInstance (80, TimeUnit.HOURS));
       assignment1.setStart(df.parse("01/01/2003"));
       assignment2.setStart(df.parse("11/01/2003"));
 

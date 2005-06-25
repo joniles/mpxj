@@ -470,7 +470,7 @@ public final class MPXCalendar extends MPXRecord
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
 
-      return (new MPXDuration (duration, TimeUnit.DAYS));
+      return (MPXDuration.getInstance (duration, TimeUnit.DAYS));
    }
 
    /**

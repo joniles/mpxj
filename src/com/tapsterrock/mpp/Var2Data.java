@@ -302,7 +302,6 @@ final class Var2Data extends MPPComponent
       return (Double.longBitsToDouble(getLong (id, type)));
    }
 
-
    /**
     * This method dumps the contents of this Var2Data block as a String.
     * Note that this facility is provided as a debugging aid.

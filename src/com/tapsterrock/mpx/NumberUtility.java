@@ -127,6 +127,9 @@ public final class NumberUtility
    
    /**
     * Utility method used to convert a Number into a double.
+    * This has been implemented to allow a singleton to be
+    * used to represent zero. This makes a considerable saving
+    * in memory utilisation.
     *
     * @param value Number instance
     * @return double value
@@ -135,4 +138,20 @@ public final class NumberUtility
    {
       return (value==null?0:value.doubleValue());
    }   
+   
+   /**
+    * Utility method used to convert a double into a Double.
+    * This has been implemented to allow a singleton to be
+    * used to represent zero. This makes a considerable saving
+    * in memory utilisation.
+    *
+    * @param value Number instance
+    * @return double value
+    */   
+   public static final Double getDouble(double value)
+   {
+      return (value==0?DOUBLE_ZERO:new Double(value));
+   }
+   
+   public static final Double DOUBLE_ZERO = new Double(0);
 }

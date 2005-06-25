@@ -25,7 +25,6 @@
 package com.tapsterrock.mpx;
 
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * This is the base class from which all classes representing records found
@@ -46,6 +45,19 @@ class MPXRecord
       m_array = new Object[size];
    }
 
+   /**
+    * Constructor.
+    * 
+    * @param mpx Parent MPX file
+    * @param size Maxmum number of MPX fields in this record
+    * @param extendedSize maximum number of non-MPX records 
+    */
+   protected MPXRecord (MPXFile mpx, int size, int extendedSize)
+   {
+      this(mpx, size);
+      m_extended = new Object[extendedSize];
+   }
+   
    /**
     * This method removes line breaks from a piece of text, and replaces
     * them with the supplied text.
@@ -281,7 +293,7 @@ class MPXRecord
       }
       else
       {
-         m_extended.put(new Integer(key), value);
+         m_extended[key-EXTENDED_OFFSET] = value;
       }
    }
 
@@ -373,7 +385,14 @@ class MPXRecord
       {
          if (value instanceof MPXCurrency == false)
          {
-            result = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
+            if (value.doubleValue() == 0)
+            {
+               result = m_mpx.getZeroCurrency();
+            }
+            else
+            {
+               result = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
+            }
          }
          else
          {
@@ -429,7 +448,7 @@ class MPXRecord
       {
          if (value instanceof MPXPercentage == false)
          {
-            result = new MPXPercentage (value);
+            result = MPXPercentage.getInstance(value);
          }
          else
          {
@@ -506,7 +525,7 @@ class MPXRecord
       }
       else
       {
-         result = m_extended.get(new Integer(key));
+         result = m_extended[key-EXTENDED_OFFSET];
       }
 
       return (result);
@@ -724,7 +743,7 @@ class MPXRecord
     * Array of field values.
     */
    private Object[] m_array;
-   private HashMap m_extended = new HashMap ();
+   private Object[] m_extended;
 
    /**
     * Placeholder character used in MPX files to represent
@@ -732,4 +751,9 @@ class MPXRecord
     */
    static final char EOL_PLACEHOLDER = (char)0x7F;
    static final String EOL_PLACEHOLDER_STRING = new String(new byte[]{EOL_PLACEHOLDER});
+   
+   /**
+    * Offset added to extended field identifiers.
+    */
+   protected static final int EXTENDED_OFFSET = 1000;
 }

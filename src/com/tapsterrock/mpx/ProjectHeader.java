@@ -2998,7 +2998,7 @@ public final class ProjectHeader extends MPXRecord
          alternativePatterns[1] = secondaryPattern;
          alternativePatterns[2] = secondaryPattern + ";(" + secondaryPattern + ")";
 
-         parent.getCurrencyFormat().applyPattern(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
+         parent.setCurrencyFormat(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
       }
    }
 
@@ -3226,17 +3226,17 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Default work value.
     */
-   private static final MPXDuration DEFAULT_WORK = new MPXDuration (0, TimeUnit.HOURS);
+   private static final MPXDuration DEFAULT_WORK = MPXDuration.getInstance (0, TimeUnit.HOURS);
 
    /**
     * Default work 2 value.
     */
-   private static final MPXPercentage DEFAULT_WORK2 = new MPXPercentage (0);
+   private static final MPXPercentage DEFAULT_WORK2 = MPXPercentage.getInstance (0);
 
    /**
     * Default duration value.
     */
-   private static final MPXDuration DEFAULT_DURATION = new MPXDuration (0, TimeUnit.DAYS);
+   private static final MPXDuration DEFAULT_DURATION = MPXDuration.getInstance (0, TimeUnit.DAYS);
 
    /**
     * Default schedule from value.

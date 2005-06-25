@@ -112,6 +112,7 @@ public class MPXFile
       m_taskIDMap = file.m_taskIDMap;
       m_resourceUniqueIDMap = file.m_resourceUniqueIDMap;
       m_resourceIDMap = file.m_resourceIDMap;
+      m_zeroCurrency = file.m_zeroCurrency;
    }
 
    /**
@@ -1349,6 +1350,34 @@ public class MPXFile
    }
 
    /**
+    * This package-private method is called internally to update
+    * the currency format. Note that we also create an appropriate
+    * singleton at this point to represent a zero currency value.
+    * 
+    * @param primaryPattern new format pattern
+    * @param alternativePatterns alternative format patterns
+    * @param decimalSeparator Locale specific decimal separator to replace placeholder
+    * @param groupingSeparator Locale specific grouping separator to replace placeholder
+    */
+   void setCurrencyFormat (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
+   {
+      m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
+      m_zeroCurrency = new MPXCurrency(m_currencyFormat, 0);
+   }
+   
+   /**
+    * This package-private method is used internally by MPXJ to supply
+    * callers with a reference to a singleton representing a zero
+    * currency value.
+    * 
+    * @return MPXCurrency instance
+    */
+   MPXCurrency getZeroCurrency ()
+   {
+      return (m_zeroCurrency);
+   }
+   
+   /**
     * This method is used to retrieve the number of child tasks associated
     * with this parent task. This method is used as part of the process
     * of automatically generating the WBS.
@@ -2322,4 +2351,6 @@ public class MPXFile
     * Maps from a resource ID to a resource instance
     */
    private HashMap m_resourceIDMap = new HashMap();
+   
+   private MPXCurrency m_zeroCurrency;
 }

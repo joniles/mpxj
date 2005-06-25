@@ -40,7 +40,7 @@ public final class Relation implements ToStringRequiresFile
    {
       m_taskIDValue = 0;
       m_type = RelationType.FINISH_START;
-      m_duration = new MPXDuration(0, TimeUnit.DAYS);
+      m_duration = MPXDuration.getInstance(0, TimeUnit.DAYS);
    }
 
    /**
@@ -83,7 +83,7 @@ public final class Relation implements ToStringRequiresFile
       if (index == length)
       {
          m_type = RelationType.FINISH_START;
-         m_duration = new MPXDuration(0, TimeUnit.DAYS);
+         m_duration = MPXDuration.getInstance(0, TimeUnit.DAYS);
       }
       else
       {
@@ -103,7 +103,7 @@ public final class Relation implements ToStringRequiresFile
 
          if (index == length)
          {
-            m_duration = new MPXDuration(0, TimeUnit.DAYS);
+            m_duration = MPXDuration.getInstance(0, TimeUnit.DAYS);
          }
          else
          {
@@ -112,7 +112,7 @@ public final class Relation implements ToStringRequiresFile
                ++index;
             }
 
-            m_duration = new MPXDuration(relationship.substring(index), format, locale);
+            m_duration = MPXDuration.getInstance(relationship.substring(index), format, locale);
          }
       }
    }

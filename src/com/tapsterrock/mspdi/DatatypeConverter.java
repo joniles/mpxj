@@ -76,7 +76,7 @@ public final class DatatypeConverter
     */
    private static final Number parseExtendedAttributeCurrency (String value)
    {
-      return (new Double(Double.parseDouble(value)/100));      
+      return (NumberUtility.getDouble(Double.parseDouble(value)/100));      
    }
    
    /**
@@ -515,7 +515,7 @@ public final class DatatypeConverter
     */
    public static final Number parseUnits (Number value)
    {
-      return (value==null?null:new Double(value.doubleValue()*100));
+      return (value==null?null:NumberUtility.getDouble(value.doubleValue()*100));
    }
    
    /**
@@ -1059,7 +1059,7 @@ public final class DatatypeConverter
             }
          }
          
-         result = new MPXDuration (duration, units);
+         result = MPXDuration.getInstance (duration, units);
       }
    
       return (result);
@@ -1157,7 +1157,7 @@ public final class DatatypeConverter
                }               
             }
    
-            result = new XsdDuration(new MPXDuration (hours, TimeUnit.HOURS)).toString();
+            result = new XsdDuration(MPXDuration.getInstance (hours, TimeUnit.HOURS)).toString();
          }
       }
    
@@ -1190,7 +1190,7 @@ public final class DatatypeConverter
     */
    public static final Number parseCurrency (Number value)
    {
-      return (value==null?null:new Double (value.doubleValue() / 100));
+      return (value==null?null:NumberUtility.getDouble (value.doubleValue() / 100));
    }
   
    /**
@@ -1464,7 +1464,7 @@ public final class DatatypeConverter
    
       if (value != null)
       {
-         result = new MPXDuration (value.intValue()/1000, TimeUnit.MINUTES);
+         result = MPXDuration.getInstance (value.intValue()/1000, TimeUnit.MINUTES);
       }
    
       return (result);
