@@ -32,7 +32,7 @@ import javax.swing.text.rtf.RTFEditorKit;
  * This class is used to collect together utility functions for manipulating
  * RTF encoded text.
  */
-final class RTFUtility
+public final class RTFUtility
 {
    /**
     * This method removes all RTF formatting from a given piece of text.
