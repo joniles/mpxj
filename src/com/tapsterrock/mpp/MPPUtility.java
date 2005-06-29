@@ -898,23 +898,26 @@ final class MPPUtility
    public static final String hexdump (byte[] buffer, boolean ascii, int columns, String prefix)
    {      
       StringBuffer sb = new StringBuffer();
-      int index = 0;
-      DecimalFormat df = new DecimalFormat("00000");
-      
-      while (index < buffer.length)
+      if (buffer != null)
       {
-         if (index + columns > buffer.length)
-         {
-            columns = buffer.length - index;
-         }
-
-         sb.append (prefix);
-         sb.append (df.format(index));
-         sb.append (":");
-         sb.append (hexdump(buffer, index, columns, ascii));
-         sb.append ('\n');
+         int index = 0;
+         DecimalFormat df = new DecimalFormat("00000");
          
-         index += columns;
+         while (index < buffer.length)
+         {
+            if (index + columns > buffer.length)
+            {
+               columns = buffer.length - index;
+            }
+   
+            sb.append (prefix);
+            sb.append (df.format(index));
+            sb.append (":");
+            sb.append (hexdump(buffer, index, columns, ascii));
+            sb.append ('\n');
+            
+            index += columns;
+         }
       }
       
       return (sb.toString());
