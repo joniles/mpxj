@@ -30,7 +30,7 @@ import java.io.IOException;
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from a Reader instance.
  */
-final class ReaderTokenizer extends Tokenizer
+public final class ReaderTokenizer extends Tokenizer
 {
    /**
     * Constructor.

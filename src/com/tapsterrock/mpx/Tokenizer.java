@@ -31,7 +31,7 @@ import java.io.IOException;
  * an MPX file correctly. In particular it will handle empty fields,
  * represented by adjacent field delimiters.
  */
-abstract class Tokenizer
+public abstract class Tokenizer
 {
    /**
     * This method must be implemented to read the next character from the
