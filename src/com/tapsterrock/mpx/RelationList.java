@@ -26,7 +26,6 @@ package com.tapsterrock.mpx;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
 
 
 /**
@@ -46,11 +45,10 @@ public final class RelationList extends AbstractList implements ToStringRequires
     * data read from an MPX file.
     *
     * @param data data read from an MPX file
-    * @param format expected format of duration component of each relation string
-    * @param locale target locale
+    * @param file parent MPX file
     * @throws MPXException nroamlly thrown on parse errors
     */
-   RelationList (String data, MPXNumberFormat format, Locale locale)
+   RelationList (String data, MPXFile file)
       throws MPXException
    {
       int length = data.length();
@@ -69,7 +67,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
                end = length;
             }
 
-            m_list.add(new Relation(data.substring(start, end).trim(), format, locale));
+            m_list.add(new Relation(data.substring(start, end).trim(), file));
 
             start = end + 1;
          }
@@ -119,7 +117,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
    }
 
    /**
-    * @see Collection#size()
+    * @see java.util.Collection#size()
     */
    public int size()
    {

@@ -122,7 +122,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case UNIQUE_ID_PREDECESSORS:
             case UNIQUE_ID_SUCCESSORS:
             {
-               set(x, new RelationList(field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
+               set(x, new RelationList(field, getParentFile()));
                break;
             }
 
@@ -691,6 +691,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          if (task != null)
          {
             rel.setTaskIDValue(task.getIDValue());
+            rel.setTaskUniqueIDValue(task.getUniqueIDValue());
          }
 
          list.add(rel);
@@ -764,7 +765,8 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
          if (task != null)
          {
-            rel.setTaskIDValue(task.getUniqueIDValue());
+            rel.setTaskIDValue(task.getIDValue());
+            rel.setTaskUniqueIDValue(task.getUniqueIDValue());
          }
 
          list.add(rel);
@@ -806,6 +808,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       if (task != null)
       {
          rel.setTaskIDValue(task.getIDValue());
+         rel.setTaskUniqueIDValue(task.getUniqueIDValue());
       }
 
       list.add(rel);
@@ -845,7 +848,8 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
       if (task != null)
       {
-         rel.setTaskIDValue(task.getUniqueIDValue());
+         rel.setTaskIDValue(task.getIDValue());
+         rel.setTaskUniqueIDValue(task.getUniqueIDValue());
       }
 
       list.add(rel);

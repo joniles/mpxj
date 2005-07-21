@@ -23,7 +23,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Locale;
 
 
 /**
@@ -39,6 +38,7 @@ public final class Relation implements ToStringRequiresFile
    Relation ()
    {
       m_taskIDValue = 0;
+      m_taskUniqueIDValue = 0;
       m_type = RelationType.FINISH_START;
       m_duration = MPXDuration.getInstance(0, TimeUnit.DAYS);
    }
@@ -48,11 +48,10 @@ public final class Relation implements ToStringRequiresFile
     * of a relationship.
     *
     * @param relationship String representation of a relationship
-    * @param format expected format of duration component of the string
-    * @param locale target locale
+    * @param file parent MPX file
     * @throws MPXException normally indicating that parsing the string has failed
     */
-   Relation (String relationship, MPXNumberFormat format, Locale locale)
+   Relation (String relationship, MPXFile file)
       throws MPXException
    {
       int index = 0;
@@ -77,6 +76,15 @@ public final class Relation implements ToStringRequiresFile
       }
 
       //
+      // Now find the task, so we can extract the unique ID      
+      //
+      Task task = file.getTaskByID(m_taskIDValue);
+      if (task != null)
+      {
+         m_taskUniqueIDValue = task.getUniqueIDValue();
+      }
+      
+      //
       // If we haven't reached the end, we next expect to find
       // SF, SS, FS, FF
       //
@@ -93,7 +101,7 @@ public final class Relation implements ToStringRequiresFile
          }
 
          String relationType = relationship.substring(index, index + 2);
-         m_type = RelationType.getInstance(locale, relationship.substring(index, index + 2));         
+         m_type = RelationType.getInstance(file.getLocale(), relationship.substring(index, index + 2));         
          if (m_type == null)
          {
             throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationType + "'");
@@ -112,7 +120,7 @@ public final class Relation implements ToStringRequiresFile
                ++index;
             }
 
-            m_duration = MPXDuration.getInstance(relationship.substring(index), format, locale);
+            m_duration = MPXDuration.getInstance(relationship.substring(index), file.getDurationDecimalFormat(), file.getLocale());
          }
       }
    }
@@ -149,17 +157,27 @@ public final class Relation implements ToStringRequiresFile
    }
 
    /**
-    * Method used to retrieve the identifier of the task
-    * related to the current task instance. Note that this value
-    * is the task ID, not the task UniqueID.
+    * Method used to retrieve the ID of the task
+    * related to the current task instance. 
     *
-    * @return task identifier
+    * @return task ID
     */
    public int getTaskIDValue ()
    {
       return (m_taskIDValue);
    }
 
+   /**
+    * Method used to retrieve the unique ID of the task
+    * related to the current task instance. 
+    *
+    * @return task unique ID
+    */
+   public int getTaskUniqueIDValue ()
+   {
+      return (m_taskUniqueIDValue);
+   }
+   
    /**
     * Method used to set the identifier of the task
     * related to the current task instance.
@@ -171,6 +189,17 @@ public final class Relation implements ToStringRequiresFile
       m_taskIDValue = id;
    }
 
+   /**
+    * Method used to set the identifier of the task
+    * related to the current task instance.
+    *
+    * @param id task identifier
+    */
+   public void setTaskUniqueIDValue (int id)
+   {
+      m_taskUniqueIDValue = id;
+   }
+   
    /**
     * Method used to retrieve the type of relationship being
     * represented.
@@ -219,7 +248,8 @@ public final class Relation implements ToStringRequiresFile
     * Identifier of task with which this relationship is held.
     */
    private int m_taskIDValue;
-
+   private int m_taskUniqueIDValue;
+   
    /**
     * Type of relationship.
     */
