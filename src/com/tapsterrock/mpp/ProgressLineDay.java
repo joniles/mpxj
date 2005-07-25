@@ -1,5 +1,5 @@
 /*
- * file:       Day.java
+ * file:       ProgressLineDay.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       26/03/2005
@@ -21,31 +21,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package com.tapsterrock.mpx;
+package com.tapsterrock.mpp;
+
+import com.tapsterrock.mpx.Day;
 
 /**
- * Instances of this class represent enumerated day values.
+ * Instances of this class represent enumerated day values used as to
+ * define when progress lines are drawn.
  */
-public class Day
+public final class ProgressLineDay extends Day
 {
    /**
-    * Protected constructor.
+    * Private constructor.
     *
     * @param value day value
-    */
-   protected Day (int value)
+    */   
+   protected ProgressLineDay (int value)
    {
-      m_value = value;
-   }
-
-   /**
-    * Retrieves the int representation of the day.
-    *
-    * @return task type value
-    */
-   public int getValue ()
-   {
-      return (m_value);
+      super(value);
    }
 
    /**
@@ -57,44 +50,32 @@ public class Day
    public static Day getInstance (int value)
    {
       Day result = null;
-
-      if (value >= 0 && value < DAY_ARRAY.length)
+      
+      if (value < 8)
       {
-         result = DAY_ARRAY[value];
+         result = Day.getInstance(value);
+      }
+      else
+      {
+         value -= 8;
+         
+         if (value >= 0 && value < DAY_ARRAY.length)
+         {
+            result = DAY_ARRAY[value];
+         }
       }
       
       return (result);
    }
 
-   /**
-    * Retrieves the string representation of this instance.
-    * 
-    * @return string representation
-    */
-   public String toString ()
-   {
-      return (Integer.toString(m_value));
-   }
-   
-   private int m_value;
-
-   public static final Day SUNDAY = new Day(1);
-   public static final Day MONDAY = new Day(2);
-   public static final Day TUESDAY = new Day(3);
-   public static final Day WEDNESDAY = new Day(4);
-   public static final Day THURSDAY = new Day(5);
-   public static final Day FRIDAY = new Day(6);
-   public static final Day SATURDAY = new Day(7);
+   public static final Day DAY = new ProgressLineDay(8);
+   public static final Day WORKINGDAY = new ProgressLineDay(9);
+   public static final Day NONWORKINGDAY = new ProgressLineDay(10);
    
    private static final Day[] DAY_ARRAY =
    {
-      null,
-      SUNDAY,
-      MONDAY,
-      TUESDAY,
-      WEDNESDAY,
-      THURSDAY,
-      FRIDAY,
-      SATURDAY
+      DAY,
+      WORKINGDAY,
+      NONWORKINGDAY
    };
 }

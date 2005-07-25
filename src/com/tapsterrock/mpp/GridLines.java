@@ -38,9 +38,9 @@ public class GridLines
    public GridLines (byte[] data, int offset)
    {
       m_normalLineColor = ColorType.getInstance(data[offset]);
-      m_normalLineStyle = GridLineStyle.getInstance(data[offset+3]);
+      m_normalLineStyle = LineStyle.getInstance(data[offset+3]);
       m_intervalNumber = data[offset+4];
-      m_intervalLineStyle = GridLineStyle.getInstance(data[offset+5]);
+      m_intervalLineStyle = LineStyle.getInstance(data[offset+5]);
       m_intervalLineColor = ColorType.getInstance(data[offset+6]);
    }
    
@@ -59,7 +59,7 @@ public class GridLines
     * 
     * @return interval line style
     */
-   public GridLineStyle getIntervalLineStyle()
+   public LineStyle getIntervalLineStyle()
    {
       return (m_intervalLineStyle);
    }
@@ -89,7 +89,7 @@ public class GridLines
     * 
     * @return line style
     */
-   public GridLineStyle getNormalLineStyle()
+   public LineStyle getNormalLineStyle()
    {
       return m_normalLineStyle;
    }
@@ -105,8 +105,8 @@ public class GridLines
    }
    
    private ColorType m_normalLineColor;
-   private GridLineStyle m_normalLineStyle;
+   private LineStyle m_normalLineStyle;
    private int m_intervalNumber;
-   private GridLineStyle m_intervalLineStyle;
+   private LineStyle m_intervalLineStyle;
    private ColorType m_intervalLineColor;
 }

@@ -26,14 +26,14 @@ package com.tapsterrock.mpp;
 /**
  * This class represents the grid line styles used by Microsoft Project.
  */
-public final class GridLineStyle
+public final class LineStyle
 {
    /**
     * Private constructor.
     * 
     * @param value grid line style
     */
-   private GridLineStyle (int value)
+   private LineStyle (int value)
    {
       m_value = value;
    }
@@ -44,9 +44,9 @@ public final class GridLineStyle
     * @param value line style
     * @return GridLineStyle instance
     */
-   public static GridLineStyle getInstance (int value)
+   public static LineStyle getInstance (int value)
    {
-      GridLineStyle style;
+      LineStyle style;
       
       if (value < 0 || value >= STYLE_TYPES.length)
       {
@@ -96,13 +96,13 @@ public final class GridLineStyle
    public static final int DOTTED2_VALUE = 3;
    public static final int DASHED_VALUE = 4;
    
-   public static final GridLineStyle NONE = new GridLineStyle (NONE_VALUE);
-   public static final GridLineStyle SOLID = new GridLineStyle (SOLID_VALUE);
-   public static final GridLineStyle DOTTED1 = new GridLineStyle (DOTTED1_VALUE);
-   public static final GridLineStyle DOTTED2 = new GridLineStyle (DOTTED2_VALUE);
-   public static final GridLineStyle DASHED = new GridLineStyle (DASHED_VALUE);
+   public static final LineStyle NONE = new LineStyle (NONE_VALUE);
+   public static final LineStyle SOLID = new LineStyle (SOLID_VALUE);
+   public static final LineStyle DOTTED1 = new LineStyle (DOTTED1_VALUE);
+   public static final LineStyle DOTTED2 = new LineStyle (DOTTED2_VALUE);
+   public static final LineStyle DASHED = new LineStyle (DASHED_VALUE);
    
-   private static final GridLineStyle[] STYLE_TYPES = 
+   private static final LineStyle[] STYLE_TYPES = 
    {
       NONE,
       SOLID,
