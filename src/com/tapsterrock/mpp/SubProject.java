@@ -35,9 +35,12 @@ public class SubProject
     * @param uniqueIDOffset offset of unique ID
     * @param filePathOffset offset of file path
     * @param fileNameOffset offset of file name
+    * @param uniqueIDStartValue used to create unique IDs in the parent file
     */
-   public void read (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset)
+   public void read (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int uniqueIDStartValue)
    {
+      m_uniqueIDStartValue = uniqueIDStartValue;
+      
       m_uniqueID = new Integer(MPPUtility.getInt(data, uniqueIDOffset));
 
       //
@@ -194,6 +197,18 @@ public class SubProject
    }
 
    /**
+    * Retrieve the unique ID start value. This value is added to the unique
+    * IDs from the child project file to create the uique IDs shown in the
+    * parent project file.
+    * 
+    * @return unique ID start value
+    */
+   public int getUniqueIDStartValue ()
+   {
+      return (m_uniqueIDStartValue);
+   }
+   
+   /**
     * @see java.lang.Object#toString()
     */
    public String toString ()
@@ -206,4 +221,5 @@ public class SubProject
    private String m_fullPath;
    private String m_dosFileName;
    private String m_fileName;
+   private int m_uniqueIDStartValue;
 }

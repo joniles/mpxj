@@ -200,6 +200,7 @@ final class MPP9File
             int filePathOffset;
             int fileNameOffset;
             SubProject sp;
+            int uniqueIDStartValue = 0x800000;
             
             byte[] itemHeader = new byte[20];
             
@@ -248,7 +249,7 @@ final class MPP9File
                      offset += 4;
                      
                      sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
                      file.addTaskSubProject(sp);
                      break;
                   }
@@ -269,7 +270,7 @@ final class MPP9File
                      offset += 4;
                      
                      sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
                      file.addTaskSubProject(sp);
                      break;
                   }
@@ -290,7 +291,7 @@ final class MPP9File
                      offset += 4;
                      
                      sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
                      file.addResourceSubProject(sp);
                      break;
                   }
@@ -298,8 +299,8 @@ final class MPP9File
                   default:
                   {
                      throw new MPXException ("Unknown sub project type " + itemHeader[16]);
-                  }
-               }
+                  }                  
+               }                  
             }
          }
       }
