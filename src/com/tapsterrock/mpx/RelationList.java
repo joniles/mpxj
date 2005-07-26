@@ -52,7 +52,8 @@ public final class RelationList extends AbstractList implements ToStringRequires
       throws MPXException
    {
       int length = data.length();
-
+      char sepchar = file.getDelimiter();
+      
       if (length != 0)
       {
          int start = 0;
@@ -60,7 +61,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
 
          while (end != length)
          {
-            end = data.indexOf(',', start);
+            end = data.indexOf(sepchar, start);
 
             if (end == -1)
             {

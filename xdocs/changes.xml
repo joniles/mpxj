@@ -44,6 +44,7 @@
       <action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not beng read.</action>            
       <action dev="joniles" type="fix">Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</action>
       <action dev="joniles" type="update">Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</action>
+      <action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 
