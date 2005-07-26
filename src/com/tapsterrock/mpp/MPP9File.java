@@ -191,6 +191,7 @@ final class MPP9File
       if (projectCount + taskCount != 0)
       {
          byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
+         //System.out.println (MPPUtility.hexdump(subProjData, false, 16, ""));
          
          if (subProjData != null)            
          {
@@ -219,6 +220,9 @@ final class MPP9File
                offset += 4;
                
                MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
+
+               //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
+               //System.out.println (offset);
                
                switch (itemHeader[16])
                {
@@ -232,14 +236,14 @@ final class MPP9File
                   }
                   
                   //
-                  // 8 byte integer, task unique ID, path, file name
+                  // task unique ID, 8 bytes, path, file name
                   //
                   case 0x09:
                   {
-                     // offset of 8 byte integer
+                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                      offset += 4;
                      
-                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     // sometimes offset of a task ID?
                      offset += 4;
                                
                      filePathOffset = MPPUtility.getShort(subProjData, offset);
