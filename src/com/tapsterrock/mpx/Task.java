@@ -686,7 +686,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       //
       if (rel == null)
       {
-         rel = new Relation();
+         rel = new Relation(getParentFile());
 
          if (task != null)
          {
@@ -761,7 +761,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       //
       if (rel == null)
       {
-         rel = new Relation();
+         rel = new Relation(getParentFile());
 
          if (task != null)
          {
@@ -803,7 +803,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          set(SUCCESSORS, list);
       }
 
-      Relation rel = new Relation();
+      Relation rel = new Relation(getParentFile());
 
       if (task != null)
       {
@@ -844,7 +844,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          set(UNIQUE_ID_SUCCESSORS, list);
       }
 
-      Relation rel = new Relation();
+      Relation rel = new Relation(getParentFile());
 
       if (task != null)
       {

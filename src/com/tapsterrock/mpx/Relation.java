@@ -34,9 +34,12 @@ public final class Relation implements ToStringRequiresFile
 {
    /**
     * Default constructor.
+    * 
+    * @param parent parent file
     */
-   Relation ()
+   Relation (MPXFile parent)
    {
+      m_parent = parent;
       m_taskIDValue = 0;
       m_taskUniqueIDValue = 0;
       m_type = RelationType.FINISH_START;
@@ -244,6 +247,21 @@ public final class Relation implements ToStringRequiresFile
       m_duration = duration;
    }
 
+   /**
+    * Retrieve the task related to the current task instance.
+    * 
+    * @return task instance
+    */
+   public Task getTask ()
+   {
+      return (m_parent.getTaskByUniqueID(m_taskUniqueIDValue));
+   }
+   
+   /**
+    * Parent file.
+    */
+   private MPXFile m_parent;
+   
    /**
     * Identifier of task with which this relationship is held.
     */
