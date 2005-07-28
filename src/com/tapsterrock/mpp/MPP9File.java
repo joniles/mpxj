@@ -191,7 +191,7 @@ final class MPP9File
       if (projectCount + taskCount != 0)
       {
          byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
-         //System.out.println (MPPUtility.hexdump(subProjData, false, 16, ""));
+         //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
          
          if (subProjData != null)            
          {
@@ -297,6 +297,15 @@ final class MPP9File
                      sp = new SubProject();
                      sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
                      file.addResourceSubProject(sp);
+                     break;
+                  }
+                  
+                  //
+                  // Appears when a subproject is collapsed
+                  //
+                  case (byte)0x80:
+                  {
+                     offset += 12;
                      break;
                   }
                   
