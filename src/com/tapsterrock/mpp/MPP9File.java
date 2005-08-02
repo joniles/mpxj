@@ -257,6 +257,29 @@ final class MPP9File
                   }
 
                   //
+                  // task unique ID, path, unknown, file name
+                  //
+                  case (byte)0x81:
+                  {
+                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                                                    
+                     filePathOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     // unknown offset to 2 bytes of data?
+                     offset += 4;
+                     
+                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                     offset += 4;
+                     
+                     sp = new SubProject();
+                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
+                     file.addTaskSubProject(sp);
+                     break;
+                  }
+                  
+                  //
                   // task unique ID, path, file name
                   //                  
                   case 0x01:
