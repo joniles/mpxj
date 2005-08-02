@@ -184,158 +184,171 @@ final class MPP9File
    private static void processSubProjectData (MPPFile file, Props9 props)
       throws MPXException
    {
-      int projectCount = props.getInt(Props.SUBPROJECT_COUNT);
-      int taskCount = props.getInt(Props.SUBPROJECT_TASK_COUNT);      
-      if (projectCount + taskCount != 0)
+      byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
+      //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
+      
+      if (subProjData != null)            
       {
-         byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
-         //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
+         int offset = 0;
+         int itemHeaderOffset;
+         int uniqueIDOffset;
+         int filePathOffset;
+         int fileNameOffset;
+         SubProject sp;
+         int uniqueIDStartValue = 0x800000;
          
-         if (subProjData != null)            
+         byte[] itemHeader = new byte[20];
+         
+         int blockSize = MPPUtility.getInt(subProjData, offset);
+         offset += 4;
+         
+         int unknown = MPPUtility.getInt(subProjData, offset);
+         offset += 4;
+         
+         int itemCountOffset = MPPUtility.getInt(subProjData, offset);
+         offset += 4;
+         
+         while (offset < itemCountOffset)
          {
-            int offset = 0;
-            int itemHeaderOffset;
-            int uniqueIDOffset;
-            int filePathOffset;
-            int fileNameOffset;
-            SubProject sp;
-            int uniqueIDStartValue = 0x800000;
-            
-            byte[] itemHeader = new byte[20];
-            
-            int blockSize = MPPUtility.getInt(subProjData, offset);
+            itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
             offset += 4;
             
-            int unknown = MPPUtility.getInt(subProjData, offset);
-            offset += 4;
+            MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
+
+            //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
+            //System.out.println (offset);
             
-            int itemCountOffset = MPPUtility.getInt(subProjData, offset);
-            offset += 4;
-            
-            while (offset < itemCountOffset)
+            switch (itemHeader[16])
             {
-               itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
-               offset += 4;
-               
-               MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
-
-               //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
-               //System.out.println (offset);
-               
-               switch (itemHeader[16])
+               //
+               // Project name or file name strings, repeated twice
+               //
+               case 0x00:
                {
-                  //
-                  // Project name or file name strings, repeated twice
-                  //
-                  case 0x00:
-                  {
-                     offset += 8;
-                     break;
-                  }
+                  offset += 8;
+                  break;
+               }
+               
+               //
+               // task unique ID, 8 bytes, path, file name
+               //
+               case 0x09:
+               {
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
                   
-                  //
-                  // task unique ID, 8 bytes, path, file name
-                  //
-                  case 0x09:
-                  {
-                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     // sometimes offset of a task ID?
-                     offset += 4;
-                               
-                     filePathOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                     file.addTaskSubProject(sp);
-                     break;
-                  }
+                  // sometimes offset of a task ID?
+                  offset += 4;
+                            
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  sp = new SubProject();
+                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
+                  file.addTaskSubProject(sp);
+                  break;
+               }
 
-                  //
-                  // task unique ID, path, unknown, file name
-                  //
-                  case (byte)0x81:
-                  {
-                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                                                    
-                     filePathOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     // unknown offset to 2 bytes of data?
-                     offset += 4;
-                     
-                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                     file.addTaskSubProject(sp);
-                     break;
-                  }
+               //
+               // task unique ID, path, unknown, file name
+               //
+               case (byte)0x81:
+               {
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                                                 
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
                   
-                  //
-                  // task unique ID, path, file name
-                  //                  
-                  case 0x01:
-                  case 0x08:
-                  {                     
-                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                               
-                     filePathOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                     file.addTaskSubProject(sp);
-                     break;
-                  }
+                  // unknown offset to 2 bytes of data?
+                  offset += 4;
                   
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  sp = new SubProject();
+                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
+                  file.addTaskSubProject(sp);
+                  break;
+               }
+               
+               //
+               // task unique ID, path, file name
+               //                  
+               case 0x01:
+               case 0x08:
+               {                     
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                            
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  sp = new SubProject();
+                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
+                  file.addTaskSubProject(sp);
+                  break;
+               }
+               
 
-                  //
-                  // resource unique ID, path, file name
-                  //                  
-                  case 0x05:
-                  {                     
-                     uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                               
-                     filePathOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                     offset += 4;
-                     
-                     sp = new SubProject();
-                     sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                     file.addResourceSubProject(sp);
-                     break;
-                  }
+               //
+               // resource unique ID, path, file name
+               //                  
+               case 0x05:
+               {                     
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                            
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
                   
-                  //
-                  // Appears when a subproject is collapsed
-                  //
-                  case (byte)0x80:
-                  {
-                     offset += 12;
-                     break;
-                  }
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
                   
-                  default:
-                  {
-                     throw new MPXException ("Unknown sub project type " + itemHeader[16]);
-                  }                  
+                  sp = new SubProject();
+                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
+                  file.addResourceSubProject(sp);
+                  break;
+               }
+
+               //
+               // path, file name
+               //   
+               case 0x02:
+               case 0x04:
+               {                     
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  sp = new SubProject();
+                  sp.read(subProjData, -1, filePathOffset, fileNameOffset, uniqueIDStartValue);
+                  file.addResourceSubProject(sp);
+                  break;
+               }
+               
+               //
+               // Appears when a subproject is collapsed
+               //
+               case (byte)0x80:
+               {
+                  offset += 12;
+                  break;
+               }
+               
+               default:
+               {
+                  throw new MPXException ("Unknown sub project type " + itemHeader[16]);
                }                  
-            }
+            }                  
          }
       }
    }

@@ -41,7 +41,10 @@ public class SubProject
    {
       m_uniqueIDStartValue = uniqueIDStartValue;
       
-      m_uniqueID = new Integer(MPPUtility.getInt(data, uniqueIDOffset));
+      if (uniqueIDOffset != -1)
+      {
+         m_uniqueID = new Integer(MPPUtility.getInt(data, uniqueIDOffset));
+      }
 
       //
       // First block header
