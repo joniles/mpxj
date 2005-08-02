@@ -23,7 +23,6 @@
 
 package com.tapsterrock.mpp;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -67,26 +66,7 @@ final class SummaryInformation
          map = getPropertyMap(ps);
          m_category = (String)map.get(CATEGORY);
          m_company = (String)map.get(COMPANY);
-         m_manager = (String)map.get(MANAGER);
-
-         //
-         // I've come across some instances where the finish date is
-         // a String value, apparently the duration. We may have to use
-         // the label information present in the document summary in order
-         // to select the correct field if we find that they are being assigned
-         // different numbers in some cases.
-         //
-         Object o = map.get(FINISH);
-         if (o instanceof Date)
-         {
-            m_finish = (Date)map.get(FINISH);
-         }
-
-         o = map.get(START);
-         if (o instanceof Date)
-         {
-            m_start = (Date)map.get(START);
-         }
+         m_manager = (String)map.get(MANAGER);         
       }
 
       catch (Exception ex)
@@ -126,7 +106,7 @@ final class SummaryInformation
       }
       return (map);
    }
-
+   
    /**
     * Retrieve the author's name
     *
@@ -207,26 +187,6 @@ final class SummaryInformation
       return (m_category);
    }
 
-   /**
-    * Retrieve the project start date.
-    *
-    * @return start date
-    */
-   public Date getStartDate ()
-   {
-      return (m_start);
-   }
-
-   /**
-    * Retrieve the project finish date.
-    *
-    * @return finish date
-    */
-   public Date getFinishDate ()
-   {
-      return (m_finish);
-   }
-
    private String m_projectTitle;
    private String m_subject;
    private String m_author;
@@ -236,8 +196,6 @@ final class SummaryInformation
    private String m_category;
    private String m_manager;
    private String m_company;
-   private Date m_start;
-   private Date m_finish;
 
    /**
     * Constants representing Summary Information properties
@@ -253,13 +211,6 @@ final class SummaryInformation
     */
    private static final Integer CATEGORY = new Integer (102);
    private static final Integer MANAGER = new Integer (114);
-   private static final Integer COMPANY = new Integer (115);
-   private static final Integer CODEPAGE = new Integer (201);
-   private static final Integer PERCENT_COMPLETE = new Integer (202);
-   private static final Integer COST = new Integer (203);
-   private static final Integer DURATION = new Integer (204);
-   private static final Integer FINISH = new Integer (205);
-   private static final Integer START = new Integer (206);
-   private static final Integer WORK = new Integer (207);
-   private static final Integer PERCENT_WORK_COMPLETE = new Integer (208);
+   private static final Integer COMPANY = new Integer (115);   
+   private static final Integer CODEPAGE = new Integer (201);      
 }
