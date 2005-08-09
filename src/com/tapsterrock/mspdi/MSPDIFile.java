@@ -66,6 +66,7 @@ import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
+import com.tapsterrock.mpx.ScheduleFrom;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
@@ -362,6 +363,7 @@ public class MSPDIFile extends MPXFile
       header.setProjectTitle(project.getTitle());
       header.setRemoveFileProperties(project.isRemoveFileProperties());
       header.setRevision(NumberUtility.getInteger(project.getRevision()));
+      header.setScheduleFrom(project.isScheduleFromStart()?ScheduleFrom.START:ScheduleFrom.FINISH);
       header.setSubject(project.getSubject());
       header.setSplitInProgressTasks(project.isSplitsInProgressTasks());
       header.setSpreadActualCost(project.isSpreadActualCost());
@@ -1355,6 +1357,7 @@ public class MSPDIFile extends MPXFile
       project.setProjectExternallyEdited(header.getProjectExternallyEdited());
       project.setRemoveFileProperties(header.getRemoveFileProperties());
       project.setRevision(NumberUtility.getBigInteger(header.getRevision()));
+      project.setScheduleFromStart(header.getScheduleFrom() == ScheduleFrom.START);
       project.setSplitsInProgressTasks(header.getSplitInProgressTasks());
       project.setSpreadActualCost(header.getSpreadActualCost());
       project.setSpreadPercentComplete(header.getSpreadPercentComplete());
@@ -1365,12 +1368,7 @@ public class MSPDIFile extends MPXFile
       project.setTitle(header.getProjectTitle());
       project.setUID(header.getUniqueID());
       project.setWeekStartDay(DatatypeConverter.printDay(header.getWeekStartDay()));
-      project.setWorkFormat(DatatypeConverter.printWorkUnits(header.getDefaultWorkUnits()));
-
-      //
-      // Hard coded default values
-      //
-      project.setScheduleFromStart(true);
+      project.setWorkFormat(DatatypeConverter.printWorkUnits(header.getDefaultWorkUnits()));      
    }
 
    /**
