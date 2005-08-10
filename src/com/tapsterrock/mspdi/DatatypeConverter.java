@@ -1417,21 +1417,7 @@ public final class DatatypeConverter
     */
    public static final Priority parsePriority (BigInteger priority)
    {
-      int result = Priority.MEDIUM;
-   
-      if (priority != null)
-      {
-         if (priority.intValue() >= 1000)
-         {
-            result = Priority.DO_NOT_LEVEL;
-         }
-         else
-         {
-            result = (priority.intValue() / 100)-1;
-         }
-      }
-   
-      return (Priority.getInstance (result));
+      return (Priority.getInstance (priority.intValue()));
    }
 
    /**
@@ -1446,7 +1432,7 @@ public final class DatatypeConverter
    
       if (priority != null)
       {
-         result = (priority.getPriority()+1) * 100;
+         result = priority.getValue();
       }
    
       return (BigInteger.valueOf(result));

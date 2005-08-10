@@ -42,6 +42,7 @@ import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
@@ -2072,6 +2073,85 @@ public class MPXJTest extends TestCase
       assertEquals("1.1", task.getWBS());
    }
 
+   /**
+    * Test read and write of priority information.
+    *
+    * @throws Exception
+    */   
+   public void testPriority ()
+      throws Exception
+   {
+      MPXFile mpx = new MPXFile (m_basedir + "/mpxpriority.mpx");
+      validatePriority(mpx);
+      
+      MPPFile mpp8 = new MPPFile (m_basedir + "/mpp8priority.mpp");
+      validatePriority(mpp8);
+      
+      MPPFile mpp9 = new MPPFile (m_basedir + "/mpp9priority.mpp");
+      validatePriority(mpp9);
+      
+      MSPDIFile xml = new MSPDIFile (m_basedir + "/mspdipriority.xml");
+      validatePriority(xml);
+
+      File out = null;
+      boolean success = false;
+      try
+      {
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.write (out);
+         MPXFile mpx2 = new MPXFile(out);
+         validatePriority(mpx2);
+         success = true;
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+
+      out = null;
+      success = false;
+      try
+      {
+         out = File.createTempFile ("junit", ".xml");
+         MSPDIFile xml2 = new MSPDIFile(mpx);
+         xml2.write (out);
+         MPXFile xml3 = new MSPDIFile(out);
+         validatePriority(xml3);
+         success = true;
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }      
+   }
+   
+   /**
+    * Common tests to validate the priority values read from the file.
+    * 
+    * @param file project file
+    */
+   private void validatePriority (MPXFile file)
+   {
+      assertEquals(Priority.DO_NOT_LEVEL, file.getTaskByUniqueID(1).getPriority().getValue());
+      assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(2).getPriority().getValue());      
+      assertEquals(Priority.VERY_HIGH, file.getTaskByUniqueID(3).getPriority().getValue());
+      assertEquals(Priority.HIGHER, file.getTaskByUniqueID(4).getPriority().getValue());
+      assertEquals(Priority.HIGH, file.getTaskByUniqueID(5).getPriority().getValue());
+      assertEquals(Priority.MEDIUM, file.getTaskByUniqueID(6).getPriority().getValue());
+      assertEquals(Priority.LOW, file.getTaskByUniqueID(7).getPriority().getValue());
+      assertEquals(Priority.LOWER, file.getTaskByUniqueID(8).getPriority().getValue());
+      assertEquals(Priority.VERY_LOW, file.getTaskByUniqueID(9).getPriority().getValue());
+      assertEquals(Priority.LOWEST, file.getTaskByUniqueID(10).getPriority().getValue());      
+   }
+   
    private String m_basedir;
 }
 

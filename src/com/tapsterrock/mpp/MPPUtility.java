@@ -669,16 +669,31 @@ final class MPPUtility
    public static MPXDuration getAdjustedDuration (MPPFile file, int duration, TimeUnit timeUnit)
    {
       MPXDuration result;
-      if (timeUnit == TimeUnit.DAYS)
+      switch (timeUnit.getValue())
       {
-         double unitsPerDay = file.getProjectHeader().getDefaultHoursInDay().doubleValue() * 600d;
-         double totalDays = duration / unitsPerDay;
-         result = MPXDuration.getInstance(totalDays, timeUnit);
+         case TimeUnit.DAYS_VALUE:
+         {
+            double unitsPerDay = file.getProjectHeader().getDefaultHoursInDay().doubleValue() * 600d;
+            double totalDays = duration / unitsPerDay;
+            result = MPXDuration.getInstance(totalDays, timeUnit);          
+            break;
+         }
+         
+         case TimeUnit.ELAPSED_DAYS_VALUE:
+         {
+            double unitsPerDay = 24d * 600d;
+            double totalDays = duration / unitsPerDay;
+            result = MPXDuration.getInstance(totalDays, timeUnit);      
+            break;
+         }
+         
+         default:
+         {
+            result = getDuration(duration, timeUnit);
+            break;
+         }
       }
-      else
-      {
-         result = getDuration(duration, timeUnit);
-      }
+      
       return (result);
    }
 

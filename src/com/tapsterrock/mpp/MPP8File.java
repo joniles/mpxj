@@ -614,7 +614,7 @@ final class MPP8File
          task.setPercentageWorkComplete(MPPUtility.getShort(data, 132));
          task.setPreleveledFinish (MPPUtility.getTimestamp(data, 148));
          task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));
-         task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 128)));
+         task.setPriority(Priority.getInstance((MPPUtility.getShort (data, 128)+1)*100));
          //task.setProject(); // Calculated value
          //task.setRecurring(); // Calculated value
          //task.setRegularWork(); // Calculated value

@@ -47,6 +47,8 @@
       <action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</action>
       <action dev="joniles" type="fix">Updated to fix unreliable retrieval of project start and end dates from certain MPP files.</action>
       <action dev="joniles" type="fix">Fixed schedule from value in MSPDI files (contributed by Frank Illenberger).</action>
+      <action dev="joniles" type="fix">Fixed a bug when reading durations in elapsed days from an MPP file.</action>
+      <action dev="joniles" type="update">Tasks can now have arbitrary priority values. These values are mapped to/from the fixed MPP8/MPX priority values where necessary.</action>
    </release>
 
    <release version="0.0.24" date="10/01/2005"> 

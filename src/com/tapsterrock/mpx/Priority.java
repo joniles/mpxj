@@ -44,11 +44,11 @@ public final class Priority implements ToStringRequiresFile
    {
       if (priority < LOWEST || priority > DO_NOT_LEVEL)
       {
-         m_priority = MEDIUM;
+         m_value = MEDIUM;
       }
       else
       {
-         m_priority = priority;
+         m_value = priority;
       }
    }
 
@@ -91,12 +91,18 @@ public final class Priority implements ToStringRequiresFile
     */
    public static Priority getInstance (int priority)
    {
-      if (priority < LOWEST || priority > DO_NOT_LEVEL)
+      Priority result;
+      
+      if (priority >= LOWEST && priority <= DO_NOT_LEVEL && (priority % 100 == 0))
       {
-         priority = MEDIUM;
+         result = VALUE[(priority/100)-1];
       }
-
-      return (VALUE[priority]);
+      else
+      {
+         result = new Priority(priority);
+      }
+      
+      return (result);
    }
 
    /**
@@ -105,9 +111,9 @@ public final class Priority implements ToStringRequiresFile
     *
     * @return int representation of the priority
     */
-   public int getPriority ()
+   public int getValue ()
    {
-      return (m_priority);
+      return (m_value);
    }
 
    /**
@@ -120,58 +126,73 @@ public final class Priority implements ToStringRequiresFile
    public String toString (MPXFile mpx)
    {
       String[] priorityTypes = LocaleData.getStringArray(mpx.getLocale(), LocaleData.PRIORITY_TYPES);
-      return (priorityTypes[m_priority]);
+      int priority = m_value;
+      if (priority < LOWEST)
+      {
+         priority = LOWEST;
+      }
+      else
+      {
+         if (priority > DO_NOT_LEVEL)
+         {
+            priority = DO_NOT_LEVEL;
+         }
+      }
+      
+      priority /= 100;
+      
+      return (priorityTypes[priority-1]);
    }
 
    /**
     * Constant for lowest priority
     */
-   public static final int LOWEST = 0;
+   public static final int LOWEST = 100;
 
    /**
     * Constant for low priority
     */
-   public static final int VERY_LOW = 1;
+   public static final int VERY_LOW = 200;
 
    /**
     * Constant for lower priority
     */
-   public static final int LOWER = 2;
+   public static final int LOWER = 300;
 
    /**
     * Constant for low priority
     */
-   public static final int LOW = 3;
+   public static final int LOW = 400;
 
    /**
     * Constant for medium priority
     */
-   public static final int MEDIUM = 4;
+   public static final int MEDIUM = 500;
 
    /**
     * Constant for high priority
     */
-   public static final int HIGH = 5;
+   public static final int HIGH = 600;
 
    /**
     * Constant for higher priority
     */
-   public static final int HIGHER = 6;
+   public static final int HIGHER = 700;
 
    /**
     * Constant for very high priority
     */
-   public static final int VERY_HIGH = 7;
+   public static final int VERY_HIGH = 800;
 
    /**
     * Constant for highest priority
     */
-   public static final int HIGHEST = 8;
+   public static final int HIGHEST = 900;
 
    /**
     * Constant for do not level
     */
-   public static final int DO_NOT_LEVEL = 9;
+   public static final int DO_NOT_LEVEL = 1000;
 
 
    /**
@@ -194,5 +215,5 @@ public final class Priority implements ToStringRequiresFile
    /**
     * Internal representation of the priority.
     */
-   private int m_priority;
+   private int m_value;
 }

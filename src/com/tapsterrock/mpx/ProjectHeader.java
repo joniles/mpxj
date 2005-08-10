@@ -2991,12 +2991,33 @@ public final class ProjectHeader extends MPXRecord
          pattern.append(suffix);
 
          String primaryPattern = pattern.toString();
-         String[] alternativePatterns = new String[3];
+         
+         String[] alternativePatterns = new String[7];
          alternativePatterns[0] = primaryPattern + ";(" + primaryPattern + ")";
          pattern.insert(prefix.length(), "#,#");
          String secondaryPattern = pattern.toString();
          alternativePatterns[1] = secondaryPattern;
          alternativePatterns[2] = secondaryPattern + ";(" + secondaryPattern + ")";
+
+         pattern.setLength(0);
+         pattern.append("#0");
+
+         if (digits > 0)
+         {
+            pattern.append('.');
+            for(int i = 0 ; i < digits ; i++)
+            {
+               pattern.append("0");
+            }
+         }
+         
+         String noSymbolPrimaryPattern = pattern.toString();
+         alternativePatterns[3] = noSymbolPrimaryPattern;
+         alternativePatterns[4] = noSymbolPrimaryPattern + ";(" + noSymbolPrimaryPattern + ")";
+         pattern.insert(0, "#,#");
+         String noSymbolSecondaryPattern = pattern.toString();
+         alternativePatterns[5] = noSymbolSecondaryPattern;
+         alternativePatterns[6] = noSymbolSecondaryPattern + ";(" + noSymbolSecondaryPattern + ")";
 
          parent.setCurrencyFormat(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
       }

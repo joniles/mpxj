@@ -137,7 +137,7 @@ final class MPP9File
       throws IOException, MPXException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
-      
+            
       ProjectHeader ph = file.getProjectHeader();
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
@@ -1310,7 +1310,7 @@ final class MPP9File
 //         task.setPhysicalPercentComplete();
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
-         task.setPriority(getPriority (MPPUtility.getShort (data, 120)));
+         task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 120)));
          //task.setProject(); // Calculated value
          //task.setRecurring(); // Calculated value
          //task.setRegularWork(); // Calculated value
@@ -1903,33 +1903,6 @@ final class MPP9File
    private static boolean getDurationEstimated (int type)
    {
       return ((type & DURATION_CONFIRMED_MASK) != 0);
-   }
-
-
-
-
-   /**
-    * This method converts between the numeric priority value
-    * used in versions of MSP after MSP98 and the 10 priority
-    * levels defined by the MPX standard.
-    *
-    * @param priority value read from MPP file
-    * @return Priority object instance
-    */
-   private static Priority getPriority (int priority)
-   {
-      int result;
-
-      if (priority >= 1000)
-      {
-         result = Priority.DO_NOT_LEVEL;
-      }
-      else
-      {
-         result = (priority-1) / 100;
-      }
-
-      return (Priority.getInstance (result));
    }
 
    /**
