@@ -8,7 +8,10 @@
 
    <body> 
 
-   <release version="0.0.25" date="CVS HEAD"> 
+   <release version="0.0.26" date="CVS HEAD"> 
+   </release>
+      
+   <release version="0.0.25" date="11/08/2005"> 
       <action dev="joniles" type="add">Added support for reading all properties from an MPP9 file which define the visual appearance of the Gantt Chart view shown in Microsoft Project (development funding courtesy of Steelray).</action>
       <action dev="joniles" type="update">Tidied up constructors. Added no-argument constructors to the MPPFile and MSPDIFile classes.</action>
       <action dev="joniles" type="update">Fixed incorrect value in WorkGroup enumerated type.</action>
