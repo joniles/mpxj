@@ -730,14 +730,19 @@ final class MPP9File
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
-
+      Integer key;
+      
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
          {
             uniqueID = MPPUtility.getShort(data, 0);
-            taskMap.put(new Integer (uniqueID), new Integer (loop));
+            key = new Integer(uniqueID);
+            if (taskMap.containsKey(key) == false)
+            {
+               taskMap.put(key, new Integer (loop));
+            }
          }
       }
 
