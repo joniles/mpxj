@@ -1493,7 +1493,10 @@ public class MSPDIFile extends MPXFile
       if (bc.isBaseCalendar() == false)
       {
          MPXCalendar base = bc.getBaseCalendar();
-         calendar.setBaseCalendarUID(BigInteger.valueOf(base.getUniqueID()));
+         if (base != null)
+         {
+            calendar.setBaseCalendarUID(BigInteger.valueOf(base.getUniqueID()));
+         }
       }
 
       calendar.setName(bc.getName());
