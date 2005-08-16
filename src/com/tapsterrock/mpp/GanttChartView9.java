@@ -80,8 +80,8 @@ public class GanttChartView9 extends View9
             m_criticalTasksFontStyle = getFontStyle(viewPropertyData, 38);
             m_summaryTasksFontStyle = getFontStyle(viewPropertyData, 42);
             m_milestoneTasksFontStyle = getFontStyle(viewPropertyData, 46);
-            m_majorTimescaleFontStyle = getFontStyle(viewPropertyData, 50);
-            m_minorTimescaleFontStyle = getFontStyle(viewPropertyData, 54);
+            m_middleTimescaleFontStyle = getFontStyle(viewPropertyData, 50);
+            m_bottomTimescaleFontStyle = getFontStyle(viewPropertyData, 54);
             m_barTextLeftFontStyle = getFontStyle(viewPropertyData, 58);
             m_barTextRightFontStyle = getFontStyle(viewPropertyData, 62);
             m_barTextTopFontStyle = getFontStyle(viewPropertyData, 66);
@@ -90,6 +90,7 @@ public class GanttChartView9 extends View9
             m_markedTasksFontStyle = getFontStyle(viewPropertyData, 78);
             m_projectSummaryTasksFontStyle = getFontStyle(viewPropertyData, 82);
             m_externalTasksFontStyle = getFontStyle(viewPropertyData, 86);
+            m_topTimescaleFontStyle = getFontStyle(viewPropertyData, 90);
             
             m_sheetRowsGridLines = new GridLines(viewPropertyData, 99);
             m_sheetColumnsGridLines = new GridLines(viewPropertyData, 109);
@@ -674,15 +675,25 @@ public class GanttChartView9 extends View9
    {
       return (m_highlightedTasksFontStyle);
    }
+
+   /**
+    * Retrieve a FontStyle instance.
+    * 
+    * @return FontStyle instance
+    */   
+   public FontStyle getTopTimescaleFontStyle()
+   {
+      return (m_topTimescaleFontStyle);
+   }
    
    /**
     * Retrieve a FontStyle instance.
     * 
     * @return FontStyle instance
     */   
-   public FontStyle getMajorTimescaleFontStyle()
+   public FontStyle getMiddleTimescaleFontStyle()
    {
-      return (m_majorTimescaleFontStyle);
+      return (m_middleTimescaleFontStyle);
    }
    
    /**
@@ -710,9 +721,9 @@ public class GanttChartView9 extends View9
     * 
     * @return FontStyle instance
     */   
-   public FontStyle getMinorTimescaleFontStyle()
+   public FontStyle getBottomTimescaleFontStyle()
    {
-      return (m_minorTimescaleFontStyle);
+      return (m_bottomTimescaleFontStyle);
    }
    
    /**
@@ -775,347 +786,6 @@ public class GanttChartView9 extends View9
    {
       return (m_tableFontStyles);
    }
-   
-   /**
-    * This method maps the encoded height of a Gantt bar to
-    * the height in pixels.
-    * 
-    * @param height encoded height
-    * @return height in pixels
-    */
-   private int mapGanttBarHeight (int height)
-   {
-      switch (height)
-      {
-         case 0:
-         {
-            height = 6;
-            break;
-         }
-
-         case 1:
-         {
-            height = 8;
-            break;
-         }
-
-         case 2:
-         {
-            height = 10;
-            break;
-         }
-
-         case 3:
-         {
-            height = 12;
-            break;
-         }
-         
-         case 4:
-         {
-            height = 14;
-            break;
-         }
-         
-         case 5:
-         {
-            height = 18;
-            break;
-         }
-         
-         case 6:
-         {
-            height = 24;
-            break;
-         }         
-      }
-      
-      return (height);
-   }
-   
-   /**
-    * Retrieve font details from a block of property data.
-    * 
-    * @param data property data
-    * @param offset offset into property data
-    * @return FontStyle instance
-    */
-   private FontStyle getFontStyle (byte[] data, int offset)
-   {
-      Integer index = new Integer(MPPUtility.getByte(data, offset));
-      FontBase fontBase = m_parent.getFontBase(index);
-      int style = MPPUtility.getByte(data, offset+1);
-      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+2));
-      
-      boolean bold = ((style & 0x01) != 0);
-      boolean italic = ((style & 0x02) != 0);
-      boolean underline = ((style & 0x04) != 0);
-      
-      return (new FontStyle (fontBase, italic, bold, underline, color));
-   }
-
-   /**
-    * Retrieve column font details from a block of property data.
-    * 
-    * @param data property data
-    * @param offset offset into property data
-    * @return ColumnFontStyle instance
-    */   
-   private TableFontStyle getColumnFontStyle (byte[] data, int offset)
-   {     
-      int uniqueID = MPPUtility.getInt(data, offset);
-      Integer index = new Integer(MPPUtility.getByte(data, offset+8));
-      FontBase fontBase = m_parent.getFontBase(index);
-      int style = MPPUtility.getByte(data, offset+9);
-      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
-      FieldType fieldType = TaskField.getInstance(MPPUtility.getShort(data, offset+4));
-      
-      boolean bold = ((style & 0x01) != 0);
-      boolean italic = ((style & 0x02) != 0);
-      boolean underline = ((style & 0x04) != 0);
-      
-      return (new TableFontStyle (uniqueID, fieldType, fontBase, italic, bold, underline, color));
-   }
-   
-   /**
-    * Generate a string representation of this instance.
-    * 
-    * @return string representation of this instance
-    */   
-   public String toString ()
-   {
-      ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
-      pw.println ("[GanttChartView");
-      pw.println ("   " + super.toString());
-
-      pw.println ("   highlightedTasksFontStyle=" + m_highlightedTasksFontStyle);
-      pw.println ("   rowAndColumnFontStyle=" + m_rowAndColumnFontStyle);
-      pw.println ("   nonCriticalTasksFontStyle=" + m_nonCriticalTasksFontStyle);
-      pw.println ("   criticalTasksFontStyle=" + m_criticalTasksFontStyle);
-      pw.println ("   summaryTasksFontStyle=" + m_summaryTasksFontStyle);
-      pw.println ("   milestoneTasksFontStyle=" + m_milestoneTasksFontStyle);
-      pw.println ("   majorTimescaleFontStyle=" + m_majorTimescaleFontStyle);
-      pw.println ("   minorTimescaleFontStyle=" + m_minorTimescaleFontStyle);
-      pw.println ("   barTextLeftFontStyle=" + m_barTextLeftFontStyle);
-      pw.println ("   barTextRightFontStyle=" + m_barTextRightFontStyle);
-      pw.println ("   barTextTopFontStyle=" + m_barTextTopFontStyle);
-      pw.println ("   barTextBottomFontStyle=" + m_barTextBottomFontStyle);
-      pw.println ("   barTextInsideFontStyle=" + m_barTextInsideFontStyle);
-      pw.println ("   markedTasksFontStyle=" + m_markedTasksFontStyle);
-      pw.println ("   projectSummaryTasksFontStyle=" + m_projectSummaryTasksFontStyle);
-      pw.println ("   externalTasksFontStyle=" + m_externalTasksFontStyle);
-      
-      pw.println ("   SheetRowsGridLines=" + m_sheetRowsGridLines);
-      pw.println ("   SheetColumnsGridLines=" + m_sheetColumnsGridLines);
-      pw.println ("   TitleVerticalGridLines=" + m_titleVerticalGridLines);
-      pw.println ("   TitleHorizontalGridLines=" + m_titleHorizontalGridLines);
-      pw.println ("   MajorColumnsGridLines=" + m_majorColumnsGridLines);
-      pw.println ("   MinorColumnsGridLines=" + m_minorColumnsGridLines);
-      pw.println ("   GanttRowsGridLines=" + m_ganttRowsGridLines);
-      pw.println ("   BarRowsGridLines=" + m_barRowsGridLines);
-      pw.println ("   CurrentDateGridLines=" + m_currentDateGridLines);
-      pw.println ("   PageBreakGridLines=" + m_pageBreakGridLines);
-      pw.println ("   ProjectStartGridLines=" + m_projectStartGridLines);
-      pw.println ("   ProjectFinishGridLines=" + m_projectFinishGridLines);
-      pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);  
-      pw.println ("   GanttBarHeight=" + m_ganttBarHeight);      
-      pw.println ("   TimescaleTopTier=" + m_timescaleTopTier);      
-      pw.println ("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
-      pw.println ("   TimescaleBottomTier=" + m_timescaleBottomTier);      
-      pw.println ("   TimescaleSeparator=" + m_timescaleSeparator);      
-      pw.println ("   TimescaleSize=" + m_timescaleSize + "%");      
-      pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);      
-      pw.println ("   NonWorkingColor=" + m_nonWorkingColor);            
-      pw.println ("   NonWorkingPattern=" + m_nonWorkingPattern);                  
-      pw.println ("   NonWorkingStyle=" + m_nonWorkingStyle);                        
-      pw.println ("   ShowDrawings=" + m_showDrawings);
-      pw.println ("   RoundBarsToWholeDays=" + m_roundBarsToWholeDays);
-      pw.println ("   ShowBarSplits=" + m_showBarSplits);
-      pw.println ("   AlwaysRollupGanttBars=" + m_alwaysRollupGanttBars);
-      pw.println ("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);      
-      pw.println ("   BarDateFormat=" + m_barDateFormat);
-      pw.println ("   LinkStyle=" + m_linkStyle);      
-      
-      
-      pw.println ("   ProgressLinesEnabled=" + m_progressLinesEnabled);
-      pw.println ("   ProgressLinesAtCurrentDate=" + m_progressLinesAtCurrentDate);
-      pw.println ("   ProgressLinesAtRecurringIntervals=" + m_progressLinesAtRecurringIntervals);
-      pw.println ("   ProgressLinesInterval=" + m_progressLinesInterval);
-      pw.println ("   ProgressLinesDailyDayNumber=" + m_progressLinesDailyDayNumber);
-      pw.println ("   ProgressLinesDailyWorkday=" + m_progressLinesDailyWorkday);
-
-      pw.print ("   ProgressLinesWeeklyDay=[");
-      for (int loop=0; loop < m_progressLinesWeeklyDay.length; loop++)
-      {
-         if (loop != 0)
-         {
-            pw.print(",");
-         }
-         pw.print(m_progressLinesWeeklyDay[loop]);
-      }
-      pw.println("]");
-      
-      pw.println ("   ProgressLinesWeeklyWeekNumber=" + m_progressLinesWeekleyWeekNumber);
-      pw.println ("   ProgressLinesMonthlyDayOfMonth=" + m_progressLinesMonthlyDayOfMonth);
-      pw.println ("   ProgressLinesMonthDayNumber=" + m_progressLinesMonthlyDayNumber);
-      pw.println ("   ProgressLinesMonthlyDay=" + m_progressLinesMonthlyDay);
-      pw.println ("   ProgressLinesMonthlyFirst=" + m_progressLinesMonthlyFirst);
-      pw.println ("   ProgressLinesBeginAtProjectStart=" + m_progressLinesBeginAtProjectStart);
-      pw.println ("   ProgressLinesBeginAtDate=" + m_progressLinesBeginAtDate);
-      pw.println ("   ProgressLinesDisplaySelected=" + m_progressLinesDisplaySelected);
-
-      pw.print ("   ProgressLinesDisplaySelectedDates=[");
-      if (m_progressLinesDisplaySelectedDates != null)
-      {
-         for (int loop=0; loop < m_progressLinesDisplaySelectedDates.length; loop++)
-         {
-            if (loop != 0)
-            {
-               pw.print(",");
-            }
-            pw.print(m_progressLinesDisplaySelectedDates[loop]);
-         }
-      }
-      pw.println("]");
-      
-      pw.println ("   ProgressLinesActualPlan=" + m_progressLinesActualPlan);
-      pw.println ("   ProgressLinesDisplayType=" + m_progressLinesDisplayType);
-      pw.println ("   ProgressLinesShowDate=" + m_progressLinesShowDate);
-      pw.println ("   ProgressLinesDateFormat=" + m_progressLinesDateFormat);
-      pw.println ("   ProgressLinesFontStyle=" + m_progressLinesFontStyle);
-      pw.println ("   ProgressLinesCurrentLineColor=" + m_progressLinesCurrentLineColor);
-      pw.println ("   ProgressLinesCurrentLineStyle=" + m_progressLinesCurrentLineStyle);
-      pw.println ("   ProgressLinesCurrentProgressPointColor=" + m_progressLinesCurrentProgressPointColor);
-      pw.println ("   ProgressLinesCurrentProgressPointShape=" + m_progressLinesCurrentProgressPointShape);
-      pw.println ("   ProgressLinesOtherLineColor=" + m_progressLinesOtherLineColor);
-      pw.println ("   ProgressLinesOtherLineStyle=" + m_progressLinesOtherLineStyle);
-      pw.println ("   ProgressLinesOtherProgressPointColor=" + m_progressLinesOtherProgressPointColor);
-      pw.println ("   ProgressLinesOtherProgressPointShape=" + m_progressLinesOtherProgressPointShape);
-            
-      pw.println ("   TableWidth=" + m_tableWidth);      
-      pw.println ("   TableName=" + m_tableName);      
-      pw.println ("   Table=" + getTable());
-
-      if (m_tableFontStyles != null)
-      {
-         for (int loop=0; loop < m_tableFontStyles.length; loop++)
-         {
-            pw.println ("   ColumnFontStyle=" + m_tableFontStyles[loop]);               
-         }
-      }
-      
-      if (m_barStyles != null)
-      {
-         for (int loop=0; loop < m_barStyles.length; loop++)
-         {
-            pw.println ("   BarStyle=" + m_barStyles[loop]);               
-         }
-      }
-      
-      if (m_barStyleExceptions != null)
-      {
-         for (int loop=0; loop < m_barStyleExceptions.length; loop++)
-         {
-            pw.println ("   BarStyleException=" + m_barStyleExceptions[loop]);               
-         }
-      }
-      
-      pw.println ("]");
-      pw.flush();
-      return (os.toString());
-   }
-   
-   private MPPFile m_parent;
-   private GridLines m_sheetRowsGridLines;
-   private GridLines m_sheetColumnsGridLines;
-   private GridLines m_titleVerticalGridLines;
-   private GridLines m_titleHorizontalGridLines;
-   private GridLines m_majorColumnsGridLines;
-   private GridLines m_minorColumnsGridLines;
-   private GridLines m_ganttRowsGridLines;
-   private GridLines m_barRowsGridLines;
-   private GridLines m_currentDateGridLines;
-   private GridLines m_pageBreakGridLines;
-   private GridLines m_projectStartGridLines;
-   private GridLines m_projectFinishGridLines;
-   private GridLines m_statusDateGridLines;
-
-   private int m_ganttBarHeight;
-
-   private TimescaleTier m_timescaleTopTier;   
-   private TimescaleTier m_timescaleMiddleTier;
-   private TimescaleTier m_timescaleBottomTier;      
-   private boolean m_timescaleSeparator;
-   private int m_timescaleSize;
-
-   private String m_nonWorkingDaysCalendarName;
-   private ColorType m_nonWorkingColor;
-   private int m_nonWorkingPattern;
-   private NonWorkingTimeStyle m_nonWorkingStyle;
-
-   private boolean m_showDrawings;
-   private boolean m_roundBarsToWholeDays;
-   private boolean m_showBarSplits;
-   private boolean m_alwaysRollupGanttBars;
-   private boolean m_hideRollupBarsWhenSummaryExpanded;
-   private int m_barDateFormat;
-   private LinkStyle m_linkStyle;
-   
-   private GanttBarStyle[] m_barStyles;
-   private GanttBarStyleException[] m_barStyleExceptions;
-   
-   private int m_tableWidth;
-   private String m_tableName;
-
-   private FontStyle m_highlightedTasksFontStyle;
-   private FontStyle m_rowAndColumnFontStyle;   
-   private FontStyle m_nonCriticalTasksFontStyle;
-   private FontStyle m_criticalTasksFontStyle;
-   private FontStyle m_summaryTasksFontStyle;   
-   private FontStyle m_milestoneTasksFontStyle;   
-   private FontStyle m_majorTimescaleFontStyle;
-   private FontStyle m_minorTimescaleFontStyle;   
-   private FontStyle m_barTextLeftFontStyle;
-   private FontStyle m_barTextRightFontStyle;
-   private FontStyle m_barTextTopFontStyle;
-   private FontStyle m_barTextBottomFontStyle;
-   private FontStyle m_barTextInsideFontStyle;
-   private FontStyle m_markedTasksFontStyle;
-   private FontStyle m_projectSummaryTasksFontStyle;   
-   private FontStyle m_externalTasksFontStyle;
-   
-   private TableFontStyle[] m_tableFontStyles;
-   
-   private boolean m_progressLinesEnabled;
-   private boolean m_progressLinesAtCurrentDate;
-   private boolean m_progressLinesAtRecurringIntervals;   
-   private Interval m_progressLinesInterval;   
-   private int m_progressLinesDailyDayNumber;
-   private boolean m_progressLinesDailyWorkday;   
-   private boolean[] m_progressLinesWeeklyDay = new boolean [8];
-   private int m_progressLinesWeekleyWeekNumber;
-   private boolean m_progressLinesMonthlyDayOfMonth;
-   private int m_progressLinesMonthlyDayNumber;
-   private Day m_progressLinesMonthlyDay;
-   private boolean m_progressLinesMonthlyFirst;
-   private boolean m_progressLinesBeginAtProjectStart;
-   private Date m_progressLinesBeginAtDate;
-   private boolean m_progressLinesDisplaySelected;
-   private Date[] m_progressLinesDisplaySelectedDates;
-   private boolean m_progressLinesActualPlan;
-   private int m_progressLinesDisplayType;
-   private boolean m_progressLinesShowDate;
-   private int m_progressLinesDateFormat;
-   private FontStyle m_progressLinesFontStyle;   
-   private ColorType m_progressLinesCurrentLineColor;
-   private LineStyle m_progressLinesCurrentLineStyle;
-   private ColorType m_progressLinesCurrentProgressPointColor;   
-   private int m_progressLinesCurrentProgressPointShape;
-   private ColorType m_progressLinesOtherLineColor;
-   private LineStyle m_progressLinesOtherLineStyle;
-   private ColorType m_progressLinesOtherProgressPointColor;   
-   private int m_progressLinesOtherProgressPointShape;
    
    /**
     * Retrieve the progress lines actual plan flag.
@@ -1412,6 +1082,349 @@ public class GanttChartView9 extends View9
       return (m_progressLinesWeeklyDay);
    }
    
+   /**
+    * This method maps the encoded height of a Gantt bar to
+    * the height in pixels.
+    * 
+    * @param height encoded height
+    * @return height in pixels
+    */
+   private int mapGanttBarHeight (int height)
+   {
+      switch (height)
+      {
+         case 0:
+         {
+            height = 6;
+            break;
+         }
+
+         case 1:
+         {
+            height = 8;
+            break;
+         }
+
+         case 2:
+         {
+            height = 10;
+            break;
+         }
+
+         case 3:
+         {
+            height = 12;
+            break;
+         }
+         
+         case 4:
+         {
+            height = 14;
+            break;
+         }
+         
+         case 5:
+         {
+            height = 18;
+            break;
+         }
+         
+         case 6:
+         {
+            height = 24;
+            break;
+         }         
+      }
+      
+      return (height);
+   }
+   
+   /**
+    * Retrieve font details from a block of property data.
+    * 
+    * @param data property data
+    * @param offset offset into property data
+    * @return FontStyle instance
+    */
+   private FontStyle getFontStyle (byte[] data, int offset)
+   {
+      Integer index = new Integer(MPPUtility.getByte(data, offset));
+      FontBase fontBase = m_parent.getFontBase(index);
+      int style = MPPUtility.getByte(data, offset+1);
+      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+2));
+      
+      boolean bold = ((style & 0x01) != 0);
+      boolean italic = ((style & 0x02) != 0);
+      boolean underline = ((style & 0x04) != 0);
+      
+      return (new FontStyle (fontBase, italic, bold, underline, color));
+   }
+
+   /**
+    * Retrieve column font details from a block of property data.
+    * 
+    * @param data property data
+    * @param offset offset into property data
+    * @return ColumnFontStyle instance
+    */   
+   private TableFontStyle getColumnFontStyle (byte[] data, int offset)
+   {     
+      int uniqueID = MPPUtility.getInt(data, offset);
+      Integer index = new Integer(MPPUtility.getByte(data, offset+8));
+      FontBase fontBase = m_parent.getFontBase(index);
+      int style = MPPUtility.getByte(data, offset+9);
+      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
+      FieldType fieldType = TaskField.getInstance(MPPUtility.getShort(data, offset+4));
+      
+      boolean bold = ((style & 0x01) != 0);
+      boolean italic = ((style & 0x02) != 0);
+      boolean underline = ((style & 0x04) != 0);
+      
+      return (new TableFontStyle (uniqueID, fieldType, fontBase, italic, bold, underline, color));
+   }
+   
+   /**
+    * Generate a string representation of this instance.
+    * 
+    * @return string representation of this instance
+    */   
+   public String toString ()
+   {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      PrintWriter pw = new PrintWriter (os);
+      pw.println ("[GanttChartView");
+      pw.println ("   " + super.toString());
+
+      pw.println ("   highlightedTasksFontStyle=" + m_highlightedTasksFontStyle);
+      pw.println ("   rowAndColumnFontStyle=" + m_rowAndColumnFontStyle);
+      pw.println ("   nonCriticalTasksFontStyle=" + m_nonCriticalTasksFontStyle);
+      pw.println ("   criticalTasksFontStyle=" + m_criticalTasksFontStyle);
+      pw.println ("   summaryTasksFontStyle=" + m_summaryTasksFontStyle);
+      pw.println ("   milestoneTasksFontStyle=" + m_milestoneTasksFontStyle);
+      pw.println ("   topTimescaleFontStyle=" + m_topTimescaleFontStyle);
+      pw.println ("   middleTimescaleFontStyle=" + m_middleTimescaleFontStyle);
+      pw.println ("   bottomTimescaleFontStyle=" + m_bottomTimescaleFontStyle);
+      pw.println ("   barTextLeftFontStyle=" + m_barTextLeftFontStyle);
+      pw.println ("   barTextRightFontStyle=" + m_barTextRightFontStyle);
+      pw.println ("   barTextTopFontStyle=" + m_barTextTopFontStyle);
+      pw.println ("   barTextBottomFontStyle=" + m_barTextBottomFontStyle);
+      pw.println ("   barTextInsideFontStyle=" + m_barTextInsideFontStyle);
+      pw.println ("   markedTasksFontStyle=" + m_markedTasksFontStyle);
+      pw.println ("   projectSummaryTasksFontStyle=" + m_projectSummaryTasksFontStyle);
+      pw.println ("   externalTasksFontStyle=" + m_externalTasksFontStyle);
+      
+      pw.println ("   SheetRowsGridLines=" + m_sheetRowsGridLines);
+      pw.println ("   SheetColumnsGridLines=" + m_sheetColumnsGridLines);
+      pw.println ("   TitleVerticalGridLines=" + m_titleVerticalGridLines);
+      pw.println ("   TitleHorizontalGridLines=" + m_titleHorizontalGridLines);
+      pw.println ("   MajorColumnsGridLines=" + m_majorColumnsGridLines);
+      pw.println ("   MinorColumnsGridLines=" + m_minorColumnsGridLines);
+      pw.println ("   GanttRowsGridLines=" + m_ganttRowsGridLines);
+      pw.println ("   BarRowsGridLines=" + m_barRowsGridLines);
+      pw.println ("   CurrentDateGridLines=" + m_currentDateGridLines);
+      pw.println ("   PageBreakGridLines=" + m_pageBreakGridLines);
+      pw.println ("   ProjectStartGridLines=" + m_projectStartGridLines);
+      pw.println ("   ProjectFinishGridLines=" + m_projectFinishGridLines);
+      pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);  
+      pw.println ("   GanttBarHeight=" + m_ganttBarHeight);      
+      pw.println ("   TimescaleTopTier=" + m_timescaleTopTier);      
+      pw.println ("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
+      pw.println ("   TimescaleBottomTier=" + m_timescaleBottomTier);      
+      pw.println ("   TimescaleSeparator=" + m_timescaleSeparator);      
+      pw.println ("   TimescaleSize=" + m_timescaleSize + "%");      
+      pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);      
+      pw.println ("   NonWorkingColor=" + m_nonWorkingColor);            
+      pw.println ("   NonWorkingPattern=" + m_nonWorkingPattern);                  
+      pw.println ("   NonWorkingStyle=" + m_nonWorkingStyle);                        
+      pw.println ("   ShowDrawings=" + m_showDrawings);
+      pw.println ("   RoundBarsToWholeDays=" + m_roundBarsToWholeDays);
+      pw.println ("   ShowBarSplits=" + m_showBarSplits);
+      pw.println ("   AlwaysRollupGanttBars=" + m_alwaysRollupGanttBars);
+      pw.println ("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);      
+      pw.println ("   BarDateFormat=" + m_barDateFormat);
+      pw.println ("   LinkStyle=" + m_linkStyle);      
+      
+      
+      pw.println ("   ProgressLinesEnabled=" + m_progressLinesEnabled);
+      pw.println ("   ProgressLinesAtCurrentDate=" + m_progressLinesAtCurrentDate);
+      pw.println ("   ProgressLinesAtRecurringIntervals=" + m_progressLinesAtRecurringIntervals);
+      pw.println ("   ProgressLinesInterval=" + m_progressLinesInterval);
+      pw.println ("   ProgressLinesDailyDayNumber=" + m_progressLinesDailyDayNumber);
+      pw.println ("   ProgressLinesDailyWorkday=" + m_progressLinesDailyWorkday);
+
+      pw.print ("   ProgressLinesWeeklyDay=[");
+      for (int loop=0; loop < m_progressLinesWeeklyDay.length; loop++)
+      {
+         if (loop != 0)
+         {
+            pw.print(",");
+         }
+         pw.print(m_progressLinesWeeklyDay[loop]);
+      }
+      pw.println("]");
+      
+      pw.println ("   ProgressLinesWeeklyWeekNumber=" + m_progressLinesWeekleyWeekNumber);
+      pw.println ("   ProgressLinesMonthlyDayOfMonth=" + m_progressLinesMonthlyDayOfMonth);
+      pw.println ("   ProgressLinesMonthDayNumber=" + m_progressLinesMonthlyDayNumber);
+      pw.println ("   ProgressLinesMonthlyDay=" + m_progressLinesMonthlyDay);
+      pw.println ("   ProgressLinesMonthlyFirst=" + m_progressLinesMonthlyFirst);
+      pw.println ("   ProgressLinesBeginAtProjectStart=" + m_progressLinesBeginAtProjectStart);
+      pw.println ("   ProgressLinesBeginAtDate=" + m_progressLinesBeginAtDate);
+      pw.println ("   ProgressLinesDisplaySelected=" + m_progressLinesDisplaySelected);
+
+      pw.print ("   ProgressLinesDisplaySelectedDates=[");
+      if (m_progressLinesDisplaySelectedDates != null)
+      {
+         for (int loop=0; loop < m_progressLinesDisplaySelectedDates.length; loop++)
+         {
+            if (loop != 0)
+            {
+               pw.print(",");
+            }
+            pw.print(m_progressLinesDisplaySelectedDates[loop]);
+         }
+      }
+      pw.println("]");
+      
+      pw.println ("   ProgressLinesActualPlan=" + m_progressLinesActualPlan);
+      pw.println ("   ProgressLinesDisplayType=" + m_progressLinesDisplayType);
+      pw.println ("   ProgressLinesShowDate=" + m_progressLinesShowDate);
+      pw.println ("   ProgressLinesDateFormat=" + m_progressLinesDateFormat);
+      pw.println ("   ProgressLinesFontStyle=" + m_progressLinesFontStyle);
+      pw.println ("   ProgressLinesCurrentLineColor=" + m_progressLinesCurrentLineColor);
+      pw.println ("   ProgressLinesCurrentLineStyle=" + m_progressLinesCurrentLineStyle);
+      pw.println ("   ProgressLinesCurrentProgressPointColor=" + m_progressLinesCurrentProgressPointColor);
+      pw.println ("   ProgressLinesCurrentProgressPointShape=" + m_progressLinesCurrentProgressPointShape);
+      pw.println ("   ProgressLinesOtherLineColor=" + m_progressLinesOtherLineColor);
+      pw.println ("   ProgressLinesOtherLineStyle=" + m_progressLinesOtherLineStyle);
+      pw.println ("   ProgressLinesOtherProgressPointColor=" + m_progressLinesOtherProgressPointColor);
+      pw.println ("   ProgressLinesOtherProgressPointShape=" + m_progressLinesOtherProgressPointShape);
+            
+      pw.println ("   TableWidth=" + m_tableWidth);      
+      pw.println ("   TableName=" + m_tableName);      
+      pw.println ("   Table=" + getTable());
+
+      if (m_tableFontStyles != null)
+      {
+         for (int loop=0; loop < m_tableFontStyles.length; loop++)
+         {
+            pw.println ("   ColumnFontStyle=" + m_tableFontStyles[loop]);               
+         }
+      }
+      
+      if (m_barStyles != null)
+      {
+         for (int loop=0; loop < m_barStyles.length; loop++)
+         {
+            pw.println ("   BarStyle=" + m_barStyles[loop]);               
+         }
+      }
+      
+      if (m_barStyleExceptions != null)
+      {
+         for (int loop=0; loop < m_barStyleExceptions.length; loop++)
+         {
+            pw.println ("   BarStyleException=" + m_barStyleExceptions[loop]);               
+         }
+      }
+      
+      pw.println ("]");
+      pw.flush();
+      return (os.toString());
+   }
+   
+   private MPPFile m_parent;
+   private GridLines m_sheetRowsGridLines;
+   private GridLines m_sheetColumnsGridLines;
+   private GridLines m_titleVerticalGridLines;
+   private GridLines m_titleHorizontalGridLines;
+   private GridLines m_majorColumnsGridLines;
+   private GridLines m_minorColumnsGridLines;
+   private GridLines m_ganttRowsGridLines;
+   private GridLines m_barRowsGridLines;
+   private GridLines m_currentDateGridLines;
+   private GridLines m_pageBreakGridLines;
+   private GridLines m_projectStartGridLines;
+   private GridLines m_projectFinishGridLines;
+   private GridLines m_statusDateGridLines;
+
+   private int m_ganttBarHeight;
+
+   private TimescaleTier m_timescaleTopTier;   
+   private TimescaleTier m_timescaleMiddleTier;
+   private TimescaleTier m_timescaleBottomTier;      
+   private boolean m_timescaleSeparator;
+   private int m_timescaleSize;
+
+   private String m_nonWorkingDaysCalendarName;
+   private ColorType m_nonWorkingColor;
+   private int m_nonWorkingPattern;
+   private NonWorkingTimeStyle m_nonWorkingStyle;
+
+   private boolean m_showDrawings;
+   private boolean m_roundBarsToWholeDays;
+   private boolean m_showBarSplits;
+   private boolean m_alwaysRollupGanttBars;
+   private boolean m_hideRollupBarsWhenSummaryExpanded;
+   private int m_barDateFormat;
+   private LinkStyle m_linkStyle;
+   
+   private GanttBarStyle[] m_barStyles;
+   private GanttBarStyleException[] m_barStyleExceptions;
+   
+   private int m_tableWidth;
+   private String m_tableName;
+
+   private FontStyle m_highlightedTasksFontStyle;
+   private FontStyle m_rowAndColumnFontStyle;   
+   private FontStyle m_nonCriticalTasksFontStyle;
+   private FontStyle m_criticalTasksFontStyle;
+   private FontStyle m_summaryTasksFontStyle;   
+   private FontStyle m_milestoneTasksFontStyle; 
+   private FontStyle m_topTimescaleFontStyle;
+   private FontStyle m_middleTimescaleFontStyle;
+   private FontStyle m_bottomTimescaleFontStyle;
+   private FontStyle m_barTextLeftFontStyle;
+   private FontStyle m_barTextRightFontStyle;
+   private FontStyle m_barTextTopFontStyle;
+   private FontStyle m_barTextBottomFontStyle;
+   private FontStyle m_barTextInsideFontStyle;
+   private FontStyle m_markedTasksFontStyle;
+   private FontStyle m_projectSummaryTasksFontStyle;   
+   private FontStyle m_externalTasksFontStyle;
+   
+   private TableFontStyle[] m_tableFontStyles;
+   
+   private boolean m_progressLinesEnabled;
+   private boolean m_progressLinesAtCurrentDate;
+   private boolean m_progressLinesAtRecurringIntervals;   
+   private Interval m_progressLinesInterval;   
+   private int m_progressLinesDailyDayNumber;
+   private boolean m_progressLinesDailyWorkday;   
+   private boolean[] m_progressLinesWeeklyDay = new boolean [8];
+   private int m_progressLinesWeekleyWeekNumber;
+   private boolean m_progressLinesMonthlyDayOfMonth;
+   private int m_progressLinesMonthlyDayNumber;
+   private Day m_progressLinesMonthlyDay;
+   private boolean m_progressLinesMonthlyFirst;
+   private boolean m_progressLinesBeginAtProjectStart;
+   private Date m_progressLinesBeginAtDate;
+   private boolean m_progressLinesDisplaySelected;
+   private Date[] m_progressLinesDisplaySelectedDates;
+   private boolean m_progressLinesActualPlan;
+   private int m_progressLinesDisplayType;
+   private boolean m_progressLinesShowDate;
+   private int m_progressLinesDateFormat;
+   private FontStyle m_progressLinesFontStyle;   
+   private ColorType m_progressLinesCurrentLineColor;
+   private LineStyle m_progressLinesCurrentLineStyle;
+   private ColorType m_progressLinesCurrentProgressPointColor;   
+   private int m_progressLinesCurrentProgressPointShape;
+   private ColorType m_progressLinesOtherLineColor;
+   private LineStyle m_progressLinesOtherLineStyle;
+   private ColorType m_progressLinesOtherProgressPointColor;   
+   private int m_progressLinesOtherProgressPointShape;
+      
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
    private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);      
@@ -1421,52 +1434,3 @@ public class GanttChartView9 extends View9
    private static final Integer COLUMN_PROPERTIES = new Integer (574619660);
    private static final Integer PROGRESS_LINE_PROPERTIES = new Integer (574619671);
 }
-
-/*
-Progress lines key: 574619671 
-
-byte 0: enabled flag
-byte 2: 0=at status date 1=at current date
-byte 4: 1= display progress lines at recurring intervals
-byte 6: 0=daily, 1=weekly, 2=monthly (Interval)
-byte 8: daily day number
-byte 10: day=0, workday=1
-
-byte 14: sunday
-byte 16: monday
-byte 18: tuesday
-byte 20: wednesday
-byte 22: thursday
-byte 24: friday
-byte 26: saturday
-
-byte 30: every nth
-
-byte 32: 0=every X monthly, 1=day n monthly
-byte 34: monthly day number
-byte 36: 0=sunday, 1=monday, 2=tuesday, 3=wednesday, 4=thursday, 5=saturday, 7=day, 8=workday, 9=nonworking day
-byte 40: 1=first, 5=last
-
-byte 44: 0=begin at date, 1=begin at project start
-byte 46: two byte begin at date
-byte 48: 1=display selected progress lines
-byte 50: 2 byte count of number of dates
-byte 52: 0=baseline plan, 1=actual plan
-byte 54: progress line type
-byte 56: 1=show date for each progress line
-byte 58: progress line date format
-byte 60: font number?
-byte 61: 4=underlined font
-
-byte 64: current line color
-byte 65: current line style (GridLineStyle?)
-byte 66: current line progress point color
-byte 67: current line progress point shape
-byte 68: other line color
-byte 69: other line style
-byte 70: other line progress point color
-byte 71: other line progress point shape
-
-byte 72: two byte dates onwards from this point
-
-*/
