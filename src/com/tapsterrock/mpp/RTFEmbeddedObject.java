@@ -132,7 +132,7 @@ public final class RTFEmbeddedObject
     */
    public String getDataString ()
    {
-      return (new String(m_data));
+      return (m_data==null?"":new String(m_data));
    }
    
    /**
