@@ -7201,6 +7201,33 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
+    * Retrieve a flag indicating if the task is shown as expanded
+    * in MS Project. If this flag is set to true, any sub tasks
+    * for this current task will be visible. If this is false,
+    * any sub tasks will be hidden.
+    * 
+    * @return boolean flag
+    */
+   public boolean getExpanded ()
+   {
+      return (m_expanded);
+   }
+
+   /**
+    * Set a flag indicating if the task is shown as expanded
+    * in MS Project. If this flag is set to true, any sub tasks
+    * for this current task will be visible. If this is false,
+    * any sub tasks will be hidden.
+    * 
+    * @param expanded boolean flag
+    */
+   public void setExpanded (boolean expanded)
+   {
+      m_expanded = expanded;
+   }
+   
+   
+   /**
     * Retrieve the value of a field using its alias
     *
     * @param alias field alias
@@ -7316,7 +7343,8 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private MPXDuration m_actualWorkProtected;
    private MPXDuration m_actualOvertimeWorkProtected;
    private MPXDuration m_regularWork;
-
+   private boolean m_expanded = true;
+   
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage
     * of the task's duration that has been completed. You can enter percent complete, or you

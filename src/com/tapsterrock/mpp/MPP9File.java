@@ -1125,7 +1125,7 @@ final class MPP9File
          }
          
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
-
+         
          task = file.addTask();
          task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
@@ -1217,6 +1217,7 @@ final class MPP9File
 //         task.setEarnedValueMethod();
          task.setEffortDriven((metaData[11] & 0x10) != 0);
          task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
+         task.setExpanded(((metaData[12] & 0x02) == 0));
          //task.setExternalTask(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 8));
 //       From MS Project 2003
