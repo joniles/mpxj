@@ -185,7 +185,9 @@ final class MPP9File
       throws MPXException
    {
       byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
+      
       //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
+      //MPPUtility.fileHexDump("c:\\temp\\dump.txt", subProjData);
       
       if (subProjData != null)            
       {
@@ -252,6 +254,8 @@ final class MPP9File
                   break;
                }
 
+               
+               
                //
                // task unique ID, path, unknown, file name
                //
@@ -296,7 +300,6 @@ final class MPP9File
                   break;
                }
                
-
                //
                // resource unique ID, path, file name
                //                  
@@ -343,11 +346,15 @@ final class MPP9File
                   offset += 12;
                   break;
                }
-               
+
+               //
+               // Any other value, assume 12 bytes to handle old/deleted data?
+               //
                default:
                {
-                  throw new MPXException ("Unknown sub project type " + itemHeader[16]);
-               }                  
+                  offset += 12;
+                  break;
+               }               
             }                  
          }
       }

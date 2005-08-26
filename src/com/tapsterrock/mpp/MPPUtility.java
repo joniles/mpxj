@@ -23,6 +23,8 @@
 
 package com.tapsterrock.mpp;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -936,6 +938,27 @@ final class MPPUtility
       }
       
       return (sb.toString());
+   }
+   
+   /**
+    * Writes a hex dump to a file for a large byte array.
+    * 
+    * @param fileName output file name
+    * @param data target data
+    */
+   public static final void fileHexDump (String fileName, byte[] data)
+   {
+      try
+      {
+         FileOutputStream os = new FileOutputStream(fileName);
+         os.write(hexdump(data, true, 16, "").getBytes());
+         os.close();
+      }
+      
+      catch (IOException ex)
+      {
+         ex.printStackTrace();
+      }
    }
    
    /**

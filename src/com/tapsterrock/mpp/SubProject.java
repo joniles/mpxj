@@ -146,6 +146,8 @@ public class SubProject
          m_fileName = MPPUtility.getUnicodeString(data, fileNameOffset, size);
          fileNameOffset += size;      
       }      
+      
+      //System.out.println(this.toString());
    }
 
    /**
