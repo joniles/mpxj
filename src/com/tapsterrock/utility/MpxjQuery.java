@@ -481,7 +481,7 @@ public class MpxjQuery
             while (predecessorIterator.hasNext() == true)
             {
                relation = (Relation)predecessorIterator.next();
-               System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskIDValue()).getName());
+               System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskUniqueIDValue()).getName());
                System.out.println("   Type: " + relation.getType());
                System.out.println("   Lag: " + relation.getDuration());
             }
