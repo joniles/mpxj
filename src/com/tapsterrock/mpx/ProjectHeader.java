@@ -408,14 +408,14 @@ public final class ProjectHeader extends MPXRecord
 
       m_updateDateTimeFormats = false;
       setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
-      setTimeFormat((TimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
+      setTimeFormat((ProjectTimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
       setIntegerDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
       setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
       setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
       setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
       setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
-      setDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      setBarTextDateFormat((DateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       m_updateDateTimeFormats = true;
       updateDateTimeFormats ();
    }
@@ -481,7 +481,7 @@ public final class ProjectHeader extends MPXRecord
 
          switch (getDateFormat().getValue())
          {
-            case DateFormat.DD_MM_YY_HH_MM_VALUE:
+            case ProjectDateFormat.DD_MM_YY_HH_MM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -506,7 +506,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MM_YY_VALUE:
+            case ProjectDateFormat.DD_MM_YY_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -532,7 +532,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MMMMM_YYYY_HH_MM_VALUE:
+            case ProjectDateFormat.DD_MMMMM_YYYY_HH_MM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -557,7 +557,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MMMMM_YYYY_VALUE:
+            case ProjectDateFormat.DD_MMMMM_YYYY_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -582,7 +582,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MMM_HH_MM_VALUE:
+            case ProjectDateFormat.DD_MMM_HH_MM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -601,7 +601,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MMM_YY_VALUE:
+            case ProjectDateFormat.DD_MMM_YY_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -626,7 +626,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MMMMM_VALUE:
+            case ProjectDateFormat.DD_MMMMM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -645,7 +645,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_MMM_VALUE:
+            case ProjectDateFormat.DD_MMM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -664,7 +664,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.EEE_DD_MM_YY_HH_MM_VALUE:
+            case ProjectDateFormat.EEE_DD_MM_YY_HH_MM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -689,7 +689,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.EEE_DD_MM_YY_VALUE:
+            case ProjectDateFormat.EEE_DD_MM_YY_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -714,7 +714,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.EEE_DD_MMM_YY_VALUE:
+            case ProjectDateFormat.EEE_DD_MMM_YY_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -739,13 +739,13 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.EEE_HH_MM_VALUE:
+            case ProjectDateFormat.EEE_HH_MM_VALUE:
             {
                dateTimePattern="EEE "+timePattern;
                break;
             }
 
-            case DateFormat.DD_MM_VALUE:
+            case ProjectDateFormat.DD_MM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -764,19 +764,19 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.DD_VALUE:
+            case ProjectDateFormat.DD_VALUE:
             {
                dateTimePattern="dd";
                break;
             }
 
-            case DateFormat.HH_MM_VALUE:
+            case ProjectDateFormat.HH_MM_VALUE:
             {
                dateTimePattern = timePattern;
                break;
             }
 
-            case DateFormat.EEE_DD_MMM_VALUE:
+            case ProjectDateFormat.EEE_DD_MMM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -795,7 +795,7 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.EEE_DD_MM_VALUE:
+            case ProjectDateFormat.EEE_DD_MM_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -814,25 +814,25 @@ public final class ProjectHeader extends MPXRecord
                break;
             }
 
-            case DateFormat.EEE_DD_VALUE:
+            case ProjectDateFormat.EEE_DD_VALUE:
             {
                dateTimePattern="EEE dd";
                break;
             }
 
-            case DateFormat.DD_WWW_VALUE:
+            case ProjectDateFormat.DD_WWW_VALUE:
             {
                dateTimePattern="F"+datesep+"'W'ww";
                break;
             }
 
-            case DateFormat.DD_WWW_YY_HH_MM_VALUE:
+            case ProjectDateFormat.DD_WWW_YY_HH_MM_VALUE:
             {
                dateTimePattern="F"+datesep+"'W'ww"+datesep+"yy "+timePattern;
                break;
             }
 
-            case DateFormat.DD_MM_YYYY_VALUE:
+            case ProjectDateFormat.DD_MM_YYYY_VALUE:
             {
                switch (dateOrderValue)
                {
@@ -859,9 +859,9 @@ public final class ProjectHeader extends MPXRecord
          }
 
          MPXFile parent = getParentFile();
-         parent.getDateTimeFormat().applyPattern(dateTimePattern);
-         parent.getDateFormat().applyPattern(datePattern);
-         parent.getTimeFormat().applyPattern(timePattern);
+         ((MPXDateFormat)parent.getDateTimeFormat()).applyPattern(dateTimePattern);
+         ((MPXDateFormat)parent.getDateFormat()).applyPattern(datePattern);
+         ((MPXTimeFormat)parent.getTimeFormat()).applyPattern(timePattern);
       }
    }
 
@@ -874,9 +874,9 @@ public final class ProjectHeader extends MPXRecord
    {
       String time;
       char timesep = getTimeSeparator();
-      TimeFormat format = getTimeFormat();
+      ProjectTimeFormat format = getTimeFormat();
 
-      if (format == null || format.getValue() == TimeFormat.TWELVE_HOUR_VALUE)
+      if (format == null || format.getValue() == ProjectTimeFormat.TWELVE_HOUR_VALUE)
       {
          time = "hh"+timesep+"mm a";
       }
@@ -914,7 +914,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return time format constant
     */
-   public TimeFormat getTimeFormat ()
+   public ProjectTimeFormat getTimeFormat ()
    {
       return (m_timeFormat);
    }
@@ -924,7 +924,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param timeFormat constant value
     */
-   public void setTimeFormat (TimeFormat timeFormat)
+   public void setTimeFormat (ProjectTimeFormat timeFormat)
    {
       m_timeFormat = timeFormat;
       updateDateTimeFormats();
@@ -1112,7 +1112,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return int representing Date Format
     */
-   public DateFormat getDateFormat ()
+   public ProjectDateFormat getDateFormat ()
    {
       return (m_dateFormat);
    }
@@ -1122,7 +1122,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param dateFormat int representing Date Format
     */
-   public void setDateFormat (DateFormat dateFormat)
+   public void setDateFormat (ProjectDateFormat dateFormat)
    {
       m_dateFormat = dateFormat;
       updateDateTimeFormats();
@@ -1133,7 +1133,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return int value
     */
-   public DateFormat getBarTextDateFormat ()
+   public ProjectDateFormat getBarTextDateFormat ()
    {
       return (m_barTextDateFormat);
    }
@@ -1143,7 +1143,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param dateFormat value to be set
     */
-   public void setBarTextDateFormat (DateFormat dateFormat)
+   public void setBarTextDateFormat (ProjectDateFormat dateFormat)
    {
       m_barTextDateFormat = dateFormat;
    }
@@ -3102,14 +3102,14 @@ public final class ProjectHeader extends MPXRecord
     * Date Time Settings Attributes
     */
    private DateOrder m_dateOrder;
-   private TimeFormat m_timeFormat;
+   private ProjectTimeFormat m_timeFormat;
    private Date m_defaultStartTime;
    private char m_dateSeparator;
    private char m_timeSeparator;
    private String m_amText;
    private String m_pmText;
-   private DateFormat m_dateFormat;
-   private DateFormat m_barTextDateFormat;
+   private ProjectDateFormat m_dateFormat;
+   private ProjectDateFormat m_barTextDateFormat;
 
    /**
     * Project Header Attributes

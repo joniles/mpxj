@@ -23,6 +23,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,7 +41,7 @@ final class MPXDate extends Date
     * @param format Date format
     * @param date date required expressed in milliseconds.
     */
-   MPXDate (MPXDateFormat format, Date date)
+   MPXDate (DateFormat format, Date date)
    {
       super (date.getTime());
       m_format = format;
@@ -94,5 +95,5 @@ final class MPXDate extends Date
    /**
     * Date formatter.
     */
-   private MPXDateFormat m_format;
+   private DateFormat m_format;
 }

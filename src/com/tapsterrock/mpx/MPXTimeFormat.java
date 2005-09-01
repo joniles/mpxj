@@ -33,7 +33,7 @@ import java.util.Locale;
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the time conventions used in MPX files.
  */
-final class MPXTimeFormat
+final class MPXTimeFormat extends SimpleDateFormat
 {
    /**
     * This method is called when the locale of the parent file is updated.
@@ -48,38 +48,10 @@ final class MPXTimeFormat
    }
 
    /**
-    * This method is used to configure the format pattern.
-    *
-    * @param pattern new format pattern
+    * @see java.text.DateFormat#parse(java.lang.String)
     */
-   public void applyPattern (String pattern)
-   {
-      m_format.applyPattern (pattern);
-   }
-
-   /**
-    * This method returns a String containing the formatted version
-    * of the time parameter.
-    *
-    * @param time date to be formatted
-    * @return formatted time
-    */
-   public String format (Date time)
-   {
-      return (m_format.format(time));
-   }
-
-
-   /**
-    * This method parses a String representation of a time and returns
-    * an MPXTime object.
-    *
-    * @param str String representation of a time
-    * @return MPXTime object
-    * @throws MPXException Thrown on parse errors
-    */
-   public MPXTime parse (String str)
-      throws MPXException
+   public Date parse (String str)
+      throws ParseException
    {
       MPXTime result;
 
@@ -95,25 +67,12 @@ final class MPXTimeFormat
          }
          else
          {
-            try
-            {
-               result = new MPXTime (this, m_format.parse(str));
-            }
-
-            catch (ParseException ex)
-            {
-               throw new MPXException (MPXException.INVALID_TIME + str, ex);
-            }
+            result = new MPXTime (this, super.parse(str));
          }
       }
 
       return (result);
    }
-
-   /**
-    * Internal SimpleDateFormat object used to carry out the formatting work.
-    */
-   private SimpleDateFormat m_format = new SimpleDateFormat ();
 
    private String m_null = "NA";
 }

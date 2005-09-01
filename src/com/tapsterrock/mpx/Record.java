@@ -24,6 +24,8 @@
 package com.tapsterrock.mpx;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.LinkedList;
 
 
@@ -150,18 +152,26 @@ final class Record
    public Float getFloat (int field)
       throws MPXException
    {
-      Float result;
-
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      try
       {
-         result = new Float(m_parent.getDecimalFormat().parse(m_fields[field]).floatValue());
+         Float result;
+   
+         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+         {
+            result = new Float(m_parent.getDecimalFormat().parse(m_fields[field]).floatValue());
+         }
+         else
+         {
+            result = null;
+         }
+   
+         return (result);
       }
-      else
+      
+      catch (ParseException ex)
       {
-         result = null;
+         throw new MPXException ("Failed to parse float", ex);
       }
-
-      return (result);
    }
 
    /**
@@ -197,21 +207,29 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public MPXDate getDateTime (int field)
+   public Date getDateTime (int field)
       throws MPXException
    {
-      MPXDate result;
-
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      try
       {
-         result = m_parent.getDateTimeFormat().parse(m_fields[field]);
+         Date result;
+   
+         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+         {
+            result = m_parent.getDateTimeFormat().parse(m_fields[field]);
+         }
+         else
+         {
+            result = null;
+         }
+   
+         return (result);
       }
-      else
+      
+      catch (ParseException ex)
       {
-         result = null;
+         throw new MPXException ("Failed to parse date time", ex);
       }
-
-      return (result);
    }
 
    /**
@@ -223,21 +241,29 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public MPXDate getDate (int field)
+   public Date getDate (int field)
       throws MPXException
    {
-      MPXDate result;
-
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      try
       {
-         result = m_parent.getDateFormat().parse(m_fields[field]);
+         Date result;
+   
+         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+         {
+            result = m_parent.getDateFormat().parse(m_fields[field]);
+         }
+         else
+         {          
+            result = null;
+         }
+         
+         return (result);         
       }
-      else
+      
+      catch (ParseException ex)
       {
-         result = null;
+         throw new MPXException ("Failed to parse date", ex);
       }
-
-      return (result);
    }
 
    /**
@@ -249,21 +275,29 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public MPXTime getTime (int field)
+   public Date getTime (int field)
       throws MPXException
    {
-      MPXTime result;
-
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      try
       {
-         result = m_parent.getTimeFormat().parse(m_fields[field]);
+         Date result;
+   
+         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+         {
+            result = m_parent.getTimeFormat().parse(m_fields[field]);
+         }
+         else
+         {
+            result = null;
+         }
+   
+         return (result);
       }
-      else
+      
+      catch (ParseException ex)
       {
-         result = null;
+         throw new MPXException ("Failed to parse time", ex);
       }
-
-      return (result);
    }
 
    /**
@@ -452,17 +486,17 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public TimeFormat getTimeFormat (int field)
+   public ProjectTimeFormat getTimeFormat (int field)
    {
-      TimeFormat result;
+      ProjectTimeFormat result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = TimeFormat.getInstance(Integer.parseInt(m_fields[field]));
+         result = ProjectTimeFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
       {
-         result = TimeFormat.TWELVE_HOUR;
+         result = ProjectTimeFormat.TWELVE_HOUR;
       }
 
       return (result);
@@ -548,17 +582,17 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public DateFormat getDateFormat (int field)
+   public ProjectDateFormat getDateFormat (int field)
    {
-      DateFormat result = null;
+      ProjectDateFormat result = null;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = DateFormat.getInstance(Integer.parseInt(m_fields[field]));
+         result = ProjectDateFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
       else
       {
-         result = DateFormat.DD_MM_YY;
+         result = ProjectDateFormat.DD_MM_YY;
       }
 
       return (result);

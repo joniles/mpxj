@@ -320,11 +320,11 @@ public final class LocaleData_de extends ListResourceBundle
       {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
       {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
 
-      {LocaleData.TIME_FORMAT, TimeFormat.TWENTY_FOUR_HOUR},
+      {LocaleData.TIME_FORMAT, ProjectTimeFormat.TWENTY_FOUR_HOUR},
       {LocaleData.DATE_SEPARATOR, "."},
       {LocaleData.AM_TEXT, ""},
       {LocaleData.PM_TEXT, ""},
-      {LocaleData.DATE_FORMAT, DateFormat.EEE_DD_MM_YY},
+      {LocaleData.DATE_FORMAT, ProjectDateFormat.EEE_DD_MM_YY},
       {LocaleData.NA, "NV"},
 
       {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},

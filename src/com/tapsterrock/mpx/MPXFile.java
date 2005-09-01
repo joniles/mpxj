@@ -34,6 +34,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1314,7 +1316,7 @@ public class MPXFile
     *
     * @return time formatter
     */
-   MPXTimeFormat getTimeFormat ()
+   public DateFormat getTimeFormat ()
    {
       return (m_timeFormat);
    }
@@ -1324,7 +1326,7 @@ public class MPXFile
     *
     * @return date time formatter
     */
-   MPXDateFormat getDateTimeFormat ()
+   public DateFormat getDateTimeFormat ()
    {
       return (m_dateTimeFormat);
    }
@@ -1334,7 +1336,7 @@ public class MPXFile
     *
     * @return date formatter
     */
-   MPXDateFormat getDateFormat ()
+   public DateFormat getDateFormat ()
    {
       return (m_dateFormat);
    }
@@ -1344,7 +1346,7 @@ public class MPXFile
     *
     * @return currency formatter
     */
-   MPXNumberFormat getCurrencyFormat ()
+   public NumberFormat getCurrencyFormat ()
    {
       return (m_currencyFormat);
    }

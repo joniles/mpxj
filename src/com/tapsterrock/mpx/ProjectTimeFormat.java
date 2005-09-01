@@ -1,5 +1,5 @@
 /*
- * file:       TimeFormat.java
+ * file:       ProjectTimeFormat.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       04/01/2005
@@ -26,14 +26,14 @@ package com.tapsterrock.mpx;
 /**
  * Instances of this class represent enumerated time format values.
  */
-public final class TimeFormat
+public final class ProjectTimeFormat
 {
    /**
     * Private constructor.
     *
     * @param value time format value
     */
-   private TimeFormat (int value)
+   private ProjectTimeFormat (int value)
    {
       m_value = value;
    }
@@ -54,9 +54,9 @@ public final class TimeFormat
     * @param value time format value
     * @return TimeFormat instance
     */
-   public static TimeFormat getInstance (int value)
+   public static ProjectTimeFormat getInstance (int value)
    {
-      TimeFormat result;
+      ProjectTimeFormat result;
 
       switch (value)
       {
@@ -104,11 +104,11 @@ public final class TimeFormat
    /**
     * Constant representing 12 hour time.
     */
-   public static final TimeFormat TWELVE_HOUR = new TimeFormat(TWELVE_HOUR_VALUE);
+   public static final ProjectTimeFormat TWELVE_HOUR = new ProjectTimeFormat(TWELVE_HOUR_VALUE);
 
    /**
     * Constant representing 24 hour time.
     */
-   public static final TimeFormat TWENTY_FOUR_HOUR = new TimeFormat(TWENTY_FOUR_HOUR_VALUE);
+   public static final ProjectTimeFormat TWENTY_FOUR_HOUR = new ProjectTimeFormat(TWENTY_FOUR_HOUR_VALUE);
 
 }

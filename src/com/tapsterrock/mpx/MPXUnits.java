@@ -23,6 +23,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.ParseException;
+
 /**
  * This class deals with an odd case where the max units value,
  * which is a percentage, is represented as a float between 0 and 1.
@@ -43,7 +45,15 @@ final class MPXUnits extends Number implements ToStringRequiresFile
    MPXUnits (String value, MPXNumberFormat format)
       throws MPXException
    {
-      m_value = format.parse(value).doubleValue() * 100;
+      try
+      {
+         m_value = format.parse(value).doubleValue() * 100;
+      }
+      
+      catch (ParseException ex)
+      {
+         throw new MPXException ("Failed to parse units", ex);
+      }
    }
 
    /**

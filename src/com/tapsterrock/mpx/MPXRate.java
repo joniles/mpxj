@@ -24,6 +24,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 /**
@@ -40,20 +42,28 @@ public final class MPXRate implements ToStringRequiresFile
     * @param locale target locale
     * @throws MPXException when string parse fails
     */
-   MPXRate (MPXNumberFormat format, String rate, Locale locale)
+   MPXRate (NumberFormat format, String rate, Locale locale)
       throws MPXException
    {
-      int index = rate.indexOf('/');
-
-      if (index == -1)
+      try
       {
-         m_amount = format.parse(rate).doubleValue();
-         m_units = TimeUnit.HOURS;
+         int index = rate.indexOf('/');
+   
+         if (index == -1)
+         {
+            m_amount = format.parse(rate).doubleValue();
+            m_units = TimeUnit.HOURS;
+         }
+         else
+         {
+            m_amount = format.parse( rate.substring (0, index)).doubleValue();
+            m_units = TimeUnit.parse(rate.substring (index+1), locale);
+         }
       }
-      else
+      
+      catch (ParseException ex)
       {
-         m_amount = format.parse( rate.substring (0, index)).doubleValue();
-         m_units = TimeUnit.parse(rate.substring (index+1), locale);
+         throw new MPXException ("Failed to parse rate", ex);
       }
    }
 
@@ -121,7 +131,7 @@ public final class MPXRate implements ToStringRequiresFile
     */
    public String toString (MPXFile mpx)
    {
-      MPXNumberFormat format = mpx.getCurrencyFormat();
+      NumberFormat format = mpx.getCurrencyFormat();
       Locale locale = mpx.getLocale();
       StringBuffer buffer = new StringBuffer (format.format(m_amount));
       buffer.append ("/");

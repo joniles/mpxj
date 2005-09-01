@@ -437,13 +437,13 @@ public final class LocaleData extends ListResourceBundle
       {CURRENCY_DECIMAL_SEPARATOR, "."},
 
       {DATE_ORDER, DateOrder.DMY},
-      {TIME_FORMAT, TimeFormat.TWELVE_HOUR},
+      {TIME_FORMAT, ProjectTimeFormat.TWELVE_HOUR},
       {DEFAULT_START_TIME, new Integer(480)},
       {DATE_SEPARATOR, "/"},
       {TIME_SEPARATOR, ":"},
       {AM_TEXT, "am"},
       {PM_TEXT, "pm"},
-      {DATE_FORMAT, DateFormat.DD_MM_YYYY},
+      {DATE_FORMAT, ProjectDateFormat.DD_MM_YYYY},
       {BAR_TEXT_DATE_FORMAT, new Integer (0)},
       {NA, "NA"},
 

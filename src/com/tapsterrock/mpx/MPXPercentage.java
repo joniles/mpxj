@@ -24,6 +24,8 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.ParseException;
+
 /**
  * This class represents percentage values as found in an MPX file.
  */
@@ -165,7 +167,15 @@ final class MPXPercentage extends Number implements ToStringRequiresFile
    public static MPXPercentage getInstance (String value, MPXNumberFormat format)
       throws MPXException
    {
-      return (getInstance(format.parse(value).doubleValue()));
+      try
+      {
+         return (getInstance(format.parse(value).doubleValue()));
+      }
+      
+      catch (ParseException ex)
+      {
+         throw new MPXException ("Failed to parse percentage", ex);
+      }
    }
    
    /**

@@ -29,11 +29,10 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
 
 /**
- * This class is used to provide a simple wrapper around the functionality
- * of the DecimalFormat class. In particuar this class handles ParseExceptions
- * and wraps them in an MPXException.
+ * This class extends the functionality of the DecimalFormat class
+ * for use within MPXJ.
  */
-final class MPXNumberFormat
+final class MPXNumberFormat extends DecimalFormat
 {
    /**
     * Default constructor.
@@ -83,8 +82,8 @@ final class MPXNumberFormat
       m_symbols.setDecimalSeparator(decimalSeparator);
       m_symbols.setGroupingSeparator(groupingSeparator);
 
-      m_primaryFormat.setDecimalFormatSymbols(m_symbols);
-      m_primaryFormat.applyPattern (primaryPattern);
+      setDecimalFormatSymbols(m_symbols);
+      applyPattern (primaryPattern);
 
       if (alternativePatterns != null && alternativePatterns.length != 0)
       {
@@ -108,52 +107,28 @@ final class MPXNumberFormat
       m_primaryPattern = primaryPattern;
    }
 
-
    /**
-    * This method returns a String containing the formatted version
-    * of the number parameter.
-    *
-    * @param number number to be formatted
-    * @return formatted number
+    * @see java.text.NumberFormat#parse(java.lang.String, java.text.ParsePosition)
     */
-   public String format (float number)
-   {
-      return (m_primaryFormat.format(number));
-   }
-
-   /**
-    * This method returns a String containing the formatted version
-    * of the number parameter.
-    *
-    * @param number number to be formatted
-    * @return formatted number
-    */
-   public String format (double number)
-   {
-      return (m_primaryFormat.format(number));
-   }
-
-   /**
-    * This method parses a String representation of a number and returns
-    * an Number object.
-    *
-    * @param str String representation of a number
-    * @return Number object
-    * @throws MPXException when the string parse fails
-    */
-   public Number parse (String str)
-     throws MPXException
+   public Number parse (String str, ParsePosition parsePosition)
    {
       Number result = null;
 
-      if (str != null)
+      if (str == null)
+      {
+         parsePosition.setIndex(-1);         
+      }
+      else
       {
          str = str.trim();
          
-         if (str.length() != 0)
+         if (str.length() == 0)
          {
-            ParsePosition parsePosition = new ParsePosition(0);
-            result = m_primaryFormat.parse(str, parsePosition);
+            parsePosition.setIndex(-1);            
+         }
+         else
+         {
+            result = super.parse(str, parsePosition);
             if (parsePosition.getIndex() == 0)
             {
                result = null;
@@ -174,12 +149,7 @@ final class MPXNumberFormat
                      result = null;
                   }
                }
-            }
-            
-            if (result == null)
-            {
-               throw new MPXException (MPXException.INVALID_NUMBER + " number=" + str + " expected format=" + m_primaryPattern);            
-            }
+            }            
          }
       }
 
@@ -190,7 +160,6 @@ final class MPXNumberFormat
     * Number formatter.
     */
    private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols ();
-   private DecimalFormat m_primaryFormat = new DecimalFormat ();
    private DecimalFormat[] m_alternativeFormats;
    private String m_primaryPattern = "";
 }

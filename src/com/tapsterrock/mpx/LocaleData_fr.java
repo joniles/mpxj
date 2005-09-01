@@ -312,12 +312,12 @@ public final class LocaleData_fr extends ListResourceBundle
 		{LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
 
 		{LocaleData.DATE_ORDER, DateOrder.DMY},
-		{LocaleData.TIME_FORMAT, TimeFormat.TWELVE_HOUR},
+		{LocaleData.TIME_FORMAT, ProjectTimeFormat.TWELVE_HOUR},
 		{LocaleData.DATE_SEPARATOR, "/"},
 		{LocaleData.TIME_SEPARATOR, ":"},
 		{LocaleData.AM_TEXT, ""},
 		{LocaleData.PM_TEXT, ""},
-		{LocaleData.DATE_FORMAT, DateFormat.DD_MM_YYYY},
+		{LocaleData.DATE_FORMAT, ProjectDateFormat.DD_MM_YYYY},
 		{LocaleData.BAR_TEXT_DATE_FORMAT, new Integer (0)},
 		{LocaleData.NA, "NA"},
 

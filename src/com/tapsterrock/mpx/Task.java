@@ -24,6 +24,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -200,7 +201,15 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case START5:
             case STOP:
             {
-               set(x, getParentFile().getDateTimeFormat().parse(field));
+               try
+               {
+                  set(x, getParentFile().getDateTimeFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse date time", ex);
+               }
                break;
             }
 
@@ -260,7 +269,16 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case NUMBER4:
             case NUMBER5:
             {
-               set(x, getParentFile().getDecimalFormat().parse(field));
+               try
+               {
+                  set(x, getParentFile().getDecimalFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse number", ex);
+               }
+               
                break;
             }
 

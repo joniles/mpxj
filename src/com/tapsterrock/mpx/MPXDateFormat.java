@@ -24,7 +24,8 @@
 
 package com.tapsterrock.mpx;
 
-import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,7 +35,7 @@ import java.util.Locale;
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the date conventions used in MPX files.
  */
-final class MPXDateFormat implements Serializable
+final class MPXDateFormat extends DateFormat
 {
    /**
     * This method is called when the locale of the parent file is updated.
@@ -68,58 +69,52 @@ final class MPXDateFormat implements Serializable
    }
 
    /**
-    * This method returns a String containing the formatted version
-    * of the date parameter.
-    *
-    * @param date date to be formatted
-    * @return formatted date
+    * @see java.text.DateFormat#parse(java.lang.String, java.text.ParsePosition)
     */
-   public String format (Date date)
-   {
-      return (m_format.format(date));
-   }
-
-
-   /**
-    * This method parses a String representation of a date and returns
-    * an MPXDate object.
-    *
-    * @param str String representation of a date
-    * @return MPXDate object
-    * @throws MPXException Thrown on parse errors
-    */
-   public MPXDate parse (String str)
-      throws MPXException
+   public Date parse (String str, ParsePosition pos)
    {
       MPXDate result;
 
       if (str == null || str.trim().length() == 0)
       {
          result = null;
+         pos.setIndex(-1);
       }
       else
       {
          if (str.equals(m_null) == true)
          {
             result = null;
+            pos.setIndex(-1);
          }
          else
          {
-            ParsePosition pos = new ParsePosition(0);
             Date javaDate = m_format.parse(str, pos);
             if (pos.getIndex() == 0)
             {
                javaDate = m_alternativeFormat.parse(str, pos);
-               if (pos.getIndex() == 0)
-               {
-                  throw new MPXException (MPXException.INVALID_DATE + " " + str);
-               }
             }
-            result = new MPXDate (this, javaDate);
+            
+            if (pos.getIndex() != 0)
+            {
+               result = new MPXDate (this, javaDate);
+            }
+            else
+            {
+               result = null;
+            }
          }
       }
 
       return (result);
+   }
+
+   /**
+    * @see java.text.DateFormat#format(java.util.Date, java.lang.StringBuffer, java.text.FieldPosition)
+    */
+   public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
+   {
+      return (m_format.format(date, toAppendTo, fieldPosition));
    }
 
    /**

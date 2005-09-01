@@ -24,6 +24,9 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 /**
  * This class is used to represent the monetary amounts found in an MPX file.
  */
@@ -35,7 +38,7 @@ public final class MPXCurrency extends Number
     * @param format Currency format
     * @param amount double representation of a currency amount
     */
-   MPXCurrency (MPXNumberFormat format, double amount)
+   MPXCurrency (NumberFormat format, double amount)
    {
       m_format = format;
       m_amount = amount;
@@ -113,26 +116,34 @@ public final class MPXCurrency extends Number
    public static final MPXCurrency getInstance (MPXFile parent, String amount)
       throws MPXException
    {
-      MPXNumberFormat format = parent.getCurrencyFormat();
-      double value = format.parse(amount).doubleValue();
-      MPXCurrency result;
-      
-      if (value == 0)
+      try
       {
-         result = parent.getZeroCurrency();
-      }
-      else
-      {
-         result = new MPXCurrency(format, value);
+         NumberFormat format = parent.getCurrencyFormat();
+         double value = format.parse(amount).doubleValue();
+         MPXCurrency result;
+         
+         if (value == 0)
+         {
+            result = parent.getZeroCurrency();
+         }
+         else
+         {
+            result = new MPXCurrency(format, value);
+         }
+         
+         return (result);
       }
       
-      return (result);
+      catch (ParseException ex)
+      {
+         throw new MPXException ("Failed to parse currency", ex);
+      }
    }
    
    /**
     * Formatter used to format the currency amount.
     */
-   private MPXNumberFormat m_format;
+   private NumberFormat m_format;
 
    /**
     * Internal representation of the currency amount.

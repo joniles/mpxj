@@ -24,6 +24,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.ParseException;
 import java.util.Locale;
 
 
@@ -58,27 +59,35 @@ public final class MPXDuration implements ToStringRequiresFile
    private MPXDuration (String dur, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
-      int lastIndex = dur.length() - 1;
-      int index = lastIndex;
-
-      while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
+      try
       {
-         --index;
+         int lastIndex = dur.length() - 1;
+         int index = lastIndex;
+   
+         while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
+         {
+            --index;
+         }
+   
+         //
+         // If we have no units suffix, assume days to allow for MPX3
+         //
+         if (index == lastIndex)
+         {
+            m_duration = format.parse(dur).doubleValue();
+            m_units = TimeUnit.DAYS;
+         }
+         else
+         {
+            ++index;
+            m_duration = format.parse(dur.substring(0, index)).doubleValue();
+            m_units = TimeUnit.parse(dur.substring(index), locale);
+         }
       }
-
-      //
-      // If we have no units suffix, assume days to allow for MPX3
-      //
-      if (index == lastIndex)
+      
+      catch (ParseException ex)
       {
-         m_duration = format.parse(dur).doubleValue();
-         m_units = TimeUnit.DAYS;
-      }
-      else
-      {
-         ++index;
-         m_duration = format.parse(dur.substring(0, index)).doubleValue();
-         m_units = TimeUnit.parse(dur.substring(index), locale);
+         throw new MPXException ("Failed to parse duration", ex);
       }
    }
 
@@ -335,32 +344,40 @@ public final class MPXDuration implements ToStringRequiresFile
    public static MPXDuration getInstance (String dur, MPXNumberFormat format, Locale locale)
       throws MPXException
    {
-      int lastIndex = dur.length() - 1;
-      int index = lastIndex;
-      double duration;
-      TimeUnit units;
+      try
+      {
+         int lastIndex = dur.length() - 1;
+         int index = lastIndex;
+         double duration;
+         TimeUnit units;
+         
+         while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
+         {
+            --index;
+         }
       
-      while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
-      {
-         --index;
-      }
-   
-      //
-      // If we have no units suffix, assume days to allow for MPX3
-      //
-      if (index == lastIndex)
-      {
-         duration = format.parse(dur).doubleValue();
-         units = TimeUnit.DAYS;
-      }
-      else
-      {
-         ++index;
-         duration = format.parse(dur.substring(0, index)).doubleValue();
-         units = TimeUnit.parse(dur.substring(index), locale);
+         //
+         // If we have no units suffix, assume days to allow for MPX3
+         //
+         if (index == lastIndex)
+         {
+            duration = format.parse(dur).doubleValue();
+            units = TimeUnit.DAYS;
+         }
+         else
+         {
+            ++index;
+            duration = format.parse(dur.substring(0, index)).doubleValue();
+            units = TimeUnit.parse(dur.substring(index), locale);
+         }
+         
+         return (getInstance(duration, units));
       }
       
-      return (getInstance(duration, units));
+      catch (ParseException ex)
+      {
+         throw new MPXException ("Failed to parse duration", ex);
+      }
    }
 
    /**

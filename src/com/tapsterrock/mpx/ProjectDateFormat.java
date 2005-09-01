@@ -1,5 +1,5 @@
 /*
- * file:       DateFormat.java
+ * file:       ProjectDateFormat.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       04/01/2005
@@ -26,14 +26,14 @@ package com.tapsterrock.mpx;
 /**
  * Instances of this class represent enumerated date format values.
  */
-public final class DateFormat
+public final class ProjectDateFormat
 {
    /**
     * Private constructor.
     *
     * @param value date format value
     */
-   private DateFormat (int value)
+   private ProjectDateFormat (int value)
    {
       m_value = value;
    }
@@ -54,9 +54,9 @@ public final class DateFormat
     * @param value date format value
     * @return DateFormat instance
     */
-   public static DateFormat getInstance (int value)
+   public static ProjectDateFormat getInstance (int value)
    {
-      DateFormat result;
+      ProjectDateFormat result;
 
       switch (value)
       {
@@ -313,106 +313,106 @@ public final class DateFormat
    /**
     * This format represents dates in the form 25/12/98 12:56
     */
-   public static final DateFormat DD_MM_YY_HH_MM = new DateFormat(DD_MM_YY_HH_MM_VALUE);
+   public static final ProjectDateFormat DD_MM_YY_HH_MM = new ProjectDateFormat(DD_MM_YY_HH_MM_VALUE);
 
    /**
     * This format represents dates in the form 25/05/98
     */
-   public static final DateFormat DD_MM_YY = new DateFormat(DD_MM_YY_VALUE);
+   public static final ProjectDateFormat DD_MM_YY = new ProjectDateFormat(DD_MM_YY_VALUE);
 
    /**
     * This format represents dates in the form 13 December 2002 12:56
     */
-   public static final DateFormat DD_MMMMM_YYYY_HH_MM = new DateFormat(DD_MMMMM_YYYY_HH_MM_VALUE);
+   public static final ProjectDateFormat DD_MMMMM_YYYY_HH_MM = new ProjectDateFormat(DD_MMMMM_YYYY_HH_MM_VALUE);
 
    /**
     * This format represents dates in the form 13 December 2002
     */
-   public static final DateFormat DD_MMMMM_YYYY = new DateFormat(DD_MMMMM_YYYY_VALUE);
+   public static final ProjectDateFormat DD_MMMMM_YYYY = new ProjectDateFormat(DD_MMMMM_YYYY_VALUE);
 
    /**
     * This format represents dates in the form 24 Nov 12:56
     */
-   public static final DateFormat DD_MMM_HH_MM = new DateFormat(DD_MMM_HH_MM_VALUE);
+   public static final ProjectDateFormat DD_MMM_HH_MM = new ProjectDateFormat(DD_MMM_HH_MM_VALUE);
 
    /**
     * This format represents dates in the form 25 Aug '98
     */
-   public static final DateFormat DD_MMM_YY = new DateFormat(DD_MMM_YY_VALUE);
+   public static final ProjectDateFormat DD_MMM_YY = new ProjectDateFormat(DD_MMM_YY_VALUE);
 
    /**
     * This format represents dates in the form 25 September
     */
-   public static final DateFormat DD_MMMMM = new DateFormat(DD_MMMMM_VALUE);
+   public static final ProjectDateFormat DD_MMMMM = new ProjectDateFormat(DD_MMMMM_VALUE);
 
    /**
     * This format represents dates in the form 25 Aug
     */
-   public static final DateFormat DD_MMM = new DateFormat(DD_MMM_VALUE);
+   public static final ProjectDateFormat DD_MMM = new ProjectDateFormat(DD_MMM_VALUE);
 
    /**
     * This format represents dates in the form Thu 25/05/98 12:56
     */
-   public static final DateFormat EEE_DD_MM_YY_HH_MM = new DateFormat(EEE_DD_MM_YY_HH_MM_VALUE);
+   public static final ProjectDateFormat EEE_DD_MM_YY_HH_MM = new ProjectDateFormat(EEE_DD_MM_YY_HH_MM_VALUE);
 
    /**
     * This format represents dates in the form Wed 25/05/98
     */
-   public static final DateFormat EEE_DD_MM_YY = new DateFormat(EEE_DD_MM_YY_VALUE);
+   public static final ProjectDateFormat EEE_DD_MM_YY = new ProjectDateFormat(EEE_DD_MM_YY_VALUE);
 
    /**
     * This format represents dates in the form Wed 25 Mar '98
     */
-   public static final DateFormat EEE_DD_MMM_YY = new DateFormat(EEE_DD_MMM_YY_VALUE);
+   public static final ProjectDateFormat EEE_DD_MMM_YY = new ProjectDateFormat(EEE_DD_MMM_YY_VALUE);
 
    /**
     * This format represents dates in the form Wed 12:56
     */
-   public static final DateFormat EEE_HH_MM = new DateFormat(EEE_HH_MM_VALUE);
+   public static final ProjectDateFormat EEE_HH_MM = new ProjectDateFormat(EEE_HH_MM_VALUE);
 
    /**
     * This format represents dates in the form 25/5
     */
-   public static final DateFormat DD_MM = new DateFormat(DD_MM_VALUE);
+   public static final ProjectDateFormat DD_MM = new ProjectDateFormat(DD_MM_VALUE);
 
    /**
     * This format represents dates in the form 23
     */
-   public static final DateFormat DD = new DateFormat(DD_VALUE);
+   public static final ProjectDateFormat DD = new ProjectDateFormat(DD_VALUE);
 
    /**
     * This format represents dates in the form 12:56
     */
-   public static final DateFormat HH_MM = new DateFormat(HH_MM_VALUE);
+   public static final ProjectDateFormat HH_MM = new ProjectDateFormat(HH_MM_VALUE);
 
    /**
     * This format represents dates in the form Wed 23 Mar
     */
-   public static final DateFormat EEE_DD_MMM = new DateFormat(EEE_DD_MMM_VALUE);
+   public static final ProjectDateFormat EEE_DD_MMM = new ProjectDateFormat(EEE_DD_MMM_VALUE);
 
    /**
     * This format represents dates in the form Wed 25/5
     */
-   public static final DateFormat EEE_DD_MM = new DateFormat(EEE_DD_MM_VALUE);
+   public static final ProjectDateFormat EEE_DD_MM = new ProjectDateFormat(EEE_DD_MM_VALUE);
 
    /**
     * This format represents dates in the form Wed 05
     */
-   public static final DateFormat EEE_DD = new DateFormat(EEE_DD_VALUE);
+   public static final ProjectDateFormat EEE_DD = new ProjectDateFormat(EEE_DD_VALUE);
 
    /**
     * This format represents dates in the form 5/W25
     */
-   public static final DateFormat DD_WWW = new DateFormat(DD_WWW_VALUE);
+   public static final ProjectDateFormat DD_WWW = new ProjectDateFormat(DD_WWW_VALUE);
 
    /**
     * This format represents dates in the form 5/W25/98 12:56
     */
-   public static final DateFormat DD_WWW_YY_HH_MM = new DateFormat(DD_WWW_YY_HH_MM_VALUE);
+   public static final ProjectDateFormat DD_WWW_YY_HH_MM = new ProjectDateFormat(DD_WWW_YY_HH_MM_VALUE);
 
    /**
     * This format represents dates in the form 25/05/1998
     */
-   public static final DateFormat DD_MM_YYYY = new DateFormat(DD_MM_YYYY_VALUE);
+   public static final ProjectDateFormat DD_MM_YYYY = new ProjectDateFormat(DD_MM_YYYY_VALUE);
 
 }
