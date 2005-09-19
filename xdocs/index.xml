@@ -14,7 +14,7 @@
 <p>Welcome to MPXJ! This library provides a set of facilities to
 allow project information to be manipulated in Java. MPXJ supports
 three file formats, Microsoft Project Exchange (MPX), Microsoft
-Project (MPP), and Microsoft Project Data Interchange (MSPDI).</p>
+Project (MPP,MPT), and Microsoft Project Data Interchange (MSPDI).</p>
 
 <p>The library is currently based around a set of data structures
 modelled on the data described by the MPX file format. All
@@ -33,7 +33,8 @@ for a definition of the file format.</p>
 <p>MPP: The MPP file format is Microsoft's proprietary way of storing
 project data. MPXJ supports read only access to MPP files produced
 by Microsoft Project 98, Microsoft Project 2000, Microsoft 
-Project 2002, and Microsoft Project 2003.</p>
+Project 2002, and Microsoft Project 2003. MPP template files, with
+the suffix MPT are also supported.</p>
 
 <p>MSPDI: The MSPDI file format is Microsoft's XML file format for
 storing project data. Microsoft Project 2002 and Microsoft Project

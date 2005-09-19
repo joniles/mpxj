@@ -17,7 +17,7 @@ requests for inclusion here.</p>
 
 <ul>
 <li>Implement read/write of outline codes for MSPDI files.</li>
-<li>Switch from using discrete priority values to using continuous values.</li>
+<li>Extract more fields from the MPP file project header (particularly schedule from)</li>
 <li>Investigate extracting more fields from MPP files for resource assignments.</li>
 <li>Complete implementation of Props structure for MPP8 files.</li>
 <li>Extract custom task field headings from Props table for MPP8 files.</li>
