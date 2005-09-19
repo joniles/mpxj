@@ -134,14 +134,16 @@ public class MPPFile extends MPXFile
          CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
 
          String format = compObj.getFileFormat();
-         if (format.equals("MSProject.MPP9") == true)
+         if (format.equals("MSProject.MPP9") == true ||
+             format.equals("MSProject.MPT9") == true)
          {
             MPP9File.process (this, root);
             m_fileType = 9;
          }
          else
          {
-            if (format.equals("MSProject.MPP8") == true)
+            if (format.equals("MSProject.MPP8") == true ||
+                format.equals("MSProject.MPT8") == true)
             {
                MPP8File.process (this, root);
                m_fileType = 8;
