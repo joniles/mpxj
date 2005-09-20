@@ -12,6 +12,8 @@
       <action dev="joniles" type="add">Added a flag called "expanded" to the Task class to represent whether a task in an MPP9 file is shown as expanded or collapsed by MS Project.</action>
       <action dev="joniles" type="fix">Fixed a bug in the relation code in MpxjQuery (contributed by Shlomo Swidler).</action>
       <action dev="joniles" type="update">Modified MPXDateFormat, MPXTimeFormat and MPXCurrencyFormat to derive them from DateFormat and NumberFormat.</action>
+      <action dev="joniles" type="add">Added support for MPT files.</action>
+      <action dev="joniles" type="fix">Fixed a bug which could case an NPE when reading certain MPP9 files.</action>      
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 
