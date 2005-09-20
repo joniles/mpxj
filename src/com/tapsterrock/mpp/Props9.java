@@ -61,7 +61,7 @@ final class Props9 extends Props
          int attrib3 = readInt(is);
          availableBytes -= 12;
 
-         if (availableBytes < attrib1)
+         if (availableBytes < attrib1 || attrib1 < 1)
          {
             break;
          }

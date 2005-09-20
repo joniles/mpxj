@@ -373,7 +373,11 @@ final class MPP9File
       throws IOException, MPXException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
-      processBaseFonts (file, props.getByteArray(Props.FONT_BASES));
+      byte[] data = props.getByteArray(Props.FONT_BASES);
+      if (data != null)
+      {
+         processBaseFonts (file, data);
+      }
    }
    
    /**
