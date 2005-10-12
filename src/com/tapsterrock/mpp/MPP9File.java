@@ -235,6 +235,7 @@ final class MPP9File
                // task unique ID, 8 bytes, path, file name
                //
                case 0x09:
+               case 0x11:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
