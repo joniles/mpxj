@@ -137,7 +137,8 @@ final class MPP9File
       throws IOException, MPXException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
-            
+      //MPPUtility.fileHexDump("c:\\temp\\props.txt", props.toString().getBytes());
+      
       ProjectHeader ph = file.getProjectHeader();
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
@@ -1108,6 +1109,8 @@ final class MPP9File
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
+      //System.out.println(taskFixedData);
+      //System.out.println(taskVarData);
       
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifierArray();
@@ -1135,8 +1138,10 @@ final class MPP9File
          {
             continue;
          }
-         
+                           
          metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
+         //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
+         //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));
          
          task = file.addTask();
          task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
@@ -1282,7 +1287,7 @@ final class MPP9File
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));
          //task.setLinkedFields();  // Calculated value
-         //task.setMarked();
+         task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
          task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
          task.setNumber1(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER1)));
