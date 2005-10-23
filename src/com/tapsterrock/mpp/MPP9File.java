@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -1849,7 +1850,9 @@ final class MPP9File
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
-
+      //System.out.println(assnVarMeta);
+      //System.out.println(assnVarData);
+      
       Set set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       byte[] meta;
@@ -1887,36 +1890,72 @@ final class MPP9File
 
          taskID = MPPUtility.getInt (data, 4);
          task = file.getTaskByUniqueID (taskID);
-         
-         resourceID = MPPUtility.getInt (data, 8);
-         resource = file.getResourceByUniqueID (resourceID);
-
-         if (task != null && resource != null)
+                  
+         if (task != null)
          {
-            assignment = task.addResourceAssignment (resource);
-            assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 110)/100));
-            assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
-            assignment.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 102)/100));
-            assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
-            assignment.setFinish(MPPUtility.getTimestamp(data, 16));
-            //assignment.setOvertimeWork(); // Can't find in data block
-            //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
-            //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-            assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
-            assignment.setStart(MPPUtility.getTimestamp(data, 12));
-            assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
-            assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
-
             varDataBlock = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, WORK_CONTOUR));
             if (varDataBlock != null)
             {
-               assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(varDataBlock, 28)));
+               processSplitData(task, varDataBlock);
+            }
+            
+            resourceID = MPPUtility.getInt (data, 8);
+            resource = file.getResourceByUniqueID (resourceID);
+            
+            if (resource != null)
+            {
+               assignment = task.addResourceAssignment (resource);
+               assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 110)/100));
+               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
+               assignment.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 102)/100));
+               assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
+               assignment.setFinish(MPPUtility.getTimestamp(data, 16));
+               //assignment.setOvertimeWork(); // Can't find in data block
+               //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
+               //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
+               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
+               assignment.setStart(MPPUtility.getTimestamp(data, 12));
+               assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
+               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+               
+               if (varDataBlock != null)
+               {
+                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(varDataBlock, 28)));
+               }            
             }
          }
       }
    }
 
-
+   /**
+    * The task split data is represented as a 44 byte header (which also
+    * contains unrelated assignment information, such as the work contour)
+    * followed by a list of 28 byte blocks, each block representing one
+    * split. The first two bytes of the header contains a count of the
+    * number of splits.
+    * 
+    * @param task parent task
+    * @param data split data
+    */
+   private static void processSplitData (Task task, byte[] data)
+   {
+      int splitCount = MPPUtility.getShort(data, 0);
+      if (splitCount != 0)
+      {
+         List splits = new ArrayList (splitCount);
+         int offset = 44;
+         for (int loop=0; loop < splitCount; loop++)
+         {
+            double splitTime = (double)MPPUtility.getInt(data, offset+24);
+            splitTime /= 4800;
+            MPXDuration splitDuration = MPXDuration.getInstance(splitTime, TimeUnit.HOURS);
+            splits.add(splitDuration);
+            offset += 28;
+         }
+         task.setSplits(splits);
+      }
+   }
+   
    /**
     * This method is used to determine if a duration is estimated.
     *
@@ -2393,7 +2432,7 @@ final class MPP9File
    private static final Integer TABLE_COLUMN_DATA = new Integer (1);
    private static final Integer OUTLINECODE_DATA = new Integer (1);
    private static final Integer WORK_CONTOUR = new Integer(7);
-
+   
    /**
     * Mask used to isolate confirmed flag from the duration units field.
     */

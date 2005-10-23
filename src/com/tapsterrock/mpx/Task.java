@@ -7282,6 +7282,37 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
+    * This method retrieves a list of task splits. Each split is represented
+    * by a number of working hours since the start of the task to the end of 
+    * the current split. The list will always follow the pattern
+    * task time, split time, task time and so on. For example, if we have a 
+    * 5 day task which is represented as 2 days work, a one day, then three
+    * days work, the splits list will contain 16h, 24h, 48h. Assuming an 8 hour
+    * working day, this equates to the end of the first working segment beging 
+    * 2 working days from the task start date (16h), the end of the first split
+    * being 3 working days from the task start date (24h) and finally, the end
+    * of the entire task being 6 working days from the task start date (48h).
+    * 
+    * Note that this method will return null if the task is not split.
+    * 
+    * @return list of split times
+    */
+   public List getSplits ()
+   {
+      return (m_splits);
+   }
+   
+   /**
+    * Internal method used to set the list of splits.
+    * 
+    * @param splits list of split times
+    */
+   public void setSplits (List splits)
+   {
+      m_splits = splits;
+   }
+   
+   /**
     * This is a reference to the parent task, as specified by the
     * outline level.
     */
@@ -7362,6 +7393,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private MPXDuration m_actualOvertimeWorkProtected;
    private MPXDuration m_regularWork;
    private boolean m_expanded = true;
+   private List m_splits;
    
    /**
     * The % Complete field contains the current status of a task, expressed as the percentage
