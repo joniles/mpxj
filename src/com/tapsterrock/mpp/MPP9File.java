@@ -84,6 +84,7 @@ final class MPP9File
       // Retrieve the high level document properties
       //
       Props9 props9 = new Props9 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props9"))));
+      //System.out.println(props9);
       
       //
       // Test for password protection. In the single byte retrieved here:
@@ -172,6 +173,8 @@ final class MPP9File
       ph.setCompany(summary.getCompany());
       ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
+      
+      ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
       
       processSubProjectData(file, props);
    }

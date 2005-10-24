@@ -2936,6 +2936,26 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
+    * Sets the calculate multiple critical paths flag.
+    * 
+    * @param flag boolean flag
+    */
+   public void setCalculateMultipleCriticalPaths (boolean flag)
+   {
+      m_calculateMultipleCriticalPaths = flag;
+   }
+   
+   /**
+    * Retrieves the calculate multiple critical paths flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getCalculateMultipleCriticalPaths ()
+   {
+      return (m_calculateMultipleCriticalPaths);
+   }
+   
+   /**
     * This method updates the formatters used to control the currency
     * formatting.
     */
@@ -3193,6 +3213,7 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_fiscalYearStartMonth;
    private boolean m_newTaskStartIsProjectStart;
    private Day m_weekStartDay;
+   private boolean m_calculateMultipleCriticalPaths;
 
    /*
     * Missing MSPDI attributes
