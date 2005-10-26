@@ -63,7 +63,7 @@ public final class Priority implements ToStringRequiresFile
     */
    public static Priority getInstance (Locale locale, String priority)
    {
-      int index = MEDIUM;
+      int index = DEFAULT_PRIORITY_INDEX;
 
       if (priority != null)
       {
@@ -212,6 +212,11 @@ public final class Priority implements ToStringRequiresFile
       new Priority (DO_NOT_LEVEL)
    };
 
+   /**
+    * Index into the VALUE array of the default priority.
+    */
+   private static final int DEFAULT_PRIORITY_INDEX = 4;
+   
    /**
     * Internal representation of the priority.
     */
