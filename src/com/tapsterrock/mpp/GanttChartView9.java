@@ -247,7 +247,7 @@ public class GanttChartView9 extends View9
          }
       }                                          
       
-      //System.out.println (toString());
+      //MPPUtility.fileDump("c:\\temp\\GanttChartView9.txt", toString().getBytes());
    }
 
    /**

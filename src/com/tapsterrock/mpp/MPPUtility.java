@@ -960,6 +960,27 @@ final class MPPUtility
          ex.printStackTrace();
       }
    }
+
+   /**
+    * Writes a large byte array to a file.
+    * 
+    * @param fileName output file name
+    * @param data target data
+    */
+   public static final void fileDump (String fileName, byte[] data)
+   {
+      try
+      {
+         FileOutputStream os = new FileOutputStream(fileName);
+         os.write(data);
+         os.close();
+      }
+      
+      catch (IOException ex)
+      {
+         ex.printStackTrace();
+      }
+   }
    
    /**
     * Epoch date for MPP date calculation is 31/12/1983. This constant
