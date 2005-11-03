@@ -42,7 +42,7 @@ public final class Priority implements ToStringRequiresFile
     */
    private Priority (int priority)
    {
-      if (priority < LOWEST || priority > DO_NOT_LEVEL)
+      if (priority < 0 || priority > DO_NOT_LEVEL)
       {
          m_value = MEDIUM;
       }
