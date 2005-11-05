@@ -37,6 +37,7 @@ requests for inclusion here.</p>
 <li>Retrieve valid value specifications/lists for user defined fields.</li>
 <li>Version 1.0 release: on completion of the bulk of the above changes.</li>
 <li>Version 2.0 release: rewrite MPXJ to use a generic data structure not tied to MPX.</li>
+<li>Investigate implementing read/write access to the MPD file format using Jackcess.</li>
 </ul>
 </section>
 </body>
