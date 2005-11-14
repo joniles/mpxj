@@ -19,6 +19,7 @@
       <action dev="joniles" type="add">Added support for reading calculate multiple critical paths flag.</action>
       <action dev="joniles" type="fix">Fixed a bug which could case an array out of bounds exception in the Priority (contributed by Frank Illenberger).</action>
       <action dev="joniles" type="fix">Fixed bug #1346735 "Priorities of the tasks are exported incorrectly".</action>      
+      <action dev="joniles" type="fix">Added code to allow tasks, resources, resource assignemnts and calendars to be removed from the data structure.</action>      
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

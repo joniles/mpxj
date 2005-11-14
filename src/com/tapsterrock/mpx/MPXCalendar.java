@@ -674,6 +674,34 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
+    * Retrieve the resource to which this calendar is linked.
+    * 
+    * @return resource instance
+    */
+   public Resource getResource ()
+   {
+      return (m_resource);
+   }
+   
+   /**
+    * Sets the resource to which this calendar is linked.
+    * 
+    * @param resource resource instance
+    */
+   public void setResource (Resource resource)
+   {
+      m_resource = resource;
+   }
+   
+   /**
+    * Removes this calendar from the project.
+    */
+   public void remove ()
+   {
+      getParentFile().removeBaseCalendar(this);
+   }
+   
+   /**
     * Unique identifier of this calendar
     */
    private int m_uniqueID;
@@ -710,6 +738,11 @@ public final class MPXCalendar extends MPXRecord
     */
    private MPXCalendarHours[] m_hours = new MPXCalendarHours[7];
 
+   /**
+    * This resource to which this calendar is attached.
+    */
+   private Resource m_resource;
+   
    /**
     * Default base calendar name to use when none is supplied
     */

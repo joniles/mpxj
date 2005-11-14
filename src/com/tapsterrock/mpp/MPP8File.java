@@ -358,7 +358,7 @@ final class MPP8File
     * The way calendars are stored in an MPP8 file means that there
     * can be forward references between the base calendar unique ID for a
     * derived calendar, and the base calendar itself. To get around this,
-    * we initially populatethe base calendar name attribute with the
+    * we initially populate the base calendar name attribute with the
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
     *

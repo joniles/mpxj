@@ -1397,14 +1397,18 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * This package private method allows a pre-existing resource calendar
+    * This method allows a pre-existing resource calendar
     * to be attched to a resource.
     *
     * @param calendar resource calendar
     */
-   void attachResourceCalendar (MPXCalendar calendar)
+   public void setResourceCalendar (MPXCalendar calendar)
    {
       m_calendar = calendar;
+      if (calendar != null)
+      {
+         calendar.setResource(this);
+      }
    }
 
    /**
@@ -1422,7 +1426,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
       }
 
       m_calendar = new MPXCalendar(getParentFile(), false);
-
+      m_calendar.setResource(this);
       return (m_calendar);
    }
 
@@ -1443,7 +1447,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
       }
 
       m_calendar = new MPXCalendar(getParentFile(), record, false);
-
+      m_calendar.setResource(this);
       return (m_calendar);
    }
 
@@ -4772,6 +4776,13 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
       return ((String)get(OUTLINECODE10));
    }
 
+   /**
+    * Removes this resource assignment from the project.
+    */
+   public void remove ()
+   {
+      getParentFile().removeResource(this);
+   }
 
    /**
     * This method generates a string in MPX format representing the

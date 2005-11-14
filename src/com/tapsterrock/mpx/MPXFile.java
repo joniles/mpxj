@@ -693,6 +693,35 @@ public class MPXFile
    }
 
    /**
+    * This method is used to remove a task from the project.
+    * 
+    * @param task task to be removed
+    */
+   public void removeTask (Task task)
+   {
+      m_allTasks.remove(task);
+      m_taskUniqueIDMap.remove(task.getUniqueID());
+      m_taskIDMap.remove(task.getID());
+    
+      Task parentTask = task.getParentTask();
+      if (parentTask != null)
+      {
+         parentTask.removeChildTask (task);
+      }
+      
+      Iterator iter = m_allResourceAssignments.iterator();
+      ResourceAssignment assignment;
+      while (iter.hasNext() == true)
+      {
+         assignment = (ResourceAssignment)iter.next();
+         if (assignment.getTask() == task)
+         {
+            iter.remove();
+         }
+      }
+   }
+   
+   /**
     * This method is used to retrieve a list of all of the top level tasks
     * that are defined in this MPX file.
     *
@@ -1023,6 +1052,21 @@ public class MPXFile
    }
 
    /**
+    * Removes a base calendar.
+    * 
+    * @param calendar calendar to be removed
+    */
+   public void removeBaseCalendar (MPXCalendar calendar)
+   {
+      m_baseCalendars.remove(calendar);
+      Resource resource = calendar.getResource();
+      if (resource != null)
+      {
+         resource.setResourceCalendar(null);
+      }
+   }
+   
+   /**
     * This is a convenience method used to add a base calendar called
     * "Standard" to the file, and populate it with a default working week
     * and default working hours
@@ -1083,7 +1127,7 @@ public class MPXFile
     */
    protected void attachResourceCalendar (Resource resource, MPXCalendar calendar)
    {
-      resource.attachResourceCalendar(calendar);
+      resource.setResourceCalendar(calendar);      
    }
 
    /**
@@ -1120,6 +1164,30 @@ public class MPXFile
    }
 
    /**
+    * This method is used to remove a resource from the project.
+    * 
+    * @param resource resource to be removed
+    */
+   public void removeResource (Resource resource)
+   {
+      m_allResources.remove(resource);
+      m_resourceUniqueIDMap.remove(resource.getUniqueID());
+      m_resourceIDMap.remove(resource.getID());
+      
+      Iterator iter = m_allResourceAssignments.iterator();
+      ResourceAssignment assignment;
+      int resourceUniqueID = resource.getUniqueIDValue();
+      while (iter.hasNext() == true)
+      {
+         assignment = (ResourceAssignment)iter.next();
+         if (assignment.getResourceUniqueID().intValue() == resourceUniqueID)
+         {
+            iter.remove();
+         }
+      }
+   }
+   
+   /**
     * This method is used to retrieve a list of all of the resources
     * that are defined in this MPX file.
     *
@@ -1142,8 +1210,8 @@ public class MPXFile
    }
 
    /**
-    * This method is provided to allow resource assignments that have been created
-    * programatically to be added as a record to the main file.
+    * This method is provided to allow resource assignments that have been 
+    * created programatically to be added as a record to the main file.
     *
     * @param assignment Resource assignment created as part of a task
     */
@@ -1152,6 +1220,17 @@ public class MPXFile
       m_allResourceAssignments.add(assignment);
    }
 
+   /**
+    * This method removes a resource assignment from the internal storage
+    * maintained by the project file.
+    * 
+    * @param assignment resource assignment to remove
+    */
+   void removeResourceAssignment (ResourceAssignment assignment)
+   {
+      m_allResourceAssignments.remove(assignment);
+   }
+   
    /**
     * This method is used to add project names to the file.
     *

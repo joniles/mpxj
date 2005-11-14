@@ -498,6 +498,16 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
+    * Removes a child task.
+    * 
+    * @param child child task instance
+    */
+   void removeChildTask (Task child)
+   {
+      m_children.remove(child);
+   }
+   
+   /**
     * This method allows the list of child tasks to be cleared in preparation
     * for the hierarchical task structure to be built.
     */

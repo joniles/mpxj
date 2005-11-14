@@ -533,6 +533,14 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
+    * Removes this resource assignment from the project.
+    */
+   public void remove ()
+   {
+      getParentFile().removeResourceAssignment(this);
+   }
+   
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
