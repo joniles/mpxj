@@ -61,6 +61,7 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXFile;
 import com.tapsterrock.mpx.NumberUtility;
+import com.tapsterrock.mpx.Pair;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationType;
@@ -392,13 +393,14 @@ public class MSPDIFile extends MPXFile
       {
          List calendar = calendars.getCalendar();
          Iterator iter = calendar.iterator();
-
+         LinkedList baseCalendars = new LinkedList();
+         
          while (iter.hasNext() == true)
          {
-            readCalendar ((Project.CalendarsType.CalendarType)iter.next(), map);
+            readCalendar ((Project.CalendarsType.CalendarType)iter.next(), map, baseCalendars);
          }
 
-         updateBaseCalendarNames (map);
+         updateBaseCalendarNames (baseCalendars, map);
       }
    }
 
@@ -410,26 +412,27 @@ public class MSPDIFile extends MPXFile
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
     *
+    * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private static void updateBaseCalendarNames (HashMap map)
+   private static void updateBaseCalendarNames (List baseCalendars, HashMap map)
    {
-      Iterator iter = map.keySet().iterator();
+      Iterator iter = baseCalendars.iterator();
+      Pair pair;
       MPXCalendar cal;
+      BigInteger baseCalendarID;
       MPXCalendar baseCal;
-      String baseCalendarName;
-
+      
       while (iter.hasNext() == true)
       {
-         cal = (MPXCalendar)map.get(iter.next());
-         baseCalendarName = cal.getBaseCalendarName();
-         if (baseCalendarName != null)
+         pair = (Pair)iter.next();
+         cal = (MPXCalendar)pair.getFirst();
+         baseCalendarID = (BigInteger)pair.getSecond();
+         
+         baseCal = (MPXCalendar)map.get(baseCalendarID);
+         if (baseCal != null)
          {
-            baseCal = (MPXCalendar)map.get(new BigInteger (baseCalendarName));
-            if (baseCal != null)
-            {
-               cal.setBaseCalendarName(baseCal.getName());
-            }
+            cal.setBaseCalendar(baseCal);
          }
       }
    }
@@ -441,7 +444,7 @@ public class MSPDIFile extends MPXFile
     * @param map Map of calendar UIDs to names
     * @throws MPXException on file read errors
     */
-   private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map)
+   private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map, LinkedList baseCalendars)
       throws MPXException
    {
       MPXCalendar bc;
@@ -461,7 +464,7 @@ public class MSPDIFile extends MPXFile
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
       {
-         bc.setBaseCalendarName(baseCalendarID.toString());
+         baseCalendars.add(new Pair(bc, baseCalendarID));
       }
 
       Project.CalendarsType.CalendarType.WeekDaysType days = calendar.getWeekDays();

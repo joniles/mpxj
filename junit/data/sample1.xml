@@ -1287,12 +1287,14 @@
         </Calendar>
         <Calendar>
             <UID>3</UID>
+            <Name>First Resource</Name>
             <IsBaseCalendar>0</IsBaseCalendar>
             <BaseCalendarUID>1</BaseCalendarUID>
             <WeekDays/>
         </Calendar>
         <Calendar>
             <UID>4</UID>
+            <Name>Second Resource</Name>
             <IsBaseCalendar>0</IsBaseCalendar>
             <BaseCalendarUID>2</BaseCalendarUID>
             <WeekDays/>

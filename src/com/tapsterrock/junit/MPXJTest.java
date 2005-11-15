@@ -2152,6 +2152,74 @@ public class MPXJTest extends TestCase
       assertEquals(Priority.LOWEST, file.getTaskByUniqueID(10).getPriority().getValue());      
    }
    
+   public void testCalendars ()
+      throws Exception
+   {
+      MPPFile mpp = new MPPFile (m_basedir + "/caltest98.mpp");
+      validateResourceCalendars(mpp);
+      
+      MPXFile mpx = new MPXFile(m_basedir + "/caltest98.mpx");
+      validateResourceCalendars(mpx);
+      
+      MPPFile mpp9 = new MPPFile(m_basedir + "/caltest.mpp");
+      validateResourceCalendars(mpp9);   
+      validateTaskCalendars(mpp9);
+      
+      MSPDIFile xml = new MSPDIFile(m_basedir + "/caltest.xml");
+      validateResourceCalendars(xml);   
+      validateTaskCalendars(xml);
+   }
+   
+   private void validateResourceCalendars (MPXFile mpx)
+   {
+      //
+      // Resource calendar based on standard calendar
+      //
+      Resource resource = mpx.getResourceByUniqueID(1);      
+      MPXCalendar calendar = resource.getResourceCalendar();
+      assertEquals("Resource One", calendar.getName());
+      assertFalse(calendar.isBaseCalendar());
+      assertEquals("Standard", calendar.getBaseCalendar().getName());
+      assertTrue(calendar.getCalendarExceptions().isEmpty());
+      
+      //
+      // Resource calendar based on base calendar
+      //
+      resource = mpx.getResourceByUniqueID(2);
+      calendar = resource.getResourceCalendar();
+      assertEquals("Resource Two", calendar.getName());
+      assertFalse(calendar.isBaseCalendar());
+      assertEquals("Base Calendar", calendar.getBaseCalendar().getName());
+      assertTrue(calendar.getCalendarExceptions().isEmpty());
+      
+      //
+      // Resource calendar based on modified base calendar
+      //
+      resource = mpx.getResourceByUniqueID(3);
+      calendar = resource.getResourceCalendar();
+      assertEquals("Resource Three", calendar.getName());
+      assertFalse(calendar.isBaseCalendar());
+      assertEquals("Base Calendar", calendar.getBaseCalendar().getName());
+      assertFalse(calendar.getCalendarExceptions().isEmpty());      
+   }
+
+   private void validateTaskCalendars (MPXFile mpx)
+   {
+      Task task = mpx.getTaskByUniqueID(2);
+      MPXCalendar calendar = task.getCalendar();
+      assertNull(calendar);
+      
+      task = mpx.getTaskByUniqueID(3);
+      calendar = task.getCalendar();      
+      assertEquals("Standard", calendar.getName());
+      assertTrue(calendar.isBaseCalendar());
+      
+      task = mpx.getTaskByUniqueID(4);
+      calendar = task.getCalendar();      
+      assertEquals("Base Calendar", calendar.getName());
+      assertTrue(calendar.isBaseCalendar());      
+   }
+   
    private String m_basedir;
 }
 

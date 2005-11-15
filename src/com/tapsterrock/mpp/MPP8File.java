@@ -30,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -46,6 +48,7 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
+import com.tapsterrock.mpx.Pair;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
@@ -204,6 +207,7 @@ final class MPP8File
       int baseCalendarID;
       int periodIndex;
       Day day;
+      List baseCalendars = new LinkedList();
       
       for (int loop=0; loop < calendars; loop++)
       {
@@ -237,7 +241,7 @@ final class MPP8File
             if (baseCalendarID > 0)
             {
                cal = file.mppAddDefaultResourceCalendar ();
-               cal.setBaseCalendarName(Integer.toString(baseCalendarID));
+               baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
             }
             else
             {
@@ -250,7 +254,7 @@ final class MPP8File
             if (baseCalendarID > 0)
             {
                cal = file.mppAddResourceCalendar ();
-               cal.setBaseCalendarName(Integer.toString(baseCalendarID));
+               baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
             }
             else
             {
@@ -351,7 +355,7 @@ final class MPP8File
          calendarMap.put(new Integer (calendarID), cal);
       }
 
-      updateBaseCalendarNames (calendarMap);
+      updateBaseCalendarNames (baseCalendars, calendarMap);
    }
 
    /**
@@ -362,26 +366,27 @@ final class MPP8File
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
     *
+    * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private static void updateBaseCalendarNames (HashMap map)
+   private static void updateBaseCalendarNames (List baseCalendars, HashMap map)
    {
-      Iterator iter = map.keySet().iterator();
+      Iterator iter = baseCalendars.iterator();
+      Pair pair;
       MPXCalendar cal;
+      Integer baseCalendarID;
       MPXCalendar baseCal;
-      String baseCalendarName;
-
+      
       while (iter.hasNext() == true)
       {
-         cal = (MPXCalendar)map.get(iter.next());
-         baseCalendarName = cal.getBaseCalendarName();
-         if (baseCalendarName != null)
+         pair = (Pair)iter.next();
+         cal = (MPXCalendar)pair.getFirst();
+         baseCalendarID = (Integer)pair.getSecond();
+         
+         baseCal = (MPXCalendar)map.get(baseCalendarID);
+         if (baseCal != null)
          {
-            baseCal = (MPXCalendar)map.get(new Integer (baseCalendarName));
-            if (baseCal != null)
-            {
-               cal.setBaseCalendarName(baseCal.getName());
-            }
+            cal.setBaseCalendar(baseCal);
          }
       }
    }

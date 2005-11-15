@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -49,6 +50,7 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
+import com.tapsterrock.mpx.Pair;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
@@ -824,7 +826,8 @@ final class MPP9File
       Integer resourceID;
       int offset;
       MPXCalendar cal;
-
+      List baseCalendars = new LinkedList();
+      
       for (int loop=0; loop < items; loop++)
       {
          fixedData = calFixedData.getByteArrayValue(loop);
@@ -869,7 +872,7 @@ final class MPP9File
                         cal = file.mppAddDefaultResourceCalendar();
                      }
 
-                     cal.setBaseCalendarName(Integer.toString(baseCalendarID));
+                     baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
                      resourceID = new Integer (MPPUtility.getInt(fixedData, offset+8));
                      resourceMap.put (resourceID, cal);
                   }
@@ -890,7 +893,7 @@ final class MPP9File
          }
       }
 
-      updateBaseCalendarNames (calendarMap);
+      updateBaseCalendarNames (baseCalendars, calendarMap);
    }
 
    /**
@@ -1065,26 +1068,27 @@ final class MPP9File
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
     *
+    * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private static void updateBaseCalendarNames (HashMap map)
+   private static void updateBaseCalendarNames (List baseCalendars, HashMap map)
    {
-      Iterator iter = map.keySet().iterator();
+      Iterator iter = baseCalendars.iterator();
+      Pair pair;
       MPXCalendar cal;
+      Integer baseCalendarID;
       MPXCalendar baseCal;
-      String baseCalendarName;
-
+      
       while (iter.hasNext() == true)
       {
-         cal = (MPXCalendar)map.get(iter.next());
-         baseCalendarName = cal.getBaseCalendarName();
-         if (baseCalendarName != null)
+         pair = (Pair)iter.next();
+         cal = (MPXCalendar)pair.getFirst();
+         baseCalendarID = (Integer)pair.getSecond();
+         
+         baseCal = (MPXCalendar)map.get(baseCalendarID);
+         if (baseCal != null)
          {
-            baseCal = (MPXCalendar)map.get(new Integer (baseCalendarName));
-            if (baseCal != null)
-            {
-               cal.setBaseCalendarName(baseCal.getName());
-            }
+            cal.setBaseCalendar(baseCal);
          }
       }
    }

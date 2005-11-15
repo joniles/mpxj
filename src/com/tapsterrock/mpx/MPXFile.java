@@ -1265,22 +1265,26 @@ public class MPXFile
    public MPXCalendar getBaseCalendar (String calendarName)
    {
       MPXCalendar calendar = null;
-      String name;
-      Iterator iter = m_baseCalendars.iterator();
-
-      while (iter.hasNext() == true)
+      
+      if (calendarName != null && calendarName.length() != 0)
       {
-         calendar = (MPXCalendar)iter.next();
-         name = calendar.getName();
-
-         if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
+         String name;
+         Iterator iter = m_baseCalendars.iterator();
+   
+         while (iter.hasNext() == true)
          {
-            break;
+            calendar = (MPXCalendar)iter.next();
+            name = calendar.getName();
+   
+            if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
+            {
+               break;
+            }
+   
+            calendar = null;
          }
-
-         calendar = null;
       }
-
+      
       return (calendar);
    }
 

@@ -61,15 +61,15 @@ public final class MPXCalendar extends MPXRecord
    {
       super (file, 0);
 
-      m_baseCalendar = baseCalendar;
-
-      if (m_baseCalendar == true)
+      m_baseCalendarFlag = baseCalendar;
+      
+      if (baseCalendar == true)
       {
          setName(record.getString(0));
       }
       else
-      {
-         setBaseCalendarName (record.getString(0));
+      {         
+         setBaseCalendar (file.getBaseCalendar(record.getString(0)));
       }
 
       setWorkingDay(Day.SUNDAY, record.getInteger(1));
@@ -195,23 +195,13 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
-    * Sets the base calendar name
+    * Sets the MPXCalendar instance from which this calendar is derived.
     *
-    * @param name base calendar name
+    * @param calendar base calendar instance
     */
-   public void setBaseCalendarName (String name)
+   public void setBaseCalendar (MPXCalendar calendar)
    {
-      m_baseCalendarName = name;
-   }
-
-   /**
-    * Retrieves the base calendar name
-    *
-    * @return base calendar name
-    */
-   public String getBaseCalendarName()
-   {
-      return (m_baseCalendarName);
+      m_baseCalendar = calendar;
    }
 
    /**
@@ -221,13 +211,7 @@ public final class MPXCalendar extends MPXRecord
     */
    public MPXCalendar getBaseCalendar ()
    {
-      String name = getBaseCalendarName();
-      if (name == null || name.length() == 0)
-      {
-         name = DEFAULT_BASE_CALENDAR_NAME;
-      }
-
-      return (getParentFile().getBaseCalendar(name));
+      return (m_baseCalendar);
    }
 
    /**
@@ -241,7 +225,7 @@ public final class MPXCalendar extends MPXRecord
       StringBuffer buf = new StringBuffer();
       char delimiter = getParentFile().getDelimiter();
 
-      if (m_baseCalendar == true)
+      if (m_baseCalendar == null)
       {
          buf.append (BASE_CALENDAR_RECORD_NUMBER);
          buf.append (delimiter);
@@ -254,10 +238,7 @@ public final class MPXCalendar extends MPXRecord
       {
          buf.append (RESOURCE_CALENDAR_RECORD_NUMBER);
          buf.append (delimiter);
-         if (m_baseCalendarName != null)
-         {
-            buf.append (m_baseCalendarName);
-         }
+         buf.append (m_baseCalendar.getName());
       }
 
       for (int loop=0; loop < m_days.length; loop++)
@@ -368,7 +349,7 @@ public final class MPXCalendar extends MPXRecord
 
       if (working == null)
       {
-         if (m_baseCalendar == false)
+         if (m_baseCalendarFlag == false)
          {
             value = DEFAULT;
          }
@@ -650,7 +631,7 @@ public final class MPXCalendar extends MPXRecord
     */
    public boolean isBaseCalendar ()
    {
-      return (m_baseCalendar);
+      return (m_baseCalendarFlag);
    }
 
    /**
@@ -691,6 +672,7 @@ public final class MPXCalendar extends MPXRecord
    public void setResource (Resource resource)
    {
       m_resource = resource;
+      m_name = m_resource.getName();
    }
    
    /**
@@ -711,17 +693,13 @@ public final class MPXCalendar extends MPXRecord
     */
    private String m_name;
 
-   /**
-    * Flag indicating if this is a base calendar, i.e. a calendar from
-    * which other calendars are derived.
-    */
-   private boolean m_baseCalendar;
+   private boolean m_baseCalendarFlag;
    
    /**
-    * Name of the calendar from which this calendar is derived.
+    * Base calendar from which this calendar is derived.
     */
-   private String m_baseCalendarName;
-
+   private MPXCalendar m_baseCalendar;
+   
    /**
     * Array holding working/non-working/default flags for each
     * day of the week.
