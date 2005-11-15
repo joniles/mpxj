@@ -1479,7 +1479,7 @@ final class MPP9File
             MPXCalendar calendar = file.getBaseCalendarByUniqueID(calendarID);
             if (calendar != null)
             {
-               task.setCalendarName(calendar.getName());
+               task.setCalendar(calendar);
             }
          }
 

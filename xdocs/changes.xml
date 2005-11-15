@@ -21,6 +21,7 @@
       <action dev="joniles" type="fix">Fixed bug #1346735 "Priorities of the tasks are exported incorrectly".</action>      
       <action dev="joniles" type="add">Added code to allow tasks, resources, resource assignemnts and calendars to be removed from the data structure.</action>
       <action dev="joniles" type="add">Implemented Italian MPX file format translation (contributed by Elio Zoggia).</action>
+      <action dev="joniles" type="update">Cleaned up calendar usage.</action>
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

@@ -7203,29 +7203,19 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public MPXCalendar getCalendar ()
    {
-      return (getParentFile().getBaseCalendar(m_calendarName));
+      return (m_calendar);
    }
 
-   /**
-    * Retrieves the name of the base calendar associated with this task.
-    * Note that this attribute appears in MPP9 and MSPDI files.
-    *
-    * @return calendar name
-    */
-   public String getCalendarName ()
-   {
-      return (m_calendarName);
-   }
 
    /**
     * Sets the name of the base calendar associated with this task.
     * Note that this attribute appears in MPP9 and MSPDI files.
     *
-    * @param name base calendar name
+    * @param calendar calendar instance
     */
-   public void setCalendarName (String name)
+   public void setCalendar (MPXCalendar calendar)
    {
-      m_calendarName = name;
+      m_calendar = calendar;
    }
 
    /**
@@ -7382,7 +7372,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private Date m_preleveledFinish;
    private MPXDuration m_remainingOvertimeWork;
    private Number m_remainingOvertimeCost;
-   private String m_calendarName;
+   private MPXCalendar m_calendar;
    private boolean m_null;
    private String m_wbsLevel;
    private TimeUnit m_durationFormat;

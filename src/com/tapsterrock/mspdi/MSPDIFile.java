@@ -845,7 +845,7 @@ public class MSPDIFile extends MPXFile
       //mpx.setBaselineWork();
       //mpx.setBCWP();
       //mpx.setBCWS();
-      mpx.setCalendarName(getTaskCalendarName(xml));
+      mpx.setCalendar(getTaskCalendar(xml));
       //mpx.setConfirmed();
       mpx.setConstraintDate(DatatypeConverter.parseDate(xml.getConstraintDate()));
       mpx.setConstraintType(DatatypeConverter.parseConstraintType(xml.getConstraintType()));
@@ -1019,28 +1019,24 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * This method is used to retrieve the name of the calendar associated
+    * This method is used to retrieve the calendar associated
     * with a task. If no calendar is associated with a task, this method
     * returns null.
     *
     * @param task MSPDI task
-    * @return name of calendar associated with this task
+    * @return calendar instance
     */
-   private String getTaskCalendarName (Project.TasksType.TaskType task)
+   private MPXCalendar getTaskCalendar (Project.TasksType.TaskType task)
    {
-      String name = null;
+      MPXCalendar calendar = null;
 
       BigInteger calendarID = task.getCalendarUID();
       if (calendarID != null)
       {
-         MPXCalendar calendar = getBaseCalendarByUniqueID(calendarID.intValue());
-         if (calendar != null)
-         {
-            name = calendar.getName();
-         }
+         calendar = getBaseCalendarByUniqueID(calendarID.intValue());
       }
 
-      return (name);
+      return (calendar);
    }
 
 
@@ -1971,21 +1967,15 @@ public class MSPDIFile extends MPXFile
    private BigInteger getTaskCalendarID (Task mpx)
    {
       BigInteger result = null;
-      String name = mpx.getCalendarName();
-      if (name != null)
+      MPXCalendar cal = mpx.getCalendar();
+      if (cal != null)
       {
-         MPXCalendar cal = this.getBaseCalendar(name);
-         if (cal != null)
-         {
-            result = BigInteger.valueOf(cal.getUniqueID());
-         }
+         result = BigInteger.valueOf(cal.getUniqueID());
       }
-
-      if (result == null)
+      else
       {
          result = BigInteger.valueOf(-1);
       }
-
       return (result);
    }
 
