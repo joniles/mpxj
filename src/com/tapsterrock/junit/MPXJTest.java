@@ -303,9 +303,44 @@ public class MPXJTest extends TestCase
          }
       }
    }
+
+   /**
+    * Test Italian localisation.
+    *
+    * @throws Exception
+    */
+   public void testRewrite8 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         Locale italian = new Locale ("it");
+
+         File in = new File (m_basedir + "/sample.mpx");
+         MPXFile mpx = new MPXFile (in);
+         out = File.createTempFile ("junit", ".mpx");
+         mpx.setLocale(italian);
+         mpx.write (out);
+
+         mpx = new MPXFile ();
+         mpx.setLocale(italian);
+         mpx.read(out);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
    
    /**
-    * Read a file created by a German version of MS Proiject 98.
+    * Read a file created by a German version of MS Project 98.
     *
     * @throws Exception
     */
@@ -2152,6 +2187,11 @@ public class MPXJTest extends TestCase
       assertEquals(Priority.LOWEST, file.getTaskByUniqueID(10).getPriority().getValue());      
    }
    
+   /**
+    * Tests to exercise calendar functionality.
+    * 
+    * @throws Exception
+    */
    public void testCalendars ()
       throws Exception
    {
@@ -2170,6 +2210,11 @@ public class MPXJTest extends TestCase
       validateTaskCalendars(xml);
    }
    
+   /**
+    * Common resource calendar tests.
+    * 
+    * @param mpx project file
+    */
    private void validateResourceCalendars (MPXFile mpx)
    {
       //
@@ -2203,6 +2248,11 @@ public class MPXJTest extends TestCase
       assertFalse(calendar.getCalendarExceptions().isEmpty());      
    }
 
+   /**
+    * Common task calendar tests.
+    * 
+    * @param mpx project file
+    */
    private void validateTaskCalendars (MPXFile mpx)
    {
       Task task = mpx.getTaskByUniqueID(2);
