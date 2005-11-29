@@ -27,6 +27,7 @@ package com.tapsterrock.mpx;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -3087,6 +3088,28 @@ public final class ProjectHeader extends MPXRecord
       return (sb.toString());
    }
 
+   /**
+    * Set the Document Summary Information.
+    * 
+    * @param documentSummaryInformation The Document Summary Information Map
+    */
+   public void setDocumentSummaryInformation(Map documentSummaryInformation) 
+   {
+      m_documentSummaryInformation = documentSummaryInformation;
+   }
+
+   /**
+    * Retrieve the Document Summary Information. This allows the caller
+    * to examine custom document summary fields which may be present in
+    * the project.
+    * 
+    * @return the Document Summary Information Map
+    */
+   public Map getDocumentSummaryInformation() 
+   {
+     return (m_documentSummaryInformation);
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition;
    private Integer m_currencyDigits;
@@ -3214,6 +3237,7 @@ public final class ProjectHeader extends MPXRecord
    private boolean m_newTaskStartIsProjectStart;
    private Day m_weekStartDay;
    private boolean m_calculateMultipleCriticalPaths;
+   private Map m_documentSummaryInformation;
 
    /*
     * Missing MSPDI attributes

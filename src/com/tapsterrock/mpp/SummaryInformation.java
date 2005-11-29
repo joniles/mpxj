@@ -26,6 +26,7 @@ package com.tapsterrock.mpp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hpsf.Property;
 import org.apache.poi.hpsf.PropertySet;
@@ -67,6 +68,7 @@ final class SummaryInformation
          m_category = (String)map.get(CATEGORY);
          m_company = (String)map.get(COMPANY);
          m_manager = (String)map.get(MANAGER);         
+         m_documentSummaryInformation = map;
       }
 
       catch (Exception ex)
@@ -187,6 +189,18 @@ final class SummaryInformation
       return (m_category);
    }
 
+   /**
+    * Retrive the Document Summary Information. This
+    * allows the caller to examine custom document summary information
+    * which may be defined in the project file.
+    * 
+    * @return the Document Summary Information HashMap
+    */
+   public Map getDocumentSummaryInformation() 
+   {
+      return (m_documentSummaryInformation);
+   }
+
    private String m_projectTitle;
    private String m_subject;
    private String m_author;
@@ -196,6 +210,8 @@ final class SummaryInformation
    private String m_category;
    private String m_manager;
    private String m_company;
+
+   private HashMap m_documentSummaryInformation;
 
    /**
     * Constants representing Summary Information properties

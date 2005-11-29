@@ -175,6 +175,7 @@ final class MPP9File
       ph.setCompany(summary.getCompany());
       ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
+      ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
       
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
       
