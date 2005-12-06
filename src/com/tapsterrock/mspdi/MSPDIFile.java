@@ -105,7 +105,7 @@ public class MSPDIFile extends MPXFile
    }
 
    /**
-    * Constructor allowing an MSPDI file to be read from an input stream
+    * Constructor allowing an MSPDI file to be read from an input stream.
     *
     * @param stream an input stream
     * @throws MPXException on file read errors
@@ -442,6 +442,7 @@ public class MSPDIFile extends MPXFile
     *
     * @param calendar Calendar data
     * @param map Map of calendar UIDs to names
+    * @param baseCalendars list of base calendars
     * @throws MPXException on file read errors
     */
    private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map, LinkedList baseCalendars)
@@ -1199,62 +1200,7 @@ public class MSPDIFile extends MPXFile
          }
       }
    }
-
-   /**
-    * Retrieve the default number of hours per day.
-    * 
-    * @return hours per day
-    */
-   float getDefaultHoursPerDay ()
-   {
-      float result;
-      Float value = getProjectHeader().getDefaultHoursInDay();
-      if (value == null)
-      {
-         result = 8;
-      }
-      else
-      {
-         result = value.floatValue();
-      }
-      return (result);
-   }
-
-   /**
-    * Retrieve the default number of hours per week.
-    * 
-    * @return hours per week
-    */
-   float getDefaultHoursPerWeek ()
-   {
-      float result;
-      Float value = getProjectHeader().getDefaultHoursInWeek();
-      if (value == null)
-      {
-         result = 40;
-      }
-      else
-      {
-         result = value.floatValue();
-      }
-      return (result);
-   }
-   
-   /**
-    * Retrieve the default duration units for this project.
-    * 
-    * @return duration units
-    */
-   TimeUnit getDefaultDurationUnits ()
-   {
-      TimeUnit units = getProjectHeader().getDefaultDurationUnits();
-      if (units == null)
-      {
-         units = TimeUnit.DAYS;
-      }
-      return (units);
-   }
-   
+      
    /**
     * This is the main output method provided by this class. It allows
     * project data to be written to an output stream as XML data formatted
@@ -1948,6 +1894,12 @@ public class MSPDIFile extends MPXFile
       }
    }
 
+   /**
+    * Converts a duration to duration time units.
+    * 
+    * @param value duration value
+    * @return duration time units
+    */
    private BigInteger printExtendedAttributeDurationFormat (Object value)
    {            
       BigInteger result = null;

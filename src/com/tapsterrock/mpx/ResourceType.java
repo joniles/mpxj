@@ -78,7 +78,41 @@ public final class ResourceType
    }
 
 
+   /**
+    * {@inheritDoc}
+    */
+   public boolean equals (Object obj)
+   {
+      return (m_value == ((ResourceType)obj).m_value);
+   }
 
+   /**
+    * {@inheritDoc}
+    */
+   public int hashCode ()
+   {
+      return (m_value);
+   }
+
+   /**
+    * {@inheritDoc}
+    */   
+   public String toString ()
+   {
+      String result;
+      
+      if (m_value == MATERIAL_VALUE)
+      {
+         result = "Material";
+      }
+      else
+      {
+         result = "Work";
+      }
+      
+      return (result);
+   }
+   
    private int m_value;
 
    /**

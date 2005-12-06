@@ -24,7 +24,7 @@
 package com.tapsterrock.mpx;
 
 /**
- * This class represents comments that appear in an MPX file
+ * This class represents comments that appear in an MPX file.
  */
 public final class Comments extends MPXRecord
 {
@@ -52,7 +52,7 @@ public final class Comments extends MPXRecord
    }
 
    /**
-    * Set the text of the comment
+    * Set the text of the comment.
     *
     * @param comm - string comments
     */
@@ -62,7 +62,7 @@ public final class Comments extends MPXRecord
    }
 
    /**
-    * Retrieve the text of the comment
+    * Retrieve the text of the comment.
     *
     * @return - string comments
     */
@@ -89,7 +89,7 @@ public final class Comments extends MPXRecord
 
 
    /**
-    * Text of comments
+    * Text of comments.
     */
    private String m_text;
 

@@ -65,7 +65,7 @@ import com.tapsterrock.mpx.TimeUnit;
  * exported as a set of MPX objects. These objects can be interrogated
  * to retrieve any required data, or stored as an MPX file.
  */
-final class MPP8File
+final class MPP8File implements MPPReader
 {
    /**
     * This method is used to process an MPP8 file. This is the file format
@@ -76,9 +76,14 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */
-   static void process (MPPFile file, DirectoryEntry root)
+   public void process (MPPFile file, DirectoryEntry root)
       throws MPXException, IOException
    {
+      //
+      // Set the file type
+      //
+      file.setFileType(8);
+      
       HashMap calendarMap = new HashMap ();
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
@@ -112,7 +117,7 @@ final class MPP8File
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private static void processPropertyData (MPPFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
+   private void processPropertyData (MPPFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -159,7 +164,7 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */
-   private static void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap calendarMap)
+   private void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -370,7 +375,7 @@ final class MPP8File
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private static void updateBaseCalendarNames (List baseCalendars, HashMap map)
+   private void updateBaseCalendarNames (List baseCalendars, HashMap map)
    {
       Iterator iter = baseCalendars.iterator();
       Pair pair;
@@ -400,7 +405,7 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */
-   private static void processTaskData (MPPFile file,  DirectoryEntry projectDir)
+   private void processTaskData (MPPFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
@@ -740,7 +745,7 @@ final class MPP8File
     * @param task task instance
     * @param data hyperlink data block
     */
-   private static void processHyperlinkData (Task task, byte[] data)
+   private void processHyperlinkData (Task task, byte[] data)
    {
       if (data != null)
       {
@@ -773,7 +778,7 @@ final class MPP8File
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private static void processConstraintData (MPPFile file, DirectoryEntry projectDir)
+   private void processConstraintData (MPPFile file, DirectoryEntry projectDir)
       throws IOException
    {
       //
@@ -845,7 +850,7 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */
-   private static void processResourceData (MPPFile file, DirectoryEntry projectDir, HashMap calendarMap)
+   private void processResourceData (MPPFile file, DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -1088,7 +1093,7 @@ final class MPP8File
     * @throws MPXException
     * @throws IOException
     */
-   private static void processAssignmentData (MPPFile file, DirectoryEntry projectDir)
+   private void processAssignmentData (MPPFile file, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
@@ -1165,7 +1170,7 @@ final class MPP8File
     * @param assnFixedData Task assignment fixed data
     * @return boolean flag
     */
-   private static boolean testAssignmentTasks (MPPFile file, FixFix assnFixedData)
+   private boolean testAssignmentTasks (MPPFile file, FixFix assnFixedData)
    {
       boolean result = true;
       int count = assnFixedData.getItemCount();
@@ -1196,7 +1201,7 @@ final class MPP8File
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private static void processViewData (MPPFile file, DirectoryEntry projectDir)
+   private void processViewData (MPPFile file, DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
@@ -1220,7 +1225,7 @@ final class MPP8File
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private static void processTableData (MPPFile file, DirectoryEntry projectDir)
+   private void processTableData (MPPFile file, DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
@@ -1284,7 +1289,7 @@ final class MPP8File
     * @param table current table
     * @param data raw column data
     */
-   private static void processColumnData (Table table, byte[] data)
+   private void processColumnData (Table table, byte[] data)
    {
       int columnCount = MPPUtility.getShort(data, 4)+1;
       int index = 8;
@@ -1372,7 +1377,7 @@ final class MPP8File
     * @param offset Offset in fixed data block
     * @return Offset in var data block
     */
-   private static int getOffset (byte[] data, int offset)
+   private int getOffset (byte[] data, int offset)
    {
       return (-1 - MPPUtility.getInt(data, offset));
    }

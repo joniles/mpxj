@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This configuration file was written by the eclipse-cs plugin configuration editor-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<!--
+MPXJ Checkstyle:
+
+-->
+<module name="Checker">
+<property name="severity" value="warning"/>
+<module name="TreeWalker">
+<module name="ArrayTypeStyle">
+</module>
+<module name="ModifierOrder">
+</module>
+<module name="LeftCurly">
+<property name="option" value="nl"/>
+<property name="tokens" value="CLASS_DEF, CTOR_DEF, INTERFACE_DEF, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, METHOD_DEF"/>
+</module>
+<module name="NeedBraces">
+<property name="tokens" value="LITERAL_DO, LITERAL_ELSE, LITERAL_IF, LITERAL_FOR, LITERAL_WHILE"/>
+</module>
+<module name="RightCurly">
+<property name="option" value="alone"/>
+<property name="tokens" value="LITERAL_CATCH, LITERAL_ELSE, LITERAL_TRY"/>
+</module>
+<module name="DoubleCheckedLocking">
+</module>
+<module name="EmptyStatement">
+</module>
+<module name="EqualsHashCode">
+</module>
+<module name="ExplicitInitialization">
+</module>
+<module name="FallThrough">
+</module>
+<module name="HiddenField">
+<property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
+</module>
+<module name="FinalClass">
+</module>
+<module name="AvoidStarImport">
+</module>
+<module name="IllegalImport">
+</module>
+<module name="RedundantImport">
+</module>
+<module name="UnusedImports">
+</module>
+<module name="JavadocMethod">
+<property name="allowMissingThrowsTags" value="true"/>
+</module>
+<module name="JavadocType">
+</module>
+<module name="ConstantName">
+<property name="format" value="^[A-Z](_?[A-Z0-9]+)*$"/>
+</module>
+<module name="LocalVariableName">
+</module>
+<module name="MemberName">
+<property name="format" value="^m_[a-z][a-zA-Z0-9]*$"/>
+</module>
+<module name="MethodName">
+</module>
+<module name="PackageName">
+</module>
+<module name="ParameterName">
+</module>
+<module name="StaticVariableName">
+<property name="format" value="^[A-Z0-9_]*$"/>
+</module>
+<module name="TypeName">
+<property name="format" value="^[A-Z][a-zA-Z0-9_]*$"/>
+<property name="tokens" value="CLASS_DEF"/>
+</module>
+<module name="TypeName">
+<property name="tokens" value="INTERFACE_DEF"/>
+</module>
+<module name="JavadocStyle">
+<property name="excludeScope" value="nothing"/>
+<property name="checkEmptyJavadoc" value="true"/>
+</module>
+</module>
+</module>

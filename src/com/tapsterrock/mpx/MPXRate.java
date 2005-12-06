@@ -140,6 +140,31 @@ public final class MPXRate implements ToStringRequiresFile
    }
 
    /**
+    * {@inheritDoc}
+    */
+   public String toString ()
+   {
+      return (m_amount + "/" + m_units);
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public boolean equals (Object obj)
+   {
+      MPXRate rhs = (MPXRate)obj;
+      return (m_amount == rhs.m_amount && m_units == rhs.m_units);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public int hashCode()
+   {
+      return ((int)m_amount + m_units.hashCode());
+   }
+   
+   /**
     * Rate amount.
     */
    private double m_amount;

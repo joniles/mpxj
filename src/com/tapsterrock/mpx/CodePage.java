@@ -1,7 +1,7 @@
 /*
  * file:       CodePage.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * copyright:  (c) Tapster Rock Limited 2002-2005
  * date:       14/02/2005
  */
 
@@ -33,7 +33,8 @@ public final class CodePage
    /**
     * Private constructor.
     *
-    * @param value work group value
+    * @param value MPX code page name
+    * @param charset Java character set name
     */
    private CodePage (String value, String charset)
    {
@@ -42,10 +43,10 @@ public final class CodePage
    }
 
    /**
-    * Retrieve a WorkGroup instance representing the supplied value.
+    * Retrieve a CodePage instance representing the supplied value.
     *
-    * @param value work group value
-    * @return WorkGroup instance
+    * @param value MPX code page name
+    * @return CodePage instance
     */
    public static CodePage getInstance (String value)
    {

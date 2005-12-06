@@ -178,115 +178,157 @@ public final class MPXDuration implements ToStringRequiresFile
 
    /**
     * This method provides an <i>approximate</i> conversion between duration
-    * units. It does not take account of calendar details, and the results
-    * obtained from it should therefore be treated with caution.
+    * units. It does take into account the project defaults for number of hours
+    * in a day and a week, but it does not take account of calendar details.
+    * The results obtained from it should therefore be treated with caution.
     *
     * @param type target duration type
+    * @param defaults project header containing default values
     * @return new MPXDuration instance
     */
-   public MPXDuration convertUnits (TimeUnit type)
+   public MPXDuration convertUnits (TimeUnit type, ProjectHeader defaults)
    {
-      MPXDuration result;
-
-      //
-      // If the types are not already the same, then attempt a conversion
-      //
-      if (type.getValue() == m_units.getValue())
-      {
-         result = this;
-      }
-      else
-      {
-         //
-         // First convert the duration to days
-         //
-         double duration = m_duration;
-
-         switch (m_units.getValue())
-         {
-            case TimeUnit.MINUTES_VALUE:
-            case TimeUnit.ELAPSED_MINUTES_VALUE:
-            {
-               duration /= MINUTES_PER_DAY;
-               break;
-            }
-
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
-            {
-               duration /= HOURS_PER_DAY;
-               break;
-            }
-
-            case TimeUnit.WEEKS_VALUE:
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
-            {
-               duration *= DAYS_PER_WEEK;
-               break;
-            }
-
-            case TimeUnit.MONTHS_VALUE:
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
-            {
-               duration *= DAYS_PER_MONTH;
-               break;
-            }
-
-            case TimeUnit.YEARS_VALUE:
-            case TimeUnit.ELAPSED_YEARS_VALUE:
-            {
-               duration *= DAYS_PER_YEAR;
-               break;
-            }
-         }
-
-         //
-         // Now convert the duration to the target type
-         //
-         switch (type.getValue())
-         {
-            case TimeUnit.MINUTES_VALUE:
-            case TimeUnit.ELAPSED_MINUTES_VALUE:
-            {
-               duration *= MINUTES_PER_DAY;
-               break;
-            }
-
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
-            {
-               duration *= HOURS_PER_DAY;
-               break;
-            }
-
-            case TimeUnit.WEEKS_VALUE:
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
-            {
-               duration /= DAYS_PER_WEEK;
-               break;
-            }
-
-            case TimeUnit.MONTHS_VALUE:
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
-            {
-               duration /= DAYS_PER_MONTH;
-               break;
-            }
-
-            case TimeUnit.YEARS_VALUE:
-            case TimeUnit.ELAPSED_YEARS_VALUE:
-            {
-               duration /= DAYS_PER_YEAR;
-               break;
-            }
-         }
-
-         result = new MPXDuration(duration, type);
-      }
-
-      return (result);
+      return (convertUnits(m_duration, m_units, type, defaults));
    }
 
+   /**
+    * This method provides an <i>approximate</i> conversion between duration
+    * units. It does take into account the project defaults for number of hours
+    * in a day and a week, but it does not take account of calendar details.
+    * The results obtained from it should therefore be treated with caution.
+    *
+    * @param duration duration value
+    * @param fromUnits units to convert from
+    * @param toUnits units to convert to 
+    * @param defaults project header containing default values
+    * @return new MPXDuration instance
+    */
+   public static MPXDuration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
+   {
+      switch (fromUnits.getValue())
+      {
+         case TimeUnit.YEARS_VALUE:
+         {
+            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 52);            
+            break;
+         }
+
+         case TimeUnit.ELAPSED_YEARS_VALUE:
+         {
+            duration *= (24 * 7 * 52);
+            break;
+         }
+         
+         case TimeUnit.MONTHS_VALUE:
+         {
+            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 4);            
+            break;
+         }
+
+         case TimeUnit.ELAPSED_MONTHS_VALUE:
+         {
+            duration *= (24 * 7 * 4);            
+            break;
+         }
+         
+         case TimeUnit.WEEKS_VALUE:
+         {
+            duration *= defaults.getDefaultHoursInWeek().doubleValue();            
+            break;
+         }
+
+         case TimeUnit.ELAPSED_WEEKS_VALUE:
+         {
+            duration *= (24 * 7);            
+            break;
+         }
+         
+         case TimeUnit.DAYS_VALUE:
+         {
+            duration *= defaults.getDefaultHoursInDay().doubleValue();            
+            break;
+         }
+
+         case TimeUnit.ELAPSED_DAYS_VALUE:
+         {
+            duration *= 24;            
+            break;
+         }
+         
+
+         case TimeUnit.MINUTES_VALUE:
+         case TimeUnit.ELAPSED_MINUTES_VALUE:
+         {
+            duration /= 60;            
+            break;
+         }
+      }
+
+      
+      if (toUnits != TimeUnit.HOURS && toUnits != TimeUnit.ELAPSED_HOURS)
+      {
+         switch (toUnits.getValue())
+         {
+            case TimeUnit.MINUTES_VALUE:
+            case TimeUnit.ELAPSED_MINUTES_VALUE:
+            {
+               duration *= 60;
+               break;
+            }
+
+            case TimeUnit.DAYS_VALUE:
+            {
+               duration /= defaults.getDefaultHoursInDay().doubleValue();
+               break;
+            }
+
+            case TimeUnit.ELAPSED_DAYS_VALUE:
+            {
+               duration /= 24;
+               break;
+            }
+            
+            case TimeUnit.WEEKS_VALUE:
+            {
+               duration /= defaults.getDefaultHoursInWeek().doubleValue();
+               break;
+            }
+
+            case TimeUnit.ELAPSED_WEEKS_VALUE:
+            {
+               duration /= (24 * 7);
+               break;
+            }
+            
+            case TimeUnit.MONTHS_VALUE:
+            {
+               duration /= (defaults.getDefaultHoursInWeek().doubleValue() * 4);
+               break;
+            }
+
+            case TimeUnit.ELAPSED_MONTHS_VALUE:
+            {
+               duration /= (24 * 7 * 4);
+               break;
+            }
+            
+            case TimeUnit.YEARS_VALUE:
+            {
+               duration /= (defaults.getDefaultHoursInWeek().doubleValue() * 52);
+               break;
+            }
+            
+            case TimeUnit.ELAPSED_YEARS_VALUE:
+            {
+               duration /= (24 * 7 * 52);
+               break;
+            }                           
+         }
+      }
+      
+      return (MPXDuration.getInstance (duration, toUnits));      
+   }   
+   
    /**
     * Retrieve an MPXDuration instance. Use shared objects to
     * represent common values for memory efficiency.

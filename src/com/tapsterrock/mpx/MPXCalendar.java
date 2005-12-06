@@ -470,7 +470,7 @@ public final class MPXCalendar extends MPXRecord
     */
    public Date getDate (Date startDate, MPXDuration duration)
    {
-      MPXDuration dur = duration.convertUnits(TimeUnit.DAYS);
+      MPXDuration dur = duration.convertUnits(TimeUnit.DAYS, getParentFile().getProjectHeader());
       int days = (int)dur.getDuration();
       boolean negative;
 

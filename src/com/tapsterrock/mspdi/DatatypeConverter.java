@@ -45,6 +45,7 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.Priority;
+import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.ResourceType;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
@@ -560,7 +561,7 @@ public final class DatatypeConverter
    }
 
    /**
-    * Parse date
+    * Parse date.
     *
     * @param value Calendar value
     * @return Date value
@@ -629,7 +630,7 @@ public final class DatatypeConverter
 
 
    /**
-    * Parse work units
+    * Parse work units.
     *
     * @param value work units value
     * @return TimeUnit instance
@@ -799,12 +800,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / (365 * 24));
                duration += (xsd.getMinutes() / (365 * 24 * 60));
                duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= (file.getDefaultHoursPerWeek() * 52);
-               
                break;
             }
 
@@ -819,11 +814,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / (365 * 24));
                duration += (xsd.getMinutes() / (365 * 24 * 60));
                duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= (24 * 7 * 52);
                break;
             }
             
@@ -838,12 +828,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / (30 * 24));
                duration += (xsd.getMinutes() / (30 * 24 * 60));
                duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= (file.getDefaultHoursPerWeek() * 4);
-               
                break;
             }
 
@@ -858,12 +842,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / (30 * 24));
                duration += (xsd.getMinutes() / (30 * 24 * 60));
                duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= (24 * 7 * 4);
-               
                break;
             }
             
@@ -878,12 +856,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / (7 * 24));
                duration += (xsd.getMinutes() / (7 * 24 * 60));
                duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= file.getDefaultHoursPerWeek();
-               
                break;
             }
 
@@ -898,12 +870,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / (7 * 24));
                duration += (xsd.getMinutes() / (7 * 24 * 60));
                duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= (24 * 7);
-               
                break;
             }
             
@@ -918,12 +884,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / 24);
                duration += (xsd.getMinutes() / (24 * 60));
                duration += (xsd.getSeconds() / (24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= file.getDefaultHoursPerDay();
-               
                break;
             }
 
@@ -938,12 +898,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() / 24);
                duration += (xsd.getMinutes() / (24 * 60));
                duration += (xsd.getSeconds() / (24 * 60 * 60));
-               
-               //
-               // Convert to hours
-               //
-               duration *= 24;
-               
                break;
             }
             
@@ -974,12 +928,6 @@ public final class DatatypeConverter
                duration += (xsd.getHours() * 60);
                duration += xsd.getMinutes();
                duration += (xsd.getSeconds() / 60);
-               
-               //
-               // Convert to hours
-               //
-               duration /= 60;
-               
                break;
             }
          }
@@ -989,77 +937,13 @@ public final class DatatypeConverter
          // Convert from a duration in hours to a duration
          // expressed in the default duration units
          //
+         ProjectHeader header = file.getProjectHeader();
          if (defaultUnits == null)
          {
-            units = file.getDefaultDurationUnits();
+            defaultUnits = header.getDefaultDurationUnits();
          }
-         else
-         {
-            units = defaultUnits;
-         }
-         
-         if (units != TimeUnit.HOURS && units != TimeUnit.ELAPSED_HOURS)
-         {
-            switch (units.getValue())
-            {
-               case TimeUnit.MINUTES_VALUE:
-               case TimeUnit.ELAPSED_MINUTES_VALUE:
-               {
-                  duration *= 60;
-                  break;
-               }
-   
-               case TimeUnit.DAYS_VALUE:
-               {
-                  duration /= file.getDefaultHoursPerDay();
-                  break;
-               }
-   
-               case TimeUnit.ELAPSED_DAYS_VALUE:
-               {
-                  duration /= 24;
-                  break;
-               }
-               
-               case TimeUnit.WEEKS_VALUE:
-               {
-                  duration /= file.getDefaultHoursPerWeek();
-                  break;
-               }
-   
-               case TimeUnit.ELAPSED_WEEKS_VALUE:
-               {
-                  duration /= (24 * 7);
-                  break;
-               }
-               
-               case TimeUnit.MONTHS_VALUE:
-               {
-                  duration /= (file.getDefaultHoursPerWeek() * 4);
-                  break;
-               }
-   
-               case TimeUnit.ELAPSED_MONTHS_VALUE:
-               {
-                  duration /= (24 * 7 * 4);
-                  break;
-               }
-               
-               case TimeUnit.YEARS_VALUE:
-               {
-                  duration /= (file.getDefaultHoursPerWeek() * 52);
-                  break;
-               }
-               
-               case TimeUnit.ELAPSED_YEARS_VALUE:
-               {
-                  duration /= (24 * 7 * 52);
-                  break;
-               }                           
-            }
-         }
-         
-         result = MPXDuration.getInstance (duration, units);
+                  
+         result = MPXDuration.convertUnits(duration, units, defaultUnits, header);
       }
    
       return (result);
@@ -1097,67 +981,8 @@ public final class DatatypeConverter
          }
          else
          {
-            double hours = duration.getDuration();
-   
-            switch (durationType.getValue())
-            {
-               case TimeUnit.MINUTES_VALUE:
-               case TimeUnit.ELAPSED_MINUTES_VALUE:
-               {
-                  hours = duration.getDuration() / 60;
-                  break;
-               }
-   
-               case TimeUnit.DAYS_VALUE:
-               {
-                  hours *= file.getDefaultHoursPerDay();
-                  break;
-               }
-   
-               case TimeUnit.ELAPSED_DAYS_VALUE:
-               {
-                  hours *= 24;
-                  break;
-               }
-               
-               case TimeUnit.WEEKS_VALUE:
-               {
-                  hours *= file.getDefaultHoursPerWeek();
-                  break;
-               }
-   
-               case TimeUnit.ELAPSED_WEEKS_VALUE:
-               {
-                  hours *= (24 * 7);
-                  break;
-               }
-               
-               case TimeUnit.MONTHS_VALUE:
-               {
-                  hours *= (file.getDefaultHoursPerWeek() * 4);
-                  break;
-               }
-   
-               case TimeUnit.ELAPSED_MONTHS_VALUE:
-               {
-                  hours *= (24 * 7 * 4);
-                  break;
-               }
-               
-               case TimeUnit.YEARS_VALUE:
-               {
-                  hours *= (file.getDefaultHoursPerWeek() * 52);
-                  break;
-               }
-               
-               case TimeUnit.ELAPSED_YEARS_VALUE:
-               {
-                  hours *= (24 * 7 * 52);
-                  break;
-               }               
-            }
-   
-            result = new XsdDuration(MPXDuration.getInstance (hours, TimeUnit.HOURS)).toString();
+            duration = duration.convertUnits(TimeUnit.HOURS, file.getProjectHeader());   
+            result = new XsdDuration(duration).toString();
          }
       }
    
@@ -1183,7 +1008,7 @@ public final class DatatypeConverter
    }
 
    /**
-    * Parse currency
+    * Parse currency.
     *
     * @param value currency value
     * @return currency value
@@ -1194,7 +1019,7 @@ public final class DatatypeConverter
    }
   
    /**
-    * Print currency
+    * Print currency.
     *
     * @param value currency value
     * @return currency value

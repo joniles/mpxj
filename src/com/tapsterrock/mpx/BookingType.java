@@ -1,7 +1,7 @@
 /*
  * file:       BookingType.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * copyright:  (c) Tapster Rock Limited 2002-2005
  * date:       28/11/2004
  */
 
@@ -82,24 +82,24 @@ public final class BookingType
    private int m_value;
 
    /**
-    * Constant representing Material
+    * Constant representing Material.
     */
    public static final int COMMITTED_VALUE = 0;
 
    /**
-    * Constant representing Work
+    * Constant representing Work.
     */
    public static final int PROPOSED_VALUE = 1;
 
 
 
    /**
-    * Constant representing Material
+    * Constant representing Material.
     */
    public static final BookingType COMMITTED = new BookingType(COMMITTED_VALUE);
 
    /**
-    * Constant representing Work
+    * Constant representing Work.
     */
    public static final BookingType PROPOSED = new BookingType(PROPOSED_VALUE);
 }

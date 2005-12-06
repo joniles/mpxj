@@ -83,7 +83,7 @@ public final class ResourceAssignment extends MPXRecord
       {
          if (work.getUnits() != actualWork.getUnits())
          {
-            actualWork = actualWork.convertUnits(work.getUnits());
+            actualWork = actualWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader());
          }
          
          setRemainingWork(MPXDuration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));

@@ -1,0 +1,86 @@
+/*
+ * file:       VarMeta12.java
+ * author:     Jon Iles
+ * copyright:  (c) Tapster Rock Limited 2002-2005
+ * date:       05/12/2005
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package com.tapsterrock.mpp;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ * This class reads in the data from a VarMeta block. This block contains
+ * meta data about variable length data items stored in a Var2Data block.
+ * The meta data allows the size of the Var2Data block to be determined,
+ * along with the number of data items it contains, identifiers for each item,
+ * and finally the offset of each item within the block.
+ */
+final class VarMeta12 extends AbstractVarMeta
+{
+   /**
+    * Constructor. Extracts that makes up this block from the input stream.
+    *
+    * @param is Input stream from whic data is read
+    * @throws IOException on file read error
+    */
+   VarMeta12 (InputStream is)
+      throws IOException
+   {
+      if (readInt (is) != MAGIC)
+      {
+         throw new IOException ("Bad magic number");
+      }
+
+      m_unknown1 = readInt (is);
+      m_itemCount = readInt (is);
+      m_unknown2 = readInt (is);
+      m_unknown3 = readInt (is);
+      m_dataSize = readInt (is);
+
+      Integer uniqueID;
+      Integer type;
+      Integer offset;
+      Map map;
+      m_offsets = new int[m_itemCount];
+            
+      for (int loop=0; loop < m_itemCount; loop++)
+      {
+         uniqueID = new Integer (readInt(is));         
+         offset = new Integer (readInt (is));
+         type = new Integer (readShort(is));         
+         readShort(is); // unknown 2 bytes
+         
+         map = (Map)m_table.get (uniqueID);
+         if (map == null)
+         {
+            map = new TreeMap ();
+            m_table.put (uniqueID, map);
+         }
+         
+         map.put (type, offset);
+         m_offsets[loop] = offset.intValue();
+      }
+   }
+
+   private static final int MAGIC = 0xFADFADBA;
+}

@@ -25,6 +25,7 @@ package com.tapsterrock.mpp;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -961,6 +962,29 @@ final class MPPUtility
       }
    }
 
+   /**
+    * Writes a hex dump to a file from a POI input stream. 
+    * Note that this assumes that the complete size of the data in
+    * the stream is returned by the available() method.
+    * 
+    * @param fileName output file name
+    * @param is input stream
+    */
+   public static final void fileHexDump (String fileName, InputStream is)
+   {
+      try
+      {
+         byte[] data = new byte[is.available()];
+         is.read(data);
+         fileHexDump(fileName, data);
+      }
+      
+      catch (IOException ex)
+      {
+         ex.printStackTrace();         
+      }
+   }
+   
    /**
     * Writes a large byte array to a file.
     * 

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -129,30 +130,17 @@ public class MPPFile extends MPXFile
          DirectoryEntry root = fs.getRoot ();
 
          //
-         // Retrieve the CompObj data and validate the file format
+         // Retrieve the CompObj data, validate the file format and process
          //
          CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
-
          String format = compObj.getFileFormat();
-         if (format.equals("MSProject.MPP9") == true ||
-             format.equals("MSProject.MPT9") == true)
+         Class readerClass = (Class)FILE_CLASS_MAP.get(format);
+         if (readerClass == null)
          {
-            MPP9File.process (this, root);
-            m_fileType = 9;
-         }
-         else
-         {
-            if (format.equals("MSProject.MPP8") == true ||
-                format.equals("MSProject.MPT8") == true)
-            {
-               MPP8File.process (this, root);
-               m_fileType = 8;
-            }
-            else
-            {
-               throw new MPXException (MPXException.INVALID_FILE + ": " + format);
-            }
-         }
+            throw new MPXException (MPXException.INVALID_FILE + ": " + format);            
+         }         
+         MPPReader reader = (MPPReader)readerClass.newInstance();
+         reader.process (this, root);
 
          //
          // Update the internal structure. We'll take this opportunity to
@@ -182,6 +170,16 @@ public class MPPFile extends MPXFile
       {
          throw new MPXException (MPXException.READ_ERROR, ex);
       }
+      
+      catch (IllegalAccessException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);         
+      }
+      
+      catch (InstantiationException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);         
+      }
    }
 
    /**
@@ -209,16 +207,26 @@ public class MPPFile extends MPXFile
    /**
     * This method retrieves a value representing the type of MPP file
     * that has been read. Currently this method will return the value 8 for
-    * an MPP8 file (Project 98) or 9 for an MPP9 file (Project 2000 and
-    * Project 2002).
+    * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
+    * Project 2002) and 12 for an MPP12 file (Project 12).
     *
-    * @return File type value
+    * @return integer representing the file type
     */
    public int getFileType()
    {
       return (m_fileType);
    }
 
+   /**
+    * Used internally to set the file type.
+    * 
+    * @param fileType file type
+    */
+   void setFileType (int fileType)
+   {
+      m_fileType = fileType;
+   }
+   
    /**
     * Package-private method used to add views to this MPP file.
     *
@@ -436,4 +444,18 @@ public class MPPFile extends MPXFile
     * Index of font bases by their index number.
     */
    private HashMap m_fontBases;
+
+   /**
+    * Populate a map of file types and file processing classes.
+    */
+   private static final Map FILE_CLASS_MAP = new HashMap ();
+   static
+   {
+      FILE_CLASS_MAP.put("MSProject.MPP9", MPP9File.class);
+      FILE_CLASS_MAP.put("MSProject.MPT9", MPP9File.class);
+      FILE_CLASS_MAP.put("MSProject.MPP8", MPP8File.class);
+      FILE_CLASS_MAP.put("MSProject.MPT8", MPP8File.class);      
+      FILE_CLASS_MAP.put("MSProject.MPP12", MPP12File.class);
+      FILE_CLASS_MAP.put("MSProject.MPT12", MPP12File.class);      
+   }
 }

@@ -167,7 +167,7 @@ public class MPXJTest extends TestCase
    }
 
    /**
-    * Test German localisation
+    * Test German localisation.
     *
     * @throws Exception
     */
@@ -895,7 +895,7 @@ public class MPXJTest extends TestCase
 
    /**
     * Read an MPP file where the structure was not being correctly
-    * set up to reflect the outline level
+    * set up to reflect the outline level.
     */
    public void testBug3 ()
       throws Exception
@@ -927,7 +927,7 @@ public class MPXJTest extends TestCase
    }
 
    /**
-    * Read an MPP8 file with a non-standard task fixed data block size
+    * Read an MPP8 file with a non-standard task fixed data block size.
     */
    public void testBug4 ()
       throws Exception
@@ -1022,7 +1022,7 @@ public class MPXJTest extends TestCase
    }
 
    /**
-    * Simple tests to exercise the BaseCalendar.getDate method
+    * Simple tests to exercise the BaseCalendar.getDate method.
     *
     * @throws Exception
     */
@@ -1037,19 +1037,19 @@ public class MPXJTest extends TestCase
 
       duration = MPXDuration.getInstance (1, TimeUnit.DAYS);
       Date endDate = cal.getDate(startDate, duration);
-      assertEquals(endDate.getTime(), df.parse("10/10/2003").getTime());
+      assertEquals(df.parse("10/10/2003").getTime(), endDate.getTime());
 
       duration = MPXDuration.getInstance (7, TimeUnit.DAYS);
       endDate = cal.getDate(startDate, duration);
-      assertEquals(endDate.getTime(), df.parse("18/10/2003").getTime());
+      assertEquals(df.parse("18/10/2003").getTime(), endDate.getTime());
 
       duration = MPXDuration.getInstance (1, TimeUnit.WEEKS);
       endDate = cal.getDate(startDate, duration);
-      assertEquals(endDate.getTime(), df.parse("18/10/2003").getTime());
+      assertEquals(df.parse("16/10/2003").getTime(), endDate.getTime());
 
       duration = MPXDuration.getInstance (-1, TimeUnit.DAYS);
       endDate = cal.getDate(startDate, duration);
-      assertEquals(endDate.getTime(), df.parse("08/10/2003").getTime());
+      assertEquals(df.parse("08/10/2003").getTime(), endDate.getTime());
    }
 
    /**
@@ -1476,7 +1476,7 @@ public class MPXJTest extends TestCase
 
    /**
     * Test to ensure that we are seeing the expected field
-    * aliases
+    * aliases.
     *
     * @param mpx MPX file
     */
@@ -1744,78 +1744,7 @@ public class MPXJTest extends TestCase
       assertEquals ("Outline Code9r", mpx.getResourceFieldAlias(Resource.OUTLINECODE9));
       assertEquals ("Outline Code10r", mpx.getResourceFieldAlias(Resource.OUTLINECODE10));
    }
-
-   /**
-    * As part of the bug reports that are submitted for MPXJ I am passed a
-    * number of confidential project files, which for obvious reasons cannot
-    * be redistributed as test cases. These files reside in a directory on
-    * my development machine, and asuming that this directory exists, this
-    * test will attempt of read each of the files in turn.
-    *
-    * @throws Exception
-    */
-   public void testCustomerData ()
-      throws Exception
-   {
-      File dir = new File ("c:\\tapsterrock\\mpxj\\data");
-      if (dir.exists() == true && dir.isDirectory() == true)
-      {
-         MPXFile mpxj;
-         int failures = 0;
-         File[] files = dir.listFiles();
-         File file;
-         String name;
-         for (int loop=0; loop < files.length; loop++)
-         {
-            file = files[loop];
-            name = file.getName().toUpperCase();
-
-            try
-            {
-               if (name.endsWith(".MPP") == true)
-               {
-                  mpxj = new MPPFile(file);
-               }
-               else
-               {
-                  if (name.endsWith(".MPX") == true)
-                  {
-                     mpxj = new MPXFile ();
-
-                     if (name.indexOf(".DE.") != -1)
-                     {
-                        mpxj.setLocale(Locale.GERMAN);
-                     }
-
-                     if (name.indexOf(".SV.") != -1)
-                     {
-                        mpxj.setLocale(new Locale ("sv"));
-                     }
-
-                     mpxj.read(file);
-                  }
-                  else
-                  {
-                     if (name.endsWith(".XML") == true)
-                     {
-                        mpxj = new MSPDIFile(file);
-                     }
-                  }
-               }
-            }
-
-            catch (Exception ex)
-            {
-               System.out.println ("Failed to read " + name);
-               ex.printStackTrace();
-               ++failures;
-            }
-         }
-
-         assertEquals("Failed to read " + failures + " files", 0, failures);
-      }
-   }
-
+   
    /**
     * Write a file with embedded line break (\r and \n) characters in
     * various text fields. Ensure that a valid file is written,
@@ -2073,7 +2002,7 @@ public class MPXJTest extends TestCase
    }
 
    /**
-    * Implements common project header tests
+    * Implements common project header tests.
     *
     * @param file target project file
     */
@@ -2268,6 +2197,101 @@ public class MPXJTest extends TestCase
       calendar = task.getCalendar();      
       assertEquals("Base Calendar", calendar.getName());
       assertTrue(calendar.isBaseCalendar());      
+   }
+
+   /**
+    * As part of the bug reports that are submitted for MPXJ I am passed a
+    * number of confidential project files, which for obvious reasons cannot
+    * be redistributed as test cases. These files reside in a directory on
+    * my development machine, and asuming that this directory exists, this
+    * test will attempt of read each of the files in turn.
+    *
+    * @throws Exception
+    */
+   public void testCustomerData ()
+      throws Exception
+   {
+      File dir = new File ("c:\\tapsterrock\\mpxj\\data");
+      if (dir.exists() == true && dir.isDirectory() == true)
+      {
+         MPXFile mpxj;
+         int failures = 0;
+         File[] files = dir.listFiles();
+         File file;
+         String name;
+         for (int loop=0; loop < files.length; loop++)
+         {
+            file = files[loop];
+            name = file.getName().toUpperCase();
+
+            try
+            {
+               if (name.endsWith(".MPP") == true)
+               {
+                  mpxj = new MPPFile(file);
+                  validateMpp (file.getCanonicalPath(), (MPPFile)mpxj);
+               }
+               else
+               {
+                  if (name.endsWith(".MPX") == true)
+                  {
+                     mpxj = new MPXFile ();
+
+                     if (name.indexOf(".DE.") != -1)
+                     {
+                        mpxj.setLocale(Locale.GERMAN);
+                     }
+
+                     if (name.indexOf(".SV.") != -1)
+                     {
+                        mpxj.setLocale(new Locale ("sv"));
+                     }
+
+                     mpxj.read(file);
+                  }
+                  else
+                  {
+                     if (name.endsWith(".XML") == true && 
+                         name.indexOf(".MPP.") == -1)
+                     {
+                        mpxj = new MSPDIFile(file);
+                     }
+                  }
+               }
+            }
+
+            catch (Exception ex)
+            {
+               System.out.println ("Failed to read " + name);
+               ex.printStackTrace();
+               ++failures;
+            }
+         }
+
+         assertEquals("Failed to read " + failures + " files", 0, failures);
+      }
+   }
+
+   /**
+    * As part of the regression test process, I save customer's MPP files
+    * as MSPDI files using a version of MS Project. This method allows these
+    * two versions to be compared in order to ensure that MPXJ is
+    * correctly reading the data from both file formats.
+    * 
+    * @param name file name
+    * @param mpp MPP file data structure
+    * @throws Exception
+    */
+   private void validateMpp (String name, MPPFile mpp)
+      throws Exception
+   {
+      File xmlFile = new File (name + ".xml");
+      if (xmlFile.exists() == true)
+      {
+         MSPDIFile xml = new MSPDIFile(xmlFile);
+         MppXmlCompare compare = new MppXmlCompare();
+         compare.process(xmlFile, xml, mpp);
+      }
    }
    
    private String m_basedir;
