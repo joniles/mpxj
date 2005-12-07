@@ -98,33 +98,33 @@ public final class DateOrder
    private int m_value;
 
    /**
-    * Constant representing MDY
+    * Constant representing MDY.
     */
    public static final int MDY_VALUE = 0;
 
    /**
-    * Constant representing DMY
+    * Constant representing DMY.
     */
    public static final int DMY_VALUE = 1;
 
    /**
-    * Constant representing YMD
+    * Constant representing YMD.
     */
    public static final int YMD_VALUE = 2;
 
 
    /**
-    * Constant representing MDY
+    * Constant representing MDY.
     */
    public static final DateOrder MDY = new DateOrder(MDY_VALUE);
 
    /**
-    * Constant representing DMY
+    * Constant representing DMY.
     */
    public static final DateOrder DMY = new DateOrder(DMY_VALUE);
 
    /**
-    * Constant representing YMD
+    * Constant representing YMD.
     */
    public static final DateOrder YMD = new DateOrder(YMD_VALUE);
 

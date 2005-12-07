@@ -110,7 +110,7 @@ public final class Table
    }
 
    /**
-    * Adds a column definition to this table
+    * Adds a column definition to this table.
     *
     * @param column column definition
     */

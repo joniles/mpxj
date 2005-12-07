@@ -31,7 +31,7 @@ import java.io.IOException;
 class DefaultViewFactory implements ViewFactory
 {
    /**
-    * @see ViewFactory#createView(byte[], Var2Data)
+    * {@inheritDoc}
     */
    public View createView (MPPFile file, byte[] fixedData, Var2Data varData)
       throws IOException

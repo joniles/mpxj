@@ -1533,7 +1533,7 @@ final class MPP9File implements MPPReader
    }
 
    /**
-    * This method extracts and collates constraint data
+    * This method extracts and collates constraint data.
     *
     * @param file parent MPP file
     * @param projectDir root project directory
@@ -1597,7 +1597,7 @@ final class MPP9File implements MPPReader
 
 
    /**
-    * This method extracts and collates resource data
+    * This method extracts and collates resource data.
     *
     * @param file parent MPP file
     * @param projectDir root project directory
@@ -1848,7 +1848,7 @@ final class MPP9File implements MPPReader
 
 
    /**
-    * This method extracts and collates resource assignment data
+    * This method extracts and collates resource assignment data.
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
@@ -1981,7 +1981,7 @@ final class MPP9File implements MPPReader
    }
 
    /**
-    * This method extracts view data from the MPP file
+    * This method extracts view data from the MPP file.
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
@@ -2010,7 +2010,7 @@ final class MPP9File implements MPPReader
    }
 
    /**
-    * This method extracts table data from the MPP file
+    * This method extracts table data from the MPP file.
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
@@ -2452,7 +2452,7 @@ final class MPP9File implements MPPReader
    private static final int DURATION_CONFIRMED_MASK = 0x20;
 
    /**
-    * Default working week
+    * Default working week.
     */
    private static final boolean[] DEFAULT_WORKING_WEEK =
    {

@@ -43,7 +43,7 @@ public final class InputStreamTokenizer extends Tokenizer
    }
 
    /**
-    * @see Tokenizer#read()
+    * {@inheritDoc}
     */
    protected int read ()
       throws IOException

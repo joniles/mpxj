@@ -82,22 +82,22 @@ public final class EarnedValueMethod
    private int m_value;
 
    /**
-    * Constant representing Percent Complete
+    * Constant representing Percent Complete.
     */
    public static final int PERCENT_COMPLETE_VALUE = 0;
 
    /**
-    * Constant representing Physical Percent Complete
+    * Constant representing Physical Percent Complete.
     */
    public static final int PHYSICAL_PERCENT_COMPLETE_VALUE = 1;
 
    /**
-    * Constant representing Percent Complete
+    * Constant representing Percent Complete.
     */
    public static final EarnedValueMethod PERCENT_COMPLETE = new EarnedValueMethod(PERCENT_COMPLETE_VALUE);
 
    /**
-    * Constant representing Physical Percent Complete
+    * Constant representing Physical Percent Complete.
     */
    public static final EarnedValueMethod PHYSICAL_PERCENT_COMPLETE = new EarnedValueMethod(PHYSICAL_PERCENT_COMPLETE_VALUE);
 }

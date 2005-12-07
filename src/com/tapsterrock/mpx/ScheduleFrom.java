@@ -91,23 +91,23 @@ public final class ScheduleFrom
    private int m_value;
 
    /**
-    * Constant representing Schedule From Start
+    * Constant representing Schedule From Start.
     */
    public static final int START_VALUE = 0;
 
    /**
-    * Constant representing Schedule From Finish
+    * Constant representing Schedule From Finish.
     */
    public static final int FINISH_VALUE = 1;
 
 
    /**
-    * Constant representing Schedule From Start
+    * Constant representing Schedule From Start.
     */
    public static final ScheduleFrom START = new ScheduleFrom(START_VALUE);
 
    /**
-    * Constant representing Schedule From Finish
+    * Constant representing Schedule From Finish.
     */
    public static final ScheduleFrom FINISH = new ScheduleFrom(FINISH_VALUE);
 }

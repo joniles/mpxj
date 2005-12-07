@@ -90,7 +90,7 @@ public final class MPXException extends Exception
    }
 
    /**
-    * Returns the embedded exception
+    * Returns the embedded exception.
     *
     * @return exception
     */
@@ -100,7 +100,7 @@ public final class MPXException extends Exception
    }
 
    /**
-    * Embedded exception
+    * Embedded exception.
     */
    private Exception m_exception;
 
@@ -165,17 +165,17 @@ public final class MPXException extends Exception
    public static final String INVALID_FORMAT = "Invalid format";
 
    /**
-    * Invalid task field name error message
+    * Invalid task field name error message.
     */
    public static final String INVALID_TASK_FIELD_NAME = "Invalid task field name";
 
    /**
-    * Invalid resource field name error message
+    * Invalid resource field name error message.
     */
    public static final String INVALID_RESOURCE_FIELD_NAME = "Invalid resource field name";
 
    /**
-    * Password protected file error message
+    * Password protected file error message.
     */
    public static final String PASSWORD_PROTECTED = "File is password protected";
 }

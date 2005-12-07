@@ -189,7 +189,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the units of this resource assignment
+    * Returns the units of this resource assignment.
     *
     * @return units
     */
@@ -199,7 +199,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the units of this resource assignment
+    * Returns the units of this resource assignment.
     *
     * @return units
     */
@@ -209,7 +209,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the units for this resource assignment
+    * Sets the units for this resource assignment.
     *
     * @param val units
     */
@@ -219,7 +219,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the units for this resource assignment
+    * Sets the units for this resource assignment.
     *
     * @param val units
     */
@@ -229,7 +229,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the work of this resource assignment
+    * Returns the work of this resource assignment.
     *
     * @return work
     */
@@ -239,7 +239,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the work for this resource assignment
+    * Sets the work for this resource assignment.
     *
     * @param dur work
     */
@@ -249,7 +249,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the planned work of this resource assignment
+    * Returns the planned work of this resource assignment.
     *
     * @return planned work
     */
@@ -259,7 +259,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the planned work for this resource assignment
+    * Sets the planned work for this resource assignment.
     *
     * @param dur planned work
     */
@@ -269,7 +269,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the actual completed work of this resource assignment
+    * Returns the actual completed work of this resource assignment.
     *
     * @return completed work
     */
@@ -279,7 +279,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the actual completed work for this resource assignment
+    * Sets the actual completed work for this resource assignment.
     *
     * @param dur actual completed work
     */
@@ -289,7 +289,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the overtime work done of this resource assignment
+    * Returns the overtime work done of this resource assignment.
     *
     * @return overtime work
     */
@@ -299,7 +299,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the overtime work for this resource assignment
+    * Sets the overtime work for this resource assignment.
     *
     * @param dur overtime work
     */
@@ -309,7 +309,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the cost  of this resource assignment
+    * Returns the cost  of this resource assignment.
     *
     * @return cost
     */
@@ -319,7 +319,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the cost for this resource assignment
+    * Sets the cost for this resource assignment.
     *
     * @param val cost
     */
@@ -329,7 +329,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the planned cost for this resource assignment
+    * Returns the planned cost for this resource assignment.
     *
     * @return planned cost
     */
@@ -339,7 +339,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the planned cost for this resource assignment
+    * Sets the planned cost for this resource assignment.
     *
     * @param val planned cost
     */
@@ -349,7 +349,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the actual cost for this resource assignment
+    * Returns the actual cost for this resource assignment.
     *
     * @return actual cost
     */
@@ -359,7 +359,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the actual cost so far incurred for this resource assignment
+    * Sets the actual cost so far incurred for this resource assignment.
     *
     * @param val actual cost
     */
@@ -369,7 +369,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the start of this resource assignment
+    * Returns the start of this resource assignment.
     *
     * @return start date
     */
@@ -379,7 +379,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the start date for this resource assignment
+    * Sets the start date for this resource assignment.
     *
     * @param val start date
     */
@@ -389,7 +389,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the finish date for this resource assignment
+    * Returns the finish date for this resource assignment.
     *
     * @return finish date
     */
@@ -399,7 +399,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the finish date for this resource assignment
+    * Sets the finish date for this resource assignment.
     *
     * @param val finish date
     */
@@ -409,7 +409,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the delay for this resource assignment
+    * Returns the delay for this resource assignment.
     *
     * @return delay
     */
@@ -419,7 +419,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the delay for this resource assignment
+    * Sets the delay for this resource assignment.
     *
     * @param dur delay
     */
@@ -429,7 +429,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the resources unique id for this resource assignment
+    * Returns the resources unique id for this resource assignment.
     *
     * @return resources unique id
     */
@@ -439,7 +439,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the resources unique id for this resource assignment
+    * Returns the resources unique id for this resource assignment.
     *
     * @return resources unique id
     */
@@ -449,7 +449,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the resources unique id for this resource assignment
+    * Sets the resources unique id for this resource assignment.
     *
     * @param val resources unique id
     */
@@ -459,7 +459,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the resources unique id for this resource assignment
+    * Sets the resources unique id for this resource assignment.
     *
     * @param val resources unique id
     */
@@ -481,7 +481,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Gets the Resource Assignment Workgroup Fields if one exists
+    * Gets the Resource Assignment Workgroup Fields if one exists.
     *
     * @return workgroup assignment object
     */
@@ -513,7 +513,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * This method returns the Work Contour type of this Assignment
+    * This method returns the Work Contour type of this Assignment.
     *
     * @return the Work Contour type
     */
@@ -523,7 +523,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * This method sets the Work Contour type of this Assignment
+    * This method sets the Work Contour type of this Assignment.
     *
     * @param workContour the Work Contour type
     */
@@ -561,7 +561,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Returns the remaining work for this resource assignment
+    * Returns the remaining work for this resource assignment.
     *
     * @return remaining work
     */
@@ -571,7 +571,7 @@ public final class ResourceAssignment extends MPXRecord
    }
 
    /**
-    * Sets the remaining work for this resource assignment
+    * Sets the remaining work for this resource assignment.
     *
     * @param remainingWork remaining work
     */
@@ -591,7 +591,7 @@ public final class ResourceAssignment extends MPXRecord
    private MPXDuration m_remainingWork;
 
    /**
-    * Reference to the parent task of this assignment
+    * Reference to the parent task of this assignment.
     */
    private Task m_task;
 
@@ -601,12 +601,12 @@ public final class ResourceAssignment extends MPXRecord
    private ResourceAssignmentWorkgroupFields m_workgroup;
 
    /**
-    * Work Contour type of this assignment
+    * Work Contour type of this assignment.
     */
    private WorkContour m_workContour;
 
    /**
-    * Default units value: 100%
+    * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = new Double (100);
 
@@ -616,7 +616,7 @@ public final class ResourceAssignment extends MPXRecord
    private static final int RESOURCE_ID = 0;
 
    /**
-    * Units assigned
+    * Units assigned.
     */
    private static final int UNITS = 1;
 
@@ -692,17 +692,17 @@ public final class ResourceAssignment extends MPXRecord
    private static final int FINISH = 10;
 
    /**
-    * Delay
+    * Delay.
     */
    private static final int DELAY = 11;
 
    /**
-    * Unique ID of the resource
+    * Unique ID of the resource.
     */
    private static final int RESOURCE_UNIQUE_ID = 12;
 
    /**
-    * Work contour type (Back Loaded, Turtle, etc..)
+    * Work contour type (Back Loaded, Turtle, etc..).
     */
    private static final int WORK_CONTOUR = 13;
 
@@ -710,46 +710,6 @@ public final class ResourceAssignment extends MPXRecord
     * Maximum number of fields in this record.
     */
    private static final int MAX_FIELDS = 14;
-
-   /**
-    * Flat work contour
-    */
-   public static final int CONTOUR_FLAT = 0;
-   /**
-    * Back Loaded work contour
-    */
-   public static final int CONTOUR_BACK_LOADED = 1;
-   /**
-    * Front Loaded work contour
-    */
-   public static final int CONTOUR_FRONT_LOADED = 2;
-   /**
-    * Double Peak work contour
-    */
-   public static final int CONTOUR_DOUBLE_PEAK = 3;
-   /**
-    * Early Peak work contour
-    */
-   public static final int CONTOUR_EARLY_PEAK = 4;
-   /**
-    * Late Peak work contour
-    */
-   public static final int CONTOUR_LATE_PEAK = 5;
-   /**
-    * Bell work contour
-    */
-   public static final int CONTOUR_BELL = 6;
-   /**
-    * Turtle work contour
-    */
-   public static final int CONTOUR_TURTLE = 7;
-   /**
-    * Manual work contour
-    * User-defined
-    * Note that the MPP file does not use '8' for Manual Contours.  When an assignment is manually contoured,
-    * the value in this spot is '0' (Flat contour).  Don't know how to find the Manual contour flag yet.
-    */
-   public static final int CONTOUR_MANUAL = 8;
 
     /**
     * Constant containing the record number associated with this record.

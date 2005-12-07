@@ -69,7 +69,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves a string value from the extended data
+    * Retrieves a string value from the extended data.
     *
     * @param type Type identifier
     * @return string value
@@ -88,7 +88,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves a string value from the extended data
+    * Retrieves a string value from the extended data.
     *
     * @param type Type identifier
     * @return string value
@@ -107,7 +107,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves a short int value from the extended data
+    * Retrieves a short int value from the extended data.
     *
     * @param type Type identifier
     * @return short int value
@@ -126,7 +126,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves an integer value from the extended data
+    * Retrieves an integer value from the extended data.
     *
     * @param type Type identifier
     * @return integer value
@@ -145,7 +145,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves a long value from the extended data
+    * Retrieves a long value from the extended data.
     *
     * @param type Type identifier
     * @return long value
@@ -164,7 +164,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves a double value from the extended data
+    * Retrieves a double value from the extended data.
     *
     * @param type Type identifier
     * @return double value
@@ -183,7 +183,7 @@ final class ExtendedData
    }
 
    /**
-    * Retrieves a timestamp from the extended data
+    * Retrieves a timestamp from the extended data.
     *
     * @param type Type identifier
     * @return timestamp

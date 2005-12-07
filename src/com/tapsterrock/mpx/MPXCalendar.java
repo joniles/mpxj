@@ -175,9 +175,9 @@ public final class MPXCalendar extends MPXRecord
 
 
    /**
-    * Calendar name
+    * Calendar name.
     *
-    * @param name - string calendar name
+    * @param name calendar name
     */
    public void setName (String name)
    {
@@ -185,9 +185,9 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
-    * Calendar name
+    * Calendar name.
     *
-    * @return - name of calendar
+    * @return calendar name
     */
    public String getName()
    {
@@ -635,7 +635,7 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
-    * Modifier method to set the unique ID of this calendar
+    * Modifier method to set the unique ID of this calendar.
     *
     * @param uniqueID unique identifier
     */
@@ -645,7 +645,7 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
-    * Accessor method to retrieve the unique ID of this calendar
+    * Accessor method to retrieve the unique ID of this calendar.
     *
     * @return calendar unique identifier
     */
@@ -684,15 +684,18 @@ public final class MPXCalendar extends MPXRecord
    }
    
    /**
-    * Unique identifier of this calendar
+    * Unique identifier of this calendar.
     */
    private int m_uniqueID;
 
    /**
-    * Calendar name, normally only populated if this is a base calendar.
+    * Calendar name.
     */
    private String m_name;
 
+   /**
+    * Flag indicating if this is a base calendar.
+    */
    private boolean m_baseCalendarFlag;
    
    /**
@@ -722,17 +725,17 @@ public final class MPXCalendar extends MPXRecord
    private Resource m_resource;
    
    /**
-    * Default base calendar name to use when none is supplied
+    * Default base calendar name to use when none is supplied.
     */
    public static final String DEFAULT_BASE_CALENDAR_NAME = "Standard";
 
    /**
-    * Constant used to represent a non-working day
+    * Constant used to represent a non-working day.
     */
    public static final int NON_WORKING = 0;
 
    /**
-    * Constant used to represent a working day
+    * Constant used to represent a working day.
     */
    public static final int WORKING = 1;
 

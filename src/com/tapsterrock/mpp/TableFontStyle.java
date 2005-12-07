@@ -71,7 +71,7 @@ public class TableFontStyle extends FontStyle
    }
  
    /**
-    * @see java.lang.Object#toString()
+    * {@inheritDoc}
     */   
    public String toString ()
    {

@@ -110,7 +110,7 @@ final class SummaryInformation
    }
    
    /**
-    * Retrieve the author's name
+    * Retrieve the author's name.
     *
     * @return author's name
     */
@@ -214,7 +214,7 @@ final class SummaryInformation
    private HashMap m_documentSummaryInformation;
 
    /**
-    * Constants representing Summary Information properties
+    * Constants representing Summary Information properties.
     */
    private static final Integer PROJECT_TITLE = new Integer (102);
    private static final Integer SUBJECT = new Integer (103);
@@ -223,7 +223,7 @@ final class SummaryInformation
    private static final Integer COMMENTS = new Integer (106);
 
    /**
-    * Constants representing Document Summary Information properties
+    * Constants representing Document Summary Information properties.
     */
    private static final Integer CATEGORY = new Integer (102);
    private static final Integer MANAGER = new Integer (114);

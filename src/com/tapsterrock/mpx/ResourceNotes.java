@@ -54,7 +54,7 @@ public final class ResourceNotes extends MPXRecord
    }
 
    /**
-    * Get any text notes attached to this Resource
+    * Get any text notes attached to this Resource.
     *
     * @return notes
     */
@@ -64,7 +64,8 @@ public final class ResourceNotes extends MPXRecord
    }
 
    /**
-    * Set any text notes attached to this Resource
+    * Set any text notes attached to this Resource.
+    * 
     * @param notes atached notes
     */
    public void setNotes (String notes)
@@ -130,8 +131,8 @@ public final class ResourceNotes extends MPXRecord
    }
 
    /**
-   * The text constituting this <tt>ResourceNote</tt>
-   */
+    * The text constituting this <tt>ResourceNote</tt>.
+    */
    private String m_note;
 
 

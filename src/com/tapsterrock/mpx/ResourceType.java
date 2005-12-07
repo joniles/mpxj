@@ -116,24 +116,24 @@ public final class ResourceType
    private int m_value;
 
    /**
-    * Constant representing Material
+    * Constant representing Material.
     */
    public static final int MATERIAL_VALUE = 0;
 
    /**
-    * Constant representing Work
+    * Constant representing Work.
     */
    public static final int WORK_VALUE = 1;
 
 
 
    /**
-    * Constant representing Material
+    * Constant representing Material.
     */
    public static final ResourceType MATERIAL = new ResourceType(MATERIAL_VALUE);
 
    /**
-    * Constant representing Work
+    * Constant representing Work.
     */
    public static final ResourceType WORK = new ResourceType(WORK_VALUE);
 }

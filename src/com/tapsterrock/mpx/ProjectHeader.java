@@ -230,7 +230,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets the default number of hours in a day
+    * Gets the default number of hours in a day.
     *
     * @return number of hours
     */
@@ -240,7 +240,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the default number of hours in a day
+    * Sets the default number of hours in a day.
     *
     * @param hours number of hours
     */
@@ -250,7 +250,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets the default number of hours in a week
+    * Gets the default number of hours in a week.
     *
     * @return number of hours
     */
@@ -260,7 +260,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the default number of hours in a week
+    * Sets the default number of hours in a week.
     *
     * @param hours number of hours
     */
@@ -270,9 +270,9 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Get rate
+    * Retrieves the default standard rate.
     *
-    * @return rate
+    * @return default standard rate
     */
    public MPXRate getDefaultStandardRate ()
    {
@@ -280,7 +280,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set rate
+    * Sets the default standard rate.
     *
     * @param rate default standard rate
     */
@@ -290,7 +290,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Get overtime rate
+    * Get overtime rate.
     *
     * @return rate
     */
@@ -300,7 +300,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set default overtime rate
+    * Set default overtime rate.
     *
     * @param rate default overtime rate
     */
@@ -890,7 +890,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets constant representing set Date order eg DMY, MDY
+    * Gets constant representing set Date order eg DMY, MDY.
     *
     * @return constant value for date order
     */
@@ -900,7 +900,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets constant representing set Date order eg DMY, MDY
+    * Sets constant representing set Date order eg DMY, MDY.
     *
     * @param dateOrder date order value
     */
@@ -911,7 +911,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets constant representing the Time Format
+    * Gets constant representing the Time Format.
     *
     * @return time format constant
     */
@@ -921,7 +921,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets constant representing the time format
+    * Sets constant representing the time format.
     *
     * @param timeFormat constant value
     */
@@ -1130,7 +1130,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets Bar Text Date Format
+    * Gets Bar Text Date Format.
     *
     * @return int value
     */
@@ -1211,7 +1211,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project title
+    * Sets the project title.
     *
     * @param projectTitle project title
     */
@@ -1221,7 +1221,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets the project title
+    * Gets the project title.
     *
     * @return project title
     */
@@ -1231,7 +1231,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the company name
+    * Sets the company name.
     *
     * @param company company name
     */
@@ -1241,7 +1241,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the company name
+    * Retrieves the company name.
     *
     * @return company name
     */
@@ -1251,7 +1251,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the manager name
+    * Sets the manager name.
     *
     * @param manager manager name
     */
@@ -1261,7 +1261,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the manager name
+    * Retrieves the manager name.
     *
     * @return manager name
     */
@@ -1271,7 +1271,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the Calendar used. 'Standard' if no value is set
+    * Sets the Calendar used. 'Standard' if no value is set.
     *
     * @param calendarName Calendar name
     */
@@ -1286,7 +1286,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets the Calendar used. 'Standard' if no value is set
+    * Gets the Calendar used. 'Standard' if no value is set.
     *
     * @return Calendar name
     */
@@ -1296,7 +1296,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project start date
+    * Sets the project start date.
     *
     * @param startDate project start date
     */
@@ -1340,7 +1340,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project finish date
+    * Sets the project finish date.
     *
     * @param finishDate project finish date
     */
@@ -1472,7 +1472,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project work duration
+    * Sets the project work duration.
     *
     * @param work project work duration
     */
@@ -1482,7 +1482,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the project work duration
+    * Retrieves the project work duration.
     *
     * @return project work duration
     */
@@ -1492,7 +1492,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set the baseline project work duration
+    * Set the baseline project work duration.
     *
     * @param baselineWork baseline project work duration
     */
@@ -1502,7 +1502,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the baseline project work duration
+    * Retrieves the baseline project work duration.
     *
     * @return baseline project work duration
     */
@@ -1512,7 +1512,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the actual project work duration
+    * Sets the actual project work duration.
     *
     * @param actualWork actual project work duration
     */
@@ -1522,7 +1522,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the actual project work duration
+    * Retrieves the actual project work duration.
     *
     * @return actual project work duration
     */
@@ -1552,7 +1552,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the project duration
+    * Retrieves the project duration.
     *
     * @return project duration
     */
@@ -1612,7 +1612,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the project percentage complete
+    * Retrieves the project percentage complete.
     *
     * @return percentage value
     */
@@ -1622,7 +1622,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets project percentage complete
+    * Sets project percentage complete.
     *
     * @param percentComplete project percent complete
     */
@@ -1652,7 +1652,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the baseline project finish date
+    * Sets the baseline project finish date.
     *
     * @param baselineFinishDate baseline project finish date
     */
@@ -1672,7 +1672,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the actual project start date
+    * Sets the actual project start date.
     *
     * @param actualStartDate actual project start date
     */
@@ -1732,7 +1732,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the project finish variance duration
+    * Retrieves the project finish variance duration.
     *
     * @return project finish variance duration
     */
@@ -1742,7 +1742,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project finish variance duration
+    * Sets the project finish variance duration.
     *
     * @param finishVariance project finish variance duration
     */
@@ -1782,7 +1782,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project author text
+    * Sets the project author text.
     *
     * @param author project author text
     */
@@ -1802,7 +1802,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the project keyword text
+    * Sets the project keyword text.
     *
     * @param keywords project keyword text
     */
@@ -1977,7 +1977,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets currency symbol ie $, £, DM
+    * Sets currency symbol ie $, £, DM.
     *
     * @param symbol ie $, £, DM
     */
@@ -1993,7 +1993,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Gets currency symbol ie $, £, DM
+    * Gets currency symbol ie $, £, DM.
     *
     * @return ie $, £, DM
     */
@@ -2143,7 +2143,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set the externally edited flag
+    * Set the externally edited flag.
     *
     * @param projectExternallyEdited externally edited flag
     */
@@ -2223,7 +2223,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set the number of minutes per week
+    * Set the number of minutes per week.
     *
     * @param minutesPerWeek minutes per week
     */
@@ -2253,7 +2253,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Retrieves the default task earned value method
+    * Retrieves the default task earned value method.
     *
     * @return default task earned value method
     */
@@ -2263,7 +2263,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Sets the default task earned value method
+    * Sets the default task earned value method.
     *
     * @param defaultTaskEarnedValueMethod default task earned value method
     */
@@ -2623,7 +2623,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set the editable actual costs flag
+    * Set the editable actual costs flag.
     *
     * @param editableActualCosts editable actual costs flag
     */
@@ -2743,7 +2743,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * Set the default task type
+    * Set the default task type.
     *
     * @param defaultTaskType default task type
     */
@@ -3129,7 +3129,7 @@ public final class ProjectHeader extends MPXRecord
    static final int CURRENCY_SETTINGS_RECORD_NUMBER = 10;
 
    /**
-    * Default Settings Attributes
+    * Default Settings Attributes.
     */
    private TimeUnit m_defaultDurationUnits;
    private NumericBoolean m_defaultDurationIsFixed;
@@ -3142,7 +3142,7 @@ public final class ProjectHeader extends MPXRecord
    private NumericBoolean m_splitInProgressTasks;
 
    /**
-    * Date Time Settings Attributes
+    * Date Time Settings Attributes.
     */
    private DateOrder m_dateOrder;
    private ProjectTimeFormat m_timeFormat;
@@ -3155,7 +3155,7 @@ public final class ProjectHeader extends MPXRecord
    private ProjectDateFormat m_barTextDateFormat;
 
    /**
-    * Project Header Attributes
+    * Project Header Attributes.
     */
    private String m_projectTitle;
    private String m_company;

@@ -41,7 +41,7 @@ public final class ResourceField implements FieldType
    }
 
    /**
-    * @see FieldType#getName()
+    * {@inheritDoc}
     */
    public String getName()
    {
@@ -49,7 +49,7 @@ public final class ResourceField implements FieldType
    }
 
    /**
-    * @see FieldType#getName(Locale)
+    * {@inheritDoc}
     */
    public String getName (Locale locale)
    {      

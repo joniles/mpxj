@@ -88,33 +88,33 @@ public final class TaskType
    private int m_value;
 
    /**
-    * Constant representing Fixed Units
+    * Constant representing Fixed Units.
     */
    public static final int FIXED_UNITS_VALUE = 0;
 
    /**
-    * Constant representing Fixed Duration
+    * Constant representing Fixed Duration.
     */
    public static final int FIXED_DURATION_VALUE = 1;
 
    /**
-    * Constant representing Fixed Work
+    * Constant representing Fixed Work.
     */
    public static final int FIXED_WORK_VALUE = 2;
 
 
    /**
-    * Constant representing Fixed Units
+    * Constant representing Fixed Units.
     */
    public static final TaskType FIXED_UNITS = new TaskType(FIXED_UNITS_VALUE);
 
    /**
-    * Constant representing Fixed Duration
+    * Constant representing Fixed Duration.
     */
    public static final TaskType FIXED_DURATION = new TaskType(FIXED_DURATION_VALUE);
 
    /**
-    * Constant representing Fixed Work
+    * Constant representing Fixed Work.
     */
    public static final TaskType FIXED_WORK = new TaskType(FIXED_WORK_VALUE);
 

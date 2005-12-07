@@ -75,7 +75,7 @@ public class FontBase
    }
    
    /**
-    * @see java.lang.Object#toString()
+    * {@inheritDoc}
     */
    public String toString ()
    {

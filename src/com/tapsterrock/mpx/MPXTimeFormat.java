@@ -48,7 +48,7 @@ final class MPXTimeFormat extends SimpleDateFormat
    }
 
    /**
-    * @see java.text.DateFormat#parse(java.lang.String)
+    * {@inheritDoc}
     */
    public Date parse (String str)
       throws ParseException

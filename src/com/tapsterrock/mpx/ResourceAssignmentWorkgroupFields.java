@@ -67,7 +67,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets the Message Unique ID
+    * Sets the Message Unique ID.
     *
     * @param val ID
     */
@@ -77,7 +77,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets the Message Unique ID
+    * Gets the Message Unique ID.
     *
     * @return ID
     */
@@ -87,7 +87,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets  confirmed value
+    * Gets  confirmed value.
     *
     * @return 0-false, 1-true
     */
@@ -97,7 +97,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets  confirmed value
+    * Gets  confirmed value.
     *
     * @return 0-false, 1-true
     */
@@ -107,7 +107,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets to confirmed
+    * Sets to confirmed.
     *
     * @param val 0-false, 1-true
     */
@@ -117,7 +117,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets to confirmed
+    * Sets to confirmed.
     *
     * @param val 0-false, 1-true
     */
@@ -127,7 +127,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets to response pending
+    * Sets to response pending.
     *
     * @param val 0-false, 1-true
     */
@@ -137,7 +137,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets to response pending
+    * Sets to response pending.
     *
     * @param val 0-false, 1-true
     */
@@ -147,7 +147,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets  response pending value
+    * Gets  response pending value.
     *
     * @return 0-false, 1-true
     */
@@ -157,7 +157,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets  response pending value
+    * Gets  response pending value.
     *
     * @return 0-false, 1-true
     */
@@ -167,7 +167,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets the Update Start Field
+    * Sets the Update Start Field.
     *
     * @param val date to set
     */
@@ -177,7 +177,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets the Update Start Field value
+    * Gets the Update Start Field value.
     *
     * @return update Start Date
     */
@@ -187,7 +187,8 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Sets the Update Finish Field
+    * Sets the Update Finish Field.
+    * 
     * @param val date to set
     */
    public void setUpdateFinish (Date val)
@@ -196,7 +197,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Gets the Update Finish Field value
+    * Gets the Update Finish Field value.
     *
     * @return update Finish Date
     */
@@ -206,7 +207,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Set Schedule ID
+    * Set Schedule ID.
     *
     * @param val  ID
     */
@@ -216,7 +217,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Get Schedule ID
+    * Get Schedule ID.
     *
     * @return ID
     */

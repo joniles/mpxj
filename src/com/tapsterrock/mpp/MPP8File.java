@@ -1195,7 +1195,7 @@ final class MPP8File implements MPPReader
    }
 
    /**
-    * This method extracts view data from the MPP file
+    * This method extracts view data from the MPP file.
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
@@ -1219,7 +1219,7 @@ final class MPP8File implements MPPReader
    }
 
    /**
-    * This method extracts table data from the MPP file
+    * This method extracts table data from the MPP file.
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
@@ -1684,7 +1684,7 @@ final class MPP8File implements MPPReader
    private static final Integer RESOURCE_COST10 = new Integer (179);
 
    /**
-    * Default working week
+    * Default working week.
     */
    private static final boolean[] DEFAULT_WORKING_WEEK =
    {

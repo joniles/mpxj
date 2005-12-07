@@ -108,7 +108,7 @@ final class MPXNumberFormat extends DecimalFormat
    }
 
    /**
-    * @see java.text.NumberFormat#parse(java.lang.String, java.text.ParsePosition)
+    * {@inheritDoc}
     */
    public Number parse (String str, ParsePosition parsePosition)
    {

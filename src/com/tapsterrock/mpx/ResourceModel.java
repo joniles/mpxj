@@ -243,12 +243,12 @@ final class ResourceModel extends MPXRecord
    private int m_count;
 
    /**
-    * Array of resource column names, indexed by ID
+    * Array of resource column names, indexed by ID.
     */
    private String[] m_resourceNames;
 
    /**
-    * Map to store Resource field Numbers
+    * Map to store Resource field Numbers.
     */
    private HashMap m_resourceNumbers = new HashMap();
 

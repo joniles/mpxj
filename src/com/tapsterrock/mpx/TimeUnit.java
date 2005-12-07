@@ -220,143 +220,143 @@ public final class TimeUnit
    private int m_value;
 
    /**
-    * Constant representing Minutes
+    * Constant representing Minutes.
     */
    public static final int MINUTES_VALUE = 0;
 
    /**
-    * Constant representing Hours
+    * Constant representing Hours.
     */
    public static final int HOURS_VALUE = 1;
 
    /**
-    * Constant representing Days
+    * Constant representing Days.
     */
    public static final int DAYS_VALUE = 2;
 
    /**
-    * Constant representing Weeks
+    * Constant representing Weeks.
     */
    public static final int WEEKS_VALUE = 3;
 
    /**
-    * Constant representing Months
+    * Constant representing Months.
     */
    public static final int MONTHS_VALUE = 4;
 
    /**
-    * Constant representing Years
+    * Constant representing Years.
     */
    public static final int YEARS_VALUE = 5;
 
    /**
-    * Constant representing Percent
+    * Constant representing Percent.
     */
    public static final int PERCENT_VALUE = 6;
 
    /**
-    * Constant representing Elapsed Minutes
+    * Constant representing Elapsed Minutes.
     */
    public static final int ELAPSED_MINUTES_VALUE = 7;
 
    /**
-    * Constant representing Elapsed Hours
+    * Constant representing Elapsed Hours.
     */
    public static final int ELAPSED_HOURS_VALUE = 8;
 
    /**
-    * Constant representing Elapsed Days
+    * Constant representing Elapsed Days.
     */
    public static final int ELAPSED_DAYS_VALUE = 9;
 
    /**
-    * Constant representing Elapsed Weeks
+    * Constant representing Elapsed Weeks.
     */
    public static final int ELAPSED_WEEKS_VALUE = 10;
 
    /**
-    * Constant representing Elapsed Months
+    * Constant representing Elapsed Months.
     */
    public static final int ELAPSED_MONTHS_VALUE = 11;
 
    /**
-    * Constant representing Elapsed Years
+    * Constant representing Elapsed Years.
     */
    public static final int ELAPSED_YEARS_VALUE = 12;
 
    /**
-    * Constant representing Elapsed Percent
+    * Constant representing Elapsed Percent.
     */
    public static final int ELAPSED_PERCENT_VALUE = 13;
 
 
    /**
-    * Constant representing Minutes
+    * Constant representing Minutes.
     */
    public static final TimeUnit MINUTES = new TimeUnit(MINUTES_VALUE);
 
    /**
-    * Constant representing Hours
+    * Constant representing Hours.
     */
    public static final TimeUnit HOURS = new TimeUnit(HOURS_VALUE);
 
    /**
-    * Constant representing Days
+    * Constant representing Days.
     */
    public static final TimeUnit DAYS = new TimeUnit(DAYS_VALUE);
 
    /**
-    * Constant representing Weeks
+    * Constant representing Weeks.
     */
    public static final TimeUnit WEEKS = new TimeUnit(WEEKS_VALUE);
 
    /**
-    * Constant representing Months
+    * Constant representing Months.
     */
    public static final TimeUnit MONTHS = new TimeUnit(MONTHS_VALUE);
 
    /**
-    * Constant representing Years
+    * Constant representing Years.
     */
    public static final TimeUnit YEARS = new TimeUnit(YEARS_VALUE);
 
    /**
-    * Constant representing Percent
+    * Constant representing Percent.
     */
    public static final TimeUnit PERCENT = new TimeUnit(PERCENT_VALUE);
 
    /**
-    * Constant representing Elapsed Minutes
+    * Constant representing Elapsed Minutes.
     */
    public static final TimeUnit ELAPSED_MINUTES = new TimeUnit(ELAPSED_MINUTES_VALUE);
 
    /**
-    * Constant representing Elapsed Hours
+    * Constant representing Elapsed Hours.
     */
    public static final TimeUnit ELAPSED_HOURS = new TimeUnit(ELAPSED_HOURS_VALUE);
 
    /**
-    * Constant representing Elapsed Days
+    * Constant representing Elapsed Days.
     */
    public static final TimeUnit ELAPSED_DAYS = new TimeUnit(ELAPSED_DAYS_VALUE);
 
    /**
-    * Constant representing Elapsed Weeks
+    * Constant representing Elapsed Weeks.
     */
    public static final TimeUnit ELAPSED_WEEKS = new TimeUnit(ELAPSED_WEEKS_VALUE);
 
    /**
-    * Constant representing Elapsed Months
+    * Constant representing Elapsed Months.
     */
    public static final TimeUnit ELAPSED_MONTHS = new TimeUnit(ELAPSED_MONTHS_VALUE);
 
    /**
-    * Constant representing Elapsed Years
+    * Constant representing Elapsed Years.
     */
    public static final TimeUnit ELAPSED_YEARS = new TimeUnit(ELAPSED_YEARS_VALUE);
 
    /**
-    * Constant representing Elapsed Percent
+    * Constant representing Elapsed Percent.
     */
    public static final TimeUnit ELAPSED_PERCENT = new TimeUnit(ELAPSED_PERCENT_VALUE);
 

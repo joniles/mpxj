@@ -74,7 +74,7 @@ public final class MPXCalendarException extends MPXRecord
 
 
    /**
-    * Returns the from date
+    * Returns the from date.
     *
     * @return Date
     */
@@ -107,7 +107,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get to date
+    * Get to date.
     *
     * @return Date
     */
@@ -117,7 +117,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets To Date
+    * Sets To Date.
     *
     * @param to Date
     */
@@ -141,7 +141,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * gets working status
+    * Gets working status.
     *
     * @return boolean value
     */
@@ -151,7 +151,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * gets working status
+    * Gets working status.
     *
     * @return boolean value
     */
@@ -181,7 +181,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get FromTime1
+    * Get FromTime1.
     *
     * @return Time
     */
@@ -191,7 +191,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets from time 1
+    * Sets from time 1.
     *
     * @param from Time
     */
@@ -201,7 +201,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get ToTime1
+    * Get ToTime1.
     *
     * @return Time
     */
@@ -211,7 +211,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets to time 1
+    * Sets to time 1.
     *
     * @param to Time
     */
@@ -221,7 +221,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get FromTime2
+    * Get FromTime2.
     *
     * @return Time
     */
@@ -231,7 +231,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets from time 2
+    * Sets from time 2.
     *
     * @param from Time
     */
@@ -241,7 +241,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get ToTime2
+    * Get ToTime2.
     *
     * @return Time
     */
@@ -251,7 +251,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets to time 2
+    * Sets to time 2.
     *
     * @param to Time
     */
@@ -261,7 +261,8 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get ToTime3
+    * Get ToTime3.
+    * 
     * @return Time
     */
    public Date getFromTime3 ()
@@ -270,7 +271,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets from time 3
+    * Sets from time 3.
     *
     * @param from Time
     */
@@ -280,7 +281,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Get ToTime3
+    * Get ToTime3.
     *
     * @return Time
     */
@@ -290,7 +291,7 @@ public final class MPXCalendarException extends MPXRecord
    }
 
    /**
-    * Sets to time 3
+    * Sets to time 3.
     *
     * @param to Time
     */
@@ -352,47 +353,47 @@ public final class MPXCalendarException extends MPXRecord
    private MPXCalendar m_parentCalendar;
 
    /**
-    * Constant identifier for the FromDate field
+    * Constant identifier for the FromDate field.
     */
    private static final int FROM_DATE = 0;
 
    /**
-    * Constant identifier for the ToDate field
+    * Constant identifier for the ToDate field.
     */
    private static final int TO_DATE = 1;
 
    /**
-    * Constant identifier for the Working field
+    * Constant identifier for the Working field.
     */
    private static final int WORKING = 2;
 
    /**
-    * Constant identifier for the FromTime 1 field
+    * Constant identifier for the FromTime 1 field.
     */
    private static final int FROM_TIME_1 = 3;
 
    /**
-    * Constant identifier for the To Time 1 field
+    * Constant identifier for the To Time 1 field.
     */
    private static final int TO_TIME_1 = 4;
 
    /**
-    * Constant identifier for the From Time 2 field
+    * Constant identifier for the From Time 2 field.
     */
    private static final int FROM_TIME_2 = 5;
 
    /**
-    * Constant identifier for the To Time 2 field
+    * Constant identifier for the To Time 2 field.
     */
    private static final int TO_TIME_2 = 6;
 
    /**
-    * Constant identifier for the From Time 3 field
+    * Constant identifier for the From Time 3 field.
     */
    private static final int FROM_TIME_3 = 7;
 
    /**
-    * Constant identifier for the To Time 3 field
+    * Constant identifier for the To Time 3 field.
     */
    private static final int TO_TIME_3 = 8;
 

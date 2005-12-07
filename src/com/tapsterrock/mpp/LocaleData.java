@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 public class LocaleData extends ListResourceBundle
 {
    /**
-    * @see ListResourceBundle
+    * {@inheritDoc}
     */
    public Object[][] getContents()
    {
@@ -44,7 +44,7 @@ public class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving a String[] resource
+    * Convenience method for retrieving a String[] resource.
     *
     * @param locale locale identifier
     * @param key resource key

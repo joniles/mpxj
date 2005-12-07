@@ -102,7 +102,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
    }
 
    /**
-    * @see AbstractList#iterator()
+    * {@inheritDoc}
     */
    public Iterator iterator ()
    {
@@ -110,7 +110,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
    }
 
    /**
-    * @see AbstractList#add(java.lang.Object)
+    * {@inheritDoc}
     */
    public boolean add (Object relation)
    {
@@ -118,7 +118,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
    }
 
    /**
-    * @see java.util.Collection#size()
+    * {@inheritDoc}
     */
    public int size()
    {
@@ -126,7 +126,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
    }
 
    /**
-    * @see AbstractList#get(int)
+    * {@inheritDoc}
     */
    public Object get (int index)
    {

@@ -56,7 +56,7 @@ public final class ProjectNames extends MPXRecord
    }
 
    /**
-    * Sets the DDE link name
+    * Sets the DDE link name.
     *
     * @param in DDE link name
     */
@@ -66,7 +66,7 @@ public final class ProjectNames extends MPXRecord
    }
 
    /**
-    * Gets the DDE link name
+    * Gets the DDE link name.
     *
     * @return DDE link name
     */
@@ -76,7 +76,7 @@ public final class ProjectNames extends MPXRecord
    }
 
    /**
-    * Set description
+    * Set description.
     *
     * @param desc descrpition
     */
@@ -86,7 +86,7 @@ public final class ProjectNames extends MPXRecord
    }
 
    /**
-    * Get description
+    * Get description.
     *
     * @return descrpition
     */
@@ -117,12 +117,12 @@ public final class ProjectNames extends MPXRecord
    }
 
    /**
-    * DDE Link name
+    * DDE Link name.
     */
    private String m_name;
 
    /**
-    * Description
+    * Description.
     */
    private String m_description;
 

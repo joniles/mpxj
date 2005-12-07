@@ -65,7 +65,7 @@ public class GridLines
    }
    
    /**
-    * Retrieve the interval number
+    * Retrieve the interval number.
     * 
     * @return interval number
     */

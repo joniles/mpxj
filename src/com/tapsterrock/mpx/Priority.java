@@ -145,52 +145,52 @@ public final class Priority implements ToStringRequiresFile
    }
 
    /**
-    * Constant for lowest priority
+    * Constant for lowest priority.
     */
    public static final int LOWEST = 100;
 
    /**
-    * Constant for low priority
+    * Constant for low priority.
     */
    public static final int VERY_LOW = 200;
 
    /**
-    * Constant for lower priority
+    * Constant for lower priority.
     */
    public static final int LOWER = 300;
 
    /**
-    * Constant for low priority
+    * Constant for low priority.
     */
    public static final int LOW = 400;
 
    /**
-    * Constant for medium priority
+    * Constant for medium priority.
     */
    public static final int MEDIUM = 500;
 
    /**
-    * Constant for high priority
+    * Constant for high priority.
     */
    public static final int HIGH = 600;
 
    /**
-    * Constant for higher priority
+    * Constant for higher priority.
     */
    public static final int HIGHER = 700;
 
    /**
-    * Constant for very high priority
+    * Constant for very high priority.
     */
    public static final int VERY_HIGH = 800;
 
    /**
-    * Constant for highest priority
+    * Constant for highest priority.
     */
    public static final int HIGHEST = 900;
 
    /**
-    * Constant for do not level
+    * Constant for do not level.
     */
    public static final int DO_NOT_LEVEL = 1000;
 

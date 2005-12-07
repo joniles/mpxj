@@ -56,7 +56,7 @@ public final class RecurringTask extends MPXRecord
    {
       super (file, MAX_FIELDS);
 
-      setID(record.getString(0));
+      setTaskUniqueID(record.getString(0));
       setStartDate(record.getDateTime(1));
       setFinishDate(record.getDateTime(2));
       setDuration(record.getInteger(3));
@@ -84,27 +84,27 @@ public final class RecurringTask extends MPXRecord
 
 
    /**
-    * ID, Unique ID of task to which this refers
+    * ID, Unique ID of task to which this refers.
     *
     * @return - String ID
     */
-   public String getID ()
+   public String getTaskUniqueID ()
    {
       return ((String)get(ID));
    }
 
    /**
-    * ID, Unique ID of task to which this refers
+    * ID, Unique ID of task to which this refers.
     *
     * @param id - String ID
     */
-   public void setID (String id)
+   public void setTaskUniqueID (String id)
    {
       put (ID, id);
    }
 
    /**
-    * Gets the start date of this recurring task
+    * Gets the start date of this recurring task.
     *
     * @return date to start recurring task
     */
@@ -114,7 +114,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Sets the start date of this recurring task
+    * Sets the start date of this recurring task.
     *
     * @param val date to start recurring task
     */
@@ -124,7 +124,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the finish date of this recurring task
+    * Gets the finish date of this recurring task.
     *
     * @return date to finish recurring task
     */
@@ -134,7 +134,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Sets the finish date of this recurring task
+    * Sets the finish date of this recurring task.
     *
     * @param val date to finish recurring task
     */
@@ -144,7 +144,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Duration in minutes
+    * Duration in minutes.
     *
     * @return int value of duration, in minutes
     */
@@ -154,7 +154,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Duration in minutes
+    * Duration in minutes.
     *
     * @return int value of duration, in minutes
     */
@@ -164,7 +164,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Duration in minutes
+    * Duration in minutes.
     *
     * @param val Integer value of duration in minutes
     */
@@ -174,7 +174,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Duration in minutes
+    * Duration in minutes.
     *
     * @param val Integer value of duration in minutes
     */
@@ -184,7 +184,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Duration type
+    * Duration type.
     *
     * @return String type
     */
@@ -204,7 +204,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Sets the number of occurance of the task
+    * Sets the number of occurance of the task.
     *
     * @return number of occurances
     */
@@ -214,7 +214,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Sets the number of occurance of the task
+    * Sets the number of occurance of the task.
     *
     * @return number of occurances
     */
@@ -224,7 +224,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the number of occurance of the task
+    * Gets the number of occurance of the task.
     *
     * @param val number of occurances
     */
@@ -234,7 +234,7 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Gets the number of occurance of the task
+    * Gets the number of occurance of the task.
     *
     * @param val number of occurances
     */
@@ -1062,202 +1062,202 @@ public final class RecurringTask extends MPXRecord
 
 
    /**
-    * Constant representing frequency - Daily
+    * Constant representing frequency - Daily.
     */
    public static final Integer PERIOD_DAILY = new Integer(1);
 
    /**
-    * Constant representing frequency - Weekly
+    * Constant representing frequency - Weekly.
     */
    public static final Integer PERIOD_WEEKLY = new Integer(4);
 
    /**
-    * Constant representing frequency - Monthly
+    * Constant representing frequency - Monthly.
     */
    public static final Integer PERIOD_MONTHLY = new Integer(8);
 
    /**
-    * Constant representing frequency - Annually
+    * Constant representing frequency - Annually.
     */
    public static final Integer PERIOD_YEARLY = new Integer(16);
 
    /**
-    * Constant representing day of week - Sunday
+    * Constant representing day of week - Sunday.
     */
    public static final Integer SUNDAY = new Integer(0);
 
    /**
-    * Constant representing day of week - Monday
+    * Constant representing day of week - Monday.
     */
    public static final Integer MONDAY = new Integer(1);
 
    /**
-    * Constant representing day of week - Tuesday
+    * Constant representing day of week - Tuesday.
     */
    public static final Integer TUESDAY = new Integer(2);
 
    /**
-    * Constant representing day of week - Wednesday
+    * Constant representing day of week - Wednesday.
     */
    public static final Integer WEDNESDAY = new Integer(3);
 
    /**
-    * Constant representing day of week - Thursday
+    * Constant representing day of week - Thursday.
     */
    public static final Integer THURSDAY = new Integer(4);
 
    /**
-    * Constant representing day of week - Friday
+    * Constant representing day of week - Friday.
     */
    public static final Integer FRIDAY = new Integer(5);
 
    /**
-    * Constant representing day of week - Saturday
+    * Constant representing day of week - Saturday.
     */
    public static final Integer SATURDAY = new Integer(6);
 
    /**
-    * Constant representing month of year - January
+    * Constant representing month of year - January.
     */
    public static final Integer JANUARY = new Integer(1);
 
    /**
-    * Constant representing month of year - February
+    * Constant representing month of year - February.
     */
    public static final Integer FEBUARY = new Integer(2);
 
    /**
-    * Constant representing month of year - March
+    * Constant representing month of year - March.
     */
    public static final Integer MARCH = new Integer(3);
 
    /**
-    * Constant representing month of year - April
+    * Constant representing month of year - April.
     */
    public static final Integer APRIL = new Integer(4);
 
    /**
-    * Constant representing month of year - May
+    * Constant representing month of year - May.
     */
    public static final Integer MAY = new Integer(5);
 
    /**
-    * Constant representing month of year - June
+    * Constant representing month of year - June.
     */
    public static final Integer JUNE = new Integer(6);
 
    /**
-    * Constant representing month of year - July
+    * Constant representing month of year - July.
     */
    public static final Integer JULY = new Integer(7);
 
    /**
-    * Constant representing month of year - August
+    * Constant representing month of year - August.
     */
    public static final Integer AUGUST = new Integer(8);
 
    /**
-    * Constant representing month of year - September
+    * Constant representing month of year - September.
     */
    public static final Integer SEPTEMBER = new Integer(9);
 
    /**
-    * Constant representing month of year - Obtober
+    * Constant representing month of year - Obtober.
     */
    public static final Integer OCTOBER = new Integer(10);
 
    /**
-    * Constant representing month of year - November
+    * Constant representing month of year - November.
     */
    public static final Integer NOVEMBER = new Integer(11);
 
    /**
-    * Constant representing month of year - December
+    * Constant representing month of year - December.
     */
    public static final Integer DECEMBER = new Integer(12);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_TYPE_EVERY = new Integer(1);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_OTHER = new Integer(2);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_3RD = new Integer(3);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_4TH = new Integer(4);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_5TH = new Integer(5);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_6TH = new Integer(6);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_7TH = new Integer(7);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_8TH = new Integer(8);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_9TH = new Integer(9);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_10TH = new Integer(10);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_11TH = new Integer(11);
 
    /**
-    * Constant representing frequency of occurances
+    * Constant representing frequency of occurances.
     */
    public static final Integer INDEX_EVERY_12TH = new Integer(12);
 
    /**
-    * Constant typically representing which Xday of the month
+    * Constant typically representing which Xday of the month.
     */
    public static final Integer FIRST = new Integer(1);
 
    /**
-    * Constant typically representing which Xday of the month
+    * Constant typically representing which Xday of the month.
     */
    public static final Integer SECOND = new Integer(2);
 
    /**
-    * Constant typically representing which Xday of the month
+    * Constant typically representing which Xday of the month.
     */
    public static final Integer THIRD = new Integer(3);
 
    /**
-    * Constant typically representing which Xday of the month
+    * Constant typically representing which Xday of the month.
     */
    public static final Integer FOURTH = new Integer(4);
 
    /**
-    * Constant typically representing which Xday of the month
+    * Constant typically representing which Xday of the month.
     */
    public static final Integer LAST = new Integer(5);
 
@@ -1268,12 +1268,12 @@ public final class RecurringTask extends MPXRecord
    private static final int ID = 0;
 
    /**
-    * Start date of recurring task
+    * Start date of recurring task.
     */
    private static final int START_DATE = 1;
 
    /**
-    * End final date of recurring task
+    * End final date of recurring task.
     */
    private static final int FINISH_DATE = 2;
 
@@ -1288,7 +1288,7 @@ public final class RecurringTask extends MPXRecord
    private static final int DURATION_TYPE = 4;
 
    /**
-    * No of Occurances scheduled
+    * No of Occurances scheduled.
     */
    private static final int NO_OF_OCCURANCES = 5;
 
@@ -1299,7 +1299,7 @@ public final class RecurringTask extends MPXRecord
    private static final int RECURRANCE_TYPE = 6;
 
    /**
-    * This field seems redundant
+    * This field seems redundant.
     */
    private static final int NOT_SURE_INDEX = 7;
 

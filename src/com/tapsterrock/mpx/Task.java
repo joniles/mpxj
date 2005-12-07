@@ -1227,7 +1227,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Private method for dealing with string parameters from File
+    * Private method for dealing with string parameters from File.
     *
     * @param type string constraint type
     */
@@ -1360,7 +1360,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Set amount of delay as elapsed real time
+    * Set amount of delay as elapsed real time.
     *
     * @param val elapsed time
     */
@@ -3172,7 +3172,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * This field will be ignored on input into MS Project
+    * This field will be ignored on input into MS Project.
     *
     * @return String
     */
@@ -3606,7 +3606,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * The Milestone field indicates whether a task is a milestone
+    * The Milestone field indicates whether a task is a milestone.
     *
     * @return boolean
     */
@@ -3616,7 +3616,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * The Milestone field indicates whether a task is a milestone
+    * The Milestone field indicates whether a task is a milestone.
     *
     * @return boolean
     */
@@ -3626,7 +3626,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * @return name of task
+    * Retrieves the task name.
+    * 
+    * @return task name
     */
    public String getName ()
    {
@@ -3957,7 +3959,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Gets the date to resume this task no earlier than
+    * Gets the date to resume this task no earlier than.
     *
     * @return date
     */
@@ -4601,7 +4603,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieve the duration format
+    * Retrieve the duration format.
     *
     * @return duration format
     */
@@ -4611,7 +4613,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Set the duration format
+    * Set the duration format.
     *
     * @param durationFormat duration format
     */
@@ -4776,7 +4778,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the external task project file name
+    * Sets the external task project file name.
     *
     * @param externalTaskProject external task project file name
     */
@@ -4806,7 +4808,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieve the leveling delay format
+    * Retrieve the leveling delay format.
     *
     * @return leveling delay  format
     */
@@ -4816,7 +4818,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Set the leveling delay format
+    * Set the leveling delay format.
     *
     * @param levelingDelayFormat leveling delay format
     */
@@ -5046,7 +5048,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5056,7 +5058,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5066,7 +5068,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5076,7 +5078,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5086,7 +5088,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5096,7 +5098,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5106,7 +5108,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5116,7 +5118,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5126,7 +5128,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5136,7 +5138,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -5166,7 +5168,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5176,7 +5178,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5186,7 +5188,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5196,7 +5198,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5206,7 +5208,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5216,7 +5218,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5226,7 +5228,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5236,7 +5238,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5246,7 +5248,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5256,7 +5258,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5266,7 +5268,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5276,7 +5278,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5286,7 +5288,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5296,7 +5298,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5306,7 +5308,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5316,7 +5318,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5326,7 +5328,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5336,7 +5338,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5346,7 +5348,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5356,7 +5358,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a text value
+    * Retrieves a text value.
     *
     * @return Text value
     */
@@ -5366,7 +5368,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5376,7 +5378,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5386,7 +5388,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5396,7 +5398,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5406,7 +5408,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5416,7 +5418,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5426,7 +5428,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5436,7 +5438,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5446,7 +5448,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5456,7 +5458,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5466,7 +5468,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5476,7 +5478,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5486,7 +5488,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5496,7 +5498,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5506,7 +5508,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5516,7 +5518,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5526,7 +5528,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5536,7 +5538,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5546,7 +5548,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5556,7 +5558,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a text value
+    * Sets a text value.
     *
     * @param string Text value
     */
@@ -5576,7 +5578,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5586,7 +5588,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5606,7 +5608,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5616,7 +5618,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5636,7 +5638,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5646,7 +5648,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5666,7 +5668,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5676,7 +5678,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5696,7 +5698,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5706,7 +5708,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5726,7 +5728,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5736,7 +5738,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5756,7 +5758,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5766,7 +5768,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5786,7 +5788,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5796,7 +5798,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5816,7 +5818,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5826,7 +5828,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5846,7 +5848,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5856,7 +5858,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5876,7 +5878,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5886,7 +5888,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5906,7 +5908,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5916,7 +5918,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5936,7 +5938,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5946,7 +5948,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5966,7 +5968,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5976,7 +5978,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -5996,7 +5998,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -6006,7 +6008,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a numeric value
+    * Retrieves a numeric value.
     *
     * @return Numeric value
     */
@@ -6156,7 +6158,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6166,7 +6168,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6176,7 +6178,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6186,7 +6188,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6196,7 +6198,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6206,7 +6208,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6216,7 +6218,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6226,7 +6228,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6236,7 +6238,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6246,7 +6248,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a date value
+    * Retrieves a date value.
     *
     * @return Date value
     */
@@ -6496,7 +6498,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a start date
+    * Retrieves a start date.
     *
     * @return Date start date
     */
@@ -6506,7 +6508,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a start date
+    * Retrieves a start date.
     *
     * @return Date start date
     */
@@ -6516,7 +6518,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a start date
+    * Retrieves a start date.
     *
     * @return Date start date
     */
@@ -6526,7 +6528,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a start date
+    * Retrieves a start date.
     *
     * @return Date start date
     */
@@ -6536,7 +6538,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves a start date
+    * Retrieves a start date.
     *
     * @return Date start date
     */
@@ -6546,7 +6548,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a start date
+    * Sets a start date.
     *
     * @param date Start date
     */
@@ -6556,7 +6558,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a start date
+    * Sets a start date.
     *
     * @param date Start date
     */
@@ -6566,7 +6568,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a start date
+    * Sets a start date.
     *
     * @param date Start date
     */
@@ -6576,7 +6578,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a start date
+    * Sets a start date.
     *
     * @param date Start date
     */
@@ -6586,7 +6588,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets a start date
+    * Sets a start date.
     *
     * @param date Start date
     */
@@ -6936,7 +6938,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the actual overtime work value
+    * Retrieves the actual overtime work value.
     *
     * @return actual overtime work value
     */
@@ -6946,7 +6948,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the actual overtime work value
+    * Sets the actual overtime work value.
     *
     * @param work actual overtime work value
     */
@@ -6956,7 +6958,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the fixed cost accrual flag value
+    * Retrieves the fixed cost accrual flag value.
     *
     * @return fixed cost accrual flag
     */
@@ -6966,7 +6968,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the fixed cost accrual flag value
+    * Sets the fixed cost accrual flag value.
     *
     * @param type fixed cost accrual type
     */
@@ -6976,7 +6978,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the task hyperlink attribute
+    * Retrieves the task hyperlink attribute.
     *
     * @return hyperlink attribute
     */
@@ -6986,7 +6988,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the task hyperlink address attribute
+    * Retrieves the task hyperlink address attribute.
     *
     * @return hyperlink address attribute
     */
@@ -6996,7 +6998,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the task hyperlink sub-address attribute
+    * Retrieves the task hyperlink sub-address attribute.
     *
     * @return hyperlink sub address attribute
     */
@@ -7006,7 +7008,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the task hyperlink attribute
+    * Sets the task hyperlink attribute.
     *
     * @param text hyperlink attribute
     */
@@ -7016,7 +7018,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the task hyperlink address attribute
+    * Sets the task hyperlink address attribute.
     *
     * @param text hyperlink address attribute
     */
@@ -7026,7 +7028,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the task hyperlink sub address attribute
+    * Sets the task hyperlink sub address attribute.
     *
     * @param text hyperlink sub address attribute
     */
@@ -7036,7 +7038,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the level assignments flag
+    * Retrieves the level assignments flag.
     *
     * @return level assignments flag
     */
@@ -7046,7 +7048,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the level assignments flag
+    * Sets the level assignments flag.
     *
     * @param flag level assignments flag
     */
@@ -7076,7 +7078,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the task leveling delay attribute
+    * Retrieves the task leveling delay attribute.
     *
     * @return task leveling delay
     */
@@ -7086,7 +7088,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the task leveling delay attribute
+    * Sets the task leveling delay attribute.
     *
     * @param delay task leveling delay attribute
     */
@@ -7126,7 +7128,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the preleveled finish attribute
+    * Retrieves the preleveled finish attribute.
     *
     * @return preleveled finish
     */
@@ -7136,7 +7138,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the preleveled start attribute
+    * Sets the preleveled start attribute.
     *
     * @param date preleveled start attribute
     */
@@ -7146,7 +7148,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the preleveled finish attribute
+    * Sets the preleveled finish attribute.
     *
     * @param date preleveled finish attribute
     */
@@ -7156,7 +7158,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the remaining overtime work attribute
+    * Retrieves the remaining overtime work attribute.
     *
     * @return remaining overtime work
     */
@@ -7166,7 +7168,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the remaining overtime work attribute
+    * Sets the remaining overtime work attribute.
     *
     * @param work remaining overtime work
     */
@@ -7176,7 +7178,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Retrieves the remaining overtime cost
+    * Retrieves the remaining overtime cost.
     *
     * @return remaining overtime cost value
     */
@@ -7186,7 +7188,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Sets the remaining overtime cost value
+    * Sets the remaining overtime cost value.
     *
     * @param cost overtime cost value
     */
@@ -7246,7 +7248,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    
    
    /**
-    * Retrieve the value of a field using its alias
+    * Retrieve the value of a field using its alias.
     *
     * @param alias field alias
     * @return field value
@@ -7266,7 +7268,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * Set the value of a field using its alias
+    * Set the value of a field using its alias.
     *
     * @param alias field alias
     * @param value field value
@@ -7396,9 +7398,10 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private List m_splits;
    
    /**
-    * The % Complete field contains the current status of a task, expressed as the percentage
-    * of the task's duration that has been completed. You can enter percent complete, or you
-    * can have Microsoft Project calculate it for you based on actual duration.
+    * The % Complete field contains the current status of a task, expressed as 
+    * the percentage of the task's duration that has been completed. You can 
+    * enter percent complete, or you can have Microsoft Project calculate it 
+    * for you based on actual duration.
     */
    private static final int PERCENTAGE_COMPLETE = 44;
 
@@ -7935,7 +7938,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
    /**
     * The Resume No Earlier than field constains the date which is the earliest time
-    * to restart this task
+    * to restart this task.
     */
    private static final int RESUME_NO_EARLIER_THAN = 152;
 

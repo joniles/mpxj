@@ -151,7 +151,7 @@ public class SubProject
    }
 
    /**
-    * Retrieves the DOS file name
+    * Retrieves the DOS file name.
     * 
     * @return DOS file name
     */
@@ -214,7 +214,7 @@ public class SubProject
    }
    
    /**
-    * @see java.lang.Object#toString()
+    * {@inheritDoc}
     */
    public String toString ()
    {

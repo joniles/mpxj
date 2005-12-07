@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 public final class LocaleData extends ListResourceBundle
 {
    /**
-    * @see ListResourceBundle#getContents
+    * {@inheritDoc}
     */
    public Object[][] getContents()
    {
@@ -45,7 +45,7 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving a String resource
+    * Convenience method for retrieving a String resource.
     *
     * @param locale locale identifier
     * @param key resource key
@@ -58,7 +58,7 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving a String[] resource
+    * Convenience method for retrieving a String[] resource.
     *
     * @param locale locale identifier
     * @param key resource key
@@ -71,7 +71,7 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving an Object resource
+    * Convenience method for retrieving an Object resource.
     *
     * @param locale locale identifier
     * @param key resource key
@@ -84,7 +84,7 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving a Map resource
+    * Convenience method for retrieving a Map resource.
     *
     * @param locale locale identifier
     * @param key resource key
@@ -97,7 +97,7 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving an Integer resource
+    * Convenience method for retrieving an Integer resource.
     *
     * @param locale locale identifier
     * @param key resource key
@@ -110,7 +110,7 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
-    * Convenience method for retrieving a char resource
+    * Convenience method for retrieving a char resource.
     *
     * @param locale locale identifier
     * @param key resource key

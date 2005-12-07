@@ -137,7 +137,7 @@ final class FixedMeta extends MPPComponent
    }
 
    /**
-    * Number of items in the data block
+    * Number of items in the data block.
     */
    private int m_itemCount;
 

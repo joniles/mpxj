@@ -413,7 +413,7 @@ public class GanttChartView9 extends View9
    }
 
    /**
-    * Retrieves a timescale tier
+    * Retrieves a timescale tier.
     * 
     * @return timescale tier
     */   
@@ -423,7 +423,7 @@ public class GanttChartView9 extends View9
    }
    
    /**
-    * Retrieves a timescale tier
+    * Retrieves a timescale tier.
     * 
     * @return timescale tier
     */   
@@ -433,7 +433,7 @@ public class GanttChartView9 extends View9
    }
 
    /**
-    * Retrieves a timescale tier
+    * Retrieves a timescale tier.
     * 
     * @return timescale tier
     */   
@@ -505,7 +505,7 @@ public class GanttChartView9 extends View9
    }
 
    /**
-    * Retrieve the hide rollup bars when summary expanded
+    * Retrieve the hide rollup bars when summary expanded.
     * 
     * @return hide rollup bars when summary expanded
     */
@@ -545,7 +545,7 @@ public class GanttChartView9 extends View9
    }
    
    /**
-    * Retrieve the show drawings flag
+    * Retrieve the show drawings flag.
     * 
     * @return show drawings flag
     */

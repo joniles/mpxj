@@ -29,8 +29,7 @@ import com.tapsterrock.mspdi.MSPDIFile;
  * 
  * This is designed to be used as part of the regression testing suite.
  */
-
-public final class MppXmlCompare //extends Assert
+public final class MppXmlCompare
 {
    /**
     * Compares the data held in two project files.

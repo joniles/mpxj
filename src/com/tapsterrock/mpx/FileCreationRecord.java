@@ -75,7 +75,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Sets the delimiter character, "," by default
+    * Sets the delimiter character, "," by default.
     *
     * @param delimiter delimiter character
     */
@@ -86,7 +86,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Retrieves the delimiter character, "," by default
+    * Retrieves the delimiter character, "," by default.
     *
     * @return delimiter character
     */
@@ -96,7 +96,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Program name file created by
+    * Program name file created by.
     *
     * @param programName system name
     */
@@ -106,7 +106,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Program name file created by
+    * Program name file created by.
     *
     * @return program name
     */
@@ -116,7 +116,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Version of the MPX file
+    * Version of the MPX file.
     *
     * @param version MPX file version
     */
@@ -126,7 +126,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Version of the MPX file
+    * Version of the MPX file.
     *
     * @return MPX file version
     */
@@ -136,7 +136,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Code page
+    * Sets the codepage.
     *
     * @param codePage code page type
     */
@@ -146,7 +146,7 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * Code page, for example: 850, 437, MAC, ANSI
+    * Retrieves the codepage.
     *
     * @return code page type
     */
@@ -184,17 +184,17 @@ public final class FileCreationRecord extends MPXRecord
    private char m_delimiter;
 
    /**
-    * The program and version number used to create the file
+    * The program and version number used to create the file.
     */
    private String m_programName;
 
    /**
-    * The version number of the MPX file format used in the file
+    * The version number of the MPX file format used in the file.
     */
    private FileVersion m_fileVersion;
 
    /**
-    * The code page used to create the file
+    * The code page used to create the file.
     */
    private CodePage m_codePage;
 

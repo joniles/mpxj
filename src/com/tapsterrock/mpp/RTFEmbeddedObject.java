@@ -229,7 +229,7 @@ public final class RTFEmbeddedObject
    }
 
    /**
-    * This method extracts byte arrays from the embeded object data
+    * This method extracts byte arrays from the embedded object data
     * and converts them into RTFEmbeddedObject instances, which 
     * it then adds to the supplied list.
     * 
@@ -315,6 +315,13 @@ public final class RTFEmbeddedObject
       return (offset);
    }
 
+   /**
+    * Calculates the length of the next block of RTF data.
+    * 
+    * @param text RTF data
+    * @param offset current offset into this data
+    * @return block length
+    */
    private static int getBlockLength (String text, int offset)
    {
       int startIndex = offset;
@@ -347,6 +354,15 @@ public final class RTFEmbeddedObject
       return (length);
    }
    
+   /**
+    * Reads a data block and adds it to the list of blocks.
+    * 
+    * @param text RTF data
+    * @param offset current offset
+    * @param length next block length
+    * @param blocks list of blocks
+    * @return next offset
+    */
    private static int readDataBlock (String text, int offset, int length, List blocks)
    {
       int bytes = length/2;
@@ -363,7 +379,7 @@ public final class RTFEmbeddedObject
    }
    
    /**
-    * @see java.lang.Object#toString()
+    * {@inheritDoc}
     */
    public String toString ()
    {

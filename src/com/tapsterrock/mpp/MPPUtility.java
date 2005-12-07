@@ -68,7 +68,7 @@ final class MPPUtility
    }
 
    /**
-    * This method reads a single byte from the input array
+    * This method reads a single byte from the input array.
     *
     * @param data byte array of data
     * @param offset offset of byte data in the array
@@ -1023,7 +1023,7 @@ final class MPPUtility
    private static final long MS_PER_MINUTE = 60 * 1000;
 
    /**
-    * Constants used to convert bytes to hex digits
+    * Constants used to convert bytes to hex digits.
     */
    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
@@ -1034,13 +1034,13 @@ final class MPPUtility
 
    /**
     * Default value to use for DST savings if we are using a version
-    * of Java < 1.4
+    * of Java < 1.4.
     */
    private static final int DEFAULT_DST_SAVINGS = 3600000;
 
    /**
     * Flag used to indicate the existance of the getDSTSavings
-    * method that was introduced in Java 1.4
+    * method that was introduced in Java 1.4.
     */
    private static boolean HAS_DST_SAVINGS;
 

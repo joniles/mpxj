@@ -36,7 +36,7 @@ import java.util.TreeMap;
 class Props extends MPPComponent
 {
    /**
-    * Retrieve property data as a byte array
+    * Retrieve property data as a byte array.
     *
     * @param type Type identifier
     * @return  byte array of data
@@ -47,7 +47,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a byte value from the property data
+    * Retrieves a byte value from the property data.
     *
     * @param type Type identifier
     * @return byte value
@@ -66,7 +66,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a short int value from the property data
+    * Retrieves a short int value from the property data.
     *
     * @param type Type identifier
     * @return short int value
@@ -85,7 +85,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves an integer value from the property data
+    * Retrieves an integer value from the property data.
     *
     * @param type Type identifier
     * @return integer value
@@ -104,7 +104,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a double value from the property data
+    * Retrieves a double value from the property data.
     *
     * @param type Type identifier
     * @return double value
@@ -123,7 +123,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a timestamp from the property data
+    * Retrieves a timestamp from the property data.
     *
     * @param type Type identifier
     * @return timestamp
@@ -142,7 +142,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a boolean value from the property data
+    * Retrieves a boolean value from the property data.
     *
     * @param type Type identifier
     * @return boolean value
@@ -161,7 +161,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a string value from the property data
+    * Retrieves a string value from the property data.
     *
     * @param type Type identifier
     * @return string value
@@ -181,7 +181,7 @@ class Props extends MPPComponent
 
 
    /**
-    * Data types
+    * Data types.
     */
    public static final Integer CURRENCY_SYMBOL = new Integer (37748752);
    public static final Integer CURRENCY_PLACEMENT = new Integer (37748753);

@@ -42,7 +42,7 @@ class MPPComponent
    }
 
    /**
-    * This method reads a single byte from the input stream
+    * This method reads a single byte from the input stream.
     *
     * @param is the input stream
     * @return byte value
@@ -61,7 +61,7 @@ class MPPComponent
    }
 
    /**
-    * This method reads a two byte integer from the input stream
+    * This method reads a two byte integer from the input stream.
     *
     * @param is the input stream
     * @return integer value
@@ -80,7 +80,7 @@ class MPPComponent
    }
 
    /**
-    * This method reads a four byte integer from the input stream
+    * This method reads a four byte integer from the input stream.
     *
     * @param is the input stream
     * @return byte value
@@ -99,7 +99,7 @@ class MPPComponent
    }
 
    /**
-    * This method reads a byte array from the input stream
+    * This method reads a byte array from the input stream.
     *
     * @param is the input stream
     * @param size number of bytes to read

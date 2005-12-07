@@ -206,212 +206,212 @@ public final class ProjectDateFormat
    private int m_value;
 
    /**
-    * This format represents dates in the form 25/12/98 12:56
+    * This format represents dates in the form 25/12/98 12:56.
     */
    public static final int DD_MM_YY_HH_MM_VALUE = 0;
 
    /**
-    * This format represents dates in the form 25/05/98
+    * This format represents dates in the form 25/05/98.
     */
    public static final int DD_MM_YY_VALUE = 1;
 
    /**
-    * This format represents dates in the form 13 December 2002 12:56
+    * This format represents dates in the form 13 December 2002 12:56.
     */
    public static final int DD_MMMMM_YYYY_HH_MM_VALUE = 2;
 
    /**
-    * This format represents dates in the form 13 December 2002
+    * This format represents dates in the form 13 December 2002.
     */
    public static final int DD_MMMMM_YYYY_VALUE = 3;
 
    /**
-    * This format represents dates in the form 24 Nov 12:56
+    * This format represents dates in the form 24 Nov 12:56.
     */
    public static final int DD_MMM_HH_MM_VALUE = 4;
 
    /**
-    * This format represents dates in the form 25 Aug '98
+    * This format represents dates in the form 25 Aug '98.
     */
    public static final int DD_MMM_YY_VALUE = 5;
 
    /**
-    * This format represents dates in the form 25 September
+    * This format represents dates in the form 25 September.
     */
    public static final int DD_MMMMM_VALUE = 6;
 
    /**
-    * This format represents dates in the form 25 Aug
+    * This format represents dates in the form 25 Aug.
     */
    public static final int DD_MMM_VALUE = 7;
 
    /**
-    * This format represents dates in the form Thu 25/05/98 12:56
+    * This format represents dates in the form Thu 25/05/98 12:56.
     */
    public static final int EEE_DD_MM_YY_HH_MM_VALUE = 8;
 
    /**
-    * This format represents dates in the form Wed 25/05/98
+    * This format represents dates in the form Wed 25/05/98.
     */
    public static final int EEE_DD_MM_YY_VALUE = 9;
 
    /**
-    * This format represents dates in the form Wed 25 Mar '98
+    * This format represents dates in the form Wed 25 Mar '98.
     */
    public static final int EEE_DD_MMM_YY_VALUE = 10;
 
    /**
-    * This format represents dates in the form Wed 12:56
+    * This format represents dates in the form Wed 12:56.
     */
    public static final int EEE_HH_MM_VALUE = 11;
 
    /**
-    * This format represents dates in the form 25/5
+    * This format represents dates in the form 25/5.
     */
    public static final int DD_MM_VALUE = 12;
 
    /**
-    * This format represents dates in the form 23
+    * This format represents dates in the form 23.
     */
    public static final int DD_VALUE = 13;
 
    /**
-    * This format represents dates in the form 12:56
+    * This format represents dates in the form 12:56.
     */
    public static final int HH_MM_VALUE = 14;
 
    /**
-    * This format represents dates in the form Wed 23 Mar
+    * This format represents dates in the form Wed 23 Mar..
     */
    public static final int EEE_DD_MMM_VALUE = 15;
 
    /**
-    * This format represents dates in the form Wed 25/5
+    * This format represents dates in the form Wed 25/5.
     */
    public static final int EEE_DD_MM_VALUE = 16;
 
    /**
-    * This format represents dates in the form Wed 05
+    * This format represents dates in the form Wed 05.
     */
    public static final int EEE_DD_VALUE = 17;
 
    /**
-    * This format represents dates in the form 5/W25
+    * This format represents dates in the form 5/W25.
     */
    public static final int DD_WWW_VALUE = 18;
 
    /**
-    * This format represents dates in the form 5/W25/98 12:56
+    * This format represents dates in the form 5/W25/98 12:56.
     */
    public static final int DD_WWW_YY_HH_MM_VALUE = 19;
 
    /**
-    * This format represents dates in the form 25/05/1998
+    * This format represents dates in the form 25/05/1998.
     */
    public static final int DD_MM_YYYY_VALUE = 20;
 
    /**
-    * This format represents dates in the form 25/12/98 12:56
+    * This format represents dates in the form 25/12/98 12:56.
     */
    public static final ProjectDateFormat DD_MM_YY_HH_MM = new ProjectDateFormat(DD_MM_YY_HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form 25/05/98
+    * This format represents dates in the form 25/05/98.
     */
    public static final ProjectDateFormat DD_MM_YY = new ProjectDateFormat(DD_MM_YY_VALUE);
 
    /**
-    * This format represents dates in the form 13 December 2002 12:56
+    * This format represents dates in the form 13 December 2002 12:56.
     */
    public static final ProjectDateFormat DD_MMMMM_YYYY_HH_MM = new ProjectDateFormat(DD_MMMMM_YYYY_HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form 13 December 2002
+    * This format represents dates in the form 13 December 2002.
     */
    public static final ProjectDateFormat DD_MMMMM_YYYY = new ProjectDateFormat(DD_MMMMM_YYYY_VALUE);
 
    /**
-    * This format represents dates in the form 24 Nov 12:56
+    * This format represents dates in the form 24 Nov 12:56.
     */
    public static final ProjectDateFormat DD_MMM_HH_MM = new ProjectDateFormat(DD_MMM_HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form 25 Aug '98
+    * This format represents dates in the form 25 Aug '98.
     */
    public static final ProjectDateFormat DD_MMM_YY = new ProjectDateFormat(DD_MMM_YY_VALUE);
 
    /**
-    * This format represents dates in the form 25 September
+    * This format represents dates in the form 25 September.
     */
    public static final ProjectDateFormat DD_MMMMM = new ProjectDateFormat(DD_MMMMM_VALUE);
 
    /**
-    * This format represents dates in the form 25 Aug
+    * This format represents dates in the form 25 Aug.
     */
    public static final ProjectDateFormat DD_MMM = new ProjectDateFormat(DD_MMM_VALUE);
 
    /**
-    * This format represents dates in the form Thu 25/05/98 12:56
+    * This format represents dates in the form Thu 25/05/98 12:56.
     */
    public static final ProjectDateFormat EEE_DD_MM_YY_HH_MM = new ProjectDateFormat(EEE_DD_MM_YY_HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form Wed 25/05/98
+    * This format represents dates in the form Wed 25/05/98.
     */
    public static final ProjectDateFormat EEE_DD_MM_YY = new ProjectDateFormat(EEE_DD_MM_YY_VALUE);
 
    /**
-    * This format represents dates in the form Wed 25 Mar '98
+    * This format represents dates in the form Wed 25 Mar '98.
     */
    public static final ProjectDateFormat EEE_DD_MMM_YY = new ProjectDateFormat(EEE_DD_MMM_YY_VALUE);
 
    /**
-    * This format represents dates in the form Wed 12:56
+    * This format represents dates in the form Wed 12:56.
     */
    public static final ProjectDateFormat EEE_HH_MM = new ProjectDateFormat(EEE_HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form 25/5
+    * This format represents dates in the form 25/5.
     */
    public static final ProjectDateFormat DD_MM = new ProjectDateFormat(DD_MM_VALUE);
 
    /**
-    * This format represents dates in the form 23
+    * This format represents dates in the form 23.
     */
    public static final ProjectDateFormat DD = new ProjectDateFormat(DD_VALUE);
 
    /**
-    * This format represents dates in the form 12:56
+    * This format represents dates in the form 12:56.
     */
    public static final ProjectDateFormat HH_MM = new ProjectDateFormat(HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form Wed 23 Mar
+    * This format represents dates in the form Wed 23 Mar.
     */
    public static final ProjectDateFormat EEE_DD_MMM = new ProjectDateFormat(EEE_DD_MMM_VALUE);
 
    /**
-    * This format represents dates in the form Wed 25/5
+    * This format represents dates in the form Wed 25/5.
     */
    public static final ProjectDateFormat EEE_DD_MM = new ProjectDateFormat(EEE_DD_MM_VALUE);
 
    /**
-    * This format represents dates in the form Wed 05
+    * This format represents dates in the form Wed 05.
     */
    public static final ProjectDateFormat EEE_DD = new ProjectDateFormat(EEE_DD_VALUE);
 
    /**
-    * This format represents dates in the form 5/W25
+    * This format represents dates in the form 5/W25.
     */
    public static final ProjectDateFormat DD_WWW = new ProjectDateFormat(DD_WWW_VALUE);
 
    /**
-    * This format represents dates in the form 5/W25/98 12:56
+    * This format represents dates in the form 5/W25/98 12:56.
     */
    public static final ProjectDateFormat DD_WWW_YY_HH_MM = new ProjectDateFormat(DD_WWW_YY_HH_MM_VALUE);
 
    /**
-    * This format represents dates in the form 25/05/1998
+    * This format represents dates in the form 25/05/1998.
     */
    public static final ProjectDateFormat DD_MM_YYYY = new ProjectDateFormat(DD_MM_YYYY_VALUE);
 

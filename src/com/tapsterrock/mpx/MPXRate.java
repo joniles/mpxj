@@ -103,7 +103,7 @@ public final class MPXRate implements ToStringRequiresFile
 
 
    /**
-    * Accessor method to retrieve the currency amount
+    * Accessor method to retrieve the currency amount.
     *
     * @return amount component of the rate
     */
@@ -113,7 +113,7 @@ public final class MPXRate implements ToStringRequiresFile
    }
 
    /**
-    * Accessor method to retrieve the time units
+    * Accessor method to retrieve the time units.
     *
     * @return time component of the rate
     */

@@ -162,7 +162,7 @@ final class MPXUnits extends Number implements ToStringRequiresFile
    }
 
    /**
-    * Internal value
+    * Internal value.
     */
    private double m_value;
 

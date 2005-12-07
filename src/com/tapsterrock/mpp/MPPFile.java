@@ -60,7 +60,7 @@ public class MPPFile extends MPXFile
    }
 
    /**
-    * Constructor allowing an MPP file to be read from an input stream
+    * Constructor allowing an MPP file to be read from an input stream.
     *
     * @param is an input stream
     * @throws MPXException on file read errors
@@ -72,7 +72,7 @@ public class MPPFile extends MPXFile
    }
 
    /**
-    * Constructor allowing an MPP file to be read from a file object
+    * Constructor allowing an MPP file to be read from a file object.
     *
     * @param file a file object
     * @throws MPXException on file read errors
@@ -84,7 +84,7 @@ public class MPPFile extends MPXFile
    }
 
    /**
-    * Constructor allowing an MPP file to be read from a named file
+    * Constructor allowing an MPP file to be read from a named file.
     *
     * @param name name of a file
     * @throws MPXException on file read errors
@@ -421,22 +421,22 @@ public class MPPFile extends MPXFile
    private ArrayList m_tables;
    
    /**
-    * Index of task tables by name
+    * Index of task tables by name.
     */
    private HashMap m_taskTablesByName;
    
    /**
-    * Index of resource tables by name
+    * Index of resource tables by name.
     */
    private HashMap m_resourceTablesByName;
    
    /**
-    * Index of sub-project details by task unique ID
+    * Index of sub-project details by task unique ID.
     */
    private HashMap m_subProjectsByTaskUniqueID;
 
    /**
-    * Resource sub project
+    * Resource sub project.
     */
    private SubProject m_resourceSubProject;
    

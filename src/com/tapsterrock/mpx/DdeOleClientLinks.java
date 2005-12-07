@@ -55,9 +55,9 @@ public final class DdeOleClientLinks extends MPXRecord
    }
 
    /**
-    * Sets the source field
+    * Sets the source field.
     *
-    * @param src - the source
+    * @param src the source
     */
    public void setSource (String src)
    {
@@ -65,9 +65,9 @@ public final class DdeOleClientLinks extends MPXRecord
    }
 
    /**
-    * Gets the source value
+    * Gets the source value.
     *
-    * @return - string source
+    * @return string source
     */
    public String getSource()
    {
@@ -75,9 +75,9 @@ public final class DdeOleClientLinks extends MPXRecord
    }
 
    /**
-    * Sets the Link To field
+    * Sets the Link To field.
     *
-    * @param link - target
+    * @param link target
     */
    public void setLinkTo (String link)
    {
@@ -85,9 +85,9 @@ public final class DdeOleClientLinks extends MPXRecord
    }
 
    /**
-    * Gets the link to target
+    * Gets the link to target.
     *
-    * @return - target
+    * @return target
     */
    public String getLinkTo ()
    {

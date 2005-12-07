@@ -262,7 +262,7 @@ class MPXRecord
    }
 
   /**
-    * This method removes trailing delimiter characters
+    * This method removes trailing delimiter characters.
     *
     * @param buffer input sring buffer
     * @param delimiter delimiter character

@@ -69,7 +69,7 @@ final class MPXDateFormat extends DateFormat
    }
 
    /**
-    * @see java.text.DateFormat#parse(java.lang.String, java.text.ParsePosition)
+    * {@inheritDoc}
     */
    public Date parse (String str, ParsePosition pos)
    {
@@ -110,7 +110,7 @@ final class MPXDateFormat extends DateFormat
    }
 
    /**
-    * @see java.text.DateFormat#format(java.util.Date, java.lang.StringBuffer, java.text.FieldPosition)
+    * {@inheritDoc}
     */
    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
    {

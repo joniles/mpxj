@@ -67,6 +67,16 @@ public class MPXFile
     */
    public MPXFile (MPXFile file)
    {
+      copy (file);
+   }
+
+   /**
+    * Performs a shallow copy of the contents of a project file.
+    * 
+    * @param file source project file
+    */
+   public void copy (MPXFile file)
+   {
       m_allResourceAssignments = file.m_allResourceAssignments;
       m_allResources = file.m_allResources;
       m_allTasks = file.m_allTasks;
@@ -114,9 +124,9 @@ public class MPXFile
       m_taskIDMap = file.m_taskIDMap;
       m_resourceUniqueIDMap = file.m_resourceUniqueIDMap;
       m_resourceIDMap = file.m_resourceIDMap;
-      m_zeroCurrency = file.m_zeroCurrency;
+      m_zeroCurrency = file.m_zeroCurrency;      
    }
-
+   
    /**
     * This constructor is the primary mechanism for reading an
     * existing MPX file.
@@ -744,7 +754,7 @@ public class MPXFile
    }
 
    /**
-    * Method for accessing the Task Model
+    * Method for accessing the Task Model.
     *
     * @return task model
     */
@@ -754,7 +764,7 @@ public class MPXFile
    }
 
    /**
-    * Method for accessing the Resource Model
+    * Method for accessing the Resource Model.
     *
     * @return resource model
     */
@@ -1069,7 +1079,7 @@ public class MPXFile
    /**
     * This is a convenience method used to add a base calendar called
     * "Standard" to the file, and populate it with a default working week
-    * and default working hours
+    * and default working hours.
     *
     * @return a new default base calendar
     * @throws MPXException normally thrown when a parse error occurs
@@ -1120,7 +1130,7 @@ public class MPXFile
 
    /**
     * This is a convenience method to allow a pre-existing calendar
-    * to be attached to a resource
+    * to be attached to a resource.
     *
     * @param resource Resource instance
     * @param calendar MPXCalendar instance
@@ -1909,7 +1919,7 @@ public class MPXFile
    }
 
    /**
-    * Associates an alias with a custom task field number
+    * Associates an alias with a custom task field number.
     *
     * @param field custom field number
     * @param alias alias text
@@ -1927,7 +1937,7 @@ public class MPXFile
    /**
     * Retrieves the alias associated with a custom task field.
     * This method will return null if no alias has been defined for
-    * this field
+    * this field.
     *
     * @param field field number
     * @return alias text
@@ -1962,7 +1972,7 @@ public class MPXFile
    }
 
    /**
-    * Associates an alias with a custom resource field number
+    * Associates an alias with a custom resource field number.
     *
     * @param field custom field number
     * @param alias alias text
@@ -1980,7 +1990,7 @@ public class MPXFile
    /**
     * Retrieves the alias associated with a custom resource field.
     * This method will return null if no alias has been defined for
-    * this field
+    * this field.
     *
     * @param field field number
     * @return alias text
@@ -2038,7 +2048,7 @@ public class MPXFile
 
    /**
     * Allows derived classes to gain access to the mapping between
-    * MPX task field numbers and aliases
+    * MPX task field numbers and aliases.
     *
     * @return task field to alias map
     */
@@ -2049,7 +2059,7 @@ public class MPXFile
 
    /**
     * Allows derived classes to gain access to the mapping between
-    * MPX resource field numbers and aliases
+    * MPX resource field numbers and aliases.
     *
     * @return resource field to alias map
     */
@@ -2059,7 +2069,7 @@ public class MPXFile
    }
 
    /**
-    * Removes an id-to-task mapping
+    * Removes an id-to-task mapping.
     *
     * @param id task unique ID
     */
@@ -2069,7 +2079,7 @@ public class MPXFile
    }
 
    /**
-    * Adds an id-to-task mapping
+    * Adds an id-to-task mapping.
     *
     * @param id task unique ID
     * @param task task instance
@@ -2080,7 +2090,7 @@ public class MPXFile
    }
 
    /**
-    * Removes an id-to-task mapping
+    * Removes an id-to-task mapping.
     *
     * @param id task ID
     */
@@ -2090,7 +2100,7 @@ public class MPXFile
    }
 
    /**
-    * Adds an id-to-task mapping
+    * Adds an id-to-task mapping.
     *
     * @param id task ID
     * @param task task instance
@@ -2101,7 +2111,7 @@ public class MPXFile
    }
 
    /**
-    * Removes an id-to-resource mapping
+    * Removes an id-to-resource mapping.
     *
     * @param id resource unique ID
     */
@@ -2111,7 +2121,7 @@ public class MPXFile
    }
 
    /**
-    * Adds an id-to-resource mapping
+    * Adds an id-to-resource mapping.
     *
     * @param id resource unique ID
     * @param resource resource instance
@@ -2122,7 +2132,7 @@ public class MPXFile
    }
 
    /**
-    * Removes an id-to-resource mapping
+    * Removes an id-to-resource mapping.
     *
     * @param id resource ID
     */
@@ -2132,7 +2142,7 @@ public class MPXFile
    }
 
    /**
-    * Adds an id-to-resource mapping
+    * Adds an id-to-resource mapping.
     *
     * @param id resource ID
     * @param resource resource instance
@@ -2149,27 +2159,27 @@ public class MPXFile
    static final String EOL = "\r\n";
 
    /**
-    * Counter used to populate the unique ID field of a task
+    * Counter used to populate the unique ID field of a task.
     */
    private int m_taskUniqueID;
 
    /**
-    * Counter used to populate the unique ID field of a calendar
+    * Counter used to populate the unique ID field of a calendar.
     */
    private int m_calendarUniqueID;
 
    /**
-    * Counter used to populate the ID field of a task
+    * Counter used to populate the ID field of a task.
     */
    private int m_taskID;
 
    /**
-    * Counter used to populate the unique ID field of a resource
+    * Counter used to populate the unique ID field of a resource.
     */
    private int m_resourceUniqueID;
 
    /**
-    * Counter used to populate the ID field of a resource
+    * Counter used to populate the ID field of a resource.
     */
    private int m_resourceID;
 
@@ -2403,7 +2413,7 @@ public class MPXFile
    private HashMap m_taskFieldAlias = new HashMap();
 
    /**
-    * Maps from a task field alias to a task field number
+    * Maps from a task field alias to a task field number.
     */
    private HashMap m_aliasTaskField = new HashMap();
 
@@ -2413,27 +2423,27 @@ public class MPXFile
    private HashMap m_resourceFieldAlias = new HashMap();
 
    /**
-    * Maps from a resource field alias to a resource field number
+    * Maps from a resource field alias to a resource field number.
     */
    private HashMap m_aliasResourceField = new HashMap();
 
    /**
-    * Maps from a task unique ID to a task instance
+    * Maps from a task unique ID to a task instance.
     */
    private HashMap m_taskUniqueIDMap = new HashMap();
 
    /**
-    * Maps from a task ID to a task instance
+    * Maps from a task ID to a task instance.
     */
    private HashMap m_taskIDMap = new HashMap();
 
    /**
-    * Maps from a resource unique ID to a resource instance
+    * Maps from a resource unique ID to a resource instance.
     */
    private HashMap m_resourceUniqueIDMap = new HashMap();
 
    /**
-    * Maps from a resource ID to a resource instance
+    * Maps from a resource ID to a resource instance.
     */
    private HashMap m_resourceIDMap = new HashMap();
    

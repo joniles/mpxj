@@ -174,7 +174,7 @@ public final class RelationType implements ToStringRequiresFile
    };
 
    /**
-    * Internal representation
+    * Internal representation.
     */
    private int m_type;
 }

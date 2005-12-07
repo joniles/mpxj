@@ -33,7 +33,7 @@ import java.util.ListResourceBundle;
 public final class LocaleData_fr extends ListResourceBundle
 {
    /**
-    * @see ListResourceBundle#getContents
+    * {@inheritDoc}
     */
 	public Object[][] getContents()
    {

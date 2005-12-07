@@ -244,7 +244,7 @@ final class TaskModel extends MPXRecord
    private int m_count;
 
    /**
-    * Array of task column names, indexed by ID
+    * Array of task column names, indexed by ID.
     */
    private String[] m_taskNames;
 

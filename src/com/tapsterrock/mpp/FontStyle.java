@@ -78,7 +78,7 @@ public class FontStyle
    }
    
    /**
-    * Retrieve the italic flag
+    * Retrieve the italic flag.
     * 
     * @return italic flag
     */
@@ -88,7 +88,7 @@ public class FontStyle
    }
    
    /**
-    * Retrieve the underline flag
+    * Retrieve the underline flag.
     * 
     * @return underline flag
     */
@@ -98,7 +98,7 @@ public class FontStyle
    }
    
    /**
-    * @see java.lang.Object#toString()
+    * {@inheritDoc}
     */
    public String toString ()
    {

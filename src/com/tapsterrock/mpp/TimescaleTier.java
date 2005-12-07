@@ -80,7 +80,7 @@ public final class TimescaleTier
    }
    
    /**
-    * Sets the tick lines flag
+    * Sets the tick lines flag.
     * 
     * @param tickLines tick lines flag
     */
@@ -110,7 +110,7 @@ public final class TimescaleTier
    }
    
    /**
-    * Retrieves the uses fiscal year flag
+    * Retrieves the uses fiscal year flag.
     * 
     * @return uses fiscal year flag
     */

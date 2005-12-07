@@ -36,7 +36,7 @@ import java.util.Locale;
 public final class Column
 {
    /**
-    * Constructor
+    * Constructor.
     *
     * @param parent table to which this column belongs
     */
@@ -136,7 +136,7 @@ public final class Column
    }
 
    /**
-    * Sets the alignment of the column title
+    * Sets the alignment of the column title.
     *
     * @param alignment column title alignment
     */
@@ -158,7 +158,7 @@ public final class Column
    }
 
    /**
-    * Sets the user defined column title
+    * Sets the user defined column title.
     *
     * @param title user defined column title
     */
@@ -168,7 +168,7 @@ public final class Column
    }
 
    /**
-    * Sets the width of the column in characters
+    * Sets the width of the column in characters.
     *
     * @param width column width
     */

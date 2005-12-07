@@ -53,7 +53,7 @@ public final class TaskNotes extends MPXRecord
    }
 
    /**
-    * Get any text notes attached to this Task
+    * Get any text notes attached to this Task.
     *
     * @return notes
     */
@@ -63,7 +63,7 @@ public final class TaskNotes extends MPXRecord
    }
 
    /**
-    * Set any text notes attached to this Task
+    * Set any text notes attached to this Task.
     *
     * @param notes atached notes
     */

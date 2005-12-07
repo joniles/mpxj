@@ -173,7 +173,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets Name field value
+    * Sets Name field value.
     *
     * @param val value
     */
@@ -183,7 +183,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Resource Name field value
+    * Gets Resource Name field value.
     *
     * @return value
     */
@@ -213,7 +213,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the flag indicating that this is a null resource
+    * Set the flag indicating that this is a null resource.
     *
     * @param isNull null resource flag
     */
@@ -233,7 +233,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets Initials field value
+    * Sets Initials field value.
     *
     * @param val value
     */
@@ -243,7 +243,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Initials of name field value
+    * Gets Initials of name field value.
     *
     * @return value
     */
@@ -313,7 +313,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets code field value
+    * Sets code field value.
     *
     * @param val value
     */
@@ -323,7 +323,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets code field value
+    * Gets code field value.
     *
     * @return value
     */
@@ -333,7 +333,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets Group field value
+    * Sets Group field value.
     *
     * @param val value
     */
@@ -343,7 +343,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Group field value
+    * Gets Group field value.
     *
     * @return value
     */
@@ -373,7 +373,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the resource's email address
+    * Set the resource's email address.
     *
     * @param emailAddress email address
     */
@@ -383,7 +383,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the resource's email address
+    * Retrieves the resource's email address.
     *
     * @return email address
     */
@@ -393,7 +393,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the hyperlink text
+    * Sets the hyperlink text.
     *
     * @param hyperlink hyperlink text
     */
@@ -413,7 +413,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the hyperlink address
+    * Sets the hyperlink address.
     *
     * @param hyperlinkAddress hyperlink address
     */
@@ -423,7 +423,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the hyperlink address
+    * Retrieves the hyperlink address.
     *
     * @return hyperlink address
     */
@@ -433,7 +433,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the hyperlink sub-address
+    * Sets the hyperlink sub-address.
     *
     * @param hyperlinkSubAddress hyperlink sub-address
     */
@@ -443,7 +443,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the hyperlink sub-address
+    * Retrieves the hyperlink sub-address.
     *
     * @return hyperlink sub-address
     */
@@ -513,7 +513,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the "available from" date
+    * Retrieves the "available from" date.
     *
     * @return available from date
     */
@@ -523,7 +523,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the "available from" date
+    * Set the "available from" date.
     *
     * @param date available from date
     */
@@ -533,7 +533,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the "available to" date
+    * Retrieves the "available to" date.
     *
     * @return available from date
     */
@@ -543,7 +543,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the "available to" date
+    * Set the "available to" date.
     *
     * @param date available to date
     */
@@ -553,7 +553,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the earliest start date for all assigned tasks
+    * Sets the earliest start date for all assigned tasks.
     *
     * @param start start date
     */
@@ -563,7 +563,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the earliest start date for all assigned tasks
+    * Retrieves the earliest start date for all assigned tasks.
     *
     * @return start date
     */
@@ -573,7 +573,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the latest finish date for all assigned tasks
+    * Sets the latest finish date for all assigned tasks.
     *
     * @param finish finish date
     */
@@ -583,7 +583,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the latest finish date for all assigned tasks
+    * Retrieves the latest finish date for all assigned tasks.
     *
     * @return finish date
     */
@@ -641,7 +641,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * This field is ignored on import into MS Project
+    * This field is ignored on import into MS Project.
     *
     * @param val - value to be set
     */
@@ -651,7 +651,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Work field value
+    * Gets Work field value.
     *
     * @return value
     */
@@ -725,7 +725,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * This field is ignored on import into MS Project
+    * This field is ignored on import into MS Project.
     *
     * @param val - value to be set
     */
@@ -735,7 +735,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Remaining Work field value
+    * Gets Remaining Work field value.
     *
     * @return value
     */
@@ -805,7 +805,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets standard rate for this resource
+    * Sets standard rate for this resource.
     *
     * @param val value
     */
@@ -815,7 +815,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Standard Rate field value
+    * Gets Standard Rate field value.
     *
     * @return MPXRate
     */
@@ -835,7 +835,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the format of the standard rate
+    * Retrieves the format of the standard rate.
     *
     * @return standard rate format
     */
@@ -865,7 +865,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the overtime rate for this resource
+    * Sets the overtime rate for this resource.
     *
     * @param overtimeRate overtime rate value
     */
@@ -895,7 +895,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the format of the overtime rate
+    * Retrieves the format of the overtime rate.
     *
     * @return overtime rate format
     */
@@ -1025,7 +1025,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the work variance
+    * Sets the work variance.
     *
     * @param workVariance work variance
     */
@@ -1035,7 +1035,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the work variance
+    * Retrieves the work variance.
     *
     * @return work variance
     */
@@ -1075,7 +1075,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieve the schedule variance
+    * Retrieve the schedule variance.
     *
     * @return schedule variance
     */
@@ -1085,7 +1085,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the cost variance
+    * Set the cost variance.
     *
     * @param cv cost variance
     */
@@ -1095,7 +1095,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieve the cost variance
+    * Retrieve the cost variance.
     *
     * @return cost variance
     */
@@ -1105,7 +1105,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the actual cost of work performed
+    * Set the actual cost of work performed.
     *
     * @param acwp actual cost of work performed
     */
@@ -1115,7 +1115,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the actual cost of work performed
+    * Set the actual cost of work performed.
     *
     * @return actual cost of work performed
     */
@@ -1125,7 +1125,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the notes text for this resource
+    * Sets the notes text for this resource.
     *
     * @param notes notes to be added
     */
@@ -1145,7 +1145,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the notes text for this resource
+    * Retrieves the notes text for this resource.
     *
     * @return notes text
     */
@@ -1205,7 +1205,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the generic flag
+    * Sets the generic flag.
     *
     * @param isGeneric generic flag
     */
@@ -1215,7 +1215,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the generic flag
+    * Retrieves the generic flag.
     *
     * @return generic flag
     */
@@ -1225,7 +1225,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the inactive flag
+    * Sets the inactive flag.
     *
     * @param isInactive inactive flag
     */
@@ -1235,7 +1235,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the inactive flag
+    * Retrieves the inactive flag.
     *
     * @return inactive flag
     */
@@ -1305,7 +1305,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the booking type
+    * Sets the booking type.
     *
     * @param bookingType booking type
     */
@@ -1315,7 +1315,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieves the booking type
+    * Retrieves the booking type.
     *
     * @return booking type
     */
@@ -1580,7 +1580,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets ID field value
+    * Sets ID field value.
     *
     * @param val value
     */
@@ -1590,7 +1590,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets ID field value
+    * Sets ID field value.
     *
     * @param val value
     */
@@ -1608,7 +1608,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * This field is ignored on import into MS Project
+    * This field is ignored on import into MS Project.
     *
     * @param val - value to be set
     */
@@ -1629,7 +1629,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Additional text
+    * Additional text.
     *
     * @param val text to set
     */
@@ -1639,7 +1639,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Additional text
+    * Additional text.
     *
     * @param val text to set
     */
@@ -1649,7 +1649,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Additional text
+    * Additional text.
     *
     * @param val text to set
     */
@@ -1659,7 +1659,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Additional text
+    * Additional text.
     *
     * @param val text to set
     */
@@ -1669,7 +1669,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Additional text
+    * Additional text.
     *
     * @param val text to set
     */
@@ -1679,7 +1679,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets Unique ID of this resource
+    * Sets Unique ID of this resource.
     *
     * @param val Unique ID
     */
@@ -1689,7 +1689,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets Unique ID of this resource
+    * Sets Unique ID of this resource.
     *
     * @param val Unique ID
     */
@@ -1741,7 +1741,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets ID field value
+    * Gets ID field value.
     *
     * @return value
     */
@@ -1751,7 +1751,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets ID field value
+    * Gets ID field value.
     *
     * @return value
     */
@@ -1761,7 +1761,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Linked Fields field value
+    * Gets Linked Fields field value.
     *
     * @return value
     */
@@ -1771,7 +1771,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets objects field value
+    * Gets objects field value.
     *
     * @return value
     */
@@ -1781,7 +1781,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets objects field value
+    * Gets objects field value.
     *
     * @return value
     */
@@ -1791,7 +1791,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Text 1 field value
+    * Gets Text 1 field value.
     *
     * @return value
     */
@@ -1801,7 +1801,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Text 2 field value
+    * Gets Text 2 field value.
     *
     * @return value
     */
@@ -1811,7 +1811,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Text3 field value
+    * Gets Text3 field value.
     *
     * @return value
     */
@@ -1821,7 +1821,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Text 4 field value
+    * Gets Text 4 field value.
     *
     * @return value
     */
@@ -1831,7 +1831,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Text 5 field value
+    * Gets Text 5 field value.
     *
     * @return value
     */
@@ -1841,7 +1841,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Unique ID field value
+    * Gets Unique ID field value.
     *
     * @return value
     */
@@ -1851,7 +1851,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Gets Unique ID field value
+    * Gets Unique ID field value.
     *
     * @return value
     */
@@ -4377,7 +4377,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4387,7 +4387,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4397,7 +4397,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4407,7 +4407,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4417,7 +4417,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4427,7 +4427,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4437,7 +4437,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4447,7 +4447,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4457,7 +4457,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4467,7 +4467,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4477,7 +4477,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4487,7 +4487,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4497,7 +4497,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4507,7 +4507,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4517,7 +4517,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4527,7 +4527,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4537,7 +4537,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4547,7 +4547,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4557,7 +4557,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4567,7 +4567,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Sets the flag value
+    * Sets the flag value.
     *
     * @param b flag value
     */
@@ -4826,7 +4826,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Retrieve the value of a field using its alias
+    * Retrieve the value of a field using its alias.
     *
     * @param alias field alias
     * @return field value
@@ -4846,7 +4846,7 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
 
    /**
-    * Set the value of a field using its alias
+    * Set the value of a field using its alias.
     *
     * @param alias field alias
     * @param value field value
@@ -4912,12 +4912,12 @@ public final class Resource extends MPXRecord implements ExtendedAttributeContai
    }
    
    /**
-    * Resource Model record controlling fields written to resource record
+    * Resource Model record controlling fields written to resource record.
     */
    private ResourceModel m_model;
 
    /**
-    * Resource calendar for this resource
+    * Resource calendar for this resource.
     */
    private MPXCalendar m_calendar;
 

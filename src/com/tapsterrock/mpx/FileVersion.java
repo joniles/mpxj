@@ -152,17 +152,17 @@ public final class FileVersion
    private int m_value;
 
    /**
-    * Constant representing file version
+    * Constant representing file version.
     */
    public static final FileVersion VERSION_1_0 = new FileVersion(1);
 
    /**
-    * Constant representing file version
+    * Constant representing file version.
     */
    public static final FileVersion VERSION_3_0 = new FileVersion(3);
 
    /**
-    * Constant representing file version
+    * Constant representing file version.
     */
    public static final FileVersion VERSION_4_0 = new FileVersion(4);
 }
