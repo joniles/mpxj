@@ -25,7 +25,8 @@
       <action dev="joniles" type="add">Added support for retrieval of custom document summary fields from the project header (contributed by Wade Golden).</action>      
       <action dev="joniles" type="update">Updated to use checkstyle 4.0 and fixed warnings.</action>      
       <action dev="joniles" type="update">Rationalised duration conversions into a set of methods in the MPXDuration class.</action>      
-      <action dev="joniles" type="add">Replaced various file format conversion utilities with the general purpose MpxjConvert utility.</action>      
+      <action dev="joniles" type="add">Replaced various file format conversion utilities with the general purpose MpxjConvert utility.</action>            
+      <action dev="joniles" type="fix">Fixed an issue where tasks with a percent complete value, but no resource assignments, would not write correctly to an MSPDI file.</action>
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

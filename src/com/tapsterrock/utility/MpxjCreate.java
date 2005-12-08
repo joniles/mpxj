@@ -248,6 +248,18 @@ public class MpxjCreate
       rel2.setType (RelationType.FINISH_START);
 
       //
+      // This final task has a percent complete value, but no
+      // resource assignments. This is an intersting case it it requires
+      // special processing to generate the MSPDI file correctly.
+      //
+      Task task4 = file.addTask();
+      task4.setName ("Last Task");
+      task4.setDuration (MPXDuration.getInstance (8, TimeUnit.DAYS));
+      task4.setStart (df.parse("01/01/2003"));
+      task4.setPercentageComplete(70.0);
+      task4.setActualStart(df.parse("01/01/2003"));
+      
+      //
       // Assign resources to tasks
       //
       ResourceAssignment assignment1 = task2.addResourceAssignment (resource1);

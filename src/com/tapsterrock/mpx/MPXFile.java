@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -709,6 +710,10 @@ public class MPXFile
     */
    public void removeTask (Task task)
    {
+      //
+      // Remove the task from the file and its parent task
+      //
+      m_records.remove(task);
       m_allTasks.remove(task);
       m_taskUniqueIDMap.remove(task.getUniqueID());
       m_taskIDMap.remove(task.getID());
@@ -718,7 +723,14 @@ public class MPXFile
       {
          parentTask.removeChildTask (task);
       }
-      
+      else
+      {
+         m_childTasks.remove(task);
+      }
+
+      //
+      // Remove all resource assignments
+      //
       Iterator iter = m_allResourceAssignments.iterator();
       ResourceAssignment assignment;
       while (iter.hasNext() == true)
@@ -726,9 +738,76 @@ public class MPXFile
          assignment = (ResourceAssignment)iter.next();
          if (assignment.getTask() == task)
          {
+            assignment.getResource().removeResourceAssignment(assignment);
             iter.remove();
          }
       }
+      
+      //
+      // Recursively remove any child tasks
+      //
+      while (true)
+      {
+         List childTaskList = task.getChildTasks();
+         if (childTaskList.isEmpty() == true)
+         {
+            break;
+         }
+         
+         removeTask((Task)childTaskList.get(0)); 
+      }
+   }
+   
+   /**
+    * This method can be called to ensure that the IDs of all
+    * tasks in this project are sequential, and start from an
+    * appropriate point. If tasks are added to and removed from
+    * the list of tasks, then the project is loaded into Microsoft
+    * project, if the ID values have gaps in the sequence, there will
+    * be blank task rows shown.
+    */
+   public void synchronizeTaskIDs ()
+   {
+      if (m_allTasks.isEmpty() == false)
+      {
+         Collections.sort(m_allTasks);
+         Task firstTask = (Task)m_allTasks.get(0);
+         int id = firstTask.getIDValue();
+         if (id != 0)
+         {
+            id = 1;
+         }
+         
+         Iterator iter = m_allTasks.iterator();
+         while (iter.hasNext() == true)
+         {
+            ((Task)iter.next()).setID(id++);
+         }
+      }      
+   }
+
+   /**
+    * This method can be called to ensure that the IDs of all
+    * resources in this project are sequential, and start from an
+    * appropriate point. If resources are added to and removed from
+    * the list of resources, then the project is loaded into Microsoft
+    * project, if the ID values have gaps in the sequence, there will
+    * be blank resource rows shown.
+    */
+   public void synchronizeResourceIDs ()
+   {
+      if (m_allResources.isEmpty() == false)
+      {
+         Collections.sort(m_allResources);
+         int id = 1;
+         
+         Iterator iter = m_allResources.iterator();
+         while (iter.hasNext() == true)
+         {
+            Resource resource = (Resource)iter.next();
+            resource.setID(id++);
+         }
+      }      
    }
    
    /**
@@ -1180,6 +1259,7 @@ public class MPXFile
     */
    public void removeResource (Resource resource)
    {
+      m_records.remove(resource);      
       m_allResources.remove(resource);
       m_resourceUniqueIDMap.remove(resource.getUniqueID());
       m_resourceIDMap.remove(resource.getID());
@@ -1192,6 +1272,7 @@ public class MPXFile
          assignment = (ResourceAssignment)iter.next();
          if (assignment.getResourceUniqueID().intValue() == resourceUniqueID)
          {
+            assignment.getTask().removeResourceAssignment(assignment);
             iter.remove();
          }
       }
@@ -1239,6 +1320,22 @@ public class MPXFile
    void removeResourceAssignment (ResourceAssignment assignment)
    {
       m_allResourceAssignments.remove(assignment);
+      assignment.getTask().removeResourceAssignment(assignment);
+      assignment.getResource().removeResourceAssignment(assignment);
+   }
+   
+   /**
+    * This method has been provided to allow the subclasses to
+    * instantiate ResourecAssignment instances.
+    * 
+    * @param task parent task
+    * @return new resource assignment instance
+    * @throws MPXException
+    */
+   protected ResourceAssignment newResourceAssignment (Task task)
+      throws MPXException
+   {
+      return (new ResourceAssignment(this, task));
    }
    
    /**
@@ -1339,7 +1436,7 @@ public class MPXFile
     */
    public void write (OutputStreamWriter w)
       throws IOException
-   {
+   {                  
       updateFormats();
 
       Iterator iter = m_records.iterator();

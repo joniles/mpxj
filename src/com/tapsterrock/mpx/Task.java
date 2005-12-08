@@ -505,6 +505,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    void removeChildTask (Task child)
    {
       m_children.remove(child);
+      setSummary(!m_children.isEmpty());
    }
    
    /**
@@ -611,7 +612,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          assignment.setWork(getDuration());
          assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
          
-         resource.addAssignment(assignment);
+         resource.addResourceAssignment(assignment);
       }
 
       return (assignment);
@@ -636,7 +637,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       Resource resource = assignment.getResource();
       if (resource != null)
       {
-         resource.addAssignment(assignment);
+         resource.addResourceAssignment(assignment);
       }
       
       return (assignment);
@@ -653,6 +654,17 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       return (m_assignments);
    }
 
+   /**
+    * Internal method used as part of the process of removing a 
+    * resource assignment.
+    * 
+    * @param assignment resource assignment to be removed
+    */
+   void removeResourceAssignment (ResourceAssignment assignment)
+   {
+      m_assignments.remove(assignment);
+   }
+   
    /**
     * This method allows a predecessor relationship to be added to this
     * task instance.
@@ -7312,6 +7324,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    public void setSplits (List splits)
    {
       m_splits = splits;
+   }
+   
+   /**
+    * Removes this task from the project.
+    */
+   public void remove ()
+   {
+      getParentFile().removeTask(this);
    }
    
    /**

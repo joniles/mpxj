@@ -1241,6 +1241,12 @@ public class MSPDIFile extends MPXFile
       {
          throw new IOException (ex.toString());
       }
+      
+      catch (MPXException ex)
+      {
+         throw new IOException (ex.toString());
+      }
+      
    }
 
 
@@ -2033,7 +2039,7 @@ public class MSPDIFile extends MPXFile
     * @throws JAXBException on xml creation errors
     */
    private void writeAssignments (ObjectFactory factory, Project project)
-      throws JAXBException
+      throws JAXBException, MPXException
    {
       int uid = 0;
       Project.AssignmentsType assignments = factory.createProjectTypeAssignmentsType();
@@ -2044,6 +2050,37 @@ public class MSPDIFile extends MPXFile
       {
          list.add(writeAssignment (factory, (ResourceAssignment)iter.next(), uid));
          ++uid;
+      }
+      
+      //
+      // Check to see if we have any tasks that have a percent complete value
+      // but do not have resource assignments. If any exist, then we must
+      // write a dummy resource assignment record to ensure that the MSPDI
+      // file shows the correct percent complete amount for the task.
+      //
+      iter = getAllTasks().iterator();
+      
+      while (iter.hasNext() == true)
+      {
+         Task task = (Task)iter.next();
+         double percentComplete = task.getPercentageCompleteValue();
+         if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
+         {
+            ResourceAssignment dummy = newResourceAssignment (task);
+            MPXDuration duration = task.getDuration();
+            double durationValue = duration.getDuration();            
+            TimeUnit durationUnits = duration.getUnits();
+            double actualWork = (durationValue * percentComplete) / 100;
+            double remainingWork = durationValue - actualWork;
+            
+            dummy.setResourceUniqueID(-65535);
+            dummy.setWork(duration);
+            dummy.setActualWork(MPXDuration.getInstance(actualWork, durationUnits));
+            dummy.setRemainingWork(MPXDuration.getInstance(remainingWork, durationUnits));
+            
+            list.add(writeAssignment (factory, dummy, uid));
+            ++uid;
+         }
       }
    }
 
