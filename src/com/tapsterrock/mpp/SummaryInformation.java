@@ -101,7 +101,7 @@ final class SummaryInformation
          for (int loop=0; loop < properties.length; loop++)
          {
            property = properties[loop];
-           map.put(new Integer(index+property.getID()), property.getValue());
+           map.put(new Integer(index+(int)property.getID()), property.getValue());
            //System.out.println ("id="+(index+property.getID())+" value="+property.getValue());
          }
          index += 100;
