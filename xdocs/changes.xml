@@ -27,6 +27,7 @@
       <action dev="joniles" type="update">Rationalised duration conversions into a set of methods in the MPXDuration class.</action>      
       <action dev="joniles" type="add">Replaced various file format conversion utilities with the general purpose MpxjConvert utility.</action>            
       <action dev="joniles" type="fix">Fixed an issue where tasks with a percent complete value, but no resource assignments, would not write correctly to an MSPDI file.</action>
+      <action dev="joniles" type="add">Added an accessor method for resource calendars.</action>                  
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

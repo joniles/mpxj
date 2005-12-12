@@ -90,6 +90,7 @@ public class MPXFile
       m_autoCalendarUniqueID = file.m_autoCalendarUniqueID;
       m_autoWBS = file.m_autoWBS;
       m_baseCalendars = file.m_baseCalendars;
+      m_resourceCalendars = file.m_resourceCalendars;
       m_baseOutlineLevel = file.m_baseOutlineLevel;
       m_childTasks = file.m_childTasks;
       m_currencyFormat = file.m_currencyFormat;
@@ -1125,7 +1126,9 @@ public class MPXFile
     */
    protected MPXCalendar addResourceCalendar ()
    {
-      return (new MPXCalendar(this, false));
+      MPXCalendar calendar = new MPXCalendar(this, false);
+      m_resourceCalendars.add(calendar);
+      return (calendar);
    }
 
    /**
@@ -1145,12 +1148,16 @@ public class MPXFile
     * 
     * @param calendar calendar to be removed
     */
-   public void removeBaseCalendar (MPXCalendar calendar)
+   public void removeCalendar (MPXCalendar calendar)
    {
-      m_baseCalendars.remove(calendar);
       Resource resource = calendar.getResource();
-      if (resource != null)
+      if (resource == null)
       {
+         m_baseCalendars.remove(calendar);         
+      }
+      else
+      {
+         m_resourceCalendars.remove(calendar);         
          resource.setResourceCalendar(null);
       }
    }
@@ -1223,13 +1230,24 @@ public class MPXFile
     * This method retrieves the list of base calendars defined in
     * this file.
     *
-    * @return List of calendars
+    * @return list of base calendars
     */
-   public LinkedList getBaseCalendars ()
+   public List getBaseCalendars ()
    {
       return (m_baseCalendars);
    }
 
+   /**
+    * This method retrieves the list of resource calendars defined in
+    * this file.
+    *
+    * @return list of resource calendars
+    */
+   public List getResourceCalendars ()
+   {
+      return (m_resourceCalendars);
+   }
+   
    /**
     * This method is used to retrieve the project header record.
     *
@@ -1275,6 +1293,12 @@ public class MPXFile
             assignment.getTask().removeResourceAssignment(assignment);
             iter.remove();
          }
+      }
+      
+      MPXCalendar calendar = resource.getResourceCalendar();
+      if (calendar != null)
+      {
+         calendar.remove();
       }
    }
    
@@ -2312,8 +2336,13 @@ public class MPXFile
    /**
     * List holding references to all base calendars.
     */
-   private LinkedList m_baseCalendars = new LinkedList();
+   private List m_baseCalendars = new LinkedList();
 
+   /**
+    * List holding references to all resource calendars.
+    */
+   private List m_resourceCalendars = new LinkedList();
+   
    /**
     * Date time formatter.
     */

@@ -680,7 +680,7 @@ public final class MPXCalendar extends MPXRecord
     */
    public void remove ()
    {
-      getParentFile().removeBaseCalendar(this);
+      getParentFile().removeCalendar(this);
    }
    
    /**
