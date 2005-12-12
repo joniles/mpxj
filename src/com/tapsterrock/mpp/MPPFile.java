@@ -164,6 +164,10 @@ public class MPPFile extends MPXFile
             task.setSummary(task.getChildTasks().size() != 0);
          }
 
+         //
+         // Ensure that the unique ID counters are correct
+         //
+         updateUniqueCounters();         
       }
 
       catch (IOException ex)

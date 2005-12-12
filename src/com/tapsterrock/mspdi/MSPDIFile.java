@@ -283,6 +283,11 @@ public class MSPDIFile extends MPXFile
          readResources (project, calendarMap);
          readTasks (project);
          readAssignments (project);
+         
+         //
+         // Ensure thatthe unique ID counters are correct
+         //
+         updateUniqueCounters();         
       }
 
       catch (ParserConfigurationException ex)

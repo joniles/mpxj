@@ -299,6 +299,11 @@ public class MPXFile
          // Ensure that the structure is consistent
          //
          updateStructure();
+         
+         //
+         // Ensure that the unique ID counters are correct
+         //
+         updateUniqueCounters();
       }
 
       catch (Exception ex)
@@ -1777,6 +1782,67 @@ public class MPXFile
       }
    }
 
+   /**
+    * This method is called to ensure that after a project file has been
+    * read, the cached unique ID values used to generate new unique IDs 
+    * start after the end of the existing set of unique IDs.
+    */
+   protected void updateUniqueCounters ()
+   {
+      //
+      // Update task unique IDs
+      //
+      for(Iterator iter=m_allTasks.iterator(); iter.hasNext();)
+      {
+         Task task = (Task)iter.next();
+         int uniqueID = task.getUniqueIDValue();
+         if (uniqueID > m_taskUniqueID)
+         {
+            m_taskUniqueID = uniqueID;
+         }
+      }
+
+      //
+      // Update resource unique IDs
+      //      
+      for(Iterator iter=m_allResources.iterator(); iter.hasNext();)
+      {
+         Resource resource = (Resource)iter.next();
+         int uniqueID = resource.getUniqueIDValue();
+         if (uniqueID > m_resourceUniqueID)
+         {
+            m_resourceUniqueID = uniqueID;
+         }
+      }
+      
+      //
+      // Update base calendar unique IDs
+      //      
+      for(Iterator iter=m_baseCalendars.iterator(); iter.hasNext();)
+      {
+         MPXCalendar calendar = (MPXCalendar)iter.next();
+         int uniqueID = calendar.getUniqueID();
+         if (uniqueID > m_calendarUniqueID)
+         {
+            m_calendarUniqueID = uniqueID;
+         }
+      }
+
+      //
+      // Update resource calendar unique IDs
+      //      
+      for(Iterator iter=m_resourceCalendars.iterator(); iter.hasNext();)
+      {
+         MPXCalendar calendar = (MPXCalendar)iter.next();
+         int uniqueID = calendar.getUniqueID();
+         if (uniqueID > m_calendarUniqueID)
+         {
+            m_calendarUniqueID = uniqueID;
+         }
+      }
+      
+   }
+   
    /**
     * Accessor method used to retrieve the decimal separator character.
     * Note that this value is synchronized with the same value in the
