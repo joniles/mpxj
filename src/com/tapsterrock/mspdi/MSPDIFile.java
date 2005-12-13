@@ -275,6 +275,7 @@ public class MSPDIFile extends MPXFile
          }
 
          Project project = (Project)unmarshaller.unmarshal (doc);
+         
          HashMap calendarMap = new HashMap ();
 
          readProjectHeader (project);
@@ -285,7 +286,7 @@ public class MSPDIFile extends MPXFile
          readAssignments (project);
          
          //
-         // Ensure thatthe unique ID counters are correct
+         // Ensure that the unique ID counters are correct
          //
          updateUniqueCounters();         
       }
@@ -764,6 +765,8 @@ public class MSPDIFile extends MPXFile
       readResourceExtendedAttributes (xml, mpx);
 
       attachResourceCalendar(mpx, (MPXCalendar)calendarMap.get(xml.getCalendarUID()));
+      
+      fireResourceReadEvent(mpx);
    }
 
    /**
@@ -996,6 +999,8 @@ public class MSPDIFile extends MPXFile
       // Set the MPX file fixed flag
       //
       mpx.setFixed(mpx.getType() == TaskType.FIXED_DURATION);
+      
+      fireTaskReadEvent(mpx);
    }
 
    /**
@@ -1053,7 +1058,7 @@ public class MSPDIFile extends MPXFile
     */
    private void readPredecessors (Project.TasksType.TaskType task)
    {
-      BigInteger uid = task.getUID();
+      Integer uid = task.getUID();
       if (uid != null)
       {
          Task currTask = getTaskByUniqueID(uid.intValue());
@@ -1239,6 +1244,7 @@ public class MSPDIFile extends MPXFile
             stream = new CompatabilityOutputStream (stream);
          }
 
+         DatatypeConverter.setParentFile(this);
          marshaller.marshal (project, stream);
       }
 
@@ -1661,7 +1667,7 @@ public class MSPDIFile extends MPXFile
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setType(mpx.getType());
-      xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
+      xml.setUID(mpx.getUniqueID());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkGroup(mpx.getWorkGroup());
       xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance())*1000));
@@ -1856,7 +1862,7 @@ public class MSPDIFile extends MPXFile
       xml.setSummary(mpx.getSummaryValue());
       xml.setTotalSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack())*1000));
       xml.setType(mpx.getType());
-      xml.setUID(BigInteger.valueOf(mpx.getUniqueIDValue()));
+      xml.setUID(mpx.getUniqueID());
       xml.setWBS(mpx.getWBS());
       xml.setWBSLevel(mpx.getWBSLevel());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));

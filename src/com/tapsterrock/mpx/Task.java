@@ -4456,6 +4456,8 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          }
       }
 
+      getParentFile().fireTaskWrittenEvent(this);
+      
       return (buf.toString());
    }
 

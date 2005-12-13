@@ -102,6 +102,32 @@
                        printMethod="com.tapsterrock.mspdi.DatatypeConverter.printWorkContour"/>      
       </jxb:bindings>
    </jxb:bindings>
-   
+
+   <!-- Task.UID -->      
+   <jxb:bindings node="//xsd:element[@name='Task']/xsd:complexType/xsd:sequence/xsd:element[@name='UID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Integer"                       
+                             parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseTaskUID"
+                             printMethod="com.tapsterrock.mspdi.DatatypeConverter.printTaskUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Resource.UID -->      
+   <jxb:bindings node="//xsd:element[@name='Resource']/xsd:complexType/xsd:sequence/xsd:element[@name='UID']">
+      <jxb:bindings node=".">  
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.lang.Integer"                       
+                             parseMethod="com.tapsterrock.mspdi.DatatypeConverter.parseResourceUID"
+                             printMethod="com.tapsterrock.mspdi.DatatypeConverter.printResourceUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+             
   </jxb:bindings>
 </jxb:bindings>

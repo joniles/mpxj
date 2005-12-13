@@ -30,6 +30,7 @@
       <action dev="joniles" type="add">Added an accessor method for resource calendars.</action>                  
       <action dev="joniles" type="fix">Unique ID generation was not correct for tasks, resources and calendars if these entities were added to an existing project file.</action>      
       <action dev="joniles" type="fix">Fixed a compatibility issue with POI3</action>      
+      <action dev="joniles" type="add">Added an event listener to the project file to allow notifications of resources and tasks being read and written to and from a file.</action>
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

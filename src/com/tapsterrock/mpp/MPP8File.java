@@ -729,6 +729,8 @@ final class MPP8File implements MPPReader
             task.setCostVariance(NumberUtility.getDouble(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
          }
          
+         file.fireTaskReadEvent(task);
+         
          //
          // Uncommenting the call to this method is useful when trying
          // to determine the function of unknown task data.
@@ -1081,6 +1083,8 @@ final class MPP8File implements MPPReader
          {
             resource.setWorkVariance(MPXDuration.getInstance (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
          }
+         
+         file.fireResourceReadEvent(resource);
       }
    }
 

@@ -1412,6 +1412,66 @@ public final class DatatypeConverter
    }
 
    /**
+    * Print a task UID.
+    * 
+    * @param value task UID
+    * @return task UID string
+    */
+   public static final String printTaskUID (Integer value)
+   {
+      MSPDIFile file = (MSPDIFile)PARENT_FILE.get();
+      file.fireTaskWrittenEvent(file.getTaskByUniqueID(value.intValue()));
+      return (value.toString());
+   }
+
+   /**
+    * Parse a task UID.
+    * 
+    * @param value task UID string
+    * @return task UID
+    */
+   public static final Integer parseTaskUID (String value)
+   {
+      return (new Integer(value));
+   }
+
+   /**
+    * Print a resource UID.
+    * 
+    * @param value resource UID value
+    * @return resource UID string
+    */
+   public static final String printResourceUID (Integer value)
+   {    
+      MSPDIFile file = (MSPDIFile)PARENT_FILE.get();
+      file.fireResourceWrittenEvent(file.getResourceByUniqueID(value.intValue()));      
+      return (value.toString());
+   }
+
+   /**
+    * Parse a resource UID.
+    * 
+    * @param value resource UID string
+    * @return resource UID value
+    */
+   public static final Integer parseResourceUID (String value)
+   {
+      return (new Integer(value));
+   }
+   
+   /**
+    * This method is called to set the parent file for the current 
+    * write operation. This allows task and resource write events
+    * to be captured and passed to any file listeners.
+    * 
+    * @param file parent file instance
+    */
+   public static final void setParentFile (MSPDIFile file)
+   {
+      PARENT_FILE.set(file);
+   }
+   
+   /**
     * Retrieve a number formatter.
     * 
     * @return NumberFormat instance
@@ -1449,4 +1509,5 @@ public final class DatatypeConverter
    private static final String ZERO_DURATION = "PT0H0M0S";   
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);   
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);      
+   private static final ThreadLocal PARENT_FILE = new ThreadLocal ();   
 }

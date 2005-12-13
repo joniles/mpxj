@@ -4841,6 +4841,8 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
          buf.append (m_calendar.toString());
       }
 
+      getParentFile().fireResourceWrittenEvent(this);
+      
       return (buf.toString());
    }
 

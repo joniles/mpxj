@@ -1494,6 +1494,8 @@ final class MPP9File implements MPPReader
          //
          task.setSubproject(file.getTaskSubProject(task.getUniqueID())!=null);
          
+         file.fireTaskReadEvent(task);
+         
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
    }
@@ -1843,6 +1845,8 @@ final class MPP9File implements MPPReader
          // Configure the resource calendar
          //
          file.mppAttachResourceCalendar(resource, (MPXCalendar)resourceCalendarMap.get(id));         
+         
+         file.fireResourceReadEvent(resource);
       }
    }
 

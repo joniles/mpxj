@@ -55,7 +55,8 @@ public final class MpxjConvert
          }
          else
          {
-            process(args[0], args[1]);
+            MpxjConvert convert = new MpxjConvert();
+            convert.process(args[0], args[1]);
          }
       }
 
@@ -72,12 +73,12 @@ public final class MpxjConvert
     * @param outputFile output file
     * @throws Exception
     */
-   public static void process (String inputFile, String outputFile)
+   public void process (String inputFile, String outputFile)
       throws Exception
    {
       System.out.println ("Reading input file started.");
       long start = System.currentTimeMillis();            
-      MPXFile input = getFileObject(inputFile, false);
+      MPXFile input = getFileObject(inputFile, false);      
       input.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println ("Reading input file completed in " + elapsed + "ms.");
@@ -99,7 +100,7 @@ public final class MpxjConvert
     * @return MPXFile instance
     * @throws Exception
     */
-   private static MPXFile getFileObject (String name, boolean write)
+   private MPXFile getFileObject (String name, boolean write)
       throws Exception
    {
       int index = name.lastIndexOf('.');
@@ -124,7 +125,7 @@ public final class MpxjConvert
       
       return (file);
    }
-   
+      
    private static final Map EXTENSION_MAP = new HashMap ();
    static
    {

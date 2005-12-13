@@ -514,6 +514,10 @@ public class MPXFile
             current = m_lastResource;
             m_records.add(current);
             m_allResources.add(current);
+            if (record != Record.EMPTY_RECORD)
+            {
+               fireResourceReadEvent(m_lastResource);
+            }
             break;
          }
 
@@ -610,6 +614,10 @@ public class MPXFile
                ((Task)m_childTasks.getLast()).addChildTask(m_lastTask, outlineLevel);
             }
 
+            if (record != Record.EMPTY_RECORD)
+            {
+               fireTaskReadEvent(m_lastTask);
+            }
             break;
          }
 
@@ -1839,8 +1847,7 @@ public class MPXFile
          {
             m_calendarUniqueID = uniqueID;
          }
-      }
-      
+      }      
    }
    
    /**
@@ -2069,6 +2076,101 @@ public class MPXFile
       return (new MPXNumberFormat(MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
    }
 
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a task has been read from a project file.
+    * 
+    * @param task task instance
+    */
+   public void fireTaskReadEvent (Task task)
+   {
+      if (m_projectListeners != null)
+      {
+         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         {
+            ((ProjectListener)iter.next()).taskRead(task);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a task has been written to a project file.
+    * 
+    * @param task task instance
+    */   
+   public void fireTaskWrittenEvent (Task task)
+   {
+      if (m_projectListeners != null)
+      {
+         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         {
+            ((ProjectListener)iter.next()).taskWritten(task);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a resource has been read from a project file.
+    * 
+    * @param resource resource instance
+    */   
+   public void fireResourceReadEvent (Resource resource)
+   {
+      if (m_projectListeners != null)
+      {
+         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         {
+            ((ProjectListener)iter.next()).resourceRead(resource);
+         }
+      }
+   }
+
+   /**
+    * This method is called to alert project listeners to the fact that
+    * a resource has been written to a project file.
+    * 
+    * @param resource resource instance
+    */      
+   public void fireResourceWrittenEvent (Resource resource)
+   {
+      if (m_projectListeners != null)
+      {
+         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         {
+            ((ProjectListener)iter.next()).resourceWritten(resource);
+         }
+      }
+   }
+
+   /**
+    * Adds a listener to this project file.
+    * 
+    * @param listener listener instance
+    */
+   public void addProjectListener (ProjectListener listener)
+   {
+      if (m_projectListeners == null)
+      {
+         m_projectListeners = new LinkedList();
+      }
+      m_projectListeners.add(listener);      
+   }
+
+   /**
+    * Removes a listener from this project file.
+    * 
+    * @param listener listener instance
+    */
+   public void removeProjectListener (ProjectListener listener)
+   {
+      if (m_projectListeners != null)
+      {
+         m_projectListeners.remove(listener);
+      }
+   }
+   
    /**
     * This method returns the locale used by this MPX file.
     *
@@ -2638,6 +2740,11 @@ public class MPXFile
     * Maps from a resource ID to a resource instance.
     */
    private HashMap m_resourceIDMap = new HashMap();
+
+   /**
+    * List of project event listeners.
+    */
+   private List m_projectListeners;
    
    private MPXCurrency m_zeroCurrency;
 }
