@@ -2956,6 +2956,7 @@ public final class ProjectHeader extends MPXRecord
       return (m_calculateMultipleCriticalPaths);
    }
    
+   
    /**
     * This method updates the formatters used to control the currency
     * formatting.
@@ -3238,7 +3239,7 @@ public final class ProjectHeader extends MPXRecord
    private Day m_weekStartDay;
    private boolean m_calculateMultipleCriticalPaths;
    private Map m_documentSummaryInformation;
-
+   
    /*
     * Missing MSPDI attributes
     *

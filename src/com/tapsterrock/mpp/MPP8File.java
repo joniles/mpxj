@@ -55,6 +55,7 @@ import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
+import com.tapsterrock.mpx.ScheduleFrom;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
@@ -123,6 +124,8 @@ final class MPP8File implements MPPReader
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
       ProjectHeader ph = file.getProjectHeader();
+      ph.setScheduleFrom(ScheduleFrom.getInstance(1-props.getShort(Props.SCHEDULE_FROM)));
+      ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime (props.getTime(Props.END_TIME));
 
@@ -152,6 +155,7 @@ final class MPP8File implements MPPReader
       ph.setCompany(summary.getCompany());
       ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
+      ph.setRevision(summary.getRevision());
       ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
    }
 

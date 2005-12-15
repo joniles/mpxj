@@ -35,7 +35,9 @@
 </target>
 
 <target name="compile" depends="init" description="Compile Everything">
-   <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}" debug="on" />
+   <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}" debug="on">
+      <!-- <compilerarg value="-Xlint"/> -->
+   </javac>
    <copy file="${basedir}/src/${schema.dir}/bgm.ser" todir="${classes.dir}${schema.dir}"/>
    <copy file="${basedir}/src/${schema.dir}/jaxb.properties" todir="${classes.dir}${schema.dir}"/>
 </target>

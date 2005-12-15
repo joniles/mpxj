@@ -31,6 +31,9 @@
       <action dev="joniles" type="fix">Unique ID generation was not correct for tasks, resources and calendars if these entities were added to an existing project file.</action>      
       <action dev="joniles" type="fix">Fixed a compatibility issue with POI3</action>      
       <action dev="joniles" type="add">Added an event listener to the project file to allow notifications of resources and tasks being read and written to and from a file.</action>
+      <action dev="joniles" type="fix">Fixed a compiler warning when build with JDK5.</action>      
+      <action dev="joniles" type="fix">Fixed a bug where a project start date was not being set correctly in the project header.</action>
+      <action dev="joniles" type="add">Added support for reading the project header "calendar name", "schedule from" and "revision" values from MPP files.</action>
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

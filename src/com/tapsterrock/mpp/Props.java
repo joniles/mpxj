@@ -183,6 +183,8 @@ class Props extends MPPComponent
    /**
     * Data types.
     */
+   public static final Integer SCHEDULE_FROM = new Integer (37748740);
+   public static final Integer DEFAULT_CALENDAR_NAME = new Integer(37748750);
    public static final Integer CURRENCY_SYMBOL = new Integer (37748752);
    public static final Integer CURRENCY_PLACEMENT = new Integer (37748753);
    public static final Integer CURRENCY_DIGITS = new Integer (37748754);

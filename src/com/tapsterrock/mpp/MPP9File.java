@@ -58,6 +58,7 @@ import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.ResourceType;
+import com.tapsterrock.mpx.ScheduleFrom;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
@@ -147,8 +148,10 @@ final class MPP9File implements MPPReader
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
       //MPPUtility.fileHexDump("c:\\temp\\props.txt", props.toString().getBytes());
-      
+
       ProjectHeader ph = file.getProjectHeader();
+      ph.setScheduleFrom(ScheduleFrom.getInstance(1-props.getShort(Props.SCHEDULE_FROM)));
+      ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
 
@@ -158,7 +161,7 @@ final class MPP9File implements MPPReader
       ph.setDefaultHoursInWeek(new Float(((float)props.getInt(Props.HOURS_PER_WEEK))/60));
       ph.setDefaultOvertimeRate(new MPXRate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
       ph.setDefaultStandardRate(new MPXRate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
-      ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
+      ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));     
       ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
       ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
@@ -180,6 +183,7 @@ final class MPP9File implements MPPReader
       ph.setCompany(summary.getCompany());
       ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
+      ph.setRevision(summary.getRevision());
       ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
       
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
@@ -2149,7 +2153,7 @@ final class MPP9File implements MPPReader
 //      {108, 16},
 //   };
 
-
+   
    /**
     * Calendar data types.
     */

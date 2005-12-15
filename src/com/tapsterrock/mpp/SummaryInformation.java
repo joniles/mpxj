@@ -36,6 +36,7 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.MPXException;
+import com.tapsterrock.mpx.NumberUtility;
 
 /**
  * This class encapsulates the functionlaity required to retrieve document
@@ -62,7 +63,8 @@ final class SummaryInformation
          m_author = (String)map.get(AUTHOR);
          m_keywords = (String)map.get(KEYWORDS);
          m_comments = (String)map.get(COMMENTS);
-
+         m_revision = NumberUtility.parseInteger((String)map.get(REVISION_NUMBER));
+         
          ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005DocumentSummaryInformation"))));
          map = getPropertyMap(ps);
          m_category = (String)map.get(CATEGORY);
@@ -190,6 +192,16 @@ final class SummaryInformation
    }
 
    /**
+    * Retrieve the revision number.
+    * 
+    * @return revision number
+    */
+   public Integer getRevision ()
+   {
+      return (m_revision);
+   }
+   
+   /**
     * Retrive the Document Summary Information. This
     * allows the caller to examine custom document summary information
     * which may be defined in the project file.
@@ -206,7 +218,8 @@ final class SummaryInformation
    private String m_author;
    private String m_keywords;
    private String m_comments;
-
+   private Integer m_revision;
+   
    private String m_category;
    private String m_manager;
    private String m_company;
@@ -221,7 +234,8 @@ final class SummaryInformation
    private static final Integer AUTHOR = new Integer (104);
    private static final Integer KEYWORDS = new Integer (105);
    private static final Integer COMMENTS = new Integer (106);
-
+   private static final Integer REVISION_NUMBER = new Integer (109);
+   
    /**
     * Constants representing Document Summary Information properties.
     */

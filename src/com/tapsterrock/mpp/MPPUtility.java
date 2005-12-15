@@ -1050,7 +1050,7 @@ final class MPPUtility
 
       try
       {
-         tz.getMethod("getDSTSavings", null);
+         tz.getMethod("getDSTSavings", (Class[])null);
          HAS_DST_SAVINGS = true;
       }
 

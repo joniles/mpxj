@@ -185,6 +185,8 @@ public class MPXFile
    {
       setLocale(Locale.ENGLISH);
       m_records.add(m_fileCreationRecord);
+      // Note that this needs to be moved so that it
+      // follows the last calendar definition.
       m_records.add(m_projectHeader);
    }
 
@@ -1939,14 +1941,28 @@ public class MPXFile
          }
          
          //
-         // Select the actual or forecast start date
+         // Select the actual or forecast start date. Note that the
+         // behaviour is different for milestones. The milestone end date
+         // is alway correct, the milestone start date may be different
+         // to reflect a missed deadline.
          //
-         taskStartDate = task.getActualStart();
-         if (taskStartDate == null)
+         if (BooleanUtility.getBoolean(task.getMilestone()) == true)
          {
-            taskStartDate = task.getStart();
+            taskStartDate = task.getActualFinish();
+            if (taskStartDate == null)
+            {
+               taskStartDate = task.getFinish();
+            }            
          }
-
+         else
+         {
+            taskStartDate = task.getActualStart();
+            if (taskStartDate == null)
+            {
+               taskStartDate = task.getStart();
+            }
+         }
+         
          if (taskStartDate != null)
          {
             if (startDate == null)

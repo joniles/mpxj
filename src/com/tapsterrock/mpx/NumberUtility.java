@@ -153,5 +153,17 @@ public final class NumberUtility
       return (value==0?DOUBLE_ZERO:new Double(value));
    }
    
+   /**
+    * Utility method to convert a String to an Integer, and
+    * handles null values.
+    * 
+    * @param value string representation of an integer
+    * @return int value
+    */
+   public static final Integer parseInteger (String value)
+   {
+      return (value==null||value.length()==0?null:new Integer(value));
+   }
+   
    public static final Double DOUBLE_ZERO = new Double(0);
 }
