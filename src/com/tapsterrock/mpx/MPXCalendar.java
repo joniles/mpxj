@@ -563,10 +563,7 @@ public final class MPXCalendar extends MPXRecord
             result = exception.getWorkingValue();
             break;
          }
-         else
-         {
-            exception = null;
-         }
+         exception = null;
       }
 
       //

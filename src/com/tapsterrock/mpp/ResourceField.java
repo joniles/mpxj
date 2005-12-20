@@ -711,7 +711,7 @@ public final class ResourceField implements FieldType
       FIELD_ARRAY[VAC_VALUE] = VAC;
       FIELD_ARRAY[GROUP_BY_SUMMARY_VALUE] = GROUP_BY_SUMMARY;
       FIELD_ARRAY[WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT;      
-   };
+   }
    
    private int m_value;
 }

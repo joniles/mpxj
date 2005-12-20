@@ -437,10 +437,8 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * completed automatically.
     *
     * @return new task
-    * @throws MPXException normally thrown on parse error
     */
    public Task addTask ()
-      throws MPXException
    {
       MPXFile parent = getParentFile();
 
@@ -590,15 +588,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       {
          assignment = (ResourceAssignment)iter.next();
          uniqueID = assignment.getResourceUniqueIDValue();
-
          if (uniqueID == resourceUniqueID)
          {
             break;
          }
-         else
-         {
-            assignment = null;
-         }
+         assignment = null;
       }
 
       if (assignment == null)
@@ -709,15 +703,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-
             if (rel.getTaskIDValue() == task.getIDValue())
             {
                break;
             }
-            else
-            {
-               rel = null;
-            }
+            rel = null;
          }
       }
 
@@ -784,15 +774,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-
             if (rel.getTaskIDValue() == task.getUniqueIDValue())
             {
                break;
             }
-            else
-            {
-               rel = null;
-            }
+            rel = null;
          }
       }
 

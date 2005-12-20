@@ -34,64 +34,6 @@ import java.util.Locale;
 public final class MPXDuration implements ToStringRequiresFile
 {
    /**
-    * Constructs an instance of this class from a String representation
-    * of a duration.
-    *
-    * @param dur String representation of a duration
-    * @throws MPXException normally indicating that parsing the string has failed
-    */
-   private MPXDuration (String dur)
-      throws MPXException
-   {
-      this(dur, DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH);
-   }
-
-   /**
-    * Constructs an instance of this class from a String representation
-    * of a duration, and an MPXNumberFormat instance to describe the format
-    * of the string representation.
-    *
-    * @param dur formatted duration value
-    * @param format format description
-    * @param locale current file locale
-    * @throws MPXException
-    */
-   private MPXDuration (String dur, MPXNumberFormat format, Locale locale)
-      throws MPXException
-   {
-      try
-      {
-         int lastIndex = dur.length() - 1;
-         int index = lastIndex;
-   
-         while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
-         {
-            --index;
-         }
-   
-         //
-         // If we have no units suffix, assume days to allow for MPX3
-         //
-         if (index == lastIndex)
-         {
-            m_duration = format.parse(dur).doubleValue();
-            m_units = TimeUnit.DAYS;
-         }
-         else
-         {
-            ++index;
-            m_duration = format.parse(dur.substring(0, index)).doubleValue();
-            m_units = TimeUnit.parse(dur.substring(index), locale);
-         }
-      }
-      
-      catch (ParseException ex)
-      {
-         throw new MPXException ("Failed to parse duration", ex);
-      }
-   }
-
-   /**
     * Constructs an instance of this class from a duration amount and
     * time unit type.
     *
@@ -456,14 +398,6 @@ public final class MPXDuration implements ToStringRequiresFile
     */
    private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat(DECIMAL_FORMAT_STRING, '.', ',');
 
-   /**
-    * Constants used for duration type conversion.
-    */
-   private static final double MINUTES_PER_DAY = 1440;
-   private static final double HOURS_PER_DAY = 24;
-   private static final double DAYS_PER_WEEK = 7;
-   private static final double DAYS_PER_MONTH = 28;
-   private static final double DAYS_PER_YEAR = 365;
    
    private static final MPXDuration[] ZERO_DURATIONS =
    {

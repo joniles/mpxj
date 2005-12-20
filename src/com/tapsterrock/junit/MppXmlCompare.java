@@ -576,22 +576,6 @@ public final class MppXmlCompare
          throw new Exception ("Expected: " + expected + " Found: " + actual);
       }
    }
-
-   /**
-    * Equality assertion.
-    * 
-    * @param expected expected value
-    * @param actual actual value
-    * @throws Exception
-    */   
-   private void assertEquals(int expected, int actual) 
-      throws Exception
-   {   
-      if (expected != actual)
-      {   
-         throw new Exception ("Expected: " + expected + " Found: " + actual);
-      }
-   }
    
    /**
     * Equality assertion, with delta allowance, derived from JUnit.

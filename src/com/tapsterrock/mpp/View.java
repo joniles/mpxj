@@ -35,11 +35,11 @@ package com.tapsterrock.mpp;
 public class View
 {
    /**
-    * Constructor, protected to prevent direct instantiation.
+    * Constructor.
     */
    protected View ()
    {
-      
+      // protected constructor to prevent instantiation
    }
       
    /**

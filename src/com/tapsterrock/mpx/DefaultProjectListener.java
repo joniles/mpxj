@@ -29,14 +29,14 @@ package com.tapsterrock.mpx;
  * the event methods they require, without having to provide implementations for
  * other methods which they are not interested in.
  */
-public class DefaultProjectListener
+public class DefaultProjectListener implements ProjectListener
 {
    /**
     * {@inheritDoc}
     */
    public void taskRead (Task task)
    {
-      
+      // default implementation
    }
    
    /**
@@ -44,7 +44,7 @@ public class DefaultProjectListener
     */   
    public void taskWritten (Task task)
    {
-      
+      // default implementation
    }
    
    /**
@@ -52,7 +52,7 @@ public class DefaultProjectListener
     */   
    public void resourceRead (Resource resource)
    {
-      
+      // default implementation      
    }
    
    /**
@@ -60,6 +60,6 @@ public class DefaultProjectListener
     */   
    public void resourceWritten (Resource resource)
    {
-      
+      // default implementation      
    }
 }

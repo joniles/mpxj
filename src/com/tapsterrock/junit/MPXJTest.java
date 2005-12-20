@@ -1831,7 +1831,6 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in;
-      MPPFile mpp;
 
       //
       // Read password (password1)
@@ -1839,7 +1838,7 @@ public class MPXJTest extends TestCase
       try
       {
          in = new File (m_basedir + "/readpassword9.mpp");
-         mpp = new MPPFile (in);
+         new MPPFile (in);
          assertTrue(false);
       }
 
@@ -1852,7 +1851,7 @@ public class MPXJTest extends TestCase
       // Write password (password2)
       //
       in = new File (m_basedir + "/writepassword9.mpp");
-      mpp = new MPPFile (in);
+      new MPPFile (in);
 
       //
       // Read password
@@ -1860,7 +1859,7 @@ public class MPXJTest extends TestCase
       try
       {
          in = new File (m_basedir + "/bothpassword9.mpp");
-         mpp = new MPPFile (in);
+         new MPPFile (in);
          assertTrue(false);
       }
 

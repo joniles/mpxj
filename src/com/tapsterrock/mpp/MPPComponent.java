@@ -38,7 +38,7 @@ class MPPComponent
     */
    protected MPPComponent ()
    {
-
+      // protected constructor to prevent instantiation
    }
 
    /**

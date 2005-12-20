@@ -1307,7 +1307,7 @@ final class MPP8File implements MPPReader
       
       for (int loop=0; loop < columnCount; loop++)
       {
-         column = new Column (table);
+         column = new Column ();
 
          if (loop==0)
          {

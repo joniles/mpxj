@@ -47,6 +47,7 @@ final class MPPUtility
     */
    private MPPUtility ()
    {
+      // private constructor to prevent instantiation
    }
 
    /**

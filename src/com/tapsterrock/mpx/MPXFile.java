@@ -431,7 +431,6 @@ public class MPXFile
          case ProjectHeader.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
             m_projectHeader.updateCurrencySettings(record);
-            updateFormats();
             current = m_projectHeader;
             break;
          }
@@ -1212,7 +1211,6 @@ public class MPXFile
     * files.
     *
     * @return new MPXCalendar instance
-    * @throws MPXException
     */
    protected MPXCalendar addDefaultResourceCalendar ()
    {
@@ -1476,8 +1474,6 @@ public class MPXFile
    public void write (OutputStreamWriter w)
       throws IOException
    {                  
-      updateFormats();
-
       Iterator iter = m_records.iterator();
 
       while (iter.hasNext())
@@ -2034,18 +2030,6 @@ public class MPXFile
       }
 
       return (finishDate);
-   }
-
-   /**
-    * This method is called prior to writing an MPX file to ensure that all of
-    * the required number formats are up to date.
-    */
-   private void updateFormats ()
-   {
-      m_decimalFormat = new MPXNumberFormat("0.00#", m_decimalSeparator, m_thousandsSeparator);
-      m_durationDecimalFormat = new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
-      m_percentageDecimalFormat = new MPXNumberFormat(MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
-      m_unitsDecimalFormat = new MPXNumberFormat(MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator);
    }
 
    /**
@@ -2696,26 +2680,6 @@ public class MPXFile
     * setting, which is why this attribute is defined here.
     */
    private char m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
-
-   /**
-    * Number format used for writing decimal values.
-    */
-   private MPXNumberFormat m_decimalFormat;
-
-   /**
-    * Number format used for writing MPXDuration values.
-    */
-   private MPXNumberFormat m_durationDecimalFormat;
-
-   /**
-    * Number format used for writing MPXPercentage values.
-    */
-   private MPXNumberFormat m_percentageDecimalFormat;
-
-   /**
-    * Number format used for writing MPXUnits values.
-    */
-   private MPXNumberFormat m_unitsDecimalFormat;
 
    /**
     * Maps from a task field number to a task alias.

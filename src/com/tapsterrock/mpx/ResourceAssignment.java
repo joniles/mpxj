@@ -702,14 +702,9 @@ public final class ResourceAssignment extends MPXRecord
    private static final int RESOURCE_UNIQUE_ID = 12;
 
    /**
-    * Work contour type (Back Loaded, Turtle, etc..).
-    */
-   private static final int WORK_CONTOUR = 13;
-
-   /**
     * Maximum number of fields in this record.
     */
-   private static final int MAX_FIELDS = 14;
+   private static final int MAX_FIELDS = 13;
 
     /**
     * Constant containing the record number associated with this record.

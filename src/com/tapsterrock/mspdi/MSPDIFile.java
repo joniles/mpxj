@@ -602,10 +602,8 @@ public class MSPDIFile extends MPXFile
     * This method extracts project extended attribute data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
-    * @throws MPXException on file read errors
     */
    private void readProjectExtendedAttributes (Project project)
-      throws MPXException
    {
       Project.ExtendedAttributesType attributes = project.getExtendedAttributes();
       if (attributes != null)
@@ -783,7 +781,6 @@ public class MSPDIFile extends MPXFile
       Integer xmlFieldID;
       Integer mpxFieldID;
       int dataType;
-      Object value;
 
       while (iter.hasNext() == true)
       {
@@ -1017,7 +1014,6 @@ public class MSPDIFile extends MPXFile
       Integer xmlFieldID;
       Integer mpxFieldID;
       int dataType;
-      Object value;
 
       while (iter.hasNext() == true)
       {

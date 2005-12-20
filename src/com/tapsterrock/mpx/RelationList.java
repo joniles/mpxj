@@ -38,6 +38,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
     */
    RelationList ()
    {
+      // package private constructor to prevent external instantiation
    }
 
    /**

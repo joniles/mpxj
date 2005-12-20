@@ -199,7 +199,6 @@ final class MPP9File implements MPPReader
     * @param props file properties
     */
    private void processSubProjectData (MPPFile file, Props9 props)
-      throws MPXException
    {
       byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
       
@@ -218,10 +217,10 @@ final class MPP9File implements MPPReader
          
          byte[] itemHeader = new byte[20];
          
-         int blockSize = MPPUtility.getInt(subProjData, offset);
+         /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
          offset += 4;
          
-         int unknown = MPPUtility.getInt(subProjData, offset);
+         /*int unknown = MPPUtility.getInt(subProjData, offset);*/
          offset += 4;
          
          int itemCountOffset = MPPUtility.getInt(subProjData, offset);
@@ -384,11 +383,9 @@ final class MPP9File implements MPPReader
     * 
     * @param file parent file
     * @param projectDir project directory
-    * @throws IOException
-    * @throws MPXException
     */
    private void processViewPropertyData (MPPFile file,  DirectoryEntry projectDir)
-      throws IOException, MPXException
+      throws IOException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
       byte[] data = props.getByteArray(Props.FONT_BASES);
@@ -412,13 +409,12 @@ final class MPP9File implements MPPReader
       int blockCount = MPPUtility.getShort(data, 0);
       offset +=2;
       
-      int unknownAttribute;
       int size;
       String name;
 
       for (int loop=0; loop < blockCount; loop++)
       {
-         unknownAttribute = MPPUtility.getShort(data, offset);
+         /*unknownAttribute = MPPUtility.getShort(data, offset);*/
          offset += 2;
 
          size = MPPUtility.getShort(data, offset);
@@ -920,16 +916,12 @@ final class MPP9File implements MPPReader
    {
       int offset;
       MPXCalendarHours hours;
-      MPXCalendarException exception;
-      String name;
-
       int periodCount;
       int periodIndex;
       int index;
       int defaultFlag;
       Date start;
       long duration;
-      int exceptionCount;
       Day day;
       
       //
@@ -1624,7 +1616,6 @@ final class MPP9File implements MPPReader
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
-      Integer calendarID;
       Integer offset;
       byte[] data;
       byte[] metaData;
@@ -1967,7 +1958,7 @@ final class MPP9File implements MPPReader
          int offset = 44;
          for (int loop=0; loop < splitCount; loop++)
          {
-            double splitTime = (double)MPPUtility.getInt(data, offset+24);
+            double splitTime = MPPUtility.getInt(data, offset+24);
             splitTime /= 4800;
             MPXDuration splitDuration = MPXDuration.getInstance(splitTime, TimeUnit.HOURS);
             splits.add(splitDuration);
@@ -2003,7 +1994,6 @@ final class MPP9File implements MPPReader
       Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
       FixedData ff = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       int items = ff.getItemCount();
-      byte[] data;
       View view;
       ViewFactory factory = new DefaultViewFactory ();
       
@@ -2070,7 +2060,7 @@ final class MPP9File implements MPPReader
 
          for (int loop=0; loop < columnCount; loop++)
          {
-            column = new Column (table);
+            column = new Column ();
 
             if (table.getResourceFlag() == false)
             {

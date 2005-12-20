@@ -36,16 +36,6 @@ import java.util.Locale;
 public final class Column
 {
    /**
-    * Constructor.
-    *
-    * @param parent table to which this column belongs
-    */
-   public Column (Table parent)
-   {
-      m_parent = parent;
-   }
-
-   /**
     * Retrieves a value representing the alignment of data displayed in
     * the column.
     *
@@ -244,7 +234,6 @@ public final class Column
    public static final int ALIGN_RIGHT = 3;
 
 
-   private Table m_parent;
    private FieldType m_fieldType;
    private int m_width;
    private int m_alignTitle;

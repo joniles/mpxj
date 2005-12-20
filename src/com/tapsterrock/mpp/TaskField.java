@@ -828,7 +828,7 @@ public final class TaskField implements FieldType
       FIELD_ARRAY[WBS_PREDECESSORS_VALUE] = WBS_PREDECESSORS;
       FIELD_ARRAY[WBS_SUCCESSORS_VALUE] = WBS_SUCCESSORS;
       FIELD_ARRAY[RESOURCE_TYPE_VALUE] = RESOURCE_TYPE;      
-   };
+   }
    
    private int m_value;
 }

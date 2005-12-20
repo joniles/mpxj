@@ -58,7 +58,7 @@ final class Props9 extends Props
       {
          int attrib1 = readInt(is);
          int attrib2 = readInt(is);
-         int attrib3 = readInt(is);
+         /*int attrib3 = */readInt(is);
          availableBytes -= 12;
 
          if (availableBytes < attrib1 || attrib1 < 1)

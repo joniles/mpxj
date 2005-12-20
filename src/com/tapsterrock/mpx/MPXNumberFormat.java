@@ -39,7 +39,7 @@ final class MPXNumberFormat extends DecimalFormat
     */
    MPXNumberFormat ()
    {
-
+      // package private constructor to prevent external instantiation
    }
 
    /**
@@ -103,8 +103,6 @@ final class MPXNumberFormat extends DecimalFormat
             m_alternativeFormats[loop].applyPattern(alternativePatterns[loop]);
          }
       }
-
-      m_primaryPattern = primaryPattern;
    }
 
    /**
@@ -161,5 +159,4 @@ final class MPXNumberFormat extends DecimalFormat
     */
    private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols ();
    private DecimalFormat[] m_alternativeFormats;
-   private String m_primaryPattern = "";
 }

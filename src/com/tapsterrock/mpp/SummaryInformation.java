@@ -242,5 +242,5 @@ final class SummaryInformation
    private static final Integer CATEGORY = new Integer (102);
    private static final Integer MANAGER = new Integer (114);
    private static final Integer COMPANY = new Integer (115);   
-   private static final Integer CODEPAGE = new Integer (201);      
+   //private static final Integer CODEPAGE = new Integer (201);      
 }
