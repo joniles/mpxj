@@ -39,7 +39,7 @@ public final class FileCreationRecord extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   FileCreationRecord (MPXFile file)
+   FileCreationRecord (ProjectFile file)
    {
       super(file, 0);
 
@@ -173,7 +173,7 @@ public final class FileCreationRecord extends MPXRecord
       buffer.append(m_fileVersion);
       buffer.append(delimiter);
       buffer.append(m_codePage);
-      buffer.append(MPXFile.EOL);
+      buffer.append(ProjectFile.EOL);
 
       return (buffer.toString());
    }

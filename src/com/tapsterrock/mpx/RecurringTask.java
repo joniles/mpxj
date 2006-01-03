@@ -37,7 +37,7 @@ public final class RecurringTask extends MPXRecord
     * @param file the parent file to which this record belongs.
     * @throws MPXException normally thrown when parsing fails
     */
-   RecurringTask (MPXFile file)
+   RecurringTask (ProjectFile file)
       throws MPXException
    {
       this (file, Record.EMPTY_RECORD);
@@ -51,7 +51,7 @@ public final class RecurringTask extends MPXRecord
     * @param record Record containing the data for this object.
     * @throws MPXException normally thrown when parsing fails
     */
-   RecurringTask (MPXFile file, Record record)
+   RecurringTask (ProjectFile file, Record record)
       throws MPXException
    {
       super (file, MAX_FIELDS);

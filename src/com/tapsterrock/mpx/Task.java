@@ -42,7 +42,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * @param file Parent file to which this record belongs.
     * @param parent Parent task
     */
-   Task (MPXFile file, Task parent)
+   Task (ProjectFile file, Task parent)
    {
       super(file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
 
@@ -84,7 +84,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * @param record record from MPX file
     * @throws MPXException normally thrown for paring errors
     */
-   Task (MPXFile file, Record record)
+   Task (ProjectFile file, Record record)
       throws MPXException
    {
       super(file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
@@ -440,7 +440,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public Task addTask ()
    {
-      MPXFile parent = getParentFile();
+      ProjectFile parent = getParentFile();
 
       Task task = new Task(parent, this);
 
@@ -476,7 +476,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       {
          if (m_children.isEmpty() == false)
          {
-            ((Task)m_children.getLast()).addChildTask(child, childOutlineLevel);
+            ((Task)m_children.get(m_children.size()-1)).addChildTask(child, childOutlineLevel);
          }
       }
    }
@@ -643,7 +643,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return list of resource assignments
     */
-   public LinkedList getResourceAssignments ()
+   public List getResourceAssignments ()
    {
       return (m_assignments);
    }
@@ -1812,7 +1812,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setID (Integer val)
    {
-      MPXFile parent = getParentFile();
+      ProjectFile parent = getParentFile();
       Integer previous = getID();
 
       if (previous != null)
@@ -2496,7 +2496,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setUniqueID (Integer val)
    {
-      MPXFile parent = getParentFile();
+      ProjectFile parent = getParentFile();
       Integer previous = getUniqueID();
 
       if (previous != null)
@@ -4476,7 +4476,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return child tasks
     */
-   public LinkedList getChildTasks ()
+   public List getChildTasks ()
    {
       return (m_children);
    }
@@ -4680,26 +4680,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    public void setOverAllocated (boolean overAllocated)
    {
       m_overAllocated = overAllocated;
-   }
-
-   /**
-    * Retrieve the subproject flag.
-    *
-    * @return subproject flag
-    */
-   public boolean getSubproject ()
-   {
-      return (m_subproject);
-   }
-
-   /**
-    * Set the subproject flag.
-    *
-    * @param subproject subproject flag
-    */
-   public void setSubproject (boolean subproject)
-   {
-      m_subproject = subproject;
    }
 
    /**
@@ -7323,6 +7303,26 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
    
    /**
+    * Retrieve the sub project represented by this task.
+    * 
+    * @return sub project
+    */
+   public SubProject getSubProject ()
+   {
+      return (m_subProject);
+   }
+   
+   /**
+    * Set the sub project represented by this task.
+    * 
+    * @param subProject sub project
+    */
+   public void setSubProject (SubProject subProject)
+   {
+      m_subProject = subProject;
+   }
+   
+   /**
     * This is a reference to the parent task, as specified by the
     * outline level.
     */
@@ -7332,7 +7332,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private LinkedList m_children = new LinkedList();
+   private List m_children = new LinkedList();
 
    /**
     * Reference to the task model controlling which fields from the task
@@ -7343,7 +7343,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    /**
     * List of resource assignments for this task.
     */
-   private LinkedList m_assignments = new LinkedList();
+   private List m_assignments = new LinkedList();
 
    /**
     * Task notes associated with this task.
@@ -7389,7 +7389,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private boolean m_resumeValid;
    private boolean m_recurring;
    private boolean m_overAllocated;
-   private boolean m_subproject;
    private boolean m_subprojectReadOnly;
    private Integer m_subprojectTaskUniqueID;
    private boolean m_externalTask;
@@ -7404,6 +7403,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private MPXDuration m_regularWork;
    private boolean m_expanded = true;
    private List m_splits;
+   private SubProject m_subProject;
    
    /**
     * The % Complete field contains the current status of a task, expressed as 

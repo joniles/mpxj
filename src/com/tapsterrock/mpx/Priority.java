@@ -123,7 +123,7 @@ public final class Priority implements ToStringRequiresFile
     * @param mpx parent mpx file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString (MPXFile mpx)
+   public String toString (ProjectFile mpx)
    {
       String[] priorityTypes = LocaleData.getStringArray(mpx.getLocale(), LocaleData.PRIORITY_TYPES);
       int priority = m_value;

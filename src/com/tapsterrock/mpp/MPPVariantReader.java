@@ -1,8 +1,8 @@
 /*
- * file:       ViewFactory.java
+ * file:       MPPVariantReader.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Apr 7, 2005
+ * date:       Dec 5, 2005
  */
  
 /*
@@ -24,27 +24,25 @@
 package com.tapsterrock.mpp;
 
 import java.io.IOException;
-import java.util.Map;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+
+import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.ProjectFile;
-import com.tapsterrock.mpx.View;
 
 /**
- * This interface is implemented by classes which can create View classes
- * from the data extracted from an MS Project file.
+ * This interface is implemented by classes which understand how
+ * to read one of the MPP file formats.
  */
-interface ViewFactory
+interface MPPVariantReader
 {
    /**
-    * This method is called to create a view.
-    * 
-    * @param file parent MPP file
-    * @param fixedData view fixed data
-    * @param varData view var data
-    * @param fontBases map of font bases
-    * @return View instance
-    * @throws IOException
-    */
-   public View createView (ProjectFile file, byte[] fixedData, Var2Data varData, Map fontBases)
-      throws IOException;
+    * Reads an MPP file an populates the file data structure.
+    *
+    * @param reader parent file reader
+    * @param file data structure to be populated
+    * @param root Root of the POI file system.
+    */   
+   public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
+      throws MPXException, IOException;
 }

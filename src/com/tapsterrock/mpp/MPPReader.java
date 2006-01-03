@@ -2,7 +2,7 @@
  * file:       MPPReader.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Dec 5, 2005
+ * date:       Dec 21, 2005
  */
  
 /*
@@ -24,23 +24,143 @@
 package com.tapsterrock.mpp;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+import com.tapsterrock.mpx.AbstractProjectReader;
 import com.tapsterrock.mpx.MPXException;
+import com.tapsterrock.mpx.ProjectFile;
+import com.tapsterrock.mpx.Task;
 
 /**
- * This interface is implemented by classes which understand how
- * to read one of the MPP file formats.
+ * This class creates a new MPXFile instance by reading an MPP file.
  */
-public interface MPPReader
+public final class MPPReader extends AbstractProjectReader
 {
    /**
-    * Reads an MPP file an populates the file data structure.
+    * {@inheritDoc}
+    */
+   public ProjectFile read (InputStream is)
+      throws MPXException
+   {
+      try
+      {
+         ProjectFile projectFile = new ProjectFile();
+         
+         //
+         // Open the file system and retrieve the root directory
+         //
+         POIFSFileSystem fs = new POIFSFileSystem (is);
+         DirectoryEntry root = fs.getRoot ();
+   
+         //
+         // Retrieve the CompObj data, validate the file format and process
+         //
+         CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
+         String format = compObj.getFileFormat();
+         Class readerClass = (Class)FILE_CLASS_MAP.get(format);
+         if (readerClass == null)
+         {
+            throw new MPXException (MPXException.INVALID_FILE + ": " + format);            
+         }         
+         MPPVariantReader reader = (MPPVariantReader)readerClass.newInstance();
+         reader.process (this, projectFile, root);
+   
+         //
+         // Update the internal structure. We'll take this opportunity to
+         // generate outline numbers for the tasks as they don't appear to
+         // be present in the MPP file.
+         //
+         projectFile.setAutoOutlineNumber(true);
+         projectFile.updateStructure ();
+         projectFile.setAutoOutlineNumber(false);
+   
+         //
+         // Perform post-processing to set the summary flag
+         //
+         List tasks = projectFile.getAllTasks();
+         Iterator iter = tasks.iterator();
+         Task task;
+   
+         while (iter.hasNext() == true)
+         {
+            task = (Task)iter.next();
+            task.setSummary(task.getChildTasks().size() != 0);
+         }
+   
+         //
+         // Ensure that the unique ID counters are correct
+         //
+         projectFile.updateUniqueCounters();
+         
+         return (projectFile);
+      }
+   
+      catch (IOException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);
+      }
+      
+      catch (IllegalAccessException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);         
+      }
+      
+      catch (InstantiationException ex)
+      {
+         throw new MPXException (MPXException.READ_ERROR, ex);         
+      }
+   }
+
+   /**
+    * This method retrieves the state of the preserve note formatting flag.
     *
-    * @param file data structure to be populated
-    * @param root Root of the POI file system.
-    */   
-   public void process (MPPFile file, DirectoryEntry root)
-      throws MPXException, IOException;
+    * @return boolean flag
+    */
+   public boolean getPreserveNoteFormatting()
+   {
+      return (m_preserveNoteFormatting);
+   }
+   
+   /**
+    * This method sets a flag to indicate whether the RTF formatting associated
+    * with notes should be preserved or removed. By default the formatting
+    * is removed.
+    *
+    * @param preserveNoteFormatting boolean flag
+    */
+   public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
+   {
+      m_preserveNoteFormatting = preserveNoteFormatting;
+   }
+     
+      
+   /**
+    * Flag used to indicate whether RTF formatting in notes should
+    * be preserved. The default value for this flag is false.
+    */
+   private boolean m_preserveNoteFormatting;
+   
+   
+   /**
+    * Populate a map of file types and file processing classes.
+    */
+   private static final Map FILE_CLASS_MAP = new HashMap ();
+   static
+   {
+      FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);
+      FILE_CLASS_MAP.put("MSProject.MPT9", MPP9Reader.class);
+      FILE_CLASS_MAP.put("MSProject.MPP8", MPP8Reader.class);
+      FILE_CLASS_MAP.put("MSProject.MPT8", MPP8Reader.class);      
+      FILE_CLASS_MAP.put("MSProject.MPP12", MPP12Reader.class);
+      FILE_CLASS_MAP.put("MSProject.MPT12", MPP12Reader.class);      
+   }
 }

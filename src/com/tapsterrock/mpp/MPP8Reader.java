@@ -1,5 +1,5 @@
 /*
- * file:       MPP8File.java
+ * file:       MPP8Reader.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       08/05/2003
@@ -38,6 +38,7 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
+import com.tapsterrock.mpx.Column;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.DateRange;
 import com.tapsterrock.mpx.Day;
@@ -46,6 +47,7 @@ import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.Pair;
@@ -56,9 +58,11 @@ import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.ScheduleFrom;
+import com.tapsterrock.mpx.Table;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
+import com.tapsterrock.mpx.View;
 
 /**
  * This class is used to represent a Microsoft Project MPP8 file. This
@@ -66,24 +70,27 @@ import com.tapsterrock.mpx.TimeUnit;
  * exported as a set of MPX objects. These objects can be interrogated
  * to retrieve any required data, or stored as an MPX file.
  */
-final class MPP8File implements MPPReader
+final class MPP8Reader implements MPPVariantReader
 {
    /**
     * This method is used to process an MPP8 file. This is the file format
     * used by Project 98.
     *
+    * @param reader parent file reader
     * @param file Parent MPX file
     * @param root Root of the POI file system.
     * @throws MPXException
     * @throws IOException
     */
-   public void process (MPPFile file, DirectoryEntry root)
+   public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
       throws MPXException, IOException
    {
+      m_reader = reader;
+      
       //
       // Set the file type
       //
-      file.setFileType(8);
+      file.setMppFileType(8);
       
       HashMap calendarMap = new HashMap ();
 
@@ -118,7 +125,7 @@ final class MPP8File implements MPPReader
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processPropertyData (MPPFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
+   private void processPropertyData (ProjectFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -168,7 +175,7 @@ final class MPP8File implements MPPReader
     * @throws MPXException
     * @throws IOException
     */
-   private void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap calendarMap)
+   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -250,7 +257,7 @@ final class MPP8File implements MPPReader
          {
             if (baseCalendarID > 0)
             {
-               cal = file.mppAddDefaultResourceCalendar ();
+               cal = file.getDefaultResourceCalendar ();
                baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
             }
             else
@@ -263,7 +270,7 @@ final class MPP8File implements MPPReader
          {
             if (baseCalendarID > 0)
             {
-               cal = file.mppAddResourceCalendar ();
+               cal = file.getResourceCalendar ();
                baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
             }
             else
@@ -409,7 +416,7 @@ final class MPP8File implements MPPReader
     * @throws MPXException
     * @throws IOException
     */
-   private void processTaskData (MPPFile file,  DirectoryEntry projectDir)
+   private void processTaskData (ProjectFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
@@ -717,7 +724,7 @@ final class MPP8File implements MPPReader
          notes = taskExtData.getString (TASK_NOTES);
          if (notes != null)
          {
-            if (file.getPreserveNoteFormatting() == false)
+            if (m_reader.getPreserveNoteFormatting() == false)
             {
                notes = rtf.strip (notes);
             }
@@ -784,7 +791,7 @@ final class MPP8File implements MPPReader
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processConstraintData (MPPFile file, DirectoryEntry projectDir)
+   private void processConstraintData (ProjectFile file, DirectoryEntry projectDir)
       throws IOException
    {
       //
@@ -856,7 +863,7 @@ final class MPP8File implements MPPReader
     * @throws MPXException
     * @throws IOException
     */
-   private void processResourceData (MPPFile file, DirectoryEntry projectDir, HashMap calendarMap)
+   private void processResourceData (ProjectFile file, DirectoryEntry projectDir, HashMap calendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -1056,15 +1063,15 @@ final class MPP8File implements MPPReader
          // Attach the resource calendar
          //
          calendar = (MPXCalendar)calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
-         file.mppAttachResourceCalendar(resource, calendar);
-
+         resource.setResourceCalendar(calendar);
+         
          //
          // Retrieve the resource notes.
          //
          notes = rscExtData.getString (RESOURCE_NOTES);
          if (notes != null)
          {
-            if (file.getPreserveNoteFormatting() == false)
+            if (m_reader.getPreserveNoteFormatting() == false)
             {
                notes = rtf.strip(notes);
             }
@@ -1101,7 +1108,7 @@ final class MPP8File implements MPPReader
     * @throws MPXException
     * @throws IOException
     */
-   private void processAssignmentData (MPPFile file, DirectoryEntry projectDir)
+   private void processAssignmentData (ProjectFile file, DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
@@ -1178,7 +1185,7 @@ final class MPP8File implements MPPReader
     * @param assnFixedData Task assignment fixed data
     * @return boolean flag
     */
-   private boolean testAssignmentTasks (MPPFile file, FixFix assnFixedData)
+   private boolean testAssignmentTasks (ProjectFile file, FixFix assnFixedData)
    {
       boolean result = true;
       int count = assnFixedData.getItemCount();
@@ -1209,7 +1216,7 @@ final class MPP8File implements MPPReader
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processViewData (MPPFile file, DirectoryEntry projectDir)
+   private void processViewData (ProjectFile file, DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
@@ -1233,7 +1240,7 @@ final class MPP8File implements MPPReader
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processTableData (MPPFile file, DirectoryEntry projectDir)
+   private void processTableData (ProjectFile file, DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
@@ -1277,7 +1284,7 @@ final class MPP8File implements MPPReader
             }
          }
 
-         table.setName(name);
+         table.setName(MPPUtility.removeAmpersands(name));
          file.addTable(table);
 
          extendedData = fdf.getByteArray(getOffset(data, 122));
@@ -1436,6 +1443,8 @@ final class MPP8File implements MPPReader
 //     {162, 42}
 //   };
 
+   private MPPReader m_reader;
+   
    /**
     * Task data types.
     */

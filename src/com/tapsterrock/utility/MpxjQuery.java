@@ -28,15 +28,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tapsterrock.mpp.MPPFile;
+import com.tapsterrock.mpp.MPPReader;
 import com.tapsterrock.mpx.MPXDuration;
-import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.ProjectFile;
+import com.tapsterrock.mpx.MPXReader;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
-import com.tapsterrock.mspdi.MSPDIFile;
+import com.tapsterrock.mspdi.MSPDIReader;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic 
@@ -79,11 +80,11 @@ public class MpxjQuery
    private static void query (String filename)
       throws Exception
    {
-      MPXFile mpx = null;
+      ProjectFile mpx = null;
 
       try
       {
-         mpx = new MPXFile (filename);
+         mpx = new MPXReader().read (filename);
       }
 
       catch (Exception ex)
@@ -95,7 +96,7 @@ public class MpxjQuery
       {
          try
          {
-            mpx = new MPPFile (filename);
+            mpx = new MPPReader().read (filename);
          }
 
          catch (Exception ex)
@@ -108,7 +109,7 @@ public class MpxjQuery
       {
          try
          {
-            mpx = new MSPDIFile (filename);
+            mpx = new MSPDIReader().read (filename);
          }
 
          catch (Exception ex)
@@ -148,7 +149,7 @@ public class MpxjQuery
     * 
     * @param file MPX file
     */
-   private static void listProjectHeader (MPXFile file)
+   private static void listProjectHeader (ProjectFile file)
    {
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");      
       ProjectHeader header = file.getProjectHeader();
@@ -166,7 +167,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listResources (MPXFile file)
+   private static void listResources (ProjectFile file)
    {
       List allResources = file.getAllResources();
       Iterator iter = allResources.iterator();
@@ -186,7 +187,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listTasks (MPXFile file)
+   private static void listTasks (ProjectFile file)
    {
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");
       List allTasks = file.getAllTasks();
@@ -244,7 +245,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listHierarchy (MPXFile file)
+   private static void listHierarchy (ProjectFile file)
    {
       List tasks = file.getChildTasks();
       Iterator iter = tasks.iterator();
@@ -285,7 +286,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listAssignments (MPXFile file)
+   private static void listAssignments (ProjectFile file)
    {
       List allAssignments = file.getAllResourceAssignments();
       Iterator iter = allAssignments.iterator();
@@ -331,7 +332,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listAssignmentsByTask (MPXFile file)
+   private static void listAssignmentsByTask (ProjectFile file)
    {
       List tasks = file.getAllTasks();
       Iterator taskIter = tasks.iterator();
@@ -378,7 +379,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listAssignmentsByResource (MPXFile file)
+   private static void listAssignmentsByResource (ProjectFile file)
    {
       List resources = file.getAllResources();
       Iterator taskIter = resources.iterator();
@@ -412,7 +413,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listTaskNotes (MPXFile file)
+   private static void listTaskNotes (ProjectFile file)
    {
       List tasks = file.getAllTasks();
       Iterator taskIter = tasks.iterator();
@@ -436,7 +437,7 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listResourceNotes (MPXFile file)
+   private static void listResourceNotes (ProjectFile file)
    {
       List resources = file.getAllResources();
       Iterator resourceIter = resources.iterator();
@@ -461,7 +462,7 @@ public class MpxjQuery
     * 
     * @param file MPX file
     */
-   private static void listPredecessors (MPXFile file)
+   private static void listPredecessors (ProjectFile file)
    {
       List tasks = file.getAllTasks();
       Iterator iter = tasks.iterator();

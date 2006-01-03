@@ -40,7 +40,7 @@ final class ResourceModel extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   ResourceModel (MPXFile file)
+   ResourceModel (ProjectFile file)
    {
       super (file, 0);
       setLocale(file.getLocale());
@@ -134,8 +134,8 @@ final class ResourceModel extends MPXRecord
          numeric.append (number);
       }
 
-      textual.append (MPXFile.EOL);
-      numeric.append (MPXFile.EOL);
+      textual.append (ProjectFile.EOL);
+      numeric.append (ProjectFile.EOL);
 
       textual.append (numeric.toString());
 

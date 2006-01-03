@@ -51,7 +51,7 @@ final class Record
     * @param tk tokenizer providing the input stream of tokens
     * @throws MPXException normally thrown when parsing fails
     */
-   Record (MPXFile parent, Tokenizer tk)
+   Record (ProjectFile parent, Tokenizer tk)
       throws MPXException
    {
       try
@@ -631,7 +631,7 @@ final class Record
    /**
     * Reference to the parent file.
     */
-   private MPXFile m_parent;
+   private ProjectFile m_parent;
 
    /**
     * Current record number.

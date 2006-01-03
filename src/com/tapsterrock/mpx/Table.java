@@ -21,12 +21,13 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package com.tapsterrock.mpp;
+package com.tapsterrock.mpx;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 
 
 /**
@@ -82,7 +83,7 @@ public final class Table
     */
    public void setName (String name)
    {
-      m_name = MPPUtility.removeAmpersands(name);
+      m_name = name;
    }
 
    /**

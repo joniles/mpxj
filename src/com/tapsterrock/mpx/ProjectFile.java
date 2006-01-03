@@ -1,8 +1,7 @@
 /*
- * file:       MPXFile.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * file:       ProjectFile.java
+ * author:     Jon Iles
+ * copyright:  (c) Tapster Rock Limited 2002-2006
  * date:       15/08/2002
  */
 
@@ -24,18 +23,9 @@
 
 package com.tapsterrock.mpx;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,153 +33,29 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 
 
 /**
- * This class encapsulates all functionality relating to creating, read
- * and writing MPX files and their constituent records.
- *
- * TODO Ensure that the underlying lists are returned unmodifyable
+ * This class represents a project plan.
  */
-public class MPXFile
+public class ProjectFile
 {
    /**
     * Default constructor.
-    */
-   public MPXFile ()
-   {
-      configure();
-   }
-
-   /**
-    * Copy constructor. WARNING: this provides a shallow copy only.
-    *
-    * @param file File to be copied
-    */
-   public MPXFile (MPXFile file)
-   {
-      copy (file);
-   }
-
-   /**
-    * Performs a shallow copy of the contents of a project file.
     * 
-    * @param file source project file
-    */
-   public void copy (MPXFile file)
-   {
-      m_allResourceAssignments = file.m_allResourceAssignments;
-      m_allResources = file.m_allResources;
-      m_allTasks = file.m_allTasks;
-      m_autoOutlineLevel = file.m_autoOutlineLevel;
-      m_autoOutlineNumber = file.m_autoOutlineNumber;
-      m_autoResourceID = file.m_autoResourceID;
-      m_autoResourceUniqueID = file.m_autoResourceUniqueID;
-      m_autoTaskID = file.m_autoTaskID;
-      m_autoTaskUniqueID = file.m_autoTaskUniqueID;
-      m_autoCalendarUniqueID = file.m_autoCalendarUniqueID;
-      m_autoWBS = file.m_autoWBS;
-      m_baseCalendars = file.m_baseCalendars;
-      m_resourceCalendars = file.m_resourceCalendars;
-      m_baseOutlineLevel = file.m_baseOutlineLevel;
-      m_childTasks = file.m_childTasks;
-      m_currencyFormat = file.m_currencyFormat;
-      m_dateTimeFormat = file.m_dateTimeFormat;
-      m_dateFormat = file.m_dateFormat;
-      m_ddeOleClientLinks = file.m_ddeOleClientLinks;
-      m_delimiter = file.m_delimiter;
-      m_fileCreationRecord = file.m_fileCreationRecord;
-      m_lastBaseCalendar = file.m_lastBaseCalendar;
-      m_lastResource = file.m_lastResource;
-      m_lastResourceAssignment = file.m_lastResourceAssignment;
-      m_lastResourceCalendar = file.m_lastResourceCalendar;
-      m_lastTask = file.m_lastTask;
-      m_projectHeader = file.m_projectHeader;
-      m_projectNames = file.m_projectNames;
-      m_records = file.m_records;
-      m_resourceID = file.m_resourceID;
-      m_resourceModel = file.m_resourceModel;
-      m_resourceTableDefinition = file.m_resourceTableDefinition;
-      m_resourceUniqueID = file.m_resourceUniqueID;
-      m_taskID = file.m_taskID;
-      m_taskModel = file.m_taskModel;
-      m_taskTableDefinition = file.m_taskTableDefinition;
-      m_taskUniqueID = file.m_taskUniqueID;
-      m_calendarUniqueID = file.m_calendarUniqueID;
-      m_timeFormat = file.m_timeFormat;
-      m_locale = file.m_locale;
-      m_taskFieldAlias = file.m_taskFieldAlias;
-      m_aliasTaskField = file.m_aliasTaskField;
-      m_resourceFieldAlias = file.m_resourceFieldAlias;
-      m_aliasResourceField = file.m_aliasResourceField;
-      m_taskUniqueIDMap = file.m_taskUniqueIDMap;
-      m_taskIDMap = file.m_taskIDMap;
-      m_resourceUniqueIDMap = file.m_resourceUniqueIDMap;
-      m_resourceIDMap = file.m_resourceIDMap;
-      m_zeroCurrency = file.m_zeroCurrency;      
-   }
-   
-   /**
-    * This constructor is the primary mechanism for reading an
-    * existing MPX file.
-    *
-    * @param stream input stream
-    * @throws MPXException if construction fails
-    */
-   public MPXFile (InputStream stream)
-      throws MPXException
-   {
-      configure();
-      read(stream);
-   }
-
-   /**
-    * This constructor is provided as a convenience to allow a source
-    * file path to be specified from which the contents of the MPX file
-    * are read.
-    *
-    * @param path path of input file
-    * @throws MPXException if construction fails
-    */
-   public MPXFile (String path)
-      throws MPXException
-   {
-      configure();
-      read(new File(path));
-   }
-
-   /**
-    * This constructor is provided as a convenience to allow a source
-    * file to be specified from which the contents of the MPX file
-    * are read.
-    *
-    * @param file input file object
-    * @throws MPXException if construction fails
-    */
-   public MPXFile (File file)
-      throws MPXException
-   {
-      configure();
-      read(file);
-   }
-
-   /**
-    * This method configures the basic MPX file.
     * Note that we force the locale of the file to be English, ignoring
     * the system default locale value. We do this as the vast majority of
     * MPX file users will have international versions of MS Project,
     * not localised ones. Users of localised MPX file versions must call
     * the setLocale method explicitly.
     */
-   protected void configure ()
+   public ProjectFile ()
    {
       setLocale(Locale.ENGLISH);
-      m_records.add(m_fileCreationRecord);
-      // Note that this needs to be moved so that it
-      // follows the last calendar definition.
-      m_records.add(m_projectHeader);
    }
-
+   
    /**
     * Accessor method to retrieve the current file delimiter character.
     *
@@ -210,109 +76,6 @@ public class MPXFile
       m_delimiter = delimiter;
    }
 
-   /**
-    * Underlying method used to read an MPX file from an input stream.
-    *
-    * @param is input stream
-    * @throws MPXException if file read fails
-    */
-   public void read (InputStream is)
-      throws MPXException
-   {
-      int line = 1;
-
-      try
-      {
-         //
-         // Test the header and extract the separator. If this is successful,
-         // we reset the stream back as far as we can. The design of the
-         // BufferedInputStream class means that we can't get back to character
-         // zero, so the first record we will read will get "PX" rather than
-         // "MPX" in the first field position.
-         //
-         BufferedInputStream bis = new BufferedInputStream(is);
-         byte[] data = new byte[4];
-         data[0] = (byte)bis.read();
-         bis.mark(1024);
-         data[1] = (byte)bis.read();
-         data[2] = (byte)bis.read();
-         data[3] = (byte)bis.read();
-
-         if ((data[0] != 'M') || (data[1] != 'P') || (data[2] != 'X'))
-         {
-            throw new MPXException(MPXException.INVALID_FILE);
-         }
-
-         setDelimiter((char)data[3]);
-
-         bis.reset();
-
-         //
-         // Read the file creation record. At this point we are reading
-         // directly from an input stream so no character set decoding is
-         // taking place. We assume that any text in this record will not
-         // require decoding.
-         //
-         Tokenizer tk = new InputStreamTokenizer(bis);
-         tk.setDelimiter(m_delimiter);
-
-         Record record;
-         String number;
-
-         //
-         // Add the header record
-         //
-         add(Integer.toString(FileCreationRecord.RECORD_NUMBER), new Record(this, tk));
-         ++line;
-
-         //
-         // Now process the remainder of the file in full. As we have read the
-         // file creation record we have access to the field which specifies the
-         // codepage used to encode the character set in this file. We set up
-         // an input stream reader using the appropriate character set, and
-         // create a new tokenizer to read from this Reader instance.
-         //
-         InputStreamReader reader = new InputStreamReader(bis, getFileCreationRecord().getCodePage().getCharset());
-         tk = new ReaderTokenizer(reader);
-         tk.setDelimiter(m_delimiter);
-
-         //
-         // Read the remainder of the records
-         //
-         while (tk.getType() != Tokenizer.TT_EOF)
-         {
-            record = new Record(this, tk);
-            number = record.getRecordNumber();
-
-            if (number != null)
-            {
-               add(number, record);
-            }
-            
-            ++line;
-         }
-
-         //
-         // Ensure that all tasks and resources have valid Unique IDs
-         //
-         updateUniqueIdentifiers();
-         
-         //
-         // Ensure that the structure is consistent
-         //
-         updateStructure();
-         
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         updateUniqueCounters();
-      }
-
-      catch (Exception ex)
-      {
-         throw new MPXException(MPXException.READ_ERROR + " (failed at line " + line + ")", ex);
-      }
-   }
 
    /**
     * This method post-processes tasks and resources read from an MPX
@@ -320,7 +83,7 @@ public class MPXFile
     * designed to cope with poorly formed MPX files where tasks and resources
     * have ID values, but not unique ID values.
     */
-   private void updateUniqueIdentifiers ()
+   void updateUniqueIdentifiers ()
    {
       Iterator iter = m_allTasks.iterator();
       Task task;
@@ -346,52 +109,6 @@ public class MPXFile
    }
    
    /**
-    * This is a convenience method to read an MPX file
-    * given a file name.
-    *
-    * @param file the file to be read.
-    * @throws MPXException thrown if a file read error occurs
-    */
-   public void read (String file)
-      throws MPXException
-   {
-      try
-      {
-         FileInputStream fis = new FileInputStream(file);
-         read(fis);
-         fis.close();
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXException(MPXException.READ_ERROR, ex);
-      }
-   }
-
-   /**
-    * This is a convenience method to read an MPX file
-    * from a file object.
-    *
-    * @param file the file to be read.
-    * @throws MPXException thrown if a file read error occurs
-    */
-   public void read (File file)
-      throws MPXException
-   {
-      try
-      {
-         FileInputStream fis = new FileInputStream(file);
-         read(fis);
-         fis.close();
-      }
-
-      catch (IOException ex)
-      {
-         throw new MPXException(MPXException.READ_ERROR, ex);
-      }
-   }
-
-   /**
     * This is a convenience method provided to allow an empty record
     * of a specified type to be added to the file.
     *
@@ -414,7 +131,7 @@ public class MPXFile
     * @return new object representing record from MPX file
     * @throws MPXException normally thrown on parsing errors
     */
-   private MPXRecord add (String recordNumber, Record record)
+   MPXRecord add (String recordNumber, Record record)
       throws MPXException
    {
       MPXRecord current = null;
@@ -423,8 +140,7 @@ public class MPXFile
       {
          case Comments.RECORD_NUMBER:
          {
-            current = new Comments(this, record);
-            m_records.add(current);
+            // silently ignored
             break;
          }
 
@@ -453,7 +169,6 @@ public class MPXFile
          {
             m_lastBaseCalendar = new MPXCalendar(this, record, true);
             current = m_lastBaseCalendar;
-            m_records.add(current);
             m_baseCalendars.add(current);
             break;
          }
@@ -513,7 +228,6 @@ public class MPXFile
          {
             m_lastResource = new Resource(this, record);
             current = m_lastResource;
-            m_records.add(current);
             m_allResources.add(current);
             if (record != Record.EMPTY_RECORD)
             {
@@ -591,7 +305,6 @@ public class MPXFile
          {
             m_lastTask = new Task(this, record);
             current = m_lastTask;
-            m_records.add(current);
             m_allTasks.add(current);
 
             int outlineLevel = m_lastTask.getOutlineLevelValue();
@@ -612,7 +325,7 @@ public class MPXFile
                   throw new MPXException(MPXException.INVALID_OUTLINE);
                }
 
-               ((Task)m_childTasks.getLast()).addChildTask(m_lastTask, outlineLevel);
+               ((Task)m_childTasks.get(m_childTasks.size()-1)).addChildTask(m_lastTask, outlineLevel);
             }
 
             if (record != Record.EMPTY_RECORD)
@@ -666,17 +379,15 @@ public class MPXFile
 
          case ProjectNames.RECORD_NUMBER:
          {
-            current = new ProjectNames(this, record);
-            m_records.add(current);
-            ++m_projectNames;
+            //current = new ProjectNames(this, record);
+            // silently ignored
             break;
          }
 
          case DdeOleClientLinks.RECORD_NUMBER:
          {
-            current = new DdeOleClientLinks(this, record);
-            m_records.add(current);
-            m_ddeOleClientLinks++;
+            //current = new DdeOleClientLinks(this, record);
+            // silently ignored
             break;
          }
 
@@ -702,7 +413,6 @@ public class MPXFile
     */
    void addTask (Task task)
    {
-      m_records.add(task);
       m_allTasks.add(task);
    }
 
@@ -728,7 +438,6 @@ public class MPXFile
       //
       // Remove the task from the file and its parent task
       //
-      m_records.remove(task);
       m_allTasks.remove(task);
       m_taskUniqueIDMap.remove(task.getUniqueID());
       m_taskIDMap.remove(task.getID());
@@ -831,7 +540,7 @@ public class MPXFile
     *
     * @return list of tasks
     */
-   public LinkedList getChildTasks ()
+   public List getChildTasks ()
    {
       return (m_childTasks);
    }
@@ -842,7 +551,7 @@ public class MPXFile
     *
     * @return list of all tasks
     */
-   public LinkedList getAllTasks ()
+   public List getAllTasks ()
    {
       return (m_allTasks);
    }
@@ -1138,7 +847,7 @@ public class MPXFile
     *
     * @return new MPXCalendar instance
     */
-   protected MPXCalendar addResourceCalendar ()
+   public MPXCalendar getResourceCalendar ()
    {
       MPXCalendar calendar = new MPXCalendar(this, false);
       m_resourceCalendars.add(calendar);
@@ -1212,7 +921,7 @@ public class MPXFile
     *
     * @return new MPXCalendar instance
     */
-   protected MPXCalendar addDefaultResourceCalendar ()
+   public MPXCalendar getDefaultResourceCalendar ()
    {
       MPXCalendar calendar = new MPXCalendar(this, false);
 
@@ -1225,18 +934,6 @@ public class MPXFile
       calendar.setWorkingDay(Day.SATURDAY, MPXCalendar.DEFAULT);
 
       return (calendar);
-   }
-
-   /**
-    * This is a convenience method to allow a pre-existing calendar
-    * to be attached to a resource.
-    *
-    * @param resource Resource instance
-    * @param calendar MPXCalendar instance
-    */
-   protected void attachResourceCalendar (Resource resource, MPXCalendar calendar)
-   {
-      resource.setResourceCalendar(calendar);      
    }
 
    /**
@@ -1290,7 +987,6 @@ public class MPXFile
     */
    public void removeResource (Resource resource)
    {
-      m_records.remove(resource);      
       m_allResources.remove(resource);
       m_resourceUniqueIDMap.remove(resource.getUniqueID());
       m_resourceIDMap.remove(resource.getID());
@@ -1321,7 +1017,7 @@ public class MPXFile
     *
     * @return list of all resources
     */
-   public LinkedList getAllResources ()
+   public List getAllResources ()
    {
       return (m_allResources);
    }
@@ -1332,7 +1028,7 @@ public class MPXFile
     *
     * @return list of all resources
     */
-   public LinkedList getAllResourceAssignments ()
+   public List getAllResourceAssignments ()
    {
       return (m_allResourceAssignments);
    }
@@ -1369,7 +1065,7 @@ public class MPXFile
     * @return new resource assignment instance
     * @throws MPXException
     */
-   protected ResourceAssignment newResourceAssignment (Task task)
+   public ResourceAssignment newResourceAssignment (Task task)
       throws MPXException
    {
       return (new ResourceAssignment(this, task));
@@ -1458,82 +1154,6 @@ public class MPXFile
       }
 
       return (calendar);
-   }
-
-   /**
-    * This method writes each record in an MPX file to an output stream, via
-    * the specified OutputStreamWriter. By providing the OutputStreamWriter
-    * as an argument, the caller can control the character encoding used
-    * when writing the file. Note that this is not recommended, the other
-    * write methods made available with this class will use the correct
-    * encoding as specified as part of the MPX file creation record.
-    *
-    * @param w OutputStreamWriterinstance
-    * @throws IOException thrown on failure to write to the output stream
-    */
-   public void write (OutputStreamWriter w)
-      throws IOException
-   {                  
-      Iterator iter = m_records.iterator();
-
-      while (iter.hasNext())
-      {
-         w.write((iter.next()).toString());
-      }
-
-      w.flush();
-
-      //
-      // Reset the model written flags to allow them to be written again
-      //
-      m_taskModel.setWritten(false);
-      m_resourceModel.setWritten(false);
-   }
-
-   /**
-    * This method writes each record in the MPX file to an output stream.
-    *
-    * @param out destination output stream
-    * @throws IOException thrown on failure to write to the output stream
-    */
-   public void write (OutputStream out)
-      throws IOException
-   {
-      write(new OutputStreamWriter(new BufferedOutputStream(out), getFileCreationRecord().getCodePage().getCharset()));
-   }
-
-   /**
-    * This is a convenience method provided to allow the contents of the MPX
-    * file to be written to a file specified by the File object passed as
-    * a parameter.
-    *
-    * @param out destination output file
-    * @throws IOException thrown on failure to write to the file
-    */
-   public void write (File out)
-      throws IOException
-   {
-      FileOutputStream fos = new FileOutputStream(out);
-      write(fos);
-      fos.flush();
-      fos.close();
-   }
-
-   /**
-    * This is a convenience method provided to allow the contents of the MPX
-    * file to be written to a file specified by the file name passed as
-    * a parameter.
-    *
-    * @param file destination output file
-    * @throws IOException thrown on failure to write to the file
-    */
-   public void write (String file)
-      throws IOException
-   {
-      FileOutputStream fos = new FileOutputStream(file);
-      write(fos);
-      fos.flush();
-      fos.close();
    }
 
    /**
@@ -1711,7 +1331,7 @@ public class MPXFile
     * then iterates through it creating the parent-child structure defined
     * by the outline level field.
     */
-   protected void updateStructure ()
+   public void updateStructure ()
    {
       if (m_allTasks.size() > 1)
       {
@@ -1793,7 +1413,7 @@ public class MPXFile
     * read, the cached unique ID values used to generate new unique IDs 
     * start after the end of the existing set of unique IDs.
     */
-   protected void updateUniqueCounters ()
+   public void updateUniqueCounters ()
    {
       //
       // Update task unique IDs
@@ -2341,7 +1961,7 @@ public class MPXFile
     *
     * @return task field to alias map
     */
-   protected HashMap getTaskFieldAliasMap ()
+   public Map getTaskFieldAliasMap ()
    {
       return (m_taskFieldAlias);
    }
@@ -2352,7 +1972,7 @@ public class MPXFile
     *
     * @return resource field to alias map
     */
-   protected HashMap getResourceFieldAliasMap ()
+   public Map getResourceFieldAliasMap ()
    {
       return (m_resourceFieldAlias);
    }
@@ -2442,6 +2062,121 @@ public class MPXFile
    }
 
    /**
+    * This method retrieves a value representing the type of MPP file
+    * that has been read. Currently this method will return the value 8 for
+    * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
+    * Project 2002) and 12 for an MPP12 file (Project 12).
+    *
+    * @return integer representing the file type
+    */
+   public int getMppFileType()
+   {
+      return (m_mppFileType);
+   }
+
+   /**
+    * Used internally to set the file type.
+    * 
+    * @param fileType file type
+    */
+   public void setMppFileType (int fileType)
+   {
+      m_mppFileType = fileType;
+   }
+   
+   /**
+    * Package-private method used to add views to this MPP file.
+    *
+    * @param view view data
+    */
+   public void addView (View view)
+   {
+      m_views.add(view);
+   }
+
+   /**
+    * This method returns a list of the views defined in this MPP file.
+    *
+    * @return list of views
+    */
+   public List getViews ()
+   {
+      return (m_views);
+   }
+
+   /**
+    * Package-private method used to add tables to this MPP file.
+    *
+    * @param table table data
+    */
+   public void addTable (Table table)
+   {
+      m_tables.add(table);
+      if (table.getResourceFlag() == false)
+      {
+         m_taskTablesByName.put(table.getName(), table);
+      }
+      else
+      {
+         m_resourceTablesByName.put(table.getName(), table);
+      }
+   }
+
+   /**
+    * This method returns a list of the tables defined in this MPP file.
+    *
+    * @return list of tables
+    */
+   public List getTables ()
+   {
+      return (m_tables);
+   }
+
+   /**
+    * Utility method to retrieve the definition of a task table by name.
+    * This method will return null if the table name is not recognised.
+    * 
+    * @param name table name
+    * @return table instance
+    */
+   public Table getTaskTableByName (String name)
+   {
+      return ((Table)m_taskTablesByName.get(name));
+   }
+
+   /**
+    * Utility method to retrieve the definition of a resource table by name.
+    * This method will return null if the table name is not recognised.
+    * 
+    * @param name table name
+    * @return table instance
+    */
+   public Table getResourceTableByName (String name)
+   {
+      return ((Table)m_resourceTablesByName.get(name));
+   }
+   
+   /**
+    * This package-private method is used to add resource sub project details.
+    * 
+    * @param project sub project
+    */
+   public void setResourceSubProject (SubProject project)
+   {
+      m_resourceSubProject = project;
+   }
+   
+   /**
+    * Retrieves details of the sub project file used as a resource pool.
+    * 
+    * @return sub project details
+    */
+   public SubProject getResourceSubProject ()
+   {
+      return (m_resourceSubProject);
+   }
+   
+   /**
     * Constant containing the end of line characters used in MPX files.
     * Note that this constant has package level access only.
     */
@@ -2473,33 +2208,28 @@ public class MPXFile
    private int m_resourceID;
 
    /**
-    * List to maintain records in the order that they are added.
-    */
-   private LinkedList m_records = new LinkedList();
-
-   /**
     * This list holds a reference to all resources defined in the
     * MPX file.
     */
-   private LinkedList m_allResources = new LinkedList();
+   private List m_allResources = new LinkedList();
 
    /**
     * This list holds a reference to all tasks defined in the
     * MPX file.
     */
-   private LinkedList m_allTasks = new LinkedList();
+   private List m_allTasks = new LinkedList();
 
    /**
     * List holding references to the top level tasks
     * as defined by the outline level.
     */
-   private LinkedList m_childTasks = new LinkedList();
+   private List m_childTasks = new LinkedList();
 
    /**
     * This list holds a reference to all resource assignments defined in the
     * MPX file.
     */
-   private LinkedList m_allResourceAssignments = new LinkedList();
+   private List m_allResourceAssignments = new LinkedList();
 
    /**
     * List holding references to all base calendars.
@@ -2585,16 +2315,6 @@ public class MPXFile
     * Flag indicating the existence of a task model record.
     */
    private boolean m_taskTableDefinition;
-
-   /**
-    * Count of the number of project names.
-    */
-   private int m_projectNames;
-
-   /**
-    * Count of the number of dde/ole links.
-    */
-   private int m_ddeOleClientLinks;
 
    /**
     * Character to be used as delimiter throughout this file.
@@ -2684,47 +2404,78 @@ public class MPXFile
    /**
     * Maps from a task field number to a task alias.
     */
-   private HashMap m_taskFieldAlias = new HashMap();
+   private Map m_taskFieldAlias = new HashMap();
 
    /**
     * Maps from a task field alias to a task field number.
     */
-   private HashMap m_aliasTaskField = new HashMap();
+   private Map m_aliasTaskField = new HashMap();
 
    /**
     * Maps from a resource field number to a resource alias.
     */
-   private HashMap m_resourceFieldAlias = new HashMap();
+   private Map m_resourceFieldAlias = new HashMap();
 
    /**
     * Maps from a resource field alias to a resource field number.
     */
-   private HashMap m_aliasResourceField = new HashMap();
+   private Map m_aliasResourceField = new HashMap();
 
    /**
     * Maps from a task unique ID to a task instance.
     */
-   private HashMap m_taskUniqueIDMap = new HashMap();
+   private Map m_taskUniqueIDMap = new HashMap();
 
    /**
     * Maps from a task ID to a task instance.
     */
-   private HashMap m_taskIDMap = new HashMap();
+   private Map m_taskIDMap = new HashMap();
 
    /**
     * Maps from a resource unique ID to a resource instance.
     */
-   private HashMap m_resourceUniqueIDMap = new HashMap();
+   private Map m_resourceUniqueIDMap = new HashMap();
 
    /**
     * Maps from a resource ID to a resource instance.
     */
-   private HashMap m_resourceIDMap = new HashMap();
+   private Map m_resourceIDMap = new HashMap();
 
    /**
     * List of project event listeners.
     */
    private List m_projectListeners;
+   
+   /**
+    * This value is used to represent the type of MPP file that
+    * has been read.
+    */
+   private int m_mppFileType;
+   
+   /**
+    * List of views defined in this file.
+    */
+   private List m_views = new ArrayList();
+
+   /**
+    * List of tables defined in this file.
+    */
+   private List m_tables = new ArrayList();
+   
+   /**
+    * Index of task tables by name.
+    */
+   private Map m_taskTablesByName = new HashMap();
+   
+   /**
+    * Index of resource tables by name.
+    */
+   private Map m_resourceTablesByName = new HashMap();
+
+   /**
+    * Resource sub project.
+    */
+   private SubProject m_resourceSubProject;
    
    private MPXCurrency m_zeroCurrency;
 }

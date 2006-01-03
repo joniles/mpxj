@@ -138,7 +138,7 @@ public final class ConstraintType implements ToStringRequiresFile
     * @param mpx parent mpx file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString (MPXFile mpx)
+   public String toString (ProjectFile mpx)
    {
       String[] typeNames = LocaleData.getStringArray(mpx.getLocale(), LocaleData.CONSTRAINT_TYPES);
       return (typeNames[m_type]);

@@ -25,6 +25,8 @@ package com.tapsterrock.mpp;
 
 import java.util.Locale;
 
+import com.tapsterrock.mpx.FieldType;
+
 /**
  * Instances of this type represent Task fields.
  */

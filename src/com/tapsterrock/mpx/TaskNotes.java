@@ -34,7 +34,7 @@ public final class TaskNotes extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   TaskNotes (MPXFile file)
+   TaskNotes (ProjectFile file)
    {
       this (file, Record.EMPTY_RECORD);
    }
@@ -46,7 +46,7 @@ public final class TaskNotes extends MPXRecord
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
     */
-   TaskNotes (MPXFile file, Record record)
+   TaskNotes (ProjectFile file, Record record)
    {
       super(file, 0);
       m_note = record.getString(0);
@@ -124,7 +124,7 @@ public final class TaskNotes extends MPXRecord
          }
       }
 
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       return (buffer.toString());
    }

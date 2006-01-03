@@ -39,7 +39,7 @@ public final class MPXCalendarHours extends MPXRecord
     * @param parentCalendar parent calendar to which this record belongs.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarHours (MPXFile file, MPXCalendar parentCalendar)
+   MPXCalendarHours (ProjectFile file, MPXCalendar parentCalendar)
       throws MPXException
    {
       this (file, parentCalendar, Record.EMPTY_RECORD);
@@ -54,7 +54,7 @@ public final class MPXCalendarHours extends MPXRecord
     * @param record record containing the data for  this object.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarHours (MPXFile file, MPXCalendar parentCalendar, Record record)
+   MPXCalendarHours (ProjectFile file, MPXCalendar parentCalendar, Record record)
       throws MPXException
    {
       super(file, 0);
@@ -186,7 +186,7 @@ public final class MPXCalendarHours extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter, toTime(range3.getEndDate())));
       stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
       
       return (buffer.toString());
    }

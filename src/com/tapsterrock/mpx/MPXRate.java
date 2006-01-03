@@ -129,7 +129,7 @@ public final class MPXRate implements ToStringRequiresFile
     * @param mpx parent mpx file
     * @return string representation of the rate
     */
-   public String toString (MPXFile mpx)
+   public String toString (ProjectFile mpx)
    {
       NumberFormat format = mpx.getCurrencyFormat();
       Locale locale = mpx.getLocale();

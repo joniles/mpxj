@@ -28,20 +28,20 @@ package com.tapsterrock.junit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import com.tapsterrock.mpp.MPPFile;
+import com.tapsterrock.mpp.MPPReader;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
-import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.ProjectFile;
+import com.tapsterrock.mpx.MPXReader;
+import com.tapsterrock.mpx.MPXWriter;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
@@ -49,7 +49,8 @@ import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
-import com.tapsterrock.mspdi.MSPDIFile;
+import com.tapsterrock.mspdi.MSPDIReader;
+import com.tapsterrock.mspdi.MSPDIWriter;
 
 /**
  * This class contains a small set of tests to exercise the MPXJ library.
@@ -88,9 +89,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample.mpx");
-         MPXFile mpx = new MPXFile (in);
+         ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpx.write (out);
+         new MPXWriter().write(mpx, out);
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
@@ -119,9 +120,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample1.xml");
-         MSPDIFile xml = new MSPDIFile (in);
+         ProjectFile xml = new MSPDIReader().read(in);
          out = File.createTempFile ("junit", ".xml");
-         xml.write (out);
+         new MSPDIWriter().write(xml, out);
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
@@ -150,9 +151,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample1.mpx");
-         MPXFile mpx = new MPXFile (in);
+         ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpx.write (out);
+         new MPXWriter().write(mpx, out);
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
@@ -179,15 +180,18 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter ();
+         
          File in = new File (m_basedir + "/sample.mpx");
-         MPXFile mpx = new MPXFile (in);
+         ProjectFile mpx = reader.read (in);
          out = File.createTempFile ("junit", ".mpx");
+                  
          mpx.setLocale(Locale.GERMAN);
-         mpx.write (out);
+         writer.write(mpx, out);
 
-         mpx = new MPXFile ();
-         mpx.setLocale(Locale.GERMAN);
-         mpx.read(out);
+         reader.setLocale(Locale.GERMAN);
+         mpx = reader.read(out);
       }
 
       finally
@@ -212,17 +216,19 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter ();         
          Locale swedish = new Locale ("sv");
 
          File in = new File (m_basedir + "/sample.mpx");
-         MPXFile mpx = new MPXFile (in);
-         out = File.createTempFile ("junit", ".mpx");
+         ProjectFile mpx = reader.read(in);
+         out = File.createTempFile("junit", ".mpx");
          mpx.setLocale(swedish);
-         mpx.write (out);
+         writer.write(mpx, out);
 
-         mpx = new MPXFile ();
-         mpx.setLocale(swedish);
-         mpx.read(out);
+         mpx = new ProjectFile ();
+         reader.setLocale(swedish);
+         mpx = reader.read(out);
       }
 
       finally
@@ -247,17 +253,19 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter ();                  
          Locale portuguese = new Locale ("pt");
 
          File in = new File (m_basedir + "/sample.mpx");
-         MPXFile mpx = new MPXFile (in);
+         ProjectFile mpx = reader.read(in);
          out = File.createTempFile ("junit", ".mpx");
          mpx.setLocale(portuguese);
-         mpx.write (out);
+         writer.write (mpx, out);
 
-         mpx = new MPXFile ();
-         mpx.setLocale(portuguese);
-         mpx.read(out);
+         mpx = new ProjectFile ();
+         reader.setLocale(portuguese);
+         mpx = reader.read(out);
       }
 
       finally
@@ -282,17 +290,18 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter ();                           
          Locale french = new Locale ("fr");
 
          File in = new File (m_basedir + "/sample.mpx");
-         MPXFile mpx = new MPXFile (in);
+         ProjectFile mpx = reader.read(in);
          out = File.createTempFile ("junit", ".mpx");
          mpx.setLocale(french);
-         mpx.write (out);
+         writer.write (mpx, out);
 
-         mpx = new MPXFile ();
-         mpx.setLocale(french);
-         mpx.read(out);
+         reader.setLocale(french);
+         mpx = reader.read(out);
       }
 
       finally
@@ -317,17 +326,18 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter ();                                    
          Locale italian = new Locale ("it");
 
          File in = new File (m_basedir + "/sample.mpx");
-         MPXFile mpx = new MPXFile (in);
+         ProjectFile mpx = reader.read(in);
          out = File.createTempFile ("junit", ".mpx");
          mpx.setLocale(italian);
-         mpx.write (out);
+         writer.write (mpx, out);
 
-         mpx = new MPXFile ();
-         mpx.setLocale(italian);
-         mpx.read(out);
+         reader.setLocale(italian);
+         mpx = reader.read(out);
       }
 
       finally
@@ -348,9 +358,9 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/sample.de.mpx");
-      MPXFile mpx = new MPXFile ();
-      mpx.setLocale(Locale.GERMAN);
-      mpx.read(in);
+      MPXReader reader = new MPXReader();
+      reader.setLocale(Locale.GERMAN);
+      ProjectFile mpx = reader.read(in);
    }
 
    /**
@@ -359,7 +369,7 @@ public class MPXJTest extends TestCase
    public void testAutomaticGeneration ()
       throws Exception
    {
-      MPXFile file = new MPXFile();
+      ProjectFile file = new ProjectFile();
 
       file.setAutoWBS(true);
       file.setAutoOutlineLevel(true);
@@ -458,7 +468,7 @@ public class MPXJTest extends TestCase
    public void testStructure ()
       throws Exception
    {
-      MPXFile file = new MPXFile();
+      ProjectFile file = new ProjectFile();
 
       file.setAutoWBS(true);
       file.setAutoOutlineLevel(true);
@@ -472,10 +482,10 @@ public class MPXJTest extends TestCase
       assertEquals (task2.getParentTask(), task1);
 
       task1.addTask();
-      LinkedList children = task1.getChildTasks();
+      List children = task1.getChildTasks();
       assertEquals (children.size(), 2);
 
-      LinkedList toplevel = file.getChildTasks();
+      List toplevel = file.getChildTasks();
       assertEquals (toplevel.size(), 1);
    }
 
@@ -490,9 +500,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample98.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
+         new MPXWriter().write (mpp, out);
          commonTests(mpp);
       }
 
@@ -516,9 +526,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
+         new MPXWriter().write (mpp, out);
          commonTests(mpp);
       }
 
@@ -542,9 +552,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample.xml");
-         MSPDIFile xml = new MSPDIFile (in);
+         ProjectFile xml = new MSPDIReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         xml.write (out);
+         new MPXWriter().write (xml, out);
          commonTests(xml);
       }
 
@@ -565,13 +575,13 @@ public class MPXJTest extends TestCase
     *
     * @param file MPXFile instance
     */
-   private void commonTests (MPXFile file)
+   private void commonTests (ProjectFile file)
    {
       //
       // Test the remaining work attribute
       //
       Task task = file.getTaskByUniqueID(2);
-      LinkedList assignments = task.getResourceAssignments();
+      List assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
 
       Iterator iter = assignments.iterator();
@@ -620,15 +630,14 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/sample.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
+         new MPXWriter().write (mpp, out);
 
-         MPXFile mpx = new MPXFile (out);
+         ProjectFile mpx = new MPXReader().read (out);
          out.delete();
-         MSPDIFile mspdi = new MSPDIFile (mpx);
          out = File.createTempFile ("junit", ".xml");
-         mspdi.write(out);
+         new MSPDIWriter().write(mpx, out);
       }
 
       finally
@@ -649,8 +658,8 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/sample.mpx");
-      MPXFile mpx = new MPXFile (in);
-      LinkedList tasks = mpx.getAllTasks();
+      ProjectFile mpx = new MPXReader().read (in);
+      List tasks = mpx.getAllTasks();
       Iterator taskIter = tasks.iterator();
 
       while (taskIter.hasNext() == true)
@@ -690,7 +699,7 @@ public class MPXJTest extends TestCase
          String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
          String notes5 = "Normal unquoted notes. Done.";
 
-         MPXFile file1 = new MPXFile();
+         ProjectFile file1 = new ProjectFile();
 
          file1.setAutoWBS(true);
          file1.setAutoOutlineLevel(true);
@@ -728,9 +737,9 @@ public class MPXJTest extends TestCase
          task5.setNotes(notes5);
 
          out = File.createTempFile ("junit", ".mpx");
-         file1.write (out);
+         new MPXWriter().write (file1, out);
 
-         MPXFile file2 = new MPXFile (out);
+         ProjectFile file2 = new MPXReader().read(out);
          String notes;
          Task task1a = file2.getTaskByUniqueID(task1.getUniqueIDValue());
          notes = task1a.getNotes();
@@ -781,7 +790,7 @@ public class MPXJTest extends TestCase
          String notes4 = "\"Notes containing embedded quotes as first and last chars. Done.\"";
          String notes5 = "Normal unquoted notes. Done.";
 
-         MPXFile file1 = new MPXFile();
+         ProjectFile file1 = new ProjectFile();
 
          file1.setAutoWBS(true);
          file1.setAutoOutlineLevel(true);
@@ -809,9 +818,9 @@ public class MPXJTest extends TestCase
          resource5.setNotes(notes5);
 
          out = File.createTempFile ("junit", ".mpx");
-         file1.write (out);
+         new MPXWriter().write (file1, out);
 
-         MPXFile file2 = new MPXFile (out);
+         ProjectFile file2 = new MPXReader().read (out);
          String notes;
          Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueIDValue());
          notes = resource1a.getNotes();
@@ -854,9 +863,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/bug1.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
+         new MPXWriter().write (mpp, out);
       }
 
       finally
@@ -879,9 +888,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/bug2.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
+         new MPXWriter().write (mpp, out);
       }
 
       finally
@@ -905,8 +914,8 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/bug3.mpp");
-         MPPFile mpp = new MPPFile (in);
-         LinkedList tasks = mpp.getAllTasks();
+         ProjectFile mpp = new MPPReader().read (in);
+         List tasks = mpp.getAllTasks();
          Iterator iter = tasks.iterator();
          Task task;
 
@@ -937,9 +946,9 @@ public class MPXJTest extends TestCase
       try
       {
          File in = new File (m_basedir + "/bug4.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
+         new MPXWriter().write (mpp, out);
       }
 
       finally
@@ -1029,7 +1038,7 @@ public class MPXJTest extends TestCase
    public void testBaseCalendarGetDate ()
       throws Exception
    {
-      MPXFile file = new MPXFile ();
+      ProjectFile file = new ProjectFile ();
       MPXDuration duration;
       MPXCalendar cal = file.addDefaultBaseCalendar();
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
@@ -1063,8 +1072,8 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/mpp8flags1.mpp");
-      MPPFile mpp = new MPPFile (in);
-      LinkedList tasks = mpp.getAllTasks();
+      ProjectFile mpp = new MPPReader().read (in);
+      List tasks = mpp.getAllTasks();
       assertTrue ("Not enough tasks", (tasks.size() > 0));
       assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
 
@@ -1129,8 +1138,8 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/mpp8flags2.mpp");
-      MPPFile mpp = new MPPFile (in);
-      LinkedList tasks = mpp.getAllTasks();
+      ProjectFile mpp = new MPPReader().read (in);
+      List tasks = mpp.getAllTasks();
 
       Iterator iter = tasks.iterator();
       Task task;
@@ -1164,8 +1173,8 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/mpp9flags1.mpp");
-      MPPFile mpp = new MPPFile (in);
-      LinkedList tasks = mpp.getAllTasks();
+      ProjectFile mpp = new MPPReader().read (in);
+      List tasks = mpp.getAllTasks();
       assertTrue ("Not enough tasks", (tasks.size() > 0));
       assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
 
@@ -1230,8 +1239,8 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/mpp8flags2.mpp");
-      MPPFile mpp = new MPPFile (in);
-      LinkedList tasks = mpp.getAllTasks();
+      ProjectFile mpp = new MPPReader().read (in);
+      List tasks = mpp.getAllTasks();
 
       Iterator iter = tasks.iterator();
       Task task;
@@ -1322,11 +1331,11 @@ public class MPXJTest extends TestCase
    public void testViews ()
       throws Exception
    {
-      MPPFile mpp = new MPPFile (m_basedir + "/sample98.mpp");
-      ArrayList views = mpp.getViews();
+      ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
+      List views = mpp.getViews();
       assertEquals("Incorrect number of views", 1, views.size());
 
-      mpp = new MPPFile (m_basedir + "/sample.mpp");
+      mpp = new MPPReader().read (m_basedir + "/sample.mpp");
       views = mpp.getViews();
       assertEquals("Incorrect number of views", 3, views.size());
    }
@@ -1339,8 +1348,8 @@ public class MPXJTest extends TestCase
    public void testTables ()
       throws Exception
    {
-      MPPFile mpp = new MPPFile (m_basedir + "/sample98.mpp");
-      ArrayList tables = mpp.getTables();
+      ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
+      List tables = mpp.getTables();
 //      Iterator iter = tables.iterator();
 //      while (iter.hasNext() == true)
 //      {
@@ -1349,7 +1358,7 @@ public class MPXJTest extends TestCase
 
       assertEquals("Incorrect number of tables", 1, tables.size());
 
-      mpp = new MPPFile (m_basedir + "/sample.mpp");
+      mpp = new MPPReader().read (m_basedir + "/sample.mpp");
       tables = mpp.getTables();
 //      iter = tables.iterator();
 //      while (iter.hasNext() == true)
@@ -1377,7 +1386,7 @@ public class MPXJTest extends TestCase
          // match the calendar names.
          //
          File in = new File (m_basedir + "/sample1.mpp");
-         MPPFile mpp = new MPPFile (in);
+         ProjectFile mpp = new MPPReader().read (in);
          Iterator iter = mpp.getAllTasks().iterator();
          Task task;
          MPXCalendar cal;
@@ -1395,15 +1404,14 @@ public class MPXJTest extends TestCase
          //
          // Write this out as an MSPDI file
          //
-         MSPDIFile mspdi = new MSPDIFile (mpp);
          out = File.createTempFile ("junit", ".xml");
-         mspdi.write (out);
+         new MSPDIWriter().write(mpp, out);
 
          //
          // Read the MSPDI file in again, and check the
          // calendar names to ensure consistency
          //
-         mspdi = new MSPDIFile (out.getCanonicalPath());
+         ProjectFile mspdi = new MSPDIReader().read (out.getCanonicalPath());
          iter = mspdi.getAllTasks().iterator();
 
          while (iter.hasNext() == true)
@@ -1439,14 +1447,17 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MSPDIReader reader = new MSPDIReader();
+         MSPDIWriter writer = new MSPDIWriter();
+         
          File in = new File (m_basedir + "/alias.xml");
-         MSPDIFile xml = new MSPDIFile (in);
+         ProjectFile xml = reader.read (in);
          validateAliases(xml);
 
          out = File.createTempFile ("junit", ".xml");
-         xml.write (out);
+         writer.write (xml, out);
 
-         xml = new MSPDIFile (out);
+         xml = reader.read (out);
          validateAliases(xml);
 
          success=true;
@@ -1470,7 +1481,7 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       File in = new File (m_basedir + "/alias.mpp");
-      MPPFile mpp = new MPPFile (in);
+      ProjectFile mpp = new MPPReader().read (in);
       validateAliases(mpp);
    }
 
@@ -1480,7 +1491,7 @@ public class MPXJTest extends TestCase
     *
     * @param mpx MPX file
     */
-   private void validateAliases (MPXFile mpx)
+   private void validateAliases (ProjectFile mpx)
    {
       assertEquals ("Text1t", mpx.getTaskFieldAlias(Task.TEXT1));
       assertEquals ("Text2t", mpx.getTaskFieldAlias(Task.TEXT2));
@@ -1764,7 +1775,7 @@ public class MPXJTest extends TestCase
          // Create a simple MPX file
          //
          SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-         MPXFile file = new MPXFile ();
+         ProjectFile file = new ProjectFile ();
          file.setAutoTaskID(true);
          file.setAutoTaskUniqueID(true);
          file.setAutoResourceID(true);
@@ -1791,12 +1802,12 @@ public class MPXJTest extends TestCase
          // Write the file
          //
          out = File.createTempFile ("junit", ".mpx");
-         file.write(out);
+         new MPXWriter().write(file, out);
 
          //
          // Ensure we can read it successfully
          //
-         file = new MPXFile(out);
+         file = new MPXReader().read(out);
          assertEquals(1, file.getAllTasks().size());
          assertEquals(1, file.getAllResources().size());
 
@@ -1838,7 +1849,7 @@ public class MPXJTest extends TestCase
       try
       {
          in = new File (m_basedir + "/readpassword9.mpp");
-         new MPPFile (in);
+         new MPPReader().read (in);
          assertTrue(false);
       }
 
@@ -1851,7 +1862,7 @@ public class MPXJTest extends TestCase
       // Write password (password2)
       //
       in = new File (m_basedir + "/writepassword9.mpp");
-      new MPPFile (in);
+      new MPPReader().read (in);
 
       //
       // Read password
@@ -1859,7 +1870,7 @@ public class MPXJTest extends TestCase
       try
       {
          in = new File (m_basedir + "/bothpassword9.mpp");
-         new MPPFile (in);
+         new MPPReader().read (in);
          assertTrue(false);
       }
 
@@ -1878,13 +1889,16 @@ public class MPXJTest extends TestCase
    public void testMspdiExtendedAttributes ()
       throws Exception
    {
-      MSPDIFile xml = new MSPDIFile (m_basedir + "/mspextattr.xml");
+      MSPDIReader reader = new MSPDIReader();
+      MSPDIWriter writer = new MSPDIWriter();
+      
+      ProjectFile xml = reader.read (m_basedir + "/mspextattr.xml");
       commonMspdiExtendedAttributeTests (xml);
 
       File out = File.createTempFile ("junit", ".xml");
-      xml.write (out);
+      writer.write(xml, out);
 
-      xml = new MSPDIFile (out);
+      xml = reader.read (out);
       commonMspdiExtendedAttributeTests (xml);
 
       out.delete();
@@ -1895,9 +1909,9 @@ public class MPXJTest extends TestCase
     *
     * @param xml MSPDI file
     */
-   private void commonMspdiExtendedAttributeTests (MSPDIFile xml)
+   private void commonMspdiExtendedAttributeTests (ProjectFile xml)
    {
-      LinkedList tasks = xml.getAllTasks();
+      List tasks = xml.getAllTasks();
       assertEquals (2, tasks.size());
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 
@@ -1912,7 +1926,7 @@ public class MPXJTest extends TestCase
       assertEquals(13.0, task.getDuration1().getDuration(), 0.0);
       assertEquals(TimeUnit.DAYS, task.getDuration1().getUnits());
 
-      LinkedList resources = xml.getAllResources();
+      List resources = xml.getAllResources();
       assertEquals(2, resources.size());
 
       Resource resource = (Resource)resources.get(1);
@@ -1940,11 +1954,14 @@ public class MPXJTest extends TestCase
 
       try
       {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter();
+         
          //
          // Read the MPX file and ensure that the project header fields
          // have the expected values.
          //
-         MPXFile mpx = new MPXFile (m_basedir + "/headertest.mpx");
+         ProjectFile mpx = reader.read (m_basedir + "/headertest.mpx");
          testHeaderFields(mpx);
 
          //
@@ -1952,8 +1969,8 @@ public class MPXJTest extends TestCase
          // the project header fields have the expected values
          //
          out = File.createTempFile ("junit", ".mpx");
-         mpx.write (out);
-         mpx = new MPXFile(out);
+         writer.write (mpx,out);
+         mpx = reader.read(out);
          testHeaderFields(mpx);
          out.delete();
          out = null;
@@ -1962,21 +1979,21 @@ public class MPXJTest extends TestCase
          // Read the MPP8 file and ensure that the project header fields
          // have the expected values.
          //
-         mpx = new MPPFile (m_basedir + "/headertest8.mpp");
+         mpx = new MPPReader().read (m_basedir + "/headertest8.mpp");
          testHeaderFields(mpx);
 
          //
          // Read the MPP9 file and ensure that the project header fields
          // have the expected values.
          //
-         mpx = new MPPFile (m_basedir + "/headertest9.mpp");
+         mpx = new MPPReader().read (m_basedir + "/headertest9.mpp");
          testHeaderFields(mpx);
 
          //
          // Read the MSPDI file and ensure that the project header fields
          // have the expected values.
          //
-         mpx = new MSPDIFile (m_basedir + "/headertest.xml");
+         mpx = new MSPDIReader().read (m_basedir + "/headertest.xml");
          testHeaderFields(mpx);
 
          //
@@ -1984,8 +2001,9 @@ public class MPXJTest extends TestCase
          // the project header fields have the expected values
          //
          out = File.createTempFile ("junit", ".xml");
-         mpx.write (out);
-         mpx = new MSPDIFile(out);
+         new MSPDIWriter().write(mpx, out);
+
+         mpx = new MSPDIReader().read(out);
          testHeaderFields(mpx);
          out.delete();
          out = null;
@@ -2005,7 +2023,7 @@ public class MPXJTest extends TestCase
     *
     * @param file target project file
     */
-   private void testHeaderFields (MPXFile file)
+   private void testHeaderFields (ProjectFile file)
    {
       ProjectHeader header = file.getProjectHeader();
       assertEquals ("Project Title Text", header.getProjectTitle());
@@ -2025,12 +2043,12 @@ public class MPXJTest extends TestCase
    public void testWBS ()
       throws Exception
    {
-      MPPFile mpp = new MPPFile (m_basedir + "/sample98.mpp");
+      ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
       Task task = mpp.getTaskByUniqueID(2);
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
 
-      mpp = new MPPFile (m_basedir + "/sample.mpp");
+      mpp = new MPPReader().read (m_basedir + "/sample.mpp");
       task = mpp.getTaskByUniqueID(2);
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
@@ -2044,16 +2062,16 @@ public class MPXJTest extends TestCase
    public void testPriority ()
       throws Exception
    {
-      MPXFile mpx = new MPXFile (m_basedir + "/mpxpriority.mpx");
+      ProjectFile mpx = new MPXReader().read (m_basedir + "/mpxpriority.mpx");
       validatePriority(mpx);
       
-      MPPFile mpp8 = new MPPFile (m_basedir + "/mpp8priority.mpp");
+      ProjectFile mpp8 = new MPPReader().read (m_basedir + "/mpp8priority.mpp");
       validatePriority(mpp8);
       
-      MPPFile mpp9 = new MPPFile (m_basedir + "/mpp9priority.mpp");
+      ProjectFile mpp9 = new MPPReader().read (m_basedir + "/mpp9priority.mpp");
       validatePriority(mpp9);
       
-      MSPDIFile xml = new MSPDIFile (m_basedir + "/mspdipriority.xml");
+      ProjectFile xml = new MSPDIReader().read (m_basedir + "/mspdipriority.xml");
       validatePriority(xml);
 
       File out = null;
@@ -2061,8 +2079,8 @@ public class MPXJTest extends TestCase
       try
       {
          out = File.createTempFile ("junit", ".mpx");
-         mpx.write (out);
-         MPXFile mpx2 = new MPXFile(out);
+         new MPXWriter().write (mpx, out);
+         ProjectFile mpx2 = new MPXReader().read(out);
          validatePriority(mpx2);
          success = true;
       }
@@ -2080,9 +2098,9 @@ public class MPXJTest extends TestCase
       try
       {
          out = File.createTempFile ("junit", ".xml");
-         MSPDIFile xml2 = new MSPDIFile(mpx);
-         xml2.write (out);
-         MPXFile xml3 = new MSPDIFile(out);
+         new MSPDIWriter().write(mpx, out);
+
+         ProjectFile xml3 = new MSPDIReader().read(out);
          validatePriority(xml3);
          success = true;
       }
@@ -2101,7 +2119,7 @@ public class MPXJTest extends TestCase
     * 
     * @param file project file
     */
-   private void validatePriority (MPXFile file)
+   private void validatePriority (ProjectFile file)
    {
       assertEquals(Priority.DO_NOT_LEVEL, file.getTaskByUniqueID(1).getPriority().getValue());
       assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(2).getPriority().getValue());      
@@ -2123,17 +2141,17 @@ public class MPXJTest extends TestCase
    public void testCalendars ()
       throws Exception
    {
-      MPPFile mpp = new MPPFile (m_basedir + "/caltest98.mpp");
+      ProjectFile mpp = new MPPReader().read (m_basedir + "/caltest98.mpp");
       validateResourceCalendars(mpp);
       
-      MPXFile mpx = new MPXFile(m_basedir + "/caltest98.mpx");
+      ProjectFile mpx = new MPXReader().read(m_basedir + "/caltest98.mpx");
       validateResourceCalendars(mpx);
       
-      MPPFile mpp9 = new MPPFile(m_basedir + "/caltest.mpp");
+      ProjectFile mpp9 = new MPPReader().read(m_basedir + "/caltest.mpp");
       validateResourceCalendars(mpp9);   
       validateTaskCalendars(mpp9);
       
-      MSPDIFile xml = new MSPDIFile(m_basedir + "/caltest.xml");
+      ProjectFile xml = new MSPDIReader().read(m_basedir + "/caltest.xml");
       validateResourceCalendars(xml);   
       validateTaskCalendars(xml);
    }
@@ -2143,7 +2161,7 @@ public class MPXJTest extends TestCase
     * 
     * @param mpx project file
     */
-   private void validateResourceCalendars (MPXFile mpx)
+   private void validateResourceCalendars (ProjectFile mpx)
    {
       //
       // Resource calendar based on standard calendar
@@ -2181,7 +2199,7 @@ public class MPXJTest extends TestCase
     * 
     * @param mpx project file
     */
-   private void validateTaskCalendars (MPXFile mpx)
+   private void validateTaskCalendars (ProjectFile mpx)
    {
       Task task = mpx.getTaskByUniqueID(2);
       MPXCalendar calendar = task.getCalendar();
@@ -2210,7 +2228,7 @@ public class MPXJTest extends TestCase
       // Load the file and validate the number of
       // tasks, resources, and assignments.
       //
-      MPPFile mpp = new MPPFile (m_basedir + "/remove.mpp");
+      ProjectFile mpp = new MPPReader().read (m_basedir + "/remove.mpp");
       assertEquals(9, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
@@ -2302,11 +2320,9 @@ public class MPXJTest extends TestCase
       try
       {
          out = File.createTempFile ("junit", ".mpx");
-         mpp.write (out);
-
-         MPXFile mpx = new MPXFile ();
-         mpx.read(out);
+         new MPXWriter().write (mpp, out);
          
+         ProjectFile mpx = new MPXReader().read(out);         
          assertEquals(5, mpx.getAllTasks().size());
          assertEquals(6, mpx.getAllResources().size());
          assertEquals(3, mpx.getAllResourceAssignments().size());             
@@ -2333,10 +2349,14 @@ public class MPXJTest extends TestCase
    public void testCustomerData ()
       throws Exception
    {
+      MPPReader mppReader = new MPPReader();
+      MPXReader mpxReader = new MPXReader();
+      MSPDIReader mspdiReader = new MSPDIReader();
+      
       File dir = new File ("c:\\tapsterrock\\mpxj\\data");
       if (dir.exists() == true && dir.isDirectory() == true)
       {
-         MPXFile mpxj;
+         ProjectFile mpxj;
          int failures = 0;
          File[] files = dir.listFiles();
          File file;
@@ -2350,33 +2370,33 @@ public class MPXJTest extends TestCase
             {
                if (name.endsWith(".MPP") == true)
                {
-                  mpxj = new MPPFile(file);
-                  validateMpp (file.getCanonicalPath(), (MPPFile)mpxj);
+                  mpxj = mppReader.read(file);
+                  validateMpp (file.getCanonicalPath(), (ProjectFile)mpxj);
                }
                else
                {
                   if (name.endsWith(".MPX") == true)
                   {
-                     mpxj = new MPXFile ();
-
+                     mpxReader.setLocale(Locale.ENGLISH);
+                     
                      if (name.indexOf(".DE.") != -1)
                      {
-                        mpxj.setLocale(Locale.GERMAN);
+                        mpxReader.setLocale(Locale.GERMAN);
                      }
 
                      if (name.indexOf(".SV.") != -1)
                      {
-                        mpxj.setLocale(new Locale ("sv"));
+                        mpxReader.setLocale(new Locale ("sv"));
                      }
 
-                     mpxj.read(file);
+                     mpxj = mpxReader.read(file);
                   }
                   else
                   {
                      if (name.endsWith(".XML") == true && 
                          name.indexOf(".MPP.") == -1)
                      {
-                        mpxj = new MSPDIFile(file);
+                        mpxj = mspdiReader.read(file);
                      }
                   }
                }
@@ -2404,13 +2424,13 @@ public class MPXJTest extends TestCase
     * @param mpp MPP file data structure
     * @throws Exception
     */
-   private void validateMpp (String name, MPPFile mpp)
+   private void validateMpp (String name, ProjectFile mpp)
       throws Exception
    {
       File xmlFile = new File (name + ".xml");
       if (xmlFile.exists() == true)
       {
-         MSPDIFile xml = new MSPDIFile(xmlFile);
+         ProjectFile xml = new MSPDIReader().read(xmlFile);
          MppXmlCompare compare = new MppXmlCompare();
          compare.process(xmlFile, xml, mpp);
       }

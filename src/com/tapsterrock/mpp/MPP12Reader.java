@@ -1,5 +1,5 @@
 /*
- * file:       MPP12File.java
+ * file:       MPP12Reader.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2005
  * date:       05/12/2005
@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -40,6 +41,7 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 import com.tapsterrock.mpx.AccrueType;
+import com.tapsterrock.mpx.Column;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.DateRange;
 import com.tapsterrock.mpx.Day;
@@ -48,6 +50,7 @@ import com.tapsterrock.mpx.MPXCalendarException;
 import com.tapsterrock.mpx.MPXCalendarHours;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.Pair;
@@ -59,9 +62,12 @@ import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.ResourceType;
 import com.tapsterrock.mpx.ScheduleFrom;
+import com.tapsterrock.mpx.SubProject;
+import com.tapsterrock.mpx.Table;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TaskType;
 import com.tapsterrock.mpx.TimeUnit;
+import com.tapsterrock.mpx.View;
 import com.tapsterrock.mpx.WorkContour;
 
 /**
@@ -70,19 +76,22 @@ import com.tapsterrock.mpx.WorkContour;
  * exported as a set of MPX objects. These objects can be interrogated
  * to retrieve any required data, or stored as an MPX file.
  */
-final class MPP12File implements MPPReader
+final class MPP12Reader implements MPPVariantReader
 {
    /**
     * This method is used to process an MPP12 file. This is the file format
     * used by Project 12.
     *
+    * @param reader parent file reader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     * @throws com.tapsterrock.mpx.MPXException Normally thrown on dat validation errors
     */
-   public void process (MPPFile file, DirectoryEntry root)
+   public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
       throws MPXException, IOException
    {
+      m_reader = reader;
+      
       //
       // Retrieve the high level document properties
       //
@@ -138,7 +147,7 @@ final class MPP12File implements MPPReader
     * @param projectDir Project data directory
     * @throws java.io.IOException
     */
-   private void processPropertyData (MPPFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
+   private void processPropertyData (ProjectFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
       throws IOException, MPXException
    {
       Props12 props = new Props12 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -193,7 +202,7 @@ final class MPP12File implements MPPReader
     * @param file parent file
     * @param props file properties
     */
-   private void processSubProjectData (MPPFile file, Props12 props)
+   private void processSubProjectData (ProjectFile file, Props12 props)
    {
       byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
 
@@ -260,9 +269,8 @@ final class MPP12File implements MPPReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = new SubProject();
-                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                  file.addTaskSubProject(sp);
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
 
@@ -285,9 +293,8 @@ final class MPP12File implements MPPReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = new SubProject();
-                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                  file.addTaskSubProject(sp);
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
 
@@ -306,9 +313,8 @@ final class MPP12File implements MPPReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = new SubProject();
-                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                  file.addTaskSubProject(sp);
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
 
@@ -326,9 +332,8 @@ final class MPP12File implements MPPReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = new SubProject();
-                  sp.read(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                  file.addResourceSubProject(sp);
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  file.setResourceSubProject(sp);
                   break;
                }
 
@@ -344,9 +349,8 @@ final class MPP12File implements MPPReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = new SubProject();
-                  sp.read(subProjData, -1, filePathOffset, fileNameOffset, uniqueIDStartValue);
-                  file.addResourceSubProject(sp);
+                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  file.setResourceSubProject(sp);
                   break;
                }
 
@@ -373,13 +377,140 @@ final class MPP12File implements MPPReader
    }
 
    /**
+    * Method used to read the sub project details from a byte array.
+    * 
+    * @param data byte array 
+    * @param uniqueIDOffset offset of unique ID
+    * @param filePathOffset offset of file path
+    * @param fileNameOffset offset of file name
+    * @param uniqueIDStartValue used to create unique IDs in the parent file
+    * @return new SubProject instance
+    */
+   private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int uniqueIDStartValue)
+   {
+      SubProject sp = new SubProject ();
+      
+      sp.setUniqueIDStartValue(uniqueIDStartValue);
+      
+      if (uniqueIDOffset != -1)
+      {
+         sp.setUniqueID(new Integer(MPPUtility.getInt(data, uniqueIDOffset)));
+      }
+
+      //
+      // First block header
+      //
+      filePathOffset += 18;
+      
+      //
+      // String size as a 4 byte int
+      //
+      filePathOffset += 4;
+      
+      //
+      // Full DOS path
+      //
+      sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
+      filePathOffset += (sp.getDosFullPath().length()+1);
+      
+      //
+      // 24 byte block
+      //
+      filePathOffset += 24;
+      
+      //
+      // 4 byte block size
+      //
+      int size = MPPUtility.getInt(data, filePathOffset);      
+      filePathOffset +=4;
+      if (size == 0)
+      {
+         sp.setFullPath(sp.getDosFullPath());
+      }
+      else
+      {
+         //
+         // 4 byte unicode string size in bytes
+         //
+         size = MPPUtility.getInt(data, filePathOffset);
+         filePathOffset += 4;
+         
+         //
+         // 2 byte data
+         //
+         filePathOffset += 2;
+         
+         //
+         // Unicode string
+         //
+         sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
+         filePathOffset += size;
+      }
+      
+      //
+      // Second block header
+      //
+      fileNameOffset += 18;
+      
+      //
+      // String size as a 4 byte int
+      //
+      fileNameOffset += 4;
+      
+      //
+      // DOS file name
+      //
+      sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
+      fileNameOffset += (sp.getDosFileName().length()+1);
+      
+      //
+      // 24 byte block
+      //
+      fileNameOffset += 24;
+      
+      //
+      // 4 byte block size
+      //
+      size = MPPUtility.getInt(data, fileNameOffset);
+      fileNameOffset +=4;
+      
+      if (size == 0)
+      {
+         sp.setFileName(sp.getDosFileName());
+      }
+      else
+      {
+         //
+         // 4 byte unicode string size in bytes
+         //
+         size = MPPUtility.getInt(data, fileNameOffset);
+         fileNameOffset += 4;
+   
+         //
+         // 2 byte data
+         //
+         fileNameOffset += 2;
+         
+         //
+         // Unicode string
+         //
+         sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
+         fileNameOffset += size;      
+      }      
+      
+      //System.out.println(this.toString());
+      
+      return (sp);
+   }
+
+   /**
     * This method process the data held in the props file specific to the
     * visual appearance of the project data.
     *
     * @param file parent file
     * @param projectDir project directory
     */
-   private void processViewPropertyData (MPPFile file,  DirectoryEntry projectDir)
+   private void processViewPropertyData (ProjectFile file,  DirectoryEntry projectDir)
       throws IOException
    {
       Props12 props = new Props12 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -397,7 +528,7 @@ final class MPP12File implements MPPReader
     * @param file parent file
     * @param data property data
     */
-   private void processBaseFonts (MPPFile file, byte[] data)
+   private void processBaseFonts (ProjectFile file, byte[] data)
    {
       int offset = 0;
 
@@ -420,7 +551,8 @@ final class MPP12File implements MPPReader
 
          if (name.length() != 0)
          {
-            file.addFontBase(new FontBase(new Integer(loop), name, size));
+            FontBase fontBase = new FontBase(new Integer(loop), name, size);
+            m_fontBases.put(fontBase.getIndex(), fontBase);
          }
       }
    }
@@ -431,7 +563,7 @@ final class MPP12File implements MPPReader
     * @param file Parent MPX file
     * @param data task field name alias data
     */
-   private void processTaskFieldNameAliases (MPPFile file, byte[] data)
+   private void processTaskFieldNameAliases (ProjectFile file, byte[] data)
    {
       if (data != null)
       {
@@ -585,7 +717,7 @@ final class MPP12File implements MPPReader
     * @param file Parent MPX file
     * @param data resource field name alias data
     */
-   private void processResourceFieldNameAliases (MPPFile file, byte[] data)
+   private void processResourceFieldNameAliases (ProjectFile file, byte[] data)
    {
       if (data != null)
       {
@@ -809,7 +941,7 @@ final class MPP12File implements MPPReader
     * @param resourceMap map of resource IDs to resource data
     * @throws java.io.IOException
     */
-   private void processCalendarData (MPPFile file,  DirectoryEntry projectDir, HashMap resourceMap)
+   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap resourceMap)
       throws MPXException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -873,11 +1005,11 @@ final class MPP12File implements MPPReader
                   {
                      if (varData != null)
                      {
-                        cal = file.mppAddResourceCalendar();
+                        cal = file.getResourceCalendar();
                      }
                      else
                      {
-                        cal = file.mppAddDefaultResourceCalendar();
+                        cal = file.getDefaultResourceCalendar();
                      }
 
                      baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
@@ -1113,7 +1245,7 @@ final class MPP12File implements MPPReader
     * @throws com.tapsterrock.mpx.MPXException
     * @throws java.io.IOException
     */
-   private void processTaskData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
+   private void processTaskData (ProjectFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
       throws MPXException, IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
@@ -1458,7 +1590,7 @@ final class MPP12File implements MPPReader
          notes = taskVarData.getString (id, TASK_NOTES);
          if (notes != null)
          {
-            if (file.getPreserveNoteFormatting() == false)
+            if (m_reader.getPreserveNoteFormatting() == false)
             {
                notes = rtf.strip(notes);
             }
@@ -1490,7 +1622,7 @@ final class MPP12File implements MPPReader
          //
          // Set the sub project flag
          //
-         task.setSubproject(file.getTaskSubProject(task.getUniqueID())!=null);
+         task.setSubProject((SubProject)m_taskSubProjects.get(task.getUniqueID()));
 
          file.fireTaskReadEvent(task);
          
@@ -1539,7 +1671,7 @@ final class MPP12File implements MPPReader
     * @param projectDir root project directory
     * @throws java.io.IOException
     */
-   private void processConstraintData (MPPFile file,  DirectoryEntry projectDir)
+   private void processConstraintData (ProjectFile file,  DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
@@ -1606,7 +1738,7 @@ final class MPP12File implements MPPReader
     * @throws com.tapsterrock.mpx.MPXException
     * @throws java.io.IOException
     */
-   private void processResourceData (MPPFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap resourceCalendarMap)
+   private void processResourceData (ProjectFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap resourceCalendarMap)
       throws MPXException, IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -1814,7 +1946,7 @@ final class MPP12File implements MPPReader
          notes = rscVarData.getString (id, RESOURCE_NOTES);
          if (notes != null)
          {
-            if (file.getPreserveNoteFormatting() == false)
+            if (m_reader.getPreserveNoteFormatting() == false)
             {
                notes = rtf.strip(notes);
             }
@@ -1841,7 +1973,7 @@ final class MPP12File implements MPPReader
          //
          // Configure the resource calendar
          //
-         file.mppAttachResourceCalendar(resource, (MPXCalendar)resourceCalendarMap.get(id));
+         resource.setResourceCalendar((MPXCalendar)resourceCalendarMap.get(id));
          
          file.fireResourceReadEvent(resource);
       }
@@ -1856,7 +1988,7 @@ final class MPP12File implements MPPReader
     * @throws com.tapsterrock.mpx.MPXException
     * @throws java.io.IOException
     */
-   private void processAssignmentData (MPPFile file,  DirectoryEntry projectDir)
+   private void processAssignmentData (ProjectFile file,  DirectoryEntry projectDir)
       throws MPXException, IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
@@ -1988,7 +2120,7 @@ final class MPP12File implements MPPReader
     * @param projectDir Project data directory
     * @throws java.io.IOException
     */
-   private void processViewData (MPPFile file, DirectoryEntry projectDir)
+   private void processViewData (ProjectFile file, DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
@@ -2004,7 +2136,7 @@ final class MPP12File implements MPPReader
 
       for (int loop=0; loop < items; loop++)
       {
-         view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData);
+         view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData, m_fontBases);
          file.addView(view);
       }
    }
@@ -2016,7 +2148,7 @@ final class MPP12File implements MPPReader
     * @param projectDir Project data directory
     * @throws java.io.IOException
     */
-   private void processTableData (MPPFile file, DirectoryEntry projectDir)
+   private void processTableData (ProjectFile file, DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
@@ -2036,7 +2168,7 @@ final class MPP12File implements MPPReader
 
          table.setID(MPPUtility.getInt(data, 0));
          table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
-         table.setName(MPPUtility.getUnicodeString(data, 4));
+         table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
          file.addTable(table);
 
          processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
@@ -2145,7 +2277,10 @@ final class MPP12File implements MPPReader
 //      {108, 16},
 //   };
 
-
+   private MPPReader m_reader;
+   private Map m_fontBases = new HashMap();
+   private Map m_taskSubProjects = new HashMap ();
+   
    /**
     * Calendar data types.
     */

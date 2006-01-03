@@ -23,6 +23,8 @@
 
 package com.tapsterrock.mpp;
 
+import com.tapsterrock.mpx.FieldType;
+
 /**
  * This class builds on the font style described by a FontStyle instance
  * to apply a style to a column, row, or individual cell of a table.

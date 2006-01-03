@@ -43,7 +43,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   ProjectHeader (MPXFile file)
+   ProjectHeader (ProjectFile file)
    {
       super (file, 0);
 
@@ -390,7 +390,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * This method is calkled when the locale of the parent file is updated.
+    * This method is called when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
     * for the new locale.
     *
@@ -859,7 +859,7 @@ public final class ProjectHeader extends MPXRecord
             }
          }
 
-         MPXFile parent = getParentFile();
+         ProjectFile parent = getParentFile();
          ((MPXDateFormat)parent.getDateTimeFormat()).applyPattern(dateTimePattern);
          ((MPXDateFormat)parent.getDateFormat()).applyPattern(datePattern);
          ((MPXTimeFormat)parent.getTimeFormat()).applyPattern(timePattern);
@@ -1837,7 +1837,7 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter, new Character(getDecimalSeparator())));
       stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       //
       // Default Settings Record
@@ -1862,7 +1862,7 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter,getNumericBooleanSplitInProgressTasks()));
       stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       //
       // Date Time Settings Record
@@ -1887,7 +1887,7 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter,getBarTextDateFormat()));
       stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       //
       // Project Header Record
@@ -1952,7 +1952,7 @@ public final class ProjectHeader extends MPXRecord
       buffer.append (delimiter);
       buffer.append(format(delimiter,getKeywords()));
       stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       return (buffer.toString());
    }
@@ -2965,7 +2965,7 @@ public final class ProjectHeader extends MPXRecord
    {
       if (m_updateCurrencyFormat == true)
       {
-         MPXFile parent = getParentFile();
+         ProjectFile parent = getParentFile();
          String prefix = "";
          String suffix = "";
          String currencySymbol = quoteFormatCharacters (getCurrencySymbol());

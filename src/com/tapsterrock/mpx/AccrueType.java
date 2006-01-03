@@ -145,7 +145,7 @@ public final class AccrueType implements ToStringRequiresFile
     * @param mpx pareent mpx file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString (MPXFile mpx)
+   public String toString (ProjectFile mpx)
    {
       Locale locale = mpx.getLocale();
       String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);

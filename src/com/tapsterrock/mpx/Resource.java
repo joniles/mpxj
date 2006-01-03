@@ -40,7 +40,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * @param file the parent file to which this record belongs.
     * @throws MPXException normally thrown for paring errors
     */
-   Resource (MPXFile file)
+   Resource (ProjectFile file)
       throws MPXException
    {
       this (file, Record.EMPTY_RECORD);
@@ -54,7 +54,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * @param record record from MPX file
     * @throws MPXException normally thrown for paring errors
     */
-   Resource (MPXFile file, Record record)
+   Resource (ProjectFile file, Record record)
       throws MPXException
    {
       super (file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
@@ -1597,7 +1597,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setID (Integer val)
    {
-      MPXFile parent = getParentFile();
+      ProjectFile parent = getParentFile();
       Integer previous = getID();
       if (previous != null)
       {
@@ -1705,7 +1705,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setUniqueID (Integer val)
    {
-      MPXFile parent = getParentFile();
+      ProjectFile parent = getParentFile();
       Integer previous = getUniqueID();
       if (previous != null)
       {

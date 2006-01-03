@@ -24,6 +24,10 @@
 package com.tapsterrock.mpp;
 
 import java.io.IOException;
+import java.util.Map;
+
+import com.tapsterrock.mpx.ProjectFile;
+import com.tapsterrock.mpx.View;
 
 /**
  * Default implementation of a view factory for MPP9 files.
@@ -33,7 +37,7 @@ class DefaultViewFactory implements ViewFactory
    /**
     * {@inheritDoc}
     */
-   public View createView (MPPFile file, byte[] fixedData, Var2Data varData)
+   public View createView (ProjectFile file, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException
    {
       View view;
@@ -42,7 +46,7 @@ class DefaultViewFactory implements ViewFactory
       {
          case View.GANTT_CHART:
          {
-            view = new GanttChartView9 (file, fixedData, varData);
+            view = new GanttChartView9 (file, fixedData, varData, fontBases);
             break;
          }
          

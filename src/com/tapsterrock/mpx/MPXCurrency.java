@@ -113,7 +113,7 @@ public final class MPXCurrency extends Number
     * @return MPXCurrency instance
     * @throws MPXException
     */
-   public static final MPXCurrency getInstance (MPXFile parent, String amount)
+   public static final MPXCurrency getInstance (ProjectFile parent, String amount)
       throws MPXException
    {
       try

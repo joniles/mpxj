@@ -42,6 +42,7 @@ import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.ExtendedAttributeContainer;
 import com.tapsterrock.mpx.MPXCurrency;
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.Priority;
@@ -162,11 +163,11 @@ public final class DatatypeConverter
    /**
     * Print an extended attribute value.
     * 
-    * @param file parent file
+    * @param writer parent MSPDIWriter instance
     * @param value attribute value
     * @return string representation
     */
-   public static final String printExtendedAttribute (MSPDIFile file, Object value)
+   public static final String printExtendedAttribute (MSPDIWriter writer, Object value)
    {            
       String result;
       
@@ -184,7 +185,7 @@ public final class DatatypeConverter
          {
             if (value instanceof MPXDuration)
             {
-               result = printDuration(file, (MPXDuration)value);
+               result = printDuration(writer, (MPXDuration)value);
             }
             else
             {
@@ -219,41 +220,41 @@ public final class DatatypeConverter
     * @param mpxFieldID field ID
     * @param dataType data type
     */
-   public static final void parseExtendedAttribute (MSPDIFile file, ExtendedAttributeContainer mpx, String value, Integer mpxFieldID, int dataType)
+   public static final void parseExtendedAttribute (ProjectFile file, ExtendedAttributeContainer mpx, String value, Integer mpxFieldID, int dataType)
    {
       switch (dataType)
       {
-         case MSPDIFile.STRING_ATTRIBUTE:
+         case MSPDIConstants.STRING_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), value);
             break;
          }
    
-         case MSPDIFile.DATE_ATTRIBUTE:
+         case MSPDIConstants.DATE_ATTRIBUTE:
          {
             mpx.setDate(mpxFieldID.intValue(), parseExtendedAttributeDate(value));
             break;
          }
    
-         case MSPDIFile.CURRENCY_ATTRIBUTE:
+         case MSPDIConstants.CURRENCY_ATTRIBUTE:
          {
             mpx.setCurrency(mpxFieldID.intValue(), parseExtendedAttributeCurrency(value));
             break;
          }
    
-         case MSPDIFile.BOOLEAN_ATTRIBUTE:
+         case MSPDIConstants.BOOLEAN_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeBoolean(value));
             break;
          }
    
-         case MSPDIFile.NUMERIC_ATTRIBUTE:
+         case MSPDIConstants.NUMERIC_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeNumber(value));
             break;
          }
    
-         case MSPDIFile.DURATION_ATTRIBUTE:
+         case MSPDIConstants.DURATION_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseDuration(file, null, value));
             break;
@@ -751,7 +752,7 @@ public final class DatatypeConverter
     * @param value duration value
     * @return MPXDuration instance
     */
-   public static final MPXDuration parseDuration (MSPDIFile file, TimeUnit defaultUnits, String value)
+   public static final MPXDuration parseDuration (ProjectFile file, TimeUnit defaultUnits, String value)
    {
       MPXDuration result = null;
    
@@ -957,11 +958,11 @@ public final class DatatypeConverter
     * We use the compatibility flag to determine whether the output
     * is adjusted for the benefit of Microsoft Project.
     *
-    * @param file parent file
+    * @param writer parent MSPDIWriter instance
     * @param duration MPXDuration value
     * @return xsd:duration value
     */
-   public static final String printDuration (MSPDIFile file, MPXDuration duration)
+   public static final String printDuration (MSPDIWriter writer, MPXDuration duration)
    {
       String result = null;
    
@@ -973,7 +974,7 @@ public final class DatatypeConverter
       {
          TimeUnit durationType = duration.getUnits();
    
-         if (file.getMicrosoftProjectCompatibleOutput() == false || 
+         if (writer.getMicrosoftProjectCompatibleOutput() == false || 
              durationType.getValue() == TimeUnit.HOURS_VALUE || 
              durationType.getValue() == TimeUnit.ELAPSED_HOURS_VALUE)
          {
@@ -981,7 +982,7 @@ public final class DatatypeConverter
          }
          else
          {
-            duration = duration.convertUnits(TimeUnit.HOURS, file.getProjectHeader());   
+            duration = duration.convertUnits(TimeUnit.HOURS, writer.getProjectFile().getProjectHeader());
             result = new XsdDuration(duration).toString();
          }
       }
@@ -1419,7 +1420,7 @@ public final class DatatypeConverter
     */
    public static final String printTaskUID (Integer value)
    {
-      MSPDIFile file = (MSPDIFile)PARENT_FILE.get();
+      ProjectFile file = (ProjectFile)PARENT_FILE.get();
       file.fireTaskWrittenEvent(file.getTaskByUniqueID(value.intValue()));
       return (value.toString());
    }
@@ -1443,7 +1444,7 @@ public final class DatatypeConverter
     */
    public static final String printResourceUID (Integer value)
    {    
-      MSPDIFile file = (MSPDIFile)PARENT_FILE.get();
+      ProjectFile file = (ProjectFile)PARENT_FILE.get();
       file.fireResourceWrittenEvent(file.getResourceByUniqueID(value.intValue()));      
       return (value.toString());
    }
@@ -1466,7 +1467,7 @@ public final class DatatypeConverter
     * 
     * @param file parent file instance
     */
-   public static final void setParentFile (MSPDIFile file)
+   public static final void setParentFile (ProjectFile file)
    {
       PARENT_FILE.set(file);
    }

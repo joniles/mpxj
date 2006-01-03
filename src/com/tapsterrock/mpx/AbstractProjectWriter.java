@@ -1,8 +1,8 @@
 /*
- * file:       ViewFactory.java
+ * file:       AbstractProjectWriter.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Apr 7, 2005
+ * date:       Dec 21, 2005
  */
  
 /*
@@ -21,30 +21,39 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package com.tapsterrock.mpp;
+package com.tapsterrock.mpx;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
-
-import com.tapsterrock.mpx.ProjectFile;
-import com.tapsterrock.mpx.View;
 
 /**
- * This interface is implemented by classes which can create View classes
- * from the data extracted from an MS Project file.
+ * Abstract implementation of the ProjectWriter interface
+ * which supplies implementations of the trivial write methods.
  */
-interface ViewFactory
+public abstract class AbstractProjectWriter implements ProjectWriter
 {
    /**
-    * This method is called to create a view.
-    * 
-    * @param file parent MPP file
-    * @param fixedData view fixed data
-    * @param varData view var data
-    * @param fontBases map of font bases
-    * @return View instance
-    * @throws IOException
+    * {@inheritDoc}
     */
-   public View createView (ProjectFile file, byte[] fixedData, Var2Data varData, Map fontBases)
-      throws IOException;
+   public void write (ProjectFile projectFile, String fileName)
+      throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(fileName);
+      write(projectFile, fos);
+      fos.flush();
+      fos.close();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void write (ProjectFile projectFile, File file)
+      throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(file);
+      write(projectFile, fos);
+      fos.flush();
+      fos.close();
+   }   
 }

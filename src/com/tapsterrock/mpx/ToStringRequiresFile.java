@@ -37,5 +37,5 @@ interface ToStringRequiresFile
     * @param mpx parent mpx file
     * @return string representation of data
     */
-   public String toString (MPXFile mpx);
+   public String toString (ProjectFile mpx);
 }

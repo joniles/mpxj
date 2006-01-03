@@ -37,7 +37,7 @@ public final class Relation implements ToStringRequiresFile
     * 
     * @param parent parent file
     */
-   Relation (MPXFile parent)
+   Relation (ProjectFile parent)
    {
       m_parent = parent;
       m_taskIDValue = 0;
@@ -54,7 +54,7 @@ public final class Relation implements ToStringRequiresFile
     * @param file parent MPX file
     * @throws MPXException normally indicating that parsing the string has failed
     */
-   Relation (String relationship, MPXFile file)
+   Relation (String relationship, ProjectFile file)
       throws MPXException
    {
       int index = 0;
@@ -135,7 +135,7 @@ public final class Relation implements ToStringRequiresFile
     * @param file parent file
     * @return string containing the data for this record in MPX format.
     */
-   public String toString (MPXFile file)
+   public String toString (ProjectFile file)
    {
       StringBuffer sb = new StringBuffer(Integer.toString(m_taskIDValue));
 
@@ -260,7 +260,7 @@ public final class Relation implements ToStringRequiresFile
    /**
     * Parent file.
     */
-   private MPXFile m_parent;
+   private ProjectFile m_parent;
    
    /**
     * Identifier of task with which this relationship is held.

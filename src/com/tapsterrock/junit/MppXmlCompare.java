@@ -11,12 +11,11 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tapsterrock.mpp.MPPFile;
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.Task;
-import com.tapsterrock.mspdi.MSPDIFile;
 
 /**
  * The purpose of this class is to allow the contents of an MSPDI file
@@ -38,7 +37,7 @@ public final class MppXmlCompare
     * @param xml MSPDI file
     * @param mpp MPP file
     */
-   public void process (File file, MSPDIFile xml, MPPFile mpp)
+   public void process (File file, ProjectFile xml, ProjectFile mpp)
       throws Exception
    {
       m_xml = xml;
@@ -732,6 +731,6 @@ public final class MppXmlCompare
       }
    }
       
-   private MSPDIFile m_xml;
-   private MPPFile m_mpp;
+   private ProjectFile m_xml;
+   private ProjectFile m_mpp;
 }

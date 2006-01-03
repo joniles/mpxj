@@ -41,7 +41,7 @@ final class TaskModel extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   TaskModel (MPXFile file)
+   TaskModel (ProjectFile file)
    {
       super(file, 0);
       setLocale(file.getLocale());
@@ -177,8 +177,8 @@ final class TaskModel extends MPXRecord
          numeric.append(number);
       }
 
-      textual.append(MPXFile.EOL);
-      numeric.append(MPXFile.EOL);
+      textual.append(ProjectFile.EOL);
+      numeric.append(ProjectFile.EOL);
 
       textual.append(numeric.toString());
 

@@ -33,6 +33,7 @@ import java.util.TimeZone;
 
 import com.tapsterrock.mpx.CurrencySymbolPosition;
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.TimeUnit;
 
 
@@ -670,7 +671,7 @@ final class MPPUtility
     * @param timeUnit duration units
     * @return MPXDuration instance
     */
-   public static MPXDuration getAdjustedDuration (MPPFile file, int duration, TimeUnit timeUnit)
+   public static MPXDuration getAdjustedDuration (ProjectFile file, int duration, TimeUnit timeUnit)
    {
       MPXDuration result;
       switch (timeUnit.getValue())

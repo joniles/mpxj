@@ -49,7 +49,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
     * @param file parent MPX file
     * @throws MPXException nroamlly thrown on parse errors
     */
-   RelationList (String data, MPXFile file)
+   RelationList (String data, ProjectFile file)
       throws MPXException
    {
       int length = data.length();
@@ -83,7 +83,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
     * @param mpx parent mpx file
     * @return string containing the data for this list in MPX format.
     */
-   public String toString (MPXFile mpx)
+   public String toString (ProjectFile mpx)
    {
       char sepchar = mpx.getDelimiter();
       StringBuffer sb = new StringBuffer();

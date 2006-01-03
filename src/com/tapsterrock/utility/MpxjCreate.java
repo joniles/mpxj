@@ -26,15 +26,17 @@ package com.tapsterrock.utility;
 import java.text.SimpleDateFormat;
 
 import com.tapsterrock.mpx.MPXDuration;
-import com.tapsterrock.mpx.MPXFile;
+import com.tapsterrock.mpx.ProjectFile;
+import com.tapsterrock.mpx.MPXWriter;
 import com.tapsterrock.mpx.ProjectHeader;
+import com.tapsterrock.mpx.ProjectWriter;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.RelationType;
 import com.tapsterrock.mpx.Resource;
 import com.tapsterrock.mpx.ResourceAssignment;
 import com.tapsterrock.mpx.Task;
 import com.tapsterrock.mpx.TimeUnit;
-import com.tapsterrock.mspdi.MSPDIFile;
+import com.tapsterrock.mspdi.MSPDIWriter;
 
 
 /**
@@ -71,15 +73,14 @@ public class MpxjCreate
    }
 
    /**
-    * Based on the suffix of the filename supplied by the caller, this
-    * method will return either an empty MPX file, or an empty MSPDI file.
-    *
-    * @param filename target filename
-    * @return empty MPX or MSPDI file instance
+    * Creates a writer which will generate the required type of output file.
+    * 
+    * @param filename file name
+    * @return ProjectWriter instance
     */
-   private static MPXFile createFile (String filename)
+   private static ProjectWriter getWriter (String filename)
    {
-      MPXFile result;
+      ProjectWriter result;
       String suffix;
 
       if (filename.length() < 4)
@@ -93,16 +94,16 @@ public class MpxjCreate
 
       if (suffix.equals(".XML") == true)
       {
-         result = new MSPDIFile ();
+         result = new MSPDIWriter ();
       }
       else
       {
-         result = new MPXFile ();
+         result = new MPXWriter ();
       }
-
+      
       return (result);
    }
-
+   
    /**
     * This method creates a summary task, two sub-tasks and a milestone,
     * all with the appropriate constraints between them. The tasks are
@@ -127,7 +128,7 @@ public class MpxjCreate
       // this method purely to allow it to determine the type of
       // file to create.
       //
-      MPXFile file = createFile(filename);
+      ProjectFile file = new ProjectFile();
 
       //
       // Uncomment these lines to test the use of alternative
@@ -288,8 +289,9 @@ public class MpxjCreate
 
       //
       // Write the file
-      //
-      file.write (filename);
+      //    
+      ProjectWriter writer = getWriter(filename);
+      writer.write (file, filename);
    }
 
 }

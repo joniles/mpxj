@@ -24,13 +24,16 @@
 package com.tapsterrock.utility;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import com.tapsterrock.mpp.MPPFile;
-import com.tapsterrock.mpx.MPXFile;
-import com.tapsterrock.mspdi.MSPDIFile;
+import com.tapsterrock.mpp.MPPReader;
+import com.tapsterrock.mpx.MPXReader;
+import com.tapsterrock.mpx.MPXWriter;
+import com.tapsterrock.mpx.ProjectFile;
+import com.tapsterrock.mpx.ProjectReader;
+import com.tapsterrock.mpx.ProjectWriter;
+import com.tapsterrock.mspdi.MSPDIReader;
+import com.tapsterrock.mspdi.MSPDIWriter;
 
 /**
  * This is a general utility designed to convert from one project file format
@@ -78,29 +81,27 @@ public final class MpxjConvert
    {
       System.out.println ("Reading input file started.");
       long start = System.currentTimeMillis();            
-      MPXFile input = getFileObject(inputFile, false);      
-      input.read(inputFile);
+      ProjectReader reader = getReaderObject(inputFile);      
+      ProjectFile projectFile = reader.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println ("Reading input file completed in " + elapsed + "ms.");
 
       System.out.println ("Writing output file started.");
       start = System.currentTimeMillis();                        
-      MPXFile output = getFileObject(outputFile, true);
-      output.copy(input);
-      output.write(outputFile);
+      ProjectWriter writer = getWriterObject(outputFile);
+      writer.write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
       System.out.println ("Writing output completed in " + elapsed + "ms.");                  
    }
    
    /**
-    * Create an MPXFile instance of the appropriate type.
+    * Create a ProjectReader instance of the appropriate type.
     * 
     * @param name file name
-    * @param write flagindicating if this is a write operation
-    * @return MPXFile instance
+    * @return ProjectReader instance
     * @throws Exception
     */
-   private MPXFile getFileObject (String name, boolean write)
+   private ProjectReader getReaderObject (String name)
       throws Exception
    {
       int index = name.lastIndexOf('.');
@@ -110,36 +111,61 @@ public final class MpxjConvert
       }
       
       String extension = name.substring(index+1).toUpperCase();
-      if (write == true && WRITABLE_SET.contains(extension) == false)
-      {
-         throw new Exception ("MPXJ cannot write this file type: " + name);                  
-      }
       
-      Class fileClass = (Class)EXTENSION_MAP.get(extension);
+      Class fileClass = (Class)READER_MAP.get(extension);
       if (fileClass == null)
       {
-         throw new Exception ("Filename extension not recognised: " + name);         
+         throw new Exception ("Cannot read files of type: " + name);         
       }
       
-      MPXFile file = (MPXFile)fileClass.newInstance();
+      ProjectReader file = (ProjectReader)fileClass.newInstance();
       
       return (file);
    }
-      
-   private static final Map EXTENSION_MAP = new HashMap ();
-   static
+
+   /**
+    * Create a ProjectWriter instance of the appropriate type.
+    * 
+    * @param name file name
+    * @return ProjectWriter instance
+    * @throws Exception
+    */
+   private ProjectWriter getWriterObject (String name)
+      throws Exception
    {
-      EXTENSION_MAP.put("MPP", MPPFile.class);
-      EXTENSION_MAP.put("MPT", MPPFile.class);
-      EXTENSION_MAP.put("MPX", MPXFile.class);      
-      EXTENSION_MAP.put("XML", MSPDIFile.class);      
+      int index = name.lastIndexOf('.');
+      if (index == -1)
+      {
+         throw new Exception ("Filename has no extension: " + name);
+      }
+      
+      String extension = name.substring(index+1).toUpperCase();
+      
+      Class fileClass = (Class)WRITER_MAP.get(extension);
+      if (fileClass == null)
+      {
+         throw new Exception ("Cannot write files of type: " + name);         
+      }
+      
+      ProjectWriter file = (ProjectWriter)fileClass.newInstance();
+      
+      return (file);
    }
    
-   private static final Set WRITABLE_SET = new HashSet ();
+   private static final Map READER_MAP = new HashMap ();
    static
    {
-      WRITABLE_SET.add("MPX");
-      WRITABLE_SET.add("XML");
+      READER_MAP.put("MPP", MPPReader.class);
+      READER_MAP.put("MPT", MPPReader.class);
+      READER_MAP.put("MPX", MPXReader.class);      
+      READER_MAP.put("XML", MSPDIReader.class);      
    }
+
+   private static final Map WRITER_MAP = new HashMap ();
+   static
+   {
+      WRITER_MAP.put("MPX", MPXWriter.class);      
+      WRITER_MAP.put("XML", MSPDIWriter.class);      
+   }   
 }
 

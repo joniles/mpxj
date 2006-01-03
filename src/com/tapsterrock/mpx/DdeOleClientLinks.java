@@ -35,7 +35,7 @@ public final class DdeOleClientLinks extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   DdeOleClientLinks (MPXFile file)
+   DdeOleClientLinks (ProjectFile file)
    {
       this (file, Record.EMPTY_RECORD);
    }
@@ -47,7 +47,7 @@ public final class DdeOleClientLinks extends MPXRecord
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
     */
-   DdeOleClientLinks(MPXFile file, Record record)
+   DdeOleClientLinks(ProjectFile file, Record record)
    {
       super (file, 0);
       m_source = record.getString(0);
@@ -110,7 +110,7 @@ public final class DdeOleClientLinks extends MPXRecord
       buffer.append (m_source);
       buffer.append (delimiter);
       buffer.append (m_linkTo);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       return (buffer.toString());
    }

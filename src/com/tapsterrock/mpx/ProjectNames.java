@@ -36,7 +36,7 @@ public final class ProjectNames extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   ProjectNames (MPXFile file)
+   ProjectNames (ProjectFile file)
    {
       this (file, Record.EMPTY_RECORD);
    }
@@ -48,7 +48,7 @@ public final class ProjectNames extends MPXRecord
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
     */
-   ProjectNames (MPXFile file, Record record)
+   ProjectNames (ProjectFile file, Record record)
    {
       super(file, 0);
       m_name = record.getString(0);
@@ -111,7 +111,7 @@ public final class ProjectNames extends MPXRecord
       buffer.append (m_name);
       buffer.append (delimiter);
       buffer.append (m_description);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
 
       return (buffer.toString());
    }

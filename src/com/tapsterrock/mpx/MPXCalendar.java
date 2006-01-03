@@ -44,7 +44,7 @@ public final class MPXCalendar extends MPXRecord
     * @param file the parent file to which this record belongs.
     * @param baseCalendar flag indicating if this is a base calendar
     */
-   MPXCalendar (MPXFile file, boolean baseCalendar)
+   MPXCalendar (ProjectFile file, boolean baseCalendar)
    {
       this (file, Record.EMPTY_RECORD, baseCalendar);
    }
@@ -57,7 +57,7 @@ public final class MPXCalendar extends MPXRecord
     * @param record record containing the data for this object.
     * @param baseCalendar flag indicating if this is a base calendar
     */
-   MPXCalendar (MPXFile file, Record record, boolean baseCalendar)
+   MPXCalendar (ProjectFile file, Record record, boolean baseCalendar)
    {
       super (file, 0);
 
@@ -247,7 +247,7 @@ public final class MPXCalendar extends MPXRecord
          buf.append (m_days[loop]);
       }
 
-      buf.append (MPXFile.EOL);
+      buf.append (ProjectFile.EOL);
 
       for (int loop=0; loop < m_hours.length; loop++)
       {

@@ -39,7 +39,7 @@ public final class MPXCalendarException extends MPXRecord
     * @param calendar parent calendar to which this record belongs.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarException (MPXFile file, MPXCalendar calendar)
+   MPXCalendarException (ProjectFile file, MPXCalendar calendar)
       throws MPXException
    {
       this (file, calendar, Record.EMPTY_RECORD);
@@ -54,7 +54,7 @@ public final class MPXCalendarException extends MPXRecord
     * @param record record containing the data for this object.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarException (MPXFile file, MPXCalendar calendar, Record record)
+   MPXCalendarException (ProjectFile file, MPXCalendar calendar, Record record)
       throws MPXException
    {
       super(file, MAX_FIELDS);

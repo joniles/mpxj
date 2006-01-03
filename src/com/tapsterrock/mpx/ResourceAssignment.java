@@ -38,7 +38,7 @@ public final class ResourceAssignment extends MPXRecord
     * @param task The task to which this assignment is being made
     * @throws MPXException Normally thrown when parsing fails
     */
-   ResourceAssignment (MPXFile file, Task task)
+   ResourceAssignment (ProjectFile file, Task task)
       throws MPXException
    {
       this (file, Record.EMPTY_RECORD, task);
@@ -53,7 +53,7 @@ public final class ResourceAssignment extends MPXRecord
     * @param task The task to which this assignment is being made
     * @throws MPXException normally thrown when parsing fails
     */
-   ResourceAssignment (MPXFile file, Record record, Task task)
+   ResourceAssignment (ProjectFile file, Record record, Task task)
       throws MPXException
    {
       super (file, MAX_FIELDS);

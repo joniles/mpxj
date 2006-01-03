@@ -39,7 +39,7 @@ class MPXRecord
     * @param mpx Parent MPX file
     * @param size Maxmum number of fields in this record
     */
-   protected MPXRecord (MPXFile mpx, int size)
+   protected MPXRecord (ProjectFile mpx, int size)
    {
       m_mpx = mpx;
       m_array = new Object[size];
@@ -52,7 +52,7 @@ class MPXRecord
     * @param size Maxmum number of MPX fields in this record
     * @param extendedSize maximum number of non-MPX records 
     */
-   protected MPXRecord (MPXFile mpx, int size, int extendedSize)
+   protected MPXRecord (ProjectFile mpx, int size, int extendedSize)
    {
       this(mpx, size);
       m_extended = new Object[extendedSize];
@@ -220,7 +220,7 @@ class MPXRecord
 
       stripTrailingDelimiters (buf, sepchar);
 
-      buf.append (MPXFile.EOL);
+      buf.append (ProjectFile.EOL);
 
       return (buf.toString());
    }
@@ -256,7 +256,7 @@ class MPXRecord
 
       stripTrailingDelimiters (buf, sepchar);
 
-      buf.append (MPXFile.EOL);
+      buf.append (ProjectFile.EOL);
 
       return (buf.toString());
    }
@@ -728,7 +728,7 @@ class MPXRecord
     *
     * @return reference to this MPXFile
     */
-   public final MPXFile getParentFile ()
+   public final ProjectFile getParentFile ()
    {
       return (m_mpx);
    }
@@ -737,7 +737,7 @@ class MPXRecord
    /**
     * Reference to parent MPXFile.
     */
-   private MPXFile m_mpx;
+   private ProjectFile m_mpx;
 
    /**
     * Array of field values.

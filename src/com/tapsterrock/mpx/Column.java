@@ -21,11 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package com.tapsterrock.mpp;
+package com.tapsterrock.mpx;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Locale;
+
 
 /**
  * This class represents a column in an MS Project table. The attributes held

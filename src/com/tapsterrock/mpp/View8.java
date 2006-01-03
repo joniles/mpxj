@@ -23,6 +23,8 @@
 
 package com.tapsterrock.mpp;
 
+import com.tapsterrock.mpx.View;
+
 
 /**
  * This class represents a view of a set of project data that has been

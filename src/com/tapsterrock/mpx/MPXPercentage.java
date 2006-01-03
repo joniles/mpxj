@@ -59,7 +59,7 @@ final class MPXPercentage extends Number implements ToStringRequiresFile
     * @param mpx parent mpx file
     * @return string representation of the rate
     */
-   public String toString (MPXFile mpx)
+   public String toString (ProjectFile mpx)
    {
       return (toString(mpx.getPercentageDecimalFormat()));
    }

@@ -33,7 +33,7 @@ public final class Comments extends MPXRecord
     *
     * @param file the parent file to which this record belongs.
     */
-   Comments (MPXFile file)
+   Comments (ProjectFile file)
    {
       this (file, Record.EMPTY_RECORD);
    }
@@ -45,7 +45,7 @@ public final class Comments extends MPXRecord
     * @param file the MPXFile object to which this record belongs.
     * @param record record containing the data for  this object.
     */
-   Comments (MPXFile file, Record record)
+   Comments (ProjectFile file, Record record)
    {
       super (file, 0);
       m_text = record.getString(0);
@@ -83,7 +83,7 @@ public final class Comments extends MPXRecord
       buffer.append (RECORD_NUMBER);
       buffer.append (getParentFile().getDelimiter());
       buffer.append (m_text);
-      buffer.append (MPXFile.EOL);
+      buffer.append (ProjectFile.EOL);
       return (buffer.toString());
    }
 
