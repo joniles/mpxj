@@ -34,6 +34,8 @@
       <action dev="joniles" type="fix">Fixed a compiler warning when build with JDK5.</action>      
       <action dev="joniles" type="fix">Fixed a bug where a project start date was not being set correctly in the project header.</action>
       <action dev="joniles" type="add">Added support for reading the project header "calendar name", "schedule from" and "revision" values from MPP files.</action>
+      <action dev="joniles" type="fix">Fixed split task support.</action>
+      <action dev="joniles" type="update">Enhanced TableFontStyle implementation.</action>            
    </release>
       
    <release version="0.0.25" date="11/08/2005"> 

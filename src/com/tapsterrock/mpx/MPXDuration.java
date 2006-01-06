@@ -365,6 +365,23 @@ public final class MPXDuration implements ToStringRequiresFile
    }
 
    /**
+    * {@inheritDoc}
+    */
+   public boolean equals (Object o)
+   {
+      MPXDuration rhs = (MPXDuration)o;
+      return (m_duration == rhs.m_duration && m_units == rhs.m_units);
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public int hashCode ()
+   {
+      return (m_units.getValue() + (int)m_duration);
+   }
+   
+   /**
     * Retrieve an MPXDuration instance. Use shared objects to
     * represent common values for memory efficiency.
     * 
@@ -377,7 +394,7 @@ public final class MPXDuration implements ToStringRequiresFile
    {
       return(getInstance(dur, DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH));
    }
-   
+     
    /**
     * Duration amount.
     */

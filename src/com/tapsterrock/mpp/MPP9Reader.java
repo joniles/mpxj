@@ -1993,62 +1993,47 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta assnVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
-      //System.out.println(assnVarMeta);
-      //System.out.println(assnVarData);
-      
+      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));      
       Set set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
-      byte[] meta;
-      byte[] data;
-      byte[] varDataBlock;
-      Task task;
-      Resource resource;
-      ResourceAssignment assignment;
-      int offset;
-      int id;
-      int taskID;
-      int resourceID;
       
       for (int loop=0; loop < count; loop++)
       {
-         meta = assnFixedMeta.getByteArrayValue(loop);
+         byte[] meta = assnFixedMeta.getByteArrayValue(loop);
          if (meta[0] != 0)
          {
             continue;
          }
 
-         offset = MPPUtility.getInt(meta, 4);
-         data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
+         int offset = MPPUtility.getInt(meta, 4);
+         byte[] data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          if (data == null)
          {
             continue;
          }
          
-         id = MPPUtility.getInt(data, 0);
+         int id = MPPUtility.getInt(data, 0);
          final Integer varDataId = new Integer(id);
          if (set.contains(varDataId) == false)
          {
             continue;
          }
 
-         taskID = MPPUtility.getInt (data, 4);
-         task = file.getTaskByUniqueID (taskID);
+         int taskID = MPPUtility.getInt (data, 4);
+         Task task = file.getTaskByUniqueID (taskID);
                   
          if (task != null)
          {
-            varDataBlock = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, WORK_CONTOUR));
-            if (varDataBlock != null)
-            {
-               processSplitData(task, varDataBlock);
-            }
-            
-            resourceID = MPPUtility.getInt (data, 8);
-            resource = file.getResourceByUniqueID (resourceID);
+            byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));
+            byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
+            processSplitData(task, completeWork, incompleteWork);
+                                    
+            int resourceID = MPPUtility.getInt (data, 8);
+            Resource resource = file.getResourceByUniqueID (resourceID);
             
             if (resource != null)
             {
-               assignment = task.addResourceAssignment (resource);
+               ResourceAssignment assignment = task.addResourceAssignment (resource);
                assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 110)/100));
                assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
                assignment.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 102)/100));
@@ -2062,9 +2047,9 @@ final class MPP9Reader implements MPPVariantReader
                assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
                
-               if (varDataBlock != null)
+               if (incompleteWork != null)
                {
-                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(varDataBlock, 28)));
+                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
                }            
             }
          }
@@ -2072,31 +2057,95 @@ final class MPP9Reader implements MPPVariantReader
    }
 
    /**
-    * The task split data is represented as a 44 byte header (which also
-    * contains unrelated assignment information, such as the work contour)
-    * followed by a list of 28 byte blocks, each block representing one
-    * split. The first two bytes of the header contains a count of the
-    * number of splits.
+    * The task split data is represented in two blocks of data, one representing
+    * the completed time, and the other representing the incomplete time.
+    * 
+    * The completed task split data is stored in a block with a 32 byte header, 
+    * followed by 20 byte blocks, each representing one split. The first two 
+    * bytes of the header contains a count of the number of 20 byte blocks.
+    * 
+    * The incomplete task split data is represented as a 44 byte header 
+    * (which also contains unrelated assignment information, such as the 
+    * work contour) followed by a list of 28 byte blocks, each block representing 
+    * one split. The first two bytes of the header contains a count of the
+    * number of 28 byte blocks.
     * 
     * @param task parent task
-    * @param data split data
+    * @param completeHours completed split data
+    * @param incompleteHours incomplete split data
     */
-   private void processSplitData (Task task, byte[] data)
+   private void processSplitData (Task task, byte[] completeHours, byte[] incompleteHours)
    {
-      int splitCount = MPPUtility.getShort(data, 0);
-      if (splitCount != 0)
+      LinkedList splits = new LinkedList ();
+      
+      if (completeHours != null)
       {
-         List splits = new ArrayList (splitCount);
-         int offset = 44;
-         for (int loop=0; loop < splitCount; loop++)
-         {
-            double splitTime = MPPUtility.getInt(data, offset+24);
+         int splitCount = MPPUtility.getShort(completeHours, 0);         
+         if (splitCount != 0)
+         {            
+            int offset = 32;
+            for (int loop=0; loop < splitCount; loop++)
+            {
+               double splitTime = MPPUtility.getInt(completeHours, offset);
+               if (splitTime != 0)
+               {
+                  splitTime /= 4800;              
+                  MPXDuration splitDuration = MPXDuration.getInstance(splitTime, TimeUnit.HOURS);
+                  splits.add(splitDuration);
+               }
+               offset += 20;                  
+            }         
+            
+            double splitTime = MPPUtility.getInt(completeHours, 24);
             splitTime /= 4800;
-            MPXDuration splitDuration = MPXDuration.getInstance(splitTime, TimeUnit.HOURS);
+            MPXDuration splitDuration = MPXDuration.getInstance(splitTime, TimeUnit.HOURS);               
             splits.add(splitDuration);
-            offset += 28;
          }
-         task.setSplits(splits);
+      }
+    
+      if (incompleteHours != null)
+      {
+         int splitCount = MPPUtility.getShort(incompleteHours, 0);
+         
+         //
+         // Deal with the case where the final task split is partially complete
+         //
+         if (splitCount == 0 && incompleteHours.length >= (44+28))
+         {
+            splitCount = 1;
+         }
+         
+         if (splitCount != 0)
+         {
+            double timeOffset = 0;
+            if (splits.isEmpty() == false)
+            {
+               if (splitCount % 2 != 0)
+               {
+                  timeOffset = ((MPXDuration)splits.removeLast()).getDuration();
+               }
+               else
+               {
+                  timeOffset = ((MPXDuration)splits.getLast()).getDuration();
+               }               
+            }
+            
+            int offset = 44;
+            for (int loop=0; loop < splitCount; loop++)
+            {
+               double splitTime = MPPUtility.getInt(incompleteHours, offset+24);
+               splitTime /= 4800;
+               splitTime += timeOffset;
+               MPXDuration splitDuration = MPXDuration.getInstance(splitTime, TimeUnit.HOURS);
+               splits.add(splitDuration);
+               offset += 28;
+            }
+         }
+      }
+      
+      if (splits.isEmpty() == false)
+      {
+         task.setSplits(splits);         
       }
    }
    
@@ -2577,7 +2626,8 @@ final class MPP9Reader implements MPPVariantReader
 
    private static final Integer TABLE_COLUMN_DATA = new Integer (1);
    private static final Integer OUTLINECODE_DATA = new Integer (1);
-   private static final Integer WORK_CONTOUR = new Integer(7);
+   private static final Integer INCOMPLETE_WORK = new Integer(7);
+   private static final Integer COMPLETE_WORK = new Integer(9);
    
    /**
     * Mask used to isolate confirmed flag from the duration units field.

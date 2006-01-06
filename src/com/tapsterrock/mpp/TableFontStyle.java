@@ -41,13 +41,24 @@ public class TableFontStyle extends FontStyle
     * @param bold bold flag
     * @param underline underline flag
     * @param color color
+    * @param italicChanged italic changed flag
+    * @param boldChanged bold changed flag
+    * @param underlineChanged underline changed flag
+    * @param colorChanged color changed flag
+    * @param fontChanged font changed flag
     */
-   public TableFontStyle (int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color)
+   public TableFontStyle (int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
    {
       super (fontBase, italic, bold, underline, color);
       
       m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;
+      
+      m_italicChanged = italicChanged;
+      m_boldChanged = boldChanged;
+      m_underlineChanged = underlineChanged;
+      m_colorChanged = colorChanged;
+      m_fontChanged = fontChanged;
    }
 
    /**
@@ -73,13 +84,68 @@ public class TableFontStyle extends FontStyle
    }
  
    /**
+    * Retrieve the bold changed flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getBoldChanged()
+   {
+      return (m_boldChanged);
+   }
+
+   /**
+    * Retrieve the color changed flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getColorChanged()
+   {
+      return (m_colorChanged);
+   }
+
+   /**
+    * Retrieve the italic change flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getItalicChanged()
+   {
+      return (m_italicChanged);
+   }
+
+   /**
+    * Retrieve the underline changed flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getUnderlineChanged()
+   {
+      return (m_underlineChanged);
+   }
+
+   /**
+    * Retrieve the font changed flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getFontChanged()
+   {
+      return (m_fontChanged);
+   }
+   
+   /**
     * {@inheritDoc}
     */   
    public String toString ()
    {
-      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + " " + super.toString() + "]");
+      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged?" italic="+getItalic():"") + (m_boldChanged?" bold="+getBold():"") + (m_underlineChanged?" underline="+getUnderline():"") + (m_fontChanged?" font="+getFontBase():"") + (m_colorChanged?" color="+getColor():"") + "]");
    }
    
    private int m_rowUniqueID;
    private FieldType m_fieldType;
+   private boolean m_italicChanged;
+   private boolean m_boldChanged;
+   private boolean m_underlineChanged;
+   private boolean m_colorChanged;
+   private boolean m_fontChanged;
 }

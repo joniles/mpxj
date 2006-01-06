@@ -62,7 +62,7 @@ public class GanttChartView9 extends View9
       if (propsData != null)
       {
          Props9 props = new Props9(new ByteArrayInputStream(propsData));      
-         //System.out.println (props);
+         //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
          
          byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
          if (tableData != null)
@@ -188,14 +188,14 @@ public class GanttChartView9 extends View9
          
          byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
          if (columnData != null)
-         {            
+         {      
             m_tableFontStyles = new TableFontStyle[columnData.length/16];
-            int offset = 0;
+            int offset = 0;           
             for (int loop=0; loop < m_tableFontStyles.length; loop++)
             {
                m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
                offset += 16;               
-            }                        
+            }   
          }
          
          byte[] progressLineData = props.getByteArray(PROGRESS_LINE_PROPERTIES);
@@ -1176,18 +1176,28 @@ public class GanttChartView9 extends View9
     */   
    private TableFontStyle getColumnFontStyle (byte[] data, int offset, Map fontBases)
    {     
+      TableFontStyle result = null;
+            
       int uniqueID = MPPUtility.getInt(data, offset);
-      Integer index = new Integer(MPPUtility.getByte(data, offset+8));
-      FontBase fontBase = (FontBase)fontBases.get(index);
+      FieldType fieldType = TaskField.getInstance(MPPUtility.getShort(data, offset+4));
+      Integer index = new Integer(MPPUtility.getByte(data, offset+8));      
       int style = MPPUtility.getByte(data, offset+9);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
-      FieldType fieldType = TaskField.getInstance(MPPUtility.getShort(data, offset+4));
+      int change = MPPUtility.getByte(data, offset+12);
+      
+      FontBase fontBase = (FontBase)fontBases.get(index);      
       
       boolean bold = ((style & 0x01) != 0);
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
       
-      return (new TableFontStyle (uniqueID, fieldType, fontBase, italic, bold, underline, color));
+      boolean boldChanged = ((change & 0x01) != 0);
+      boolean underlineChanged = ((change & 0x02) != 0);
+      boolean italicChanged = ((change & 0x04) != 0);      
+      boolean colorChanged = ((change & 0x08) != 0);
+      boolean fontChanged = ((change & 0x10) != 0);
+      
+      return (new TableFontStyle (uniqueID, fieldType, fontBase, italic, bold, underline, color, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
    }
    
    /**

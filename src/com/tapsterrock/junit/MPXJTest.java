@@ -30,6 +30,7 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,10 +40,10 @@ import com.tapsterrock.mpp.MPPReader;
 import com.tapsterrock.mpx.MPXCalendar;
 import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
-import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXReader;
 import com.tapsterrock.mpx.MPXWriter;
 import com.tapsterrock.mpx.Priority;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.Relation;
 import com.tapsterrock.mpx.Resource;
@@ -2336,6 +2337,68 @@ public class MPXJTest extends TestCase
          }
       }
    }
+
+   /**
+    * Exercise split task functionality.
+    * 
+    * @throws Exception
+    */
+   public void testSplits ()
+      throws Exception
+   {
+      List splits = new LinkedList();
+      splits.add(MPXDuration.getInstance(32, TimeUnit.HOURS));
+      splits.add(MPXDuration.getInstance(40, TimeUnit.HOURS));      
+      splits.add(MPXDuration.getInstance(88, TimeUnit.HOURS));
+      
+      ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9.mpp");
+      Task task = mpp.getTaskByUniqueID(1);
+      assertNull(task.getSplits());
+
+      task = mpp.getTaskByUniqueID(2);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(3);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(4);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(5);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(6);      
+      assertEquals(splits, task.getSplits());
+      
+      splits.clear();
+      splits.add(MPXDuration.getInstance(16, TimeUnit.HOURS));      
+      splits.add(MPXDuration.getInstance(48, TimeUnit.HOURS));      
+      splits.add(MPXDuration.getInstance(88, TimeUnit.HOURS));      
+      splits.add(MPXDuration.getInstance(104, TimeUnit.HOURS));      
+      splits.add(MPXDuration.getInstance(128, TimeUnit.HOURS));      
+      
+      task = mpp.getTaskByUniqueID(7);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(8);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(9);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(10);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(11);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(12);      
+      assertEquals(splits, task.getSplits());
+      
+      task = mpp.getTaskByUniqueID(13);      
+      assertEquals(splits, task.getSplits());                              
+   }
+   
 
    /**
     * As part of the bug reports that are submitted for MPXJ I am passed a
