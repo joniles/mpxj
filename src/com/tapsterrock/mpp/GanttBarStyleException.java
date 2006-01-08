@@ -40,6 +40,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    public GanttBarStyleException (byte[] data, int offset)
    {
       m_taskID = MPPUtility.getInt(data, offset);
+      m_barStyleIndex = MPPUtility.getShort(data, offset+4) - 1;
       m_middleShape = data[offset+6];
       m_middlePattern = data[offset+7];
       m_middleColor = ColorType.getInstance(data[offset+8]);
@@ -67,6 +68,23 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    }
       
    /**
+    * Retrieves the index of the bar style to which this exception applies.
+    * The standar bar styles are held in an array, retrieved using the 
+    * GanttChartView.getBarStyles() method. The index returned by this method
+    * is an index into the array of bar styles. The significance of this is
+    * that a single bar a=on a Gantt chart could have one or more exceptions
+    * associated wit it, but the exceptions will only be applied if the style
+    * of the bar currently being displayed matches the style recorded here
+    * in the style exception.
+    * 
+    * @return bar style index
+    */
+   public int getBarStyleIndex ()
+   {
+      return (m_barStyleIndex);
+   }
+   
+   /**
     * Generate a string representation of this instance.
     * 
     * @return string representation of this instance
@@ -77,6 +95,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
       PrintWriter pw = new PrintWriter (os);
       pw.println ("   [GanttBarStyleException");
       pw.println ("      TaskID=" + m_taskID);  
+      pw.println ("      BarStyleIndex=" + m_barStyleIndex);  
       pw.println (super.toString());            
       pw.println ("   ]");
       pw.flush();
@@ -84,4 +103,5 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    }
 
    private int m_taskID;
+   private int m_barStyleIndex;
 }
