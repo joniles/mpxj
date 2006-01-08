@@ -933,6 +933,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             ResourceAssignment dummy = m_projectFile.newResourceAssignment (task);
             MPXDuration duration = task.getDuration();
+            if (duration == null)
+            {
+               duration = MPXDuration.getInstance(0, TimeUnit.HOURS);
+            }
             double durationValue = duration.getDuration();            
             TimeUnit durationUnits = duration.getUnits();
             double actualWork = (durationValue * percentComplete) / 100;
