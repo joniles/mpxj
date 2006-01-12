@@ -4708,6 +4708,28 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
    
    /**
+    * Sets the offset added to unique task IDs from sub projects
+    * to generate the task ID shown in the master project.
+    * 
+    * @param offset unique ID offset
+    */
+   public void setSubprojectTasksUniqueIDOffset (Integer offset)
+   {
+      m_subprojectTasksUniqueIDOffset = offset;
+   }
+   
+   /**
+    * Retrieves the offset added to unique task IDs from sub projects
+    * to generate the task ID shown in the master project.
+    * 
+    * @return unique ID offset
+    */
+   public Integer getSubprojectTasksUniqueIDOffset ()
+   {
+      return (m_subprojectTasksUniqueIDOffset);
+   }
+   
+   /**
     * Retrieve the subproject read only flag.
     *
     * @return subproject read only flag
@@ -7391,6 +7413,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private boolean m_overAllocated;
    private boolean m_subprojectReadOnly;
    private Integer m_subprojectTaskUniqueID;
+   private Integer m_subprojectTasksUniqueIDOffset;
    private boolean m_externalTask;
    private String m_externalTaskProject;
    private Number m_acwp;

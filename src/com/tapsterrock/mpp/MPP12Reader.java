@@ -217,7 +217,6 @@ final class MPP12Reader implements MPPVariantReader
          int filePathOffset;
          int fileNameOffset;
          SubProject sp;
-         int uniqueIDStartValue = 0x800000;
 
          byte[] itemHeader = new byte[20];
 
@@ -269,7 +268,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
                   m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
@@ -293,7 +292,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
                   m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
@@ -313,7 +312,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
                   m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
@@ -332,7 +331,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
                   file.setResourceSubProject(sp);
                   break;
                }
@@ -349,7 +348,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, uniqueIDStartValue);                  
+                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset);                  
                   file.setResourceSubProject(sp);
                   break;
                }
@@ -383,14 +382,11 @@ final class MPP12Reader implements MPPVariantReader
     * @param uniqueIDOffset offset of unique ID
     * @param filePathOffset offset of file path
     * @param fileNameOffset offset of file name
-    * @param uniqueIDStartValue used to create unique IDs in the parent file
     * @return new SubProject instance
     */
-   private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int uniqueIDStartValue)
+   private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset)
    {
-      SubProject sp = new SubProject ();
-      
-      sp.setUniqueIDStartValue(uniqueIDStartValue);
+      SubProject sp = new SubProject ();      
       
       if (uniqueIDOffset != -1)
       {
@@ -867,10 +863,7 @@ final class MPP12Reader implements MPPVariantReader
 
    /**
     * This method maps the task unique identifiers to their index number
-    * within the FixedData block. Note that although we have previously been
-    * treating the task ID as a 4 byte integer, here it appears to need
-    * to be treated as a 2 byte integer in order for us to match it with
-    * the 2 byte unqiue ID values held in the task VarMeta data.
+    * within the FixedData block.
     *
     * @param taskFixedMeta Fixed meta data for this task
     * @param taskFixedData Fixed data for this task
@@ -889,7 +882,7 @@ final class MPP12Reader implements MPPVariantReader
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
          {
-            uniqueID = MPPUtility.getShort(data, 0);
+            uniqueID = MPPUtility.getInt(data, 0);
             key = new Integer(uniqueID);
             if (taskMap.containsKey(key) == false)
             {
@@ -1518,6 +1511,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setStop(MPPUtility.getTimestamp (data, 16));
          //task.setSubprojectFile();
          //task.setSubprojectReadOnly();
+         task.setSubprojectTasksUniqueIDOffset(new Integer (taskVarData.getInt(id, TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET)));
          task.setSubprojectTaskUniqueID(new Integer (taskVarData.getInt(id, TASK_SUBPROJECTTASKID)));
          //task.setSuccessors(); // Calculated value
          //task.setSummary(); // Automatically generated by MPXJ
@@ -2344,7 +2338,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_OVERTIME_COST = new Integer (5);
    private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
    private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);
-
+   
+   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (8);   
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);
 
    private static final Integer TASK_WBS = new Integer (10);

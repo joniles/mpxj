@@ -67,6 +67,14 @@ public final class ResourceField implements FieldType
    }
    
    /**
+    * {@inheritDoc}
+    */
+   public int getValue ()
+   {
+      return (m_value);
+   }
+   
+   /**
     * Retrieve an instance of this class based on the data read from an
     * MS Project file.
     * 

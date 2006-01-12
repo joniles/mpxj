@@ -128,29 +128,7 @@ public final class SubProject
    {
       m_uniqueID = uniqueID;
    }
-   
-   /**
-    * Retrieve the unique ID start value. This value is added to the unique
-    * IDs from the child project file to create the uique IDs shown in the
-    * parent project file.
-    * 
-    * @return unique ID start value
-    */
-   public int getUniqueIDStartValue ()
-   {
-      return (m_uniqueIDStartValue);
-   }
-
-   /**
-    * Sets the unique ID start value.
-    * 
-    * @param uniqueIDStartValue unique ID start value
-    */
-   public void setUniqueIDStartValue (int uniqueIDStartValue)
-   {
-      m_uniqueIDStartValue = uniqueIDStartValue;
-   }
-   
+      
    /**
     * {@inheritDoc}
     */
@@ -164,5 +142,4 @@ public final class SubProject
    private String m_fullPath;
    private String m_dosFileName;
    private String m_fileName;
-   private int m_uniqueIDStartValue;
 }

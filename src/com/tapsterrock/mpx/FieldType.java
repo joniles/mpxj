@@ -45,4 +45,11 @@ public interface FieldType
     * @return field name
     */
    public String getName (Locale locale);
+   
+   /**
+    * Retrieve the internal numeric representation of the field.
+    * 
+    * @return numeric representation of the field type
+    */
+   public int getValue ();
 }
