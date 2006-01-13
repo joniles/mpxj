@@ -1150,7 +1150,7 @@ final class MPP8Reader implements MPPVariantReader
             //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
             assignment.setRemainingWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 114))/100, TimeUnit.HOURS));
             assignment.setStart(MPPUtility.getTimestamp(data, 24));
-            assignment.setUnits(((double)MPPUtility.getShort(data, 80))/100);
+            assignment.setUnits(new Double(((double)MPPUtility.getShort(data, 80))/100));
             assignment.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 84))/100, TimeUnit.HOURS));
 
             //

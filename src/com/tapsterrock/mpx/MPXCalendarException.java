@@ -57,13 +57,13 @@ public final class MPXCalendarException extends MPXRecord
    MPXCalendarException (ProjectFile file, MPXCalendar calendar, Record record)
       throws MPXException
    {
-      super(file, MAX_FIELDS);
+      super(file, 0);
 
       m_parentCalendar = calendar;
 
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
-      setWorking(record.getNumericBoolean(2));
+      setWorking(record.getNumericBoolean(2).booleanValue());
       setFromTime1(record.getTime(3));
       setToTime1(record.getTime(4));
       setFromTime2(record.getTime(5));
@@ -80,7 +80,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getFromDate ()
    {
-      return ((Date)get(FROM_DATE));
+      return (m_fromDate);
    }
 
    /**
@@ -90,20 +90,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromDate (Date from)
    {
-      MPXDate date = null;
-      if (from != null)
-      {
-         if (from instanceof MPXDate == true)
-         {
-            date = (MPXDate)from;
-         }
-         else
-         {
-            date = new MPXDate(getParentFile().getDateTimeFormat(), from);
-         }
-         date = date.getDayStartDate();
-      }
-      putDate (FROM_DATE, date);
+      m_fromDate = toDate(from);
    }
 
    /**
@@ -113,7 +100,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getToDate ()
    {
-      return ((Date)get(TO_DATE));
+      return (m_toDate);
    }
 
    /**
@@ -123,21 +110,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToDate (Date to)
    {
-      MPXDate date = null;
-      if (to != null)
-      {
-         if (to instanceof MPXDate == true)
-         {
-            date = (MPXDate)to;
-         }
-         else
-         {
-            date = new MPXDate(getParentFile().getDateTimeFormat(), to);
-         }
-         date = date.getDayEndDate();
-      }
-
-      putDate (TO_DATE,to);
+      m_toDate = toDate(to);
    }
 
    /**
@@ -145,19 +118,9 @@ public final class MPXCalendarException extends MPXRecord
     *
     * @return boolean value
     */
-   public boolean getWorkingValue ()
+   public boolean getWorking ()
    {
-      return  (getNumericBooleanValue (WORKING));
-   }
-
-   /**
-    * Gets working status.
-    *
-    * @return boolean value
-    */
-   public NumericBoolean getWorking ()
-   {
-      return  ((NumericBoolean)get (WORKING));
+      return  (m_working);
    }
 
    /**
@@ -167,17 +130,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setWorking (boolean flag)
    {
-      put (WORKING, NumericBoolean.getInstance(flag));
-   }
-
-   /**
-    * Sets working status of this exception.
-    *
-    * @param flag Boolean flag
-    */
-   public void setWorking (NumericBoolean flag)
-   {
-      put (WORKING, flag);
+      m_working = flag;
    }
 
    /**
@@ -187,7 +140,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getFromTime1 ()
    {
-      return ((Date)get(FROM_TIME_1));
+      return (m_fromTime1);
    }
 
    /**
@@ -197,7 +150,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromTime1 (Date from)
    {
-      putTime (FROM_TIME_1, from);
+      m_fromTime1 = toTime(from);
    }
 
    /**
@@ -207,7 +160,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getToTime1 ()
    {
-      return ((Date)get(TO_TIME_1));
+      return (m_toTime1);
    }
 
    /**
@@ -217,7 +170,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToTime1 (Date to)
    {
-      putTime (TO_TIME_1, to);
+      m_toTime1 = toTime(to);
    }
 
    /**
@@ -227,7 +180,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getFromTime2 ()
    {
-      return ((Date)get(FROM_TIME_2));
+      return (m_fromTime2);
    }
 
    /**
@@ -237,7 +190,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromTime2 (Date from)
    {
-      putTime (FROM_TIME_2, from);
+      m_fromTime2 = toTime(from);
    }
 
    /**
@@ -247,7 +200,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getToTime2 ()
    {
-      return ((Date)get(TO_TIME_2));
+      return (m_toTime2);
    }
 
    /**
@@ -257,7 +210,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToTime2 (Date to)
    {
-      putTime (TO_TIME_2, to);
+      m_toTime2 = toTime(to);
    }
 
    /**
@@ -267,7 +220,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getFromTime3 ()
    {
-      return ((Date)get(FROM_TIME_3));
+      return (m_fromTime3);
    }
 
    /**
@@ -277,7 +230,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromTime3 (Date from)
    {
-      putTime (FROM_TIME_3,from);
+      m_fromTime3 = toTime(from);
    }
 
    /**
@@ -287,7 +240,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public Date getToTime3 ()
    {
-      return ((Date)get(TO_TIME_3));
+      return (m_toTime3);
    }
 
    /**
@@ -297,7 +250,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToTime3 (Date to)
    {
-      putTime (TO_TIME_3, to);
+      m_toTime3 = toTime(to);
    }
 
    /**
@@ -325,82 +278,57 @@ public final class MPXCalendarException extends MPXRecord
       return (result);
    }
 
+
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
+    * {@inheritDoc}
     */
    public String toString ()
    {
-      int recordNumber;
+      StringBuffer buf = new StringBuffer();
+      char delimiter = getParentFile().getDelimiter();
 
       if (m_parentCalendar.isBaseCalendar() == true)
       {
-         recordNumber = BASE_CALENDAR_EXCEPTION_RECORD_NUMBER;
+         buf.append(BASE_CALENDAR_EXCEPTION_RECORD_NUMBER);
       }
       else
       {
-         recordNumber = RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER;
+         buf.append(RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER);
       }
-
-      return (toString(recordNumber));
+      buf.append(delimiter);
+      
+      buf.append(format(delimiter, getFromDate()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getToDate()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, NumericBoolean.getInstance(getWorking())));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getFromTime1()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getToTime1()));
+      buf.append(delimiter);      
+      buf.append(format(delimiter, getFromTime2()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getToTime2()));
+      buf.append(delimiter);            
+      buf.append(format(delimiter, getFromTime3()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getToTime3()));
+      stripTrailingDelimiters(buf, delimiter);
+      buf.append (ProjectFile.EOL);
+      return (buf.toString());
    }
-
-   /**
-    * Reference to the parent calendar of this exception.
-    */
+   
    private MPXCalendar m_parentCalendar;
-
-   /**
-    * Constant identifier for the FromDate field.
-    */
-   private static final int FROM_DATE = 0;
-
-   /**
-    * Constant identifier for the ToDate field.
-    */
-   private static final int TO_DATE = 1;
-
-   /**
-    * Constant identifier for the Working field.
-    */
-   private static final int WORKING = 2;
-
-   /**
-    * Constant identifier for the FromTime 1 field.
-    */
-   private static final int FROM_TIME_1 = 3;
-
-   /**
-    * Constant identifier for the To Time 1 field.
-    */
-   private static final int TO_TIME_1 = 4;
-
-   /**
-    * Constant identifier for the From Time 2 field.
-    */
-   private static final int FROM_TIME_2 = 5;
-
-   /**
-    * Constant identifier for the To Time 2 field.
-    */
-   private static final int TO_TIME_2 = 6;
-
-   /**
-    * Constant identifier for the From Time 3 field.
-    */
-   private static final int FROM_TIME_3 = 7;
-
-   /**
-    * Constant identifier for the To Time 3 field.
-    */
-   private static final int TO_TIME_3 = 8;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 9;
+   private Date m_fromDate;
+   private Date m_toDate;
+   private boolean m_working;
+   private Date m_fromTime1;
+   private Date m_toTime1;
+   private Date m_fromTime2;
+   private Date m_toTime2;
+   private Date m_fromTime3;
+   private Date m_toTime3;
 
    /**
     * Constant containing the record number associated with this record.

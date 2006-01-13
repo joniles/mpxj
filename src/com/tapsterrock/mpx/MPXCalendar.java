@@ -560,7 +560,7 @@ public final class MPXCalendar extends MPXRecord
          exception = (MPXCalendarException)iter.next();
          if (exception.contains(date) == true)
          {
-            result = exception.getWorkingValue();
+            result = exception.getWorking();
             break;
          }
          exception = null;

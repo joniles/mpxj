@@ -135,17 +135,6 @@ public final class ResourceAssignment extends MPXRecord
       return (m_workgroup);
    }
 
-
-   /**
-    * Returns the resource ID associated with this assignment.
-    *
-    * @return ID
-    */
-   public int getResourceIDValue ()
-   {
-      return (getIntValue(RESOURCE_ID));
-   }
-
    /**
     * Returns the resource ID associated with this assignment.
     *
@@ -154,16 +143,6 @@ public final class ResourceAssignment extends MPXRecord
    public Integer getResourceID ()
    {
       return ((Integer)get (RESOURCE_ID));
-   }
-
-   /**
-    * Sets the resource ID associated with this assignment.
-    *
-    * @param val  ID
-    */
-   public void setResourceID (int val)
-   {
-      setResourceID(new Integer (val));
    }
 
    /**
@@ -193,29 +172,9 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return units
     */
-   public double getUnitsValue ()
-   {
-      return (getDoubleValue(UNITS));
-   }
-
-   /**
-    * Returns the units of this resource assignment.
-    *
-    * @return units
-    */
    public Number getUnits ()
    {
       return ((Number)get(UNITS));
-   }
-
-   /**
-    * Sets the units for this resource assignment.
-    *
-    * @param val units
-    */
-   public void setUnits (double val)
-   {
-      put (UNITS, new MPXUnits (val));
    }
 
    /**
@@ -433,29 +392,9 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return resources unique id
     */
-   public int getResourceUniqueIDValue ()
-   {
-      return (getIntValue(RESOURCE_UNIQUE_ID));
-   }
-
-   /**
-    * Returns the resources unique id for this resource assignment.
-    *
-    * @return resources unique id
-    */
    public Integer getResourceUniqueID ()
    {
       return ((Integer)get (RESOURCE_UNIQUE_ID));
-   }
-
-   /**
-    * Sets the resources unique id for this resource assignment.
-    *
-    * @param val resources unique id
-    */
-   public void setResourceUniqueID (int val)
-   {
-      setResourceUniqueID(new Integer(val));
    }
 
    /**
@@ -509,7 +448,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Resource getResource ()
    {
-      return (getParentFile().getResourceByUniqueID(getResourceUniqueIDValue()));
+      return (getParentFile().getResourceByUniqueID(NumberUtility.getInt(getResourceUniqueID())));
    }
 
    /**
@@ -549,14 +488,43 @@ public final class ResourceAssignment extends MPXRecord
    public String toString()
    {
       StringBuffer buf = new StringBuffer();
+      char delimiter = getParentFile().getDelimiter();
 
-      buf.append(toString(RECORD_NUMBER));
+      buf.append(RECORD_NUMBER);
+      buf.append(delimiter);
+      buf.append(format(delimiter, getResourceID()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getUnits()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getWork()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getPlannedWork()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getActualWork()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getOvertimeWork()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getCost()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getPlannedCost()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getActualCost()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getStart()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getFinish()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getDelay()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getResourceUniqueID()));      
+      stripTrailingDelimiters(buf, delimiter);
+      buf.append (ProjectFile.EOL);
 
       if (m_workgroup != null)
       {
          buf.append (m_workgroup.toString());
       }
-
+      
       return (buf.toString());
    }
 
@@ -579,7 +547,7 @@ public final class ResourceAssignment extends MPXRecord
    {
       m_remainingWork = remainingWork;
    }
-
+   
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither

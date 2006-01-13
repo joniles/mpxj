@@ -581,14 +581,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    {
       Iterator iter = m_assignments.iterator();
       ResourceAssignment assignment = null;
-      int resourceUniqueID = resource.getUniqueIDValue();
-      int uniqueID;
+      Integer resourceUniqueID = resource.getUniqueID();
+      Integer uniqueID;
 
       while (iter.hasNext() == true)
       {
          assignment = (ResourceAssignment)iter.next();
-         uniqueID = assignment.getResourceUniqueIDValue();
-         if (uniqueID == resourceUniqueID)
+         uniqueID = assignment.getResourceUniqueID();
+         if (uniqueID.equals(resourceUniqueID) == true)
          {
             break;
          }

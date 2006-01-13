@@ -51,9 +51,9 @@ final class FixFix extends MPPComponent
    FixFix (int itemSize, InputStream is)
       throws IOException
    {
-      int available = is.available();
-      m_diff = available % itemSize;
-      int itemCount = available / itemSize;
+      m_size = is.available();
+      m_diff = m_size % itemSize;
+      int itemCount = m_size / itemSize;
       m_array = new Object[itemCount];
 
       for (int loop=0; loop < itemCount; loop++)

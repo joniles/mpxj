@@ -385,7 +385,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       while (iter.hasNext() == true)
       {
          exception = (MPXCalendarException)iter.next();
-         working = exception.getWorkingValue();
+         working = exception.getWorking();
 
          day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
          dayList.add(day);
@@ -942,7 +942,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
             
-            dummy.setResourceUniqueID(-65535);
+            dummy.setResourceUniqueID(MSPDIConstants.NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(MPXDuration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(MPXDuration.getInstance(remainingWork, durationUnits));
@@ -975,7 +975,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration (this, mpx.getRemainingWork()));
-      xml.setResourceUID(BigInteger.valueOf(mpx.getResourceUniqueIDValue()));
+      xml.setResourceUID(BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));
       xml.setStart(DatatypeConverter.printDate (mpx.getStart()));
       xml.setTaskUID(BigInteger.valueOf(mpx.getTask().getUniqueIDValue()));
       xml.setUID(BigInteger.valueOf(uid));

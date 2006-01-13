@@ -42,6 +42,7 @@ import com.tapsterrock.mpx.MPXDuration;
 import com.tapsterrock.mpx.MPXException;
 import com.tapsterrock.mpx.MPXReader;
 import com.tapsterrock.mpx.MPXWriter;
+import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.Priority;
 import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.ProjectHeader;
@@ -592,7 +593,7 @@ public class MPXJTest extends TestCase
       {
          assignment = (ResourceAssignment)iter.next();
 
-         switch (assignment.getResourceIDValue())
+         switch (NumberUtility.getInt(assignment.getResourceID()))
          {
             case 1:
             {
@@ -2144,7 +2145,7 @@ public class MPXJTest extends TestCase
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/caltest98.mpp");
       validateResourceCalendars(mpp);
-      
+            
       ProjectFile mpx = new MPXReader().read(m_basedir + "/caltest98.mpx");
       validateResourceCalendars(mpx);
       
@@ -2399,7 +2400,36 @@ public class MPXJTest extends TestCase
       assertEquals(splits, task.getSplits());                              
    }
    
-
+   /**
+    * Basic rewrite test to exercise th MPX calendar exception read/write code.
+    * 
+    * @throws Exception
+    */
+   public void testMPXCalendarExceptions ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+   
+      try
+      {
+         File in = new File (m_basedir + "/calendarExceptions.mpx");
+         ProjectFile mpx = new MPXReader().read (in);
+         out = File.createTempFile ("junit", ".mpx");
+         new MPXWriter().write(mpx, out);
+         success = compareFiles (in, out);
+         assertTrue ("Files are not identical", success);
+      }
+   
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+   
    /**
     * As part of the bug reports that are submitted for MPXJ I am passed a
     * number of confidential project files, which for obvious reasons cannot

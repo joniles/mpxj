@@ -54,16 +54,16 @@ public final class RecurringTask extends MPXRecord
    RecurringTask (ProjectFile file, Record record)
       throws MPXException
    {
-      super (file, MAX_FIELDS);
+      super (file, 0);
 
-      setTaskUniqueID(record.getString(0));
+      setTaskUniqueID(record.getInteger(0));
       setStartDate(record.getDateTime(1));
       setFinishDate(record.getDateTime(2));
       setDuration(record.getInteger(3));
       setDurationType(record.getString(4));
       setNumberOfOccurances(record.getInteger(5));
       setRecurranceType(record.getInteger(6));
-      setNotSureIndex(record.getInteger(7));
+      setNotSureIndex(record.getInteger(7));      
       setLengthRadioIndex(record.getInteger(8));
       setDailyBoxRadioIndex(record.getInteger(9));
       setWeeklyBoxDayOfWeekIndex(record.getString(10));
@@ -88,9 +88,9 @@ public final class RecurringTask extends MPXRecord
     *
     * @return - String ID
     */
-   public String getTaskUniqueID ()
+   public Integer getTaskUniqueID ()
    {
-      return ((String)get(ID));
+      return (m_taskUniqueID);
    }
 
    /**
@@ -98,9 +98,9 @@ public final class RecurringTask extends MPXRecord
     *
     * @param id - String ID
     */
-   public void setTaskUniqueID (String id)
+   public void setTaskUniqueID (Integer id)
    {
-      put (ID, id);
+      m_taskUniqueID = id;
    }
 
    /**
@@ -110,7 +110,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Date getStartDate ()
    {
-      return ((Date)get(START_DATE));
+      return (m_startDate);
    }
 
    /**
@@ -120,7 +120,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setStartDate (Date val)
    {
-      putDate (START_DATE, val);
+      m_startDate = toDate(val);
    }
 
    /**
@@ -130,7 +130,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Date getFinishDate ()
    {
-      return ((Date)get(FINISH_DATE));
+      return (m_finishDate);
    }
 
    /**
@@ -140,17 +140,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setFinishDate (Date val)
    {
-      putDate (FINISH_DATE, val);
-   }
-
-   /**
-    * Duration in minutes.
-    *
-    * @return int value of duration, in minutes
-    */
-   public int getDurationValue ()
-   {
-      return (getIntValue (DURATION));
+      m_finishDate = toDate(val);
    }
 
    /**
@@ -160,17 +150,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getDuration ()
    {
-      return ((Integer)get (DURATION));
-   }
-
-   /**
-    * Duration in minutes.
-    *
-    * @param val Integer value of duration in minutes
-    */
-   public void setDuration (int val)
-   {
-      put (DURATION,val);
+      return (m_duration);
    }
 
    /**
@@ -180,7 +160,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setDuration (Integer val)
    {
-      put (DURATION,val);
+      m_duration = val;
    }
 
    /**
@@ -190,27 +170,17 @@ public final class RecurringTask extends MPXRecord
     */
    public String getDurationType ()
    {
-      return ((String)get(DURATION_TYPE));
+      return (m_durationType);
    }
 
    /**
-    * Unimportant as Duration appears as minutes.
+    * Duration type.
     *
     * @param val int type
     */
    public void setDurationType (String val)
    {
-      put (DURATION_TYPE, val);
-   }
-
-   /**
-    * Sets the number of occurance of the task.
-    *
-    * @return number of occurances
-    */
-   public int getNumberOfOccurancesValue ()
-   {
-      return (getIntValue (NO_OF_OCCURANCES));
+      m_durationType = val;
    }
 
    /**
@@ -220,17 +190,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getNumberOfOccurances ()
    {
-      return ((Integer)get (NO_OF_OCCURANCES));
-   }
-
-   /**
-    * Gets the number of occurance of the task.
-    *
-    * @param val number of occurances
-    */
-   public void setNumberOfOccurances (int val)
-   {
-      put (NO_OF_OCCURANCES, val);
+      return (m_numberOfOccurances);
    }
 
    /**
@@ -240,18 +200,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setNumberOfOccurances (Integer val)
    {
-      put (NO_OF_OCCURANCES, val);
-   }
-
-   /**
-    * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
-    * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    *
-    * @return - int representing type
-    */
-   public int getRecurranceTypeValue ()
-   {
-      return (getIntValue (RECURRANCE_TYPE));
+      m_numberOfOccurances = val;
    }
 
    /**
@@ -262,18 +211,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getRecurranceType ()
    {
-      return ((Integer)get (RECURRANCE_TYPE));
-   }
-
-   /**
-    * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
-    * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    *
-    * @param val - int representing type
-    */
-   public void setRecurranceType (int val)
-   {
-      put (RECURRANCE_TYPE, val);
+      return (m_recurranceType);
    }
 
    /**
@@ -284,19 +222,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setRecurranceType (Integer val)
    {
-      put (RECURRANCE_TYPE, val);
-   }
-
-   /**
-    * Gets the selection in Length Options box.
-    * Top option - to a specific date.  Value 1
-    * Bottom option - no of occurances.  value 0
-    *
-    * @return  value of this option set
-    */
-   public int getLengthRadioIndexValue ()
-   {
-      return (getIntValue (LENGTH_RADIO_INDEX));
+      m_recurranceType = val;
    }
 
    /**
@@ -308,19 +234,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getLengthRadioIndex ()
    {
-      return ((Integer)get (LENGTH_RADIO_INDEX));
-   }
-
-   /**
-    * Sets the selection in Length Options box.
-    * Top option - to a specific date.  Value 1
-    * Bottom option - no of occurances.  value 0
-    *
-    * @param val   value of this option set
-    */
-   public void setLengthRadioIndex (int val)
-   {
-      put (LENGTH_RADIO_INDEX, val);
+      return (m_lengthRadioIndex);
    }
 
    /**
@@ -332,20 +246,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setLengthRadioIndex (Integer val)
    {
-      put (LENGTH_RADIO_INDEX, val);
-   }
-
-   /**
-    * Referring to the 2 radio buttons in the 'Daily' option box
-    * of the MSP Recurring Task infobox.
-    * The top option (Day) = 0 .
-    * The bottom option (Workday) = 1
-    *
-    * @return - int, values as above
-    */
-   public int getDailyBoxRadioIndexValue ()
-   {
-      return (getIntValue (DAILY_BOX_RADIO_INDEX));
+      m_lengthRadioIndex = val;
    }
 
    /**
@@ -358,20 +259,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getDailyBoxRadioIndex ()
    {
-      return ((Integer)get (DAILY_BOX_RADIO_INDEX));
-   }
-
-   /**
-    * Referring to the 2 radio buttons in the 'Daily' option box of the
-    * MSP Recurring Task infobox.
-    * The top option (Day) = 0 .
-    * The bottom option (Workday) = 1
-    *
-    * @param val - int, values as above
-    */
-   public void setDailyBoxRadioIndex (int val)
-   {
-      put (DAILY_BOX_RADIO_INDEX, val);
+      return (m_dailyBoxRadioIndex);
    }
 
    /**
@@ -384,7 +272,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setDailyBoxRadioIndex (Integer val)
    {
-      put (DAILY_BOX_RADIO_INDEX, val);
+      m_dailyBoxRadioIndex = val;
    }
 
    /**
@@ -397,7 +285,7 @@ public final class RecurringTask extends MPXRecord
     */
    public String getWeeklyBoxDayOfWeekIndex ()
    {
-      return ((String)get(WEEKLY_BOX_DAY_OF_WEEK_INDEX));
+      return (m_weeklyBoxDayOfWeekIndex);
    }
 
    /**
@@ -410,18 +298,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setWeeklyBoxDayOfWeekIndex (String val)
    {
-      put (WEEKLY_BOX_DAY_OF_WEEK_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Day x of...) = 0 .
-    * The bottom option (The Xth day of...) = 1
-    * @return - 0 or 1
-    */
-   public int getMonthlyBoxRadioIndexValue ()
-   {
-      return (getIntValue(MONTHLY_BOX_RADIO_INDEX));
+      m_weeklyBoxDayOfWeekIndex = val;
    }
 
    /**
@@ -432,19 +309,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getMonthlyBoxRadioIndex ()
    {
-      return ((Integer)get (MONTHLY_BOX_RADIO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Day x of...) = 0 .
-    * The bottom option (The Xth day of...) = 1
-    *
-    * @param val 0 or 1
-    */
-   public void setMonthlyBoxRadioIndex (int val)
-   {
-      put (MONTHLY_BOX_RADIO_INDEX,val);
+      return (m_monthlyBoxRadioIndex);
    }
 
    /**
@@ -456,18 +321,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setMonthlyBoxRadioIndex (Integer val)
    {
-      put (MONTHLY_BOX_RADIO_INDEX,val);
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Date) = 1 .
-    * The bottom option (The Xth day of...) = 0
-    * @return - 1 or 0, int value
-    */
-   public int getYearlyBoxRadioIndexValue ()
-   {
-      return (getIntValue(YEARLY_BOX_RADIO_INDEX));
+      m_monthlyBoxRadioIndex = val;
    }
 
    /**
@@ -478,19 +332,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getYearlyBoxRadioIndex ()
    {
-      return ((Integer)get (YEARLY_BOX_RADIO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Date) = 1 .
-    * The bottom option (The Xth day of...) = 0
-    *
-    * @param val - 1 or 0, int value
-    */
-   public void setYearlyBoxRadioIndex (int val)
-   {
-      put (YEARLY_BOX_RADIO_INDEX, val);
+      return (m_yearlyBoxRadioIndex);
    }
 
    /**
@@ -502,18 +344,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setYearlyBoxRadioIndex (Integer val)
    {
-      put (YEARLY_BOX_RADIO_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
-    *
-    * @return - int index - eg 7=7th,1=every
-    */
-   public int getDailyBoxComboIndexValue ()
-   {
-      return (getIntValue (DAILY_BOX_COMBO_INDEX));
+      m_yearlyBoxRadioIndex = val;
    }
 
    /**
@@ -524,18 +355,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getDailyBoxComboIndex ()
    {
-      return ((Integer)get (DAILY_BOX_COMBO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
-    *
-    * @param val - int index - eg 7=7th,1=every
-    */
-   public void setDailyBoxComboIndex (int val)
-   {
-      put (DAILY_BOX_COMBO_INDEX,val);
+      return (m_dailyBoxComboIndex);
    }
 
    /**
@@ -546,18 +366,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setDailyBoxComboIndex (Integer val)
    {
-      put (DAILY_BOX_COMBO_INDEX,val);
-   }
-
-   /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
-    *
-    * @return -  int index - eg 7=7th,1=every
-    */
-   public int getWeeklyBoxComboIndexValue ()
-   {
-      return (getIntValue (WEEKLY_BOX_COMBO_INDEX));
+      m_dailyBoxComboIndex = val;
    }
 
    /**
@@ -568,18 +377,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getWeeklyBoxComboIndex ()
    {
-      return ((Integer)get (WEEKLY_BOX_COMBO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
-    *
-    * @param val - int index - eg 7=7th,1=every
-    */
-   public void setWeeklyBoxComboIndex (int val)
-   {
-      put (WEEKLY_BOX_COMBO_INDEX, val);
+      return (m_weeklyBoxComboIndex);
    }
 
    /**
@@ -590,20 +388,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setWeeklyBoxComboIndex (Integer val)
    {
-      put (WEEKLY_BOX_COMBO_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'The' (eg Second) 'Monthly' option boxes of the MSP
-    * Recurring Task infobox.
-    * eg first tueday.
-    * Values for first,second,third,fourth and last.
-    *
-    * @return - int value  of constant
-    */
-   public int getMonthlyBoxFirstLastComboIndexValue ()
-   {
-      return (getIntValue (MONTHLY_BOX_FIRSTLAST_COMBO_INDEX));
+      m_weeklyBoxComboIndex = val;
    }
 
    /**
@@ -616,20 +401,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getMonthlyBoxFirstLastComboIndex ()
    {
-      return ((Integer) get (MONTHLY_BOX_FIRSTLAST_COMBO_INDEX));
-   }
-
-   /**
-    * Refers to the 'The' (eg Second) 'Monthly' option boxes of the
-    * MSP Recurring Task infobox.
-    * eg first tueday.
-    * Values for first,second,third,fourth and last.
-    *
-    * @param val - int value  of constant
-    */
-   public void setMonthlyBoxFirstLastComboIndex (int val)
-   {
-      put (MONTHLY_BOX_FIRSTLAST_COMBO_INDEX, val);
+      return (m_monthlyBoxFirstLastComboIndex);
    }
 
    /**
@@ -642,19 +414,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setMonthlyBoxFirstLastComboIndex (Integer val)
    {
-      put (MONTHLY_BOX_FIRSTLAST_COMBO_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * eg Wednesday.
-    * Values for day of the week
-    *
-    * @return - int value of day
-    */
-   public int getMonthlyBoxDayComboIndexValue ()
-   {
-      return (getIntValue (MONTHLY_BOX_DAY_COMBO_INDEX));
+      m_monthlyBoxFirstLastComboIndex = val;
    }
 
    /**
@@ -666,19 +426,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getMonthlyBoxDayComboIndex ()
    {
-      return ((Integer)get (MONTHLY_BOX_DAY_COMBO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * eg Wednesday.
-    * Values for day of the week
-    *
-    * @param val - int value of day
-    */
-   public void setMonthlyBoxDayComboIndex (int val)
-   {
-      put (MONTHLY_BOX_DAY_COMBO_INDEX, val);
+      return (m_monthlyBoxDayComboIndex);
    }
 
    /**
@@ -690,20 +438,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setMonthlyBoxDayComboIndex (Integer val)
    {
-      put (MONTHLY_BOX_DAY_COMBO_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the bottom radio button is selected (eg. The 3rd Tuesday),
-    * this value is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    *
-    * @return - int value of constant
-    */
-   public int getMonthlyBoxBottomRadioFrequencyComboIndexValue ()
-   {
-      return (getIntValue (MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX));
+      m_monthlyBoxDayComboIndex = val;
    }
 
    /**
@@ -716,20 +451,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getMonthlyBoxBottomRadioFrequencyComboIndex ()
    {
-      return ((Integer)get (MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the bottom radio button is selected (eg. The 3rd Tuesday), this value
-    * is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    *
-    * @param val - int value of constant
-    */
-   public void setMonthlyBoxBottomRadioFrequencyComboIndex (int val)
-   {
-      put (MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX, val);
+      return (m_monthlyBoxBottomRadioFrequencyComboIndex);
    }
 
    /**
@@ -742,18 +464,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setMonthlyBoxBottomRadioFrequencyComboIndex (Integer val)
    {
-      put (MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * This refers to the box Day X, (where X is 1-31) of the month.
-    *
-    * @return - int value of day 1-31
-    */
-   public int getMonthlyBoxDayIndexValue ()
-   {
-      return (getIntValue (MONTHLY_BOX_DAY_INDEX));
+      m_monthlyBoxBottomRadioFrequencyComboIndex = val;
    }
 
    /**
@@ -764,18 +475,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getMonthlyBoxDayIndex ()
    {
-      return ((Integer)get (MONTHLY_BOX_DAY_INDEX));
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * This refers to the box Day X, (where X is 1-31) of the month.
-    *
-    * @param val - int value of day 1-31
-    */
-   public void setMonthlyBoxDayIndex (int val)
-   {
-      put (MONTHLY_BOX_DAY_INDEX, val);
+      return (m_monthlyBoxDayIndex);
    }
 
    /**
@@ -786,20 +486,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setMonthlyBoxDayIndex (Integer val)
    {
-      put (MONTHLY_BOX_DAY_INDEX, val);
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the top radio button is selected (eg. The Xth(day) of..),
-    * this value is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    *
-    * @return - int value of index constant
-    */
-   public int getMonthlyBoxTopRadioFrequencyComboIndexValue ()
-   {
-      return (getIntValue (MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX));
+      m_monthlyBoxDayIndex = val;
    }
 
    /**
@@ -812,20 +499,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getMonthlyBoxTopRadioFrequencyComboIndex ()
    {
-      return ((Integer)get (MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX));
-   }
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the top radio button is selected (eg. The Xth(day) of..), this value
-    * is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    *
-    * @param val - int value of index constant
-    */
-   public void setMonthlyBoxTopRadioFrequencyComboIndex (int val)
-   {
-      put (MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX,val);
+      return (m_monthlyBoxTopRadioFrequencyComboIndex);
    }
 
    /**
@@ -838,19 +512,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setMonthlyBoxTopRadioFrequencyComboIndex (Integer val)
    {
-      put (MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX,val);
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg FIRST tueday of December.
-    * Values for first,second,third,fourth and last.
-    *
-    * @return - int value of index
-    */
-   public int getYearlyBoxFirstLastComboIndexValue ()
-   {
-      return (getIntValue (FIRSTLAST_COMBO_INDEX_YEARLY_BOX));
+      m_monthlyBoxTopRadioFrequencyComboIndex = val;
    }
 
    /**
@@ -862,19 +524,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getYearlyBoxFirstLastComboIndex ()
    {
-      return ((Integer)get (FIRSTLAST_COMBO_INDEX_YEARLY_BOX));
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg FIRST tueday of December.
-    * Values for first,second,third,fourth and last.
-    *
-    * @param val - int value of index
-    */
-   public void setYearlyBoxFirstLastComboIndex (int val)
-   {
-      put (FIRSTLAST_COMBO_INDEX_YEARLY_BOX, val);
+      return (m_yearlyBoxFirstLastComboIndex);
    }
 
    /**
@@ -886,19 +536,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setYearlyBoxFirstLastComboIndex (Integer val)
    {
-      put (FIRSTLAST_COMBO_INDEX_YEARLY_BOX, val);
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first TUESDAY of December.
-    * Values for day of the week
-    *
-    * @return - int value of constant
-    */
-   public int getYearlyBoxDayComboIndexValue ()
-   {
-      return (getIntValue (DAY_COMBO_INDEX_YEARLY_BOX));
+      m_yearlyBoxFirstLastComboIndex = val;
    }
 
    /**
@@ -910,19 +548,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getYearlyBoxDayComboIndex ()
    {
-      return ((Integer)get (DAY_COMBO_INDEX_YEARLY_BOX));
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first TUESDAY of December.
-    * Values for day of the week
-    *
-    * @param val - int value of constant
-    */
-   public void setYearlyBoxDayComboIndex (int val)
-   {
-      put (DAY_COMBO_INDEX_YEARLY_BOX, val);
+      return (m_yearlyBoxDayComboIndex);
    }
 
    /**
@@ -934,19 +560,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setYearlyBoxDayComboIndex (Integer val)
    {
-      put (DAY_COMBO_INDEX_YEARLY_BOX, val);
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first tuesday of MARCH.
-    * Values for month of the year
-    *
-    * @return - int value of index
-    */
-   public int getYearlyBoxMonthComboIndexValue ()
-   {
-      return (getIntValue (MONTH_COMBO_INDEX_YEARLY_BOX));
+      m_yearlyBoxDayComboIndex = val;
    }
 
    /**
@@ -958,19 +572,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getYearlyBoxMonthComboIndex ()
    {
-      return ((Integer)get (MONTH_COMBO_INDEX_YEARLY_BOX));
-   }
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first tuesday of MARCH.
-    * Values for month of the year
-    *
-    * @param val - int value of index
-    */
-   public void setYearlyBoxMonthComboIndex (int val)
-   {
-      put (MONTH_COMBO_INDEX_YEARLY_BOX, val);
+      return (m_yearlyBoxMonthComboIndex);
    }
 
    /**
@@ -982,7 +584,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setYearlyBoxMonthComboIndex (Integer val)
    {
-      put (MONTH_COMBO_INDEX_YEARLY_BOX, val);
+      m_yearlyBoxMonthComboIndex = val;
    }
 
    /**
@@ -994,7 +596,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Date getYearlyBoxDate ()
    {
-      return ((Date)get(YEARLY_BOX_DATE));
+      return (m_yearlyBoxDate);
    }
 
    /**
@@ -1006,17 +608,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setYearlyBoxDate (Date val)
    {
-      putDate (YEARLY_BOX_DATE, val);
-   }
-
-   /**
-    * Not sure index?
-    *
-    * @return - Integer
-    */
-   public int getNotSureIndexValue ()
-   {
-      return (getIntValue (NOT_SURE_INDEX));
+      m_yearlyBoxDate = toDate(val);
    }
 
    /**
@@ -1026,17 +618,7 @@ public final class RecurringTask extends MPXRecord
     */
    public Integer getNotSureIndex ()
    {
-      return ((Integer)get (NOT_SURE_INDEX));
-   }
-
-   /**
-    * Not sure index?
-    *
-    * @param val - Integer
-    */
-   public void setNotSureIndex (int val)
-   {
-      put (NOT_SURE_INDEX, val);
+      return (m_notSureIndex);
    }
 
    /**
@@ -1046,7 +628,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setNotSureIndex (Integer val)
    {
-      put (NOT_SURE_INDEX, val);
+      m_notSureIndex = val;
    }
 
    /**
@@ -1057,9 +639,88 @@ public final class RecurringTask extends MPXRecord
     */
    public String toString()
    {
-      return (toString(RECORD_NUMBER));
+      StringBuffer buf = new StringBuffer ();
+      char delimiter = getParentFile().getDelimiter();
+      
+      buf.append(RECORD_NUMBER);
+      buf.append(delimiter);      
+      buf.append(format(delimiter, getTaskUniqueID()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getStartDate()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getFinishDate()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getDuration()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getDurationType()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getNumberOfOccurances()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getRecurranceType()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getNotSureIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getLengthRadioIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getDailyBoxRadioIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getWeeklyBoxDayOfWeekIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMonthlyBoxRadioIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getYearlyBoxRadioIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getDailyBoxComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getWeeklyBoxComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMonthlyBoxFirstLastComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMonthlyBoxDayComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMonthlyBoxBottomRadioFrequencyComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMonthlyBoxDayIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMonthlyBoxTopRadioFrequencyComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getYearlyBoxFirstLastComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getYearlyBoxDayComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getYearlyBoxMonthComboIndex()));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getYearlyBoxDate()));
+      
+      stripTrailingDelimiters(buf, delimiter);
+      buf.append (ProjectFile.EOL);
+      return (buf.toString());      
    }
 
+   private Integer m_taskUniqueID;
+   private Date m_startDate;
+   private Date m_finishDate;
+   private Integer m_duration;
+   private String m_durationType;
+   private Integer m_numberOfOccurances;
+   private Integer m_recurranceType;
+   private Integer m_lengthRadioIndex;
+   private Integer m_dailyBoxRadioIndex;
+   private String m_weeklyBoxDayOfWeekIndex;
+   private Integer m_monthlyBoxRadioIndex;
+   private Integer m_yearlyBoxRadioIndex;
+   private Integer m_dailyBoxComboIndex;
+   private Integer m_weeklyBoxComboIndex;
+   private Integer m_monthlyBoxFirstLastComboIndex;
+   private Integer m_monthlyBoxDayComboIndex;
+   private Integer m_monthlyBoxBottomRadioFrequencyComboIndex;
+   private Integer m_monthlyBoxDayIndex;
+   private Integer m_monthlyBoxTopRadioFrequencyComboIndex;
+   private Integer m_yearlyBoxFirstLastComboIndex;
+   private Integer m_yearlyBoxDayComboIndex;
+   private Integer m_yearlyBoxMonthComboIndex;
+   private Date m_yearlyBoxDate;
+   private Integer m_notSureIndex;
 
    /**
     * Constant representing frequency - Daily.
@@ -1260,167 +921,7 @@ public final class RecurringTask extends MPXRecord
     * Constant typically representing which Xday of the month.
     */
    public static final Integer LAST = new Integer(5);
-
-   /**
-    * Unique ID. If this <tt>RecurrentTask</tt> is a child of another recurring task,
-    * then only this field appears, signifying the parent.
-    */
-   private static final int ID = 0;
-
-   /**
-    * Start date of recurring task.
-    */
-   private static final int START_DATE = 1;
-
-   /**
-    * End final date of recurring task.
-    */
-   private static final int FINISH_DATE = 2;
-
-   /**
-    * Duration as minutes.
-    */
-   private static final int DURATION = 3;
-
-   /**
-    * Unimportant as Duration appears as minutes.
-    */
-   private static final int DURATION_TYPE = 4;
-
-   /**
-    * No of Occurances scheduled.
-    */
-   private static final int NO_OF_OCCURANCES = 5;
-
-   /**
-    * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
-    * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    */
-   private static final int RECURRANCE_TYPE = 6;
-
-   /**
-    * This field seems redundant.
-    */
-   private static final int NOT_SURE_INDEX = 7;
-
-  /**
-   * Referring to the 2 radio buttons in the 'Length' option box
-   * of the MSP Recurring Task infobox.
-   * The top option (To X Date) = 1 .
-   * The bottom option (For X Occurances) = 0
-   */
-   private static final int LENGTH_RADIO_INDEX = 8;
-
-   /**
-    * Referring to the 2 radio buttons in the 'Daily' option box
-    * of the MSP Recurring Task infobox.
-    * The top option (Day) = 0 .
-    * The bottom option (Workday) = 1
-    */
-   private static final int DAILY_BOX_RADIO_INDEX = 9;
-
-   /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * This is an index of days of the week and is represented as a 7
-    * digit string of 0/1 values.
-    * The string is eg '0010010' if 'Tue' and 'Fri' are selected
-    */
-   private static final int WEEKLY_BOX_DAY_OF_WEEK_INDEX = 10;
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Day x of...) = 0 .
-    * The bottom option (The Xth day of...) = 1
-    */
-   private static final int MONTHLY_BOX_RADIO_INDEX = 11;
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Date) = 1 .
-    * The bottom option (The Xth day of...) = 0
-    */
-   private static final int YEARLY_BOX_RADIO_INDEX = 12;
-
-   /**
-    * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
-    */
-   private static final int DAILY_BOX_COMBO_INDEX = 13;
-
-   /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
-    */
-   private static final int WEEKLY_BOX_COMBO_INDEX = 14;
-
-   /**
-    * Refers to the 'The' (eg Second) 'Monthly' option boxes of the
-    * MSP Recurring Task infobox.
-    * eg first tueday.
-    * Values for first,second,third,fourth and last.
-    */
-   private static final int MONTHLY_BOX_FIRSTLAST_COMBO_INDEX = 15;
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * eg Wednesday.
-    * Values for day of the week
-    */
-   private static final int MONTHLY_BOX_DAY_COMBO_INDEX = 16;
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the bottom radio button is selected (eg. The 3rd Tuesday), this value is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    */
-   private static final int MONTHLY_BOX_BOTTOM_RADIO_FREQUENCY_COMBO_INDEX = 17;
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * This refers to the box Day X, (where X is 1-31) of the month.
-    */
-   private static final int MONTHLY_BOX_DAY_INDEX = 18;
-
-   /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the top radio button is selected (eg. The Xth(day) of..), this value is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    */
-   private static final int MONTHLY_BOX_TOP_RADIO_FREQUENCY_COMBO_INDEX = 19;
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg FIRST tueday of December.
-    * Values for first,second,third,fourth and last.
-    */
-   private static final int FIRSTLAST_COMBO_INDEX_YEARLY_BOX = 20;
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first TUESDAY of December.
-    * Values for day of the week
-    */
-   private static final int DAY_COMBO_INDEX_YEARLY_BOX = 21;
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first tuesday of MARCH.
-    * Values for month of the year
-    */
-   private static final int MONTH_COMBO_INDEX_YEARLY_BOX = 22;
-
-   /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * This is the date shown when the top radio button is selected. eg 11 December.
-    * This represents the first scheduled occurance of this <tt>RecurringTask</tt>
-    */
-   private static final int YEARLY_BOX_DATE = 23;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 24;
-
+   
    /**
     * Constant containing the record number associated with this record.
     */

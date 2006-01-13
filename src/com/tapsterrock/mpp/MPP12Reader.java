@@ -2040,7 +2040,7 @@ final class MPP12Reader implements MPPVariantReader
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
                assignment.setStart(MPPUtility.getTimestamp(data, 12));
-               assignment.setUnits((MPPUtility.getDouble(data, 54))/100);
+               assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
                
                if (incompleteWork != null)
