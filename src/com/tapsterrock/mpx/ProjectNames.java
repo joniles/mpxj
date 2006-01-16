@@ -50,7 +50,7 @@ public final class ProjectNames extends MPXRecord
     */
    ProjectNames (ProjectFile file, Record record)
    {
-      super(file, 0);
+      super(file);
       m_name = record.getString(0);
       m_description = record.getString(1);
    }

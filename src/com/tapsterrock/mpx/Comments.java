@@ -47,7 +47,7 @@ public final class Comments extends MPXRecord
     */
    Comments (ProjectFile file, Record record)
    {
-      super (file, 0);
+      super (file);
       m_text = record.getString(0);
    }
 

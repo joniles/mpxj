@@ -63,21 +63,17 @@ public final class MPXWriter extends AbstractProjectWriter
          w.write((iter.next()).toString());
       }
    
+      w.write(projectFile.getResourceModel().toString());
       iter = projectFile.getAllResources().iterator();   
       while (iter.hasNext())
       {
          w.write((iter.next()).toString());
       }      
-      
+
+      w.write(projectFile.getTaskModel().toString());      
       writeTasks (projectFile.getChildTasks(), w);
       
-      w.flush();
-   
-      //
-      // Reset the model written flags to allow them to be written again
-      //
-      projectFile.getTaskModel().setWritten(false);
-      projectFile.getResourceModel().setWritten(false);
+      w.flush();   
    }
 
    /**

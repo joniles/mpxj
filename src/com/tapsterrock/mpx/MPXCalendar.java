@@ -59,7 +59,7 @@ public final class MPXCalendar extends MPXRecord
     */
    MPXCalendar (ProjectFile file, Record record, boolean baseCalendar)
    {
-      super (file, 0);
+      super (file);
 
       m_baseCalendarFlag = baseCalendar;
       

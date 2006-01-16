@@ -57,7 +57,7 @@ public final class MPXCalendarHours extends MPXRecord
    MPXCalendarHours (ProjectFile file, MPXCalendar parentCalendar, Record record)
       throws MPXException
    {
-      super(file, 0);
+      super(file);
 
       m_parentCalendar = parentCalendar;
     

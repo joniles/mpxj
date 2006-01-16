@@ -44,7 +44,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    Task (ProjectFile file, Task parent)
    {
-      super(file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
+      super(file);
 
       m_model = getParentFile().getTaskModel();
 
@@ -87,7 +87,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    Task (ProjectFile file, Record record)
       throws MPXException
    {
-      super(file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
+      super(file);
 
       String falseText = LocaleData.getString(getParentFile().getLocale(), LocaleData.NO);
 
@@ -2606,7 +2606,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getPercentageCompleteValue ()
    {
-      return (getDoubleValue(PERCENTAGE_COMPLETE));
+      return (NumberUtility.getDouble((Number)get(PERCENTAGE_COMPLETE)));
    }
 
    /**
@@ -2631,7 +2631,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getPercentageWorkCompleteValue ()
    {
-      return (getDoubleValue(PERCENTAGE_WORK_COMPLETE));
+      return (NumberUtility.getDouble((Number)get(PERCENTAGE_WORK_COMPLETE)));
    }
 
    /**
@@ -2780,7 +2780,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getBCWPValue ()
    {
-      return (getDoubleValue(BCWP));
+      return (NumberUtility.getDouble((Number)get(BCWP)));
    }
 
    /**
@@ -2805,7 +2805,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getBCWSValue ()
    {
-      return (getDoubleValue(BCWS));
+      return (NumberUtility.getDouble((Number)get(BCWS)));
    }
 
    /**
@@ -2828,7 +2828,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getConfirmedValue ()
    {
-      return (getBooleanValue(CONFIRMED));
+      return (BooleanUtility.getBoolean((Boolean)get(CONFIRMED)));
    }
 
    /**
@@ -2957,7 +2957,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getCriticalValue ()
    {
-      return (getBooleanValue(CRITICAL));
+      return (BooleanUtility.getBoolean((Boolean)get(CRITICAL)));
    }
 
    /**
@@ -2982,7 +2982,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getCVValue ()
    {
-      return (getDoubleValue(CV));
+      return (NumberUtility.getDouble((Number)get(CV)));
    }
 
    /**
@@ -3188,7 +3188,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFixedValue ()
    {
-      return (getBooleanValue(FIXED));
+      return (BooleanUtility.getBoolean((Boolean)get(FIXED)));
    }
 
    /**
@@ -3211,7 +3211,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getFixedCostValue ()
    {
-      return (getDoubleValue(FIXED_COST));
+      return (NumberUtility.getDouble((Number)get(FIXED_COST)));
    }
 
    /**
@@ -3234,7 +3234,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag1Value ()
    {
-      return (getBooleanValue(FLAG1));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG1)));
    }
 
    /**
@@ -3258,7 +3258,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag2Value ()
    {
-      return (getBooleanValue(FLAG2));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG2)));
    }
 
    /**
@@ -3282,7 +3282,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag3Value ()
    {
-      return (getBooleanValue(FLAG3));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG3)));
    }
 
    /**
@@ -3306,7 +3306,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag4Value ()
    {
-      return (getBooleanValue(FLAG4));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG4)));
    }
 
    /**
@@ -3330,7 +3330,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag5Value ()
    {
-      return (getBooleanValue(FLAG5));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG5)));
    }
 
    /**
@@ -3354,7 +3354,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag6Value ()
    {
-      return (getBooleanValue(FLAG6));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG6)));
    }
 
    /**
@@ -3378,7 +3378,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag7Value ()
    {
-      return (getBooleanValue(FLAG7));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG7)));
    }
 
    /**
@@ -3402,7 +3402,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag8Value ()
    {
-      return (getBooleanValue(FLAG8));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG8)));
    }
 
    /**
@@ -3426,7 +3426,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag9Value ()
    {
-      return (getBooleanValue(FLAG9));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG9)));
    }
 
    /**
@@ -3450,7 +3450,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag10Value ()
    {
-      return (getBooleanValue(FLAG10));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG10)));
    }
 
    /**
@@ -3488,7 +3488,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getHideBarValue ()
    {
-      return (getBooleanValue(HIDE_BAR));
+      return (BooleanUtility.getBoolean((Boolean)get(HIDE_BAR)));
    }
 
    /**
@@ -3513,7 +3513,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public int getIDValue ()
    {
-      return (getIntValue(ID));
+      return (NumberUtility.getInt((Integer)get(ID)));
    }
 
    /**
@@ -3564,7 +3564,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getLinkedFieldsValue ()
    {
-      return (getBooleanValue(LINKED_FIELDS));
+      return (BooleanUtility.getBoolean((Boolean)get(LINKED_FIELDS)));
    }
 
    /**
@@ -3588,7 +3588,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getMarkedValue ()
    {
-      return (getBooleanValue(MARKED));
+      return (BooleanUtility.getBoolean((Boolean)get(MARKED)));
    }
 
    /**
@@ -3610,7 +3610,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getMilestoneValue ()
    {
-      return (getBooleanValue(MILESTONE));
+      return (BooleanUtility.getBoolean((Boolean)get(MILESTONE)));
    }
 
    /**
@@ -3662,7 +3662,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber1Value ()
    {
-      return (getDoubleValue(NUMBER1));
+      return (NumberUtility.getDouble((Number)get(NUMBER1)));
    }
 
    /**
@@ -3682,7 +3682,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber2Value ()
    {
-      return (getDoubleValue(NUMBER2));
+      return (NumberUtility.getDouble((Number)get(NUMBER2)));
    }
 
    /**
@@ -3702,7 +3702,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber3Value ()
    {
-      return (getDoubleValue(NUMBER3));
+      return (NumberUtility.getDouble((Number)get(NUMBER3)));
    }
 
    /**
@@ -3722,7 +3722,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber4Value ()
    {
-      return (getDoubleValue(NUMBER4));
+      return (NumberUtility.getDouble((Number)get(NUMBER4)));
    }
 
    /**
@@ -3742,7 +3742,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber5Value ()
    {
-      return (getDoubleValue(NUMBER5));
+      return (NumberUtility.getDouble((Number)get(NUMBER5)));
    }
 
    /**
@@ -3765,7 +3765,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public int getObjectsValue ()
    {
-      return (getIntValue(OBJECTS));
+      return (NumberUtility.getInt((Integer)get(OBJECTS)));
    }
 
    /**
@@ -3789,7 +3789,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public int getOutlineLevelValue ()
    {
-      return (getIntValue(OUTLINE_LEVEL));
+      return (NumberUtility.getInt((Integer)get(OUTLINE_LEVEL)));
    }
 
    /**
@@ -3979,7 +3979,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getRollupValue ()
    {
-      return (getBooleanValue(ROLLUP));
+      return (BooleanUtility.getBoolean((Boolean)get(ROLLUP)));
    }
 
    /**
@@ -4130,7 +4130,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getSummaryValue ()
    {
-      return (getBooleanValue(SUMMARY));
+      return (BooleanUtility.getBoolean((Boolean)get(SUMMARY)));
    }
 
    /**
@@ -4287,7 +4287,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public int getUniqueIDValue ()
    {
-      return (getIntValue(UNIQUE_ID));
+      return (NumberUtility.getInt((Integer)get(UNIQUE_ID)));
    }
 
    /**
@@ -4338,7 +4338,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getUpdateNeededValue ()
    {
-      return (getBooleanValue(UPDATE_NEEDED));
+      return (BooleanUtility.getBoolean((Boolean)get(UPDATE_NEEDED)));
    }
 
    /**
@@ -4400,18 +4400,28 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       StringBuffer buf = new StringBuffer();
 
       //
-      // If necessary, write the task model
-      //
-      if (m_model.getWritten() == false)
-      {
-         buf.append(m_model.toString());
-         m_model.setWritten(true);
-      }
-
-      //
       // Write the task
       //
-      buf.append(toString(RECORD_NUMBER, m_model.getModel()));
+      int[] fields = m_model.getModel();
+      char sepchar = getParentFile().getDelimiter();
+      int field;
+
+      buf.append(RECORD_NUMBER);
+      for (int loop=0; loop < fields.length; loop++)
+      {
+         field = fields[loop];
+         if (field == -1)
+         {
+            break;
+         }
+
+         buf.append (sepchar);
+         buf.append (format (sepchar, get(field)));
+      }
+
+      stripTrailingDelimiters (buf, sepchar);
+
+      buf.append (ProjectFile.EOL);
 
       //
       // Write the task notes
@@ -4956,7 +4966,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag11 ()
    {
-      return (getBooleanValue(FLAG11));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG11)));
    }
 
    /**
@@ -4966,7 +4976,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag12 ()
    {
-      return (getBooleanValue(FLAG12));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG12)));
    }
 
    /**
@@ -4976,7 +4986,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag13 ()
    {
-      return (getBooleanValue(FLAG13));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG13)));
    }
 
    /**
@@ -4986,7 +4996,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag14 ()
    {
-      return (getBooleanValue(FLAG14));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG14)));
    }
 
    /**
@@ -4996,7 +5006,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag15 ()
    {
-      return (getBooleanValue(FLAG15));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG15)));
    }
 
    /**
@@ -5006,7 +5016,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag16 ()
    {
-      return (getBooleanValue(FLAG16));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG16)));
    }
 
    /**
@@ -5016,7 +5026,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag17 ()
    {
-      return (getBooleanValue(FLAG17));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG17)));
    }
 
    /**
@@ -5026,7 +5036,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag18 ()
    {
-      return (getBooleanValue(FLAG18));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG18)));
    }
 
    /**
@@ -5036,7 +5046,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag19 ()
    {
-      return (getBooleanValue(FLAG19));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG19)));
    }
 
    /**
@@ -5046,7 +5056,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public boolean getFlag20 ()
    {
-      return (getBooleanValue(FLAG20));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG20)));
    }
 
    /**
@@ -5586,7 +5596,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber6Value ()
    {
-      return (getDoubleValue(NUMBER6));
+      return (NumberUtility.getDouble((Number)get(NUMBER6)));
    }
 
    /**
@@ -5616,7 +5626,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber7Value ()
    {
-      return (getDoubleValue(NUMBER7));
+      return (NumberUtility.getDouble((Number)get(NUMBER7)));
    }
 
    /**
@@ -5646,7 +5656,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber8Value ()
    {
-      return (getDoubleValue(NUMBER8));
+      return (NumberUtility.getDouble((Number)get(NUMBER8)));
    }
 
    /**
@@ -5676,7 +5686,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber9Value ()
    {
-      return (getDoubleValue(NUMBER9));
+      return (NumberUtility.getDouble((Number)get(NUMBER9)));
    }
 
    /**
@@ -5706,7 +5716,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber10Value ()
    {
-      return (getDoubleValue(NUMBER10));
+      return (NumberUtility.getDouble((Number)get(NUMBER10)));
    }
 
    /**
@@ -5736,7 +5746,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber11Value ()
    {
-      return (getDoubleValue(NUMBER11));
+      return (NumberUtility.getDouble((Number)get(NUMBER11)));
    }
 
    /**
@@ -5766,7 +5776,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber12Value ()
    {
-      return (getDoubleValue(NUMBER12));
+      return (NumberUtility.getDouble((Number)get(NUMBER12)));
    }
 
    /**
@@ -5796,7 +5806,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber13Value ()
    {
-      return (getDoubleValue(NUMBER13));
+      return (NumberUtility.getDouble((Number)get(NUMBER13)));
    }
 
    /**
@@ -5826,7 +5836,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber14Value ()
    {
-      return (getDoubleValue(NUMBER14));
+      return (NumberUtility.getDouble((Number)get(NUMBER14)));
    }
 
    /**
@@ -5856,7 +5866,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber15Value ()
    {
-      return (getDoubleValue(NUMBER15));
+      return (NumberUtility.getDouble((Number)get(NUMBER15)));
    }
 
    /**
@@ -5886,7 +5896,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber16Value ()
    {
-      return (getDoubleValue(NUMBER16));
+      return (NumberUtility.getDouble((Number)get(NUMBER16)));
    }
 
    /**
@@ -5916,7 +5926,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber17Value ()
    {
-      return (getDoubleValue(NUMBER17));
+      return (NumberUtility.getDouble((Number)get(NUMBER17)));
    }
 
    /**
@@ -5946,7 +5956,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber18Value ()
    {
-      return (getDoubleValue(NUMBER18));
+      return (NumberUtility.getDouble((Number)get(NUMBER18)));
    }
 
    /**
@@ -5976,7 +5986,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber19Value ()
    {
-      return (getDoubleValue(NUMBER19));
+      return (NumberUtility.getDouble((Number)get(NUMBER19)));
    }
 
    /**
@@ -6006,7 +6016,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public double getNumber20Value ()
    {
-      return (getDoubleValue(NUMBER20));
+      return (NumberUtility.getDouble((Number)get(NUMBER20)));
    }
 
    /**
@@ -7345,6 +7355,105 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
    
    /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   public void put (int key, Object value)
+   {
+      m_array[key] = value;
+   }
+
+   /**
+    * Given an attribute id, this method retrieves that attribute
+    * value from internal storage.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   public Object get (int key)
+   {
+      return (m_array[key]);
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void put (int key, int value)
+   {
+      put (key, new Integer (value));
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void put (int key, boolean value)
+   {
+      put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Date objects into MPXDate objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putDate (int key, Date value)
+   {
+      put (key, toDate(value));
+   }
+   
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXCurrency objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putCurrency (int key, Number value)
+   {
+      put (key, toCurrency(value));
+   }
+   
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXUnits objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putUnits (int key, Number value)
+   {
+      put (key, toUnits(value));
+   }
+   
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXPercentage objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putPercentage (int key, Number value)
+   {
+      put (key, toPercentage(value));
+   }
+   
+   /**
+    * Array of field values.
+    */
+   private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];
+   
+         
+   /**
     * This is a reference to the parent task, as specified by the
     * outline level.
     */
@@ -8167,6 +8276,8 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    static final int MAX_FIELDS = 153;
 
+   private static final int EXTENDED_OFFSET = MAX_FIELDS;
+   
    /**
     * Maximum number of extended fields in this record.
     */
@@ -8265,7 +8376,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 86;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 87;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 88;
-
+      
    /**
     * Constant containing the record number associated with this record.
     */

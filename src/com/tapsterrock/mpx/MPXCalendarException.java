@@ -57,7 +57,7 @@ public final class MPXCalendarException extends MPXRecord
    MPXCalendarException (ProjectFile file, MPXCalendar calendar, Record record)
       throws MPXException
    {
-      super(file, 0);
+      super(file);
 
       m_parentCalendar = calendar;
 

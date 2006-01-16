@@ -57,7 +57,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    Resource (ProjectFile file, Record record)
       throws MPXException
    {
-      super (file, MAX_FIELDS, MAX_EXTENDED_FIELDS);
+      super (file);
 
       m_model = getParentFile().getResourceModel();
 
@@ -510,7 +510,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getOverAllocated ()
    {
-      return (getBooleanValue(OVERALLOCATED));
+      return (BooleanUtility.getBoolean((Boolean)get(OVERALLOCATED)));
    }
 
    /**
@@ -1766,7 +1766,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public int getIDValue ()
    {
-      return (getIntValue(ID));
+      return (NumberUtility.getInt((Integer)get(ID)));
    }
 
    /**
@@ -1796,7 +1796,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public int getObjectsValue ()
    {
-      return (getIntValue(OBJECTS));
+      return (NumberUtility.getInt((Integer)get(OBJECTS)));
    }
 
    /**
@@ -1866,7 +1866,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public int getUniqueIDValue ()
    {
-      return (getIntValue(UNIQUE_ID));
+      return (NumberUtility.getInt((Integer)get(UNIQUE_ID)));
    }
 
    /**
@@ -2888,7 +2888,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber1Value ()
    {
-      return (getDoubleValue (NUMBER1));
+      return (NumberUtility.getDouble((Number)get(NUMBER1)));
    }
 
    /**
@@ -2922,7 +2922,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber2Value ()
    {
-      return (getDoubleValue (NUMBER2));
+      return (NumberUtility.getDouble((Number)get(NUMBER2)));
    }
 
    /**
@@ -2956,7 +2956,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber3Value ()
    {
-      return (getDoubleValue (NUMBER3));
+      return (NumberUtility.getDouble((Number)get(NUMBER3)));
    }
 
    /**
@@ -2990,7 +2990,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber4Value ()
    {
-      return (getDoubleValue (NUMBER4));
+      return (NumberUtility.getDouble((Number)get(NUMBER4)));
    }
 
    /**
@@ -3024,7 +3024,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber5Value ()
    {
-      return (getDoubleValue (NUMBER5));
+      return (NumberUtility.getDouble((Number)get(NUMBER5)));
    }
 
    /**
@@ -3058,7 +3058,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber6Value ()
    {
-      return (getDoubleValue (NUMBER6));
+      return (NumberUtility.getDouble((Number)get(NUMBER6)));
    }
 
    /**
@@ -3091,7 +3091,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber7Value ()
    {
-      return (getDoubleValue (NUMBER7));
+      return (NumberUtility.getDouble((Number)get(NUMBER7)));
    }
 
    /**
@@ -3124,7 +3124,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber8Value ()
    {
-      return (getDoubleValue (NUMBER8));
+      return (NumberUtility.getDouble((Number)get(NUMBER8)));
    }
 
    /**
@@ -3158,7 +3158,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber9Value ()
    {
-      return (getDoubleValue (NUMBER9));
+      return (NumberUtility.getDouble((Number)get(NUMBER9)));
    }
 
    /**
@@ -3191,7 +3191,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber10Value ()
    {
-      return (getDoubleValue (NUMBER10));
+      return (NumberUtility.getDouble((Number)get(NUMBER10)));
    }
 
    /**
@@ -3224,7 +3224,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber11Value ()
    {
-      return (getDoubleValue (NUMBER11));
+      return (NumberUtility.getDouble((Number)get(NUMBER11)));
    }
 
    /**
@@ -3257,7 +3257,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber12Value ()
    {
-      return (getDoubleValue (NUMBER12));
+      return (NumberUtility.getDouble((Number)get(NUMBER12)));
    }
 
    /**
@@ -3290,7 +3290,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber13Value ()
    {
-      return (getDoubleValue (NUMBER13));
+      return (NumberUtility.getDouble((Number)get(NUMBER13)));
    }
 
    /**
@@ -3323,7 +3323,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber14Value ()
    {
-      return (getDoubleValue (NUMBER14));
+      return (NumberUtility.getDouble((Number)get(NUMBER14)));
    }
 
    /**
@@ -3356,7 +3356,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber15Value ()
    {
-      return (getDoubleValue (NUMBER15));
+      return (NumberUtility.getDouble((Number)get(NUMBER15)));
    }
 
    /**
@@ -3389,7 +3389,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber16Value ()
    {
-      return (getDoubleValue (NUMBER16));
+      return (NumberUtility.getDouble((Number)get(NUMBER16)));
    }
 
    /**
@@ -3422,7 +3422,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber17Value ()
    {
-      return (getDoubleValue (NUMBER17));
+      return (NumberUtility.getDouble((Number)get(NUMBER17)));
    }
 
    /**
@@ -3455,7 +3455,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber18Value ()
    {
-      return (getDoubleValue (NUMBER18));
+      return (NumberUtility.getDouble((Number)get(NUMBER18)));
    }
 
    /**
@@ -3488,7 +3488,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber19Value ()
    {
-      return (getDoubleValue (NUMBER19));
+      return (NumberUtility.getDouble((Number)get(NUMBER19)));
    }
 
    /**
@@ -3521,7 +3521,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public double getNumber20Value ()
    {
-      return (getDoubleValue (NUMBER20));
+      return (NumberUtility.getDouble((Number)get(NUMBER20)));
    }
 
    /**
@@ -4202,7 +4202,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag1()
    {
-      return (getBooleanValue (FLAG1));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG1)));
    }
 
    /**
@@ -4212,7 +4212,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag2()
    {
-      return (getBooleanValue (FLAG2));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG2)));
    }
 
    /**
@@ -4222,7 +4222,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag3()
    {
-      return (getBooleanValue (FLAG3));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG3)));
    }
 
    /**
@@ -4232,7 +4232,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag4()
    {
-      return (getBooleanValue (FLAG4));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG4)));
    }
 
    /**
@@ -4242,7 +4242,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag5()
    {
-      return (getBooleanValue (FLAG5));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG5)));
    }
 
    /**
@@ -4252,7 +4252,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag6()
    {
-      return (getBooleanValue (FLAG6));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG6)));
    }
 
    /**
@@ -4262,7 +4262,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag7()
    {
-      return (getBooleanValue (FLAG7));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG7)));
    }
 
    /**
@@ -4272,7 +4272,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag8()
    {
-      return (getBooleanValue (FLAG8));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG8)));
    }
 
    /**
@@ -4282,7 +4282,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag9()
    {
-      return (getBooleanValue (FLAG9));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG9)));
    }
 
    /**
@@ -4292,7 +4292,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag10()
    {
-      return (getBooleanValue (FLAG10));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG10)));
    }
 
    /**
@@ -4302,7 +4302,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag11()
    {
-      return (getBooleanValue (FLAG11));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG11)));
    }
 
    /**
@@ -4312,7 +4312,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag12()
    {
-      return (getBooleanValue (FLAG12));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG12)));
    }
 
    /**
@@ -4322,7 +4322,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag13()
    {
-      return (getBooleanValue (FLAG13));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG13)));
    }
 
    /**
@@ -4332,7 +4332,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag14()
    {
-      return (getBooleanValue (FLAG14));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG14)));
    }
 
    /**
@@ -4342,7 +4342,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag15()
    {
-      return (getBooleanValue (FLAG15));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG15)));
    }
 
    /**
@@ -4352,7 +4352,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag16()
    {
-      return (getBooleanValue (FLAG16));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG16)));
    }
 
    /**
@@ -4362,7 +4362,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag17()
    {
-      return (getBooleanValue (FLAG17));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG17)));
    }
 
    /**
@@ -4372,7 +4372,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag18()
    {
-      return (getBooleanValue (FLAG18));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG18)));
    }
 
    /**
@@ -4382,7 +4382,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag19()
    {
-      return (getBooleanValue (FLAG19));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG19)));
    }
 
    /**
@@ -4392,7 +4392,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public boolean getFlag20()
    {
-      return (getBooleanValue (FLAG20));
+      return (BooleanUtility.getBoolean((Boolean)get(FLAG20)));
    }
 
    /**
@@ -4813,17 +4813,29 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    {
       StringBuffer buf = new StringBuffer();
 
-      /** @todo review this and add reset to MPXFile */
-      if (m_model.getWritten() == false)
-      {
-         buf.append(m_model.toString());
-         m_model.setWritten (true);
-      }
-
       //
       // Write the resource record
       //
-      buf.append (toString (RECORD_NUMBER, m_model.getModel()));
+      int[] fields = m_model.getModel();
+      char sepchar = getParentFile().getDelimiter();
+      int field;
+
+      buf.append(RECORD_NUMBER);
+      for (int loop=0; loop < fields.length; loop++)
+      {
+         field = fields[loop];
+         if (field == -1)
+         {
+            break;
+         }
+
+         buf.append (sepchar);
+         buf.append (format (sepchar, get(field)));
+      }
+
+      stripTrailingDelimiters (buf, sepchar);
+
+      buf.append (ProjectFile.EOL);
 
       //
       // Write the resource notes
@@ -4944,6 +4956,99 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    }
    
    /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   public void put (int key, Object value)
+   {
+      m_array[key] = value;
+   }
+
+   /**
+    * Given an attribute id, this method retrieves that attribute
+    * value from internal storage.
+    *
+    * @param key name of requested field value
+    * @return requested value
+    */
+   public Object get (int key)
+   {
+      return (m_array[key]);
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void put (int key, int value)
+   {
+      put (key, new Integer (value));
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void put (int key, boolean value)
+   {
+      put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
+   }
+
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Date objects into MPXDate objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putDate (int key, Date value)
+   {
+      put (key, toDate(value));
+   }
+   
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXCurrency objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putCurrency (int key, Number value)
+   {
+      put (key, toCurrency(value));
+   }
+   
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXUnits objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putUnits (int key, Number value)
+   {
+      put (key, toUnits(value));
+   }
+   
+   /**
+    * This method inserts a name value pair into internal storage.
+    * Note that this method maps Number objects into MPXPercentage objects.
+    *
+    * @param key attribute identifier
+    * @param value attribute value
+    */
+   private void putPercentage (int key, Number value)
+   {
+      put (key, toPercentage(value));
+   }
+   
+   /**
     * This method implements the only method in the Comparable interface.
     * This allows Resources to be compared and sorted based on their ID value.
     * Note that if the MPX/MPP file has been generated by MSP, the ID value
@@ -4961,6 +5066,11 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
 
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
+
+   /**
+    * Array of field values.
+    */
+   private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];      
    
    /**
     * Resource Model record controlling fields written to resource record.
@@ -5287,6 +5397,8 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    static final int MAX_FIELDS = 52;
 
+   private static final int EXTENDED_OFFSET = MAX_FIELDS;
+   
    /**
     * Maximum number of extended fields in this record.
     */

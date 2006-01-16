@@ -56,11 +56,11 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    ResourceAssignmentWorkgroupFields (ProjectFile file, Record record)
       throws MPXException
    {
-      super(file, MAX_FIELDS);
+      super(file);
 
       setMessageUniqueID(record.getString(0));
-      setConfirmed(record.getInteger(1));
-      setResponsePending(record.getInteger(2));
+      setConfirmed(NumberUtility.getInt(record.getInteger(1))==1);
+      setResponsePending(NumberUtility.getInt(record.getInteger(1))==1);
       setUpdateStart(record.getDateTime(3));
       setUpdateFinish(record.getDateTime(4));
       setScheduleID(record.getString(5));
@@ -73,7 +73,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public void setMessageUniqueID (String val)
    {
-      put (MESSAGE_UNIQUE_ID, val);
+      m_messageUniqueID = val;
    }
 
    /**
@@ -83,87 +83,47 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public String getMessageUniqueID ()
    {
-      return ((String)get(MESSAGE_UNIQUE_ID));
+      return (m_messageUniqueID);
    }
 
    /**
-    * Gets  confirmed value.
+    * Gets confirmed flag.
     *
-    * @return 0-false, 1-true
+    * @return boolean value
     */
-   public int getConfirmedValue ()
+   public boolean getConfirmed ()
    {
-      return (getIntValue(CONFIRMED));
+      return (m_confirmed);
    }
 
    /**
-    * Gets  confirmed value.
+    * Sets confirmed flag.
     *
-    * @return 0-false, 1-true
+    * @param val boolean flag
     */
-   public Integer getConfirmed ()
+   public void setConfirmed (boolean val)
    {
-      return ((Integer)get (CONFIRMED));
+      m_confirmed = val;
    }
 
    /**
-    * Sets to confirmed.
+    * Sets response pending flag.
     *
-    * @param val 0-false, 1-true
+    * @param val boolean flag
     */
-   public void setConfirmed (int val)
+   public void setResponsePending (boolean val)
    {
-      put (CONFIRMED, val);
+      m_responsePending = val;
    }
 
    /**
-    * Sets to confirmed.
+    * Retrieves response pending flag.
     *
-    * @param val 0-false, 1-true
+    * @return boolean flag
     */
-   public void setConfirmed (Integer val)
+   public boolean getResponsePending ()
    {
-      put (CONFIRMED, val);
-   }
-
-   /**
-    * Sets to response pending.
-    *
-    * @param val 0-false, 1-true
-    */
-   public void setResponsePending (int val)
-   {
-      put (RESPONSE_PENDING, val);
-   }
-
-   /**
-    * Sets to response pending.
-    *
-    * @param val 0-false, 1-true
-    */
-   public void setResponsePending (Integer val)
-   {
-      put (RESPONSE_PENDING, val);
-   }
-
-   /**
-    * Gets  response pending value.
-    *
-    * @return 0-false, 1-true
-    */
-   public int getResponsePendingValue ()
-   {
-      return (getIntValue(RESPONSE_PENDING));
-   }
-
-   /**
-    * Gets  response pending value.
-    *
-    * @return 0-false, 1-true
-    */
-   public Integer getResponsePending ()
-   {
-      return ((Integer)get (RESPONSE_PENDING));
+      return (m_responsePending);
    }
 
    /**
@@ -173,7 +133,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public void setUpdateStart (Date val)
    {
-      putDate (UPDATE_START, val);
+      m_updateStart = val;
    }
 
    /**
@@ -183,7 +143,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public Date getUpdateStart ()
    {
-      return ((Date)get(UPDATE_START));
+      return (m_updateStart);
    }
 
    /**
@@ -193,7 +153,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public void setUpdateFinish (Date val)
    {
-      putDate (UPDATE_FINISH, val);
+      m_updateFinish = val;
    }
 
    /**
@@ -203,27 +163,27 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     */
    public Date getUpdateFinish ()
    {
-      return ((Date)get(UPDATE_FINISH));
+      return (m_updateFinish);
    }
 
    /**
-    * Set Schedule ID.
+    * Sets the schedule ID.
     *
-    * @param val  ID
+    * @param val schedule ID
     */
    public void setScheduleID (String val)
    {
-      put (SCHEDULE_ID, val);
+      m_scheduleID = val;
    }
 
    /**
-    * Get Schedule ID.
+    * Retrieves the schedule ID.
     *
-    * @return ID
+    * @return schedule ID
     */
    public String getScheduleID ()
    {
-      return ((String)get(SCHEDULE_ID));
+      return (m_scheduleID);
    }
 
    /**
@@ -233,45 +193,37 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
     * @return string containing the data for this record in MPX format.
     */
    public String toString ()
-   {
-      return (toString(RECORD_NUMBER));
+   {            
+      StringBuffer buf = new StringBuffer();
+      char delimiter = getParentFile().getDelimiter();
+
+      buf.append(RECORD_NUMBER);
+      buf.append(delimiter);
+      buf.append(format(delimiter, getMessageUniqueID()));
+      buf.append(delimiter);
+      buf.append(getConfirmed()?"1":"0");
+      buf.append(delimiter);
+      buf.append(getResponsePending()?"1":"0");
+      buf.append(delimiter);
+      buf.append(format(delimiter, toDate(getUpdateStart())));
+      buf.append(delimiter);
+      buf.append(format(delimiter, toDate(getUpdateFinish())));
+      buf.append(delimiter);
+      buf.append(format(delimiter, getScheduleID()));
+
+      stripTrailingDelimiters(buf, delimiter);
+      buf.append (ProjectFile.EOL);
+
+      return (buf.toString());      
    }
 
-   /**
-    * Constant value representing Message Unique ID.
-    */
-   private static final int MESSAGE_UNIQUE_ID = 0;
-
-   /**
-    * Constant value representing Confirmed.
-    */
-   private static final int CONFIRMED = 1;
-
-   /**
-    * Constant value representing Response Pending.
-    */
-   private static final int RESPONSE_PENDING = 2;
-
-   /**
-    * Constant value representing Update Start.
-    */
-   private static final int UPDATE_START = 3;
-
-   /**
-    * Constant value representing Update Finish.
-    */
-   private static final int UPDATE_FINISH = 4;
-
-   /**
-    * Constant value representing Schedule IDmed.
-    */
-   private static final int SCHEDULE_ID = 5;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 6;
-
+   private String m_messageUniqueID;
+   private boolean m_confirmed;
+   private boolean m_responsePending;
+   private Date m_updateStart;
+   private Date m_updateFinish;
+   private String m_scheduleID;
+      
    /**
     * Constant containing the record number associated with this record.
     */

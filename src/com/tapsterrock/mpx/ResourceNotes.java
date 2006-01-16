@@ -49,7 +49,7 @@ public final class ResourceNotes extends MPXRecord
     */
    ResourceNotes (ProjectFile file, Record record)
    {
-      super (file, 0);
+      super (file);
       m_note = record.getString(0);
    }
 

@@ -54,7 +54,7 @@ public final class RecurringTask extends MPXRecord
    RecurringTask (ProjectFile file, Record record)
       throws MPXException
    {
-      super (file, 0);
+      super (file);
 
       setTaskUniqueID(record.getInteger(0));
       setStartDate(record.getDateTime(1));

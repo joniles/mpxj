@@ -42,7 +42,7 @@ final class ResourceModel extends MPXRecord
     */
    ResourceModel (ProjectFile file)
    {
-      super (file, 0);
+      super (file);
       setLocale(file.getLocale());
    }
 
@@ -143,28 +143,6 @@ final class ResourceModel extends MPXRecord
    }
 
    /**
-    * Retrieves a flag indicating whether this model has been written
-    * to a file.
-    *
-    * @return written flag
-    */
-   public boolean getWritten ()
-   {
-      return (m_written);
-   }
-
-   /**
-    * This method is used to set the written flag to indicate whether this
-    * model has been written to a file.
-    *
-    * @param written Boolean flag
-    */
-   public void setWritten (boolean written)
-   {
-      m_written = written;
-   }
-
-   /**
     * This method is called from the Resource class each time an attribute
     * is added, ensuring that all of the attributes present in each resource
     * record are present in the resource model.
@@ -220,11 +198,6 @@ final class ResourceModel extends MPXRecord
 
       return (result.intValue());
    }
-
-   /**
-    * Indicating whether or not model has already been written to a file.
-    */
-   private boolean m_written;
 
    /**
     * Array of flags indicting whether each field has already been

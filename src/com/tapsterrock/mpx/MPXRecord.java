@@ -37,25 +37,10 @@ class MPXRecord
     * Constructor.
     *
     * @param mpx Parent MPX file
-    * @param size Maxmum number of fields in this record
     */
-   protected MPXRecord (ProjectFile mpx, int size)
+   protected MPXRecord (ProjectFile mpx)
    {
-      m_mpx = mpx;
-      m_array = new Object[size];
-   }
-
-   /**
-    * Constructor.
-    * 
-    * @param mpx Parent MPX file
-    * @param size Maxmum number of MPX fields in this record
-    * @param extendedSize maximum number of non-MPX records 
-    */
-   protected MPXRecord (ProjectFile mpx, int size, int extendedSize)
-   {
-      this(mpx, size);
-      m_extended = new Object[extendedSize];
+      m_mpx = mpx;    
    }
    
    /**
@@ -199,68 +184,6 @@ class MPXRecord
       return (result);
    }
 
-
-   /**
-    * This is a generic method to convert an MPX record into a correctly
-    * formatted string.
-    *
-    * @param code the MPX record number of this record type.
-    * @return MPX formatted String for supplied record type.
-    */
-   protected String toString (int code)
-   {
-      StringBuffer buf = new StringBuffer(String.valueOf(code));
-      char sepchar = m_mpx.getDelimiter();
-
-      for (int loop=0; loop < m_array.length; loop++)
-      {
-         buf.append (sepchar);
-         buf.append (format (sepchar, m_array[loop]));
-      }
-
-      stripTrailingDelimiters (buf, sepchar);
-
-      buf.append (ProjectFile.EOL);
-
-      return (buf.toString());
-   }
-
-   /**
-    * This is a generic method to convert an MPX record into a correctly
-    * formatted string. In this instance one of the variable length record
-    * types is being processed, and to allow this to work successfully, an
-    * array containing the keys to be used to retrieve each field from
-    * the map is supplied.
-    *
-    * @param code the MPX record number of this record type.
-    * @param fields array of fields
-    * @return MPX formatted String for supplied record type.
-    */
-   protected String toString (int code, int[] fields)
-   {
-      StringBuffer buf = new StringBuffer(String.valueOf(code));
-      char sepchar = m_mpx.getDelimiter();
-      int field;
-
-      for (int loop=0; loop < fields.length; loop++)
-      {
-         field = fields[loop];
-         if (field == -1)
-         {
-            break;
-         }
-
-         buf.append (sepchar);
-         buf.append (format (sepchar, get(field)));
-      }
-
-      stripTrailingDelimiters (buf, sepchar);
-
-      buf.append (ProjectFile.EOL);
-
-      return (buf.toString());
-   }
-
   /**
     * This method removes trailing delimiter characters.
     *
@@ -279,57 +202,7 @@ class MPXRecord
       buffer.setLength (index+1);
    }
 
-   /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   public void put (int key, Object value)
-   {
-      if (key < m_array.length)
-      {
-         m_array[key] = value;
-      }
-      else
-      {
-         m_extended[key-EXTENDED_OFFSET] = value;
-      }
-   }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void put (int key, char value)
-   {
-      put (key, new Character(value));
-   }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void put (int key, int value)
-   {
-      put (key, new Integer (value));
-   }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void put (int key, boolean value)
-   {
-      put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
-   }
-
+   
    /**
     * This method is called to ensure that a Date value is actually
     * represented as an MPXDate instance rather than a raw date
@@ -355,18 +228,6 @@ class MPXRecord
       }
 
       return (result);
-   }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Date objects into MPXDate objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void putDate (int key, Date value)
-   {
-      put (key, toDate(value));
    }
 
    /**
@@ -403,33 +264,30 @@ class MPXRecord
       return (result);
    }
 
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXCurrency objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void putCurrency (int key, Number value)
-   {
-      put (key, toCurrency(value));
-   }
+
 
    /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXUnits objects.
+    * This method is called to ensure that a Number value is actually
+    * represented as an MPXUnits instance rather than a raw numeric
+    * type.
     *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void putUnits (int key, Number value)
+    * @param value numeric value
+    * @return currency value
+    */   
+   protected MPXUnits toUnits (Number value)
    {
+      MPXUnits result;
+      
       if (value != null && value instanceof MPXUnits == false)
       {
-         value = new MPXUnits (value);
+         result = new MPXUnits (value);
+      }
+      else
+      {
+         result = (MPXUnits)value;
       }
 
-      put (key, value);
+      return (result);
    }
 
    /**
@@ -459,17 +317,6 @@ class MPXRecord
       return (result);
    }
 
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXPercentage objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void putPercentage (int key, Number value)
-   {
-      put (key, toPercentage(value));
-   }
 
    /**
     * Convert a generic Date instance to an MPXTime instance.
@@ -497,233 +344,6 @@ class MPXRecord
    }
    
    /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Date objects into MPXTime objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   protected void putTime (int key, Date value)
-   {
-      put (key, toTime(value));
-   }
-
-   /**
-    * Given an attribute id, this method retrieves that attribute
-    * value from internal storage.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   public Object get (int key)
-   {
-      Object result;
-
-      if (key < m_array.length)
-      {
-         result = m_array[key];
-      }
-      else
-      {
-         result = m_extended[key-EXTENDED_OFFSET];
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a byte value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default byte value, zero.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected byte getByteValue (int key)
-   {
-      Number value = (Number)get(key);
-
-      byte result;
-      if (value == null)
-      {
-         result = 0;
-      }
-      else
-      {
-         result = value.byteValue();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a boolean value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default boolean value, false.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected boolean getBooleanValue (int key)
-   {
-      Boolean value = (Boolean)get(key);
-
-      boolean result;
-      if (value == null)
-      {
-         result = false;
-      }
-      else
-      {
-         result = value.booleanValue();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a boolean value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default boolean value, false.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected boolean getNumericBooleanValue (int key)
-   {
-      NumericBoolean value = (NumericBoolean)get(key);
-
-      boolean result;
-      if (value == null)
-      {
-         result = false;
-      }
-      else
-      {
-         result = value.booleanValue();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a char value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default char value, zero.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected char getCharValue (int key)
-   {
-      Character value = (Character)get(key);
-
-      char result;
-      if (value == null)
-      {
-         result = 0;
-      }
-      else
-      {
-         result = value.charValue();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a int value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default int value, zero.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected int getIntValue (int key)
-   {
-      Integer value = (Integer)get(key);
-
-      int result;
-      if (value == null)
-      {
-         result = 0;
-      }
-      else
-      {
-         result = value.intValue();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a float value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default float value, zero.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected float getFloatValue (int key)
-   {
-      Number value = (Number)get(key);
-
-      float result;
-      if (value == null)
-      {
-         result = 0;
-      }
-      else
-      {
-         result = value.floatValue();
-      }
-
-      return (result);
-   }
-
-   /**
-    * Given an attribute name, this method retrieves that attribute
-    * value from internal storage and maps it to a double value. If
-    * no value has been stored (i.e. we find a null pointer) we
-    * map this to the default double value, zero.
-    *
-    * @param key name of requested field value
-    * @return requested value
-    */
-   protected double getDoubleValue (int key)
-   {
-      return (getDoubleValue((Number)get(key)));
-   }
-
-   /**
-    * Given a number, this method returns a double value. If the
-    * number parameter is null, then zero is returned.
-    *
-    * @param value Number value
-    * @return double value
-    */
-   protected double getDoubleValue (Number value)
-   {
-      double result;
-      if (value == null)
-      {
-         result = 0;
-      }
-      else
-      {
-         result = value.doubleValue();
-      }
-
-      return (result);
-   }
-
-   /**
     * Accessor method allowing retreival of MPXFile reference.
     *
     * @return reference to this MPXFile
@@ -740,20 +360,9 @@ class MPXRecord
    private ProjectFile m_mpx;
 
    /**
-    * Array of field values.
-    */
-   private Object[] m_array;
-   private Object[] m_extended;
-
-   /**
     * Placeholder character used in MPX files to represent
     * carriage returns embedded in note text.
     */
    static final char EOL_PLACEHOLDER = (char)0x7F;
    static final String EOL_PLACEHOLDER_STRING = new String(new byte[]{EOL_PLACEHOLDER});
-   
-   /**
-    * Offset added to extended field identifiers.
-    */
-   protected static final int EXTENDED_OFFSET = 1000;
 }

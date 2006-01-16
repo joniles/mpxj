@@ -43,7 +43,7 @@ final class TaskModel extends MPXRecord
     */
    TaskModel (ProjectFile file)
    {
-      super(file, 0);
+      super(file);
       setLocale(file.getLocale());
    }
 
@@ -104,28 +104,6 @@ final class TaskModel extends MPXRecord
             add(record.getInteger(i).intValue());
          }
       }
-   }
-
-   /**
-    * Retrieves a flag indicating whether this model has been written
-    * to a file.
-    *
-    * @return written flag
-    */
-   public boolean getWritten ()
-   {
-      return (m_written);
-   }
-
-   /**
-    * This method is used to set the written flag to indicate whether this
-    * model has been written to a file.
-    *
-    * @param written flag indicating whether the model has been written
-    */
-   public void setWritten (boolean written)
-   {
-      m_written = written;
    }
 
    /**
@@ -221,11 +199,6 @@ final class TaskModel extends MPXRecord
 
       return (result.intValue());
    }
-
-   /**
-    * Indicating whether or not model has already been written to a file.
-    */
-   private boolean m_written;
 
    /**
     * Array of flags indicting whether each field has already been

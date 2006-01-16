@@ -41,7 +41,7 @@ public final class FileCreationRecord extends MPXRecord
     */
    FileCreationRecord (ProjectFile file)
    {
-      super(file, 0);
+      super(file);
 
       setLocale(file.getLocale());
       setFileVersion(FileVersion.VERSION_4_0);

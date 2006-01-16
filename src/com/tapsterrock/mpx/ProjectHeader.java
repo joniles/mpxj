@@ -45,7 +45,7 @@ public final class ProjectHeader extends MPXRecord
     */
    ProjectHeader (ProjectFile file)
    {
-      super (file, 0);
+      super (file);
 
       //
       // Configure Date Time Settings and Currency Settings Records

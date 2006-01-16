@@ -56,7 +56,7 @@ public final class ResourceAssignment extends MPXRecord
    ResourceAssignment (ProjectFile file, Record record, Task task)
       throws MPXException
    {
-      super (file, MAX_FIELDS);
+      super (file);
 
       m_task = task;
 
@@ -142,7 +142,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Integer getResourceID ()
    {
-      return ((Integer)get (RESOURCE_ID));
+      return (m_resourceID);
    }
 
    /**
@@ -154,7 +154,7 @@ public final class ResourceAssignment extends MPXRecord
    {
       if (val != null)
       {
-         put (RESOURCE_ID, val);
+         m_resourceID = val;
          
          //
          // If the resource unique ID has not yet been set,
@@ -174,7 +174,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Number getUnits ()
    {
-      return ((Number)get(UNITS));
+      return (m_units);
    }
 
    /**
@@ -184,7 +184,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setUnits (Number val)
    {
-      putUnits (UNITS, val);
+      m_units = val;
    }
 
    /**
@@ -194,7 +194,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public MPXDuration getWork ()
    {
-      return ((MPXDuration)get(WORK));
+      return (m_work);
    }
 
    /**
@@ -204,7 +204,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setWork (MPXDuration dur)
    {
-      put (WORK, dur);
+      m_work = dur;
    }
 
    /**
@@ -214,7 +214,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public MPXDuration getPlannedWork ()
    {
-      return ((MPXDuration)get(PLANNED_WORK));
+      return (m_plannedWork);
    }
 
    /**
@@ -224,7 +224,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setPlannedWork (MPXDuration dur)
    {
-      put (PLANNED_WORK, dur);
+      m_plannedWork = dur;
    }
 
    /**
@@ -234,7 +234,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public MPXDuration getActualWork ()
    {
-      return ((MPXDuration)get(ACTUAL_WORK));
+      return (m_actualWork);
    }
 
    /**
@@ -244,7 +244,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setActualWork (MPXDuration dur)
    {
-      put (ACTUAL_WORK, dur);
+      m_actualWork = dur;
    }
 
    /**
@@ -254,7 +254,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public MPXDuration getOvertimeWork ()
    {
-      return ((MPXDuration)get(OVERTIME_WORK));
+      return (m_overtimeWork);
    }
 
    /**
@@ -264,7 +264,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setOvertimeWork (MPXDuration dur)
    {
-      put (OVERTIME_WORK, dur);
+      m_overtimeWork = dur;
    }
 
    /**
@@ -274,7 +274,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Number getCost ()
    {
-      return ((Number)get(COST));
+      return (m_cost);
    }
 
    /**
@@ -284,7 +284,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setCost (Number val)
    {
-      putCurrency (COST, val);
+      m_cost = val;
    }
 
    /**
@@ -294,7 +294,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Number getPlannedCost ()
    {
-      return ((Number)get(PLANNED_COST));
+      return (m_plannedCost);
    }
 
    /**
@@ -304,7 +304,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setPlannedCost (Number val)
    {
-      putCurrency (PLANNED_COST, val);
+      m_plannedCost = val;
    }
 
    /**
@@ -314,7 +314,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Number getActualCost ()
    {
-      return ((Number)get(ACTUAL_COST));
+      return (m_actualCost);
    }
 
    /**
@@ -324,7 +324,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setActualCost (Number val)
    {
-      putCurrency (ACTUAL_COST, val);
+      m_actualCost = val;
    }
 
    /**
@@ -334,7 +334,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Date getStart ()
    {
-      return ((Date)get(START));
+      return (m_start);
    }
 
    /**
@@ -344,7 +344,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setStart (Date val)
    {
-      putDate (START, val);
+      m_start = val;
    }
 
    /**
@@ -354,7 +354,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Date getFinish ()
    {
-      return ((Date)get(FINISH));
+      return (m_finish);
    }
 
    /**
@@ -364,7 +364,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setFinish (Date val)
    {
-      putDate (FINISH, val);
+      m_finish = val;
    }
 
    /**
@@ -374,7 +374,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public MPXDuration getDelay ()
    {
-      return ((MPXDuration)get(DELAY));
+      return (m_delay);
    }
 
    /**
@@ -384,7 +384,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public void setDelay (MPXDuration dur)
    {
-      put (DELAY, dur);
+      m_delay = dur;
    }
 
    /**
@@ -394,7 +394,7 @@ public final class ResourceAssignment extends MPXRecord
     */
    public Integer getResourceUniqueID ()
    {
-      return ((Integer)get (RESOURCE_UNIQUE_ID));
+      return (m_resourceUniqueID);
    }
 
    /**
@@ -406,7 +406,7 @@ public final class ResourceAssignment extends MPXRecord
    {
       if (val != null)
       {
-         put (RESOURCE_UNIQUE_ID, val);
+         m_resourceUniqueID = val;
          
          //
          // If the resource ID has not been set, then use
@@ -494,7 +494,7 @@ public final class ResourceAssignment extends MPXRecord
       buf.append(delimiter);
       buf.append(format(delimiter, getResourceID()));
       buf.append(delimiter);
-      buf.append(format(delimiter, getUnits()));
+      buf.append(format(delimiter, toUnits(getUnits())));
       buf.append(delimiter);
       buf.append(format(delimiter, getWork()));
       buf.append(delimiter);
@@ -504,15 +504,15 @@ public final class ResourceAssignment extends MPXRecord
       buf.append(delimiter);
       buf.append(format(delimiter, getOvertimeWork()));
       buf.append(delimiter);
-      buf.append(format(delimiter, getCost()));
+      buf.append(format(delimiter, toCurrency(getCost())));
       buf.append(delimiter);
-      buf.append(format(delimiter, getPlannedCost()));
+      buf.append(format(delimiter, toCurrency(getPlannedCost())));
       buf.append(delimiter);
-      buf.append(format(delimiter, getActualCost()));
+      buf.append(format(delimiter, toCurrency(getActualCost())));
       buf.append(delimiter);
-      buf.append(format(delimiter, getStart()));
+      buf.append(format(delimiter, toDate(getStart())));
       buf.append(delimiter);
-      buf.append(format(delimiter, getFinish()));
+      buf.append(format(delimiter, toDate(getFinish())));
       buf.append(delimiter);
       buf.append(format(delimiter, getDelay()));
       buf.append(delimiter);
@@ -548,6 +548,20 @@ public final class ResourceAssignment extends MPXRecord
       m_remainingWork = remainingWork;
    }
    
+   private Integer m_resourceID;
+   private Number m_units;
+   private MPXDuration m_work;
+   private MPXDuration m_plannedWork;
+   private MPXDuration m_actualWork;
+   private MPXDuration m_overtimeWork;
+   private Number m_cost;
+   private Number m_plannedCost;
+   private Number m_actualCost;
+   private Date m_start;
+   private Date m_finish;
+   private MPXDuration m_delay;
+   private Integer m_resourceUniqueID;
+   
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither
@@ -577,102 +591,6 @@ public final class ResourceAssignment extends MPXRecord
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = new Double (100);
-
-   /**
-    * ID of the resource.
-    */
-   private static final int RESOURCE_ID = 0;
-
-   /**
-    * Units assigned.
-    */
-   private static final int UNITS = 1;
-
-   /**
-    * The Work field shows the total amount of work scheduled to be performed
-    * by a resource on a task. This field shows the total work, or person-hours,
-    * scheduled for an assignment.
-    */
-   private static final int WORK = 2;
-
-   /**
-    * The Planned Work field shows the amount of work planned to be done by
-    * a resource on a task.
-    */
-   private static final int PLANNED_WORK = 3;
-
-   /**
-    * The Actual Work field shows the amount of work that has already been
-    * done by a resource on a task.
-    */
-   private static final int ACTUAL_WORK = 4;
-
-   /**
-    * The Overtime Work field shows the amount of overtime to be performed
-    * by a resource on a task, and charged at the resource's overtime rate.
-    */
-   private static final int OVERTIME_WORK = 5;
-
-   /**
-    * The Cost field shows the total scheduled, or projected, cost for a
-    * resource assignment.
-    * This is based on costs already incurred for work performed by the
-    * resource on a task,
-    * in addition to the costs planned for the remaining work for the
-    * assignment. This is also
-    * referred to as estimate at completion (EAC).
-    */
-   private static final int COST = 6;
-
-   /**
-    * The Planned Cost field shows costs for work planned to be performed
-    * by a resource on a task.
-    */
-   private static final int PLANNED_COST = 7;
-
-   /**
-    * The Actual Cost field shows costs incurred for work already performed
-    * by a resource on a task. You can enter all the actual costs or have
-    * Microsoft Project calculate them for you
-    */
-   private static final int ACTUAL_COST = 8;
-
-   /**
-    * The Start field contains the date and time that an assigned resource
-    * is scheduled
-    * to begin working on a task. You can enter the start date you want,
-    * to indicate the
-    * date when the assignment should start. Or, you can have
-    * Microsoft Project calculate
-    * the start date.
-    */
-   private static final int START = 9;
-
-   /**
-    * The Finish field shows the date and time that an assigned resource is
-    * scheduled to
-    * complete work on a task. You can enter the finish date you want, to
-    * indicate the date
-    * when the assignment should be completed. Or, you can have Microsoft
-    * Project calculate
-    * the finish date.
-    */
-   private static final int FINISH = 10;
-
-   /**
-    * Delay.
-    */
-   private static final int DELAY = 11;
-
-   /**
-    * Unique ID of the resource.
-    */
-   private static final int RESOURCE_UNIQUE_ID = 12;
-
-   /**
-    * Maximum number of fields in this record.
-    */
-   private static final int MAX_FIELDS = 13;
 
     /**
     * Constant containing the record number associated with this record.
