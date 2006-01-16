@@ -168,11 +168,11 @@ public final class FileCreationRecord extends MPXRecord
 
       buffer.append("MPX");
       buffer.append(delimiter);
-      buffer.append(m_programName);
+      buffer.append(getProgramName());
       buffer.append(delimiter);
-      buffer.append(m_fileVersion);
+      buffer.append(getFileVersion());
       buffer.append(delimiter);
-      buffer.append(m_codePage);
+      buffer.append(getCodePage());
       buffer.append(ProjectFile.EOL);
 
       return (buffer.toString());

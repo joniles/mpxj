@@ -41,57 +41,75 @@ public final class MPXWriter extends AbstractProjectWriter
    public void write (ProjectFile projectFile, OutputStream out)
       throws IOException
    {
-      write(projectFile, new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset()));
+      m_projectFile = projectFile;
+      m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
+      
+      try
+      {
+         write();
+      }
+      
+      finally
+      {
+         m_writer = null;
+         m_projectFile = null;
+         m_resourceModel = null;
+         m_taskModel = null;
+      }
    }
    
    /**
     * Writes the contents of the project file as MPX records.
     * 
-    * @param projectFile project file
-    * @param w output stream
     * @throws IOException
     */
-   private void write (ProjectFile projectFile, OutputStreamWriter w)
+   private void write ()
       throws IOException
    {       
-      w.write(projectFile.getFileCreationRecord().toString());
-      w.write(projectFile.getProjectHeader().toString());
+      m_writer.write(m_projectFile.getFileCreationRecord().toString());
+      m_writer.write(m_projectFile.getProjectHeader().toString());
       
-      Iterator iter = projectFile.getBaseCalendars().iterator();   
+      Iterator iter = m_projectFile.getBaseCalendars().iterator();   
       while (iter.hasNext())
       {
-         w.write((iter.next()).toString());
+         m_writer.write((iter.next()).toString());
       }
    
-      w.write(projectFile.getResourceModel().toString());
-      iter = projectFile.getAllResources().iterator();   
+      m_resourceModel = new ResourceModel(m_projectFile);
+      m_writer.write(m_resourceModel.toString());
+      iter = m_projectFile.getAllResources().iterator();   
       while (iter.hasNext())
       {
-         w.write((iter.next()).toString());
+         m_writer.write(((Resource)iter.next()).toString(m_resourceModel));
       }      
 
-      w.write(projectFile.getTaskModel().toString());      
-      writeTasks (projectFile.getChildTasks(), w);
+      m_taskModel = new TaskModel(m_projectFile);
+      m_writer.write(m_taskModel.toString());
+      writeTasks (m_projectFile.getChildTasks());
       
-      w.flush();   
+      m_writer.flush();   
    }
 
    /**
     * Recursively write tasks.
     * 
     * @param tasks list of tasks
-    * @param w output stream writer
     * @throws IOException
     */
-   private void writeTasks (List tasks, OutputStreamWriter w)
+   private void writeTasks (List tasks)
       throws IOException
    {
       Iterator iter = tasks.iterator();
       while (iter.hasNext())
       {
          Task task = (Task)iter.next();
-         w.write(task.toString());
-         writeTasks(task.getChildTasks(), w);
+         m_writer.write(task.toString(m_taskModel));
+         writeTasks(task.getChildTasks());
       }      
    }
+   
+   private ProjectFile m_projectFile;
+   private OutputStreamWriter m_writer;
+   private ResourceModel m_resourceModel;
+   private TaskModel m_taskModel;
 }

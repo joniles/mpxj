@@ -1462,7 +1462,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void set (int field, Object val)
    {
-      m_model.add (field);
       put (field, val);
    }
 
@@ -1476,7 +1475,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    private void set (int field, int val)
    {
-      m_model.add (field);
       put (field, val);
    }
 
@@ -1512,7 +1510,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCurrency (int field, Number val)
    {
-      m_model.add (field);
       putCurrency (field, val);
    }
 
@@ -1526,7 +1523,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    private void setUnits (int field, Number val)
    {
-      m_model.add (field);
       putUnits (field, val);
    }
 
@@ -1540,7 +1536,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    private void setPercentage (int field, Number val)
    {
-      m_model.add (field);
       putPercentage (field, val);
    }
 
@@ -4807,16 +4802,17 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param model resource model
     * @return string containing the data for this record in MPX format.
     */
-   public String toString()
+   public String toString(ResourceModel model)
    {
       StringBuffer buf = new StringBuffer();
 
       //
       // Write the resource record
       //
-      int[] fields = m_model.getModel();
+      int[] fields = model.getModel();
       char sepchar = getParentFile().getDelimiter();
       int field;
 

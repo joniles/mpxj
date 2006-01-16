@@ -893,7 +893,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void set (int field, Object val)
    {
-      m_model.add(field);
       put(field, val);
    }
 
@@ -907,7 +906,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    private void set (int field, int val)
    {
-      m_model.add(field);
       put(field, val);
    }
 
@@ -921,7 +919,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    private void set (int field, boolean val)
    {
-      m_model.add(field);
       put(field, val);
    }
 
@@ -935,7 +932,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate (int field, Date val)
    {
-      m_model.add(field);
       putDate(field, val);
    }
 
@@ -949,7 +945,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    private void setPercentage (int field, Number val)
    {
-      m_model.add(field);
       putPercentage(field, val);
    }
 
@@ -963,7 +958,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCurrency (int field, Number val)
    {
-      m_model.add(field);
       putCurrency(field, val);
    }
 
@@ -4393,16 +4387,17 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * This method generates a string in MPX format representing the
     * contents of this record.
     *
+    * @param model task model
     * @return string containing the data for this record in MPX format.
     */
-   public String toString ()
+   public String toString (TaskModel model)
    {
       StringBuffer buf = new StringBuffer();
 
       //
       // Write the task
       //
-      int[] fields = m_model.getModel();
+      int[] fields = model.getModel();
       char sepchar = getParentFile().getDelimiter();
       int field;
 

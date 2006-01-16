@@ -24,7 +24,9 @@
 
 package com.tapsterrock.mpx;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 
 
@@ -113,7 +115,7 @@ final class TaskModel extends MPXRecord
     *
     * @param field field identifier
     */
-   public void add (int field)
+   private void add (int field)
    {
       if (field < m_flags.length)
       {
@@ -127,6 +129,37 @@ final class TaskModel extends MPXRecord
    }
 
    /**
+    * This method is called to populate the arrays which are then
+    * used to generate the text version of the model.
+    */
+   private void populateModel ()
+   {
+      if (m_count != 0)
+      {
+         m_count = 0;
+         Arrays.fill(m_flags, false);
+      }
+      
+      Iterator iter = getParentFile().getAllTasks().iterator();
+      while (iter.hasNext() == true)
+      {
+         Task task = (Task)iter.next();
+         for (int loop=0; loop < Task.MAX_FIELDS; loop++)
+         {
+            if (task.get(loop) != null)
+            {
+               if (m_flags[loop] == false)
+               {
+                  m_flags[loop] = true;
+                  m_fields[m_count] = loop;
+                  ++m_count;
+               }               
+            }
+         }
+      }
+   }
+   
+   /**
     * This method generates a string in MPX format representing the
     * contents of this record. Both the textual and numeric record
     * types are written by this method.
@@ -135,6 +168,8 @@ final class TaskModel extends MPXRecord
     */
    public String toString ()
    {
+      populateModel();
+      
       int number;
       char delimiter = getParentFile().getDelimiter();
 
