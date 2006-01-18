@@ -74,70 +74,7 @@ public final class ResourceNotes extends MPXRecord
    }
 
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString()
-   {
-      StringBuffer buffer = new StringBuffer ();
-      char delimiter = getParentFile().getDelimiter();
-
-      buffer.append (RECORD_NUMBER);
-      buffer.append (delimiter);
-
-      if (m_note != null)
-      {
-         String note = stripLineBreaks(m_note, EOL_PLACEHOLDER_STRING);
-         boolean quote = (note.indexOf(delimiter) != -1 || note.indexOf('"') != -1);
-         int length = note.length();
-         char c;
-
-         if (quote == true)
-         {
-            buffer.append('"');
-         }
-
-         for (int loop=0; loop < length; loop++)
-         {
-            c = note.charAt(loop);
-
-            switch (c)
-            {
-               case '"':
-               {
-                  buffer.append ("\"\"");
-                  break;
-               }
-
-               default:
-               {
-                  buffer.append (c);
-                  break;
-               }
-            }
-         }
-
-         if (quote == true)
-         {
-            buffer.append('"');
-         }
-      }
-
-      buffer.append (ProjectFile.EOL);
-
-      return (buffer.toString());
-   }
-
-   /**
     * The text constituting this <tt>ResourceNote</tt>.
     */
    private String m_note;
-
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 51;
 }

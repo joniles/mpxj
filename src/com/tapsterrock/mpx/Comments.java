@@ -80,10 +80,10 @@ public final class Comments extends MPXRecord
    public String toString ()
    {
       StringBuffer buffer = new StringBuffer ();
-      buffer.append (RECORD_NUMBER);
+      buffer.append (MPXConstants.COMMENTS_RECORD_NUMBER);
       buffer.append (getParentFile().getDelimiter());
       buffer.append (m_text);
-      buffer.append (ProjectFile.EOL);
+      buffer.append (MPXConstants.EOL);
       return (buffer.toString());
    }
 
@@ -92,10 +92,5 @@ public final class Comments extends MPXRecord
     * Text of comments.
     */
    private String m_text;
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 0;
 
 }

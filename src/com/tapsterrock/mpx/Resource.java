@@ -4799,62 +4799,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    }
 
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param model resource model
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString(ResourceModel model)
-   {
-      StringBuffer buf = new StringBuffer();
-
-      //
-      // Write the resource record
-      //
-      int[] fields = model.getModel();
-      char sepchar = getParentFile().getDelimiter();
-      int field;
-
-      buf.append(RECORD_NUMBER);
-      for (int loop=0; loop < fields.length; loop++)
-      {
-         field = fields[loop];
-         if (field == -1)
-         {
-            break;
-         }
-
-         buf.append (sepchar);
-         buf.append (format (sepchar, get(field)));
-      }
-
-      stripTrailingDelimiters (buf, sepchar);
-
-      buf.append (ProjectFile.EOL);
-
-      //
-      // Write the resource notes
-      //
-      if (m_notes != null)
-      {
-         buf.append (m_notes.toString());
-      }
-
-      //
-      // Write the resource calendar
-      //
-      if (m_calendar != null)
-      {
-         buf.append (m_calendar.toString());
-      }
-
-      getParentFile().fireResourceWrittenEvent(this);
-      
-      return (buf.toString());
-   }
-
-   /**
     * Retrieve the value of a field using its alias.
     *
     * @param alias field alias
@@ -5538,9 +5482,4 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 122;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 123;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 124;
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 50;
 }

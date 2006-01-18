@@ -106,12 +106,12 @@ public final class ProjectNames extends MPXRecord
       StringBuffer buffer = new StringBuffer ();
       char delimiter = getParentFile().getDelimiter();
 
-      buffer.append (RECORD_NUMBER);
+      buffer.append (MPXConstants.PROJECT_NAMES_RECORD_NUMBER);
       buffer.append (delimiter);
       buffer.append (m_name);
       buffer.append (delimiter);
       buffer.append (m_description);
-      buffer.append (ProjectFile.EOL);
+      buffer.append (MPXConstants.EOL);
 
       return (buffer.toString());
    }
@@ -125,9 +125,4 @@ public final class ProjectNames extends MPXRecord
     * Description.
     */
    private String m_description;
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 80;
 }

@@ -23,7 +23,6 @@
 
 package com.tapsterrock.mspdi;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 
 import com.tapsterrock.mpx.Resource;
@@ -365,7 +364,5 @@ final class MSPDIConstants
          RESOURCE_FIELD_MPX_TO_TYPE_MAP.put(RESOURCE_DATA[loop][MPX_FIELD_ID], RESOURCE_DATA[loop][FIELD_DATA_TYPE]);
       }
    }
-
-   private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 }
 

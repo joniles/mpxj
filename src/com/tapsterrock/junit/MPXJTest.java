@@ -362,7 +362,7 @@ public class MPXJTest extends TestCase
       File in = new File (m_basedir + "/sample.de.mpx");
       MPXReader reader = new MPXReader();
       reader.setLocale(Locale.GERMAN);
-      ProjectFile mpx = reader.read(in);
+      reader.read(in);
    }
 
    /**
@@ -2464,7 +2464,7 @@ public class MPXJTest extends TestCase
                if (name.endsWith(".MPP") == true)
                {
                   mpxj = mppReader.read(file);
-                  validateMpp (file.getCanonicalPath(), (ProjectFile)mpxj);
+                  validateMpp (file.getCanonicalPath(), mpxj);
                }
                else
                {

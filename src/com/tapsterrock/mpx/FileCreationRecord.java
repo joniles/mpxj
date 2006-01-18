@@ -156,29 +156,6 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {
-      StringBuffer buffer = new StringBuffer();
-      char delimiter = getParentFile().getDelimiter();
-
-      buffer.append("MPX");
-      buffer.append(delimiter);
-      buffer.append(getProgramName());
-      buffer.append(delimiter);
-      buffer.append(getFileVersion());
-      buffer.append(delimiter);
-      buffer.append(getCodePage());
-      buffer.append(ProjectFile.EOL);
-
-      return (buffer.toString());
-   }
-
-   /**
     * The character to be used throughout as a delimiter for MPX files.
     */
    private char m_delimiter;
@@ -197,12 +174,4 @@ public final class FileCreationRecord extends MPXRecord
     * The code page used to create the file.
     */
    private CodePage m_codePage;
-
-   /**
-    * Constant containing the record number associated with this record.
-    * Note that in this case it is a dummy value, the actual value used
-    * in the file is MPX. The dummy value is used to allow all record types
-    * to be identified numerically.
-    */
-   static final int RECORD_NUMBER = 999;
 }

@@ -131,14 +131,14 @@ public final class ProjectHeader extends MPXRecord
       throws MPXException
    {
       setDefaultDurationUnits(record.getTimeUnit(0));
-      setNumericBooleanDefaultDurationIsFixed(record.getNumericBoolean(1));
+      setDefaultDurationIsFixed(record.getNumericBoolean(1).booleanValue());
       setDefaultWorkUnits(record.getTimeUnit(2));
       setDefaultHoursInDay(record.getFloat(3));
       setDefaultHoursInWeek(record.getFloat(4));
       setDefaultStandardRate(record.getRate(5));
       setDefaultOvertimeRate(record.getRate(6));
-      setNumericBooleanUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
-      setNumericBooleanSplitInProgressTasks(record.getNumericBoolean(8));
+      setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7).booleanValue());
+      setSplitInProgressTasks(record.getNumericBoolean(8).booleanValue());
    }
 
    /**
@@ -170,7 +170,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return boolean flag
     */
-   private NumericBoolean getNumericBooleanDefaultDurationIsFixed ()
+   public boolean getDefaultDurationIsFixed ()
    {
       return (m_defaultDurationIsFixed);
    }
@@ -180,29 +180,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param fixed boolean flag
     */
-   private void setNumericBooleanDefaultDurationIsFixed (NumericBoolean fixed)
-   {
-      m_defaultDurationIsFixed = fixed;
-   }
-
-   /**
-    * Retrieves a flag indicating if the default duration type is fixed.
-    *
-    * @return boolean flag
-    */
-   public boolean getDefaultDurationIsFixed ()
-   {
-      return (m_defaultDurationIsFixed.booleanValue());
-   }
-
-   /**
-    * Sets a flag indicating if the default duration type is fixed.
-    *
-    * @param fixed boolean flag
-    */
    public void setDefaultDurationIsFixed (boolean fixed)
    {
-      m_defaultDurationIsFixed = NumericBoolean.getInstance(fixed);
+      m_defaultDurationIsFixed = fixed;
    }
 
    /**
@@ -314,7 +294,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return boolean flag
     */
-   private NumericBoolean getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus ()
+   public boolean getUpdatingTaskStatusUpdatesResourceStatus ()
    {
       return (m_updatingTaskStatusUpdatesResourceStatus);
    }
@@ -324,49 +304,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param flag boolean flag
     */
-   public void setNumericBooleanUpdatingTaskStatusUpdatesResourceStatus (NumericBoolean flag)
-   {
-      m_updatingTaskStatusUpdatesResourceStatus = flag;
-   }
-
-   /**
-    * Flags whether updating Task status also updates resource status.
-    *
-    * @return boolean flag
-    */
-   public boolean getUpdatingTaskStatusUpdatesResourceStatus ()
-   {
-      return (m_updatingTaskStatusUpdatesResourceStatus.booleanValue());
-   }
-
-   /**
-    * Flags whether updating Task status also updates resource status.
-    *
-    * @param flag boolean flag
-    */
    public void setUpdatingTaskStatusUpdatesResourceStatus (boolean flag)
    {
-      m_updatingTaskStatusUpdatesResourceStatus = NumericBoolean.getInstance(flag);
-   }
-
-   /**
-    * Flag representing whether or not to split in-progress tasks.
-    *
-    * @return Boolean value
-    */
-   private NumericBoolean getNumericBooleanSplitInProgressTasks ()
-   {
-      return (m_splitInProgressTasks);
-   }
-
-   /**
-    * Flag representing whether or not to split in-progress tasks.
-    *
-    * @param flag boolean value
-    */
-   private void setNumericBooleanSplitInProgressTasks (NumericBoolean flag)
-   {
-      m_splitInProgressTasks = flag;
+      m_updatingTaskStatusUpdatesResourceStatus = flag;
    }
 
    /**
@@ -376,7 +316,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public boolean getSplitInProgressTasks ()
    {
-      return (m_splitInProgressTasks.booleanValue());
+      return (m_splitInProgressTasks);
    }
 
    /**
@@ -386,7 +326,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setSplitInProgressTasks (boolean flag)
    {
-      m_splitInProgressTasks = NumericBoolean.getInstance(flag);
+      m_splitInProgressTasks = flag;
    }
 
    /**
@@ -958,27 +898,6 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * This internal method is used to convert from a Date instance to an
-    * integer representing the number of minutes past midnight.
-    *
-    * @return minutes past midnight as an integer
-    */
-   private Integer getIntegerDefaultStartTime ()
-   {
-      Integer result = null;
-      Date date = getDefaultStartTime();
-      if (date != null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(date);
-         int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
-         time += cal.get(Calendar.MINUTE);
-         result = new Integer (time);
-      }
-      return (result);
-   }
-
-   /**
     * Retrieve the default start time, specified using the Java Date type.
     * Note that this assumes that the value returned from
     * the getTime method starts at zero... i.e. the date part
@@ -1302,7 +1221,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setStartDate (Date startDate)
    {
-      m_startDate = toDate(startDate);
+      m_startDate = startDate;
    }
 
    /**
@@ -1346,7 +1265,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setFinishDate (Date finishDate)
    {
-      m_finishDate = toDate(finishDate);
+      m_finishDate = finishDate;
    }
 
    /**
@@ -1388,7 +1307,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setCurrentDate (Date currentDate)
    {
-      m_currentDate = toDate(currentDate);
+      m_currentDate = currentDate;
    }
 
    /**
@@ -1416,7 +1335,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return project cost
     */
-   public Number getCost ()
+   public Double getCost ()
    {
       return (m_cost);
    }
@@ -1426,9 +1345,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param cost project cost
     */
-   public void setCost (Number cost)
+   public void setCost (Double cost)
    {
-      m_cost = toCurrency(cost);
+      m_cost = cost;
    }
 
    /**
@@ -1436,9 +1355,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param baselineCost baseline project cost
     */
-   public void setBaselineCost (Number baselineCost)
+   public void setBaselineCost (Double baselineCost)
    {
-      m_baselineCost = toCurrency(baselineCost);
+      m_baselineCost = baselineCost;
    }
 
    /**
@@ -1446,7 +1365,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return baseline project cost
     */
-   public Number getBaselineCost ()
+   public Double getBaselineCost ()
    {
       return (m_baselineCost);
    }
@@ -1456,9 +1375,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param actualCost actual project cost
     */
-   public void setActualCost (Number actualCost)
+   public void setActualCost (Double actualCost)
    {
-      m_actualCost = toCurrency(actualCost);
+      m_actualCost = actualCost;
    }
 
    /**
@@ -1466,7 +1385,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return actual project cost
     */
-   public Number getActualCost ()
+   public Double getActualCost ()
    {
       return (m_actualCost);
    }
@@ -1536,7 +1455,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return Work 2 attribute
     */
-   public Number getWork2 ()
+   public Double getWork2 ()
    {
       return (m_work2);
    }
@@ -1546,9 +1465,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param work2 work2 percentage value
     */
-   public void setWork2 (Number work2)
+   public void setWork2 (Double work2)
    {
-      m_work2 = toPercentage(work2);
+      m_work2 = work2;
    }
 
    /**
@@ -1616,7 +1535,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return percentage value
     */
-   public Number getPercentageComplete ()
+   public Double getPercentageComplete ()
    {
       return (m_percentageComplete);
    }
@@ -1626,9 +1545,9 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param percentComplete project percent complete
     */
-   public void setPercentageComplete (Number percentComplete)
+   public void setPercentageComplete (Double percentComplete)
    {
-      m_percentageComplete = toPercentage(percentComplete);
+      m_percentageComplete = percentComplete;
    }
 
    /**
@@ -1638,7 +1557,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setBaselineStart (Date baselineStartDate)
    {
-      m_baselineStart = toDate(baselineStartDate);
+      m_baselineStart = baselineStartDate;
    }
 
    /**
@@ -1658,7 +1577,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setBaselineFinish (Date baselineFinishDate)
    {
-      m_baselineFinish = toDate(baselineFinishDate);
+      m_baselineFinish = baselineFinishDate;
    }
 
    /**
@@ -1678,7 +1597,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setActualStart (Date actualStartDate)
    {
-      m_actualStart = toDate(actualStartDate);
+      m_actualStart = actualStartDate;
    }
 
    /**
@@ -1698,7 +1617,7 @@ public final class ProjectHeader extends MPXRecord
     */
    public void setActualFinish (Date actualFinishDate)
    {
-      m_actualFinish = toDate(actualFinishDate);
+      m_actualFinish = actualFinishDate;
    }
 
    /**
@@ -1809,152 +1728,6 @@ public final class ProjectHeader extends MPXRecord
    public void setKeywords (String keywords)
    {
       m_keywords = keywords;
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {
-      StringBuffer buffer = new StringBuffer ();
-      char delimiter = getParentFile().getDelimiter();
-
-      //
-      // Currency Settings Record
-      //
-      buffer.append (CURRENCY_SETTINGS_RECORD_NUMBER);
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, getCurrencySymbol()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, getSymbolPosition()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, getCurrencyDigits()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, new Character(getThousandsSeparator())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, new Character(getDecimalSeparator())));
-      stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (ProjectFile.EOL);
-
-      //
-      // Default Settings Record
-      //
-      buffer.append (DEFAULT_SETTINGS_RECORD_NUMBER);
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDefaultDurationUnits()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getNumericBooleanDefaultDurationIsFixed()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDefaultWorkUnits()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDefaultHoursInDay()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDefaultHoursInWeek()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDefaultStandardRate()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDefaultOvertimeRate()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getNumericBooleanUpdatingTaskStatusUpdatesResourceStatus()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getNumericBooleanSplitInProgressTasks()));
-      stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (ProjectFile.EOL);
-
-      //
-      // Date Time Settings Record
-      //
-      buffer.append (DATE_TIME_SETTINGS_RECORD_NUMBER);
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDateOrder()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getTimeFormat()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getIntegerDefaultStartTime()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, new Character(getDateSeparator())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, new Character(getTimeSeparator())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getAMText()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getPMText()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDateFormat()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getBarTextDateFormat()));
-      stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (ProjectFile.EOL);
-
-      //
-      // Project Header Record
-      //
-      buffer.append (PROJECT_HEADER_RECORD_NUMBER);
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getProjectTitle()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getCompany()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getManager()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getCalendarName()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getStartDate()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getFinishDate()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getScheduleFrom()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getCurrentDate()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getComments()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getCost()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getBaselineCost()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getActualCost()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getWork()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getBaselineWork()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getActualWork()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getWork2()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getDuration()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getBaselineDuration()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getActualDuration()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getPercentageComplete()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getBaselineStart()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getBaselineFinish()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getActualStart()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getActualFinish()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getStartVariance()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getFinishVariance()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getSubject()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getAuthor()));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter,getKeywords()));
-      stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (ProjectFile.EOL);
-
-      return (buffer.toString());
    }
 
    /**
@@ -3125,22 +2898,17 @@ public final class ProjectHeader extends MPXRecord
    private boolean m_updateCurrencyFormat;
 
    /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int CURRENCY_SETTINGS_RECORD_NUMBER = 10;
-
-   /**
     * Default Settings Attributes.
     */
    private TimeUnit m_defaultDurationUnits;
-   private NumericBoolean m_defaultDurationIsFixed;
+   private boolean m_defaultDurationIsFixed;
    private TimeUnit m_defaultWorkUnits;
    private Float m_defaultHoursInDay;
    private Float m_defaultHoursInWeek;
    private MPXRate m_defaultStandardRate;
    private MPXRate m_defaultOvertimeRate;
-   private NumericBoolean m_updatingTaskStatusUpdatesResourceStatus;
-   private NumericBoolean m_splitInProgressTasks;
+   private boolean m_updatingTaskStatusUpdatesResourceStatus;
+   private boolean m_splitInProgressTasks;
 
    /**
     * Date Time Settings Attributes.
@@ -3162,26 +2930,26 @@ public final class ProjectHeader extends MPXRecord
    private String m_company;
    private String m_manager;
    private String m_calendarName;
-   private MPXDate m_startDate;
-   private MPXDate m_finishDate;
+   private Date m_startDate;
+   private Date m_finishDate;
    private ScheduleFrom m_scheduleFrom;
-   private MPXDate m_currentDate;
+   private Date m_currentDate;
    private String m_comments;
-   private MPXCurrency m_cost;
-   private MPXCurrency m_baselineCost;
-   private MPXCurrency m_actualCost;
+   private Double m_cost;
+   private Double m_baselineCost;
+   private Double m_actualCost;
    private MPXDuration m_work;
    private MPXDuration m_baselineWork;
    private MPXDuration m_actualWork;
-   private MPXPercentage m_work2;
+   private Double m_work2;
    private MPXDuration m_duration;
    private MPXDuration m_baselineDuration;
    private MPXDuration m_actualDuration;
-   private MPXPercentage m_percentageComplete;
-   private MPXDate m_baselineStart;
-   private MPXDate m_baselineFinish;
-   private MPXDate m_actualStart;
-   private MPXDate m_actualFinish;
+   private Double m_percentageComplete;
+   private Date m_baselineStart;
+   private Date m_baselineFinish;
+   private Date m_actualStart;
+   private Date m_actualFinish;
    private MPXDuration m_startVariance;
    private MPXDuration m_finishVariance;
    private String m_subject;
@@ -3298,7 +3066,7 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Default work 2 value.
     */
-   private static final MPXPercentage DEFAULT_WORK2 = MPXPercentage.getInstance (0);
+   private static final Double DEFAULT_WORK2 = new Double (0);
 
    /**
     * Default duration value.
@@ -3313,7 +3081,7 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Default percent complete value.
     */
-   private static final Integer DEFAULT_PERCENT_COMPLETE = new Integer (0);
+   private static final Double DEFAULT_PERCENT_COMPLETE = new Double (0);
 
    /**
     * Default calendar name.
@@ -3334,19 +3102,4 @@ public final class ProjectHeader extends MPXRecord
     * Default minutes per week.
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = new Integer (2400);
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int DEFAULT_SETTINGS_RECORD_NUMBER = 11;
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int DATE_TIME_SETTINGS_RECORD_NUMBER = 12;
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int PROJECT_HEADER_RECORD_NUMBER = 30;
 }

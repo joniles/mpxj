@@ -176,8 +176,8 @@ final class TaskModel extends MPXRecord
       StringBuffer textual = new StringBuffer();
       StringBuffer numeric = new StringBuffer();
 
-      textual.append(RECORD_NUMBER_TEXT);
-      numeric.append(RECORD_NUMBER_NUMERIC);
+      textual.append(MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER);
+      numeric.append(MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER);
 
       for (int loop = 0; loop < m_count; loop++)
       {
@@ -190,8 +190,8 @@ final class TaskModel extends MPXRecord
          numeric.append(number);
       }
 
-      textual.append(ProjectFile.EOL);
-      numeric.append(ProjectFile.EOL);
+      textual.append(MPXConstants.EOL);
+      numeric.append(MPXConstants.EOL);
 
       textual.append(numeric.toString());
 
@@ -260,14 +260,4 @@ final class TaskModel extends MPXRecord
     * Map used to store task field numbers.
     */
    private HashMap m_taskNumbers = new HashMap();
-
-   /**
-    * Constant value representing Text Task Model class.
-    */
-   static final int RECORD_NUMBER_TEXT = 60;
-
-   /**
-    * Constant value representing Numeric Task Model class.
-    */
-   static final int RECORD_NUMBER_NUMERIC = 61;
 }

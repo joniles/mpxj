@@ -4384,75 +4384,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param model task model
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (TaskModel model)
-   {
-      StringBuffer buf = new StringBuffer();
-
-      //
-      // Write the task
-      //
-      int[] fields = model.getModel();
-      char sepchar = getParentFile().getDelimiter();
-      int field;
-
-      buf.append(RECORD_NUMBER);
-      for (int loop=0; loop < fields.length; loop++)
-      {
-         field = fields[loop];
-         if (field == -1)
-         {
-            break;
-         }
-
-         buf.append (sepchar);
-         buf.append (format (sepchar, get(field)));
-      }
-
-      stripTrailingDelimiters (buf, sepchar);
-
-      buf.append (ProjectFile.EOL);
-
-      //
-      // Write the task notes
-      //
-      if (m_notes != null)
-      {
-         buf.append(m_notes.toString());
-      }
-
-      //
-      // Write the recurring task
-      //
-      if (m_recurringTask != null)
-      {
-         buf.append(m_recurringTask.toString());
-      }
-
-      //
-      // Write any resource assignments
-      //
-      if (m_assignments.isEmpty() == false)
-      {
-         Iterator list = m_assignments.iterator();
-
-         while (list.hasNext())
-         {
-            buf.append(((ResourceAssignment)list.next()).toString());
-         }
-      }
-
-      getParentFile().fireTaskWrittenEvent(this);
-      
-      return (buf.toString());
-   }
-
-   /**
     * Retrieve count of the number of child tasks.
     *
     * @return Number of child tasks.
@@ -7417,19 +7348,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    {
       put (key, toCurrency(value));
    }
-   
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXUnits objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putUnits (int key, Number value)
-   {
-      put (key, toUnits(value));
-   }
-   
+      
    /**
     * This method inserts a name value pair into internal storage.
     * Note that this method maps Number objects into MPXPercentage objects.
@@ -8371,9 +8290,4 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 86;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 87;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 88;
-      
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 70;
 }

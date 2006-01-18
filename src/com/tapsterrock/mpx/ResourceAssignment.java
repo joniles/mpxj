@@ -272,7 +272,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return cost
     */
-   public Number getCost ()
+   public Double getCost ()
    {
       return (m_cost);
    }
@@ -282,7 +282,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @param val cost
     */
-   public void setCost (Number val)
+   public void setCost (Double val)
    {
       m_cost = val;
    }
@@ -292,7 +292,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return planned cost
     */
-   public Number getPlannedCost ()
+   public Double getPlannedCost ()
    {
       return (m_plannedCost);
    }
@@ -302,7 +302,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @param val planned cost
     */
-   public void setPlannedCost (Number val)
+   public void setPlannedCost (Double val)
    {
       m_plannedCost = val;
    }
@@ -312,7 +312,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return actual cost
     */
-   public Number getActualCost ()
+   public Double getActualCost ()
    {
       return (m_actualCost);
    }
@@ -322,7 +322,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @param val actual cost
     */
-   public void setActualCost (Number val)
+   public void setActualCost (Double val)
    {
       m_actualCost = val;
    }
@@ -480,55 +480,6 @@ public final class ResourceAssignment extends MPXRecord
    }
    
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString()
-   {
-      StringBuffer buf = new StringBuffer();
-      char delimiter = getParentFile().getDelimiter();
-
-      buf.append(RECORD_NUMBER);
-      buf.append(delimiter);
-      buf.append(format(delimiter, getResourceID()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toUnits(getUnits())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getWork()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getPlannedWork()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getActualWork()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getOvertimeWork()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toCurrency(getCost())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toCurrency(getPlannedCost())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toCurrency(getActualCost())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toDate(getStart())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toDate(getFinish())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getDelay()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getResourceUniqueID()));      
-      stripTrailingDelimiters(buf, delimiter);
-      buf.append (ProjectFile.EOL);
-
-      if (m_workgroup != null)
-      {
-         buf.append (m_workgroup.toString());
-      }
-      
-      return (buf.toString());
-   }
-
-   /**
     * Returns the remaining work for this resource assignment.
     *
     * @return remaining work
@@ -554,9 +505,9 @@ public final class ResourceAssignment extends MPXRecord
    private MPXDuration m_plannedWork;
    private MPXDuration m_actualWork;
    private MPXDuration m_overtimeWork;
-   private Number m_cost;
-   private Number m_plannedCost;
-   private Number m_actualCost;
+   private Double m_cost;
+   private Double m_plannedCost;
+   private Double m_actualCost;
    private Date m_start;
    private Date m_finish;
    private MPXDuration m_delay;
@@ -591,9 +542,4 @@ public final class ResourceAssignment extends MPXRecord
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = new Double (100);
-
-    /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 75;
 }

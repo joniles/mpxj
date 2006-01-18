@@ -36,13 +36,12 @@ public final class MPXCalendarException extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @param calendar parent calendar to which this record belongs.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarException (ProjectFile file, MPXCalendar calendar)
+   MPXCalendarException (ProjectFile file)
       throws MPXException
    {
-      this (file, calendar, Record.EMPTY_RECORD);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -50,16 +49,13 @@ public final class MPXCalendarException extends MPXRecord
     * taken from an MPXFile record.
     *
     * @param file the MPXFile object to which this record belongs.
-    * @param calendar parent calendar to which this record belongs.
     * @param record record containing the data for this object.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarException (ProjectFile file, MPXCalendar calendar, Record record)
+   MPXCalendarException (ProjectFile file, Record record)
       throws MPXException
    {
       super(file);
-
-      m_parentCalendar = calendar;
 
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
@@ -90,7 +86,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromDate (Date from)
    {
-      m_fromDate = toDate(from);
+      m_fromDate = from;
    }
 
    /**
@@ -110,7 +106,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToDate (Date to)
    {
-      m_toDate = toDate(to);
+      m_toDate = to;
    }
 
    /**
@@ -150,7 +146,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromTime1 (Date from)
    {
-      m_fromTime1 = toTime(from);
+      m_fromTime1 = from;
    }
 
    /**
@@ -170,7 +166,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToTime1 (Date to)
    {
-      m_toTime1 = toTime(to);
+      m_toTime1 = to;
    }
 
    /**
@@ -190,7 +186,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromTime2 (Date from)
    {
-      m_fromTime2 = toTime(from);
+      m_fromTime2 = from;
    }
 
    /**
@@ -210,7 +206,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToTime2 (Date to)
    {
-      m_toTime2 = toTime(to);
+      m_toTime2 = to;
    }
 
    /**
@@ -230,7 +226,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromTime3 (Date from)
    {
-      m_fromTime3 = toTime(from);
+      m_fromTime3 = from;
    }
 
    /**
@@ -250,7 +246,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToTime3 (Date to)
    {
-      m_toTime3 = toTime(to);
+      m_toTime3 = to;
    }
 
    /**
@@ -277,49 +273,7 @@ public final class MPXCalendarException extends MPXRecord
 
       return (result);
    }
-
-
-   /**
-    * {@inheritDoc}
-    */
-   public String toString ()
-   {
-      StringBuffer buf = new StringBuffer();
-      char delimiter = getParentFile().getDelimiter();
-
-      if (m_parentCalendar.isBaseCalendar() == true)
-      {
-         buf.append(BASE_CALENDAR_EXCEPTION_RECORD_NUMBER);
-      }
-      else
-      {
-         buf.append(RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER);
-      }
-      buf.append(delimiter);
-      
-      buf.append(format(delimiter, getFromDate()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getToDate()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, NumericBoolean.getInstance(getWorking())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getFromTime1()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getToTime1()));
-      buf.append(delimiter);      
-      buf.append(format(delimiter, getFromTime2()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getToTime2()));
-      buf.append(delimiter);            
-      buf.append(format(delimiter, getFromTime3()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getToTime3()));
-      stripTrailingDelimiters(buf, delimiter);
-      buf.append (ProjectFile.EOL);
-      return (buf.toString());
-   }
    
-   private MPXCalendar m_parentCalendar;
    private Date m_fromDate;
    private Date m_toDate;
    private boolean m_working;
@@ -329,16 +283,4 @@ public final class MPXCalendarException extends MPXRecord
    private Date m_toTime2;
    private Date m_fromTime3;
    private Date m_toTime3;
-
-   /**
-    * Constant containing the record number associated with this record.
-    * if this instance represents a base calendar exception.
-    */
-   static final int BASE_CALENDAR_EXCEPTION_RECORD_NUMBER = 26;
-
-   /**
-    * Constant containing the record number associated with this record.
-    * if this instance represents a resource calendar exception.
-    */
-   static final int RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER = 57;
 }

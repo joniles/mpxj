@@ -24,6 +24,7 @@
 package com.tapsterrock.mpx;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
@@ -106,7 +107,7 @@ final class Record
 
          if (result != null)
          {
-            result = result.replace(MPXRecord.EOL_PLACEHOLDER, '\n');
+            result = result.replace(MPXConstants.EOL_PLACEHOLDER, '\n');
          }
       }
       else
@@ -359,14 +360,24 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public MPXCurrency getCurrency (int field)
+   public Double getCurrency (int field)
       throws MPXException
    {
-      MPXCurrency result;
+      Double result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = MPXCurrency.getInstance(m_parent, m_fields[field]);
+         try
+         {
+            NumberFormat format = m_parent.getCurrencyFormat();
+            double value = format.parse(m_fields[field]).doubleValue();
+            result = NumberUtility.getDouble(value);
+         }
+         
+         catch (ParseException ex)
+         {
+            throw new MPXException ("Failed to parse currency", ex);
+         }
       }
       else
       {
@@ -385,14 +396,23 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public MPXPercentage getPercentage (int field)
+   public Double getPercentage (int field)
       throws MPXException
    {
-      MPXPercentage result;
+      Double result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = MPXPercentage.getInstance(m_fields[field], m_parent.getPercentageDecimalFormat());
+         try
+         {
+            double value = m_parent.getPercentageDecimalFormat().parse(m_fields[field]).doubleValue();
+            result = NumberUtility.getDouble(value);
+         }
+         
+         catch (ParseException ex)
+         {
+            throw new MPXException ("Failed to parse percentage", ex);
+         }         
       }
       else
       {

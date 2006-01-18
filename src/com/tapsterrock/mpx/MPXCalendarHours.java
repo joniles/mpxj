@@ -36,13 +36,12 @@ public final class MPXCalendarHours extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @param parentCalendar parent calendar to which this record belongs.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarHours (ProjectFile file, MPXCalendar parentCalendar)
+   MPXCalendarHours (ProjectFile file)
       throws MPXException
    {
-      this (file, parentCalendar, Record.EMPTY_RECORD);
+      this (file, Record.EMPTY_RECORD);
    }
 
    /**
@@ -50,16 +49,13 @@ public final class MPXCalendarHours extends MPXRecord
     * taken from an MPXFile record.
     *
     * @param file the MPXFile object to which this record belongs.
-    * @param parentCalendar parent calendar to which this record belongs.
     * @param record record containing the data for  this object.
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarHours (ProjectFile file, MPXCalendar parentCalendar, Record record)
+   MPXCalendarHours (ProjectFile file, Record record)
       throws MPXException
    {
       super(file);
-
-      m_parentCalendar = parentCalendar;
     
       if (record != Record.EMPTY_RECORD)
       {
@@ -130,83 +126,6 @@ public final class MPXCalendarHours extends MPXRecord
       return (m_dateRanges.iterator());
    }
    
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {
-      int recordNumber;
-
-      if (m_parentCalendar.isBaseCalendar() == true)
-      {
-         recordNumber = BASE_CALENDAR_HOURS_RECORD_NUMBER;
-      }
-      else
-      {
-         recordNumber = RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
-      }
-
-      StringBuffer buffer = new StringBuffer ();
-      char delimiter = getParentFile().getDelimiter();
-      
-      DateRange range1 = getDateRange(0);
-      if (range1 == null)
-      {
-         range1 = DateRange.EMPTY_RANGE;
-      }
-
-      DateRange range2 = getDateRange(1);
-      if (range2 == null)
-      {
-         range2 = DateRange.EMPTY_RANGE;
-      }
-      
-      DateRange range3 = getDateRange(2);
-      if (range3 == null)
-      {
-         range3 = DateRange.EMPTY_RANGE;
-      }
-      
-      buffer.append (recordNumber);
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, m_day));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, toTime(range1.getStartDate())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, toTime(range1.getEndDate())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, toTime(range2.getStartDate())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, toTime(range2.getEndDate())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, toTime(range3.getStartDate())));
-      buffer.append (delimiter);
-      buffer.append(format(delimiter, toTime(range3.getEndDate())));
-      stripTrailingDelimiters(buffer, delimiter);
-      buffer.append (ProjectFile.EOL);
-      
-      return (buffer.toString());
-   }
-
-   /**
-    * Reference to the parent calendar of this exception.
-    */
-   private MPXCalendar m_parentCalendar;
    private Day m_day;
-   private LinkedList m_dateRanges = new LinkedList ();
-   
-   /**
-    * Constant containing the record number associated with this record if
-    * this instance represents base calendar hours.
-    */
-   static final int BASE_CALENDAR_HOURS_RECORD_NUMBER = 25;
-
-   /**
-    * Constant containing the record number associated with this record if
-    * this instance represents resource calendar hours.
-    */
-   static final int RESOURCE_CALENDAR_HOURS_RECORD_NUMBER = 56;   
+   private LinkedList m_dateRanges = new LinkedList ();   
 }

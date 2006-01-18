@@ -155,8 +155,8 @@ final class ResourceModel extends MPXRecord
       StringBuffer textual = new StringBuffer();
       StringBuffer numeric = new StringBuffer();
 
-      textual.append (RECORD_NUMBER_TEXT);
-      numeric.append (RECORD_NUMBER_NUMERIC);
+      textual.append (MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER);
+      numeric.append (MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER);
 
       for (int loop=0; loop < m_count; loop++)
       {
@@ -169,8 +169,8 @@ final class ResourceModel extends MPXRecord
          numeric.append (number);
       }
 
-      textual.append (ProjectFile.EOL);
-      numeric.append (ProjectFile.EOL);
+      textual.append (MPXConstants.EOL);
+      numeric.append (MPXConstants.EOL);
 
       textual.append (numeric.toString());
 
@@ -259,14 +259,4 @@ final class ResourceModel extends MPXRecord
     * Map to store Resource field Numbers.
     */
    private HashMap m_resourceNumbers = new HashMap();
-
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER_TEXT = 40;
-
-   /**
-    * Constant value representing Numeric Resource Model class.
-    */
-   static final int RECORD_NUMBER_NUMERIC = 41;
 }

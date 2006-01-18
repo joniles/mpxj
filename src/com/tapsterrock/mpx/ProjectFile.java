@@ -138,34 +138,34 @@ public class ProjectFile
 
       switch (Integer.parseInt(recordNumber))
       {
-         case Comments.RECORD_NUMBER:
+         case MPXConstants.COMMENTS_RECORD_NUMBER:
          {
             // silently ignored
             break;
          }
 
-         case ProjectHeader.CURRENCY_SETTINGS_RECORD_NUMBER:
+         case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
             m_projectHeader.updateCurrencySettings(record);
             current = m_projectHeader;
             break;
          }
 
-         case ProjectHeader.DEFAULT_SETTINGS_RECORD_NUMBER:
+         case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
             m_projectHeader.updateDefaultSettings(record);
             current = m_projectHeader;
             break;
          }
 
-         case ProjectHeader.DATE_TIME_SETTINGS_RECORD_NUMBER:
+         case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
             m_projectHeader.updateDateTimeSettings(record);
             current = m_projectHeader;
             break;
          }
 
-         case MPXCalendar.BASE_CALENDAR_RECORD_NUMBER:
+         case MPXConstants.BASE_CALENDAR_RECORD_NUMBER:
          {
             m_lastBaseCalendar = new MPXCalendar(this, record, true);
             current = m_lastBaseCalendar;
@@ -173,7 +173,7 @@ public class ProjectFile
             break;
          }
 
-         case MPXCalendarHours.BASE_CALENDAR_HOURS_RECORD_NUMBER:
+         case MPXConstants.BASE_CALENDAR_HOURS_RECORD_NUMBER:
          {
             if (m_lastBaseCalendar != null)
             {
@@ -183,7 +183,7 @@ public class ProjectFile
             break;
          }
 
-         case MPXCalendarException.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER:
+         case MPXConstants.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER:
          {
             if (m_lastBaseCalendar != null)
             {
@@ -193,14 +193,14 @@ public class ProjectFile
             break;
          }
 
-         case ProjectHeader.PROJECT_HEADER_RECORD_NUMBER:
+         case MPXConstants.PROJECT_HEADER_RECORD_NUMBER:
          {
             m_projectHeader.updateProjectHeader(record);
             current = m_projectHeader;
             break;
          }
 
-         case ResourceModel.RECORD_NUMBER_TEXT:
+         case MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER:
          {
             if ((m_resourceTableDefinition == false) && (m_ignoreTextModels == false))
             {
@@ -212,7 +212,7 @@ public class ProjectFile
             break;
          }
 
-         case ResourceModel.RECORD_NUMBER_NUMERIC:
+         case MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER:
          {
             if (m_resourceTableDefinition == false)
             {
@@ -224,7 +224,7 @@ public class ProjectFile
             break;
          }
 
-         case Resource.RECORD_NUMBER:
+         case MPXConstants.RESOURCE_RECORD_NUMBER:
          {
             m_lastResource = new Resource(this, record);
             current = m_lastResource;
@@ -236,7 +236,7 @@ public class ProjectFile
             break;
          }
 
-         case ResourceNotes.RECORD_NUMBER:
+         case MPXConstants.RESOURCE_NOTES_RECORD_NUMBER:
          {
             if (m_lastResource != null)
             {
@@ -246,7 +246,7 @@ public class ProjectFile
             break;
          }
 
-         case MPXCalendar.RESOURCE_CALENDAR_RECORD_NUMBER:
+         case MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER:
          {
             if (m_lastResource != null)
             {
@@ -257,7 +257,7 @@ public class ProjectFile
             break;
          }
 
-         case MPXCalendarHours.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER:
+         case MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER:
          {
             if (m_lastResourceCalendar != null)
             {
@@ -267,7 +267,7 @@ public class ProjectFile
             break;
          }
 
-         case MPXCalendarException.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER:
+         case MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER:
          {
             if (m_lastResourceCalendar != null)
             {
@@ -277,7 +277,7 @@ public class ProjectFile
             break;
          }
 
-         case TaskModel.RECORD_NUMBER_TEXT:
+         case MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER:
          {
             if ((m_taskTableDefinition == false) && (m_ignoreTextModels == false))
             {
@@ -289,7 +289,7 @@ public class ProjectFile
             break;
          }
 
-         case TaskModel.RECORD_NUMBER_NUMERIC:
+         case MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER:
          {
             if (m_taskTableDefinition == false)
             {
@@ -301,7 +301,7 @@ public class ProjectFile
             break;
          }
 
-         case Task.RECORD_NUMBER:
+         case MPXConstants.TASK_RECORD_NUMBER:
          {
             m_lastTask = new Task(this, record);
             current = m_lastTask;
@@ -335,7 +335,7 @@ public class ProjectFile
             break;
          }
 
-         case TaskNotes.RECORD_NUMBER:
+         case MPXConstants.TASK_NOTES_RECORD_NUMBER:
          {
             if (m_lastTask != null)
             {
@@ -345,7 +345,7 @@ public class ProjectFile
             break;
          }
 
-         case RecurringTask.RECORD_NUMBER:
+         case MPXConstants.RECURRING_TASK_RECORD_NUMBER:
          {
             if (m_lastTask != null)
             {
@@ -355,7 +355,7 @@ public class ProjectFile
             break;
          }
 
-         case ResourceAssignment.RECORD_NUMBER:
+         case MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER:
          {
             if (m_lastTask != null)
             {
@@ -367,7 +367,7 @@ public class ProjectFile
             break;
          }
 
-         case ResourceAssignmentWorkgroupFields.RECORD_NUMBER:
+         case MPXConstants.RESOURCE_ASSIGNMENT_WORKGROUP_FIELDS_RECORD_NUMBER:
          {
             if (m_lastResourceAssignment != null)
             {
@@ -377,21 +377,21 @@ public class ProjectFile
             break;
          }
 
-         case ProjectNames.RECORD_NUMBER:
+         case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
          {
             //current = new ProjectNames(this, record);
             // silently ignored
             break;
          }
 
-         case DdeOleClientLinks.RECORD_NUMBER:
+         case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
          {
             //current = new DdeOleClientLinks(this, record);
             // silently ignored
             break;
          }
 
-         case FileCreationRecord.RECORD_NUMBER:
+         case MPXConstants.FILE_CREATION_RECORD_NUMBER:
          {
             current = getFileCreationRecord();
             ((FileCreationRecord)current).setValues(record);
@@ -425,7 +425,7 @@ public class ProjectFile
    public Task addTask ()
       throws MPXException
    {
-      return ((Task)add(Task.RECORD_NUMBER));
+      return ((Task)add(MPXConstants.TASK_RECORD_NUMBER));
    }
 
    /**
@@ -828,7 +828,7 @@ public class ProjectFile
    public Comments addComments ()
       throws MPXException
    {
-      return ((Comments)add(Comments.RECORD_NUMBER));
+      return ((Comments)add(MPXConstants.COMMENTS_RECORD_NUMBER));
    }
 
    /**
@@ -863,7 +863,7 @@ public class ProjectFile
    public MPXCalendar addBaseCalendar ()
       throws MPXException
    {
-      return ((MPXCalendar)add(MPXCalendar.BASE_CALENDAR_RECORD_NUMBER));
+      return ((MPXCalendar)add(MPXConstants.BASE_CALENDAR_RECORD_NUMBER));
    }
 
    /**
@@ -896,7 +896,7 @@ public class ProjectFile
    public MPXCalendar addDefaultBaseCalendar ()
       throws MPXException
    {
-      MPXCalendar calendar = (MPXCalendar)add(MPXCalendar.BASE_CALENDAR_RECORD_NUMBER);
+      MPXCalendar calendar = (MPXCalendar)add(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
 
       calendar.setName(MPXCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
@@ -977,7 +977,7 @@ public class ProjectFile
    public Resource addResource ()
       throws MPXException
    {
-      return ((Resource)add(Resource.RECORD_NUMBER));
+      return ((Resource)add(MPXConstants.RESOURCE_RECORD_NUMBER));
    }
 
    /**
@@ -1080,7 +1080,7 @@ public class ProjectFile
    public ProjectNames addProjectNames ()
       throws MPXException
    {
-      return ((ProjectNames)add(ProjectNames.RECORD_NUMBER));
+      return ((ProjectNames)add(MPXConstants.PROJECT_NAMES_RECORD_NUMBER));
    }
 
    /**
@@ -1092,7 +1092,7 @@ public class ProjectFile
    public DdeOleClientLinks addDdeOleClientLinks ()
       throws MPXException
    {
-      return ((DdeOleClientLinks)add(DdeOleClientLinks.RECORD_NUMBER));
+      return ((DdeOleClientLinks)add(MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER));
    }
 
    /**
@@ -2176,12 +2176,6 @@ public class ProjectFile
       return (m_resourceSubProject);
    }
    
-   /**
-    * Constant containing the end of line characters used in MPX files.
-    * Note that this constant has package level access only.
-    */
-   static final String EOL = "\r\n";
-
    /**
     * Counter used to populate the unique ID field of a task.
     */

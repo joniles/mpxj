@@ -84,7 +84,7 @@ public final class MPXReader extends AbstractProjectReader
          //
          // Add the header record
          //
-         projectFile.add(Integer.toString(FileCreationRecord.RECORD_NUMBER), new Record(projectFile, tk));
+         projectFile.add(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(projectFile, tk));
          ++line;
    
          //

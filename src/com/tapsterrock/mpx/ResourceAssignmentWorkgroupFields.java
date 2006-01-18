@@ -186,46 +186,10 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
       return (m_scheduleID);
    }
 
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {            
-      StringBuffer buf = new StringBuffer();
-      char delimiter = getParentFile().getDelimiter();
-
-      buf.append(RECORD_NUMBER);
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMessageUniqueID()));
-      buf.append(delimiter);
-      buf.append(getConfirmed()?"1":"0");
-      buf.append(delimiter);
-      buf.append(getResponsePending()?"1":"0");
-      buf.append(delimiter);
-      buf.append(format(delimiter, toDate(getUpdateStart())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, toDate(getUpdateFinish())));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getScheduleID()));
-
-      stripTrailingDelimiters(buf, delimiter);
-      buf.append (ProjectFile.EOL);
-
-      return (buf.toString());      
-   }
-
    private String m_messageUniqueID;
    private boolean m_confirmed;
    private boolean m_responsePending;
    private Date m_updateStart;
    private Date m_updateFinish;
    private String m_scheduleID;
-      
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 76;
 }

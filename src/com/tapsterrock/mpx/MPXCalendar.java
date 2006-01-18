@@ -110,7 +110,7 @@ public final class MPXCalendar extends MPXRecord
    MPXCalendarException addCalendarException (Record record)
       throws MPXException
    {
-      MPXCalendarException bce = new MPXCalendarException(getParentFile(), this, record);
+      MPXCalendarException bce = new MPXCalendarException(getParentFile(), record);
       m_exceptions.add(bce);
       return (bce);
    }
@@ -137,7 +137,7 @@ public final class MPXCalendar extends MPXRecord
    public MPXCalendarHours addCalendarHours(Day day)
       throws MPXException
    {
-      MPXCalendarHours bch = new MPXCalendarHours (getParentFile(), this, Record.EMPTY_RECORD);
+      MPXCalendarHours bch = new MPXCalendarHours (getParentFile(), Record.EMPTY_RECORD);
 
       bch.setDay (day);
       m_hours[day.getValue()-1] = bch;
@@ -157,7 +157,7 @@ public final class MPXCalendar extends MPXRecord
    MPXCalendarHours addCalendarHours (Record record)
       throws MPXException
    {
-      MPXCalendarHours bch = new MPXCalendarHours(getParentFile(), this, record);
+      MPXCalendarHours bch = new MPXCalendarHours(getParentFile(), record);
       m_hours[bch.getDay().getValue()-1] = bch;
       return (bch);
    }
@@ -173,7 +173,17 @@ public final class MPXCalendar extends MPXRecord
       return (m_hours[day.getValue()-1]);
    }
 
-
+   /**
+    * Retrieve an array representing all of the calendar hours defined
+    * by this calendar.
+    * 
+    * @return array of calendar hours
+    */
+   public MPXCalendarHours[] getHours ()
+   {
+      return (m_hours);
+   }
+   
    /**
     * Calendar name.
     *
@@ -215,61 +225,6 @@ public final class MPXCalendar extends MPXRecord
    }
 
    /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {
-      StringBuffer buf = new StringBuffer();
-      char delimiter = getParentFile().getDelimiter();
-
-      if (m_baseCalendar == null)
-      {
-         buf.append (BASE_CALENDAR_RECORD_NUMBER);
-         buf.append (delimiter);
-         if (m_name != null)
-         {
-            buf.append (m_name);
-         }
-      }
-      else
-      {
-         buf.append (RESOURCE_CALENDAR_RECORD_NUMBER);
-         buf.append (delimiter);
-         buf.append (m_baseCalendar.getName());
-      }
-
-      for (int loop=0; loop < m_days.length; loop++)
-      {
-         buf.append (delimiter);
-         buf.append (m_days[loop]);
-      }
-
-      buf.append (ProjectFile.EOL);
-
-      for (int loop=0; loop < m_hours.length; loop++)
-      {
-         if (m_hours[loop] != null)
-         {
-            buf.append (m_hours[loop].toString());
-         }
-      }
-
-      if (m_exceptions.isEmpty() == false)
-      {
-         Iterator iter = m_exceptions.iterator();
-         while (iter.hasNext() == true)
-         {
-            buf.append((iter.next()).toString());
-         }
-      }
-
-      return (buf.toString());
-   }
-
-   /**
     * Method indicating whether a day is a working or non-working day.
     *
     * @param day required day
@@ -293,6 +248,16 @@ public final class MPXCalendar extends MPXRecord
       return (result);
    }
 
+   /**
+    * Retrieve an array representing the days of the week for this calendar.
+    * 
+    * @return array of days of the week
+    */
+   public int[] getDays ()
+   {
+      return (m_days);
+   }
+   
    /**
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
@@ -742,17 +707,4 @@ public final class MPXCalendar extends MPXRecord
     * or not.
     */
    public static final int DEFAULT = 2;
-
-
-   /**
-    * Constant containing the record number associated with this record
-    * if this instance represents a base calendar.
-    */
-   static final int BASE_CALENDAR_RECORD_NUMBER = 20;
-
-   /**
-    * Constant containing the record number associated with this record
-    * if this instance represents a resource calendar.
-    */
-   static final int RESOURCE_CALENDAR_RECORD_NUMBER = 55;
 }

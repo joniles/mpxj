@@ -120,7 +120,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setStartDate (Date val)
    {
-      m_startDate = toDate(val);
+      m_startDate = val;
    }
 
    /**
@@ -140,7 +140,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setFinishDate (Date val)
    {
-      m_finishDate = toDate(val);
+      m_finishDate = val;
    }
 
    /**
@@ -608,7 +608,7 @@ public final class RecurringTask extends MPXRecord
     */
    public void setYearlyBoxDate (Date val)
    {
-      m_yearlyBoxDate = toDate(val);
+      m_yearlyBoxDate = val;
    }
 
    /**
@@ -629,72 +629,6 @@ public final class RecurringTask extends MPXRecord
    public void setNotSureIndex (Integer val)
    {
       m_notSureIndex = val;
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString()
-   {
-      StringBuffer buf = new StringBuffer ();
-      char delimiter = getParentFile().getDelimiter();
-      
-      buf.append(RECORD_NUMBER);
-      buf.append(delimiter);      
-      buf.append(format(delimiter, getTaskUniqueID()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getStartDate()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getFinishDate()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getDuration()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getDurationType()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getNumberOfOccurances()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getRecurranceType()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getNotSureIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getLengthRadioIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getDailyBoxRadioIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getWeeklyBoxDayOfWeekIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMonthlyBoxRadioIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getYearlyBoxRadioIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getDailyBoxComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getWeeklyBoxComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMonthlyBoxFirstLastComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMonthlyBoxDayComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMonthlyBoxBottomRadioFrequencyComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMonthlyBoxDayIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getMonthlyBoxTopRadioFrequencyComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getYearlyBoxFirstLastComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getYearlyBoxDayComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getYearlyBoxMonthComboIndex()));
-      buf.append(delimiter);
-      buf.append(format(delimiter, getYearlyBoxDate()));
-      
-      stripTrailingDelimiters(buf, delimiter);
-      buf.append (ProjectFile.EOL);
-      return (buf.toString());      
    }
 
    private Integer m_taskUniqueID;
@@ -921,9 +855,4 @@ public final class RecurringTask extends MPXRecord
     * Constant typically representing which Xday of the month.
     */
    public static final Integer LAST = new Integer(5);
-   
-   /**
-    * Constant containing the record number associated with this record.
-    */
-   static final int RECORD_NUMBER = 72;
 }

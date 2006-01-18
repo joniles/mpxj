@@ -1014,7 +1014,7 @@ public final class DatatypeConverter
     * @param value currency value
     * @return currency value
     */
-   public static final Number parseCurrency (Number value)
+   public static final Double parseCurrency (Number value)
    {
       return (value==null?null:NumberUtility.getDouble (value.doubleValue() / 100));
    }
