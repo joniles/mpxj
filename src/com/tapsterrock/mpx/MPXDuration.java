@@ -24,6 +24,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
@@ -91,7 +92,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * @param locale target locale
     * @return string containing the data for this record in MPX format.
     */
-   private String toString (MPXNumberFormat format, Locale locale)
+   private String toString (NumberFormat format, Locale locale)
    {
       return (format.format(m_duration) + TimeUnit.format(m_units, locale));
    }
@@ -325,7 +326,7 @@ public final class MPXDuration implements ToStringRequiresFile
     * @return MPXDuration instance
     * @throws MPXException
     */
-   public static MPXDuration getInstance (String dur, MPXNumberFormat format, Locale locale)
+   public static MPXDuration getInstance (String dur, NumberFormat format, Locale locale)
       throws MPXException
    {
       try
@@ -413,7 +414,7 @@ public final class MPXDuration implements ToStringRequiresFile
    /**
     * Number formatter.
     */
-   private static final MPXNumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat(DECIMAL_FORMAT_STRING, '.', ',');
+   private static final NumberFormat DEFAULT_DECIMAL_FORMAT = new MPXNumberFormat(DECIMAL_FORMAT_STRING, '.', ',');
 
    
    private static final MPXDuration[] ZERO_DURATIONS =

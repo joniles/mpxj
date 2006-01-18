@@ -1658,7 +1658,7 @@ public class ProjectFile
     *
     * @return MPXNumberFormat instance
     */
-   MPXNumberFormat getDecimalFormat ()
+   NumberFormat getDecimalFormat ()
    {
       return (new MPXNumberFormat("0.00#", m_decimalSeparator, m_thousandsSeparator));
    }
@@ -1669,7 +1669,7 @@ public class ProjectFile
     *
     * @return MPXNumberFormat instance
     */
-   MPXNumberFormat getDurationDecimalFormat ()
+   NumberFormat getDurationDecimalFormat ()
    {
       return (new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
    }
@@ -1680,9 +1680,9 @@ public class ProjectFile
     *
     * @return MPXNumberFormat instance
     */
-   MPXNumberFormat getPercentageDecimalFormat ()
+   NumberFormat getPercentageDecimalFormat ()
    {
-      return (new MPXNumberFormat(MPXPercentage.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+      return (new MPXNumberFormat("##0.##", m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**
@@ -1691,9 +1691,9 @@ public class ProjectFile
     *
     * @return MPXNumberFormat instance
     */
-   MPXNumberFormat getUnitsDecimalFormat ()
+   NumberFormat getUnitsDecimalFormat ()
    {
-      return (new MPXNumberFormat(MPXUnits.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
+      return (new MPXNumberFormat("#.##", m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**

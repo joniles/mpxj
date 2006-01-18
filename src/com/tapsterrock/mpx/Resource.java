@@ -24,6 +24,7 @@
 
 package com.tapsterrock.mpx;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -102,14 +103,31 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
 
             case MAX_UNITS:
             {
-               set(x, new MPXUnits(field, getParentFile().getUnitsDecimalFormat()));
+               try
+               {
+                  set (x, new Double(getParentFile().getUnitsDecimalFormat().parse(field).doubleValue() * 100));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse units", ex);
+               }
+               
                break;
             }
 
             case PERCENT_WORK_COMPLETE:
             case PEAK_UNITS:
             {
-               set(x, MPXPercentage.getInstance(field, getParentFile().getPercentageDecimalFormat()));
+               try
+               {
+                  set(x, getParentFile().getPercentageDecimalFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse percentage", ex);
+               }
                break;
             }
 
@@ -460,7 +478,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setMaxUnits (Number maxUnits)
    {
-      setUnits (MAX_UNITS, maxUnits);
+      set (MAX_UNITS, maxUnits);
    }
 
    /**
@@ -480,7 +498,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setPeakUnits (Number peakUnits)
    {
-      setPercentage (PEAK_UNITS, peakUnits);
+      set (PEAK_UNITS, peakUnits);
    }
 
    /**
@@ -792,7 +810,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setPercentWorkComplete (Number percentWorkComplete)
    {
-      setPercentage (PERCENT_WORK_COMPLETE, percentWorkComplete);
+      set (PERCENT_WORK_COMPLETE, percentWorkComplete);
    }
 
    /**
@@ -852,7 +870,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost (Number cost)
    {
-      setCurrency (COST, cost);
+      set (COST, cost);
    }
 
    /**
@@ -932,7 +950,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCostPerUse (Number costPerUse)
    {
-      setCurrency (COST_PER_USE, costPerUse);
+      set (COST_PER_USE, costPerUse);
    }
 
    /**
@@ -952,7 +970,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setActualCost (Number actualCost)
    {
-      setCurrency (ACTUAL_COST, actualCost);
+      set (ACTUAL_COST, actualCost);
    }
 
    /**
@@ -992,7 +1010,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setRemainingCost (Number remainingCost)
    {
-      setCurrency (REMAINING_COST, remainingCost);
+      set (REMAINING_COST, remainingCost);
    }
 
    /**
@@ -1052,7 +1070,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCostVariance (Number costVariance)
    {
-      setCurrency (COST_VARIANCE, costVariance);
+      set (COST_VARIANCE, costVariance);
    }
 
    /**
@@ -1479,17 +1497,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    }
 
    /**
-    * This method is used to set the value of a date field in the resource.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void setDate (int field, Date val)
-   {
-      putDate (field, val);
-   }
-
-   /**
     * This method is used to set the value of a field in the resource.
     *
     * @param field field to be added or updated.
@@ -1498,45 +1505,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    private void set (int field, boolean val)
    {
       put (field, val);
-   }
-
-   /**
-    * This method is used to set the value of a currency field in the resource,
-    * and also to ensure that the field exists in the resource model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void setCurrency (int field, Number val)
-   {
-      putCurrency (field, val);
-   }
-
-   /**
-    * This method is used to set the value of a units field in the resource,
-    * and also to ensure that the field exists in the resource model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   private void setUnits (int field, Number val)
-   {
-      putUnits (field, val);
-   }
-
-   /**
-    * This method is used to set the value of a percentage field in the resource,
-    * and also to ensure that the field exists in the resource model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   private void setPercentage (int field, Number val)
-   {
-      putPercentage (field, val);
    }
 
    /**
@@ -1561,7 +1529,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setBaselineCost (Number val)
    {
-      setCurrency (BASELINE_COST, val);
+      set (BASELINE_COST, val);
    }
 
    /**
@@ -2542,7 +2510,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart1(Date date)
    {
-      setDate (START1, date);
+      set (START1, date);
    }
 
    /**
@@ -2553,7 +2521,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart2(Date date)
    {
-      setDate (START2, date);
+      set (START2, date);
    }
 
    /**
@@ -2564,7 +2532,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart3(Date date)
    {
-      setDate (START3, date);
+      set (START3, date);
    }
 
    /**
@@ -2575,7 +2543,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart4(Date date)
    {
-      setDate (START4, date);
+      set (START4, date);
    }
 
    /**
@@ -2586,7 +2554,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart5(Date date)
    {
-      setDate (START5, date);
+      set (START5, date);
    }
 
    /**
@@ -2597,7 +2565,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart6(Date date)
    {
-      setDate (START6, date);
+      set (START6, date);
    }
 
    /**
@@ -2608,7 +2576,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart7(Date date)
    {
-      setDate (START7, date);
+      set (START7, date);
    }
 
    /**
@@ -2619,7 +2587,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart8(Date date)
    {
-      setDate (START8, date);
+      set (START8, date);
    }
 
    /**
@@ -2630,7 +2598,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart9(Date date)
    {
-      setDate (START9, date);
+      set (START9, date);
    }
 
    /**
@@ -2641,7 +2609,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setStart10(Date date)
    {
-      setDate (START10, date);
+      set (START10, date);
    }
 
    /**
@@ -2762,7 +2730,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish1(Date date)
    {
-      setDate (FINISH1, date);
+      set (FINISH1, date);
    }
 
    /**
@@ -2773,7 +2741,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish2(Date date)
    {
-      setDate (FINISH2, date);
+      set (FINISH2, date);
    }
 
    /**
@@ -2784,7 +2752,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish3(Date date)
    {
-      setDate (FINISH3, date);
+      set (FINISH3, date);
    }
 
    /**
@@ -2795,7 +2763,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish4(Date date)
    {
-      setDate (FINISH4, date);
+      set (FINISH4, date);
    }
 
    /**
@@ -2806,7 +2774,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish5(Date date)
    {
-      setDate (FINISH5, date);
+      set (FINISH5, date);
    }
 
    /**
@@ -2817,7 +2785,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish6(Date date)
    {
-      setDate (FINISH6, date);
+      set (FINISH6, date);
    }
 
    /**
@@ -2828,7 +2796,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish7(Date date)
    {
-      setDate (FINISH7, date);
+      set (FINISH7, date);
    }
 
    /**
@@ -2839,7 +2807,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish8(Date date)
    {
-      setDate (FINISH8, date);
+      set (FINISH8, date);
    }
 
    /**
@@ -2850,7 +2818,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish9(Date date)
    {
-      setDate (FINISH9, date);
+      set (FINISH9, date);
    }
 
    /**
@@ -2861,7 +2829,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setFinish10(Date date)
    {
-      setDate (FINISH10, date);
+      set (FINISH10, date);
    }
 
    /**
@@ -3868,7 +3836,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate1(Date date)
    {
-      setDate(DATE1, date);
+      set(DATE1, date);
    }
 
    /**
@@ -3879,7 +3847,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate10(Date date)
    {
-      setDate(DATE10, date);
+      set(DATE10, date);
    }
 
    /**
@@ -3890,7 +3858,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate2(Date date)
    {
-      setDate(DATE2, date);
+      set(DATE2, date);
    }
 
    /**
@@ -3901,7 +3869,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate3(Date date)
    {
-      setDate(DATE3, date);
+      set(DATE3, date);
    }
 
    /**
@@ -3912,7 +3880,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate4(Date date)
    {
-      setDate(DATE4, date);
+      set(DATE4, date);
    }
 
    /**
@@ -3923,7 +3891,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate5(Date date)
    {
-      setDate(DATE5, date);
+      set(DATE5, date);
    }
 
    /**
@@ -3934,7 +3902,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate6(Date date)
    {
-      setDate(DATE6, date);
+      set(DATE6, date);
    }
 
    /**
@@ -3945,7 +3913,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate7(Date date)
    {
-      setDate(DATE7, date);
+      set(DATE7, date);
    }
 
    /**
@@ -3956,7 +3924,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate8(Date date)
    {
-      setDate(DATE8, date);
+      set(DATE8, date);
    }
 
    /**
@@ -3967,7 +3935,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setDate9(Date date)
    {
-      setDate(DATE9, date);
+      set(DATE9, date);
    }
 
    /**
@@ -4088,7 +4056,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost1(Number number)
    {
-      setCurrency (COST1, number);
+      set (COST1, number);
    }
 
    /**
@@ -4099,7 +4067,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost2(Number number)
    {
-      setCurrency (COST2, number);
+      set (COST2, number);
    }
 
    /**
@@ -4110,7 +4078,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost3(Number number)
    {
-      setCurrency (COST3, number);
+      set (COST3, number);
    }
 
    /**
@@ -4121,7 +4089,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost4(Number number)
    {
-      setCurrency (COST4, number);
+      set (COST4, number);
    }
 
    /**
@@ -4132,7 +4100,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost5(Number number)
    {
-      setCurrency (COST5, number);
+      set (COST5, number);
    }
 
    /**
@@ -4143,7 +4111,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost6(Number number)
    {
-      setCurrency (COST6, number);
+      set (COST6, number);
    }
 
    /**
@@ -4154,7 +4122,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost7(Number number)
    {
-      setCurrency (COST7, number);
+      set (COST7, number);
    }
 
    /**
@@ -4165,7 +4133,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost8(Number number)
    {
-      setCurrency (COST8, number);
+      set (COST8, number);
    }
 
    /**
@@ -4176,7 +4144,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost9(Number number)
    {
-      setCurrency (COST9, number);
+      set (COST9, number);
    }
 
    /**
@@ -4187,7 +4155,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setCost10(Number number)
    {
-      setCurrency (COST10, number);
+      set (COST10, number);
    }
 
    /**
@@ -4939,55 +4907,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    {
       put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
    }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Date objects into MPXDate objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putDate (int key, Date value)
-   {
-      put (key, toDate(value));
-   }
-   
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXCurrency objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putCurrency (int key, Number value)
-   {
-      put (key, toCurrency(value));
-   }
-   
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXUnits objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putUnits (int key, Number value)
-   {
-      put (key, toUnits(value));
-   }
-   
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXPercentage objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putPercentage (int key, Number value)
-   {
-      put (key, toPercentage(value));
-   }
-   
+            
    /**
     * This method implements the only method in the Comparable interface.
     * This allows Resources to be compared and sorted based on their ID value.
@@ -5083,7 +5003,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * expressed as the total percentage of the resource's work that has
     * been completed.
     */
-   private static final int PERCENT_WORK_COMPLETE = 26;
+   public static final int PERCENT_WORK_COMPLETE = 26;
 
    /**
     * The Accrue At field provides choices for how and when resource
@@ -5093,21 +5013,21 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * - End
     * - Prorated (default)
     */
-   private static final int ACCRUE_AT = 45;
+   public static final int ACCRUE_AT = 45;
 
    /**
     * The Actual Cost field shows the sum of costs incurred for the work
     * already performed
     * by a resource for all assigned tasks.
     */
-   private static final int ACTUAL_COST = 32;
+   public static final int ACTUAL_COST = 32;
 
    /**
     * The Actual Work field contains the amount of work that has already
     * been done for all
     * assignments assigned to a resource.
     */
-   private static final int ACTUAL_WORK = 22;
+   public static final int ACTUAL_WORK = 22;
 
    /**
     * The Base Calendar field indicates which calendar is the base calendar
@@ -5116,14 +5036,14 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * calendars you have
     * created in the Change Working Time dialog box.
     */
-   private static final int BASE_CALENDAR = 48;
+   public static final int BASE_CALENDAR = 48;
 
    /**
     * The Baseline Cost field shows the total planned cost for a resource
     * for all assigned tasks.
     * Baseline cost is also referred to as budget at completion (BAC).
     */
-   private static final int BASELINE_COST = 31;
+   public static final int BASELINE_COST = 31;
 
    /**
     * The Baseline Work field shows the originally planned amount of work to
@@ -5134,14 +5054,14 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * when you set a baseline
     * for the project.
     */
-   private static final int BASELINE_WORK = 21;
+   public static final int BASELINE_WORK = 21;
 
    /**
     * The Code field contains any code, abbreviation, or number you want to
     * enter as part of a
     * resource's information.
     */
-   private static final int CODE = 4;
+   public static final int CODE = 4;
 
    /**
     * The Cost field shows the total scheduled cost for a resource for all
@@ -5150,20 +5070,20 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     *  resource on all
     * assigned tasks, in addition to the costs planned for the remaining work.
     */
-   private static final int COST = 30;
+   public static final int COST = 30;
 
    /**
     * The Cost Per Use field shows the cost that accrues each time a
     * resource is used.
     */
-   private static final int COST_PER_USE = 44;
+   public static final int COST_PER_USE = 44;
 
    /**
     * The Cost Variance field shows the difference between the baseline cost
     * and total cost for
     * a resource. This is also referred to as variance at completion (VAC).
     */
-   private static final int COST_VARIANCE = 34;
+   public static final int COST_VARIANCE = 34;
 
    /**
     * The Email Address field contains the e-mail address of a resource.
@@ -5171,13 +5091,13 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * field is blank, Microsoft Project uses the name in the Name field as
     * the e-mail address.
     */
-   private static final int EMAIL_ADDRESS = 11;
+   public static final int EMAIL_ADDRESS = 11;
 
    /**
     * The Group field contains the name of the group to which
     * a resource belongs.
     */
-   private static final int GROUP = 3;
+   public static final int GROUP = 3;
 
    /**
     * The ID field contains the identifier number that Microsoft Project
@@ -5185,12 +5105,12 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * to each resource. The ID indicates the position of a resource in
     * relation to the other resources.
     */
-   private static final int ID = 40;
+   public static final int ID = 40;
 
    /**
     * The Initials field shows the abbreviation for a resource name.
     */
-   private static final int INITIALS = 2;
+   public static final int INITIALS = 2;
 
    /**
     * The Linked Fields field indicates whether there are OLE links
@@ -5198,7 +5118,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * either from elsewhere in the active project, another Microsoft Project
     * file, or from another program.
     */
-   private static final int LINKED_FIELDS = 51;
+   public static final int LINKED_FIELDS = 51;
 
    /**
     * The Max Units field contains the maximum percentage or number of units
@@ -5207,25 +5127,25 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * The default for the Max Units
     * field is 100 percent.
     */
-   private static final int MAX_UNITS = 41;
+   public static final int MAX_UNITS = 41;
 
    /**
     * The Name field contains the name of a resource.
     */
-   private static final int NAME = 1;
+   public static final int NAME = 1;
 
    /**
     * The Notes field contains notes that you can enter about a resource.
     * You can use resource
     * notes to help maintain information about a resource.
     */
-   //private static final int NOTES = 10;
+   //public static final int NOTES = 10;
 
    /**
     * The Objects field contains the number of objects associated
     * with a resource.
     */
-   private static final int OBJECTS = 50;
+   public static final int OBJECTS = 50;
 
    /**
     * The Overallocated field indicates whether a resource is assigned to do
@@ -5233,27 +5153,27 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * all assigned tasks than can be done within the resource's
     * normal work capacity.
     */
-   private static final int OVERALLOCATED = 46;
+   public static final int OVERALLOCATED = 46;
 
    /**
     * The Overtime Rate field shows the rate of pay for overtime work
     * performed by a resource.
     */
-   private static final int OVERTIME_RATE = 43;
+   public static final int OVERTIME_RATE = 43;
 
    /**
     * The Overtime Work field contains the amount of overtime to be
     * performed for all
     * tasks assigned to a resource and charged at the resource's overtime rate.
     */
-   private static final int OVERTIME_WORK = 24;
+   public static final int OVERTIME_WORK = 24;
 
    /**
     * The Peak field contains the maximum percentage or number of units
     * for which a resource
     * is assigned at any one time for all tasks assigned to the resource.
     */
-   private static final int PEAK_UNITS = 47;
+   public static final int PEAK_UNITS = 47;
 
    /**
     * The Remaining Cost field shows the remaining scheduled expense that
@@ -5262,19 +5182,19 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * This applies to all work
     * assigned to the resource for all assigned tasks.
     */
-   private static final int REMAINING_COST = 33;
+   public static final int REMAINING_COST = 33;
 
    /**
     * The Remaining Work field contains the amount of time, or person-hours,
     * still required by a resource to complete all assigned tasks.
     */
-   private static final int REMAINING_WORK = 23;
+   public static final int REMAINING_WORK = 23;
 
    /**
     * The Standard Rate field shows the rate of pay for regular, nonovertime
     * work performed by a resource.
     */
-   private static final int STANDARD_RATE = 42;
+   public static final int STANDARD_RATE = 42;
 
    /**
     * The Text fields show any custom text information you want to enter in your
@@ -5314,7 +5234,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * in which the resource was added to the project, regardless of
     * placement in the sheet.
     */
-   private static final int UNIQUE_ID = 49;
+   public static final int UNIQUE_ID = 49;
 
    /**
     * The Work field contains the total amount of work scheduled to be
@@ -5322,14 +5242,14 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * resource on all assigned tasks. This field shows the total work,
     * or person-hours, for a resource.
     */
-   private static final int WORK = 20;
+   public static final int WORK = 20;
 
    /**
     * The Work Variance field contains the difference between a resource's
     * total baseline work
     * and the currently scheduled work.
     */
-   private static final int WORK_VARIANCE = 25;
+   public static final int WORK_VARIANCE = 25;
 
    /**
     * Maximum number of fields in this record. Note that this is
@@ -5348,7 +5268,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     * The following constants are used purely to identify custom fields,
     * these field names are NOT written to the MPX file.
     */
-
    public static final int TEXT6 = EXTENDED_OFFSET + 0;
    public static final int TEXT7 = EXTENDED_OFFSET + 1;
    public static final int TEXT8 = EXTENDED_OFFSET + 2;
@@ -5482,4 +5401,64 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 122;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 123;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 124;
+   
+   public static final DataType[] FIELD_TYPES = new DataType [MAX_FIELDS + MAX_EXTENDED_FIELDS];
+   static
+   {
+      FIELD_TYPES[COST] = DataType.CURRENCY;      
+      FIELD_TYPES[COST_PER_USE] = DataType.CURRENCY;      
+      FIELD_TYPES[ACTUAL_COST] = DataType.CURRENCY;
+      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;      
+      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;      
+      FIELD_TYPES[BASELINE_COST] = DataType.CURRENCY;
+      FIELD_TYPES[COST1] = DataType.CURRENCY;
+      FIELD_TYPES[COST2] = DataType.CURRENCY;
+      FIELD_TYPES[COST3] = DataType.CURRENCY;
+      FIELD_TYPES[COST4] = DataType.CURRENCY;
+      FIELD_TYPES[COST5] = DataType.CURRENCY;
+      FIELD_TYPES[COST6] = DataType.CURRENCY;
+      FIELD_TYPES[COST7] = DataType.CURRENCY;
+      FIELD_TYPES[COST8] = DataType.CURRENCY;
+      FIELD_TYPES[COST9] = DataType.CURRENCY;
+      FIELD_TYPES[COST10] = DataType.CURRENCY;
+      
+      FIELD_TYPES[START1] = DataType.DATE;
+      FIELD_TYPES[START2] = DataType.DATE;
+      FIELD_TYPES[START3] = DataType.DATE;
+      FIELD_TYPES[START4] = DataType.DATE;
+      FIELD_TYPES[START5] = DataType.DATE;
+      FIELD_TYPES[START6] = DataType.DATE;
+      FIELD_TYPES[START7] = DataType.DATE;
+      FIELD_TYPES[START8] = DataType.DATE;
+      FIELD_TYPES[START9] = DataType.DATE;
+      FIELD_TYPES[START10] = DataType.DATE;
+
+      FIELD_TYPES[FINISH1] = DataType.DATE;
+      FIELD_TYPES[FINISH2] = DataType.DATE;
+      FIELD_TYPES[FINISH3] = DataType.DATE;
+      FIELD_TYPES[FINISH4] = DataType.DATE;
+      FIELD_TYPES[FINISH5] = DataType.DATE;
+      FIELD_TYPES[FINISH6] = DataType.DATE;
+      FIELD_TYPES[FINISH7] = DataType.DATE;
+      FIELD_TYPES[FINISH8] = DataType.DATE;
+      FIELD_TYPES[FINISH9] = DataType.DATE;
+      FIELD_TYPES[FINISH10] = DataType.DATE;
+      
+      FIELD_TYPES[DATE1] = DataType.DATE;
+      FIELD_TYPES[DATE2] = DataType.DATE;
+      FIELD_TYPES[DATE3] = DataType.DATE;
+      FIELD_TYPES[DATE4] = DataType.DATE;
+      FIELD_TYPES[DATE5] = DataType.DATE;
+      FIELD_TYPES[DATE6] = DataType.DATE;
+      FIELD_TYPES[DATE7] = DataType.DATE;
+      FIELD_TYPES[DATE8] = DataType.DATE;
+      FIELD_TYPES[DATE9] = DataType.DATE;
+      FIELD_TYPES[DATE10] = DataType.DATE;      
+      
+      FIELD_TYPES[MAX_UNITS] = DataType.UNITS;      
+      
+      FIELD_TYPES[PEAK_UNITS] = DataType.PERCENTAGE;      
+      FIELD_TYPES[PERCENT_WORK_COMPLETE] = DataType.PERCENTAGE;      
+   }      
+   
 }

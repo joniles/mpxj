@@ -56,6 +56,8 @@ public final class MPXWriter extends AbstractProjectWriter
       m_currencyFormat = projectFile.getCurrencyFormat();
       m_dateTimeFormat = projectFile.getDateTimeFormat();
       m_zeroCurrency = projectFile.getZeroCurrency();
+      m_percentageDecimalFormat = projectFile.getPercentageDecimalFormat();
+      m_unitsDecimalFormat = projectFile.getUnitsDecimalFormat();
       
       try
       {
@@ -75,6 +77,8 @@ public final class MPXWriter extends AbstractProjectWriter
          m_currencyFormat = null;
          m_dateTimeFormat = null;
          m_zeroCurrency = null;
+         m_percentageDecimalFormat = null;
+         m_unitsDecimalFormat = null;
       }
    }
    
@@ -455,19 +459,25 @@ public final class MPXWriter extends AbstractProjectWriter
       // Write the resource record
       //
       int[] fields = m_resourceModel.getModel();
-      int field;
 
       m_buffer.append(MPXConstants.RESOURCE_RECORD_NUMBER);
       for (int loop=0; loop < fields.length; loop++)
       {
-         field = fields[loop];
+         int field = fields[loop];
          if (field == -1)
          {
             break;
          }
 
+         Object value = record.get(field);
+         DataType type = Resource.FIELD_TYPES[field];
+         if (type != null)
+         {
+            value = convertType(type, value);
+         }
+         
          m_buffer.append (m_delimiter);
-         m_buffer.append (format (record.get(field)));
+         m_buffer.append (format (value));                  
       }
 
       stripTrailingDelimiters (m_buffer);
@@ -578,8 +588,15 @@ public final class MPXWriter extends AbstractProjectWriter
             break;
          }
 
+         Object value = record.get(field);
+         DataType type = Task.FIELD_TYPES[field];
+         if (type != null)
+         {
+            value = convertType(type, value);            
+         }
+         
          m_buffer.append (m_delimiter);
-         m_buffer.append (format (record.get(field)));
+         m_buffer.append (format (value));
       }
 
       stripTrailingDelimiters (m_buffer);
@@ -1029,20 +1046,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value numeric value
     * @return currency value
     */   
-   private MPXUnits toUnits (Number value)
+   private String toUnits (Number value)
    {
-      MPXUnits result;
-      
-      if (value != null && value instanceof MPXUnits == false)
-      {
-         result = new MPXUnits (value);
-      }
-      else
-      {
-         result = (MPXUnits)value;
-      }
-
-      return (result);
+      return (value==null?null:m_unitsDecimalFormat.format(value.doubleValue()/100));
    }
    
    /**
@@ -1073,30 +1079,53 @@ public final class MPXWriter extends AbstractProjectWriter
    }
    
    /**
-    * This method is called to ensure that a Number value is actually
-    * represented as an MPXPercentage instance rather than a raw numeric
-    * type.
+    * This method is called to format a percentage value.
     *
     * @param value numeric value
     * @return percentage value
     */
-   private MPXPercentage toPercentage (Number value)
+   private String toPercentage (Number value)
    {
-      MPXPercentage result = null;
+      return (value==null?null:m_percentageDecimalFormat.format(value) + "%");      
+   }
 
-      if (value != null)
+   /**
+    * Converts a value to the appropriate type.
+    * 
+    * @param type target type
+    * @param value input value
+    * @return output value
+    */
+   private Object convertType (DataType type, Object value)
+   {
+      switch (type.getType())
       {
-         if (value instanceof MPXPercentage == false)
+         case DataType.DATE_VALUE:
          {
-            result = MPXPercentage.getInstance(value);
+            value = toDate((Date)value);
+            break;
          }
-         else
+         
+         case DataType.CURRENCY_VALUE:
          {
-            result = (MPXPercentage)value;
-         }
+            value = toCurrency((Number)value);
+            break;
+         }        
+         
+         case DataType.UNITS_VALUE:
+         {
+            value = toUnits((Number)value);
+            break;
+         }                                          
+         
+         case DataType.PERCENTAGE_VALUE:
+         {
+            value = toPercentage((Number)value);
+            break;
+         }                                                   
       }
-
-      return (result);
+      
+      return (value);
    }
    
    private ProjectFile m_projectFile;
@@ -1106,9 +1135,11 @@ public final class MPXWriter extends AbstractProjectWriter
    private char m_delimiter;
    private Locale m_locale;
    private StringBuffer m_buffer;
-   private MPXNumberFormat m_decimalFormat;
+   private NumberFormat m_decimalFormat;
    private DateFormat m_timeFormat;
    private NumberFormat m_currencyFormat;
    private DateFormat m_dateTimeFormat;
-   private MPXCurrency m_zeroCurrency;
+   private MPXCurrency m_zeroCurrency;      
+   private NumberFormat m_percentageDecimalFormat;
+   private NumberFormat m_unitsDecimalFormat;
 }

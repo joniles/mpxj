@@ -23,7 +23,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Date;
 
 /**
  * This interface is implemnted by the Task and Resource classes. It
@@ -38,21 +37,4 @@ public interface ExtendedAttributeContainer
     * @param val new value for field.
     */
    public void set (int field, Object val);
-
-   /**
-    * This method is used to set the value of a date field.
-    * 
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void setDate (int field, Date val);
-
-
-   /**
-    * This method is used to set the value of a currency field.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void setCurrency (int field, Number val);
 }

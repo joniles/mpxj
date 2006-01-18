@@ -37,15 +37,15 @@ import com.tapsterrock.mpx.AccrueType;
 import com.tapsterrock.mpx.BookingType;
 import com.tapsterrock.mpx.ConstraintType;
 import com.tapsterrock.mpx.CurrencySymbolPosition;
+import com.tapsterrock.mpx.DataType;
 import com.tapsterrock.mpx.Day;
 import com.tapsterrock.mpx.EarnedValueMethod;
 import com.tapsterrock.mpx.ExtendedAttributeContainer;
-import com.tapsterrock.mpx.MPXCurrency;
 import com.tapsterrock.mpx.MPXDuration;
-import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXRate;
 import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.Priority;
+import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.ProjectHeader;
 import com.tapsterrock.mpx.ResourceType;
 import com.tapsterrock.mpx.TaskType;
@@ -165,13 +165,14 @@ public final class DatatypeConverter
     * 
     * @param writer parent MSPDIWriter instance
     * @param value attribute value
+    * @param type type of the value being passed
     * @return string representation
     */
-   public static final String printExtendedAttribute (MSPDIWriter writer, Object value)
+   public static final String printExtendedAttribute (MSPDIWriter writer, Object value, DataType type)
    {            
       String result;
       
-      if (value instanceof Date)
+      if (type == DataType.DATE)
       {
          result = printExtendedAttributeDate((Date)value);
       }
@@ -189,9 +190,9 @@ public final class DatatypeConverter
             }
             else
             {
-               if (value instanceof MPXCurrency)
+               if (type == DataType.CURRENCY)
                {           
-                  result = printExtendedAttributeCurrency((MPXCurrency)value);
+                  result = printExtendedAttributeCurrency((Number)value);
                }
                else
                {
@@ -232,13 +233,13 @@ public final class DatatypeConverter
    
          case MSPDIConstants.DATE_ATTRIBUTE:
          {
-            mpx.setDate(mpxFieldID.intValue(), parseExtendedAttributeDate(value));
+            mpx.set(mpxFieldID.intValue(), parseExtendedAttributeDate(value));
             break;
          }
    
          case MSPDIConstants.CURRENCY_ATTRIBUTE:
          {
-            mpx.setCurrency(mpxFieldID.intValue(), parseExtendedAttributeCurrency(value));
+            mpx.set(mpxFieldID.intValue(), parseExtendedAttributeCurrency(value));
             break;
          }
    

@@ -457,21 +457,29 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public MPXUnits getUnits (int field)
+   public Number getUnits (int field)
       throws MPXException
    {
-      MPXUnits result;
+      Number result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXUnits(m_fields[field], m_parent.getUnitsDecimalFormat());
+         try
+         {
+            result = new Double(m_parent.getUnitsDecimalFormat().parse(m_fields[field]).doubleValue() * 100);
+         }
+         
+         catch (ParseException ex)
+         {
+            throw new MPXException ("Failed to parse units", ex);
+         }               
       }
       else
       {
          result = null;
       }
 
-      return (result);
+      return (result);      
    }
 
    /**

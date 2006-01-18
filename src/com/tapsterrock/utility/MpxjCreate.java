@@ -26,6 +26,7 @@ package com.tapsterrock.utility;
 import java.text.SimpleDateFormat;
 
 import com.tapsterrock.mpx.MPXDuration;
+import com.tapsterrock.mpx.NumberUtility;
 import com.tapsterrock.mpx.ProjectFile;
 import com.tapsterrock.mpx.MPXWriter;
 import com.tapsterrock.mpx.ProjectHeader;
@@ -221,7 +222,7 @@ public class MpxjCreate
       // correct values in order for MS project to mark the task as complete
       // or partially complete.
       //
-      task2.setPercentageComplete(50.0);
+      task2.setPercentageComplete(NumberUtility.getDouble(50.0));
       task2.setActualStart(df.parse("01/01/2003"));
 
       //
@@ -257,7 +258,7 @@ public class MpxjCreate
       task4.setName ("Last Task");
       task4.setDuration (MPXDuration.getInstance (8, TimeUnit.DAYS));
       task4.setStart (df.parse("01/01/2003"));
-      task4.setPercentageComplete(70.0);
+      task4.setPercentageComplete(NumberUtility.getDouble(70.0));
       task4.setActualStart(df.parse("01/01/2003"));
       
       //

@@ -130,7 +130,15 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case PERCENTAGE_COMPLETE:
             case PERCENTAGE_WORK_COMPLETE:
             {
-               set(x, MPXPercentage.getInstance(field, getParentFile().getPercentageDecimalFormat()));
+               try
+               {
+                  set(x, getParentFile().getPercentageDecimalFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse percentage", ex);
+               }
                break;
             }
 
@@ -923,59 +931,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * This method is used to set the value of a date field in the task,
-    * and also to ensure that the field exists in the task model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void setDate (int field, Date val)
-   {
-      putDate(field, val);
-   }
-
-   /**
-    * This method is used to set the value of a percentage field in the task,
-    * and also to ensure that the field exists in the task model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   private void setPercentage (int field, Number val)
-   {
-      putPercentage(field, val);
-   }
-
-   /**
-    * This method is used to set the value of a currency field in the task,
-    * and also to ensure that the field exists in the task model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void setCurrency (int field, Number val)
-   {
-      putCurrency(field, val);
-   }
-
-   /**
-    * The % Complete field contains the current status of a task, expressed
-    * as the percentage of the
-    * task's duration that has been completed. You can enter percent complete,
-    * or you can have
-    * Microsoft Project calculate it for you based on actual duration.
-    *
-    * @param val value to be set
-    */
-   public void setPercentageComplete (double val)
-   {
-      setPercentage(PERCENTAGE_COMPLETE, MPXPercentage.getInstance(val));
-   }
-
-   /**
     * The % Complete field contains the current status of a task, expressed
     * as the percentage of the
     * task's duration that has been completed. You can enter percent complete,
@@ -986,23 +941,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setPercentageComplete (Number val)
    {
-      setPercentage(PERCENTAGE_COMPLETE, val);
-   }
-
-   /**
-    * The % Work Complete field contains the current status of a task,
-    * expressed as the
-    * percentage of the task's work that has been completed. You can enter
-    * percent work
-    * complete, or you can have Microsoft Project calculate it for you
-    * based on actual
-    * work on the task.
-    *
-    * @param val value to be set
-    */
-   public void setPercentageWorkComplete (double val)
-   {
-      setPercentage(PERCENTAGE_WORK_COMPLETE, MPXPercentage.getInstance(val));
+      set(PERCENTAGE_COMPLETE, val);
    }
 
    /**
@@ -1018,7 +957,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setPercentageWorkComplete (Number val)
    {
-      setPercentage(PERCENTAGE_WORK_COMPLETE, val);
+      set(PERCENTAGE_WORK_COMPLETE, val);
    }
 
    /**
@@ -1032,7 +971,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setActualCost (Number val)
    {
-      setCurrency(ACTUAL_COST, val);
+      set(ACTUAL_COST, val);
    }
 
    /**
@@ -1061,7 +1000,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setActualFinish (Date val)
    {
-      setDate(ACTUAL_FINISH, val);
+      set(ACTUAL_FINISH, val);
    }
 
    /**
@@ -1073,7 +1012,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setActualStart (Date val)
    {
-      setDate(ACTUAL_START, val);
+      set(ACTUAL_START, val);
    }
 
    /**
@@ -1095,7 +1034,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setBaselineCost (Number val)
    {
-      setCurrency(BASELINE_COST, val);
+      set(BASELINE_COST, val);
    }
 
    /**
@@ -1120,7 +1059,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setBaselineFinish (Date val)
    {
-      setDate(BASELINE_FINISH, val);
+      set(BASELINE_FINISH, val);
    }
 
    /**
@@ -1133,7 +1072,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setBaselineStart (Date val)
    {
-      setDate(BASELINE_START, val);
+      set(BASELINE_START, val);
    }
 
    /**
@@ -1165,7 +1104,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setBCWP (Number val)
    {
-      setCurrency(BCWP, val);
+      set(BCWP, val);
    }
 
    /**
@@ -1176,7 +1115,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setBCWS (Number val)
    {
-      setCurrency(BCWS, val);
+      set(BCWS, val);
    }
 
    /**
@@ -1215,7 +1154,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setConstraintDate (Date val)
    {
-      setDate(CONSTRAINT_DATE, val);
+      set(CONSTRAINT_DATE, val);
    }
 
    /**
@@ -1249,7 +1188,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost (Number val)
    {
-      setCurrency(COST, val);
+      set(COST, val);
    }
 
    /**
@@ -1260,7 +1199,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost1 (Number val)
    {
-      setCurrency(COST1, val);
+      set(COST1, val);
    }
 
    /**
@@ -1271,7 +1210,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost2 (Number val)
    {
-      setCurrency(COST2, val);
+      set(COST2, val);
    }
 
    /**
@@ -1282,7 +1221,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost3 (Number val)
    {
-      setCurrency(COST3, val);
+      set(COST3, val);
    }
 
    /**
@@ -1295,7 +1234,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCostVariance (Number val)
    {
-      setCurrency(COST_VARIANCE, val);
+      set(COST_VARIANCE, val);
    }
 
    /**
@@ -1306,7 +1245,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCreateDate (Date val)
    {
-      setDate(CREATE_DATE, val);
+      set(CREATE_DATE, val);
    }
 
    /**
@@ -1348,7 +1287,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCV (Number val)
    {
-      setCurrency(CV, val);
+      set(CV, val);
    }
 
    /**
@@ -1424,7 +1363,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setEarlyFinish (Date date)
    {
-      setDate(EARLY_FINISH, date);
+      set(EARLY_FINISH, date);
    }
 
    /**
@@ -1436,7 +1375,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setEarlyStart (Date date)
    {
-      setDate(EARLY_START, date);
+      set(EARLY_START, date);
    }
 
    /**
@@ -1449,7 +1388,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish (Date date)
    {
-      setDate(FINISH, date);
+      set(FINISH, date);
    }
 
    /**
@@ -1459,7 +1398,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish1 (Date date)
    {
-      setDate(FINISH1, date);
+      set(FINISH1, date);
    }
 
    /**
@@ -1469,7 +1408,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish2 (Date date)
    {
-      setDate(FINISH2, date);
+      set(FINISH2, date);
    }
 
    /**
@@ -1479,7 +1418,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish3 (Date date)
    {
-      setDate(FINISH3, date);
+      set(FINISH3, date);
    }
 
    /**
@@ -1489,7 +1428,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish4 (Date date)
    {
-      setDate(FINISH4, date);
+      set(FINISH4, date);
    }
 
    /**
@@ -1499,7 +1438,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish5 (Date date)
    {
-      setDate(FINISH5, date);
+      set(FINISH5, date);
    }
 
    /**
@@ -1547,7 +1486,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFixedCost (Number val)
    {
-      setCurrency(FIXED_COST, val);
+      set(FIXED_COST, val);
    }
 
    /**
@@ -1829,7 +1768,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setLateFinish (Date date)
    {
-      setDate(LATE_FINISH, date);
+      set(LATE_FINISH, date);
    }
 
    /**
@@ -1842,7 +1781,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setLateStart (Date date)
    {
-      setDate(LATE_START, date);
+      set(LATE_START, date);
    }
 
    /**
@@ -2071,7 +2010,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setRemainingCost (Number val)
    {
-      setCurrency(REMAINING_COST, val);
+      set(REMAINING_COST, val);
    }
 
    /**
@@ -2153,7 +2092,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setResume (Date val)
    {
-      setDate(RESUME, val);
+      set(RESUME, val);
    }
 
    /**
@@ -2162,7 +2101,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setResumeNoEarlierThan (Date val)
    {
-      setDate(RESUME_NO_EARLIER_THAN, val);
+      set(RESUME_NO_EARLIER_THAN, val);
    }
 
    /**
@@ -2201,7 +2140,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart (Date val)
    {
-      setDate(START, val);
+      set(START, val);
    }
 
    /**
@@ -2213,7 +2152,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart1 (Date val)
    {
-      setDate(START1, val);
+      set(START1, val);
    }
 
    /**
@@ -2225,7 +2164,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart2 (Date val)
    {
-      setDate(START2, val);
+      set(START2, val);
    }
 
    /**
@@ -2237,7 +2176,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart3 (Date val)
    {
-      setDate(START3, val);
+      set(START3, val);
    }
 
    /**
@@ -2249,7 +2188,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart4 (Date val)
    {
-      setDate(START4, val);
+      set(START4, val);
    }
 
    /**
@@ -2261,7 +2200,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart5 (Date val)
    {
-      setDate(START5, val);
+      set(START5, val);
    }
 
    /**
@@ -2285,7 +2224,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStop (Date val)
    {
-      setDate(STOP, val);
+      set(STOP, val);
    }
 
    /**
@@ -2343,7 +2282,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setSV (Number val)
    {
-      setCurrency(SV, val);
+      set(SV, val);
    }
 
    /**
@@ -6202,7 +6141,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate1 (Date date)
    {
-      setDate(DATE1, date);
+      set(DATE1, date);
    }
 
    /**
@@ -6212,7 +6151,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate10 (Date date)
    {
-      setDate(DATE10, date);
+      set(DATE10, date);
    }
 
    /**
@@ -6222,7 +6161,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate2 (Date date)
    {
-      setDate(DATE2, date);
+      set(DATE2, date);
    }
 
    /**
@@ -6232,7 +6171,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate3 (Date date)
    {
-      setDate(DATE3, date);
+      set(DATE3, date);
    }
 
    /**
@@ -6242,7 +6181,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate4 (Date date)
    {
-      setDate(DATE4, date);
+      set(DATE4, date);
    }
 
    /**
@@ -6252,7 +6191,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate5 (Date date)
    {
-      setDate(DATE5, date);
+      set(DATE5, date);
    }
 
    /**
@@ -6262,7 +6201,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate6 (Date date)
    {
-      setDate(DATE6, date);
+      set(DATE6, date);
    }
 
    /**
@@ -6272,7 +6211,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate7 (Date date)
    {
-      setDate(DATE7, date);
+      set(DATE7, date);
    }
 
    /**
@@ -6282,7 +6221,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate8 (Date date)
    {
-      setDate(DATE8, date);
+      set(DATE8, date);
    }
 
    /**
@@ -6292,7 +6231,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setDate9 (Date date)
    {
-      setDate(DATE9, date);
+      set(DATE9, date);
    }
 
    /**
@@ -6372,7 +6311,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost10 (Number number)
    {
-      setCurrency(COST10, number);
+      set(COST10, number);
    }
 
    /**
@@ -6382,7 +6321,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost4 (Number number)
    {
-      setCurrency(COST4, number);
+      set(COST4, number);
    }
 
    /**
@@ -6392,7 +6331,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost5 (Number number)
    {
-      setCurrency(COST5, number);
+      set(COST5, number);
    }
 
    /**
@@ -6402,7 +6341,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost6 (Number number)
    {
-      setCurrency(COST6, number);
+      set(COST6, number);
    }
 
    /**
@@ -6412,7 +6351,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost7 (Number number)
    {
-      setCurrency(COST7, number);
+      set(COST7, number);
    }
 
    /**
@@ -6422,7 +6361,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost8 (Number number)
    {
-      setCurrency(COST8, number);
+      set(COST8, number);
    }
 
    /**
@@ -6432,7 +6371,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setCost9 (Number number)
    {
-      setCurrency(COST9, number);
+      set(COST9, number);
    }
 
    /**
@@ -6492,7 +6431,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart10 (Date date)
    {
-      setDate(START10, date);
+      set(START10, date);
    }
 
    /**
@@ -6502,7 +6441,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart6 (Date date)
    {
-      setDate(START6, date);
+      set(START6, date);
    }
 
    /**
@@ -6512,7 +6451,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart7 (Date date)
    {
-      setDate(START7, date);
+      set(START7, date);
    }
 
    /**
@@ -6522,7 +6461,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart8 (Date date)
    {
-      setDate(START8, date);
+      set(START8, date);
    }
 
    /**
@@ -6532,7 +6471,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setStart9 (Date date)
    {
-      setDate(START9, date);
+      set(START9, date);
    }
 
    /**
@@ -6592,7 +6531,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish10 (Date date)
    {
-      setDate(FINISH10, date);
+      set(FINISH10, date);
    }
 
    /**
@@ -6602,7 +6541,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish6 (Date date)
    {
-      setDate(FINISH6, date);
+      set(FINISH6, date);
    }
 
    /**
@@ -6612,7 +6551,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish7 (Date date)
    {
-      setDate(FINISH7, date);
+      set(FINISH7, date);
    }
 
    /**
@@ -6622,7 +6561,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish8 (Date date)
    {
-      setDate(FINISH8, date);
+      set(FINISH8, date);
    }
 
    /**
@@ -6632,7 +6571,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public void setFinish9 (Date date)
    {
-      setDate(FINISH9, date);
+      set(FINISH9, date);
    }
 
    /**
@@ -7324,43 +7263,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    {
       put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
    }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Date objects into MPXDate objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putDate (int key, Date value)
-   {
-      put (key, toDate(value));
-   }
-   
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXCurrency objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putCurrency (int key, Number value)
-   {
-      put (key, toCurrency(value));
-   }
-      
-   /**
-    * This method inserts a name value pair into internal storage.
-    * Note that this method maps Number objects into MPXPercentage objects.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void putPercentage (int key, Number value)
-   {
-      put (key, toPercentage(value));
-   }
-   
+            
    /**
     * Array of field values.
     */
@@ -8290,4 +8193,78 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 86;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 87;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 88;
+   
+   public static final DataType[] FIELD_TYPES = new DataType [MAX_FIELDS + MAX_EXTENDED_FIELDS];
+   static
+   {
+      FIELD_TYPES[ACTUAL_COST] = DataType.CURRENCY;      
+      FIELD_TYPES[BASELINE_COST] = DataType.CURRENCY;      
+      FIELD_TYPES[BCWP] = DataType.CURRENCY;      
+      FIELD_TYPES[BCWS] = DataType.CURRENCY;      
+      FIELD_TYPES[COST] = DataType.CURRENCY;      
+      FIELD_TYPES[COST1] = DataType.CURRENCY;      
+      FIELD_TYPES[COST2] = DataType.CURRENCY;      
+      FIELD_TYPES[COST3] = DataType.CURRENCY;      
+      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;      
+      FIELD_TYPES[CV] = DataType.CURRENCY;      
+      FIELD_TYPES[FIXED_COST] = DataType.CURRENCY;      
+      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;      
+      FIELD_TYPES[SV] = DataType.CURRENCY;      
+      FIELD_TYPES[COST10] = DataType.CURRENCY;      
+      FIELD_TYPES[COST4] = DataType.CURRENCY;      
+      FIELD_TYPES[COST5] = DataType.CURRENCY;      
+      FIELD_TYPES[COST6] = DataType.CURRENCY;      
+      FIELD_TYPES[COST7] = DataType.CURRENCY;      
+      FIELD_TYPES[COST8] = DataType.CURRENCY;      
+      FIELD_TYPES[COST9] = DataType.CURRENCY;   
+      
+      FIELD_TYPES[ACTUAL_FINISH] = DataType.DATE;      
+      FIELD_TYPES[ACTUAL_START] = DataType.DATE;      
+      FIELD_TYPES[BASELINE_FINISH] = DataType.DATE;      
+      FIELD_TYPES[BASELINE_START] = DataType.DATE;      
+      FIELD_TYPES[CONSTRAINT_DATE] = DataType.DATE;      
+      FIELD_TYPES[CREATE_DATE] = DataType.DATE;      
+      FIELD_TYPES[EARLY_FINISH] = DataType.DATE;      
+      FIELD_TYPES[EARLY_START] = DataType.DATE;      
+      FIELD_TYPES[FINISH] = DataType.DATE;      
+      FIELD_TYPES[FINISH1] = DataType.DATE;      
+      FIELD_TYPES[FINISH2] = DataType.DATE;      
+      FIELD_TYPES[FINISH3] = DataType.DATE;      
+      FIELD_TYPES[FINISH4] = DataType.DATE;      
+      FIELD_TYPES[FINISH5] = DataType.DATE;      
+      FIELD_TYPES[LATE_FINISH] = DataType.DATE;      
+      FIELD_TYPES[LATE_START] = DataType.DATE;
+      FIELD_TYPES[RESUME] = DataType.DATE;      
+      FIELD_TYPES[RESUME_NO_EARLIER_THAN] = DataType.DATE;
+      FIELD_TYPES[START] = DataType.DATE;
+      FIELD_TYPES[START1] = DataType.DATE;      
+      FIELD_TYPES[START2] = DataType.DATE;      
+      FIELD_TYPES[START3] = DataType.DATE;      
+      FIELD_TYPES[START4] = DataType.DATE;      
+      FIELD_TYPES[START5] = DataType.DATE;      
+      FIELD_TYPES[STOP] = DataType.DATE;      
+      FIELD_TYPES[DATE1] = DataType.DATE;      
+      FIELD_TYPES[DATE2] = DataType.DATE;      
+      FIELD_TYPES[DATE3] = DataType.DATE;      
+      FIELD_TYPES[DATE4] = DataType.DATE;      
+      FIELD_TYPES[DATE5] = DataType.DATE;      
+      FIELD_TYPES[DATE6] = DataType.DATE;      
+      FIELD_TYPES[DATE7] = DataType.DATE;      
+      FIELD_TYPES[DATE8] = DataType.DATE;      
+      FIELD_TYPES[DATE9] = DataType.DATE;      
+      FIELD_TYPES[DATE10] = DataType.DATE;      
+      FIELD_TYPES[START6] = DataType.DATE;      
+      FIELD_TYPES[START7] = DataType.DATE;      
+      FIELD_TYPES[START8] = DataType.DATE;      
+      FIELD_TYPES[START9] = DataType.DATE;      
+      FIELD_TYPES[START10] = DataType.DATE;      
+      FIELD_TYPES[FINISH6] = DataType.DATE;      
+      FIELD_TYPES[FINISH7] = DataType.DATE;      
+      FIELD_TYPES[FINISH8] = DataType.DATE;      
+      FIELD_TYPES[FINISH9] = DataType.DATE;      
+      FIELD_TYPES[FINISH10] = DataType.DATE;            
+      
+      FIELD_TYPES[PERCENTAGE_COMPLETE] = DataType.PERCENTAGE;            
+      FIELD_TYPES[PERCENTAGE_WORK_COMPLETE] = DataType.PERCENTAGE;            
+   }
 }

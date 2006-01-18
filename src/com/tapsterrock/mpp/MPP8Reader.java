@@ -632,8 +632,8 @@ final class MPP8Reader implements MPPVariantReader
          task.setOvertimeCost (NumberUtility.getDouble(((double)MPPUtility.getLong6(data, 204))/100));
          //task.setOvertimeWork(); // Calculated value
          //task.getPredecessors(); // Calculated value
-         task.setPercentageComplete(MPPUtility.getShort(data, 130));
-         task.setPercentageWorkComplete(MPPUtility.getShort(data, 132));
+         task.setPercentageComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 130)));
+         task.setPercentageWorkComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 132)));
          task.setPreleveledFinish (MPPUtility.getTimestamp(data, 148));
          task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));
          task.setPriority(Priority.getInstance((MPPUtility.getShort (data, 128)+1)*100));

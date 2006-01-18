@@ -24,7 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.util.Date;
 
 /**
  * This is the base class from which all classes representing records found
@@ -42,121 +41,7 @@ class MPXRecord
    {
       m_mpx = mpx;    
    }
-         
-   /**
-    * This method is called to ensure that a Date value is actually
-    * represented as an MPXDate instance rather than a raw date
-    * type.
-    *
-    * @param value date value
-    * @return date value
-    */
-   protected MPXDate toDate (Date value)
-   {
-      MPXDate result = null;
-
-      if (value != null)
-      {
-         if (value instanceof MPXDate == false)
-         {
-            result = new MPXDate (m_mpx.getDateTimeFormat(), value);
-         }
-         else
-         {
-            result = (MPXDate)value;
-         }
-      }
-
-      return (result);
-   }
-
-   /**
-    * This method is called to ensure that a Number value is actually
-    * represented as an MPXCurrency instance rather than a raw numeric
-    * type.
-    *
-    * @param value numeric value
-    * @return currency value
-    */
-   protected MPXCurrency toCurrency (Number value)
-   {
-      MPXCurrency result = null;
-
-      if (value != null)
-      {
-         if (value instanceof MPXCurrency == false)
-         {
-            if (value.doubleValue() == 0)
-            {
-               result = m_mpx.getZeroCurrency();
-            }
-            else
-            {
-               result = new MPXCurrency (m_mpx.getCurrencyFormat(), value.doubleValue());
-            }
-         }
-         else
-         {
-            result = (MPXCurrency)value;
-         }
-      }
-
-      return (result);
-   }
-
-
-
-   /**
-    * This method is called to ensure that a Number value is actually
-    * represented as an MPXUnits instance rather than a raw numeric
-    * type.
-    *
-    * @param value numeric value
-    * @return currency value
-    */   
-   protected MPXUnits toUnits (Number value)
-   {
-      MPXUnits result;
-      
-      if (value != null && value instanceof MPXUnits == false)
-      {
-         result = new MPXUnits (value);
-      }
-      else
-      {
-         result = (MPXUnits)value;
-      }
-
-      return (result);
-   }
-
-   /**
-    * This method is called to ensure that a Number value is actually
-    * represented as an MPXPercentage instance rather than a raw numeric
-    * type.
-    *
-    * @param value numeric value
-    * @return percentage value
-    */
-   protected MPXPercentage toPercentage (Number value)
-   {
-      MPXPercentage result = null;
-
-      if (value != null)
-      {
-         if (value instanceof MPXPercentage == false)
-         {
-            result = MPXPercentage.getInstance(value);
-         }
-         else
-         {
-            result = (MPXPercentage)value;
-         }
-      }
-
-      return (result);
-   }
-   
+            
    /**
     * Accessor method allowing retreival of MPXFile reference.
     *
@@ -166,7 +51,6 @@ class MPXRecord
    {
       return (m_mpx);
    }
-
 
    /**
     * Reference to parent MPXFile.

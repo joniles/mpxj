@@ -561,7 +561,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value));
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, Resource.FIELD_TYPES[mpxFieldID]));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
@@ -759,7 +759,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value));
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, Task.FIELD_TYPES[mpxFieldID]));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
