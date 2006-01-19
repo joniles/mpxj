@@ -379,14 +379,12 @@ public class ProjectFile
 
          case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
          {
-            //current = new ProjectNames(this, record);
             // silently ignored
             break;
          }
 
          case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
          {
-            //current = new DdeOleClientLinks(this, record);
             // silently ignored
             break;
          }
@@ -820,18 +818,6 @@ public class ProjectFile
    }
 
    /**
-    * Programatically add a new comment to the MPX file.
-    *
-    * @return new comment object
-    * @throws MPXException normally thrown on parse errors
-    */
-   public Comments addComments ()
-      throws MPXException
-   {
-      return ((Comments)add(MPXConstants.COMMENTS_RECORD_NUMBER));
-   }
-
-   /**
     * Retrieves the file creation record.
     *
     * @return file creation record.
@@ -1071,30 +1057,6 @@ public class ProjectFile
       return (new ResourceAssignment(this, task));
    }
    
-   /**
-    * This method is used to add project names to the file.
-    *
-    * @return new project names object
-    * @throws MPXException normally thrown on parse errors
-    */
-   public ProjectNames addProjectNames ()
-      throws MPXException
-   {
-      return ((ProjectNames)add(MPXConstants.PROJECT_NAMES_RECORD_NUMBER));
-   }
-
-   /**
-    * This method is used to add new dde/ole links to the file.
-    *
-    * @return new dde/ole links object
-    * @throws MPXException normally thrown on parse errors
-    */
-   public DdeOleClientLinks addDdeOleClientLinks ()
-      throws MPXException
-   {
-      return ((DdeOleClientLinks)add(MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER));
-   }
-
    /**
     * Retrieves the named base calendar. This method will return
     * null if the named base calendar is not located.

@@ -32,7 +32,7 @@ import java.util.Locale;
 /**
  * This represents time durations as specified in an MPX file.
  */
-public final class MPXDuration implements ToStringRequiresFile
+public final class MPXDuration
 {
    /**
     * Constructs an instance of this class from a duration amount and
@@ -58,43 +58,6 @@ public final class MPXDuration implements ToStringRequiresFile
    {
       m_duration = duration;
       m_units = type;
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record. Note that this method is useful for
-    * testing but it is not used to write data into the MPX record.
-    *
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {
-      return (toString(DEFAULT_DECIMAL_FORMAT, Locale.ENGLISH));
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param mpx parent mpx file
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (ProjectFile mpx)
-   {
-      return (toString(mpx.getDurationDecimalFormat(), mpx.getLocale()));
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param format number format to use for the duration value
-    * @param locale target locale
-    * @return string containing the data for this record in MPX format.
-    */
-   private String toString (NumberFormat format, Locale locale)
-   {
-      return (format.format(m_duration) + TimeUnit.format(m_units, locale));
    }
 
    /**

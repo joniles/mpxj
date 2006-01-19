@@ -53,7 +53,7 @@ final class MPXTimeFormat extends SimpleDateFormat
    public Date parse (String str)
       throws ParseException
    {
-      MPXTime result;
+      Date result;
 
       if (str == null || str.trim().length() == 0)
       {
@@ -67,7 +67,7 @@ final class MPXTimeFormat extends SimpleDateFormat
          }
          else
          {
-            result = new MPXTime (this, super.parse(str));
+            result = super.parse(str);
          }
       }
 

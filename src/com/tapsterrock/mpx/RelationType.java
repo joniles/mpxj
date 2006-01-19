@@ -31,7 +31,7 @@ import java.util.Locale;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class RelationType implements ToStringRequiresFile
+public final class RelationType
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -114,42 +114,6 @@ public final class RelationType implements ToStringRequiresFile
    public int getType ()
    {
       return (m_type);
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param mpx parent mpx file
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (ProjectFile mpx)
-   {
-      return (toString(mpx.getLocale()));
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    * 
-    * @param locale target locale
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (Locale locale)
-   {
-      String[] typeNames = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
-      return (typeNames[m_type]);      
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    * 
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString ()
-   {
-      return (toString(Locale.ENGLISH));
    }
    
    public static final int FINISH_FINISH_VALUE = 0;

@@ -54,20 +54,24 @@ public final class DataType
    public static final int CURRENCY_VALUE = 2;
    public static final int UNITS_VALUE = 3;
    public static final int PERCENTAGE_VALUE = 4;
+   public static final int ACCRUE_VALUE = 5;
+   public static final int CONSTRAINT_VALUE = 6;
+   public static final int DURATION_VALUE = 7;
+   public static final int RATE_VALUE = 8;
+   public static final int PRIORITY_VALUE = 9;
+   public static final int RELATION_LIST_VALUE = 10;
    
    public static final DataType DATE = new DataType(DATE_VALUE);
    public static final DataType CURRENCY = new DataType(CURRENCY_VALUE);
    public static final DataType UNITS = new DataType(UNITS_VALUE);
    public static final DataType PERCENTAGE = new DataType(PERCENTAGE_VALUE);
+   public static final DataType ACCRUE = new DataType(ACCRUE_VALUE);
+   public static final DataType CONSTRAINT = new DataType(CONSTRAINT_VALUE);
+   public static final DataType DURATION = new DataType(DURATION_VALUE);
+   public static final DataType RATE = new DataType(RATE_VALUE);
+   public static final DataType PRIORITY = new DataType(PRIORITY_VALUE);
+   public static final DataType RELATION_LIST = new DataType(RELATION_LIST_VALUE);
    
-   private static final DataType[] TYPE_VALUES =
-   {
-      DATE,
-      CURRENCY,
-      UNITS,
-      PERCENTAGE
-   };
-
    /**
     * Internal representation of the data type.
     */

@@ -32,7 +32,7 @@ import java.util.Locale;
  * This class represents a currency rate per period of time (for example $10/h)
  * as found in an MPX file.
  */
-public final class MPXRate implements ToStringRequiresFile
+public final class MPXRate
 {
    /**
     * This constructor builds an instance of this class from a formatted String.
@@ -120,31 +120,6 @@ public final class MPXRate implements ToStringRequiresFile
    public TimeUnit getUnits ()
    {
       return (m_units);
-   }
-
-   /**
-    * This method builds a String representation of the rate represented
-    * by this instance.
-    *
-    * @param mpx parent mpx file
-    * @return string representation of the rate
-    */
-   public String toString (ProjectFile mpx)
-   {
-      NumberFormat format = mpx.getCurrencyFormat();
-      Locale locale = mpx.getLocale();
-      StringBuffer buffer = new StringBuffer (format.format(m_amount));
-      buffer.append ("/");
-      buffer.append (TimeUnit.format(m_units, locale));
-      return (buffer.toString());
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   public String toString ()
-   {
-      return (m_amount + "/" + m_units);
    }
    
    /**

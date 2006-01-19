@@ -597,13 +597,15 @@ public class MPXJTest extends TestCase
          {
             case 1:
             {
-               assertEquals("200h", assignment.getRemainingWork().toString());
+               assertEquals(200, (int)assignment.getRemainingWork().getDuration());
+               assertEquals(TimeUnit.HOURS, assignment.getRemainingWork().getUnits());
                break;
             }
 
             case 2:
             {
-               assertEquals("300h", assignment.getRemainingWork().toString());
+               assertEquals(300, (int)assignment.getRemainingWork().getDuration());
+               assertEquals(TimeUnit.HOURS, assignment.getRemainingWork().getUnits());
                break;
             }
 

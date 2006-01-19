@@ -31,7 +31,7 @@ import java.util.Locale;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class ConstraintType implements ToStringRequiresFile
+public final class ConstraintType
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -43,10 +43,9 @@ public final class ConstraintType implements ToStringRequiresFile
     */
    private ConstraintType (int type)
    {
-      String[] constraintTypes = LocaleData.getStringArray(Locale.ENGLISH, LocaleData.CONSTRAINT_TYPES);
-      if (type < 0 || type >= constraintTypes.length)
+      if (type < AS_SOON_AS_POSSIBLE_VALUE || type > FINISH_NO_LATER_THAN_VALUE)
       {
-         m_type = 0;
+         m_type = AS_SOON_AS_POSSIBLE_VALUE;
       }
       else
       {
@@ -129,19 +128,6 @@ public final class ConstraintType implements ToStringRequiresFile
    public int getType ()
    {
       return (m_type);
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param mpx parent mpx file
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (ProjectFile mpx)
-   {
-      String[] typeNames = LocaleData.getStringArray(mpx.getLocale(), LocaleData.CONSTRAINT_TYPES);
-      return (typeNames[m_type]);
    }
 
    public static final int AS_SOON_AS_POSSIBLE_VALUE = 0;

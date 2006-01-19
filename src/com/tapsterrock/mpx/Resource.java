@@ -5467,6 +5467,27 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
       
       FIELD_TYPES[PEAK_UNITS] = DataType.PERCENTAGE;      
       FIELD_TYPES[PERCENT_WORK_COMPLETE] = DataType.PERCENTAGE;      
-   }      
-   
+      
+      FIELD_TYPES[ACCRUE_AT] = DataType.ACCRUE;
+      
+      FIELD_TYPES[WORK] = DataType.DURATION;
+      FIELD_TYPES[ACTUAL_WORK] = DataType.DURATION;
+      FIELD_TYPES[OVERTIME_WORK] = DataType.DURATION;
+      FIELD_TYPES[REMAINING_WORK] = DataType.DURATION;
+      FIELD_TYPES[WORK_VARIANCE] = DataType.DURATION;
+      FIELD_TYPES[BASELINE_WORK] = DataType.DURATION;
+      FIELD_TYPES[DURATION1] = DataType.DURATION;
+      FIELD_TYPES[DURATION2] = DataType.DURATION;
+      FIELD_TYPES[DURATION3] = DataType.DURATION;
+      FIELD_TYPES[DURATION4] = DataType.DURATION;
+      FIELD_TYPES[DURATION5] = DataType.DURATION;
+      FIELD_TYPES[DURATION6] = DataType.DURATION;
+      FIELD_TYPES[DURATION7] = DataType.DURATION;
+      FIELD_TYPES[DURATION8] = DataType.DURATION;
+      FIELD_TYPES[DURATION9] = DataType.DURATION;
+      FIELD_TYPES[DURATION10] = DataType.DURATION;      
+      
+      FIELD_TYPES[STANDARD_RATE] = DataType.RATE;      
+      FIELD_TYPES[OVERTIME_RATE] = DataType.RATE;      
+   }         
 }

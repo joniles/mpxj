@@ -190,33 +190,6 @@ public final class TimeUnit
    }
 
 
-   /**
-    * This method takes a numeric constant representing a time unit
-    * and returns a string representation.
-    *
-    * @param timeUnit numeric constant representing a time unit
-    * @param locale target locale
-    * @return string representation
-    */
-   static String format (TimeUnit timeUnit, Locale locale)
-   {
-      int units = timeUnit.getValue();
-      String result;
-      String[] unitNames = LocaleData.getStringArray(locale, LocaleData.TIME_UNITS_ARRAY);
-
-      if (units < 0 || units >= unitNames.length)
-      {
-         result = "";
-      }
-      else
-      {
-         result = unitNames[units];
-      }
-
-      return (result);
-   }
-
-
    private int m_value;
 
    /**

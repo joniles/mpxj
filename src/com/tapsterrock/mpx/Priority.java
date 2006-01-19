@@ -31,7 +31,7 @@ import java.util.Locale;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class Priority implements ToStringRequiresFile
+public final class Priority
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -114,34 +114,6 @@ public final class Priority implements ToStringRequiresFile
    public int getValue ()
    {
       return (m_value);
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param mpx parent mpx file
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (ProjectFile mpx)
-   {
-      String[] priorityTypes = LocaleData.getStringArray(mpx.getLocale(), LocaleData.PRIORITY_TYPES);
-      int priority = m_value;
-      if (priority < LOWEST)
-      {
-         priority = LOWEST;
-      }
-      else
-      {
-         if (priority > DO_NOT_LEVEL)
-         {
-            priority = DO_NOT_LEVEL;
-         }
-      }
-      
-      priority /= 100;
-      
-      return (priorityTypes[priority-1]);
    }
 
    /**

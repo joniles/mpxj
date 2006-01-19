@@ -31,7 +31,7 @@ import java.util.LinkedList;
 /**
  * This class represents a list of relationships between tasks.
  */
-public final class RelationList extends AbstractList implements ToStringRequiresFile
+public final class RelationList extends AbstractList
 {
    /**
     * Default constructor.
@@ -75,33 +75,7 @@ public final class RelationList extends AbstractList implements ToStringRequires
          }
       }
    }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this rlist.
-    *
-    * @param mpx parent mpx file
-    * @return string containing the data for this list in MPX format.
-    */
-   public String toString (ProjectFile mpx)
-   {
-      char sepchar = mpx.getDelimiter();
-      StringBuffer sb = new StringBuffer();
-      Iterator iter = m_list.iterator();
-
-      while (iter.hasNext() == true)
-      {
-         if (sb.length() != 0)
-         {
-            sb.append(sepchar);
-         }
-
-         sb.append(((Relation)iter.next()).toString(mpx));
-      }
-
-      return (sb.toString());
-   }
-
+   
    /**
     * {@inheritDoc}
     */

@@ -30,7 +30,7 @@ package com.tapsterrock.mpx;
  * relationships normally found in the lists of predecessors and
  * successors associated with a task record in an MPX file.
  */
-public final class Relation implements ToStringRequiresFile
+public final class Relation
 {
    /**
     * Default constructor.
@@ -126,37 +126,6 @@ public final class Relation implements ToStringRequiresFile
             m_duration = MPXDuration.getInstance(relationship.substring(index), file.getDurationDecimalFormat(), file.getLocale());
          }
       }
-   }
-
-   /**
-    * This method generates a string in MPX format representing the
-    * contents of this record.
-    *
-    * @param file parent file
-    * @return string containing the data for this record in MPX format.
-    */
-   public String toString (ProjectFile file)
-   {
-      StringBuffer sb = new StringBuffer(Integer.toString(m_taskIDValue));
-
-      if ((m_duration.getDuration() != 0) || (m_type != RelationType.FINISH_START))
-      {
-         sb.append(m_type.toString(file));
-      }
-
-      double duration = m_duration.getDuration();
-
-      if (duration != 0)
-      {
-         if (duration > 0)
-         {
-            sb.append('+');
-         }
-
-         sb.append(m_duration.toString(file));
-      }
-
-      return (sb.toString());
    }
 
    /**
