@@ -309,17 +309,13 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public NumericBoolean getNumericBoolean (int field)
+   public boolean getNumericBoolean (int field)
    {
-      NumericBoolean result;
+      boolean result = false;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = NumericBoolean.getInstance(m_fields[field]);
-      }
-      else
-      {
-         result = NumericBoolean.getInstance(false);
+         result = Integer.parseInt(m_fields[field])==1?true:false;
       }
 
       return (result);

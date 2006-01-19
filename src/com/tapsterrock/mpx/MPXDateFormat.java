@@ -73,7 +73,7 @@ final class MPXDateFormat extends DateFormat
     */
    public Date parse (String str, ParsePosition pos)
    {
-      MPXDate result;
+      Date result;
 
       if (str == null || str.trim().length() == 0)
       {
@@ -97,7 +97,7 @@ final class MPXDateFormat extends DateFormat
             
             if (pos.getIndex() != 0)
             {
-               result = new MPXDate (this, javaDate);
+               result = javaDate;
             }
             else
             {

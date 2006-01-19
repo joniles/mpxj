@@ -59,7 +59,7 @@ public final class MPXCalendarException extends MPXRecord
 
       setFromDate(record.getDate(0));
       setToDate(record.getDate(1));
-      setWorking(record.getNumericBoolean(2).booleanValue());
+      setWorking(record.getNumericBoolean(2));
       setFromTime1(record.getTime(3));
       setToTime1(record.getTime(4));
       setFromTime2(record.getTime(5));
@@ -86,7 +86,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setFromDate (Date from)
    {
-      m_fromDate = from;
+      m_fromDate = DateUtility.getDayStartDate(from);
    }
 
    /**
@@ -106,7 +106,7 @@ public final class MPXCalendarException extends MPXRecord
     */
    public void setToDate (Date to)
    {
-      m_toDate = to;
+      m_toDate = DateUtility.getDayEndDate(to);
    }
 
    /**

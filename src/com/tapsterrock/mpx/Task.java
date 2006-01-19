@@ -156,7 +156,15 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
             case REMAINING_COST:
             case SV:
             {
-               set(x, MPXCurrency.getInstance(getParentFile(), field));
+               try
+               {
+                  set(x, getParentFile().getCurrencyFormat().parse(field));
+               }
+                
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse currency", ex);
+               }               
                break;
             }
 

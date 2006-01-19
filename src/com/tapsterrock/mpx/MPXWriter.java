@@ -51,11 +51,11 @@ public final class MPXWriter extends AbstractProjectWriter
       m_locale = projectFile.getLocale();
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
       m_buffer = new StringBuffer();
-      m_decimalFormat = projectFile.getDecimalFormat();
-      m_timeFormat = projectFile.getTimeFormat();
+      m_decimalFormat = projectFile.getDecimalFormat();      
       m_currencyFormat = projectFile.getCurrencyFormat();
+      m_dateFormat = projectFile.getDateFormat();
+      m_timeFormat = projectFile.getTimeFormat();
       m_dateTimeFormat = projectFile.getDateTimeFormat();
-      m_zeroCurrency = projectFile.getZeroCurrency();
       m_percentageDecimalFormat = projectFile.getPercentageDecimalFormat();
       m_unitsDecimalFormat = projectFile.getUnitsDecimalFormat();
       
@@ -72,11 +72,11 @@ public final class MPXWriter extends AbstractProjectWriter
          m_taskModel = null;
          m_buffer = null;
          m_locale = null;
-         m_decimalFormat = null;
-         m_timeFormat = null;
+         m_decimalFormat = null;         
          m_currencyFormat = null;
+         m_dateFormat = null;
+         m_timeFormat = null;
          m_dateTimeFormat = null;
-         m_zeroCurrency = null;
          m_percentageDecimalFormat = null;
          m_unitsDecimalFormat = null;
       }
@@ -226,13 +226,13 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getCalendarName()));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getStartDate())));
+      m_buffer.append(format(toDateTime(record.getStartDate())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getFinishDate())));
+      m_buffer.append(format(toDateTime(record.getFinishDate())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getScheduleFrom()));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getCurrentDate())));
+      m_buffer.append(format(toDateTime(record.getCurrentDate())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getComments()));
       m_buffer.append (m_delimiter);
@@ -258,13 +258,13 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(toPercentage(record.getPercentageComplete())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getBaselineStart())));
+      m_buffer.append(format(toDateTime(record.getBaselineStart())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getBaselineFinish())));
+      m_buffer.append(format(toDateTime(record.getBaselineFinish())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getActualStart())));
+      m_buffer.append(format(toDateTime(record.getActualStart())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(toDate(record.getActualFinish())));
+      m_buffer.append(format(toDateTime(record.getActualFinish())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getStartVariance()));
       m_buffer.append (m_delimiter);
@@ -425,7 +425,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(toDate(record.getToDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(NumericBoolean.getInstance(record.getWorking())));
+      m_buffer.append(record.getWorking()?"1":"0");
       m_buffer.append(m_delimiter);
       m_buffer.append(format(toTime(record.getFromTime1())));
       m_buffer.append(m_delimiter);
@@ -651,9 +651,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);      
       m_buffer.append(format(record.getTaskUniqueID()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getStartDate())));
+      m_buffer.append(format(toDateTime(record.getStartDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getFinishDate())));
+      m_buffer.append(format(toDateTime(record.getFinishDate())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getDuration()));
       m_buffer.append(m_delimiter);
@@ -695,7 +695,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getYearlyBoxMonthComboIndex()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getYearlyBoxDate())));
+      m_buffer.append(format(toDateTime(record.getYearlyBoxDate())));
       
       stripTrailingDelimiters(m_buffer);
       m_buffer.append (MPXConstants.EOL);
@@ -734,9 +734,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(toCurrency(record.getActualCost())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getStart())));
+      m_buffer.append(format(toDateTime(record.getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getFinish())));
+      m_buffer.append(format(toDateTime(record.getFinish())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getDelay()));
       m_buffer.append(m_delimiter);
@@ -770,9 +770,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getResponsePending()?"1":"0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getUpdateStart())));
+      m_buffer.append(format(toDateTime(record.getUpdateStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(toDate(record.getUpdateFinish())));
+      m_buffer.append(format(toDateTime(record.getUpdateFinish())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getScheduleID()));
 
@@ -1012,36 +1012,13 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value numeric value
     * @return currency value
     */
-   private MPXCurrency toCurrency (Number value)
+   private String toCurrency (Number value)
    {
-      MPXCurrency result = null;
-
-      if (value != null)
-      {
-         if (value instanceof MPXCurrency == false)
-         {
-            if (value.doubleValue() == 0)
-            {
-               result = m_zeroCurrency;
-            }
-            else
-            {
-               result = new MPXCurrency (m_currencyFormat, value.doubleValue());
-            }
-         }
-         else
-         {
-            result = (MPXCurrency)value;
-         }
-      }
-
-      return (result);
+      return (value==null?null:m_currencyFormat.format(value));
    }
    
    /**
-    * This method is called to ensure that a Number value is actually
-    * represented as an MPXUnits instance rather than a raw numeric
-    * type.
+    * This method is called to format a units value.
     *
     * @param value numeric value
     * @return currency value
@@ -1052,30 +1029,25 @@ public final class MPXWriter extends AbstractProjectWriter
    }
    
    /**
-    * This method is called to ensure that a Date value is actually
-    * represented as an MPXDate instance rather than a raw date
-    * type.
+    * This method is called to format a date.
     *
     * @param value date value
-    * @return date value
+    * @return formatted date value
     */
-   protected MPXDate toDate (Date value)
+   protected String toDateTime (Date value)
    {
-      MPXDate result = null;
+      return (value==null?null:m_dateTimeFormat.format(value));
+   }
 
-      if (value != null)
-      {
-         if (value instanceof MPXDate == false)
-         {
-            result = new MPXDate (m_dateTimeFormat, value);
-         }
-         else
-         {
-            result = (MPXDate)value;
-         }
-      }
-
-      return (result);
+   /**
+    * This method is called to format a date.
+    *
+    * @param value date value
+    * @return formatted date value
+    */
+   protected String toDate (Date value)
+   {
+      return (value==null?null:m_dateFormat.format(value));
    }
    
    /**
@@ -1102,7 +1074,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          case DataType.DATE_VALUE:
          {
-            value = toDate((Date)value);
+            value = toDateTime((Date)value);
             break;
          }
          
@@ -1139,7 +1111,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private DateFormat m_timeFormat;
    private NumberFormat m_currencyFormat;
    private DateFormat m_dateTimeFormat;
-   private MPXCurrency m_zeroCurrency;      
+   private DateFormat m_dateFormat;
    private NumberFormat m_percentageDecimalFormat;
    private NumberFormat m_unitsDecimalFormat;
 }

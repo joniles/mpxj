@@ -138,7 +138,15 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
             case ACTUAL_COST:
             case REMAINING_COST:
             {
-               set(x, MPXCurrency.getInstance(getParentFile(), field));
+               try
+               {
+                  set(x, getParentFile().getCurrencyFormat().parse(field));
+               }
+                
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse currency", ex);
+               }               
                break;
             }
 

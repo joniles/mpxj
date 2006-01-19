@@ -131,14 +131,14 @@ public final class ProjectHeader extends MPXRecord
       throws MPXException
    {
       setDefaultDurationUnits(record.getTimeUnit(0));
-      setDefaultDurationIsFixed(record.getNumericBoolean(1).booleanValue());
+      setDefaultDurationIsFixed(record.getNumericBoolean(1));
       setDefaultWorkUnits(record.getTimeUnit(2));
       setDefaultHoursInDay(record.getFloat(3));
       setDefaultHoursInWeek(record.getFloat(4));
       setDefaultStandardRate(record.getRate(5));
       setDefaultOvertimeRate(record.getRate(6));
-      setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7).booleanValue());
-      setSplitInProgressTasks(record.getNumericBoolean(8).booleanValue());
+      setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
+      setSplitInProgressTasks(record.getNumericBoolean(8));
    }
 
    /**

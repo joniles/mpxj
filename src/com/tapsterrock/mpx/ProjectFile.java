@@ -1209,21 +1209,8 @@ public class ProjectFile
    void setCurrencyFormat (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
    {
       m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
-      m_zeroCurrency = new MPXCurrency(m_currencyFormat, 0);
    }
-   
-   /**
-    * This package-private method is used internally by MPXJ to supply
-    * callers with a reference to a singleton representing a zero
-    * currency value.
-    * 
-    * @return MPXCurrency instance
-    */
-   MPXCurrency getZeroCurrency ()
-   {
-      return (m_zeroCurrency);
-   }
-   
+      
    /**
     * This method is used to retrieve the number of child tasks associated
     * with this parent task. This method is used as part of the process
@@ -2469,7 +2456,5 @@ public class ProjectFile
    /**
     * Resource sub project.
     */
-   private SubProject m_resourceSubProject;
-   
-   private MPXCurrency m_zeroCurrency;
+   private SubProject m_resourceSubProject;   
 }
