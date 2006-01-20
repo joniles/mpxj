@@ -46,27 +46,6 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    }
 
    /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
-    *
-    * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for  this object.
-    * @throws MPXException normally thrown when parsing fails
-    */
-   ResourceAssignmentWorkgroupFields (ProjectFile file, Record record)
-      throws MPXException
-   {
-      super(file);
-
-      setMessageUniqueID(record.getString(0));
-      setConfirmed(NumberUtility.getInt(record.getInteger(1))==1);
-      setResponsePending(NumberUtility.getInt(record.getInteger(1))==1);
-      setUpdateStart(record.getDateTime(3));
-      setUpdateFinish(record.getDateTime(4));
-      setScheduleID(record.getString(5));
-   }
-
-   /**
     * Sets the Message Unique ID.
     *
     * @param val ID

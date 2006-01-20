@@ -44,46 +44,6 @@ public final class RecurringTask extends MPXRecord
    }
 
    /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
-    *
-    * @param file the MPXFile object to which this record belongs.
-    * @param record Record containing the data for this object.
-    * @throws MPXException normally thrown when parsing fails
-    */
-   RecurringTask (ProjectFile file, Record record)
-      throws MPXException
-   {
-      super (file);
-
-      setTaskUniqueID(record.getInteger(0));
-      setStartDate(record.getDateTime(1));
-      setFinishDate(record.getDateTime(2));
-      setDuration(record.getInteger(3));
-      setDurationType(record.getString(4));
-      setNumberOfOccurances(record.getInteger(5));
-      setRecurranceType(record.getInteger(6));
-      setNotSureIndex(record.getInteger(7));      
-      setLengthRadioIndex(record.getInteger(8));
-      setDailyBoxRadioIndex(record.getInteger(9));
-      setWeeklyBoxDayOfWeekIndex(record.getString(10));
-      setMonthlyBoxRadioIndex(record.getInteger(11));
-      setYearlyBoxRadioIndex(record.getInteger(12));
-      setDailyBoxComboIndex(record.getInteger(13));
-      setWeeklyBoxComboIndex(record.getInteger(14));
-      setMonthlyBoxFirstLastComboIndex(record.getInteger(15));
-      setMonthlyBoxDayComboIndex(record.getInteger(16));
-      setMonthlyBoxBottomRadioFrequencyComboIndex(record.getInteger(17));
-      setMonthlyBoxDayIndex(record.getInteger(18));
-      setMonthlyBoxTopRadioFrequencyComboIndex(record.getInteger(19));
-      setYearlyBoxFirstLastComboIndex(record.getInteger(20));
-      setYearlyBoxDayComboIndex(record.getInteger(21));
-      setYearlyBoxMonthComboIndex(record.getInteger(22));
-      setYearlyBoxDate(record.getDateTime(23));
-   }
-
-
-   /**
     * ID, Unique ID of task to which this refers.
     *
     * @return - String ID

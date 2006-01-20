@@ -236,7 +236,8 @@ public class ProjectFile
          {
             if (m_lastResource != null)
             {
-               m_lastResourceCalendar = m_lastResource.addResourceCalendar(record);
+               m_lastResourceCalendar = m_lastResource.addResourceCalendar();
+               MPXReader.populateCalendar(this, record, m_lastResourceCalendar);
                current = m_lastResourceCalendar;
             }
 
@@ -293,7 +294,8 @@ public class ProjectFile
 
          case MPXConstants.TASK_RECORD_NUMBER:
          {
-            m_lastTask = new Task(this, record);
+            m_lastTask = new Task(this, (Task)null);
+            MPXReader.populateTask(this, record, m_lastTask);
             current = m_lastTask;
             m_allTasks.add(current);
 
@@ -326,7 +328,7 @@ public class ProjectFile
          {
             if (m_lastTask != null)
             {
-               current = m_lastTask.addTaskNotes(record);
+               m_lastTask.setNotes(record.getString(0));
             }
 
             break;
@@ -336,7 +338,9 @@ public class ProjectFile
          {
             if (m_lastTask != null)
             {
-               current = m_lastTask.addRecurringTask(record);
+               RecurringTask task = m_lastTask.addRecurringTask();
+               MPXReader.populateRecurringTask(this, record, task);
+               current = task;
             }
 
             break;
@@ -346,7 +350,8 @@ public class ProjectFile
          {
             if (m_lastTask != null)
             {
-               m_lastResourceAssignment = m_lastTask.addResourceAssignment(record);
+               m_lastResourceAssignment = m_lastTask.addResourceAssignment();
+               MPXReader.populateResourceAssignment(this, record, m_lastResourceAssignment);
                current = m_lastResourceAssignment;
                m_allResourceAssignments.add(m_lastResourceAssignment);
             }
@@ -358,7 +363,9 @@ public class ProjectFile
          {
             if (m_lastResourceAssignment != null)
             {
-               current = m_lastResourceAssignment.addWorkgroupAssignment(record);
+               ResourceAssignmentWorkgroupFields workgroup = m_lastResourceAssignment.addWorkgroupAssignment();
+               MPXReader.populateResourceAssignmentWorkgroupFields(this, record, workgroup);
+               current = workgroup;
             }
 
             break;
@@ -378,8 +385,9 @@ public class ProjectFile
 
          case MPXConstants.FILE_CREATION_RECORD_NUMBER:
          {
-            current = getFileCreationRecord();
-            ((FileCreationRecord)current).setValues(record);
+            FileCreationRecord fcr = getFileCreationRecord();
+            MPXReader.populateFileCreationRecord(record, fcr);
+            current = fcr;
             break;
          }
 

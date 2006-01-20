@@ -24,7 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -45,8 +44,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    Task (ProjectFile file, Task parent)
    {
       super(file);
-
-      m_model = getParentFile().getTaskModel();
 
       m_parent = parent;
 
@@ -80,277 +77,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       if (file.getAutoTaskID() == true)
       {
          setID(file.getTaskID());
-      }
-   }
-
-   /**
-    * This constructor populates an instance of the Task class
-    * using values read in from an MPXFile record.
-    *
-    * @param file parent MPX file
-    * @param record record from MPX file
-    * @throws MPXException normally thrown for paring errors
-    */
-   Task (ProjectFile file, Record record)
-      throws MPXException
-   {
-      super(file);
-
-      String falseText = LocaleData.getString(getParentFile().getLocale(), LocaleData.NO);
-
-      m_model = getParentFile().getTaskModel();
-
-      int x = 0;
-      String field;
-
-      int i = 0;
-      int length = record.getLength();
-      int[] model = m_model.getModel();
-
-      while (i < length)
-      {
-         x = model[i];
-
-         if (x == -1)
-         {
-            break;
-         }
-
-         field = record.getString(i++);
-
-         if ((field == null) || (field.length() == 0))
-         {
-            continue;
-         }
-
-         switch (x)
-         {
-            case PREDECESSORS:
-            case SUCCESSORS:
-            case UNIQUE_ID_PREDECESSORS:
-            case UNIQUE_ID_SUCCESSORS:
-            {
-               set(x, new RelationList(field, getParentFile()));
-               break;
-            }
-
-            case PERCENTAGE_COMPLETE:
-            case PERCENTAGE_WORK_COMPLETE:
-            {
-               try
-               {
-                  set(x, getParentFile().getPercentageDecimalFormat().parse(field));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse percentage", ex);
-               }
-               break;
-            }
-
-            case ACTUAL_COST:
-            case BASELINE_COST:
-            case BCWP:
-            case BCWS:
-            case COST:
-            case COST1:
-            case COST2:
-            case COST3:
-            case COST_VARIANCE:
-            case CV:
-            case FIXED_COST:
-            case REMAINING_COST:
-            case SV:
-            {
-               try
-               {
-                  set(x, getParentFile().getCurrencyFormat().parse(field));
-               }
-                
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse currency", ex);
-               }               
-               break;
-            }
-
-            case ACTUAL_DURATION:
-            case ACTUAL_WORK:
-            case BASELINE_DURATION:
-            case BASELINE_WORK:
-            case DURATION:
-            case DURATION1:
-            case DURATION2:
-            case DURATION3:
-            case DURATION_VARIANCE:
-            case FINISH_VARIANCE:
-            case FREE_SLACK:
-            case REMAINING_DURATION:
-            case REMAINING_WORK:
-            case START_VARIANCE:
-            case TOTAL_SLACK:
-            case WORK:
-            case WORK_VARIANCE:
-            case DELAY:
-            {
-               set(x, MPXDuration.getInstance(field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
-               break;
-            }
-
-            case ACTUAL_FINISH:
-            case ACTUAL_START:
-            case BASELINE_FINISH:
-            case BASELINE_START:
-            case CONSTRAINT_DATE:
-            case CREATE_DATE:
-            case EARLY_FINISH:
-            case EARLY_START:
-            case FINISH:
-            case FINISH1:
-            case FINISH2:
-            case FINISH3:
-            case FINISH4:
-            case FINISH5:
-            case LATE_FINISH:
-            case LATE_START:
-            case RESUME:
-            case RESUME_NO_EARLIER_THAN:
-            case START:
-            case START1:
-            case START2:
-            case START3:
-            case START4:
-            case START5:
-            case STOP:
-            {
-               try
-               {
-                  set(x, getParentFile().getDateTimeFormat().parse(field));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse date time", ex);
-               }
-               break;
-            }
-
-            case CONFIRMED:
-            case CRITICAL:
-            case FIXED:
-            case FLAG1:
-            case FLAG2:
-            case FLAG3:
-            case FLAG4:
-            case FLAG5:
-            case FLAG6:
-            case FLAG7:
-            case FLAG8:
-            case FLAG9:
-            case FLAG10:
-            case HIDE_BAR:
-            case LINKED_FIELDS:
-            case MARKED:
-            case MILESTONE:
-            case ROLLUP:
-            case SUMMARY:
-            case UPDATE_NEEDED:
-            {
-               set(x, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
-               break;
-            }
-
-            case CONSTRAINT_TYPE:
-            {
-               set(x, ConstraintType.getInstance(getParentFile().getLocale(), field));
-               break;
-            }
-
-            case OBJECTS:
-            case OUTLINE_LEVEL:
-            {
-               set(x, Integer.valueOf(field));
-               break;
-            }
-
-            case ID:
-            {
-               setID(Integer.valueOf(field));
-               break;
-            }
-
-            case UNIQUE_ID:
-            {
-               setUniqueID(Integer.valueOf(field));
-               break;
-            }
-
-            case NUMBER1:
-            case NUMBER2:
-            case NUMBER3:
-            case NUMBER4:
-            case NUMBER5:
-            {
-               try
-               {
-                  set(x, getParentFile().getDecimalFormat().parse(field));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse number", ex);
-               }
-               
-               break;
-            }
-
-            case PRIORITY:
-            {
-               set(x, Priority.getInstance(getParentFile().getLocale(), field));
-               break;
-            }
-
-            default:
-            {
-               set(x, field);
-               break;
-            }
-         }
-      }
-
-      if (file.getAutoWBS() == true)
-      {
-         generateWBS(null);
-      }
-
-      if (file.getAutoOutlineNumber() == true)
-      {
-         generateOutlineNumber(null);
-      }
-
-      if (file.getAutoOutlineLevel() == true)
-      {
-         setOutlineLevel(1);
-      }
-
-      if (file.getAutoTaskUniqueID() == true)
-      {
-         setUniqueID(file.getTaskUniqueID());
-      }
-
-      if (file.getAutoTaskID() == true)
-      {
-         setID(file.getTaskID());
-      }
-
-      if (getFixedValue() == true)
-      {
-         setType(TaskType.FIXED_DURATION);
-      }
-      else
-      {
-         setType(TaskType.FIXED_UNITS);
       }
    }
 
@@ -420,39 +146,10 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * This method is used to add notes to the current task.
     *
     * @param notes notes to be added
-    * @return TaskNotes object
     */
-   public TaskNotes setNotes (String notes)
+   public void setNotes (String notes)
    {
-      if (m_notes == null)
-      {
-         m_notes = new TaskNotes(getParentFile());
-      }
-
-      m_notes.setNotes(notes);
-
-      return (m_notes);
-   }
-
-   /**
-    * This method is used to add notes to the current task.
-    * The data to populate the note comes from an MPX file.
-    *
-    * @param record data from an MPX file
-    * @return TaskNotes object
-    * @throws MPXException if maximum number of task notes is exceeded
-    */
-   TaskNotes addTaskNotes (Record record)
-      throws MPXException
-   {
-      if (m_notes != null)
-      {
-         throw new MPXException(MPXException.MAXIMUM_RECORDS);
-      }
-
-      m_notes = new TaskNotes(getParentFile(), record);
-
-      return (m_notes);
+      m_notes = notes;
    }
 
    /**
@@ -559,28 +256,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    }
 
    /**
-    * This method allows recurring task details to be added to the
-    * current task. The data used to populate the recurring task
-    * object is taken from a record in an MPX file.
-    *
-    * @param record data from MPX file record
-    * @return RecurringTask object
-    * @throws MPXException thrown if more than one one recurring task is added
-    */
-   RecurringTask addRecurringTask (Record record)
-      throws MPXException
-   {
-      if (m_recurringTask != null)
-      {
-         throw new MPXException(MPXException.MAXIMUM_RECORDS);
-      }
-
-      m_recurringTask = new RecurringTask(getParentFile(), record);
-
-      return (m_recurringTask);
-   }
-
-   /**
     * This method retrieves the recurring task record. If the current
     * task is not a recurring task, then this method will return null.
     *
@@ -640,23 +315,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * current task. The data for the resource assignment is derived from
     * an MPX file record.
     *
-    * @param record data from MPX file record
     * @return ResourceAssignment object
     * @throws MPXException
     */
-   ResourceAssignment addResourceAssignment (Record record)
+   ResourceAssignment addResourceAssignment ()
       throws MPXException
    {
-      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), record, this);
-
-      m_assignments.add(assignment);
-      
-      Resource resource = assignment.getResource();
-      if (resource != null)
-      {
-         resource.addResourceAssignment(assignment);
-      }
-      
+      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
+      m_assignments.add(assignment);            
       return (assignment);
    }
 
@@ -705,11 +371,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       //
       // Retrieve the list of predecessors
       //
-      RelationList list = (RelationList)get(PREDECESSORS);
+      List list = (List)get(PREDECESSORS);
 
       if (list == null)
       {
-         list = new RelationList();
+         list = new LinkedList();
          set(PREDECESSORS, list);
       }
 
@@ -776,11 +442,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
       //
       // Retrieve the list of predecessors
       //
-      RelationList list = (RelationList)get(UNIQUE_ID_PREDECESSORS);
+      List list = (List)get(UNIQUE_ID_PREDECESSORS);
 
       if (list == null)
       {
-         list = new RelationList();
+         list = new LinkedList();
          set(UNIQUE_ID_PREDECESSORS, list);
       }
 
@@ -844,11 +510,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public Relation addSuccessor (Task task)
    {
-      RelationList list = (RelationList)get(SUCCESSORS);
+      List list = (List)get(SUCCESSORS);
 
       if (list == null)
       {
-         list = new RelationList();
+         list = new LinkedList();
          set(SUCCESSORS, list);
       }
 
@@ -885,11 +551,11 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public Relation addUniqueIdSuccessor (Task task)
    {
-      RelationList list = (RelationList)get(UNIQUE_ID_SUCCESSORS);
+      List list = (List)get(UNIQUE_ID_SUCCESSORS);
 
       if (list == null)
       {
-         list = new RelationList();
+         list = new LinkedList();
          set(UNIQUE_ID_SUCCESSORS, list);
       }
 
@@ -1980,7 +1646,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @param list list of relationships
     */
-   public void setPredecessors (RelationList list)
+   public void setPredecessors (List list)
    {
       set(PREDECESSORS, list);
    }
@@ -2263,7 +1929,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @param list list of relationships
     */
-   public void setSuccessors (RelationList list)
+   public void setSuccessors (List list)
    {
       set(SUCCESSORS, list);
    }
@@ -2467,7 +2133,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @param list list of relationships
     */
-   public void setUniqueIDPredecessors (RelationList list)
+   public void setUniqueIDPredecessors (List list)
    {
       set(UNIQUE_ID_PREDECESSORS, list);
    }
@@ -2480,7 +2146,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @param list list of relationships
     */
-   public void setUniqueIDSuccessors (RelationList list)
+   public void setUniqueIDSuccessors (List list)
    {
       set(UNIQUE_ID_SUCCESSORS, list);
    }
@@ -3589,18 +3255,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     */
    public String getNotes ()
    {
-      String result;
-
-      if (m_notes != null)
-      {
-         result = m_notes.getNotes();
-      }
-      else
-      {
-         result = "";
-      }
-
-      return (result);
+      return (m_notes==null?"":m_notes);
    }
 
    /**
@@ -4066,9 +3721,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return RelationList instance
     */
-   public RelationList getSuccessors ()
+   public List getSuccessors ()
    {
-      return ((RelationList)get(SUCCESSORS));
+      return ((List)get(SUCCESSORS));
    }
 
    /**
@@ -4259,9 +3914,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return list of predecessor UniqueIDs
     */
-   public RelationList getUniqueIDPredecessors ()
+   public List getUniqueIDPredecessors ()
    {
-      return ((RelationList)get(UNIQUE_ID_PREDECESSORS));
+      return ((List)get(UNIQUE_ID_PREDECESSORS));
    }
 
    /**
@@ -4272,9 +3927,9 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     *
     * @return list of predecessor UniqueIDs
     */
-   public RelationList getUniqueIDSuccessors ()
+   public List getUniqueIDSuccessors ()
    {
-      return ((RelationList)get(UNIQUE_ID_SUCCESSORS));
+      return ((List)get(UNIQUE_ID_SUCCESSORS));
    }
 
    /**
@@ -7298,12 +6953,6 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    private List m_children = new LinkedList();
 
    /**
-    * Reference to the task model controlling which fields from the task
-    * record appear in the MPX file.
-    */
-   private TaskModel m_model;
-
-   /**
     * List of resource assignments for this task.
     */
    private List m_assignments = new LinkedList();
@@ -7311,7 +6960,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    /**
     * Task notes associated with this task.
     */
-   private TaskNotes m_notes;
+   private String m_notes;
 
    /**
     * Recurring task details associated with this task.
@@ -7375,7 +7024,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * enter percent complete, or you can have Microsoft Project calculate it 
     * for you based on actual duration.
     */
-   private static final int PERCENTAGE_COMPLETE = 44;
+   public static final int PERCENTAGE_COMPLETE = 44;
 
    /**
     * The % Work Complete field contains the current status of a task, expressed as the
@@ -7383,20 +7032,20 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * complete, or you can have Microsoft Project calculate it for you based on actual
     * work on the task.
     */
-   private static final int PERCENTAGE_WORK_COMPLETE = 25;
+   public static final int PERCENTAGE_WORK_COMPLETE = 25;
 
    /**
     * The Actual Cost field shows costs incurred for work already performed by all resources
     * on a task, along with any other recorded costs associated with the task. You can enter
     * all the actual costs or have Microsoft Project calculate them for you.
     */
-   private static final int ACTUAL_COST = 32;
+   public static final int ACTUAL_COST = 32;
 
    /**
     * The Actual Duration field shows the span of actual working time for a task so far,
     * based on the scheduled duration and current remaining work or completion percentage.
     */
-   private static final int ACTUAL_DURATION = 42;
+   public static final int ACTUAL_DURATION = 42;
 
    /**
     * The Actual Finish field shows the date and time that a task actually finished.
@@ -7404,7 +7053,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * the completion percentage is 100. This field contains "NA" until you enter actual
     * information or set the completion percentage to 100.
     */
-   private static final int ACTUAL_FINISH = 59;
+   public static final int ACTUAL_FINISH = 59;
 
    /**
     * The Actual Start field shows the date and time that a task actually began.
@@ -7412,37 +7061,37 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * enter the first actual work or a completion percentage for a task, Microsoft
     * Project sets the actual start date to the scheduled start date.
     */
-   private static final int ACTUAL_START = 58;
+   public static final int ACTUAL_START = 58;
 
    /**
     * The Actual Work field shows the amount of work that has already been done by
     * the resources assigned to a task.
     */
-   private static final int ACTUAL_WORK = 22;
+   public static final int ACTUAL_WORK = 22;
 
    /**
     * The Baseline Cost field shows the total planned cost for a task. Baseline cost
     * is also referred to as budget at completion (BAC).
     */
-   private static final int BASELINE_COST = 31;
+   public static final int BASELINE_COST = 31;
 
    /**
     * The Baseline Duration field shows the original span of time planned to complete a task.
     */
-   private static final int BASELINE_DURATION = 41;
+   public static final int BASELINE_DURATION = 41;
 
    /**
     * The Baseline Finish field shows the planned completion date for a task at the time
     * you saved a baseline. Information in this field becomes available when you set a
     * baseline for a task.
     */
-   private static final int BASELINE_FINISH = 57;
+   public static final int BASELINE_FINISH = 57;
 
    /**
     * The Baseline Start field shows the planned beginning date for a task at the time
     * you saved a baseline. Information in this field becomes available when you set a baseline.
     */
-   private static final int BASELINE_START = 56;
+   public static final int BASELINE_START = 56;
 
    /**
     * The Baseline Work field shows the originally planned amount of work to be performed
@@ -7450,7 +7099,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * scheduled for a task. Information in the Baseline Work field becomes available
     * when you set a baseline for the project.
     */
-   private static final int BASELINE_WORK = 21;
+   public static final int BASELINE_WORK = 21;
 
    /**
     * The BCWP (budgeted cost of work performed) field contains the cumulative value
@@ -7458,27 +7107,27 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * timephased baseline cost. BCWP is calculated up to the status date or today's date.
     * This information is also known as earned value.
     */
-   private static final int BCWP = 86;
+   public static final int BCWP = 86;
 
    /**
     * The BCWS (budgeted cost of work scheduled) field contains the cumulative timephased
     * baseline costs up to the status date or todays date.
     */
-   private static final int BCWS = 85;
+   public static final int BCWS = 85;
 
    /**
     * The Confirmed field indicates whether all resources assigned to a task have
     * accepted or rejected the task assignment in response to a TeamAssign message
     * regarding their assignments.
     */
-   private static final int CONFIRMED = 135;
+   public static final int CONFIRMED = 135;
 
    /**
     *  The Constraint Date field shows the specific date associated with certain
     * constraint types, such as Must Start On, Must Finish On, Start No Earlier Than,
     * Start No Later Than, Finish No Earlier Than, and Finish No Later Than.
     */
-   private static final int CONSTRAINT_DATE = 68;
+   public static final int CONSTRAINT_DATE = 68;
 
    /**
     * The Constraint Type field provides choices for the type of constraint you can apply
@@ -7492,12 +7141,12 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * - Start No Earlier Than
     * - Start No Later Than
     */
-   private static final int CONSTRAINT_TYPE = 91;
+   public static final int CONSTRAINT_TYPE = 91;
 
    /**
     *  The Contact field contains the name of an individual responsible for a task.
     */
-   private static final int CONTACT = 15;
+   public static final int CONTACT = 15;
 
    /**
     * The Cost field shows the total scheduled, or projected, cost for a task,
@@ -7505,7 +7154,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * to the task, in addition to the costs planned for the remaining work for the
     * assignment. This can also be referred to as estimate at completion (EAC).
     */
-   private static final int COST = 30;
+   public static final int COST = 30;
 
    /**
     * The Cost fields show any custom task cost information you want to enter in your project.
@@ -7527,19 +7176,19 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * cost for a task. The total cost is the current estimate of costs based on actual
     * costs and remaining costs. This is also referred to as variance at completion (VAC).
     */
-   private static final int COST_VARIANCE = 34;
+   public static final int COST_VARIANCE = 34;
 
    /**
     * The Created field contains the date and time when a task was added to the project.
     */
-   private static final int CREATE_DATE = 125;
+   public static final int CREATE_DATE = 125;
 
    /**
     * The Critical field indicates whether a task has any room in the schedule to slip,
     * or if a task is on the critical path. The Critical field contains Yes if the task
     * is critical and No if the task is not critical.
     */
-   private static final int CRITICAL = 82;
+   public static final int CRITICAL = 82;
 
    /**
     * The CV (earned value cost variance) field shows the difference between how much
@@ -7547,7 +7196,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * how much it has actually cost to achieve the current level of completion up to
     * the status date or todays date.
     */
-   private static final int CV = 88;
+   public static final int CV = 88;
 
    /**
     * The amount of time a task can slip before it affects another task's dates or the
@@ -7556,14 +7205,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * delays the project finish date. When the total slack is negative, the task
     * duration is too long for its successor to begin on the date required by a constraint.
     */
-   private static final int DELAY = 92;
+   public static final int DELAY = 92;
 
    /**
     * The Duration field is the total span of active working time for a task.
     * This is generally the amount of time from the start to the finish of a task.
     * The default for new tasks is 1 day (1d).
     */
-   private static final int DURATION = 40;
+   public static final int DURATION = 40;
 
    /**
     * The Duration fields are custom fields that show any specialized task duration
@@ -7587,27 +7236,27 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * The Duration Variance field contains the difference between the baseline duration
     * of a task and the total duration (current estimate) of a task.
     */
-   private static final int DURATION_VARIANCE = 45;
+   public static final int DURATION_VARIANCE = 45;
 
    /**
     * The Early Finish field contains the earliest date that a task could possibly finish,
     * based on early finish dates of predecessor and successor tasks, other constraints,
     * and any leveling delay.
     */
-   private static final int EARLY_FINISH = 53;
+   public static final int EARLY_FINISH = 53;
 
    /**
     * The Early Start field contains the earliest date that a task could possibly begin,
     * based on the early start dates of predecessor and successor tasks, and other constraints.
     */
-   private static final int EARLY_START = 52;
+   public static final int EARLY_START = 52;
 
    /**
     * The Finish field shows the date and time that a task is scheduled to be completed.
     * You can enter the finish date you want, to indicate the date when the task should be
     * completed. Or, you can have Microsoft Project calculate the finish date.
     */
-   private static final int FINISH = 51;
+   public static final int FINISH = 51;
 
    /**
     * The Finish fields are custom fields that show any specific task finish date information
@@ -7643,17 +7292,18 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * The Finish Variance field contains the amount of time that represents the difference
     * between a task's baseline finish date and its current finish date.
     */
-   private static final int FINISH_VARIANCE = 67;
+   public static final int FINISH_VARIANCE = 67;
 
    /**
     * Whether  fixed or not. Boolean value
     */
-   private static final int FIXED = 80;
+   public static final int FIXED = 80;
 
    /**
-    * The Fixed Cost field shows any task expense that is not associated with a resource cost.
+    * The Fixed Cost field shows any task expense that is not associated 
+    * with a resource cost.
     */
-   private static final int FIXED_COST = 35;
+   public static final int FIXED_COST = 35;
 
    /**
     * The Flag fields indicate whether a task is marked for further action or
@@ -7730,21 +7380,21 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * delaying any successor tasks. If the task has no successors, free slack is the amount
     * of time that a task can be delayed without delaying the entire project's finish date.
     */
-   private static final int FREE_SLACK = 93;
+   public static final int FREE_SLACK = 93;
 
    /**
     * The Hide Bar field indicates whether the Gantt bars and Calendar bars for a task
     * are hidden. Click Yes in the Hide Bar field to hide the bar for the task. Click No
     * in the Hide Bar field to show the bar for the task.
     */
-   private static final int HIDE_BAR = 123;
+   public static final int HIDE_BAR = 123;
 
    /**
     * The ID field contains the identifier number that Microsoft Project automatically
     * assigns to each task as you add it to the project. The ID indicates the position
     * of a task with respect to the other tasks.
     */
-   private static final int ID = 90;
+   public static final int ID = 90;
 
    /**
     * The Late Finish field contains the latest date that a task can finish without
@@ -7752,44 +7402,43 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * date, as well as the late start and late finish dates of predecessor and successor
     *  tasks, and other constraints.
     */
-   private static final int LATE_FINISH = 55;
+   public static final int LATE_FINISH = 55;
 
    /**
     * The Late Start field contains the latest date that a task can start without delaying
     * the finish of the project. This date is based on the tasks start date, as well as
     * the late start and late finish dates of predecessor and successor tasks, and other constraints.
     */
-   private static final int LATE_START = 54;
+   public static final int LATE_START = 54;
 
    /**
     *  The Linked Fields field indicates whether there are OLE links to the task,
     * either from elsewhere in the active project, another Microsoft Project file,
     * or from another program.
     */
-   private static final int LINKED_FIELDS = 122;
+   public static final int LINKED_FIELDS = 122;
 
    /**
     * The Marked field indicates whether a task is marked for further action or identification
     * of some kind. To mark a task, click Yes in the Marked field. If you don't want a task
     * marked, click No.
     */
-   private static final int MARKED = 83;
+   public static final int MARKED = 83;
 
    /**
     * The Milestone field indicates whether a task is a milestone.
     */
-   private static final int MILESTONE = 81;
+   public static final int MILESTONE = 81;
 
    /**
     * The Name field contains the name of a task.
     */
-   private static final int NAME = 1;
+   public static final int NAME = 1;
 
    /**
     * The Notes field contains notes that you can enter about a task. You can use task
     * notes to help maintain a history for a task.
     */
-
    //private static final int NOTES = 14;
 
    /**
@@ -7825,13 +7474,13 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    /**
     * The Objects field contains the number of objects attached to a task.
     */
-   private static final int OBJECTS = 121;
+   public static final int OBJECTS = 121;
 
    /**
     * The Outline Level field contains the number that indicates the level of the task
     * in the project outline hierarchy.
     */
-   private static final int OUTLINE_LEVEL = 3;
+   public static final int OUTLINE_LEVEL = 3;
 
    /**
     * The Outline Number field contains the number of the task in the structure of an outline.
@@ -7839,14 +7488,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * project outline. The outline number is similar to a WBS (work breakdown structure)
     * number, except that the outline number is automatically entered by Microsoft Project.
     */
-   private static final int OUTLINE_NUMBER = 99;
+   public static final int OUTLINE_NUMBER = 99;
 
    /**
     * The Predecessors field lists the task ID numbers for the predecessor tasks on which
     * the task depends before it can be started or finished. Each predecessor is linked to
     * the task by a specific type of task dependency and a lead time or lag time.
     */
-   private static final int PREDECESSORS = 70;
+   public static final int PREDECESSORS = 70;
 
    /**
     * The Priority field provides choices for the level of importance assigned to a
@@ -7855,7 +7504,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * priority of Do Not Level are never delayed or split when Microsoft Project
     * levels tasks that have overallocated resources assigned.
     */
-   private static final int PRIORITY = 95;
+   public static final int PRIORITY = 95;
 
    /**
     * The Project field shows the name of the project from which a task originated.
@@ -7863,56 +7512,56 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * inserted into the active project file, the name of the inserted project appears
     * in this field for the task.
     */
-   private static final int PROJECT = 97;
+   public static final int PROJECT = 97;
 
    /**
     * The Remaining Cost field shows the remaining scheduled expense of a task
     * that will be incurred in completing the remaining scheduled work by all
     * resources assigned to the task.
     */
-   private static final int REMAINING_COST = 33;
+   public static final int REMAINING_COST = 33;
 
    /**
     * The Remaining Duration field shows the amount of time required to complete
     * the unfinished portion of a task.
     */
-   private static final int REMAINING_DURATION = 43;
+   public static final int REMAINING_DURATION = 43;
 
    /**
     * The Remaining Work field shows the amount of time, or person-hours,
     * still required by all assigned resources to complete a task.
     */
-   private static final int REMAINING_WORK = 23;
+   public static final int REMAINING_WORK = 23;
 
    /**
     * The Resource Group field contains the list of resource groups to which the
     * resources assigned to a task belong.
     */
-   private static final int RESOURCE_GROUP = 16;
+   public static final int RESOURCE_GROUP = 16;
 
    /**
     * The Resource Initials field lists the abbreviations for the names of resources
     * assigned to a task. These initials can serve as substitutes for the names.
     */
-   private static final int RESOURCE_INITIALS = 73;
+   public static final int RESOURCE_INITIALS = 73;
 
    /**
     * The Resource Names field lists the names of all resources assigned to a task.
     */
-   private static final int RESOURCE_NAMES = 72;
+   public static final int RESOURCE_NAMES = 72;
 
    /**
     * The Resume field shows the date that the remaining portion of a task is scheduled
     * to resume after you enter a new value for the % Complete field. The Resume field
     * is also recalculated when the remaining portion of a task is moved to a new date.
     */
-   private static final int RESUME = 151;
+   public static final int RESUME = 151;
 
    /**
     * The Resume No Earlier than field constains the date which is the earliest time
     * to restart this task.
     */
-   private static final int RESUME_NO_EARLIER_THAN = 152;
+   public static final int RESUME_NO_EARLIER_THAN = 152;
 
    /**
     * For subtasks, the Rollup field indicates whether information on the subtask
@@ -7921,14 +7570,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * You must have the Rollup field for summary tasks set to Yes for any subtasks
     * to roll up to them.
     */
-   private static final int ROLLUP = 84;
+   public static final int ROLLUP = 84;
 
    /**
     * The Start field shows the date and time that a task is scheduled to begin.
     * You can enter the start date you want, to indicate the date when the task
     * should begin. Or, you can have Microsoft Project calculate the start date.
     */
-   private static final int START = 50;
+   public static final int START = 50;
 
    /**
     * The Start fields are custom fields that show any specific task start date
@@ -7964,31 +7613,31 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * The Start fields are custom fields that show any specific task start date
     * information you want to enter and store separately in your project.
     */
-   private static final int START_VARIANCE = 66;
+   public static final int START_VARIANCE = 66;
 
    /**
     * The Stop field shows the date that represents the end of the actual portion of a task.
     * Typically, Microsoft Project calculates the stop date. However, you can edit this date as well.
     */
-   private static final int STOP = 150;
+   public static final int STOP = 150;
 
    /**
     * The Subproject File field contains the name of a project inserted into the active project file.
     * The Subproject File field contains the inserted project's path and file name.
     */
-   private static final int SUBPROJECT_NAME = 96;
+   public static final int SUBPROJECT_NAME = 96;
 
    /**
     * The Successors field lists the task ID numbers for the successor tasks to a task.
     * A task must start or finish before successor tasks can start or finish. Each successor
     * is linked to the task by a specific type of task dependency and a lead time or lag time.
     */
-   private static final int SUCCESSORS = 71;
+   public static final int SUCCESSORS = 71;
 
    /**
     * The Summary field indicates whether a task is a summary task.
     */
-   private static final int SUMMARY = 120;
+   public static final int SUMMARY = 120;
 
    /**
     * The SV (earned value schedule variance) field shows the difference in cost terms
@@ -7996,7 +7645,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * date or today's date. You can use SV to check costs to determine whether tasks
     * are on schedule.
     */
-   private static final int SV = 87;
+   public static final int SV = 87;
 
    /**
     * The Text fields show any custom text information you want to enter in your project about tasks.
@@ -8052,21 +7701,21 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * The Total Slack field contains the amount of time a task can be delayed without delaying
     * the project's finish date.
     */
-   private static final int TOTAL_SLACK = 94;
+   public static final int TOTAL_SLACK = 94;
 
    /**
     * The Unique ID field contains the number that Microsoft Project automatically designates
     * whenever a new task is created. This number indicates the sequence in which the task was
     * created, regardless of placement in the schedule.
     */
-   private static final int UNIQUE_ID = 98;
+   public static final int UNIQUE_ID = 98;
 
    /**
     * The Unique ID Predecessors field lists the unique ID numbers for the predecessor
     * tasks on which a task depends before it can be started or finished. Each predecessor
     * is linked to the task by a specific type of task dependency and a lead time or lag time.
     */
-   private static final int UNIQUE_ID_PREDECESSORS = 76;
+   public static final int UNIQUE_ID_PREDECESSORS = 76;
 
    /**
     * The Unique ID Successors field lists the unique ID numbers for the successor tasks
@@ -8074,33 +7723,33 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
     * Each successor is linked to the task by a specific type of task dependency and a
     * lead time or lag time.
     */
-   private static final int UNIQUE_ID_SUCCESSORS = 75;
+   public static final int UNIQUE_ID_SUCCESSORS = 75;
 
    /**
     * The Update Needed field indicates whether a TeamUpdate messageshould be sent to
     * the assigned resources because of changes to the start date, finish date, or
     * resource reassignments of the task.
     */
-   private static final int UPDATE_NEEDED = 136;
+   public static final int UPDATE_NEEDED = 136;
 
    /**
     * The work breakdown structure code. The WBS field contains an alphanumeric code
     * you can use to represent the task's position within the hierarchical structure
     * of the project. This field is similar to the outline number, except that you can edit it.
     */
-   private static final int WBS = 2;
+   public static final int WBS = 2;
 
    /**
     * The Work field shows the total amount of work scheduled to be performed on a task
     * by all assigned resources. This field shows the total work, or person-hours, for a task.
     */
-   private static final int WORK = 20;
+   public static final int WORK = 20;
 
    /**
     *  The Work Variance field contains the difference between a task's baseline work and
     * the currently scheduled work.
     */
-   private static final int WORK_VARIANCE = 24;
+   public static final int WORK_VARIANCE = 24;
 
    /**
     * Maximum number of fields in this record. Note that this is package

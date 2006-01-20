@@ -1045,47 +1045,6 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * This method allows an existing instance of a ProjectHeader object
-    * to be updated with data taken from a record in an MPX file.
-    *
-    * @param record record containing the data for  this object.
-    * @throws MPXException normally thrown when parsing fails
-    */
-   void updateProjectHeader (Record record)
-      throws MPXException
-   {
-      setProjectTitle(record.getString(0));
-      setCompany(record.getString(1));
-      setManager(record.getString(2));
-      setCalendarName(record.getString(3));
-      setStartDate(record.getDateTime(4));
-      setFinishDate(record.getDateTime(5));
-      setScheduleFrom(record.getScheduleFrom(6));
-      setCurrentDate(record.getDateTime(7));
-      setComments(record.getString(8));
-      setCost(record.getCurrency(9));
-      setBaselineCost(record.getCurrency(10));
-      setActualCost(record.getCurrency(11));
-      setWork(record.getDuration(12));
-      setBaselineWork(record.getDuration(13));
-      setActualWork(record.getDuration(14));
-      setWork2(record.getPercentage(15));
-      setDuration(record.getDuration(16));
-      setBaselineDuration(record.getDuration(17));
-      setActualDuration(record.getDuration(18));
-      setPercentageComplete(record.getPercentage(19));
-      setBaselineStart(record.getDateTime(20));
-      setBaselineFinish(record.getDateTime(21));
-      setActualStart(record.getDateTime(22));
-      setActualFinish(record.getDateTime(23));
-      setStartVariance(record.getDuration(24));
-      setFinishVariance(record.getDuration(25));
-      setSubject(record.getString(26));
-      setAuthor(record.getString(27));
-      setKeywords(record.getString(28));
-   }
-
-   /**
     * Sets the project title.
     *
     * @param projectTitle project title

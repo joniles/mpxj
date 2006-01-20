@@ -29,6 +29,8 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -498,6 +500,430 @@ public final class MPXReader extends AbstractProjectReader
       {
          resource.setID (file.getResourceID ());
       }
+   }
+   
+   /**
+    * Populates a relation list.
+    * 
+    * @param data MPX relation list data
+    * @param file parent file
+    * @return relation list
+    * @throws MPXException
+    */
+   private static List populateRelationList (String data, ProjectFile file)
+      throws MPXException
+   {
+      List list = new LinkedList ();
+      
+      int length = data.length();
+      char sepchar = file.getDelimiter();
+      
+      if (length != 0)
+      {
+         int start = 0;
+         int end = 0;
+   
+         while (end != length)
+         {
+            end = data.indexOf(sepchar, start);
+   
+            if (end == -1)
+            {
+               end = length;
+            }
+   
+            list.add(new Relation(data.substring(start, end).trim(), file));
+   
+            start = end + 1;
+         }
+      }
+      
+      return (list);
+   }
+   
+   /**
+    * Populates a task instance.
+    * 
+    * @param file parent file
+    * @param record MPX record
+    * @param task task instance
+    * @throws MPXException
+    */
+   static void populateTask (ProjectFile file, Record record, Task task)
+      throws MPXException
+   {
+      String falseText = LocaleData.getString(file.getLocale(), LocaleData.NO);
+   
+      TaskModel taskModel = file.getTaskModel();
+   
+      int x = 0;
+      String field;
+   
+      int i = 0;
+      int length = record.getLength();
+      int[] model = taskModel.getModel();
+   
+      while (i < length)
+      {
+         x = model[i];
+   
+         if (x == -1)
+         {
+            break;
+         }
+   
+         field = record.getString(i++);
+   
+         if ((field == null) || (field.length() == 0))
+         {
+            continue;
+         }
+   
+         switch (x)
+         {
+            case Task.PREDECESSORS:
+            case Task.SUCCESSORS:
+            case Task.UNIQUE_ID_PREDECESSORS:
+            case Task.UNIQUE_ID_SUCCESSORS:
+            {
+               task.set(x, populateRelationList(field, file));
+               break;
+            }
+   
+            case Task.PERCENTAGE_COMPLETE:
+            case Task.PERCENTAGE_WORK_COMPLETE:
+            {
+               try
+               {
+                  task.set(x, file.getPercentageDecimalFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse percentage", ex);
+               }
+               break;
+            }
+   
+            case Task.ACTUAL_COST:
+            case Task.BASELINE_COST:
+            case Task.BCWP:
+            case Task.BCWS:
+            case Task.COST:
+            case Task.COST1:
+            case Task.COST2:
+            case Task.COST3:
+            case Task.COST_VARIANCE:
+            case Task.CV:
+            case Task.FIXED_COST:
+            case Task.REMAINING_COST:
+            case Task.SV:
+            {
+               try
+               {
+                  task.set(x, file.getCurrencyFormat().parse(field));
+               }
+                
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse currency", ex);
+               }               
+               break;
+            }
+   
+            case Task.ACTUAL_DURATION:
+            case Task.ACTUAL_WORK:
+            case Task.BASELINE_DURATION:
+            case Task.BASELINE_WORK:
+            case Task.DURATION:
+            case Task.DURATION1:
+            case Task.DURATION2:
+            case Task.DURATION3:
+            case Task.DURATION_VARIANCE:
+            case Task.FINISH_VARIANCE:
+            case Task.FREE_SLACK:
+            case Task.REMAINING_DURATION:
+            case Task.REMAINING_WORK:
+            case Task.START_VARIANCE:
+            case Task.TOTAL_SLACK:
+            case Task.WORK:
+            case Task.WORK_VARIANCE:
+            case Task.DELAY:
+            {
+               task.set(x, MPXDuration.getInstance(field, file.getDurationDecimalFormat(), file.getLocale()));
+               break;
+            }
+   
+            case Task.ACTUAL_FINISH:
+            case Task.ACTUAL_START:
+            case Task.BASELINE_FINISH:
+            case Task.BASELINE_START:
+            case Task.CONSTRAINT_DATE:
+            case Task.CREATE_DATE:
+            case Task.EARLY_FINISH:
+            case Task.EARLY_START:
+            case Task.FINISH:
+            case Task.FINISH1:
+            case Task.FINISH2:
+            case Task.FINISH3:
+            case Task.FINISH4:
+            case Task.FINISH5:
+            case Task.LATE_FINISH:
+            case Task.LATE_START:
+            case Task.RESUME:
+            case Task.RESUME_NO_EARLIER_THAN:
+            case Task.START:
+            case Task.START1:
+            case Task.START2:
+            case Task.START3:
+            case Task.START4:
+            case Task.START5:
+            case Task.STOP:
+            {
+               try
+               {
+                  task.set(x, file.getDateTimeFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse date time", ex);
+               }
+               break;
+            }
+   
+            case Task.CONFIRMED:
+            case Task.CRITICAL:
+            case Task.FIXED:
+            case Task.FLAG1:
+            case Task.FLAG2:
+            case Task.FLAG3:
+            case Task.FLAG4:
+            case Task.FLAG5:
+            case Task.FLAG6:
+            case Task.FLAG7:
+            case Task.FLAG8:
+            case Task.FLAG9:
+            case Task.FLAG10:
+            case Task.HIDE_BAR:
+            case Task.LINKED_FIELDS:
+            case Task.MARKED:
+            case Task.MILESTONE:
+            case Task.ROLLUP:
+            case Task.SUMMARY:
+            case Task.UPDATE_NEEDED:
+            {
+               task.set(x, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
+               break;
+            }
+   
+            case Task.CONSTRAINT_TYPE:
+            {
+               task.set(x, ConstraintType.getInstance(file.getLocale(), field));
+               break;
+            }
+   
+            case Task.OBJECTS:
+            case Task.OUTLINE_LEVEL:
+            {
+               task.set(x, Integer.valueOf(field));
+               break;
+            }
+   
+            case Task.ID:
+            {
+               task.setID(Integer.valueOf(field));
+               break;
+            }
+   
+            case Task.UNIQUE_ID:
+            {
+               task.setUniqueID(Integer.valueOf(field));
+               break;
+            }
+   
+            case Task.NUMBER1:
+            case Task.NUMBER2:
+            case Task.NUMBER3:
+            case Task.NUMBER4:
+            case Task.NUMBER5:
+            {
+               try
+               {
+                  task.set(x, file.getDecimalFormat().parse(field));
+               }
+               
+               catch (ParseException ex)
+               {
+                  throw new MPXException ("Failed to parse number", ex);
+               }
+               
+               break;
+            }
+   
+            case Task.PRIORITY:
+            {
+               task.set(x, Priority.getInstance(file.getLocale(), field));
+               break;
+            }
+   
+            default:
+            {
+               task.set(x, field);
+               break;
+            }
+         }
+      }
+
+      if (file.getAutoWBS() == true)
+      {
+         task.generateWBS(null);
+      }
+   
+      if (file.getAutoOutlineNumber() == true)
+      {
+         task.generateOutlineNumber(null);
+      }
+   
+      if (file.getAutoOutlineLevel() == true)
+      {
+         task.setOutlineLevel(1);
+      }
+   
+      if (file.getAutoTaskUniqueID() == true)
+      {
+         task.setUniqueID(file.getTaskUniqueID());
+      }
+   
+      if (file.getAutoTaskID() == true)
+      {
+         task.setID(file.getTaskID());
+      }
+   
+      if (task.getFixedValue() == true)
+      {
+         task.setType(TaskType.FIXED_DURATION);
+      }
+      else
+      {
+         task.setType(TaskType.FIXED_UNITS);
+      }
+   }
+   
+   /**
+    * Populates a recurring task.
+    * 
+    * @param file parent file
+    * @param record MPX record
+    * @param task recurring task
+    * @throws MPXException
+    */
+   static void populateRecurringTask (ProjectFile file, Record record, RecurringTask task)
+      throws MPXException
+   {
+      task.setTaskUniqueID(record.getInteger(0));
+      task.setStartDate(record.getDateTime(1));
+      task.setFinishDate(record.getDateTime(2));
+      task.setDuration(record.getInteger(3));
+      task.setDurationType(record.getString(4));
+      task.setNumberOfOccurances(record.getInteger(5));
+      task.setRecurranceType(record.getInteger(6));
+      task.setNotSureIndex(record.getInteger(7));      
+      task.setLengthRadioIndex(record.getInteger(8));
+      task.setDailyBoxRadioIndex(record.getInteger(9));
+      task.setWeeklyBoxDayOfWeekIndex(record.getString(10));
+      task.setMonthlyBoxRadioIndex(record.getInteger(11));
+      task.setYearlyBoxRadioIndex(record.getInteger(12));
+      task.setDailyBoxComboIndex(record.getInteger(13));
+      task.setWeeklyBoxComboIndex(record.getInteger(14));
+      task.setMonthlyBoxFirstLastComboIndex(record.getInteger(15));
+      task.setMonthlyBoxDayComboIndex(record.getInteger(16));
+      task.setMonthlyBoxBottomRadioFrequencyComboIndex(record.getInteger(17));
+      task.setMonthlyBoxDayIndex(record.getInteger(18));
+      task.setMonthlyBoxTopRadioFrequencyComboIndex(record.getInteger(19));
+      task.setYearlyBoxFirstLastComboIndex(record.getInteger(20));
+      task.setYearlyBoxDayComboIndex(record.getInteger(21));
+      task.setYearlyBoxMonthComboIndex(record.getInteger(22));
+      task.setYearlyBoxDate(record.getDateTime(23));
+   }
+
+   /**
+    * Populate a resource assignment.
+    * 
+    * @param file parent file
+    * @param record MPX record
+    * @param assignment resource assignment
+    * @throws MPXException
+    */
+   static void populateResourceAssignment (ProjectFile file, Record record, ResourceAssignment assignment)
+      throws MPXException
+   {
+      assignment.setResourceID(record.getInteger(0));
+      assignment.setUnits(record.getUnits(1));
+      assignment.setWork(record.getDuration(2));
+      assignment.setPlannedWork(record.getDuration(3));
+      assignment.setActualWork(record.getDuration(4));
+      assignment.setOvertimeWork(record.getDuration(5));
+      assignment.setCost(record.getCurrency(6));
+      assignment.setPlannedCost(record.getCurrency(7));
+      assignment.setActualCost(record.getCurrency(8));
+      assignment.setStart(record.getDateTime(9));
+      assignment.setFinish(record.getDateTime(10));
+      assignment.setDelay(record.getDuration(11));
+      assignment.setResourceUniqueID(record.getInteger(12));
+   
+      //
+      // Calculate the remaining work
+      //
+      MPXDuration work = assignment.getWork();
+      MPXDuration actualWork = assignment.getActualWork();
+      if (work != null && actualWork != null)
+      {
+         if (work.getUnits() != actualWork.getUnits())
+         {
+            actualWork = actualWork.convertUnits(work.getUnits(), file.getProjectHeader());
+         }
+         
+         assignment.setRemainingWork(MPXDuration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
+      }      
+      
+      Resource resource = assignment.getResource();
+      if (resource != null)
+      {
+         resource.addResourceAssignment(assignment);
+      }      
+   }
+   
+   /**
+    * Populate a resource assignment workgroup instance.
+    * 
+    * @param file parent file
+    * @param record MPX record
+    * @param workgroup workgroup instance
+    * @throws MPXException
+    */
+   static void populateResourceAssignmentWorkgroupFields (ProjectFile file, Record record, ResourceAssignmentWorkgroupFields workgroup)
+      throws MPXException
+   {
+      workgroup.setMessageUniqueID(record.getString(0));
+      workgroup.setConfirmed(NumberUtility.getInt(record.getInteger(1))==1);
+      workgroup.setResponsePending(NumberUtility.getInt(record.getInteger(1))==1);
+      workgroup.setUpdateStart(record.getDateTime(3));
+      workgroup.setUpdateFinish(record.getDateTime(4));
+      workgroup.setScheduleID(record.getString(5));
+   }
+
+   /**
+    * Populate a file creation record.
+    * 
+    * @param record MPX record
+    * @param fcr file creation record instance
+    */
+   static void populateFileCreationRecord (Record record, FileCreationRecord fcr)
+   {
+      fcr.setProgramName(record.getString(0));
+      fcr.setFileVersion(FileVersion.getInstance(record.getString(1)));
+      fcr.setCodePage(record.getCodePage(2));
    }
    
    /**

@@ -62,19 +62,6 @@ public final class FileCreationRecord extends MPXRecord
    }
 
    /**
-    * This method allows the default file creation record to be updated
-    * with values read from an MPX file.
-    *
-    * @param record record containing the data for this object.
-    */
-   void setValues (Record record)
-   {
-      setProgramName(record.getString(0));
-      setFileVersion(FileVersion.getInstance(record.getString(1)));
-      setCodePage(record.getCodePage(2));
-   }
-
-   /**
     * Sets the delimiter character, "," by default.
     *
     * @param delimiter delimiter character

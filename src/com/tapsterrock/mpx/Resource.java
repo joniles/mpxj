@@ -1275,29 +1275,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    }
 
    /**
-    * This method allows a resource calendar to be added to a resource.
-    * The data to populate the resource calendar comes from a record.
-    *
-    * @param record Record containing the data for this object.
-    * @return ResourceCalendar
-    * @throws MPXException if more than one calendar is added
-    */
-   MPXCalendar addResourceCalendar (Record record)
-     throws MPXException
-   {
-      if (m_calendar != null)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
-      //m_calendar = new MPXCalendar(getParentFile(), record, false);
-      m_calendar = new MPXCalendar(getParentFile(), false);
-      MPXReader.populateCalendar(getParentFile(), record, m_calendar);
-      m_calendar.setResource(this);
-      return (m_calendar);
-   }
-
-   /**
     * This method is used to set the value of a field in the resource,
     * and also to ensure that the field exists in the resource model
     * record.

@@ -45,52 +45,6 @@ public final class ResourceAssignment extends MPXRecord
       
       m_task = task;
    }
-
-   /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
-    *
-    * @param file The MPXFile object to which this record belongs.
-    * @param record Record containing the data for  this object.
-    * @param task The task to which this assignment is being made
-    * @throws MPXException normally thrown when parsing fails
-    */
-   ResourceAssignment (ProjectFile file, Record record, Task task)
-      throws MPXException
-   {
-      super (file);
-
-      m_task = task;
-
-      setResourceID(record.getInteger(0));
-      setUnits(record.getUnits(1));
-      setWork(record.getDuration(2));
-      setPlannedWork(record.getDuration(3));
-      setActualWork(record.getDuration(4));
-      setOvertimeWork(record.getDuration(5));
-      setCost(record.getCurrency(6));
-      setPlannedCost(record.getCurrency(7));
-      setActualCost(record.getCurrency(8));
-      setStart(record.getDateTime(9));
-      setFinish(record.getDateTime(10));
-      setDelay(record.getDuration(11));
-      setResourceUniqueID(record.getInteger(12));
-
-      //
-      // Calculate the remaining work
-      //
-      MPXDuration work = getWork();
-      MPXDuration actualWork = getActualWork();
-      if (work != null && actualWork != null)
-      {
-         if (work.getUnits() != actualWork.getUnits())
-         {
-            actualWork = actualWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader());
-         }
-         
-         setRemainingWork(MPXDuration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
-      }      
-   }
    
    /**
     * This method allows a resource assignment workgroup fields record
@@ -109,30 +63,6 @@ public final class ResourceAssignment extends MPXRecord
       }
 
       m_workgroup = new ResourceAssignmentWorkgroupFields (getParentFile());
-
-      return (m_workgroup);
-   }
-
-   /**
-    * This method allows a resource assignment workgroup fields record
-    * to be added to the current resource assignment. A maximum of
-    * one of these records can be added to a resource assignment record.
-    * The data for this new record is taken from a record read from an
-    * MPX file.
-    *
-    * @param record record from an MPX file
-    * @return ResourceAssignmentWorkgroupFields object
-    * @throws MPXException if MSP defined limit of 1 is exceeded
-    */
-   ResourceAssignmentWorkgroupFields addWorkgroupAssignment (Record record)
-      throws MPXException
-   {
-      if (m_workgroup != null)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
-      m_workgroup = new ResourceAssignmentWorkgroupFields (getParentFile(), record);
 
       return (m_workgroup);
    }

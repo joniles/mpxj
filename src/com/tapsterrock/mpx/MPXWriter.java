@@ -1122,7 +1122,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value relation list instance
     * @return formatted relation list
     */
-   private String formatRelationList (RelationList value)
+   private String formatRelationList (List value)
    {
       String result = null;
       
@@ -1271,7 +1271,7 @@ public final class MPXWriter extends AbstractProjectWriter
          
          case DataType.RELATION_LIST_VALUE:
          {
-            value = formatRelationList((RelationList)value);
+            value = formatRelationList((List)value);
             break;
          }                                                                                                
          
