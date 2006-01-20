@@ -666,9 +666,4 @@ final class Record
     * Array of field data.
     */
    private String[] m_fields;
-
-   /**
-    * Constant value representing an empty record.
-    */
-   public static final Record EMPTY_RECORD = new Record();
 }

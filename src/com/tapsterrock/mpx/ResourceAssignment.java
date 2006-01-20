@@ -41,7 +41,9 @@ public final class ResourceAssignment extends MPXRecord
    ResourceAssignment (ProjectFile file, Task task)
       throws MPXException
    {
-      this (file, Record.EMPTY_RECORD, task);
+      super(file);
+      
+      m_task = task;
    }
 
    /**
@@ -87,9 +89,9 @@ public final class ResourceAssignment extends MPXRecord
          }
          
          setRemainingWork(MPXDuration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
-      }
+      }      
    }
-
+   
    /**
     * This method allows a resource assignment workgroup fields record
     * to be added to the current resource assignment. A maximum of

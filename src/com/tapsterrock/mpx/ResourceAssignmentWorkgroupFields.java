@@ -42,7 +42,7 @@ public final class ResourceAssignmentWorkgroupFields extends MPXRecord
    ResourceAssignmentWorkgroupFields (ProjectFile file)
       throws MPXException
    {
-      this (file, Record.EMPTY_RECORD);
+      super(file);
    }
 
    /**

@@ -62,7 +62,14 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
 
       if (file.getAutoOutlineLevel() == true)
       {
-         setOutlineLevel(parent.getOutlineLevelValue() + 1);
+         if (parent == null)
+         {
+            setOutlineLevel(1);            
+         }
+         else
+         {
+            setOutlineLevel(parent.getOutlineLevelValue() + 1);
+         }
       }
 
       if (file.getAutoTaskUniqueID() == true)

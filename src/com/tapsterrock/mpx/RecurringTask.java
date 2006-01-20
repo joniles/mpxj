@@ -40,7 +40,7 @@ public final class RecurringTask extends MPXRecord
    RecurringTask (ProjectFile file)
       throws MPXException
    {
-      this (file, Record.EMPTY_RECORD);
+      super (file);
    }
 
    /**

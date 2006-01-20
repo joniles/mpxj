@@ -24,7 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -44,150 +43,8 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    Resource (ProjectFile file)
       throws MPXException
    {
-      this (file, Record.EMPTY_RECORD);
-   }
-
-   /**
-    * This constructor populates an instance of the Resource class
-    * using values read in from an MPXFile record.
-    *
-    * @param file parent MPX file
-    * @param record record from MPX file
-    * @throws MPXException normally thrown for paring errors
-    */
-   Resource (ProjectFile file, Record record)
-      throws MPXException
-   {
       super (file);
-
-      m_model = getParentFile().getResourceModel();
-
-      int i = 0;
-      int length = record.getLength();
-      int[] model = m_model.getModel();
-
-      while (i < length)
-      {
-         int x = model[i];
-         if (x == -1)
-         {
-            break;
-         }
-
-         String field = record.getString (i++);
-
-         if (field == null || field.length() == 0)
-         {
-            continue;
-         }
-
-         switch (x)
-         {
-            case OBJECTS:
-            {
-               set(x,Integer.valueOf(field));
-               break;
-            }
-
-            case ID:
-            {
-               setID(Integer.valueOf(field));
-               break;
-            }
-
-            case UNIQUE_ID:
-            {
-               setUniqueID(Integer.valueOf(field));
-               break;
-            }
-
-            case MAX_UNITS:
-            {
-               try
-               {
-                  set (x, new Double(getParentFile().getUnitsDecimalFormat().parse(field).doubleValue() * 100));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse units", ex);
-               }
-               
-               break;
-            }
-
-            case PERCENT_WORK_COMPLETE:
-            case PEAK_UNITS:
-            {
-               try
-               {
-                  set(x, getParentFile().getPercentageDecimalFormat().parse(field));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse percentage", ex);
-               }
-               break;
-            }
-
-            case COST:
-            case COST_PER_USE:
-            case COST_VARIANCE:
-            case BASELINE_COST:
-            case ACTUAL_COST:
-            case REMAINING_COST:
-            {
-               try
-               {
-                  set(x, getParentFile().getCurrencyFormat().parse(field));
-               }
-                
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse currency", ex);
-               }               
-               break;
-            }
-
-            case OVERTIME_RATE:
-            case STANDARD_RATE:
-            {
-               set (x, new MPXRate(getParentFile().getCurrencyFormat(), field, getParentFile().getLocale()));
-               break;
-            }
-
-            case REMAINING_WORK:
-            case OVERTIME_WORK:
-            case BASELINE_WORK:
-            case ACTUAL_WORK:
-            case WORK:
-            case WORK_VARIANCE:
-            {
-               set (x, MPXDuration.getInstance (field, getParentFile().getDurationDecimalFormat(), getParentFile().getLocale()));
-               break;
-            }
-
-            case ACCRUE_AT:
-            {
-               set (x, AccrueType.getInstance (field, getParentFile().getLocale()));
-               break;
-            }
-
-            case OVERALLOCATED:
-            {
-               set (x, (field.equals("No")==true?Boolean.FALSE:Boolean.TRUE));
-               break;
-            }
-
-            default:
-            {
-               set (x, field);
-               break;
-            }
-         }
-      }
-
+      
       if (file.getAutoResourceUniqueID() == true)
       {
          setUniqueID (file.getResourceUniqueID ());
@@ -197,7 +54,9 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
       {
          setID (file.getResourceID ());
       }
+
    }
+
 
    /**
     * Sets Name field value.
@@ -1158,17 +1017,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public void setNotes (String notes)
    {
-      if (m_notes == null)
-      {
-         m_notes = new ResourceNotes(getParentFile());
-      }
-
-      if (notes == null)
-      {
-         notes = "";
-      }
-
-      m_notes.setNotes(notes);
+      m_notes = notes;
    }
 
    /**
@@ -1178,17 +1027,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
     */
    public String getNotes ()
    {
-      String result;
-      if (m_notes != null)
-      {
-         result = m_notes.getNotes();
-      }
-      else
-      {
-         result = "";
-      }
-
-      return (result);
+      return (m_notes==null?"":m_notes);
    }
 
    /**
@@ -1392,28 +1231,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    }
 
    /**
-    * This method allows a resource note to be added to a resource.
-    * The data to populate the resource note comes from a record
-    * read from an MPX file.
-    *
-    * @param record Record containing the data for this object.
-    * @return ResourceNotes
-    * @throws MPXException If MSP defined limit of 1 is exceeded
-    */
-   ResourceNotes addResourceNotes (Record record)
-      throws MPXException
-   {
-      if (m_notes != null)
-      {
-         throw new MPXException (MPXException.MAXIMUM_RECORDS);
-      }
-
-      m_notes = new ResourceNotes(getParentFile(), record);
-
-      return (m_notes);
-   }
-
-   /**
     * This method retrieves the calendar associated with this resource.
     *
     * @return MPXCalendar instance
@@ -1473,7 +1290,9 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
          throw new MPXException (MPXException.MAXIMUM_RECORDS);
       }
 
-      m_calendar = new MPXCalendar(getParentFile(), record, false);
+      //m_calendar = new MPXCalendar(getParentFile(), record, false);
+      m_calendar = new MPXCalendar(getParentFile(), false);
+      MPXReader.populateCalendar(getParentFile(), record, m_calendar);
       m_calendar.setResource(this);
       return (m_calendar);
    }
@@ -4941,11 +4760,6 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];      
    
    /**
-    * Resource Model record controlling fields written to resource record.
-    */
-   private ResourceModel m_model;
-
-   /**
     * Resource calendar for this resource.
     */
    private MPXCalendar m_calendar;
@@ -4953,7 +4767,7 @@ public final class Resource extends MPXRecord implements Comparable, ExtendedAtt
    /**
     * Resource notes for this resource.
     */
-   private ResourceNotes m_notes;
+   private String m_notes;
 
    /**
     * List of all assignments for this resource.

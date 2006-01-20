@@ -36,7 +36,8 @@ public final class TaskNotes extends MPXRecord
     */
    TaskNotes (ProjectFile file)
    {
-      this (file, Record.EMPTY_RECORD);
+      //this (file, Record.EMPTY_RECORD);
+      super(file);
    }
 
    /**

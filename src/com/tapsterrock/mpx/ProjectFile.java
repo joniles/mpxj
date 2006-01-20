@@ -109,29 +109,14 @@ public class ProjectFile
    }
    
    /**
-    * This is a convenience method provided to allow an empty record
-    * of a specified type to be added to the file.
-    *
-    * @param recordNumber type of record to be added
-    * @return object representing the new record
-    * @throws MPXException Thrown on parse errors
-    */
-   private MPXRecord add (int recordNumber)
-      throws MPXException
-   {
-      return (add(String.valueOf(recordNumber), Record.EMPTY_RECORD));
-   }
-
-   /**
     * This method adds a new record of the specified type and populates
     * it with data read from an MPX file.
     *
     * @param recordNumber type of record to add
     * @param record data from MPX file
-    * @return new object representing record from MPX file
     * @throws MPXException normally thrown on parsing errors
     */
-   MPXRecord add (String recordNumber, Record record)
+   void add (String recordNumber, Record record)
       throws MPXException
    {
       MPXRecord current = null;
@@ -146,30 +131,29 @@ public class ProjectFile
 
          case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
-            m_projectHeader.updateCurrencySettings(record);
+            MPXReader.populateCurrencySettings(record, m_projectHeader);
             current = m_projectHeader;
             break;
          }
 
          case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
-            m_projectHeader.updateDefaultSettings(record);
+            MPXReader.populateDefaultSettings(record, m_projectHeader);
             current = m_projectHeader;
             break;
          }
 
          case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
-            m_projectHeader.updateDateTimeSettings(record);
+            MPXReader.populateDateTimeSettings(record, m_projectHeader);
             current = m_projectHeader;
             break;
          }
 
          case MPXConstants.BASE_CALENDAR_RECORD_NUMBER:
          {
-            m_lastBaseCalendar = new MPXCalendar(this, record, true);
-            current = m_lastBaseCalendar;
-            m_baseCalendars.add(current);
+            m_lastBaseCalendar = addBaseCalendar();
+            MPXReader.populateCalendar(this, record, m_lastBaseCalendar);
             break;
          }
 
@@ -177,7 +161,9 @@ public class ProjectFile
          {
             if (m_lastBaseCalendar != null)
             {
-               current = m_lastBaseCalendar.addCalendarHours(record);
+               MPXCalendarHours hours = m_lastBaseCalendar.addCalendarHours();
+               MPXReader.populateCalendarHours(record, hours);
+               current = hours;
             }
 
             break;
@@ -187,7 +173,9 @@ public class ProjectFile
          {
             if (m_lastBaseCalendar != null)
             {
-               current = m_lastBaseCalendar.addCalendarException(record);
+               MPXCalendarException exception = m_lastBaseCalendar.addCalendarException();
+               MPXReader.populateCalendarException(record, exception);
+               current = exception;
             }
 
             break;
@@ -195,7 +183,7 @@ public class ProjectFile
 
          case MPXConstants.PROJECT_HEADER_RECORD_NUMBER:
          {
-            m_projectHeader.updateProjectHeader(record);
+            MPXReader.populateProjectHeader(record, m_projectHeader);
             current = m_projectHeader;
             break;
          }
@@ -226,13 +214,11 @@ public class ProjectFile
 
          case MPXConstants.RESOURCE_RECORD_NUMBER:
          {
-            m_lastResource = new Resource(this, record);
+            m_lastResource = new Resource (this);
+            MPXReader.populateResource(this, m_lastResource, record);
             current = m_lastResource;
             m_allResources.add(current);
-            if (record != Record.EMPTY_RECORD)
-            {
-               fireResourceReadEvent(m_lastResource);
-            }
+            fireResourceReadEvent(m_lastResource);            
             break;
          }
 
@@ -240,7 +226,7 @@ public class ProjectFile
          {
             if (m_lastResource != null)
             {
-               current = m_lastResource.addResourceNotes(record);
+               m_lastResource.setNotes(record.getString(0));
             }
 
             break;
@@ -261,7 +247,9 @@ public class ProjectFile
          {
             if (m_lastResourceCalendar != null)
             {
-               current = m_lastResourceCalendar.addCalendarHours(record);
+               MPXCalendarHours hours = m_lastResourceCalendar.addCalendarHours();
+               MPXReader.populateCalendarHours(record, hours);
+               current = hours;
             }
 
             break;
@@ -271,7 +259,9 @@ public class ProjectFile
          {
             if (m_lastResourceCalendar != null)
             {
-               current = m_lastResourceCalendar.addCalendarException(record);
+               MPXCalendarException exception = m_lastResourceCalendar.addCalendarException();
+               MPXReader.populateCalendarException(record, exception);
+               current = exception;
             }
 
             break;
@@ -328,10 +318,7 @@ public class ProjectFile
                ((Task)m_childTasks.get(m_childTasks.size()-1)).addChildTask(m_lastTask, outlineLevel);
             }
 
-            if (record != Record.EMPTY_RECORD)
-            {
-               fireTaskReadEvent(m_lastTask);
-            }
+            fireTaskReadEvent(m_lastTask);
             break;
          }
 
@@ -399,8 +386,6 @@ public class ProjectFile
          default:
             throw new MPXException(MPXException.INVALID_RECORD);
       }
-
-      return (current);
    }
 
    /**
@@ -423,7 +408,10 @@ public class ProjectFile
    public Task addTask ()
       throws MPXException
    {
-      return ((Task)add(MPXConstants.TASK_RECORD_NUMBER));
+      Task task = new Task(this, (Task)null);
+      m_allTasks.add(task);
+      m_childTasks.add(task);
+      return (task);
    }
 
    /**
@@ -849,7 +837,9 @@ public class ProjectFile
    public MPXCalendar addBaseCalendar ()
       throws MPXException
    {
-      return ((MPXCalendar)add(MPXConstants.BASE_CALENDAR_RECORD_NUMBER));
+      MPXCalendar calendar = new MPXCalendar(this, true);
+      m_baseCalendars.add(calendar);      
+      return (calendar);
    }
 
    /**
@@ -882,7 +872,7 @@ public class ProjectFile
    public MPXCalendar addDefaultBaseCalendar ()
       throws MPXException
    {
-      MPXCalendar calendar = (MPXCalendar)add(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
+      MPXCalendar calendar = addBaseCalendar();
 
       calendar.setName(MPXCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
@@ -963,7 +953,9 @@ public class ProjectFile
    public Resource addResource ()
       throws MPXException
    {
-      return ((Resource)add(MPXConstants.RESOURCE_RECORD_NUMBER));
+      Resource resource = new Resource(this);
+      m_allResources.add(resource);
+      return (resource);
    }
 
    /**
@@ -1170,7 +1162,7 @@ public class ProjectFile
     */
    void setCurrencyFormat (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
    {
-      m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
+      m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, decimalSeparator, groupingSeparator);
    }
       
    /**

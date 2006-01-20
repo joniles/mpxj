@@ -36,36 +36,26 @@ public final class MPXCalendarHours extends MPXRecord
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @param parentCalendar the parent calendar for this instance
     * @throws MPXException Thrown on parse errors
     */
-   MPXCalendarHours (ProjectFile file)
-      throws MPXException
-   {
-      this (file, Record.EMPTY_RECORD);
-   }
-
-   /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
-    *
-    * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for  this object.
-    * @throws MPXException Thrown on parse errors
-    */
-   MPXCalendarHours (ProjectFile file, Record record)
+   MPXCalendarHours (ProjectFile file, MPXCalendar parentCalendar)
       throws MPXException
    {
       super(file);
-    
-      if (record != Record.EMPTY_RECORD)
-      {
-         setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
-         addDateRange(new DateRange(record.getTime(1), record.getTime(2)));
-         addDateRange(new DateRange(record.getTime(3), record.getTime(4)));
-         addDateRange(new DateRange(record.getTime(5), record.getTime(6)));      
-      }
+      m_parentCalendar = parentCalendar;
    }
 
+   /**
+    * Retrieve the parent calendar for these hours.
+    * 
+    * @return parent calendar
+    */
+   public MPXCalendar getParentCalendar ()
+   {
+      return (m_parentCalendar);
+   }
+   
    /**
     * Get day.
     *
@@ -83,7 +73,14 @@ public final class MPXCalendarHours extends MPXRecord
     */
    void setDay (Day d)
    {
+      if (m_day != null)
+      {
+         m_parentCalendar.removeHoursFromDay(this);         
+      }
+      
       m_day = d;
+      
+      m_parentCalendar.attachHoursToDay(this);      
    }
 
    /**
@@ -126,6 +123,7 @@ public final class MPXCalendarHours extends MPXRecord
       return (m_dateRanges.iterator());
    }
    
+   private MPXCalendar m_parentCalendar;
    private Day m_day;
    private LinkedList m_dateRanges = new LinkedList ();   
 }

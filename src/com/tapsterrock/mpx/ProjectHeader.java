@@ -121,27 +121,6 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * This method updates a default settings instance with data from
-    * an MPX file.
-    *
-    * @param record record containing the data for  this object.
-    * @throws MPXException Thrown on parse errors
-    */
-   void updateDefaultSettings (Record record)
-      throws MPXException
-   {
-      setDefaultDurationUnits(record.getTimeUnit(0));
-      setDefaultDurationIsFixed(record.getNumericBoolean(1));
-      setDefaultWorkUnits(record.getTimeUnit(2));
-      setDefaultHoursInDay(record.getFloat(3));
-      setDefaultHoursInWeek(record.getFloat(4));
-      setDefaultStandardRate(record.getRate(5));
-      setDefaultOvertimeRate(record.getRate(6));
-      setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));
-      setSplitInProgressTasks(record.getNumericBoolean(8));
-   }
-
-   /**
     * Gets Default Duration units. The constants used to define the
     * duration units are defined by the <code>TimeUnit</code> class.
     *
@@ -358,29 +337,6 @@ public final class ProjectHeader extends MPXRecord
       setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       m_updateDateTimeFormats = true;
-      updateDateTimeFormats ();
-   }
-
-   /**
-    * This method is used to update a date time settings instance with
-    * data from an MPX file.
-    *
-    * @param record record containing the data for  this object.
-    */
-   void updateDateTimeSettings (Record record)
-   {
-      m_updateDateTimeFormats = false;
-      setDateOrder(record.getDateOrder(0));
-      setTimeFormat(record.getTimeFormat(1));
-      setIntegerDefaultStartTime(record.getInteger(2));
-      setDateSeparator(record.getCharacter(3));
-      setTimeSeparator(record.getCharacter(4));
-      setAMText(record.getString(5));
-      setPMText(record.getString(6));
-      setDateFormat(record.getDateFormat(7));
-      setBarTextDateFormat(record.getDateFormat(8));
-      m_updateDateTimeFormats = true;
-
       updateDateTimeFormats ();
    }
 
@@ -1731,25 +1687,6 @@ public final class ProjectHeader extends MPXRecord
    }
 
    /**
-    * This method is used to update a currency settings instance with
-    * new values read from an MPX file.
-    *
-    * @param record record containing the data for  this object.
-    */
-   void updateCurrencySettings (Record record)
-   {
-      m_updateCurrencyFormat = false;
-      setCurrencySymbol (record.getString(0));
-      setSymbolPosition (record.getCurrencySymbolPosition(1));
-      setCurrencyDigits (record.getInteger(2));
-      setThousandsSeparator (record.getCharacter(3));
-      setDecimalSeparator (record.getCharacter(4));
-      m_updateCurrencyFormat = true;
-
-      updateCurrencyFormats ();
-   }
-
-   /**
     * Sets currency symbol ie $, £, DM.
     *
     * @param symbol ie $, £, DM
@@ -2885,7 +2822,7 @@ public final class ProjectHeader extends MPXRecord
    }
 
    private String m_currencySymbol;
-   private CurrencySymbolPosition m_symbolPosition;
+   private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Integer m_currencyDigits;
    private char m_thousandsSeparator;
    private char m_decimalSeparator;
@@ -2900,7 +2837,7 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Default Settings Attributes.
     */
-   private TimeUnit m_defaultDurationUnits;
+   private TimeUnit m_defaultDurationUnits = TimeUnit.DAYS;
    private boolean m_defaultDurationIsFixed;
    private TimeUnit m_defaultWorkUnits;
    private Float m_defaultHoursInDay;
@@ -2913,14 +2850,14 @@ public final class ProjectHeader extends MPXRecord
    /**
     * Date Time Settings Attributes.
     */
-   private DateOrder m_dateOrder;
-   private ProjectTimeFormat m_timeFormat;
+   private DateOrder m_dateOrder = DateOrder.MDY;
+   private ProjectTimeFormat m_timeFormat = ProjectTimeFormat.TWELVE_HOUR;
    private Date m_defaultStartTime;
    private char m_dateSeparator;
    private char m_timeSeparator;
    private String m_amText;
    private String m_pmText;
-   private ProjectDateFormat m_dateFormat;
+   private ProjectDateFormat m_dateFormat = ProjectDateFormat.DD_MM_YY;
    private ProjectDateFormat m_barTextDateFormat;
 
    /**
@@ -2932,7 +2869,7 @@ public final class ProjectHeader extends MPXRecord
    private String m_calendarName;
    private Date m_startDate;
    private Date m_finishDate;
-   private ScheduleFrom m_scheduleFrom;
+   private ScheduleFrom m_scheduleFrom = ScheduleFrom.START;
    private Date m_currentDate;
    private String m_comments;
    private Double m_cost;

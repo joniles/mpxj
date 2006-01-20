@@ -23,12 +23,13 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Iterator;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * This class represents the a Calendar Definition record. Both base calendars
@@ -46,44 +47,16 @@ public final class MPXCalendar extends MPXRecord
     */
    MPXCalendar (ProjectFile file, boolean baseCalendar)
    {
-      this (file, Record.EMPTY_RECORD, baseCalendar);
-   }
-
-   /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
-    *
-    * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for this object.
-    * @param baseCalendar flag indicating if this is a base calendar
-    */
-   MPXCalendar (ProjectFile file, Record record, boolean baseCalendar)
-   {
       super (file);
 
-      m_baseCalendarFlag = baseCalendar;
+      m_baseCalendarFlag = baseCalendar;  
       
-      if (baseCalendar == true)
-      {
-         setName(record.getString(0));
-      }
-      else
-      {         
-         setBaseCalendar (file.getBaseCalendar(record.getString(0)));
-      }
-
-      setWorkingDay(Day.SUNDAY, record.getInteger(1));
-      setWorkingDay(Day.MONDAY, record.getInteger(2));
-      setWorkingDay(Day.TUESDAY, record.getInteger(3));
-      setWorkingDay(Day.WEDNESDAY, record.getInteger(4));
-      setWorkingDay(Day.THURSDAY, record.getInteger(5));
-      setWorkingDay(Day.FRIDAY, record.getInteger(6));
-      setWorkingDay(Day.SATURDAY, record.getInteger(7));
-
+      Arrays.fill(m_days, baseCalendar?WORKING:DEFAULT);
+      
       if (file.getAutoCalendarUniqueID() == true)
       {
          setUniqueID (file.getCalendarUniqueID());
-      }
+      }      
    }
 
    /**
@@ -96,22 +69,8 @@ public final class MPXCalendar extends MPXRecord
    public MPXCalendarException addCalendarException ()
       throws MPXException
    {
-      return (addCalendarException (Record.EMPTY_RECORD));
-   }
-
-   /**
-    * Used to add exceptions to the calendar. The MPX standard defines
-    * a limit of 250 exceptions per calendar.
-    *
-    * @param record data from the MPX file for this object.
-    * @return <tt>MPXCalendarException</tt>
-    * @throws MPXException
-    */
-   MPXCalendarException addCalendarException (Record record)
-      throws MPXException
-   {
-      MPXCalendarException bce = new MPXCalendarException(getParentFile(), record);
-      m_exceptions.add(bce);
+      MPXCalendarException bce = new MPXCalendarException(getParentFile());
+      m_exceptions.add(bce);      
       return (bce);
    }
 
@@ -137,31 +96,55 @@ public final class MPXCalendar extends MPXRecord
    public MPXCalendarHours addCalendarHours(Day day)
       throws MPXException
    {
-      MPXCalendarHours bch = new MPXCalendarHours (getParentFile(), Record.EMPTY_RECORD);
-
+      MPXCalendarHours bch = new MPXCalendarHours(getParentFile(), this);
       bch.setDay (day);
       m_hours[day.getValue()-1] = bch;
-
       return (bch);
    }
 
    /**
-    * Used to add working hours to the calendar. Note that the MPX file
-    * definition allows a maximum of 7 calendar hours records to be added to
-    * a single calendar.
-    *
-    * @param record data from the MPX file for this object.
-    * @return <tt>MPXCalendarHours</tt>
-    * @throws MPXException if maximum number of records is exceeded
+    * Adds a set of hours to this calendar without assigning them to
+    * a particular day.
+    * 
+    * @return calendar hours instance
+    * @throws MPXException
     */
-   MPXCalendarHours addCalendarHours (Record record)
+   public MPXCalendarHours addCalendarHours()
       throws MPXException
    {
-      MPXCalendarHours bch = new MPXCalendarHours(getParentFile(), record);
-      m_hours[bch.getDay().getValue()-1] = bch;
-      return (bch);
+      return (new MPXCalendarHours(getParentFile(), this));
    }
-
+   
+   /**
+    * Attaches a pre-existing set of hours to the correct
+    * day within the calendar.
+    * 
+    * @param hours calendar hours instance
+    */
+   public void attachHoursToDay (MPXCalendarHours hours)
+   {
+      if (hours.getParentCalendar() != this)
+      {
+         throw new IllegalArgumentException();
+      }
+      m_hours[hours.getDay().getValue()-1] = hours;
+   }
+   
+   /**
+    * Removes a set of calendar hours from the day to which they 
+    * are currently attached.
+    * 
+    * @param hours calendar hours instance
+    */
+   public void removeHoursFromDay (MPXCalendarHours hours)
+   {
+      if (hours.getParentCalendar() != this)
+      {
+         throw new IllegalArgumentException();
+      }      
+      m_hours[hours.getDay().getValue()-1] = null;      
+   }
+   
    /**
     * This method retrieves the calendar hours for the specified day.
     *

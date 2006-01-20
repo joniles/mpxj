@@ -41,33 +41,8 @@ public final class MPXCalendarException extends MPXRecord
    MPXCalendarException (ProjectFile file)
       throws MPXException
    {
-      this (file, Record.EMPTY_RECORD);
-   }
-
-   /**
-    * Constructor used to create an instance of this class from data
-    * taken from an MPXFile record.
-    *
-    * @param file the MPXFile object to which this record belongs.
-    * @param record record containing the data for this object.
-    * @throws MPXException Thrown on parse errors
-    */
-   MPXCalendarException (ProjectFile file, Record record)
-      throws MPXException
-   {
       super(file);
-
-      setFromDate(record.getDate(0));
-      setToDate(record.getDate(1));
-      setWorking(record.getNumericBoolean(2));
-      setFromTime1(record.getTime(3));
-      setToTime1(record.getTime(4));
-      setFromTime2(record.getTime(5));
-      setToTime2(record.getTime(6));
-      setFromTime3(record.getTime(7));
-      setToTime3(record.getTime(8));
    }
-
 
    /**
     * Returns the from date.
