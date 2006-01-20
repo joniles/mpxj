@@ -32,23 +32,25 @@ public final class MPXFormats
    public void update ()
    {
       // @todo sort out this separator caching!
-      char decimalSeparator = m_projectFile.getDecimalSeparator();
-      char thousandsSeparator = m_projectFile.getThousandsSeparator();
+      ProjectHeader header = m_projectFile.getProjectHeader();      
+      char decimalSeparator = header.getDecimalSeparator();
+      char thousandsSeparator = header.getThousandsSeparator();
       m_unitsDecimalFormat = new MPXNumberFormat("#.##", decimalSeparator, thousandsSeparator);
       m_decimalFormat = new MPXNumberFormat("0.00#", decimalSeparator, thousandsSeparator);
-      updateCurrencyFormats(decimalSeparator, thousandsSeparator);
+      m_durationDecimalFormat = new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, decimalSeparator, thousandsSeparator);
+      m_percentageDecimalFormat = new MPXNumberFormat("##0.##", decimalSeparator, thousandsSeparator);
+      updateCurrencyFormats(header, decimalSeparator, thousandsSeparator);
    }
    
    /**
     * Update the currency format.
     * 
+    * @param header project header
     * @param decimalSeparator decimal separator
     * @param thousandsSeparator thousands separator
     */
-   private void updateCurrencyFormats (char decimalSeparator, char thousandsSeparator)
-   {
-      ProjectHeader header = m_projectFile.getProjectHeader();
-      
+   private void updateCurrencyFormats (ProjectHeader header, char decimalSeparator, char thousandsSeparator)
+   {      
       String prefix = "";
       String suffix = "";
       String currencySymbol = quoteFormatCharacters (header.getCurrencySymbol());
@@ -200,9 +202,31 @@ public final class MPXFormats
    {
       return (m_currencyFormat);
    }
+
+   /**
+    * Retrieve the duration decimal format.
+    * 
+    * @return duration decimal format
+    */
+   public NumberFormat getDurationDecimalFormat ()
+   {
+      return (m_durationDecimalFormat);
+   }
+   
+   /**
+    * Retrieve the percentage decimal format.
+    * 
+    * @return percentage decimal format
+    */
+   public NumberFormat getPercentageDecimalFormat ()
+   {
+      return (m_percentageDecimalFormat);
+   }
    
    private ProjectFile m_projectFile;
    private NumberFormat m_unitsDecimalFormat;
    private NumberFormat m_decimalFormat;
    private MPXNumberFormat m_currencyFormat = new MPXNumberFormat();
+   private NumberFormat m_durationDecimalFormat;
+   private NumberFormat m_percentageDecimalFormat;
 }

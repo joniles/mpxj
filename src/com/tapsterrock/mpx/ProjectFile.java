@@ -24,7 +24,6 @@
 package com.tapsterrock.mpx;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -1060,68 +1059,6 @@ public class ProjectFile
    }
    
    /**
-    * Accessor method used to retrieve the decimal separator character.
-    * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers
-    * that appear in the MPX file.
-    *
-    * @return decimal separator character
-    */
-   public char getDecimalSeparator ()
-   {
-      return (m_decimalSeparator);
-   }
-
-   /**
-    * Modifier method used to set the decimal separator character.
-    * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers
-    * that appear in the MPX file.
-    *
-    * @param separator decimal separator character
-    */
-   public void setDecimalSeparator (char separator)
-   {
-      m_decimalSeparator = separator;
-
-      if ((m_projectHeader != null) && (m_projectHeader.getDecimalSeparator() != separator))
-      {
-         m_projectHeader.setDecimalSeparator(separator);
-      }
-   }
-
-   /**
-    * Accessor method used to retrieve the thousands separator character.
-    * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers
-    * that appear in the MPX file.
-    *
-    * @return thousands separator character
-    */
-   public char getThousandsSeparator ()
-   {
-      return (m_thousandsSeparator);
-   }
-
-   /**
-    * Modifier method used to set the thousands separator character.
-    * Note that this value is synchronized with the same value in the
-    * currency settings record. This value affects all decimal numbers
-    * that appear in the MPX file.
-    *
-    * @param separator thousands separator character
-    */
-   public void setThousandsSeparator (char separator)
-   {
-      m_thousandsSeparator = separator;
-
-      if ((m_projectHeader != null) && (m_projectHeader.getThousandsSeparator() != separator))
-      {
-         m_projectHeader.setThousandsSeparator(separator);
-      }
-   }
-
-   /**
     * Find the earliest task start date. We treat this as the
     * start date for the project.
     *
@@ -1244,28 +1181,6 @@ public class ProjectFile
    }
 
    /**
-    * Package private method used to retrieve the standard decimal format
-    * used for writing MPXDuration values.
-    *
-    * @return MPXNumberFormat instance
-    */
-   NumberFormat getDurationDecimalFormat ()
-   {
-      return (new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, m_decimalSeparator, m_thousandsSeparator));
-   }
-
-   /**
-    * Package private method used to retrieve the standard decimal format
-    * used for writing MPXPercentage values.
-    *
-    * @return MPXNumberFormat instance
-    */
-   NumberFormat getPercentageDecimalFormat ()
-   {
-      return (new MPXNumberFormat("##0.##", m_decimalSeparator, m_thousandsSeparator));
-   }
-
-   /**
     * This method is called to alert project listeners to the fact that
     * a task has been read from a project file.
     * 
@@ -1385,8 +1300,6 @@ public class ProjectFile
       m_locale = locale;
 
       m_delimiter = LocaleData.getChar(m_locale, LocaleData.FILE_DELIMITER);
-      m_thousandsSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR);
-      m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
       m_fileCreationRecord.setLocale(locale);
       m_projectHeader.setLocale(locale);
       m_dateTimeFormat.setLocale(locale);
@@ -1879,20 +1792,6 @@ public class ProjectFile
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoResourceID;
-
-   /**
-    * Default thousands separator character. Despite the fact that this
-    * value appears as part of the CurrencySettings, it is in fact a global
-    * setting, which is why this attribute is defined here.
-    */
-   private char m_thousandsSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR);
-
-   /**
-    * Default decimal separator character. Despite the fact that this
-    * value appears as part of the CurrencySettings, it is in fact a global
-    * setting, which is why this attribute is defined here.
-    */
-   private char m_decimalSeparator = LocaleData.getChar(m_locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR);
 
    /**
     * Maps from a task field number to a task alias.

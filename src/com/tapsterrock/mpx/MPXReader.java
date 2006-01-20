@@ -711,7 +711,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  resource.set(x, m_projectFile.getPercentageDecimalFormat().parse(field));
+                  resource.set(x, m_formats.getPercentageDecimalFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -754,7 +754,7 @@ public final class MPXReader extends AbstractProjectReader
             case Resource.WORK:
             case Resource.WORK_VARIANCE:
             {
-               resource.set (x, MPXDuration.getInstance (field, m_projectFile.getDurationDecimalFormat(), m_projectFile.getLocale()));
+               resource.set (x, MPXDuration.getInstance (field, m_formats.getDurationDecimalFormat(), m_projectFile.getLocale()));
                break;
             }
    
@@ -817,7 +817,9 @@ public final class MPXReader extends AbstractProjectReader
                end = length;
             }
    
-            list.add(new Relation(data.substring(start, end).trim(), m_projectFile));
+            Relation relation = new Relation (m_projectFile);
+            populateRelation(data.substring(start, end).trim(), relation);
+            list.add(relation);
    
             start = end + 1;
          }
@@ -825,7 +827,88 @@ public final class MPXReader extends AbstractProjectReader
       
       return (list);
    }
+
+   /**
+    * Populates an individual relation.
+    * 
+    * @param relationship relationship string
+    * @param relation relation instance
+    * @throws MPXException
+    */
+   private void populateRelation (String relationship, Relation relation)
+      throws MPXException
+   {
+      int index = 0;
+      int length = relationship.length();
    
+      //
+      // Extract the identifier
+      //
+      while ((index < length) && (Character.isDigit(relationship.charAt(index)) == true))
+      {
+         ++index;
+      }
+   
+      try
+      {
+         relation.setTaskIDValue(Integer.parseInt(relationship.substring(0, index)));         
+      }
+   
+      catch (NumberFormatException ex)
+      {
+         throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationship + "'");
+      }
+   
+      //
+      // Now find the task, so we can extract the unique ID      
+      //
+      Task task = m_projectFile.getTaskByID(relation.getTaskIDValue());
+      if (task != null)
+      {
+         relation.setTaskUniqueIDValue(task.getUniqueIDValue());
+      }
+      
+      //
+      // If we haven't reached the end, we next expect to find
+      // SF, SS, FS, FF
+      //
+      if (index == length)
+      {
+         relation.setType(RelationType.FINISH_START);
+         relation.setDuration(MPXDuration.getInstance(0, TimeUnit.DAYS));
+      }
+      else
+      {
+         if ((index + 1) == length)
+         {
+            throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationship + "'");
+         }
+   
+         String relationType = relationship.substring(index, index + 2);
+         relation.setType(RelationType.getInstance(m_locale, relationship.substring(index, index + 2)));         
+         if (relation.getType() == null)
+         {
+            throw new MPXException(MPXException.INVALID_FORMAT + " '" + relationType + "'");
+         }
+   
+         index += 2;
+   
+         if (index == length)
+         {
+            relation.setDuration(MPXDuration.getInstance(0, TimeUnit.DAYS));
+         }
+         else
+         {
+            if (relationship.charAt(index) == '+')
+            {
+               ++index;
+            }
+   
+            relation.setDuration(MPXDuration.getInstance(relationship.substring(index), m_formats.getDurationDecimalFormat(), m_locale));
+         }
+      }
+   }
+
    /**
     * Populates a task instance.
     * 
@@ -877,7 +960,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, m_projectFile.getPercentageDecimalFormat().parse(field));
+                  task.set(x, m_formats.getPercentageDecimalFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -932,7 +1015,7 @@ public final class MPXReader extends AbstractProjectReader
             case Task.WORK_VARIANCE:
             case Task.DELAY:
             {
-               task.set(x, MPXDuration.getInstance(field, m_projectFile.getDurationDecimalFormat(), m_projectFile.getLocale()));
+               task.set(x, MPXDuration.getInstance(field, m_formats.getDurationDecimalFormat(), m_projectFile.getLocale()));
                break;
             }
    

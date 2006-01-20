@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -55,8 +54,6 @@ public final class MPXWriter extends AbstractProjectWriter
       m_dateFormat = projectFile.getDateFormat();
       m_timeFormat = projectFile.getTimeFormat();
       m_dateTimeFormat = projectFile.getDateTimeFormat();
-      m_percentageDecimalFormat = projectFile.getPercentageDecimalFormat();
-      m_durationDecimalFormat = projectFile.getDurationDecimalFormat();
       
       try
       {
@@ -75,8 +72,6 @@ public final class MPXWriter extends AbstractProjectWriter
          m_dateFormat = null;
          m_timeFormat = null;
          m_dateTimeFormat = null;
-         m_percentageDecimalFormat = null;
-         m_durationDecimalFormat = null;
       }
    }
    
@@ -1033,7 +1028,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatPercentage (Number value)
    {
-      return (value==null?null:m_percentageDecimalFormat.format(value) + "%");      
+      return (value==null?null:m_formats.getPercentageDecimalFormat().format(value) + "%");
    }
 
    /**
@@ -1068,7 +1063,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatDuration (MPXDuration value)
    {
-      return (value==null?null:m_durationDecimalFormat.format(value.getDuration()) + formatTimeUnit(value.getUnits()));
+      return (value==null?null:m_formats.getDurationDecimalFormat().format(value.getDuration()) + formatTimeUnit(value.getUnits()));
    }
 
    /**
@@ -1307,6 +1302,4 @@ public final class MPXWriter extends AbstractProjectWriter
    private DateFormat m_timeFormat;
    private DateFormat m_dateTimeFormat;
    private DateFormat m_dateFormat;
-   private NumberFormat m_percentageDecimalFormat;
-   private NumberFormat m_durationDecimalFormat;
 }

@@ -395,7 +395,7 @@ final class Record
       {
          try
          {
-            double value = m_parent.getPercentageDecimalFormat().parse(m_fields[field]).doubleValue();
+            double value = m_formats.getPercentageDecimalFormat().parse(m_fields[field]).doubleValue();
             result = NumberUtility.getDouble(value);
          }
          
@@ -428,7 +428,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = MPXDuration.getInstance(m_fields[field], m_parent.getDurationDecimalFormat(), m_parent.getLocale());
+         result = MPXDuration.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_parent.getLocale());
       }
       else
       {

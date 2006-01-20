@@ -1717,10 +1717,6 @@ public final class ProjectHeader extends MPXRecord
    public void setThousandsSeparator (char sep)
    {
       m_thousandsSeparator = sep;
-      if (getParentFile().getThousandsSeparator() != sep)
-      {
-         getParentFile().setThousandsSeparator(sep);
-      }
    }
 
    /**
@@ -1760,10 +1756,6 @@ public final class ProjectHeader extends MPXRecord
    public void setDecimalSeparator (char decSep)
    {
       m_decimalSeparator = decSep;
-      if (getParentFile().getDecimalSeparator() != decSep)
-      {
-         getParentFile().setDecimalSeparator(decSep);
-      }
    }
 
    /**
