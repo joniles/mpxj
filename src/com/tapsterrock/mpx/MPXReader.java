@@ -43,7 +43,7 @@ public final class MPXReader extends AbstractProjectReader
     */
    public ProjectFile read (InputStream is)
       throws MPXException
-   {
+   {      
       int line = 1;
    
       try
@@ -71,6 +71,11 @@ public final class MPXReader extends AbstractProjectReader
          m_projectFile = new ProjectFile ();
          m_projectFile.setLocale(m_locale);
          m_projectFile.setDelimiter((char)data[3]);
+         m_taskModel = new TaskModel(m_projectFile);
+         m_taskModel.setLocale(m_locale);
+         m_resourceModel = new ResourceModel(m_projectFile);
+         m_resourceModel.setLocale(m_locale);
+         m_baseOutlineLevel = -1;
          
          bis.reset();
    
@@ -89,7 +94,7 @@ public final class MPXReader extends AbstractProjectReader
          //
          // Add the header record
          //
-         m_projectFile.add(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_projectFile, tk));
+         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_projectFile, tk));
          ++line;
    
          //
@@ -113,7 +118,7 @@ public final class MPXReader extends AbstractProjectReader
    
             if (number != null)
             {
-               m_projectFile.add(number, record);
+               parseRecord(number, record);
             }
             
             ++line;
@@ -141,15 +146,294 @@ public final class MPXReader extends AbstractProjectReader
       {
          throw new MPXException(MPXException.READ_ERROR + " (failed at line " + line + ")", ex);
       }      
+      
+      finally
+      {
+         m_projectFile = null;
+         m_lastTask = null;
+         m_lastResource = null;
+         m_lastResourceCalendar = null;
+         m_lastResourceAssignment = null;
+         m_lastBaseCalendar = null;   
+         m_resourceTableDefinition = false;
+         m_taskTableDefinition = false;   
+         m_taskModel = null;
+         m_resourceModel = null;            
+      }
    }
      
+   /**
+    * Parse an MPX record.
+    * 
+    * @param recordNumber record number
+    * @param record record data
+    * @throws MPXException
+    */
+   private void parseRecord (String recordNumber, Record record)
+      throws MPXException
+   {
+      switch (Integer.parseInt(recordNumber))
+      {
+         case MPXConstants.COMMENTS_RECORD_NUMBER:
+         {
+            // silently ignored
+            break;
+         }
+   
+         case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER:
+         {
+            populateCurrencySettings(record, m_projectFile.getProjectHeader());
+            break;
+         }
+   
+         case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER:
+         {
+            populateDefaultSettings(record, m_projectFile.getProjectHeader());
+            break;
+         }
+   
+         case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER:
+         {
+            populateDateTimeSettings(record, m_projectFile.getProjectHeader());
+            break;
+         }
+   
+         case MPXConstants.BASE_CALENDAR_RECORD_NUMBER:
+         {
+            m_lastBaseCalendar = m_projectFile.addBaseCalendar();
+            populateCalendar(record, m_lastBaseCalendar);
+            break;
+         }
+   
+         case MPXConstants.BASE_CALENDAR_HOURS_RECORD_NUMBER:
+         {
+            if (m_lastBaseCalendar != null)
+            {
+               MPXCalendarHours hours = m_lastBaseCalendar.addCalendarHours();
+               populateCalendarHours(record, hours);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.BASE_CALENDAR_EXCEPTION_RECORD_NUMBER:
+         {
+            if (m_lastBaseCalendar != null)
+            {
+               MPXCalendarException exception = m_lastBaseCalendar.addCalendarException();
+               populateCalendarException(record, exception);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.PROJECT_HEADER_RECORD_NUMBER:
+         {
+            populateProjectHeader(record, m_projectFile.getProjectHeader());
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER:
+         {
+            if ((m_resourceTableDefinition == false) && (m_ignoreTextModels == false))
+            {
+               m_resourceModel.update(record, true);
+               m_resourceTableDefinition = true;
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER:
+         {
+            if (m_resourceTableDefinition == false)
+            {
+               m_resourceModel.update(record, false);
+               m_resourceTableDefinition = true;
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_RECORD_NUMBER:
+         {
+            m_lastResource = m_projectFile.addResource();
+            populateResource(m_lastResource, record);
+            m_projectFile.fireResourceReadEvent(m_lastResource);            
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_NOTES_RECORD_NUMBER:
+         {
+            if (m_lastResource != null)
+            {
+               m_lastResource.setNotes(record.getString(0));
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER:
+         {
+            if (m_lastResource != null)
+            {
+               m_lastResourceCalendar = m_lastResource.addResourceCalendar();
+               populateCalendar(record, m_lastResourceCalendar);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER:
+         {
+            if (m_lastResourceCalendar != null)
+            {
+               MPXCalendarHours hours = m_lastResourceCalendar.addCalendarHours();
+               populateCalendarHours(record, hours);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER:
+         {
+            if (m_lastResourceCalendar != null)
+            {
+               MPXCalendarException exception = m_lastResourceCalendar.addCalendarException();
+               populateCalendarException(record, exception);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.TASK_MODEL_TEXT_RECORD_NUMBER:
+         {
+            if ((m_taskTableDefinition == false) && (m_ignoreTextModels == false))
+            {
+               m_taskModel.update(record, true);
+               m_taskTableDefinition = true;
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.TASK_MODEL_NUMERIC_RECORD_NUMBER:
+         {
+            if (m_taskTableDefinition == false)
+            {
+               m_taskModel.update(record, false);
+               m_taskTableDefinition = true;
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.TASK_RECORD_NUMBER:
+         {
+            m_lastTask = m_projectFile.addTask();
+            populateTask(record, m_lastTask);
+   
+            int outlineLevel = m_lastTask.getOutlineLevelValue();
+   
+            if (m_baseOutlineLevel == -1)
+            {
+               m_baseOutlineLevel = outlineLevel;
+            }
+   
+            List childTasks = m_projectFile.getChildTasks();
+            if (outlineLevel == m_baseOutlineLevel)
+            {
+               childTasks.add(m_lastTask);
+            }
+            else
+            {
+               if (childTasks.isEmpty() == true)
+               {
+                  throw new MPXException(MPXException.INVALID_OUTLINE);
+               }
+   
+               ((Task)childTasks.get(childTasks.size()-1)).addChildTask(m_lastTask, outlineLevel);
+            }
+   
+            m_projectFile.fireTaskReadEvent(m_lastTask);
+            break;
+         }
+   
+         case MPXConstants.TASK_NOTES_RECORD_NUMBER:
+         {
+            if (m_lastTask != null)
+            {
+               m_lastTask.setNotes(record.getString(0));
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RECURRING_TASK_RECORD_NUMBER:
+         {
+            if (m_lastTask != null)
+            {
+               RecurringTask task = m_lastTask.addRecurringTask();
+               populateRecurringTask(record, task);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER:
+         {
+            if (m_lastTask != null)
+            {
+               m_lastResourceAssignment = m_lastTask.addResourceAssignment();
+               populateResourceAssignment(record, m_lastResourceAssignment);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.RESOURCE_ASSIGNMENT_WORKGROUP_FIELDS_RECORD_NUMBER:
+         {
+            if (m_lastResourceAssignment != null)
+            {
+               ResourceAssignmentWorkgroupFields workgroup = m_lastResourceAssignment.addWorkgroupAssignment();
+               populateResourceAssignmentWorkgroupFields(record, workgroup);
+            }
+   
+            break;
+         }
+   
+         case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
+         {
+            // silently ignored
+            break;
+         }
+   
+         case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
+         {
+            // silently ignored
+            break;
+         }
+   
+         case MPXConstants.FILE_CREATION_RECORD_NUMBER:
+         {
+            populateFileCreationRecord(record, m_projectFile.getFileCreationRecord());
+            break;
+         }
+   
+         default:
+         {
+            throw new MPXException(MPXException.INVALID_RECORD);
+         }
+      }
+   }
+   
    /**
     * Populates currency settings.
     * 
     * @param record MPX record
     * @param projectHeader project header
     */
-   static void populateCurrencySettings (Record record, ProjectHeader projectHeader)
+   private void populateCurrencySettings (Record record, ProjectHeader projectHeader)
    {
       projectHeader.setCurrencySymbol (record.getString(0));
       projectHeader.setSymbolPosition (record.getCurrencySymbolPosition(1));
@@ -175,7 +459,7 @@ public final class MPXReader extends AbstractProjectReader
     * @param projectHeader project header
     * @throws MPXException
     */
-   static void populateDefaultSettings (Record record, ProjectHeader projectHeader)
+   private void populateDefaultSettings (Record record, ProjectHeader projectHeader)
       throws MPXException
    {
       projectHeader.setDefaultDurationUnits(record.getTimeUnit(0));
@@ -195,7 +479,7 @@ public final class MPXReader extends AbstractProjectReader
     * @param record MPX record
     * @param projectHeader project header instance
     */
-   static void populateDateTimeSettings (Record record, ProjectHeader projectHeader)
+   private void populateDateTimeSettings (Record record, ProjectHeader projectHeader)
    {
       projectHeader.setDateOrder(record.getDateOrder(0));
       projectHeader.setTimeFormat(record.getTimeFormat(1));   
@@ -225,7 +509,7 @@ public final class MPXReader extends AbstractProjectReader
     * @param time integer time
     * @return Date instance
     */
-   private static Date getTimeFromInteger (Integer time)
+   private Date getTimeFromInteger (Integer time)
    {
       Date result = null;
       
@@ -254,7 +538,7 @@ public final class MPXReader extends AbstractProjectReader
     * @param projectHeader project header instance
     * @throws MPXException
     */
-   static void populateProjectHeader (Record record, ProjectHeader projectHeader)
+   private void populateProjectHeader (Record record, ProjectHeader projectHeader)
       throws MPXException
    {
       projectHeader.setProjectTitle(record.getString(0));
@@ -295,7 +579,7 @@ public final class MPXReader extends AbstractProjectReader
     * @param hours calendar hours instance
     * @throws MPXException
     */
-   static void populateCalendarHours (Record record, MPXCalendarHours hours)
+   private void populateCalendarHours (Record record, MPXCalendarHours hours)
       throws MPXException
    {
       hours.setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
@@ -311,7 +595,7 @@ public final class MPXReader extends AbstractProjectReader
     * @param exception calendar exception instance
     * @throws MPXException
     */
-   static void populateCalendarException(Record record, MPXCalendarException exception)
+   private void populateCalendarException(Record record, MPXCalendarException exception)
       throws MPXException
    {
       exception.setFromDate(record.getDate(0));
@@ -328,11 +612,10 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populates a calendar instance.
     * 
-    * @param file parent file
     * @param record MPX record
     * @param calendar calendar instance
     */
-   static void populateCalendar(ProjectFile file, Record record, MPXCalendar calendar)
+   private void populateCalendar(Record record, MPXCalendar calendar)
    {
       if (calendar.isBaseCalendar() == true)
       {
@@ -340,7 +623,7 @@ public final class MPXReader extends AbstractProjectReader
       }
       else
       {         
-         calendar.setBaseCalendar (file.getBaseCalendar(record.getString(0)));
+         calendar.setBaseCalendar (m_projectFile.getBaseCalendar(record.getString(0)));
       }
 
       calendar.setWorkingDay(Day.SUNDAY, record.getInteger(1));
@@ -355,19 +638,16 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populates a resource.
     * 
-    * @param file project file instance
     * @param resource resource instance
     * @param record MPX record
     * @throws MPXException
     */
-   static void populateResource (ProjectFile file, Resource resource, Record record)
+   private void populateResource (Resource resource, Record record)
       throws MPXException
    {
-      ResourceModel resourceModel = file.getResourceModel();
-   
       int i = 0;
       int length = record.getLength();
-      int[] model = resourceModel.getModel();
+      int[] model = m_resourceModel.getModel();
    
       while (i < length)
       {
@@ -408,7 +688,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  resource.set (x, new Double(file.getUnitsDecimalFormat().parse(field).doubleValue() * 100));
+                  resource.set (x, new Double(m_projectFile.getUnitsDecimalFormat().parse(field).doubleValue() * 100));
                }
                
                catch (ParseException ex)
@@ -424,7 +704,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  resource.set(x, file.getPercentageDecimalFormat().parse(field));
+                  resource.set(x, m_projectFile.getPercentageDecimalFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -443,7 +723,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  resource.set(x, file.getCurrencyFormat().parse(field));
+                  resource.set(x, m_projectFile.getCurrencyFormat().parse(field));
                }
                 
                catch (ParseException ex)
@@ -456,7 +736,7 @@ public final class MPXReader extends AbstractProjectReader
             case Resource.OVERTIME_RATE:
             case Resource.STANDARD_RATE:
             {
-               resource.set (x, new MPXRate(file.getCurrencyFormat(), field, file.getLocale()));
+               resource.set (x, new MPXRate(m_projectFile.getCurrencyFormat(), field, m_projectFile.getLocale()));
                break;
             }
    
@@ -467,13 +747,13 @@ public final class MPXReader extends AbstractProjectReader
             case Resource.WORK:
             case Resource.WORK_VARIANCE:
             {
-               resource.set (x, MPXDuration.getInstance (field, file.getDurationDecimalFormat(), file.getLocale()));
+               resource.set (x, MPXDuration.getInstance (field, m_projectFile.getDurationDecimalFormat(), m_projectFile.getLocale()));
                break;
             }
    
             case Resource.ACCRUE_AT:
             {
-               resource.set (x, AccrueType.getInstance (field, file.getLocale()));
+               resource.set (x, AccrueType.getInstance (field, m_projectFile.getLocale()));
                break;
             }
    
@@ -491,14 +771,14 @@ public final class MPXReader extends AbstractProjectReader
          }
       }
    
-      if (file.getAutoResourceUniqueID() == true)
+      if (m_projectFile.getAutoResourceUniqueID() == true)
       {
-         resource.setUniqueID (file.getResourceUniqueID ());
+         resource.setUniqueID (m_projectFile.getResourceUniqueID ());
       }
    
-      if (file.getAutoResourceID() == true)
+      if (m_projectFile.getAutoResourceID() == true)
       {
-         resource.setID (file.getResourceID ());
+         resource.setID (m_projectFile.getResourceID ());
       }
    }
    
@@ -506,17 +786,16 @@ public final class MPXReader extends AbstractProjectReader
     * Populates a relation list.
     * 
     * @param data MPX relation list data
-    * @param file parent file
     * @return relation list
     * @throws MPXException
     */
-   private static List populateRelationList (String data, ProjectFile file)
+   private List populateRelationList (String data)
       throws MPXException
    {
       List list = new LinkedList ();
       
       int length = data.length();
-      char sepchar = file.getDelimiter();
+      char sepchar = m_projectFile.getDelimiter();
       
       if (length != 0)
       {
@@ -532,7 +811,7 @@ public final class MPXReader extends AbstractProjectReader
                end = length;
             }
    
-            list.add(new Relation(data.substring(start, end).trim(), file));
+            list.add(new Relation(data.substring(start, end).trim(), m_projectFile));
    
             start = end + 1;
          }
@@ -544,24 +823,21 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populates a task instance.
     * 
-    * @param file parent file
     * @param record MPX record
     * @param task task instance
     * @throws MPXException
     */
-   static void populateTask (ProjectFile file, Record record, Task task)
+   private void populateTask (Record record, Task task)
       throws MPXException
    {
-      String falseText = LocaleData.getString(file.getLocale(), LocaleData.NO);
-   
-      TaskModel taskModel = file.getTaskModel();
+      String falseText = LocaleData.getString(m_projectFile.getLocale(), LocaleData.NO);
    
       int x = 0;
       String field;
    
       int i = 0;
       int length = record.getLength();
-      int[] model = taskModel.getModel();
+      int[] model = m_taskModel.getModel();
    
       while (i < length)
       {
@@ -586,7 +862,7 @@ public final class MPXReader extends AbstractProjectReader
             case Task.UNIQUE_ID_PREDECESSORS:
             case Task.UNIQUE_ID_SUCCESSORS:
             {
-               task.set(x, populateRelationList(field, file));
+               task.set(x, populateRelationList(field));
                break;
             }
    
@@ -595,7 +871,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, file.getPercentageDecimalFormat().parse(field));
+                  task.set(x, m_projectFile.getPercentageDecimalFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -621,7 +897,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, file.getCurrencyFormat().parse(field));
+                  task.set(x, m_projectFile.getCurrencyFormat().parse(field));
                }
                 
                catch (ParseException ex)
@@ -650,7 +926,7 @@ public final class MPXReader extends AbstractProjectReader
             case Task.WORK_VARIANCE:
             case Task.DELAY:
             {
-               task.set(x, MPXDuration.getInstance(field, file.getDurationDecimalFormat(), file.getLocale()));
+               task.set(x, MPXDuration.getInstance(field, m_projectFile.getDurationDecimalFormat(), m_projectFile.getLocale()));
                break;
             }
    
@@ -682,7 +958,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, file.getDateTimeFormat().parse(field));
+                  task.set(x, m_projectFile.getDateTimeFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -719,7 +995,7 @@ public final class MPXReader extends AbstractProjectReader
    
             case Task.CONSTRAINT_TYPE:
             {
-               task.set(x, ConstraintType.getInstance(file.getLocale(), field));
+               task.set(x, ConstraintType.getInstance(m_projectFile.getLocale(), field));
                break;
             }
    
@@ -750,7 +1026,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, file.getDecimalFormat().parse(field));
+                  task.set(x, m_projectFile.getDecimalFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -763,7 +1039,7 @@ public final class MPXReader extends AbstractProjectReader
    
             case Task.PRIORITY:
             {
-               task.set(x, Priority.getInstance(file.getLocale(), field));
+               task.set(x, Priority.getInstance(m_projectFile.getLocale(), field));
                break;
             }
    
@@ -775,29 +1051,29 @@ public final class MPXReader extends AbstractProjectReader
          }
       }
 
-      if (file.getAutoWBS() == true)
+      if (m_projectFile.getAutoWBS() == true)
       {
          task.generateWBS(null);
       }
    
-      if (file.getAutoOutlineNumber() == true)
+      if (m_projectFile.getAutoOutlineNumber() == true)
       {
          task.generateOutlineNumber(null);
       }
    
-      if (file.getAutoOutlineLevel() == true)
+      if (m_projectFile.getAutoOutlineLevel() == true)
       {
          task.setOutlineLevel(1);
       }
    
-      if (file.getAutoTaskUniqueID() == true)
+      if (m_projectFile.getAutoTaskUniqueID() == true)
       {
-         task.setUniqueID(file.getTaskUniqueID());
+         task.setUniqueID(m_projectFile.getTaskUniqueID());
       }
    
-      if (file.getAutoTaskID() == true)
+      if (m_projectFile.getAutoTaskID() == true)
       {
-         task.setID(file.getTaskID());
+         task.setID(m_projectFile.getTaskID());
       }
    
       if (task.getFixedValue() == true)
@@ -813,12 +1089,11 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populates a recurring task.
     * 
-    * @param file parent file
     * @param record MPX record
     * @param task recurring task
     * @throws MPXException
     */
-   static void populateRecurringTask (ProjectFile file, Record record, RecurringTask task)
+   private void populateRecurringTask (Record record, RecurringTask task)
       throws MPXException
    {
       task.setTaskUniqueID(record.getInteger(0));
@@ -850,12 +1125,11 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populate a resource assignment.
     * 
-    * @param file parent file
     * @param record MPX record
     * @param assignment resource assignment
     * @throws MPXException
     */
-   static void populateResourceAssignment (ProjectFile file, Record record, ResourceAssignment assignment)
+   private void populateResourceAssignment (Record record, ResourceAssignment assignment)
       throws MPXException
    {
       assignment.setResourceID(record.getInteger(0));
@@ -881,7 +1155,7 @@ public final class MPXReader extends AbstractProjectReader
       {
          if (work.getUnits() != actualWork.getUnits())
          {
-            actualWork = actualWork.convertUnits(work.getUnits(), file.getProjectHeader());
+            actualWork = actualWork.convertUnits(work.getUnits(), m_projectFile.getProjectHeader());
          }
          
          assignment.setRemainingWork(MPXDuration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
@@ -897,12 +1171,11 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populate a resource assignment workgroup instance.
     * 
-    * @param file parent file
     * @param record MPX record
     * @param workgroup workgroup instance
     * @throws MPXException
     */
-   static void populateResourceAssignmentWorkgroupFields (ProjectFile file, Record record, ResourceAssignmentWorkgroupFields workgroup)
+   private void populateResourceAssignmentWorkgroupFields (Record record, ResourceAssignmentWorkgroupFields workgroup)
       throws MPXException
    {
       workgroup.setMessageUniqueID(record.getString(0));
@@ -946,6 +1219,58 @@ public final class MPXReader extends AbstractProjectReader
       m_locale = locale;
    }
 
+   /**
+    * This method sets the flag indicating that the text version of the
+    * Task and Resource Table Definition records should be ignored. Ignoring
+    * these records gets around the problem where MPX files have been generated
+    * with incorrect taks or resource field names, but correct task or resource
+    * field numbers in the numeric version of the record.
+    *
+    * @param flag Boolean flag
+    */
+   public void setIgnoreTextModels (boolean flag)
+   {
+      m_ignoreTextModels = flag;
+   }
+
+   /**
+    * Retrieves the flag indicating that the text version of the Task and
+    * Resource Table Definition records should be ignored.
+    *
+    * @return Boolean flag
+    */
+   public boolean getIgnoreTextModels ()
+   {
+      return (m_ignoreTextModels);
+   }
+
    private Locale m_locale = Locale.ENGLISH;   
+   private boolean m_ignoreTextModels = true;
+
+   /**
+    * Transient working data.
+    */
    private ProjectFile m_projectFile;
+   private Task m_lastTask;
+   private Resource m_lastResource;
+   private MPXCalendar m_lastResourceCalendar;
+   private ResourceAssignment m_lastResourceAssignment;
+   private MPXCalendar m_lastBaseCalendar;   
+   private boolean m_resourceTableDefinition;
+   private boolean m_taskTableDefinition;   
+   private TaskModel m_taskModel;
+   private ResourceModel m_resourceModel;   
+   
+   /**
+    * This member data is used to hold the outline level number of the
+    * first outline level used in the MPX file. When data from
+    * Microsoft Project is saved in MPX format, MSP creates an invisible
+    * task with an outline level as zero, which acts as an umbrella
+    * task for all of the other tasks defined in the file. This is not
+    * a strict requirement, and an MPX file could be generated from another
+    * source that only contains "visible" tasks that have outline levels
+    * >= 1.
+    */
+   private int m_baseOutlineLevel;
+
 }

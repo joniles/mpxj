@@ -323,6 +323,7 @@ public final class Task extends MPXRecord implements Comparable, ExtendedAttribu
    {
       ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
       m_assignments.add(assignment);            
+      getParentFile().getAllResourceAssignments().add(assignment);
       return (assignment);
    }
 
