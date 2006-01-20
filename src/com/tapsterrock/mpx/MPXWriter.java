@@ -51,13 +51,11 @@ public final class MPXWriter extends AbstractProjectWriter
       m_locale = projectFile.getLocale();
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
       m_buffer = new StringBuffer();
-      m_decimalFormat = projectFile.getDecimalFormat();      
-      m_currencyFormat = projectFile.getCurrencyFormat();
+      m_formats = new MPXFormats(m_projectFile);
       m_dateFormat = projectFile.getDateFormat();
       m_timeFormat = projectFile.getTimeFormat();
       m_dateTimeFormat = projectFile.getDateTimeFormat();
       m_percentageDecimalFormat = projectFile.getPercentageDecimalFormat();
-      m_unitsDecimalFormat = projectFile.getUnitsDecimalFormat();
       m_durationDecimalFormat = projectFile.getDurationDecimalFormat();
       
       try
@@ -73,13 +71,11 @@ public final class MPXWriter extends AbstractProjectWriter
          m_taskModel = null;
          m_buffer = null;
          m_locale = null;
-         m_decimalFormat = null;         
-         m_currencyFormat = null;
+         m_formats = null;
          m_dateFormat = null;
          m_timeFormat = null;
          m_dateTimeFormat = null;
          m_percentageDecimalFormat = null;
-         m_unitsDecimalFormat = null;
          m_durationDecimalFormat = null;
       }
    }
@@ -921,7 +917,7 @@ public final class MPXWriter extends AbstractProjectWriter
          {
             if (o instanceof Float == true || o instanceof Double == true)
             {
-               result = (m_decimalFormat.format(((Number)o).doubleValue()));
+               result = (m_formats.getDecimalFormat().format(((Number)o).doubleValue()));
             }
             else
             {
@@ -993,7 +989,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatCurrency (Number value)
    {
-      return (value==null?null:m_currencyFormat.format(value));
+      return (value==null?null:m_formats.getCurrencyFormat().format(value));
    }
    
    /**
@@ -1004,7 +1000,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */   
    private String formatUnits (Number value)
    {
-      return (value==null?null:m_unitsDecimalFormat.format(value.doubleValue()/100));
+      return (value==null?null:m_formats.getUnitsDecimalFormat().format(value.doubleValue()/100));
    }
    
    /**
@@ -1083,7 +1079,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatRate (MPXRate value)
    {
-      StringBuffer buffer = new StringBuffer (m_currencyFormat.format(value.getAmount()));
+      StringBuffer buffer = new StringBuffer (m_formats.getCurrencyFormat().format(value.getAmount()));
       buffer.append ("/");
       buffer.append (formatTimeUnit(value.getUnits()));
       return (buffer.toString());
@@ -1279,6 +1275,26 @@ public final class MPXWriter extends AbstractProjectWriter
       
       return (value);
    }
+
+   /**
+    * Accessor method to retrieve the current file delimiter character.
+    *
+    * @return delimiter character
+    */
+   public char getDelimiter ()
+   {
+      return (m_delimiter);
+   }
+
+   /**
+    * Modifier method used to set the delimiter character.
+    *
+    * @param delimiter delimiter character
+    */
+   public void setDelimiter (char delimiter)
+   {
+      m_delimiter = delimiter;
+   }
    
    private ProjectFile m_projectFile;
    private OutputStreamWriter m_writer;
@@ -1287,12 +1303,10 @@ public final class MPXWriter extends AbstractProjectWriter
    private char m_delimiter;
    private Locale m_locale;
    private StringBuffer m_buffer;
-   private NumberFormat m_decimalFormat;
+   private MPXFormats m_formats;
    private DateFormat m_timeFormat;
-   private NumberFormat m_currencyFormat;
    private DateFormat m_dateTimeFormat;
    private DateFormat m_dateFormat;
    private NumberFormat m_percentageDecimalFormat;
-   private NumberFormat m_unitsDecimalFormat;
    private NumberFormat m_durationDecimalFormat;
 }

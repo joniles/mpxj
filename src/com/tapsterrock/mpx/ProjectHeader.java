@@ -317,14 +317,11 @@ public final class ProjectHeader extends MPXRecord
     */
    void setLocale (Locale locale)
    {
-      m_updateCurrencyFormat = false;
       setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
       setSymbolPosition((CurrencySymbolPosition)LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
       setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-      m_updateCurrencyFormat = true;
-      updateCurrencyFormats ();
 
       m_updateDateTimeFormats = false;
       setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
@@ -1658,7 +1655,6 @@ public final class ProjectHeader extends MPXRecord
       }
       
       m_currencySymbol = symbol;
-      updateCurrencyFormats();
    }
 
    /**
@@ -1679,7 +1675,6 @@ public final class ProjectHeader extends MPXRecord
    public void setSymbolPosition (CurrencySymbolPosition posn)
    {
       m_symbolPosition = posn;
-      updateCurrencyFormats();
    }
 
    /**
@@ -1700,7 +1695,6 @@ public final class ProjectHeader extends MPXRecord
    public void setCurrencyDigits (Integer currDigs)
    {
       m_currencyDigits = currDigs;
-      updateCurrencyFormats();
    }
 
    /**
@@ -1723,7 +1717,6 @@ public final class ProjectHeader extends MPXRecord
    public void setThousandsSeparator (char sep)
    {
       m_thousandsSeparator = sep;
-      updateCurrencyFormats();
       if (getParentFile().getThousandsSeparator() != sep)
       {
          getParentFile().setThousandsSeparator(sep);
@@ -1767,7 +1760,6 @@ public final class ProjectHeader extends MPXRecord
    public void setDecimalSeparator (char decSep)
    {
       m_decimalSeparator = decSep;
-      updateCurrencyFormats();
       if (getParentFile().getDecimalSeparator() != decSep)
       {
          getParentFile().setDecimalSeparator(decSep);
@@ -2626,93 +2618,6 @@ public final class ProjectHeader extends MPXRecord
    }
    
    
-   /**
-    * This method updates the formatters used to control the currency
-    * formatting.
-    */
-   private void updateCurrencyFormats ()
-   {
-      if (m_updateCurrencyFormat == true)
-      {
-         ProjectFile parent = getParentFile();
-         String prefix = "";
-         String suffix = "";
-         String currencySymbol = quoteFormatCharacters (getCurrencySymbol());
-
-         switch (getSymbolPosition().getValue())
-         {
-            case CurrencySymbolPosition.AFTER_VALUE:
-            {
-               suffix = currencySymbol;
-               break;
-            }
-
-            case CurrencySymbolPosition.BEFORE_VALUE:
-            {
-               prefix = currencySymbol;
-               break;
-            }
-
-            case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
-            {
-               suffix = " " + currencySymbol;
-               break;
-            }
-
-            case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
-            {
-               prefix = currencySymbol + " ";
-               break;
-            }
-         }
-
-         StringBuffer pattern = new StringBuffer(prefix);
-         pattern.append("#0");
-
-         int digits = getCurrencyDigits().intValue();
-         if (digits > 0)
-         {
-            pattern.append('.');
-            for(int i = 0 ; i < digits ; i++)
-            {
-               pattern.append("0");
-            }
-         }
-
-         pattern.append(suffix);
-
-         String primaryPattern = pattern.toString();
-         
-         String[] alternativePatterns = new String[7];
-         alternativePatterns[0] = primaryPattern + ";(" + primaryPattern + ")";
-         pattern.insert(prefix.length(), "#,#");
-         String secondaryPattern = pattern.toString();
-         alternativePatterns[1] = secondaryPattern;
-         alternativePatterns[2] = secondaryPattern + ";(" + secondaryPattern + ")";
-
-         pattern.setLength(0);
-         pattern.append("#0");
-
-         if (digits > 0)
-         {
-            pattern.append('.');
-            for(int i = 0 ; i < digits ; i++)
-            {
-               pattern.append("0");
-            }
-         }
-         
-         String noSymbolPrimaryPattern = pattern.toString();
-         alternativePatterns[3] = noSymbolPrimaryPattern;
-         alternativePatterns[4] = noSymbolPrimaryPattern + ";(" + noSymbolPrimaryPattern + ")";
-         pattern.insert(0, "#,#");
-         String noSymbolSecondaryPattern = pattern.toString();
-         alternativePatterns[5] = noSymbolSecondaryPattern;
-         alternativePatterns[6] = noSymbolSecondaryPattern + ";(" + noSymbolSecondaryPattern + ")";
-
-         parent.setCurrencyFormat(primaryPattern, alternativePatterns, getDecimalSeparator(), getThousandsSeparator());
-      }
-   }
 
    /**
     * This method is used to quote any special characters that appear in
@@ -2785,13 +2690,6 @@ public final class ProjectHeader extends MPXRecord
    private Integer m_currencyDigits;
    private char m_thousandsSeparator;
    private char m_decimalSeparator;
-
-   /**
-    * flag used to indicate whether the currency format
-    * can be automatically updated. The default value for this
-    * flag is false.
-    */
-   private boolean m_updateCurrencyFormat;
 
    /**
     * Default Settings Attributes.

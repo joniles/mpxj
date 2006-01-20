@@ -36,29 +36,23 @@ import java.util.LinkedList;
 final class Record
 {
    /**
-    * Default constructor used to create an empty record.
-    */
-   private Record ()
-   {
-      m_parent = null;
-      m_fields = new String[0];
-   }
-
-   /**
     * This constructor takes a stream of tokens and extracts the
     * fields of an individual record from those tokens.
     *
     * @param parent parent MPX file
     * @param tk tokenizer providing the input stream of tokens
+    * @param formats formats used when parsing data
     * @throws MPXException normally thrown when parsing fails
     */
-   Record (ProjectFile parent, Tokenizer tk)
+   Record (ProjectFile parent, Tokenizer tk, MPXFormats formats)
       throws MPXException
    {
       try
       {
          m_parent = parent;
 
+         m_formats = formats;
+         
          LinkedList list = new LinkedList();
 
          while (tk.nextToken() == Tokenizer.TT_WORD)
@@ -78,7 +72,7 @@ final class Record
          throw new MPXException(MPXException.INVALID_RECORD, ex);
       }
    }
-
+   
    /**
     * Retrieves the record number associated with this record.
     *
@@ -159,7 +153,7 @@ final class Record
    
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = new Float(m_parent.getDecimalFormat().parse(m_fields[field]).floatValue());
+            result = new Float(m_formats.getDecimalFormat().parse(m_fields[field]).floatValue());
          }
          else
          {
@@ -337,7 +331,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXRate(m_parent.getCurrencyFormat(), m_fields[field], m_parent.getLocale());
+         result = new MPXRate(m_formats.getCurrencyFormat(), m_fields[field], m_parent.getLocale());
       }
       else
       {
@@ -365,7 +359,7 @@ final class Record
       {
          try
          {
-            NumberFormat format = m_parent.getCurrencyFormat();
+            NumberFormat format = m_formats.getCurrencyFormat();
             double value = format.parse(m_fields[field]).doubleValue();
             result = NumberUtility.getDouble(value);
          }
@@ -462,7 +456,7 @@ final class Record
       {
          try
          {
-            result = new Double(m_parent.getUnitsDecimalFormat().parse(m_fields[field]).doubleValue() * 100);
+            result = new Double(m_formats.getUnitsDecimalFormat().parse(m_fields[field]).doubleValue() * 100);
          }
          
          catch (ParseException ex)
@@ -666,4 +660,6 @@ final class Record
     * Array of field data.
     */
    private String[] m_fields;
+   
+   private MPXFormats m_formats;
 }

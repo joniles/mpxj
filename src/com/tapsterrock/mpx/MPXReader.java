@@ -70,12 +70,14 @@ public final class MPXReader extends AbstractProjectReader
    
          m_projectFile = new ProjectFile ();
          m_projectFile.setLocale(m_locale);
-         m_projectFile.setDelimiter((char)data[3]);
+         m_delimiter = (char)data[3];
+         m_projectFile.setDelimiter(m_delimiter);
          m_taskModel = new TaskModel(m_projectFile);
          m_taskModel.setLocale(m_locale);
          m_resourceModel = new ResourceModel(m_projectFile);
          m_resourceModel.setLocale(m_locale);
          m_baseOutlineLevel = -1;
+         m_formats = new MPXFormats(m_projectFile);
          
          bis.reset();
    
@@ -86,7 +88,7 @@ public final class MPXReader extends AbstractProjectReader
          // require decoding.
          //
          Tokenizer tk = new InputStreamTokenizer(bis);
-         tk.setDelimiter(m_projectFile.getDelimiter());
+         tk.setDelimiter(m_delimiter);
    
          Record record;
          String number;
@@ -94,7 +96,7 @@ public final class MPXReader extends AbstractProjectReader
          //
          // Add the header record
          //
-         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_projectFile, tk));
+         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_projectFile, tk, m_formats));
          ++line;
    
          //
@@ -106,14 +108,14 @@ public final class MPXReader extends AbstractProjectReader
          //
          InputStreamReader reader = new InputStreamReader(bis, m_projectFile.getFileCreationRecord().getCodePage().getCharset());
          tk = new ReaderTokenizer(reader);
-         tk.setDelimiter(m_projectFile.getDelimiter());
+         tk.setDelimiter(m_delimiter);
    
          //
          // Read the remainder of the records
          //
          while (tk.getType() != Tokenizer.TT_EOF)
          {
-            record = new Record(m_projectFile, tk);
+            record = new Record(m_projectFile, tk, m_formats);
             number = record.getRecordNumber();
    
             if (number != null)
@@ -159,6 +161,7 @@ public final class MPXReader extends AbstractProjectReader
          m_taskTableDefinition = false;   
          m_taskModel = null;
          m_resourceModel = null;            
+         m_formats = null;
       }
    }
      
@@ -183,18 +186,21 @@ public final class MPXReader extends AbstractProjectReader
          case MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER:
          {
             populateCurrencySettings(record, m_projectFile.getProjectHeader());
+            m_formats.update();
             break;
          }
    
          case MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER:
          {
             populateDefaultSettings(record, m_projectFile.getProjectHeader());
+            m_formats.update();
             break;
          }
    
          case MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER:
          {
             populateDateTimeSettings(record, m_projectFile.getProjectHeader());
+            m_formats.update();
             break;
          }
    
@@ -230,6 +236,7 @@ public final class MPXReader extends AbstractProjectReader
          case MPXConstants.PROJECT_HEADER_RECORD_NUMBER:
          {
             populateProjectHeader(record, m_projectFile.getProjectHeader());
+            m_formats.update();
             break;
          }
    
@@ -688,7 +695,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  resource.set (x, new Double(m_projectFile.getUnitsDecimalFormat().parse(field).doubleValue() * 100));
+                  resource.set (x, new Double(m_formats.getUnitsDecimalFormat().parse(field).doubleValue() * 100));
                }
                
                catch (ParseException ex)
@@ -723,7 +730,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  resource.set(x, m_projectFile.getCurrencyFormat().parse(field));
+                  resource.set(x, m_formats.getCurrencyFormat().parse(field));
                }
                 
                catch (ParseException ex)
@@ -736,7 +743,7 @@ public final class MPXReader extends AbstractProjectReader
             case Resource.OVERTIME_RATE:
             case Resource.STANDARD_RATE:
             {
-               resource.set (x, new MPXRate(m_projectFile.getCurrencyFormat(), field, m_projectFile.getLocale()));
+               resource.set (x, new MPXRate(m_formats.getCurrencyFormat(), field, m_projectFile.getLocale()));
                break;
             }
    
@@ -795,7 +802,6 @@ public final class MPXReader extends AbstractProjectReader
       List list = new LinkedList ();
       
       int length = data.length();
-      char sepchar = m_projectFile.getDelimiter();
       
       if (length != 0)
       {
@@ -804,7 +810,7 @@ public final class MPXReader extends AbstractProjectReader
    
          while (end != length)
          {
-            end = data.indexOf(sepchar, start);
+            end = data.indexOf(m_delimiter, start);
    
             if (end == -1)
             {
@@ -897,7 +903,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, m_projectFile.getCurrencyFormat().parse(field));
+                  task.set(x, m_formats.getCurrencyFormat().parse(field));
                }
                 
                catch (ParseException ex)
@@ -1026,7 +1032,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, m_projectFile.getDecimalFormat().parse(field));
+                  task.set(x, m_formats.getDecimalFormat().parse(field));
                }
                
                catch (ParseException ex)
@@ -1260,6 +1266,8 @@ public final class MPXReader extends AbstractProjectReader
    private boolean m_taskTableDefinition;   
    private TaskModel m_taskModel;
    private ResourceModel m_resourceModel;   
+   private char m_delimiter;
+   private MPXFormats m_formats;
    
    /**
     * This member data is used to hold the outline level number of the
@@ -1272,5 +1280,4 @@ public final class MPXReader extends AbstractProjectReader
     * >= 1.
     */
    private int m_baseOutlineLevel;
-
 }

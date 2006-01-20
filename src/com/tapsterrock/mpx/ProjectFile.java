@@ -814,31 +814,6 @@ public class ProjectFile
    {
       return (m_dateFormat);
    }
-
-   /**
-    * This method retrieves the currency formatter.
-    *
-    * @return currency formatter
-    */
-   public NumberFormat getCurrencyFormat ()
-   {
-      return (m_currencyFormat);
-   }
-
-   /**
-    * This package-private method is called internally to update
-    * the currency format. Note that we also create an appropriate
-    * singleton at this point to represent a zero currency value.
-    * 
-    * @param primaryPattern new format pattern
-    * @param alternativePatterns alternative format patterns
-    * @param decimalSeparator Locale specific decimal separator to replace placeholder
-    * @param groupingSeparator Locale specific grouping separator to replace placeholder
-    */
-   void setCurrencyFormat (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
-   {
-      m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, decimalSeparator, groupingSeparator);
-   }
       
    /**
     * This method is used to retrieve the number of child tasks associated
@@ -1270,17 +1245,6 @@ public class ProjectFile
 
    /**
     * Package private method used to retrieve the standard decimal format
-    * used for writing MPX records.
-    *
-    * @return MPXNumberFormat instance
-    */
-   NumberFormat getDecimalFormat ()
-   {
-      return (new MPXNumberFormat("0.00#", m_decimalSeparator, m_thousandsSeparator));
-   }
-
-   /**
-    * Package private method used to retrieve the standard decimal format
     * used for writing MPXDuration values.
     *
     * @return MPXNumberFormat instance
@@ -1299,17 +1263,6 @@ public class ProjectFile
    NumberFormat getPercentageDecimalFormat ()
    {
       return (new MPXNumberFormat("##0.##", m_decimalSeparator, m_thousandsSeparator));
-   }
-
-   /**
-    * Package private method used to retrieve the standard decimal format
-    * used for writing MPXUnits values.
-    *
-    * @return MPXNumberFormat instance
-    */
-   NumberFormat getUnitsDecimalFormat ()
-   {
-      return (new MPXNumberFormat("#.##", m_decimalSeparator, m_thousandsSeparator));
    }
 
    /**
@@ -1863,11 +1816,6 @@ public class ProjectFile
     * Time formatter.
     */
    private MPXTimeFormat m_timeFormat = new MPXTimeFormat();
-
-   /**
-    * Currency formatter.
-    */
-   private MPXNumberFormat m_currencyFormat = new MPXNumberFormat();
 
    /**
     * File creation record.
