@@ -24,9 +24,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 
 /**
  * This class represents a currency rate per period of time (for example $10/h)
@@ -34,39 +31,6 @@ import java.util.Locale;
  */
 public final class MPXRate
 {
-   /**
-    * This constructor builds an instance of this class from a formatted String.
-    *
-    * @param format Number formatter
-    * @param rate string containing rate value
-    * @param locale target locale
-    * @throws MPXException when string parse fails
-    */
-   MPXRate (NumberFormat format, String rate, Locale locale)
-      throws MPXException
-   {
-      try
-      {
-         int index = rate.indexOf('/');
-   
-         if (index == -1)
-         {
-            m_amount = format.parse(rate).doubleValue();
-            m_units = TimeUnit.HOURS;
-         }
-         else
-         {
-            m_amount = format.parse( rate.substring (0, index)).doubleValue();
-            m_units = TimeUnit.parse(rate.substring (index+1), locale);
-         }
-      }
-      
-      catch (ParseException ex)
-      {
-         throw new MPXException ("Failed to parse rate", ex);
-      }
-   }
-
    /**
     * This constructor builds an instance of this class from a currency
     * amount and a time unit.

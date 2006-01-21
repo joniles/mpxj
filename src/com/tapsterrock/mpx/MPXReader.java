@@ -96,7 +96,7 @@ public final class MPXReader extends AbstractProjectReader
          //
          // Add the header record
          //
-         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_projectFile, tk, m_formats));
+         parseRecord(Integer.toString(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_locale, tk, m_formats));
          ++line;
    
          //
@@ -115,7 +115,7 @@ public final class MPXReader extends AbstractProjectReader
          //
          while (tk.getType() != Tokenizer.TT_EOF)
          {
-            record = new Record(m_projectFile, tk, m_formats);
+            record = new Record(m_locale, tk, m_formats);
             number = record.getRecordNumber();
    
             if (number != null)

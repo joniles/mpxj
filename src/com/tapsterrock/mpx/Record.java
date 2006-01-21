@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 
 /**
@@ -38,17 +39,17 @@ final class Record
     * This constructor takes a stream of tokens and extracts the
     * fields of an individual record from those tokens.
     *
-    * @param parent parent MPX file
+    * @param locale target locale
     * @param tk tokenizer providing the input stream of tokens
     * @param formats formats used when parsing data
     * @throws MPXException normally thrown when parsing fails
     */
-   Record (ProjectFile parent, Tokenizer tk, MPXFormats formats)
+   Record (Locale locale, Tokenizer tk, MPXFormats formats)
       throws MPXException
    {
       try
       {
-         m_parent = parent;
+         m_locale = locale;
 
          m_formats = formats;
          
@@ -330,7 +331,31 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new MPXRate(m_formats.getCurrencyFormat(), m_fields[field], m_parent.getLocale());
+         try
+         {
+            String rate = m_fields[field];
+            int index = rate.indexOf('/');
+            double amount;
+            TimeUnit units;
+            
+            if (index == -1)
+            {
+               amount = m_formats.getCurrencyFormat().parse(rate).doubleValue();
+               units = TimeUnit.HOURS;
+            }
+            else
+            {
+               amount = m_formats.getCurrencyFormat().parse( rate.substring (0, index)).doubleValue();
+               units = TimeUnit.parse(rate.substring (index+1), m_locale);
+            }
+            
+            result = new MPXRate(amount, units);
+         }
+         
+         catch (ParseException ex)
+         {
+            throw new MPXException ("Failed to parse rate", ex);
+         }
       }
       else
       {
@@ -424,7 +449,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = MPXDuration.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_parent.getLocale());
+         result = MPXDuration.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_locale);
       }
       else
       {
@@ -644,7 +669,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = AccrueType.getInstance (m_fields[field], m_parent.getLocale());
+         result = AccrueType.getInstance (m_fields[field], m_locale);
       }
       else
       {
@@ -688,9 +713,9 @@ final class Record
    }
 
    /**
-    * Reference to the parent file.
+    * Target locale.
     */
-   private ProjectFile m_parent;
+   private Locale m_locale;
 
    /**
     * Current record number.
