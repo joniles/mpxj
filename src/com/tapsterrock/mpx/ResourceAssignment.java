@@ -204,7 +204,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return cost
     */
-   public Double getCost ()
+   public Number getCost ()
    {
       return (m_cost);
    }
@@ -214,7 +214,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @param val cost
     */
-   public void setCost (Double val)
+   public void setCost (Number val)
    {
       m_cost = val;
    }
@@ -224,7 +224,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return planned cost
     */
-   public Double getPlannedCost ()
+   public Number getPlannedCost ()
    {
       return (m_plannedCost);
    }
@@ -234,7 +234,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @param val planned cost
     */
-   public void setPlannedCost (Double val)
+   public void setPlannedCost (Number val)
    {
       m_plannedCost = val;
    }
@@ -244,7 +244,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @return actual cost
     */
-   public Double getActualCost ()
+   public Number getActualCost ()
    {
       return (m_actualCost);
    }
@@ -254,7 +254,7 @@ public final class ResourceAssignment extends MPXRecord
     *
     * @param val actual cost
     */
-   public void setActualCost (Double val)
+   public void setActualCost (Number val)
    {
       m_actualCost = val;
    }
@@ -437,9 +437,9 @@ public final class ResourceAssignment extends MPXRecord
    private MPXDuration m_plannedWork;
    private MPXDuration m_actualWork;
    private MPXDuration m_overtimeWork;
-   private Double m_cost;
-   private Double m_plannedCost;
-   private Double m_actualCost;
+   private Number m_cost;
+   private Number m_plannedCost;
+   private Number m_actualCost;
    private Date m_start;
    private Date m_finish;
    private MPXDuration m_delay;

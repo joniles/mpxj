@@ -651,12 +651,13 @@ public final class MPXReader extends AbstractProjectReader
     */
    private void populateResource (Resource resource, Record record)
       throws MPXException
-   {
-      int i = 0;
+   {      
+      String falseText = LocaleData.getString(m_projectFile.getLocale(), LocaleData.NO);
+      
       int length = record.getLength();
       int[] model = m_resourceModel.getModel();
    
-      while (i < length)
+      for (int i=0; i < length; i++)
       {
          int x = model[i];
          if (x == -1)
@@ -664,7 +665,7 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
    
-         String field = record.getString (i++);
+         String field = record.getString (i);
    
          if (field == null || field.length() == 0)
          {
@@ -675,49 +676,32 @@ public final class MPXReader extends AbstractProjectReader
          {
             case Resource.OBJECTS:
             {
-               resource.set(x,Integer.valueOf(field));
+               resource.set(x,record.getInteger(i));
                break;
             }
    
             case Resource.ID:
             {
-               resource.setID(Integer.valueOf(field));
+               resource.setID(record.getInteger(i));
                break;
             }
    
             case Resource.UNIQUE_ID:
             {
-               resource.setUniqueID(Integer.valueOf(field));
+               resource.setUniqueID(record.getInteger(i));
                break;
             }
    
             case Resource.MAX_UNITS:
             {
-               try
-               {
-                  resource.set (x, new Double(m_formats.getUnitsDecimalFormat().parse(field).doubleValue() * 100));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse units", ex);
-               }
-               
+               resource.set (x, record.getUnits(i));
                break;
             }
    
             case Resource.PERCENT_WORK_COMPLETE:
             case Resource.PEAK_UNITS:
             {
-               try
-               {
-                  resource.set(x, m_formats.getPercentageDecimalFormat().parse(field));
-               }
-               
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse percentage", ex);
-               }
+               resource.set(x, record.getPercentage(i));
                break;
             }
    
@@ -728,22 +712,14 @@ public final class MPXReader extends AbstractProjectReader
             case Resource.ACTUAL_COST:
             case Resource.REMAINING_COST:
             {
-               try
-               {
-                  resource.set(x, m_formats.getCurrencyFormat().parse(field));
-               }
-                
-               catch (ParseException ex)
-               {
-                  throw new MPXException ("Failed to parse currency", ex);
-               }               
+               resource.set(x, record.getCurrency(i));
                break;
             }
    
             case Resource.OVERTIME_RATE:
             case Resource.STANDARD_RATE:
             {
-               resource.set (x, new MPXRate(m_formats.getCurrencyFormat(), field, m_projectFile.getLocale()));
+               resource.set (x, record.getRate(i));
                break;
             }
    
@@ -754,19 +730,19 @@ public final class MPXReader extends AbstractProjectReader
             case Resource.WORK:
             case Resource.WORK_VARIANCE:
             {
-               resource.set (x, MPXDuration.getInstance (field, m_formats.getDurationDecimalFormat(), m_projectFile.getLocale()));
+               resource.set (x, record.getDuration(i));
                break;
             }
    
             case Resource.ACCRUE_AT:
             {
-               resource.set (x, AccrueType.getInstance (field, m_projectFile.getLocale()));
+               resource.set (x, record.getAccrueType(i));
                break;
             }
    
             case Resource.OVERALLOCATED:
             {
-               resource.set (x, (field.equals("No")==true?Boolean.FALSE:Boolean.TRUE));
+               resource.set (x, record.getBoolean(i, falseText));
                break;
             }
    

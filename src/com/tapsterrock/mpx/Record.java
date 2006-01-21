@@ -24,7 +24,6 @@
 package com.tapsterrock.mpx;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
@@ -144,16 +143,16 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public Float getFloat (int field)
+   public Number getFloat (int field)
       throws MPXException
    {
       try
       {
-         Float result;
+         Number result;
    
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = new Float(m_formats.getDecimalFormat().parse(m_fields[field]).floatValue());
+            result = m_formats.getDecimalFormat().parse(m_fields[field]);
          }
          else
          {
@@ -350,18 +349,16 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public Double getCurrency (int field)
+   public Number getCurrency (int field)
       throws MPXException
    {
-      Double result;
+      Number result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
          try
          {
-            NumberFormat format = m_formats.getCurrencyFormat();
-            double value = format.parse(m_fields[field]).doubleValue();
-            result = NumberUtility.getDouble(value);
+            result = m_formats.getCurrencyFormat().parse(m_fields[field]);
          }
          
          catch (ParseException ex)
@@ -386,17 +383,16 @@ final class Record
     * @return the value of the required field
     * @throws MPXException normally thrown when parsing fails
     */
-   public Double getPercentage (int field)
+   public Number getPercentage (int field)
       throws MPXException
    {
-      Double result;
+      Number result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
          try
          {
-            double value = m_formats.getPercentageDecimalFormat().parse(m_fields[field]).doubleValue();
-            result = NumberUtility.getDouble(value);
+            result = m_formats.getPercentageDecimalFormat().parse(m_fields[field]);
          }
          
          catch (ParseException ex)
@@ -636,6 +632,51 @@ final class Record
       return (result);
    }
 
+   /**
+    * Accessor method to retrieve an accrue type instance.
+    * 
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
+   public AccrueType  getAccrueType (int field)
+   {
+      AccrueType result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
+         result = AccrueType.getInstance (m_fields[field], m_parent.getLocale());
+      }
+      else
+      {
+         result = null;
+      }
+
+      return (result);
+   }
+
+   /**
+    * Accessor method to retrieve a Boolean instance.
+    * 
+    * @param field the index number of the field to be retrieved
+    * @param falseText locale specific text representing false
+    * @return the value of the required field
+    */
+   public Boolean  getBoolean (int field, String falseText)
+   {
+      Boolean result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      {
+         result = ((m_fields[field].equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE);
+      }
+      else
+      {
+         result = null;
+      }
+
+      return (result);
+   }
+   
    /**
     * This method returns the number of fields present in this record.
     *

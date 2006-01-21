@@ -193,7 +193,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return number of hours
     */
-   public Float getDefaultHoursInDay ()
+   public Number getDefaultHoursInDay ()
    {
       return (m_defaultHoursInDay);
    }
@@ -203,7 +203,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param hours number of hours
     */
-   public void setDefaultHoursInDay (Float hours)
+   public void setDefaultHoursInDay (Number hours)
    {
       m_defaultHoursInDay = hours;
    }
@@ -213,7 +213,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return number of hours
     */
-   public Float getDefaultHoursInWeek ()
+   public Number getDefaultHoursInWeek ()
    {
       return (m_defaultHoursInWeek);
    }
@@ -223,7 +223,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param hours number of hours
     */
-   public void setDefaultHoursInWeek (Float hours)
+   public void setDefaultHoursInWeek (Number hours)
    {
       m_defaultHoursInWeek = hours;
    }
@@ -793,7 +793,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return project cost
     */
-   public Double getCost ()
+   public Number getCost ()
    {
       return (m_cost);
    }
@@ -803,7 +803,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param cost project cost
     */
-   public void setCost (Double cost)
+   public void setCost (Number cost)
    {
       m_cost = cost;
    }
@@ -813,7 +813,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param baselineCost baseline project cost
     */
-   public void setBaselineCost (Double baselineCost)
+   public void setBaselineCost (Number baselineCost)
    {
       m_baselineCost = baselineCost;
    }
@@ -823,7 +823,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return baseline project cost
     */
-   public Double getBaselineCost ()
+   public Number getBaselineCost ()
    {
       return (m_baselineCost);
    }
@@ -833,7 +833,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param actualCost actual project cost
     */
-   public void setActualCost (Double actualCost)
+   public void setActualCost (Number actualCost)
    {
       m_actualCost = actualCost;
    }
@@ -843,7 +843,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return actual project cost
     */
-   public Double getActualCost ()
+   public Number getActualCost ()
    {
       return (m_actualCost);
    }
@@ -913,7 +913,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return Work 2 attribute
     */
-   public Double getWork2 ()
+   public Number getWork2 ()
    {
       return (m_work2);
    }
@@ -923,7 +923,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param work2 work2 percentage value
     */
-   public void setWork2 (Double work2)
+   public void setWork2 (Number work2)
    {
       m_work2 = work2;
    }
@@ -993,7 +993,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @return percentage value
     */
-   public Double getPercentageComplete ()
+   public Number getPercentageComplete ()
    {
       return (m_percentageComplete);
    }
@@ -1003,7 +1003,7 @@ public final class ProjectHeader extends MPXRecord
     *
     * @param percentComplete project percent complete
     */
-   public void setPercentageComplete (Double percentComplete)
+   public void setPercentageComplete (Number percentComplete)
    {
       m_percentageComplete = percentComplete;
    }
@@ -2235,8 +2235,8 @@ public final class ProjectHeader extends MPXRecord
    private TimeUnit m_defaultDurationUnits = TimeUnit.DAYS;
    private boolean m_defaultDurationIsFixed;
    private TimeUnit m_defaultWorkUnits;
-   private Float m_defaultHoursInDay;
-   private Float m_defaultHoursInWeek;
+   private Number m_defaultHoursInDay;
+   private Number m_defaultHoursInWeek;
    private MPXRate m_defaultStandardRate;
    private MPXRate m_defaultOvertimeRate;
    private boolean m_updatingTaskStatusUpdatesResourceStatus;
@@ -2267,17 +2267,17 @@ public final class ProjectHeader extends MPXRecord
    private ScheduleFrom m_scheduleFrom = ScheduleFrom.START;
    private Date m_currentDate;
    private String m_comments;
-   private Double m_cost;
-   private Double m_baselineCost;
-   private Double m_actualCost;
+   private Number m_cost;
+   private Number m_baselineCost;
+   private Number m_actualCost;
    private MPXDuration m_work;
    private MPXDuration m_baselineWork;
    private MPXDuration m_actualWork;
-   private Double m_work2;
+   private Number m_work2;
    private MPXDuration m_duration;
    private MPXDuration m_baselineDuration;
    private MPXDuration m_actualDuration;
-   private Double m_percentageComplete;
+   private Number m_percentageComplete;
    private Date m_baselineStart;
    private Date m_baselineFinish;
    private Date m_actualStart;

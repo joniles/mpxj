@@ -160,9 +160,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getDefaultWorkUnits()));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(record.getDefaultHoursInDay()));
+      m_buffer.append(format(formatDecimal(record.getDefaultHoursInDay())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(record.getDefaultHoursInWeek()));
+      m_buffer.append(format(formatDecimal(record.getDefaultHoursInWeek())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(formatRate(record.getDefaultStandardRate())));
       m_buffer.append (m_delimiter);
@@ -1186,6 +1186,17 @@ public final class MPXWriter extends AbstractProjectWriter
       }
    
       return (result);
+   }
+
+   /**
+    * This method formats a decimal value.
+    * 
+    * @param value value
+    * @return formatted value
+    */
+   private String formatDecimal (Number value)
+   {
+      return (value==null?null:m_formats.getDecimalFormat().format(value));
    }
    
    /**
