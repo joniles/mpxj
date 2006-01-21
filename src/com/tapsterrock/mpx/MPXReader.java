@@ -1047,7 +1047,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                try
                {
-                  task.set(x, m_projectFile.getDateTimeFormat().parse(field));
+                  task.set(x, m_formats.getDateTimeFormat().parse(field));
                }
                
                catch (ParseException ex)

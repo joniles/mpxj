@@ -211,7 +211,7 @@ final class Record
    
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = m_parent.getDateTimeFormat().parse(m_fields[field]);
+            result = m_formats.getDateTimeFormat().parse(m_fields[field]);
          }
          else
          {
@@ -245,7 +245,7 @@ final class Record
    
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = m_parent.getDateFormat().parse(m_fields[field]);
+            result = m_formats.getDateFormat().parse(m_fields[field]);
          }
          else
          {          
@@ -279,7 +279,7 @@ final class Record
    
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = m_parent.getTimeFormat().parse(m_fields[field]);
+            result = m_formats.getTimeFormat().parse(m_fields[field]);
          }
          else
          {

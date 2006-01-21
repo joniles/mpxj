@@ -27,7 +27,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -51,9 +50,6 @@ public final class MPXWriter extends AbstractProjectWriter
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
       m_buffer = new StringBuffer();
       m_formats = new MPXFormats(m_projectFile);
-      m_dateFormat = projectFile.getDateFormat();
-      m_timeFormat = projectFile.getTimeFormat();
-      m_dateTimeFormat = projectFile.getDateTimeFormat();
       
       try
       {
@@ -69,9 +65,6 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer = null;
          m_locale = null;
          m_formats = null;
-         m_dateFormat = null;
-         m_timeFormat = null;
-         m_dateTimeFormat = null;
       }
    }
    
@@ -973,7 +966,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatTime (Date value)
    {
-      return (value==null?null:m_timeFormat.format(value));
+      return (value==null?null:m_formats.getTimeFormat().format(value));
    }
    
    /**
@@ -1006,7 +999,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatDateTime (Date value)
    {
-      return (value==null?null:m_dateTimeFormat.format(value));
+      return (value==null?null:m_formats.getDateTimeFormat().format(value));
    }
 
    /**
@@ -1017,7 +1010,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatDate (Date value)
    {
-      return (value==null?null:m_dateFormat.format(value));
+      return (value==null?null:m_formats.getDateFormat().format(value));
    }
    
    /**
@@ -1299,7 +1292,4 @@ public final class MPXWriter extends AbstractProjectWriter
    private Locale m_locale;
    private StringBuffer m_buffer;
    private MPXFormats m_formats;
-   private DateFormat m_timeFormat;
-   private DateFormat m_dateTimeFormat;
-   private DateFormat m_dateFormat;
 }

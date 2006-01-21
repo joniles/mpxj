@@ -7,7 +7,9 @@
  
 package com.tapsterrock.mpx;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * This class manages the various objects required to parse and format
@@ -31,7 +33,6 @@ public final class MPXFormats
     */
    public void update ()
    {
-      // @todo sort out this separator caching!
       ProjectHeader header = m_projectFile.getProjectHeader();      
       char decimalSeparator = header.getDecimalSeparator();
       char thousandsSeparator = header.getThousandsSeparator();
@@ -40,6 +41,7 @@ public final class MPXFormats
       m_durationDecimalFormat = new MPXNumberFormat(MPXDuration.DECIMAL_FORMAT_STRING, decimalSeparator, thousandsSeparator);
       m_percentageDecimalFormat = new MPXNumberFormat("##0.##", decimalSeparator, thousandsSeparator);
       updateCurrencyFormats(header, decimalSeparator, thousandsSeparator);
+      updateDateTimeFormats(header);
    }
    
    /**
@@ -126,7 +128,7 @@ public final class MPXFormats
       alternativePatterns[5] = noSymbolSecondaryPattern;
       alternativePatterns[6] = noSymbolSecondaryPattern + ";(" + noSymbolSecondaryPattern + ")";
 
-      m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, decimalSeparator, thousandsSeparator);      
+      m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, decimalSeparator, thousandsSeparator);
    }
    
    /**
@@ -171,6 +173,454 @@ public final class MPXFormats
       }
 
       return (sb.toString());
+   }
+
+   /**
+    * Updates the date and time formats.
+    * 
+    * @param header projects header
+    */
+   private void updateDateTimeFormats (ProjectHeader header)
+   {
+      String datePattern = "";
+      String dateTimePattern= "";
+      String timePattern = getTimeElement(header);
+
+      char datesep = header.getDateSeparator();
+      int dateOrderValue = header.getDateOrder().getValue();
+
+      switch (dateOrderValue)
+      {
+         case DateOrder.DMY_VALUE:
+         {
+            datePattern="dd"+datesep+"MM"+datesep+"yy";
+            break;
+         }
+
+         case DateOrder.MDY_VALUE:
+         {
+            datePattern="MM"+datesep+"dd"+datesep+"yy";
+            break;
+         }
+
+         case DateOrder.YMD_VALUE:
+         {
+            datePattern="yy"+datesep+"MM"+datesep+"dd";
+            break;
+         }
+      }
+
+      switch (header.getDateFormat().getValue())
+      {
+         case ProjectDateFormat.DD_MM_YY_HH_MM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd"+datesep+"MM"+datesep+"yy "+timePattern;
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MM"+datesep+"dd"+datesep+"yy "+timePattern;
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="yy"+datesep+"MM"+datesep+"dd "+timePattern;
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MM_YY_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd"+datesep+"MM"+datesep+"yy";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MM"+datesep+"dd"+datesep+"yy";
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="yy"+datesep+"MM"+datesep+"dd";
+                  break;
+
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MMMMM_YYYY_HH_MM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd MMMMM yyyy "+timePattern;
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MMMMM dd yyyy "+timePattern;
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="yyyy MMMMM dd "+timePattern;
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MMMMM_YYYY_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd MMMMM yyyy";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MMMMM dd yyyy";
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="yyyy MMMMM dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MMM_HH_MM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd MMM "+timePattern;
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern=" MMM dd "+timePattern;
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MMM_YY_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd MMM ''yy";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MMM dd ''yy";
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="''yy MMM dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MMMMM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd MMMMM";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MMMMM dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_MMM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd MMM";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MMM dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.EEE_DD_MM_YY_HH_MM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="EEE "+"dd"+datesep+"MM"+datesep+"yy "+timePattern;
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="EEE "+"MM"+datesep+"dd"+datesep+"yy "+timePattern;
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="EEE "+"yy"+datesep+"MM"+datesep+"dd "+timePattern;
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.EEE_DD_MM_YY_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="EEE dd"+datesep+"MM"+datesep+"yy";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="EEE MM"+datesep+"dd"+datesep+"yy";
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="EEE yy"+datesep+"MM"+datesep+"dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.EEE_DD_MMM_YY_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="EEE dd MMM ''yy";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="EEE MM dd ''yy";
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="EEE ''yy MMM dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.EEE_HH_MM_VALUE:
+         {
+            dateTimePattern="EEE "+timePattern;
+            break;
+         }
+
+         case ProjectDateFormat.DD_MM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd"+datesep+"MM";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MM"+datesep+"dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.DD_VALUE:
+         {
+            dateTimePattern="dd";
+            break;
+         }
+
+         case ProjectDateFormat.HH_MM_VALUE:
+         {
+            dateTimePattern = timePattern;
+            break;
+         }
+
+         case ProjectDateFormat.EEE_DD_MMM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="EEE dd MMM";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="EEE MMM dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.EEE_DD_MM_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="EEE dd"+datesep+"MM";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="EEE MM"+datesep+"dd";
+                  break;
+               }
+            }
+            break;
+         }
+
+         case ProjectDateFormat.EEE_DD_VALUE:
+         {
+            dateTimePattern="EEE dd";
+            break;
+         }
+
+         case ProjectDateFormat.DD_WWW_VALUE:
+         {
+            dateTimePattern="F"+datesep+"'W'ww";
+            break;
+         }
+
+         case ProjectDateFormat.DD_WWW_YY_HH_MM_VALUE:
+         {
+            dateTimePattern="F"+datesep+"'W'ww"+datesep+"yy "+timePattern;
+            break;
+         }
+
+         case ProjectDateFormat.DD_MM_YYYY_VALUE:
+         {
+            switch (dateOrderValue)
+            {
+               case DateOrder.DMY_VALUE:
+               {
+                  dateTimePattern="dd"+datesep+"MM"+datesep+"yyyy";
+                  break;
+               }
+
+               case DateOrder.MDY_VALUE:
+               {
+                  dateTimePattern="MM"+datesep+"dd"+datesep+"yyyy";
+                  break;
+               }
+
+               case DateOrder.YMD_VALUE:
+               {
+                  dateTimePattern="yyyy"+datesep+"MM"+datesep+"dd";
+                  break;
+               }
+            }
+            break;
+         }
+      }
+
+      m_dateTimeFormat.applyPattern(dateTimePattern);
+      m_dateFormat.applyPattern(datePattern);
+      m_timeFormat.applyPattern(timePattern);            
+      
+      Locale locale = m_projectFile.getLocale();
+      m_dateTimeFormat.setLocale(locale);
+      m_dateFormat.setLocale(locale);
+      m_timeFormat.setLocale(locale);
+   }
+   
+   /**
+    * Returns time elements considering 12/24 hour formatting.
+    *
+    * @param header project header
+    * @return time formatting String
+    */
+   private String getTimeElement(ProjectHeader header)
+   {
+      String time;
+      char timesep = header.getTimeSeparator();
+      ProjectTimeFormat format = header.getTimeFormat();
+
+      if (format == null || format.getValue() == ProjectTimeFormat.TWELVE_HOUR_VALUE)
+      {
+         time = "hh"+timesep+"mm a";
+      }
+      else
+      {
+         time = "HH"+timesep+"mm";
+      }
+
+      return (time);
    }
    
    /**
@@ -223,10 +673,43 @@ public final class MPXFormats
       return (m_percentageDecimalFormat);
    }
    
+   /**
+    * Retrieve the date time format.
+    * 
+    * @return date time format
+    */
+   public DateFormat getDateTimeFormat ()
+   {
+      return (m_dateTimeFormat);
+   }
+
+   /**
+    * Retrieve the date format.
+    * 
+    * @return date format
+    */
+   public DateFormat getDateFormat ()
+   {
+      return (m_dateFormat);
+   }
+   
+   /**
+    * Retrieve the time format.
+    * 
+    * @return time format
+    */
+   public DateFormat getTimeFormat ()
+   {
+      return (m_timeFormat);
+   }
+   
    private ProjectFile m_projectFile;
    private NumberFormat m_unitsDecimalFormat;
    private NumberFormat m_decimalFormat;
    private MPXNumberFormat m_currencyFormat = new MPXNumberFormat();
    private NumberFormat m_durationDecimalFormat;
    private NumberFormat m_percentageDecimalFormat;
+   private MPXDateFormat m_dateTimeFormat = new MPXDateFormat();
+   private MPXDateFormat m_dateFormat = new MPXDateFormat();
+   private MPXTimeFormat m_timeFormat = new MPXTimeFormat();   
 }

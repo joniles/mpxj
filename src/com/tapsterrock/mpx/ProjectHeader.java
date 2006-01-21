@@ -323,7 +323,6 @@ public final class ProjectHeader extends MPXRecord
       setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
 
-      m_updateDateTimeFormats = false;
       setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
       setTimeFormat((ProjectTimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
       setIntegerDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
@@ -333,454 +332,8 @@ public final class ProjectHeader extends MPXRecord
       setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
       setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      m_updateDateTimeFormats = true;
-      updateDateTimeFormats ();
    }
 
-   /**
-    * This method updates the formatters used to control time and date
-    * formatting.
-    */
-   private void updateDateTimeFormats ()
-   {
-      if (m_updateDateTimeFormats == true)
-      {
-         String datePattern = "";
-         String dateTimePattern= "";
-         String timePattern = getTimeElement();
-
-         char datesep = getDateSeparator();
-         int dateOrderValue = getDateOrder().getValue();
-
-         switch (dateOrderValue)
-         {
-            case DateOrder.DMY_VALUE:
-            {
-               datePattern="dd"+datesep+"MM"+datesep+"yy";
-               break;
-            }
-
-            case DateOrder.MDY_VALUE:
-            {
-               datePattern="MM"+datesep+"dd"+datesep+"yy";
-               break;
-            }
-
-            case DateOrder.YMD_VALUE:
-            {
-               datePattern="yy"+datesep+"MM"+datesep+"dd";
-               break;
-            }
-         }
-
-         switch (getDateFormat().getValue())
-         {
-            case ProjectDateFormat.DD_MM_YY_HH_MM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd"+datesep+"MM"+datesep+"yy "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MM"+datesep+"dd"+datesep+"yy "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="yy"+datesep+"MM"+datesep+"dd "+timePattern;
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MM_YY_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd"+datesep+"MM"+datesep+"yy";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MM"+datesep+"dd"+datesep+"yy";
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="yy"+datesep+"MM"+datesep+"dd";
-                     break;
-
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MMMMM_YYYY_HH_MM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd MMMMM yyyy "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MMMMM dd yyyy "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="yyyy MMMMM dd "+timePattern;
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MMMMM_YYYY_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd MMMMM yyyy";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MMMMM dd yyyy";
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="yyyy MMMMM dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MMM_HH_MM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd MMM "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern=" MMM dd "+timePattern;
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MMM_YY_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd MMM ''yy";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MMM dd ''yy";
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="''yy MMM dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MMMMM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd MMMMM";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MMMMM dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_MMM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd MMM";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MMM dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.EEE_DD_MM_YY_HH_MM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="EEE "+"dd"+datesep+"MM"+datesep+"yy "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="EEE "+"MM"+datesep+"dd"+datesep+"yy "+timePattern;
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="EEE "+"yy"+datesep+"MM"+datesep+"dd "+timePattern;
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.EEE_DD_MM_YY_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="EEE dd"+datesep+"MM"+datesep+"yy";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="EEE MM"+datesep+"dd"+datesep+"yy";
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="EEE yy"+datesep+"MM"+datesep+"dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.EEE_DD_MMM_YY_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="EEE dd MMM ''yy";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="EEE MM dd ''yy";
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="EEE ''yy MMM dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.EEE_HH_MM_VALUE:
-            {
-               dateTimePattern="EEE "+timePattern;
-               break;
-            }
-
-            case ProjectDateFormat.DD_MM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd"+datesep+"MM";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MM"+datesep+"dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.DD_VALUE:
-            {
-               dateTimePattern="dd";
-               break;
-            }
-
-            case ProjectDateFormat.HH_MM_VALUE:
-            {
-               dateTimePattern = timePattern;
-               break;
-            }
-
-            case ProjectDateFormat.EEE_DD_MMM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="EEE dd MMM";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="EEE MMM dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.EEE_DD_MM_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="EEE dd"+datesep+"MM";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="EEE MM"+datesep+"dd";
-                     break;
-                  }
-               }
-               break;
-            }
-
-            case ProjectDateFormat.EEE_DD_VALUE:
-            {
-               dateTimePattern="EEE dd";
-               break;
-            }
-
-            case ProjectDateFormat.DD_WWW_VALUE:
-            {
-               dateTimePattern="F"+datesep+"'W'ww";
-               break;
-            }
-
-            case ProjectDateFormat.DD_WWW_YY_HH_MM_VALUE:
-            {
-               dateTimePattern="F"+datesep+"'W'ww"+datesep+"yy "+timePattern;
-               break;
-            }
-
-            case ProjectDateFormat.DD_MM_YYYY_VALUE:
-            {
-               switch (dateOrderValue)
-               {
-                  case DateOrder.DMY_VALUE:
-                  {
-                     dateTimePattern="dd"+datesep+"MM"+datesep+"yyyy";
-                     break;
-                  }
-
-                  case DateOrder.MDY_VALUE:
-                  {
-                     dateTimePattern="MM"+datesep+"dd"+datesep+"yyyy";
-                     break;
-                  }
-
-                  case DateOrder.YMD_VALUE:
-                  {
-                     dateTimePattern="yyyy"+datesep+"MM"+datesep+"dd";
-                     break;
-                  }
-               }
-               break;
-            }
-         }
-
-         ProjectFile parent = getParentFile();
-         ((MPXDateFormat)parent.getDateTimeFormat()).applyPattern(dateTimePattern);
-         ((MPXDateFormat)parent.getDateFormat()).applyPattern(datePattern);
-         ((MPXTimeFormat)parent.getTimeFormat()).applyPattern(timePattern);
-      }
-   }
-
-   /**
-    * Returns time elements considering 12/24 hour formatting.
-    *
-    * @return time formatting String
-    */
-   private String getTimeElement()
-   {
-      String time;
-      char timesep = getTimeSeparator();
-      ProjectTimeFormat format = getTimeFormat();
-
-      if (format == null || format.getValue() == ProjectTimeFormat.TWELVE_HOUR_VALUE)
-      {
-         time = "hh"+timesep+"mm a";
-      }
-      else
-      {
-         time = "HH"+timesep+"mm";
-      }
-
-      return (time);
-   }
 
    /**
     * Gets constant representing set Date order eg DMY, MDY.
@@ -800,7 +353,6 @@ public final class ProjectHeader extends MPXRecord
    public void setDateOrder (DateOrder dateOrder)
    {
       m_dateOrder = dateOrder;
-      updateDateTimeFormats();
    }
 
    /**
@@ -821,7 +373,6 @@ public final class ProjectHeader extends MPXRecord
    public void setTimeFormat (ProjectTimeFormat timeFormat)
    {
       m_timeFormat = timeFormat;
-      updateDateTimeFormats();
    }
 
    /**
@@ -894,7 +445,6 @@ public final class ProjectHeader extends MPXRecord
    public void setDateSeparator (char dateSeparator)
    {
       m_dateSeparator = dateSeparator;
-      updateDateTimeFormats();
    }
 
    /**
@@ -925,7 +475,6 @@ public final class ProjectHeader extends MPXRecord
    public void setTimeSeparator (char timeSeparator)
    {
       m_timeSeparator = timeSeparator;
-      updateDateTimeFormats();
    }
 
    /**
@@ -956,7 +505,6 @@ public final class ProjectHeader extends MPXRecord
    public void setAMText (String amText)
    {
       m_amText = amText;
-      updateDateTimeFormats();
    }
 
    /**
@@ -977,7 +525,6 @@ public final class ProjectHeader extends MPXRecord
    public void setPMText (String pmText)
    {
       m_pmText = pmText;
-      updateDateTimeFormats();
    }
 
    /**
@@ -998,7 +545,6 @@ public final class ProjectHeader extends MPXRecord
    public void setDateFormat (ProjectDateFormat dateFormat)
    {
       m_dateFormat = dateFormat;
-      updateDateTimeFormats();
    }
 
    /**
@@ -2803,11 +2349,6 @@ public final class ProjectHeader extends MPXRecord
        void setScheduleFromStart(boolean value);
     */
 
-   /**
-    * Flag used to indicate whether the formats can be automatically updated.
-    * The default value for this flag is false.
-    */
-   private boolean m_updateDateTimeFormats;
 
    /**
     * Default date separator character.

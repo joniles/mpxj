@@ -23,7 +23,6 @@
 
 package com.tapsterrock.mpx;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -785,36 +784,6 @@ public class ProjectFile
    }
 
    /**
-    * This method retrieves the time formatter.
-    *
-    * @return time formatter
-    */
-   public DateFormat getTimeFormat ()
-   {
-      return (m_timeFormat);
-   }
-
-   /**
-    * This method retrieves the date time formatter.
-    *
-    * @return date time formatter
-    */
-   public DateFormat getDateTimeFormat ()
-   {
-      return (m_dateTimeFormat);
-   }
-
-   /**
-    * This method retrieves the date formatter.
-    *
-    * @return date formatter
-    */
-   public DateFormat getDateFormat ()
-   {
-      return (m_dateFormat);
-   }
-      
-   /**
     * This method is used to retrieve the number of child tasks associated
     * with this parent task. This method is used as part of the process
     * of automatically generating the WBS.
@@ -1302,9 +1271,6 @@ public class ProjectFile
       m_delimiter = LocaleData.getChar(m_locale, LocaleData.FILE_DELIMITER);
       m_fileCreationRecord.setLocale(locale);
       m_projectHeader.setLocale(locale);
-      m_dateTimeFormat.setLocale(locale);
-      m_dateFormat.setLocale(locale);
-      m_timeFormat.setLocale(locale);
    }
 
    /**
@@ -1715,21 +1681,6 @@ public class ProjectFile
     */
    private List m_resourceCalendars = new LinkedList();
    
-   /**
-    * Date time formatter.
-    */
-   private MPXDateFormat m_dateTimeFormat = new MPXDateFormat();
-
-   /**
-    * Date formatter.
-    */
-   private MPXDateFormat m_dateFormat = new MPXDateFormat();
-
-   /**
-    * Time formatter.
-    */
-   private MPXTimeFormat m_timeFormat = new MPXTimeFormat();
-
    /**
     * File creation record.
     */
