@@ -47,11 +47,12 @@ final class ResourceModel
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @param locale target locale
     */
-   ResourceModel (ProjectFile file)
+   ResourceModel (ProjectFile file, Locale locale)
    {
       m_parentFile = file;
-      setLocale(file.getLocale());
+      setLocale(locale);
    }
 
    /**

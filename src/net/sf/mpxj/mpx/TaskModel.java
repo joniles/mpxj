@@ -48,11 +48,12 @@ final class TaskModel
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
+    * @param locale target locale
     */
-   TaskModel (ProjectFile file)
+   TaskModel (ProjectFile file, Locale locale)
    {
       m_parentFile = file;
-      setLocale(file.getLocale());
+      setLocale(locale);
    }
 
    /**

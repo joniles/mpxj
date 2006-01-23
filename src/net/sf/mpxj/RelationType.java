@@ -23,9 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 /**
  * This class is used to represent a relation type. It provides a mapping
@@ -53,39 +50,6 @@ public final class RelationType
          m_type = type;
       }
    }
-
-   /**
-    * This method takes the textual version of a relation type
-    * and returns an appropriate class instance. Note that unrecognised
-    * values will cause this method to return null.
-    *
-    * @param locale target locale
-    * @param type text version of the relation type
-    * @return RelationType instance
-    */
-   public static RelationType getInstance (Locale locale, String type)
-   {
-      int index = -1;
-      
-      String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
-      for (int loop=0; loop < relationTypes.length; loop++)
-      {
-         if (relationTypes[loop].equalsIgnoreCase(type) == true)
-         {
-            index = loop;
-            break;
-         }
-      }
-
-      RelationType result = null;
-      if (index != -1)
-      {
-         result = TYPE_VALUES[index];
-      }
-      
-      return (result);
-   }
-
 
    /**
     * This method takes the integer enumeration of a relation type

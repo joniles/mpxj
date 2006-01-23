@@ -38,10 +38,8 @@ public final class ProjectCalendarException extends ProjectEntity
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @throws MPXJException Thrown on parse errors
     */
    ProjectCalendarException (ProjectFile file)
-      throws MPXJException
    {
       super(file);
    }

@@ -41,11 +41,10 @@ import javax.xml.bind.Marshaller;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
@@ -103,12 +102,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          throw new IOException (ex.toString());
       }
-      
-      catch (MPXJException ex)
-      {
-         throw new IOException (ex.toString());
-      }
-      
+            
       finally
       {
          m_projectFile = null;
@@ -493,7 +487,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
-      xml.setID(BigInteger.valueOf(mpx.getIDValue()));
+      xml.setID(NumberUtility.getBigInteger(mpx.getID()));
       xml.setInitials(mpx.getInitials());
       xml.setIsEnterprise(mpx.getEnterprise());
       xml.setIsGeneric(mpx.getGeneric());
@@ -822,7 +816,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       throws JAXBException
    {
       TreeSet set = new TreeSet ();
-      int taskID;
+      Integer taskID;
       Relation rel;
       List list = xml.getPredecessorLink();
       Iterator iter;
@@ -837,8 +831,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            taskID = rel.getTaskIDValue();
-            set.add(new Integer(taskID));
+            taskID = rel.getTaskID();
+            set.add(taskID);
             list.add (writePredecessor (factory, taskID, rel.getType(), rel.getDuration()));
          }
       }
@@ -856,11 +850,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            task = m_projectFile.getTaskByID(rel.getTaskIDValue());
+            task = m_projectFile.getTaskByID(rel.getTaskID());
             if (task != null)
             {
-               taskID = task.getUniqueIDValue();
-               if (set.contains(new Integer(taskID)) == false)
+               taskID = task.getUniqueID();
+               if (set.contains(taskID) == false)
                {
                   list.add (writePredecessor (factory, taskID, rel.getType(), rel.getDuration()));
                }
@@ -879,12 +873,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @return A new link to be added to the MSPDI file
     * @throws JAXBException on xml creation errors
     */
-   private Project.TasksType.TaskType.PredecessorLinkType writePredecessor (ObjectFactory factory, int taskID, RelationType type, Duration lag)
+   private Project.TasksType.TaskType.PredecessorLinkType writePredecessor (ObjectFactory factory, Integer taskID, RelationType type, Duration lag)
       throws JAXBException
    {
       Project.TasksType.TaskType.PredecessorLinkType link = factory.createProjectTypeTasksTypeTaskTypePredecessorLinkType();
 
-      link.setPredecessorUID (BigInteger.valueOf(taskID));
+      link.setPredecessorUID (NumberUtility.getBigInteger(taskID));
       link.setType (BigInteger.valueOf(type.getType()));
 
       if (lag != null && lag.getDuration() != 0)
@@ -905,7 +899,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @throws JAXBException on xml creation errors
     */
    private void writeAssignments (ObjectFactory factory, Project project)
-      throws JAXBException, MPXJException
+      throws JAXBException
    {
       int uid = 0;
       Project.AssignmentsType assignments = factory.createProjectTypeAssignmentsType();

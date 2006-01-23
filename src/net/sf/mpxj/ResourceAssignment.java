@@ -26,8 +26,6 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-import net.sf.mpxj.utility.NumberUtility;
-
 /**
  * This class represents a resource assignment record from an MPX file.
  */
@@ -38,10 +36,8 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param file The parent file to which this record belongs.
     * @param task The task to which this assignment is being made
-    * @throws MPXJException Normally thrown when parsing fails
     */
    ResourceAssignment (ProjectFile file, Task task)
-      throws MPXJException
    {
       super(file);
       
@@ -382,7 +378,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Resource getResource ()
    {
-      return (getParentFile().getResourceByUniqueID(NumberUtility.getInt(getResourceUniqueID())));
+      return (getParentFile().getResourceByUniqueID(getResourceUniqueID()));
    }
 
    /**

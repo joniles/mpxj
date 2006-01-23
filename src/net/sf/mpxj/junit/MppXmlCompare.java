@@ -7,7 +7,6 @@
  
 package net.sf.mpxj.junit;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,12 +32,10 @@ public final class MppXmlCompare
 {
    /**
     * Compares the data held in two project files.
-    * 
-    * @param file input file object
     * @param xml MSPDI file
     * @param mpp MPP file
     */
-   public void process (File file, ProjectFile xml, ProjectFile mpp)
+   public void process (ProjectFile xml, ProjectFile mpp)
       throws Exception
    {
       m_xml = xml;
@@ -80,7 +77,7 @@ public final class MppXmlCompare
             continue;
          }
          
-         Task mppTask = m_mpp.getTaskByUniqueID(xmlTask.getUniqueIDValue());
+         Task mppTask = m_mpp.getTaskByUniqueID(xmlTask.getUniqueID());
          assertNotNull("Missing task " + xmlTask.getName() + " (Unique ID= " + xmlTask.getUniqueID() + ")", mppTask);
 
          //
@@ -318,7 +315,7 @@ public final class MppXmlCompare
             continue;
          }
          
-         Resource mppResource = m_mpp.getResourceByUniqueID(xmlResource.getUniqueIDValue());
+         Resource mppResource = m_mpp.getResourceByUniqueID(xmlResource.getUniqueID());
          assertNotNull("Missing resource " + xmlResource.getName(), mppResource);
    
 

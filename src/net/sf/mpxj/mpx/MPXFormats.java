@@ -28,10 +28,12 @@ final class MPXFormats
    /**
     * Constructor.
     * 
+    * @param locale target locale
     * @param file parent file
     */
-   public MPXFormats (ProjectFile file)
+   public MPXFormats (Locale locale, ProjectFile file)
    {
+      m_locale = locale;
       m_projectFile = file;
       update();
    }
@@ -601,10 +603,9 @@ final class MPXFormats
       m_dateFormat.applyPattern(datePattern);
       m_timeFormat.applyPattern(timePattern);            
       
-      Locale locale = m_projectFile.getLocale();
-      m_dateTimeFormat.setLocale(locale);
-      m_dateFormat.setLocale(locale);
-      m_timeFormat.setLocale(locale);
+      m_dateTimeFormat.setLocale(m_locale);
+      m_dateFormat.setLocale(m_locale);
+      m_timeFormat.setLocale(m_locale);
    }
    
    /**
@@ -711,6 +712,7 @@ final class MPXFormats
       return (m_timeFormat);
    }
    
+   private Locale m_locale;
    private ProjectFile m_projectFile;
    private NumberFormat m_unitsDecimalFormat;
    private NumberFormat m_decimalFormat;

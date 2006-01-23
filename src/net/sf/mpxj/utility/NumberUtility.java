@@ -165,5 +165,38 @@ public final class NumberUtility
       return (value==null||value.length()==0?null:new Integer(value));
    }
    
+   /**
+    * This method is used to compare two numbers. The unusual point
+    * about this method is that it takes account of null values.
+    * If the two number objects are both null, these are taken to
+    * be equal, if one is null and the other is not null, these are
+    * taken to be different. Finally, if we have two valid number
+    * objects, these are compared in the normal manner to determine
+    * equality.
+    *
+    * @param lhs left hand argument
+    * @param rhs right hand argument
+    * @return result of equality test
+    */
+   public static boolean equals (Number lhs, Number rhs)
+   {
+      boolean result = false;
+
+      if (lhs == null && rhs == null)
+      {
+         result = true;
+      }
+      else
+      {
+         if (lhs != null && rhs != null)
+         {
+            result = lhs.equals(rhs);
+         }
+      }
+
+      return (result);
+   }
+
+   
    public static final Double DOUBLE_ZERO = new Double(0);
 }

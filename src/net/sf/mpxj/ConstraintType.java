@@ -23,9 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 /**
  * This class is used to represent a constraint type. It provides a mapping
@@ -54,33 +51,6 @@ public final class ConstraintType
          m_type = type;
       }
    }
-
-   /**
-    * This method takes the textual version of a constraint name
-    * and returns an appropriate class instance. Note that unrecognised
-    * values are treated as "As Soon As Possible" constraints.
-    *
-    * @param locale target locale
-    * @param type text version of the constraint type
-    * @return ConstraintType instance
-    */
-   public static ConstraintType getInstance (Locale locale, String type)
-   {
-      int index = 0;
-
-      String[] constraintTypes = LocaleData.getStringArray(locale, LocaleData.CONSTRAINT_TYPES);
-      for (int loop=0; loop < constraintTypes.length; loop++)
-      {
-         if (constraintTypes[loop].equalsIgnoreCase(type) == true)
-         {
-            index = loop;
-            break;
-         }
-      }
-
-      return (TYPE_VALUES[index]);
-   }
-
 
    /**
     * This method takes the integer enumeration of a constraint type

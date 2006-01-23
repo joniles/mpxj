@@ -33,17 +33,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.FileCreationRecord;
 import net.sf.mpxj.FileVersion;
+import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RecurringTask;
@@ -95,15 +93,15 @@ public final class MPXReader extends AbstractProjectReader
          }
    
          m_projectFile = new ProjectFile ();
-         m_projectFile.setLocale(m_locale);
+         LocaleUtility.setLocale(m_projectFile, m_locale);
          m_delimiter = (char)data[3];
          m_projectFile.setDelimiter(m_delimiter);
-         m_taskModel = new TaskModel(m_projectFile);
+         m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_taskModel.setLocale(m_locale);
-         m_resourceModel = new ResourceModel(m_projectFile);
+         m_resourceModel = new ResourceModel(m_projectFile, m_locale);
          m_resourceModel.setLocale(m_locale);
          m_baseOutlineLevel = -1;
-         m_formats = new MPXFormats(m_projectFile);
+         m_formats = new MPXFormats(m_locale, m_projectFile);
          
          bis.reset();
    
@@ -678,7 +676,7 @@ public final class MPXReader extends AbstractProjectReader
    private void populateResource (Resource resource, Record record)
       throws MPXJException
    {      
-      String falseText = LocaleData.getString(m_projectFile.getLocale(), LocaleData.NO);
+      String falseText = LocaleData.getString(m_locale, LocaleData.NO);
       
       int length = record.getLength();
       int[] model = m_resourceModel.getModel();
@@ -787,7 +785,7 @@ public final class MPXReader extends AbstractProjectReader
    
       if (m_projectFile.getAutoResourceID() == true)
       {
-         resource.setID (m_projectFile.getResourceID ());
+         resource.setID (new Integer(m_projectFile.getResourceID ()));
       }
    }
    
@@ -853,7 +851,7 @@ public final class MPXReader extends AbstractProjectReader
    
       try
       {
-         relation.setTaskIDValue(Integer.parseInt(relationship.substring(0, index)));         
+         relation.setTaskID(new Integer(relationship.substring(0, index)));         
       }
    
       catch (NumberFormatException ex)
@@ -864,10 +862,10 @@ public final class MPXReader extends AbstractProjectReader
       //
       // Now find the task, so we can extract the unique ID      
       //
-      Task task = m_projectFile.getTaskByID(relation.getTaskIDValue());
+      Task task = m_projectFile.getTaskByID(relation.getTaskID());
       if (task != null)
       {
-         relation.setTaskUniqueIDValue(task.getUniqueIDValue());
+         relation.setTaskUniqueID(task.getUniqueID());
       }
       
       //
@@ -887,7 +885,7 @@ public final class MPXReader extends AbstractProjectReader
          }
    
          String relationType = relationship.substring(index, index + 2);
-         relation.setType(RelationType.getInstance(m_locale, relationship.substring(index, index + 2)));         
+         relation.setType(RelationTypeUtility.getInstance(m_locale, relationship.substring(index, index + 2)));         
          if (relation.getType() == null)
          {
             throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationType + "'");
@@ -906,7 +904,7 @@ public final class MPXReader extends AbstractProjectReader
                ++index;
             }
    
-            relation.setDuration(Duration.getInstance(relationship.substring(index), m_formats.getDurationDecimalFormat(), m_locale));
+            relation.setDuration(DurationUtility.getInstance(relationship.substring(index), m_formats.getDurationDecimalFormat(), m_locale));
          }
       }
    }
@@ -921,7 +919,7 @@ public final class MPXReader extends AbstractProjectReader
    private void populateTask (Record record, Task task)
       throws MPXJException
    {
-      String falseText = LocaleData.getString(m_projectFile.getLocale(), LocaleData.NO);
+      String falseText = LocaleData.getString(m_locale, LocaleData.NO);
    
       int x = 0;
       String field;
@@ -1017,7 +1015,7 @@ public final class MPXReader extends AbstractProjectReader
             case Task.WORK_VARIANCE:
             case Task.DELAY:
             {
-               task.set(x, Duration.getInstance(field, m_formats.getDurationDecimalFormat(), m_projectFile.getLocale()));
+               task.set(x, DurationUtility.getInstance(field, m_formats.getDurationDecimalFormat(), m_locale));
                break;
             }
    
@@ -1086,7 +1084,7 @@ public final class MPXReader extends AbstractProjectReader
    
             case Task.CONSTRAINT_TYPE:
             {
-               task.set(x, ConstraintType.getInstance(m_projectFile.getLocale(), field));
+               task.set(x, ConstraintTypeUtility.getInstance(m_locale, field));
                break;
             }
    
@@ -1130,7 +1128,7 @@ public final class MPXReader extends AbstractProjectReader
    
             case Task.PRIORITY:
             {
-               task.set(x, Priority.getInstance(m_projectFile.getLocale(), field));
+               task.set(x, PriorityUtility.getInstance(m_locale, field));
                break;
             }
    

@@ -23,10 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
-import java.util.Map;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 /**
  * This class contains utility functions allowing time unit specifications
@@ -168,27 +164,6 @@ public final class TimeUnit
       }
 
       return (result);
-   }
-
-   /**
-    * This method is used to parse a string representation of a time
-    * unit, and return the appropriate constant value.
-    *
-    * @param units string representation of a time unit
-    * @param locale target locale
-    * @return numeric constant
-    * @throws MPXJException normally thrown when parsing fails
-    */
-   public static TimeUnit parse (String units, Locale locale)
-      throws MPXJException
-   {
-      Map map = LocaleData.getMap(locale, LocaleData.TIME_UNITS_MAP);
-      Integer result = (Integer)map.get(units);
-      if (result == null)
-      {
-         throw new MPXJException (MPXJException.INVALID_TIME_UNIT + " " +units);
-      }
-      return (getInstance(result.intValue()));
    }
 
 

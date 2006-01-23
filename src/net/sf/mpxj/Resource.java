@@ -41,10 +41,8 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @throws MPXJException normally thrown for paring errors
     */
    Resource (ProjectFile file)
-      throws MPXJException
    {
       super (file);
       
@@ -55,9 +53,8 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
 
       if (file.getAutoResourceID() == true)
       {
-         setID (file.getResourceID ());
+         setID (new Integer(file.getResourceID ()));
       }
-
    }
 
 
@@ -1355,16 +1352,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val value
     */
-   public void setID (int val)
-   {
-      setID (new Integer (val));
-   }
-
-   /**
-    * Sets ID field value.
-    *
-    * @param val value
-    */
    public void setID (Integer val)
    {
       ProjectFile parent = getParentFile();
@@ -1527,16 +1514,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    public Duration getBaselineWork ()
    {
       return ((Duration)get(BASELINE_WORK));
-   }
-
-   /**
-    * Gets ID field value.
-    *
-    * @return value
-    */
-   public int getIDValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(ID)));
    }
 
    /**
@@ -4728,10 +4705,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     */
    public int compareTo (Object o)
    {
-      int id1 = getIDValue();
-      int id2 = ((Resource)o).getIDValue();
-
-      return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
+      return (getID().compareTo(((Resource)o).getID()));
    }
 
    /**

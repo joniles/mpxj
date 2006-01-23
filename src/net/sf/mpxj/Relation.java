@@ -40,8 +40,6 @@ public final class Relation
    public Relation (ProjectFile parent)
    {
       m_parent = parent;
-      m_taskIDValue = 0;
-      m_taskUniqueIDValue = 0;
       m_type = RelationType.FINISH_START;
       m_duration = Duration.getInstance(0, TimeUnit.DAYS);
    }
@@ -52,9 +50,9 @@ public final class Relation
     *
     * @return task ID
     */
-   public int getTaskIDValue ()
+   public Integer getTaskID ()
    {
-      return (m_taskIDValue);
+      return (m_taskID);
    }
 
    /**
@@ -63,9 +61,9 @@ public final class Relation
     *
     * @return task unique ID
     */
-   public int getTaskUniqueIDValue ()
+   public Integer getTaskUniqueID ()
    {
-      return (m_taskUniqueIDValue);
+      return (m_taskUniqueID);
    }
    
    /**
@@ -74,9 +72,9 @@ public final class Relation
     *
     * @param id task identifier
     */
-   public void setTaskIDValue (int id)
+   public void setTaskID (Integer id)
    {
-      m_taskIDValue = id;
+      m_taskID = id;
    }
 
    /**
@@ -85,9 +83,9 @@ public final class Relation
     *
     * @param id task identifier
     */
-   public void setTaskUniqueIDValue (int id)
+   public void setTaskUniqueID (Integer id)
    {
-      m_taskUniqueIDValue = id;
+      m_taskUniqueID = id;
    }
    
    /**
@@ -141,7 +139,7 @@ public final class Relation
     */
    public Task getTask ()
    {
-      return (m_parent.getTaskByUniqueID(m_taskUniqueIDValue));
+      return (m_parent.getTaskByUniqueID(m_taskUniqueID));
    }
    
    /**
@@ -152,8 +150,8 @@ public final class Relation
    /**
     * Identifier of task with which this relationship is held.
     */
-   private int m_taskIDValue;
-   private int m_taskUniqueIDValue;
+   private Integer  m_taskID;
+   private Integer m_taskUniqueID;
    
    /**
     * Type of relationship.

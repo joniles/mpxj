@@ -35,10 +35,8 @@ public final class RecurringTask extends ProjectEntity
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @throws MPXJException normally thrown when parsing fails
     */
    RecurringTask (ProjectFile file)
-      throws MPXJException
    {
       super (file);
    }

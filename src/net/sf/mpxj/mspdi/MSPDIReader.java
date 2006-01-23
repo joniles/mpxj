@@ -242,10 +242,8 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param project Root node of the MSPDI file
     * @param map Map of calendar UIDs to names
-    * @throws MPXJException on file read errors
     */
    private void readCalendars (Project project, HashMap map)
-      throws MPXJException
    {
       Project.CalendarsType calendars = project.getCalendars();
       if (calendars != null)
@@ -302,10 +300,8 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param calendar Calendar data
     * @param map Map of calendar UIDs to names
     * @param baseCalendars list of base calendars
-    * @throws MPXJException on file read errors
     */
    private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map, LinkedList baseCalendars)
-      throws MPXJException
    {
       ProjectCalendar bc;
       Iterator iter;
@@ -348,10 +344,8 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param calendar Calendar data
     * @param day Day data
-    * @throws MPXJException on file read errors
     */
    private void readDay (ProjectCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
-      throws MPXJException
    {
       BigInteger dayType = day.getDayType();
       if (dayType != null)
@@ -372,10 +366,8 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param calendar Calendar data
     * @param weekDay Day data
-    * @throws MPXJException on file read errors
     */
    private void readNormalDay (ProjectCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType weekDay)
-      throws MPXJException
    {
       int dayNumber = weekDay.getDayType().intValue();
       Day day = Day.getInstance(dayNumber);
@@ -410,10 +402,8 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param calendar Calendar data
     * @param day Day data
-    * @throws MPXJException on file read errors
     */
    private void readExceptionDay (ProjectCalendar calendar, Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day)
-      throws MPXJException
    {
       ProjectCalendarException exception = calendar.addCalendarException();
 
@@ -515,10 +505,8 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param project Root node of the MSPDI file
     * @param calendarMap Map of calendar UIDs to names
-    * @throws MPXJException on file read errors
     */
    private void readResources (Project project, HashMap calendarMap)
-      throws MPXJException
    {
       Project.ResourcesType resources = project.getResources();
       if (resources != null)
@@ -537,10 +525,8 @@ public final class MSPDIReader extends AbstractProjectReader
     *
     * @param xml Resource data
     * @param calendarMap Map of calendar UIDs to names
-    * @throws MPXJException on file read errors
     */
    private void readResource (Project.ResourcesType.ResourceType xml, HashMap calendarMap)
-      throws MPXJException
    {
       Resource mpx = m_projectFile.addResource();
       
@@ -648,10 +634,8 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts task data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
-    * @throws MPXJException on file read errors
     */
    private void readTasks (Project project)
-      throws MPXJException
    {
       Project.TasksType tasks = project.getTasks();
       if (tasks != null)
@@ -678,10 +662,8 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts data for a single task from an MSPDI file.
     *
     * @param xml Task data
-    * @throws MPXJException on file read errors
     */
    private void readTask (Project.TasksType.TaskType xml)
-      throws MPXJException
    {
       Task mpx = m_projectFile.addTask ();
 
@@ -909,7 +891,7 @@ public final class MSPDIReader extends AbstractProjectReader
       Integer uid = task.getUID();
       if (uid != null)
       {
-         Task currTask = m_projectFile.getTaskByUniqueID(uid.intValue());
+         Task currTask = m_projectFile.getTaskByUniqueID(uid);
          if (currTask != null)
          {
             List predecessors = task.getPredecessorLink();
@@ -934,7 +916,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger uid = link.getPredecessorUID();
       if (uid != null)
       {
-         Task prevTask = m_projectFile.getTaskByUniqueID(uid.intValue());
+         Task prevTask = m_projectFile.getTaskByUniqueID(new Integer(uid.intValue()));
          if (prevTask != null)
          {
             RelationType type;
@@ -969,10 +951,8 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts assignment data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
-    * @throws MPXJException on file read errors
     */
    private void readAssignments (Project project)
-      throws MPXJException
    {
       Project.AssignmentsType assignments = project.getAssignments();
       if (assignments != null)
@@ -991,17 +971,15 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts data for a single assignment from an MSPDI file.
     *
     * @param assignment Assignment data
-    * @throws MPXJException on file read errors
     */
    private void readAssignment (Project.AssignmentsType.AssignmentType assignment)
-      throws MPXJException
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
       if (taskUID != null && resourceUID != null)
       {
-         Task task = m_projectFile.getTaskByUniqueID(taskUID.intValue());
-         Resource resource = m_projectFile.getResourceByUniqueID(resourceUID.intValue());
+         Task task = m_projectFile.getTaskByUniqueID(new Integer(taskUID.intValue()));
+         Resource resource = m_projectFile.getResourceByUniqueID(new Integer(resourceUID.intValue()));
 
          if (task != null && resource != null)
          {

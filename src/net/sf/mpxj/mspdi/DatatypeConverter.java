@@ -1423,7 +1423,7 @@ public final class DatatypeConverter
    public static final String printTaskUID (Integer value)
    {
       ProjectFile file = (ProjectFile)PARENT_FILE.get();
-      file.fireTaskWrittenEvent(file.getTaskByUniqueID(value.intValue()));
+      file.fireTaskWrittenEvent(file.getTaskByUniqueID(value));
       return (value.toString());
    }
 
@@ -1447,7 +1447,7 @@ public final class DatatypeConverter
    public static final String printResourceUID (Integer value)
    {    
       ProjectFile file = (ProjectFile)PARENT_FILE.get();
-      file.fireResourceWrittenEvent(file.getResourceByUniqueID(value.intValue()));      
+      file.fireResourceWrittenEvent(file.getResourceByUniqueID(value));      
       return (value.toString());
    }
 

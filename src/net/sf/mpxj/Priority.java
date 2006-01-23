@@ -23,9 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 /**
  * This class is used to represent a priority. It provides a mapping
@@ -52,35 +49,6 @@ public final class Priority
       {
          m_value = priority;
       }
-   }
-
-   /**
-    * This method takes the textual version of a priority
-    * and returns an appropriate instance of this class. Note that unrecognised
-    * values are treated as medium priority.
-    *
-    * @param locale target locale
-    * @param priority text version of the priority
-    * @return Priority class instance
-    */
-   public static Priority getInstance (Locale locale, String priority)
-   {
-      int index = DEFAULT_PRIORITY_INDEX;
-
-      if (priority != null)
-      {
-         String[] priorityTypes = LocaleData.getStringArray(locale, LocaleData.PRIORITY_TYPES);
-         for (int loop=0; loop < priorityTypes.length; loop++)
-         {
-            if (priorityTypes[loop].equalsIgnoreCase(priority) == true)
-            {
-               index = loop;
-               break;
-            }
-         }
-      }
-
-      return (VALUE[index]);
    }
 
    /**
@@ -186,11 +154,6 @@ public final class Priority
       new Priority (DO_NOT_LEVEL)
    };
 
-   /**
-    * Index into the VALUE array of the default priority.
-    */
-   private static final int DEFAULT_PRIORITY_INDEX = 4;
-   
    /**
     * Internal representation of the priority.
     */

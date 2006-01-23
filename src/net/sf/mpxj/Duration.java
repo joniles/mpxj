@@ -24,9 +24,6 @@
 
 package net.sf.mpxj;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 
 
 /**
@@ -277,55 +274,6 @@ public final class Duration
          result = new Duration(duration, type);
       }
       return(result);
-   }
-
-   /**
-    * Retrieve an MPXDuration instance. Use shared objects to
-    * represent common values for memory efficiency.
-    * 
-    * @param dur duration formatted as a string
-    * @param format number format
-    * @param locale target locale
-    * @return MPXDuration instance
-    * @throws MPXJException
-    */
-   public static Duration getInstance (String dur, NumberFormat format, Locale locale)
-      throws MPXJException
-   {
-      try
-      {
-         int lastIndex = dur.length() - 1;
-         int index = lastIndex;
-         double duration;
-         TimeUnit units;
-         
-         while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
-         {
-            --index;
-         }
-      
-         //
-         // If we have no units suffix, assume days to allow for MPX3
-         //
-         if (index == lastIndex)
-         {
-            duration = format.parse(dur).doubleValue();
-            units = TimeUnit.DAYS;
-         }
-         else
-         {
-            ++index;
-            duration = format.parse(dur.substring(0, index)).doubleValue();
-            units = TimeUnit.parse(dur.substring(index), locale);
-         }
-         
-         return (getInstance(duration, units));
-      }
-      
-      catch (ParseException ex)
-      {
-         throw new MPXJException ("Failed to parse duration", ex);
-      }
    }
 
    /**

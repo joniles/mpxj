@@ -64,10 +64,8 @@ public final class ProjectCalendar extends ProjectEntity
     * a limit of 250 exceptions per calendar.
     *
     * @return <tt>MPXCalendarException</tt>
-    * @throws MPXJException if limit on number of exceptions is reached
     */
    public ProjectCalendarException addCalendarException ()
-      throws MPXJException
    {
       ProjectCalendarException bce = new ProjectCalendarException(getParentFile());
       m_exceptions.add(bce);      
@@ -91,10 +89,8 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @param day day number
     * @return new MPXCalendarHours instance
-    * @throws MPXJException if maximum number of records is exceeded
     */
    public ProjectCalendarHours addCalendarHours(Day day)
-      throws MPXJException
    {
       ProjectCalendarHours bch = new ProjectCalendarHours(getParentFile(), this);
       bch.setDay (day);
@@ -107,10 +103,8 @@ public final class ProjectCalendar extends ProjectEntity
     * a particular day.
     * 
     * @return calendar hours instance
-    * @throws MPXJException
     */
    public ProjectCalendarHours addCalendarHours()
-      throws MPXJException
    {
       return (new ProjectCalendarHours(getParentFile(), this));
    }

@@ -24,6 +24,8 @@
 package net.sf.mpxj.mpx;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -37,15 +39,15 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.FileCreationRecord;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.Rate;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -64,16 +66,80 @@ public final class MPXWriter extends AbstractProjectWriter
 {
    /**
     * {@inheritDoc}
-    */
+    */   
    public void write (ProjectFile projectFile, OutputStream out)
       throws IOException
    {
+      write (projectFile, out, true);
+   }
+   
+   /**
+    * Writes the contents of the project as an MPX file. This method allows the
+    * caller to control whether the locale defaults are used to replace
+    * the settings held in the project file, or whether the settings in the 
+    * project file are used. This affects things lik currency symbol, date 
+    * formats, file delimiters and so on.
+    * 
+    * @param projectFile project file instance
+    * @param fileName file name
+    * @param useLocaleDefaults boolean flag
+    * @throws IOException
+    */
+   public void write (ProjectFile projectFile, String fileName, boolean useLocaleDefaults)
+      throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(fileName);
+      write(projectFile, fos, useLocaleDefaults);
+      fos.flush();
+      fos.close();
+   }
+
+   /**
+    * Writes the contents of the project as an MPX file. This method allows the
+    * caller to control whether the locale defaults are used to replace
+    * the settings held in the project file, or whether the settings in the 
+    * project file are used. This affects things lik currency symbol, date 
+    * formats, file delimiters and so on.
+    * 
+    * @param projectFile project file instance
+    * @param file file instance
+    * @param useLocaleDefaults boolean flag
+    * @throws IOException
+    */
+   public void write (ProjectFile projectFile, File file, boolean useLocaleDefaults)
+      throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(file);
+      write(projectFile, fos, useLocaleDefaults);
+      fos.flush();
+      fos.close();
+   }   
+   
+   /**
+    * Writes the contents of the project as an MPX file. This method allows the
+    * caller to control whether the locale defaults are used to replace
+    * the settings held in the project file, or whether the settings in the 
+    * project file are used. This affects things lik currency symbol, date 
+    * formats, file delimiters and so on.
+    * 
+    * @param projectFile project file instance
+    * @param out output stream instance
+    * @param useLocaleDefaults boolean flag
+    * @throws IOException
+    */
+   public void write (ProjectFile projectFile, OutputStream out, boolean useLocaleDefaults)
+      throws IOException
+   {
       m_projectFile = projectFile;
+      if (useLocaleDefaults == true)
+      {
+         LocaleUtility.setLocale(m_projectFile, m_locale);
+      }
+      
       m_delimiter = projectFile.getDelimiter();
-      m_locale = projectFile.getLocale();
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
       m_buffer = new StringBuffer();
-      m_formats = new MPXFormats(m_projectFile);
+      m_formats = new MPXFormats(m_locale, m_projectFile);
       
       try
       {
@@ -91,7 +157,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_formats = null;
       }
    }
-   
+
    /**
     * Writes the contents of the project file as MPX records.
     * 
@@ -109,7 +175,7 @@ public final class MPXWriter extends AbstractProjectWriter
          writeCalendar((ProjectCalendar)iter.next());
       }
    
-      m_resourceModel = new ResourceModel(m_projectFile);
+      m_resourceModel = new ResourceModel(m_projectFile, m_locale);
       m_writer.write(m_resourceModel.toString());
       iter = m_projectFile.getAllResources().iterator();   
       while (iter.hasNext())
@@ -117,7 +183,7 @@ public final class MPXWriter extends AbstractProjectWriter
          writeResource ((Resource)iter.next());
       }      
 
-      m_taskModel = new TaskModel(m_projectFile);
+      m_taskModel = new TaskModel(m_projectFile, m_locale);
       m_writer.write(m_taskModel.toString());
       writeTasks (m_projectFile.getChildTasks());
       
@@ -1163,7 +1229,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatRelation (Relation relation)
    {
-      StringBuffer sb = new StringBuffer(Integer.toString(relation.getTaskIDValue()));
+      StringBuffer sb = new StringBuffer(relation.getTaskID().toString());
 
       Duration duration = relation.getDuration();
       RelationType type = relation.getType();
@@ -1300,23 +1366,23 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    /**
-    * Accessor method to retrieve the current file delimiter character.
+    * This method returns the locale used by this MPX file.
     *
-    * @return delimiter character
+    * @return current locale
     */
-   public char getDelimiter ()
+   public Locale getLocale ()
    {
-      return (m_delimiter);
+      return (m_locale);
    }
 
    /**
-    * Modifier method used to set the delimiter character.
+    * This method sets the locale to be used by this MPX file.
     *
-    * @param delimiter delimiter character
+    * @param locale locale to be used
     */
-   public void setDelimiter (char delimiter)
+   public void setLocale (Locale locale)
    {
-      m_delimiter = delimiter;
+      m_locale = locale;
    }
    
    private ProjectFile m_projectFile;
@@ -1324,7 +1390,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private ResourceModel m_resourceModel;
    private TaskModel m_taskModel;
    private char m_delimiter;
-   private Locale m_locale;
+   private Locale m_locale = Locale.ENGLISH;   
    private StringBuffer m_buffer;
    private MPXFormats m_formats;
 }

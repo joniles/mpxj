@@ -37,10 +37,8 @@ public final class ResourceAssignmentWorkgroupFields extends ProjectEntity
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @throws MPXJException normally thrown when parsing fails
     */
    ResourceAssignmentWorkgroupFields (ProjectFile file)
-      throws MPXJException
    {
       super(file);
    }

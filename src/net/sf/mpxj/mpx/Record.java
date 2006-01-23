@@ -359,7 +359,7 @@ final class Record
             else
             {
                amount = m_formats.getCurrencyFormat().parse( rate.substring (0, index)).doubleValue();
-               units = TimeUnit.parse(rate.substring (index+1), m_locale);
+               units = TimeUnitUtility.getInstance(rate.substring (index+1), m_locale);
             }
             
             result = new Rate(amount, units);
@@ -462,7 +462,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = Duration.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_locale);
+         result = DurationUtility.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_locale);
       }
       else
       {
@@ -682,7 +682,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = AccrueType.getInstance (m_fields[field], m_locale);
+         result = AccrueTypeUtility.getInstance (m_fields[field], m_locale);
       }
       else
       {

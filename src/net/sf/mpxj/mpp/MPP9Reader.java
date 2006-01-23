@@ -65,6 +65,7 @@ import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
+import net.sf.mpxj.utility.RTFUtility;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -140,7 +141,7 @@ final class MPP9Reader implements MPPVariantReader
       processAssignmentData (file, projectDir);
 
       projectDir = (DirectoryEntry)root.getEntry ("   29");
-      processViewPropertyData(file, projectDir);
+      processViewPropertyData(projectDir);
       processTableData (file, projectDir);      
       processViewData (file, projectDir);      
    }
@@ -508,29 +509,25 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method process the data held in the props file specific to the
     * visual appearance of the project data.
-    * 
-    * @param file parent file
     * @param projectDir project directory
     */
-   private void processViewPropertyData (ProjectFile file,  DirectoryEntry projectDir)
+   private void processViewPropertyData (DirectoryEntry projectDir)
       throws IOException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
-         processBaseFonts (file, data);
+         processBaseFonts (data);
       }
    }
    
    /**
     * Create an index of base font numbers and their associated base
     * font instances.
-    * 
-    * @param file parent file
     * @param data property data
     */
-   private void processBaseFonts (ProjectFile file, byte[] data)
+   private void processBaseFonts (byte[] data)
    {
       int offset = 0;
       
@@ -1124,10 +1121,8 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @param data calendar data block
     * @param cal calendar instance
-    * @throws MPXJException
     */
    private void processCalendarExceptions (byte[] data, ProjectCalendar cal)
-      throws MPXJException
    {
       //
       // Handle any exceptions
@@ -1234,11 +1229,10 @@ final class MPP9Reader implements MPPVariantReader
     * @param file parent MPP file
     * @param projectDir root project directory
     * @param outlineCodeVarData outline code data
-    * @throws MPXJException
     * @throws IOException
     */
    private void processTaskData (ProjectFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData)
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
       VarMeta taskVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
@@ -1678,8 +1672,6 @@ final class MPP9Reader implements MPPVariantReader
       Task task2;
       Relation rel;
       TimeUnit durationUnits;
-      int taskID1;
-      int taskID2;
       int constraintID;
       int lastConstraintID = -1;
       byte[] metaData;
@@ -1698,13 +1690,13 @@ final class MPP9Reader implements MPPVariantReader
                if (constraintID > lastConstraintID)
                {
                   lastConstraintID = constraintID;
-                  taskID1 = MPPUtility.getInt (data, 4);
-                  taskID2 = MPPUtility.getInt (data, 8);
+                  int taskID1 = MPPUtility.getInt (data, 4);
+                  int taskID2 = MPPUtility.getInt (data, 8);
    
                   if (taskID1 != taskID2)
                   {
-                     task1 = file.getTaskByUniqueID (taskID1);
-                     task2 = file.getTaskByUniqueID (taskID2);
+                     task1 = file.getTaskByUniqueID (new Integer(taskID1));
+                     task2 = file.getTaskByUniqueID (new Integer(taskID2));
                      
                      if (task1 != null && task2 != null)
                      {
@@ -1728,11 +1720,10 @@ final class MPP9Reader implements MPPVariantReader
     * @param projectDir root project directory
     * @param outlineCodeVarData outline code data
     * @param resourceCalendarMap map of resource IDs to resource data
-    * @throws MPXJException
     * @throws IOException
     */
    private void processResourceData (ProjectFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap resourceCalendarMap)
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
@@ -1822,7 +1813,7 @@ final class MPP9Reader implements MPPVariantReader
          resource.setFinish9(rscVarData.getTimestamp (id, RESOURCE_FINISH9));
          resource.setFinish10(rscVarData.getTimestamp (id, RESOURCE_FINISH10));
          resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
-         resource.setID (MPPUtility.getInt (data, 4));
+         resource.setID (new Integer(MPPUtility.getInt (data, 4)));
          resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value
          resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44)/100));
@@ -1978,11 +1969,10 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXJException
     * @throws IOException
     */
    private void processAssignmentData (ProjectFile file,  DirectoryEntry projectDir)
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
@@ -2014,7 +2004,7 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
-         int taskID = MPPUtility.getInt (data, 4);
+         Integer taskID = new Integer(MPPUtility.getInt (data, 4));
          Task task = file.getTaskByUniqueID (taskID);
                   
          if (task != null)
@@ -2023,7 +2013,7 @@ final class MPP9Reader implements MPPVariantReader
             byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
             processSplitData(task, completeWork, incompleteWork);
                                     
-            int resourceID = MPPUtility.getInt (data, 8);
+            Integer resourceID = new Integer(MPPUtility.getInt (data, 8));
             Resource resource = file.getResourceByUniqueID (resourceID);
             
             if (resource != null)

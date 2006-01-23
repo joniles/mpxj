@@ -24,9 +24,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 
 /**
@@ -45,22 +42,10 @@ public final class FileCreationRecord extends ProjectEntity
    {
       super(file);
 
-      setLocale(file.getLocale());
+      setDelimiter (',');
+      setProgramName ("Microsoft Project for Windows");
+      setCodePage (CodePage.ANSI);
       setFileVersion(FileVersion.VERSION_4_0);
-   }
-
-   /**
-    * This method is called when the locale of the parent file is updated.
-    * It resets the locale specific currency attributes to the default values
-    * for the new locale.
-    *
-    * @param locale new locale
-    */
-   void setLocale (Locale locale)
-   {
-      setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
-      setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
-      setCodePage((CodePage)LocaleData.getObject(locale, LocaleData.CODE_PAGE));
    }
 
    /**

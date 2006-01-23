@@ -275,10 +275,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param resource the resource to assign
     * @return ResourceAssignment object
-    * @throws MPXJException
     */
    public ResourceAssignment addResourceAssignment (Resource resource)
-      throws MPXJException
    {
       Iterator iter = m_assignments.iterator();
       ResourceAssignment assignment = null;
@@ -319,10 +317,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * an MPX file record.
     *
     * @return ResourceAssignment object
-    * @throws MPXJException
     */
    public ResourceAssignment addResourceAssignment ()
-      throws MPXJException
    {
       ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
       m_assignments.add(assignment);            
@@ -396,7 +392,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            if (rel.getTaskIDValue() == task.getIDValue())
+            if (NumberUtility.getInt(rel.getTaskID()) == task.getIDValue())
             {
                break;
             }
@@ -413,8 +409,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
          if (task != null)
          {
-            rel.setTaskIDValue(task.getIDValue());
-            rel.setTaskUniqueIDValue(task.getUniqueIDValue());
+            rel.setTaskID(task.getID());
+            rel.setTaskUniqueID(task.getUniqueID());
          }
 
          list.add(rel);
@@ -467,7 +463,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            if (rel.getTaskIDValue() == task.getUniqueIDValue())
+            if (NumberUtility.equals(rel.getTaskUniqueID(), task.getUniqueID()))
             {
                break;
             }
@@ -484,8 +480,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
          if (task != null)
          {
-            rel.setTaskIDValue(task.getIDValue());
-            rel.setTaskUniqueIDValue(task.getUniqueIDValue());
+            rel.setTaskID(task.getID());
+            rel.setTaskUniqueID(task.getUniqueID());
          }
 
          list.add(rel);
@@ -526,8 +522,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
       if (task != null)
       {
-         rel.setTaskIDValue(task.getIDValue());
-         rel.setTaskUniqueIDValue(task.getUniqueIDValue());
+         rel.setTaskID(task.getID());
+         rel.setTaskUniqueID(task.getUniqueID());
       }
 
       list.add(rel);
@@ -567,8 +563,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
       if (task != null)
       {
-         rel.setTaskIDValue(task.getIDValue());
-         rel.setTaskUniqueIDValue(task.getUniqueIDValue());
+         rel.setTaskID(task.getID());
+         rel.setTaskUniqueID(task.getUniqueID());
       }
 
       list.add(rel);

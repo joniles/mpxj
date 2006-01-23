@@ -59,6 +59,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
+import net.sf.mpxj.utility.RTFUtility;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -414,11 +415,10 @@ final class MPP8Reader implements MPPVariantReader
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXJException
     * @throws IOException
     */
    private void processTaskData (ProjectFile file,  DirectoryEntry projectDir)
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
       FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
@@ -825,8 +825,6 @@ final class MPP8Reader implements MPPVariantReader
          Task task2;
          Relation rel;
          TimeUnit durationUnits;
-         int taskID1;
-         int taskID2;
 
          for (int loop=0; loop < count; loop++)
          {
@@ -834,13 +832,13 @@ final class MPP8Reader implements MPPVariantReader
 
             if (MPPUtility.getInt(data, 28) == 0)
             {
-               taskID1 = MPPUtility.getInt (data, 12);
-               taskID2 = MPPUtility.getInt (data, 16);
+               int taskID1 = MPPUtility.getInt (data, 12);
+               int taskID2 = MPPUtility.getInt (data, 16);
 
                if (taskID1 != taskID2)
                {
-                  task1 = file.getTaskByUniqueID (taskID1);
-                  task2 = file.getTaskByUniqueID (taskID2);
+                  task1 = file.getTaskByUniqueID (new Integer(taskID1));
+                  task2 = file.getTaskByUniqueID (new Integer(taskID2));
                   if (task1 != null && task2 != null)
                   {
                      rel = task2.addPredecessor(task1);
@@ -861,11 +859,10 @@ final class MPP8Reader implements MPPVariantReader
     * @param file Parent MPX file
     * @param projectDir Project data directory
     * @param calendarMap map of calendar IDs and calendar instances
-    * @throws MPXJException
     * @throws IOException
     */
    private void processResourceData (ProjectFile file, DirectoryEntry projectDir, HashMap calendarMap)
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
       FixFix rscFixedData = new FixFix (196, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixFix   0"))));
@@ -980,7 +977,7 @@ final class MPP8Reader implements MPPVariantReader
          resource.setFinish9(rscExtData.getTimestamp (RESOURCE_FINISH9));
          resource.setFinish10(rscExtData.getTimestamp (RESOURCE_FINISH10));
          resource.setGroup(rscExtData.getUnicodeString (RESOURCE_GROUP));
-         resource.setID (MPPUtility.getInt (data, 4));
+         resource.setID (new Integer(MPPUtility.getInt (data, 4)));
          resource.setInitials (rscVarData.getUnicodeString(getOffset (data, 160)));
          //resource.setLinkedFields(); // Calculated value
          resource.setMaxUnits(NumberUtility.getDouble(((double)MPPUtility.getInt(data, 52))/100));
@@ -1106,11 +1103,10 @@ final class MPP8Reader implements MPPVariantReader
     *
     * @param file Parent MPX file
     * @param projectDir Project data directory
-    * @throws MPXJException
     * @throws IOException
     */
    private void processAssignmentData (ProjectFile file, DirectoryEntry projectDir)
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
@@ -1136,8 +1132,8 @@ final class MPP8Reader implements MPPVariantReader
 
          data = assnFixedData.getByteArrayValue(loop);
 
-         task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
-         resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
+         task = file.getTaskByUniqueID (new Integer(MPPUtility.getInt (data, 16)));
+         resource = file.getResourceByUniqueID (new Integer(MPPUtility.getInt (data, 20)));
          if (task != null && resource != null)
          {
             assignment = task.addResourceAssignment (resource);
@@ -1197,8 +1193,8 @@ final class MPP8Reader implements MPPVariantReader
       for (int loop=0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
-         task = file.getTaskByUniqueID (MPPUtility.getInt (data, 16));
-         resource = file.getResourceByUniqueID (MPPUtility.getInt (data, 20));
+         task = file.getTaskByUniqueID (new Integer(MPPUtility.getInt (data, 16)));
+         resource = file.getResourceByUniqueID (new Integer(MPPUtility.getInt (data, 20)));
 
          if (task == null && resource == null)
          {

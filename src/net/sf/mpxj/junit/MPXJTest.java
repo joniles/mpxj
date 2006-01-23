@@ -34,10 +34,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.mpxj.ProjectCalendar;
+import junit.framework.TestCase;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
@@ -51,8 +52,6 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.utility.NumberUtility;
-
-import junit.framework.TestCase;
 
 
 /**
@@ -94,7 +93,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/sample.mpx");
          ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write(mpx, out);
+         new MPXWriter().write(mpx, out, false);
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
@@ -156,7 +155,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/sample1.mpx");
          ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write(mpx, out);
+         new MPXWriter().write(mpx, out, false);
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
@@ -190,7 +189,7 @@ public class MPXJTest extends TestCase
          ProjectFile mpx = reader.read (in);
          out = File.createTempFile ("junit", ".mpx");
                   
-         mpx.setLocale(Locale.GERMAN);
+         writer.setLocale(Locale.GERMAN);
          writer.write(mpx, out);
 
          reader.setLocale(Locale.GERMAN);
@@ -226,7 +225,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/sample.mpx");
          ProjectFile mpx = reader.read(in);
          out = File.createTempFile("junit", ".mpx");
-         mpx.setLocale(swedish);
+         writer.setLocale(swedish);
          writer.write(mpx, out);
 
          mpx = new ProjectFile ();
@@ -263,7 +262,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/sample.mpx");
          ProjectFile mpx = reader.read(in);
          out = File.createTempFile ("junit", ".mpx");
-         mpx.setLocale(portuguese);
+         writer.setLocale(portuguese);
          writer.write (mpx, out);
 
          mpx = new ProjectFile ();
@@ -300,7 +299,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/sample.mpx");
          ProjectFile mpx = reader.read(in);
          out = File.createTempFile ("junit", ".mpx");
-         mpx.setLocale(french);
+         writer.setLocale(french);
          writer.write (mpx, out);
 
          reader.setLocale(french);
@@ -336,7 +335,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/sample.mpx");
          ProjectFile mpx = reader.read(in);
          out = File.createTempFile ("junit", ".mpx");
-         mpx.setLocale(italian);
+         writer.setLocale(italian);
          writer.write (mpx, out);
 
          reader.setLocale(italian);
@@ -385,12 +384,12 @@ public class MPXJTest extends TestCase
       Resource resource1 = file.addResource();
       resource1.setName("R1");
       assertEquals (resource1.getUniqueIDValue(), 1);
-      assertEquals (resource1.getIDValue(), 1);
+      assertEquals (resource1.getID().intValue(), 1);
 
       Resource resource2 = file.addResource();
       resource2.setName("R2");
       assertEquals (resource2.getUniqueIDValue(), 2);
-      assertEquals (resource2.getIDValue(), 2);
+      assertEquals (resource2.getID().intValue(), 2);
 
       Task task1 = file.addTask();
       task1.setName("1.0");
@@ -583,7 +582,7 @@ public class MPXJTest extends TestCase
       //
       // Test the remaining work attribute
       //
-      Task task = file.getTaskByUniqueID(2);
+      Task task = file.getTaskByUniqueID(new Integer(2));
       List assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
 
@@ -678,7 +677,7 @@ public class MPXJTest extends TestCase
             while (relIter.hasNext() == true)
             {
                Relation rel = (Relation)relIter.next();
-               mpx.getTaskByUniqueID(rel.getTaskIDValue());
+               mpx.getTaskByUniqueID(rel.getTaskUniqueID());
             }
          }
       }
@@ -746,23 +745,23 @@ public class MPXJTest extends TestCase
 
          ProjectFile file2 = new MPXReader().read(out);
          String notes;
-         Task task1a = file2.getTaskByUniqueID(task1.getUniqueIDValue());
+         Task task1a = file2.getTaskByUniqueID(task1.getUniqueID());
          notes = task1a.getNotes();
          assertEquals (notes1, notes);
 
-         Task task2a = file2.getTaskByUniqueID(task2.getUniqueIDValue());
+         Task task2a = file2.getTaskByUniqueID(task2.getUniqueID());
          notes = task2a.getNotes();
          assertEquals (notes2, notes);
 
-         Task task3a = file2.getTaskByUniqueID(task3.getUniqueIDValue());
+         Task task3a = file2.getTaskByUniqueID(task3.getUniqueID());
          notes = task3a.getNotes();
          assertEquals (notes3, notes);
 
-         Task task4a = file2.getTaskByUniqueID(task4.getUniqueIDValue());
+         Task task4a = file2.getTaskByUniqueID(task4.getUniqueID());
          notes = task4a.getNotes();
          assertEquals (notes4, notes);
 
-         Task task5a = file2.getTaskByUniqueID(task5.getUniqueIDValue());
+         Task task5a = file2.getTaskByUniqueID(task5.getUniqueID());
          notes = task5a.getNotes();
          assertEquals (notes5, notes);
       }
@@ -827,23 +826,23 @@ public class MPXJTest extends TestCase
 
          ProjectFile file2 = new MPXReader().read (out);
          String notes;
-         Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueIDValue());
+         Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueID());
          notes = resource1a.getNotes();
          assertEquals (notes1, notes);
 
-         Resource resource2a = file2.getResourceByUniqueID(resource2.getUniqueIDValue());
+         Resource resource2a = file2.getResourceByUniqueID(resource2.getUniqueID());
          notes = resource2a.getNotes();
          assertEquals (notes2, notes);
 
-         Resource resource3a = file2.getResourceByUniqueID(resource3.getUniqueIDValue());
+         Resource resource3a = file2.getResourceByUniqueID(resource3.getUniqueID());
          notes = resource3a.getNotes();
          assertEquals (notes3, notes);
 
-         Resource resource4a = file2.getResourceByUniqueID(resource4.getUniqueIDValue());
+         Resource resource4a = file2.getResourceByUniqueID(resource4.getUniqueID());
          notes = resource4a.getNotes();
          assertEquals (notes4, notes);
 
-         Resource resource5a = file2.getResourceByUniqueID(resource5.getUniqueIDValue());
+         Resource resource5a = file2.getResourceByUniqueID(resource5.getUniqueID());
          notes = resource5a.getNotes();
          assertEquals (notes5, notes);
       }
@@ -1819,11 +1818,11 @@ public class MPXJTest extends TestCase
          header = file.getProjectHeader();
          assertEquals("Project Header Comments: Some\nExample\nText\nWith\nBreaks", header.getComments());
 
-         task1 = file.getTaskByUniqueID(1);
+         task1 = file.getTaskByUniqueID(new Integer(1));
          assertEquals("Task1: Some\nExample\nText\nWith\nBreaks", task1.getName());
          assertEquals("Task1 Notes: Some\nExample\nText\nWith\nBreaks", task1.getNotes());
 
-         resource1 = file.getResourceByUniqueID(1);
+         resource1 = file.getResourceByUniqueID(new Integer(1));
          assertEquals("Resource1: Some\nExample\nText\nWith\nBreaks", resource1.getName());
          assertEquals("Resource1 Notes: Some\nExample\nText\nWith\nBreaks", resource1.getNotes());
          success = true;
@@ -2049,12 +2048,12 @@ public class MPXJTest extends TestCase
       throws Exception
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
-      Task task = mpp.getTaskByUniqueID(2);
+      Task task = mpp.getTaskByUniqueID(new Integer(2));
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
 
       mpp = new MPPReader().read (m_basedir + "/sample.mpp");
-      task = mpp.getTaskByUniqueID(2);
+      task = mpp.getTaskByUniqueID(new Integer(2));
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
    }
@@ -2126,16 +2125,16 @@ public class MPXJTest extends TestCase
     */
    private void validatePriority (ProjectFile file)
    {
-      assertEquals(Priority.DO_NOT_LEVEL, file.getTaskByUniqueID(1).getPriority().getValue());
-      assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(2).getPriority().getValue());      
-      assertEquals(Priority.VERY_HIGH, file.getTaskByUniqueID(3).getPriority().getValue());
-      assertEquals(Priority.HIGHER, file.getTaskByUniqueID(4).getPriority().getValue());
-      assertEquals(Priority.HIGH, file.getTaskByUniqueID(5).getPriority().getValue());
-      assertEquals(Priority.MEDIUM, file.getTaskByUniqueID(6).getPriority().getValue());
-      assertEquals(Priority.LOW, file.getTaskByUniqueID(7).getPriority().getValue());
-      assertEquals(Priority.LOWER, file.getTaskByUniqueID(8).getPriority().getValue());
-      assertEquals(Priority.VERY_LOW, file.getTaskByUniqueID(9).getPriority().getValue());
-      assertEquals(Priority.LOWEST, file.getTaskByUniqueID(10).getPriority().getValue());      
+      assertEquals(Priority.DO_NOT_LEVEL, file.getTaskByUniqueID(new Integer(1)).getPriority().getValue());
+      assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(new Integer(2)).getPriority().getValue());      
+      assertEquals(Priority.VERY_HIGH, file.getTaskByUniqueID(new Integer(3)).getPriority().getValue());
+      assertEquals(Priority.HIGHER, file.getTaskByUniqueID(new Integer(4)).getPriority().getValue());
+      assertEquals(Priority.HIGH, file.getTaskByUniqueID(new Integer(5)).getPriority().getValue());
+      assertEquals(Priority.MEDIUM, file.getTaskByUniqueID(new Integer(6)).getPriority().getValue());
+      assertEquals(Priority.LOW, file.getTaskByUniqueID(new Integer(7)).getPriority().getValue());
+      assertEquals(Priority.LOWER, file.getTaskByUniqueID(new Integer(8)).getPriority().getValue());
+      assertEquals(Priority.VERY_LOW, file.getTaskByUniqueID(new Integer(9)).getPriority().getValue());
+      assertEquals(Priority.LOWEST, file.getTaskByUniqueID(new Integer(10)).getPriority().getValue());      
    }
    
    /**
@@ -2171,7 +2170,7 @@ public class MPXJTest extends TestCase
       //
       // Resource calendar based on standard calendar
       //
-      Resource resource = mpx.getResourceByUniqueID(1);      
+      Resource resource = mpx.getResourceByUniqueID(new Integer(1));      
       ProjectCalendar calendar = resource.getResourceCalendar();
       assertEquals("Resource One", calendar.getName());
       assertFalse(calendar.isBaseCalendar());
@@ -2181,7 +2180,7 @@ public class MPXJTest extends TestCase
       //
       // Resource calendar based on base calendar
       //
-      resource = mpx.getResourceByUniqueID(2);
+      resource = mpx.getResourceByUniqueID(new Integer(2));
       calendar = resource.getResourceCalendar();
       assertEquals("Resource Two", calendar.getName());
       assertFalse(calendar.isBaseCalendar());
@@ -2191,7 +2190,7 @@ public class MPXJTest extends TestCase
       //
       // Resource calendar based on modified base calendar
       //
-      resource = mpx.getResourceByUniqueID(3);
+      resource = mpx.getResourceByUniqueID(new Integer(3));
       calendar = resource.getResourceCalendar();
       assertEquals("Resource Three", calendar.getName());
       assertFalse(calendar.isBaseCalendar());
@@ -2206,16 +2205,16 @@ public class MPXJTest extends TestCase
     */
    private void validateTaskCalendars (ProjectFile mpx)
    {
-      Task task = mpx.getTaskByUniqueID(2);
+      Task task = mpx.getTaskByUniqueID(new Integer(2));
       ProjectCalendar calendar = task.getCalendar();
       assertNull(calendar);
       
-      task = mpx.getTaskByUniqueID(3);
+      task = mpx.getTaskByUniqueID(new Integer(3));
       calendar = task.getCalendar();      
       assertEquals("Standard", calendar.getName());
       assertTrue(calendar.isBaseCalendar());
       
-      task = mpx.getTaskByUniqueID(4);
+      task = mpx.getTaskByUniqueID(new Integer(4));
       calendar = task.getCalendar();      
       assertEquals("Base Calendar", calendar.getName());
       assertTrue(calendar.isBaseCalendar());      
@@ -2241,7 +2240,7 @@ public class MPXJTest extends TestCase
       //
       // Remove a task with no assignments
       //
-      Task task = mpp.getTaskByUniqueID(1);
+      Task task = mpp.getTaskByUniqueID(new Integer(1));
       assertEquals("Task One", task.getName());
       task.remove();
       assertEquals(8, mpp.getAllTasks().size());
@@ -2251,7 +2250,7 @@ public class MPXJTest extends TestCase
       //
       // Remove a resource with no assignments
       //
-      Resource resource = mpp.getResourceByUniqueID(1);
+      Resource resource = mpp.getResourceByUniqueID(new Integer(1));
       assertEquals("Resource One", resource.getName());
       resource.remove();
       assertEquals(8, mpp.getAllTasks().size());
@@ -2261,7 +2260,7 @@ public class MPXJTest extends TestCase
       //
       // Remove a task with a single assignment
       //
-      task = mpp.getTaskByUniqueID(2);
+      task = mpp.getTaskByUniqueID(new Integer(2));
       assertEquals("Task Two", task.getName());
       task.remove();
       assertEquals(7, mpp.getAllTasks().size());
@@ -2271,7 +2270,7 @@ public class MPXJTest extends TestCase
       //
       // Remove a resource with a single assignment
       //
-      resource = mpp.getResourceByUniqueID(3);
+      resource = mpp.getResourceByUniqueID(new Integer(3));
       assertEquals("Resource Three", resource.getName());
       resource.remove();
       assertEquals(7, mpp.getAllTasks().size());
@@ -2281,7 +2280,7 @@ public class MPXJTest extends TestCase
       //
       // Remove an assignment
       //
-      task = mpp.getTaskByUniqueID(5);
+      task = mpp.getTaskByUniqueID(new Integer(5));
       assertEquals("Task Five", task.getName());
       List assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
@@ -2302,7 +2301,7 @@ public class MPXJTest extends TestCase
       //
       // Remove a task with child tasks - the child tasks will also be removed
       //
-      task = mpp.getTaskByUniqueID(8);
+      task = mpp.getTaskByUniqueID(new Integer(8));
       assertEquals("Task Eight", task.getName());
       task.remove();
       assertEquals(5, mpp.getAllTasks().size());
@@ -2356,22 +2355,22 @@ public class MPXJTest extends TestCase
       splits.add(Duration.getInstance(88, TimeUnit.HOURS));
       
       ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9.mpp");
-      Task task = mpp.getTaskByUniqueID(1);
+      Task task = mpp.getTaskByUniqueID(new Integer(1));
       assertNull(task.getSplits());
 
-      task = mpp.getTaskByUniqueID(2);      
+      task = mpp.getTaskByUniqueID(new Integer(2));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(3);      
+      task = mpp.getTaskByUniqueID(new Integer(3));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(4);      
+      task = mpp.getTaskByUniqueID(new Integer(4));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(5);      
+      task = mpp.getTaskByUniqueID(new Integer(5));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(6);      
+      task = mpp.getTaskByUniqueID(new Integer(6));      
       assertEquals(splits, task.getSplits());
       
       splits.clear();
@@ -2381,25 +2380,25 @@ public class MPXJTest extends TestCase
       splits.add(Duration.getInstance(104, TimeUnit.HOURS));      
       splits.add(Duration.getInstance(128, TimeUnit.HOURS));      
       
-      task = mpp.getTaskByUniqueID(7);      
+      task = mpp.getTaskByUniqueID(new Integer(7));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(8);      
+      task = mpp.getTaskByUniqueID(new Integer(8));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(9);      
+      task = mpp.getTaskByUniqueID(new Integer(9));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(10);      
+      task = mpp.getTaskByUniqueID(new Integer(10));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(11);      
+      task = mpp.getTaskByUniqueID(new Integer(11));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(12);      
+      task = mpp.getTaskByUniqueID(new Integer(12));      
       assertEquals(splits, task.getSplits());
       
-      task = mpp.getTaskByUniqueID(13);      
+      task = mpp.getTaskByUniqueID(new Integer(13));      
       assertEquals(splits, task.getSplits());                              
    }
    
@@ -2419,7 +2418,7 @@ public class MPXJTest extends TestCase
          File in = new File (m_basedir + "/calendarExceptions.mpx");
          ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write(mpx, out);
+         new MPXWriter().write(mpx, out, false);
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
@@ -2528,7 +2527,7 @@ public class MPXJTest extends TestCase
       {
          ProjectFile xml = new MSPDIReader().read(xmlFile);
          MppXmlCompare compare = new MppXmlCompare();
-         compare.process(xmlFile, xml, mpp);
+         compare.process(xml, mpp);
       }
    }
    

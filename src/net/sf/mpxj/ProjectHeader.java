@@ -26,10 +26,7 @@ package net.sf.mpxj;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 
 /**
@@ -52,7 +49,21 @@ public final class ProjectHeader extends ProjectEntity
       //
       // Configure Date Time Settings and Currency Settings Records
       //
-      setLocale (file.getLocale());
+      setCurrencySymbol("$");
+      setSymbolPosition(CurrencySymbolPosition.BEFORE);
+      setCurrencyDigits(new Integer (2));
+      setThousandsSeparator(',');
+      setDecimalSeparator('.');
+
+      setDateOrder(DateOrder.DMY);
+      setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
+      setIntegerDefaultStartTime (new Integer(480));
+      setDateSeparator('/');
+      setTimeSeparator(':');
+      setAMText("am");
+      setPMText("pm");
+      setDateFormat(ProjectDateFormat.DD_MM_YYYY);
+      setBarTextDateFormat(ProjectDateFormat.DD_MM_YYYY);
 
       //
       // Configure Default Settings Record
@@ -311,33 +322,6 @@ public final class ProjectHeader extends ProjectEntity
    }
 
    /**
-    * This method is called when the locale of the parent file is updated.
-    * It resets the locale specific currency attributes to the default values
-    * for the new locale.
-    *
-    * @param locale new locale
-    */
-   void setLocale (Locale locale)
-   {
-      setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
-      setSymbolPosition((CurrencySymbolPosition)LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
-      setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
-      setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
-      setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-
-      setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
-      setTimeFormat((ProjectTimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
-      setIntegerDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
-      setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
-      setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
-      setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
-      setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
-      setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-   }
-
-
-   /**
     * Gets constant representing set Date order eg DMY, MDY.
     *
     * @return constant value for date order
@@ -384,7 +368,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param time integer representing the start time in minutes past midnight
     */
-   private void setIntegerDefaultStartTime (Integer time)
+   public void setIntegerDefaultStartTime (Integer time)
    {
       if (time != null)
       {
@@ -447,16 +431,6 @@ public final class ProjectHeader extends ProjectEntity
    public void setDateSeparator (char dateSeparator)
    {
       m_dateSeparator = dateSeparator;
-   }
-
-   /**
-    * Sets the date separator.
-    *
-    * @param dateSeparator date separator as set.
-    */
-   private void setDateSeparator (Character dateSeparator)
-   {
-      setDateSeparator ((dateSeparator==null?DEFAULT_DATE_SEPARATOR:dateSeparator.charValue()));
    }
 
    /**
@@ -1268,21 +1242,6 @@ public final class ProjectHeader extends ProjectEntity
    }
 
    /**
-    * Sets the thousands separator.
-    * Note that this separator defines the thousands separator for all decimal
-    * numbers that appear in the MPX file.
-    *
-    * @param sep character
-    */
-   private void setThousandsSeparator (Character sep)
-   {
-      if (sep != null)
-      {
-         setThousandsSeparator (sep.charValue());
-      }
-   }
-
-   /**
     * Gets the thousands separator.
     * Note that this separator defines the thousands separator for all decimal
     * numbers that appear in the MPX file.
@@ -1304,21 +1263,6 @@ public final class ProjectHeader extends ProjectEntity
    public void setDecimalSeparator (char decSep)
    {
       m_decimalSeparator = decSep;
-   }
-
-   /**
-    * Sets the decimal separator.
-    * Note that this separator defines the decimal separator for all decimal
-    * numbers that appear in the MPX file.
-    *
-    * @param decSep character
-    */
-   private void setDecimalSeparator (Character decSep)
-   {
-      if (decSep != null)
-      {
-         setDecimalSeparator (decSep.charValue());
-      }
    }
 
    /**
@@ -2156,53 +2100,7 @@ public final class ProjectHeader extends ProjectEntity
    {
       return (m_calculateMultipleCriticalPaths);
    }
-   
-   
-
-   /**
-    * This method is used to quote any special characters that appear in
-    * literal text that is required as part of the currency format.
-    *
-    * @param literal Literal text
-    * @return literal text with special characters in quotes
-    */
-   private String quoteFormatCharacters (String literal)
-   {
-      StringBuffer sb = new StringBuffer ();
-      int length = literal.length();
-      char c;
-
-      for (int loop=0; loop <length; loop++)
-      {
-         c = literal.charAt(loop);
-         switch (c)
-         {
-            case '0':
-            case '#':
-            case '.':
-            case '-':
-            case ',':
-            case 'E':
-            case ';':
-            case '%':
-            {
-               sb.append ("'");
-               sb.append (c);
-               sb.append ("'");
-               break;
-            }
-
-            default:
-            {
-               sb.append (c);
-               break;
-            }
-         }
-      }
-
-      return (sb.toString());
-   }
-
+      
    /**
     * Set the Document Summary Information.
     * 
@@ -2351,11 +2249,6 @@ public final class ProjectHeader extends ProjectEntity
        void setScheduleFromStart(boolean value);
     */
 
-
-   /**
-    * Default date separator character.
-    */
-   private static final char DEFAULT_DATE_SEPARATOR = '/';
 
    /**
     * Default time separator character.

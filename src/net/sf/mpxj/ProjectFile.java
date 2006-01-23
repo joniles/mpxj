@@ -30,11 +30,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.mpx.LocaleData;
 import net.sf.mpxj.utility.BooleanUtility;
 
 
@@ -44,20 +42,6 @@ import net.sf.mpxj.utility.BooleanUtility;
  */
 public class ProjectFile
 {
-   /**
-    * Default constructor.
-    * 
-    * Note that we force the locale of the file to be English, ignoring
-    * the system default locale value. We do this as the vast majority of
-    * MPX file users will have international versions of MS Project,
-    * not localised ones. Users of localised MPX file versions must call
-    * the setLocale method explicitly.
-    */
-   public ProjectFile ()
-   {
-      setLocale(Locale.ENGLISH);
-   }
-   
    /**
     * Accessor method to retrieve the current file delimiter character.
     *
@@ -125,10 +109,8 @@ public class ProjectFile
     * This method allows a task to be added to the file programatically.
     *
     * @return new task object
-    * @throws MPXJException normally thrown on parse errors
     */
    public Task addTask ()
-      throws MPXJException
    {
       Task task = new Task(this, (Task)null);
       m_allTasks.add(task);
@@ -237,7 +219,7 @@ public class ProjectFile
          while (iter.hasNext() == true)
          {
             Resource resource = (Resource)iter.next();
-            resource.setID(id++);
+            resource.setID(new Integer(id++));
          }
       }      
    }
@@ -509,10 +491,8 @@ public class ProjectFile
     * This method is used to add a new base calendar to the file.
     *
     * @return new base calendar object
-    * @throws MPXJException normally thrown on parse errors
     */
    public ProjectCalendar addBaseCalendar ()
-      throws MPXJException
    {
       ProjectCalendar calendar = new ProjectCalendar(this, true);
       m_baseCalendars.add(calendar);      
@@ -625,10 +605,8 @@ public class ProjectFile
     * This method is used to add a new resource to the file.
     *
     * @return new resource object
-    * @throws MPXJException normally thrown on parse errors
     */
    public Resource addResource ()
-      throws MPXJException
    {
       Resource resource = new Resource(this);
       m_allResources.add(resource);
@@ -718,10 +696,8 @@ public class ProjectFile
     * 
     * @param task parent task
     * @return new resource assignment instance
-    * @throws MPXJException
     */
    public ResourceAssignment newResourceAssignment (Task task)
-      throws MPXJException
    {
       return (new ResourceAssignment(this, task));
    }
@@ -847,11 +823,11 @@ public class ProjectFile
     * @param id task identified
     * @return the requested task, or null if not found
     */
-   public Task getTaskByID (int id)
+   public Task getTaskByID (Integer id)
    {
-      return ((Task)m_taskIDMap.get(new Integer(id)));
+      return ((Task)m_taskIDMap.get(id));
    }
-
+   
    /**
     * This method allows an arbitrary task to be retrieved based
     * on its UniqueID field.
@@ -859,11 +835,11 @@ public class ProjectFile
     * @param id task identified
     * @return the requested task, or null if not found
     */
-   public Task getTaskByUniqueID (int id)
+   public Task getTaskByUniqueID (Integer id)
    {
-      return ((Task)m_taskUniqueIDMap.get(new Integer(id)));
+      return ((Task)m_taskUniqueIDMap.get(id));
    }
-
+   
    /**
     * This method allows an arbitrary resource to be retrieved based
     * on its ID field.
@@ -871,9 +847,9 @@ public class ProjectFile
     * @param id resource identified
     * @return the requested resource, or null if not found
     */
-   public Resource getResourceByID (int id)
+   public Resource getResourceByID (Integer id)
    {
-      return ((Resource)m_resourceIDMap.get(new Integer(id)));
+      return ((Resource)m_resourceIDMap.get(id));
    }
 
    /**
@@ -883,9 +859,9 @@ public class ProjectFile
     * @param id resource identified
     * @return the requested resource, or null if not found
     */
-   public Resource getResourceByUniqueID (int id)
+   public Resource getResourceByUniqueID (Integer id)
    {
-      return ((Resource)m_resourceUniqueIDMap.get(new Integer(id)));
+      return ((Resource)m_resourceUniqueIDMap.get(id));
    }
 
    /**
@@ -1248,35 +1224,6 @@ public class ProjectFile
       }
    }
    
-   /**
-    * This method returns the locale used by this MPX file.
-    *
-    * @return current locale
-    */
-   public Locale getLocale ()
-   {
-      return (m_locale);
-   }
-
-   /**
-    * Locale used for this MPX file. Defaults to English.
-    */
-   private Locale m_locale = Locale.ENGLISH;
-
-   /**
-    * This method sets the locale to be used by this MPX file.
-    *
-    * @param locale locale to be used
-    */
-   public void setLocale (Locale locale)
-   {
-      m_locale = locale;
-
-      m_delimiter = LocaleData.getChar(m_locale, LocaleData.FILE_DELIMITER);
-      m_fileCreationRecord.setLocale(locale);
-      m_projectHeader.setLocale(locale);
-   }
-
    /**
     * Associates an alias with a custom task field number.
     *

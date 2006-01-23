@@ -23,9 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Locale;
-
-import net.sf.mpxj.mpx.LocaleData;
 
 /**
  * This class is used to represent an accrue type. It provides a mapping
@@ -52,38 +49,6 @@ public final class AccrueType
       {
          m_type = type;
       }
-   }
-
-   /**
-    * This method takes the textual version of an accrue type name
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as "Prorated".
-    *
-    * @param type text version of the accrue type
-    * @param locale target locale
-    * @return AccrueType class instance
-    */
-   public static AccrueType getInstance (String type, Locale locale)
-   {
-      AccrueType result = null;
-
-      String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);
-
-      for (int loop=0; loop < typeNames.length; loop++)
-      {
-         if (typeNames[loop].equalsIgnoreCase(type) == true)
-         {
-            result = TYPE_VALUES[loop];
-            break;
-         }
-      }
-
-      if (result == null)
-      {
-         result = TYPE_VALUES[PRORATED_VALUE-1];
-      }
-
-      return (result);
    }
 
    /**

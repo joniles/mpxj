@@ -37,10 +37,8 @@ public final class ProjectCalendarHours extends ProjectEntity
     *
     * @param file the parent file to which this record belongs.
     * @param parentCalendar the parent calendar for this instance
-    * @throws MPXJException Thrown on parse errors
     */
    ProjectCalendarHours (ProjectFile file, ProjectCalendar parentCalendar)
-      throws MPXJException
    {
       super(file);
       m_parentCalendar = parentCalendar;
