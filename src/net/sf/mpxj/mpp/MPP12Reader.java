@@ -1409,7 +1409,7 @@ final class MPP12Reader implements MPPVariantReader
 //         task.setGroupBySummary();
          task.setHideBar((metaData[10] & 0x80) != 0);
          processHyperlinkData (task, taskVarData.getByteArray(id, TASK_HYPERLINK));
-         task.setID (MPPUtility.getInt (data, 4));
+         task.setID (new Integer(MPPUtility.getInt (data, 4)));
 //       From MS Project 2003
 //         task.setIgnoreResourceCalendar();
          //task.setIndicators(); // Calculated value
@@ -1453,7 +1453,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
          task.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
          task.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
-         task.setOutlineLevel (MPPUtility.getShort (data, 40));
+         task.setOutlineLevel (new Integer(MPPUtility.getShort (data, 40)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
          task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST)));
@@ -1547,7 +1547,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setText30(taskVarData.getUnicodeString (id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
-         task.setUniqueID(MPPUtility.getInt(data, 0));
+         task.setUniqueID(new Integer(MPPUtility.getInt(data, 0)));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
@@ -1904,7 +1904,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setText29(rscVarData.getUnicodeString (id, RESOURCE_TEXT29));
          resource.setText30(rscVarData.getUnicodeString (id, RESOURCE_TEXT30));
          resource.setType((MPPUtility.getShort(data, 14)==0?ResourceType.WORK:ResourceType.MATERIAL));
-         resource.setUniqueID(id.intValue());
+         resource.setUniqueID(id);
          resource.setWork(Duration.getInstance (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());

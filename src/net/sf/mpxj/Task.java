@@ -64,22 +64,22 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       {
          if (parent == null)
          {
-            setOutlineLevel(1);            
+            setOutlineLevel(new Integer(1));            
          }
          else
          {
-            setOutlineLevel(parent.getOutlineLevelValue() + 1);
+            setOutlineLevel(new Integer(NumberUtility.getInt(parent.getOutlineLevel()) + 1));
          }
       }
 
       if (file.getAutoTaskUniqueID() == true)
       {
-         setUniqueID(file.getTaskUniqueID());
+         setUniqueID(new Integer(file.getTaskUniqueID()));
       }
 
       if (file.getAutoTaskID() == true)
       {
-         setID(file.getTaskID());
+         setID(new Integer(file.getTaskID()));
       }
    }
 
@@ -189,7 +189,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public void addChildTask (Task child, int childOutlineLevel)
       throws MPXJException
    {
-      int outlineLevel = getOutlineLevelValue();
+      int outlineLevel = NumberUtility.getInt(getOutlineLevel());
 
       if ((outlineLevel + 1) == childOutlineLevel)
       {
@@ -392,7 +392,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
          while (iter.hasNext() == true)
          {
             rel = (Relation)iter.next();
-            if (NumberUtility.getInt(rel.getTaskID()) == task.getIDValue())
+            if (NumberUtility.equals(rel.getTaskID(), task.getID()))
             {
                break;
             }
@@ -806,18 +806,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val boolean value
     */
-   public void setConfirmed (Boolean val)
-   {
-      set(CONFIRMED, val);
-   }
-
-   /**
-    * The Confirmed field indicates whether all resources assigned to a task have
-    * accepted or rejected the task assignment in response to a TeamAssign message
-    * regarding their assignments.
-    *
-    * @param val boolean value
-    */
    public void setConfirmed (boolean val)
    {
       set(CONFIRMED, val);
@@ -939,20 +927,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * @param val whether task is critical or not
     */
    public void setCritical (boolean val)
-   {
-      set(CRITICAL, val);
-   }
-
-   /**
-    * The Critical field indicates whether a task has any room in the
-    * schedule to slip,
-    * or if a task is on the critical path. The Critical field contains
-    * Yes if the task
-    * is critical and No if the task is not critical.
-    *
-    * @param val whether task is critical or not
-    */
-   public void setCritical (Boolean val)
    {
       set(CRITICAL, val);
    }
@@ -1147,19 +1121,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * Despite the name, this flag sets the task type. If the suppied value is
-    * false, the task type shown in MS Project will be set to fixed units. If
-    * the value is true, the task type will be set to fixed duration.
-    *
-    * @param val value to be set
-    */
-   public void setFixed (Boolean val)
-   {
-      set(FIXED, val);
-   }
-
-
-   /**
     * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     *
@@ -1185,27 +1146,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val boolean value
     */
-   public void setFlag1 (Boolean val)
-   {
-      set(FLAG1, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
    public void setFlag2 (boolean val)
-   {
-      set(FLAG2, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag2 (Boolean val)
    {
       set(FLAG2, val);
    }
@@ -1225,27 +1166,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val boolean value
     */
-   public void setFlag3 (Boolean val)
-   {
-      set(FLAG3, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
    public void setFlag4 (boolean val)
-   {
-      set(FLAG4, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag4 (Boolean val)
    {
       set(FLAG4, val);
    }
@@ -1265,27 +1186,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val boolean value
     */
-   public void setFlag5 (Boolean val)
-   {
-      set(FLAG5, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
    public void setFlag6 (boolean val)
-   {
-      set(FLAG6, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag6 (Boolean val)
    {
       set(FLAG6, val);
    }
@@ -1305,27 +1206,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val boolean value
     */
-   public void setFlag7 (Boolean val)
-   {
-      set(FLAG7, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
    public void setFlag8 (boolean val)
-   {
-      set(FLAG8, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag8 (Boolean val)
    {
       set(FLAG8, val);
    }
@@ -1345,27 +1226,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val boolean value
     */
-   public void setFlag9 (Boolean val)
-   {
-      set(FLAG9, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
    public void setFlag10 (boolean val)
-   {
-      set(FLAG10, val);
-   }
-
-   /**
-    * User defined flag field.
-    *
-    * @param val boolean value
-    */
-   public void setFlag10 (Boolean val)
    {
       set(FLAG10, val);
    }
@@ -1392,29 +1253,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public void setHideBar (boolean flag)
    {
       set(HIDE_BAR, flag);
-   }
-
-   /**
-    * The Hide Bar flag indicates whether the Gantt bars and Calendar bars
-    * for a task are hidden when this project's data is displayed in MS Project.
-    *
-    * @param flag boolean value
-    */
-   public void setHideBar (Boolean flag)
-   {
-      set(HIDE_BAR, flag);
-   }
-
-   /**
-    * The ID field contains the identifier number that Microsoft Project
-    * automatically assigns to each task as you add it to the project.
-    * The ID indicates the position of a task with respect to the other tasks.
-    *
-    * @param val ID
-    */
-   public void setID (int val)
-   {
-      setID(new Integer(val));
    }
 
    /**
@@ -1478,18 +1316,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * The Linked Fields field indicates whether there are OLE links to the task,
-    * either from elsewhere in the active project, another Microsoft Project
-    * file, or from another program.
-    *
-    * @param flag boolean value
-    */
-   public void setLinkedFields (Boolean flag)
-   {
-      set(LINKED_FIELDS, flag);
-   }
-
-   /**
     * This is a user defined field used to mark a task for some form of
     * additional action.
     *
@@ -1501,32 +1327,11 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * This is a user defined field used to mark a task for some form of
-    * additional action.
-    *
-    * @param flag boolean value
-    */
-   public void setMarked (Boolean flag)
-   {
-      set(MARKED, flag);
-   }
-
-   /**
     * The Milestone field indicates whether a task is a milestone.
     *
     * @param flag boolean value
     */
    public void setMilestone (boolean flag)
-   {
-      set(MILESTONE, flag);
-   }
-
-   /**
-    * The Milestone field indicates whether a task is a milestone.
-    *
-    * @param flag boolean value
-    */
-   public void setMilestone (Boolean flag)
    {
       set(MILESTONE, flag);
    }
@@ -1546,7 +1351,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber1 (Double val)
+   public void setNumber1 (Number val)
    {
       set(NUMBER1, val);
    }
@@ -1556,7 +1361,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber2 (Double val)
+   public void setNumber2 (Number val)
    {
       set(NUMBER2, val);
    }
@@ -1566,7 +1371,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber3 (Double val)
+   public void setNumber3 (Number val)
    {
       set(NUMBER3, val);
    }
@@ -1576,7 +1381,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber4 (Double val)
+   public void setNumber4 (Number val)
    {
       set(NUMBER4, val);
    }
@@ -1586,7 +1391,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber5 (Double val)
+   public void setNumber5 (Number val)
    {
       set(NUMBER5, val);
    }
@@ -1596,20 +1401,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val - integer value
     */
-   public void setObjects (int val)
+   public void setObjects (Integer val)
    {
       set(OBJECTS, val);
-   }
-
-   /**
-    * The Outline Level field contains the number that indicates the level of
-    * the task in the project outline hierarchy.
-    *
-    * @param val - int
-    */
-   public void setOutlineLevel (int val)
-   {
-      set(OUTLINE_LEVEL, val);
    }
 
    /**
@@ -1800,20 +1594,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * For subtasks, the Rollup field indicates whether information on the subtask
-    * Gantt bars will be rolled up to the summary task bar. For summary tasks, the
-    * Rollup field indicates whether the summary task bar displays rolled up bars.
-    * You must have the Rollup field for summary tasks set to Yes for any subtasks
-    * to roll up to them.
-    *
-    * @param val - boolean
-    */
-   public void setRollup (Boolean val)
-   {
-      set(ROLLUP, val);
-   }
-
-   /**
     * The Start field shows the date and time that a task is scheduled to begin.
     * You can enter the start date you want, to indicate the date when the task
     * should begin. Or, you can have Microsoft Project calculate the start date.
@@ -1940,16 +1720,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * @param val - boolean
     */
    public void setSummary (boolean val)
-   {
-      set(SUMMARY, val);
-   }
-
-   /**
-    * The Summary field indicates whether a task is a summary task.
-    *
-    * @param val - boolean
-    */
-   public void setSummary (Boolean val)
    {
       set(SUMMARY, val);
    }
@@ -2095,19 +1865,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val unique ID
     */
-   public void setUniqueID (int val)
-   {
-      setUniqueID(new Integer(val));
-   }
-
-   /**
-    * The Unique ID field contains the number that Microsoft Project
-    * automatically designates whenever a new task is created.
-    * This number indicates the sequence in which the task was created,
-    * regardless of placement in the schedule.
-    *
-    * @param val unique ID
-    */
    public void setUniqueID (Integer val)
    {
       ProjectFile parent = getParentFile();
@@ -2164,18 +1921,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * The Update Needed field indicates whether a TeamUpdate message should
-    * be sent to the assigned resources because of changes to the start date,
-    * finish date, or resource reassignments of the task.
-    *
-    * @param val - boolean
-    */
-   public void setUpdateNeeded (Boolean val)
-   {
-      set(UPDATE_NEEDED, val);
-   }
-
-   /**
     * The work breakdown structure code. The WBS field contains an alphanumeric
     * code you can use to represent the task's position within the hierarchical
     * structure of the project. This field is similar to the outline number,
@@ -2218,34 +1963,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * it for you based on actual duration.
     * @return percentage as float
     */
-   public double getPercentageCompleteValue ()
-   {
-      return (NumberUtility.getDouble((Number)get(PERCENTAGE_COMPLETE)));
-   }
-
-   /**
-    * The % Complete field contains the current status of a task,
-    * expressed as the percentage of the task's duration that has been completed.
-    * You can enter percent complete, or you can have Microsoft Project calculate
-    * it for you based on actual duration.
-    * @return percentage as float
-    */
    public Number getPercentageComplete ()
    {
       return ((Number)get(PERCENTAGE_COMPLETE));
-   }
-
-   /**
-    * The % Work Complete field contains the current status of a task,
-    * expressed as the percentage of the task's work that has been completed.
-    * You can enter percent work complete, or you can have Microsoft Project
-    * calculate it for you based on actual work on the task.
-    *
-    * @return percentage as float
-    */
-   public double getPercentageWorkCompleteValue ()
-   {
-      return (NumberUtility.getDouble((Number)get(PERCENTAGE_WORK_COMPLETE)));
    }
 
    /**
@@ -2392,34 +2112,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return currency amount as float
     */
-   public double getBCWPValue ()
-   {
-      return (NumberUtility.getDouble((Number)get(BCWP)));
-   }
-
-   /**
-    * The BCWP (budgeted cost of work performed) field contains
-    * the cumulative value of the assignment's timephased percent complete
-    * multiplied by the assignment's timephased baseline cost.
-    * BCWP is calculated up to the status date or today's date.
-    * This information is also known as earned value.
-    *
-    * @return currency amount as float
-    */
    public Number getBCWP ()
    {
       return ((Number)get(BCWP));
-   }
-
-   /**
-    * The BCWS (budgeted cost of work scheduled) field contains the cumulative
-    * timephased baseline costs up to the status date or today's date.
-    *
-    * @return currency amount as float
-    */
-   public double getBCWSValue ()
-   {
-      return (NumberUtility.getDouble((Number)get(BCWS)));
    }
 
    /**
@@ -2440,21 +2135,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getConfirmedValue ()
+   public boolean getConfirmed ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(CONFIRMED)));
-   }
-
-   /**
-    * The Confirmed field indicates whether all resources assigned to a task
-    * have accepted or rejected the task assignment in response to a TeamAssign
-    * message regarding their assignments.
-    *
-    * @return boolean
-    */
-   public Boolean getConfirmed ()
-   {
-      return ((Boolean)get(CONFIRMED));
    }
 
    /**
@@ -2569,34 +2252,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getCriticalValue ()
+   public boolean getCritical ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(CRITICAL)));
-   }
-
-   /**
-    * The Critical field indicates whether a task has any room in the schedule
-    * to slip, or if a task is on the critical path. The Critical field contains
-    * Yes if the task is critical and No if the task is not critical.
-    *
-    * @return boolean
-    */
-   public Boolean getCritical ()
-   {
-      return ((Boolean)get(CRITICAL));
-   }
-
-   /**
-    * The CV (earned value cost variance) field shows the difference between
-    * how much it should have cost to achieve the current level of completion
-    * on the task, and how much it has actually cost to achieve the current
-    * level of completion up to the status date or today's date.
-    *
-    * @return sum of earned value cost variance
-    */
-   public double getCVValue ()
-   {
-      return (NumberUtility.getDouble((Number)get(CV)));
    }
 
    /**
@@ -2800,32 +2458,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getFixedValue ()
+   public boolean getFixed ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FIXED)));
-   }
-
-   /**
-    * Despite the name, this flag represents the task type. If the value is
-    * false, the task type shown in MS Project will be fixed units. If
-    * the value is true, the task type will be fixed duration.
-    *
-    * @return boolean
-    */
-   public Boolean getFixed ()
-   {
-      return ((Boolean)get(FIXED));
-   }
-
-   /**
-    * The Fixed Cost field shows any task expense that is not associated
-    * with a resource cost.
-    *
-    * @return currenct amount as float
-    */
-   public double getFixedCostValue ()
-   {
-      return (NumberUtility.getDouble((Number)get(FIXED_COST)));
    }
 
    /**
@@ -2846,7 +2481,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getFlag1Value ()
+   public boolean getFlag1 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG1)));
    }
@@ -2858,19 +2493,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag1 ()
-   {
-      return ((Boolean)get(FLAG1));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag2Value ()
+   public boolean getFlag2 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG2)));
    }
@@ -2882,19 +2505,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag2 ()
-   {
-      return ((Boolean)get(FLAG2));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag3Value ()
+   public boolean getFlag3 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG3)));
    }
@@ -2906,19 +2517,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag3 ()
-   {
-      return ((Boolean)get(FLAG3));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag4Value ()
+   public boolean getFlag4 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG4)));
    }
@@ -2930,19 +2529,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag4 ()
-   {
-      return ((Boolean)get(FLAG4));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag5Value ()
+   public boolean getFlag5 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG5)));
    }
@@ -2954,19 +2541,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag5 ()
-   {
-      return ((Boolean)get(FLAG5));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag6Value ()
+   public boolean getFlag6 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG6)));
    }
@@ -2978,34 +2553,11 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag6 ()
-   {
-      return ((Boolean)get(FLAG6));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag7Value ()
+   public boolean getFlag7 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG7)));
    }
 
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public Boolean getFlag7 ()
-   {
-      return ((Boolean)get(FLAG7));
-   }
 
    /**
     * The Flag1-20 fields indicate whether a task is marked for further
@@ -3014,7 +2566,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getFlag8Value ()
+   public boolean getFlag8 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG8)));
    }
@@ -3026,19 +2578,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag8 ()
-   {
-      return ((Boolean)get(FLAG8));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag9Value ()
+   public boolean getFlag9 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG9)));
    }
@@ -3050,33 +2590,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public Boolean getFlag9 ()
-   {
-      return ((Boolean)get(FLAG9));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public boolean getFlag10Value ()
+   public boolean getFlag10 ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(FLAG10)));
-   }
-
-   /**
-    * The Flag1-20 fields indicate whether a task is marked for further
-    * action or identification of some kind. To mark a task, click Yes
-    * in a Flag field. If you don't want a task marked, click No.
-    *
-    * @return boolean
-    */
-   public Boolean getFlag10 ()
-   {
-      return ((Boolean)get(FLAG10));
    }
 
    /**
@@ -3100,34 +2616,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getHideBarValue ()
+   public boolean getHideBar ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(HIDE_BAR)));
-   }
-
-   /**
-    * The Hide Bar field indicates whether the Gantt bars and Calendar bars
-    * for a task are hidden. Click Yes in the Hide Bar field to hide the
-    * bar for the task. Click No in the Hide Bar field to show the bar
-    * for the task.
-    *
-    * @return boolean
-    */
-   public Boolean getHideBar ()
-   {
-      return ((Boolean)get(HIDE_BAR));
-   }
-
-   /**
-    * The ID field contains the identifier number that Microsoft Project
-    * automatically assigns to each task as you add it to the project.
-    * The ID indicates the position of a task with respect to the other tasks.
-    *
-    * @return the task ID
-    */
-   public int getIDValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(ID)));
    }
 
    /**
@@ -3176,65 +2667,31 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getLinkedFieldsValue ()
+   public boolean getLinkedFields ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(LINKED_FIELDS)));
    }
 
    /**
-    * The Linked Fields field indicates whether there are OLE links to the task,
-    * either from elsewhere in the active project, another Microsoft Project file,
-    * or from another program.
-    *
-    * @return boolean
-    */
-   public Boolean getLinkedFields ()
-   {
-      return ((Boolean)get(LINKED_FIELDS));
-   }
-
-   /**
     * The Marked field indicates whether a task is marked for further action or
     * identification of some kind. To mark a task, click Yes in the Marked field.
     * If you don't want a task marked, click No.
     *
     * @return true for marked
     */
-   public boolean getMarkedValue ()
+   public boolean getMarked ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(MARKED)));
    }
 
    /**
-    * The Marked field indicates whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in the Marked field.
-    * If you don't want a task marked, click No.
-    *
-    * @return true for marked
-    */
-   public Boolean getMarked ()
-   {
-      return ((Boolean)get(MARKED));
-   }
-
-   /**
     * The Milestone field indicates whether a task is a milestone.
     *
     * @return boolean
     */
-   public boolean getMilestoneValue ()
+   public boolean getMilestone ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(MILESTONE)));
-   }
-
-   /**
-    * The Milestone field indicates whether a task is a milestone.
-    *
-    * @return boolean
-    */
-   public Boolean getMilestone ()
-   {
-      return ((Boolean)get(MILESTONE));
    }
 
    /**
@@ -3263,9 +2720,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber1Value ()
+   public Number getNumber1 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER1)));
+      return ((Number)get(NUMBER1));
    }
 
    /**
@@ -3273,9 +2730,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public Double getNumber1 ()
+   public Number getNumber2 ()
    {
-      return ((Double)get(NUMBER1));
+      return ((Number)get(NUMBER2));
    }
 
    /**
@@ -3283,9 +2740,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber2Value ()
+   public Number getNumber3 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER2)));
+      return ((Number)get(NUMBER3));
    }
 
    /**
@@ -3293,9 +2750,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public Double getNumber2 ()
+   public Number getNumber4 ()
    {
-      return ((Double)get(NUMBER2));
+      return ((Number)get(NUMBER4));
    }
 
    /**
@@ -3303,72 +2760,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber3Value ()
+   public Number getNumber5 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER3)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber3 ()
-   {
-      return ((Double)get(NUMBER3));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public double getNumber4Value ()
-   {
-      return (NumberUtility.getDouble((Number)get(NUMBER4)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber4 ()
-   {
-      return ((Double)get(NUMBER4));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public double getNumber5Value ()
-   {
-      return (NumberUtility.getDouble((Number)get(NUMBER5)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber5 ()
-   {
-      return ((Double)get(NUMBER5));
-   }
-
-   /**
-    * The Objects field contains the number of objects attached to a task.
-    * Microsoft Project counts the number of objects linked or embedded to a task.
-    * However, objects in the Notes box in the Resource Form are not included
-    * in this count.
-    *
-    * @return int
-    */
-   public int getObjectsValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(OBJECTS)));
+      return ((Number)get(NUMBER5));
    }
 
    /**
@@ -3382,17 +2776,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public Integer getObjects ()
    {
       return ((Integer)get(OBJECTS));
-   }
-
-   /**
-    * The Outline Level field contains the number that indicates the level
-    * of the task in the project outline hierarchy.
-    *
-    * @return int
-    */
-   public int getOutlineLevelValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(OUTLINE_LEVEL)));
    }
 
    /**
@@ -3580,25 +2963,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean
     */
-   public boolean getRollupValue ()
+   public boolean getRollup ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(ROLLUP)));
-   }
-
-   /**
-    * For subtasks, the Rollup field indicates whether information on the
-    * subtask Gantt bars
-    * will be rolled up to the summary task bar. For summary tasks, the
-    * Rollup field indicates
-    * whether the summary task bar displays rolled up bars. You must
-    * have the Rollup field for
-    * summary tasks set to Yes for any subtasks to roll up to them.
-    *
-    * @return boolean
-    */
-   public Boolean getRollup ()
-   {
-      return ((Boolean)get(ROLLUP));
    }
 
    /**
@@ -3731,19 +3098,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return boolean, true-is summary task
     */
-   public boolean getSummaryValue ()
+   public boolean getSummary ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(SUMMARY)));
-   }
-
-   /**
-    * The Summary field indicates whether a task is a summary task.
-    *
-    * @return boolean, true-is summary task
-    */
-   public Boolean getSummary ()
-   {
-      return ((Boolean)get(SUMMARY));
    }
 
    /**
@@ -3888,19 +3245,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return String
     */
-   public int getUniqueIDValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(UNIQUE_ID)));
-   }
-
-   /**
-    * The Unique ID field contains the number that Microsoft Project
-    * automatically designates whenever a new task is created. This number
-    * indicates the sequence in which the task was
-    * created, regardless of placement in the schedule.
-    *
-    * @return String
-    */
    public Integer getUniqueID ()
    {
       return ((Integer)get(UNIQUE_ID));
@@ -3939,21 +3283,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return true if needed.
     */
-   public boolean getUpdateNeededValue ()
+   public boolean getUpdateNeeded ()
    {
       return (BooleanUtility.getBoolean((Boolean)get(UPDATE_NEEDED)));
-   }
-
-   /**
-    * The Update Needed field indicates whether a TeamUpdate message
-    * should be sent to the assigned resources because of changes to the
-    * start date, finish date, or resource reassignments of the task.
-    *
-    * @return true if needed.
-    */
-   public Boolean getUpdateNeeded ()
-   {
-      return ((Boolean)get(UPDATE_NEEDED));
    }
 
    /**
@@ -4039,9 +3371,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public int compareTo (Object o)
    {
-      int id1 = getIDValue();
-      int id2 = ((Task)o).getIDValue();
-
+      int id1 = NumberUtility.getInt(getID());
+      int id2 = NumberUtility.getInt(((Task)o).getID());
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
@@ -5119,7 +4450,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber6 (Double val)
+   public void setNumber6 (Number val)
    {
       set(NUMBER6, val);
    }
@@ -5129,19 +4460,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber6Value ()
+   public Number getNumber6 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER6)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber6 ()
-   {
-      return ((Double)get(NUMBER6));
+      return ((Number)get(NUMBER6));
    }
 
    /**
@@ -5149,7 +4470,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber7 (Double val)
+   public void setNumber7 (Number val)
    {
       set(NUMBER7, val);
    }
@@ -5159,19 +4480,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber7Value ()
+   public Number getNumber7 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER7)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber7 ()
-   {
-      return ((Double)get(NUMBER7));
+      return ((Number)get(NUMBER7));
    }
 
    /**
@@ -5179,7 +4490,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber8 (Double val)
+   public void setNumber8 (Number val)
    {
       set(NUMBER8, val);
    }
@@ -5189,19 +4500,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber8Value ()
+   public Number getNumber8 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER8)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber8 ()
-   {
-      return ((Double)get(NUMBER8));
+      return ((Number)get(NUMBER8));
    }
 
    /**
@@ -5209,7 +4510,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber9 (Double val)
+   public void setNumber9 (Number val)
    {
       set(NUMBER9, val);
    }
@@ -5219,19 +4520,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber9Value ()
+   public Number getNumber9 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER9)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber9 ()
-   {
-      return ((Double)get(NUMBER9));
+      return ((Number)get(NUMBER9));
    }
 
    /**
@@ -5239,7 +4530,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber10 (Double val)
+   public void setNumber10 (Number val)
    {
       set(NUMBER10, val);
    }
@@ -5249,19 +4540,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber10Value ()
+   public Number getNumber10 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER10)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber10 ()
-   {
-      return ((Double)get(NUMBER10));
+      return ((Number)get(NUMBER10));
    }
 
    /**
@@ -5269,7 +4550,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber11 (Double val)
+   public void setNumber11 (Number val)
    {
       set(NUMBER11, val);
    }
@@ -5279,19 +4560,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber11Value ()
+   public Number getNumber11 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER11)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber11 ()
-   {
-      return ((Double)get(NUMBER11));
+      return ((Number)get(NUMBER11));
    }
 
    /**
@@ -5299,7 +4570,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber12 (Double val)
+   public void setNumber12 (Number val)
    {
       set(NUMBER12, val);
    }
@@ -5309,19 +4580,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber12Value ()
+   public Number getNumber12 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER12)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber12 ()
-   {
-      return ((Double)get(NUMBER12));
+      return ((Number)get(NUMBER12));
    }
 
    /**
@@ -5329,7 +4590,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber13 (Double val)
+   public void setNumber13 (Number val)
    {
       set(NUMBER13, val);
    }
@@ -5339,19 +4600,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber13Value ()
+   public Number getNumber13 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER13)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber13 ()
-   {
-      return ((Double)get(NUMBER13));
+      return ((Number)get(NUMBER13));
    }
 
    /**
@@ -5359,7 +4610,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber14 (Double val)
+   public void setNumber14 (Number val)
    {
       set(NUMBER14, val);
    }
@@ -5369,19 +4620,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber14Value ()
+   public Number getNumber14 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER14)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber14 ()
-   {
-      return ((Double)get(NUMBER14));
+      return ((Number)get(NUMBER14));
    }
 
    /**
@@ -5389,7 +4630,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber15 (Double val)
+   public void setNumber15 (Number val)
    {
       set(NUMBER15, val);
    }
@@ -5399,19 +4640,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber15Value ()
+   public Number getNumber15 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER15)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber15 ()
-   {
-      return ((Double)get(NUMBER15));
+      return ((Number)get(NUMBER15));
    }
 
    /**
@@ -5419,7 +4650,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber16 (Double val)
+   public void setNumber16 (Number val)
    {
       set(NUMBER16, val);
    }
@@ -5429,19 +4660,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber16Value ()
+   public Number getNumber16 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER16)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber16 ()
-   {
-      return ((Double)get(NUMBER16));
+      return ((Number)get(NUMBER16));
    }
 
    /**
@@ -5449,7 +4670,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber17 (Double val)
+   public void setNumber17 (Number val)
    {
       set(NUMBER17, val);
    }
@@ -5459,19 +4680,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber17Value ()
+   public Number getNumber17 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER17)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber17 ()
-   {
-      return ((Double)get(NUMBER17));
+      return ((Number)get(NUMBER17));
    }
 
    /**
@@ -5479,7 +4690,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber18 (Double val)
+   public void setNumber18 (Number val)
    {
       set(NUMBER18, val);
    }
@@ -5489,19 +4700,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber18Value ()
+   public Number getNumber18 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER18)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber18 ()
-   {
-      return ((Double)get(NUMBER18));
+      return ((Number)get(NUMBER18));
    }
 
    /**
@@ -5509,7 +4710,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber19 (Double val)
+   public void setNumber19 (Number val)
    {
       set(NUMBER19, val);
    }
@@ -5519,19 +4720,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber19Value ()
+   public Number getNumber19 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER19)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber19 ()
-   {
-      return ((Double)get(NUMBER19));
+      return ((Number)get(NUMBER19));
    }
 
    /**
@@ -5539,7 +4730,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val Numeric value
     */
-   public void setNumber20 (Double val)
+   public void setNumber20 (Number val)
    {
       set(NUMBER20, val);
    }
@@ -5549,19 +4740,9 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Numeric value
     */
-   public double getNumber20Value ()
+   public Number getNumber20 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER20)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber20 ()
-   {
-      return ((Double)get(NUMBER20));
+      return ((Number)get(NUMBER20));
    }
 
    /**

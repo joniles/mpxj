@@ -27,6 +27,7 @@ package net.sf.mpxj;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.NumberUtility;
@@ -48,7 +49,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       
       if (file.getAutoResourceUniqueID() == true)
       {
-         setUniqueID (file.getResourceUniqueID ());
+         setUniqueID (new Integer(file.getResourceUniqueID ()));
       }
 
       if (file.getAutoResourceID() == true)
@@ -1288,19 +1289,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    }
 
    /**
-    * This method is used to set the value of a field in the resource,
-    * and also to ensure that the field exists in the resource model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   private void set (int field, int val)
-   {
-      put (field, val);
-   }
-
-   /**
     * This method is used to set the value of a field in the resource.
     *
     * @param field field to be added or updated.
@@ -1386,11 +1374,10 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
 
    /**
     * Set objects.
-    * This field is ignored on import into MS Project
     *
     * @param val - value to be set
     */
-   public void setObjects (int val)
+   public void setObjects (Integer val)
    {
       set (OBJECTS, val);
    }
@@ -1443,16 +1430,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    public void setText5 (String val)
    {
       set (TEXT5, val);
-   }
-
-   /**
-    * Sets Unique ID of this resource.
-    *
-    * @param val Unique ID
-    */
-   public void setUniqueID (int val)
-   {
-      setUniqueID (new Integer(val));
    }
 
    /**
@@ -1541,16 +1518,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return value
     */
-   public int getObjectsValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(OBJECTS)));
-   }
-
-   /**
-    * Gets objects field value.
-    *
-    * @return value
-    */
    public Integer getObjects ()
    {
       return ((Integer)get (OBJECTS));
@@ -1604,16 +1571,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    public String getText5 ()
    {
       return ((String)get(TEXT5));
-   }
-
-   /**
-    * Gets Unique ID field value.
-    *
-    * @return value
-    */
-   public int getUniqueIDValue ()
-   {
-      return (NumberUtility.getInt((Integer)get(UNIQUE_ID)));
    }
 
    /**
@@ -2622,7 +2579,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber1 (Double val)
+   public void setNumber1 (Number val)
    {
       set (NUMBER1, val);
    }
@@ -2633,20 +2590,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber1Value ()
+   public Number getNumber1 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER1)));
-   }
-
-   /**
-    * Retrieves a numeric value
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber1 ()
-   {
-      return ((Double)get (NUMBER1));
+      return ((Number)get (NUMBER1));
    }
 
 
@@ -2656,7 +2602,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber2 (Double val)
+   public void setNumber2 (Number val)
    {
       set (NUMBER2, val);
    }
@@ -2667,20 +2613,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber2Value ()
+   public Number getNumber2 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER2)));
-   }
-
-   /**
-    * Retrieves a numeric value
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber2 ()
-   {
-      return ((Double)get (NUMBER2));
+      return ((Number)get (NUMBER2));
    }
 
 
@@ -2690,7 +2625,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber3 (Double val)
+   public void setNumber3 (Number val)
    {
       set (NUMBER3, val);
    }
@@ -2701,20 +2636,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber3Value ()
+   public Number getNumber3 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER3)));
-   }
-
-   /**
-    * Retrieves a numeric value
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber3 ()
-   {
-      return ((Double)get (NUMBER3));
+      return ((Number)get (NUMBER3));
    }
 
 
@@ -2724,7 +2648,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber4 (Double val)
+   public void setNumber4 (Number val)
    {
       set (NUMBER4, val);
    }
@@ -2735,20 +2659,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber4Value ()
+   public Number getNumber4 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER4)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber4 ()
-   {
-      return ((Double)get (NUMBER14));
+      return ((Number)get (NUMBER14));
    }
 
 
@@ -2758,7 +2671,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber5 (Double val)
+   public void setNumber5 (Number val)
    {
       set (NUMBER5, val);
    }
@@ -2769,20 +2682,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber5Value ()
+   public Number getNumber5 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER5)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber5 ()
-   {
-      return ((Double)get (NUMBER5));
+      return ((Number)get (NUMBER5));
    }
 
 
@@ -2792,7 +2694,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber6 (Double val)
+   public void setNumber6 (Number val)
    {
       set (NUMBER6, val);
    }
@@ -2803,20 +2705,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber6Value ()
+   public Number getNumber6 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER6)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber6 ()
-   {
-      return ((Double)get (NUMBER6));
+      return ((Number)get (NUMBER6));
    }
 
    /**
@@ -2825,7 +2716,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber7 (Double val)
+   public void setNumber7 (Number val)
    {
       set (NUMBER7, val);
    }
@@ -2836,20 +2727,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber7Value ()
+   public Number getNumber7 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER7)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber7 ()
-   {
-      return ((Double)get (NUMBER7));
+      return ((Number)get (NUMBER7));
    }
 
    /**
@@ -2858,7 +2738,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber8 (Double val)
+   public void setNumber8 (Number val)
    {
       set (NUMBER8, val);
    }
@@ -2869,22 +2749,10 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber8Value ()
+   public Number getNumber8 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER8)));
+      return ((Number)get (NUMBER8));
    }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber8 ()
-   {
-      return ((Double)get (NUMBER8));
-   }
-
 
    /**
     * Sets a numeric value.
@@ -2892,7 +2760,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber9 (Double val)
+   public void setNumber9 (Number val)
    {
       set (NUMBER9, val);
    }
@@ -2903,20 +2771,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber9Value ()
+   public Number getNumber9 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER9)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber9 ()
-   {
-      return ((Double)get (NUMBER9));
+      return ((Number)get (NUMBER9));
    }
 
    /**
@@ -2925,7 +2782,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber10 (Double val)
+   public void setNumber10 (Number val)
    {
       set (NUMBER10, val);
    }
@@ -2936,20 +2793,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber10Value ()
+   public Number getNumber10 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER10)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber10 ()
-   {
-      return ((Double)get (NUMBER10));
+      return ((Number)get (NUMBER10));
    }
 
    /**
@@ -2958,7 +2804,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber11 (Double val)
+   public void setNumber11 (Number val)
    {
       set (NUMBER11, val);
    }
@@ -2969,20 +2815,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber11Value ()
+   public Number getNumber11 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER11)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber11 ()
-   {
-      return ((Double)get (NUMBER11));
+      return ((Number)get (NUMBER11));
    }
 
    /**
@@ -2991,7 +2826,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber12 (Double val)
+   public void setNumber12 (Number val)
    {
       set (NUMBER12, val);
    }
@@ -3002,20 +2837,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber12Value ()
+   public Number getNumber12 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER12)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber12 ()
-   {
-      return ((Double)get (NUMBER12));
+      return ((Number)get (NUMBER12));
    }
 
    /**
@@ -3024,7 +2848,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber13 (Double val)
+   public void setNumber13 (Number val)
    {
       set (NUMBER13, val);
    }
@@ -3035,20 +2859,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber13Value ()
+   public Number getNumber13 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER13)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber13 ()
-   {
-      return ((Double)get (NUMBER13));
+      return ((Number)get (NUMBER13));
    }
 
    /**
@@ -3057,7 +2870,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber14 (Double val)
+   public void setNumber14 (Number val)
    {
       set (NUMBER14, val);
    }
@@ -3068,20 +2881,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber14Value ()
+   public Number getNumber14 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER14)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber14 ()
-   {
-      return ((Double)get (NUMBER14));
+      return ((Number)get (NUMBER14));
    }
 
    /**
@@ -3090,7 +2892,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber15 (Double val)
+   public void setNumber15 (Number val)
    {
       set (NUMBER15, val);
    }
@@ -3101,20 +2903,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber15Value ()
+   public Number getNumber15 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER15)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber15 ()
-   {
-      return ((Double)get (NUMBER15));
+      return ((Number)get (NUMBER15));
    }
 
    /**
@@ -3123,7 +2914,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber16 (Double val)
+   public void setNumber16 (Number val)
    {
       set (NUMBER16, val);
    }
@@ -3134,20 +2925,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber16Value ()
+   public Number getNumber16 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER16)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber16 ()
-   {
-      return ((Double)get (NUMBER16));
+      return ((Number)get (NUMBER16));
    }
 
    /**
@@ -3156,7 +2936,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber17 (Double val)
+   public void setNumber17 (Number val)
    {
       set (NUMBER17, val);
    }
@@ -3167,20 +2947,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber17Value ()
+   public Number getNumber17 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER17)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber17 ()
-   {
-      return ((Double)get (NUMBER17));
+      return ((Number)get (NUMBER17));
    }
 
    /**
@@ -3189,7 +2958,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber18 (Double val)
+   public void setNumber18 (Number val)
    {
       set (NUMBER18, val);
    }
@@ -3200,20 +2969,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber18Value ()
+   public Number getNumber18 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER18)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber18 ()
-   {
-      return ((Double)get (NUMBER18));
+      return ((Number)get (NUMBER18));
    }
 
    /**
@@ -3222,7 +2980,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber19 (Double val)
+   public void setNumber19 (Number val)
    {
       set (NUMBER19, val);
    }
@@ -3233,20 +2991,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber19Value ()
+   public Number getNumber19 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER19)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber19 ()
-   {
-      return ((Double)get (NUMBER19));
+      return ((Number)get (NUMBER19));
    }
 
    /**
@@ -3255,7 +3002,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @param val Numeric value
     */
-   public void setNumber20 (Double val)
+   public void setNumber20 (Number val)
    {
       set (NUMBER20, val);
    }
@@ -3266,20 +3013,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     *
     * @return Numeric value
     */
-   public double getNumber20Value ()
+   public Number getNumber20 ()
    {
-      return (NumberUtility.getDouble((Number)get(NUMBER20)));
-   }
-
-   /**
-    * Retrieves a numeric value.
-    * Note that this value is an extension to the MPX specification.
-    *
-    * @return Numeric value
-    */
-   public Double getNumber20 ()
-   {
-      return ((Double)get (NUMBER20));
+      return ((Number)get (NUMBER20));
    }
 
    /**
@@ -4617,7 +4353,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * 
     * @return list of tasks assigned to this resource
     */
-   public LinkedList getTaskAssignments ()
+   public List getTaskAssignments ()
    {
       return (m_assignments);
    }
@@ -4676,17 +4412,6 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * @param key attribute identifier
     * @param value attribute value
     */
-   private void put (int key, int value)
-   {
-      put (key, new Integer (value));
-   }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
    private void put (int key, boolean value)
    {
       put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
@@ -4705,7 +4430,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     */
    public int compareTo (Object o)
    {
-      return (getID().compareTo(((Resource)o).getID()));
+      int id1 = NumberUtility.getInt(getID());
+      int id2 = NumberUtility.getInt(((Resource)o).getID());
+      return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
    /**
@@ -4726,7 +4453,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    /**
     * List of all assignments for this resource.
     */   
-   private LinkedList m_assignments = new LinkedList();
+   private List m_assignments = new LinkedList();
    
    /**
     * The following member variables are extended attributes. They are

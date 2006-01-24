@@ -33,14 +33,14 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.listener.ProjectListener;
-import net.sf.mpxj.utility.BooleanUtility;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 
 /**
  * This class represents a project plan.
  */
-public class ProjectFile
+public final class ProjectFile
 {
    /**
     * Accessor method to retrieve the current file delimiter character.
@@ -186,7 +186,7 @@ public class ProjectFile
       {
          Collections.sort(m_allTasks);
          Task firstTask = (Task)m_allTasks.get(0);
-         int id = firstTask.getIDValue();
+         int id = NumberUtility.getInt(firstTask.getID());
          if (id != 0)
          {
             id = 1;
@@ -195,7 +195,7 @@ public class ProjectFile
          Iterator iter = m_allTasks.iterator();
          while (iter.hasNext() == true)
          {
-            ((Task)iter.next()).setID(id++);
+            ((Task)iter.next()).setID(new Integer(id++));
          }
       }      
    }
@@ -626,11 +626,11 @@ public class ProjectFile
       
       Iterator iter = m_allResourceAssignments.iterator();
       ResourceAssignment assignment;
-      int resourceUniqueID = resource.getUniqueIDValue();
+      Integer resourceUniqueID = resource.getUniqueID();
       while (iter.hasNext() == true)
       {
          assignment = (ResourceAssignment)iter.next();
-         if (assignment.getResourceUniqueID().intValue() == resourceUniqueID)
+         if (NumberUtility.equals(assignment.getResourceUniqueID(), resourceUniqueID))
          {
             assignment.getTask().removeResourceAssignment(assignment);
             iter.remove();
@@ -889,7 +889,7 @@ public class ProjectFile
          {
             task = (Task)iter.next();
             task.clearChildTasks();
-            level = task.getOutlineLevelValue();
+            level = NumberUtility.getInt(task.getOutlineLevel());
             parent = null;
 
             if (lastTask != null)
@@ -915,7 +915,7 @@ public class ProjectFile
                            break;
                         }
 
-                        lastLevel = parent.getOutlineLevelValue();
+                        lastLevel = NumberUtility.getInt(parent.getOutlineLevel());
                         lastTask = parent;
                      }
                   }
@@ -960,7 +960,7 @@ public class ProjectFile
       for(Iterator iter=m_allTasks.iterator(); iter.hasNext();)
       {
          Task task = (Task)iter.next();
-         int uniqueID = task.getUniqueIDValue();
+         int uniqueID = NumberUtility.getInt(task.getUniqueID());
          if (uniqueID > m_taskUniqueID)
          {
             m_taskUniqueID = uniqueID;
@@ -973,7 +973,7 @@ public class ProjectFile
       for(Iterator iter=m_allResources.iterator(); iter.hasNext();)
       {
          Resource resource = (Resource)iter.next();
-         int uniqueID = resource.getUniqueIDValue();
+         int uniqueID = NumberUtility.getInt(resource.getUniqueID());
          if (uniqueID > m_resourceUniqueID)
          {
             m_resourceUniqueID = uniqueID;
@@ -1028,7 +1028,7 @@ public class ProjectFile
          //
          // If a hidden "summary" task is present we ignore it
          //
-         if (task.getUniqueIDValue() == 0)
+         if (NumberUtility.getInt(task.getUniqueID()) == 0)
          {
             continue;
          }
@@ -1039,7 +1039,7 @@ public class ProjectFile
          // is alway correct, the milestone start date may be different
          // to reflect a missed deadline.
          //
-         if (BooleanUtility.getBoolean(task.getMilestone()) == true)
+         if (task.getMilestone() == true)
          {
             taskStartDate = task.getActualFinish();
             if (taskStartDate == null)
@@ -1096,7 +1096,7 @@ public class ProjectFile
          //
          // If a hidden "summary" task is present we ignore it
          //
-         if (task.getUniqueIDValue() == 0)
+         if (NumberUtility.getInt(task.getUniqueID()) == 0)
          {
             continue;
          }
@@ -1328,28 +1328,6 @@ public class ProjectFile
       }
 
       return (field);
-   }
-
-   /**
-    * Allows derived classes to determine if task field aliases have
-    * been defined.
-    *
-    * @return true if task field aliases have been defined
-    */
-   protected boolean taskFieldAliasesDefined ()
-   {
-      return (!m_taskFieldAlias.isEmpty());
-   }
-
-   /**
-    * Allows derived classes to determine if resource field aliases have
-    * been defined.
-    *
-    * @return true if resource field aliases have been defined
-    */
-   protected boolean resourceFieldAliasesDefined ()
-   {
-      return (!m_resourceFieldAlias.isEmpty());
    }
 
    /**

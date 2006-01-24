@@ -11,10 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
@@ -66,7 +67,7 @@ public final class MppXmlCompare
          Task xmlTask = (Task)iter.next();
 
          // too much variability
-         if (xmlTask.getUniqueIDValue() == 0)
+         if (NumberUtility.getInt(xmlTask.getUniqueID()) == 0)
          {
             continue;
          }
@@ -304,7 +305,7 @@ public final class MppXmlCompare
          Resource xmlResource = (Resource)iter.next();
          
          // too much variability
-         if (xmlResource.getUniqueIDValue() == 0)
+         if (NumberUtility.getInt(xmlResource.getUniqueID()) == 0)
          {
             continue;
          }

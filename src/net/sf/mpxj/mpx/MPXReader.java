@@ -364,7 +364,7 @@ public final class MPXReader extends AbstractProjectReader
             m_lastTask = m_projectFile.addTask();
             populateTask(record, m_lastTask);
    
-            int outlineLevel = m_lastTask.getOutlineLevelValue();
+            int outlineLevel = NumberUtility.getInt(m_lastTask.getOutlineLevel());
    
             if (m_baseOutlineLevel == -1)
             {
@@ -780,7 +780,7 @@ public final class MPXReader extends AbstractProjectReader
    
       if (m_projectFile.getAutoResourceUniqueID() == true)
       {
-         resource.setUniqueID (m_projectFile.getResourceUniqueID ());
+         resource.setUniqueID (new Integer(m_projectFile.getResourceUniqueID ()));
       }
    
       if (m_projectFile.getAutoResourceID() == true)
@@ -1152,27 +1152,20 @@ public final class MPXReader extends AbstractProjectReader
    
       if (m_projectFile.getAutoOutlineLevel() == true)
       {
-         task.setOutlineLevel(1);
+         task.setOutlineLevel(new Integer(1));
       }
    
       if (m_projectFile.getAutoTaskUniqueID() == true)
       {
-         task.setUniqueID(m_projectFile.getTaskUniqueID());
+         task.setUniqueID(new Integer(m_projectFile.getTaskUniqueID()));
       }
    
       if (m_projectFile.getAutoTaskID() == true)
       {
-         task.setID(m_projectFile.getTaskID());
+         task.setID(new Integer(m_projectFile.getTaskID()));
       }
    
-      if (task.getFixedValue() == true)
-      {
-         task.setType(TaskType.FIXED_DURATION);
-      }
-      else
-      {
-         task.setType(TaskType.FIXED_UNITS);
-      }
+      task.setType(task.getFixed()?TaskType.FIXED_DURATION:TaskType.FIXED_UNITS);
    }
    
    /**

@@ -615,7 +615,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setContact(mpx.getContact());
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
       xml.setCreateDate(DatatypeConverter.printDate(mpx.getCreateDate()));
-      xml.setCritical(mpx.getCriticalValue());
+      xml.setCritical(mpx.getCritical());
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
       xml.setDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
@@ -646,14 +646,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setFixedCostAccrual(fixedCostAccrual);
 
       xml.setFreeSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getFreeSlack())*1000));
-      xml.setHideBar(mpx.getHideBarValue());
+      xml.setHideBar(mpx.getHideBar());
       xml.setIsNull(mpx.getNull());
       xml.setIsSubproject(mpx.getSubProject()!=null);
       xml.setIsSubprojectReadOnly(mpx.getSubprojectReadOnly());
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
-      xml.setID(BigInteger.valueOf(mpx.getIDValue()));
+      xml.setID(NumberUtility.getBigInteger(mpx.getID()));
       xml.setIgnoreResourceCalendar(mpx.getIgnoreResourceCalendar());
       xml.setLateFinish(DatatypeConverter.printDate(mpx.getLateFinish()));
       xml.setLateStart(DatatypeConverter.printDate(mpx.getLateStart()));
@@ -666,16 +666,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat()));
       }
 
-      xml.setMilestone(mpx.getMilestoneValue());
+      xml.setMilestone(mpx.getMilestone());
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
-      xml.setOutlineLevel(BigInteger.valueOf(mpx.getOutlineLevelValue()));
+      xml.setOutlineLevel(NumberUtility.getBigInteger(mpx.getOutlineLevel()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
       xml.setOverAllocated(mpx.getOverAllocated());
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
-      xml.setPercentComplete(BigInteger.valueOf((long)mpx.getPercentageCompleteValue()));
-      xml.setPercentWorkComplete(BigInteger.valueOf((long)mpx.getPercentageWorkCompleteValue()));
+      xml.setPercentComplete(NumberUtility.getBigInteger(mpx.getPercentageComplete()));
+      xml.setPercentWorkComplete(NumberUtility.getBigInteger(mpx.getPercentageWorkComplete()));
       xml.setPhysicalPercentComplete(NumberUtility.getBigInteger(mpx.getPhysicalPercentComplete()));
       xml.setPriority(DatatypeConverter.printPriority(mpx.getPriority()));
       xml.setRecurring(mpx.getRecurring());
@@ -689,7 +689,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (duration != null)
          {
             double amount = duration.getDuration();
-            amount -= ((amount * mpx.getPercentageCompleteValue())/100);
+            amount -= ((amount * NumberUtility.getDouble(mpx.getPercentageComplete()))/100);
             xml.setRemainingDuration(DatatypeConverter.printDuration(this, Duration.getInstance (amount, duration.getUnits())));
          }
       }
@@ -703,12 +703,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResume(DatatypeConverter.printDate(mpx.getResume()));
       xml.setResumeValid(mpx.getResumeValid());
-      xml.setRollup(mpx.getRollupValue());
+      xml.setRollup(mpx.getRollup());
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));      
       xml.setStartVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getStartVariance())*1000));
       xml.setStop(DatatypeConverter.printDate (mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
-      xml.setSummary(mpx.getSummaryValue());
+      xml.setSummary(mpx.getSummary());
       xml.setTotalSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack())*1000));
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
@@ -923,7 +923,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       while (iter.hasNext() == true)
       {
          Task task = (Task)iter.next();
-         double percentComplete = task.getPercentageCompleteValue();
+         double percentComplete = NumberUtility.getDouble(task.getPercentageComplete());
          if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
          {
             ResourceAssignment dummy = m_projectFile.newResourceAssignment (task);
@@ -972,7 +972,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingWork(DatatypeConverter.printDuration (this, mpx.getRemainingWork()));
       xml.setResourceUID(BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));
       xml.setStart(DatatypeConverter.printDate (mpx.getStart()));
-      xml.setTaskUID(BigInteger.valueOf(mpx.getTask().getUniqueIDValue()));
+      xml.setTaskUID(NumberUtility.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(BigInteger.valueOf(uid));
       xml.setUnits(DatatypeConverter.printUnits(mpx.getUnits()));
       xml.setWork(DatatypeConverter.printDuration (this, mpx.getWork()));

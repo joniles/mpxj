@@ -383,82 +383,82 @@ public class MPXJTest extends TestCase
 
       Resource resource1 = file.addResource();
       resource1.setName("R1");
-      assertEquals (resource1.getUniqueIDValue(), 1);
+      assertEquals (resource1.getUniqueID().intValue(), 1);
       assertEquals (resource1.getID().intValue(), 1);
 
       Resource resource2 = file.addResource();
       resource2.setName("R2");
-      assertEquals (resource2.getUniqueIDValue(), 2);
+      assertEquals (resource2.getUniqueID().intValue(), 2);
       assertEquals (resource2.getID().intValue(), 2);
 
       Task task1 = file.addTask();
       task1.setName("1.0");
       assertEquals (task1.getWBS(), "1.0");
-      assertEquals (task1.getOutlineLevelValue(), 1);
+      assertEquals (task1.getOutlineLevel().intValue(), 1);
       assertEquals (task1.getOutlineNumber(), "1.0");
-      assertEquals (task1.getIDValue(), 1);
-      assertEquals (task1.getUniqueIDValue(), 1);
-      assertEquals (task1.getSummaryValue(), false);
+      assertEquals (task1.getID().intValue(), 1);
+      assertEquals (task1.getUniqueID().intValue(), 1);
+      assertEquals (task1.getSummary(), false);
 
       task1 = file.addTask();
       task1.setName("2.0");
       assertEquals (task1.getWBS(), "2.0");
-      assertEquals (task1.getOutlineLevelValue(), 1);
+      assertEquals (task1.getOutlineLevel().intValue(), 1);
       assertEquals (task1.getOutlineNumber(), "2.0");
-      assertEquals (task1.getIDValue(), 2);
-      assertEquals (task1.getUniqueIDValue(), 2);
-      assertEquals (task1.getSummaryValue(), false);
+      assertEquals (task1.getID().intValue(), 2);
+      assertEquals (task1.getUniqueID().intValue(), 2);
+      assertEquals (task1.getSummary(), false);
 
       task1 = file.addTask();
       task1.setName("3.0");
       assertEquals (task1.getWBS(), "3.0");
-      assertEquals (task1.getOutlineLevelValue(), 1);
+      assertEquals (task1.getOutlineLevel().intValue(), 1);
       assertEquals (task1.getOutlineNumber(), "3.0");
-      assertEquals (task1.getIDValue(), 3);
-      assertEquals (task1.getUniqueIDValue(), 3);
-      assertEquals (task1.getSummaryValue(), false);
+      assertEquals (task1.getID().intValue(), 3);
+      assertEquals (task1.getUniqueID().intValue(), 3);
+      assertEquals (task1.getSummary(), false);
 
       Task task2 = task1.addTask();
       task2.setName("3.1");
       assertEquals (task2.getWBS(), "3.1");
-      assertEquals (task2.getOutlineLevelValue(), 2);
+      assertEquals (task2.getOutlineLevel().intValue(), 2);
       assertEquals (task2.getOutlineNumber(), "3.1");
-      assertEquals (task2.getIDValue(), 4);
-      assertEquals (task2.getUniqueIDValue(), 4);
-      assertEquals (task1.getSummaryValue(), true);
-      assertEquals (task2.getSummaryValue(), false);
+      assertEquals (task2.getID().intValue(), 4);
+      assertEquals (task2.getUniqueID().intValue(), 4);
+      assertEquals (task1.getSummary(), true);
+      assertEquals (task2.getSummary(), false);
 
       task2 = task1.addTask();
       task2.setName("3.2");
       assertEquals (task2.getWBS(), "3.2");
-      assertEquals (task2.getOutlineLevelValue(), 2);
+      assertEquals (task2.getOutlineLevel().intValue(), 2);
       assertEquals (task2.getOutlineNumber(), "3.2");
-      assertEquals (task2.getIDValue(), 5);
-      assertEquals (task2.getUniqueIDValue(), 5);
-      assertEquals (task1.getSummaryValue(), true);
-      assertEquals (task2.getSummaryValue(), false);
+      assertEquals (task2.getID().intValue(), 5);
+      assertEquals (task2.getUniqueID().intValue(), 5);
+      assertEquals (task1.getSummary(), true);
+      assertEquals (task2.getSummary(), false);
 
       Task task3 = task2.addTask();
       task3.setName("3.2.1");
       assertEquals (task3.getWBS(), "3.2.1");
-      assertEquals (task3.getOutlineLevelValue(), 3);
+      assertEquals (task3.getOutlineLevel().intValue(), 3);
       assertEquals (task3.getOutlineNumber(), "3.2.1");
-      assertEquals (task3.getIDValue(), 6);
-      assertEquals (task3.getUniqueIDValue(), 6);
-      assertEquals (task1.getSummaryValue(), true);
-      assertEquals (task2.getSummaryValue(), true);
-      assertEquals (task3.getSummaryValue(), false);
+      assertEquals (task3.getID().intValue(), 6);
+      assertEquals (task3.getUniqueID().intValue(), 6);
+      assertEquals (task1.getSummary(), true);
+      assertEquals (task2.getSummary(), true);
+      assertEquals (task3.getSummary(), false);
 
       task3 = task2.addTask();
       task3.setName("3.2.2");
       assertEquals (task3.getWBS(), "3.2.2");
-      assertEquals (task3.getOutlineLevelValue(), 3);
+      assertEquals (task3.getOutlineLevel().intValue(), 3);
       assertEquals (task3.getOutlineNumber(), "3.2.2");
-      assertEquals (task3.getIDValue(), 7);
-      assertEquals (task3.getUniqueIDValue(), 7);
-      assertEquals (task1.getSummaryValue(), true);
-      assertEquals (task2.getSummaryValue(), true);
-      assertEquals (task3.getSummaryValue(), false);
+      assertEquals (task3.getID().intValue(), 7);
+      assertEquals (task3.getUniqueID().intValue(), 7);
+      assertEquals (task1.getSummary(), true);
+      assertEquals (task2.getSummary(), true);
+      assertEquals (task3.getSummary(), false);
    }
 
    /**
@@ -926,7 +926,7 @@ public class MPXJTest extends TestCase
          while (iter.hasNext() == true)
          {
             task = (Task)iter.next();
-            assertEquals("Outline levels do not match", task.getOutlineLevelValue(), calculateOutlineLevel(task));
+            assertEquals("Outline levels do not match", task.getOutlineLevel().intValue(), calculateOutlineLevel(task));
          }
       }
 
@@ -1086,16 +1086,16 @@ public class MPXJTest extends TestCase
       while (iter.hasNext())
       {
          task = (Task)iter.next();
-         assertFalse(task.getName(), task.getFlag1Value());
-         assertFalse(task.getName(), task.getFlag2Value());
-         assertFalse(task.getName(), task.getFlag3Value());
-         assertFalse(task.getName(), task.getFlag4Value());
-         assertFalse(task.getName(), task.getFlag5Value());
-         assertFalse(task.getName(), task.getFlag6Value());
-         assertFalse(task.getName(), task.getFlag7Value());
-         assertFalse(task.getName(), task.getFlag8Value());
-         assertFalse(task.getName(), task.getFlag9Value());
-         assertFalse(task.getName(), task.getFlag10Value());
+         assertFalse(task.getName(), task.getFlag1());
+         assertFalse(task.getName(), task.getFlag2());
+         assertFalse(task.getName(), task.getFlag3());
+         assertFalse(task.getName(), task.getFlag4());
+         assertFalse(task.getName(), task.getFlag5());
+         assertFalse(task.getName(), task.getFlag6());
+         assertFalse(task.getName(), task.getFlag7());
+         assertFalse(task.getName(), task.getFlag8());
+         assertFalse(task.getName(), task.getFlag9());
+         assertFalse(task.getName(), task.getFlag10());
          assertFalse(task.getName(), task.getFlag11());
          assertFalse(task.getName(), task.getFlag12());
          assertFalse(task.getName(), task.getFlag13());
@@ -1108,16 +1108,16 @@ public class MPXJTest extends TestCase
          //assertFalse(task.getName(), task.getFlag20());
 
          task = (Task)iter.next();
-         assertTrue(task.getName(), task.getFlag1Value());
-         assertTrue(task.getName(), task.getFlag2Value());
-         assertTrue(task.getName(), task.getFlag3Value());
-         assertTrue(task.getName(), task.getFlag4Value());
-         assertTrue(task.getName(), task.getFlag5Value());
-         assertTrue(task.getName(), task.getFlag6Value());
-         assertTrue(task.getName(), task.getFlag7Value());
-         assertTrue(task.getName(), task.getFlag8Value());
-         assertTrue(task.getName(), task.getFlag9Value());
-         assertTrue(task.getName(), task.getFlag10Value());
+         assertTrue(task.getName(), task.getFlag1());
+         assertTrue(task.getName(), task.getFlag2());
+         assertTrue(task.getName(), task.getFlag3());
+         assertTrue(task.getName(), task.getFlag4());
+         assertTrue(task.getName(), task.getFlag5());
+         assertTrue(task.getName(), task.getFlag6());
+         assertTrue(task.getName(), task.getFlag7());
+         assertTrue(task.getName(), task.getFlag8());
+         assertTrue(task.getName(), task.getFlag9());
+         assertTrue(task.getName(), task.getFlag10());
          assertTrue(task.getName(), task.getFlag11());
          assertTrue(task.getName(), task.getFlag12());
          assertTrue(task.getName(), task.getFlag13());
@@ -1187,16 +1187,16 @@ public class MPXJTest extends TestCase
       while (iter.hasNext())
       {
          task = (Task)iter.next();
-         assertFalse(task.getName(), task.getFlag1Value());
-         assertFalse(task.getName(), task.getFlag2Value());
-         assertFalse(task.getName(), task.getFlag3Value());
-         assertFalse(task.getName(), task.getFlag4Value());
-         assertFalse(task.getName(), task.getFlag5Value());
-         assertFalse(task.getName(), task.getFlag6Value());
-         assertFalse(task.getName(), task.getFlag7Value());
-         assertFalse(task.getName(), task.getFlag8Value());
-         assertFalse(task.getName(), task.getFlag9Value());
-         assertFalse(task.getName(), task.getFlag10Value());
+         assertFalse(task.getName(), task.getFlag1());
+         assertFalse(task.getName(), task.getFlag2());
+         assertFalse(task.getName(), task.getFlag3());
+         assertFalse(task.getName(), task.getFlag4());
+         assertFalse(task.getName(), task.getFlag5());
+         assertFalse(task.getName(), task.getFlag6());
+         assertFalse(task.getName(), task.getFlag7());
+         assertFalse(task.getName(), task.getFlag8());
+         assertFalse(task.getName(), task.getFlag9());
+         assertFalse(task.getName(), task.getFlag10());
          assertFalse(task.getName(), task.getFlag11());
          assertFalse(task.getName(), task.getFlag12());
          assertFalse(task.getName(), task.getFlag13());
@@ -1209,16 +1209,16 @@ public class MPXJTest extends TestCase
          assertFalse(task.getName(), task.getFlag20());
 
          task = (Task)iter.next();
-         assertTrue(task.getName(), task.getFlag1Value());
-         assertTrue(task.getName(), task.getFlag2Value());
-         assertTrue(task.getName(), task.getFlag3Value());
-         assertTrue(task.getName(), task.getFlag4Value());
-         assertTrue(task.getName(), task.getFlag5Value());
-         assertTrue(task.getName(), task.getFlag6Value());
-         assertTrue(task.getName(), task.getFlag7Value());
-         assertTrue(task.getName(), task.getFlag8Value());
-         assertTrue(task.getName(), task.getFlag9Value());
-         assertTrue(task.getName(), task.getFlag10Value());
+         assertTrue(task.getName(), task.getFlag1());
+         assertTrue(task.getName(), task.getFlag2());
+         assertTrue(task.getName(), task.getFlag3());
+         assertTrue(task.getName(), task.getFlag4());
+         assertTrue(task.getName(), task.getFlag5());
+         assertTrue(task.getName(), task.getFlag6());
+         assertTrue(task.getName(), task.getFlag7());
+         assertTrue(task.getName(), task.getFlag8());
+         assertTrue(task.getName(), task.getFlag9());
+         assertTrue(task.getName(), task.getFlag10());
          assertTrue(task.getName(), task.getFlag11());
          assertTrue(task.getName(), task.getFlag12());
          assertTrue(task.getName(), task.getFlag13());
@@ -1278,16 +1278,16 @@ public class MPXJTest extends TestCase
    {
       boolean[] flags = new boolean[20];
 
-      flags[0] = task.getFlag1Value();
-      flags[1] = task.getFlag2Value();
-      flags[2] = task.getFlag3Value();
-      flags[3] = task.getFlag4Value();
-      flags[4] = task.getFlag5Value();
-      flags[5] = task.getFlag6Value();
-      flags[6] = task.getFlag7Value();
-      flags[7] = task.getFlag8Value();
-      flags[8] = task.getFlag9Value();
-      flags[9] = task.getFlag10Value();
+      flags[0] = task.getFlag1();
+      flags[1] = task.getFlag2();
+      flags[2] = task.getFlag3();
+      flags[3] = task.getFlag4();
+      flags[4] = task.getFlag5();
+      flags[5] = task.getFlag6();
+      flags[6] = task.getFlag7();
+      flags[7] = task.getFlag8();
+      flags[8] = task.getFlag9();
+      flags[9] = task.getFlag10();
       flags[10] = task.getFlag11();
       flags[11] = task.getFlag12();
       flags[12] = task.getFlag13();
@@ -1925,8 +1925,8 @@ public class MPXJTest extends TestCase
       assertEquals("31/12/2004", df.format(task.getFinish1()));
       assertEquals(99.95, task.getCost1().doubleValue(), 0.0);
       assertEquals("18/07/2004", df.format(task.getDate1()));
-      assertTrue(task.getFlag1Value());
-      assertEquals(55.56, task.getNumber1Value(), 0.0);
+      assertTrue(task.getFlag1());
+      assertEquals(55.56, task.getNumber1().doubleValue(), 0.0);
       assertEquals(13.0, task.getDuration1().getDuration(), 0.0);
       assertEquals(TimeUnit.DAYS, task.getDuration1().getUnits());
 
@@ -1940,7 +1940,7 @@ public class MPXJTest extends TestCase
       assertEquals(29.99, resource.getCost1().doubleValue(), 0.0);
       assertEquals("18/07/2003", df.format(resource.getDate1()));
       assertTrue(resource.getFlag1());
-      assertEquals(5.99, resource.getNumber1Value(), 0.0);
+      assertEquals(5.99, resource.getNumber1().doubleValue(), 0.0);
       assertEquals(22.0, resource.getDuration1().getDuration(), 0.0);
       assertEquals(TimeUnit.DAYS, resource.getDuration1().getUnits());
    }

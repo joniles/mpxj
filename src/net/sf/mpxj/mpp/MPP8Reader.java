@@ -595,7 +595,7 @@ final class MPP8Reader implements MPPVariantReader
          //task.setFreeSlack();  // Calculated value
          task.setHideBar((data[16] & 0x01) != 0);
          processHyperlinkData (task, taskVarData.getByteArray(-1 - taskExtData.getInt(TASK_HYPERLINK)));
-         task.setID (id);
+         task.setID (new Integer(id));
          //task.setIndicators(); // Calculated value
          task.setLateFinish (MPPUtility.getTimestamp (data, 160));
          task.setLateStart (MPPUtility.getTimestamp (data, 24));
@@ -627,7 +627,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setNumber19(NumberUtility.getDouble (taskExtData.getDouble(TASK_NUMBER19)));
          task.setNumber20(NumberUtility.getDouble (taskExtData.getDouble(TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
-         task.setOutlineLevel (MPPUtility.getShort (data, 48));
+         task.setOutlineLevel (new Integer(MPPUtility.getShort (data, 48)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
          task.setOvertimeCost (NumberUtility.getDouble(((double)MPPUtility.getLong6(data, 204))/100));
@@ -705,7 +705,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setText30(taskExtData.getUnicodeString(TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(TaskType.getInstance(MPPUtility.getShort(data, 134)));
-         task.setUniqueID(uniqueID);
+         task.setUniqueID(new Integer(uniqueID));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
@@ -1054,7 +1054,7 @@ final class MPP8Reader implements MPPVariantReader
          resource.setText28(rscExtData.getUnicodeString (RESOURCE_TEXT28));
          resource.setText29(rscExtData.getUnicodeString (RESOURCE_TEXT29));
          resource.setText30(rscExtData.getUnicodeString (RESOURCE_TEXT30));
-         resource.setUniqueID(id);
+         resource.setUniqueID(new Integer(id));
          resource.setWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 56))/100, TimeUnit.HOURS));
 
          //
