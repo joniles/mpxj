@@ -42,7 +42,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 
 /**
- * This class creates a new MPXFile instance by reading an MPP file.
+ * This class creates a new ProjectFile instance by reading an MPP file.
  */
 public final class MPPReader extends AbstractProjectReader
 {

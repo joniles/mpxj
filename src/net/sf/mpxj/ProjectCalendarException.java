@@ -1,5 +1,5 @@
 /*
- * file:       MPXCalendarException.java
+ * file:       ProjectCalendarException.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       28/11/2003

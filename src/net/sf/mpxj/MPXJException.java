@@ -1,5 +1,5 @@
 /*
- * file:       MPXException.java
+ * file:       MPXJException.java
  * author:     Scott Melville
  *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003

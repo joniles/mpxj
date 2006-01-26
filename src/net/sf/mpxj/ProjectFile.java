@@ -478,7 +478,7 @@ public final class ProjectFile
     * This method is provided to create a resource calendar, before it
     * has been attached to a resource.
     *
-    * @return new MPXCalendar instance
+    * @return new ProjectCalendar instance
     */
    public ProjectCalendar getResourceCalendar ()
    {
@@ -552,7 +552,7 @@ public final class ProjectFile
     * the resource data has been read, a situation which occurs with MPP
     * files.
     *
-    * @return new MPXCalendar instance
+    * @return new ProjectCalendar instance
     */
    public ProjectCalendar getDefaultResourceCalendar ()
    {
@@ -741,7 +741,7 @@ public final class ProjectFile
     * located.
     *
     * @param calendarID calendar unique ID
-    * @return MPXCalendar instance
+    * @return ProjectCalendar instance
     */
    public ProjectCalendar getBaseCalendarByUniqueID (int calendarID)
    {
@@ -783,7 +783,7 @@ public final class ProjectFile
     *
     * @param startDate start of the period
     * @param endDate end of the period
-    * @return new MPXDuration object
+    * @return new Duration object
     * @throws MPXJException normally when no Standard calendar is available
     */
    public Duration getDuration (Date startDate, Date endDate)
@@ -800,7 +800,7 @@ public final class ProjectFile
     * @param calendarName name of the calendar to use
     * @param startDate start of the period
     * @param endDate end of the period
-    * @return new MPXDuration object
+    * @return new Duration object
     * @throws MPXJException normally when no Standard calendar is available
     */
    public Duration getDuration (String calendarName, Date startDate, Date endDate)

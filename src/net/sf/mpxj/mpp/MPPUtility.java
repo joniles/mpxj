@@ -516,7 +516,7 @@ final class MPPUtility
     *
     * @param value Duration value
     * @param type type of units of the duration
-    * @return MPXDuration instance
+    * @return Duration instance
     */
    public static final Duration getDuration (int value, TimeUnit type)
    {
@@ -529,7 +529,7 @@ final class MPPUtility
     *
     * @param value Duration value
     * @param type type of units of the duration
-    * @return MPXDuration instance
+    * @return Duration instance
     */
    public static final Duration getDuration (double value, TimeUnit type)
    {
@@ -663,14 +663,14 @@ final class MPPUtility
 
    /**
     * Given a duration and the time units for the duration extracted from an MPP
-    * file, this method creates a new MPXDuration to represent the given
+    * file, this method creates a new Duration to represent the given
     * duration. This instance has been adjusted to take into account the
     * number of "hours per day" specified for the current project.
     *
     * @param file parent file
     * @param duration duration length
     * @param timeUnit duration units
-    * @return MPXDuration instance
+    * @return Duration instance
     */
    public static Duration getAdjustedDuration (ProjectFile file, int duration, TimeUnit timeUnit)
    {

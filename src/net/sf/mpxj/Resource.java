@@ -704,7 +704,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    /**
     * Gets Standard Rate field value.
     *
-    * @return MPXRate
+    * @return Rate
     */
    public Rate getStandardRate ()
    {
@@ -1234,7 +1234,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    /**
     * This method retrieves the calendar associated with this resource.
     *
-    * @return MPXCalendar instance
+    * @return ProjectCalendar instance
     */
    public ProjectCalendar getResourceCalendar ()
    {
@@ -3022,7 +3022,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration1()
    {
@@ -3033,7 +3033,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration2()
    {
@@ -3044,7 +3044,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration3()
    {
@@ -3055,7 +3055,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration4()
    {
@@ -3066,7 +3066,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration5()
    {
@@ -3077,7 +3077,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration6()
    {
@@ -3088,7 +3088,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration7()
    {
@@ -3099,7 +3099,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration8()
    {
@@ -3110,7 +3110,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration9()
    {
@@ -3121,7 +3121,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
     * Retrieves a duration.
     * Note that this value is an extension to the MPX specification.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration10()
    {

@@ -60,7 +60,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 
 
 /**
- * This class creates a new MPX file from the contents of an MPXFile instance.
+ * This class creates a new MPX file from the contents of an PorjectFile instance.
  */
 public final class MPXWriter extends AbstractProjectWriter
 {
@@ -1051,8 +1051,8 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * This method is called to format a time value.
     * 
-    * @param value Date instance
-    * @return MPXTime instance
+    * @param value time value
+    * @return formatted time value
     */
    private String formatTime (Date value)
    {

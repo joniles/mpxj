@@ -207,7 +207,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXDate object representing the
+    * Accessor method used to retrieve an Date instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -241,7 +241,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXDate object representing the
+    * Accessor method used to retrieve an Date instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -275,7 +275,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXTime object representing the
+    * Accessor method used to retrieve an Date instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -329,7 +329,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXRate object representing the
+    * Accessor method used to retrieve an Rate object representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -379,7 +379,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXCurrency object representing the
+    * Accessor method used to retrieve an Number instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -413,7 +413,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXPercentage object representing the
+    * Accessor method used to retrieve an Number instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -447,7 +447,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXDuration object representing the
+    * Accessor method used to retrieve an Duration object representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
@@ -473,7 +473,7 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an MPXUnits object representing the
+    * Accessor method used to retrieve a Number instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *

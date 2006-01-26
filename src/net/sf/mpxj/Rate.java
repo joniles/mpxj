@@ -1,5 +1,5 @@
 /*
- * file:       MPXRate.java
+ * file:       Rate.java
  * author:     Scott Melville
  *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003

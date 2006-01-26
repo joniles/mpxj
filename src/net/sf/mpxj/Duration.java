@@ -1,5 +1,5 @@
 /*
- * file:       MPXDuration.java
+ * file:       Duration.java
  * author:     Scott Melville
  *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
@@ -87,7 +87,7 @@ public final class Duration
     *
     * @param type target duration type
     * @param defaults project header containing default values
-    * @return new MPXDuration instance
+    * @return new Duration instance
     */
    public Duration convertUnits (TimeUnit type, ProjectHeader defaults)
    {
@@ -104,7 +104,7 @@ public final class Duration
     * @param fromUnits units to convert from
     * @param toUnits units to convert to 
     * @param defaults project header containing default values
-    * @return new MPXDuration instance
+    * @return new Duration instance
     */
    public static Duration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
    {
@@ -233,12 +233,12 @@ public final class Duration
    }   
    
    /**
-    * Retrieve an MPXDuration instance. Use shared objects to
+    * Retrieve an Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     * 
     * @param duration duration value
     * @param type duration type
-    * @return MPXDuration instance
+    * @return Duration instance
     */
    public static Duration getInstance (double duration, TimeUnit type)
    {
@@ -255,12 +255,12 @@ public final class Duration
    }
 
    /**
-    * Retrieve an MPXDuration instance. Use shared objects to
+    * Retrieve an Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     * 
     * @param duration duration value
     * @param type duration type
-    * @return MPXDuration instance
+    * @return Duration instance
     */   
    public static Duration getInstance (int duration, TimeUnit type)
    {

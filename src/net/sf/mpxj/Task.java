@@ -2096,7 +2096,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * person-hours scheduled for a task. Information in the Baseline Work field
     * becomes available when you set a baseline for the project.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getBaselineWork ()
    {
@@ -2277,7 +2277,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Delay , in MPX files as eg '0ed'. Use duration
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDelay ()
    {
@@ -2289,7 +2289,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * This is generally the amount of time from the start to the finish of a task.
     * The default for new tasks is 1 day (1d).
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration ()
    {
@@ -2301,7 +2301,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * specialized task duration information you want to enter and store separately
     * in your project.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration1 ()
    {
@@ -2313,7 +2313,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * specialized task duration information you want to enter and store separately
     * in your project.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration2 ()
    {
@@ -2325,7 +2325,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * specialized task duration information you want to enter and store separately
     * in your project.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration3 ()
    {
@@ -2337,7 +2337,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * baseline duration of a task and the total duration (current estimate)
     * of a task.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDurationVariance ()
    {
@@ -2601,7 +2601,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * successors, free slack is the amount of time that a task can be
     * delayed without delaying the entire project's finish date.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getFreeSlack ()
    {
@@ -2869,7 +2869,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * The Remaining Duration field shows the amount of time required
     * to complete the unfinished portion of a task.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getRemainingDuration ()
    {
@@ -3045,7 +3045,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * the difference between a tasks baseline start date and its currently
     * scheduled start date.
     *
-    * @return value of duration. MPXDuration
+    * @return value of duration. Duration
     */
    public Duration getStartVariance ()
    {
@@ -3306,7 +3306,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * on a task by all assigned resources. This field shows the total work,
     * or person-hours, for a task.
     *
-    * @return MPXDuration representing duration .
+    * @return Duration representing duration .
     */
    public Duration getWork ()
    {
@@ -3317,7 +3317,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * The Work Variance field contains the difference between a task's
     * baseline work and the currently scheduled work.
     *
-    * @return MPXDuration representing duration.
+    * @return Duration representing duration.
     */
    public Duration getWorkVariance ()
    {
@@ -4748,7 +4748,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration10 ()
    {
@@ -4758,7 +4758,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration4 ()
    {
@@ -4768,7 +4768,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration5 ()
    {
@@ -4778,7 +4778,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration6 ()
    {
@@ -4788,7 +4788,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration7 ()
    {
@@ -4798,7 +4798,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration8 ()
    {
@@ -4808,7 +4808,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Retrieves a duration.
     *
-    * @return MPXDuration
+    * @return Duration
     */
    public Duration getDuration9 ()
    {
@@ -5929,7 +5929,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * Retrieves the base calendar instance associated with this task.
     * Note that this attribute appears in MPP9 and MSPDI files.
     *
-    * @return MPXCalendar instance
+    * @return ProjectCalendar instance
     */
    public ProjectCalendar getCalendar ()
    {

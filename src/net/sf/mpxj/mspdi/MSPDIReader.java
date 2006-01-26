@@ -71,7 +71,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * This class creates a new MPXFile instance by reading an MSPDI file.
+ * This class creates a new ProjectFile instance by reading an MSPDI file.
  */
 public final class MSPDIReader extends AbstractProjectReader
 {

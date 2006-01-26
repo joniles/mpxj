@@ -58,7 +58,7 @@ import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
- * This class creates a new MPXFile instance by reading an MPX file.
+ * This class creates a new ProjectFile instance by reading an MPX file.
  */
 public final class MPXReader extends AbstractProjectReader
 {

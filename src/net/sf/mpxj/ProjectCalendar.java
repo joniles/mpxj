@@ -1,5 +1,5 @@
 /*
- * file:       MPXCalendar.java
+ * file:       ProjectCalendar.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       28/11/2003
@@ -63,7 +63,7 @@ public final class ProjectCalendar extends ProjectEntity
     * Used to add exceptions to the calendar. The MPX standard defines
     * a limit of 250 exceptions per calendar.
     *
-    * @return <tt>MPXCalendarException</tt>
+    * @return ProjectCalendarException instance
     */
    public ProjectCalendarException addCalendarException ()
    {
@@ -88,7 +88,7 @@ public final class ProjectCalendar extends ProjectEntity
     * a single calendar.
     *
     * @param day day number
-    * @return new MPXCalendarHours instance
+    * @return new ProjectCalendarHours instance
     */
    public ProjectCalendarHours addCalendarHours(Day day)
    {
@@ -182,7 +182,7 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * Sets the MPXCalendar instance from which this calendar is derived.
+    * Sets the ProjectCalendar instance from which this calendar is derived.
     *
     * @param calendar base calendar instance
     */
@@ -192,9 +192,9 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * Retrieve the MPXCalendar instance from which this calendar is derived.
+    * Retrieve the ProjectCalendar instance from which this calendar is derived.
     *
-    * @return MPXCalendar instance
+    * @return ProjectCalendar instance
     */
    public ProjectCalendar getBaseCalendar ()
    {
@@ -365,7 +365,7 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @param startDate start of the period
     * @param endDate end of the period
-    * @return new MPXDuration object
+    * @return new Duration object
     */
    public Duration getDuration (Date startDate, Date endDate)
    {
@@ -563,7 +563,7 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * This method returns a flag indicating if this MPXCalendar instance
+    * This method returns a flag indicating if this ProjectCalendar instance
     * represents a base calendar.
     *
     * @return boolean flag

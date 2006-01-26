@@ -46,13 +46,13 @@ final class DurationUtility
    }
    
    /**
-    * Retrieve an MPXDuration instance. Use shared objects to
+    * Retrieve an Duration instance. Use shared objects to
     * represent common values for memory efficiency.
     * 
     * @param dur duration formatted as a string
     * @param format number format
     * @param locale target locale
-    * @return MPXDuration instance
+    * @return Duration instance
     * @throws MPXJException
     */
    public static Duration getInstance (String dur, NumberFormat format, Locale locale)

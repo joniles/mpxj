@@ -1298,13 +1298,13 @@ final class MPP12Reader implements MPPVariantReader
 //         task.setBaseline1Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
 //         task.setBaseline1Finish(MPPUtility.getTimestamp (data, 108));
 //         task.setBaseline1Start(MPPUtility.getTimestamp (data, 104));
-//         task.setBaseline1Work(MPXDuration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+//         task.setBaseline1Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
 // to...
 //         task.setBaseline10Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
 //         task.setBaseline10Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
 //         task.setBaseline10Finish(MPPUtility.getTimestamp (data, 108));
 //         task.setBaseline10Start(MPPUtility.getTimestamp (data, 104));
-//         task.setBaseline10Work(MPXDuration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+//         task.setBaseline10Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
 
 
          //task.setBCWP(); // Calculated value

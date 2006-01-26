@@ -1,5 +1,5 @@
 /*
- * file:       TestMPXFile.java
+ * file:       MPXJTest.java
  * author:     Scott Melville
  *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
@@ -575,7 +575,7 @@ public class MPXJTest extends TestCase
     * on that data to ensure that the three file formats are being read
     * consistently.
     *
-    * @param file MPXFile instance
+    * @param file ProjectFile instance
     */
    private void commonTests (ProjectFile file)
    {
@@ -2407,7 +2407,7 @@ public class MPXJTest extends TestCase
     * 
     * @throws Exception
     */
-   public void testMPXCalendarExceptions ()
+   public void testProjectCalendarExceptions ()
       throws Exception
    {
       File out = null;

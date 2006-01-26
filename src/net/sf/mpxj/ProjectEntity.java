@@ -1,5 +1,5 @@
 /*
- * file:       MPXRecord.java
+ * file:       ProjectEntity.java
  * author:     Scott Melville
  *             Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
@@ -43,9 +43,9 @@ class ProjectEntity
    }
             
    /**
-    * Accessor method allowing retreival of MPXFile reference.
+    * Accessor method allowing retreival of ProjectFile reference.
     *
-    * @return reference to this MPXFile
+    * @return reference to this the parent ProjectFile instance
     */
    public final ProjectFile getParentFile ()
    {
@@ -53,7 +53,7 @@ class ProjectEntity
    }
 
    /**
-    * Reference to parent MPXFile.
+    * Reference to parent ProjectFile.
     */
    private ProjectFile m_mpx;
 }

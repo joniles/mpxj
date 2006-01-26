@@ -752,7 +752,7 @@ public final class DatatypeConverter
     * @param file parent file
     * @param defaultUnits default time units for the resulting duration
     * @param value duration value
-    * @return MPXDuration instance
+    * @return Duration instance
     */
    public static final Duration parseDuration (ProjectFile file, TimeUnit defaultUnits, String value)
    {
@@ -961,7 +961,7 @@ public final class DatatypeConverter
     * is adjusted for the benefit of Microsoft Project.
     *
     * @param writer parent MSPDIWriter instance
-    * @param duration MPXDuration value
+    * @param duration Duration value
     * @return xsd:duration value
     */
    public static final String printDuration (MSPDIWriter writer, Duration duration)
@@ -995,7 +995,7 @@ public final class DatatypeConverter
    /**
     * Print duration time units.
     *
-    * @param duration MPXDuration value
+    * @param duration Duration value
     * @return time units value
     */
    public static final BigInteger printDurationTimeUnits (Duration duration)
@@ -1270,7 +1270,7 @@ public final class DatatypeConverter
     * Parse duration in minutes.
     *
     * @param value duration value
-    * @return MPXDuration instance
+    * @return Duration instance
     */
    public static final Duration parseDurationInMinutes (Number value)
    {
@@ -1287,7 +1287,7 @@ public final class DatatypeConverter
    /**
     * Print duration in minutes.
     *
-    * @param duration MPXDuration instance
+    * @param duration Duration instance
     * @return duration in minutes
     */
    public static final double printDurationInMinutes (Duration duration)
@@ -1343,7 +1343,7 @@ public final class DatatypeConverter
    /**
     * Print rate.
     *
-    * @param rate MPXRate instance
+    * @param rate Rate instance
     * @return rate value
     */
    public static final BigDecimal printRate (Rate rate)
@@ -1355,7 +1355,7 @@ public final class DatatypeConverter
     * Parse rate.
     *
     * @param value rate value
-    * @return MPXRate instance
+    * @return Rate instance
     */
    public static final Rate parseRate (BigDecimal value)
    {

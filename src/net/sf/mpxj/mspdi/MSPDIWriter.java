@@ -61,7 +61,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 
 
 /**
- * This class creates a new MSPDI file from the contents of an MPXFile instance.
+ * This class creates a new MSPDI file from the contents of an ProjectFile instance.
  */
 public final class MSPDIWriter extends AbstractProjectWriter
 {
