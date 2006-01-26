@@ -184,11 +184,11 @@ public class MPXJTest extends TestCase
       {
          MPXReader reader = new MPXReader();
          MPXWriter writer = new MPXWriter ();
-         
+
          File in = new File (m_basedir + "/sample.mpx");
          ProjectFile mpx = reader.read (in);
          out = File.createTempFile ("junit", ".mpx");
-                  
+
          writer.setLocale(Locale.GERMAN);
          writer.write(mpx, out);
 
@@ -219,7 +219,7 @@ public class MPXJTest extends TestCase
       try
       {
          MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter ();         
+         MPXWriter writer = new MPXWriter ();
          Locale swedish = new Locale ("sv");
 
          File in = new File (m_basedir + "/sample.mpx");
@@ -256,7 +256,7 @@ public class MPXJTest extends TestCase
       try
       {
          MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter ();                  
+         MPXWriter writer = new MPXWriter ();
          Locale portuguese = new Locale ("pt");
 
          File in = new File (m_basedir + "/sample.mpx");
@@ -293,7 +293,7 @@ public class MPXJTest extends TestCase
       try
       {
          MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter ();                           
+         MPXWriter writer = new MPXWriter ();
          Locale french = new Locale ("fr");
 
          File in = new File (m_basedir + "/sample.mpx");
@@ -329,7 +329,7 @@ public class MPXJTest extends TestCase
       try
       {
          MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter ();                                    
+         MPXWriter writer = new MPXWriter ();
          Locale italian = new Locale ("it");
 
          File in = new File (m_basedir + "/sample.mpx");
@@ -350,7 +350,7 @@ public class MPXJTest extends TestCase
          }
       }
    }
-   
+
    /**
     * Read a file created by a German version of MS Project 98.
     *
@@ -617,7 +617,7 @@ public class MPXJTest extends TestCase
          }
       }
    }
-   
+
    /**
     * This method tests two stages of conversion, MPP->MPX->MSPDI. This
     * jhas been designed to exercise bug 896189, which was exhibited
@@ -1453,7 +1453,7 @@ public class MPXJTest extends TestCase
       {
          MSPDIReader reader = new MSPDIReader();
          MSPDIWriter writer = new MSPDIWriter();
-         
+
          File in = new File (m_basedir + "/alias.xml");
          ProjectFile xml = reader.read (in);
          validateAliases(xml);
@@ -1759,7 +1759,7 @@ public class MPXJTest extends TestCase
       assertEquals ("Outline Code9r", mpx.getResourceFieldAlias(Resource.OUTLINECODE9));
       assertEquals ("Outline Code10r", mpx.getResourceFieldAlias(Resource.OUTLINECODE10));
    }
-   
+
    /**
     * Write a file with embedded line break (\r and \n) characters in
     * various text fields. Ensure that a valid file is written,
@@ -1895,7 +1895,7 @@ public class MPXJTest extends TestCase
    {
       MSPDIReader reader = new MSPDIReader();
       MSPDIWriter writer = new MSPDIWriter();
-      
+
       ProjectFile xml = reader.read (m_basedir + "/mspextattr.xml");
       commonMspdiExtendedAttributeTests (xml);
 
@@ -1960,7 +1960,7 @@ public class MPXJTest extends TestCase
       {
          MPXReader reader = new MPXReader();
          MPXWriter writer = new MPXWriter();
-         
+
          //
          // Read the MPX file and ensure that the project header fields
          // have the expected values.
@@ -2062,19 +2062,19 @@ public class MPXJTest extends TestCase
     * Test read and write of priority information.
     *
     * @throws Exception
-    */   
+    */
    public void testPriority ()
       throws Exception
    {
       ProjectFile mpx = new MPXReader().read (m_basedir + "/mpxpriority.mpx");
       validatePriority(mpx);
-      
+
       ProjectFile mpp8 = new MPPReader().read (m_basedir + "/mpp8priority.mpp");
       validatePriority(mpp8);
-      
+
       ProjectFile mpp9 = new MPPReader().read (m_basedir + "/mpp9priority.mpp");
       validatePriority(mpp9);
-      
+
       ProjectFile xml = new MSPDIReader().read (m_basedir + "/mspdipriority.xml");
       validatePriority(xml);
 
@@ -2115,18 +2115,18 @@ public class MPXJTest extends TestCase
          {
             out.delete();
          }
-      }      
+      }
    }
-   
+
    /**
     * Common tests to validate the priority values read from the file.
-    * 
+    *
     * @param file project file
     */
    private void validatePriority (ProjectFile file)
    {
       assertEquals(Priority.DO_NOT_LEVEL, file.getTaskByUniqueID(new Integer(1)).getPriority().getValue());
-      assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(new Integer(2)).getPriority().getValue());      
+      assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(new Integer(2)).getPriority().getValue());
       assertEquals(Priority.VERY_HIGH, file.getTaskByUniqueID(new Integer(3)).getPriority().getValue());
       assertEquals(Priority.HIGHER, file.getTaskByUniqueID(new Integer(4)).getPriority().getValue());
       assertEquals(Priority.HIGH, file.getTaskByUniqueID(new Integer(5)).getPriority().getValue());
@@ -2134,12 +2134,12 @@ public class MPXJTest extends TestCase
       assertEquals(Priority.LOW, file.getTaskByUniqueID(new Integer(7)).getPriority().getValue());
       assertEquals(Priority.LOWER, file.getTaskByUniqueID(new Integer(8)).getPriority().getValue());
       assertEquals(Priority.VERY_LOW, file.getTaskByUniqueID(new Integer(9)).getPriority().getValue());
-      assertEquals(Priority.LOWEST, file.getTaskByUniqueID(new Integer(10)).getPriority().getValue());      
+      assertEquals(Priority.LOWEST, file.getTaskByUniqueID(new Integer(10)).getPriority().getValue());
    }
-   
+
    /**
     * Tests to exercise calendar functionality.
-    * 
+    *
     * @throws Exception
     */
    public void testCalendars ()
@@ -2147,22 +2147,22 @@ public class MPXJTest extends TestCase
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/caltest98.mpp");
       validateResourceCalendars(mpp);
-            
+
       ProjectFile mpx = new MPXReader().read(m_basedir + "/caltest98.mpx");
       validateResourceCalendars(mpx);
-      
+
       ProjectFile mpp9 = new MPPReader().read(m_basedir + "/caltest.mpp");
-      validateResourceCalendars(mpp9);   
+      validateResourceCalendars(mpp9);
       validateTaskCalendars(mpp9);
-      
+
       ProjectFile xml = new MSPDIReader().read(m_basedir + "/caltest.xml");
-      validateResourceCalendars(xml);   
+      validateResourceCalendars(xml);
       validateTaskCalendars(xml);
    }
-   
+
    /**
     * Common resource calendar tests.
-    * 
+    *
     * @param mpx project file
     */
    private void validateResourceCalendars (ProjectFile mpx)
@@ -2170,13 +2170,13 @@ public class MPXJTest extends TestCase
       //
       // Resource calendar based on standard calendar
       //
-      Resource resource = mpx.getResourceByUniqueID(new Integer(1));      
+      Resource resource = mpx.getResourceByUniqueID(new Integer(1));
       ProjectCalendar calendar = resource.getResourceCalendar();
       assertEquals("Resource One", calendar.getName());
       assertFalse(calendar.isBaseCalendar());
       assertEquals("Standard", calendar.getBaseCalendar().getName());
       assertTrue(calendar.getCalendarExceptions().isEmpty());
-      
+
       //
       // Resource calendar based on base calendar
       //
@@ -2186,7 +2186,7 @@ public class MPXJTest extends TestCase
       assertFalse(calendar.isBaseCalendar());
       assertEquals("Base Calendar", calendar.getBaseCalendar().getName());
       assertTrue(calendar.getCalendarExceptions().isEmpty());
-      
+
       //
       // Resource calendar based on modified base calendar
       //
@@ -2195,12 +2195,12 @@ public class MPXJTest extends TestCase
       assertEquals("Resource Three", calendar.getName());
       assertFalse(calendar.isBaseCalendar());
       assertEquals("Base Calendar", calendar.getBaseCalendar().getName());
-      assertFalse(calendar.getCalendarExceptions().isEmpty());      
+      assertFalse(calendar.getCalendarExceptions().isEmpty());
    }
 
    /**
     * Common task calendar tests.
-    * 
+    *
     * @param mpx project file
     */
    private void validateTaskCalendars (ProjectFile mpx)
@@ -2208,26 +2208,26 @@ public class MPXJTest extends TestCase
       Task task = mpx.getTaskByUniqueID(new Integer(2));
       ProjectCalendar calendar = task.getCalendar();
       assertNull(calendar);
-      
+
       task = mpx.getTaskByUniqueID(new Integer(3));
-      calendar = task.getCalendar();      
+      calendar = task.getCalendar();
       assertEquals("Standard", calendar.getName());
       assertTrue(calendar.isBaseCalendar());
-      
+
       task = mpx.getTaskByUniqueID(new Integer(4));
-      calendar = task.getCalendar();      
+      calendar = task.getCalendar();
       assertEquals("Base Calendar", calendar.getName());
-      assertTrue(calendar.isBaseCalendar());      
+      assertTrue(calendar.isBaseCalendar());
    }
 
    /**
     * Test to exercise task, resource, and assignment removal code.
-    * 
+    *
     * @throws Exception
     */
    public void testRemoval ()
       throws Exception
-   {      
+   {
       //
       // Load the file and validate the number of
       // tasks, resources, and assignments.
@@ -2236,7 +2236,7 @@ public class MPXJTest extends TestCase
       assertEquals(9, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
-      
+
       //
       // Remove a task with no assignments
       //
@@ -2246,7 +2246,7 @@ public class MPXJTest extends TestCase
       assertEquals(8, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
-      
+
       //
       // Remove a resource with no assignments
       //
@@ -2265,8 +2265,8 @@ public class MPXJTest extends TestCase
       task.remove();
       assertEquals(7, mpp.getAllTasks().size());
       assertEquals(7, mpp.getAllResources().size());
-      assertEquals(5, mpp.getAllResourceAssignments().size());      
-      
+      assertEquals(5, mpp.getAllResourceAssignments().size());
+
       //
       // Remove a resource with a single assignment
       //
@@ -2275,8 +2275,8 @@ public class MPXJTest extends TestCase
       resource.remove();
       assertEquals(7, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
-      assertEquals(4, mpp.getAllResourceAssignments().size());      
-      
+      assertEquals(4, mpp.getAllResourceAssignments().size());
+
       //
       // Remove an assignment
       //
@@ -2290,13 +2290,13 @@ public class MPXJTest extends TestCase
       assignments = resource.getTaskAssignments();
       assertEquals(1, assignments.size());
       assignment.remove();
-      assignments = task.getResourceAssignments();      
+      assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignments = resource.getTaskAssignments();
-      assertEquals(0, assignments.size());      
+      assertEquals(0, assignments.size());
       assertEquals(7, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
-      assertEquals(3, mpp.getAllResourceAssignments().size());    
+      assertEquals(3, mpp.getAllResourceAssignments().size());
 
       //
       // Remove a task with child tasks - the child tasks will also be removed
@@ -2306,8 +2306,8 @@ public class MPXJTest extends TestCase
       task.remove();
       assertEquals(5, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
-      assertEquals(3, mpp.getAllResourceAssignments().size());    
-      
+      assertEquals(3, mpp.getAllResourceAssignments().size());
+
       //
       // As we have removed tasks and resources, call the synchronize methods
       // to generate ID seqwuences without gaps. This will allow MS Project
@@ -2325,11 +2325,11 @@ public class MPXJTest extends TestCase
       {
          out = File.createTempFile ("junit", ".mpx");
          new MPXWriter().write (mpp, out);
-         
-         ProjectFile mpx = new MPXReader().read(out);         
+
+         ProjectFile mpx = new MPXReader().read(out);
          assertEquals(5, mpx.getAllTasks().size());
          assertEquals(6, mpx.getAllResources().size());
-         assertEquals(3, mpx.getAllResourceAssignments().size());             
+         assertEquals(3, mpx.getAllResourceAssignments().size());
       }
 
       finally
@@ -2343,7 +2343,7 @@ public class MPXJTest extends TestCase
 
    /**
     * Exercise split task functionality.
-    * 
+    *
     * @throws Exception
     */
    public void testSplits ()
@@ -2351,60 +2351,60 @@ public class MPXJTest extends TestCase
    {
       List splits = new LinkedList();
       splits.add(Duration.getInstance(32, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(40, TimeUnit.HOURS));      
+      splits.add(Duration.getInstance(40, TimeUnit.HOURS));
       splits.add(Duration.getInstance(88, TimeUnit.HOURS));
-      
+
       ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9.mpp");
       Task task = mpp.getTaskByUniqueID(new Integer(1));
       assertNull(task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(2));      
+      task = mpp.getTaskByUniqueID(new Integer(2));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(3));      
+
+      task = mpp.getTaskByUniqueID(new Integer(3));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(4));      
+
+      task = mpp.getTaskByUniqueID(new Integer(4));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(5));      
+
+      task = mpp.getTaskByUniqueID(new Integer(5));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(6));      
+
+      task = mpp.getTaskByUniqueID(new Integer(6));
       assertEquals(splits, task.getSplits());
-      
+
       splits.clear();
-      splits.add(Duration.getInstance(16, TimeUnit.HOURS));      
-      splits.add(Duration.getInstance(48, TimeUnit.HOURS));      
-      splits.add(Duration.getInstance(88, TimeUnit.HOURS));      
-      splits.add(Duration.getInstance(104, TimeUnit.HOURS));      
-      splits.add(Duration.getInstance(128, TimeUnit.HOURS));      
-      
-      task = mpp.getTaskByUniqueID(new Integer(7));      
+      splits.add(Duration.getInstance(16, TimeUnit.HOURS));
+      splits.add(Duration.getInstance(48, TimeUnit.HOURS));
+      splits.add(Duration.getInstance(88, TimeUnit.HOURS));
+      splits.add(Duration.getInstance(104, TimeUnit.HOURS));
+      splits.add(Duration.getInstance(128, TimeUnit.HOURS));
+
+      task = mpp.getTaskByUniqueID(new Integer(7));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(8));      
+
+      task = mpp.getTaskByUniqueID(new Integer(8));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(9));      
+
+      task = mpp.getTaskByUniqueID(new Integer(9));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(10));      
+
+      task = mpp.getTaskByUniqueID(new Integer(10));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(11));      
+
+      task = mpp.getTaskByUniqueID(new Integer(11));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(12));      
+
+      task = mpp.getTaskByUniqueID(new Integer(12));
       assertEquals(splits, task.getSplits());
-      
-      task = mpp.getTaskByUniqueID(new Integer(13));      
-      assertEquals(splits, task.getSplits());                              
+
+      task = mpp.getTaskByUniqueID(new Integer(13));
+      assertEquals(splits, task.getSplits());
    }
-   
+
    /**
     * Basic rewrite test to exercise th MPX calendar exception read/write code.
-    * 
+    *
     * @throws Exception
     */
    public void testProjectCalendarExceptions ()
@@ -2412,7 +2412,7 @@ public class MPXJTest extends TestCase
    {
       File out = null;
       boolean success = true;
-   
+
       try
       {
          File in = new File (m_basedir + "/calendarExceptions.mpx");
@@ -2422,7 +2422,7 @@ public class MPXJTest extends TestCase
          success = compareFiles (in, out);
          assertTrue ("Files are not identical", success);
       }
-   
+
       finally
       {
          if (out != null && success == true)
@@ -2431,7 +2431,7 @@ public class MPXJTest extends TestCase
          }
       }
    }
-   
+
    /**
     * As part of the bug reports that are submitted for MPXJ I am passed a
     * number of confidential project files, which for obvious reasons cannot
@@ -2447,7 +2447,7 @@ public class MPXJTest extends TestCase
       MPPReader mppReader = new MPPReader();
       MPXReader mpxReader = new MPXReader();
       MSPDIReader mspdiReader = new MSPDIReader();
-      
+
       File dir = new File ("c:\\tapsterrock\\mpxj\\data");
       if (dir.exists() == true && dir.isDirectory() == true)
       {
@@ -2473,7 +2473,7 @@ public class MPXJTest extends TestCase
                   if (name.endsWith(".MPX") == true)
                   {
                      mpxReader.setLocale(Locale.ENGLISH);
-                     
+
                      if (name.indexOf(".DE.") != -1)
                      {
                         mpxReader.setLocale(Locale.GERMAN);
@@ -2488,7 +2488,7 @@ public class MPXJTest extends TestCase
                   }
                   else
                   {
-                     if (name.endsWith(".XML") == true && 
+                     if (name.endsWith(".XML") == true &&
                          name.indexOf(".MPP.") == -1)
                      {
                         mpxj = mspdiReader.read(file);
@@ -2514,7 +2514,7 @@ public class MPXJTest extends TestCase
     * as MSPDI files using a version of MS Project. This method allows these
     * two versions to be compared in order to ensure that MPXJ is
     * correctly reading the data from both file formats.
-    * 
+    *
     * @param name file name
     * @param mpp MPP file data structure
     * @throws Exception
@@ -2530,7 +2530,7 @@ public class MPXJTest extends TestCase
          compare.process(xml, mpp);
       }
    }
-   
+
    private String m_basedir;
 }
 

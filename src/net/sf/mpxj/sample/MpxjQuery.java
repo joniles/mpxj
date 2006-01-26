@@ -41,7 +41,7 @@ import net.sf.mpxj.mspdi.MSPDIReader;
 
 
 /**
- * This example shows an MPP, MPX or MSPDI file being read, and basic 
+ * This example shows an MPP, MPX or MSPDI file being read, and basic
  * task and resource data being extracted.
  */
 public class MpxjQuery
@@ -118,14 +118,14 @@ public class MpxjQuery
             mpx = null;
          }
       }
-      
+
       if (mpx == null)
       {
          throw new Exception ("Failed to read file");
       }
 
       listProjectHeader (mpx);
-      
+
       listResources (mpx);
 
       listTasks (mpx);
@@ -135,24 +135,24 @@ public class MpxjQuery
       listAssignmentsByTask (mpx);
 
       listAssignmentsByResource (mpx);
-      
+
       listHierarchy (mpx);
 
       listTaskNotes (mpx);
 
       listResourceNotes (mpx);
-      
+
       listPredecessors (mpx);
    }
 
    /**
     * Reads basic summary details from the project header.
-    * 
+    *
     * @param file MPX file
     */
    private static void listProjectHeader (ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");      
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");
       ProjectHeader header = file.getProjectHeader();
       Date startDate = header.getStartDate();
       Date finishDate = header.getFinishDate();
@@ -162,7 +162,7 @@ public class MpxjQuery
       System.out.println ("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
       System.out.println ();
    }
-   
+
    /**
     * This method lists all resources defined in the file.
     *
@@ -296,7 +296,7 @@ public class MpxjQuery
       Resource resource;
       String taskName;
       String resourceName;
-      
+
       while (iter.hasNext() == true)
       {
          assignment = (ResourceAssignment)iter.next();
@@ -309,7 +309,7 @@ public class MpxjQuery
          {
             taskName = task.getName();
          }
-         
+
          resource = assignment.getResource ();
          if (resource == null)
          {
@@ -319,7 +319,7 @@ public class MpxjQuery
          {
             resourceName = resource.getName();
          }
-         
+
          System.out.println ("Assignment: Task=" + taskName + " Resource=" + resourceName);
       }
 
@@ -343,7 +343,7 @@ public class MpxjQuery
       ResourceAssignment assignment;
       Resource resource;
       String resourceName;
-      
+
       while (taskIter.hasNext() == true)
       {
          task = (Task)taskIter.next();
@@ -364,7 +364,7 @@ public class MpxjQuery
             {
                resourceName = resource.getName();
             }
-            
+
             System.out.println ("   " + resourceName);
          }
       }
@@ -389,7 +389,7 @@ public class MpxjQuery
       Iterator assignmentIter;
       ResourceAssignment assignment;
       Task task;
-      
+
       while (taskIter.hasNext() == true)
       {
          resource = (Resource)taskIter.next();
@@ -408,7 +408,7 @@ public class MpxjQuery
 
       System.out.println ();
    }
-   
+
    /**
     * This method lists any notes attached to tasks.
     *
@@ -460,7 +460,7 @@ public class MpxjQuery
    /**
     * This method lists the predecessors for each task which has
     * predecessors.
-    * 
+    *
     * @param file MPX file
     */
    private static void listPredecessors (ProjectFile file)
@@ -471,7 +471,7 @@ public class MpxjQuery
       List predecessors;
       Iterator predecessorIterator;
       Relation relation;
-      
+
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
@@ -487,7 +487,7 @@ public class MpxjQuery
                System.out.println("   Type: " + relation.getType());
                System.out.println("   Lag: " + relation.getDuration());
             }
-         }         
+         }
       }
    }
 }

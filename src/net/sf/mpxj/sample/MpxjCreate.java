@@ -76,7 +76,7 @@ public class MpxjCreate
 
    /**
     * Creates a writer which will generate the required type of output file.
-    * 
+    *
     * @param filename file name
     * @return ProjectWriter instance
     */
@@ -102,10 +102,10 @@ public class MpxjCreate
       {
          result = new MPXWriter ();
       }
-      
+
       return (result);
    }
-   
+
    /**
     * This method creates a summary task, two sub-tasks and a milestone,
     * all with the appropriate constraints between them. The tasks are
@@ -261,7 +261,7 @@ public class MpxjCreate
       task4.setStart (df.parse("01/01/2003"));
       task4.setPercentageComplete(NumberUtility.getDouble(70.0));
       task4.setActualStart(df.parse("01/01/2003"));
-      
+
       //
       // Assign resources to tasks
       //
@@ -291,7 +291,7 @@ public class MpxjCreate
 
       //
       // Write the file
-      //    
+      //
       ProjectWriter writer = getWriter(filename);
       writer.write (file, filename);
    }

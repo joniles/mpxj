@@ -81,7 +81,7 @@ public final class ProjectFile
             task.setUniqueID(task.getID());
          }
       }
-      
+
       iter = m_allResources.iterator();
       Resource resource;
       while (iter.hasNext() == true)
@@ -93,7 +93,7 @@ public final class ProjectFile
          }
       }
    }
-   
+
    /**
     * This method is provided to allow child tasks that have been created
     * programatically to be added as a record to the main file.
@@ -120,7 +120,7 @@ public final class ProjectFile
 
    /**
     * This method is used to remove a task from the project.
-    * 
+    *
     * @param task task to be removed
     */
    public void removeTask (Task task)
@@ -131,7 +131,7 @@ public final class ProjectFile
       m_allTasks.remove(task);
       m_taskUniqueIDMap.remove(task.getUniqueID());
       m_taskIDMap.remove(task.getID());
-    
+
       Task parentTask = task.getParentTask();
       if (parentTask != null)
       {
@@ -156,7 +156,7 @@ public final class ProjectFile
             iter.remove();
          }
       }
-      
+
       //
       // Recursively remove any child tasks
       //
@@ -167,11 +167,11 @@ public final class ProjectFile
          {
             break;
          }
-         
-         removeTask((Task)childTaskList.get(0)); 
+
+         removeTask((Task)childTaskList.get(0));
       }
    }
-   
+
    /**
     * This method can be called to ensure that the IDs of all
     * tasks in this project are sequential, and start from an
@@ -191,13 +191,13 @@ public final class ProjectFile
          {
             id = 1;
          }
-         
+
          Iterator iter = m_allTasks.iterator();
          while (iter.hasNext() == true)
          {
             ((Task)iter.next()).setID(new Integer(id++));
          }
-      }      
+      }
    }
 
    /**
@@ -214,16 +214,16 @@ public final class ProjectFile
       {
          Collections.sort(m_allResources);
          int id = 1;
-         
+
          Iterator iter = m_allResources.iterator();
          while (iter.hasNext() == true)
          {
             Resource resource = (Resource)iter.next();
             resource.setID(new Integer(id++));
          }
-      }      
+      }
    }
-   
+
    /**
     * This method is used to retrieve a list of all of the top level tasks
     * that are defined in this MPX file.
@@ -495,13 +495,13 @@ public final class ProjectFile
    public ProjectCalendar addBaseCalendar ()
    {
       ProjectCalendar calendar = new ProjectCalendar(this, true);
-      m_baseCalendars.add(calendar);      
+      m_baseCalendars.add(calendar);
       return (calendar);
    }
 
    /**
     * Removes a base calendar.
-    * 
+    *
     * @param calendar calendar to be removed
     */
    public void removeCalendar (ProjectCalendar calendar)
@@ -509,15 +509,15 @@ public final class ProjectFile
       Resource resource = calendar.getResource();
       if (resource == null)
       {
-         m_baseCalendars.remove(calendar);         
+         m_baseCalendars.remove(calendar);
       }
       else
       {
-         m_resourceCalendars.remove(calendar);         
+         m_resourceCalendars.remove(calendar);
          resource.setResourceCalendar(null);
       }
    }
-   
+
    /**
     * This is a convenience method used to add a base calendar called
     * "Standard" to the file, and populate it with a default working week
@@ -590,7 +590,7 @@ public final class ProjectFile
    {
       return (m_resourceCalendars);
    }
-   
+
    /**
     * This method is used to retrieve the project header record.
     *
@@ -615,7 +615,7 @@ public final class ProjectFile
 
    /**
     * This method is used to remove a resource from the project.
-    * 
+    *
     * @param resource resource to be removed
     */
    public void removeResource (Resource resource)
@@ -623,7 +623,7 @@ public final class ProjectFile
       m_allResources.remove(resource);
       m_resourceUniqueIDMap.remove(resource.getUniqueID());
       m_resourceIDMap.remove(resource.getID());
-      
+
       Iterator iter = m_allResourceAssignments.iterator();
       ResourceAssignment assignment;
       Integer resourceUniqueID = resource.getUniqueID();
@@ -636,14 +636,14 @@ public final class ProjectFile
             iter.remove();
          }
       }
-      
+
       ProjectCalendar calendar = resource.getResourceCalendar();
       if (calendar != null)
       {
          calendar.remove();
       }
    }
-   
+
    /**
     * This method is used to retrieve a list of all of the resources
     * that are defined in this MPX file.
@@ -667,7 +667,7 @@ public final class ProjectFile
    }
 
    /**
-    * This method is provided to allow resource assignments that have been 
+    * This method is provided to allow resource assignments that have been
     * created programatically to be added as a record to the main file.
     *
     * @param assignment Resource assignment created as part of a task
@@ -680,7 +680,7 @@ public final class ProjectFile
    /**
     * This method removes a resource assignment from the internal storage
     * maintained by the project file.
-    * 
+    *
     * @param assignment resource assignment to remove
     */
    void removeResourceAssignment (ResourceAssignment assignment)
@@ -689,11 +689,11 @@ public final class ProjectFile
       assignment.getTask().removeResourceAssignment(assignment);
       assignment.getResource().removeResourceAssignment(assignment);
    }
-   
+
    /**
     * This method has been provided to allow the subclasses to
     * instantiate ResourecAssignment instances.
-    * 
+    *
     * @param task parent task
     * @return new resource assignment instance
     */
@@ -701,7 +701,7 @@ public final class ProjectFile
    {
       return (new ResourceAssignment(this, task));
    }
-   
+
    /**
     * Retrieves the named base calendar. This method will return
     * null if the named base calendar is not located.
@@ -712,26 +712,26 @@ public final class ProjectFile
    public ProjectCalendar getBaseCalendar (String calendarName)
    {
       ProjectCalendar calendar = null;
-      
+
       if (calendarName != null && calendarName.length() != 0)
       {
          String name;
          Iterator iter = m_baseCalendars.iterator();
-   
+
          while (iter.hasNext() == true)
          {
             calendar = (ProjectCalendar)iter.next();
             name = calendar.getName();
-   
+
             if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
             {
                break;
             }
-   
+
             calendar = null;
          }
       }
-      
+
       return (calendar);
    }
 
@@ -827,7 +827,7 @@ public final class ProjectFile
    {
       return ((Task)m_taskIDMap.get(id));
    }
-   
+
    /**
     * This method allows an arbitrary task to be retrieved based
     * on its UniqueID field.
@@ -839,7 +839,7 @@ public final class ProjectFile
    {
       return ((Task)m_taskUniqueIDMap.get(id));
    }
-   
+
    /**
     * This method allows an arbitrary resource to be retrieved based
     * on its ID field.
@@ -949,7 +949,7 @@ public final class ProjectFile
 
    /**
     * This method is called to ensure that after a project file has been
-    * read, the cached unique ID values used to generate new unique IDs 
+    * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
     */
    public void updateUniqueCounters ()
@@ -969,7 +969,7 @@ public final class ProjectFile
 
       //
       // Update resource unique IDs
-      //      
+      //
       for(Iterator iter=m_allResources.iterator(); iter.hasNext();)
       {
          Resource resource = (Resource)iter.next();
@@ -979,10 +979,10 @@ public final class ProjectFile
             m_resourceUniqueID = uniqueID;
          }
       }
-      
+
       //
       // Update base calendar unique IDs
-      //      
+      //
       for(Iterator iter=m_baseCalendars.iterator(); iter.hasNext();)
       {
          ProjectCalendar calendar = (ProjectCalendar)iter.next();
@@ -995,7 +995,7 @@ public final class ProjectFile
 
       //
       // Update resource calendar unique IDs
-      //      
+      //
       for(Iterator iter=m_resourceCalendars.iterator(); iter.hasNext();)
       {
          ProjectCalendar calendar = (ProjectCalendar)iter.next();
@@ -1004,9 +1004,9 @@ public final class ProjectFile
          {
             m_calendarUniqueID = uniqueID;
          }
-      }      
+      }
    }
-   
+
    /**
     * Find the earliest task start date. We treat this as the
     * start date for the project.
@@ -1020,11 +1020,11 @@ public final class ProjectFile
       Iterator iter = m_allTasks.iterator();
       Task task;
       Date taskStartDate;
-     
+
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         
+
          //
          // If a hidden "summary" task is present we ignore it
          //
@@ -1032,7 +1032,7 @@ public final class ProjectFile
          {
             continue;
          }
-         
+
          //
          // Select the actual or forecast start date. Note that the
          // behaviour is different for milestones. The milestone end date
@@ -1045,7 +1045,7 @@ public final class ProjectFile
             if (taskStartDate == null)
             {
                taskStartDate = task.getFinish();
-            }            
+            }
          }
          else
          {
@@ -1055,7 +1055,7 @@ public final class ProjectFile
                taskStartDate = task.getStart();
             }
          }
-         
+
          if (taskStartDate != null)
          {
             if (startDate == null)
@@ -1092,7 +1092,7 @@ public final class ProjectFile
       while (iter.hasNext() == true)
       {
          task = (Task)iter.next();
-         
+
          //
          // If a hidden "summary" task is present we ignore it
          //
@@ -1100,7 +1100,7 @@ public final class ProjectFile
          {
             continue;
          }
-         
+
          //
          // Select the actual or forecast start date
          //
@@ -1109,7 +1109,7 @@ public final class ProjectFile
          {
             taskFinishDate = task.getFinish();
          }
-         
+
          if (taskFinishDate != null)
          {
             if (finishDate == null)
@@ -1132,7 +1132,7 @@ public final class ProjectFile
    /**
     * This method is called to alert project listeners to the fact that
     * a task has been read from a project file.
-    * 
+    *
     * @param task task instance
     */
    public void fireTaskReadEvent (Task task)
@@ -1149,9 +1149,9 @@ public final class ProjectFile
    /**
     * This method is called to alert project listeners to the fact that
     * a task has been written to a project file.
-    * 
+    *
     * @param task task instance
-    */   
+    */
    public void fireTaskWrittenEvent (Task task)
    {
       if (m_projectListeners != null)
@@ -1166,9 +1166,9 @@ public final class ProjectFile
    /**
     * This method is called to alert project listeners to the fact that
     * a resource has been read from a project file.
-    * 
+    *
     * @param resource resource instance
-    */   
+    */
    public void fireResourceReadEvent (Resource resource)
    {
       if (m_projectListeners != null)
@@ -1183,9 +1183,9 @@ public final class ProjectFile
    /**
     * This method is called to alert project listeners to the fact that
     * a resource has been written to a project file.
-    * 
+    *
     * @param resource resource instance
-    */      
+    */
    public void fireResourceWrittenEvent (Resource resource)
    {
       if (m_projectListeners != null)
@@ -1199,7 +1199,7 @@ public final class ProjectFile
 
    /**
     * Adds a listener to this project file.
-    * 
+    *
     * @param listener listener instance
     */
    public void addProjectListener (ProjectListener listener)
@@ -1208,12 +1208,12 @@ public final class ProjectFile
       {
          m_projectListeners = new LinkedList();
       }
-      m_projectListeners.add(listener);      
+      m_projectListeners.add(listener);
    }
 
    /**
     * Removes a listener from this project file.
-    * 
+    *
     * @param listener listener instance
     */
    public void removeProjectListener (ProjectListener listener)
@@ -1223,7 +1223,7 @@ public final class ProjectFile
          m_projectListeners.remove(listener);
       }
    }
-   
+
    /**
     * Associates an alias with a custom task field number.
     *
@@ -1451,14 +1451,14 @@ public final class ProjectFile
 
    /**
     * Used internally to set the file type.
-    * 
+    *
     * @param fileType file type
     */
    public void setMppFileType (int fileType)
    {
       m_mppFileType = fileType;
    }
-   
+
    /**
     * Package-private method used to add views to this MPP file.
     *
@@ -1510,7 +1510,7 @@ public final class ProjectFile
    /**
     * Utility method to retrieve the definition of a task table by name.
     * This method will return null if the table name is not recognised.
-    * 
+    *
     * @param name table name
     * @return table instance
     */
@@ -1522,7 +1522,7 @@ public final class ProjectFile
    /**
     * Utility method to retrieve the definition of a resource table by name.
     * This method will return null if the table name is not recognised.
-    * 
+    *
     * @param name table name
     * @return table instance
     */
@@ -1530,27 +1530,27 @@ public final class ProjectFile
    {
       return ((Table)m_resourceTablesByName.get(name));
    }
-   
+
    /**
     * This package-private method is used to add resource sub project details.
-    * 
+    *
     * @param project sub project
     */
    public void setResourceSubProject (SubProject project)
    {
       m_resourceSubProject = project;
    }
-   
+
    /**
     * Retrieves details of the sub project file used as a resource pool.
-    * 
+    *
     * @return sub project details
     */
    public SubProject getResourceSubProject ()
    {
       return (m_resourceSubProject);
    }
-   
+
    /**
     * Counter used to populate the unique ID field of a task.
     */
@@ -1609,7 +1609,7 @@ public final class ProjectFile
     * List holding references to all resource calendars.
     */
    private List m_resourceCalendars = new LinkedList();
-   
+
    /**
     * File creation record.
     */
@@ -1717,13 +1717,13 @@ public final class ProjectFile
     * List of project event listeners.
     */
    private List m_projectListeners;
-   
+
    /**
     * This value is used to represent the type of MPP file that
     * has been read.
     */
    private int m_mppFileType;
-   
+
    /**
     * List of views defined in this file.
     */
@@ -1733,12 +1733,12 @@ public final class ProjectFile
     * List of tables defined in this file.
     */
    private List m_tables = new ArrayList();
-   
+
    /**
     * Index of task tables by name.
     */
    private Map m_taskTablesByName = new HashMap();
-   
+
    /**
     * Index of resource tables by name.
     */
@@ -1747,5 +1747,5 @@ public final class ProjectFile
    /**
     * Resource sub project.
     */
-   private SubProject m_resourceSubProject;   
+   private SubProject m_resourceSubProject;
 }

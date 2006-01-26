@@ -114,15 +114,15 @@ final class MPXNumberFormat extends DecimalFormat
 
       if (str == null)
       {
-         parsePosition.setIndex(-1);         
+         parsePosition.setIndex(-1);
       }
       else
       {
          str = str.trim();
-         
+
          if (str.length() == 0)
          {
-            parsePosition.setIndex(-1);            
+            parsePosition.setIndex(-1);
          }
          else
          {
@@ -130,7 +130,7 @@ final class MPXNumberFormat extends DecimalFormat
             if (parsePosition.getIndex() == 0)
             {
                result = null;
-               
+
                if (m_alternativeFormats != null)
                {
                   for (int loop=0; loop < m_alternativeFormats.length; loop++)
@@ -141,13 +141,13 @@ final class MPXNumberFormat extends DecimalFormat
                         break;
                      }
                   }
-   
+
                   if (parsePosition.getIndex() == 0)
                   {
                      result = null;
                   }
                }
-            }            
+            }
          }
       }
 

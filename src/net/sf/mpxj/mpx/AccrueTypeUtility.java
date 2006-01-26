@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 23, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -40,7 +40,7 @@ final class AccrueTypeUtility
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * This method takes the textual version of an accrue type name
     * and populates the class instance appropriately. Note that unrecognised
@@ -71,5 +71,5 @@ final class AccrueTypeUtility
       }
 
       return (result);
-   }   
+   }
 }

@@ -34,7 +34,7 @@ public final class Relation
 {
    /**
     * Default constructor.
-    * 
+    *
     * @param parent parent file
     */
    public Relation (ProjectFile parent)
@@ -46,7 +46,7 @@ public final class Relation
 
    /**
     * Method used to retrieve the ID of the task
-    * related to the current task instance. 
+    * related to the current task instance.
     *
     * @return task ID
     */
@@ -57,7 +57,7 @@ public final class Relation
 
    /**
     * Method used to retrieve the unique ID of the task
-    * related to the current task instance. 
+    * related to the current task instance.
     *
     * @return task unique ID
     */
@@ -65,7 +65,7 @@ public final class Relation
    {
       return (m_taskUniqueID);
    }
-   
+
    /**
     * Method used to set the identifier of the task
     * related to the current task instance.
@@ -87,7 +87,7 @@ public final class Relation
    {
       m_taskUniqueID = id;
    }
-   
+
    /**
     * Method used to retrieve the type of relationship being
     * represented.
@@ -134,25 +134,25 @@ public final class Relation
 
    /**
     * Retrieve the task related to the current task instance.
-    * 
+    *
     * @return task instance
     */
    public Task getTask ()
    {
       return (m_parent.getTaskByUniqueID(m_taskUniqueID));
    }
-   
+
    /**
     * Parent file.
     */
    private ProjectFile m_parent;
-   
+
    /**
     * Identifier of task with which this relationship is held.
     */
    private Integer  m_taskID;
    private Integer m_taskUniqueID;
-   
+
    /**
     * Type of relationship.
     */

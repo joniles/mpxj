@@ -88,12 +88,12 @@ final class MPP8Reader implements MPPVariantReader
       throws MPXJException, IOException
    {
       m_reader = reader;
-      
+
       //
       // Set the file type
       //
       file.setMppFileType(8);
-      
+
       HashMap calendarMap = new HashMap ();
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
@@ -227,7 +227,7 @@ final class MPP8Reader implements MPPVariantReader
       int periodIndex;
       Day day;
       List baseCalendars = new LinkedList();
-      
+
       for (int loop=0; loop < calendars; loop++)
       {
          baseData = calendarFixedData.getByteArrayValue(loop);
@@ -291,9 +291,9 @@ final class MPP8Reader implements MPPVariantReader
 
                defaultFlag = MPPUtility.getShort (extData, offset);
                day = Day.getInstance(index+1);
-               
+
                if (defaultFlag == 1)
-               {                  
+               {
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(day) == true)
                   {
@@ -395,13 +395,13 @@ final class MPP8Reader implements MPPVariantReader
       ProjectCalendar cal;
       Integer baseCalendarID;
       ProjectCalendar baseCal;
-      
+
       while (iter.hasNext() == true)
       {
          pair = (Pair)iter.next();
          cal = (ProjectCalendar)pair.getFirst();
          baseCalendarID = (Integer)pair.getSecond();
-         
+
          baseCal = (ProjectCalendar)map.get(baseCalendarID);
          if (baseCal != null)
          {
@@ -718,7 +718,7 @@ final class MPP8Reader implements MPPVariantReader
          // Set the MPX file fixed flag
          //
          task.setFixed(task.getType() == TaskType.FIXED_DURATION);
-         
+
          //
          // Retrieve the task notes.
          //
@@ -740,9 +740,9 @@ final class MPP8Reader implements MPPVariantReader
          {
             task.setCostVariance(NumberUtility.getDouble(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
          }
-         
+
          file.fireTaskReadEvent(task);
-         
+
          //
          // Uncommenting the call to this method is useful when trying
          // to determine the function of unknown task data.
@@ -1062,7 +1062,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          calendar = (ProjectCalendar)calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
          resource.setResourceCalendar(calendar);
-         
+
          //
          // Retrieve the resource notes.
          //
@@ -1092,7 +1092,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             resource.setWorkVariance(Duration.getInstance (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
          }
-         
+
          file.fireResourceReadEvent(resource);
       }
    }
@@ -1308,7 +1308,7 @@ final class MPP8Reader implements MPPVariantReader
       int columnTitleOffset;
       Column  column;
       int alignment;
-      
+
       for (int loop=0; loop < columnCount; loop++)
       {
          column = new Column ();
@@ -1324,16 +1324,16 @@ final class MPP8Reader implements MPPVariantReader
                table.setResourceFlag(false);
             }
          }
-         
+
          if (table.getResourceFlag() == false)
          {
-            column.setFieldType (TaskField.getInstance(MPPUtility.getShort(data, index)));            
+            column.setFieldType (TaskField.getInstance(MPPUtility.getShort(data, index)));
          }
          else
          {
             column.setFieldType (ResourceField.getInstance(MPPUtility.getShort(data, index)));
          }
-         
+
          column.setWidth (MPPUtility.getByte(data, index+4));
 
          columnTitleOffset = MPPUtility.getShort(data, index+6);
@@ -1441,7 +1441,7 @@ final class MPP8Reader implements MPPVariantReader
 //   };
 
    private MPPReader m_reader;
-   
+
    /**
     * Task data types.
     */

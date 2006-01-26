@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 23, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -40,7 +40,7 @@ final class ConstraintTypeUtility
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * This method takes the textual version of a constraint name
     * and returns an appropriate class instance. Note that unrecognised

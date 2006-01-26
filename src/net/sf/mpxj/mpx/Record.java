@@ -65,7 +65,7 @@ final class Record
          m_locale = locale;
 
          m_formats = formats;
-         
+
          LinkedList list = new LinkedList();
 
          while (tk.nextToken() == Tokenizer.TT_WORD)
@@ -85,7 +85,7 @@ final class Record
          throw new MPXJException(MPXJException.INVALID_RECORD, ex);
       }
    }
-   
+
    /**
     * Retrieves the record number associated with this record.
     *
@@ -163,7 +163,7 @@ final class Record
       try
       {
          Number result;
-   
+
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
             result = m_formats.getDecimalFormat().parse(m_fields[field]);
@@ -172,10 +172,10 @@ final class Record
          {
             result = null;
          }
-   
+
          return (result);
       }
-      
+
       catch (ParseException ex)
       {
          throw new MPXJException ("Failed to parse float", ex);
@@ -221,7 +221,7 @@ final class Record
       try
       {
          Date result;
-   
+
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
             result = m_formats.getDateTimeFormat().parse(m_fields[field]);
@@ -230,10 +230,10 @@ final class Record
          {
             result = null;
          }
-   
+
          return (result);
       }
-      
+
       catch (ParseException ex)
       {
          throw new MPXJException ("Failed to parse date time", ex);
@@ -255,19 +255,19 @@ final class Record
       try
       {
          Date result;
-   
+
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
             result = m_formats.getDateFormat().parse(m_fields[field]);
          }
          else
-         {          
+         {
             result = null;
          }
-         
-         return (result);         
+
+         return (result);
       }
-      
+
       catch (ParseException ex)
       {
          throw new MPXJException ("Failed to parse date", ex);
@@ -289,7 +289,7 @@ final class Record
       try
       {
          Date result;
-   
+
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
             result = m_formats.getTimeFormat().parse(m_fields[field]);
@@ -298,10 +298,10 @@ final class Record
          {
             result = null;
          }
-   
+
          return (result);
       }
-      
+
       catch (ParseException ex)
       {
          throw new MPXJException ("Failed to parse time", ex);
@@ -350,7 +350,7 @@ final class Record
             int index = rate.indexOf('/');
             double amount;
             TimeUnit units;
-            
+
             if (index == -1)
             {
                amount = m_formats.getCurrencyFormat().parse(rate).doubleValue();
@@ -361,10 +361,10 @@ final class Record
                amount = m_formats.getCurrencyFormat().parse( rate.substring (0, index)).doubleValue();
                units = TimeUnitUtility.getInstance(rate.substring (index+1), m_locale);
             }
-            
+
             result = new Rate(amount, units);
          }
-         
+
          catch (ParseException ex)
          {
             throw new MPXJException ("Failed to parse rate", ex);
@@ -398,7 +398,7 @@ final class Record
          {
             result = m_formats.getCurrencyFormat().parse(m_fields[field]);
          }
-         
+
          catch (ParseException ex)
          {
             throw new MPXJException ("Failed to parse currency", ex);
@@ -432,11 +432,11 @@ final class Record
          {
             result = m_formats.getPercentageDecimalFormat().parse(m_fields[field]);
          }
-         
+
          catch (ParseException ex)
          {
             throw new MPXJException ("Failed to parse percentage", ex);
-         }         
+         }
       }
       else
       {
@@ -492,18 +492,18 @@ final class Record
          {
             result = new Double(m_formats.getUnitsDecimalFormat().parse(m_fields[field]).doubleValue() * 100);
          }
-         
+
          catch (ParseException ex)
          {
             throw new MPXJException ("Failed to parse units", ex);
-         }               
+         }
       }
       else
       {
          result = null;
       }
 
-      return (result);      
+      return (result);
    }
 
    /**
@@ -672,7 +672,7 @@ final class Record
 
    /**
     * Accessor method to retrieve an accrue type instance.
-    * 
+    *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
@@ -694,7 +694,7 @@ final class Record
 
    /**
     * Accessor method to retrieve a Boolean instance.
-    * 
+    *
     * @param field the index number of the field to be retrieved
     * @param falseText locale specific text representing false
     * @return the value of the required field
@@ -714,7 +714,7 @@ final class Record
 
       return (result);
    }
-   
+
    /**
     * This method returns the number of fields present in this record.
     *
@@ -739,6 +739,6 @@ final class Record
     * Array of field data.
     */
    private String[] m_fields;
-   
+
    private MPXFormats m_formats;
 }

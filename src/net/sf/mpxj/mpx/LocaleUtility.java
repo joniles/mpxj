@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 23, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -47,7 +47,7 @@ final class LocaleUtility
    {
       // Private constructor to prevent instantiation
    }
-   
+
    /**
     * This method sets the locale to be used by an MPX file.
     *
@@ -60,7 +60,7 @@ final class LocaleUtility
       setLocale(file.getFileCreationRecord(), locale);
       setLocale(file.getProjectHeader(), locale);
    }
-   
+
    /**
     * This method is called when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
@@ -75,7 +75,7 @@ final class LocaleUtility
       fcr.setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
       fcr.setCodePage((CodePage)LocaleData.getObject(locale, LocaleData.CODE_PAGE));
    }
-   
+
    /**
     * This method is called when the locale of the parent file is updated.
     * It resets the locale specific currency attributes to the default values
@@ -102,5 +102,5 @@ final class LocaleUtility
       header.setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       header.setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
    }
-   
+
 }

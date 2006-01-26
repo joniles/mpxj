@@ -1175,7 +1175,7 @@ public final class ProjectHeader extends ProjectEntity
       {
          symbol = "$";
       }
-      
+
       m_currencySymbol = symbol;
    }
 
@@ -2083,30 +2083,30 @@ public final class ProjectHeader extends ProjectEntity
 
    /**
     * Sets the calculate multiple critical paths flag.
-    * 
+    *
     * @param flag boolean flag
     */
    public void setCalculateMultipleCriticalPaths (boolean flag)
    {
       m_calculateMultipleCriticalPaths = flag;
    }
-   
+
    /**
     * Retrieves the calculate multiple critical paths flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getCalculateMultipleCriticalPaths ()
    {
       return (m_calculateMultipleCriticalPaths);
    }
-      
+
    /**
     * Set the Document Summary Information.
-    * 
+    *
     * @param documentSummaryInformation The Document Summary Information Map
     */
-   public void setDocumentSummaryInformation(Map documentSummaryInformation) 
+   public void setDocumentSummaryInformation(Map documentSummaryInformation)
    {
       m_documentSummaryInformation = documentSummaryInformation;
    }
@@ -2115,10 +2115,10 @@ public final class ProjectHeader extends ProjectEntity
     * Retrieve the Document Summary Information. This allows the caller
     * to examine custom document summary fields which may be present in
     * the project.
-    * 
+    *
     * @return the Document Summary Information Map
     */
-   public Map getDocumentSummaryInformation() 
+   public Map getDocumentSummaryInformation()
    {
      return (m_documentSummaryInformation);
    }
@@ -2239,7 +2239,7 @@ public final class ProjectHeader extends ProjectEntity
    private Day m_weekStartDay;
    private boolean m_calculateMultipleCriticalPaths;
    private Map m_documentSummaryInformation;
-   
+
    /*
     * Missing MSPDI attributes
     *

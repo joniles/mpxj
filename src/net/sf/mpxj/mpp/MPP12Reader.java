@@ -93,7 +93,7 @@ final class MPP12Reader implements MPPVariantReader
       throws MPXJException, IOException
    {
       m_reader = reader;
-      
+
       //
       // Retrieve the high level document properties
       //
@@ -270,7 +270,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
                   m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
@@ -294,7 +294,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
                   m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
@@ -314,7 +314,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
                   m_taskSubProjects.put(sp.getUniqueID(), sp);
                   break;
                }
@@ -333,7 +333,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
                   file.setResourceSubProject(sp);
                   break;
                }
@@ -350,7 +350,7 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset);                  
+                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset);
                   file.setResourceSubProject(sp);
                   break;
                }
@@ -379,8 +379,8 @@ final class MPP12Reader implements MPPVariantReader
 
    /**
     * Method used to read the sub project details from a byte array.
-    * 
-    * @param data byte array 
+    *
+    * @param data byte array
     * @param uniqueIDOffset offset of unique ID
     * @param filePathOffset offset of file path
     * @param fileNameOffset offset of file name
@@ -388,8 +388,8 @@ final class MPP12Reader implements MPPVariantReader
     */
    private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset)
    {
-      SubProject sp = new SubProject ();      
-      
+      SubProject sp = new SubProject ();
+
       if (uniqueIDOffset != -1)
       {
          sp.setUniqueID(new Integer(MPPUtility.getInt(data, uniqueIDOffset)));
@@ -399,27 +399,27 @@ final class MPP12Reader implements MPPVariantReader
       // First block header
       //
       filePathOffset += 18;
-      
+
       //
       // String size as a 4 byte int
       //
       filePathOffset += 4;
-      
+
       //
       // Full DOS path
       //
       sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
       filePathOffset += (sp.getDosFullPath().length()+1);
-      
+
       //
       // 24 byte block
       //
       filePathOffset += 24;
-      
+
       //
       // 4 byte block size
       //
-      int size = MPPUtility.getInt(data, filePathOffset);      
+      int size = MPPUtility.getInt(data, filePathOffset);
       filePathOffset +=4;
       if (size == 0)
       {
@@ -432,46 +432,46 @@ final class MPP12Reader implements MPPVariantReader
          //
          size = MPPUtility.getInt(data, filePathOffset);
          filePathOffset += 4;
-         
+
          //
          // 2 byte data
          //
          filePathOffset += 2;
-         
+
          //
          // Unicode string
          //
          sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
          filePathOffset += size;
       }
-      
+
       //
       // Second block header
       //
       fileNameOffset += 18;
-      
+
       //
       // String size as a 4 byte int
       //
       fileNameOffset += 4;
-      
+
       //
       // DOS file name
       //
       sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
       fileNameOffset += (sp.getDosFileName().length()+1);
-      
+
       //
       // 24 byte block
       //
       fileNameOffset += 24;
-      
+
       //
       // 4 byte block size
       //
       size = MPPUtility.getInt(data, fileNameOffset);
       fileNameOffset +=4;
-      
+
       if (size == 0)
       {
          sp.setFileName(sp.getDosFileName());
@@ -483,21 +483,21 @@ final class MPP12Reader implements MPPVariantReader
          //
          size = MPPUtility.getInt(data, fileNameOffset);
          fileNameOffset += 4;
-   
+
          //
          // 2 byte data
          //
          fileNameOffset += 2;
-         
+
          //
          // Unicode string
          //
          sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
-         fileNameOffset += size;      
-      }      
-      
+         fileNameOffset += size;
+      }
+
       //System.out.println(this.toString());
-      
+
       return (sp);
    }
 
@@ -938,7 +938,7 @@ final class MPP12Reader implements MPPVariantReader
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
 
       MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-      
+
       VarMeta calVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
       DocumentEntry v2d = (DocumentEntry)calDir.getEntry("Var2Data");
@@ -1614,7 +1614,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setSubProject((SubProject)m_taskSubProjects.get(task.getUniqueID()));
 
          file.fireTaskReadEvent(task);
-         
+
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
    }
@@ -1960,7 +1960,7 @@ final class MPP12Reader implements MPPVariantReader
          // Configure the resource calendar
          //
          resource.setResourceCalendar((ProjectCalendar)resourceCalendarMap.get(id));
-         
+
          file.fireResourceReadEvent(resource);
       }
    }
@@ -1980,10 +1980,10 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta assnVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));      
+      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
       Set set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
-      
+
       for (int loop=0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
@@ -1998,7 +1998,7 @@ final class MPP12Reader implements MPPVariantReader
          {
             continue;
          }
-         
+
          int id = MPPUtility.getInt(data, 0);
          final Integer varDataId = new Integer(id);
          if (set.contains(varDataId) == false)
@@ -2008,16 +2008,16 @@ final class MPP12Reader implements MPPVariantReader
 
          Integer taskID = new Integer(MPPUtility.getInt (data, 4));
          Task task = file.getTaskByUniqueID (taskID);
-                  
+
          if (task != null)
          {
             byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));
             byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
             processSplitData(task, completeWork, incompleteWork);
-                                    
+
             Integer resourceID = new Integer(MPPUtility.getInt (data, 8));
             Resource resource = file.getResourceByUniqueID (resourceID);
-            
+
             if (resource != null)
             {
                ResourceAssignment assignment = task.addResourceAssignment (resource);
@@ -2033,11 +2033,11 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setStart(MPPUtility.getTimestamp(data, 12));
                assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
-               
+
                if (incompleteWork != null)
                {
                   assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
-               }            
+               }
             }
          }
       }
@@ -2046,17 +2046,17 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * The task split data is represented in two blocks of data, one representing
     * the completed time, and the other representing the incomplete time.
-    * 
-    * The completed task split data is stored in a block with a 32 byte header, 
-    * followed by 20 byte blocks, each representing one split. The first two 
+    *
+    * The completed task split data is stored in a block with a 32 byte header,
+    * followed by 20 byte blocks, each representing one split. The first two
     * bytes of the header contains a count of the number of 20 byte blocks.
-    * 
-    * The incomplete task split data is represented as a 44 byte header 
-    * (which also contains unrelated assignment information, such as the 
-    * work contour) followed by a list of 28 byte blocks, each block representing 
+    *
+    * The incomplete task split data is represented as a 44 byte header
+    * (which also contains unrelated assignment information, such as the
+    * work contour) followed by a list of 28 byte blocks, each block representing
     * one split. The first two bytes of the header contains a count of the
     * number of 28 byte blocks.
-    * 
+    *
     * @param task parent task
     * @param completeHours completed split data
     * @param incompleteHours incomplete split data
@@ -2064,36 +2064,36 @@ final class MPP12Reader implements MPPVariantReader
    private void processSplitData (Task task, byte[] completeHours, byte[] incompleteHours)
    {
       LinkedList splits = new LinkedList ();
-      
+
       if (completeHours != null)
       {
-         int splitCount = MPPUtility.getShort(completeHours, 0);         
+         int splitCount = MPPUtility.getShort(completeHours, 0);
          if (splitCount != 0)
-         {            
+         {
             int offset = 32;
             for (int loop=0; loop < splitCount; loop++)
             {
                double splitTime = MPPUtility.getInt(completeHours, offset);
                if (splitTime != 0)
                {
-                  splitTime /= 4800;              
+                  splitTime /= 4800;
                   Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
                   splits.add(splitDuration);
                }
-               offset += 20;                  
-            }         
-            
+               offset += 20;
+            }
+
             double splitTime = MPPUtility.getInt(completeHours, 24);
             splitTime /= 4800;
-            Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);               
+            Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
             splits.add(splitDuration);
          }
       }
-    
+
       if (incompleteHours != null)
       {
          int splitCount = MPPUtility.getShort(incompleteHours, 0);
-         
+
          //
          // Deal with the case where the final task split is partially complete
          //
@@ -2101,7 +2101,7 @@ final class MPP12Reader implements MPPVariantReader
          {
             splitCount = 1;
          }
-         
+
          if (splitCount != 0)
          {
             double timeOffset = 0;
@@ -2114,9 +2114,9 @@ final class MPP12Reader implements MPPVariantReader
                else
                {
                   timeOffset = ((Duration)splits.getLast()).getDuration();
-               }               
+               }
             }
-            
+
             int offset = 44;
             for (int loop=0; loop < splitCount; loop++)
             {
@@ -2129,10 +2129,10 @@ final class MPP12Reader implements MPPVariantReader
             }
          }
       }
-      
+
       if (splits.isEmpty() == false)
       {
-         task.setSplits(splits);         
+         task.setSplits(splits);
       }
    }
 
@@ -2314,7 +2314,7 @@ final class MPP12Reader implements MPPVariantReader
    private MPPReader m_reader;
    private Map m_fontBases = new HashMap();
    private Map m_taskSubProjects = new HashMap ();
-   
+
    /**
     * Calendar data types.
     */
@@ -2329,8 +2329,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_OVERTIME_COST = new Integer (5);
    private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
    private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);
-   
-   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (8);   
+
+   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (8);
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);
 
    private static final Integer TASK_WBS = new Integer (10);
@@ -2616,7 +2616,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer OUTLINECODE_DATA = new Integer (1);
    private static final Integer INCOMPLETE_WORK = new Integer(7);
    private static final Integer COMPLETE_WORK = new Integer(9);
-   
+
    /**
     * Mask used to isolate confirmed flag from the duration units field.
     */

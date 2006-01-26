@@ -62,21 +62,21 @@ final class VarMeta12 extends AbstractVarMeta
       Integer offset;
       Map map;
       m_offsets = new int[m_itemCount];
-            
+
       for (int loop=0; loop < m_itemCount; loop++)
       {
-         uniqueID = new Integer (readInt(is));         
+         uniqueID = new Integer (readInt(is));
          offset = new Integer (readInt (is));
-         type = new Integer (readShort(is));         
+         type = new Integer (readShort(is));
          readShort(is); // unknown 2 bytes
-         
+
          map = (Map)m_table.get (uniqueID);
          if (map == null)
          {
             map = new TreeMap ();
             m_table.put (uniqueID, map);
          }
-         
+
          map.put (type, offset);
          m_offsets[loop] = offset.intValue();
       }

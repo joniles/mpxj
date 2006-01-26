@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Apr 7, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -30,25 +30,25 @@ public final class TimescaleUnits
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value units value from an MS Project file
     */
    private TimescaleUnits (int value)
    {
       m_value = value;
    }
-   
+
    /**
     * Retrieve an instance of this class based on the data read from an
     * MS Project file.
-    * 
+    *
     * @param value value from an MS Project file
     * @return instance of this class
     */
    public static TimescaleUnits getInstance (int value)
-   {  
+   {
       TimescaleUnits result;
-      
+
       if (value < 0 || value >= UNITS_ARRAY.length)
       {
          result = NONE;
@@ -57,20 +57,20 @@ public final class TimescaleUnits
       {
          result = UNITS_ARRAY[value];
       }
-      
+
       return (result);
    }
 
    /**
     * Retrieve the name of this time unit. Note that this is not
     * localised.
-    * 
+    *
     * @return name of this timescale unit
     */
    public String getName ()
    {
       String result;
-      
+
       if (m_value == -1)
       {
          result = "None";
@@ -79,20 +79,20 @@ public final class TimescaleUnits
       {
          result = UNITS_NAMES[m_value];
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Generate a string representation of this instance.
-    * 
+    *
     * @return string representation of this instance
     */
    public String toString ()
    {
       return (getName());
    }
-   
+
    public static final int NONE_VALUE = -1;
    public static final int MINUTES_VALUE = 0;
    public static final int HOURS_VALUE = 1;
@@ -103,8 +103,8 @@ public final class TimescaleUnits
    public static final int QUARTERS_VALUE = 6;
    public static final int HALF_YEARS_VALUE = 7;
    public static final int YEARS_VALUE = 8;
-   
-   public static final TimescaleUnits NONE = new TimescaleUnits (NONE_VALUE);   
+
+   public static final TimescaleUnits NONE = new TimescaleUnits (NONE_VALUE);
    public static final TimescaleUnits MINUTES = new TimescaleUnits (MINUTES_VALUE);
    public static final TimescaleUnits HOURS = new TimescaleUnits (HOURS_VALUE);
    public static final TimescaleUnits DAYS = new TimescaleUnits (DAYS_VALUE);
@@ -112,7 +112,7 @@ public final class TimescaleUnits
    public static final TimescaleUnits THIRDS_OF_MONTHS = new TimescaleUnits (THIRDS_OF_MONTHS_VALUE);
    public static final TimescaleUnits MONTHS = new TimescaleUnits (MONTHS_VALUE);
    public static final TimescaleUnits QUARTERS = new TimescaleUnits (QUARTERS_VALUE);
-   public static final TimescaleUnits HALF_YEARS = new TimescaleUnits (HALF_YEARS_VALUE);   
+   public static final TimescaleUnits HALF_YEARS = new TimescaleUnits (HALF_YEARS_VALUE);
    public static final TimescaleUnits YEARS = new TimescaleUnits (YEARS_VALUE);
 
    private static final TimescaleUnits[] UNITS_ARRAY =
@@ -127,8 +127,8 @@ public final class TimescaleUnits
       HALF_YEARS,
       YEARS
    };
-   
-   private static final String[] UNITS_NAMES = 
+
+   private static final String[] UNITS_NAMES =
    {
       "Minutes",
       "Hours",
@@ -140,6 +140,6 @@ public final class TimescaleUnits
       "Half Years",
       "Years"
    };
-   
+
    private int m_value;
 }

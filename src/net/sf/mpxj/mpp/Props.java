@@ -201,7 +201,7 @@ class Props extends MPPComponent
    public static final Integer END_TIME = new Integer (37748769);
 
    public static final Integer CALCULATE_MULTIPLE_CRITICAL_PATHS = new Integer (37748793);
-   
+
    public static final Integer TASK_FIELD_NAME_ALIASES = new Integer (1048577);
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
@@ -210,8 +210,8 @@ class Props extends MPPComponent
    public static final Integer SUBPROJECT_COUNT = new Integer(37748868);
    public static final Integer SUBPROJECT_DATA = new Integer(37748898);
    public static final Integer SUBPROJECT_TASK_COUNT = new Integer(37748900);
-   
+
    public static final Integer FONT_BASES = new Integer (54525952);
-   
+
    protected TreeMap m_map = new TreeMap ();
 }

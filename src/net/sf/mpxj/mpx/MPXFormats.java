@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 20, 2006
  */
- 
+
 package net.sf.mpxj.mpx;
 
 import java.text.DateFormat;
@@ -27,7 +27,7 @@ final class MPXFormats
 {
    /**
     * Constructor.
-    * 
+    *
     * @param locale target locale
     * @param file parent file
     */
@@ -37,13 +37,13 @@ final class MPXFormats
       m_projectFile = file;
       update();
    }
-   
+
    /**
     * Called to update the cached formats when something changes.
     */
    public void update ()
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();      
+      ProjectHeader header = m_projectFile.getProjectHeader();
       char decimalSeparator = header.getDecimalSeparator();
       char thousandsSeparator = header.getThousandsSeparator();
       m_unitsDecimalFormat = new MPXNumberFormat("#.##", decimalSeparator, thousandsSeparator);
@@ -53,16 +53,16 @@ final class MPXFormats
       updateCurrencyFormats(header, decimalSeparator, thousandsSeparator);
       updateDateTimeFormats(header);
    }
-   
+
    /**
     * Update the currency format.
-    * 
+    *
     * @param header project header
     * @param decimalSeparator decimal separator
     * @param thousandsSeparator thousands separator
     */
    private void updateCurrencyFormats (ProjectHeader header, char decimalSeparator, char thousandsSeparator)
-   {      
+   {
       String prefix = "";
       String suffix = "";
       String currencySymbol = quoteFormatCharacters (header.getCurrencySymbol());
@@ -110,7 +110,7 @@ final class MPXFormats
       pattern.append(suffix);
 
       String primaryPattern = pattern.toString();
-      
+
       String[] alternativePatterns = new String[7];
       alternativePatterns[0] = primaryPattern + ";(" + primaryPattern + ")";
       pattern.insert(prefix.length(), "#,#");
@@ -129,7 +129,7 @@ final class MPXFormats
             pattern.append("0");
          }
       }
-      
+
       String noSymbolPrimaryPattern = pattern.toString();
       alternativePatterns[3] = noSymbolPrimaryPattern;
       alternativePatterns[4] = noSymbolPrimaryPattern + ";(" + noSymbolPrimaryPattern + ")";
@@ -140,7 +140,7 @@ final class MPXFormats
 
       m_currencyFormat.applyPattern(primaryPattern, alternativePatterns, decimalSeparator, thousandsSeparator);
    }
-   
+
    /**
     * This method is used to quote any special characters that appear in
     * literal text that is required as part of the currency format.
@@ -187,7 +187,7 @@ final class MPXFormats
 
    /**
     * Updates the date and time formats.
-    * 
+    *
     * @param header projects header
     */
    private void updateDateTimeFormats (ProjectHeader header)
@@ -601,13 +601,13 @@ final class MPXFormats
 
       m_dateTimeFormat.applyPattern(dateTimePattern);
       m_dateFormat.applyPattern(datePattern);
-      m_timeFormat.applyPattern(timePattern);            
-      
+      m_timeFormat.applyPattern(timePattern);
+
       m_dateTimeFormat.setLocale(m_locale);
       m_dateFormat.setLocale(m_locale);
       m_timeFormat.setLocale(m_locale);
    }
-   
+
    /**
     * Returns time elements considering 12/24 hour formatting.
     *
@@ -631,20 +631,20 @@ final class MPXFormats
 
       return (time);
    }
-   
+
    /**
     * Retrieve the units decimal format.
-    * 
+    *
     * @return units decimal format
     */
    public NumberFormat getUnitsDecimalFormat ()
    {
       return (m_unitsDecimalFormat);
    }
-   
+
    /**
     * Retrieve the decimal format.
-    * 
+    *
     * @return decimal format
     */
    public NumberFormat getDecimalFormat ()
@@ -654,7 +654,7 @@ final class MPXFormats
 
    /**
     * Retrieve the currency format.
-    * 
+    *
     * @return currency format
     */
    public NumberFormat getCurrencyFormat ()
@@ -664,27 +664,27 @@ final class MPXFormats
 
    /**
     * Retrieve the duration decimal format.
-    * 
+    *
     * @return duration decimal format
     */
    public NumberFormat getDurationDecimalFormat ()
    {
       return (m_durationDecimalFormat);
    }
-   
+
    /**
     * Retrieve the percentage decimal format.
-    * 
+    *
     * @return percentage decimal format
     */
    public NumberFormat getPercentageDecimalFormat ()
    {
       return (m_percentageDecimalFormat);
    }
-   
+
    /**
     * Retrieve the date time format.
-    * 
+    *
     * @return date time format
     */
    public DateFormat getDateTimeFormat ()
@@ -694,24 +694,24 @@ final class MPXFormats
 
    /**
     * Retrieve the date format.
-    * 
+    *
     * @return date format
     */
    public DateFormat getDateFormat ()
    {
       return (m_dateFormat);
    }
-   
+
    /**
     * Retrieve the time format.
-    * 
+    *
     * @return time format
     */
    public DateFormat getTimeFormat ()
    {
       return (m_timeFormat);
    }
-   
+
    private Locale m_locale;
    private ProjectFile m_projectFile;
    private NumberFormat m_unitsDecimalFormat;
@@ -721,5 +721,5 @@ final class MPXFormats
    private NumberFormat m_percentageDecimalFormat;
    private MPXDateFormat m_dateTimeFormat = new MPXDateFormat();
    private MPXDateFormat m_dateFormat = new MPXDateFormat();
-   private MPXTimeFormat m_timeFormat = new MPXTimeFormat();   
+   private MPXTimeFormat m_timeFormat = new MPXTimeFormat();
 }

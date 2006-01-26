@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 30, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -74,7 +74,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       try
       {
          m_projectFile = projectFile;
-         
+
          JAXBContext context = JAXBContext.newInstance ("net.sf.mpxj.mspdi.schema");
          Marshaller marshaller = context.createMarshaller();
          marshaller.setProperty (Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -102,7 +102,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          throw new IOException (ex.toString());
       }
-            
+
       finally
       {
          m_projectFile = null;
@@ -179,7 +179,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setTitle(header.getProjectTitle());
       project.setUID(header.getUniqueID());
       project.setWeekStartDay(DatatypeConverter.printDay(header.getWeekStartDay()));
-      project.setWorkFormat(DatatypeConverter.printWorkUnits(header.getDefaultWorkUnits()));      
+      project.setWorkFormat(DatatypeConverter.printWorkUnits(header.getDefaultWorkUnits()));
    }
 
    /**
@@ -329,7 +329,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       int workingFlag;
       DateRange range;
       Iterator rangeIter;
-      
+
       for (loop=1; loop < 8; loop++)
       {
          workingFlag = bc.getWorkingDay(Day.getInstance(loop));
@@ -358,7 +358,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      {
                         time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
                         timesList.add (time);
-                        
+
                         time.setFromTime(DatatypeConverter.printTime(range.getStartDate()));
                         time.setToTime(DatatypeConverter.printTime(range.getEndDate()));
                      }
@@ -704,7 +704,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setResume(DatatypeConverter.printDate(mpx.getResume()));
       xml.setResumeValid(mpx.getResumeValid());
       xml.setRollup(mpx.getRollup());
-      xml.setStart(DatatypeConverter.printDate(mpx.getStart()));      
+      xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setStartVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getStartVariance())*1000));
       xml.setStop(DatatypeConverter.printDate (mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
@@ -762,12 +762,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Converts a duration to duration time units.
-    * 
+    *
     * @param value duration value
     * @return duration time units
     */
    private BigInteger printExtendedAttributeDurationFormat (Object value)
-   {            
+   {
       BigInteger result = null;
       if (value instanceof Duration)
       {
@@ -775,7 +775,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
       return (result);
    }
-   
+
    /**
     * This method retrieves the UID for a calendar associated with a task.
     *
@@ -911,7 +911,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          list.add(writeAssignment (factory, (ResourceAssignment)iter.next(), uid));
          ++uid;
       }
-      
+
       //
       // Check to see if we have any tasks that have a percent complete value
       // but do not have resource assignments. If any exist, then we must
@@ -919,7 +919,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // file shows the correct percent complete amount for the task.
       //
       iter = m_projectFile.getAllTasks().iterator();
-      
+
       while (iter.hasNext() == true)
       {
          Task task = (Task)iter.next();
@@ -932,16 +932,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
             {
                duration = Duration.getInstance(0, TimeUnit.HOURS);
             }
-            double durationValue = duration.getDuration();            
+            double durationValue = duration.getDuration();
             TimeUnit durationUnits = duration.getUnits();
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
-            
+
             dummy.setResourceUniqueID(MSPDIConstants.NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
-            
+
             list.add(writeAssignment (factory, dummy, uid));
             ++uid;
          }
@@ -1002,18 +1002,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       return (m_compatibleOutput);
    }
-   
+
    /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
-    * 
+    *
     * @return project file instance
     */
    ProjectFile getProjectFile ()
    {
       return (m_projectFile);
    }
-   
+
    private boolean m_compatibleOutput = true;
    private ProjectFile m_projectFile;
 
@@ -1154,5 +1154,5 @@ public final class MSPDIWriter extends AbstractProjectWriter
       };
    }
 
-   private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);   
+   private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 }

@@ -20,7 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
- 
+
 package net.sf.mpxj.utility;
 
 /**
@@ -30,36 +30,36 @@ public final class Pair
 {
    /**
     * Constructor.
-    * 
+    *
     * @param first first object
-    * @param second second object 
+    * @param second second object
     */
    public Pair (Object first, Object second)
    {
       m_first = first;
       m_second = second;
    }
-   
+
    /**
     * Retrieve the the first object.
-    * 
+    *
     * @return first object
     */
    public Object getFirst ()
    {
       return (m_first);
    }
-   
+
    /**
     * Retrieve the second object.
-    * 
+    *
     * @return second object
     */
    public Object getSecond ()
    {
       return (m_second);
    }
-   
+
    private Object m_first;
    private Object m_second;
 }

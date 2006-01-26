@@ -33,7 +33,7 @@ public class TableFontStyle extends FontStyle
 {
    /**
     * Constructor.
-    * 
+    *
     * @param rowUniqueID unique ID of the entity shown on the row
     * @param fieldType field type of the table column
     * @param fontBase font base
@@ -50,10 +50,10 @@ public class TableFontStyle extends FontStyle
    public TableFontStyle (int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
    {
       super (fontBase, italic, bold, underline, color);
-      
+
       m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;
-      
+
       m_italicChanged = italicChanged;
       m_boldChanged = boldChanged;
       m_underlineChanged = underlineChanged;
@@ -65,27 +65,27 @@ public class TableFontStyle extends FontStyle
     * Retrieves the unique ID of the entity shown on the row
     * affected by this style. This method will return -1 if the
     * style applies to all rows.
-    * 
+    *
     * @return row unique ID
     */
    public int getRowUniqueID ()
    {
       return  (m_rowUniqueID);
    }
-   
+
    /**
     * Retrieve the field type of the column to which this style applies.
-    * 
+    *
     * @return field type
     */
    public FieldType getFieldType ()
    {
       return (m_fieldType);
    }
- 
+
    /**
     * Retrieve the bold changed flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getBoldChanged()
@@ -95,7 +95,7 @@ public class TableFontStyle extends FontStyle
 
    /**
     * Retrieve the color changed flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getColorChanged()
@@ -105,7 +105,7 @@ public class TableFontStyle extends FontStyle
 
    /**
     * Retrieve the italic change flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getItalicChanged()
@@ -115,7 +115,7 @@ public class TableFontStyle extends FontStyle
 
    /**
     * Retrieve the underline changed flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getUnderlineChanged()
@@ -125,22 +125,22 @@ public class TableFontStyle extends FontStyle
 
    /**
     * Retrieve the font changed flag.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getFontChanged()
    {
       return (m_fontChanged);
    }
-   
+
    /**
     * {@inheritDoc}
-    */   
+    */
    public String toString ()
    {
       return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged?" italic="+getItalic():"") + (m_boldChanged?" bold="+getBold():"") + (m_underlineChanged?" underline="+getUnderline():"") + (m_fontChanged?" font="+getFontBase():"") + (m_colorChanged?" color="+getColor():"") + "]");
    }
-   
+
    private int m_rowUniqueID;
    private FieldType m_fieldType;
    private boolean m_italicChanged;

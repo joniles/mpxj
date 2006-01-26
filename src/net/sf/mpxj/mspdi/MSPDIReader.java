@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 30, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -84,7 +84,7 @@ public final class MSPDIReader extends AbstractProjectReader
       try
       {
          m_projectFile = new ProjectFile ();
-         
+
          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
          dbf.setNamespaceAware(true);
          DocumentBuilder db = dbf.newDocumentBuilder();
@@ -121,7 +121,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
 
          Project project = (Project)unmarshaller.unmarshal (doc);
-         
+
          HashMap calendarMap = new HashMap ();
 
          readProjectHeader (project);
@@ -130,12 +130,12 @@ public final class MSPDIReader extends AbstractProjectReader
          readResources (project, calendarMap);
          readTasks (project);
          readAssignments (project);
-         
+
          //
          // Ensure that the unique ID counters are correct
          //
-         m_projectFile.updateUniqueCounters();         
-         
+         m_projectFile.updateUniqueCounters();
+
          return (m_projectFile);
       }
 
@@ -158,7 +158,7 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          throw new MPXJException ("Failed to parse file", ex);
       }
-      
+
       finally
       {
          m_projectFile = null;
@@ -234,7 +234,7 @@ public final class MSPDIReader extends AbstractProjectReader
       header.setUniqueID(project.getUID());
       header.setUpdatingTaskStatusUpdatesResourceStatus(project.isTaskUpdatesResource());
       header.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
-      
+
    }
 
    /**
@@ -251,7 +251,7 @@ public final class MSPDIReader extends AbstractProjectReader
          List calendar = calendars.getCalendar();
          Iterator iter = calendar.iterator();
          LinkedList baseCalendars = new LinkedList();
-         
+
          while (iter.hasNext() == true)
          {
             readCalendar ((Project.CalendarsType.CalendarType)iter.next(), map, baseCalendars);
@@ -279,13 +279,13 @@ public final class MSPDIReader extends AbstractProjectReader
       ProjectCalendar cal;
       BigInteger baseCalendarID;
       ProjectCalendar baseCal;
-      
+
       while (iter.hasNext() == true)
       {
          pair = (Pair)iter.next();
          cal = (ProjectCalendar)pair.getFirst();
          baseCalendarID = (BigInteger)pair.getSecond();
-         
+
          baseCal = (ProjectCalendar)map.get(baseCalendarID);
          if (baseCal != null)
          {
@@ -387,7 +387,7 @@ public final class MSPDIReader extends AbstractProjectReader
             period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
             startTime = DatatypeConverter.parseTime(period.getFromTime());
             endTime = DatatypeConverter.parseTime(period.getToTime());
-            
+
             if (startTime != null && endTime != null)
             {
                hours.addDateRange(new DateRange(startTime, endTime));
@@ -529,7 +529,7 @@ public final class MSPDIReader extends AbstractProjectReader
    private void readResource (Project.ResourcesType.ResourceType xml, HashMap calendarMap)
    {
       Resource mpx = m_projectFile.addResource();
-      
+
       mpx.setAccrueAt(xml.getAccrueAt());
       mpx.setActveDirectoryGUID(xml.getActiveDirectoryGUID());
       mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
@@ -626,7 +626,7 @@ public final class MSPDIReader extends AbstractProjectReader
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)MSPDIConstants.RESOURCE_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
          dataType = ((Integer)MSPDIConstants.RESOURCE_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);         
+         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
       }
    }
 
@@ -667,7 +667,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       Task mpx = m_projectFile.addTask ();
 
-      mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));      
+      mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
       mpx.setActualCost(DatatypeConverter.parseCurrency (xml.getActualCost()));
       mpx.setActualDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualDuration()));
       mpx.setActualFinish(DatatypeConverter.parseDate (xml.getActualFinish()));
@@ -700,7 +700,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
       //mpx.setDelay();
-      mpx.setDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getDuration()));      
+      mpx.setDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getDuration()));
       //mpx.setDuration1();
       //mpx.setDuration2();
       //mpx.setDuration3();
@@ -830,7 +830,7 @@ public final class MSPDIReader extends AbstractProjectReader
       // Set the MPX file fixed flag
       //
       mpx.setFixed(mpx.getType() == TaskType.FIXED_DURATION);
-      
+
       m_projectFile.fireTaskReadEvent(mpx);
    }
 
@@ -855,7 +855,7 @@ public final class MSPDIReader extends AbstractProjectReader
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)MSPDIConstants.TASK_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
          dataType = ((Integer)MSPDIConstants.TASK_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);         
+         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
       }
    }
 
@@ -1062,7 +1062,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
       }
    }
-   
+
    /**
     * Sets a flag indicating that this class will attempt to correct
     * and read XML which is not compliant with the XML Schema. This
@@ -1088,8 +1088,8 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       return (m_compatibleInput);
    }
-   
+
    private boolean m_compatibleInput = true;
-   
-   private ProjectFile m_projectFile;      
+
+   private ProjectFile m_projectFile;
 }

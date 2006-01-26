@@ -40,10 +40,10 @@ public final class ResourceAssignment extends ProjectEntity
    ResourceAssignment (ProjectFile file, Task task)
    {
       super(file);
-      
+
       m_task = task;
    }
-   
+
    /**
     * This method allows a resource assignment workgroup fields record
     * to be added to the current resource assignment. A maximum of
@@ -85,7 +85,7 @@ public final class ResourceAssignment extends ProjectEntity
       if (val != null)
       {
          m_resourceID = val;
-         
+
          //
          // If the resource unique ID has not yet been set,
          // use the resource ID as the default value.
@@ -337,7 +337,7 @@ public final class ResourceAssignment extends ProjectEntity
       if (val != null)
       {
          m_resourceUniqueID = val;
-         
+
          //
          // If the resource ID has not been set, then use
          // the resource unique ID as the default value.
@@ -408,7 +408,7 @@ public final class ResourceAssignment extends ProjectEntity
    {
       getParentFile().removeResourceAssignment(this);
    }
-   
+
    /**
     * Returns the remaining work for this resource assignment.
     *
@@ -428,7 +428,7 @@ public final class ResourceAssignment extends ProjectEntity
    {
       m_remainingWork = remainingWork;
    }
-   
+
    private Integer m_resourceID;
    private Number m_units;
    private Duration m_work;
@@ -442,7 +442,7 @@ public final class ResourceAssignment extends ProjectEntity
    private Date m_finish;
    private Duration m_delay;
    private Integer m_resourceUniqueID;
-   
+
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither

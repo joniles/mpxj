@@ -85,7 +85,7 @@ public final class Rate
    {
       return (m_units);
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -102,7 +102,7 @@ public final class Rate
    {
       return ((int)m_amount + m_units.hashCode());
    }
-   
+
    /**
     * Rate amount.
     */

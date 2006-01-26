@@ -46,14 +46,14 @@ public final class ProjectCalendarHours extends ProjectEntity
 
    /**
     * Retrieve the parent calendar for these hours.
-    * 
+    *
     * @return parent calendar
     */
    public ProjectCalendar getParentCalendar ()
    {
       return (m_parentCalendar);
    }
-   
+
    /**
     * Get day.
     *
@@ -73,55 +73,55 @@ public final class ProjectCalendarHours extends ProjectEntity
    {
       if (m_day != null)
       {
-         m_parentCalendar.removeHoursFromDay(this);         
+         m_parentCalendar.removeHoursFromDay(this);
       }
-      
+
       m_day = d;
-      
-      m_parentCalendar.attachHoursToDay(this);      
+
+      m_parentCalendar.attachHoursToDay(this);
    }
 
    /**
     * Add a date range to the list of date ranges.
-    * 
+    *
     * @param range date range
     */
    public void addDateRange (DateRange range)
    {
       m_dateRanges.add(range);
    }
-   
+
    /**
     * Retrieve the date range at the specified index.
     * The index is zero based, and this method will return
     * null if the requested date range does not exist.
-    * 
+    *
     * @param index range index
     * @return date range instance
     */
    public DateRange getDateRange (int index)
    {
       DateRange result = null;
-      
+
       if (index >= 0 && index < m_dateRanges.size())
       {
          result = (DateRange)m_dateRanges.get(index);
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Retrieve an iterator to allow the list of date ranges to be traversed.
-    * 
+    *
     * @return iterator.
     */
    public Iterator iterator ()
    {
       return (m_dateRanges.iterator());
    }
-   
+
    private ProjectCalendar m_parentCalendar;
    private Day m_day;
-   private LinkedList m_dateRanges = new LinkedList ();   
+   private LinkedList m_dateRanges = new LinkedList ();
 }

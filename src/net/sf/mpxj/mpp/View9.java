@@ -38,13 +38,13 @@ public class View9 extends View
 {
    /**
     * Extract the view data from the view data block.
-    * 
+    *
     * @param data view data
     */
    public View9 (byte[] data)
    {
-      m_id = new Integer (MPPUtility.getInt(data, 0));         
+      m_id = new Integer (MPPUtility.getInt(data, 0));
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
       m_type = MPPUtility.getShort(data, 112);
-   }   
+   }
 }

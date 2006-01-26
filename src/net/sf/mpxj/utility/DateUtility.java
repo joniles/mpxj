@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 18, 2006
  */
- 
+
 package net.sf.mpxj.utility;
 
 import java.util.Calendar;
@@ -22,7 +22,7 @@ public final class DateUtility
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * Returns a new Date instance whose value
     * represents the start of the day (i.e. the time of day is 00:00:00.000)
@@ -65,5 +65,5 @@ public final class DateUtility
          date = cal.getTime();
       }
       return (date);
-   }   
+   }
 }

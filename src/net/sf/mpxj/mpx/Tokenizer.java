@@ -126,7 +126,7 @@ abstract class Tokenizer
                   {
                      if (quoted == false)
                      {
-                        m_buffer.append ((char)c);                        
+                        m_buffer.append ((char)c);
                      }
                      else
                      {
@@ -159,7 +159,7 @@ abstract class Tokenizer
       }
 
       m_type = result;
-      
+
       return (result);
    }
 
@@ -175,14 +175,14 @@ abstract class Tokenizer
 
    /**
     * This method retrieves the type of the last token found.
-    * 
+    *
     * @return last token type
     */
    public int getType ()
    {
       return (m_type);
    }
-   
+
    /**
     * This method is used to set the delimiter character recognised
     * by the tokenizer.

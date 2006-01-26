@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Apr 7, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -38,7 +38,7 @@ interface ViewFactory
 {
    /**
     * This method is called to create a view.
-    * 
+    *
     * @param file parent MPP file
     * @param fixedData view fixed data
     * @param varData view var data

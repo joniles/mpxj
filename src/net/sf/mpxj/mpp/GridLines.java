@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Apr 7, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -31,7 +31,7 @@ public class GridLines
 {
    /**
     * Constructor.
-    * 
+    *
     * @param data properties data
     * @param offset offset into properties data
     */
@@ -43,67 +43,67 @@ public class GridLines
       m_intervalLineStyle = LineStyle.getInstance(data[offset+5]);
       m_intervalLineColor = ColorType.getInstance(data[offset+6]);
    }
-   
+
    /**
     * Retrieve the interval line color.
-    * 
+    *
     * @return interval line color
     */
    public ColorType getIntervalLineColor()
    {
       return (m_intervalLineColor);
    }
-   
+
    /**
     * Retrieve the interval line style.
-    * 
+    *
     * @return interval line style
     */
    public LineStyle getIntervalLineStyle()
    {
       return (m_intervalLineStyle);
    }
-   
+
    /**
     * Retrieve the interval number.
-    * 
+    *
     * @return interval number
     */
    public int getIntervalNumber()
    {
       return (m_intervalNumber);
    }
-   
+
    /**
     * Retrieve the normal line color.
-    * 
+    *
     * @return line color
     */
    public ColorType getNormalLineColor()
    {
       return (m_normalLineColor);
    }
-   
+
    /**
     * Retrieve the normal line style.
-    * 
+    *
     * @return line style
     */
    public LineStyle getNormalLineStyle()
    {
       return m_normalLineStyle;
    }
-   
+
    /**
     * Generate a string representation of this instance.
-    * 
+    *
     * @return string representation of this instance
     */
    public String toString ()
    {
       return ("[GridLines NormalLineColor=" + m_normalLineColor+" NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor);
    }
-   
+
    private ColorType m_normalLineColor;
    private LineStyle m_normalLineStyle;
    private int m_intervalNumber;

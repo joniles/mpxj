@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Apr 7, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -32,7 +32,7 @@ public final class ColorType
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value color number
     */
    private ColorType (int value)
@@ -42,14 +42,14 @@ public final class ColorType
 
    /**
     * Retrieve an instance of this type based on a color number from MS Project.
-    * 
+    *
     * @param value color number
     * @return ColorType instance
     */
    public static ColorType getInstance (int value)
    {
       ColorType color;
-      
+
       if (value < 0 || value >= COLOR_TYPES.length)
       {
          color = AUTOMATIC;
@@ -58,34 +58,34 @@ public final class ColorType
       {
          color = COLOR_TYPES[value];
       }
-      
+
       return (color);
    }
-   
+
    /**
     * Retrieve the color name. Currently this is not localised.
-    * 
+    *
     * @return color name
     */
    public String getName ()
    {
-      return (COLOR_NAMES[m_value]);      
+      return (COLOR_NAMES[m_value]);
    }
-   
+
    /**
     * Retrieve a Java Color instance matching the color used in MS Project.
     * Note that this will return null if the color type is automatic.
-    * 
+    *
     * @return Color instance
     */
    public Color getColor ()
    {
       return (COLOR_OBJECTS[m_value]);
    }
-   
+
    /**
     * Retrieve the String representation of this color.
-    * 
+    *
     * @return String representation of this color
     */
    public String toString ()
@@ -95,14 +95,14 @@ public final class ColorType
 
    /**
     * Retrieve the value associated with this instance.
-    * 
+    *
     * @return int value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    public static final int BLACK_VALUE = 0;
    public static final int RED_VALUE = 1;
    public static final int YELLOW_VALUE = 2;
@@ -120,7 +120,7 @@ public final class ColorType
    public static final int GRAY_VALUE = 14;
    public static final int SILVER_VALUE = 15;
    public static final int AUTOMATIC_VALUE = 16;
-   
+
    public static final ColorType BLACK = new ColorType (BLACK_VALUE);
    public static final ColorType RED = new ColorType (RED_VALUE);
    public static final ColorType YELLOW = new ColorType (YELLOW_VALUE);
@@ -138,8 +138,8 @@ public final class ColorType
    public static final ColorType GRAY = new ColorType (GRAY_VALUE);
    public static final ColorType SILVER = new ColorType (SILVER_VALUE);
    public static final ColorType AUTOMATIC = new ColorType (AUTOMATIC_VALUE);
-   
-   private static final ColorType[] COLOR_TYPES = 
+
+   private static final ColorType[] COLOR_TYPES =
    {
       BLACK,
       RED,
@@ -157,10 +157,10 @@ public final class ColorType
       TEAL,
       GRAY,
       SILVER,
-      AUTOMATIC            
+      AUTOMATIC
    };
 
-   private static final String[] COLOR_NAMES = 
+   private static final String[] COLOR_NAMES =
    {
       "Black",
       "Red",
@@ -178,29 +178,29 @@ public final class ColorType
       "Teal",
       "Gray",
       "Silver",
-      "Automatic"                        
+      "Automatic"
    };
 
    private static final Color[] COLOR_OBJECTS =
    {
-      Color.BLACK,   
-      Color.RED,   
-      Color.YELLOW,   
-      Color.GREEN,   
-      Color.CYAN,   
-      Color.BLUE,   
-      Color.MAGENTA,   
-      Color.WHITE,   
-      new Color(132, 0, 0),   
-      new Color(0, 130, 0),   
-      new Color(132, 130, 0),   
-      new Color(0, 0, 132),   
-      new Color(132, 0, 132),   
-      new Color(0, 130, 132),   
-      new Color(132, 130, 132),   
-      new Color(198, 195, 198),   
+      Color.BLACK,
+      Color.RED,
+      Color.YELLOW,
+      Color.GREEN,
+      Color.CYAN,
+      Color.BLUE,
+      Color.MAGENTA,
+      Color.WHITE,
+      new Color(132, 0, 0),
+      new Color(0, 130, 0),
+      new Color(132, 130, 0),
+      new Color(0, 0, 132),
+      new Color(132, 0, 132),
+      new Color(0, 130, 132),
+      new Color(132, 130, 132),
+      new Color(198, 195, 198),
       null
    };
-   
+
    private int m_value;
 }

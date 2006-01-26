@@ -61,7 +61,7 @@ final class VarMeta9 extends AbstractVarMeta
       Integer offset;
       Map map;
       m_offsets = new int[m_itemCount];
-      
+
       //
       // There appears to be some Microsoft weirdness here. The unique ID
       // in this block is stored as a 3 byte integer. We use a 4 byte array
@@ -69,12 +69,12 @@ final class VarMeta9 extends AbstractVarMeta
       // and convert it using the standard utility method.
       //
       byte[] uniqueIDArray = new byte[4];
-      
+
       for (int loop=0; loop < m_itemCount; loop++)
       {
          is.read(uniqueIDArray, 0, 3);
          uniqueID = new Integer (MPPUtility.getInt(uniqueIDArray));
-         
+
          type = new Integer (readByte (is));
          offset = new Integer (readInt (is));
 

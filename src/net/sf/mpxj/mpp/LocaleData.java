@@ -55,10 +55,10 @@ public class LocaleData extends ListResourceBundle
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getStringArray(key));
    }
-   
+
    public static final String TASK_COLUMNS = "TASK_COLUMNS";
    public static final String RESOURCE_COLUMNS = "RESOURCE_COLUMNS";
-   
+
    private static final int MAX_RESOURCE_COLUMNS = 312;
    private static final int MAX_TASK_COLUMNS = 452;
 

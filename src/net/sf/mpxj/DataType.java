@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 18, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -60,7 +60,7 @@ public final class DataType
    public static final int RATE_VALUE = 8;
    public static final int PRIORITY_VALUE = 9;
    public static final int RELATION_LIST_VALUE = 10;
-   
+
    public static final DataType DATE = new DataType(DATE_VALUE);
    public static final DataType CURRENCY = new DataType(CURRENCY_VALUE);
    public static final DataType UNITS = new DataType(UNITS_VALUE);
@@ -71,7 +71,7 @@ public final class DataType
    public static final DataType RATE = new DataType(RATE_VALUE);
    public static final DataType PRIORITY = new DataType(PRIORITY_VALUE);
    public static final DataType RELATION_LIST = new DataType(RELATION_LIST_VALUE);
-   
+
    /**
     * Internal representation of the data type.
     */

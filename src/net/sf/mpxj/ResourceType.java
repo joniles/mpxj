@@ -96,11 +96,11 @@ public final class ResourceType
 
    /**
     * {@inheritDoc}
-    */   
+    */
    public String toString ()
    {
       String result;
-      
+
       if (m_value == MATERIAL_VALUE)
       {
          result = "Material";
@@ -109,10 +109,10 @@ public final class ResourceType
       {
          result = "Work";
       }
-      
+
       return (result);
    }
-   
+
    private int m_value;
 
    /**

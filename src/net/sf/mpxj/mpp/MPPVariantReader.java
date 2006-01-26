@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 5, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -43,7 +43,7 @@ interface MPPVariantReader
     * @param reader parent file reader
     * @param file data structure to be populated
     * @param root Root of the POI file system.
-    */   
+    */
    public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
       throws MPXJException, IOException;
 }

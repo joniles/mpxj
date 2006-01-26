@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class represents the a Calendar Definition record. Both base calendars
@@ -49,14 +50,14 @@ public final class ProjectCalendar extends ProjectEntity
    {
       super (file);
 
-      m_baseCalendarFlag = baseCalendar;  
-      
+      m_baseCalendarFlag = baseCalendar;
+
       Arrays.fill(m_days, baseCalendar?WORKING:DEFAULT);
-      
+
       if (file.getAutoCalendarUniqueID() == true)
       {
          setUniqueID (file.getCalendarUniqueID());
-      }      
+      }
    }
 
    /**
@@ -68,7 +69,7 @@ public final class ProjectCalendar extends ProjectEntity
    public ProjectCalendarException addCalendarException ()
    {
       ProjectCalendarException bce = new ProjectCalendarException(getParentFile());
-      m_exceptions.add(bce);      
+      m_exceptions.add(bce);
       return (bce);
    }
 
@@ -77,7 +78,7 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @return List of calendar exceptions
     */
-   public LinkedList getCalendarExceptions ()
+   public List getCalendarExceptions ()
    {
       return (m_exceptions);
    }
@@ -101,18 +102,18 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * Adds a set of hours to this calendar without assigning them to
     * a particular day.
-    * 
+    *
     * @return calendar hours instance
     */
    public ProjectCalendarHours addCalendarHours()
    {
       return (new ProjectCalendarHours(getParentFile(), this));
    }
-   
+
    /**
     * Attaches a pre-existing set of hours to the correct
     * day within the calendar.
-    * 
+    *
     * @param hours calendar hours instance
     */
    public void attachHoursToDay (ProjectCalendarHours hours)
@@ -123,11 +124,11 @@ public final class ProjectCalendar extends ProjectEntity
       }
       m_hours[hours.getDay().getValue()-1] = hours;
    }
-   
+
    /**
-    * Removes a set of calendar hours from the day to which they 
+    * Removes a set of calendar hours from the day to which they
     * are currently attached.
-    * 
+    *
     * @param hours calendar hours instance
     */
    public void removeHoursFromDay (ProjectCalendarHours hours)
@@ -135,10 +136,10 @@ public final class ProjectCalendar extends ProjectEntity
       if (hours.getParentCalendar() != this)
       {
          throw new IllegalArgumentException();
-      }      
-      m_hours[hours.getDay().getValue()-1] = null;      
+      }
+      m_hours[hours.getDay().getValue()-1] = null;
    }
-   
+
    /**
     * This method retrieves the calendar hours for the specified day.
     *
@@ -153,14 +154,14 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * Retrieve an array representing all of the calendar hours defined
     * by this calendar.
-    * 
+    *
     * @return array of calendar hours
     */
    public ProjectCalendarHours[] getHours ()
    {
       return (m_hours);
    }
-   
+
    /**
     * Calendar name.
     *
@@ -227,14 +228,14 @@ public final class ProjectCalendar extends ProjectEntity
 
    /**
     * Retrieve an array representing the days of the week for this calendar.
-    * 
+    *
     * @return array of days of the week
     */
    public int[] getDays ()
    {
       return (m_days);
    }
-   
+
    /**
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
@@ -339,14 +340,14 @@ public final class ProjectCalendar extends ProjectEntity
          hours = addCalendarHours (Day.WEDNESDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));
-         
+
          hours = addCalendarHours (Day.THURSDAY);
          hours.addDateRange(new DateRange (from1, to1));
          hours.addDateRange(new DateRange (from2, to2));
 
          hours = addCalendarHours (Day.FRIDAY);
          hours.addDateRange(new DateRange (from1, to1));
-         hours.addDateRange(new DateRange (from2, to2));         
+         hours.addDateRange(new DateRange (from2, to2));
 
          hours = addCalendarHours (Day.SATURDAY);
       }
@@ -595,17 +596,17 @@ public final class ProjectCalendar extends ProjectEntity
 
    /**
     * Retrieve the resource to which this calendar is linked.
-    * 
+    *
     * @return resource instance
     */
    public Resource getResource ()
    {
       return (m_resource);
    }
-   
+
    /**
     * Sets the resource to which this calendar is linked.
-    * 
+    *
     * @param resource resource instance
     */
    public void setResource (Resource resource)
@@ -613,7 +614,7 @@ public final class ProjectCalendar extends ProjectEntity
       m_resource = resource;
       m_name = m_resource.getName();
    }
-   
+
    /**
     * Removes this calendar from the project.
     */
@@ -621,7 +622,7 @@ public final class ProjectCalendar extends ProjectEntity
    {
       getParentFile().removeCalendar(this);
    }
-   
+
    /**
     * Unique identifier of this calendar.
     */
@@ -636,12 +637,12 @@ public final class ProjectCalendar extends ProjectEntity
     * Flag indicating if this is a base calendar.
     */
    private boolean m_baseCalendarFlag;
-   
+
    /**
     * Base calendar from which this calendar is derived.
     */
    private ProjectCalendar m_baseCalendar;
-   
+
    /**
     * Array holding working/non-working/default flags for each
     * day of the week.
@@ -662,7 +663,7 @@ public final class ProjectCalendar extends ProjectEntity
     * This resource to which this calendar is attached.
     */
    private Resource m_resource;
-   
+
    /**
     * Default base calendar name to use when none is supplied.
     */

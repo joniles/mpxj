@@ -79,18 +79,18 @@ public final class RelationType
    {
       return (m_type);
    }
-   
+
    public static final int FINISH_FINISH_VALUE = 0;
    public static final int FINISH_START_VALUE = 1;
    public static final int START_FINISH_VALUE = 2;
    public static final int START_START_VALUE = 3;
    public static final int MAX_TYPE_VALUES = 4;
-   
+
    public static final RelationType FINISH_FINISH = new RelationType (FINISH_FINISH_VALUE);
    public static final RelationType FINISH_START = new RelationType (FINISH_START_VALUE);
    public static final RelationType START_FINISH = new RelationType (START_FINISH_VALUE);
    public static final RelationType START_START = new RelationType (START_START_VALUE);
-   
+
    /**
     * Array of type values matching the above constants.
     */

@@ -39,9 +39,9 @@ class ProjectEntity
     */
    protected ProjectEntity (ProjectFile mpx)
    {
-      m_mpx = mpx;    
+      m_mpx = mpx;
    }
-            
+
    /**
     * Accessor method allowing retreival of ProjectFile reference.
     *

@@ -118,7 +118,7 @@ public final class ConstraintType
    public static final ConstraintType START_NO_LATER_THAN = new ConstraintType(START_NO_LATER_THAN_VALUE);
    public static final ConstraintType FINISH_NO_EARLIER_THAN = new ConstraintType(FINISH_NO_EARLIER_THAN_VALUE);
    public static final ConstraintType FINISH_NO_LATER_THAN = new ConstraintType(FINISH_NO_LATER_THAN_VALUE);
-   
+
    private static final ConstraintType[] TYPE_VALUES =
    {
       AS_SOON_AS_POSSIBLE,

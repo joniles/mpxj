@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       22 July 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -30,24 +30,24 @@ public final class Interval
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value interval type
     */
    private Interval (int value)
    {
       m_value = value;
    }
-   
+
    /**
     * Retrieve an instance of this type based data from MS Project.
-    * 
+    *
     * @param value interval type
     * @return Interval instance
     */
    public static Interval getInstance (int value)
    {
       Interval interval;
-      
+
       if (value < 0 || value >= INTERVAL_TYPES.length)
       {
          interval = DAILY;
@@ -56,23 +56,23 @@ public final class Interval
       {
          interval = INTERVAL_TYPES[value];
       }
-      
+
       return (interval);
    }
-   
+
    /**
     * Retrieve the interval name. Currently this is not localised.
-    * 
+    *
     * @return interval name
     */
    public String getName ()
    {
-      return (INTERVAL_NAMES[m_value]);      
+      return (INTERVAL_NAMES[m_value]);
    }
-   
+
    /**
     * Retrieve the String representation of this line style.
-    * 
+    *
     * @return String representation of this line style
     */
    public String toString ()
@@ -82,35 +82,35 @@ public final class Interval
 
    /**
     * Retrieve the value associated with this instance.
-    * 
+    *
     * @return int value
     */
    public int getValue ()
    {
       return (m_value);
    }
-   
+
    public static final int DAILY_VALUE = 0;
    public static final int WEEKLY_VALUE = 1;
    public static final int MONTHLY_VALUE = 2;
-   
+
    public static final Interval DAILY = new Interval (DAILY_VALUE);
    public static final Interval WEEKLY = new Interval (WEEKLY_VALUE);
    public static final Interval MONTHLY = new Interval (MONTHLY_VALUE);
-   
-   private static final Interval[] INTERVAL_TYPES = 
+
+   private static final Interval[] INTERVAL_TYPES =
    {
       DAILY,
       WEEKLY,
       MONTHLY
    };
-   
+
    private static final String[] INTERVAL_NAMES =
    {
       "Daily",
       "Weekly",
       "Monthly"
    };
-   
+
    private int m_value;
 }

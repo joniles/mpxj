@@ -35,7 +35,7 @@ public final class TaskField implements FieldType
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value task field value
     */
    private TaskField (int value)
@@ -55,18 +55,18 @@ public final class TaskField implements FieldType
     * {@inheritDoc}
     */
    public String getName (Locale locale)
-   {      
+   {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.TASK_COLUMNS);
       String result = null;
-      
+
       if (m_value >= 0 && m_value < titles.length)
       {
          result = titles[m_value];
       }
-      
+
       return (result);
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -74,36 +74,36 @@ public final class TaskField implements FieldType
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve an instance of this class based on the data read from an
     * MS Project file.
-    * 
+    *
     * @param value value from an MS Project file
     * @return instance of this class
-    */   
+    */
    public static TaskField getInstance (int value)
    {
       TaskField result = null;
-      
+
       if (value >=0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Retrieves the string representation of this instance.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
    {
       return (getName());
    }
-   
+
    public static final int WORK_VALUE = 0;
    public static final int BASELINE_WORK_VALUE = 1;
    public static final int ACTUAL_WORK_VALUE = 2;
@@ -593,7 +593,7 @@ public final class TaskField implements FieldType
    public static final TaskField RESOURCE_TYPE = new TaskField(RESOURCE_TYPE_VALUE);
 
    private static final TaskField[] FIELD_ARRAY = new TaskField[452];
-   
+
    static
    {
       FIELD_ARRAY[WORK_VALUE] = WORK;
@@ -838,8 +838,8 @@ public final class TaskField implements FieldType
       FIELD_ARRAY[GROUP_BY_SUMMARY_VALUE] = GROUP_BY_SUMMARY;
       FIELD_ARRAY[WBS_PREDECESSORS_VALUE] = WBS_PREDECESSORS;
       FIELD_ARRAY[WBS_SUCCESSORS_VALUE] = WBS_SUCCESSORS;
-      FIELD_ARRAY[RESOURCE_TYPE_VALUE] = RESOURCE_TYPE;      
+      FIELD_ARRAY[RESOURCE_TYPE_VALUE] = RESOURCE_TYPE;
    }
-   
+
    private int m_value;
 }

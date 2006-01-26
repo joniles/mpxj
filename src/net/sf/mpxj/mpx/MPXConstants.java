@@ -33,22 +33,22 @@ final class MPXConstants
     * Constant containing the end of line characters used in MPX files.
     */
    public static final String EOL = "\r\n";
-   
+
    /**
     * Comment record number.
     */
    public static final int COMMENTS_RECORD_NUMBER = 0;
-   
+
    /**
     * Currency settngs record number.
     */
    public static final int CURRENCY_SETTINGS_RECORD_NUMBER = 10;
-   
+
    /**
     * Default settings record number.
     */
    public static final int DEFAULT_SETTINGS_RECORD_NUMBER = 11;
-   
+
    /**
     * Date time settings record number.
     */
@@ -68,92 +68,92 @@ final class MPXConstants
     * Base calendar exception record number.
     */
    public static final int BASE_CALENDAR_EXCEPTION_RECORD_NUMBER = 26;
-   
+
    /**
     * Project header record number.
     */
    public static final int PROJECT_HEADER_RECORD_NUMBER = 30;
-      
+
    /**
     * Resource calendar record number.
     */
    public static final int RESOURCE_CALENDAR_RECORD_NUMBER = 55;
-   
+
    /**
     * Resource calendar hours record number.
     */
    public static final int RESOURCE_CALENDAR_HOURS_RECORD_NUMBER = 56;
-   
+
    /**
     * Resource calendar exception record number.
     */
    public static final int RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER = 57;
-   
+
    /**
     * Text resource model record number.
     */
    public static final int RESOURCE_MODEL_TEXT_RECORD_NUMBER = 40;
-   
+
    /**
     * Numeric resource model record number.
     */
    public static final int RESOURCE_MODEL_NUMERIC_RECORD_NUMBER = 41;
-   
+
    /**
     * Resource record number.
     */
    public static final int RESOURCE_RECORD_NUMBER = 50;
-   
+
    /**
     * Resource notes record number.
     */
    public static final int RESOURCE_NOTES_RECORD_NUMBER = 51;
-   
+
    /**
     * Text task model record number.
     */
    public static final int TASK_MODEL_TEXT_RECORD_NUMBER = 60;
-   
+
    /**
     * Numeric task model record number.
     */
    public static final int TASK_MODEL_NUMERIC_RECORD_NUMBER = 61;
-   
+
    /**
     * Task record number.
     */
    public static final int TASK_RECORD_NUMBER = 70;
-   
+
    /**
     * Task notes record number.
     */
    public static final int TASK_NOTES_RECORD_NUMBER = 71;
-   
+
    /**
     * Recurring task record number.
     */
    public static final int RECURRING_TASK_RECORD_NUMBER = 72;
-   
+
    /**
     * Resource assignment record number.
     */
    public static final int RESOURCE_ASSIGNMENT_RECORD_NUMBER = 75;
-   
+
    /**
     * Resource assignment workgroup record number.
     */
    public static final int RESOURCE_ASSIGNMENT_WORKGROUP_FIELDS_RECORD_NUMBER = 76;
-   
+
    /**
     * Project names record number.
     */
    public static final int PROJECT_NAMES_RECORD_NUMBER = 80;
-   
+
    /**
     * DDE OLE client links record number.
     */
    public static final int DDE_OLE_CLIENT_LINKS_RECORD_NUMBER = 81;
-   
+
    /**
     * File creation record number.
     * Note that in this case it is a dummy value, the actual value used

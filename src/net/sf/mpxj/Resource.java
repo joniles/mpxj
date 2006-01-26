@@ -46,7 +46,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    Resource (ProjectFile file)
    {
       super (file);
-      
+
       if (file.getAutoResourceUniqueID() == true)
       {
          setUniqueID (new Integer(file.getResourceUniqueID ()));
@@ -1351,14 +1351,14 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       parent.mapResourceID(val, this);
 
       set (ID, val);
-      
+
       if (m_assignments.isEmpty() == false)
       {
          Iterator iter = m_assignments.iterator();
          while (iter.hasNext() == true)
          {
             ((ResourceAssignment)iter.next()).setResourceID(val);
-         }         
+         }
       }
    }
 
@@ -1448,15 +1448,15 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       parent.mapResourceUniqueID(val, this);
 
       set (UNIQUE_ID, val);
-      
+
       if (m_assignments.isEmpty() == false)
       {
          Iterator iter = m_assignments.iterator();
          while (iter.hasNext() == true)
          {
             ((ResourceAssignment)iter.next()).setResourceUniqueID(val);
-         }         
-      }      
+         }
+      }
    }
 
    /**
@@ -4323,66 +4323,66 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    }
 
    /**
-    * This method is used internally within MPXJ to track tasks which 
+    * This method is used internally within MPXJ to track tasks which
     * are assigned to a particular resource.
-    * 
+    *
     * @param assignment resource assignment instance
     */
    public void addResourceAssignment (ResourceAssignment assignment)
    {
       m_assignments.add(assignment);
    }
-   
+
    /**
-    * Internal method used as part of the process of removing a 
+    * Internal method used as part of the process of removing a
     * resource assignment.
-    * 
+    *
     * @param assignment resource assignment to be removed
     */
    void removeResourceAssignment (ResourceAssignment assignment)
    {
       m_assignments.remove(assignment);
    }
-   
+
    /**
     * Retrieve a list of tasks assigned to this resource. Note that if this
     * project data has been read from an MPX file which declared some or all
-    * of the resources assignments before the tasks and resources to which 
+    * of the resources assignments before the tasks and resources to which
     * the assignments relate, then these assignments may not appear in this
     * list. Caveat emptor!
-    * 
+    *
     * @return list of tasks assigned to this resource
     */
    public List getTaskAssignments ()
    {
       return (m_assignments);
    }
-     
+
    /**
     * Where a resource in an MPP file represents a resource from a subproject,
     * this value will be non-zero. The value itself is the unique ID
     * value shown in the parent project. To retrieve the value of the
     * resource unique ID in the child project, remove the top two bytes:
-    * 
+    *
     * resourceID = (subprojectUniqueID & 0xFFFF)
-    * 
+    *
     * @return sub project unique resource ID
     */
    public Integer getSubprojectResourceUniqueID ()
    {
       return (m_subprojectResourceUniqueID);
    }
-   
+
    /**
     * Sets the sub project unique resource ID.
-    * 
+    *
     * @param subprojectUniqueResourceID subproject unique resource ID
     */
    public void setSubprojectResourceUniqueID (Integer subprojectUniqueResourceID)
    {
       m_subprojectResourceUniqueID = subprojectUniqueResourceID;
    }
-   
+
    /**
     * This method inserts a name value pair into internal storage.
     *
@@ -4416,7 +4416,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    {
       put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
    }
-            
+
    /**
     * This method implements the only method in the Comparable interface.
     * This allows Resources to be compared and sorted based on their ID value.
@@ -4438,8 +4438,8 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];      
-   
+   private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];
+
    /**
     * Resource calendar for this resource.
     */
@@ -4452,9 +4452,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
 
    /**
     * List of all assignments for this resource.
-    */   
+    */
    private List m_assignments = new LinkedList();
-   
+
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither
@@ -4499,7 +4499,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    private Date m_creationDate;
    private boolean m_enterprise;
    private Integer m_subprojectResourceUniqueID;
-   
+
    /**
     * The % Work Complete field contains the current status of all tasks
     * assigned to a resource,
@@ -4761,12 +4761,12 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    public static final int MAX_FIELDS = 52;
 
    private static final int EXTENDED_OFFSET = MAX_FIELDS;
-   
+
    /**
     * Maximum number of extended fields in this record.
     */
    private static final int MAX_EXTENDED_FIELDS = 125;
-   
+
    /**
     * The following constants are used purely to identify custom fields,
     * these field names are NOT written to the MPX file.
@@ -4882,7 +4882,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    public static final int NUMBER18 = EXTENDED_OFFSET + 102;
    public static final int NUMBER19 = EXTENDED_OFFSET + 103;
    public static final int NUMBER20 = EXTENDED_OFFSET + 104;
-   
+
    public static final int DURATION1 = EXTENDED_OFFSET + 105;
    public static final int DURATION2 = EXTENDED_OFFSET + 106;
    public static final int DURATION3 = EXTENDED_OFFSET + 107;
@@ -4904,15 +4904,15 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 122;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 123;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 124;
-   
+
    public static final DataType[] FIELD_TYPES = new DataType [MAX_FIELDS + MAX_EXTENDED_FIELDS];
    static
    {
-      FIELD_TYPES[COST] = DataType.CURRENCY;      
-      FIELD_TYPES[COST_PER_USE] = DataType.CURRENCY;      
+      FIELD_TYPES[COST] = DataType.CURRENCY;
+      FIELD_TYPES[COST_PER_USE] = DataType.CURRENCY;
       FIELD_TYPES[ACTUAL_COST] = DataType.CURRENCY;
-      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;      
-      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;      
+      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;
+      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;
       FIELD_TYPES[BASELINE_COST] = DataType.CURRENCY;
       FIELD_TYPES[COST1] = DataType.CURRENCY;
       FIELD_TYPES[COST2] = DataType.CURRENCY;
@@ -4924,7 +4924,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       FIELD_TYPES[COST8] = DataType.CURRENCY;
       FIELD_TYPES[COST9] = DataType.CURRENCY;
       FIELD_TYPES[COST10] = DataType.CURRENCY;
-      
+
       FIELD_TYPES[START1] = DataType.DATE;
       FIELD_TYPES[START2] = DataType.DATE;
       FIELD_TYPES[START3] = DataType.DATE;
@@ -4946,7 +4946,7 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       FIELD_TYPES[FINISH8] = DataType.DATE;
       FIELD_TYPES[FINISH9] = DataType.DATE;
       FIELD_TYPES[FINISH10] = DataType.DATE;
-      
+
       FIELD_TYPES[DATE1] = DataType.DATE;
       FIELD_TYPES[DATE2] = DataType.DATE;
       FIELD_TYPES[DATE3] = DataType.DATE;
@@ -4956,15 +4956,15 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       FIELD_TYPES[DATE7] = DataType.DATE;
       FIELD_TYPES[DATE8] = DataType.DATE;
       FIELD_TYPES[DATE9] = DataType.DATE;
-      FIELD_TYPES[DATE10] = DataType.DATE;      
-      
-      FIELD_TYPES[MAX_UNITS] = DataType.UNITS;      
-      
-      FIELD_TYPES[PEAK_UNITS] = DataType.PERCENTAGE;      
-      FIELD_TYPES[PERCENT_WORK_COMPLETE] = DataType.PERCENTAGE;      
-      
+      FIELD_TYPES[DATE10] = DataType.DATE;
+
+      FIELD_TYPES[MAX_UNITS] = DataType.UNITS;
+
+      FIELD_TYPES[PEAK_UNITS] = DataType.PERCENTAGE;
+      FIELD_TYPES[PERCENT_WORK_COMPLETE] = DataType.PERCENTAGE;
+
       FIELD_TYPES[ACCRUE_AT] = DataType.ACCRUE;
-      
+
       FIELD_TYPES[WORK] = DataType.DURATION;
       FIELD_TYPES[ACTUAL_WORK] = DataType.DURATION;
       FIELD_TYPES[OVERTIME_WORK] = DataType.DURATION;
@@ -4980,9 +4980,9 @@ public final class Resource extends ProjectEntity implements Comparable, Extende
       FIELD_TYPES[DURATION7] = DataType.DURATION;
       FIELD_TYPES[DURATION8] = DataType.DURATION;
       FIELD_TYPES[DURATION9] = DataType.DURATION;
-      FIELD_TYPES[DURATION10] = DataType.DURATION;      
-      
-      FIELD_TYPES[STANDARD_RATE] = DataType.RATE;      
-      FIELD_TYPES[OVERTIME_RATE] = DataType.RATE;      
-   }         
+      FIELD_TYPES[DURATION10] = DataType.DURATION;
+
+      FIELD_TYPES[STANDARD_RATE] = DataType.RATE;
+      FIELD_TYPES[OVERTIME_RATE] = DataType.RATE;
+   }
 }

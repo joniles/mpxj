@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       May 23, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -30,47 +30,47 @@ public final class SubProject
 {
    /**
     * Retrieves the DOS file name.
-    * 
+    *
     * @return DOS file name
     */
    public String getDosFileName()
    {
       return (m_dosFileName);
    }
-   
+
    /**
     * Sets the DOS file name.
-    * 
+    *
     * @param dosFileName DOS file name
     */
    public void setDosFileName (String dosFileName)
    {
-      m_dosFileName = dosFileName;      
+      m_dosFileName = dosFileName;
    }
-   
+
    /**
     * Retrieves the DOS full path.
-    * 
+    *
     * @return DOS full path
     */
    public String getDosFullPath()
    {
       return (m_dosFullPath);
    }
-   
+
    /**
     * Sets the DOS full path.
-    * 
+    *
     * @param dosFullPath DOS full path
     */
    public void setDosFullPath (String dosFullPath)
    {
       m_dosFullPath = dosFullPath;
    }
-   
+
    /**
     * Retrieve the file name.
-    * 
+    *
     * @return file name
     */
    public String getFileName()
@@ -80,17 +80,17 @@ public final class SubProject
 
    /**
     * Sets the file name.
-    * 
+    *
     * @param fileName file name
     */
    public void setFileName (String fileName)
    {
       m_fileName = fileName;
    }
-   
+
    /**
     * Retrieve the full path.
-    * 
+    *
     * @return full path
     */
    public String getFullPath()
@@ -100,18 +100,18 @@ public final class SubProject
 
    /**
     * Sets the full path.
-    * 
+    *
     * @param fullPath full path
     */
    public void setFullPath (String fullPath)
    {
       m_fullPath = fullPath;
    }
-   
+
    /**
     * Retrieve the unique ID of the task to which this subproject
     * relates.
-    * 
+    *
     * @return task Unique ID
     */
    public Integer getUniqueID()
@@ -121,14 +121,14 @@ public final class SubProject
 
    /**
     * Set the unique ID.
-    * 
+    *
     * @param uniqueID unique ID
     */
    public void setUniqueID (Integer uniqueID)
    {
       m_uniqueID = uniqueID;
    }
-      
+
    /**
     * {@inheritDoc}
     */
@@ -136,7 +136,7 @@ public final class SubProject
    {
       return ("[SubProject uniqueID=" + m_uniqueID + " path="+m_fullPath+"]");
    }
-   
+
    private Integer m_uniqueID;
    private String m_dosFullPath;
    private String m_fullPath;

@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 21, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -50,7 +50,7 @@ public abstract class AbstractProjectReader implements ProjectReader
          fis.close();
          return (projectFile);
       }
-   
+
       catch (IOException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
@@ -59,7 +59,7 @@ public abstract class AbstractProjectReader implements ProjectReader
 
    /**
     * {@inheritDoc}
-    */   
+    */
    public ProjectFile read (File file)
       throws MPXJException
    {
@@ -70,10 +70,10 @@ public abstract class AbstractProjectReader implements ProjectReader
          fis.close();
          return (projectFile);
       }
-   
+
       catch (IOException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
-   }   
+   }
 }

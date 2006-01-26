@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Apr 7, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -50,14 +50,14 @@ class DefaultViewFactory implements ViewFactory
             view = new GanttChartView9 (file, fixedData, varData, fontBases);
             break;
          }
-         
+
          default:
          {
             view = new View9 (fixedData);
             break;
          }
       }
-      
+
       return (view);
    }
 }

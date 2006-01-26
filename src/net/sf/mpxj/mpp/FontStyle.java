@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       May 24, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -31,7 +31,7 @@ public class FontStyle
 {
    /**
     * Constructor.
-    * 
+    *
     * @param fontBase font base instance
     * @param italic italic flag
     * @param bold bold flag
@@ -49,54 +49,54 @@ public class FontStyle
 
    /**
     * Retrieve the font base instance.
-    * 
+    *
     * @return font base instance
     */
    public FontBase getFontBase()
    {
       return (m_fontBase);
    }
-   
+
    /**
     * Retrieve the bold flag.
-    * 
+    *
     * @return bold flag
     */
    public boolean getBold()
    {
       return (m_bold);
    }
-   
+
    /**
     * Retrieve the font color.
-    * 
+    *
     * @return font color
     */
    public ColorType getColor()
    {
       return (m_color);
    }
-   
+
    /**
     * Retrieve the italic flag.
-    * 
+    *
     * @return italic flag
     */
    public boolean getItalic()
    {
       return (m_italic);
    }
-   
+
    /**
     * Retrieve the underline flag.
-    * 
+    *
     * @return underline flag
     */
    public boolean getUnderline()
    {
       return (m_underline);
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -104,7 +104,7 @@ public class FontStyle
    {
       return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + "]");
    }
-   
+
    private FontBase m_fontBase;
    private boolean m_italic;
    private boolean m_bold;

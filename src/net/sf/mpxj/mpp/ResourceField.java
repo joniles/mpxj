@@ -35,7 +35,7 @@ public final class ResourceField implements FieldType
 {
    /**
     * Private constructor.
-    * 
+    *
     * @param value task field value
     */
    private ResourceField (int value)
@@ -55,18 +55,18 @@ public final class ResourceField implements FieldType
     * {@inheritDoc}
     */
    public String getName (Locale locale)
-   {      
+   {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.RESOURCE_COLUMNS);
       String result = null;
-      
+
       if (m_value >= 0 && m_value < titles.length)
       {
          result = titles[m_value];
       }
-      
+
       return (result);
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -74,36 +74,36 @@ public final class ResourceField implements FieldType
    {
       return (m_value);
    }
-   
+
    /**
     * Retrieve an instance of this class based on the data read from an
     * MS Project file.
-    * 
+    *
     * @param value value from an MS Project file
     * @return instance of this class
-    */   
+    */
    public static ResourceField getInstance (int value)
    {
       ResourceField result = null;
-      
+
       if (value >=0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Retrieves the string representation of this instance.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
    {
       return (getName());
    }
-   
+
    public static final int ID_VALUE = 0;
    public static final int NAME_VALUE = 1;
    public static final int INITIALS_VALUE = 2;
@@ -513,9 +513,9 @@ public final class ResourceField implements FieldType
    public static final ResourceField VAC = new ResourceField(VAC_VALUE);
    public static final ResourceField GROUP_BY_SUMMARY = new ResourceField(GROUP_BY_SUMMARY_VALUE);
    public static final ResourceField WINDOWS_USER_ACCOUNT = new ResourceField(WINDOWS_USER_ACCOUNT_VALUE);
-   
+
    private static final ResourceField[] FIELD_ARRAY = new ResourceField[312];
-   
+
    static
    {
       FIELD_ARRAY[ID_VALUE] = ID;
@@ -721,8 +721,8 @@ public final class ResourceField implements FieldType
       FIELD_ARRAY[TYPE_VALUE] = TYPE;
       FIELD_ARRAY[VAC_VALUE] = VAC;
       FIELD_ARRAY[GROUP_BY_SUMMARY_VALUE] = GROUP_BY_SUMMARY;
-      FIELD_ARRAY[WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT;      
+      FIELD_ARRAY[WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT;
    }
-   
+
    private int m_value;
 }

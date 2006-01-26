@@ -62,7 +62,7 @@ public final class Priority
    public static Priority getInstance (int priority)
    {
       Priority result;
-      
+
       if (priority >= LOWEST && priority <= DO_NOT_LEVEL && (priority % 100 == 0))
       {
          result = VALUE[(priority/100)-1];
@@ -71,7 +71,7 @@ public final class Priority
       {
          result = new Priority(priority);
       }
-      
+
       return (result);
    }
 

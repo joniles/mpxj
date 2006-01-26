@@ -27,6 +27,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 
@@ -125,7 +126,7 @@ public final class Table
     *
     * @return list of columns
     */
-   public ArrayList getColumns ()
+   public List getColumns ()
    {
       return (m_columns);
    }

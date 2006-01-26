@@ -69,10 +69,10 @@ public final class MpxjConvert
          ex.printStackTrace(System.out);
       }
    }
-   
+
    /**
     * Convert one project file format to another.
-    * 
+    *
     * @param inputFile input file
     * @param outputFile output file
     * @throws Exception
@@ -81,23 +81,23 @@ public final class MpxjConvert
       throws Exception
    {
       System.out.println ("Reading input file started.");
-      long start = System.currentTimeMillis();            
-      ProjectReader reader = getReaderObject(inputFile);      
+      long start = System.currentTimeMillis();
+      ProjectReader reader = getReaderObject(inputFile);
       ProjectFile projectFile = reader.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println ("Reading input file completed in " + elapsed + "ms.");
 
       System.out.println ("Writing output file started.");
-      start = System.currentTimeMillis();                        
+      start = System.currentTimeMillis();
       ProjectWriter writer = getWriterObject(outputFile);
       writer.write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
-      System.out.println ("Writing output completed in " + elapsed + "ms.");                  
+      System.out.println ("Writing output completed in " + elapsed + "ms.");
    }
-   
+
    /**
     * Create a ProjectReader instance of the appropriate type.
-    * 
+    *
     * @param name file name
     * @return ProjectReader instance
     * @throws Exception
@@ -110,23 +110,23 @@ public final class MpxjConvert
       {
          throw new Exception ("Filename has no extension: " + name);
       }
-      
+
       String extension = name.substring(index+1).toUpperCase();
-      
+
       Class fileClass = (Class)READER_MAP.get(extension);
       if (fileClass == null)
       {
-         throw new Exception ("Cannot read files of type: " + name);         
+         throw new Exception ("Cannot read files of type: " + name);
       }
-      
+
       ProjectReader file = (ProjectReader)fileClass.newInstance();
-      
+
       return (file);
    }
 
    /**
     * Create a ProjectWriter instance of the appropriate type.
-    * 
+    *
     * @param name file name
     * @return ProjectWriter instance
     * @throws Exception
@@ -139,34 +139,34 @@ public final class MpxjConvert
       {
          throw new Exception ("Filename has no extension: " + name);
       }
-      
+
       String extension = name.substring(index+1).toUpperCase();
-      
+
       Class fileClass = (Class)WRITER_MAP.get(extension);
       if (fileClass == null)
       {
-         throw new Exception ("Cannot write files of type: " + name);         
+         throw new Exception ("Cannot write files of type: " + name);
       }
-      
+
       ProjectWriter file = (ProjectWriter)fileClass.newInstance();
-      
+
       return (file);
    }
-   
+
    private static final Map READER_MAP = new HashMap ();
    static
    {
       READER_MAP.put("MPP", MPPReader.class);
       READER_MAP.put("MPT", MPPReader.class);
-      READER_MAP.put("MPX", MPXReader.class);      
-      READER_MAP.put("XML", MSPDIReader.class);      
+      READER_MAP.put("MPX", MPXReader.class);
+      READER_MAP.put("XML", MSPDIReader.class);
    }
 
    private static final Map WRITER_MAP = new HashMap ();
    static
    {
-      WRITER_MAP.put("MPX", MPXWriter.class);      
-      WRITER_MAP.put("XML", MSPDIWriter.class);      
-   }   
+      WRITER_MAP.put("MPX", MPXWriter.class);
+      WRITER_MAP.put("XML", MSPDIWriter.class);
+   }
 }
 

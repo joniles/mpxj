@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 5, 2005
  */
- 
+
 package net.sf.mpxj.junit;
 
 import java.util.Iterator;
@@ -21,12 +21,12 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * The purpose of this class is to allow the contents of an MSPDI file
  * to be compared to the contents of an MPP file.
- * 
+ *
  * The anticipated use of this functionality is to ensure that where we have
  * an example MPP file, we can generate an MSPDI file from it using the
  * most recent version of MS Project, then we can ensure that we get
  * consistent data from both files when they are compared.
- * 
+ *
  * This is designed to be used as part of the regression testing suite.
  */
 public final class MppXmlCompare
@@ -42,26 +42,26 @@ public final class MppXmlCompare
       m_xml = xml;
       m_mpp = mpp;
 
-      //compareHeaders      
-      compareResources();      
+      //compareHeaders
+      compareResources();
       compareTasks();
       //compareAssignments
    }
 
    /**
     * Compares sets of tasks between files.
-    * 
+    *
     * @throws Exception
     */
    private void compareTasks ()
       throws Exception
-   {      
+   {
       List xmlTasks = m_xml.getAllTasks();
-      
+
       // won't always match - tasks with blank names not preserved?
       //List mppTasks = m_mpp.getAllTasks();
       //assertEquals(xmlTasks.size(), mppTasks.size());
-      
+
       for (Iterator iter = xmlTasks.iterator(); iter.hasNext(); )
       {
          Task xmlTask = (Task)iter.next();
@@ -71,13 +71,13 @@ public final class MppXmlCompare
          {
             continue;
          }
-         
+
          // tasks with null names not read?
          if (xmlTask.getName() == null)
          {
             continue;
          }
-         
+
          Task mppTask = m_mpp.getTaskByUniqueID(xmlTask.getUniqueID());
          assertNotNull("Missing task " + xmlTask.getName() + " (Unique ID= " + xmlTask.getUniqueID() + ")", mppTask);
 
@@ -89,18 +89,18 @@ public final class MppXmlCompare
          assertEquals(xmlTask.getActualFinish(), mppTask.getActualFinish());
          assertEquals(xmlTask.getActualOvertimeCost(), mppTask.getActualOvertimeCost());
          assertEquals(xmlTask.getActualOvertimeWork(), mppTask.getActualOvertimeWork());
-         assertEquals(xmlTask.getActualStart(), mppTask.getActualStart());         
-         assertEquals(xmlTask.getActualWork(), mppTask.getActualWork());                  
+         assertEquals(xmlTask.getActualStart(), mppTask.getActualStart());
+         assertEquals(xmlTask.getActualWork(), mppTask.getActualWork());
          // Baselines not currently read from MSPDI files
          //assertEquals(xmlTask.getBaselineCost(), mppTask.getBaselineCost());
          //assertEquals(xmlTask.getBaselineDuration(), mppTask.getBaselineDuration());
          //assertEquals(xmlTask.getBaselineFinish(), mppTask.getBaselineFinish());
-         //assertEquals(xmlTask.getBaselineStart(), mppTask.getBaselineStart());         
-         //assertEquals(xmlTask.getBaselineWork(), mppTask.getBaselineWork());         
+         //assertEquals(xmlTask.getBaselineStart(), mppTask.getBaselineStart());
+         //assertEquals(xmlTask.getBaselineWork(), mppTask.getBaselineWork());
          assertEquals(xmlTask.getConstraintDate(), mppTask.getConstraintDate());
          assertEquals(xmlTask.getConstraintType(), mppTask.getConstraintType());
          assertEquals(xmlTask.getContact(), mppTask.getContact());
-         assertEquals(xmlTask.getCost(), mppTask.getCost());                  
+         assertEquals(xmlTask.getCost(), mppTask.getCost());
          assertEquals(xmlTask.getCost1(), mppTask.getCost1());
          assertEquals(xmlTask.getCost2(), mppTask.getCost2());
          assertEquals(xmlTask.getCost3(), mppTask.getCost3());
@@ -134,13 +134,13 @@ public final class MppXmlCompare
          assertEquals(xmlTask.getDuration8(), mppTask.getDuration8());
          assertEquals(xmlTask.getDuration9(), mppTask.getDuration9());
          assertEquals(xmlTask.getDuration10(), mppTask.getDuration10());
-         assertEquals(xmlTask.getEarlyFinish(), mppTask.getEarlyFinish());         
+         assertEquals(xmlTask.getEarlyFinish(), mppTask.getEarlyFinish());
          assertEquals(xmlTask.getEarlyStart(), mppTask.getEarlyStart());
-         assertEquals(xmlTask.getEffortDriven(), mppTask.getEffortDriven());         
+         assertEquals(xmlTask.getEffortDriven(), mppTask.getEffortDriven());
          assertEquals(xmlTask.getEstimated(), mppTask.getEstimated());
          // check
          //assertEquals(xmlTask.getExpanded(), mppTask.getExpanded());
-         assertEquals(xmlTask.getFinish(), mppTask.getFinish());         
+         assertEquals(xmlTask.getFinish(), mppTask.getFinish());
          assertEquals(xmlTask.getFinish1(), mppTask.getFinish1());
          assertEquals(xmlTask.getFinish2(), mppTask.getFinish2());
          assertEquals(xmlTask.getFinish3(), mppTask.getFinish3());
@@ -172,22 +172,22 @@ public final class MppXmlCompare
          assertEquals(xmlTask.getFlag17(), mppTask.getFlag17());
          assertEquals(xmlTask.getFlag18(), mppTask.getFlag18());
          assertEquals(xmlTask.getFlag19(), mppTask.getFlag19());
-         assertEquals(xmlTask.getFlag20(), mppTask.getFlag20());         
+         assertEquals(xmlTask.getFlag20(), mppTask.getFlag20());
          assertEquals(xmlTask.getHideBar(), mppTask.getHideBar());
          assertEquals(xmlTask.getHyperlink(), mppTask.getHyperlink());
          assertEquals(xmlTask.getHyperlinkAddress(), mppTask.getHyperlinkAddress());
          assertEquals(xmlTask.getHyperlinkSubAddress(), mppTask.getHyperlinkSubAddress());
          // check this
-         //assertEquals(xmlTask.getID(), mppTask.getID());                  
+         //assertEquals(xmlTask.getID(), mppTask.getID());
          // must check
          //assertEquals(xmlTask.getLateFinish(), mppTask.getLateFinish());
          assertEquals(xmlTask.getLateStart(), mppTask.getLateStart());
-         assertEquals(xmlTask.getLevelAssignments(), mppTask.getLevelAssignments());         
+         assertEquals(xmlTask.getLevelAssignments(), mppTask.getLevelAssignments());
          assertEquals(xmlTask.getLevelingCanSplit(), mppTask.getLevelingCanSplit());
-         assertEquals(xmlTask.getLevelingDelay(), mppTask.getLevelingDelay());         
-         assertEquals(xmlTask.getMarked(), mppTask.getMarked());         
-         assertEquals(xmlTask.getMilestone(), mppTask.getMilestone());                  
-         assertEquals(xmlTask.getName(), mppTask.getName()); 
+         assertEquals(xmlTask.getLevelingDelay(), mppTask.getLevelingDelay());
+         assertEquals(xmlTask.getMarked(), mppTask.getMarked());
+         assertEquals(xmlTask.getMilestone(), mppTask.getMilestone());
+         assertEquals(xmlTask.getName(), mppTask.getName());
          assertEquals(xmlTask.getNumber1(), mppTask.getNumber1());
          assertEquals(xmlTask.getNumber2(), mppTask.getNumber2());
          assertEquals(xmlTask.getNumber3(), mppTask.getNumber3());
@@ -217,22 +217,22 @@ public final class MppXmlCompare
          assertEquals(xmlTask.getOutlineCode7(), mppTask.getOutlineCode7());
          assertEquals(xmlTask.getOutlineCode8(), mppTask.getOutlineCode8());
          assertEquals(xmlTask.getOutlineCode9(), mppTask.getOutlineCode9());
-         assertEquals(xmlTask.getOutlineCode10(), mppTask.getOutlineCode10());         
-         assertEquals(xmlTask.getOutlineLevel(), mppTask.getOutlineLevel());                  
+         assertEquals(xmlTask.getOutlineCode10(), mppTask.getOutlineCode10());
+         assertEquals(xmlTask.getOutlineLevel(), mppTask.getOutlineLevel());
          assertEquals(xmlTask.getOvertimeCost(), mppTask.getOvertimeCost());
          assertEquals(xmlTask.getPercentageComplete(), mppTask.getPercentageComplete());
          assertEquals(xmlTask.getPercentageWorkComplete(), mppTask.getPercentageWorkComplete());
          assertEquals(xmlTask.getPreleveledFinish(), mppTask.getPreleveledFinish());
          assertEquals(xmlTask.getPreleveledStart(), mppTask.getPreleveledStart());
-         assertEquals(xmlTask.getPriority(), mppTask.getPriority());         
+         assertEquals(xmlTask.getPriority(), mppTask.getPriority());
          assertEquals(xmlTask.getRemainingCost(), mppTask.getRemainingCost());
          assertEquals(xmlTask.getRemainingDuration(), mppTask.getRemainingDuration());
-         assertEquals(xmlTask.getRemainingOvertimeCost(), mppTask.getRemainingOvertimeCost()); 
-         assertEquals(xmlTask.getRemainingOvertimeWork(), mppTask.getRemainingOvertimeWork());          
-         assertEquals(xmlTask.getRemainingWork(), mppTask.getRemainingWork());                            
+         assertEquals(xmlTask.getRemainingOvertimeCost(), mppTask.getRemainingOvertimeCost());
+         assertEquals(xmlTask.getRemainingOvertimeWork(), mppTask.getRemainingOvertimeWork());
+         assertEquals(xmlTask.getRemainingWork(), mppTask.getRemainingWork());
          assertEquals(xmlTask.getResume(), mppTask.getResume());
          assertEquals(xmlTask.getRollup(), mppTask.getRollup());
-         assertEquals(xmlTask.getStart(), mppTask.getStart());            
+         assertEquals(xmlTask.getStart(), mppTask.getStart());
          assertEquals(xmlTask.getStart1(), mppTask.getStart1());
          assertEquals(xmlTask.getStart2(), mppTask.getStart2());
          assertEquals(xmlTask.getStart3(), mppTask.getStart3());
@@ -245,7 +245,7 @@ public final class MppXmlCompare
          assertEquals(xmlTask.getStart10(), mppTask.getStart10());
          assertEquals(xmlTask.getStop(), mppTask.getStop());
          // Subprojects not implemented in XML
-         //assertEquals(xmlTask.getSubprojectTaskUniqueID(), mppTask.getSubprojectTaskUniqueID());                  
+         //assertEquals(xmlTask.getSubprojectTaskUniqueID(), mppTask.getSubprojectTaskUniqueID());
          assertEquals(xmlTask.getText1(), mppTask.getText1());
          assertEquals(xmlTask.getText2(), mppTask.getText2());
          assertEquals(xmlTask.getText3(), mppTask.getText3());
@@ -275,63 +275,63 @@ public final class MppXmlCompare
          assertEquals(xmlTask.getText27(), mppTask.getText27());
          assertEquals(xmlTask.getText28(), mppTask.getText28());
          assertEquals(xmlTask.getText29(), mppTask.getText29());
-         assertEquals(xmlTask.getText30(), mppTask.getText30());         
-         assertEquals(xmlTask.getType(), mppTask.getType());         
+         assertEquals(xmlTask.getText30(), mppTask.getText30());
+         assertEquals(xmlTask.getType(), mppTask.getType());
          //assertEquals(xmlTask.getWBS(), mppTask.getWBS());
          assertEquals(xmlTask.getWork(), mppTask.getWork());
-                  
-         assertEquals(xmlTask.getFixed(), mppTask.getFixed()); 
+
+         assertEquals(xmlTask.getFixed(), mppTask.getFixed());
          //assertEquals(xmlTask.getNotes().trim(), mppTask.getNotes().trim());
          //assertEquals(xmlTask.getCostVariance(), mppTask.getCostVariance());
          //assertEquals(xmlTask.getCalendar().getName(), mppTask.getCalendar().getName());
-         //assertEquals(xmlTask.getSubproject(), mppTask.getSubproject());         
-      }      
+         //assertEquals(xmlTask.getSubproject(), mppTask.getSubproject());
+      }
    }
 
    /**
     * Compares sets of resources between files.
-    * 
+    *
     * @throws Exception
-    */   
+    */
    private void compareResources ()
       throws Exception
    {
       List xmlResources = m_xml.getAllResources();
       //List mppResources = m_mpp.getAllResources();
       //assertEquals(xmlResources.size(), mppResources.size());
-      
+
       for (Iterator iter = xmlResources.iterator(); iter.hasNext(); )
       {
          Resource xmlResource = (Resource)iter.next();
-         
+
          // too much variability
          if (NumberUtility.getInt(xmlResource.getUniqueID()) == 0)
          {
             continue;
          }
-         
+
          // tasks with null names not read?
          if (xmlResource.getName() == null)
          {
             continue;
          }
-         
+
          Resource mppResource = m_mpp.getResourceByUniqueID(xmlResource.getUniqueID());
          assertNotNull("Missing resource " + xmlResource.getName(), mppResource);
-   
+
 
          assertEquals(xmlResource.getAccrueAt(), mppResource.getAccrueAt());
-         
+
          // check this failure
-         //assertEquals(xmlResource.getActualCost(), mppResource.getActualCost());         
-         assertEquals(xmlResource.getActualOvertimeCost(), mppResource.getActualOvertimeCost());         
-         assertEquals(xmlResource.getActualWork(), mppResource.getActualWork());         
+         //assertEquals(xmlResource.getActualCost(), mppResource.getActualCost());
+         assertEquals(xmlResource.getActualOvertimeCost(), mppResource.getActualOvertimeCost());
+         assertEquals(xmlResource.getActualWork(), mppResource.getActualWork());
          assertEquals(xmlResource.getAvailableFrom(), mppResource.getAvailableFrom());
-         assertEquals(xmlResource.getAvailableTo(), mppResource.getAvailableTo());         
-         //assertEquals(xmlResource.getBaselineCost(), mppResource.getBaselineCost());                  
-         //assertEquals(xmlResource.getBaselineWork(), mppResource.getBaselineWork());                  
+         assertEquals(xmlResource.getAvailableTo(), mppResource.getAvailableTo());
+         //assertEquals(xmlResource.getBaselineCost(), mppResource.getBaselineCost());
+         //assertEquals(xmlResource.getBaselineWork(), mppResource.getBaselineWork());
          assertEquals(xmlResource.getCode(), mppResource.getCode());
-         
+
          // check this failure
          //assertEquals(xmlResource.getCost(), mppResource.getCost());
          assertEquals(xmlResource.getCost1(), mppResource.getCost1());
@@ -343,8 +343,8 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getCost7(), mppResource.getCost7());
          assertEquals(xmlResource.getCost8(), mppResource.getCost8());
          assertEquals(xmlResource.getCost9(), mppResource.getCost9());
-         assertEquals(xmlResource.getCost10(), mppResource.getCost10());                  
-         assertEquals(xmlResource.getCostPerUse(), mppResource.getCostPerUse());         
+         assertEquals(xmlResource.getCost10(), mppResource.getCost10());
+         assertEquals(xmlResource.getCostPerUse(), mppResource.getCostPerUse());
          assertEquals(xmlResource.getDate1(), mppResource.getDate1());
          assertEquals(xmlResource.getDate2(), mppResource.getDate2());
          assertEquals(xmlResource.getDate3(), mppResource.getDate3());
@@ -365,7 +365,7 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getDuration8(), mppResource.getDuration8());
          assertEquals(xmlResource.getDuration9(), mppResource.getDuration9());
          assertEquals(xmlResource.getDuration10(), mppResource.getDuration10());
-         assertEquals(xmlResource.getEmailAddress(), mppResource.getEmailAddress());         
+         assertEquals(xmlResource.getEmailAddress(), mppResource.getEmailAddress());
          assertEquals(xmlResource.getFinish1(), mppResource.getFinish1());
          assertEquals(xmlResource.getFinish2(), mppResource.getFinish2());
          assertEquals(xmlResource.getFinish3(), mppResource.getFinish3());
@@ -375,14 +375,14 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getFinish7(), mppResource.getFinish7());
          assertEquals(xmlResource.getFinish8(), mppResource.getFinish8());
          assertEquals(xmlResource.getFinish9(), mppResource.getFinish9());
-         assertEquals(xmlResource.getFinish10(), mppResource.getFinish10());         
+         assertEquals(xmlResource.getFinish10(), mppResource.getFinish10());
          assertEquals(xmlResource.getGroup(), mppResource.getGroup());
          // check this failure
-         //assertEquals(xmlResource.getID(), mppResource.getID());         
-         assertEquals(xmlResource.getInitials(), mppResource.getInitials());         
+         //assertEquals(xmlResource.getID(), mppResource.getID());
+         assertEquals(xmlResource.getInitials(), mppResource.getInitials());
          // check this failure
-         //assertEquals(xmlResource.getMaxUnits(), mppResource.getMaxUnits());         
-         assertEquals(xmlResource.getName(), mppResource.getName());         
+         //assertEquals(xmlResource.getMaxUnits(), mppResource.getMaxUnits());
+         assertEquals(xmlResource.getName(), mppResource.getName());
          assertEquals(xmlResource.getNumber1(), mppResource.getNumber1());
          assertEquals(xmlResource.getNumber2(), mppResource.getNumber2());
          assertEquals(xmlResource.getNumber3(), mppResource.getNumber3());
@@ -402,7 +402,7 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getNumber17(), mppResource.getNumber17());
          assertEquals(xmlResource.getNumber18(), mppResource.getNumber18());
          assertEquals(xmlResource.getNumber19(), mppResource.getNumber19());
-         assertEquals(xmlResource.getNumber20(), mppResource.getNumber20());      
+         assertEquals(xmlResource.getNumber20(), mppResource.getNumber20());
          assertEquals(xmlResource.getOutlineCode1(), mppResource.getOutlineCode1());
          assertEquals(xmlResource.getOutlineCode2(), mppResource.getOutlineCode2());
          assertEquals(xmlResource.getOutlineCode3(), mppResource.getOutlineCode3());
@@ -412,18 +412,18 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getOutlineCode7(), mppResource.getOutlineCode7());
          assertEquals(xmlResource.getOutlineCode8(), mppResource.getOutlineCode8());
          assertEquals(xmlResource.getOutlineCode9(), mppResource.getOutlineCode9());
-         assertEquals(xmlResource.getOutlineCode10(), mppResource.getOutlineCode10());         
-         assertEquals(xmlResource.getOvertimeCost(), mppResource.getOvertimeCost());         
-         assertEquals(xmlResource.getOvertimeRate(), mppResource.getOvertimeRate());                  
-         assertEquals(xmlResource.getOvertimeWork(), mppResource.getOvertimeWork());                           
+         assertEquals(xmlResource.getOutlineCode10(), mppResource.getOutlineCode10());
+         assertEquals(xmlResource.getOvertimeCost(), mppResource.getOvertimeCost());
+         assertEquals(xmlResource.getOvertimeRate(), mppResource.getOvertimeRate());
+         assertEquals(xmlResource.getOvertimeWork(), mppResource.getOvertimeWork());
          // Check this failure
-         //assertEquals(xmlResource.getPeakUnits(), mppResource.getPeakUnits());                                    
+         //assertEquals(xmlResource.getPeakUnits(), mppResource.getPeakUnits());
          assertEquals(xmlResource.getRegularWork(), mppResource.getRegularWork());
-         
+
          // Check this failure
-         //assertEquals(xmlResource.getRemainingCost(), mppResource.getRemainingCost());                  
-         assertEquals(xmlResource.getRemainingOvertimeCost(), mppResource.getRemainingOvertimeCost());                  
-         assertEquals(xmlResource.getRemainingWork(), mppResource.getRemainingWork());                  
+         //assertEquals(xmlResource.getRemainingCost(), mppResource.getRemainingCost());
+         assertEquals(xmlResource.getRemainingOvertimeCost(), mppResource.getRemainingOvertimeCost());
+         assertEquals(xmlResource.getRemainingWork(), mppResource.getRemainingWork());
          assertEquals(xmlResource.getStandardRate(), mppResource.getStandardRate());
          assertEquals(xmlResource.getStart1(), mppResource.getStart1());
          assertEquals(xmlResource.getStart2(), mppResource.getStart2());
@@ -434,8 +434,8 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getStart7(), mppResource.getStart7());
          assertEquals(xmlResource.getStart8(), mppResource.getStart8());
          assertEquals(xmlResource.getStart9(), mppResource.getStart9());
-         assertEquals(xmlResource.getStart10(), mppResource.getStart10());         
-         //assertEquals(xmlResource.getSubprojectResourceUniqueID(), mppResource.getSubprojectResourceUniqueID());         
+         assertEquals(xmlResource.getStart10(), mppResource.getStart10());
+         //assertEquals(xmlResource.getSubprojectResourceUniqueID(), mppResource.getSubprojectResourceUniqueID());
          assertEquals(xmlResource.getText1(), mppResource.getText1());
          assertEquals(xmlResource.getText2(), mppResource.getText2());
          assertEquals(xmlResource.getText3(), mppResource.getText3());
@@ -455,7 +455,7 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getText17(), mppResource.getText17());
          assertEquals(xmlResource.getText18(), mppResource.getText18());
          assertEquals(xmlResource.getText19(), mppResource.getText19());
-         assertEquals(xmlResource.getText20(), mppResource.getText20());         
+         assertEquals(xmlResource.getText20(), mppResource.getText20());
          assertEquals(xmlResource.getText21(), mppResource.getText21());
          assertEquals(xmlResource.getText22(), mppResource.getText22());
          assertEquals(xmlResource.getText23(), mppResource.getText23());
@@ -467,8 +467,8 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getText29(), mppResource.getText29());
          assertEquals(xmlResource.getText30(), mppResource.getText30());
          // Check this failure
-         //assertEquals(xmlResource.getType(), mppResource.getType());         
-         assertEquals(xmlResource.getWork(), mppResource.getWork());                  
+         //assertEquals(xmlResource.getType(), mppResource.getType());
+         assertEquals(xmlResource.getWork(), mppResource.getWork());
          assertEquals(xmlResource.getFlag1(), mppResource.getFlag1());
          assertEquals(xmlResource.getFlag2(), mppResource.getFlag2());
          assertEquals(xmlResource.getFlag3(), mppResource.getFlag3());
@@ -488,22 +488,22 @@ public final class MppXmlCompare
          assertEquals(xmlResource.getFlag17(), mppResource.getFlag17());
          assertEquals(xmlResource.getFlag18(), mppResource.getFlag18());
          assertEquals(xmlResource.getFlag19(), mppResource.getFlag19());
-         assertEquals(xmlResource.getFlag20(), mppResource.getFlag20());         
-         assertEquals(xmlResource.getNotes().trim(), mppResource.getNotes().trim());         
+         assertEquals(xmlResource.getFlag20(), mppResource.getFlag20());
+         assertEquals(xmlResource.getNotes().trim(), mppResource.getNotes().trim());
          // check this failure
          //assertEquals(xmlResource.getCostVariance(), mppResource.getCostVariance());
          //assertEquals(xmlResource.getWorkVariance(), mppResource.getWorkVariance());
-      }      
+      }
    }
-   
+
    /**
     * Not null assertion.
-    * 
+    *
     * @param message failure message
     * @param object test parameter
     * @throws Exception
     */
-   private void assertNotNull(String message, Object object) 
+   private void assertNotNull(String message, Object object)
       throws Exception
    {
       if (object == null)
@@ -514,86 +514,86 @@ public final class MppXmlCompare
 
    /**
     * Equality assertion, derived from JUnit.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(Object expected, Object actual) 
+   private void assertEquals(Object expected, Object actual)
       throws Exception
-   {   
+   {
        if (expected == null && actual == null)
        {
            return;
        }
-       
+
        if (expected != null && expected.equals(actual))
        {
            return;
        }
-       
+
        throw new Exception ("Expected: " + expected + " Found: " + actual);
    }
 
    /**
-    * String equality assertion, allowing equivalence between null and empty 
+    * String equality assertion, allowing equivalence between null and empty
     * strings.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
-    */   
-   private void assertEquals(String expected, String actual) 
+    */
+   private void assertEquals(String expected, String actual)
       throws Exception
-   {   
+   {
        if (expected != null && expected.trim().length() == 0)
        {
            expected = null;
        }
-       
+
        if (actual != null && actual.trim().length() == 0)
        {
            actual = null;
        }
-       
+
        assertEquals((Object)expected, (Object)actual);
    }
-   
+
    /**
     * Equality assertion.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
-    */   
-   private void assertEquals(boolean expected, boolean actual) 
+    */
+   private void assertEquals(boolean expected, boolean actual)
       throws Exception
-   {   
+   {
       if (expected != actual)
-      {   
+      {
          throw new Exception ("Expected: " + expected + " Found: " + actual);
       }
    }
-   
+
    /**
     * Equality assertion, with delta allowance, derived from JUnit.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @param delta delta allowance
     * @throws Exception
     */
-   private void assertEquals(double expected, double actual, double delta) 
+   private void assertEquals(double expected, double actual, double delta)
       throws Exception
    {
-      if (Double.isInfinite(expected)) 
+      if (Double.isInfinite(expected))
       {
          if (!(expected == actual))
          {
             throw new Exception ("Expected: " + expected + " Found: " + actual);
          }
-      } 
-      else 
+      }
+      else
       {
          if (!(Math.abs(expected-actual) <= delta))
          {
@@ -601,14 +601,14 @@ public final class MppXmlCompare
          }
       }
    }
-   
+
    /**
     * Boolean equality assertion, allows null to be equated to false.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
-    */      
+    */
    private void assertEquals(Boolean expected, Boolean actual)
       throws Exception
    {
@@ -622,24 +622,24 @@ public final class MppXmlCompare
          {
             actual = null;
          }
-         
+
          if (expected != null && expected.booleanValue() == false)
          {
             expected = null;
          }
-         
-         assertEquals((Object)expected, (Object)actual);            
+
+         assertEquals((Object)expected, (Object)actual);
       }
    }
-   
+
    /**
     * Numeric equality assertion, allows null to be equated to zero.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
-    */         
-   private void assertEquals(Number expected, Number actual) 
+    */
+   private void assertEquals(Number expected, Number actual)
       throws Exception
    {
       if (expected != null || actual != null)
@@ -654,24 +654,24 @@ public final class MppXmlCompare
             {
                actual = null;
             }
-            
+
             if (expected != null && expected.doubleValue() == 0)
             {
                expected = null;
             }
-            
+
             assertEquals((Object)expected, (Object)actual);
          }
       }
    }
-   
+
    /**
     * Duration equality assertion.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
-    */            
+    */
    private void assertEquals(Duration expected, Duration actual)
       throws Exception
    {
@@ -685,7 +685,7 @@ public final class MppXmlCompare
                {
                   actual = actual.convertUnits(expected.getUnits(), m_mpp.getProjectHeader());
                }
-               
+
                assertEquals(expected.getDuration(), actual.getDuration(), 0.99);
             }
          }
@@ -702,11 +702,11 @@ public final class MppXmlCompare
 
    /**
     * Rate equality assertion.
-    * 
+    *
     * @param expected expected value
     * @param actual actual value
     * @throws Exception
-    */               
+    */
    private void assertEquals(Rate expected, Rate actual)
       throws Exception
    {
@@ -720,16 +720,16 @@ public final class MppXmlCompare
          {
             expected = null;
          }
-         
+
          if (actual != null && actual.getAmount() == 0)
          {
             actual = null;
          }
-         
+
          assertEquals((Object)expected, (Object)actual);
       }
    }
-      
+
    private ProjectFile m_xml;
    private ProjectFile m_mpp;
 }

@@ -426,7 +426,7 @@ final class MPPUtility
 
       return (buffer.toString());
    }
-   
+
 
    /**
     * Reads a string of two byte characters from the input array.
@@ -440,14 +440,14 @@ final class MPPUtility
     * @param offset start point of unicode string
     * @param length length in bytes of the string
     * @return string value
-    */   
+    */
    public static final String getUnicodeString (byte[] data, int offset, int length)
    {
       StringBuffer buffer = new StringBuffer();
       char c;
       int loop = offset;
       int byteLength = 0;
-      
+
       while (loop < (data.length - 1) && byteLength < length)
       {
          c = (char)getShort(data, loop);
@@ -458,7 +458,7 @@ final class MPPUtility
          }
 
          buffer.append(c);
-         
+
          loop += 2;
          byteLength += 2;
       }
@@ -489,7 +489,7 @@ final class MPPUtility
     * @param data byte array of data
     * @param offset offset into the array
     * @return string value
-    */   
+    */
    public static final String getString (byte[] data, int offset)
    {
       StringBuffer buffer = new StringBuffer();
@@ -681,25 +681,25 @@ final class MPPUtility
          {
             double unitsPerDay = file.getProjectHeader().getDefaultHoursInDay().doubleValue() * 600d;
             double totalDays = duration / unitsPerDay;
-            result = Duration.getInstance(totalDays, timeUnit);          
+            result = Duration.getInstance(totalDays, timeUnit);
             break;
          }
-         
+
          case TimeUnit.ELAPSED_DAYS_VALUE:
          {
             double unitsPerDay = 24d * 600d;
             double totalDays = duration / unitsPerDay;
-            result = Duration.getInstance(totalDays, timeUnit);      
+            result = Duration.getInstance(totalDays, timeUnit);
             break;
          }
-         
+
          default:
          {
             result = getDuration(duration, timeUnit);
             break;
          }
       }
-      
+
       return (result);
    }
 
@@ -789,7 +789,7 @@ final class MPPUtility
 
    /**
     * Utility methdo to remove ampersands embedded in names.
-    * 
+    *
     * @param name name text
     * @return name text without embedded ampersands
     */
@@ -816,10 +816,10 @@ final class MPPUtility
             name = sb.toString();
          }
       }
-      
+
       return (name);
    }
-   
+
    /**
     * This method allows a subsection of a byte array to be copied.
     *
@@ -915,38 +915,38 @@ final class MPPUtility
     * @param columns number of columns
     * @param prefix prefix to be added before the start of the data
     * @return formatted string
-    */   
+    */
    public static final String hexdump (byte[] buffer, boolean ascii, int columns, String prefix)
-   {      
+   {
       StringBuffer sb = new StringBuffer();
       if (buffer != null)
       {
          int index = 0;
          DecimalFormat df = new DecimalFormat("00000");
-         
+
          while (index < buffer.length)
          {
             if (index + columns > buffer.length)
             {
                columns = buffer.length - index;
             }
-   
+
             sb.append (prefix);
             sb.append (df.format(index));
             sb.append (":");
             sb.append (hexdump(buffer, index, columns, ascii));
             sb.append ('\n');
-            
+
             index += columns;
          }
       }
-      
+
       return (sb.toString());
    }
-   
+
    /**
     * Writes a hex dump to a file for a large byte array.
-    * 
+    *
     * @param fileName output file name
     * @param data target data
     */
@@ -958,7 +958,7 @@ final class MPPUtility
          os.write(hexdump(data, true, 16, "").getBytes());
          os.close();
       }
-      
+
       catch (IOException ex)
       {
          ex.printStackTrace();
@@ -966,10 +966,10 @@ final class MPPUtility
    }
 
    /**
-    * Writes a hex dump to a file from a POI input stream. 
+    * Writes a hex dump to a file from a POI input stream.
     * Note that this assumes that the complete size of the data in
     * the stream is returned by the available() method.
-    * 
+    *
     * @param fileName output file name
     * @param is input stream
     */
@@ -981,16 +981,16 @@ final class MPPUtility
          is.read(data);
          fileHexDump(fileName, data);
       }
-      
+
       catch (IOException ex)
       {
-         ex.printStackTrace();         
+         ex.printStackTrace();
       }
    }
-   
+
    /**
     * Writes a large byte array to a file.
-    * 
+    *
     * @param fileName output file name
     * @param data target data
     */
@@ -1002,13 +1002,13 @@ final class MPPUtility
          os.write(data);
          os.close();
       }
-      
+
       catch (IOException ex)
       {
          ex.printStackTrace();
       }
    }
-   
+
    /**
     * Epoch date for MPP date calculation is 31/12/1983. This constant
     * is that date expressed in milliseconds using the Java date epoch.

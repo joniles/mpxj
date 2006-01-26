@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       May 24, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -29,10 +29,10 @@ package net.sf.mpxj.mpp;
  * font. This class represents the base font information.
  */
 public class FontBase
-{   
+{
    /**
     * Constructor.
-    * 
+    *
     * @param index index number for this font
     * @param name font name
     * @param size font size
@@ -43,20 +43,20 @@ public class FontBase
       m_name = name;
       m_size = size;
    }
-   
+
    /**
     * Retrieve the font name.
-    * 
+    *
     * @return font name
     */
    public String getName()
    {
       return (m_name);
    }
-   
+
    /**
     * Retrieve the font size.
-    * 
+    *
     * @return font size
     */
    public int getSize()
@@ -66,14 +66,14 @@ public class FontBase
 
    /**
     * Retrieve the index number associated with this base font.
-    * 
+    *
     * @return index number
     */
    public Integer getIndex ()
    {
       return (m_index);
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -81,7 +81,7 @@ public class FontBase
    {
       return ("[FontBase name=" + m_name + " size=" + m_size +"]");
    }
-   
+
    private Integer m_index;
    private String m_name;
    private int m_size;

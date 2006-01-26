@@ -32,7 +32,7 @@ public final class DateRange
 {
    /**
     * Constructor.
-    * 
+    *
     * @param startDate start date
     * @param endDate end date
     */
@@ -41,49 +41,49 @@ public final class DateRange
       m_startDate = startDate;
       m_endDate = endDate;
    }
-   
+
    /**
     * Retrieve the date at the start of the range.
-    * 
+    *
     * @return start date
     */
    public Date getStartDate ()
    {
       return (m_startDate);
    }
-   
+
    /**
     * Set the date at the start of the range.
-    * 
+    *
     * @param startDate start date
     */
    public void setStartDate (Date startDate)
    {
       m_startDate = startDate;
    }
-   
+
    /**
     * Retrieve the date at the end of the range.
-    * 
+    *
     * @return end date
     */
    public Date getEndDate ()
    {
       return (m_endDate);
    }
-   
+
    /**
     * Set the date at the end of the date range.
-    * 
+    *
     * @param endDate end date
     */
    public void setEndDate (Date endDate)
    {
       m_endDate = endDate;
    }
-   
+
    public static final DateRange EMPTY_RANGE = new DateRange (null, null);
-   
+
    private Date m_startDate;
    private Date m_endDate;
 }

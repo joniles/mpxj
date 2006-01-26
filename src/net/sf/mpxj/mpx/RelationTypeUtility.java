@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 23, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -40,7 +40,7 @@ final class RelationTypeUtility
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * This method takes the textual version of a relation type
     * and returns an appropriate class instance. Note that unrecognised
@@ -53,7 +53,7 @@ final class RelationTypeUtility
    public static RelationType getInstance (Locale locale, String type)
    {
       int index = -1;
-      
+
       String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
       for (int loop=0; loop < relationTypes.length; loop++)
       {
@@ -69,7 +69,7 @@ final class RelationTypeUtility
       {
          result = RelationType.getInstance(index);
       }
-      
+
       return (result);
    }
 }

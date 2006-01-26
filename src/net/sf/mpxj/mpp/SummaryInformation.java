@@ -65,12 +65,12 @@ final class SummaryInformation
          m_keywords = (String)map.get(KEYWORDS);
          m_comments = (String)map.get(COMMENTS);
          m_revision = NumberUtility.parseInteger((String)map.get(REVISION_NUMBER));
-         
+
          ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005DocumentSummaryInformation"))));
          map = getPropertyMap(ps);
          m_category = (String)map.get(CATEGORY);
          m_company = (String)map.get(COMPANY);
-         m_manager = (String)map.get(MANAGER);         
+         m_manager = (String)map.get(MANAGER);
          m_documentSummaryInformation = map;
       }
 
@@ -111,7 +111,7 @@ final class SummaryInformation
       }
       return (map);
    }
-   
+
    /**
     * Retrieve the author's name.
     *
@@ -194,22 +194,22 @@ final class SummaryInformation
 
    /**
     * Retrieve the revision number.
-    * 
+    *
     * @return revision number
     */
    public Integer getRevision ()
    {
       return (m_revision);
    }
-   
+
    /**
     * Retrive the Document Summary Information. This
     * allows the caller to examine custom document summary information
     * which may be defined in the project file.
-    * 
+    *
     * @return the Document Summary Information HashMap
     */
-   public Map getDocumentSummaryInformation() 
+   public Map getDocumentSummaryInformation()
    {
       return (m_documentSummaryInformation);
    }
@@ -220,7 +220,7 @@ final class SummaryInformation
    private String m_keywords;
    private String m_comments;
    private Integer m_revision;
-   
+
    private String m_category;
    private String m_manager;
    private String m_company;
@@ -236,12 +236,12 @@ final class SummaryInformation
    private static final Integer KEYWORDS = new Integer (105);
    private static final Integer COMMENTS = new Integer (106);
    private static final Integer REVISION_NUMBER = new Integer (109);
-   
+
    /**
     * Constants representing Document Summary Information properties.
     */
    private static final Integer CATEGORY = new Integer (102);
    private static final Integer MANAGER = new Integer (114);
-   private static final Integer COMPANY = new Integer (115);   
-   //private static final Integer CODEPAGE = new Integer (201);      
+   private static final Integer COMPANY = new Integer (115);
+   //private static final Integer CODEPAGE = new Integer (201);
 }

@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 21, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -55,13 +55,13 @@ public final class MPPReader extends AbstractProjectReader
       try
       {
          ProjectFile projectFile = new ProjectFile();
-         
+
          //
          // Open the file system and retrieve the root directory
          //
          POIFSFileSystem fs = new POIFSFileSystem (is);
          DirectoryEntry root = fs.getRoot ();
-   
+
          //
          // Retrieve the CompObj data, validate the file format and process
          //
@@ -70,11 +70,11 @@ public final class MPPReader extends AbstractProjectReader
          Class readerClass = (Class)FILE_CLASS_MAP.get(format);
          if (readerClass == null)
          {
-            throw new MPXJException (MPXJException.INVALID_FILE + ": " + format);            
-         }         
+            throw new MPXJException (MPXJException.INVALID_FILE + ": " + format);
+         }
          MPPVariantReader reader = (MPPVariantReader)readerClass.newInstance();
          reader.process (this, projectFile, root);
-   
+
          //
          // Update the internal structure. We'll take this opportunity to
          // generate outline numbers for the tasks as they don't appear to
@@ -83,41 +83,41 @@ public final class MPPReader extends AbstractProjectReader
          projectFile.setAutoOutlineNumber(true);
          projectFile.updateStructure ();
          projectFile.setAutoOutlineNumber(false);
-   
+
          //
          // Perform post-processing to set the summary flag
          //
          List tasks = projectFile.getAllTasks();
          Iterator iter = tasks.iterator();
          Task task;
-   
+
          while (iter.hasNext() == true)
          {
             task = (Task)iter.next();
             task.setSummary(task.getChildTasks().size() != 0);
          }
-   
+
          //
          // Ensure that the unique ID counters are correct
          //
          projectFile.updateUniqueCounters();
-         
+
          return (projectFile);
       }
-   
+
       catch (IOException ex)
       {
          throw new MPXJException (MPXJException.READ_ERROR, ex);
       }
-      
+
       catch (IllegalAccessException ex)
       {
-         throw new MPXJException (MPXJException.READ_ERROR, ex);         
+         throw new MPXJException (MPXJException.READ_ERROR, ex);
       }
-      
+
       catch (InstantiationException ex)
       {
-         throw new MPXJException (MPXJException.READ_ERROR, ex);         
+         throw new MPXJException (MPXJException.READ_ERROR, ex);
       }
    }
 
@@ -130,7 +130,7 @@ public final class MPPReader extends AbstractProjectReader
    {
       return (m_preserveNoteFormatting);
    }
-   
+
    /**
     * This method sets a flag to indicate whether the RTF formatting associated
     * with notes should be preserved or removed. By default the formatting
@@ -142,15 +142,15 @@ public final class MPPReader extends AbstractProjectReader
    {
       m_preserveNoteFormatting = preserveNoteFormatting;
    }
-     
-      
+
+
    /**
     * Flag used to indicate whether RTF formatting in notes should
     * be preserved. The default value for this flag is false.
     */
    private boolean m_preserveNoteFormatting;
-   
-   
+
+
    /**
     * Populate a map of file types and file processing classes.
     */
@@ -160,8 +160,8 @@ public final class MPPReader extends AbstractProjectReader
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPT9", MPP9Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPP8", MPP8Reader.class);
-      FILE_CLASS_MAP.put("MSProject.MPT8", MPP8Reader.class);      
+      FILE_CLASS_MAP.put("MSProject.MPT8", MPP8Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPP12", MPP12Reader.class);
-      FILE_CLASS_MAP.put("MSProject.MPT12", MPP12Reader.class);      
+      FILE_CLASS_MAP.put("MSProject.MPT12", MPP12Reader.class);
    }
 }

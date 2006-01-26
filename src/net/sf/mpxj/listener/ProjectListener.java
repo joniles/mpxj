@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 13, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -34,28 +34,28 @@ public interface ProjectListener
 {
    /**
     * This method is called when a task is read from a file.
-    * 
+    *
     * @param task task instance
     */
    public void taskRead (Task task);
-   
+
    /**
     * This method is called when a task is written to a file.
-    * 
+    *
     * @param task task instance
     */
    public void taskWritten (Task task);
-   
+
    /**
     * This method is called when a resource is read from a file.
-    * 
+    *
     * @param resource resource instance
     */
    public void resourceRead (Resource resource);
-   
+
    /**
     * This method is called when a resource is written to a file.
-    * 
+    *
     * @param resource resource instance
     */
    public void resourceWritten (Resource resource);

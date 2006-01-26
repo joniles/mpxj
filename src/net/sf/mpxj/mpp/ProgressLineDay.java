@@ -35,7 +35,7 @@ public final class ProgressLineDay extends Day
     * Private constructor.
     *
     * @param value day value
-    */   
+    */
    protected ProgressLineDay (int value)
    {
       super(value);
@@ -50,7 +50,7 @@ public final class ProgressLineDay extends Day
    public static Day getInstance (int value)
    {
       Day result = null;
-      
+
       if (value < 8)
       {
          result = Day.getInstance(value);
@@ -58,20 +58,20 @@ public final class ProgressLineDay extends Day
       else
       {
          value -= 8;
-         
+
          if (value >= 0 && value < DAY_ARRAY.length)
          {
             result = DAY_ARRAY[value];
          }
       }
-      
+
       return (result);
    }
 
    public static final Day DAY = new ProgressLineDay(8);
    public static final Day WORKINGDAY = new ProgressLineDay(9);
    public static final Day NONWORKINGDAY = new ProgressLineDay(10);
-   
+
    private static final Day[] DAY_ARRAY =
    {
       DAY,

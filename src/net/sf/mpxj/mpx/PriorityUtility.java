@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 23, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -40,7 +40,7 @@ final class PriorityUtility
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * This method takes the textual version of a priority
     * and returns an appropriate instance of this class. Note that unrecognised
@@ -69,10 +69,10 @@ final class PriorityUtility
 
       return (Priority.getInstance((index+1)*100));
    }
-   
+
    /**
     * Index into the VALUE array of the default priority.
     */
    private static final int DEFAULT_PRIORITY_INDEX = 4;
-   
+
 }

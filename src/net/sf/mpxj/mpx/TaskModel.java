@@ -146,7 +146,7 @@ final class TaskModel
          m_count = 0;
          Arrays.fill(m_flags, false);
       }
-      
+
       Iterator iter = m_parentFile.getAllTasks().iterator();
       while (iter.hasNext() == true)
       {
@@ -160,12 +160,12 @@ final class TaskModel
                   m_flags[loop] = true;
                   m_fields[m_count] = loop;
                   ++m_count;
-               }               
+               }
             }
          }
       }
    }
-   
+
    /**
     * This method generates a string in MPX format representing the
     * contents of this record. Both the textual and numeric record
@@ -176,7 +176,7 @@ final class TaskModel
    public String toString ()
    {
       populateModel();
-      
+
       int number;
       char delimiter = m_parentFile.getDelimiter();
 
@@ -243,7 +243,7 @@ final class TaskModel
    }
 
    private ProjectFile m_parentFile;
-   
+
    /**
     * Array of flags indicting whether each field has already been
     * added to the model.

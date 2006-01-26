@@ -41,7 +41,7 @@ public class View
    {
       // protected constructor to prevent instantiation
    }
-      
+
    /**
     * This method is used to retrieve the unique view identifier. This
     * value identifies the view within the file. It does not identify
@@ -69,7 +69,7 @@ public class View
 
    /**
     * Remove the ampersand embedded in the view name.
-    * 
+    *
     * @param name view name
     * @return view name without the ampersand
     */
@@ -99,7 +99,7 @@ public class View
 
       return (name);
    }
-   
+
    /**
     * This method dumps the contents of this View as a String.
     * Note that this facility is provided as a debugging aid.
@@ -128,7 +128,7 @@ public class View
    public static final int CALENDAR = 13;
    public static final int TASK_USAGE = 14;
    public static final int RESOURCE_USAGE=15;
-   
+
    protected Integer m_id;
    protected String m_name;
    protected int m_type;

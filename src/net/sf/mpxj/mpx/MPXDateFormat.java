@@ -95,7 +95,7 @@ final class MPXDateFormat extends DateFormat
             {
                javaDate = m_alternativeFormat.parse(str, pos);
             }
-            
+
             if (pos.getIndex() != 0)
             {
                result = javaDate;

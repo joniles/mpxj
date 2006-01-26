@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 21, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -58,5 +58,5 @@ public abstract class AbstractProjectWriter implements ProjectWriter
       write(projectFile, fos);
       fos.flush();
       fos.close();
-   }   
+   }
 }

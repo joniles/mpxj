@@ -64,7 +64,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       {
          if (parent == null)
          {
-            setOutlineLevel(new Integer(1));            
+            setOutlineLevel(new Integer(1));
          }
          else
          {
@@ -220,7 +220,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
    /**
     * Removes a child task.
-    * 
+    *
     * @param child child task instance
     */
    void removeChildTask (Task child)
@@ -228,7 +228,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       m_children.remove(child);
       setSummary(!m_children.isEmpty());
    }
-   
+
    /**
     * This method allows the list of child tasks to be cleared in preparation
     * for the hierarchical task structure to be built.
@@ -299,12 +299,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
          assignment = new ResourceAssignment(getParentFile(), this);
          m_assignments.add(assignment);
          getParentFile().addResourceAssignment(assignment);
-         
+
          assignment.setResourceID(resource.getID());
          assignment.setResourceUniqueID(resourceUniqueID);
          assignment.setWork(getDuration());
          assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-         
+
          resource.addResourceAssignment(assignment);
       }
 
@@ -321,7 +321,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public ResourceAssignment addResourceAssignment ()
    {
       ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
-      m_assignments.add(assignment);            
+      m_assignments.add(assignment);
       getParentFile().getAllResourceAssignments().add(assignment);
       return (assignment);
    }
@@ -338,16 +338,16 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * Internal method used as part of the process of removing a 
+    * Internal method used as part of the process of removing a
     * resource assignment.
-    * 
+    *
     * @param assignment resource assignment to be removed
     */
    void removeResourceAssignment (ResourceAssignment assignment)
    {
       m_assignments.remove(assignment);
    }
-   
+
    /**
     * This method allows a predecessor relationship to be added to this
     * task instance.
@@ -895,8 +895,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
    /**
     * The Cost Variance field shows the difference between the
-    * baseline cost and total cost for a task. The total cost is the 
-    * current estimate of costs based on actual costs and remaining costs. 
+    * baseline cost and total cost for a task. The total cost is the
+    * current estimate of costs based on actual costs and remaining costs.
     * This is also referred to as variance at completion (VAC).
     *
     * @param val amount
@@ -933,8 +933,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
    /**
     * The CV (earned value cost variance) field shows the difference
-    * between how much it should have cost to achieve the current level of 
-    * completion on the task, and how much it has actually cost to achieve the 
+    * between how much it should have cost to achieve the current level of
+    * completion on the task, and how much it has actually cost to achieve the
     * current level of completion up to
     * the status date or today's date.
     *
@@ -2696,7 +2696,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
    /**
     * Retrieves the task name.
-    * 
+    *
     * @return task name
     */
    public String getName ()
@@ -3563,48 +3563,48 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * this value will be non-zero. The value itself is the unique ID
     * value shown in the parent project. To retrieve the value of the
     * task unique ID in the child project, remove the top two bytes:
-    * 
+    *
     * taskID = (subprojectUniqueID & 0xFFFF)
-    * 
+    *
     * @return sub project unique task ID
     */
    public Integer getSubprojectTaskUniqueID ()
    {
       return (m_subprojectTaskUniqueID);
    }
-   
+
    /**
     * Sets the sub project unique task ID.
-    * 
+    *
     * @param subprojectUniqueTaskID subproject unique task ID
     */
    public void setSubprojectTaskUniqueID (Integer subprojectUniqueTaskID)
    {
       m_subprojectTaskUniqueID = subprojectUniqueTaskID;
    }
-   
+
    /**
     * Sets the offset added to unique task IDs from sub projects
     * to generate the task ID shown in the master project.
-    * 
+    *
     * @param offset unique ID offset
     */
    public void setSubprojectTasksUniqueIDOffset (Integer offset)
    {
       m_subprojectTasksUniqueIDOffset = offset;
    }
-   
+
    /**
     * Retrieves the offset added to unique task IDs from sub projects
     * to generate the task ID shown in the master project.
-    * 
+    *
     * @return unique ID offset
     */
    public Integer getSubprojectTasksUniqueIDOffset ()
    {
       return (m_subprojectTasksUniqueIDOffset);
    }
-   
+
    /**
     * Retrieve the subproject read only flag.
     *
@@ -5953,7 +5953,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * in MS Project. If this flag is set to true, any sub tasks
     * for this current task will be visible. If this is false,
     * any sub tasks will be hidden.
-    * 
+    *
     * @return boolean flag
     */
    public boolean getExpanded ()
@@ -5966,15 +5966,15 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * in MS Project. If this flag is set to true, any sub tasks
     * for this current task will be visible. If this is false,
     * any sub tasks will be hidden.
-    * 
+    *
     * @param expanded boolean flag
     */
    public void setExpanded (boolean expanded)
    {
       m_expanded = expanded;
    }
-   
-   
+
+
    /**
     * Retrieve the value of a field using its alias.
     *
@@ -6013,35 +6013,35 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
    /**
     * This method retrieves a list of task splits. Each split is represented
-    * by a number of working hours since the start of the task to the end of 
+    * by a number of working hours since the start of the task to the end of
     * the current split. The list will always follow the pattern
-    * task time, split time, task time and so on. For example, if we have a 
+    * task time, split time, task time and so on. For example, if we have a
     * 5 day task which is represented as 2 days work, a one day, then three
     * days work, the splits list will contain 16h, 24h, 48h. Assuming an 8 hour
-    * working day, this equates to the end of the first working segment beging 
+    * working day, this equates to the end of the first working segment beging
     * 2 working days from the task start date (16h), the end of the first split
     * being 3 working days from the task start date (24h) and finally, the end
     * of the entire task being 6 working days from the task start date (48h).
-    * 
+    *
     * Note that this method will return null if the task is not split.
-    * 
+    *
     * @return list of split times
     */
    public List getSplits ()
    {
       return (m_splits);
    }
-   
+
    /**
     * Internal method used to set the list of splits.
-    * 
+    *
     * @param splits list of split times
     */
    public void setSplits (List splits)
    {
       m_splits = splits;
    }
-   
+
    /**
     * Removes this task from the project.
     */
@@ -6049,27 +6049,27 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    {
       getParentFile().removeTask(this);
    }
-   
+
    /**
     * Retrieve the sub project represented by this task.
-    * 
+    *
     * @return sub project
     */
    public SubProject getSubProject ()
    {
       return (m_subProject);
    }
-   
+
    /**
     * Set the sub project represented by this task.
-    * 
+    *
     * @param subProject sub project
     */
    public void setSubProject (SubProject subProject)
    {
       m_subProject = subProject;
    }
-   
+
    /**
     * This method inserts a name value pair into internal storage.
     *
@@ -6114,13 +6114,13 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    {
       put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
    }
-            
+
    /**
     * Array of field values.
     */
    private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];
-   
-         
+
+
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -6198,11 +6198,11 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    private boolean m_expanded = true;
    private List m_splits;
    private SubProject m_subProject;
-   
+
    /**
-    * The % Complete field contains the current status of a task, expressed as 
-    * the percentage of the task's duration that has been completed. You can 
-    * enter percent complete, or you can have Microsoft Project calculate it 
+    * The % Complete field contains the current status of a task, expressed as
+    * the percentage of the task's duration that has been completed. You can
+    * enter percent complete, or you can have Microsoft Project calculate it
     * for you based on actual duration.
     */
    public static final int PERCENTAGE_COMPLETE = 44;
@@ -6481,7 +6481,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public static final int FIXED = 80;
 
    /**
-    * The Fixed Cost field shows any task expense that is not associated 
+    * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     */
    public static final int FIXED_COST = 35;
@@ -6939,12 +6939,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public static final int MAX_FIELDS = 153;
 
    private static final int EXTENDED_OFFSET = MAX_FIELDS;
-   
+
    /**
     * Maximum number of extended fields in this record.
     */
    private static final int MAX_EXTENDED_FIELDS = 89;
-   
+
    /**
     * The following constants are used purely to identify custom fields,
     * these field names are NOT written to the MPX file.
@@ -7038,82 +7038,82 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public static final int OUTLINECODE8 = EXTENDED_OFFSET + 86;
    public static final int OUTLINECODE9 = EXTENDED_OFFSET + 87;
    public static final int OUTLINECODE10 = EXTENDED_OFFSET + 88;
-   
+
    public static final DataType[] FIELD_TYPES = new DataType [MAX_FIELDS + MAX_EXTENDED_FIELDS];
    static
    {
-      FIELD_TYPES[ACTUAL_COST] = DataType.CURRENCY;      
-      FIELD_TYPES[BASELINE_COST] = DataType.CURRENCY;      
-      FIELD_TYPES[BCWP] = DataType.CURRENCY;      
-      FIELD_TYPES[BCWS] = DataType.CURRENCY;      
-      FIELD_TYPES[COST] = DataType.CURRENCY;      
-      FIELD_TYPES[COST1] = DataType.CURRENCY;      
-      FIELD_TYPES[COST2] = DataType.CURRENCY;      
-      FIELD_TYPES[COST3] = DataType.CURRENCY;      
-      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;      
-      FIELD_TYPES[CV] = DataType.CURRENCY;      
-      FIELD_TYPES[FIXED_COST] = DataType.CURRENCY;      
-      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;      
-      FIELD_TYPES[SV] = DataType.CURRENCY;      
-      FIELD_TYPES[COST10] = DataType.CURRENCY;      
-      FIELD_TYPES[COST4] = DataType.CURRENCY;      
-      FIELD_TYPES[COST5] = DataType.CURRENCY;      
-      FIELD_TYPES[COST6] = DataType.CURRENCY;      
-      FIELD_TYPES[COST7] = DataType.CURRENCY;      
-      FIELD_TYPES[COST8] = DataType.CURRENCY;      
-      FIELD_TYPES[COST9] = DataType.CURRENCY;   
-      
-      FIELD_TYPES[ACTUAL_FINISH] = DataType.DATE;      
-      FIELD_TYPES[ACTUAL_START] = DataType.DATE;      
-      FIELD_TYPES[BASELINE_FINISH] = DataType.DATE;      
-      FIELD_TYPES[BASELINE_START] = DataType.DATE;      
-      FIELD_TYPES[CONSTRAINT_DATE] = DataType.DATE;      
-      FIELD_TYPES[CREATE_DATE] = DataType.DATE;      
-      FIELD_TYPES[EARLY_FINISH] = DataType.DATE;      
-      FIELD_TYPES[EARLY_START] = DataType.DATE;      
-      FIELD_TYPES[FINISH] = DataType.DATE;      
-      FIELD_TYPES[FINISH1] = DataType.DATE;      
-      FIELD_TYPES[FINISH2] = DataType.DATE;      
-      FIELD_TYPES[FINISH3] = DataType.DATE;      
-      FIELD_TYPES[FINISH4] = DataType.DATE;      
-      FIELD_TYPES[FINISH5] = DataType.DATE;      
-      FIELD_TYPES[LATE_FINISH] = DataType.DATE;      
+      FIELD_TYPES[ACTUAL_COST] = DataType.CURRENCY;
+      FIELD_TYPES[BASELINE_COST] = DataType.CURRENCY;
+      FIELD_TYPES[BCWP] = DataType.CURRENCY;
+      FIELD_TYPES[BCWS] = DataType.CURRENCY;
+      FIELD_TYPES[COST] = DataType.CURRENCY;
+      FIELD_TYPES[COST1] = DataType.CURRENCY;
+      FIELD_TYPES[COST2] = DataType.CURRENCY;
+      FIELD_TYPES[COST3] = DataType.CURRENCY;
+      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;
+      FIELD_TYPES[CV] = DataType.CURRENCY;
+      FIELD_TYPES[FIXED_COST] = DataType.CURRENCY;
+      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;
+      FIELD_TYPES[SV] = DataType.CURRENCY;
+      FIELD_TYPES[COST10] = DataType.CURRENCY;
+      FIELD_TYPES[COST4] = DataType.CURRENCY;
+      FIELD_TYPES[COST5] = DataType.CURRENCY;
+      FIELD_TYPES[COST6] = DataType.CURRENCY;
+      FIELD_TYPES[COST7] = DataType.CURRENCY;
+      FIELD_TYPES[COST8] = DataType.CURRENCY;
+      FIELD_TYPES[COST9] = DataType.CURRENCY;
+
+      FIELD_TYPES[ACTUAL_FINISH] = DataType.DATE;
+      FIELD_TYPES[ACTUAL_START] = DataType.DATE;
+      FIELD_TYPES[BASELINE_FINISH] = DataType.DATE;
+      FIELD_TYPES[BASELINE_START] = DataType.DATE;
+      FIELD_TYPES[CONSTRAINT_DATE] = DataType.DATE;
+      FIELD_TYPES[CREATE_DATE] = DataType.DATE;
+      FIELD_TYPES[EARLY_FINISH] = DataType.DATE;
+      FIELD_TYPES[EARLY_START] = DataType.DATE;
+      FIELD_TYPES[FINISH] = DataType.DATE;
+      FIELD_TYPES[FINISH1] = DataType.DATE;
+      FIELD_TYPES[FINISH2] = DataType.DATE;
+      FIELD_TYPES[FINISH3] = DataType.DATE;
+      FIELD_TYPES[FINISH4] = DataType.DATE;
+      FIELD_TYPES[FINISH5] = DataType.DATE;
+      FIELD_TYPES[LATE_FINISH] = DataType.DATE;
       FIELD_TYPES[LATE_START] = DataType.DATE;
-      FIELD_TYPES[RESUME] = DataType.DATE;      
+      FIELD_TYPES[RESUME] = DataType.DATE;
       FIELD_TYPES[RESUME_NO_EARLIER_THAN] = DataType.DATE;
       FIELD_TYPES[START] = DataType.DATE;
-      FIELD_TYPES[START1] = DataType.DATE;      
-      FIELD_TYPES[START2] = DataType.DATE;      
-      FIELD_TYPES[START3] = DataType.DATE;      
-      FIELD_TYPES[START4] = DataType.DATE;      
-      FIELD_TYPES[START5] = DataType.DATE;      
-      FIELD_TYPES[STOP] = DataType.DATE;      
-      FIELD_TYPES[DATE1] = DataType.DATE;      
-      FIELD_TYPES[DATE2] = DataType.DATE;      
-      FIELD_TYPES[DATE3] = DataType.DATE;      
-      FIELD_TYPES[DATE4] = DataType.DATE;      
-      FIELD_TYPES[DATE5] = DataType.DATE;      
-      FIELD_TYPES[DATE6] = DataType.DATE;      
-      FIELD_TYPES[DATE7] = DataType.DATE;      
-      FIELD_TYPES[DATE8] = DataType.DATE;      
-      FIELD_TYPES[DATE9] = DataType.DATE;      
-      FIELD_TYPES[DATE10] = DataType.DATE;      
-      FIELD_TYPES[START6] = DataType.DATE;      
-      FIELD_TYPES[START7] = DataType.DATE;      
-      FIELD_TYPES[START8] = DataType.DATE;      
-      FIELD_TYPES[START9] = DataType.DATE;      
-      FIELD_TYPES[START10] = DataType.DATE;      
-      FIELD_TYPES[FINISH6] = DataType.DATE;      
-      FIELD_TYPES[FINISH7] = DataType.DATE;      
-      FIELD_TYPES[FINISH8] = DataType.DATE;      
-      FIELD_TYPES[FINISH9] = DataType.DATE;      
-      FIELD_TYPES[FINISH10] = DataType.DATE;            
-      
-      FIELD_TYPES[PERCENTAGE_COMPLETE] = DataType.PERCENTAGE;            
-      FIELD_TYPES[PERCENTAGE_WORK_COMPLETE] = DataType.PERCENTAGE;      
-      
+      FIELD_TYPES[START1] = DataType.DATE;
+      FIELD_TYPES[START2] = DataType.DATE;
+      FIELD_TYPES[START3] = DataType.DATE;
+      FIELD_TYPES[START4] = DataType.DATE;
+      FIELD_TYPES[START5] = DataType.DATE;
+      FIELD_TYPES[STOP] = DataType.DATE;
+      FIELD_TYPES[DATE1] = DataType.DATE;
+      FIELD_TYPES[DATE2] = DataType.DATE;
+      FIELD_TYPES[DATE3] = DataType.DATE;
+      FIELD_TYPES[DATE4] = DataType.DATE;
+      FIELD_TYPES[DATE5] = DataType.DATE;
+      FIELD_TYPES[DATE6] = DataType.DATE;
+      FIELD_TYPES[DATE7] = DataType.DATE;
+      FIELD_TYPES[DATE8] = DataType.DATE;
+      FIELD_TYPES[DATE9] = DataType.DATE;
+      FIELD_TYPES[DATE10] = DataType.DATE;
+      FIELD_TYPES[START6] = DataType.DATE;
+      FIELD_TYPES[START7] = DataType.DATE;
+      FIELD_TYPES[START8] = DataType.DATE;
+      FIELD_TYPES[START9] = DataType.DATE;
+      FIELD_TYPES[START10] = DataType.DATE;
+      FIELD_TYPES[FINISH6] = DataType.DATE;
+      FIELD_TYPES[FINISH7] = DataType.DATE;
+      FIELD_TYPES[FINISH8] = DataType.DATE;
+      FIELD_TYPES[FINISH9] = DataType.DATE;
+      FIELD_TYPES[FINISH10] = DataType.DATE;
+
+      FIELD_TYPES[PERCENTAGE_COMPLETE] = DataType.PERCENTAGE;
+      FIELD_TYPES[PERCENTAGE_WORK_COMPLETE] = DataType.PERCENTAGE;
+
       FIELD_TYPES[CONSTRAINT_TYPE] = DataType.CONSTRAINT;
-      
+
       FIELD_TYPES[ACTUAL_DURATION] = DataType.DURATION;
       FIELD_TYPES[ACTUAL_WORK] = DataType.DURATION;
       FIELD_TYPES[BASELINE_DURATION] = DataType.DURATION;
@@ -7139,12 +7139,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       FIELD_TYPES[DURATION8] = DataType.DURATION;
       FIELD_TYPES[DURATION9] = DataType.DURATION;
       FIELD_TYPES[DURATION10] = DataType.DURATION;
-      
+
       FIELD_TYPES[PRIORITY] = DataType.PRIORITY;
-      
-      FIELD_TYPES[PREDECESSORS] = DataType.RELATION_LIST;      
-      FIELD_TYPES[SUCCESSORS] = DataType.RELATION_LIST;      
-      FIELD_TYPES[UNIQUE_ID_PREDECESSORS] = DataType.RELATION_LIST;      
-      FIELD_TYPES[UNIQUE_ID_SUCCESSORS] = DataType.RELATION_LIST;      
+
+      FIELD_TYPES[PREDECESSORS] = DataType.RELATION_LIST;
+      FIELD_TYPES[SUCCESSORS] = DataType.RELATION_LIST;
+      FIELD_TYPES[UNIQUE_ID_PREDECESSORS] = DataType.RELATION_LIST;
+      FIELD_TYPES[UNIQUE_ID_SUCCESSORS] = DataType.RELATION_LIST;
    }
 }

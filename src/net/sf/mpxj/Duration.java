@@ -102,7 +102,7 @@ public final class Duration
     *
     * @param duration duration value
     * @param fromUnits units to convert from
-    * @param toUnits units to convert to 
+    * @param toUnits units to convert to
     * @param defaults project header containing default values
     * @return new Duration instance
     */
@@ -112,7 +112,7 @@ public final class Duration
       {
          case TimeUnit.YEARS_VALUE:
          {
-            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 52);            
+            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 52);
             break;
          }
 
@@ -121,53 +121,53 @@ public final class Duration
             duration *= (24 * 7 * 52);
             break;
          }
-         
+
          case TimeUnit.MONTHS_VALUE:
          {
-            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 4);            
+            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 4);
             break;
          }
 
          case TimeUnit.ELAPSED_MONTHS_VALUE:
          {
-            duration *= (24 * 7 * 4);            
+            duration *= (24 * 7 * 4);
             break;
          }
-         
+
          case TimeUnit.WEEKS_VALUE:
          {
-            duration *= defaults.getDefaultHoursInWeek().doubleValue();            
+            duration *= defaults.getDefaultHoursInWeek().doubleValue();
             break;
          }
 
          case TimeUnit.ELAPSED_WEEKS_VALUE:
          {
-            duration *= (24 * 7);            
+            duration *= (24 * 7);
             break;
          }
-         
+
          case TimeUnit.DAYS_VALUE:
          {
-            duration *= defaults.getDefaultHoursInDay().doubleValue();            
+            duration *= defaults.getDefaultHoursInDay().doubleValue();
             break;
          }
 
          case TimeUnit.ELAPSED_DAYS_VALUE:
          {
-            duration *= 24;            
+            duration *= 24;
             break;
          }
-         
+
 
          case TimeUnit.MINUTES_VALUE:
          case TimeUnit.ELAPSED_MINUTES_VALUE:
          {
-            duration /= 60;            
+            duration /= 60;
             break;
          }
       }
 
-      
+
       if (toUnits != TimeUnit.HOURS && toUnits != TimeUnit.ELAPSED_HOURS)
       {
          switch (toUnits.getValue())
@@ -190,7 +190,7 @@ public final class Duration
                duration /= 24;
                break;
             }
-            
+
             case TimeUnit.WEEKS_VALUE:
             {
                duration /= defaults.getDefaultHoursInWeek().doubleValue();
@@ -202,7 +202,7 @@ public final class Duration
                duration /= (24 * 7);
                break;
             }
-            
+
             case TimeUnit.MONTHS_VALUE:
             {
                duration /= (defaults.getDefaultHoursInWeek().doubleValue() * 4);
@@ -214,28 +214,28 @@ public final class Duration
                duration /= (24 * 7 * 4);
                break;
             }
-            
+
             case TimeUnit.YEARS_VALUE:
             {
                duration /= (defaults.getDefaultHoursInWeek().doubleValue() * 52);
                break;
             }
-            
+
             case TimeUnit.ELAPSED_YEARS_VALUE:
             {
                duration /= (24 * 7 * 52);
                break;
-            }                           
+            }
          }
       }
-      
-      return (Duration.getInstance (duration, toUnits));      
-   }   
-   
+
+      return (Duration.getInstance (duration, toUnits));
+   }
+
    /**
     * Retrieve an Duration instance. Use shared objects to
     * represent common values for memory efficiency.
-    * 
+    *
     * @param duration duration value
     * @param type duration type
     * @return Duration instance
@@ -257,11 +257,11 @@ public final class Duration
    /**
     * Retrieve an Duration instance. Use shared objects to
     * represent common values for memory efficiency.
-    * 
+    *
     * @param duration duration value
     * @param type duration type
     * @return Duration instance
-    */   
+    */
    public static Duration getInstance (int duration, TimeUnit type)
    {
       Duration result;
@@ -284,7 +284,7 @@ public final class Duration
       Duration rhs = (Duration)o;
       return (m_duration == rhs.m_duration && m_units == rhs.m_units);
    }
-   
+
    /**
     * {@inheritDoc}
     */
@@ -292,7 +292,7 @@ public final class Duration
    {
       return (m_units.getValue() + (int)m_duration);
    }
-        
+
    /**
     * Duration amount.
     */
@@ -303,22 +303,22 @@ public final class Duration
     */
    private TimeUnit m_units;
 
-   
+
    private static final Duration[] ZERO_DURATIONS =
    {
       new Duration(0, TimeUnit.MINUTES),
       new Duration(0, TimeUnit.HOURS),
-      new Duration(0, TimeUnit.DAYS),      
-      new Duration(0, TimeUnit.WEEKS),      
-      new Duration(0, TimeUnit.MONTHS),      
-      new Duration(0, TimeUnit.YEARS),      
-      new Duration(0, TimeUnit.PERCENT),      
+      new Duration(0, TimeUnit.DAYS),
+      new Duration(0, TimeUnit.WEEKS),
+      new Duration(0, TimeUnit.MONTHS),
+      new Duration(0, TimeUnit.YEARS),
+      new Duration(0, TimeUnit.PERCENT),
       new Duration(0, TimeUnit.ELAPSED_MINUTES),
       new Duration(0, TimeUnit.ELAPSED_HOURS),
-      new Duration(0, TimeUnit.ELAPSED_DAYS),      
-      new Duration(0, TimeUnit.ELAPSED_WEEKS),      
-      new Duration(0, TimeUnit.ELAPSED_MONTHS),      
-      new Duration(0, TimeUnit.ELAPSED_YEARS),      
-      new Duration(0, TimeUnit.ELAPSED_PERCENT)            
+      new Duration(0, TimeUnit.ELAPSED_DAYS),
+      new Duration(0, TimeUnit.ELAPSED_WEEKS),
+      new Duration(0, TimeUnit.ELAPSED_MONTHS),
+      new Duration(0, TimeUnit.ELAPSED_YEARS),
+      new Duration(0, TimeUnit.ELAPSED_PERCENT)
    };
 }

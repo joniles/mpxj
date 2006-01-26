@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Jan 23, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -44,11 +44,11 @@ final class DurationUtility
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * Retrieve an Duration instance. Use shared objects to
     * represent common values for memory efficiency.
-    * 
+    *
     * @param dur duration formatted as a string
     * @param format number format
     * @param locale target locale
@@ -64,12 +64,12 @@ final class DurationUtility
          int index = lastIndex;
          double duration;
          TimeUnit units;
-         
+
          while ((index > 0) && (Character.isDigit(dur.charAt(index)) == false))
          {
             --index;
          }
-      
+
          //
          // If we have no units suffix, assume days to allow for MPX3
          //
@@ -84,10 +84,10 @@ final class DurationUtility
             duration = format.parse(dur.substring(0, index)).doubleValue();
             units = TimeUnitUtility.getInstance(dur.substring(index), locale);
          }
-         
+
          return (Duration.getInstance(duration, units));
       }
-      
+
       catch (ParseException ex)
       {
          throw new MPXJException ("Failed to parse duration", ex);

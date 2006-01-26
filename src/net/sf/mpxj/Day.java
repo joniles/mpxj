@@ -62,20 +62,20 @@ public class Day
       {
          result = DAY_ARRAY[value];
       }
-      
+
       return (result);
    }
 
    /**
     * Retrieves the string representation of this instance.
-    * 
+    *
     * @return string representation
     */
    public String toString ()
    {
       return (Integer.toString(m_value));
    }
-   
+
    private int m_value;
 
    public static final Day SUNDAY = new Day(1);
@@ -85,7 +85,7 @@ public class Day
    public static final Day THURSDAY = new Day(5);
    public static final Day FRIDAY = new Day(6);
    public static final Day SATURDAY = new Day(7);
-   
+
    private static final Day[] DAY_ARRAY =
    {
       null,

@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 13, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -41,28 +41,28 @@ public class DefaultProjectListener implements ProjectListener
    {
       // default implementation
    }
-   
+
    /**
     * {@inheritDoc}
-    */   
+    */
    public void taskWritten (Task task)
    {
       // default implementation
    }
-   
+
    /**
     * {@inheritDoc}
-    */   
+    */
    public void resourceRead (Resource resource)
    {
-      // default implementation      
+      // default implementation
    }
-   
+
    /**
     * {@inheritDoc}
-    */   
+    */
    public void resourceWritten (Resource resource)
    {
-      // default implementation      
+      // default implementation
    }
 }

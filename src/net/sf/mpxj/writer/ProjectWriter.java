@@ -4,7 +4,7 @@
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Dec 21, 2005
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -38,27 +38,27 @@ public interface ProjectWriter
 {
    /**
     * Create a project file using the supplied file name.
-    * 
+    *
     * @param projectFile project file instance
     * @param fileName file name
     * @throws IOException
     */
    public void write (ProjectFile projectFile, String fileName)
       throws IOException;
-   
+
    /**
     * Create a project file using the supplied File instance.
-    * 
+    *
     * @param projectFile project file instance
     * @param file File instance
     * @throws IOException
     */
    public void write (ProjectFile projectFile, File file)
       throws IOException;
-   
+
    /**
     * Create a project file using the supplied OutputStream instance.
-    * 
+    *
     * @param projectFile project file instance
     * @param outputStream OutputStream instance
     * @throws IOException

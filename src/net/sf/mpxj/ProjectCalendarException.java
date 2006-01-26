@@ -186,7 +186,7 @@ public final class ProjectCalendarException extends ProjectEntity
 
    /**
     * Get ToTime3.
-    * 
+    *
     * @return Time
     */
    public Date getFromTime3 ()
@@ -248,7 +248,7 @@ public final class ProjectCalendarException extends ProjectEntity
 
       return (result);
    }
-   
+
    private Date m_fromDate;
    private Date m_toDate;
    private boolean m_working;

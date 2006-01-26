@@ -40,11 +40,11 @@ final class MSPDIConstants
     */
    private MSPDIConstants ()
    {
-      // Private constructor to prevent instantiation.      
+      // Private constructor to prevent instantiation.
    }
 
    public static final Integer NULL_RESOURCE_ID = new Integer (-65535);
-   
+
    public static final int TASK_FIELD_PREFIX = 1887;
    public static final int RESOURCE_FIELD_PREFIX = 2055;
 

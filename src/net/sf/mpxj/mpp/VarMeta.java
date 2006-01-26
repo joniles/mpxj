@@ -36,14 +36,14 @@ interface VarMeta
     * @return number of items
     */
    public int getItemCount();
-   
+
    /**
     * This method retrieves the size of the Var2Data block.
     *
     * @return data size
     */
    public int getDataSize();
-   
+
    /**
     * This method returns an array containing all of the unique identifiers
     * for which data has been stored in the Var2Data block.
@@ -51,7 +51,7 @@ interface VarMeta
     * @return array of unique identifiers
     */
    public Integer[] getUniqueIdentifierArray();
-   
+
    /**
     * This method returns an set containing all of the unique identifiers
     * for which data has been stored in the Var2Data block.
@@ -59,7 +59,7 @@ interface VarMeta
     * @return set of unique identifiers
     */
    public Set getUniqueIdentifierSet();
-   
+
    /**
     * This method retrieves the offset of a given entry in the Var2Data block.
     * Each entry can be uniquely located by the identifier of the object to
@@ -70,7 +70,7 @@ interface VarMeta
     * @return offset of requested item
     */
    public Integer getOffset(Integer id, Integer type);
-   
+
    /**
     * This method retrieves the offset of the data item at
     * the position defined by the index parameter.

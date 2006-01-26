@@ -125,7 +125,7 @@ public final class ResourceAssignmentWorkgroupFields extends ProjectEntity
 
    /**
     * Sets the Update Finish Field.
-    * 
+    *
     * @param val date to set
     */
    public void setUpdateFinish (Date val)
