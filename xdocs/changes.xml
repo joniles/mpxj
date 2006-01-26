@@ -8,7 +8,11 @@
 
    <body> 
 
-   <release version="0.0.26" date="CVS HEAD"> 
+   <release version="0.9.2" date="CVS HEAD"> 
+   </release>
+      
+   <release version="0.9.1" date="26/01/2006"> 
+      <action dev="joniles" type="update">Major API rewrite.</action>
       <action dev="joniles" type="add">Added a flag called "expanded" to the Task class to represent whether a task in an MPP9 file is shown as expanded or collapsed by MS Project.</action>
       <action dev="joniles" type="fix">Fixed a bug in the relation code in MpxjQuery (contributed by Shlomo Swidler).</action>
       <action dev="joniles" type="update">Modified MPXDateFormat, MPXTimeFormat and MPXCurrencyFormat to derive them from DateFormat and NumberFormat.</action>
