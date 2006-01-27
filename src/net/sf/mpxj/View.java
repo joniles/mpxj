@@ -1,8 +1,8 @@
 /*
  * file:       View.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2003
- * date:       27/10/2003
+ * copyright:  (c) Tapster Rock Limited 2005
+ * date:       Jan 27, 2006
  */
 
 /*
@@ -23,25 +23,16 @@
 
 package net.sf.mpxj;
 
-
 /**
- * This class represents a view of a set of project data that has been
+ * This interface represents a view of a set of project data that has been
  * instantiated within an MS Project file. View data is instantiated when a user
  * first looks at a view in MS Project. Each "screen" in MS Project, for example
  * the Gantt Chart, the Resource Sheet and so on are views. If a user has not
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public class View
+public interface View
 {
-   /**
-    * Constructor.
-    */
-   protected View ()
-   {
-      // protected constructor to prevent instantiation
-   }
-
    /**
     * This method is used to retrieve the unique view identifier. This
     * value identifies the view within the file. It does not identify
@@ -49,10 +40,7 @@ public class View
     *
     * @return view identifier
     */
-   public Integer getID ()
-   {
-      return (m_id);
-   }
+   public Integer getID();
 
    /**
     * This method is used to retrieve the view name. Note that internally
@@ -62,74 +50,12 @@ public class View
     *
     * @return view name
     */
-   public String getName ()
-   {
-      return (m_name);
-   }
-
+   public String getName();
+   
    /**
-    * Remove the ampersand embedded in the view name.
-    *
-    * @param name view name
-    * @return view name without the ampersand
+    * Retrieves the view type.
+    * 
+    * @return view type
     */
-   protected String removeAmpersand (String name)
-   {
-      if (name != null)
-      {
-         if (name.indexOf('&') != -1)
-         {
-            StringBuffer sb = new StringBuffer();
-            int index = 0;
-            char c;
-
-            while (index < name.length())
-            {
-               c = name.charAt(index);
-               if (c != '&')
-               {
-                  sb.append(c);
-               }
-               ++index;
-            }
-
-            name = sb.toString();
-         }
-      }
-
-      return (name);
-   }
-
-   /**
-    * This method dumps the contents of this View as a String.
-    * Note that this facility is provided as a debugging aid.
-    *
-    * @return formatted contents of this view
-    */
-   public String toString ()
-   {
-      return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name +"]");
-   }
-
-   /**
-    * Constants representing known view types.
-    */
-   public static final int GANTT_CHART = 1;
-   public static final int NETWORK_DIAGRAM = 2;
-   public static final int RELATIONSHIP_DIAGRAM = 3;
-   public static final int TASK_FORM = 4;
-   public static final int TASK_SHEET = 5;
-   public static final int RESOURCE_FORM = 6;
-   public static final int RESOURCE_SHEET = 7;
-   public static final int RESOURCE_GRAPH=8;
-   public static final int TASK_DETAILS_FORM = 10;
-   public static final int TASK_NAME_FORM = 11;
-   public static final int RESOURCE_NAME_FORM = 12;
-   public static final int CALENDAR = 13;
-   public static final int TASK_USAGE = 14;
-   public static final int RESOURCE_USAGE=15;
-
-   protected Integer m_id;
-   protected String m_name;
-   protected int m_type;
+   public ViewType getType ();
 }

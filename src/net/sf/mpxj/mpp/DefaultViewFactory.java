@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
+import net.sf.mpxj.ViewType;
 
 
 /**
@@ -42,22 +43,30 @@ class DefaultViewFactory implements ViewFactory
       throws IOException
    {
       View view;
-      int type = MPPUtility.getShort(fixedData, 112);
-      switch (type)
+      int type  = MPPUtility.getShort(fixedData, 110);
+      if (type == 1)
       {
-         case View.GANTT_CHART:
+         view = new SplitView9 (fixedData, varData);
+      }
+      else
+      {
+         type = MPPUtility.getShort(fixedData, 112);
+         switch (type)
          {
-            view = new GanttChartView9 (file, fixedData, varData, fontBases);
-            break;
-         }
-
-         default:
-         {
-            view = new View9 (fixedData);
-            break;
+            case ViewType.GANTT_CHART_VALUE:
+            {
+               view = new GanttChartView9 (file, fixedData, varData, fontBases);
+               break;
+            }
+   
+            default:
+            {
+               view = new View9 (fixedData);            
+               break;
+            }
          }
       }
-
+      
       return (view);
    }
 }

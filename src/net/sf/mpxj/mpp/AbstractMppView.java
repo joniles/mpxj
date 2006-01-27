@@ -1,8 +1,8 @@
 /*
- * file:       View9.java
+ * file:       AbstractMppView.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2003
- * date:       06/04/2005
+ * date:       27/01/2006
  */
 
 /*
@@ -23,29 +23,44 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.ViewType;
-
+import net.sf.mpxj.AbstractView;
 
 
 /**
- * This class represents a view of a set of project data that has been
- * instantiated within an MS Project file. View data is instantiated when a user
- * first looks at a view in MS Project. Each "screen" in MS Project, for example
- * the Gantt Chart, the Resource Sheet and so on are views. If a user has not
- * looked at a view (for example the Resource Usage view), information about
- * that view will not be present in the MPP file.
+ * This abstract class implements functionality common to all MPP views.
  */
-public class View9 extends AbstractMppView
+public abstract class AbstractMppView extends AbstractView
 {
    /**
-    * Extract the view data from the view data block.
+    * Remove the ampersand embedded in the view name.
     *
-    * @param data view data
+    * @param name view name
+    * @return view name without the ampersand
     */
-   public View9 (byte[] data)
+   protected String removeAmpersand (String name)
    {
-      m_id = new Integer (MPPUtility.getInt(data, 0));
-      m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
-      m_type = ViewType.getInstance(MPPUtility.getShort(data, 112));
+      if (name != null)
+      {
+         if (name.indexOf('&') != -1)
+         {
+            StringBuffer sb = new StringBuffer();
+            int index = 0;
+            char c;
+
+            while (index < name.length())
+            {
+               c = name.charAt(index);
+               if (c != '&')
+               {
+                  sb.append(c);
+               }
+               ++index;
+            }
+
+            name = sb.toString();
+         }
+      }
+
+      return (name);
    }
 }

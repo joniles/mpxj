@@ -2170,7 +2170,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData, m_fontBases);
          file.addView(view);
-      }
+      }      
    }
 
    /**

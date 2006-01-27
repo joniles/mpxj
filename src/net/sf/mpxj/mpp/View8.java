@@ -23,7 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.View;
+import net.sf.mpxj.ViewType;
+
 
 
 /**
@@ -34,7 +35,7 @@ import net.sf.mpxj.View;
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public final class View8 extends View
+public final class View8 extends AbstractMppView
 {
    /**
     * Extract the view data from the view data block.
@@ -45,6 +46,6 @@ public final class View8 extends View
    {
       m_id = new Integer (MPPUtility.getInt(data, 0));
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
-      m_type = MPPUtility.getShort(data, 116);
+      m_type = ViewType.getInstance(MPPUtility.getShort(data, 116));
    }
 }

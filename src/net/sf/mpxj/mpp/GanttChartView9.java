@@ -52,7 +52,7 @@ public class GanttChartView9 extends View9
     * @param fontBases map of font bases
     * @throws IOException
     */
-   public GanttChartView9 (ProjectFile parent, byte[] fixedData, Var2Data varData, Map fontBases)
+   GanttChartView9 (ProjectFile parent, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException
    {
       super (fixedData);
