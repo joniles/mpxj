@@ -593,19 +593,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     * @param field field to be added or updated.
     * @param val new value for field.
     */
-   private void set (int field, int val)
-   {
-      put(field, val);
-   }
-
-   /**
-    * This method is used to set the value of a field in the task,
-    * and also to ensure that the field exists in the task model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
    private void set (int field, boolean val)
    {
       put(field, val);
@@ -6091,17 +6078,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public Object get (int key)
    {
       return (m_array[key]);
-   }
-
-   /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
-    */
-   private void put (int key, int value)
-   {
-      put (key, new Integer (value));
    }
 
    /**

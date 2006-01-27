@@ -602,35 +602,6 @@ public final class MppXmlCompare
       }
    }
 
-   /**
-    * Boolean equality assertion, allows null to be equated to false.
-    *
-    * @param expected expected value
-    * @param actual actual value
-    * @throws Exception
-    */
-   private void assertEquals(Boolean expected, Boolean actual)
-      throws Exception
-   {
-      if (expected !=  null && actual != null)
-      {
-         assertEquals(expected.booleanValue(), actual.booleanValue());
-      }
-      else
-      {
-         if (actual != null && actual.booleanValue() == false)
-         {
-            actual = null;
-         }
-
-         if (expected != null && expected.booleanValue() == false)
-         {
-            expected = null;
-         }
-
-         assertEquals((Object)expected, (Object)actual);
-      }
-   }
 
    /**
     * Numeric equality assertion, allows null to be equated to zero.
