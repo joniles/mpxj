@@ -54,6 +54,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.utility.MPXJFormats;
 import net.sf.mpxj.utility.NumberUtility;
 
 
@@ -101,7 +102,7 @@ public final class MPXReader extends AbstractProjectReader
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
          m_resourceModel.setLocale(m_locale);
          m_baseOutlineLevel = -1;
-         m_formats = new MPXFormats(m_locale, m_projectFile);
+         m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
 
          bis.reset();
 
@@ -1343,7 +1344,7 @@ public final class MPXReader extends AbstractProjectReader
    private TaskModel m_taskModel;
    private ResourceModel m_resourceModel;
    private char m_delimiter;
-   private MPXFormats m_formats;
+   private MPXJFormats m_formats;
 
    /**
     * This member data is used to hold the outline level number of the

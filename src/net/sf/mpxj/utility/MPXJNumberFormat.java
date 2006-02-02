@@ -1,8 +1,8 @@
 /*
- * file:       MPXNumberFormat.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * file:       MPXJNumberFormat.java
+ * author:     Jon Iles
+ *             Scott Melville
+ * copyright:  (c) Tapster Rock Limited 2002-2006
  * date:       15/08/2002
  */
 
@@ -22,7 +22,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpx;
+package net.sf.mpxj.utility;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -32,42 +32,8 @@ import java.text.ParsePosition;
  * This class extends the functionality of the DecimalFormat class
  * for use within MPXJ.
  */
-final class MPXNumberFormat extends DecimalFormat
+public final class MPXJNumberFormat extends DecimalFormat
 {
-   /**
-    * Default constructor.
-    */
-   MPXNumberFormat ()
-   {
-      // package private constructor to prevent external instantiation
-   }
-
-   /**
-    * Constructor allowing primary format pattern to be supplied.
-    *
-    * @param primaryPattern new format pattern
-    * @param decimalSeparator Locale specific decimal separator to replace placeholder
-    * @param groupingSeparator Locale specific grouping separator to replace placeholder    *
-    */
-   public MPXNumberFormat (String primaryPattern, char decimalSeparator, char groupingSeparator)
-   {
-      applyPattern (primaryPattern, null, decimalSeparator, groupingSeparator);
-   }
-
-   /**
-    * Constructor allowing primary format and alternative format
-    * patterns to be supplied.
-    *
-    * @param primaryPattern new format pattern
-    * @param alternativePatterns alternative format patterns
-    * @param decimalSeparator Locale specific decimal separator to replace placeholder
-    * @param groupingSeparator Locale specific grouping separator to replace placeholder    *
-    */
-   MPXNumberFormat (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
-   {
-      applyPattern (primaryPattern, alternativePatterns, decimalSeparator, groupingSeparator);
-   }
-
    /**
     * This method is used to configure the primary and alternative
     * format patterns.

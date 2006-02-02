@@ -1,11 +1,27 @@
 /*
- * file:       MPXFormats.java
+ * file:       MPXJFormats.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2005
+ * copyright:  (c) Tapster Rock Limited 2006
  * date:       Jan 20, 2006
  */
 
-package net.sf.mpxj.mpx;
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.utility;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -23,17 +39,19 @@ import net.sf.mpxj.ProjectTimeFormat;
  * This class manages the various objects required to parse and format
  * data items in MPX files.
  */
-final class MPXFormats
+public final class MPXJFormats
 {
    /**
     * Constructor.
     *
     * @param locale target locale
+    * @param nullText locale specific text to represent a value which has not been set, normally "NA"
     * @param file parent file
     */
-   public MPXFormats (Locale locale, ProjectFile file)
+   public MPXJFormats (Locale locale, String nullText, ProjectFile file)
    {
       m_locale = locale;
+      m_nullText = nullText;
       m_projectFile = file;
       update();
    }
@@ -46,10 +64,10 @@ final class MPXFormats
       ProjectHeader header = m_projectFile.getProjectHeader();
       char decimalSeparator = header.getDecimalSeparator();
       char thousandsSeparator = header.getThousandsSeparator();
-      m_unitsDecimalFormat = new MPXNumberFormat("#.##", decimalSeparator, thousandsSeparator);
-      m_decimalFormat = new MPXNumberFormat("0.00#", decimalSeparator, thousandsSeparator);
-      m_durationDecimalFormat = new MPXNumberFormat("#.#", decimalSeparator, thousandsSeparator);
-      m_percentageDecimalFormat = new MPXNumberFormat("##0.##", decimalSeparator, thousandsSeparator);
+      m_unitsDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
+      m_decimalFormat.applyPattern("0.00#", null, decimalSeparator, thousandsSeparator);
+      m_durationDecimalFormat.applyPattern("#.#", null, decimalSeparator, thousandsSeparator);
+      m_percentageDecimalFormat.applyPattern("##0.##", null, decimalSeparator, thousandsSeparator);
       updateCurrencyFormats(header, decimalSeparator, thousandsSeparator);
       updateDateTimeFormats(header);
    }
@@ -603,9 +621,9 @@ final class MPXFormats
       m_dateFormat.applyPattern(datePattern);
       m_timeFormat.applyPattern(timePattern);
 
-      m_dateTimeFormat.setLocale(m_locale);
-      m_dateFormat.setLocale(m_locale);
-      m_timeFormat.setLocale(m_locale);
+      m_dateTimeFormat.setLocale(m_locale, m_nullText);
+      m_dateFormat.setLocale(m_locale, m_nullText);
+      m_timeFormat.setNullText(m_nullText);
    }
 
    /**
@@ -713,13 +731,14 @@ final class MPXFormats
    }
 
    private Locale m_locale;
+   private String m_nullText;
    private ProjectFile m_projectFile;
-   private NumberFormat m_unitsDecimalFormat;
-   private NumberFormat m_decimalFormat;
-   private MPXNumberFormat m_currencyFormat = new MPXNumberFormat();
-   private NumberFormat m_durationDecimalFormat;
-   private NumberFormat m_percentageDecimalFormat;
-   private MPXDateFormat m_dateTimeFormat = new MPXDateFormat();
-   private MPXDateFormat m_dateFormat = new MPXDateFormat();
-   private MPXTimeFormat m_timeFormat = new MPXTimeFormat();
+   private MPXJNumberFormat m_unitsDecimalFormat = new MPXJNumberFormat();
+   private MPXJNumberFormat m_decimalFormat = new MPXJNumberFormat();
+   private MPXJNumberFormat m_currencyFormat = new MPXJNumberFormat();
+   private MPXJNumberFormat m_durationDecimalFormat = new MPXJNumberFormat();
+   private MPXJNumberFormat m_percentageDecimalFormat = new MPXJNumberFormat();
+   private MPXJDateFormat m_dateTimeFormat = new MPXJDateFormat();
+   private MPXJDateFormat m_dateFormat = new MPXJDateFormat();
+   private MPXJTimeFormat m_timeFormat = new MPXJTimeFormat();
 }

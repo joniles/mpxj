@@ -1,8 +1,8 @@
 /*
- * file:       MPXTimeFormat.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * file:       MPXJTimeFormat.java
+ * author:     Jon Iles
+ *             Scott Melville
+ * copyright:  (c) Tapster Rock Limited 2002-2006
  * date:       15/8/2002
  */
 
@@ -22,30 +22,28 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpx;
+package net.sf.mpxj.utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the time conventions used in MPX files.
  */
-final class MPXTimeFormat extends SimpleDateFormat
+public final class MPXJTimeFormat extends SimpleDateFormat
 {
    /**
-    * This method is called when the locale of the parent file is updated.
-    * It resets the locale specific time attributes to the default values
-    * for the new locale.
-    *
-    * @param locale new locale
+    * This method allows the null text value to be set. In an English
+    * locale this is typically "NA".
+    * 
+    * @param nullText null text value
     */
-   void setLocale (Locale locale)
+   public void setNullText (String nullText)
    {
-      m_null = LocaleData.getString(locale, LocaleData.NA);
+      m_null = nullText;
    }
 
    /**

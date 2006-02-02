@@ -1,8 +1,8 @@
 /*
- * file:       MPXDateFormat.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * file:       MPXJDateFormat.java
+ * author:     Jon Iles
+ *             Scott Melville
+ * copyright:  (c) Tapster Rock Limited 2002-2006
  * date:       15/08/2002
  */
 
@@ -22,7 +22,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpx;
+package net.sf.mpxj.utility;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
@@ -36,7 +36,7 @@ import java.util.Locale;
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the date conventions used in MPX files.
  */
-final class MPXDateFormat extends DateFormat
+public final class MPXJDateFormat extends DateFormat
 {
    /**
     * This method is called when the locale of the parent file is updated.
@@ -44,12 +44,13 @@ final class MPXDateFormat extends DateFormat
     * for the new locale.
     *
     * @param locale new locale
+    * @param nullText locale-specific text representing a null value
     */
-   void setLocale (Locale locale)
+   public void setLocale (Locale locale, String nullText)
    {
       m_format = new SimpleDateFormat (m_format.toPattern(), locale);
       m_alternativeFormat = new SimpleDateFormat (m_alternativeFormat.toPattern(), locale);
-      m_null = LocaleData.getString(locale, LocaleData.NA);
+      m_null = nullText;
    }
 
    /**

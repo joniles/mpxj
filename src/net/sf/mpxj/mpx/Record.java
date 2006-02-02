@@ -40,6 +40,7 @@ import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.utility.MPXJFormats;
 
 
 
@@ -57,7 +58,7 @@ final class Record
     * @param formats formats used when parsing data
     * @throws MPXJException normally thrown when parsing fails
     */
-   Record (Locale locale, Tokenizer tk, MPXFormats formats)
+   Record (Locale locale, Tokenizer tk, MPXJFormats formats)
       throws MPXJException
    {
       try
@@ -740,5 +741,5 @@ final class Record
     */
    private String[] m_fields;
 
-   private MPXFormats m_formats;
+   private MPXJFormats m_formats;
 }

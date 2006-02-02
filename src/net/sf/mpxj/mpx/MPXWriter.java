@@ -56,6 +56,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.utility.MPXJFormats;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 
@@ -139,7 +140,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_delimiter = projectFile.getDelimiter();
       m_writer = new OutputStreamWriter(new BufferedOutputStream(out), projectFile.getFileCreationRecord().getCodePage().getCharset());
       m_buffer = new StringBuffer();
-      m_formats = new MPXFormats(m_locale, m_projectFile);
+      m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
 
       try
       {
@@ -1392,5 +1393,5 @@ public final class MPXWriter extends AbstractProjectWriter
    private char m_delimiter;
    private Locale m_locale = Locale.ENGLISH;
    private StringBuffer m_buffer;
-   private MPXFormats m_formats;
+   private MPXJFormats m_formats;
 }
