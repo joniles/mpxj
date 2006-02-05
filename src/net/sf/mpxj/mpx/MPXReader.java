@@ -497,8 +497,8 @@ public final class MPXReader extends AbstractProjectReader
       projectHeader.setDefaultDurationUnits(record.getTimeUnit(0));
       projectHeader.setDefaultDurationIsFixed(record.getNumericBoolean(1));
       projectHeader.setDefaultWorkUnits(record.getTimeUnit(2));
-      projectHeader.setDefaultHoursInDay(record.getFloat(3));
-      projectHeader.setDefaultHoursInWeek(record.getFloat(4));
+      projectHeader.setMinutesPerDay(new Double(NumberUtility.getDouble(record.getFloat(3)) * 60));
+      projectHeader.setMinutesPerWeek(new Double(NumberUtility.getDouble(record.getFloat(4)) * 60));
       projectHeader.setDefaultStandardRate(record.getRate(5));
       projectHeader.setDefaultOvertimeRate(record.getRate(6));
       projectHeader.setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));

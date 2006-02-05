@@ -679,7 +679,7 @@ final class MPPUtility
       {
          case TimeUnit.DAYS_VALUE:
          {
-            double unitsPerDay = file.getProjectHeader().getDefaultHoursInDay().doubleValue() * 600d;
+            double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
             double totalDays = duration / unitsPerDay;
             result = Duration.getInstance(totalDays, timeUnit);
             break;

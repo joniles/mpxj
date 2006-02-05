@@ -57,6 +57,7 @@ import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.MPXJFormats;
+import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 
@@ -251,9 +252,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getDefaultWorkUnits()));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatDecimal(record.getDefaultHoursInDay())));
+      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerDay())/60)));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatDecimal(record.getDefaultHoursInWeek())));
+      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerWeek())/60)));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(formatRate(record.getDefaultStandardRate())));
       m_buffer.append (m_delimiter);
@@ -1290,6 +1291,17 @@ public final class MPXWriter extends AbstractProjectWriter
       return (value==null?null:m_formats.getDecimalFormat().format(value));
    }
 
+   /**
+    * This method formats a decimal value.
+    *
+    * @param value value
+    * @return formatted value
+    */
+   private String formatDecimal (double value)
+   {
+      return (m_formats.getDecimalFormat().format(value));
+   }
+   
    /**
     * Converts a value to the appropriate type.
     *

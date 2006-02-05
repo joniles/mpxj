@@ -112,118 +112,118 @@ public final class Duration
       {
          case TimeUnit.YEARS_VALUE:
          {
-            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 52);
+            duration *= (defaults.getMinutesPerWeek().doubleValue() * 52);
             break;
          }
 
          case TimeUnit.ELAPSED_YEARS_VALUE:
          {
-            duration *= (24 * 7 * 52);
+            duration *= (60 * 24 * 7 * 52);
             break;
          }
 
          case TimeUnit.MONTHS_VALUE:
          {
-            duration *= (defaults.getDefaultHoursInWeek().doubleValue() * 4);
+            duration *= (defaults.getMinutesPerWeek().doubleValue() * 4);
             break;
          }
 
          case TimeUnit.ELAPSED_MONTHS_VALUE:
          {
-            duration *= (24 * 7 * 4);
+            duration *= (60 * 24 * 7 * 4);
             break;
          }
 
          case TimeUnit.WEEKS_VALUE:
          {
-            duration *= defaults.getDefaultHoursInWeek().doubleValue();
+            duration *= defaults.getMinutesPerWeek().doubleValue();
             break;
          }
 
          case TimeUnit.ELAPSED_WEEKS_VALUE:
          {
-            duration *= (24 * 7);
+            duration *= (60 * 24 * 7);
             break;
          }
 
          case TimeUnit.DAYS_VALUE:
          {
-            duration *= defaults.getDefaultHoursInDay().doubleValue();
+            duration *= defaults.getMinutesPerDay().doubleValue();
             break;
          }
 
          case TimeUnit.ELAPSED_DAYS_VALUE:
          {
-            duration *= 24;
+            duration *= (60 * 24);
             break;
          }
 
 
-         case TimeUnit.MINUTES_VALUE:
-         case TimeUnit.ELAPSED_MINUTES_VALUE:
+         case TimeUnit.HOURS_VALUE:
+         case TimeUnit.ELAPSED_HOURS_VALUE:
          {
-            duration /= 60;
+            duration *= 60;
             break;
          }
       }
 
 
-      if (toUnits != TimeUnit.HOURS && toUnits != TimeUnit.ELAPSED_HOURS)
+      if (toUnits != TimeUnit.MINUTES && toUnits != TimeUnit.ELAPSED_MINUTES)
       {
          switch (toUnits.getValue())
          {
-            case TimeUnit.MINUTES_VALUE:
-            case TimeUnit.ELAPSED_MINUTES_VALUE:
+            case TimeUnit.HOURS_VALUE:
+            case TimeUnit.ELAPSED_HOURS_VALUE:
             {
-               duration *= 60;
+               duration /= 60;
                break;
             }
 
             case TimeUnit.DAYS_VALUE:
             {
-               duration /= defaults.getDefaultHoursInDay().doubleValue();
+               duration /= defaults.getMinutesPerDay().doubleValue();
                break;
             }
 
             case TimeUnit.ELAPSED_DAYS_VALUE:
             {
-               duration /= 24;
+               duration /= (60 * 24);
                break;
             }
 
             case TimeUnit.WEEKS_VALUE:
             {
-               duration /= defaults.getDefaultHoursInWeek().doubleValue();
+               duration /= defaults.getMinutesPerWeek().doubleValue();
                break;
             }
 
             case TimeUnit.ELAPSED_WEEKS_VALUE:
             {
-               duration /= (24 * 7);
+               duration /= (60 * 24 * 7);
                break;
             }
 
             case TimeUnit.MONTHS_VALUE:
             {
-               duration /= (defaults.getDefaultHoursInWeek().doubleValue() * 4);
+               duration /= (defaults.getMinutesPerWeek().doubleValue() * 4);
                break;
             }
 
             case TimeUnit.ELAPSED_MONTHS_VALUE:
             {
-               duration /= (24 * 7 * 4);
+               duration /= (60 * 24 * 7 * 4);
                break;
             }
 
             case TimeUnit.YEARS_VALUE:
             {
-               duration /= (defaults.getDefaultHoursInWeek().doubleValue() * 52);
+               duration /= (defaults.getMinutesPerWeek().doubleValue() * 52);
                break;
             }
 
             case TimeUnit.ELAPSED_YEARS_VALUE:
             {
-               duration /= (24 * 7 * 52);
+               duration /= (60 * 24 * 7 * 52);
                break;
             }
          }

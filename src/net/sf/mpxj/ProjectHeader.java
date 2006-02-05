@@ -71,8 +71,8 @@ public final class ProjectHeader extends ProjectEntity
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
       setDefaultWorkUnits(TimeUnit.HOURS);
-      setDefaultHoursInDay(new Float(8));
-      setDefaultHoursInWeek(new Float (40));
+      setMinutesPerDay(new Integer(480));
+      setMinutesPerWeek(new Integer (2400));
       setDefaultStandardRate(new Rate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new Rate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
@@ -199,46 +199,6 @@ public final class ProjectHeader extends ProjectEntity
    public void setDefaultWorkUnits (TimeUnit units)
    {
       m_defaultWorkUnits = units;
-   }
-
-   /**
-    * Gets the default number of hours in a day.
-    *
-    * @return number of hours
-    */
-   public Number getDefaultHoursInDay ()
-   {
-      return (m_defaultHoursInDay);
-   }
-
-   /**
-    * Sets the default number of hours in a day.
-    *
-    * @param hours number of hours
-    */
-   public void setDefaultHoursInDay (Number hours)
-   {
-      m_defaultHoursInDay = hours;
-   }
-
-   /**
-    * Gets the default number of hours in a week.
-    *
-    * @return number of hours
-    */
-   public Number getDefaultHoursInWeek ()
-   {
-      return (m_defaultHoursInWeek);
-   }
-
-   /**
-    * Sets the default number of hours in a week.
-    *
-    * @param hours number of hours
-    */
-   public void setDefaultHoursInWeek (Number hours)
-   {
-      m_defaultHoursInWeek = hours;
    }
 
    /**
@@ -1334,7 +1294,10 @@ public final class ProjectHeader extends ProjectEntity
     */
    public void setDaysPerMonth(Integer daysPerMonth)
    {
-      m_daysPerMonth = daysPerMonth;
+      if (daysPerMonth != null)
+      {
+         m_daysPerMonth = daysPerMonth;
+      }
    }
 
    /**
@@ -1342,7 +1305,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return minutes per day
     */
-   public Integer getMinutesPerDay()
+   public Number getMinutesPerDay()
    {
       return (m_minutesPerDay);
    }
@@ -1352,9 +1315,12 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param minutesPerDay minutes per day
     */
-   public void setMinutesPerDay(Integer minutesPerDay)
+   public void setMinutesPerDay(Number minutesPerDay)
    {
-      m_minutesPerDay = minutesPerDay;
+      if (minutesPerDay != null)
+      {
+         m_minutesPerDay = minutesPerDay;
+      }
    }
 
    /**
@@ -1362,7 +1328,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return minutes per week
     */
-   public Integer getMinutesPerWeek()
+   public Number getMinutesPerWeek()
    {
       return m_minutesPerWeek;
    }
@@ -1372,9 +1338,12 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param minutesPerWeek minutes per week
     */
-   public void setMinutesPerWeek(Integer minutesPerWeek)
+   public void setMinutesPerWeek(Number minutesPerWeek)
    {
-      m_minutesPerWeek = minutesPerWeek;
+      if (minutesPerWeek != null)
+      {
+         m_minutesPerWeek = minutesPerWeek;
+      }
    }
 
    /**
@@ -2135,8 +2104,6 @@ public final class ProjectHeader extends ProjectEntity
    private TimeUnit m_defaultDurationUnits = TimeUnit.DAYS;
    private boolean m_defaultDurationIsFixed;
    private TimeUnit m_defaultWorkUnits;
-   private Number m_defaultHoursInDay;
-   private Number m_defaultHoursInWeek;
    private Rate m_defaultStandardRate;
    private Rate m_defaultOvertimeRate;
    private boolean m_updatingTaskStatusUpdatesResourceStatus;
@@ -2199,9 +2166,9 @@ public final class ProjectHeader extends ProjectEntity
    private Date m_defaultEndTime;
    private boolean m_projectExternallyEdited;
    private String m_category;
-   private Integer m_minutesPerDay;
+   private Number m_minutesPerDay;
    private Integer m_daysPerMonth;
-   private Integer m_minutesPerWeek;
+   private Number m_minutesPerWeek;
    private boolean m_fiscalYearStart;
    private EarnedValueMethod m_defaultTaskEarnedValueMethod;
    private boolean m_removeFileProperties;

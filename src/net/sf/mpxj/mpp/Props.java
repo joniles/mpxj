@@ -194,8 +194,8 @@ class Props extends MPPComponent
    public static final Integer TASK_UPDATES_RESOURCE = new Integer (37748761);
    public static final Integer SPLIT_TASKS = new Integer (37748762);
    public static final Integer START_TIME = new Integer (37748764);
-   public static final Integer HOURS_PER_DAY = new Integer (37748765);
-   public static final Integer HOURS_PER_WEEK = new Integer (37748766);
+   public static final Integer MINUTES_PER_DAY = new Integer (37748765);
+   public static final Integer MINUTES_PER_WEEK = new Integer (37748766);
    public static final Integer STANDARD_RATE = new Integer (37748767);
    public static final Integer OVERTIME_RATE = new Integer (37748768);
    public static final Integer END_TIME = new Integer (37748769);
