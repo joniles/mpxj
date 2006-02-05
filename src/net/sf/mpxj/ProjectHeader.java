@@ -1214,7 +1214,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param currDigs Available values, 0,1,2
     */
-   public void setCurrencyDigits (Integer currDigs)
+   public void setCurrencyDigits (Number currDigs)
    {
       m_currencyDigits = currDigs;
    }
@@ -1224,7 +1224,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Available values, 0,1,2
     */
-   public Integer getCurrencyDigits ()
+   public Number getCurrencyDigits ()
    {
       return (m_currencyDigits);
    }
@@ -2125,7 +2125,7 @@ public final class ProjectHeader extends ProjectEntity
 
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
-   private Integer m_currencyDigits;
+   private Number m_currencyDigits;
    private char m_thousandsSeparator;
    private char m_decimalSeparator;
 
