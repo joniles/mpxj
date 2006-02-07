@@ -1282,7 +1282,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return days per month
     */
-   public Integer getDaysPerMonth()
+   public Number getDaysPerMonth()
    {
       return (m_daysPerMonth);
    }
@@ -1292,7 +1292,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param daysPerMonth days per month
     */
-   public void setDaysPerMonth(Integer daysPerMonth)
+   public void setDaysPerMonth(Number daysPerMonth)
    {
       if (daysPerMonth != null)
       {
@@ -2167,7 +2167,7 @@ public final class ProjectHeader extends ProjectEntity
    private boolean m_projectExternallyEdited;
    private String m_category;
    private Number m_minutesPerDay;
-   private Integer m_daysPerMonth;
+   private Number m_daysPerMonth;
    private Number m_minutesPerWeek;
    private boolean m_fiscalYearStart;
    private EarnedValueMethod m_defaultTaskEarnedValueMethod;
