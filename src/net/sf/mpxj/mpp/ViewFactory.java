@@ -40,12 +40,13 @@ interface ViewFactory
     * This method is called to create a view.
     *
     * @param file parent MPP file
+    * @param fixedMeta fixed meta data
     * @param fixedData view fixed data
     * @param varData view var data
     * @param fontBases map of font bases
     * @return View instance
     * @throws IOException
     */
-   public View createView (ProjectFile file, byte[] fixedData, Var2Data varData, Map fontBases)
+   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException;
 }

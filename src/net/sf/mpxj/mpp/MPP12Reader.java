@@ -2160,19 +2160,21 @@ final class MPP12Reader implements MPPVariantReader
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
       VarMeta viewVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-      FixedData ff = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
-      int items = ff.getItemCount();
+      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      
+      int items = fixedMeta.getItemCount();
       View view;
       ViewFactory factory = new DefaultViewFactory ();
 
-      //System.out.println(viewVarMeta);
-      //System.out.println(viewVarData);
-
       for (int loop=0; loop < items; loop++)
-      {
-         view = factory.createView(file, ff.getByteArrayValue(loop), viewVarData, m_fontBases);
+      {        
+         byte[] fm = fixedMeta.getByteArrayValue(loop);
+         int offset = MPPUtility.getShort(fm, 4);
+         byte[] fd = fixedData.getByteArrayValue(fixedData.getIndexFromOffset(offset));
+         view = factory.createView(file, fm, fd, viewVarData, m_fontBases);
          file.addView(view);
-      }
+      }      
    }
 
    /**

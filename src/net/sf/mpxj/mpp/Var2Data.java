@@ -303,6 +303,17 @@ final class Var2Data extends MPPComponent
    }
 
    /**
+    * Retrieve the underlying meta data. This method is provided
+    * mainly as a convenience for debugging.
+    * 
+    * @return VarMeta instance
+    */
+   public VarMeta getVarMeta ()
+   {
+      return (m_meta);
+   }
+   
+   /**
     * This method dumps the contents of this Var2Data block as a String.
     * Note that this facility is provided as a debugging aid.
     *

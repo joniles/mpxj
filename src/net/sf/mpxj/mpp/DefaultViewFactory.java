@@ -39,7 +39,7 @@ class DefaultViewFactory implements ViewFactory
    /**
     * {@inheritDoc}
     */
-   public View createView (ProjectFile file, byte[] fixedData, Var2Data varData, Map fontBases)
+   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException
    {
       View view;
@@ -55,7 +55,7 @@ class DefaultViewFactory implements ViewFactory
          {
             case ViewType.GANTT_CHART_VALUE:
             {
-               view = new GanttChartView9 (file, fixedData, varData, fontBases);
+               view = new GanttChartView9 (file, fixedMeta, fixedData, varData, fontBases);               
                break;
             }
    
@@ -66,7 +66,7 @@ class DefaultViewFactory implements ViewFactory
             }
          }
       }
-      
+            
       return (view);
    }
 }

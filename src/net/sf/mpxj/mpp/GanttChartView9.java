@@ -47,28 +47,32 @@ public class GanttChartView9 extends View9
     * with a view.
     *
     * @param parent parent MPP file
+    * @param fixedMeta fixed meta data block
     * @param fixedData fixed data block
     * @param varData var data block
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView9 (ProjectFile parent, byte[] fixedData, Var2Data varData, Map fontBases)
+   GanttChartView9 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException
    {
       super (fixedData);
 
       m_parent = parent;
-
+      
+      m_showInMenu = (fixedMeta[8] & 0x08) != 0;
+      
       byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
       if (propsData != null)
       {
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
          //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-
+         
          byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
          if (tableData != null)
          {
             m_tableWidth = MPPUtility.getShort(tableData, 35);
+            m_highlightFilter = (tableData[7] != 0);
          }
 
          byte[] tableName = props.getByteArray(TABLE_NAME);
@@ -77,6 +81,18 @@ public class GanttChartView9 extends View9
             m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName));
          }
 
+         byte[] filterName = props.getByteArray(FILTER_NAME);
+         if (filterName != null)
+         {
+            m_filterName = MPPUtility.getUnicodeString(filterName);
+         }
+         
+         byte[] groupName = props.getByteArray(GROUP_NAME);
+         if (groupName != null)
+         {
+            m_groupName = MPPUtility.getUnicodeString(groupName);
+         }
+         
          byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
          if (viewPropertyData != null)
          {
@@ -602,6 +618,46 @@ public class GanttChartView9 extends View9
       return (m_tableName);
    }
 
+   /**
+    * Retrieve the name of the filter applied to this view.
+    * 
+    * @return filter name
+    */
+   public String getFilterName ()
+   {
+      return (m_filterName);
+   }
+   
+   /**
+    * Retrieve the name of the grouping applied to this view.
+    * 
+    * @return group name
+    */
+   public String getGroupName ()
+   {
+      return (m_groupName);
+   }
+   
+   /**
+    * Retrieve the highlight filter flag.
+    * 
+    * @return highlight filter flag
+    */
+   public boolean getHighlightFilter ()
+   {
+      return (m_highlightFilter);
+   }
+   
+   /**
+    * Retrieve the show in menu flag.
+    * 
+    * @return show in menu flag
+    */
+   public boolean getShowInMenu ()
+   {
+      return (m_showInMenu);
+   }
+   
    /**
     * Retrieve a FontStyle instance.
     *
@@ -1318,6 +1374,10 @@ public class GanttChartView9 extends View9
 
       pw.println ("   TableWidth=" + m_tableWidth);
       pw.println ("   TableName=" + m_tableName);
+      pw.println ("   FilterName=" + m_filterName);
+      pw.println ("   GroupName=" + m_groupName);
+      pw.println ("   HighlightFilter=" + m_highlightFilter);
+      pw.println ("   ShowInMenu=" + m_showInMenu);
       pw.println ("   Table=" + getTable());
 
       if (m_tableFontStyles != null)
@@ -1390,7 +1450,11 @@ public class GanttChartView9 extends View9
 
    private int m_tableWidth;
    private String m_tableName;
-
+   private String m_filterName;
+   private String m_groupName;
+   private boolean m_highlightFilter;
+   private boolean m_showInMenu;
+   
    private FontStyle m_highlightedTasksFontStyle;
    private FontStyle m_rowAndColumnFontStyle;
    private FontStyle m_nonCriticalTasksFontStyle;
@@ -1447,6 +1511,8 @@ public class GanttChartView9 extends View9
    private static final Integer BAR_PROPERTIES = new Integer (574619661);
    private static final Integer TABLE_PROPERTIES = new Integer (574619655);
    private static final Integer TABLE_NAME = new Integer (574619658);
+   private static final Integer FILTER_NAME = new Integer (574619659);
+   private static final Integer GROUP_NAME = new Integer (574619672);
    private static final Integer COLUMN_PROPERTIES = new Integer (574619660);
    private static final Integer PROGRESS_LINE_PROPERTIES = new Integer (574619671);
 }
