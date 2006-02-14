@@ -199,4 +199,5 @@ public final class NumberUtility
 
 
    public static final Double DOUBLE_ZERO = new Double(0);
+   public static final Integer INTEGER_ZERO = new Integer(0);
 }
