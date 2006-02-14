@@ -32,6 +32,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.utility.NumberUtility;
+
 /**
  * This class represents the a Calendar Definition record. Both base calendars
  * and calendars derived from base calendars are represented by instances
@@ -56,7 +58,7 @@ public final class ProjectCalendar extends ProjectEntity
 
       if (file.getAutoCalendarUniqueID() == true)
       {
-         setUniqueID (file.getCalendarUniqueID());
+         setUniqueID (new Integer(file.getCalendarUniqueID()));
       }
    }
 
@@ -579,7 +581,7 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @param uniqueID unique identifier
     */
-   public void setUniqueID (int uniqueID)
+   public void setUniqueID (Integer uniqueID)
    {
       m_uniqueID = uniqueID;
    }
@@ -589,7 +591,7 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @return calendar unique identifier
     */
-   public int getUniqueID ()
+   public Integer getUniqueID ()
    {
       return (m_uniqueID);
    }
@@ -626,7 +628,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * Unique identifier of this calendar.
     */
-   private int m_uniqueID;
+   private Integer m_uniqueID = NumberUtility.INTEGER_ZERO;
 
    /**
     * Calendar name.

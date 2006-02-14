@@ -272,7 +272,7 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (baseCalendarID > 0)
             {
-               cal = file.getResourceCalendar ();
+               cal = file.addResourceCalendar ();
                baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
             }
             else
@@ -281,7 +281,7 @@ final class MPP8Reader implements MPPVariantReader
                cal.setName (name);
             }
 
-            cal.setUniqueID(calendarID);
+            cal.setUniqueID(new Integer(calendarID));
 
             extData = calendarVarData.getByteArray(offset);
 

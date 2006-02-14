@@ -42,6 +42,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldConstants;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -51,8 +52,10 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceFieldConstants;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskFieldConstants;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -196,8 +199,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List list = attributes.getExtendedAttribute();
 
-      writeFieldAliases (factory, m_projectFile.getTaskFieldAliasMap(), MSPDIConstants.TASK_FIELD_MPX_TO_XML_MAP, MSPDIConstants.TASK_FIELD_MPX_TO_NAME_MAP, list);
-      writeFieldAliases (factory, m_projectFile.getResourceFieldAliasMap(), MSPDIConstants.RESOURCE_FIELD_MPX_TO_XML_MAP, MSPDIConstants.RESOURCE_FIELD_MPX_TO_NAME_MAP, list);
+      writeFieldAliases (factory, m_projectFile.getTaskFieldAliasMap(), TaskFieldConstants.TASK_FIELD_MPXJ_TO_PROJECT_MAP, TaskFieldConstants.TASK_FIELD_MPXJ_TO_NAME_MAP, list);
+      writeFieldAliases (factory, m_projectFile.getResourceFieldAliasMap(), ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_PROJECT_MAP, ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_NAME_MAP, list);
    }
 
    /**
@@ -298,7 +301,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Create a calendar
       //
       Project.CalendarsType.CalendarType calendar = factory.createProjectTypeCalendarsTypeCalendarType();
-      calendar.setUID(BigInteger.valueOf(bc.getUniqueID()));
+      calendar.setUID(NumberUtility.getBigInteger(bc.getUniqueID()));
       calendar.setIsBaseCalendar(bc.isBaseCalendar());
 
       if (bc.isBaseCalendar() == false)
@@ -306,7 +309,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          ProjectCalendar base = bc.getBaseCalendar();
          if (base != null)
          {
-            calendar.setBaseCalendarUID(BigInteger.valueOf(base.getUniqueID()));
+            calendar.setBaseCalendarUID(NumberUtility.getBigInteger(base.getUniqueID()));
          }
       }
 
@@ -457,7 +460,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ProjectCalendar cal = mpx.getResourceCalendar();
       if (cal != null)
       {
-         xml.setCalendarUID(BigInteger.valueOf(cal.getUniqueID()));
+         xml.setCalendarUID(NumberUtility.getBigInteger(cal.getUniqueID()));
       }
 
       xml.setAccrueAt(mpx.getAccrueAt());
@@ -543,14 +546,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       int mpxFieldID;
       Integer xmlFieldID;
 
-      for (int loop=0; loop < MSPDIConstants.RESOURCE_DATA.length; loop++)
+      for (int loop=0; loop < ResourceFieldConstants.RESOURCE_DATA.length; loop++)
       {
-         mpxFieldID = ((Integer)MSPDIConstants.RESOURCE_DATA[loop][MSPDIConstants.MPX_FIELD_ID]).intValue();
+         mpxFieldID = ((Integer)ResourceFieldConstants.RESOURCE_DATA[loop][FieldConstants.MPXJ_FIELD_ID]).intValue();
          value = mpx.get(mpxFieldID);
 
          if (value != null)
          {
-            xmlFieldID = (Integer)MSPDIConstants.RESOURCE_DATA[loop][MSPDIConstants.MSPDI_FIELD_ID];
+            xmlFieldID = (Integer)ResourceFieldConstants.RESOURCE_DATA[loop][FieldConstants.PROJECT_FIELD_ID];
 
             attrib = factory.createProjectTypeResourcesTypeResourceTypeExtendedAttributeType();
             extendedAttributes.add(attrib);
@@ -741,14 +744,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       int mpxFieldID;
       Integer xmlFieldID;
 
-      for (int loop=0; loop < MSPDIConstants.TASK_DATA.length; loop++)
+      for (int loop=0; loop < TaskFieldConstants.TASK_DATA.length; loop++)
       {
-         mpxFieldID = ((Integer)MSPDIConstants.TASK_DATA[loop][MSPDIConstants.MPX_FIELD_ID]).intValue();
+         mpxFieldID = ((Integer)TaskFieldConstants.TASK_DATA[loop][FieldConstants.MPXJ_FIELD_ID]).intValue();
          value = mpx.get(mpxFieldID);
 
          if (value != null)
          {
-            xmlFieldID = (Integer)MSPDIConstants.TASK_DATA[loop][MSPDIConstants.MSPDI_FIELD_ID];
+            xmlFieldID = (Integer)TaskFieldConstants.TASK_DATA[loop][FieldConstants.PROJECT_FIELD_ID];
 
             attrib = factory.createProjectTypeTasksTypeTaskTypeExtendedAttributeType();
             extendedAttributes.add(attrib);
@@ -788,7 +791,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ProjectCalendar cal = mpx.getCalendar();
       if (cal != null)
       {
-         result = BigInteger.valueOf(cal.getUniqueID());
+         result = NumberUtility.getBigInteger(cal.getUniqueID());
       }
       else
       {
@@ -937,7 +940,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
 
-            dummy.setResourceUniqueID(MSPDIConstants.NULL_RESOURCE_ID);
+            dummy.setResourceUniqueID(ResourceFieldConstants.NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));

@@ -480,7 +480,7 @@ public final class ProjectFile
     *
     * @return new ProjectCalendar instance
     */
-   public ProjectCalendar getResourceCalendar ()
+   public ProjectCalendar addResourceCalendar ()
    {
       ProjectCalendar calendar = new ProjectCalendar(this, false);
       m_resourceCalendars.add(calendar);
@@ -530,7 +530,7 @@ public final class ProjectFile
       throws MPXJException
    {
       ProjectCalendar calendar = addBaseCalendar();
-
+      
       calendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
       calendar.setWorkingDay(Day.SUNDAY, false);
@@ -752,7 +752,7 @@ public final class ProjectFile
       {
          calendar = (ProjectCalendar)iter.next();
 
-         if (calendar.getUniqueID() == calendarID)
+         if (NumberUtility.getInt(calendar.getUniqueID()) == calendarID)
          {
             break;
          }
@@ -986,7 +986,7 @@ public final class ProjectFile
       for(Iterator iter=m_baseCalendars.iterator(); iter.hasNext();)
       {
          ProjectCalendar calendar = (ProjectCalendar)iter.next();
-         int uniqueID = calendar.getUniqueID();
+         int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
          {
             m_calendarUniqueID = uniqueID;
@@ -999,7 +999,7 @@ public final class ProjectFile
       for(Iterator iter=m_resourceCalendars.iterator(); iter.hasNext();)
       {
          ProjectCalendar calendar = (ProjectCalendar)iter.next();
-         int uniqueID = calendar.getUniqueID();
+         int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
          {
             m_calendarUniqueID = uniqueID;

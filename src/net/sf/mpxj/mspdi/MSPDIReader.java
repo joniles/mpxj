@@ -54,9 +54,11 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceFieldConstants;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskFieldConstants;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -312,10 +314,10 @@ public final class MSPDIReader extends AbstractProjectReader
       }
       else
       {
-         bc = m_projectFile.getResourceCalendar();
+         bc = m_projectFile.addResourceCalendar();
       }
 
-      bc.setUniqueID(calendar.getUID().intValue());
+      bc.setUniqueID(NumberUtility.getInteger(calendar.getUID()));
       bc.setName(calendar.getName());
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
@@ -477,9 +479,9 @@ public final class MSPDIReader extends AbstractProjectReader
 
          switch (prefix)
          {
-            case MSPDIConstants.TASK_FIELD_PREFIX:
+            case TaskFieldConstants.TASK_FIELD_PREFIX:
             {
-               Integer taskField = (Integer)MSPDIConstants.TASK_FIELD_XML_TO_MPX_MAP.get(id);
+               Integer taskField = (Integer)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(id);
                if (taskField != null)
                {
                   m_projectFile.setTaskFieldAlias (taskField.intValue(), attribute.getAlias());
@@ -487,9 +489,9 @@ public final class MSPDIReader extends AbstractProjectReader
                break;
             }
 
-            case MSPDIConstants.RESOURCE_FIELD_PREFIX:
+            case ResourceFieldConstants.RESOURCE_FIELD_PREFIX:
             {
-               Integer resourceField = (Integer)MSPDIConstants.RESOURCE_FIELD_XML_TO_MPX_MAP.get(id);
+               Integer resourceField = (Integer)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(id);
                if (resourceField != null)
                {
                   m_projectFile.setResourceFieldAlias (resourceField.intValue(), attribute.getAlias());
@@ -624,8 +626,8 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          attrib = (Project.ResourcesType.ResourceType.ExtendedAttributeType)iter.next();
          xmlFieldID = new Integer (attrib.getFieldID());
-         mpxFieldID = (Integer)MSPDIConstants.RESOURCE_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
-         dataType = ((Integer)MSPDIConstants.RESOURCE_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
+         mpxFieldID = (Integer)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
+         dataType = ((Integer)ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID)).intValue();
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
       }
    }
@@ -853,8 +855,8 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          attrib = (Project.TasksType.TaskType.ExtendedAttributeType)iter.next();
          xmlFieldID = new Integer (attrib.getFieldID());
-         mpxFieldID = (Integer)MSPDIConstants.TASK_FIELD_XML_TO_MPX_MAP.get(xmlFieldID);
-         dataType = ((Integer)MSPDIConstants.TASK_FIELD_MPX_TO_TYPE_MAP.get(mpxFieldID)).intValue();
+         mpxFieldID = (Integer)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
+         dataType = ((Integer)TaskFieldConstants.TASK_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID)).intValue();
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
       }
    }

@@ -42,6 +42,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.ExtendedAttributeContainer;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldConstants;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
@@ -226,37 +227,37 @@ public final class DatatypeConverter
    {
       switch (dataType)
       {
-         case MSPDIConstants.STRING_ATTRIBUTE:
+         case FieldConstants.STRING_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), value);
             break;
          }
 
-         case MSPDIConstants.DATE_ATTRIBUTE:
+         case FieldConstants.DATE_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeDate(value));
             break;
          }
 
-         case MSPDIConstants.CURRENCY_ATTRIBUTE:
+         case FieldConstants.CURRENCY_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeCurrency(value));
             break;
          }
 
-         case MSPDIConstants.BOOLEAN_ATTRIBUTE:
+         case FieldConstants.BOOLEAN_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeBoolean(value));
             break;
          }
 
-         case MSPDIConstants.NUMERIC_ATTRIBUTE:
+         case FieldConstants.NUMERIC_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeNumber(value));
             break;
          }
 
-         case MSPDIConstants.DURATION_ATTRIBUTE:
+         case FieldConstants.DURATION_ATTRIBUTE:
          {
             mpx.set(mpxFieldID.intValue(), parseDuration(file, null, value));
             break;

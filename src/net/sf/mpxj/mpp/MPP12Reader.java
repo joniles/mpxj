@@ -996,7 +996,7 @@ final class MPP12Reader implements MPPVariantReader
                   {
                      if (varData != null)
                      {
-                        cal = file.getResourceCalendar();
+                        cal = file.addResourceCalendar();
                      }
                      else
                      {
@@ -1008,7 +1008,7 @@ final class MPP12Reader implements MPPVariantReader
                      resourceMap.put (resourceID, cal);
                   }
 
-                  cal.setUniqueID(calendarID.intValue());
+                  cal.setUniqueID(calendarID);
 
                   if (varData != null)
                   {
