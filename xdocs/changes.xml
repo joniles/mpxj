@@ -11,7 +11,8 @@
    <release version="0.9.2" date="CVS HEAD"> 
       <action dev="joniles" type="add">Added support for split views.</action>      
       <action dev="joniles" type="update">Updated to make date/time/number formats generic, and thus available to end users. For example, this allows users to format currencies in line with the settings in the project file.</action>      
-      <action dev="joniles" type="update">Standardized on minutes per day and minutes per week, rather than hours per day and hours per week.</action>      
+      <action dev="joniles" type="update">Standardized on minutes per day and minutes per week, rather than hours per day and hours per week.</action>
+      <action dev="joniles" type="update">Provided additional time ranges for calendar exceptions.</action>      
    </release>
       
    <release version="0.9.1" date="26/01/2006"> 

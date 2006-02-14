@@ -249,6 +249,86 @@ public final class ProjectCalendarException extends ProjectEntity
       return (result);
    }
 
+   /**
+    * Get ToTime4.
+    *
+    * @return Time
+    */
+   public Date getFromTime4 ()
+   {
+      return (m_fromTime4);
+   }
+
+   /**
+    * Sets from time 4.
+    *
+    * @param from Time
+    */
+   public void setFromTime4 (Date from)
+   {
+      m_fromTime4 = from;
+   }
+
+   /**
+    * Get ToTime4.
+    *
+    * @return Time
+    */
+   public Date getToTime4 ()
+   {
+      return (m_toTime4);
+   }
+
+   /**
+    * Sets to time 4.
+    *
+    * @param to Time
+    */
+   public void setToTime4 (Date to)
+   {
+      m_toTime4 = to;
+   }
+   
+   /**
+    * Get ToTime5.
+    *
+    * @return Time
+    */
+   public Date getFromTime5 ()
+   {
+      return (m_fromTime5);
+   }
+
+   /**
+    * Sets from time 5.
+    *
+    * @param from Time
+    */
+   public void setFromTime5 (Date from)
+   {
+      m_fromTime5 = from;
+   }
+
+   /**
+    * Get ToTime5.
+    *
+    * @return Time
+    */
+   public Date getToTime5 ()
+   {
+      return (m_toTime5);
+   }
+
+   /**
+    * Sets to time 5.
+    *
+    * @param to Time
+    */
+   public void setToTime5 (Date to)
+   {
+      m_toTime5 = to;
+   }
+   
    private Date m_fromDate;
    private Date m_toDate;
    private boolean m_working;
@@ -258,4 +338,8 @@ public final class ProjectCalendarException extends ProjectEntity
    private Date m_toTime2;
    private Date m_fromTime3;
    private Date m_toTime3;
+   private Date m_fromTime4;
+   private Date m_toTime4;
+   private Date m_fromTime5;
+   private Date m_toTime5;   
 }
