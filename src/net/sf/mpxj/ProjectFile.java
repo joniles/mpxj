@@ -1508,6 +1508,29 @@ public final class ProjectFile
    }
 
    /**
+    * Adds the definition of a graphical indicator for a field type.
+    * 
+    * @param field field type
+    * @param indicator graphical indicator definition
+    */
+   public void addGraphicalIndicator(FieldType field, GraphicalIndicator indicator)
+   {
+      m_graphicalIndicators.put(field, indicator);
+   }
+   
+   /**
+    * Retrieves the definition of any graphical indicators used for the
+    * given field type.
+    * 
+    * @param field field type
+    * @return graphical indicator definition
+    */
+   public GraphicalIndicator getGraphicalIndicator (FieldType field)
+   {
+      return ((GraphicalIndicator)m_graphicalIndicators.get(field));
+   }
+   
+   /**
     * Utility method to retrieve the definition of a task table by name.
     * This method will return null if the table name is not recognised.
     *
@@ -1734,6 +1757,11 @@ public final class ProjectFile
     */
    private List m_tables = new ArrayList();
 
+   /**
+    * Map of graphical indicator data.
+    */
+   private Map m_graphicalIndicators = new HashMap();
+   
    /**
     * Index of task tables by name.
     */

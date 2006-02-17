@@ -52,4 +52,11 @@ public interface FieldType
     * @return numeric representation of the field type
     */
    public int getValue ();
+   
+   /**
+    * Retrieve the data type of this field.
+    * 
+    * @return data type
+    */
+   public DataType getDataType ();   
 }
