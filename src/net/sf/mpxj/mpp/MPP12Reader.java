@@ -1569,14 +1569,26 @@ final class MPP12Reader implements MPPVariantReader
          //
          task.setFixed(task.getType() == TaskType.FIXED_DURATION);
 
-         //
-         // Adjust the start and finish dates if the task
-         // is constrained to start as late as possible.
-         //
-         if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+         switch (task.getConstraintType().getType())
          {
-            task.setStart(task.getLateStart());
-            task.setFinish(task.getLateFinish());
+            //
+            // Adjust the start and finish dates if the task
+            // is constrained to start as late as possible.
+            //            
+            case ConstraintType.AS_LATE_AS_POSSIBLE_VALUE:
+            {
+               task.setStart(task.getLateStart());
+               task.setFinish(task.getLateFinish());
+               break;
+            }
+            
+            case ConstraintType.START_NO_LATER_THAN_VALUE:
+            {
+               if (task.getFinish().getTime() < task.getStart().getTime())
+               {
+                  task.setFinish(task.getLateFinish());                  
+               }
+            }
          }
 
          //
