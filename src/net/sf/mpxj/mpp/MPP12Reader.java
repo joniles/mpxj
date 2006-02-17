@@ -195,6 +195,12 @@ final class MPP12Reader implements MPPVariantReader
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
 
       processSubProjectData(file, props);
+      
+      //
+      // Process graphical indicators
+      //
+      GraphicalIndicatorReader reader = new GraphicalIndicatorReader();
+      reader.process(file, props);      
    }
 
    /**

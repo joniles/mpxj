@@ -39,14 +39,13 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.ExtendedAttributeContainer;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.FieldConstants;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -223,41 +222,41 @@ public final class DatatypeConverter
     * @param mpxFieldID field ID
     * @param dataType data type
     */
-   public static final void parseExtendedAttribute (ProjectFile file, ExtendedAttributeContainer mpx, String value, Integer mpxFieldID, int dataType)
+   public static final void parseExtendedAttribute (ProjectFile file, ExtendedAttributeContainer mpx, String value, Integer mpxFieldID, DataType dataType)
    {
-      switch (dataType)
+      switch (dataType.getType())
       {
-         case FieldConstants.STRING_ATTRIBUTE:
+         case DataType.STRING_VALUE:
          {
             mpx.set(mpxFieldID.intValue(), value);
             break;
          }
 
-         case FieldConstants.DATE_ATTRIBUTE:
+         case DataType.DATE_VALUE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeDate(value));
             break;
          }
 
-         case FieldConstants.CURRENCY_ATTRIBUTE:
+         case DataType.CURRENCY_VALUE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeCurrency(value));
             break;
          }
 
-         case FieldConstants.BOOLEAN_ATTRIBUTE:
+         case DataType.BOOLEAN_VALUE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeBoolean(value));
             break;
          }
 
-         case FieldConstants.NUMERIC_ATTRIBUTE:
+         case DataType.NUMERIC_VALUE:
          {
             mpx.set(mpxFieldID.intValue(), parseExtendedAttributeNumber(value));
             break;
          }
 
-         case FieldConstants.DURATION_ATTRIBUTE:
+         case DataType.DURATION_VALUE:
          {
             mpx.set(mpxFieldID.intValue(), parseDuration(file, null, value));
             break;

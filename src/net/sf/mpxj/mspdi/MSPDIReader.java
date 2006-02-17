@@ -41,13 +41,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
@@ -620,14 +621,14 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
       Integer xmlFieldID;
       Integer mpxFieldID;
-      int dataType;
+      DataType dataType;
 
       while (iter.hasNext() == true)
       {
          attrib = (Project.ResourcesType.ResourceType.ExtendedAttributeType)iter.next();
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
-         dataType = ((Integer)ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID)).intValue();
+         dataType = (DataType)ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
       }
    }
@@ -849,14 +850,14 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.TasksType.TaskType.ExtendedAttributeType attrib;
       Integer xmlFieldID;
       Integer mpxFieldID;
-      int dataType;
+      DataType dataType;
 
       while (iter.hasNext() == true)
       {
          attrib = (Project.TasksType.TaskType.ExtendedAttributeType)iter.next();
          xmlFieldID = new Integer (attrib.getFieldID());
          mpxFieldID = (Integer)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
-         dataType = ((Integer)TaskFieldConstants.TASK_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID)).intValue();
+         dataType = (DataType)TaskFieldConstants.TASK_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
       }
    }

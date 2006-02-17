@@ -49,7 +49,7 @@ public final class GraphicalIndicatorReader
     * @param props properties data
     * @throws IOException
     */
-   public void process (ProjectFile file, Props9 props)
+   public void process (ProjectFile file, Props props)
       throws IOException
    {
       m_file = file;

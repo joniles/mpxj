@@ -348,6 +348,10 @@ final class MPPUtility
       {
          TimeZone tz = TimeZone.getDefault();
          long time = getShort(data, offset);
+         if (time == 65535)
+         {
+            time = 0;
+         }
          result = new Date((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)) - tz.getRawOffset());
 
          if (tz.inDaylightTime(result) == true)
@@ -944,6 +948,47 @@ final class MPPUtility
       return (sb.toString());
    }
 
+   /**
+    * This method generates a formatted version of the data contained
+    * in a byte array. The data is written both in hex, and as ASCII
+    * characters. The data is organised into fixed width columns.
+    * 
+    * @param buffer data to be displayed
+    * @param offset offset into buffer
+    * @param length number of bytes to display
+    * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
+    * @param columns number of columns
+    * @param prefix prefix to be added before the start of the data
+    * @return formatted string
+    */
+   public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
+   {
+      StringBuffer sb = new StringBuffer();
+      if (buffer != null)
+      {
+         int index = offset;
+         DecimalFormat df = new DecimalFormat("00000");
+
+         while (index < (offset+length))
+         {
+            if (index + columns > (offset+length))
+            {
+               columns = (offset+length) - index;
+            }
+
+            sb.append (prefix);
+            sb.append (df.format(index));
+            sb.append (":");
+            sb.append (hexdump(buffer, index, columns, ascii));
+            sb.append ('\n');
+
+            index += columns;
+         }
+      }
+
+      return (sb.toString());
+   }
+   
    /**
     * Writes a hex dump to a file for a large byte array.
     *

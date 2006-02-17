@@ -41,15 +41,15 @@ import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.Rate;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -200,6 +200,12 @@ final class MPP9Reader implements MPPVariantReader
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
 
       processSubProjectData(file, props);
+      
+      //
+      // Process graphical indicators
+      //
+      GraphicalIndicatorReader reader = new GraphicalIndicatorReader();
+      reader.process(file, props);
    }
 
    /**
@@ -1240,6 +1246,7 @@ final class MPP9Reader implements MPPVariantReader
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
       //System.out.println(taskFixedData);
+      //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
 
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
@@ -2294,6 +2301,7 @@ final class MPP9Reader implements MPPVariantReader
       }
    }
 
+   
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
 //      System.out.println (name);
