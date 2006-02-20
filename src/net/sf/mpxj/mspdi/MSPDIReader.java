@@ -60,7 +60,6 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskFieldConstants;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -828,11 +827,6 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setWorkVariance(Duration.getInstance (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
 
       readTaskExtendedAttributes(xml, mpx);
-
-      //
-      // Set the MPX file fixed flag
-      //
-      mpx.setFixed(mpx.getType() == TaskType.FIXED_DURATION);
 
       m_projectFile.fireTaskReadEvent(mpx);
    }

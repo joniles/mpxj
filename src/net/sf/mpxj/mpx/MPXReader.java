@@ -1036,8 +1036,7 @@ public final class MPXReader extends AbstractProjectReader
             case Task.FINISH5:
             case Task.LATE_FINISH:
             case Task.LATE_START:
-            case Task.RESUME:
-            case Task.RESUME_NO_EARLIER_THAN:
+            case Task.RESUME:            
             case Task.START:
             case Task.START1:
             case Task.START2:
@@ -1058,9 +1057,23 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
+            case Task.RESUME_NO_EARLIER_THAN:
+            {
+               try
+               {
+                  task.set(Task.RESUME, m_formats.getDateTimeFormat().parse(field));
+               }
+
+               catch (ParseException ex)
+               {
+                  throw new MPXJException ("Failed to parse date time", ex);
+               }
+               break;               
+            }
+            
+            
             case Task.CONFIRMED:
             case Task.CRITICAL:
-            case Task.FIXED:
             case Task.FLAG1:
             case Task.FLAG2:
             case Task.FLAG3:
@@ -1133,6 +1146,13 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
+            case Task.TYPE:
+            {
+               boolean fixed = ((field.equalsIgnoreCase(falseText) == true) ? false : true);
+               task.setType(fixed?TaskType.FIXED_DURATION:TaskType.FIXED_UNITS);   
+               break;
+            }
+            
             default:
             {
                task.set(x, field);
@@ -1166,7 +1186,7 @@ public final class MPXReader extends AbstractProjectReader
          task.setID(new Integer(m_projectFile.getTaskID()));
       }
 
-      task.setType(task.getFixed()?TaskType.FIXED_DURATION:TaskType.FIXED_UNITS);
+      
    }
 
    /**

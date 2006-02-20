@@ -49,11 +49,11 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
       m_endShapeAndStyle = data[offset+11];
       m_endColor = ColorType.getInstance(data[offset+12]);
 
-      m_leftText = TaskField.getInstance(MPPUtility.getShort(data, offset+16));
-      m_rightText = TaskField.getInstance(MPPUtility.getShort(data, offset+20));
-      m_topText = TaskField.getInstance(MPPUtility.getShort(data, offset+24));
-      m_bottomText = TaskField.getInstance(MPPUtility.getShort(data, offset+28));
-      m_insideText = TaskField.getInstance(MPPUtility.getShort(data, offset+32));
+      m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+16));
+      m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+20));
+      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+24));
+      m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+28));
+      m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+32));
    }
 
    /**

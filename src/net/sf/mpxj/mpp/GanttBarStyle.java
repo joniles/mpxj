@@ -26,6 +26,8 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import net.sf.mpxj.TaskField;
+
 /**
  * This class represents the default style for a Gantt chart bar.
  */
@@ -49,8 +51,8 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       m_endShapeAndStyle = data[offset+6];
       m_endColor = ColorType.getInstance(data[offset+7]);
 
-      m_fromField = TaskField.getInstance(MPPUtility.getShort(data, offset+8));
-      m_toField = TaskField.getInstance(MPPUtility.getShort(data, offset+12));
+      m_fromField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+8));
+      m_toField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+12));
 
       int flags = MPPUtility.getShort(data, offset+16);
 
@@ -67,11 +69,11 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
       m_row = data[offset+32]+1;
 
-      m_leftText = TaskField.getInstance(MPPUtility.getShort(data, offset+34));
-      m_rightText = TaskField.getInstance(MPPUtility.getShort(data, offset+38));
-      m_topText = TaskField.getInstance(MPPUtility.getShort(data, offset+44));
-      m_bottomText = TaskField.getInstance(MPPUtility.getShort(data, offset+46));
-      m_insideText = TaskField.getInstance(MPPUtility.getShort(data, offset+50));
+      m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+34));
+      m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+38));
+      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+44));
+      m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+46));
+      m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+50));
    }
 
    /**

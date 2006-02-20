@@ -48,6 +48,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    {
       super(file);
 
+      setType (TaskType.FIXED_UNITS);
+      
       m_parent = parent;
 
       if (file.getAutoWBS() == true)
@@ -937,7 +939,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @param val elapsed time
     */
-   public void setDelay (Duration val)
+   public void setLevelingDelay (Duration val)
    {
       set(DELAY, val);
    }
@@ -1093,18 +1095,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public void setFinishVariance (Duration duration)
    {
       set(FINISH_VARIANCE, duration);
-   }
-
-   /**
-    * Despite the name, this flag sets the task type. If the suppied value is
-    * false, the task type shown in MS Project will be set to fixed units. If
-    * the value is true, the task type will be set to fixed duration.
-    *
-    * @param val value to be set
-    */
-   public void setFixed (boolean val)
-   {
-      set(FIXED, val);
    }
 
    /**
@@ -1555,15 +1545,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public void setResume (Date val)
    {
       set(RESUME, val);
-   }
-
-   /**
-    * No help info. Earliest possible resume date?
-    * @param val - Date
-    */
-   public void setResumeNoEarlierThan (Date val)
-   {
-      set(RESUME_NO_EARLIER_THAN, val);
    }
 
    /**
@@ -2266,7 +2247,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     *
     * @return Duration
     */
-   public Duration getDelay ()
+   public Duration getLevelingDelay ()
    {
       return ((Duration)get(DELAY));
    }
@@ -2436,18 +2417,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    public Duration getFinishVariance ()
    {
       return ((Duration)get(FINISH_VARIANCE));
-   }
-
-   /**
-    * Despite the name, this flag represents the task type. If the value is
-    * false, the task type shown in MS Project will be fixed units. If
-    * the value is true, the task type will be fixed duration.
-    *
-    * @return boolean
-    */
-   public boolean getFixed ()
-   {
-      return (BooleanUtility.getBoolean((Boolean)get(FIXED)));
    }
 
    /**
@@ -2930,16 +2899,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * Gets the date to resume this task no earlier than.
-    *
-    * @return date
-    */
-   public Date getResumeNoEarlierThan ()
-   {
-      return ((Date)get(RESUME_NO_EARLIER_THAN));
-   }
-
-   /**
     * For subtasks, the Rollup field indicates whether information on the
     * subtask Gantt bars
     * will be rolled up to the summary task bar. For summary tasks, the
@@ -3412,7 +3371,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public TaskType getType ()
    {
-      return (m_type);
+      return ((TaskType)get(TYPE));
    }
 
    /**
@@ -3422,7 +3381,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setType (TaskType type)
    {
-      m_type = type;
+      set(TYPE, type);
    }
 
    /**
@@ -5793,26 +5752,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * Retrieves the task leveling delay attribute.
-    *
-    * @return task leveling delay
-    */
-   public Duration getLevelingDelay ()
-   {
-      return (m_levelingDelay);
-   }
-
-   /**
-    * Sets the task leveling delay attribute.
-    *
-    * @param delay task leveling delay attribute
-    */
-   public void setLevelingDelay (Duration delay)
-   {
-      m_levelingDelay = delay;
-   }
-
-   /**
     * Retrieves the overtime work attribute.
     *
     * @return overtime work value
@@ -6134,7 +6073,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    private boolean m_estimated;
    private Date m_deadline;
-   private TaskType m_type = TaskType.FIXED_UNITS;
    private boolean m_effortDriven;
    private Number m_overtimeCost;
    private Number m_actualOvertimeCost;
@@ -6145,7 +6083,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    private String m_hyperlinkSubAddress;
    private boolean m_levelAssignments;
    private boolean m_levelingCanSplit;
-   private Duration m_levelingDelay;
    private Duration m_overtimeWork;
    private Date m_preleveledStart;
    private Date m_preleveledFinish;
@@ -6454,7 +6391,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    /**
     * Whether  fixed or not. Boolean value
     */
-   public static final int FIXED = 80;
+   public static final int TYPE = 80;
 
    /**
     * The Fixed Cost field shows any task expense that is not associated
@@ -7122,5 +7059,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       FIELD_TYPES[SUCCESSORS] = DataType.RELATION_LIST;
       FIELD_TYPES[UNIQUE_ID_PREDECESSORS] = DataType.RELATION_LIST;
       FIELD_TYPES[UNIQUE_ID_SUCCESSORS] = DataType.RELATION_LIST;
+      
+      FIELD_TYPES[TYPE] = DataType.TASK_TYPE;
    }
 }

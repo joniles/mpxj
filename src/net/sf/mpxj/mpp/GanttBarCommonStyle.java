@@ -26,6 +26,8 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import net.sf.mpxj.TaskField;
+
 /**
  * This class represents common elements of the Gantt char bar styles
  * shared between the normal styles, and the individual task bar

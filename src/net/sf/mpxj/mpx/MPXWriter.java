@@ -55,6 +55,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.MPXJFormats;
 import net.sf.mpxj.utility.NumberUtility;
@@ -1193,6 +1194,17 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    /**
+    * This method is called to format a task type.
+    * 
+    * @param value task type value
+    * @return formatted task type
+    */
+   private String formatTaskType (TaskType value)
+   {
+      return (LocaleData.getString(m_locale, (value == TaskType.FIXED_DURATION?LocaleData.YES:LocaleData.NO)));         
+   }
+   
+   /**
     * This method is called to format a relation list.
     *
     * @param value relation list instance
@@ -1373,6 +1385,10 @@ public final class MPXWriter extends AbstractProjectWriter
             break;
          }
 
+         case DataType.TASK_TYPE_VALUE:
+         {
+            value = formatTaskType ((TaskType)value);
+         }
       }
 
       return (value);

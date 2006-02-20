@@ -21,11 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpp;
+package net.sf.mpxj;
 
 import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 
 /**
  * Locale data specific to MPP files. Note that the text that appear here
@@ -59,11 +60,8 @@ public class LocaleData extends ListResourceBundle
    public static final String TASK_COLUMNS = "TASK_COLUMNS";
    public static final String RESOURCE_COLUMNS = "RESOURCE_COLUMNS";
 
-   private static final int MAX_RESOURCE_COLUMNS = 312;
-   private static final int MAX_TASK_COLUMNS = 452;
-
-   private static final String[] RESOURCE_COLUMNS_ARRAY = new String[MAX_RESOURCE_COLUMNS];
-   private static final String[] TASK_COLUMNS_ARRAY = new String[MAX_TASK_COLUMNS];
+   private static final String[] RESOURCE_COLUMNS_ARRAY = new String[ResourceField.MAX_VALUE];
+   private static final String[] TASK_COLUMNS_ARRAY = new String[TaskField.MAX_VALUE];
 
    static
    {

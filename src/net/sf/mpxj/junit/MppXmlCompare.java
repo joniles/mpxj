@@ -280,7 +280,6 @@ public final class MppXmlCompare
          //assertEquals(xmlTask.getWBS(), mppTask.getWBS());
          assertEquals(xmlTask.getWork(), mppTask.getWork());
 
-         assertEquals(xmlTask.getFixed(), mppTask.getFixed());
          //assertEquals(xmlTask.getNotes().trim(), mppTask.getNotes().trim());
          //assertEquals(xmlTask.getCostVariance(), mppTask.getCostVariance());
          //assertEquals(xmlTask.getCalendar().getName(), mppTask.getCalendar().getName());

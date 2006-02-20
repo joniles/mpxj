@@ -1563,11 +1563,6 @@ final class MPP9Reader implements MPPVariantReader
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
-         //
-         // Set the MPX file fixed flag
-         //
-         task.setFixed(task.getType() == TaskType.FIXED_DURATION);
-
          switch (task.getConstraintType().getType())
          {
             //
@@ -2258,11 +2253,11 @@ final class MPP9Reader implements MPPVariantReader
 
             if (table.getResourceFlag() == false)
             {
-               column.setFieldType (TaskField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType (MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
             }
             else
             {
-               column.setFieldType (ResourceField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType (MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
             }
 
             column.setWidth (MPPUtility.getByte(data, index+4));

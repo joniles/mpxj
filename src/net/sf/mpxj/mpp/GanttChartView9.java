@@ -1234,7 +1234,7 @@ public class GanttChartView9 extends View9
    private TableFontStyle getColumnFontStyle (byte[] data, int offset, Map fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = TaskField.getInstance(MPPUtility.getShort(data, offset+4));
+      FieldType fieldType = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+4));
       Integer index = new Integer(MPPUtility.getByte(data, offset+8));
       int style = MPPUtility.getByte(data, offset+9);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));

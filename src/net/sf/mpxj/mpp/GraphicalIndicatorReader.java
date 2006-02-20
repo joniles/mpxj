@@ -34,6 +34,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 
 /**
@@ -88,13 +89,13 @@ public final class GraphicalIndicatorReader
       {
          case 0x0B:               
          {
-            type = TaskField.getInstance(fieldType);
+            type = MPPTaskField.getInstance(fieldType);
             break;
          }
          
          case 0x0C:               
          {
-            type = ResourceField.getInstance(fieldType);
+            type = MPPResourceField.getInstance(fieldType);
             break;
          }            
       }
@@ -198,11 +199,11 @@ public final class GraphicalIndicatorReader
          m_dataOffset += 4;
          if (type instanceof TaskField)
          {
-            criteria.addValue(TaskField.getInstance(field));
+            criteria.addValue(MPPTaskField.getInstance(field));
          }
          else
          {
-            criteria.addValue(ResourceField.getInstance(field));
+            criteria.addValue(MPPResourceField.getInstance(field));
          }         
       }
       else

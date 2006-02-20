@@ -41,15 +41,15 @@ import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.Rate;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -1564,11 +1564,6 @@ final class MPP12Reader implements MPPVariantReader
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
-         //
-         // Set the MPX file fixed flag
-         //
-         task.setFixed(task.getType() == TaskType.FIXED_DURATION);
-
          switch (task.getConstraintType().getType())
          {
             //
@@ -2257,11 +2252,11 @@ final class MPP12Reader implements MPPVariantReader
 
             if (table.getResourceFlag() == false)
             {
-               column.setFieldType (TaskField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType (MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
             }
             else
             {
-               column.setFieldType (ResourceField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType (MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
             }
 
             column.setWidth (MPPUtility.getByte(data, index+4));
