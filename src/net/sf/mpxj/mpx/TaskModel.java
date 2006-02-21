@@ -151,9 +151,9 @@ final class TaskModel
       while (iter.hasNext() == true)
       {
          Task task = (Task)iter.next();
-         for (int loop=0; loop < Task.MAX_FIELDS; loop++)
+         for (int loop=0; loop < MPXTaskField.MAX_FIELDS; loop++)
          {
-            if (task.get(loop) != null)
+            if (task.get(MPXTaskField.getMpxjField(loop)) != null)
             {
                if (m_flags[loop] == false)
                {
@@ -248,12 +248,12 @@ final class TaskModel
     * Array of flags indicting whether each field has already been
     * added to the model.
     */
-   private boolean[] m_flags = new boolean[Task.MAX_FIELDS];
+   private boolean[] m_flags = new boolean[MPXTaskField.MAX_FIELDS];
 
    /**
     * Array of field numbers in order of their appearance.
     */
-   private int[] m_fields = new int[Task.MAX_FIELDS + 1];
+   private int[] m_fields = new int[MPXTaskField.MAX_FIELDS + 1];
 
    /**
     * Count of the number of fields present.

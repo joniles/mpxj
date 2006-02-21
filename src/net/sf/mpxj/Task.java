@@ -36,7 +36,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * This class represents a task record from an MPX file.
  */
-public final class Task extends ProjectEntity implements Comparable, ExtendedAttributeContainer
+public final class Task extends ProjectEntity implements Comparable, FieldContainer
 {
    /**
     * Default constructor.
@@ -154,7 +154,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNotes (String notes)
    {
-      m_notes = notes;
+      set(TaskField.NOTES, notes);
    }
 
    /**
@@ -373,12 +373,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       //
       // Retrieve the list of predecessors
       //
-      List list = (List)get(PREDECESSORS);
+      List list = (List)get(TaskField.PREDECESSORS);
 
       if (list == null)
       {
          list = new LinkedList();
-         set(PREDECESSORS, list);
+         set(TaskField.PREDECESSORS, list);
       }
 
       //
@@ -444,12 +444,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
       //
       // Retrieve the list of predecessors
       //
-      List list = (List)get(UNIQUE_ID_PREDECESSORS);
+      List list = (List)get(TaskField.UNIQUE_ID_PREDECESSORS);
 
       if (list == null)
       {
          list = new LinkedList();
-         set(UNIQUE_ID_PREDECESSORS, list);
+         set(TaskField.UNIQUE_ID_PREDECESSORS, list);
       }
 
       //
@@ -512,12 +512,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Relation addSuccessor (Task task)
    {
-      List list = (List)get(SUCCESSORS);
+      List list = (List)get(TaskField.SUCCESSORS);
 
       if (list == null)
       {
          list = new LinkedList();
-         set(SUCCESSORS, list);
+         set(TaskField.SUCCESSORS, list);
       }
 
       Relation rel = new Relation(getParentFile());
@@ -553,12 +553,12 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Relation addUniqueIdSuccessor (Task task)
    {
-      List list = (List)get(UNIQUE_ID_SUCCESSORS);
+      List list = (List)get(TaskField.UNIQUE_ID_SUCCESSORS);
 
       if (list == null)
       {
          list = new LinkedList();
-         set(UNIQUE_ID_SUCCESSORS, list);
+         set(TaskField.UNIQUE_ID_SUCCESSORS, list);
       }
 
       Relation rel = new Relation(getParentFile());
@@ -575,32 +575,6 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * This method is used to set the value of a field in the task,
-    * and also to ensure that the field exists in the task model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   public void set (int field, Object val)
-   {
-      put(field, val);
-   }
-
-   /**
-    * This method is used to set the value of a field in the task,
-    * and also to ensure that the field exists in the task model
-    * record.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
-    */
-   private void set (int field, boolean val)
-   {
-      put(field, val);
-   }
-
-   /**
     * The % Complete field contains the current status of a task, expressed
     * as the percentage of the
     * task's duration that has been completed. You can enter percent complete,
@@ -611,7 +585,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setPercentageComplete (Number val)
    {
-      set(PERCENTAGE_COMPLETE, val);
+      set(TaskField.PERCENT_COMPLETE, val);
    }
 
    /**
@@ -627,7 +601,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setPercentageWorkComplete (Number val)
    {
-      set(PERCENTAGE_WORK_COMPLETE, val);
+      set(TaskField.PERCENT_WORK_COMPLETE, val);
    }
 
    /**
@@ -641,7 +615,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualCost (Number val)
    {
-      set(ACTUAL_COST, val);
+      set(TaskField.ACTUAL_COST, val);
    }
 
    /**
@@ -654,7 +628,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualDuration (Duration val)
    {
-      set(ACTUAL_DURATION, val);
+      set(TaskField.ACTUAL_DURATION, val);
    }
 
    /**
@@ -670,7 +644,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualFinish (Date val)
    {
-      set(ACTUAL_FINISH, val);
+      set(TaskField.ACTUAL_FINISH, val);
    }
 
    /**
@@ -682,7 +656,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualStart (Date val)
    {
-      set(ACTUAL_START, val);
+      set(TaskField.ACTUAL_START, val);
    }
 
    /**
@@ -693,7 +667,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualWork (Duration val)
    {
-      set(ACTUAL_WORK, val);
+      set(TaskField.ACTUAL_WORK, val);
    }
 
    /**
@@ -704,7 +678,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBaselineCost (Number val)
    {
-      set(BASELINE_COST, val);
+      set(TaskField.BASELINE_COST, val);
    }
 
    /**
@@ -715,7 +689,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBaselineDuration (Duration val)
    {
-      set(BASELINE_DURATION, val);
+      set(TaskField.BASELINE_DURATION, val);
    }
 
    /**
@@ -729,7 +703,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBaselineFinish (Date val)
    {
-      set(BASELINE_FINISH, val);
+      set(TaskField.BASELINE_FINISH, val);
    }
 
    /**
@@ -742,7 +716,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBaselineStart (Date val)
    {
-      set(BASELINE_START, val);
+      set(TaskField.BASELINE_START, val);
    }
 
    /**
@@ -758,7 +732,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBaselineWork (Duration val)
    {
-      set(BASELINE_WORK, val);
+      set(TaskField.BASELINE_WORK, val);
    }
 
    /**
@@ -774,7 +748,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBCWP (Number val)
    {
-      set(BCWP, val);
+      set(TaskField.BCWP, val);
    }
 
    /**
@@ -785,7 +759,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setBCWS (Number val)
    {
-      set(BCWS, val);
+      set(TaskField.BCWS, val);
    }
 
    /**
@@ -797,7 +771,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setConfirmed (boolean val)
    {
-      set(CONFIRMED, val);
+      set(TaskField.CONFIRMED, val);
    }
 
    /**
@@ -812,7 +786,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setConstraintDate (Date val)
    {
-      set(CONSTRAINT_DATE, val);
+      set(TaskField.CONSTRAINT_DATE, val);
    }
 
    /**
@@ -822,7 +796,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setConstraintType (ConstraintType type)
    {
-      set(CONSTRAINT_TYPE, type);
+      set(TaskField.CONSTRAINT_TYPE, type);
    }
 
    /**
@@ -833,7 +807,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setContact (String val)
    {
-      set(CONTACT, val);
+      set(TaskField.CONTACT, val);
    }
 
    /**
@@ -846,7 +820,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost (Number val)
    {
-      set(COST, val);
+      set(TaskField.COST, val);
    }
 
    /**
@@ -857,7 +831,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost1 (Number val)
    {
-      set(COST1, val);
+      set(TaskField.COST1, val);
    }
 
    /**
@@ -868,7 +842,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost2 (Number val)
    {
-      set(COST2, val);
+      set(TaskField.COST2, val);
    }
 
    /**
@@ -879,7 +853,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost3 (Number val)
    {
-      set(COST3, val);
+      set(TaskField.COST3, val);
    }
 
    /**
@@ -892,7 +866,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCostVariance (Number val)
    {
-      set(COST_VARIANCE, val);
+      set(TaskField.COST_VARIANCE, val);
    }
 
    /**
@@ -903,7 +877,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCreateDate (Date val)
    {
-      set(CREATE_DATE, val);
+      set(TaskField.CREATED, val);
    }
 
    /**
@@ -917,7 +891,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCritical (boolean val)
    {
-      set(CRITICAL, val);
+      set(TaskField.CRITICAL, val);
    }
 
    /**
@@ -931,7 +905,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCV (Number val)
    {
-      set(CV, val);
+      set(TaskField.CV, val);
    }
 
    /**
@@ -941,7 +915,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setLevelingDelay (Duration val)
    {
-      set(DELAY, val);
+      set(TaskField.LEVELING_DELAY, val);
    }
 
    /**
@@ -953,7 +927,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration (Duration val)
    {
-      set(DURATION, val);
+      set(TaskField.DURATION, val);
    }
 
    /**
@@ -963,7 +937,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration1 (Duration duration)
    {
-      set(DURATION1, duration);
+      set(TaskField.DURATION1, duration);
    }
 
    /**
@@ -973,7 +947,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration2 (Duration duration)
    {
-      set(DURATION2, duration);
+      set(TaskField.DURATION2, duration);
    }
 
    /**
@@ -983,7 +957,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration3 (Duration duration)
    {
-      set(DURATION3, duration);
+      set(TaskField.DURATION3, duration);
    }
 
    /**
@@ -995,7 +969,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDurationVariance (Duration duration)
    {
-      set(DURATION_VARIANCE, duration);
+      set(TaskField.DURATION_VARIANCE, duration);
    }
 
    /**
@@ -1007,7 +981,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setEarlyFinish (Date date)
    {
-      set(EARLY_FINISH, date);
+      set(TaskField.EARLY_FINISH, date);
    }
 
    /**
@@ -1019,7 +993,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setEarlyStart (Date date)
    {
-      set(EARLY_START, date);
+      set(TaskField.EARLY_START, date);
    }
 
    /**
@@ -1032,7 +1006,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish (Date date)
    {
-      set(FINISH, date);
+      set(TaskField.FINISH, date);
    }
 
    /**
@@ -1042,7 +1016,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish1 (Date date)
    {
-      set(FINISH1, date);
+      set(TaskField.FINISH1, date);
    }
 
    /**
@@ -1052,7 +1026,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish2 (Date date)
    {
-      set(FINISH2, date);
+      set(TaskField.FINISH2, date);
    }
 
    /**
@@ -1062,7 +1036,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish3 (Date date)
    {
-      set(FINISH3, date);
+      set(TaskField.FINISH3, date);
    }
 
    /**
@@ -1072,7 +1046,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish4 (Date date)
    {
-      set(FINISH4, date);
+      set(TaskField.FINISH4, date);
    }
 
    /**
@@ -1082,7 +1056,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish5 (Date date)
    {
-      set(FINISH5, date);
+      set(TaskField.FINISH5, date);
    }
 
    /**
@@ -1094,7 +1068,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinishVariance (Duration duration)
    {
-      set(FINISH_VARIANCE, duration);
+      set(TaskField.FINISH_VARIANCE, duration);
    }
 
    /**
@@ -1105,7 +1079,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFixedCost (Number val)
    {
-      set(FIXED_COST, val);
+      set(TaskField.FIXED_COST, val);
    }
 
    /**
@@ -1115,7 +1089,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag1 (boolean val)
    {
-      set(FLAG1, val);
+      set(TaskField.FLAG1, val);
    }
 
    /**
@@ -1125,7 +1099,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag2 (boolean val)
    {
-      set(FLAG2, val);
+      set(TaskField.FLAG2, val);
    }
 
    /**
@@ -1135,7 +1109,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag3 (boolean val)
    {
-      set(FLAG3, val);
+      set(TaskField.FLAG3, val);
    }
 
    /**
@@ -1145,7 +1119,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag4 (boolean val)
    {
-      set(FLAG4, val);
+      set(TaskField.FLAG4, val);
    }
 
    /**
@@ -1155,7 +1129,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag5 (boolean val)
    {
-      set(FLAG5, val);
+      set(TaskField.FLAG5, val);
    }
 
    /**
@@ -1165,7 +1139,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag6 (boolean val)
    {
-      set(FLAG6, val);
+      set(TaskField.FLAG6, val);
    }
 
    /**
@@ -1175,7 +1149,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag7 (boolean val)
    {
-      set(FLAG7, val);
+      set(TaskField.FLAG7, val);
    }
 
    /**
@@ -1185,7 +1159,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag8 (boolean val)
    {
-      set(FLAG8, val);
+      set(TaskField.FLAG8, val);
    }
 
    /**
@@ -1195,7 +1169,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag9 (boolean val)
    {
-      set(FLAG9, val);
+      set(TaskField.FLAG9, val);
    }
 
    /**
@@ -1205,7 +1179,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag10 (boolean val)
    {
-      set(FLAG10, val);
+      set(TaskField.FLAG10, val);
    }
 
    /**
@@ -1218,7 +1192,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFreeSlack (Duration duration)
    {
-      set(FREE_SLACK, duration);
+      set(TaskField.FREE_SLACK, duration);
    }
 
    /**
@@ -1229,7 +1203,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setHideBar (boolean flag)
    {
-      set(HIDE_BAR, flag);
+      set(TaskField.HIDEBAR, flag);
    }
 
    /**
@@ -1251,7 +1225,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
       parent.mapTaskID(val, this);
 
-      set(ID, val);
+      set(TaskField.ID, val);
    }
 
    /**
@@ -1264,7 +1238,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setLateFinish (Date date)
    {
-      set(LATE_FINISH, date);
+      set(TaskField.LATE_FINISH, date);
    }
 
    /**
@@ -1277,7 +1251,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setLateStart (Date date)
    {
-      set(LATE_START, date);
+      set(TaskField.LATE_START, date);
    }
 
    /**
@@ -1289,7 +1263,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setLinkedFields (boolean flag)
    {
-      set(LINKED_FIELDS, flag);
+      set(TaskField.LINKED_FIELDS, flag);
    }
 
    /**
@@ -1300,7 +1274,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setMarked (boolean flag)
    {
-      set(MARKED, flag);
+      set(TaskField.MARKED, flag);
    }
 
    /**
@@ -1310,7 +1284,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setMilestone (boolean flag)
    {
-      set(MILESTONE, flag);
+      set(TaskField.MILESTONE, flag);
    }
 
    /**
@@ -1320,7 +1294,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setName (String name)
    {
-      set(NAME, name);
+      set(TaskField.NAME, name);
    }
 
    /**
@@ -1330,7 +1304,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber1 (Number val)
    {
-      set(NUMBER1, val);
+      set(TaskField.NUMBER1, val);
    }
 
    /**
@@ -1340,7 +1314,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber2 (Number val)
    {
-      set(NUMBER2, val);
+      set(TaskField.NUMBER2, val);
    }
 
    /**
@@ -1350,7 +1324,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber3 (Number val)
    {
-      set(NUMBER3, val);
+      set(TaskField.NUMBER3, val);
    }
 
    /**
@@ -1360,7 +1334,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber4 (Number val)
    {
-      set(NUMBER4, val);
+      set(TaskField.NUMBER4, val);
    }
 
    /**
@@ -1370,7 +1344,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber5 (Number val)
    {
-      set(NUMBER5, val);
+      set(TaskField.NUMBER5, val);
    }
 
    /**
@@ -1380,7 +1354,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setObjects (Integer val)
    {
-      set(OBJECTS, val);
+      set(TaskField.OBJECTS, val);
    }
 
    /**
@@ -1391,7 +1365,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineLevel (Integer val)
    {
-      set(OUTLINE_LEVEL, val);
+      set(TaskField.OUTLINE_LEVEL, val);
    }
 
    /**
@@ -1405,7 +1379,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineNumber (String val)
    {
-      set(OUTLINE_NUMBER, val);
+      set(TaskField.OUTLINE_NUMBER, val);
    }
 
    /**
@@ -1419,7 +1393,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setPredecessors (List list)
    {
-      set(PREDECESSORS, list);
+      set(TaskField.PREDECESSORS, list);
    }
 
    /**
@@ -1434,7 +1408,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setPriority (Priority priority)
    {
-      set(PRIORITY, priority);
+      set(TaskField.PRIORITY, priority);
    }
 
    /**
@@ -1450,7 +1424,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setProject (String val)
    {
-      set(PROJECT, val);
+      set(TaskField.PROJECT, val);
    }
 
    /**
@@ -1462,7 +1436,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRemainingCost (Number val)
    {
-      set(REMAINING_COST, val);
+      set(TaskField.REMAINING_COST, val);
    }
 
    /**
@@ -1473,7 +1447,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRemainingDuration (Duration val)
    {
-      set(REMAINING_DURATION, val);
+      set(TaskField.REMAINING_DURATION, val);
    }
 
    /**
@@ -1483,7 +1457,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRemainingWork (Duration val)
    {
-      set(REMAINING_WORK, val);
+      set(TaskField.REMAINING_WORK, val);
    }
 
    /**
@@ -1494,7 +1468,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setResourceGroup (String val)
    {
-      set(RESOURCE_GROUP, val);
+      set(TaskField.RESOURCE_GROUP, val);
    }
 
    /**
@@ -1513,7 +1487,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setResourceInitials (String val)
    {
-      set(RESOURCE_INITIALS, val);
+      set(TaskField.RESOURCE_INITIALS, val);
    }
 
    /**
@@ -1531,7 +1505,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setResourceNames (String val)
    {
-      set(RESOURCE_NAMES, val);
+      set(TaskField.RESOURCE_NAMES, val);
    }
 
    /**
@@ -1544,7 +1518,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setResume (Date val)
    {
-      set(RESUME, val);
+      set(TaskField.RESUME, val);
    }
 
    /**
@@ -1558,7 +1532,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRollup (boolean val)
    {
-      set(ROLLUP, val);
+      set(TaskField.ROLLUP, val);
    }
 
    /**
@@ -1569,7 +1543,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart (Date val)
    {
-      set(START, val);
+      set(TaskField.START, val);
    }
 
    /**
@@ -1581,7 +1555,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart1 (Date val)
    {
-      set(START1, val);
+      set(TaskField.START1, val);
    }
 
    /**
@@ -1593,7 +1567,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart2 (Date val)
    {
-      set(START2, val);
+      set(TaskField.START2, val);
    }
 
    /**
@@ -1605,7 +1579,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart3 (Date val)
    {
-      set(START3, val);
+      set(TaskField.START3, val);
    }
 
    /**
@@ -1617,7 +1591,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart4 (Date val)
    {
-      set(START4, val);
+      set(TaskField.START4, val);
    }
 
    /**
@@ -1629,7 +1603,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart5 (Date val)
    {
-      set(START5, val);
+      set(TaskField.START5, val);
    }
 
    /**
@@ -1641,7 +1615,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStartVariance (Duration val)
    {
-      set(START_VARIANCE, val);
+      set(TaskField.START_VARIANCE, val);
    }
 
    /**
@@ -1653,7 +1627,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStop (Date val)
    {
-      set(STOP, val);
+      set(TaskField.STOP, val);
    }
 
    /**
@@ -1665,7 +1639,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setSubprojectName (String val)
    {
-      set(SUBPROJECT_NAME, val);
+      set(TaskField.SUBPROJECT_FILE, val);
    }
 
    /**
@@ -1679,7 +1653,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setSuccessors (List list)
    {
-      set(SUCCESSORS, list);
+      set(TaskField.SUCCESSORS, list);
    }
 
    /**
@@ -1689,7 +1663,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setSummary (boolean val)
    {
-      set(SUMMARY, val);
+      set(TaskField.SUMMARY, val);
    }
 
    /**
@@ -1701,7 +1675,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setSV (Number val)
    {
-      set(SV, val);
+      set(TaskField.SV, val);
    }
 
    /**
@@ -1712,7 +1686,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText1 (String val)
    {
-      set(TEXT1, val);
+      set(TaskField.TEXT1, val);
    }
 
    /**
@@ -1723,7 +1697,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText2 (String val)
    {
-      set(TEXT2, val);
+      set(TaskField.TEXT2, val);
    }
 
    /**
@@ -1734,7 +1708,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText3 (String val)
    {
-      set(TEXT3, val);
+      set(TaskField.TEXT3, val);
    }
 
    /**
@@ -1745,7 +1719,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText4 (String val)
    {
-      set(TEXT4, val);
+      set(TaskField.TEXT4, val);
    }
 
    /**
@@ -1756,7 +1730,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText5 (String val)
    {
-      set(TEXT5, val);
+      set(TaskField.TEXT5, val);
    }
 
    /**
@@ -1767,7 +1741,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText6 (String val)
    {
-      set(TEXT6, val);
+      set(TaskField.TEXT6, val);
    }
 
    /**
@@ -1778,7 +1752,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText7 (String val)
    {
-      set(TEXT7, val);
+      set(TaskField.TEXT7, val);
    }
 
    /**
@@ -1789,7 +1763,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText8 (String val)
    {
-      set(TEXT8, val);
+      set(TaskField.TEXT8, val);
    }
 
    /**
@@ -1800,7 +1774,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText9 (String val)
    {
-      set(TEXT9, val);
+      set(TaskField.TEXT9, val);
    }
 
    /**
@@ -1811,7 +1785,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText10 (String val)
    {
-      set(TEXT10, val);
+      set(TaskField.TEXT10, val);
    }
 
    /**
@@ -1822,7 +1796,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setTotalSlack (Duration val)
    {
-      set(TOTAL_SLACK, val);
+      set(TaskField.TOTAL_SLACK, val);
    }
 
    /**
@@ -1845,7 +1819,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
 
       parent.mapTaskUniqueID(val, this);
 
-      set(UNIQUE_ID, val);
+      set(TaskField.UNIQUE_ID, val);
    }
 
    /**
@@ -1860,7 +1834,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setUniqueIDPredecessors (List list)
    {
-      set(UNIQUE_ID_PREDECESSORS, list);
+      set(TaskField.UNIQUE_ID_PREDECESSORS, list);
    }
 
    /**
@@ -1873,7 +1847,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setUniqueIDSuccessors (List list)
    {
-      set(UNIQUE_ID_SUCCESSORS, list);
+      set(TaskField.UNIQUE_ID_SUCCESSORS, list);
    }
 
    /**
@@ -1885,7 +1859,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setUpdateNeeded (boolean val)
    {
-      set(UPDATE_NEEDED, val);
+      set(TaskField.UPDATE_NEEDED, val);
    }
 
    /**
@@ -1898,7 +1872,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setWBS (String val)
    {
-      set(WBS, val);
+      set(TaskField.WBS, val);
    }
 
    /**
@@ -1910,7 +1884,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setWork (Duration val)
    {
-      set(WORK, val);
+      set(TaskField.WORK, val);
    }
 
    /**
@@ -1921,7 +1895,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setWorkVariance (Duration val)
    {
-      set(WORK_VARIANCE, val);
+      set(TaskField.WORK_VARIANCE, val);
    }
 
    /**
@@ -1933,7 +1907,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getPercentageComplete ()
    {
-      return ((Number)get(PERCENTAGE_COMPLETE));
+      return ((Number)get(TaskField.PERCENT_COMPLETE));
    }
 
    /**
@@ -1946,7 +1920,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getPercentageWorkComplete ()
    {
-      return ((Number)get(PERCENTAGE_WORK_COMPLETE));
+      return ((Number)get(TaskField.PERCENT_WORK_COMPLETE));
    }
 
    /**
@@ -1959,7 +1933,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getActualCost ()
    {
-      return ((Number)get(ACTUAL_COST));
+      return ((Number)get(TaskField.ACTUAL_COST));
    }
 
    /**
@@ -1971,7 +1945,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getActualDuration ()
    {
-      return ((Duration)get(ACTUAL_DURATION));
+      return ((Duration)get(TaskField.ACTUAL_DURATION));
    }
 
    /**
@@ -1985,7 +1959,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getActualFinish ()
    {
-      return ((Date)get(ACTUAL_FINISH));
+      return ((Date)get(TaskField.ACTUAL_FINISH));
    }
 
    /**
@@ -1999,7 +1973,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getActualStart ()
    {
-      return ((Date)get(ACTUAL_START));
+      return ((Date)get(TaskField.ACTUAL_START));
    }
 
    /**
@@ -2010,7 +1984,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getActualWork ()
    {
-      return ((Duration)get(ACTUAL_WORK));
+      return ((Duration)get(TaskField.ACTUAL_WORK));
    }
 
    /**
@@ -2020,7 +1994,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getBaselineCost ()
    {
-      return ((Number)get(BASELINE_COST));
+      return ((Number)get(TaskField.BASELINE_COST));
    }
 
    /**
@@ -2031,7 +2005,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getBaselineDuration ()
    {
-      return ((Duration)get(BASELINE_DURATION));
+      return ((Duration)get(TaskField.BASELINE_DURATION));
    }
 
    /**
@@ -2043,7 +2017,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getBaselineFinish ()
    {
-      return ((Date)get(BASELINE_FINISH));
+      return ((Date)get(TaskField.BASELINE_FINISH));
    }
 
    /**
@@ -2055,7 +2029,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getBaselineStart ()
    {
-      return ((Date)get(BASELINE_START));
+      return ((Date)get(TaskField.BASELINE_START));
    }
 
    /**
@@ -2068,7 +2042,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getBaselineWork ()
    {
-      return ((Duration)get(BASELINE_WORK));
+      return ((Duration)get(TaskField.BASELINE_WORK));
    }
 
    /**
@@ -2082,7 +2056,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getBCWP ()
    {
-      return ((Number)get(BCWP));
+      return ((Number)get(TaskField.BCWP));
    }
 
    /**
@@ -2093,7 +2067,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getBCWS ()
    {
-      return ((Number)get(BCWS));
+      return ((Number)get(TaskField.BCWS));
    }
 
    /**
@@ -2105,7 +2079,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getConfirmed ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(CONFIRMED)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.CONFIRMED)));
    }
 
    /**
@@ -2118,7 +2092,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getConstraintDate ()
    {
-      return ((Date)get(CONSTRAINT_DATE));
+      return ((Date)get(TaskField.CONSTRAINT_DATE));
    }
 
    /**
@@ -2129,7 +2103,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public ConstraintType getConstraintType ()
    {
-      return ((ConstraintType)get(CONSTRAINT_TYPE));
+      return ((ConstraintType)get(TaskField.CONSTRAINT_TYPE));
    }
 
    /**
@@ -2140,7 +2114,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getContact ()
    {
-      return ((String)get(CONTACT));
+      return ((String)get(TaskField.CONTACT));
    }
 
    /**
@@ -2153,7 +2127,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost ()
    {
-      return ((Number)get(COST));
+      return ((Number)get(TaskField.COST));
    }
 
    /**
@@ -2164,7 +2138,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost1 ()
    {
-      return ((Number)get(COST1));
+      return ((Number)get(TaskField.COST1));
    }
 
    /**
@@ -2175,7 +2149,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost2 ()
    {
-      return ((Number)get(COST2));
+      return ((Number)get(TaskField.COST2));
    }
 
    /**
@@ -2186,7 +2160,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost3 ()
    {
-      return ((Number)get(COST3));
+      return ((Number)get(TaskField.COST3));
    }
 
    /**
@@ -2199,7 +2173,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCostVariance ()
    {
-      return ((Number)get(COST_VARIANCE));
+      return ((Number)get(TaskField.COST_VARIANCE));
    }
 
    /**
@@ -2210,7 +2184,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getCreateDate ()
    {
-      return ((Date)get(CREATE_DATE));
+      return ((Date)get(TaskField.CREATED));
    }
 
    /**
@@ -2222,7 +2196,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getCritical ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(CRITICAL)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.CRITICAL)));
    }
 
    /**
@@ -2239,7 +2213,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCV ()
    {
-      return ((Number)get(CV));
+      return ((Number)get(TaskField.CV));
    }
 
    /**
@@ -2249,7 +2223,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getLevelingDelay ()
    {
-      return ((Duration)get(DELAY));
+      return ((Duration)get(TaskField.LEVELING_DELAY));
    }
 
    /**
@@ -2261,7 +2235,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration ()
    {
-      return ((Duration)get(DURATION));
+      return ((Duration)get(TaskField.DURATION));
    }
 
    /**
@@ -2273,7 +2247,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration1 ()
    {
-      return (Duration)get(DURATION1);
+      return (Duration)get(TaskField.DURATION1);
    }
 
    /**
@@ -2285,7 +2259,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration2 ()
    {
-      return ((Duration)get(DURATION2));
+      return ((Duration)get(TaskField.DURATION2));
    }
 
    /**
@@ -2297,7 +2271,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration3 ()
    {
-      return ((Duration)get(DURATION3));
+      return ((Duration)get(TaskField.DURATION3));
    }
 
    /**
@@ -2309,7 +2283,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDurationVariance ()
    {
-      return ((Duration)get(DURATION_VARIANCE));
+      return ((Duration)get(TaskField.DURATION_VARIANCE));
    }
 
    /**
@@ -2321,7 +2295,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getEarlyFinish ()
    {
-      return ((Date)get(EARLY_FINISH));
+      return ((Date)get(TaskField.EARLY_FINISH));
    }
 
    /**
@@ -2333,7 +2307,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getEarlyStart ()
    {
-      return ((Date)get(EARLY_START));
+      return ((Date)get(TaskField.EARLY_START));
    }
 
    /**
@@ -2346,7 +2320,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish ()
    {
-      return ((Date)get(FINISH));
+      return ((Date)get(TaskField.FINISH));
    }
 
    /**
@@ -2358,7 +2332,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish1 ()
    {
-      return ((Date)get(FINISH1));
+      return ((Date)get(TaskField.FINISH1));
    }
 
    /**
@@ -2370,7 +2344,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish2 ()
    {
-      return ((Date)get(FINISH2));
+      return ((Date)get(TaskField.FINISH2));
    }
 
    /**
@@ -2382,7 +2356,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish3 ()
    {
-      return ((Date)get(FINISH3));
+      return ((Date)get(TaskField.FINISH3));
    }
 
    /**
@@ -2394,7 +2368,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish4 ()
    {
-      return ((Date)get(FINISH4));
+      return ((Date)get(TaskField.FINISH4));
    }
 
    /**
@@ -2406,7 +2380,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish5 ()
    {
-      return ((Date)get(FINISH5));
+      return ((Date)get(TaskField.FINISH5));
    }
 
    /**
@@ -2416,7 +2390,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getFinishVariance ()
    {
-      return ((Duration)get(FINISH_VARIANCE));
+      return ((Duration)get(TaskField.FINISH_VARIANCE));
    }
 
    /**
@@ -2427,7 +2401,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getFixedCost ()
    {
-      return ((Number)get(FIXED_COST));
+      return ((Number)get(TaskField.FIXED_COST));
    }
 
    /**
@@ -2439,7 +2413,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag1 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG1)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG1)));
    }
 
    /**
@@ -2451,7 +2425,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag2 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG2)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG2)));
    }
 
    /**
@@ -2463,7 +2437,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag3 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG3)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG3)));
    }
 
    /**
@@ -2475,7 +2449,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag4 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG4)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG4)));
    }
 
    /**
@@ -2487,7 +2461,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag5 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG5)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG5)));
    }
 
    /**
@@ -2499,7 +2473,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag6 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG6)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG6)));
    }
 
    /**
@@ -2511,7 +2485,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag7 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG7)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG7)));
    }
 
 
@@ -2524,7 +2498,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag8 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG8)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG8)));
    }
 
    /**
@@ -2536,7 +2510,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag9 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG9)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG9)));
    }
 
    /**
@@ -2548,7 +2522,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag10 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG10)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG10)));
    }
 
    /**
@@ -2561,7 +2535,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getFreeSlack ()
    {
-      return ((Duration)get(FREE_SLACK));
+      return ((Duration)get(TaskField.FREE_SLACK));
    }
 
    /**
@@ -2574,7 +2548,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getHideBar ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(HIDE_BAR)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.HIDEBAR)));
    }
 
    /**
@@ -2586,7 +2560,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Integer getID ()
    {
-      return ((Integer)get(ID));
+      return ((Integer)get(TaskField.ID));
    }
 
    /**
@@ -2600,7 +2574,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getLateFinish ()
    {
-      return ((Date)get(LATE_FINISH));
+      return ((Date)get(TaskField.LATE_FINISH));
    }
 
    /**
@@ -2613,7 +2587,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getLateStart ()
    {
-      return ((Date)get(LATE_START));
+      return ((Date)get(TaskField.LATE_START));
    }
 
    /**
@@ -2625,7 +2599,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getLinkedFields ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(LINKED_FIELDS)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.LINKED_FIELDS)));
    }
 
    /**
@@ -2637,7 +2611,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getMarked ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(MARKED)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.MARKED)));
    }
 
    /**
@@ -2647,7 +2621,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getMilestone ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(MILESTONE)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.MILESTONE)));
    }
 
    /**
@@ -2657,7 +2631,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getName ()
    {
-      return ((String)get(NAME));
+      return ((String)get(TaskField.NAME));
    }
 
    /**
@@ -2668,7 +2642,8 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getNotes ()
    {
-      return (m_notes==null?"":m_notes);
+      String notes = (String)get(TaskField.NOTES);
+      return (notes==null?"":notes);
    }
 
    /**
@@ -2678,7 +2653,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber1 ()
    {
-      return ((Number)get(NUMBER1));
+      return ((Number)get(TaskField.NUMBER1));
    }
 
    /**
@@ -2688,7 +2663,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber2 ()
    {
-      return ((Number)get(NUMBER2));
+      return ((Number)get(TaskField.NUMBER2));
    }
 
    /**
@@ -2698,7 +2673,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber3 ()
    {
-      return ((Number)get(NUMBER3));
+      return ((Number)get(TaskField.NUMBER3));
    }
 
    /**
@@ -2708,7 +2683,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber4 ()
    {
-      return ((Number)get(NUMBER4));
+      return ((Number)get(TaskField.NUMBER4));
    }
 
    /**
@@ -2718,7 +2693,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber5 ()
    {
-      return ((Number)get(NUMBER5));
+      return ((Number)get(TaskField.NUMBER5));
    }
 
    /**
@@ -2731,7 +2706,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Integer getObjects ()
    {
-      return ((Integer)get(OBJECTS));
+      return ((Integer)get(TaskField.OBJECTS));
    }
 
    /**
@@ -2742,7 +2717,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Integer getOutlineLevel ()
    {
-      return ((Integer)get(OUTLINE_LEVEL));
+      return ((Integer)get(TaskField.OUTLINE_LEVEL));
    }
 
    /**
@@ -2757,7 +2732,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineNumber ()
    {
-      return ((String)get(OUTLINE_NUMBER));
+      return ((String)get(TaskField.OUTLINE_NUMBER));
    }
 
    /**
@@ -2775,7 +2750,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public List getPredecessors ()
    {
-      return ((List)get(PREDECESSORS));
+      return ((List)get(TaskField.PREDECESSORS));
    }
 
    /**
@@ -2790,7 +2765,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Priority getPriority ()
    {
-      return ((Priority)get(PRIORITY));
+      return ((Priority)get(TaskField.PRIORITY));
    }
 
    /**
@@ -2806,7 +2781,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getProject ()
    {
-      return ((String)get(PROJECT));
+      return ((String)get(TaskField.PROJECT));
    }
 
    /**
@@ -2818,7 +2793,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getRemainingCost ()
    {
-      return ((Number)get(REMAINING_COST));
+      return ((Number)get(TaskField.REMAINING_COST));
    }
 
    /**
@@ -2829,7 +2804,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getRemainingDuration ()
    {
-      return ((Duration)get(REMAINING_DURATION));
+      return ((Duration)get(TaskField.REMAINING_DURATION));
    }
 
    /**
@@ -2840,7 +2815,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getRemainingWork ()
    {
-      return ((Duration)get(REMAINING_WORK));
+      return ((Duration)get(TaskField.REMAINING_WORK));
    }
 
    /**
@@ -2851,7 +2826,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getResourceGroup ()
    {
-      return ((String)get(RESOURCE_GROUP));
+      return ((String)get(TaskField.RESOURCE_GROUP));
    }
 
    /**
@@ -2867,7 +2842,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getResourceInitials ()
    {
-      return ((String)get(RESOURCE_INITIALS));
+      return ((String)get(TaskField.RESOURCE_INITIALS));
    }
 
    /**
@@ -2882,7 +2857,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getResourceNames ()
    {
-      return ((String)get(RESOURCE_NAMES));
+      return ((String)get(TaskField.RESOURCE_NAMES));
    }
 
    /**
@@ -2895,7 +2870,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getResume ()
    {
-      return ((Date)get(RESUME));
+      return ((Date)get(TaskField.RESUME));
    }
 
    /**
@@ -2911,7 +2886,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getRollup ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ROLLUP)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.ROLLUP)));
    }
 
    /**
@@ -2923,7 +2898,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart ()
    {
-      return ((Date)get(START));
+      return ((Date)get(TaskField.START));
    }
 
    /**
@@ -2935,7 +2910,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart1 ()
    {
-      return ((Date)get(START1));
+      return ((Date)get(TaskField.START1));
    }
 
    /**
@@ -2947,7 +2922,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart2 ()
    {
-      return ((Date)get(START2));
+      return ((Date)get(TaskField.START2));
    }
 
    /**
@@ -2959,7 +2934,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart3 ()
    {
-      return ((Date)get(START3));
+      return ((Date)get(TaskField.START3));
    }
 
    /**
@@ -2971,7 +2946,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart4 ()
    {
-      return ((Date)get(START4));
+      return ((Date)get(TaskField.START4));
    }
 
    /**
@@ -2983,7 +2958,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart5 ()
    {
-      return ((Date)get(START5));
+      return ((Date)get(TaskField.START5));
    }
 
    /**
@@ -2995,7 +2970,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getStartVariance ()
    {
-      return ((Duration)get(START_VARIANCE));
+      return ((Duration)get(TaskField.START_VARIANCE));
    }
 
    /**
@@ -3007,7 +2982,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStop ()
    {
-      return ((Date)get(STOP));
+      return ((Date)get(TaskField.STOP));
    }
 
    /**
@@ -3019,7 +2994,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getSubprojectName ()
    {
-      return ((String)get(SUBPROJECT_NAME));
+      return ((String)get(TaskField.SUBPROJECT_FILE));
    }
 
    /**
@@ -3036,7 +3011,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public List getSuccessors ()
    {
-      return ((List)get(SUCCESSORS));
+      return ((List)get(TaskField.SUCCESSORS));
    }
 
    /**
@@ -3046,7 +3021,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getSummary ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(SUMMARY)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.SUMMARY)));
    }
 
    /**
@@ -3059,7 +3034,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getSV ()
    {
-      return ((Number)get(SV));
+      return ((Number)get(TaskField.SV));
    }
 
    /**
@@ -3070,7 +3045,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText1 ()
    {
-      return ((String)get(TEXT1));
+      return ((String)get(TaskField.TEXT1));
    }
 
    /**
@@ -3081,7 +3056,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText2 ()
    {
-      return ((String)get(TEXT2));
+      return ((String)get(TaskField.TEXT2));
    }
 
    /**
@@ -3092,7 +3067,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText3 ()
    {
-      return ((String)get(TEXT3));
+      return ((String)get(TaskField.TEXT3));
    }
 
    /**
@@ -3103,7 +3078,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText4 ()
    {
-      return ((String)get(TEXT4));
+      return ((String)get(TaskField.TEXT4));
    }
 
    /**
@@ -3114,7 +3089,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText5 ()
    {
-      return ((String)get(TEXT5));
+      return ((String)get(TaskField.TEXT5));
    }
 
    /**
@@ -3125,7 +3100,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText6 ()
    {
-      return ((String)get(TEXT6));
+      return ((String)get(TaskField.TEXT6));
    }
 
    /**
@@ -3136,7 +3111,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText7 ()
    {
-      return ((String)get(TEXT7));
+      return ((String)get(TaskField.TEXT7));
    }
 
    /**
@@ -3147,7 +3122,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText8 ()
    {
-      return ((String)get(TEXT8));
+      return ((String)get(TaskField.TEXT8));
    }
 
    /**
@@ -3158,7 +3133,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText9 ()
    {
-      return ((String)get(TEXT9));
+      return ((String)get(TaskField.TEXT9));
    }
 
    /**
@@ -3169,7 +3144,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText10 ()
    {
-      return ((String)get(TEXT10));
+      return ((String)get(TaskField.TEXT10));
    }
 
    /**
@@ -3180,7 +3155,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getTotalSlack ()
    {
-      return ((Duration)get(TOTAL_SLACK));
+      return ((Duration)get(TaskField.TOTAL_SLACK));
    }
 
    /**
@@ -3193,7 +3168,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Integer getUniqueID ()
    {
-      return ((Integer)get(UNIQUE_ID));
+      return ((Integer)get(TaskField.UNIQUE_ID));
    }
 
    /**
@@ -3206,7 +3181,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public List getUniqueIDPredecessors ()
    {
-      return ((List)get(UNIQUE_ID_PREDECESSORS));
+      return ((List)get(TaskField.UNIQUE_ID_PREDECESSORS));
    }
 
    /**
@@ -3219,7 +3194,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public List getUniqueIDSuccessors ()
    {
-      return ((List)get(UNIQUE_ID_SUCCESSORS));
+      return ((List)get(TaskField.UNIQUE_ID_SUCCESSORS));
    }
 
    /**
@@ -3231,7 +3206,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getUpdateNeeded ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(UPDATE_NEEDED)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.UPDATE_NEEDED)));
    }
 
    /**
@@ -3244,7 +3219,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getWBS ()
    {
-      return ((String)get(WBS));
+      return ((String)get(TaskField.WBS));
    }
 
    /**
@@ -3256,7 +3231,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getWork ()
    {
-      return ((Duration)get(WORK));
+      return ((Duration)get(TaskField.WORK));
    }
 
    /**
@@ -3267,7 +3242,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getWorkVariance ()
    {
-      return ((Duration)get(WORK_VARIANCE));
+      return ((Duration)get(TaskField.WORK_VARIANCE));
    }
 
    /**
@@ -3330,7 +3305,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getEstimated ()
    {
-      return (m_estimated);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.ESTIMATED)));
    }
 
    /**
@@ -3341,7 +3316,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setEstimated (boolean estimated)
    {
-      m_estimated = estimated;
+      set(TaskField.ESTIMATED, estimated);
    }
 
    /**
@@ -3351,7 +3326,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDeadline ()
    {
-      return (m_deadline);
+      return ((Date)get(TaskField.DEADLINE));
    }
 
    /**
@@ -3361,7 +3336,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDeadline (Date deadline)
    {
-      m_deadline = deadline;
+      set(TaskField.DEADLINE, deadline);
    }
 
    /**
@@ -3371,7 +3346,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public TaskType getType ()
    {
-      return ((TaskType)get(TYPE));
+      return ((TaskType)get(TaskField.TYPE));
    }
 
    /**
@@ -3381,7 +3356,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setType (TaskType type)
    {
-      set(TYPE, type);
+      set(TaskField.TYPE, type);
    }
 
    /**
@@ -3471,7 +3446,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getRecurring ()
    {
-      return (m_recurring);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.RECURRING)));
    }
 
    /**
@@ -3481,7 +3456,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRecurring (boolean recurring)
    {
-      m_recurring = recurring;
+      set(TaskField.RECURRING, recurring);
    }
 
    /**
@@ -3491,7 +3466,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getOverAllocated ()
    {
-      return (m_overAllocated);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.OVERALLOCATED)));
    }
 
    /**
@@ -3501,7 +3476,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOverAllocated (boolean overAllocated)
    {
-      m_overAllocated = overAllocated;
+      set(TaskField.OVERALLOCATED, overAllocated);
    }
 
    /**
@@ -3558,7 +3533,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getSubprojectReadOnly ()
    {
-      return (m_subprojectReadOnly);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.SUBPROJECT_READ_ONLY)));
    }
 
    /**
@@ -3568,7 +3543,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setSubprojectReadOnly (boolean subprojectReadOnly)
    {
-      m_subprojectReadOnly = subprojectReadOnly;
+      set(TaskField.SUBPROJECT_READ_ONLY, subprojectReadOnly);
    }
 
    /**
@@ -3578,7 +3553,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getExternalTask ()
    {
-      return (m_externalTask);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.EXTERNAL_TASK)));
    }
 
    /**
@@ -3588,7 +3563,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setExternalTask (boolean externalTask)
    {
-      m_externalTask = externalTask;
+      set(TaskField.EXTERNAL_TASK, externalTask);
    }
 
    /**
@@ -3618,7 +3593,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getACWP ()
    {
-      return (m_acwp);
+      return ((Number)get(TaskField.ACWP));
    }
 
    /**
@@ -3628,7 +3603,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setACWP (Number acwp)
    {
-      m_acwp = acwp;
+      set(TaskField.ACWP, acwp);
    }
 
    /**
@@ -3658,7 +3633,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getIgnoreResourceCalendar ()
    {
-      return (m_ignoreResourceCalendar);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.IGNORE_RESOURCE_CALENDAR)));
    }
 
    /**
@@ -3668,7 +3643,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setIgnoreResourceCalendar (boolean ignoreResourceCalendar)
    {
-      m_ignoreResourceCalendar = ignoreResourceCalendar;
+      set(TaskField.IGNORE_RESOURCE_CALENDAR, ignoreResourceCalendar);
    }
 
    /**
@@ -3758,7 +3733,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getRegularWork ()
    {
-      return (m_regularWork);
+      return ((Duration)get(TaskField.REGULAR_WORK));
    }
 
    /**
@@ -3768,7 +3743,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRegularWork (Duration regularWork)
    {
-      m_regularWork = regularWork;
+      set(TaskField.REGULAR_WORK, regularWork);
    }
 
    /**
@@ -3778,7 +3753,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag11 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG11)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG11)));
    }
 
    /**
@@ -3788,7 +3763,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag12 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG12)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG12)));
    }
 
    /**
@@ -3798,7 +3773,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag13 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG13)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG13)));
    }
 
    /**
@@ -3808,7 +3783,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag14 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG14)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG14)));
    }
 
    /**
@@ -3818,7 +3793,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag15 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG15)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG15)));
    }
 
    /**
@@ -3828,7 +3803,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag16 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG16)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG16)));
    }
 
    /**
@@ -3838,7 +3813,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag17 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG17)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG17)));
    }
 
    /**
@@ -3848,7 +3823,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag18 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG18)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG18)));
    }
 
    /**
@@ -3858,7 +3833,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag19 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG19)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG19)));
    }
 
    /**
@@ -3868,7 +3843,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getFlag20 ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(FLAG20)));
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.FLAG20)));
    }
 
    /**
@@ -3878,7 +3853,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag11 (boolean b)
    {
-      set(FLAG11, b);
+      set(TaskField.FLAG11, b);
    }
 
    /**
@@ -3888,7 +3863,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag12 (boolean b)
    {
-      set(FLAG12, b);
+      set(TaskField.FLAG12, b);
    }
 
    /**
@@ -3898,7 +3873,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag13 (boolean b)
    {
-      set(FLAG13, b);
+      set(TaskField.FLAG13, b);
    }
 
    /**
@@ -3908,7 +3883,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag14 (boolean b)
    {
-      set(FLAG14, b);
+      set(TaskField.FLAG14, b);
    }
 
    /**
@@ -3918,7 +3893,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag15 (boolean b)
    {
-      set(FLAG15, b);
+      set(TaskField.FLAG15, b);
    }
 
    /**
@@ -3928,7 +3903,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag16 (boolean b)
    {
-      set(FLAG16, b);
+      set(TaskField.FLAG16, b);
    }
 
    /**
@@ -3938,7 +3913,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag17 (boolean b)
    {
-      set(FLAG17, b);
+      set(TaskField.FLAG17, b);
    }
 
    /**
@@ -3948,7 +3923,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag18 (boolean b)
    {
-      set(FLAG18, b);
+      set(TaskField.FLAG18, b);
    }
 
    /**
@@ -3958,7 +3933,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag19 (boolean b)
    {
-      set(FLAG19, b);
+      set(TaskField.FLAG19, b);
    }
 
    /**
@@ -3968,7 +3943,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFlag20 (boolean b)
    {
-      set(FLAG20, b);
+      set(TaskField.FLAG20, b);
    }
 
    /**
@@ -3978,7 +3953,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setEffortDriven (boolean flag)
    {
-      m_effortDriven = flag;
+      set(TaskField.EFFORT_DRIVEN, flag);
    }
 
    /**
@@ -3988,7 +3963,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getEffortDriven ()
    {
-      return (m_effortDriven);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.EFFORT_DRIVEN)));
    }
 
    /**
@@ -3998,7 +3973,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText11 ()
    {
-      return ((String)get(TEXT11));
+      return ((String)get(TaskField.TEXT11));
    }
 
    /**
@@ -4008,7 +3983,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText12 ()
    {
-      return ((String)get(TEXT12));
+      return ((String)get(TaskField.TEXT12));
    }
 
    /**
@@ -4018,7 +3993,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText13 ()
    {
-      return ((String)get(TEXT13));
+      return ((String)get(TaskField.TEXT13));
    }
 
    /**
@@ -4028,7 +4003,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText14 ()
    {
-      return ((String)get(TEXT14));
+      return ((String)get(TaskField.TEXT14));
    }
 
    /**
@@ -4038,7 +4013,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText15 ()
    {
-      return ((String)get(TEXT15));
+      return ((String)get(TaskField.TEXT15));
    }
 
    /**
@@ -4048,7 +4023,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText16 ()
    {
-      return ((String)get(TEXT16));
+      return ((String)get(TaskField.TEXT16));
    }
 
    /**
@@ -4058,7 +4033,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText17 ()
    {
-      return ((String)get(TEXT17));
+      return ((String)get(TaskField.TEXT17));
    }
 
    /**
@@ -4068,7 +4043,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText18 ()
    {
-      return ((String)get(TEXT18));
+      return ((String)get(TaskField.TEXT18));
    }
 
    /**
@@ -4078,7 +4053,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText19 ()
    {
-      return ((String)get(TEXT19));
+      return ((String)get(TaskField.TEXT19));
    }
 
    /**
@@ -4088,7 +4063,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText20 ()
    {
-      return ((String)get(TEXT20));
+      return ((String)get(TaskField.TEXT20));
    }
 
    /**
@@ -4098,7 +4073,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText21 ()
    {
-      return ((String)get(TEXT21));
+      return ((String)get(TaskField.TEXT21));
    }
 
    /**
@@ -4108,7 +4083,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText22 ()
    {
-      return ((String)get(TEXT22));
+      return ((String)get(TaskField.TEXT22));
    }
 
    /**
@@ -4118,7 +4093,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText23 ()
    {
-      return ((String)get(TEXT23));
+      return ((String)get(TaskField.TEXT23));
    }
 
    /**
@@ -4128,7 +4103,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText24 ()
    {
-      return ((String)get(TEXT24));
+      return ((String)get(TaskField.TEXT24));
    }
 
    /**
@@ -4138,7 +4113,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText25 ()
    {
-      return ((String)get(TEXT25));
+      return ((String)get(TaskField.TEXT25));
    }
 
    /**
@@ -4148,7 +4123,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText26 ()
    {
-      return ((String)get(TEXT26));
+      return ((String)get(TaskField.TEXT26));
    }
 
    /**
@@ -4158,7 +4133,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText27 ()
    {
-      return ((String)get(TEXT27));
+      return ((String)get(TaskField.TEXT27));
    }
 
    /**
@@ -4168,7 +4143,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText28 ()
    {
-      return ((String)get(TEXT28));
+      return ((String)get(TaskField.TEXT28));
    }
 
    /**
@@ -4178,7 +4153,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText29 ()
    {
-      return ((String)get(TEXT29));
+      return ((String)get(TaskField.TEXT29));
    }
 
    /**
@@ -4188,7 +4163,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getText30 ()
    {
-      return ((String)get(TEXT30));
+      return ((String)get(TaskField.TEXT30));
    }
 
    /**
@@ -4198,7 +4173,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText11 (String string)
    {
-      set(TEXT11, string);
+      set(TaskField.TEXT11, string);
    }
 
    /**
@@ -4208,7 +4183,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText12 (String string)
    {
-      set(TEXT12, string);
+      set(TaskField.TEXT12, string);
    }
 
    /**
@@ -4218,7 +4193,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText13 (String string)
    {
-      set(TEXT13, string);
+      set(TaskField.TEXT13, string);
    }
 
    /**
@@ -4228,7 +4203,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText14 (String string)
    {
-      set(TEXT14, string);
+      set(TaskField.TEXT14, string);
    }
 
    /**
@@ -4238,7 +4213,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText15 (String string)
    {
-      set(TEXT15, string);
+      set(TaskField.TEXT15, string);
    }
 
    /**
@@ -4248,7 +4223,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText16 (String string)
    {
-      set(TEXT16, string);
+      set(TaskField.TEXT16, string);
    }
 
    /**
@@ -4258,7 +4233,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText17 (String string)
    {
-      set(TEXT17, string);
+      set(TaskField.TEXT17, string);
    }
 
    /**
@@ -4268,7 +4243,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText18 (String string)
    {
-      set(TEXT18, string);
+      set(TaskField.TEXT18, string);
    }
 
    /**
@@ -4278,7 +4253,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText19 (String string)
    {
-      set(TEXT19, string);
+      set(TaskField.TEXT19, string);
    }
 
    /**
@@ -4288,7 +4263,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText20 (String string)
    {
-      set(TEXT20, string);
+      set(TaskField.TEXT20, string);
    }
 
    /**
@@ -4298,7 +4273,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText21 (String string)
    {
-      set(TEXT21, string);
+      set(TaskField.TEXT21, string);
    }
 
    /**
@@ -4308,7 +4283,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText22 (String string)
    {
-      set(TEXT22, string);
+      set(TaskField.TEXT22, string);
    }
 
    /**
@@ -4318,7 +4293,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText23 (String string)
    {
-      set(TEXT23, string);
+      set(TaskField.TEXT23, string);
    }
 
    /**
@@ -4328,7 +4303,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText24 (String string)
    {
-      set(TEXT24, string);
+      set(TaskField.TEXT24, string);
    }
 
    /**
@@ -4338,7 +4313,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText25 (String string)
    {
-      set(TEXT25, string);
+      set(TaskField.TEXT25, string);
    }
 
    /**
@@ -4348,7 +4323,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText26 (String string)
    {
-      set(TEXT26, string);
+      set(TaskField.TEXT26, string);
    }
 
    /**
@@ -4358,7 +4333,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText27 (String string)
    {
-      set(TEXT27, string);
+      set(TaskField.TEXT27, string);
    }
 
    /**
@@ -4368,7 +4343,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText28 (String string)
    {
-      set(TEXT28, string);
+      set(TaskField.TEXT28, string);
    }
 
    /**
@@ -4378,7 +4353,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText29 (String string)
    {
-      set(TEXT29, string);
+      set(TaskField.TEXT29, string);
    }
 
    /**
@@ -4388,7 +4363,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setText30 (String string)
    {
-      set(TEXT30, string);
+      set(TaskField.TEXT30, string);
    }
 
    /**
@@ -4398,7 +4373,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber6 (Number val)
    {
-      set(NUMBER6, val);
+      set(TaskField.NUMBER6, val);
    }
 
    /**
@@ -4408,7 +4383,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber6 ()
    {
-      return ((Number)get(NUMBER6));
+      return ((Number)get(TaskField.NUMBER6));
    }
 
    /**
@@ -4418,7 +4393,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber7 (Number val)
    {
-      set(NUMBER7, val);
+      set(TaskField.NUMBER7, val);
    }
 
    /**
@@ -4428,7 +4403,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber7 ()
    {
-      return ((Number)get(NUMBER7));
+      return ((Number)get(TaskField.NUMBER7));
    }
 
    /**
@@ -4438,7 +4413,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber8 (Number val)
    {
-      set(NUMBER8, val);
+      set(TaskField.NUMBER8, val);
    }
 
    /**
@@ -4448,7 +4423,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber8 ()
    {
-      return ((Number)get(NUMBER8));
+      return ((Number)get(TaskField.NUMBER8));
    }
 
    /**
@@ -4458,7 +4433,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber9 (Number val)
    {
-      set(NUMBER9, val);
+      set(TaskField.NUMBER9, val);
    }
 
    /**
@@ -4468,7 +4443,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber9 ()
    {
-      return ((Number)get(NUMBER9));
+      return ((Number)get(TaskField.NUMBER9));
    }
 
    /**
@@ -4478,7 +4453,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber10 (Number val)
    {
-      set(NUMBER10, val);
+      set(TaskField.NUMBER10, val);
    }
 
    /**
@@ -4488,7 +4463,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber10 ()
    {
-      return ((Number)get(NUMBER10));
+      return ((Number)get(TaskField.NUMBER10));
    }
 
    /**
@@ -4498,7 +4473,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber11 (Number val)
    {
-      set(NUMBER11, val);
+      set(TaskField.NUMBER11, val);
    }
 
    /**
@@ -4508,7 +4483,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber11 ()
    {
-      return ((Number)get(NUMBER11));
+      return ((Number)get(TaskField.NUMBER11));
    }
 
    /**
@@ -4518,7 +4493,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber12 (Number val)
    {
-      set(NUMBER12, val);
+      set(TaskField.NUMBER12, val);
    }
 
    /**
@@ -4528,7 +4503,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber12 ()
    {
-      return ((Number)get(NUMBER12));
+      return ((Number)get(TaskField.NUMBER12));
    }
 
    /**
@@ -4538,7 +4513,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber13 (Number val)
    {
-      set(NUMBER13, val);
+      set(TaskField.NUMBER13, val);
    }
 
    /**
@@ -4548,7 +4523,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber13 ()
    {
-      return ((Number)get(NUMBER13));
+      return ((Number)get(TaskField.NUMBER13));
    }
 
    /**
@@ -4558,7 +4533,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber14 (Number val)
    {
-      set(NUMBER14, val);
+      set(TaskField.NUMBER14, val);
    }
 
    /**
@@ -4568,7 +4543,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber14 ()
    {
-      return ((Number)get(NUMBER14));
+      return ((Number)get(TaskField.NUMBER14));
    }
 
    /**
@@ -4578,7 +4553,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber15 (Number val)
    {
-      set(NUMBER15, val);
+      set(TaskField.NUMBER15, val);
    }
 
    /**
@@ -4588,7 +4563,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber15 ()
    {
-      return ((Number)get(NUMBER15));
+      return ((Number)get(TaskField.NUMBER15));
    }
 
    /**
@@ -4598,7 +4573,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber16 (Number val)
    {
-      set(NUMBER16, val);
+      set(TaskField.NUMBER16, val);
    }
 
    /**
@@ -4608,7 +4583,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber16 ()
    {
-      return ((Number)get(NUMBER16));
+      return ((Number)get(TaskField.NUMBER16));
    }
 
    /**
@@ -4618,7 +4593,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber17 (Number val)
    {
-      set(NUMBER17, val);
+      set(TaskField.NUMBER17, val);
    }
 
    /**
@@ -4628,7 +4603,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber17 ()
    {
-      return ((Number)get(NUMBER17));
+      return ((Number)get(TaskField.NUMBER17));
    }
 
    /**
@@ -4638,7 +4613,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber18 (Number val)
    {
-      set(NUMBER18, val);
+      set(TaskField.NUMBER18, val);
    }
 
    /**
@@ -4648,7 +4623,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber18 ()
    {
-      return ((Number)get(NUMBER18));
+      return ((Number)get(TaskField.NUMBER18));
    }
 
    /**
@@ -4658,7 +4633,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber19 (Number val)
    {
-      set(NUMBER19, val);
+      set(TaskField.NUMBER19, val);
    }
 
    /**
@@ -4668,7 +4643,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber19 ()
    {
-      return ((Number)get(NUMBER19));
+      return ((Number)get(TaskField.NUMBER19));
    }
 
    /**
@@ -4678,7 +4653,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setNumber20 (Number val)
    {
-      set(NUMBER20, val);
+      set(TaskField.NUMBER20, val);
    }
 
    /**
@@ -4688,7 +4663,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getNumber20 ()
    {
-      return ((Number)get(NUMBER20));
+      return ((Number)get(TaskField.NUMBER20));
    }
 
    /**
@@ -4698,7 +4673,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration10 ()
    {
-      return (Duration)get(DURATION10);
+      return (Duration)get(TaskField.DURATION10);
    }
 
    /**
@@ -4708,7 +4683,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration4 ()
    {
-      return (Duration)get(DURATION4);
+      return (Duration)get(TaskField.DURATION4);
    }
 
    /**
@@ -4718,7 +4693,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration5 ()
    {
-      return (Duration)get(DURATION5);
+      return (Duration)get(TaskField.DURATION5);
    }
 
    /**
@@ -4728,7 +4703,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration6 ()
    {
-      return (Duration)get(DURATION6);
+      return (Duration)get(TaskField.DURATION6);
    }
 
    /**
@@ -4738,7 +4713,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration7 ()
    {
-      return (Duration)get(DURATION7);
+      return (Duration)get(TaskField.DURATION7);
    }
 
    /**
@@ -4748,7 +4723,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration8 ()
    {
-      return (Duration)get(DURATION8);
+      return (Duration)get(TaskField.DURATION8);
    }
 
    /**
@@ -4758,7 +4733,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getDuration9 ()
    {
-      return (Duration)get(DURATION9);
+      return (Duration)get(TaskField.DURATION9);
    }
 
    /**
@@ -4768,7 +4743,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration10 (Duration duration)
    {
-      set(DURATION10, duration);
+      set(TaskField.DURATION10, duration);
    }
 
    /**
@@ -4778,7 +4753,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration4 (Duration duration)
    {
-      set(DURATION4, duration);
+      set(TaskField.DURATION4, duration);
    }
 
    /**
@@ -4788,7 +4763,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration5 (Duration duration)
    {
-      set(DURATION5, duration);
+      set(TaskField.DURATION5, duration);
    }
 
    /**
@@ -4798,7 +4773,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration6 (Duration duration)
    {
-      set(DURATION6, duration);
+      set(TaskField.DURATION6, duration);
    }
 
    /**
@@ -4808,7 +4783,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration7 (Duration duration)
    {
-      set(DURATION7, duration);
+      set(TaskField.DURATION7, duration);
    }
 
    /**
@@ -4818,7 +4793,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration8 (Duration duration)
    {
-      set(DURATION8, duration);
+      set(TaskField.DURATION8, duration);
    }
 
    /**
@@ -4828,7 +4803,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDuration9 (Duration duration)
    {
-      set(DURATION9, duration);
+      set(TaskField.DURATION9, duration);
    }
 
    /**
@@ -4838,7 +4813,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate1 ()
    {
-      return ((Date)get(DATE1));
+      return ((Date)get(TaskField.DATE1));
    }
 
    /**
@@ -4848,7 +4823,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate10 ()
    {
-      return ((Date)get(DATE10));
+      return ((Date)get(TaskField.DATE10));
    }
 
    /**
@@ -4858,7 +4833,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate2 ()
    {
-      return ((Date)get(DATE2));
+      return ((Date)get(TaskField.DATE2));
    }
 
    /**
@@ -4868,7 +4843,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate3 ()
    {
-      return ((Date)get(DATE3));
+      return ((Date)get(TaskField.DATE3));
    }
 
    /**
@@ -4878,7 +4853,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate4 ()
    {
-      return ((Date)get(DATE4));
+      return ((Date)get(TaskField.DATE4));
    }
 
    /**
@@ -4888,7 +4863,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate5 ()
    {
-      return ((Date)get(DATE5));
+      return ((Date)get(TaskField.DATE5));
    }
 
    /**
@@ -4898,7 +4873,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate6 ()
    {
-      return ((Date)get(DATE6));
+      return ((Date)get(TaskField.DATE6));
    }
 
    /**
@@ -4908,7 +4883,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate7 ()
    {
-      return ((Date)get(DATE7));
+      return ((Date)get(TaskField.DATE7));
    }
 
    /**
@@ -4918,7 +4893,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate8 ()
    {
-      return ((Date)get(DATE8));
+      return ((Date)get(TaskField.DATE8));
    }
 
    /**
@@ -4928,7 +4903,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getDate9 ()
    {
-      return ((Date)get(DATE9));
+      return ((Date)get(TaskField.DATE9));
    }
 
    /**
@@ -4938,7 +4913,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate1 (Date date)
    {
-      set(DATE1, date);
+      set(TaskField.DATE1, date);
    }
 
    /**
@@ -4948,7 +4923,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate10 (Date date)
    {
-      set(DATE10, date);
+      set(TaskField.DATE10, date);
    }
 
    /**
@@ -4958,7 +4933,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate2 (Date date)
    {
-      set(DATE2, date);
+      set(TaskField.DATE2, date);
    }
 
    /**
@@ -4968,7 +4943,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate3 (Date date)
    {
-      set(DATE3, date);
+      set(TaskField.DATE3, date);
    }
 
    /**
@@ -4978,7 +4953,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate4 (Date date)
    {
-      set(DATE4, date);
+      set(TaskField.DATE4, date);
    }
 
    /**
@@ -4988,7 +4963,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate5 (Date date)
    {
-      set(DATE5, date);
+      set(TaskField.DATE5, date);
    }
 
    /**
@@ -4998,7 +4973,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate6 (Date date)
    {
-      set(DATE6, date);
+      set(TaskField.DATE6, date);
    }
 
    /**
@@ -5008,7 +4983,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate7 (Date date)
    {
-      set(DATE7, date);
+      set(TaskField.DATE7, date);
    }
 
    /**
@@ -5018,7 +4993,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate8 (Date date)
    {
-      set(DATE8, date);
+      set(TaskField.DATE8, date);
    }
 
    /**
@@ -5028,7 +5003,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setDate9 (Date date)
    {
-      set(DATE9, date);
+      set(TaskField.DATE9, date);
    }
 
    /**
@@ -5038,7 +5013,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost10 ()
    {
-      return ((Number)get(COST10));
+      return ((Number)get(TaskField.COST10));
    }
 
    /**
@@ -5048,7 +5023,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost4 ()
    {
-      return ((Number)get(COST4));
+      return ((Number)get(TaskField.COST4));
    }
 
    /**
@@ -5058,7 +5033,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost5 ()
    {
-      return ((Number)get(COST5));
+      return ((Number)get(TaskField.COST5));
    }
 
    /**
@@ -5068,7 +5043,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost6 ()
    {
-      return ((Number)get(COST6));
+      return ((Number)get(TaskField.COST6));
    }
 
    /**
@@ -5078,7 +5053,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost7 ()
    {
-      return ((Number)get(COST7));
+      return ((Number)get(TaskField.COST7));
    }
 
    /**
@@ -5088,7 +5063,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost8 ()
    {
-      return ((Number)get(COST8));
+      return ((Number)get(TaskField.COST8));
    }
 
    /**
@@ -5098,7 +5073,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getCost9 ()
    {
-      return ((Number)get(COST9));
+      return ((Number)get(TaskField.COST9));
    }
 
    /**
@@ -5108,7 +5083,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost10 (Number number)
    {
-      set(COST10, number);
+      set(TaskField.COST10, number);
    }
 
    /**
@@ -5118,7 +5093,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost4 (Number number)
    {
-      set(COST4, number);
+      set(TaskField.COST4, number);
    }
 
    /**
@@ -5128,7 +5103,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost5 (Number number)
    {
-      set(COST5, number);
+      set(TaskField.COST5, number);
    }
 
    /**
@@ -5138,7 +5113,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost6 (Number number)
    {
-      set(COST6, number);
+      set(TaskField.COST6, number);
    }
 
    /**
@@ -5148,7 +5123,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost7 (Number number)
    {
-      set(COST7, number);
+      set(TaskField.COST7, number);
    }
 
    /**
@@ -5158,7 +5133,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost8 (Number number)
    {
-      set(COST8, number);
+      set(TaskField.COST8, number);
    }
 
    /**
@@ -5168,7 +5143,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCost9 (Number number)
    {
-      set(COST9, number);
+      set(TaskField.COST9, number);
    }
 
    /**
@@ -5178,7 +5153,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart10 ()
    {
-      return ((Date)get(START10));
+      return ((Date)get(TaskField.START10));
    }
 
    /**
@@ -5188,7 +5163,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart6 ()
    {
-      return ((Date)get(START6));
+      return ((Date)get(TaskField.START6));
    }
 
    /**
@@ -5198,7 +5173,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart7 ()
    {
-      return ((Date)get(START7));
+      return ((Date)get(TaskField.START7));
    }
 
    /**
@@ -5208,7 +5183,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart8 ()
    {
-      return ((Date)get(START8));
+      return ((Date)get(TaskField.START8));
    }
 
    /**
@@ -5218,7 +5193,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getStart9 ()
    {
-      return ((Date)get(START9));
+      return ((Date)get(TaskField.START9));
    }
 
    /**
@@ -5228,7 +5203,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart10 (Date date)
    {
-      set(START10, date);
+      set(TaskField.START10, date);
    }
 
    /**
@@ -5238,7 +5213,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart6 (Date date)
    {
-      set(START6, date);
+      set(TaskField.START6, date);
    }
 
    /**
@@ -5248,7 +5223,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart7 (Date date)
    {
-      set(START7, date);
+      set(TaskField.START7, date);
    }
 
    /**
@@ -5258,7 +5233,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart8 (Date date)
    {
-      set(START8, date);
+      set(TaskField.START8, date);
    }
 
    /**
@@ -5268,7 +5243,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setStart9 (Date date)
    {
-      set(START9, date);
+      set(TaskField.START9, date);
    }
 
    /**
@@ -5278,7 +5253,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish10 ()
    {
-      return ((Date)get(FINISH10));
+      return ((Date)get(TaskField.FINISH10));
    }
 
    /**
@@ -5288,7 +5263,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish6 ()
    {
-      return ((Date)get(FINISH6));
+      return ((Date)get(TaskField.FINISH6));
    }
 
    /**
@@ -5298,7 +5273,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish7 ()
    {
-      return ((Date)get(FINISH7));
+      return ((Date)get(TaskField.FINISH7));
    }
 
    /**
@@ -5308,7 +5283,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish8 ()
    {
-      return ((Date)get(FINISH8));
+      return ((Date)get(TaskField.FINISH8));
    }
 
    /**
@@ -5318,7 +5293,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getFinish9 ()
    {
-      return ((Date)get(FINISH9));
+      return ((Date)get(TaskField.FINISH9));
    }
 
    /**
@@ -5328,7 +5303,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish10 (Date date)
    {
-      set(FINISH10, date);
+      set(TaskField.FINISH10, date);
    }
 
    /**
@@ -5338,7 +5313,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish6 (Date date)
    {
-      set(FINISH6, date);
+      set(TaskField.FINISH6, date);
    }
 
    /**
@@ -5348,7 +5323,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish7 (Date date)
    {
-      set(FINISH7, date);
+      set(TaskField.FINISH7, date);
    }
 
    /**
@@ -5358,7 +5333,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish8 (Date date)
    {
-      set(FINISH8, date);
+      set(TaskField.FINISH8, date);
    }
 
    /**
@@ -5368,7 +5343,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFinish9 (Date date)
    {
-      set(FINISH9, date);
+      set(TaskField.FINISH9, date);
    }
 
    /**
@@ -5378,7 +5353,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getOvertimeCost ()
    {
-      return m_overtimeCost;
+      return ((Number)get(TaskField.OVERTIME_COST));
    }
 
    /**
@@ -5388,7 +5363,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOvertimeCost (Number number)
    {
-      m_overtimeCost = number;
+      set(TaskField.OVERTIME_COST, number);
    }
 
    /**
@@ -5398,7 +5373,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode1 (String value)
    {
-      set(OUTLINECODE1, value);
+      set(TaskField.OUTLINE_CODE1, value);
    }
 
    /**
@@ -5408,7 +5383,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode1 ()
    {
-      return ((String)get(OUTLINECODE1));
+      return ((String)get(TaskField.OUTLINE_CODE1));
    }
 
    /**
@@ -5418,7 +5393,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode2 (String value)
    {
-      set(OUTLINECODE2, value);
+      set(TaskField.OUTLINE_CODE2, value);
    }
 
    /**
@@ -5428,7 +5403,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode2 ()
    {
-      return ((String)get(OUTLINECODE2));
+      return ((String)get(TaskField.OUTLINE_CODE2));
    }
 
    /**
@@ -5438,7 +5413,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode3 (String value)
    {
-      set(OUTLINECODE3, value);
+      set(TaskField.OUTLINE_CODE3, value);
    }
 
    /**
@@ -5448,7 +5423,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode3 ()
    {
-      return ((String)get(OUTLINECODE3));
+      return ((String)get(TaskField.OUTLINE_CODE3));
    }
 
    /**
@@ -5458,7 +5433,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode4 (String value)
    {
-      set(OUTLINECODE4, value);
+      set(TaskField.OUTLINE_CODE4, value);
    }
 
    /**
@@ -5468,7 +5443,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode4 ()
    {
-      return ((String)get(OUTLINECODE4));
+      return ((String)get(TaskField.OUTLINE_CODE4));
    }
 
    /**
@@ -5478,7 +5453,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode5 (String value)
    {
-      set(OUTLINECODE5, value);
+      set(TaskField.OUTLINE_CODE5, value);
    }
 
    /**
@@ -5488,7 +5463,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode5 ()
    {
-      return ((String)get(OUTLINECODE5));
+      return ((String)get(TaskField.OUTLINE_CODE5));
    }
 
    /**
@@ -5498,7 +5473,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode6 (String value)
    {
-      set(OUTLINECODE6, value);
+      set(TaskField.OUTLINE_CODE6, value);
    }
 
    /**
@@ -5508,7 +5483,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode6 ()
    {
-      return ((String)get(OUTLINECODE6));
+      return ((String)get(TaskField.OUTLINE_CODE6));
    }
 
    /**
@@ -5518,7 +5493,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode7 (String value)
    {
-      set(OUTLINECODE7, value);
+      set(TaskField.OUTLINE_CODE7, value);
    }
 
    /**
@@ -5528,7 +5503,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode7 ()
    {
-      return ((String)get(OUTLINECODE7));
+      return ((String)get(TaskField.OUTLINE_CODE7));
    }
 
    /**
@@ -5538,7 +5513,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode8 (String value)
    {
-      set(OUTLINECODE8, value);
+      set(TaskField.OUTLINE_CODE8, value);
    }
 
    /**
@@ -5548,7 +5523,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode8 ()
    {
-      return ((String)get(OUTLINECODE8));
+      return ((String)get(TaskField.OUTLINE_CODE8));
    }
 
    /**
@@ -5558,7 +5533,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode9 (String value)
    {
-      set(OUTLINECODE9, value);
+      set(TaskField.OUTLINE_CODE9, value);
    }
 
    /**
@@ -5568,7 +5543,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode9 ()
    {
-      return ((String)get(OUTLINECODE9));
+      return ((String)get(TaskField.OUTLINE_CODE9));
    }
 
    /**
@@ -5578,7 +5553,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOutlineCode10 (String value)
    {
-      set(OUTLINECODE10, value);
+      set(TaskField.OUTLINE_CODE10, value);
    }
 
    /**
@@ -5588,7 +5563,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getOutlineCode10 ()
    {
-      return ((String)get(OUTLINECODE10));
+      return ((String)get(TaskField.OUTLINE_CODE10));
    }
 
    /**
@@ -5598,7 +5573,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getActualOvertimeCost ()
    {
-      return (m_actualOvertimeCost);
+      return ((Number)get(TaskField.ACTUAL_OVERTIME_COST));
    }
 
    /**
@@ -5608,7 +5583,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualOvertimeCost (Number cost)
    {
-      m_actualOvertimeCost = cost;
+      set(TaskField.ACTUAL_OVERTIME_COST, cost);
    }
 
    /**
@@ -5618,7 +5593,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getActualOvertimeWork ()
    {
-      return (m_actualOvertimeWork);
+      return ((Duration)get(TaskField.ACTUAL_OVERTIME_WORK));
    }
 
    /**
@@ -5628,7 +5603,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setActualOvertimeWork (Duration work)
    {
-      m_actualOvertimeWork = work;
+      set(TaskField.ACTUAL_OVERTIME_WORK, work);
    }
 
    /**
@@ -5638,7 +5613,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public AccrueType getFixedCostAccrual ()
    {
-      return (m_fixedCostAccrual);
+      return ((AccrueType)get(TaskField.FIXED_COST_ACCRUAL));
    }
 
    /**
@@ -5648,7 +5623,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFixedCostAccrual (AccrueType type)
    {
-      m_fixedCostAccrual = type;
+      set(TaskField.FIXED_COST_ACCRUAL, type);
    }
 
    /**
@@ -5658,7 +5633,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getHyperlink ()
    {
-      return (m_hyperlink);
+      return ((String)get(TaskField.HYPERLINK));
    }
 
    /**
@@ -5668,7 +5643,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getHyperlinkAddress ()
    {
-      return (m_hyperlinkAddress);
+      return ((String)get(TaskField.HYPERLINK_ADDRESS));
    }
 
    /**
@@ -5678,7 +5653,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public String getHyperlinkSubAddress ()
    {
-      return (m_hyperlinkSubAddress);
+      return ((String)get(TaskField.HYPERLINK_SUBADDRESS));
    }
 
    /**
@@ -5688,7 +5663,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setHyperlink (String text)
    {
-      m_hyperlink = text;
+      set(TaskField.HYPERLINK, text);
    }
 
    /**
@@ -5698,7 +5673,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setHyperlinkAddress (String text)
    {
-      m_hyperlinkAddress = text;
+      set(TaskField.HYPERLINK_ADDRESS, text);
    }
 
    /**
@@ -5708,7 +5683,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setHyperlinkSubAddress (String text)
    {
-      m_hyperlinkSubAddress = text;
+      set(TaskField.HYPERLINK_SUBADDRESS, text);
    }
 
    /**
@@ -5718,7 +5693,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getLevelAssignments ()
    {
-      return (m_levelAssignments);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.LEVEL_ASSIGNMENTS)));
    }
 
    /**
@@ -5728,7 +5703,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setLevelAssignments (boolean flag)
    {
-      m_levelAssignments = flag;
+      set(TaskField.LEVEL_ASSIGNMENTS, flag);
    }
 
    /**
@@ -5738,7 +5713,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public boolean getLevelingCanSplit ()
    {
-      return (m_levelingCanSplit);
+      return (BooleanUtility.getBoolean((Boolean)get(TaskField.LEVELING_CAN_SPLIT)));
    }
 
    /**
@@ -5748,7 +5723,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setLevelingCanSplit (boolean flag)
    {
-      m_levelingCanSplit = flag;
+      set(TaskField.LEVELING_CAN_SPLIT, flag);
    }
 
    /**
@@ -5758,7 +5733,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getOvertimeWork ()
    {
-      return (m_overtimeWork);
+      return ((Duration)get(TaskField.OVERTIME_WORK));
    }
 
    /**
@@ -5768,7 +5743,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setOvertimeWork (Duration work)
    {
-      m_overtimeWork = work;
+      set(TaskField.OVERTIME_WORK, work);
    }
 
    /**
@@ -5778,7 +5753,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getPreleveledStart ()
    {
-      return (m_preleveledStart);
+      return ((Date)get(TaskField.PRELEVELED_START));
    }
 
    /**
@@ -5788,7 +5763,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Date getPreleveledFinish ()
    {
-      return (m_preleveledFinish);
+      return ((Date)get(TaskField.PRELEVELED_FINISH));
    }
 
    /**
@@ -5798,7 +5773,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setPreleveledStart (Date date)
    {
-      m_preleveledStart = date;
+      set(TaskField.PRELEVELED_START, date);
    }
 
    /**
@@ -5808,7 +5783,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setPreleveledFinish (Date date)
    {
-      m_preleveledFinish = date;
+      set(TaskField.PRELEVELED_FINISH, date);
    }
 
    /**
@@ -5818,7 +5793,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Duration getRemainingOvertimeWork ()
    {
-      return (m_remainingOvertimeWork);
+      return ((Duration)get(TaskField.REMAINING_OVERTIME_WORK));
    }
 
    /**
@@ -5828,7 +5803,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRemainingOvertimeWork (Duration work)
    {
-      m_remainingOvertimeWork = work;
+      set(TaskField.REMAINING_OVERTIME_WORK, work);
    }
 
    /**
@@ -5838,7 +5813,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Number getRemainingOvertimeCost ()
    {
-      return (m_remainingOvertimeCost);
+      return ((Number)get(TaskField.REMAINING_OVERTIME_COST));
    }
 
    /**
@@ -5848,7 +5823,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setRemainingOvertimeCost (Number cost)
    {
-      m_remainingOvertimeCost = cost;
+      set(TaskField.REMAINING_OVERTIME_COST, cost);
    }
 
    /**
@@ -5859,7 +5834,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public ProjectCalendar getCalendar ()
    {
-      return (m_calendar);
+      return ((ProjectCalendar)get(TaskField.CALENDAR));
    }
 
 
@@ -5871,7 +5846,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setCalendar (ProjectCalendar calendar)
    {
-      m_calendar = calendar;
+      set(TaskField.CALENDAR, calendar);
    }
 
    /**
@@ -5909,16 +5884,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public Object getFieldByAlias (String alias)
    {
-      Object result = null;
-
-      int field = getParentFile().getAliasTaskField(alias);
-
-      if (field != -1)
-      {
-         result = get(field);
-      }
-
-      return (result);
+      return (get(getParentFile().getAliasTaskField(alias)));
    }
 
    /**
@@ -5929,12 +5895,7 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
     */
    public void setFieldByAlias (String alias, Object value)
    {
-      int field = getParentFile().getAliasTaskField(alias);
-
-      if (field != -1)
-      {
-         set(field, value);
-      }
+      set(getParentFile().getAliasTaskField(alias), value);
    }
 
    /**
@@ -5997,43 +5958,40 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    }
 
    /**
-    * This method inserts a name value pair into internal storage.
-    *
-    * @param key attribute identifier
-    * @param value attribute value
+    * {@inheritDoc}
     */
-   public void put (int key, Object value)
+   public Object get (FieldType field)
    {
-      m_array[key] = value;
+      return (field==null?null:m_array[field.getValue()]);
    }
 
    /**
-    * Given an attribute id, this method retrieves that attribute
-    * value from internal storage.
-    *
-    * @param key name of requested field value
-    * @return requested value
+    * {@inheritDoc}
     */
-   public Object get (int key)
+   public void set (FieldType field, Object value)
    {
-      return (m_array[key]);
+      if (field != null)
+      {
+         m_array[field.getValue()] = value;
+      }
    }
-
+   
    /**
     * This method inserts a name value pair into internal storage.
     *
-    * @param key attribute identifier
+    * @param field task field
     * @param value attribute value
     */
-   private void put (int key, boolean value)
+   private void set (FieldType field, boolean value)
    {
-      put (key, (value==true ? Boolean.TRUE : Boolean.FALSE));
+      set (field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
+   
    /**
     * Array of field values.
     */
-   private Object[] m_array = new Object[MAX_FIELDS + MAX_EXTENDED_FIELDS];
+   private Object[] m_array = new Object[TaskField.MAX_VALUE];
 
 
    /**
@@ -6054,1012 +6012,26 @@ public final class Task extends ProjectEntity implements Comparable, ExtendedAtt
    private List m_assignments = new LinkedList();
 
    /**
-    * Task notes associated with this task.
-    */
-   private String m_notes;
-
-   /**
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
 
-   /**
-    * The following member variables are extended attributes. They are
-    * do not form part of the MPX file format definition, and are neither
-    * loaded from an MPX file, or saved to an MPX file. Their purpose
-    * is to provide storage for attributes which are defined by later versions
-    * of Microsoft Project. This allows these attributes to be manipulated
-    * when they have been retrieved from file formats other than MPX.
-    */
-   private boolean m_estimated;
-   private Date m_deadline;
-   private boolean m_effortDriven;
-   private Number m_overtimeCost;
-   private Number m_actualOvertimeCost;
-   private Duration m_actualOvertimeWork;
-   private AccrueType m_fixedCostAccrual;
-   private String m_hyperlink;
-   private String m_hyperlinkAddress;
-   private String m_hyperlinkSubAddress;
-   private boolean m_levelAssignments;
-   private boolean m_levelingCanSplit;
-   private Duration m_overtimeWork;
-   private Date m_preleveledStart;
-   private Date m_preleveledFinish;
-   private Duration m_remainingOvertimeWork;
-   private Number m_remainingOvertimeCost;
-   private ProjectCalendar m_calendar;
+ 
    private boolean m_null;
-   private String m_wbsLevel;
-   private TimeUnit m_durationFormat;
-   private boolean m_resumeValid;
-   private boolean m_recurring;
-   private boolean m_overAllocated;
-   private boolean m_subprojectReadOnly;
+   private String m_wbsLevel;   
+   private TimeUnit m_durationFormat;   
+   private boolean m_resumeValid;   
    private Integer m_subprojectTaskUniqueID;
    private Integer m_subprojectTasksUniqueIDOffset;
-   private boolean m_externalTask;
    private String m_externalTaskProject;
-   private Number m_acwp;
    private TimeUnit m_levelingDelayFormat;
-   private boolean m_ignoreResourceCalendar;
    private Integer m_physicalPercentComplete;
    private EarnedValueMethod m_earnedValueMethod;
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
-   private Duration m_regularWork;
    private boolean m_expanded = true;
+   
    private List m_splits;
    private SubProject m_subProject;
-
-   /**
-    * The % Complete field contains the current status of a task, expressed as
-    * the percentage of the task's duration that has been completed. You can
-    * enter percent complete, or you can have Microsoft Project calculate it
-    * for you based on actual duration.
-    */
-   public static final int PERCENTAGE_COMPLETE = 44;
-
-   /**
-    * The % Work Complete field contains the current status of a task, expressed as the
-    * percentage of the task's work that has been completed. You can enter percent work
-    * complete, or you can have Microsoft Project calculate it for you based on actual
-    * work on the task.
-    */
-   public static final int PERCENTAGE_WORK_COMPLETE = 25;
-
-   /**
-    * The Actual Cost field shows costs incurred for work already performed by all resources
-    * on a task, along with any other recorded costs associated with the task. You can enter
-    * all the actual costs or have Microsoft Project calculate them for you.
-    */
-   public static final int ACTUAL_COST = 32;
-
-   /**
-    * The Actual Duration field shows the span of actual working time for a task so far,
-    * based on the scheduled duration and current remaining work or completion percentage.
-    */
-   public static final int ACTUAL_DURATION = 42;
-
-   /**
-    * The Actual Finish field shows the date and time that a task actually finished.
-    * Microsoft Project sets the Actual Finish field to the scheduled finish date if
-    * the completion percentage is 100. This field contains "NA" until you enter actual
-    * information or set the completion percentage to 100.
-    */
-   public static final int ACTUAL_FINISH = 59;
-
-   /**
-    * The Actual Start field shows the date and time that a task actually began.
-    * When a task is first created, the Actual Start field contains "NA." Once you
-    * enter the first actual work or a completion percentage for a task, Microsoft
-    * Project sets the actual start date to the scheduled start date.
-    */
-   public static final int ACTUAL_START = 58;
-
-   /**
-    * The Actual Work field shows the amount of work that has already been done by
-    * the resources assigned to a task.
-    */
-   public static final int ACTUAL_WORK = 22;
-
-   /**
-    * The Baseline Cost field shows the total planned cost for a task. Baseline cost
-    * is also referred to as budget at completion (BAC).
-    */
-   public static final int BASELINE_COST = 31;
-
-   /**
-    * The Baseline Duration field shows the original span of time planned to complete a task.
-    */
-   public static final int BASELINE_DURATION = 41;
-
-   /**
-    * The Baseline Finish field shows the planned completion date for a task at the time
-    * you saved a baseline. Information in this field becomes available when you set a
-    * baseline for a task.
-    */
-   public static final int BASELINE_FINISH = 57;
-
-   /**
-    * The Baseline Start field shows the planned beginning date for a task at the time
-    * you saved a baseline. Information in this field becomes available when you set a baseline.
-    */
-   public static final int BASELINE_START = 56;
-
-   /**
-    * The Baseline Work field shows the originally planned amount of work to be performed
-    * by all resources assigned to a task. This field shows the planned person-hours
-    * scheduled for a task. Information in the Baseline Work field becomes available
-    * when you set a baseline for the project.
-    */
-   public static final int BASELINE_WORK = 21;
-
-   /**
-    * The BCWP (budgeted cost of work performed) field contains the cumulative value
-    * of the assignment's timephased percent complete multiplied by the assignments
-    * timephased baseline cost. BCWP is calculated up to the status date or today's date.
-    * This information is also known as earned value.
-    */
-   public static final int BCWP = 86;
-
-   /**
-    * The BCWS (budgeted cost of work scheduled) field contains the cumulative timephased
-    * baseline costs up to the status date or todays date.
-    */
-   public static final int BCWS = 85;
-
-   /**
-    * The Confirmed field indicates whether all resources assigned to a task have
-    * accepted or rejected the task assignment in response to a TeamAssign message
-    * regarding their assignments.
-    */
-   public static final int CONFIRMED = 135;
-
-   /**
-    *  The Constraint Date field shows the specific date associated with certain
-    * constraint types, such as Must Start On, Must Finish On, Start No Earlier Than,
-    * Start No Later Than, Finish No Earlier Than, and Finish No Later Than.
-    */
-   public static final int CONSTRAINT_DATE = 68;
-
-   /**
-    * The Constraint Type field provides choices for the type of constraint you can apply
-    * for scheduling a task. The options are:
-    * - As Late As Possible (default in a project scheduled from the finish date)
-    * - As Soon As Possible (default in a project scheduled from the start date)
-    * - Finish No Earlier Than
-    * - Finish No Later Than
-    * - Must Start On
-    * - Must Finish On
-    * - Start No Earlier Than
-    * - Start No Later Than
-    */
-   public static final int CONSTRAINT_TYPE = 91;
-
-   /**
-    *  The Contact field contains the name of an individual responsible for a task.
-    */
-   public static final int CONTACT = 15;
-
-   /**
-    * The Cost field shows the total scheduled, or projected, cost for a task,
-    * based on costs already incurred for work performed by all resources assigned
-    * to the task, in addition to the costs planned for the remaining work for the
-    * assignment. This can also be referred to as estimate at completion (EAC).
-    */
-   public static final int COST = 30;
-
-   /**
-    * The Cost fields show any custom task cost information you want to enter in your project.
-    */
-   public static final int COST1 = 36;
-
-   /**
-    * The Cost fields show any custom task cost information you want to enter in your project.
-    */
-   public static final int COST2 = 37;
-
-   /**
-    * The Cost fields show any custom task cost information you want to enter in your project.
-    */
-   public static final int COST3 = 38;
-
-   /**
-    * The Cost Variance field shows the difference between the baseline cost and total
-    * cost for a task. The total cost is the current estimate of costs based on actual
-    * costs and remaining costs. This is also referred to as variance at completion (VAC).
-    */
-   public static final int COST_VARIANCE = 34;
-
-   /**
-    * The Created field contains the date and time when a task was added to the project.
-    */
-   public static final int CREATE_DATE = 125;
-
-   /**
-    * The Critical field indicates whether a task has any room in the schedule to slip,
-    * or if a task is on the critical path. The Critical field contains Yes if the task
-    * is critical and No if the task is not critical.
-    */
-   public static final int CRITICAL = 82;
-
-   /**
-    * The CV (earned value cost variance) field shows the difference between how much
-    * it should have cost to achieve the current level of completion on the task, and
-    * how much it has actually cost to achieve the current level of completion up to
-    * the status date or todays date.
-    */
-   public static final int CV = 88;
-
-   /**
-    * The amount of time a task can slip before it affects another task's dates or the
-    * project finish date. Free slack is the amount of time a task can slip before it
-    * delays another task. Total slack is the amount of time a task can slip before it
-    * delays the project finish date. When the total slack is negative, the task
-    * duration is too long for its successor to begin on the date required by a constraint.
-    */
-   public static final int DELAY = 92;
-
-   /**
-    * The Duration field is the total span of active working time for a task.
-    * This is generally the amount of time from the start to the finish of a task.
-    * The default for new tasks is 1 day (1d).
-    */
-   public static final int DURATION = 40;
-
-   /**
-    * The Duration fields are custom fields that show any specialized task duration
-    * information you want to enter and store separately in your project.
-    */
-   public static final int DURATION1 = 46;
-
-   /**
-    * The Duration fields are custom fields that show any specialized task duration
-    * information you want to enter and store separately in your project.
-    */
-   public static final int DURATION2 = 47;
-
-   /**
-    * The Duration fields are custom fields that show any specialized task duration
-    * information you want to enter and store separately in your project.
-    */
-   public static final int DURATION3 = 48;
-
-   /**
-    * The Duration Variance field contains the difference between the baseline duration
-    * of a task and the total duration (current estimate) of a task.
-    */
-   public static final int DURATION_VARIANCE = 45;
-
-   /**
-    * The Early Finish field contains the earliest date that a task could possibly finish,
-    * based on early finish dates of predecessor and successor tasks, other constraints,
-    * and any leveling delay.
-    */
-   public static final int EARLY_FINISH = 53;
-
-   /**
-    * The Early Start field contains the earliest date that a task could possibly begin,
-    * based on the early start dates of predecessor and successor tasks, and other constraints.
-    */
-   public static final int EARLY_START = 52;
-
-   /**
-    * The Finish field shows the date and time that a task is scheduled to be completed.
-    * You can enter the finish date you want, to indicate the date when the task should be
-    * completed. Or, you can have Microsoft Project calculate the finish date.
-    */
-   public static final int FINISH = 51;
-
-   /**
-    * The Finish fields are custom fields that show any specific task finish date information
-    * you want to enter and store separately in your project.
-    */
-   public static final int FINISH1 = 61;
-
-   /**
-    * The Finish fields are custom fields that show any specific task finish date information
-    * you want to enter and store separately in your project.
-    */
-   public static final int FINISH2 = 63;
-
-   /**
-    * The Finish fields are custom fields that show any specific task finish date information
-    * you want to enter and store separately in your project.
-    */
-   public static final int FINISH3 = 65;
-
-   /**
-    * The Finish fields are custom fields that show any specific task finish date information
-    * you want to enter and store separately in your project.
-    */
-   public static final int FINISH4 = 127;
-
-   /**
-    * The Finish fields are custom fields that show any specific task finish date information
-    * you want to enter and store separately in your project.
-    */
-   public static final int FINISH5 = 129;
-
-   /**
-    * The Finish Variance field contains the amount of time that represents the difference
-    * between a task's baseline finish date and its current finish date.
-    */
-   public static final int FINISH_VARIANCE = 67;
-
-   /**
-    * Whether  fixed or not. Boolean value
-    */
-   public static final int TYPE = 80;
-
-   /**
-    * The Fixed Cost field shows any task expense that is not associated
-    * with a resource cost.
-    */
-   public static final int FIXED_COST = 35;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG1 = 110;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG2 = 111;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG3 = 112;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG4 = 113;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG5 = 114;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG6 = 115;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG7 = 116;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG8 = 117;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG9 = 118;
-
-   /**
-    * The Flag fields indicate whether a task is marked for further action or
-    * identification of some kind. To mark a task, click Yes in a Flag field. If you
-    * don't want a task marked, click No.
-    */
-   public static final int FLAG10 = 119;
-
-   /**
-    * The Free Slack field contains the amount of time that a task can be delayed without
-    * delaying any successor tasks. If the task has no successors, free slack is the amount
-    * of time that a task can be delayed without delaying the entire project's finish date.
-    */
-   public static final int FREE_SLACK = 93;
-
-   /**
-    * The Hide Bar field indicates whether the Gantt bars and Calendar bars for a task
-    * are hidden. Click Yes in the Hide Bar field to hide the bar for the task. Click No
-    * in the Hide Bar field to show the bar for the task.
-    */
-   public static final int HIDE_BAR = 123;
-
-   /**
-    * The ID field contains the identifier number that Microsoft Project automatically
-    * assigns to each task as you add it to the project. The ID indicates the position
-    * of a task with respect to the other tasks.
-    */
-   public static final int ID = 90;
-
-   /**
-    * The Late Finish field contains the latest date that a task can finish without
-    * delaying the finish of the project. This date is based on the task's late start
-    * date, as well as the late start and late finish dates of predecessor and successor
-    *  tasks, and other constraints.
-    */
-   public static final int LATE_FINISH = 55;
-
-   /**
-    * The Late Start field contains the latest date that a task can start without delaying
-    * the finish of the project. This date is based on the tasks start date, as well as
-    * the late start and late finish dates of predecessor and successor tasks, and other constraints.
-    */
-   public static final int LATE_START = 54;
-
-   /**
-    *  The Linked Fields field indicates whether there are OLE links to the task,
-    * either from elsewhere in the active project, another Microsoft Project file,
-    * or from another program.
-    */
-   public static final int LINKED_FIELDS = 122;
-
-   /**
-    * The Marked field indicates whether a task is marked for further action or identification
-    * of some kind. To mark a task, click Yes in the Marked field. If you don't want a task
-    * marked, click No.
-    */
-   public static final int MARKED = 83;
-
-   /**
-    * The Milestone field indicates whether a task is a milestone.
-    */
-   public static final int MILESTONE = 81;
-
-   /**
-    * The Name field contains the name of a task.
-    */
-   public static final int NAME = 1;
-
-   /**
-    * The Notes field contains notes that you can enter about a task. You can use task
-    * notes to help maintain a history for a task.
-    */
-   //private static final int NOTES = 14;
-
-   /**
-    * The Number fields show any custom numeric information you enter in your project
-    * regarding tasks.
-    */
-   public static final int NUMBER1 = 140;
-
-   /**
-    * The Number fields show any custom numeric information you enter in your project
-    * regarding tasks.
-    */
-   public static final int NUMBER2 = 141;
-
-   /**
-    * The Number fields show any custom numeric information you enter in your project
-    * regarding tasks.
-    */
-   public static final int NUMBER3 = 142;
-
-   /**
-    * The Number fields show any custom numeric information you enter in your project
-    * regarding tasks.
-    */
-   public static final int NUMBER4 = 143;
-
-   /**
-    * The Number fields show any custom numeric information you enter in your project
-    * regarding tasks.
-    */
-   public static final int NUMBER5 = 144;
-
-   /**
-    * The Objects field contains the number of objects attached to a task.
-    */
-   public static final int OBJECTS = 121;
-
-   /**
-    * The Outline Level field contains the number that indicates the level of the task
-    * in the project outline hierarchy.
-    */
-   public static final int OUTLINE_LEVEL = 3;
-
-   /**
-    * The Outline Number field contains the number of the task in the structure of an outline.
-    * This number indicates the task's position within the hierarchical structure of the
-    * project outline. The outline number is similar to a WBS (work breakdown structure)
-    * number, except that the outline number is automatically entered by Microsoft Project.
-    */
-   public static final int OUTLINE_NUMBER = 99;
-
-   /**
-    * The Predecessors field lists the task ID numbers for the predecessor tasks on which
-    * the task depends before it can be started or finished. Each predecessor is linked to
-    * the task by a specific type of task dependency and a lead time or lag time.
-    */
-   public static final int PREDECESSORS = 70;
-
-   /**
-    * The Priority field provides choices for the level of importance assigned to a
-    * task, which in turn indicates how readily a task can be delayed or split
-    * during resource leveling. The default priority is Medium. Those tasks with a
-    * priority of Do Not Level are never delayed or split when Microsoft Project
-    * levels tasks that have overallocated resources assigned.
-    */
-   public static final int PRIORITY = 95;
-
-   /**
-    * The Project field shows the name of the project from which a task originated.
-    * This can be the name of the active project file. If there are other projects
-    * inserted into the active project file, the name of the inserted project appears
-    * in this field for the task.
-    */
-   public static final int PROJECT = 97;
-
-   /**
-    * The Remaining Cost field shows the remaining scheduled expense of a task
-    * that will be incurred in completing the remaining scheduled work by all
-    * resources assigned to the task.
-    */
-   public static final int REMAINING_COST = 33;
-
-   /**
-    * The Remaining Duration field shows the amount of time required to complete
-    * the unfinished portion of a task.
-    */
-   public static final int REMAINING_DURATION = 43;
-
-   /**
-    * The Remaining Work field shows the amount of time, or person-hours,
-    * still required by all assigned resources to complete a task.
-    */
-   public static final int REMAINING_WORK = 23;
-
-   /**
-    * The Resource Group field contains the list of resource groups to which the
-    * resources assigned to a task belong.
-    */
-   public static final int RESOURCE_GROUP = 16;
-
-   /**
-    * The Resource Initials field lists the abbreviations for the names of resources
-    * assigned to a task. These initials can serve as substitutes for the names.
-    */
-   public static final int RESOURCE_INITIALS = 73;
-
-   /**
-    * The Resource Names field lists the names of all resources assigned to a task.
-    */
-   public static final int RESOURCE_NAMES = 72;
-
-   /**
-    * The Resume field shows the date that the remaining portion of a task is scheduled
-    * to resume after you enter a new value for the % Complete field. The Resume field
-    * is also recalculated when the remaining portion of a task is moved to a new date.
-    */
-   public static final int RESUME = 151;
-
-   /**
-    * The Resume No Earlier than field constains the date which is the earliest time
-    * to restart this task.
-    */
-   public static final int RESUME_NO_EARLIER_THAN = 152;
-
-   /**
-    * For subtasks, the Rollup field indicates whether information on the subtask
-    * Gantt bars will be rolled up to the summary task bar. For summary tasks, the
-    * Rollup field indicates whether the summary task bar displays rolled up bars.
-    * You must have the Rollup field for summary tasks set to Yes for any subtasks
-    * to roll up to them.
-    */
-   public static final int ROLLUP = 84;
-
-   /**
-    * The Start field shows the date and time that a task is scheduled to begin.
-    * You can enter the start date you want, to indicate the date when the task
-    * should begin. Or, you can have Microsoft Project calculate the start date.
-    */
-   public static final int START = 50;
-
-   /**
-    * The Start fields are custom fields that show any specific task start date
-    * information you want to enter and store separately in your project.
-    */
-   public static final int START1 = 60;
-
-   /**
-    * The Start fields are custom fields that show any specific task start date
-    * information you want to enter and store separately in your project.
-    */
-   public static final int START2 = 62;
-
-   /**
-    * The Start fields are custom fields that show any specific task start date
-    * information you want to enter and store separately in your project.
-    */
-   public static final int START3 = 64;
-
-   /**
-    * The Start fields are custom fields that show any specific task start date
-    * information you want to enter and store separately in your project.
-    */
-   public static final int START4 = 126;
-
-   /**
-    * The Start fields are custom fields that show any specific task start date
-    * information you want to enter and store separately in your project.
-    */
-   public static final int START5 = 128;
-
-   /**
-    * The Start fields are custom fields that show any specific task start date
-    * information you want to enter and store separately in your project.
-    */
-   public static final int START_VARIANCE = 66;
-
-   /**
-    * The Stop field shows the date that represents the end of the actual portion of a task.
-    * Typically, Microsoft Project calculates the stop date. However, you can edit this date as well.
-    */
-   public static final int STOP = 150;
-
-   /**
-    * The Subproject File field contains the name of a project inserted into the active project file.
-    * The Subproject File field contains the inserted project's path and file name.
-    */
-   public static final int SUBPROJECT_NAME = 96;
-
-   /**
-    * The Successors field lists the task ID numbers for the successor tasks to a task.
-    * A task must start or finish before successor tasks can start or finish. Each successor
-    * is linked to the task by a specific type of task dependency and a lead time or lag time.
-    */
-   public static final int SUCCESSORS = 71;
-
-   /**
-    * The Summary field indicates whether a task is a summary task.
-    */
-   public static final int SUMMARY = 120;
-
-   /**
-    * The SV (earned value schedule variance) field shows the difference in cost terms
-    * between the current progress and the baseline plan of the task up to the status
-    * date or today's date. You can use SV to check costs to determine whether tasks
-    * are on schedule.
-    */
-   public static final int SV = 87;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT1 = 4;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT2 = 5;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT3 = 6;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT4 = 7;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT5 = 8;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT6 = 9;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT7 = 10;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT8 = 11;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT9 = 12;
-
-   /**
-    * The Text fields show any custom text information you want to enter in your project about tasks.
-    */
-   public static final int TEXT10 = 13;
-
-   /**
-    * The Total Slack field contains the amount of time a task can be delayed without delaying
-    * the project's finish date.
-    */
-   public static final int TOTAL_SLACK = 94;
-
-   /**
-    * The Unique ID field contains the number that Microsoft Project automatically designates
-    * whenever a new task is created. This number indicates the sequence in which the task was
-    * created, regardless of placement in the schedule.
-    */
-   public static final int UNIQUE_ID = 98;
-
-   /**
-    * The Unique ID Predecessors field lists the unique ID numbers for the predecessor
-    * tasks on which a task depends before it can be started or finished. Each predecessor
-    * is linked to the task by a specific type of task dependency and a lead time or lag time.
-    */
-   public static final int UNIQUE_ID_PREDECESSORS = 76;
-
-   /**
-    * The Unique ID Successors field lists the unique ID numbers for the successor tasks
-    * to a task. A task must start or finish before successor tasks can start or finish.
-    * Each successor is linked to the task by a specific type of task dependency and a
-    * lead time or lag time.
-    */
-   public static final int UNIQUE_ID_SUCCESSORS = 75;
-
-   /**
-    * The Update Needed field indicates whether a TeamUpdate messageshould be sent to
-    * the assigned resources because of changes to the start date, finish date, or
-    * resource reassignments of the task.
-    */
-   public static final int UPDATE_NEEDED = 136;
-
-   /**
-    * The work breakdown structure code. The WBS field contains an alphanumeric code
-    * you can use to represent the task's position within the hierarchical structure
-    * of the project. This field is similar to the outline number, except that you can edit it.
-    */
-   public static final int WBS = 2;
-
-   /**
-    * The Work field shows the total amount of work scheduled to be performed on a task
-    * by all assigned resources. This field shows the total work, or person-hours, for a task.
-    */
-   public static final int WORK = 20;
-
-   /**
-    *  The Work Variance field contains the difference between a task's baseline work and
-    * the currently scheduled work.
-    */
-   public static final int WORK_VARIANCE = 24;
-
-   /**
-    * Maximum number of fields in this record. Note that this is package
-    * access to allow the task model to get at it.
-    */
-   public static final int MAX_FIELDS = 153;
-
-   private static final int EXTENDED_OFFSET = MAX_FIELDS;
-
-   /**
-    * Maximum number of extended fields in this record.
-    */
-   private static final int MAX_EXTENDED_FIELDS = 89;
-
-   /**
-    * The following constants are used purely to identify custom fields,
-    * these field names are NOT written to the MPX file.
-    */
-   public static final int TEXT11 = EXTENDED_OFFSET + 0;
-   public static final int TEXT12 = EXTENDED_OFFSET + 1;
-   public static final int TEXT13 = EXTENDED_OFFSET + 2;
-   public static final int TEXT14 = EXTENDED_OFFSET + 3;
-   public static final int TEXT15 = EXTENDED_OFFSET + 4;
-   public static final int TEXT16 = EXTENDED_OFFSET + 5;
-   public static final int TEXT17 = EXTENDED_OFFSET + 6;
-   public static final int TEXT18 = EXTENDED_OFFSET + 7;
-   public static final int TEXT19 = EXTENDED_OFFSET + 8;
-   public static final int TEXT20 = EXTENDED_OFFSET + 9;
-   public static final int TEXT21 = EXTENDED_OFFSET + 10;
-   public static final int TEXT22 = EXTENDED_OFFSET + 11;
-   public static final int TEXT23 = EXTENDED_OFFSET + 12;
-   public static final int TEXT24 = EXTENDED_OFFSET + 13;
-   public static final int TEXT25 = EXTENDED_OFFSET + 14;
-   public static final int TEXT26 = EXTENDED_OFFSET + 15;
-   public static final int TEXT27 = EXTENDED_OFFSET + 16;
-   public static final int TEXT28 = EXTENDED_OFFSET + 17;
-   public static final int TEXT29 = EXTENDED_OFFSET + 18;
-   public static final int TEXT30 = EXTENDED_OFFSET + 19;
-   public static final int START6 = EXTENDED_OFFSET + 20;
-   public static final int START7 = EXTENDED_OFFSET + 21;
-   public static final int START8 = EXTENDED_OFFSET + 22;
-   public static final int START9 = EXTENDED_OFFSET + 23;
-   public static final int START10 = EXTENDED_OFFSET + 24;
-   public static final int FINISH6 = EXTENDED_OFFSET + 25;
-   public static final int FINISH7 = EXTENDED_OFFSET + 26;
-   public static final int FINISH8 = EXTENDED_OFFSET + 27;
-   public static final int FINISH9 = EXTENDED_OFFSET + 28;
-   public static final int FINISH10 = EXTENDED_OFFSET + 29;
-   public static final int COST4 = EXTENDED_OFFSET + 30;
-   public static final int COST5 = EXTENDED_OFFSET + 31;
-   public static final int COST6 = EXTENDED_OFFSET + 32;
-   public static final int COST7 = EXTENDED_OFFSET + 33;
-   public static final int COST8 = EXTENDED_OFFSET + 34;
-   public static final int COST9 = EXTENDED_OFFSET + 35;
-   public static final int COST10 = EXTENDED_OFFSET + 36;
-   public static final int DATE1 = EXTENDED_OFFSET + 37;
-   public static final int DATE2 = EXTENDED_OFFSET + 38;
-   public static final int DATE3 = EXTENDED_OFFSET + 39;
-   public static final int DATE4 = EXTENDED_OFFSET + 40;
-   public static final int DATE5 = EXTENDED_OFFSET + 41;
-   public static final int DATE6 = EXTENDED_OFFSET + 42;
-   public static final int DATE7 = EXTENDED_OFFSET + 43;
-   public static final int DATE8 = EXTENDED_OFFSET + 44;
-   public static final int DATE9 = EXTENDED_OFFSET + 45;
-   public static final int DATE10 = EXTENDED_OFFSET + 46;
-   public static final int FLAG11 = EXTENDED_OFFSET + 47;
-   public static final int FLAG12 = EXTENDED_OFFSET + 48;
-   public static final int FLAG13 = EXTENDED_OFFSET + 49;
-   public static final int FLAG14 = EXTENDED_OFFSET + 50;
-   public static final int FLAG15 = EXTENDED_OFFSET + 51;
-   public static final int FLAG16 = EXTENDED_OFFSET + 52;
-   public static final int FLAG17 = EXTENDED_OFFSET + 53;
-   public static final int FLAG18 = EXTENDED_OFFSET + 54;
-   public static final int FLAG19 = EXTENDED_OFFSET + 55;
-   public static final int FLAG20 = EXTENDED_OFFSET + 56;
-   public static final int NUMBER6 = EXTENDED_OFFSET + 57;
-   public static final int NUMBER7 = EXTENDED_OFFSET + 58;
-   public static final int NUMBER8 = EXTENDED_OFFSET + 59;
-   public static final int NUMBER9 = EXTENDED_OFFSET + 60;
-   public static final int NUMBER10 = EXTENDED_OFFSET + 61;
-   public static final int NUMBER11 = EXTENDED_OFFSET + 62;
-   public static final int NUMBER12 = EXTENDED_OFFSET + 63;
-   public static final int NUMBER13 = EXTENDED_OFFSET + 64;
-   public static final int NUMBER14 = EXTENDED_OFFSET + 65;
-   public static final int NUMBER15 = EXTENDED_OFFSET + 66;
-   public static final int NUMBER16 = EXTENDED_OFFSET + 67;
-   public static final int NUMBER17 = EXTENDED_OFFSET + 68;
-   public static final int NUMBER18 = EXTENDED_OFFSET + 69;
-   public static final int NUMBER19 = EXTENDED_OFFSET + 70;
-   public static final int NUMBER20 = EXTENDED_OFFSET + 71;
-   public static final int DURATION4 = EXTENDED_OFFSET + 72;
-   public static final int DURATION5 = EXTENDED_OFFSET + 73;
-   public static final int DURATION6 = EXTENDED_OFFSET + 74;
-   public static final int DURATION7 = EXTENDED_OFFSET + 75;
-   public static final int DURATION8 = EXTENDED_OFFSET + 76;
-   public static final int DURATION9 = EXTENDED_OFFSET + 77;
-   public static final int DURATION10 = EXTENDED_OFFSET + 78;
-   public static final int OUTLINECODE1 = EXTENDED_OFFSET + 79;
-   public static final int OUTLINECODE2 = EXTENDED_OFFSET + 80;
-   public static final int OUTLINECODE3 = EXTENDED_OFFSET + 81;
-   public static final int OUTLINECODE4 = EXTENDED_OFFSET + 82;
-   public static final int OUTLINECODE5 = EXTENDED_OFFSET + 83;
-   public static final int OUTLINECODE6 = EXTENDED_OFFSET + 84;
-   public static final int OUTLINECODE7 = EXTENDED_OFFSET + 85;
-   public static final int OUTLINECODE8 = EXTENDED_OFFSET + 86;
-   public static final int OUTLINECODE9 = EXTENDED_OFFSET + 87;
-   public static final int OUTLINECODE10 = EXTENDED_OFFSET + 88;
-
-   public static final DataType[] FIELD_TYPES = new DataType [MAX_FIELDS + MAX_EXTENDED_FIELDS];
-   static
-   {
-      FIELD_TYPES[ACTUAL_COST] = DataType.CURRENCY;
-      FIELD_TYPES[BASELINE_COST] = DataType.CURRENCY;
-      FIELD_TYPES[BCWP] = DataType.CURRENCY;
-      FIELD_TYPES[BCWS] = DataType.CURRENCY;
-      FIELD_TYPES[COST] = DataType.CURRENCY;
-      FIELD_TYPES[COST1] = DataType.CURRENCY;
-      FIELD_TYPES[COST2] = DataType.CURRENCY;
-      FIELD_TYPES[COST3] = DataType.CURRENCY;
-      FIELD_TYPES[COST_VARIANCE] = DataType.CURRENCY;
-      FIELD_TYPES[CV] = DataType.CURRENCY;
-      FIELD_TYPES[FIXED_COST] = DataType.CURRENCY;
-      FIELD_TYPES[REMAINING_COST] = DataType.CURRENCY;
-      FIELD_TYPES[SV] = DataType.CURRENCY;
-      FIELD_TYPES[COST10] = DataType.CURRENCY;
-      FIELD_TYPES[COST4] = DataType.CURRENCY;
-      FIELD_TYPES[COST5] = DataType.CURRENCY;
-      FIELD_TYPES[COST6] = DataType.CURRENCY;
-      FIELD_TYPES[COST7] = DataType.CURRENCY;
-      FIELD_TYPES[COST8] = DataType.CURRENCY;
-      FIELD_TYPES[COST9] = DataType.CURRENCY;
-
-      FIELD_TYPES[ACTUAL_FINISH] = DataType.DATE;
-      FIELD_TYPES[ACTUAL_START] = DataType.DATE;
-      FIELD_TYPES[BASELINE_FINISH] = DataType.DATE;
-      FIELD_TYPES[BASELINE_START] = DataType.DATE;
-      FIELD_TYPES[CONSTRAINT_DATE] = DataType.DATE;
-      FIELD_TYPES[CREATE_DATE] = DataType.DATE;
-      FIELD_TYPES[EARLY_FINISH] = DataType.DATE;
-      FIELD_TYPES[EARLY_START] = DataType.DATE;
-      FIELD_TYPES[FINISH] = DataType.DATE;
-      FIELD_TYPES[FINISH1] = DataType.DATE;
-      FIELD_TYPES[FINISH2] = DataType.DATE;
-      FIELD_TYPES[FINISH3] = DataType.DATE;
-      FIELD_TYPES[FINISH4] = DataType.DATE;
-      FIELD_TYPES[FINISH5] = DataType.DATE;
-      FIELD_TYPES[LATE_FINISH] = DataType.DATE;
-      FIELD_TYPES[LATE_START] = DataType.DATE;
-      FIELD_TYPES[RESUME] = DataType.DATE;
-      FIELD_TYPES[RESUME_NO_EARLIER_THAN] = DataType.DATE;
-      FIELD_TYPES[START] = DataType.DATE;
-      FIELD_TYPES[START1] = DataType.DATE;
-      FIELD_TYPES[START2] = DataType.DATE;
-      FIELD_TYPES[START3] = DataType.DATE;
-      FIELD_TYPES[START4] = DataType.DATE;
-      FIELD_TYPES[START5] = DataType.DATE;
-      FIELD_TYPES[STOP] = DataType.DATE;
-      FIELD_TYPES[DATE1] = DataType.DATE;
-      FIELD_TYPES[DATE2] = DataType.DATE;
-      FIELD_TYPES[DATE3] = DataType.DATE;
-      FIELD_TYPES[DATE4] = DataType.DATE;
-      FIELD_TYPES[DATE5] = DataType.DATE;
-      FIELD_TYPES[DATE6] = DataType.DATE;
-      FIELD_TYPES[DATE7] = DataType.DATE;
-      FIELD_TYPES[DATE8] = DataType.DATE;
-      FIELD_TYPES[DATE9] = DataType.DATE;
-      FIELD_TYPES[DATE10] = DataType.DATE;
-      FIELD_TYPES[START6] = DataType.DATE;
-      FIELD_TYPES[START7] = DataType.DATE;
-      FIELD_TYPES[START8] = DataType.DATE;
-      FIELD_TYPES[START9] = DataType.DATE;
-      FIELD_TYPES[START10] = DataType.DATE;
-      FIELD_TYPES[FINISH6] = DataType.DATE;
-      FIELD_TYPES[FINISH7] = DataType.DATE;
-      FIELD_TYPES[FINISH8] = DataType.DATE;
-      FIELD_TYPES[FINISH9] = DataType.DATE;
-      FIELD_TYPES[FINISH10] = DataType.DATE;
-
-      FIELD_TYPES[PERCENTAGE_COMPLETE] = DataType.PERCENTAGE;
-      FIELD_TYPES[PERCENTAGE_WORK_COMPLETE] = DataType.PERCENTAGE;
-
-      FIELD_TYPES[CONSTRAINT_TYPE] = DataType.CONSTRAINT;
-
-      FIELD_TYPES[ACTUAL_DURATION] = DataType.DURATION;
-      FIELD_TYPES[ACTUAL_WORK] = DataType.DURATION;
-      FIELD_TYPES[BASELINE_DURATION] = DataType.DURATION;
-      FIELD_TYPES[BASELINE_WORK] = DataType.DURATION;
-      FIELD_TYPES[DELAY] = DataType.DURATION;
-      FIELD_TYPES[DURATION] = DataType.DURATION;
-      FIELD_TYPES[DURATION1] = DataType.DURATION;
-      FIELD_TYPES[DURATION2] = DataType.DURATION;
-      FIELD_TYPES[DURATION3] = DataType.DURATION;
-      FIELD_TYPES[DURATION_VARIANCE] = DataType.DURATION;
-      FIELD_TYPES[FINISH_VARIANCE] = DataType.DURATION;
-      FIELD_TYPES[FREE_SLACK] = DataType.DURATION;
-      FIELD_TYPES[REMAINING_DURATION] = DataType.DURATION;
-      FIELD_TYPES[REMAINING_WORK] = DataType.DURATION;
-      FIELD_TYPES[START_VARIANCE] = DataType.DURATION;
-      FIELD_TYPES[TOTAL_SLACK] = DataType.DURATION;
-      FIELD_TYPES[WORK] = DataType.DURATION;
-      FIELD_TYPES[WORK_VARIANCE] = DataType.DURATION;
-      FIELD_TYPES[DURATION4] = DataType.DURATION;
-      FIELD_TYPES[DURATION5] = DataType.DURATION;
-      FIELD_TYPES[DURATION6] = DataType.DURATION;
-      FIELD_TYPES[DURATION7] = DataType.DURATION;
-      FIELD_TYPES[DURATION8] = DataType.DURATION;
-      FIELD_TYPES[DURATION9] = DataType.DURATION;
-      FIELD_TYPES[DURATION10] = DataType.DURATION;
-
-      FIELD_TYPES[PRIORITY] = DataType.PRIORITY;
-
-      FIELD_TYPES[PREDECESSORS] = DataType.RELATION_LIST;
-      FIELD_TYPES[SUCCESSORS] = DataType.RELATION_LIST;
-      FIELD_TYPES[UNIQUE_ID_PREDECESSORS] = DataType.RELATION_LIST;
-      FIELD_TYPES[UNIQUE_ID_SUCCESSORS] = DataType.RELATION_LIST;
-      
-      FIELD_TYPES[TYPE] = DataType.TASK_TYPE;
-   }
+   
 }

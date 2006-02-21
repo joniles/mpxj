@@ -130,9 +130,9 @@ final class ResourceModel
       while (iter.hasNext() == true)
       {
          Resource resource = (Resource)iter.next();
-         for (int loop=0; loop < Resource.MAX_FIELDS; loop++)
+         for (int loop=0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
-            if (resource.get(loop) != null)
+            if (resource.get(MPXResourceField.getMpxjField(loop)) != null)
             {
                if (m_flags[loop] == false)
                {
@@ -247,12 +247,12 @@ final class ResourceModel
     * Array of flags indicting whether each field has already been
     * added to the model.
     */
-   private boolean[] m_flags = new boolean [Resource.MAX_FIELDS];
+   private boolean[] m_flags = new boolean [MPXResourceField.MAX_FIELDS];
 
    /**
     * Array of field numbers in order of their appearance.
     */
-   private int[] m_fields = new int [Resource.MAX_FIELDS+1];
+   private int[] m_fields = new int [MPXResourceField.MAX_FIELDS+1];
 
    /**
     * Count of the number of fields present.

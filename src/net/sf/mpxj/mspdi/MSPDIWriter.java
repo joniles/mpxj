@@ -43,6 +43,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldConstants;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -52,9 +53,11 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceFieldConstants;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskFieldConstants;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
@@ -217,14 +220,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       throws JAXBException
    {
       Iterator iter = mpxNameMap.keySet().iterator();
-      Integer key;
+      FieldType key;
       Integer fieldID;
       String name;
       String alias;
 
       while (iter.hasNext() == true)
       {
-         key = (Integer)iter.next();
+         key = (FieldType)iter.next();
          fieldID = (Integer)mpxXmlMap.get(key);
          name = (String)mpxNameMap.get(key);
          alias = (String)fieldAliasMap.get(key);
@@ -543,12 +546,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
       List extendedAttributes = xml.getExtendedAttribute();
       Object value;
-      int mpxFieldID;
+      ResourceField mpxFieldID;
       Integer xmlFieldID;
 
       for (int loop=0; loop < ResourceFieldConstants.RESOURCE_DATA.length; loop++)
       {
-         mpxFieldID = ((Integer)ResourceFieldConstants.RESOURCE_DATA[loop][FieldConstants.MPXJ_FIELD_ID]).intValue();
+         mpxFieldID = (ResourceField)ResourceFieldConstants.RESOURCE_DATA[loop][FieldConstants.MPXJ_FIELD_ID];
          value = mpx.get(mpxFieldID);
 
          if (value != null)
@@ -559,7 +562,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, Resource.FIELD_TYPES[mpxFieldID]));
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }
@@ -741,12 +744,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.TasksType.TaskType.ExtendedAttributeType attrib;
       List extendedAttributes = xml.getExtendedAttribute();
       Object value;
-      int mpxFieldID;
+      TaskField mpxFieldID;
       Integer xmlFieldID;
 
       for (int loop=0; loop < TaskFieldConstants.TASK_DATA.length; loop++)
       {
-         mpxFieldID = ((Integer)TaskFieldConstants.TASK_DATA[loop][FieldConstants.MPXJ_FIELD_ID]).intValue();
+         mpxFieldID = (TaskField)TaskFieldConstants.TASK_DATA[loop][FieldConstants.MPXJ_FIELD_ID];
          value = mpx.get(mpxFieldID);
 
          if (value != null)
@@ -757,7 +760,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, Task.FIELD_TYPES[mpxFieldID]));
+            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
          }
       }

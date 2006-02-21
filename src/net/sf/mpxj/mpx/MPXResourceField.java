@@ -89,7 +89,7 @@ final class MPXResourceField
    private static final int LINKED_FIELDS = 51;
    private static final int MAX_UNITS = 41;
    private static final int NAME = 1;
-   private static final int NOTES = 10;
+   //private static final int NOTES = 10;
    private static final int OBJECTS = 50;
    private static final int OVERALLOCATED = 46;
    private static final int OVERTIME_RATE = 43;
@@ -107,7 +107,7 @@ final class MPXResourceField
    private static final int WORK = 20;
    private static final int WORK_VARIANCE = 25;
    
-   private static final int MAX_FIELDS = 52;
+   public static final int MAX_FIELDS = 52;
 
    private static final ResourceField[] MPX_MPXJ_ARRAY = new ResourceField[MAX_FIELDS];
    
@@ -131,7 +131,7 @@ final class MPXResourceField
       MPX_MPXJ_ARRAY[LINKED_FIELDS] = ResourceField.LINKED_FIELDS;
       MPX_MPXJ_ARRAY[MAX_UNITS] = ResourceField.MAX_UNITS;
       MPX_MPXJ_ARRAY[NAME] = ResourceField.NAME;
-      MPX_MPXJ_ARRAY[NOTES] = ResourceField.NOTES;
+      //MPX_MPXJ_ARRAY[NOTES] = ResourceField.NOTES;
       MPX_MPXJ_ARRAY[OBJECTS] = ResourceField.OBJECTS;
       MPX_MPXJ_ARRAY[OVERALLOCATED] = ResourceField.OVERALLOCATED;
       MPX_MPXJ_ARRAY[OVERTIME_RATE] = ResourceField.OVERTIME_RATE;
@@ -172,7 +172,7 @@ final class MPXResourceField
       MPXJ_MPX_ARRAY[ResourceField.LINKED_FIELDS_VALUE] = LINKED_FIELDS;
       MPXJ_MPX_ARRAY[ResourceField.MAX_UNITS_VALUE] = MAX_UNITS;
       MPXJ_MPX_ARRAY[ResourceField.NAME_VALUE] = NAME;
-      MPXJ_MPX_ARRAY[ResourceField.NOTES_VALUE] = NOTES;
+      //MPXJ_MPX_ARRAY[ResourceField.NOTES_VALUE] = NOTES;
       MPXJ_MPX_ARRAY[ResourceField.OBJECTS_VALUE] = OBJECTS;
       MPXJ_MPX_ARRAY[ResourceField.OVERALLOCATED_VALUE] = OVERALLOCATED;
       MPXJ_MPX_ARRAY[ResourceField.OVERTIME_RATE_VALUE] = OVERTIME_RATE;

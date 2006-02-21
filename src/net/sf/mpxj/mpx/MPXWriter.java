@@ -54,7 +54,9 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.MPXJFormats;
@@ -542,18 +544,15 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(MPXConstants.RESOURCE_RECORD_NUMBER);
       for (int loop=0; loop < fields.length; loop++)
       {
-         int field = fields[loop];
-         if (field == -1)
+         int mpxFieldType = fields[loop];
+         if (mpxFieldType == -1)
          {
             break;
          }
 
-         Object value = record.get(field);
-         DataType type = Resource.FIELD_TYPES[field];
-         if (type != null)
-         {
-            value = formatType(type, value);
-         }
+         ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
+         Object value = record.get(resourceField);
+         value = formatType(resourceField.getDataType(), value);
 
          m_buffer.append (m_delimiter);
          m_buffer.append (format (value));
@@ -667,12 +666,9 @@ public final class MPXWriter extends AbstractProjectWriter
             break;
          }
 
-         Object value = record.get(field);
-         DataType type = Task.FIELD_TYPES[field];
-         if (type != null)
-         {
-            value = formatType(type, value);
-         }
+         TaskField taskField = MPXTaskField.getMpxjField(field);
+         Object value = record.get(taskField);
+         value = formatType(taskField.getDataType(), value);
 
          m_buffer.append (m_delimiter);
          m_buffer.append (format (value));

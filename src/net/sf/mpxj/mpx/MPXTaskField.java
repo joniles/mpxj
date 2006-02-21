@@ -133,7 +133,7 @@ final class MPXTaskField
    private static final int MARKED = 83;
    private static final int MILESTONE = 81;
    private static final int NAME = 1;
-   private static final int NOTES = 14;
+   //private static final int NOTES = 14;
    private static final int NUMBER1 = 140;
    private static final int NUMBER2 = 141;
    private static final int NUMBER3 = 142;
@@ -178,14 +178,14 @@ final class MPXTaskField
    private static final int TEXT10 = 13;
    private static final int TOTAL_SLACK = 94;
    private static final int UNIQUE_ID = 98;
-   private static final int UNIQUE_ID_PREDECESSORS = 76;
+   private static final int UNIQUE_ID_PREDECESSORS = 74;
    private static final int UNIQUE_ID_SUCCESSORS = 75;
    private static final int UPDATE_NEEDED = 136;
    private static final int WBS = 2;
    private static final int WORK = 20;
    private static final int WORK_VARIANCE = 24;
    
-   private static final int MAX_FIELDS = 153;
+   public static final int MAX_FIELDS = 153;
 
    private static final TaskField[] MPX_MPXJ_ARRAY = new TaskField[MAX_FIELDS];
    
@@ -253,7 +253,7 @@ final class MPXTaskField
       MPX_MPXJ_ARRAY[MARKED] = TaskField.MARKED;
       MPX_MPXJ_ARRAY[MILESTONE] = TaskField.MILESTONE;
       MPX_MPXJ_ARRAY[NAME] = TaskField.NAME;
-      MPX_MPXJ_ARRAY[NOTES] = TaskField.NOTES;
+      //MPX_MPXJ_ARRAY[NOTES] = TaskField.NOTES;
       MPX_MPXJ_ARRAY[NUMBER1] = TaskField.NUMBER1;
       MPX_MPXJ_ARRAY[NUMBER2] = TaskField.NUMBER2;
       MPX_MPXJ_ARRAY[NUMBER3] = TaskField.NUMBER3;
@@ -372,7 +372,7 @@ final class MPXTaskField
       MPXJ_MPX_ARRAY[TaskField.MARKED_VALUE] = MARKED;
       MPXJ_MPX_ARRAY[TaskField.MILESTONE_VALUE] = MILESTONE;
       MPXJ_MPX_ARRAY[TaskField.NAME_VALUE] = NAME;
-      MPXJ_MPX_ARRAY[TaskField.NOTES_VALUE] = NOTES;
+      //MPXJ_MPX_ARRAY[TaskField.NOTES_VALUE] = NOTES;
       MPXJ_MPX_ARRAY[TaskField.NUMBER1_VALUE] = NUMBER1;
       MPXJ_MPX_ARRAY[TaskField.NUMBER2_VALUE] = NUMBER2;
       MPXJ_MPX_ARRAY[TaskField.NUMBER3_VALUE] = NUMBER3;

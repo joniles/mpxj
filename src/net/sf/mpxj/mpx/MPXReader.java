@@ -50,7 +50,9 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -684,8 +686,8 @@ public final class MPXReader extends AbstractProjectReader
 
       for (int i=0; i < length; i++)
       {
-         int x = model[i];
-         if (x == -1)
+         int mpxFieldType = model[i];
+         if (mpxFieldType == -1)
          {
             break;
          }
@@ -697,83 +699,84 @@ public final class MPXReader extends AbstractProjectReader
             continue;
          }
 
-         switch (x)
+         ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
+         switch (resourceField.getValue())
          {
-            case Resource.OBJECTS:
+            case ResourceField.OBJECTS_VALUE:
             {
-               resource.set(x,record.getInteger(i));
+               resource.set(resourceField,record.getInteger(i));
                break;
             }
 
-            case Resource.ID:
+            case ResourceField.ID_VALUE:
             {
                resource.setID(record.getInteger(i));
                break;
             }
 
-            case Resource.UNIQUE_ID:
+            case ResourceField.UNIQUE_ID_VALUE:
             {
                resource.setUniqueID(record.getInteger(i));
                break;
             }
 
-            case Resource.MAX_UNITS:
+            case ResourceField.MAX_UNITS_VALUE:
             {
-               resource.set (x, record.getUnits(i));
+               resource.set (resourceField, record.getUnits(i));
                break;
             }
 
-            case Resource.PERCENT_WORK_COMPLETE:
-            case Resource.PEAK_UNITS:
+            case ResourceField.PERCENT_WORK_COMPLETE_VALUE:
+            case ResourceField.PEAK_VALUE:
             {
-               resource.set(x, record.getPercentage(i));
+               resource.set(resourceField, record.getPercentage(i));
                break;
             }
 
-            case Resource.COST:
-            case Resource.COST_PER_USE:
-            case Resource.COST_VARIANCE:
-            case Resource.BASELINE_COST:
-            case Resource.ACTUAL_COST:
-            case Resource.REMAINING_COST:
+            case ResourceField.COST_VALUE:
+            case ResourceField.COST_PER_USE_VALUE:
+            case ResourceField.COST_VARIANCE_VALUE:
+            case ResourceField.BASELINE_COST_VALUE:
+            case ResourceField.ACTUAL_COST_VALUE:
+            case ResourceField.REMAINING_COST_VALUE:
             {
-               resource.set(x, record.getCurrency(i));
+               resource.set(resourceField, record.getCurrency(i));
                break;
             }
 
-            case Resource.OVERTIME_RATE:
-            case Resource.STANDARD_RATE:
+            case ResourceField.OVERTIME_RATE_VALUE:
+            case ResourceField.STANDARD_RATE_VALUE:
             {
-               resource.set (x, record.getRate(i));
+               resource.set (resourceField, record.getRate(i));
                break;
             }
 
-            case Resource.REMAINING_WORK:
-            case Resource.OVERTIME_WORK:
-            case Resource.BASELINE_WORK:
-            case Resource.ACTUAL_WORK:
-            case Resource.WORK:
-            case Resource.WORK_VARIANCE:
+            case ResourceField.REMAINING_WORK_VALUE:
+            case ResourceField.OVERTIME_WORK_VALUE:
+            case ResourceField.BASELINE_WORK_VALUE:
+            case ResourceField.ACTUAL_WORK_VALUE:
+            case ResourceField.WORK_VALUE:
+            case ResourceField.WORK_VARIANCE_VALUE:
             {
-               resource.set (x, record.getDuration(i));
+               resource.set (resourceField, record.getDuration(i));
                break;
             }
 
-            case Resource.ACCRUE_AT:
+            case ResourceField.ACCRUE_AT_VALUE:
             {
-               resource.set (x, record.getAccrueType(i));
+               resource.set (resourceField, record.getAccrueType(i));
                break;
             }
 
-            case Resource.OVERALLOCATED:
+            case ResourceField.OVERALLOCATED_VALUE:
             {
-               resource.set (x, record.getBoolean(i, falseText));
+               resource.set (resourceField, record.getBoolean(i, falseText));
                break;
             }
 
             default:
             {
-               resource.set (x, field);
+               resource.set (resourceField, field);
                break;
             }
          }
@@ -922,7 +925,7 @@ public final class MPXReader extends AbstractProjectReader
    {
       String falseText = LocaleData.getString(m_locale, LocaleData.NO);
 
-      int x = 0;
+      int mpxFieldID = 0;
       String field;
 
       int i = 0;
@@ -931,9 +934,9 @@ public final class MPXReader extends AbstractProjectReader
 
       while (i < length)
       {
-         x = model[i];
+         mpxFieldID = model[i];
 
-         if (x == -1)
+         if (mpxFieldID == -1)
          {
             break;
          }
@@ -945,23 +948,29 @@ public final class MPXReader extends AbstractProjectReader
             continue;
          }
 
-         switch (x)
+         TaskField taskField = MPXTaskField.getMpxjField(mpxFieldID);
+         if (taskField == null)
          {
-            case Task.PREDECESSORS:
-            case Task.SUCCESSORS:
-            case Task.UNIQUE_ID_PREDECESSORS:
-            case Task.UNIQUE_ID_SUCCESSORS:
+            System.out.println ("Null Task Field " + mpxFieldID);
+         }
+         
+         switch (taskField.getValue())
+         {
+            case TaskField.PREDECESSORS_VALUE:
+            case TaskField.SUCCESSORS_VALUE:
+            case TaskField.UNIQUE_ID_PREDECESSORS_VALUE:
+            case TaskField.UNIQUE_ID_SUCCESSORS_VALUE:
             {
-               task.set(x, populateRelationList(field));
+               task.set(taskField, populateRelationList(field));
                break;
             }
 
-            case Task.PERCENTAGE_COMPLETE:
-            case Task.PERCENTAGE_WORK_COMPLETE:
+            case TaskField.PERCENT_COMPLETE_VALUE:
+            case TaskField.PERCENT_WORK_COMPLETE_VALUE:
             {
                try
                {
-                  task.set(x, m_formats.getPercentageDecimalFormat().parse(field));
+                  task.set(taskField, m_formats.getPercentageDecimalFormat().parse(field));
                }
 
                catch (ParseException ex)
@@ -971,23 +980,23 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case Task.ACTUAL_COST:
-            case Task.BASELINE_COST:
-            case Task.BCWP:
-            case Task.BCWS:
-            case Task.COST:
-            case Task.COST1:
-            case Task.COST2:
-            case Task.COST3:
-            case Task.COST_VARIANCE:
-            case Task.CV:
-            case Task.FIXED_COST:
-            case Task.REMAINING_COST:
-            case Task.SV:
+            case TaskField.ACTUAL_COST_VALUE:
+            case TaskField.BASELINE_COST_VALUE:
+            case TaskField.BCWP_VALUE:
+            case TaskField.BCWS_VALUE:
+            case TaskField.COST_VALUE:
+            case TaskField.COST1_VALUE:
+            case TaskField.COST2_VALUE:
+            case TaskField.COST3_VALUE:
+            case TaskField.COST_VARIANCE_VALUE:
+            case TaskField.CV_VALUE:
+            case TaskField.FIXED_COST_VALUE:
+            case TaskField.REMAINING_COST_VALUE:
+            case TaskField.SV_VALUE:
             {
                try
                {
-                  task.set(x, m_formats.getCurrencyFormat().parse(field));
+                  task.set(taskField, m_formats.getCurrencyFormat().parse(field));
                }
 
                catch (ParseException ex)
@@ -997,57 +1006,57 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case Task.ACTUAL_DURATION:
-            case Task.ACTUAL_WORK:
-            case Task.BASELINE_DURATION:
-            case Task.BASELINE_WORK:
-            case Task.DURATION:
-            case Task.DURATION1:
-            case Task.DURATION2:
-            case Task.DURATION3:
-            case Task.DURATION_VARIANCE:
-            case Task.FINISH_VARIANCE:
-            case Task.FREE_SLACK:
-            case Task.REMAINING_DURATION:
-            case Task.REMAINING_WORK:
-            case Task.START_VARIANCE:
-            case Task.TOTAL_SLACK:
-            case Task.WORK:
-            case Task.WORK_VARIANCE:
-            case Task.DELAY:
+            case TaskField.ACTUAL_DURATION_VALUE:
+            case TaskField.ACTUAL_WORK_VALUE:
+            case TaskField.BASELINE_DURATION_VALUE:
+            case TaskField.BASELINE_WORK_VALUE:
+            case TaskField.DURATION_VALUE:
+            case TaskField.DURATION1_VALUE:
+            case TaskField.DURATION2_VALUE:
+            case TaskField.DURATION3_VALUE:
+            case TaskField.DURATION_VARIANCE_VALUE:
+            case TaskField.FINISH_VARIANCE_VALUE:
+            case TaskField.FREE_SLACK_VALUE:
+            case TaskField.REMAINING_DURATION_VALUE:
+            case TaskField.REMAINING_WORK_VALUE:
+            case TaskField.START_VARIANCE_VALUE:
+            case TaskField.TOTAL_SLACK_VALUE:
+            case TaskField.WORK_VALUE:
+            case TaskField.WORK_VARIANCE_VALUE:
+            case TaskField.LEVELING_DELAY_VALUE:
             {
-               task.set(x, DurationUtility.getInstance(field, m_formats.getDurationDecimalFormat(), m_locale));
+               task.set(taskField, DurationUtility.getInstance(field, m_formats.getDurationDecimalFormat(), m_locale));
                break;
             }
 
-            case Task.ACTUAL_FINISH:
-            case Task.ACTUAL_START:
-            case Task.BASELINE_FINISH:
-            case Task.BASELINE_START:
-            case Task.CONSTRAINT_DATE:
-            case Task.CREATE_DATE:
-            case Task.EARLY_FINISH:
-            case Task.EARLY_START:
-            case Task.FINISH:
-            case Task.FINISH1:
-            case Task.FINISH2:
-            case Task.FINISH3:
-            case Task.FINISH4:
-            case Task.FINISH5:
-            case Task.LATE_FINISH:
-            case Task.LATE_START:
-            case Task.RESUME:            
-            case Task.START:
-            case Task.START1:
-            case Task.START2:
-            case Task.START3:
-            case Task.START4:
-            case Task.START5:
-            case Task.STOP:
+            case TaskField.ACTUAL_FINISH_VALUE:
+            case TaskField.ACTUAL_START_VALUE:
+            case TaskField.BASELINE_FINISH_VALUE:
+            case TaskField.BASELINE_START_VALUE:
+            case TaskField.CONSTRAINT_DATE_VALUE:
+            case TaskField.CREATED_VALUE:
+            case TaskField.EARLY_FINISH_VALUE:
+            case TaskField.EARLY_START_VALUE:
+            case TaskField.FINISH_VALUE:
+            case TaskField.FINISH1_VALUE:
+            case TaskField.FINISH2_VALUE:
+            case TaskField.FINISH3_VALUE:
+            case TaskField.FINISH4_VALUE:
+            case TaskField.FINISH5_VALUE:
+            case TaskField.LATE_FINISH_VALUE:
+            case TaskField.LATE_START_VALUE:
+            case TaskField.RESUME_VALUE:            
+            case TaskField.START_VALUE:
+            case TaskField.START1_VALUE:
+            case TaskField.START2_VALUE:
+            case TaskField.START3_VALUE:
+            case TaskField.START4_VALUE:
+            case TaskField.START5_VALUE:
+            case TaskField.STOP_VALUE:
             {
                try
                {
-                  task.set(x, m_formats.getDateTimeFormat().parse(field));
+                  task.set(taskField, m_formats.getDateTimeFormat().parse(field));
                }
 
                catch (ParseException ex)
@@ -1057,79 +1066,65 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case Task.RESUME_NO_EARLIER_THAN:
+                                    
+            case TaskField.CONFIRMED_VALUE:
+            case TaskField.CRITICAL_VALUE:
+            case TaskField.FLAG1_VALUE:
+            case TaskField.FLAG2_VALUE:
+            case TaskField.FLAG3_VALUE:
+            case TaskField.FLAG4_VALUE:
+            case TaskField.FLAG5_VALUE:
+            case TaskField.FLAG6_VALUE:
+            case TaskField.FLAG7_VALUE:
+            case TaskField.FLAG8_VALUE:
+            case TaskField.FLAG9_VALUE:
+            case TaskField.FLAG10_VALUE:
+            case TaskField.HIDEBAR_VALUE:
+            case TaskField.LINKED_FIELDS_VALUE:
+            case TaskField.MARKED_VALUE:
+            case TaskField.MILESTONE_VALUE:
+            case TaskField.ROLLUP_VALUE:
+            case TaskField.SUMMARY_VALUE:
+            case TaskField.UPDATE_NEEDED_VALUE:
             {
-               try
-               {
-                  task.set(Task.RESUME, m_formats.getDateTimeFormat().parse(field));
-               }
-
-               catch (ParseException ex)
-               {
-                  throw new MPXJException ("Failed to parse date time", ex);
-               }
-               break;               
-            }
-            
-            
-            case Task.CONFIRMED:
-            case Task.CRITICAL:
-            case Task.FLAG1:
-            case Task.FLAG2:
-            case Task.FLAG3:
-            case Task.FLAG4:
-            case Task.FLAG5:
-            case Task.FLAG6:
-            case Task.FLAG7:
-            case Task.FLAG8:
-            case Task.FLAG9:
-            case Task.FLAG10:
-            case Task.HIDE_BAR:
-            case Task.LINKED_FIELDS:
-            case Task.MARKED:
-            case Task.MILESTONE:
-            case Task.ROLLUP:
-            case Task.SUMMARY:
-            case Task.UPDATE_NEEDED:
-            {
-               task.set(x, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
+               task.set(taskField, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
                break;
             }
 
-            case Task.CONSTRAINT_TYPE:
+            case TaskField.CONSTRAINT_TYPE_VALUE:
             {
-               task.set(x, ConstraintTypeUtility.getInstance(m_locale, field));
+               task.set(taskField, ConstraintTypeUtility.getInstance(m_locale, field));
                break;
             }
 
-            case Task.OBJECTS:
-            case Task.OUTLINE_LEVEL:
+            case TaskField.OBJECTS_VALUE:
+            case TaskField.OUTLINE_LEVEL_VALUE:
             {
-               task.set(x, Integer.valueOf(field));
+               task.set(taskField, Integer.valueOf(field));
                break;
             }
 
-            case Task.ID:
+            case TaskField.ID_VALUE:
             {
                task.setID(Integer.valueOf(field));
                break;
             }
 
-            case Task.UNIQUE_ID:
+            case TaskField.UNIQUE_ID_VALUE:
             {
                task.setUniqueID(Integer.valueOf(field));
                break;
             }
 
-            case Task.NUMBER1:
-            case Task.NUMBER2:
-            case Task.NUMBER3:
-            case Task.NUMBER4:
-            case Task.NUMBER5:
+            case TaskField.NUMBER1_VALUE:
+            case TaskField.NUMBER2_VALUE:
+            case TaskField.NUMBER3_VALUE:
+            case TaskField.NUMBER4_VALUE:
+            case TaskField.NUMBER5_VALUE:
             {
                try
                {
-                  task.set(x, m_formats.getDecimalFormat().parse(field));
+                  task.set(taskField, m_formats.getDecimalFormat().parse(field));
                }
 
                catch (ParseException ex)
@@ -1140,13 +1135,13 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case Task.PRIORITY:
+            case TaskField.PRIORITY_VALUE:
             {
-               task.set(x, PriorityUtility.getInstance(m_locale, field));
+               task.set(taskField, PriorityUtility.getInstance(m_locale, field));
                break;
             }
 
-            case Task.TYPE:
+            case TaskField.TYPE_VALUE:
             {
                boolean fixed = ((field.equalsIgnoreCase(falseText) == true) ? false : true);
                task.setType(fixed?TaskType.FIXED_DURATION:TaskType.FIXED_UNITS);   
@@ -1155,7 +1150,7 @@ public final class MPXReader extends AbstractProjectReader
             
             default:
             {
-               task.set(x, field);
+               task.set(taskField, field);
                break;
             }
          }

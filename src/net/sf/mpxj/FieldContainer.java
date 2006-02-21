@@ -1,5 +1,5 @@
 /*
- * file:       ExtendedAttributeContainer.java
+ * file:       FieldContainer.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Mar 30, 2005
@@ -26,15 +26,25 @@ package net.sf.mpxj;
 
 /**
  * This interface is implemnted by the Task and Resource classes. It
- * defines the common methods used to set extended attributes.
+ * defines the common methods used to set and retrieve field values
+ * using their identifiers.
  */
-public interface ExtendedAttributeContainer
+public interface FieldContainer
 {
    /**
-    * This method is used to set the value of a field.
-    *
-    * @param field field to be added or updated.
-    * @param val new value for field.
+    * Set a field value.
+    * 
+    * @param field field identifier
+    * @param value field value
     */
-   public void set (int field, Object val);
+   public void set(FieldType field, Object value);
+   
+   /**
+    * Retrieve a field value.
+    * 
+    * @param field field identifier
+    * @return field value
+    */
+   public Object get(FieldType field);
+   
 }

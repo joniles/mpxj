@@ -94,6 +94,22 @@ public final class ResourceField implements FieldType
       return (getName());
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public boolean equals (Object obj)
+   {
+      return (m_value == ((ResourceField)obj).m_value);
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public int hashCode ()
+   {
+      return (m_value);
+   }
+   
    public static final int ID_VALUE = 0;
    public static final int NAME_VALUE = 1;
    public static final int INITIALS_VALUE = 2;
@@ -305,7 +321,7 @@ public final class ResourceField implements FieldType
    public static final ResourceField NAME = new ResourceField(NAME_VALUE, DataType.STRING);
    public static final ResourceField INITIALS = new ResourceField(INITIALS_VALUE, DataType.STRING);
    public static final ResourceField GROUP = new ResourceField(GROUP_VALUE, DataType.STRING);
-   public static final ResourceField MAX_UNITS = new ResourceField(MAX_UNITS_VALUE, DataType.NUMERIC);
+   public static final ResourceField MAX_UNITS = new ResourceField(MAX_UNITS_VALUE, DataType.UNITS);
    public static final ResourceField BASE_CALENDAR = new ResourceField(BASE_CALENDAR_VALUE, DataType.STRING);
    public static final ResourceField STANDARD_RATE = new ResourceField(STANDARD_RATE_VALUE, DataType.RATE);
    public static final ResourceField OVERTIME_RATE = new ResourceField(OVERTIME_RATE_VALUE, DataType.RATE);
@@ -400,16 +416,16 @@ public final class ResourceField implements FieldType
    public static final ResourceField COST8 = new ResourceField(COST8_VALUE, DataType.CURRENCY);
    public static final ResourceField COST9 = new ResourceField(COST9_VALUE, DataType.CURRENCY);
    public static final ResourceField COST10 = new ResourceField(COST10_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE1 = new ResourceField(DATE1_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE2 = new ResourceField(DATE2_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE3 = new ResourceField(DATE3_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE4 = new ResourceField(DATE4_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE5 = new ResourceField(DATE5_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE6 = new ResourceField(DATE6_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE7 = new ResourceField(DATE7_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE8 = new ResourceField(DATE8_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE9 = new ResourceField(DATE9_VALUE, DataType.CURRENCY);
-   public static final ResourceField DATE10 = new ResourceField(DATE10_VALUE, DataType.CURRENCY);
+   public static final ResourceField DATE1 = new ResourceField(DATE1_VALUE, DataType.DATE);
+   public static final ResourceField DATE2 = new ResourceField(DATE2_VALUE, DataType.DATE);
+   public static final ResourceField DATE3 = new ResourceField(DATE3_VALUE, DataType.DATE);
+   public static final ResourceField DATE4 = new ResourceField(DATE4_VALUE, DataType.DATE);
+   public static final ResourceField DATE5 = new ResourceField(DATE5_VALUE, DataType.DATE);
+   public static final ResourceField DATE6 = new ResourceField(DATE6_VALUE, DataType.DATE);
+   public static final ResourceField DATE7 = new ResourceField(DATE7_VALUE, DataType.DATE);
+   public static final ResourceField DATE8 = new ResourceField(DATE8_VALUE, DataType.DATE);
+   public static final ResourceField DATE9 = new ResourceField(DATE9_VALUE, DataType.DATE);
+   public static final ResourceField DATE10 = new ResourceField(DATE10_VALUE, DataType.DATE);
    public static final ResourceField DURATION4 = new ResourceField(DURATION4_VALUE, DataType.DURATION);
    public static final ResourceField DURATION5 = new ResourceField(DURATION5_VALUE, DataType.DURATION);
    public static final ResourceField DURATION6 = new ResourceField(DURATION6_VALUE, DataType.DURATION);

@@ -41,7 +41,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -55,10 +54,12 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceFieldConstants;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskFieldConstants;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -481,20 +482,20 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             case TaskFieldConstants.TASK_FIELD_PREFIX:
             {
-               Integer taskField = (Integer)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(id);
+               TaskField taskField = (TaskField)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(id);
                if (taskField != null)
                {
-                  m_projectFile.setTaskFieldAlias (taskField.intValue(), attribute.getAlias());
+                  m_projectFile.setTaskFieldAlias (taskField, attribute.getAlias());
                }
                break;
             }
 
             case ResourceFieldConstants.RESOURCE_FIELD_PREFIX:
             {
-               Integer resourceField = (Integer)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(id);
+               ResourceField resourceField = (ResourceField)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(id);
                if (resourceField != null)
                {
-                  m_projectFile.setResourceFieldAlias (resourceField.intValue(), attribute.getAlias());
+                  m_projectFile.setResourceFieldAlias (resourceField, attribute.getAlias());
                }
                break;
             }
@@ -619,16 +620,14 @@ public final class MSPDIReader extends AbstractProjectReader
       Iterator iter = extendedAttributes.iterator();
       Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
       Integer xmlFieldID;
-      Integer mpxFieldID;
-      DataType dataType;
+      ResourceField  mpxFieldID;
 
       while (iter.hasNext() == true)
       {
          attrib = (Project.ResourcesType.ResourceType.ExtendedAttributeType)iter.next();
          xmlFieldID = new Integer (attrib.getFieldID());
-         mpxFieldID = (Integer)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
-         dataType = (DataType)ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID);
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
+         mpxFieldID = (ResourceField)ResourceFieldConstants.RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
+         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
       }
    }
 
@@ -843,16 +842,14 @@ public final class MSPDIReader extends AbstractProjectReader
       Iterator iter = extendedAttributes.iterator();
       Project.TasksType.TaskType.ExtendedAttributeType attrib;
       Integer xmlFieldID;
-      Integer mpxFieldID;
-      DataType dataType;
+      TaskField mpxFieldID;
 
       while (iter.hasNext() == true)
       {
          attrib = (Project.TasksType.TaskType.ExtendedAttributeType)iter.next();
          xmlFieldID = new Integer (attrib.getFieldID());
-         mpxFieldID = (Integer)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
-         dataType = (DataType)TaskFieldConstants.TASK_FIELD_MPXJ_TO_TYPE_MAP.get(mpxFieldID);
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, dataType);
+         mpxFieldID = (TaskField)TaskFieldConstants.TASK_FIELD_PROJECT_TO_MPXJ_MAP.get(xmlFieldID);
+         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
       }
    }
 

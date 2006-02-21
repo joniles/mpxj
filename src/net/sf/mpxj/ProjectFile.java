@@ -1230,13 +1230,12 @@ public final class ProjectFile
     * @param field custom field number
     * @param alias alias text
     */
-   public void setTaskFieldAlias (int field, String alias)
+   public void setTaskFieldAlias (TaskField field, String alias)
    {
       if ((alias != null) && (alias.length() != 0))
       {
-         Integer id = new Integer(field);
-         m_taskFieldAlias.put(id, alias);
-         m_aliasTaskField.put(alias, id);
+         m_taskFieldAlias.put(field, alias);
+         m_aliasTaskField.put(alias, field);
       }
    }
 
@@ -1245,36 +1244,24 @@ public final class ProjectFile
     * This method will return null if no alias has been defined for
     * this field.
     *
-    * @param field field number
+    * @param field task field instance
     * @return alias text
     */
-   public String getTaskFieldAlias (int field)
+   public String getTaskFieldAlias (TaskField field)
    {
-      return ((String)m_taskFieldAlias.get(new Integer(field)));
+      return ((String)m_taskFieldAlias.get(field));
    }
 
    /**
-    * Retrieves the field number of a task field based on its alias. If the
-    * alias is not recognised, this method will return -1.
+    * Retrieves a task field instance based on its alias. If the
+    * alias is not recognised, this method will return null.
     *
     * @param alias alias text
-    * @return task field number
+    * @return task field instance
     */
-   public int getAliasTaskField (String alias)
+   public TaskField getAliasTaskField (String alias)
    {
-      Integer result = (Integer)m_aliasTaskField.get(alias);
-      int field;
-
-      if (result == null)
-      {
-         field = -1;
-      }
-      else
-      {
-         field = result.intValue();
-      }
-
-      return (field);
+      return ((TaskField)m_aliasTaskField.get(alias));
    }
 
    /**
@@ -1283,13 +1270,12 @@ public final class ProjectFile
     * @param field custom field number
     * @param alias alias text
     */
-   public void setResourceFieldAlias (int field, String alias)
+   public void setResourceFieldAlias (ResourceField field, String alias)
    {
       if ((alias != null) && (alias.length() != 0))
       {
-         Integer id = new Integer(field);
-         m_resourceFieldAlias.put(id, alias);
-         m_aliasResourceField.put(alias, id);
+         m_resourceFieldAlias.put(field, alias);
+         m_aliasResourceField.put(alias, field);
       }
    }
 
@@ -1301,33 +1287,21 @@ public final class ProjectFile
     * @param field field number
     * @return alias text
     */
-   public String getResourceFieldAlias (int field)
+   public String getResourceFieldAlias (ResourceField field)
    {
-      return ((String)m_resourceFieldAlias.get(new Integer(field)));
+      return ((String)m_resourceFieldAlias.get(field));
    }
 
    /**
-    * Retrieves the field number of a resource field based on its alias. If the
-    * alias is not recognised, this method will return -1.
+    * Retrieves a resource field based on its alias. If the
+    * alias is not recognised, this method will return null.
     *
     * @param alias alias text
-    * @return task field number
+    * @return resource field instance
     */
-   public int getAliasResourceField (String alias)
+   public ResourceField getAliasResourceField (String alias)
    {
-      Integer result = (Integer)m_aliasResourceField.get(alias);
-      int field;
-
-      if (result == null)
-      {
-         field = -1;
-      }
-      else
-      {
-         field = result.intValue();
-      }
-
-      return (field);
+      return ((ResourceField)m_aliasResourceField.get(alias));
    }
 
    /**
