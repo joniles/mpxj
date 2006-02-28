@@ -70,7 +70,7 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public ProjectCalendarException addCalendarException ()
    {
-      ProjectCalendarException bce = new ProjectCalendarException(getParentFile());
+      ProjectCalendarException bce = new ProjectCalendarException();
       m_exceptions.add(bce);
       return (bce);
    }
@@ -95,7 +95,7 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public ProjectCalendarHours addCalendarHours(Day day)
    {
-      ProjectCalendarHours bch = new ProjectCalendarHours(getParentFile(), this);
+      ProjectCalendarHours bch = new ProjectCalendarHours(this);
       bch.setDay (day);
       m_hours[day.getValue()-1] = bch;
       return (bch);
@@ -109,7 +109,7 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public ProjectCalendarHours addCalendarHours()
    {
-      return (new ProjectCalendarHours(getParentFile(), this));
+      return (new ProjectCalendarHours(this));
    }
 
    /**

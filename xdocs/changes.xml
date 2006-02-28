@@ -14,6 +14,7 @@
       <action dev="joniles" type="update">Updated to make date/time/number formats generic, and thus available to end users. For example, this allows users to format currencies in line with the settings in the project file.</action>      
       <action dev="joniles" type="update">Standardized on minutes per day and minutes per week, rather than hours per day and hours per week.</action>
       <action dev="joniles" type="update">Provided additional time ranges for calendar exceptions.</action>      
+      <action dev="joniles" type="update">Refactored Task and Resource to use TaskField and ResourceField to identify fields.</action>      
       <action dev="joniles" type="fix">Fixed a bug when reading MPP files where task finish dates appeared before the start date where a "start no later than" constraint was in use.</action>      
    </release>
       

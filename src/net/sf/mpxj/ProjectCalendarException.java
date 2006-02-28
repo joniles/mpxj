@@ -32,18 +32,8 @@ import net.sf.mpxj.utility.DateUtility;
  * an MPX file. It is used to define exceptions to the working days described
  * in both base and resource calendars.
  */
-public final class ProjectCalendarException extends ProjectEntity
+public final class ProjectCalendarException
 {
-   /**
-    * Default constructor.
-    *
-    * @param file the parent file to which this record belongs.
-    */
-   ProjectCalendarException (ProjectFile file)
-   {
-      super(file);
-   }
-
    /**
     * Returns the from date.
     *

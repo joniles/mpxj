@@ -30,17 +30,15 @@ import java.util.LinkedList;
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
  */
-public final class ProjectCalendarHours extends ProjectEntity
+public final class ProjectCalendarHours
 {
    /**
     * Default constructor.
     *
-    * @param file the parent file to which this record belongs.
     * @param parentCalendar the parent calendar for this instance
     */
-   ProjectCalendarHours (ProjectFile file, ProjectCalendar parentCalendar)
+   ProjectCalendarHours (ProjectCalendar parentCalendar)
    {
-      super(file);
       m_parentCalendar = parentCalendar;
    }
 

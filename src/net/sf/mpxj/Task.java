@@ -255,7 +255,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
          throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
       }
 
-      m_recurringTask = new RecurringTask(getParentFile());
+      m_recurringTask = new RecurringTask();
 
       return (m_recurringTask);
    }

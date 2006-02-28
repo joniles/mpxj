@@ -23,8 +23,13 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.sf.mpxj.utility.DateUtility;
 
 /**
  * This class represents the criteria used to determine if a graphical
@@ -32,6 +37,16 @@ import java.util.List;
  */
 public class GraphicalIndicatorCriteria
 {
+   /**
+    * Constructor.
+    * 
+    * @param projectFile parent project file
+    */
+   public GraphicalIndicatorCriteria (ProjectFile projectFile)
+   {
+      m_projectFile = projectFile;
+   }
+   
    /**
     * Retrieve the number of the indicator to be displayed.
     * 
@@ -80,9 +95,105 @@ public class GraphicalIndicatorCriteria
     */
    public void addValue (Object value)
    {
-      m_values.add(value);
+      m_definedValues.add(value);
+      
+      if (value instanceof FieldType)
+      {
+         m_symbolicValues = true;                  
+      }
+      else
+      {
+         if (value instanceof Duration)
+         {
+            if (((Duration)value).getUnits() != TimeUnit.HOURS)
+            {
+               value = ((Duration)value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+            }
+         }
+      }
+      
+      m_workingValues.add(value);      
+   }
+
+   /**
+    * Evaluate this criteria to determine if a graphical indicator should
+    * be displayed. This method will return -1 if no indicator should
+    * be displayed, or it will return a positive integer identifying the
+    * required indicator.
+    * 
+    * @param operand operand value
+    * @param container field container
+    * @return boolean flag
+    */
+   public int evaluate (Object operand, FieldContainer container)
+   {
+      List values;
+      
+      if (m_symbolicValues == true)
+      {
+         values = processSymbolicValues (m_workingValues, container);
+      }
+      else
+      {
+         values = m_workingValues;
+      }
+      
+      return (m_operator.evaluate(operand, values)?m_indicator:-1);
    }
    
+   /**
+    * This method is called to create a new list of values, converting from
+    * any symbolic values (represented by FieldType instances) to actual
+    * values retrieved from a Task or Resource instance.
+    * 
+    * @param oldValues list of old values containing symbold items
+    * @param container Task or Resource instance
+    * @return new list of actual values
+    */
+   private List processSymbolicValues (List oldValues, FieldContainer container)
+   {
+      List newValues = new ArrayList(oldValues.size());
+      Iterator iter = oldValues.iterator();
+      while (iter.hasNext() == true)
+      {
+         Object value = iter.next();
+         if (value instanceof FieldType)
+         {
+            FieldType type = (FieldType)value;
+            value = container.get(type);
+            
+            switch (type.getDataType().getType())
+            {
+               case DataType.DATE_VALUE:
+               {
+                  if (value != null)
+                  {
+                     value = DateUtility.getDayStartDate((Date)value);
+                  }
+                  break;
+               }
+
+               case DataType.DURATION_VALUE:
+               {
+                  if (value != null && ((Duration)value).getUnits() != TimeUnit.HOURS)
+                  {
+                     value = ((Duration)value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+                  }
+                  break;
+               }
+               
+               case DataType.STRING_VALUE:
+               {
+                  value = value==null?"":value;
+                  break;
+               }
+            }
+         }
+         newValues.add(value);
+      }      
+      return (newValues);
+   }
+      
    /**
     * {@inheritDoc}
     */
@@ -93,19 +204,23 @@ public class GraphicalIndicatorCriteria
       sb.append(m_indicator);
       sb.append(" operator=");
       sb.append(m_operator);
-      if (m_values.size() == 1)
+      if (m_definedValues.size() == 1)
       {
-         sb.append(" value=" + m_values.get(0));
+         sb.append(" value=" + m_definedValues.get(0));
       }
-      if (m_values.size() == 2)
+      if (m_definedValues.size() == 2)
       {
-         sb.append(" values=" + m_values.get(0) + "," + m_values.get(1));
+         sb.append(" values=" + m_definedValues.get(0) + "," + m_definedValues.get(1));
       }      
       sb.append("]");
       return (sb.toString());
    }
    
+
+   private ProjectFile m_projectFile;
    private int m_indicator;
    private TestOperator m_operator;
-   private List m_values = new LinkedList();
+   private List m_definedValues = new LinkedList();
+   private List m_workingValues = new LinkedList();
+   private boolean m_symbolicValues;
 }

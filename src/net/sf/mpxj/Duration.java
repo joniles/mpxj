@@ -29,7 +29,7 @@ package net.sf.mpxj;
 /**
  * This represents time durations as specified in an MPX file.
  */
-public final class Duration
+public final class Duration implements Comparable
 {
    /**
     * Constructs an instance of this class from a duration amount and
@@ -99,7 +99,7 @@ public final class Duration
     * units. It does take into account the project defaults for number of hours
     * in a day and a week, but it does not take account of calendar details.
     * The results obtained from it should therefore be treated with caution.
-    *
+    * 
     * @param duration duration value
     * @param fromUnits units to convert from
     * @param toUnits units to convert to
@@ -108,11 +108,29 @@ public final class Duration
     */
    public static Duration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
    {
+      return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue()));
+   }
+   
+   /**
+    * This method provides an <i>approximate</i> conversion between duration
+    * units. It does take into account the project defaults for number of hours
+    * in a day and a week, but it does not take account of calendar details.
+    * The results obtained from it should therefore be treated with caution.
+    *
+    * @param duration duration value
+    * @param fromUnits units to convert from
+    * @param toUnits units to convert to
+    * @param minutesPerDay number of minutes per day
+    * @param minutesPerWeek number of minutes per week
+    * @return new Duration instance
+    */
+   public static Duration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek)
+   {
       switch (fromUnits.getValue())
       {
          case TimeUnit.YEARS_VALUE:
          {
-            duration *= (defaults.getMinutesPerWeek().doubleValue() * 52);
+            duration *= (minutesPerWeek * 52);
             break;
          }
 
@@ -124,7 +142,7 @@ public final class Duration
 
          case TimeUnit.MONTHS_VALUE:
          {
-            duration *= (defaults.getMinutesPerWeek().doubleValue() * 4);
+            duration *= (minutesPerWeek * 4);
             break;
          }
 
@@ -136,7 +154,7 @@ public final class Duration
 
          case TimeUnit.WEEKS_VALUE:
          {
-            duration *= defaults.getMinutesPerWeek().doubleValue();
+            duration *= minutesPerWeek;
             break;
          }
 
@@ -148,7 +166,7 @@ public final class Duration
 
          case TimeUnit.DAYS_VALUE:
          {
-            duration *= defaults.getMinutesPerDay().doubleValue();
+            duration *= minutesPerDay;
             break;
          }
 
@@ -181,7 +199,7 @@ public final class Duration
 
             case TimeUnit.DAYS_VALUE:
             {
-               duration /= defaults.getMinutesPerDay().doubleValue();
+               duration /= minutesPerDay;
                break;
             }
 
@@ -193,7 +211,7 @@ public final class Duration
 
             case TimeUnit.WEEKS_VALUE:
             {
-               duration /= defaults.getMinutesPerWeek().doubleValue();
+               duration /= minutesPerWeek;
                break;
             }
 
@@ -205,7 +223,7 @@ public final class Duration
 
             case TimeUnit.MONTHS_VALUE:
             {
-               duration /= (defaults.getMinutesPerWeek().doubleValue() * 4);
+               duration /= (minutesPerWeek * 4);
                break;
             }
 
@@ -217,7 +235,7 @@ public final class Duration
 
             case TimeUnit.YEARS_VALUE:
             {
-               duration /= (defaults.getMinutesPerWeek().doubleValue() * 52);
+               duration /= (minutesPerWeek * 52);
                break;
             }
 
@@ -293,6 +311,22 @@ public final class Duration
       return (m_units.getValue() + (int)m_duration);
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public int compareTo(Object o)
+   {
+      int result;
+      Duration rhs = (Duration)o;
+      
+      if (m_units != rhs.m_units)
+      {
+         rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8*60), (5*8*60));
+      }
+      
+      return (m_duration < rhs.m_duration ? -1 : (m_duration==rhs.m_duration ? 0 : 1));
+   }
+   
    /**
     * Duration amount.
     */

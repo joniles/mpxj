@@ -1,10 +1,10 @@
 /*
- * file:       MPXJTest.java
+ * file:       MPXJTestCase.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2006
- * date:       28-Feb-2006
+ * copyright:  (c) Tapster Rock Limited 2002-2006
+ * date:       24/02/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,30 +21,30 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+
 package net.sf.mpxj.junit;
 
-import junit.framework.TestSuite;
+import junit.framework.TestCase;
+
 
 /**
- * Test suite to collect together MPXJ tests.
+ * Base class implementing common test case functionality.
  */
-public class MPXJTest extends TestSuite
+public abstract class MPXJTestCase extends TestCase
 {
    /**
-    * Construcor.
+    * Constructor. Note that the system property mpxj.junit.datadir must
+    * be defined to allow the test code to find the required sample files.
     */
-   public MPXJTest ()
+   public MPXJTestCase ()
    {
-      addTestSuite (BasicTest.class);
-      addTestSuite (GraphicalIndicatorTest.class);
+      m_basedir = System.getProperty ("mpxj.junit.datadir");
+      if (m_basedir == null || m_basedir.length() == 0)
+      {
+         assertTrue("missing datadir property", false);
+      }
    }
 
-   /**
-    * Dummy test used to ensure the test suites added in the constructor
-    * are run.
-    */
-   public void testAll ()
-   {
-      // dummy test
-   }   
+   protected String m_basedir;
 }
+

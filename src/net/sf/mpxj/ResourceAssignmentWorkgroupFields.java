@@ -31,18 +31,8 @@ import java.util.Date;
  * This class represents a resorce assignment workgrouo fields record
  * from an MPX file.
  */
-public final class ResourceAssignmentWorkgroupFields extends ProjectEntity
+public final class ResourceAssignmentWorkgroupFields
 {
-   /**
-    * Default constructor.
-    *
-    * @param file the parent file to which this record belongs.
-    */
-   ResourceAssignmentWorkgroupFields (ProjectFile file)
-   {
-      super(file);
-   }
-
    /**
     * Sets the Message Unique ID.
     *

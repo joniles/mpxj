@@ -29,18 +29,8 @@ import java.util.Date;
 /**
  * This class represents the Recurring Task Record as found in an MPX file.
  */
-public final class RecurringTask extends ProjectEntity
+public final class RecurringTask
 {
-   /**
-    * Default constructor.
-    *
-    * @param file the parent file to which this record belongs.
-    */
-   RecurringTask (ProjectFile file)
-   {
-      super (file);
-   }
-
    /**
     * ID, Unique ID of task to which this refers.
     *

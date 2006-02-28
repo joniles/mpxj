@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.List;
+
 
 /**
  * This class represents the set of operators used to perform a test
@@ -69,6 +71,223 @@ public final class TestOperator
       return (m_type);
    }
 
+   /**
+    * This method applies the operator represented by this class to the
+    * supplied operands. Note that the RHS operand can be a list, allowing
+    * range operators like "within" to operate.
+    * 
+    * @param lhs operand
+    * @param rhs operand
+    * @return boolean result
+    */
+   public boolean evaluate (Object lhs, Object rhs)
+   {
+      boolean result = false;
+      
+      switch (m_type)
+      {
+         case IS_ANY_VALUE_VALUE:
+         {
+            result = true;
+            break;
+         }
+         
+         case IS_WITHIN_VALUE:
+         {
+            result = evaluateWithin(lhs, rhs);
+            break;
+         }
+         
+         case IS_GREATER_THAN_VALUE:
+         {
+            result = evaluateCompareTo(lhs, rhs) > 0;
+            break;
+         }
+         
+         case IS_LESS_THAN_VALUE:
+         {
+            result = evaluateCompareTo(lhs, rhs) < 0;
+            break;
+         }
+         
+         case IS_GREATER_THAN_OR_EQUAL_TO_VALUE:
+         {
+            result = evaluateCompareTo(lhs, rhs) >= 0;            
+            break;
+         }
+         
+         case IS_LESS_THAN_OR_EQUAL_TO_VALUE:
+         {
+            result = evaluateCompareTo(lhs, rhs) <= 0;
+            break;
+         }
+         
+         case EQUALS_VALUE:
+         {
+            if (lhs == null)
+            {
+               result = (lhs == getSingleOperand(rhs));
+            }
+            else
+            {
+               result = lhs.equals(getSingleOperand(rhs));
+            }
+            break;
+         }
+         
+         case DOES_NOT_EQUAL_VALUE:
+         {
+            if (lhs == null)
+            {
+               result = (lhs != getSingleOperand(rhs));
+            }
+            else
+            {
+               result = !lhs.equals(getSingleOperand(rhs));  
+            }
+            break;
+         }
+         
+         case CONTAINS_VALUE:
+         {
+            result = evaluateContains(lhs, rhs);
+            break;
+         }
+         
+         case IS_NOT_WITHIN_VALUE:
+         {
+            result = !evaluateWithin(lhs, rhs);
+            break;
+         }
+         
+         case DOES_NOT_CONTAIN_VALUE:
+         {
+            result = !evaluateContains(lhs, rhs);
+            break;
+         }
+         
+         case CONTAINS_EXACTLY_VALUE:
+         {
+            result = evaluateContainsExactly(lhs, rhs);
+            break;
+         }         
+      }
+      
+      return (result);
+   }
+   
+   /**
+    * This method is used to ensure that if a list of operand values has been
+    * suppied, that a single operand is extracted.
+    * 
+    * @param operand operand value
+    * @return single operand value
+    */
+   private Object getSingleOperand (Object operand)
+   {
+      if (operand instanceof List)
+      {
+         List list = (List)operand;
+         operand = list.isEmpty()?null:list.get(0);
+      }
+      
+      return (operand);
+   }
+   
+   /**
+    * Determine if the supplied value falls within the specified range.
+    * 
+    * @param lhs single value operand
+    * @param rhs range operand
+    * @return boolean result
+    */
+   private boolean evaluateWithin (Object lhs, Object rhs)
+   {
+      boolean result = false;
+      
+      if (lhs != null && rhs instanceof List)
+      {
+         Comparable lhsComparable = (Comparable)lhs;
+         List rhsList = (List)rhs;
+         if (rhsList.size() > 1)
+         {
+            result = (lhsComparable.compareTo(rhsList.get(0)) >=0 && lhsComparable.compareTo(rhsList.get(1)) <= 0);
+         }
+      }
+               
+      return (result);
+   }
+   
+   /**
+    * Implements a simple compare-to operation. Assumes that the LHS
+    * operand implements the Comparable interface.
+    * 
+    * @param lhs operand
+    * @param rhs operand
+    * @return boolean result
+    */
+   private int evaluateCompareTo (Object lhs, Object rhs)
+   {
+      int result;
+      
+      rhs = getSingleOperand(rhs);
+      
+      if (lhs == null)
+      {
+         result = 1;
+      }
+      else
+      {
+         result = ((Comparable)lhs).compareTo(rhs);
+      }
+      
+      return (result);
+   }
+   
+   /**
+    * Assuming the supplied arguments are both Strings, this method
+    * determines if rhs is contained within lhs. This test is case insenstive.
+    * 
+    * @param lhs operand
+    * @param rhs operand
+    * @return boolean result
+    */
+   private boolean evaluateContains (Object lhs, Object rhs)
+   {
+      boolean result = false;
+      
+      rhs = getSingleOperand(rhs);
+      
+      if (lhs instanceof String && rhs instanceof String)
+      {
+         result = ((String)lhs).toUpperCase().indexOf(((String)rhs).toUpperCase()) != -1;
+      }
+      
+      return (result);
+   }
+
+   /**
+    * Assuming the supplied arguments are both Strings, this method
+    * determines if rhs is contained within lhs. This test is case senstive.
+    * 
+    * @param lhs operand
+    * @param rhs operand
+    * @return boolean result
+    */   
+   private boolean evaluateContainsExactly (Object lhs, Object rhs)
+   {
+      boolean result = false;
+      
+      rhs = getSingleOperand(rhs);
+      
+      if (lhs instanceof String && rhs instanceof String)
+      {
+         result = ((String)lhs).indexOf(((String)rhs)) != -1;
+      }
+      
+      return (result);
+   }
+   
    /**
     * {@inheritDoc}
     */

@@ -60,7 +60,7 @@ public final class ResourceAssignment extends ProjectEntity
          throw new MPXJException (MPXJException.MAXIMUM_RECORDS);
       }
 
-      m_workgroup = new ResourceAssignmentWorkgroupFields (getParentFile());
+      m_workgroup = new ResourceAssignmentWorkgroupFields ();
 
       return (m_workgroup);
    }

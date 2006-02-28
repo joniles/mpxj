@@ -25,8 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
@@ -100,49 +98,54 @@ public final class GraphicalIndicatorReader
          }            
       }
       
-      // 36 bytes of header data -- last 4 bytes are the length of the data block
-      //System.out.println("Header");
+      
+      //System.out.println("Header: " + type);
       //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
-      GraphicalIndicator indicator = new GraphicalIndicator();
+      
+      GraphicalIndicator indicator = new GraphicalIndicator(m_file);
       indicator.setFieldType(type);
       int flags = m_data[m_dataOffset];
       indicator.setProjectSummaryInheritsFromSummaryRows((flags & 0x08) != 0);
       indicator.setSummaryRowsInheritFromNonSummaryRows((flags & 0x04) != 0);
       indicator.setDisplayGraphicalIndicators((flags & 0x02) != 0);
       indicator.setShowDataValuesInToolTips((flags & 0x01) != 0);
-      m_dataOffset += 32;         
+      m_dataOffset += 20;         
+      
+      //int nonSummaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) -36;
+      m_dataOffset += 4;
+
+      int summaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
+      m_dataOffset += 4;
+
+      int projectSummaryOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
+      m_dataOffset += 4;
+      
       int dataSize = MPPUtility.getInt(m_data, m_dataOffset) - 36;
       m_dataOffset += 4;
 
-      m_criteriaList.clear();
-      
-      int maxOffset = m_dataOffset + dataSize;
+
       //System.out.println("Data");
       //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, dataSize, false, 16, ""));
-      while (m_dataOffset+8 < maxOffset) // 8 bytes is the minimum block size
-      {
-         processCriteria (type);
-      }
       
-      int maxCriteria = m_criteriaList.size() / 3;
-      int index = 0;
-      for (index=0; index < maxCriteria; index++)
-      {
-         indicator.addNonSummaryRowCriteria((GraphicalIndicatorCriteria)m_criteriaList.get(index));            
-      }
+      int maxNonSummaryRowOffset = m_dataOffset+summaryRowOffset;      
+      int maxSummaryRowOffset = m_dataOffset+projectSummaryOffset;      
+      int maxProjectSummaryOffset = m_dataOffset+dataSize;
       
-      maxCriteria *= 2;         
-      for (; index < maxCriteria; index++)
+      while (m_dataOffset+2 < maxNonSummaryRowOffset)
       {
-         indicator.addSummaryRowCriteria((GraphicalIndicatorCriteria)m_criteriaList.get(index));            
+         indicator.addNonSummaryRowCriteria(processCriteria (type));
       }
 
-      maxCriteria = m_criteriaList.size();
-      for (; index < maxCriteria; index++)
+      while (m_dataOffset+2 < maxSummaryRowOffset)
       {
-         indicator.addProjectSummaryCriteria((GraphicalIndicatorCriteria)m_criteriaList.get(index));            
+         indicator.addSummaryRowCriteria(processCriteria (type));
       }
-               
+
+      while (m_dataOffset+2 < maxProjectSummaryOffset)
+      {
+         indicator.addProjectSummaryCriteria(processCriteria (type));
+      }
+                     
       m_file.addGraphicalIndicator(type, indicator);
    }
 
@@ -150,10 +153,11 @@ public final class GraphicalIndicatorReader
     * Process the graphical indicator criteria for a single column.
     * 
     * @param type field type
+    * @return indicator criteria data
     */
-   private void processCriteria (FieldType type)
+   private GraphicalIndicatorCriteria processCriteria (FieldType type)
    {
-      GraphicalIndicatorCriteria criteria = new GraphicalIndicatorCriteria();
+      GraphicalIndicatorCriteria criteria = new GraphicalIndicatorCriteria(m_file);
       
       int indicatorType = MPPUtility.getInt(m_data, m_dataOffset);
       m_dataOffset += 4;            
@@ -175,8 +179,7 @@ public final class GraphicalIndicatorReader
          }
       }
       
-      m_criteriaList.add(criteria);
-      
+      return (criteria);      
    }
    
    /**
@@ -268,5 +271,4 @@ public final class GraphicalIndicatorReader
    private int m_headerOffset;
    private int m_dataOffset;
    private ProjectFile m_file;   
-   private List m_criteriaList = new LinkedList();  
 }

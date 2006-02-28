@@ -5,13 +5,33 @@
  * date:       16-Feb-2006
  */
  
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class represents the set of information which defines how
@@ -20,6 +40,132 @@ import java.util.List;
  */
 public class GraphicalIndicator
 {
+   /**
+    * Constructor.
+    * 
+    * @param projectFile parent project file
+    */
+   public GraphicalIndicator (ProjectFile projectFile)
+   {
+      m_projectFile = projectFile;
+   }
+   
+   /**
+    * This method evaluates a if a graphical indicator should
+    * be displayed, given a set of Task or Resource data. The
+    * method will return -1 if no indicator should be displayed.
+    * 
+    * @param container Task or Resource instance
+    * @return indicator index
+    */
+   public int evaluate (FieldContainer container)
+   {
+      //
+      // First step - determine the list of criteria we are should use
+      //
+      List criteria;      
+      if (container instanceof Task)
+      {
+         Task task = (Task)container;
+         if (NumberUtility.getInt(task.getUniqueID()) == 0)
+         {
+            if (m_projectSummaryInheritsFromSummaryRows == false)
+            {
+               criteria = m_projectSummaryCriteria;
+            }
+            else
+            {
+               if (m_summaryRowsInheritFromNonSummaryRows == false)
+               {
+                  criteria = m_summaryRowCriteria;
+               }
+               else
+               {
+                  criteria = m_nonSummaryRowCriteria;
+               }
+            }
+         }
+         else
+         {
+            if (task.getSummary() == true)
+            {
+               if (m_summaryRowsInheritFromNonSummaryRows == false)
+               {
+                  criteria = m_summaryRowCriteria;
+               }
+               else
+               {
+                  criteria = m_nonSummaryRowCriteria;
+               }
+            }
+            else
+            {
+               criteria = m_nonSummaryRowCriteria;
+            }
+         }
+      }
+      else
+      {
+         // It is possible to have a resource summary row, but at the moment
+         // I can't see how you can determine this.
+         criteria = m_nonSummaryRowCriteria;
+      }
+      
+      //
+      // Now we have the criteria, evaluate each one until we get a result
+      //
+      Object operand = container.get(m_fieldType);
+      switch (m_fieldType.getDataType().getType())
+      {
+         case DataType.DATE_VALUE:
+         {
+            if (operand != null)
+            {
+               operand = DateUtility.getDayStartDate((Date)operand);
+            }
+            break;
+         }
+         
+         case DataType.DURATION_VALUE:
+         {
+            if (operand != null)
+            {
+               Duration dur = (Duration)operand;
+               operand = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+            }
+            break;
+         }
+         
+         case DataType.STRING_VALUE:
+         {
+            operand = operand==null?"":operand;
+            break;
+         }
+      }
+      
+      int result = -1;
+      Iterator iter = criteria.iterator();
+      while (iter.hasNext() == true)
+      {
+         result = ((GraphicalIndicatorCriteria)iter.next()).evaluate(operand, container);
+         if (result != -1)
+         {
+            break;
+         }
+      }
+      
+      //
+      // If we still don't have a result at the end, return the
+      // default value, which is 0
+      //
+      if (result == -1)
+      {
+         result = 0;
+      }
+      
+      return (result);
+   }
+   
    /**
     * Sets the field type to which this indicator applies.
     * 
@@ -224,6 +370,7 @@ public class GraphicalIndicator
       return (os.toString());     
    }
    
+   private ProjectFile m_projectFile;
    private FieldType m_fieldType;
    private boolean m_displayGraphicalIndicators;
    private boolean m_summaryRowsInheritFromNonSummaryRows;
