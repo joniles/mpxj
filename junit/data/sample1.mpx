@@ -2,7 +2,6 @@ MPX;Microsoft Project for Windows;4.0;ANSI
 10;$;1;2;.;,
 11;2;0;1;8,00;40,00;$10,00/h;$15,00/h;1;0
 12;1;0;480;/;:;am;pm;20;0
-30;Project1;;;Standard;01/01/2003;;0;05/12/2003;;$0,00;$0,00;$0,00;0h;0h;0h;0%;0d;0d;0d;0%;;;;;0d;0d
 20;Standard;0;1;1;1;1;1;0
 25;1
 25;2;08:00 AM;12:00 PM;01:00 PM;05:00 PM
@@ -11,6 +10,7 @@ MPX;Microsoft Project for Windows;4.0;ANSI
 25;5;08:00 AM;12:00 PM;01:00 PM;05:00 PM
 25;6;08:00 AM;12:00 PM;01:00 PM;05:00 PM
 25;7
+30;Project1;;;Standard;01/01/2003;;0;05/12/2003;;$0,00;$0,00;$0,00;0h;0h;0h;0%;0d;0d;0d;0%;;;;;0d;0d
 40;Name;ID;Unique ID;Max Units
 41;1;40;49;41
 50;Resource1;1;1

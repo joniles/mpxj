@@ -467,5 +467,5 @@ final class MPPResourceField
       FIELD_ARRAY[VAC_VALUE] = ResourceField.VAC;
       FIELD_ARRAY[GROUP_BY_SUMMARY_VALUE] = ResourceField.GROUP_BY_SUMMARY;
       FIELD_ARRAY[WINDOWS_USER_ACCOUNT_VALUE] = ResourceField.WINDOWS_USER_ACCOUNT;
-   }
+   }      
 }

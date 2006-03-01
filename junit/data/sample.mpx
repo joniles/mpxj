@@ -2,7 +2,6 @@ MPX,Microsoft Project for Windows,4.0,ANSI
 10,£,1,2,",",.
 11,2,0,1,8.00,40.00,£0.00/h,£0.00/h,1,1
 12,1,1,480,/,:,,,9,1
-30,sample,,,Standard,Tue 07/01/03,Tue 18/03/03,0,Wed 15/01/03,,£3526.25,£0.00,£0.00,500h,0h,0h,0%,50d,0d,0d,0%,,,,,0d,0d
 20,Standard,0,1,1,1,1,1,0
 25,1
 25,2,08:00,12:00,13:00,17:00
@@ -19,6 +18,7 @@ MPX,Microsoft Project for Windows,4.0,ANSI
 25,5,00:00,03:00,04:00,08:00,23:00,00:00
 25,6,00:00,03:00,04:00,08:00,23:00,00:00
 25,7,00:00,03:00,04:00,08:00
+30,sample,,,Standard,Tue 07/01/03,Tue 18/03/03,0,Wed 15/01/03,,£3526.25,£0.00,£0.00,500h,0h,0h,0%,50d,0d,0d,0%,,,,,0d,0d
 40,Name,Initials,Work,Baseline Work,Actual Work,Overtime Work,Cost,Baseline Cost,Actual Cost,ID,Max Units,Standard Rate,Overtime Rate,Cost Per Use,Accrue At,Unique ID
 41,1,2,20,21,22,24,30,31,32,40,41,42,43,44,45,49
 50,First Resource,FR,200h,0h,0h,0h,£2015.00,£0.00,£0.00,1,1,£10.00/h,£20.00/h,£30.00,Prorated,1

@@ -179,7 +179,6 @@ public final class TaskFieldConstants extends FieldConstants
    public static final HashMap TASK_FIELD_MPXJ_TO_NAME_MAP = new HashMap ();
    public static final HashMap TASK_FIELD_PROJECT_TO_MPXJ_MAP = new HashMap();
    public static final HashMap TASK_FIELD_MPXJ_TO_PROJECT_MAP = new HashMap();
-   public static final HashMap TASK_FIELD_MPXJ_TO_TYPE_MAP = new HashMap ();
 
    static
    {
@@ -190,8 +189,7 @@ public final class TaskFieldConstants extends FieldConstants
          TASK_FIELD_MPXJ_TO_NAME_MAP.put(TASK_DATA[loop][MPXJ_FIELD_ID], TASK_DATA[loop][PROJECT_FIELD_NAME]);
          TASK_FIELD_PROJECT_TO_MPXJ_MAP.put(TASK_DATA[loop][PROJECT_FIELD_ID], TASK_DATA[loop][MPXJ_FIELD_ID]);
          TASK_FIELD_MPXJ_TO_PROJECT_MAP.put(TASK_DATA[loop][MPXJ_FIELD_ID], TASK_DATA[loop][PROJECT_FIELD_ID]);
-         TASK_FIELD_MPXJ_TO_TYPE_MAP.put(TASK_DATA[loop][MPXJ_FIELD_ID], TASK_DATA[loop][FIELD_DATA_TYPE]);
       }
-   }
+   }   
 }
 

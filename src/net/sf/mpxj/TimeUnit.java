@@ -51,13 +51,11 @@ public final class TimeUnit
    }
 
    /**
-    * Returns an integer representation of the time unit.
-    *
-    * @return integer representation of the time unit.
+    * {@inheritDoc}
     */
    public String toString ()
    {
-      return (Integer.toString(m_value));
+      return (NAMES[m_value]);
    }
 
    /**
@@ -310,4 +308,24 @@ public final class TimeUnit
     */
    public static final TimeUnit ELAPSED_PERCENT = new TimeUnit(ELAPSED_PERCENT_VALUE);
 
+   /**
+    * Used for debugging only.
+    */
+   private static final String[] NAMES =
+   {
+      "m",
+      "h",
+      "d",
+      "w",
+      "m",
+      "y",
+      "%",
+      "em",
+      "eh",
+      "ed",
+      "ew",
+      "em",
+      "ey",
+      "e%"      
+   };
 }

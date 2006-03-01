@@ -1258,7 +1258,8 @@ final class MPP9Reader implements MPPVariantReader
       byte[] data;
       byte[] metaData;
       Task task;
-
+      boolean autoWBS = true;
+      
       RTFUtility rtf = new RTFUtility ();
       String notes;
 
@@ -1627,10 +1628,23 @@ final class MPP9Reader implements MPPVariantReader
          //
          task.setSubProject((SubProject)m_taskSubProjects.get(task.getUniqueID()));
 
+         //
+         // If we have a WBS value from the MPP file, don't autogenerate
+         //
+         if (task.getWBS() != null)
+         {
+            autoWBS = false;
+         }
+         
          file.fireTaskReadEvent(task);
 
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
       }
+      
+      //
+      // Enable auto WBS if necessary
+      //
+      file.setAutoWBS(autoWBS);
    }
 
    /**

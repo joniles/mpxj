@@ -200,7 +200,7 @@ final class MPPTaskField
    private static final int DATE3_VALUE = 267;
    private static final int DATE4_VALUE = 268;
    private static final int DATE5_VALUE = 269;
-   private static final int DATE6_VALUE = 260;
+   private static final int DATE6_VALUE = 270;
    private static final int DATE7_VALUE = 271;
    private static final int DATE8_VALUE = 272;
    private static final int DATE9_VALUE = 273;
@@ -544,5 +544,5 @@ final class MPPTaskField
       FIELD_ARRAY[WBS_PREDECESSORS_VALUE] = TaskField.WBS_PREDECESSORS;
       FIELD_ARRAY[WBS_SUCCESSORS_VALUE] = TaskField.WBS_SUCCESSORS;
       FIELD_ARRAY[RESOURCE_TYPE_VALUE] = TaskField.RESOURCE_TYPE;
-   }
+   }   
 }

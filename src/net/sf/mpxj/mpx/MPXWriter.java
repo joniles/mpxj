@@ -171,27 +171,27 @@ public final class MPXWriter extends AbstractProjectWriter
    private void write ()
       throws IOException
    {
-      writeFileCreationRecord(m_projectFile.getFileCreationRecord());
+      writeFileCreationRecord(m_projectFile.getFileCreationRecord());           
       writeProjectHeader(m_projectFile.getProjectHeader());
 
-      Iterator iter = m_projectFile.getBaseCalendars().iterator();
-      while (iter.hasNext())
+      if (m_projectFile.getAllResources().isEmpty() == false)
       {
-         writeCalendar((ProjectCalendar)iter.next());
+         m_resourceModel = new ResourceModel(m_projectFile, m_locale);
+         m_writer.write(m_resourceModel.toString());
+         Iterator iter = m_projectFile.getAllResources().iterator();
+         while (iter.hasNext())
+         {
+            writeResource ((Resource)iter.next());
+         }
       }
-
-      m_resourceModel = new ResourceModel(m_projectFile, m_locale);
-      m_writer.write(m_resourceModel.toString());
-      iter = m_projectFile.getAllResources().iterator();
-      while (iter.hasNext())
+      
+      if (m_projectFile.getAllTasks().isEmpty() == false)
       {
-         writeResource ((Resource)iter.next());
+         m_taskModel = new TaskModel(m_projectFile, m_locale);
+         m_writer.write(m_taskModel.toString());
+         writeTasks (m_projectFile.getChildTasks());
       }
-
-      m_taskModel = new TaskModel(m_projectFile, m_locale);
-      m_writer.write(m_taskModel.toString());
-      writeTasks (m_projectFile.getChildTasks());
-
+      
       m_writer.flush();
    }
 
@@ -249,11 +249,11 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       m_buffer.append (MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER);
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(record.getDefaultDurationUnits()));
+      m_buffer.append(format(new Integer(record.getDefaultDurationUnits().getValue())));
       m_buffer.append (m_delimiter);
       m_buffer.append(record.getDefaultDurationIsFixed()?"1":"0");
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(record.getDefaultWorkUnits()));
+      m_buffer.append(format(new Integer(record.getDefaultWorkUnits().getValue())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerDay())/60)));
       m_buffer.append (m_delimiter);
@@ -293,10 +293,21 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(format(record.getBarTextDateFormat()));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append (MPXConstants.EOL);
-
+      m_writer.write(m_buffer.toString());
+      
+      //
+      // Write project calendars
+      //
+      Iterator iter = m_projectFile.getBaseCalendars().iterator();
+      while (iter.hasNext())
+      {
+         writeCalendar((ProjectCalendar)iter.next());
+      }
+      
       //
       // Project Header Record
       //
+      m_buffer.setLength(0);
       m_buffer.append (MPXConstants.PROJECT_HEADER_RECORD_NUMBER);
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getProjectTitle()));

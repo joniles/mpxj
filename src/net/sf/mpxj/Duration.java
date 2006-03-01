@@ -326,6 +326,14 @@ public final class Duration implements Comparable
       
       return (m_duration < rhs.m_duration ? -1 : (m_duration==rhs.m_duration ? 0 : 1));
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   public String toString ()
+   {
+      return (m_duration + m_units.toString());
+   }
    
    /**
     * Duration amount.

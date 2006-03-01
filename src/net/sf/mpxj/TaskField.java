@@ -49,7 +49,7 @@ public final class TaskField implements FieldType
     */
    public String getName()
    {
-      return (getName(Locale.getDefault()));
+      return (getName(Locale.ENGLISH));
    }
 
    /**

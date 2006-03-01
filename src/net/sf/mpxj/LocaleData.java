@@ -29,10 +29,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * Locale data specific to MPP files. Note that the text that appear here
- * should be identical to the text as they appear in MS Project, so
- * assuming you have access to a non-English version MS Project, generating
- * a translation should be very easy.
+ * Locale data for MPXJ.
  */
 public class LocaleData extends ListResourceBundle
 {

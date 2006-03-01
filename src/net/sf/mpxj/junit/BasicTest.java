@@ -335,6 +335,37 @@ public class BasicTest extends MPXJTestCase
    }
 
    /**
+    * Test to ensure that files without tasks or resources generate
+    * correct MPX files.
+    * 
+    * @throws Exception
+    */
+   public void testRewrite9 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+   
+      try
+      {
+         File in = new File (m_basedir + "/empty.mpp");
+         ProjectFile mpx = new MPPReader().read (in);
+         out = File.createTempFile ("junit", ".mpx");
+         new MPXWriter().write(mpx, out, false);
+         success = compareFiles (new File(m_basedir + "/empty.mpx"), out);
+         assertTrue ("Files are not identical", success);
+      }
+   
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+   
+   /**
     * Read a file created by a German version of MS Project 98.
     *
     * @throws Exception
@@ -366,82 +397,82 @@ public class BasicTest extends MPXJTestCase
 
       Resource resource1 = file.addResource();
       resource1.setName("R1");
-      assertEquals (resource1.getUniqueID().intValue(), 1);
-      assertEquals (resource1.getID().intValue(), 1);
+      assertEquals (1, resource1.getUniqueID().intValue());
+      assertEquals (1, resource1.getID().intValue());
 
       Resource resource2 = file.addResource();
       resource2.setName("R2");
-      assertEquals (resource2.getUniqueID().intValue(), 2);
-      assertEquals (resource2.getID().intValue(), 2);
+      assertEquals (2, resource2.getUniqueID().intValue());
+      assertEquals (2, resource2.getID().intValue());
 
       Task task1 = file.addTask();
       task1.setName("1.0");
-      assertEquals (task1.getWBS(), "1.0");
-      assertEquals (task1.getOutlineLevel().intValue(), 1);
-      assertEquals (task1.getOutlineNumber(), "1.0");
-      assertEquals (task1.getID().intValue(), 1);
-      assertEquals (task1.getUniqueID().intValue(), 1);
-      assertEquals (task1.getSummary(), false);
+      assertEquals ("1.0", task1.getWBS());
+      assertEquals (1, task1.getOutlineLevel().intValue());
+      assertEquals ("1.0", task1.getOutlineNumber());
+      assertEquals (1, task1.getID().intValue());
+      assertEquals (1, task1.getUniqueID().intValue());
+      assertEquals (false, task1.getSummary());
 
       task1 = file.addTask();
       task1.setName("2.0");
-      assertEquals (task1.getWBS(), "2.0");
-      assertEquals (task1.getOutlineLevel().intValue(), 1);
-      assertEquals (task1.getOutlineNumber(), "2.0");
-      assertEquals (task1.getID().intValue(), 2);
-      assertEquals (task1.getUniqueID().intValue(), 2);
-      assertEquals (task1.getSummary(), false);
+      assertEquals ("2.0", task1.getWBS());
+      assertEquals (1, task1.getOutlineLevel().intValue());
+      assertEquals ("2.0", task1.getOutlineNumber());
+      assertEquals (2, task1.getID().intValue());
+      assertEquals (2, task1.getUniqueID().intValue());
+      assertEquals (false, task1.getSummary());
 
       task1 = file.addTask();
       task1.setName("3.0");
-      assertEquals (task1.getWBS(), "3.0");
-      assertEquals (task1.getOutlineLevel().intValue(), 1);
-      assertEquals (task1.getOutlineNumber(), "3.0");
-      assertEquals (task1.getID().intValue(), 3);
-      assertEquals (task1.getUniqueID().intValue(), 3);
-      assertEquals (task1.getSummary(), false);
+      assertEquals ("3.0", task1.getWBS());
+      assertEquals (1, task1.getOutlineLevel().intValue());
+      assertEquals ("3.0", task1.getOutlineNumber());
+      assertEquals (3, task1.getID().intValue());
+      assertEquals (3, task1.getUniqueID().intValue());
+      assertEquals (false, task1.getSummary());
 
       Task task2 = task1.addTask();
       task2.setName("3.1");
-      assertEquals (task2.getWBS(), "3.1");
-      assertEquals (task2.getOutlineLevel().intValue(), 2);
-      assertEquals (task2.getOutlineNumber(), "3.1");
-      assertEquals (task2.getID().intValue(), 4);
-      assertEquals (task2.getUniqueID().intValue(), 4);
-      assertEquals (task1.getSummary(), true);
-      assertEquals (task2.getSummary(), false);
+      assertEquals ("3.1", task2.getWBS());
+      assertEquals (2, task2.getOutlineLevel().intValue());
+      assertEquals ("3.1", task2.getOutlineNumber());
+      assertEquals (4, task2.getID().intValue());
+      assertEquals (4, task2.getUniqueID().intValue());
+      assertEquals (true, task1.getSummary());
+      assertEquals (false, task2.getSummary());
 
       task2 = task1.addTask();
       task2.setName("3.2");
-      assertEquals (task2.getWBS(), "3.2");
-      assertEquals (task2.getOutlineLevel().intValue(), 2);
-      assertEquals (task2.getOutlineNumber(), "3.2");
-      assertEquals (task2.getID().intValue(), 5);
-      assertEquals (task2.getUniqueID().intValue(), 5);
-      assertEquals (task1.getSummary(), true);
-      assertEquals (task2.getSummary(), false);
+      assertEquals ("3.2", task2.getWBS());
+      assertEquals (2, task2.getOutlineLevel().intValue());
+      assertEquals ("3.2", task2.getOutlineNumber());
+      assertEquals (5, task2.getID().intValue());
+      assertEquals (5, task2.getUniqueID().intValue());
+      assertEquals (true, task1.getSummary());
+      assertEquals (false, task2.getSummary());
 
       Task task3 = task2.addTask();
       task3.setName("3.2.1");
-      assertEquals (task3.getWBS(), "3.2.1");
-      assertEquals (task3.getOutlineLevel().intValue(), 3);
-      assertEquals (task3.getOutlineNumber(), "3.2.1");
-      assertEquals (task3.getID().intValue(), 6);
-      assertEquals (task3.getUniqueID().intValue(), 6);
-      assertEquals (task1.getSummary(), true);
-      assertEquals (task2.getSummary(), true);
-      assertEquals (task3.getSummary(), false);
+      assertEquals ("3.2.1", task3.getWBS());
+      assertEquals (3, task3.getOutlineLevel().intValue());
+      assertEquals ("3.2.1", task3.getOutlineNumber());
+      assertEquals (6, task3.getID().intValue());
+      assertEquals (6, task3.getUniqueID().intValue());
+      assertEquals (true, task1.getSummary());
+      assertEquals (true, task2.getSummary());
+      assertEquals (false, task3.getSummary());
 
       task3 = task2.addTask();
       task3.setName("3.2.2");
-      assertEquals (task3.getWBS(), "3.2.2");
-      assertEquals (task3.getOutlineLevel().intValue(), 3);
-      assertEquals (task3.getOutlineNumber(), "3.2.2");
-      assertEquals (task3.getID().intValue(), 7);
-      assertEquals (task3.getUniqueID().intValue(), 7);
-      assertEquals (task1.getSummary(), true);
-      assertEquals (task2.getSummary(), true);
-      assertEquals (task3.getSummary(), false);
+      assertEquals ("3.2.2", task3.getWBS());
+      assertEquals (3, task3.getOutlineLevel().intValue());
+      assertEquals ("3.2.2", task3.getOutlineNumber());
+      assertEquals (7, task3.getID().intValue());
+      assertEquals (7, task3.getUniqueID().intValue());
+      assertEquals (true, task1.getSummary());
+      assertEquals (true, task2.getSummary());
+      assertEquals (false, task3.getSummary());
    }
 
    /**

@@ -52,6 +52,16 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       
       m_parent = parent;
 
+      if (file.getAutoTaskUniqueID() == true)
+      {
+         setUniqueID(new Integer(file.getTaskUniqueID()));
+      }
+
+      if (file.getAutoTaskID() == true)
+      {
+         setID(new Integer(file.getTaskID()));
+      }
+      
       if (file.getAutoWBS() == true)
       {
          generateWBS(parent);
@@ -73,20 +83,10 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
             setOutlineLevel(new Integer(NumberUtility.getInt(parent.getOutlineLevel()) + 1));
          }
       }
-
-      if (file.getAutoTaskUniqueID() == true)
-      {
-         setUniqueID(new Integer(file.getTaskUniqueID()));
-      }
-
-      if (file.getAutoTaskID() == true)
-      {
-         setID(new Integer(file.getTaskID()));
-      }
    }
 
    /**
-    * This package-access method is used to automatically generate a value
+    * This method is used to automatically generate a value
     * for the WBS field of this task.
     *
     * @param parent Parent Task
@@ -97,7 +97,14 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
 
       if (parent == null)
       {
-         wbs = Integer.toString(getParentFile().getChildTaskCount() + 1) + ".0";
+         if (NumberUtility.getInt(getUniqueID()) == 0)
+         {
+            wbs = "0";
+         }
+         else
+         {
+            wbs = Integer.toString(getParentFile().getChildTaskCount() + 1) + ".0";
+         }
       }
       else
       {
@@ -110,14 +117,21 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
             wbs = wbs.substring(0, index);
          }
 
-         wbs += ("." + (parent.getChildTaskCount() + 1));
+         if (wbs.equals("0") == true)
+         {
+            wbs = Integer.toString(parent.getChildTaskCount() + 1);
+         }
+         else
+         {
+            wbs += ("." + (parent.getChildTaskCount() + 1));
+         }
       }
 
       setWBS(wbs);
    }
 
    /**
-    * This package-access method is used to automatically generate a value
+    * This method is used to automatically generate a value
     * for the Outline Number field of this task.
     *
     * @param parent Parent Task
@@ -128,7 +142,14 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
 
       if (parent == null)
       {
-         outline = Integer.toString(getParentFile().getChildTaskCount() + 1) + ".0";
+         if (NumberUtility.getInt(getUniqueID()) == 0)
+         {
+            outline = "0";
+         }
+         else
+         {
+            outline = Integer.toString(getParentFile().getChildTaskCount() + 1) + ".0";
+         }
       }
       else
       {
@@ -141,7 +162,14 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
             outline = outline.substring(0, index);
          }
 
-         outline += ("." + (parent.getChildTaskCount() + 1));
+         if (outline.equals("0") == true)
+         {
+            outline = Integer.toString(parent.getChildTaskCount() + 1);
+         }
+         else
+         {
+            outline += ("." + (parent.getChildTaskCount() + 1));
+         }
       }
 
       setOutlineNumber(outline);

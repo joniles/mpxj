@@ -162,7 +162,6 @@ public final class ResourceFieldConstants extends FieldConstants
    public static final HashMap RESOURCE_FIELD_MPXJ_TO_NAME_MAP = new HashMap ();
    public static final HashMap RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP = new HashMap();
    public static final HashMap RESOURCE_FIELD_MPXJ_TO_PROJECT_MAP = new HashMap();
-   public static final HashMap RESOURCE_FIELD_MPXJ_TO_TYPE_MAP = new HashMap ();
 
    static
    {
@@ -171,7 +170,6 @@ public final class ResourceFieldConstants extends FieldConstants
          RESOURCE_FIELD_MPXJ_TO_NAME_MAP.put(RESOURCE_DATA[loop][MPXJ_FIELD_ID], RESOURCE_DATA[loop][PROJECT_FIELD_NAME]);
          RESOURCE_FIELD_PROJECT_TO_MPXJ_MAP.put(RESOURCE_DATA[loop][PROJECT_FIELD_ID], RESOURCE_DATA[loop][MPXJ_FIELD_ID]);
          RESOURCE_FIELD_MPXJ_TO_PROJECT_MAP.put(RESOURCE_DATA[loop][MPXJ_FIELD_ID], RESOURCE_DATA[loop][PROJECT_FIELD_ID]);
-         RESOURCE_FIELD_MPXJ_TO_TYPE_MAP.put(RESOURCE_DATA[loop][MPXJ_FIELD_ID], RESOURCE_DATA[loop][FIELD_DATA_TYPE]);
       }
    }
 

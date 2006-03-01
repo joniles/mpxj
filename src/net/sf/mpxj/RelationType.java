@@ -80,6 +80,14 @@ public final class RelationType
       return (m_type);
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public String toString ()
+   {
+      return (TYPE_NAMES[m_type]);
+   }
+   
    public static final int FINISH_FINISH_VALUE = 0;
    public static final int FINISH_START_VALUE = 1;
    public static final int START_FINISH_VALUE = 2;
@@ -102,6 +110,17 @@ public final class RelationType
       START_START
    };
 
+   /**
+    * For debugging only.
+    */
+   private static final String[] TYPE_NAMES =
+   {
+      "FF",
+      "FS",
+      "SF",
+      "SS"
+   };
+   
    /**
     * Internal representation.
     */
