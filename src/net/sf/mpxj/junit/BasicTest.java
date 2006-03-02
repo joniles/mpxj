@@ -29,7 +29,6 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -350,6 +349,7 @@ public class BasicTest extends MPXJTestCase
       {
          File in = new File (m_basedir + "/empty.mpp");
          ProjectFile mpx = new MPPReader().read (in);
+         mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat ("dd/MM/yyyy").parse("01/03/2006"));
          out = File.createTempFile ("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
          success = compareFiles (new File(m_basedir + "/empty.mpx"), out);
@@ -2353,67 +2353,6 @@ public class BasicTest extends MPXJTestCase
             out.delete();
          }
       }
-   }
-
-   /**
-    * Exercise split task functionality.
-    *
-    * @throws Exception
-    */
-   public void testSplits ()
-      throws Exception
-   {
-      List splits = new LinkedList();
-      splits.add(Duration.getInstance(32, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(40, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(88, TimeUnit.HOURS));
-
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9.mpp");
-      Task task = mpp.getTaskByUniqueID(new Integer(1));
-      assertNull(task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(2));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(3));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(4));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(5));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(6));
-      assertEquals(splits, task.getSplits());
-
-      splits.clear();
-      splits.add(Duration.getInstance(16, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(48, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(88, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(104, TimeUnit.HOURS));
-      splits.add(Duration.getInstance(128, TimeUnit.HOURS));
-
-      task = mpp.getTaskByUniqueID(new Integer(7));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(8));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(9));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(10));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(11));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(12));
-      assertEquals(splits, task.getSplits());
-
-      task = mpp.getTaskByUniqueID(new Integer(13));
-      assertEquals(splits, task.getSplits());
    }
 
    /**

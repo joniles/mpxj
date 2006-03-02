@@ -42,8 +42,10 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.FieldConstants;
-import net.sf.mpxj.FieldType;
+import net.sf.mpxj.ExtendedAttributeResourceFields;
+import net.sf.mpxj.ExtendedAttributeTaskFields;
+import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -54,11 +56,9 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.ResourceFieldConstants;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskFieldConstants;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -202,36 +202,29 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List list = attributes.getExtendedAttribute();
 
-      writeFieldAliases (factory, m_projectFile.getTaskFieldAliasMap(), TaskFieldConstants.TASK_FIELD_MPXJ_TO_PROJECT_MAP, TaskFieldConstants.TASK_FIELD_MPXJ_TO_NAME_MAP, list);
-      writeFieldAliases (factory, m_projectFile.getResourceFieldAliasMap(), ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_PROJECT_MAP, ResourceFieldConstants.RESOURCE_FIELD_MPXJ_TO_NAME_MAP, list);
+      writeTaskFieldAliases(factory, list);
+      writeResourceFieldAliases(factory, list);      
    }
 
    /**
-    * This method handles writing field alias data into the MSPDI file.
-    *
+    * Writes field aliases.
+    * 
     * @param factory object factory
-    * @param fieldAliasMap map of MPX field numbers to their aliases
-    * @param mpxXmlMap map of mpx field numbers to MSPDI field numbers
-    * @param mpxNameMap map of mpx field names to MSPDI field numbers
-    * @param list list of extended attributes
+    * @param list field alias list
     * @throws JAXBException
     */
-   private void writeFieldAliases (ObjectFactory factory, Map fieldAliasMap, Map mpxXmlMap, Map mpxNameMap, List list)
+   private void writeTaskFieldAliases (ObjectFactory factory, List list)
       throws JAXBException
    {
-      Iterator iter = mpxNameMap.keySet().iterator();
-      FieldType key;
-      Integer fieldID;
-      String name;
-      String alias;
-
-      while (iter.hasNext() == true)
+      Map fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
+      
+      for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
-         key = (FieldType)iter.next();
-         fieldID = (Integer)mpxXmlMap.get(key);
-         name = (String)mpxNameMap.get(key);
-         alias = (String)fieldAliasMap.get(key);
-
+         TaskField key = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
+         Integer fieldID = new Integer (MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
+         String name = key.getName();
+         String alias = (String)fieldAliasMap.get(key);
+   
          Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
          list.add(attribute);
          attribute.setFieldID(fieldID.toString());
@@ -240,6 +233,33 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Writes field aliases.
+    * 
+    * @param factory object factory
+    * @param list field alias list
+    * @throws JAXBException
+    */   
+   private void writeResourceFieldAliases (ObjectFactory factory, List list)
+      throws JAXBException
+   {
+      Map fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
+      
+      for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
+      {
+         ResourceField key = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
+         Integer fieldID = new Integer (MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
+         String name = key.getName();
+         String alias = (String)fieldAliasMap.get(key);
+   
+         Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
+         list.add(attribute);
+         attribute.setFieldID(fieldID.toString());
+         attribute.setFieldName(name);
+         attribute.setAlias(alias);
+      }
+   }
+   
    /**
     * This method writes calandar data to an MSPDI file.
     *
@@ -549,14 +569,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ResourceField mpxFieldID;
       Integer xmlFieldID;
 
-      for (int loop=0; loop < ResourceFieldConstants.RESOURCE_DATA.length; loop++)
+      for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
-         mpxFieldID = (ResourceField)ResourceFieldConstants.RESOURCE_DATA[loop][FieldConstants.MPXJ_FIELD_ID];
+         mpxFieldID = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
          value = mpx.get(mpxFieldID);
 
          if (value != null)
          {
-            xmlFieldID = (Integer)ResourceFieldConstants.RESOURCE_DATA[loop][FieldConstants.PROJECT_FIELD_ID];
+            xmlFieldID = new Integer(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
 
             attrib = factory.createProjectTypeResourcesTypeResourceTypeExtendedAttributeType();
             extendedAttributes.add(attrib);
@@ -747,14 +767,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       TaskField mpxFieldID;
       Integer xmlFieldID;
 
-      for (int loop=0; loop < TaskFieldConstants.TASK_DATA.length; loop++)
+      for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
-         mpxFieldID = (TaskField)TaskFieldConstants.TASK_DATA[loop][FieldConstants.MPXJ_FIELD_ID];
+         mpxFieldID = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
          value = mpx.get(mpxFieldID);
 
          if (value != null)
          {
-            xmlFieldID = (Integer)TaskFieldConstants.TASK_DATA[loop][FieldConstants.PROJECT_FIELD_ID];
+            xmlFieldID = new Integer (MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
 
             attrib = factory.createProjectTypeTasksTypeTaskTypeExtendedAttributeType();
             extendedAttributes.add(attrib);
@@ -943,7 +963,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
 
-            dummy.setResourceUniqueID(ResourceFieldConstants.NULL_RESOURCE_ID);
+            dummy.setResourceUniqueID(NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
@@ -1022,6 +1042,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private boolean m_compatibleOutput = true;
    private ProjectFile m_projectFile;
+   
 
    /**
     * This class is used to work around a number of problems with
@@ -1161,4 +1182,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
+   
+   private static final Integer NULL_RESOURCE_ID = new Integer (-65535);   
 }

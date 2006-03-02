@@ -26,6 +26,8 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import net.sf.mpxj.MPPTaskField;
+
 /**
  * This class represents the default style for a Gantt chart bar.
  */

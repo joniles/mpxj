@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.TaskField;
 
 /**

@@ -42,6 +42,8 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -2121,16 +2123,24 @@ final class MPP9Reader implements MPPVariantReader
       if (incompleteHours != null)
       {
          int splitCount = MPPUtility.getShort(incompleteHours, 0);
-
+         
          //
          // Deal with the case where the final task split is partially complete
          //
-         if (splitCount == 0 && incompleteHours.length >= (44+28))
+         if (splitCount == 0)
          {
-            splitCount = 1;
+            double splitTime = MPPUtility.getInt(incompleteHours, 24);
+            splitTime /= 4800;
+            double timeOffset = 0;
+            if (splits.isEmpty() == false)
+            {
+               timeOffset = ((Duration)splits.removeLast()).getDuration();
+            }
+            splitTime += timeOffset;
+            Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
+            splits.add(splitDuration);            
          }
-
-         if (splitCount != 0)
+         else
          {
             double timeOffset = 0;
             if (splits.isEmpty() == false)
@@ -2158,7 +2168,10 @@ final class MPP9Reader implements MPPVariantReader
          }
       }
 
-      if (splits.isEmpty() == false)
+      //
+      // We must have a minimum of 3 entries for this to be a valid split task
+      //
+      if (splits.size() > 2)
       {
          task.setSplits(splits);
       }

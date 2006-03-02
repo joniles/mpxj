@@ -39,6 +39,8 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;

@@ -32,6 +32,7 @@ import java.util.Map;
 
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
 

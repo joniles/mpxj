@@ -495,7 +495,7 @@ public class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ACTUAL_FINISH_VALUE] = "Actual Finish";
       RESOURCE_COLUMNS_ARRAY[ResourceField.WORKGROUP_VALUE] = "Workgroup";
       RESOURCE_COLUMNS_ARRAY[ResourceField.PROJECT_VALUE] = "Project";
-      RESOURCE_COLUMNS_ARRAY[ResourceField.OUTLINE_CODE1_VALUE] = "Outline Code";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.OUTLINE_CODE1_VALUE] = "Outline Code1";
       RESOURCE_COLUMNS_ARRAY[ResourceField.OUTLINE_CODE2_VALUE] = "Outline Code2";
       RESOURCE_COLUMNS_ARRAY[ResourceField.OUTLINE_CODE3_VALUE] = "Outline Code3";
       RESOURCE_COLUMNS_ARRAY[ResourceField.OUTLINE_CODE4_VALUE] = "Outline Code4";
