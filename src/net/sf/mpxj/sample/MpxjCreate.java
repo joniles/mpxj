@@ -26,6 +26,8 @@ package net.sf.mpxj.sample;
 import java.text.SimpleDateFormat;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
@@ -173,8 +175,16 @@ public class MpxjCreate
       //
       // Add a default calendar called "Standard"
       //
-      file.addDefaultBaseCalendar();
-
+      ProjectCalendar calendar = file.addDefaultBaseCalendar();
+      
+      //
+      // Add a holiday to the calendar to demonstrate calendar exceptions
+      //
+      ProjectCalendarException exception = calendar.addCalendarException();
+      exception.setFromDate(df.parse("13/03/2006"));
+      exception.setToDate(df.parse("13/03/2006"));
+      exception.setWorking(false);
+      
       //
       // Retrieve the project header and set the start date. Note Microsoft
       // Project appears to reset all task dates relative to this date, so this
@@ -293,7 +303,7 @@ public class MpxjCreate
       // Write the file
       //
       ProjectWriter writer = getWriter(filename);
-      writer.write (file, filename);
+      writer.write (file, filename);     
    }
 
 }
