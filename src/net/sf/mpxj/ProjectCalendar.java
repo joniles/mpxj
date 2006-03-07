@@ -583,6 +583,15 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public void setUniqueID (Integer uniqueID)
    {
+      ProjectFile parent = getParentFile();
+      
+      if (m_uniqueID != null)
+      {
+         parent.unmapTaskUniqueID(m_uniqueID);
+      }
+
+      parent.mapCalendarUniqueID(uniqueID, this);
+      
       m_uniqueID = uniqueID;
    }
 

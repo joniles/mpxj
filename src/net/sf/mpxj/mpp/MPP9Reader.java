@@ -1618,7 +1618,7 @@ final class MPP9Reader implements MPPVariantReader
          int calendarID = MPPUtility.getInt(data, 160);
          if (calendarID != -1)
          {
-            ProjectCalendar calendar = file.getBaseCalendarByUniqueID(calendarID);
+            ProjectCalendar calendar = file.getBaseCalendarByUniqueID(new Integer(calendarID));
             if (calendar != null)
             {
                task.setCalendar(calendar);

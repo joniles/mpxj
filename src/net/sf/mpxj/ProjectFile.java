@@ -743,24 +743,9 @@ public final class ProjectFile
     * @param calendarID calendar unique ID
     * @return ProjectCalendar instance
     */
-   public ProjectCalendar getBaseCalendarByUniqueID (int calendarID)
+   public ProjectCalendar getBaseCalendarByUniqueID (Integer calendarID)
    {
-      ProjectCalendar calendar = null;
-      Iterator iter = m_baseCalendars.iterator();
-
-      while (iter.hasNext() == true)
-      {
-         calendar = (ProjectCalendar)iter.next();
-
-         if (NumberUtility.getInt(calendar.getUniqueID()) == calendarID)
-         {
-            break;
-         }
-
-         calendar = null;
-      }
-
-      return (calendar);
+      return ((ProjectCalendar)m_calendarUniqueIDMap.get(calendarID));
    }
 
    /**
@@ -1410,6 +1395,29 @@ public final class ProjectFile
       m_resourceIDMap.put(id, resource);
    }
 
+   
+   /**
+    * Removes an id-to-calendar mapping.
+    *
+    * @param id calendar unique ID
+    */
+   void unmapCalendarUniqueID (Integer id)
+   {
+      m_calendarUniqueIDMap.remove(id);
+   }
+
+   /**
+    * Adds an id-to-calendar mapping.
+    *
+    * @param id calendar unique ID
+    * @param calendar calendar instance
+    */
+   void mapCalendarUniqueID (Integer id, ProjectCalendar calendar)
+   {
+      m_calendarUniqueIDMap.put(id, calendar);
+   }
+
+   
    /**
     * This method retrieves a value representing the type of MPP file
     * that has been read. Currently this method will return the value 8 for
@@ -1710,6 +1718,11 @@ public final class ProjectFile
     */
    private Map m_resourceIDMap = new HashMap();
 
+   /**
+    * Maps from a calendar unique ID to a calendar instance.
+    */
+   private Map m_calendarUniqueIDMap = new HashMap();
+   
    /**
     * List of project event listeners.
     */

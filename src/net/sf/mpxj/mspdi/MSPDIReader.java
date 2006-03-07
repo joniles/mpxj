@@ -865,7 +865,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger calendarID = task.getCalendarUID();
       if (calendarID != null)
       {
-         calendar = m_projectFile.getBaseCalendarByUniqueID(calendarID.intValue());
+         calendar = m_projectFile.getBaseCalendarByUniqueID(new Integer(calendarID.intValue()));
       }
 
       return (calendar);
