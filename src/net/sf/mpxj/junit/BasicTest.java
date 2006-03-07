@@ -25,7 +25,6 @@
 package net.sf.mpxj.junit;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -76,7 +75,7 @@ public class BasicTest extends MPXJTestCase
          ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = compareFiles (in, out);
+         success = FileUtility.equals (in, out);
          assertTrue ("Files are not identical", success);
       }
 
@@ -107,7 +106,7 @@ public class BasicTest extends MPXJTestCase
          ProjectFile xml = new MSPDIReader().read(in);
          out = File.createTempFile ("junit", ".xml");
          new MSPDIWriter().write(xml, out);
-         success = compareFiles (in, out);
+         success = FileUtility.equals (in, out);
          assertTrue ("Files are not identical", success);
       }
 
@@ -138,7 +137,7 @@ public class BasicTest extends MPXJTestCase
          ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = compareFiles (in, out);
+         success = FileUtility.equals (in, out);
          assertTrue ("Files are not identical", success);
       }
 
@@ -352,7 +351,7 @@ public class BasicTest extends MPXJTestCase
          mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat ("dd/MM/yyyy").parse("01/03/2006"));
          out = File.createTempFile ("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = compareFiles (new File(m_basedir + "/empty.mpx"), out);
+         success = FileUtility.equals (new File(m_basedir + "/empty.mpx"), out);
          assertTrue ("Files are not identical", success);
       }
    
@@ -997,55 +996,6 @@ public class BasicTest extends MPXJTestCase
       }
 
       return (level);
-   }
-
-   /**
-    * Utility function to ensure that two files contain identical data.
-    *
-    * @param file1 File object
-    * @param file2 File object
-    * @return boolean flag
-    */
-   private boolean compareFiles (File file1, File file2)
-      throws Exception
-   {
-      boolean result;
-
-      if (file1.length() != file2.length())
-      {
-         result = false;
-      }
-      else
-      {
-         result = true;
-
-         FileInputStream input1 = new FileInputStream (file1);
-         FileInputStream input2 = new FileInputStream (file2);
-         int c1;
-         int c2;
-
-         while (true)
-         {
-            c1 = input1.read();
-            c2 = input2.read();
-
-            if (c1 != c2)
-            {
-               result = false;
-               break;
-            }
-
-            if (c1 == -1)
-            {
-               break;
-            }
-         }
-
-         input1.close();
-         input2.close();
-      }
-
-      return (result);
    }
 
    /**
@@ -2372,7 +2322,7 @@ public class BasicTest extends MPXJTestCase
          ProjectFile mpx = new MPXReader().read (in);
          out = File.createTempFile ("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = compareFiles (in, out);
+         success = FileUtility.equals (in, out);
          assertTrue ("Files are not identical", success);
       }
 
