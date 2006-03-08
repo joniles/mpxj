@@ -8,7 +8,11 @@
 
    <body> 
 
-   <release version="0.9.2" date="CVS HEAD"> 
+   <release version="0.9.3" date="CVS HEAD"> 
+      <action dev="joniles" type="add">Added support overallocated flag to all MPP file formats.</action>      
+   </release>
+            
+   <release version="0.9.2" date="07/03/2006"> 
       <action dev="joniles" type="add">Added support for split views.</action>      
       <action dev="joniles" type="add">Added support for graphical indicators.</action>      
       <action dev="joniles" type="add">Added a workaround for a bug in MS Project which is seen when calendar exceptions are exported to an MSPDI file. If the exception contained seconds and milliseconds, MS Project marked every day as being affected by the exception, not the day or range of days specified.</action>      

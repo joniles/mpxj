@@ -1988,6 +1988,11 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          //
+         // Set the overallocated flag
+         //
+         resource.setOverAllocated(NumberUtility.getDouble(resource.getPeakUnits()) > NumberUtility.getDouble(resource.getMaxUnits()));
+         
+         //
          // Configure the resource calendar
          //
          resource.setResourceCalendar((ProjectCalendar)resourceCalendarMap.get(id));

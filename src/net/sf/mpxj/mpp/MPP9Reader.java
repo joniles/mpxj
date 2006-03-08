@@ -1773,7 +1773,7 @@ final class MPP9Reader implements MPPVariantReader
 
       RTFUtility rtf = new RTFUtility ();
       String notes;
-
+      
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
@@ -1788,7 +1788,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             continue;
          }
-
+         
          resource = file.addResource();
 
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
@@ -1986,6 +1986,11 @@ final class MPP9Reader implements MPPVariantReader
             resource.setWorkVariance(Duration.getInstance (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
          }
 
+         //
+         // Set the overallocated flag
+         //
+         resource.setOverAllocated(NumberUtility.getDouble(resource.getPeakUnits()) > NumberUtility.getDouble(resource.getMaxUnits()));
+         
          //
          // Configure the resource calendar
          //

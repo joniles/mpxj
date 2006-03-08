@@ -1105,6 +1105,11 @@ final class MPP8Reader implements MPPVariantReader
             resource.setWorkVariance(Duration.getInstance (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
          }
 
+         //
+         // Set the overallocated flag
+         //
+         resource.setOverAllocated(NumberUtility.getDouble(resource.getPeakUnits()) > NumberUtility.getDouble(resource.getMaxUnits()));
+         
          file.fireResourceReadEvent(resource);
       }
    }
