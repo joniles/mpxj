@@ -164,6 +164,12 @@ final class TaskModel
             }
          }
       }
+      
+      //
+      // Ensure the the model fields always appear in the same order
+      //
+      Arrays.sort(m_fields);
+      System.arraycopy(m_fields, m_fields.length-m_count, m_fields, 0, m_count);      
    }
 
    /**
