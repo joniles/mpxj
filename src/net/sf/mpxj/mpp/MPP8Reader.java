@@ -741,6 +741,14 @@ final class MPP8Reader implements MPPVariantReader
          }
 
          //
+         // Calculate the duration variance
+         //
+         if (task.getDuration() != null && task.getBaselineDuration() != null)
+         {
+            task.setDurationVariance(Duration.getInstance(task.getDuration().getDuration() - task.getBaselineDuration().convertUnits(task.getDuration().getUnits(), file.getProjectHeader()).getDuration(), task.getDuration().getUnits()));
+         }
+         
+         //
          // If we have a WBS value from the MPP file, don't autogenerate
          //
          if (task.getWBS() != null)

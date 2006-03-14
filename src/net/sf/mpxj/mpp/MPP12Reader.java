@@ -1614,6 +1614,14 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          //
+         // Calculate the duration variance
+         //
+         if (task.getDuration() != null && task.getBaselineDuration() != null)
+         {
+            task.setDurationVariance(Duration.getInstance(task.getDuration().getDuration() - task.getBaselineDuration().convertUnits(task.getDuration().getUnits(), file.getProjectHeader()).getDuration(), task.getDuration().getUnits()));
+         }
+                  
+         //
          // Set the calendar name
          //
          int calendarID = MPPUtility.getInt(data, 160);
@@ -1639,6 +1647,14 @@ final class MPP12Reader implements MPPVariantReader
             autoWBS = false;
          }
          
+         //
+         // If this is a split task, allocate space for the split durations
+         //
+         if ((metaData[9]&0x80) == 0)
+         {
+            task.setSplits(new LinkedList());
+         }
+                  
          file.fireTaskReadEvent(task);
 
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
@@ -2047,9 +2063,12 @@ final class MPP12Reader implements MPPVariantReader
 
          if (task != null)
          {
-            byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));
-            byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
-            processSplitData(task, completeWork, incompleteWork);
+            byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));            
+            if (task.getSplits() != null)
+            {
+               byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
+               processSplitData(task, completeWork, incompleteWork);
+            }
 
             Integer resourceID = new Integer(MPPUtility.getInt (data, 8));
             Resource resource = file.getResourceByUniqueID (resourceID);
@@ -2098,7 +2117,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param incompleteHours incomplete split data
     */
    private void processSplitData (Task task, byte[] completeHours, byte[] incompleteHours)
-   {
+   {            
       LinkedList splits = new LinkedList ();
 
       if (completeHours != null)
@@ -2129,16 +2148,24 @@ final class MPP12Reader implements MPPVariantReader
       if (incompleteHours != null)
       {
          int splitCount = MPPUtility.getShort(incompleteHours, 0);
-
+         
          //
          // Deal with the case where the final task split is partially complete
          //
-         if (splitCount == 0 && incompleteHours.length >= (44+28))
+         if (splitCount == 0)
          {
-            splitCount = 1;
+            double splitTime = MPPUtility.getInt(incompleteHours, 24);
+            splitTime /= 4800;
+            double timeOffset = 0;
+            if (splits.isEmpty() == false)
+            {
+               timeOffset = ((Duration)splits.removeLast()).getDuration();
+            }
+            splitTime += timeOffset;
+            Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
+            splits.add(splitDuration);            
          }
-
-         if (splitCount != 0)
+         else
          {
             double timeOffset = 0;
             if (splits.isEmpty() == false)
@@ -2166,9 +2193,16 @@ final class MPP12Reader implements MPPVariantReader
          }
       }
 
-      if (splits.isEmpty() == false)
+      //
+      // We must have a minimum of 3 entries for this to be a valid split task
+      //
+      if (splits.size() > 2)
       {
-         task.setSplits(splits);
+         task.getSplits().addAll(splits);
+      }
+      else
+      {
+         task.setSplits(null);
       }
    }
 

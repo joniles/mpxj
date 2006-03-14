@@ -1613,6 +1613,14 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
+         // Calculate the duration variance
+         //
+         if (task.getDuration() != null && task.getBaselineDuration() != null)
+         {
+            task.setDurationVariance(Duration.getInstance(task.getDuration().getDuration() - task.getBaselineDuration().convertUnits(task.getDuration().getUnits(), file.getProjectHeader()).getDuration(), task.getDuration().getUnits()));
+         }
+                  
+         //
          // Set the calendar name
          //
          int calendarID = MPPUtility.getInt(data, 160);
@@ -1624,7 +1632,7 @@ final class MPP9Reader implements MPPVariantReader
                task.setCalendar(calendar);
             }
          }
-
+         
          //
          // Set the sub project flag
          //
@@ -1638,9 +1646,17 @@ final class MPP9Reader implements MPPVariantReader
             autoWBS = false;
          }
          
+         //
+         // If this is a split task, allocate space for the split durations
+         //
+         if ((metaData[9]&0x80) == 0)
+         {
+            task.setSplits(new LinkedList());
+         }
+         
          file.fireTaskReadEvent(task);
 
-         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
+         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
       }
       
       //
@@ -2046,10 +2062,13 @@ final class MPP9Reader implements MPPVariantReader
 
          if (task != null)
          {
-            byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));
-            byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
-            processSplitData(task, completeWork, incompleteWork);
-
+            byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));            
+            if (task.getSplits() != null)
+            {
+               byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
+               processSplitData(task, completeWork, incompleteWork);
+            }
+            
             Integer resourceID = new Integer(MPPUtility.getInt (data, 8));
             Resource resource = file.getResourceByUniqueID (resourceID);
 
@@ -2097,7 +2116,7 @@ final class MPP9Reader implements MPPVariantReader
     * @param incompleteHours incomplete split data
     */
    private void processSplitData (Task task, byte[] completeHours, byte[] incompleteHours)
-   {
+   {            
       LinkedList splits = new LinkedList ();
 
       if (completeHours != null)
@@ -2178,7 +2197,11 @@ final class MPP9Reader implements MPPVariantReader
       //
       if (splits.size() > 2)
       {
-         task.setSplits(splits);
+         task.getSplits().addAll(splits);
+      }
+      else
+      {
+         task.setSplits(null);
       }
    }
 
@@ -2352,13 +2375,21 @@ final class MPP9Reader implements MPPVariantReader
 //      }
 //      System.out.println ();
 //   }
-//
+
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {
+//      {24, 4},   
+//      {28, 4},   
+//      {32, 4},   
 //      {36, 4},
 //      {42, 18},
+//      {116, 4},      
 //      {134, 14},
+//      {144, 4},   
+//      {148, 4},   
+//      {152, 4},   
 //      {156, 4},
+//      {248, 8},
 //   };
 
 //   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
