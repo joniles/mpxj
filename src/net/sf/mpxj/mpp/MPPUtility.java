@@ -698,6 +698,22 @@ final class MPPUtility
             break;
          }
 
+         case TimeUnit.ELAPSED_WEEKS_VALUE:
+         {
+            double unitsPerWeek = (60 * 24 * 7 * 10);
+            double totalWeeks = duration / unitsPerWeek;
+            result = Duration.getInstance(totalWeeks, timeUnit);
+            break;
+         }
+
+         case TimeUnit.ELAPSED_MONTHS_VALUE:
+         {
+            double unitsPerMonth = (60 * 24 * 29 * 10);
+            double totalMonths = duration / unitsPerMonth;
+            result = Duration.getInstance(totalMonths, timeUnit);
+            break;
+         }
+         
          default:
          {
             result = getDuration(duration, timeUnit);
