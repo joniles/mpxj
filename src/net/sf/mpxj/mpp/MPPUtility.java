@@ -277,7 +277,8 @@ final class MPPUtility
       }
       else
       {
-         result = new Date(EPOCH + (days * MS_PER_DAY));
+         TimeZone tz = TimeZone.getDefault();
+         result = new Date(EPOCH + (days * MS_PER_DAY) - tz.getRawOffset());
       }
 
       return (result);
