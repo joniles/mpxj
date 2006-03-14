@@ -317,14 +317,14 @@ public final class TimeUnit
       "h",
       "d",
       "w",
-      "m",
+      "mo",
       "y",
       "%",
       "em",
       "eh",
       "ed",
       "ew",
-      "em",
+      "emo",
       "ey",
       "e%"      
    };
