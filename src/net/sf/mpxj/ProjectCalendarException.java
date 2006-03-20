@@ -228,12 +228,7 @@ public final class ProjectCalendarException
 
       if (date != null)
       {
-         long time = date.getTime();
-
-         if (time >= getFromDate().getTime() && time <= getToDate().getTime())
-         {
-            result = true;
-         }
+         result = (DateUtility.compare(getFromDate(), getToDate(), date) == 0);
       }
 
       return (result);
