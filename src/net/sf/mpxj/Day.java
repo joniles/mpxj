@@ -49,6 +49,23 @@ public class Day
    }
 
    /**
+    * This method provides a simple mechanism to retrieve 
+    * the next day in correct sequence, including the transition
+    * from Sunday to Monday. 
+    * 
+    * @return Day instance
+    */
+   public Day getNextDay ()
+   {
+      int value = m_value + 1;
+      if (value > 7)
+      {
+         value = 1;
+      }
+      return (getInstance(value));
+   }
+   
+   /**
     * Retrieve a Day instance representing the supplied value.
     *
     * @param value task type value
