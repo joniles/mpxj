@@ -1632,6 +1632,13 @@ final class MPP9Reader implements MPPVariantReader
                task.setCalendar(calendar);
             }
          }
+                  
+         //
+         // Set the start and finish variances
+         //
+         TimeUnit format = file.getProjectHeader().getDefaultDurationUnits();
+         task.setStartVariance(MPPUtility.getVariance(task, task.getBaselineStart(), task.getStart(), format));
+         task.setFinishVariance(MPPUtility.getVariance(task, task.getBaselineFinish(), task.getFinish(), format));
          
          //
          // Set the sub project flag

@@ -749,6 +749,13 @@ final class MPP8Reader implements MPPVariantReader
          }
          
          //
+         // Set the start and finish variances
+         //
+         TimeUnit format = file.getProjectHeader().getDefaultDurationUnits();
+         task.setStartVariance(MPPUtility.getVariance(task, task.getBaselineStart(), task.getStart(), format));
+         task.setFinishVariance(MPPUtility.getVariance(task, task.getBaselineFinish(), task.getFinish(), format));
+         
+         //
          // If we have a WBS value from the MPP file, don't autogenerate
          //
          if (task.getWBS() != null)

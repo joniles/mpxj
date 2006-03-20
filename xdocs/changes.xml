@@ -10,7 +10,8 @@
 
    <release version="0.9.3" date="CVS HEAD"> 
       <action dev="joniles" type="add">Added support overallocated flag to all MPP file formats.</action>
-      <action dev="joniles" type="add">Added support for duration variance.</action>
+      <action dev="joniles" type="add">Added support for calculating duration variance from MPP files.</action>
+      <action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>
       <action dev="joniles" type="add">Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</action>
    </release>
             

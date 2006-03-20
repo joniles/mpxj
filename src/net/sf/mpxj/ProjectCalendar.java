@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
@@ -492,30 +493,14 @@ public final class ProjectCalendar extends ProjectEntity
     */
    private boolean isWorkingDate (Date date, Day day)
    {
-      boolean result = false;
-
-      //
-      // Test to see if the date is covered by an exception
-      //
-      Iterator iter = m_exceptions.iterator();
-      ProjectCalendarException exception = null;
-
-      while (iter.hasNext() == true)
+      boolean result;
+      ProjectCalendarException exception = getException(date);
+      
+      if (exception != null)
       {
-         exception = (ProjectCalendarException)iter.next();
-         if (exception.contains(date) == true)
-         {
-            result = exception.getWorking();
-            break;
-         }
-         exception = null;
+         result = exception.getWorking();         
       }
-
-      //
-      // If the date is not covered by an exception, use the
-      // normal test for working days
-      //
-      if (exception == null)
+      else
       {
          result = isWorkingDay (day);
       }
@@ -634,6 +619,457 @@ public final class ProjectCalendar extends ProjectEntity
       getParentFile().removeCalendar(this);
    }
 
+   /**
+    * Retrieve a calendar calendar exception which applies to this date.
+    * 
+    * @param date target date
+    * @return calendar exception, or null if none match this date
+    */
+   public ProjectCalendarException getException (Date date)
+   {      
+      Iterator iter = m_exceptions.iterator();
+      ProjectCalendarException exception = null;
+
+      while (iter.hasNext() == true)
+      {
+         exception = (ProjectCalendarException)iter.next();
+         if (exception.contains(date) == true)
+         {
+            break;
+         }
+         exception = null;
+      }
+      return (exception);
+   }
+   
+   /**
+    * This method retrieves a Duration instance representing the amount of
+    * work between two dates based on this calendar.
+    * 
+    * @param startDate start date
+    * @param endDate end date
+    * @param format required duration format
+    * @return amount of work
+    */
+   public Duration getWork (Date startDate, Date endDate, TimeUnit format)
+   {
+      //
+      // We want the start date to be the earliest date, and the end date 
+      // to be the latest date. Set a flag here to indicate if we have swapped
+      // the order of the supplied date.
+      //
+      boolean invert = false;
+      if (startDate.getTime() > endDate.getTime())
+      {
+         invert = true;
+         Date temp = startDate;
+         startDate = endDate;
+         endDate = temp;
+      }
+      
+      
+      Date canonicalStartDate = DateUtility.getDayStartDate(startDate);
+      Date canonicalEndDate = DateUtility.getDayStartDate(endDate);
+      long totalTime = 0;
+      
+      if (canonicalStartDate.getTime() == canonicalEndDate.getTime())
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(startDate);
+         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+
+         if (isWorkingDate(startDate, day) == true)
+         {
+            ProjectCalendarException exception = getException(startDate);
+            if (exception == null)
+            {
+               totalTime = getTotalTime(getCalendarHours(day), startDate, endDate);
+            }
+            else
+            {
+               totalTime = getTotalTime(exception, startDate, endDate);
+            }            
+         }
+      }
+      else
+      {
+         //
+         // Find the first working day in the range
+         //
+         Date currentDate = startDate;
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(startDate);
+         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         while (isWorkingDate(currentDate, day) == false && currentDate.getTime() < canonicalEndDate.getTime())
+         {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+            currentDate = cal.getTime();
+            day = day.getNextDay();
+         }
+         
+         if (currentDate.getTime() < canonicalEndDate.getTime())
+         {
+            //
+            // Calculate the amount of working time for this day
+            //
+            ProjectCalendarException exception = getException(currentDate);
+            if (exception == null)
+            {
+               totalTime += getTotalTime(getCalendarHours(day), currentDate, true);
+            }
+            else
+            {
+               totalTime += getTotalTime(exception, currentDate, true);
+            }
+            
+            //
+            // Process each workng day until we reach the last day
+            //
+            while (true)
+            {
+               cal.add(Calendar.DAY_OF_YEAR, 1);
+               currentDate = cal.getTime();
+               day = day.getNextDay();
+               
+               //
+               // We have reached the last day
+               //
+               if (currentDate.getTime() > canonicalEndDate.getTime())
+               {
+                  break;
+               }
+               
+               //
+               // Skip this day if it has no working time
+               //
+               if (isWorkingDate(currentDate, day) == false)
+               {
+                  continue;
+               }
+               
+               //
+               // Add the working time for the whole day
+               //
+               exception = getException(currentDate);
+               if (exception == null)
+               {
+                  totalTime += getTotalTime(getCalendarHours(day));
+               }
+               else
+               {
+                  totalTime += getTotalTime(exception);
+               }
+            }
+         }
+         
+         //
+         // We are now at the last day
+         //
+         if (isWorkingDate(endDate, day) == true)
+         {
+            ProjectCalendarException exception = getException(endDate);
+            if (exception == null)
+            {
+               totalTime += getTotalTime(getCalendarHours(day), endDate, false);
+            }
+            else
+            {
+               totalTime += getTotalTime(exception, endDate, false);
+            }         
+         }
+      }
+      
+      double duration = 0;
+      switch (format.getValue())
+      {
+         case TimeUnit.MINUTES_VALUE:
+         {
+            duration = totalTime;
+            duration /= (60 * 1000);
+            break;
+         }
+
+         case TimeUnit.HOURS_VALUE:
+         {
+            duration = totalTime;
+            duration /= (60 * 60 * 1000);
+            break;
+         }
+         
+         case TimeUnit.DAYS_VALUE:
+         {
+            duration = totalTime;
+            duration /= (getParentFile().getProjectHeader().getMinutesPerDay().doubleValue() * 60 * 1000);
+            break;            
+         }
+         
+         case TimeUnit.WEEKS_VALUE:
+         {
+            duration = totalTime;
+            duration /= (getParentFile().getProjectHeader().getMinutesPerWeek().doubleValue() * 60 * 1000);
+            break;            
+         }
+         
+         case TimeUnit.MONTHS_VALUE:
+         {
+            ProjectHeader header = getParentFile().getProjectHeader();
+            duration = totalTime;
+            duration /= (header.getDaysPerMonth().doubleValue() * header.getMinutesPerDay().doubleValue() * 60 * 1000);
+            break;            
+         }
+        
+         default:
+         {
+            throw new IllegalArgumentException("TimeUnit " + format + " not supported");
+         }
+      }
+      
+      if (invert == true)
+      {
+         duration = -duration;
+      }
+      
+      return (Duration.getInstance(duration, format));
+   }
+   
+   /**
+    * Retrieves the amount of time represented by a calendar exception
+    * before or after an intersection point.
+    * 
+    * @param exception calendar exception
+    * @param date intersection time
+    * @param after true to report time after intersection, false to report time before
+    * @return length of time in milliseconds
+    */
+   private long getTotalTime (ProjectCalendarException exception, Date date, boolean after)
+   {
+      long currentTime = DateUtility.getCanonicalTime(date).getTime();
+      long total = getTime(exception.getFromTime1(), exception.getToTime1(), currentTime, after);
+      total += getTime(exception.getFromTime2(), exception.getToTime2(), currentTime, after);
+      total += getTime(exception.getFromTime3(), exception.getToTime3(), currentTime, after);
+      total += getTime(exception.getFromTime4(), exception.getToTime4(), currentTime, after);
+      total += getTime(exception.getFromTime5(), exception.getToTime5(), currentTime, after);
+      return (total);
+   }
+
+   /**
+    * Retrieves the amount of working time represented by
+    * a calendar exception.
+    * 
+    * @param exception calendar exception
+    * @return length of time in milliseconds
+    */
+   private long getTotalTime (ProjectCalendarException exception)
+   {
+      long total = getTime(exception.getFromTime1(), exception.getToTime1());
+      total += getTime(exception.getFromTime2(), exception.getToTime2());
+      total += getTime(exception.getFromTime3(), exception.getToTime3());
+      total += getTime(exception.getFromTime4(), exception.getToTime4());
+      total += getTime(exception.getFromTime5(), exception.getToTime5());
+      return (total);
+   }
+   
+   /**
+    * Retrieves the amount of working time represented by a calendar exception
+    * which intersects with the supplied time range.
+    * 
+    * @param exception calendar exception
+    * @param startDate time range start
+    * @param endDate time range end
+    * @return length of time in milliseconds
+    */
+   private long getTotalTime (ProjectCalendarException exception, Date startDate, Date endDate)
+   {
+      Date start = DateUtility.getCanonicalTime(startDate);
+      Date end = DateUtility.getCanonicalTime(endDate);
+      
+      long total = getTime(DateUtility.getCanonicalTime(exception.getFromTime1()), DateUtility.getCanonicalTime(exception.getToTime1()), start, end);
+      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime2()), DateUtility.getCanonicalTime(exception.getToTime2()), start, end);
+      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime3()), DateUtility.getCanonicalTime(exception.getToTime3()), start, end);
+      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime4()), DateUtility.getCanonicalTime(exception.getToTime4()), start, end);
+      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime5()), DateUtility.getCanonicalTime(exception.getToTime5()), start, end);
+      return (total);
+   }
+   
+   /**
+    * Retrieves the amount of working time in a day before or after an
+    * intersection point.
+    * 
+    * @param hours collection of working time in a day
+    * @param date intersection time
+    * @param after true returns time after intersect, false returns time before
+    * @return length of time in milliseconds
+    */
+   private long getTotalTime (ProjectCalendarHours hours, Date date, boolean after)
+   {
+      long total = 0;
+      long currentTime = DateUtility.getCanonicalTime(date).getTime();
+      
+      Iterator iter = hours.iterator();      
+      while (iter.hasNext() == true)
+      {
+         DateRange range = (DateRange)iter.next();
+         total += getTime(range.getStartDate(), range.getEndDate(), currentTime, after);
+      }
+   
+      return (total);
+   }
+
+   /**
+    * This method calculates the total amount of working time in a single
+    * day, which intersects with the supplied time range.
+    * 
+    * @param hours collection of working hours in a day
+    * @param startDate time range start
+    * @param endDate time range end
+    * @return length of time in milliseconds
+    */
+   private long getTotalTime (ProjectCalendarHours hours, Date startDate, Date endDate)
+   {
+      long total = 0;
+      Date start = DateUtility.getCanonicalTime(startDate);
+      Date end = DateUtility.getCanonicalTime(endDate);
+      
+      Iterator iter = hours.iterator();      
+      while (iter.hasNext() == true)
+      {
+         DateRange range = (DateRange)iter.next();
+         total += getTime(start, end, DateUtility.getCanonicalTime(range.getStartDate()), DateUtility.getCanonicalTime(range.getEndDate()));
+      }
+   
+      return (total);
+   }
+   
+   /**
+    * This method calculates the total amount of working time represented by
+    * a single day of work.
+    * 
+    * @param hours collection of working hours
+    * @return length of time in milliseconds
+    */
+   private long getTotalTime (ProjectCalendarHours hours)
+   {
+      long total = 0;
+      
+      Iterator iter = hours.iterator();      
+      while (iter.hasNext() == true)
+      {
+         DateRange range = (DateRange)iter.next();
+         total += getTime(range.getStartDate(), range.getEndDate());
+      }
+   
+      return (total);
+   }
+   
+   
+   /**
+    * Calculates how much of a time range is before or after a
+    * target interesction point.
+    * 
+    * @param start time range start
+    * @param end time range end
+    * @param target target intersection point
+    * @param after true if time fater target required, false for time before
+    * @return length of time in milliseconds
+    */
+   private long getTime (Date start, Date end, long target, boolean after)
+   {
+      long total = 0;
+      if (start != null && end != null)
+      {
+         Date startTime = DateUtility.getCanonicalTime(start);
+         Date endTime = DateUtility.getCanonicalTime(end);
+         int diff = DateUtility.compare(startTime, endTime, target);
+         if (diff == 0)
+         {
+            if (after == true)
+            {
+               total = (endTime.getTime() - target);
+            }
+            else
+            {
+               total = (target - startTime.getTime());
+            }
+         }
+         else
+         {
+            if ((after == true && diff < 0) || (after == false && diff > 0))
+            {
+               total = (endTime.getTime() - startTime.getTime());           
+            }
+         }      
+      }
+      return (total);
+   }
+
+   /**
+    * Retrieves the amount of time between two date time values. Note that
+    * these values are converted into canonical values to remove the
+    * date component.
+    * 
+    * @param start start time
+    * @param end end time
+    * @return length of time
+    */
+   private long getTime (Date start, Date end)
+   {
+      long total = 0;
+      if (start != null && end != null)
+      {
+         Date startTime = DateUtility.getCanonicalTime(start);
+         Date endTime = DateUtility.getCanonicalTime(end);
+         total = (endTime.getTime() - startTime.getTime());           
+      }
+      return (total);
+   }
+   
+
+   /**
+    * This method returns the length of overlapping time between two time
+    * ranges.
+    * 
+    * @param start1 start of first range
+    * @param end1 end of first range
+    * @param start2 start start of second range
+    * @param end2 end of second range
+    * @return overlapping time in milliseconds
+    */
+   private long getTime(Date start1, Date end1, Date start2, Date end2)
+   {      
+      long total = 0;
+
+      if (start1 != null && end1 != null && start2 != null && end2 != null)
+      {
+         long start;
+         long end;
+         
+         if (start1.getTime() < start2.getTime())
+         {
+            start = start2.getTime();
+         }
+         else
+         {
+            start = start1.getTime();
+         }
+            
+         if (end1.getTime() < end2.getTime())
+         {
+            end = end1.getTime();
+         }
+         else
+         {
+            end = end2.getTime();
+         }
+         
+         if (start < end)
+         {
+            total = end - start;
+         }
+      }
+      
+      return (total);
+   }
+   
    /**
     * Unique identifier of this calendar.
     */

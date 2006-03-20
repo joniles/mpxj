@@ -1635,6 +1635,13 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          //
+         // Set the start and finish variances
+         //
+         TimeUnit format = file.getProjectHeader().getDefaultDurationUnits();
+         task.setStartVariance(MPPUtility.getVariance(task, task.getBaselineStart(), task.getStart(), format));
+         task.setFinishVariance(MPPUtility.getVariance(task, task.getBaselineFinish(), task.getFinish(), format));
+         
+         //
          // Set the sub project flag
          //
          task.setSubProject((SubProject)m_taskSubProjects.get(task.getUniqueID()));

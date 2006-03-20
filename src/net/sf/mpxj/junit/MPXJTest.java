@@ -35,8 +35,9 @@ public class MPXJTest extends TestSuite
     */
    public MPXJTest ()
    {
-      addTestSuite (SplitTaskTest.class);
       addTestSuite (BasicTest.class);
+      addTestSuite (ProjectCalendarTest.class);
+      addTestSuite (SplitTaskTest.class);      
       addTestSuite (GraphicalIndicatorTest.class);
    }
 
