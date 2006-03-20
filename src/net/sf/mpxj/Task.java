@@ -6015,6 +6015,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       set (field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public String toString()
+   {
+      return ("[Task name=" + getName() + "]");
+   }
    
    /**
     * Array of field values.
