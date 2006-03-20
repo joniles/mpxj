@@ -66,4 +66,69 @@ public final class DateUtility
       }
       return (date);
    }
+   
+   /**
+    * This method resets the date part of a date time value to
+    * a standard date (1/1/1). This is used to allow times to
+    * be compared and manipulated.
+    * 
+    * @param date date time value
+    * @return date time with date set to a standard value
+    */
+   public static Date getCanonicalTime (Date date)
+   {
+      if (date != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(date);
+         cal.set(Calendar.DAY_OF_YEAR, 1);
+         cal.set(Calendar.YEAR, 1);
+         date = cal.getTime();
+      }
+      return (date);
+   }
+   
+   /**
+    * This method compares a target date with a date range. The method will
+    * return 0 if the date is within the range, less than zero if the date
+    * is before the range starts, and greater than zero if the date is after
+    * the range ends.
+    * 
+    * @param startDate range start date
+    * @param endDate range end date
+    * @param targetDate target date
+    * @return comparison result
+    */
+   public static int compare (Date startDate, Date endDate, Date targetDate)
+   {
+      return (compare(startDate, endDate, targetDate.getTime()));
+   }
+
+   /**
+    * This method compares a target date with a date range. The method will
+    * return 0 if the date is within the range, less than zero if the date
+    * is before the range starts, and greater than zero if the date is after
+    * the range ends.
+    * 
+    * @param startDate range start date
+    * @param endDate range end date
+    * @param targetDate target date in milliseconds
+    * @return comparison result
+    */   
+   public static int compare (Date startDate, Date endDate, long targetDate)
+   {
+      int result = 0;
+      if (targetDate < startDate.getTime())
+      {
+         result = -1;
+      }
+      else
+      {
+         if (targetDate > endDate.getTime())
+         {
+            result = 1;
+         }
+      }
+      return (result);
+   }   
 }
