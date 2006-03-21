@@ -887,6 +887,11 @@ final class MPPUtility
          }         
       }
       
+      if (variance == null)
+      {
+         variance = Duration.getInstance(0, format);
+      }
+      
       return (variance);
    }
    
