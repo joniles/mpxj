@@ -10,6 +10,12 @@ package net.sf.mpxj.utility;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
+
 /**
  * Utility methods for manipulating dates.
  */
@@ -130,5 +136,42 @@ public final class DateUtility
          }
       }
       return (result);
+   }
+
+   /**
+    * This utility method calculates the difference in working
+    * time between two dates, given the context of a task.
+    * 
+    * @param task parent task
+    * @param date1 first date
+    * @param date2 second date
+    * @param format required format for the resulting duration
+    * @return difference in working time between the two dates
+    */
+   public static Duration getVariance (Task task, Date date1, Date date2, TimeUnit format)
+   {
+      Duration variance = null;
+      
+      if (date1 != null & date2 != null)
+      {
+         ProjectCalendar calendar = task.getCalendar();
+         if (calendar == null)
+         {
+            ProjectFile file = task.getParentFile();
+            calendar = file.getBaseCalendar(file.getProjectHeader().getCalendarName());
+         }
+         
+         if (calendar != null)
+         {
+            variance = calendar.getWork(date1, date2, format);
+         }         
+      }
+      
+      if (variance == null)
+      {
+         variance = Duration.getInstance(0, format);
+      }
+      
+      return (variance);
    }   
 }

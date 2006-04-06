@@ -1605,22 +1605,6 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
-         // Calculate the cost variance
-         //
-         if (task.getCost() != null && task.getBaselineCost() != null)
-         {
-            task.setCostVariance(NumberUtility.getDouble(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
-         }
-
-         //
-         // Calculate the duration variance
-         //
-         if (task.getDuration() != null && task.getBaselineDuration() != null)
-         {
-            task.setDurationVariance(Duration.getInstance(task.getDuration().getDuration() - task.getBaselineDuration().convertUnits(task.getDuration().getUnits(), file.getProjectHeader()).getDuration(), task.getDuration().getUnits()));
-         }
-                  
-         //
          // Set the calendar name
          //
          int calendarID = MPPUtility.getInt(data, 160);
@@ -1633,13 +1617,6 @@ final class MPP9Reader implements MPPVariantReader
             }
          }
                   
-         //
-         // Set the start and finish variances
-         //
-         TimeUnit format = file.getProjectHeader().getDefaultDurationUnits();
-         task.setStartVariance(MPPUtility.getVariance(task, task.getBaselineStart(), task.getStart(), format));
-         task.setFinishVariance(MPPUtility.getVariance(task, task.getBaselineFinish(), task.getFinish(), format));
-         
          //
          // Set the sub project flag
          //
@@ -1993,27 +1970,6 @@ final class MPP9Reader implements MPPVariantReader
             resource.setNotes(notes);
          }
 
-         //
-         // Calculate the cost variance
-         //
-         if (resource.getCost() != null && resource.getBaselineCost() != null)
-         {
-            resource.setCostVariance(NumberUtility.getDouble(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue()));
-         }
-
-         //
-         // Calculate the work variance
-         //
-         if (resource.getWork() != null && resource.getBaselineWork() != null)
-         {
-            resource.setWorkVariance(Duration.getInstance (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
-         }
-
-         //
-         // Set the overallocated flag
-         //
-         resource.setOverAllocated(NumberUtility.getDouble(resource.getPeakUnits()) > NumberUtility.getDouble(resource.getMaxUnits()));
-         
          //
          // Configure the resource calendar
          //

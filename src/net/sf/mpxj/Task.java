@@ -29,7 +29,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.listener.FieldListener;
 import net.sf.mpxj.utility.BooleanUtility;
+import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 
@@ -2201,7 +2203,18 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Number getCostVariance ()
    {
-      return ((Number)get(TaskField.COST_VARIANCE));
+      Number variance = (Number)get(TaskField.COST_VARIANCE);
+      if (variance == null)
+      {
+         Number cost = getCost();
+         Number baselineCost = getBaselineCost();
+         if (cost != null && baselineCost != null)
+         {
+            variance = NumberUtility.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+            set(TaskField.COST_VARIANCE, variance);
+         }         
+      }
+      return (variance);
    }
 
    /**
@@ -2241,7 +2254,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Number getCV ()
    {
-      return ((Number)get(TaskField.CV));
+      Number variance = (Number)get(TaskField.CV);
+      if (variance == null)
+      {
+         variance = new Double (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         set(TaskField.CV, variance);
+      }
+      return (variance);
    }
 
    /**
@@ -2311,7 +2330,19 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Duration getDurationVariance ()
    {
-      return ((Duration)get(TaskField.DURATION_VARIANCE));
+      Duration variance = (Duration)get(TaskField.DURATION_VARIANCE);
+      if (variance == null)
+      {
+         Duration duration = getDuration();
+         Duration baselineDuration = getBaselineDuration();
+         
+         if (duration != null && baselineDuration != null)
+         {
+            variance = Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectHeader()).getDuration(), duration.getUnits());
+            set(TaskField.DURATION_VARIANCE, variance);
+         }         
+      }
+      return (variance);
    }
 
    /**
@@ -2412,13 +2443,20 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    }
 
    /**
-    * This field will be ignored on input into MS Project.
+    * Calculate the finish variance.
     *
-    * @return String
+    * @return finish variance
     */
    public Duration getFinishVariance ()
    {
-      return ((Duration)get(TaskField.FINISH_VARIANCE));
+      Duration variance = (Duration)get(TaskField.FINISH_VARIANCE);
+      if (variance == null)
+      {
+         TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
+         variance = DateUtility.getVariance(this, getBaselineFinish(), getFinish(), format);
+         set(TaskField.FINISH_VARIANCE, variance);
+      }
+      return (variance);      
    }
 
    /**
@@ -2990,15 +3028,20 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    }
 
    /**
-    * The Start Variance field contains the amount of time that represents
-    * the difference between a tasks baseline start date and its currently
-    * scheduled start date.
-    *
-    * @return value of duration. Duration
+    * Calculate the start variance.
+    * 
+    * @return start variance
     */
    public Duration getStartVariance ()
    {
-      return ((Duration)get(TaskField.START_VARIANCE));
+      Duration variance = (Duration)get(TaskField.START_VARIANCE);
+      if (variance == null)
+      {
+         TimeUnit format = getParentFile().getProjectHeader().getDefaultDurationUnits();
+         variance = DateUtility.getVariance(this, getBaselineStart(), getStart(), format);
+         set(TaskField.START_VARIANCE, variance);
+      }
+      return (variance);
    }
 
    /**
@@ -3062,7 +3105,18 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Number getSV ()
    {
-      return ((Number)get(TaskField.SV));
+      Number variance = (Number)get(TaskField.SV);
+      if (variance == null)
+      {
+         Number bcwp = getBCWP();
+         Number bcws = getBCWS();
+         if (bcwp != null && bcws != null)
+         {
+            variance = NumberUtility.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+            set(TaskField.SV, variance);
+         }         
+      }
+      return (variance);      
    }
 
    /**
@@ -3270,7 +3324,18 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Duration getWorkVariance ()
    {
-      return ((Duration)get(TaskField.WORK_VARIANCE));
+      Duration variance = (Duration)get(TaskField.WORK_VARIANCE);
+      if (variance == null)
+      {
+         Duration work = getWork();
+         Duration baselineWork = getBaselineWork();
+         if (work != null && baselineWork != null)
+         {
+            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader()).getDuration(), work.getUnits());
+            set(TaskField.WORK_VARIANCE, variance);
+         }         
+      }
+      return (variance);
    }
 
    /**
@@ -6000,9 +6065,114 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    {
       if (field != null)
       {
-         m_array[field.getValue()] = value;
+         int index = field.getValue();
+         fireFieldChangeEvent (field, m_array[index], value);
+         m_array[index] = value;
       }
    }
+   
+   /**
+    * Handle the change in a field value. Reset any cached calculated
+    * values affected by this change, pass on the event to any external
+    * listeners.
+    * 
+    * @param field field changed
+    * @param oldValue old field value
+    * @param newValue new field value
+    */
+   private void fireFieldChangeEvent (FieldType field, Object oldValue, Object newValue)
+   {
+      //
+      // Internal event handling
+      //
+      switch (field.getValue())
+      {
+         case TaskField.START_VALUE:
+         case TaskField.BASELINE_START_VALUE:
+         {
+            m_array[TaskField.START_VARIANCE_VALUE] = null;
+            break;
+         }
+         
+         case TaskField.FINISH_VALUE:
+         case TaskField.BASELINE_FINISH_VALUE:
+         {
+            m_array[TaskField.START_VARIANCE_VALUE] = null;
+            break;
+         }   
+         
+         case TaskField.COST_VALUE:
+         case TaskField.BASELINE_COST_VALUE:
+         {
+            m_array[TaskField.COST_VARIANCE_VALUE] = null;
+            break;
+         }
+         
+         case TaskField.DURATION_VALUE:
+         case TaskField.BASELINE_DURATION_VALUE:
+         {
+            m_array[TaskField.DURATION_VARIANCE_VALUE] = null;
+            break;
+         }
+         
+         case TaskField.WORK_VALUE:
+         case TaskField.BASELINE_WORK_VALUE:
+         {
+            m_array[TaskField.WORK_VARIANCE_VALUE] = null;
+            break;
+         }
+         
+         case TaskField.BCWP_VALUE:
+         case TaskField.ACWP_VALUE:
+         {
+            m_array[TaskField.CV_VALUE] = null;
+            m_array[TaskField.SV_VALUE] = null;
+            break;
+         }
+         
+         case TaskField.BCWS_VALUE:
+         {
+            m_array[TaskField.SV_VALUE] = null;          
+            break;
+         }         
+      }
+      
+      //
+      // External event handling
+      //
+      if (m_listeners != null)
+      {
+         Iterator iter = m_listeners.iterator();
+         while (iter.hasNext() == true)
+         {
+            ((FieldListener)iter.next()).fieldChange(this, field, oldValue, newValue);
+         }
+      }
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public void addFieldListener (FieldListener listener)
+   {
+      if (m_listeners == null)
+      {
+         m_listeners = new LinkedList();
+      }
+      m_listeners.add(listener);
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public void removeFieldListener (FieldListener listener)
+   {
+      if (m_listeners != null)
+      {
+         m_listeners.remove(listener);
+      }
+   }
+
    
    /**
     * This method inserts a name value pair into internal storage.
@@ -6067,6 +6237,6 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    private boolean m_expanded = true;
    
    private List m_splits;
-   private SubProject m_subProject;
-   
+   private SubProject m_subProject;   
+   private List m_listeners;
 }

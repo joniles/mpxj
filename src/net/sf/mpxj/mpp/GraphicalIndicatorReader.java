@@ -148,7 +148,7 @@ public final class GraphicalIndicatorReader
          indicator.addProjectSummaryCriteria(processCriteria (type));
       }
                      
-      m_file.addGraphicalIndicator(type, indicator);
+      m_file.addGraphicalIndicator(type, indicator);      
    }
 
    /**
@@ -165,19 +165,21 @@ public final class GraphicalIndicatorReader
       m_dataOffset += 4;            
       criteria.setIndicator(indicatorType);
 
-      
-      int operatorValue = MPPUtility.getInt(m_data, m_dataOffset);
-      m_dataOffset += 4;            
-      TestOperator operator = (operatorValue==0?TestOperator.IS_ANY_VALUE:TestOperator.getInstance(operatorValue-0x3E7));
-      criteria.setOperator(operator);
-      
-      if (operator != TestOperator.IS_ANY_VALUE)
+      if (m_dataOffset < m_data.length)
       {
-         processOperandValue(type, criteria);
-            
-         if (operator == TestOperator.IS_WITHIN || operator == TestOperator.IS_NOT_WITHIN)
+         int operatorValue = MPPUtility.getInt(m_data, m_dataOffset);
+         m_dataOffset += 4;            
+         TestOperator operator = (operatorValue==0?TestOperator.IS_ANY_VALUE:TestOperator.getInstance(operatorValue-0x3E7));
+         criteria.setOperator(operator);
+         
+         if (operator != TestOperator.IS_ANY_VALUE)
          {
             processOperandValue(type, criteria);
+               
+            if (operator == TestOperator.IS_WITHIN || operator == TestOperator.IS_NOT_WITHIN)
+            {
+               processOperandValue(type, criteria);
+            }
          }
       }
       

@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.listener.FieldListener;
+
 
 /**
  * This interface is implemnted by the Task and Resource classes. It
@@ -47,4 +49,17 @@ public interface FieldContainer
     */
    public Object get(FieldType field);
    
+   /**
+    * Add a listener to receive field events.
+    * 
+    * @param listener target listener
+    */
+   public void addFieldListener (FieldListener listener);
+   
+   /**
+    * Remove a listener.
+    * 
+    * @param listener target listener
+    */
+   public void removeFieldListener (FieldListener listener);
 }

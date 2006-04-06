@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.listener.FieldListener;
 import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -396,7 +397,15 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getOverAllocated ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.OVERALLOCATED)));
+      Boolean overallocated = (Boolean)get(ResourceField.OVERALLOCATED);
+      if (overallocated == null)
+      {
+         Number peakUnits = getPeakUnits();
+         Number maxUnits = getMaxUnits();         
+         overallocated = Boolean.valueOf(NumberUtility.getDouble(peakUnits) > NumberUtility.getDouble(maxUnits));
+         set(ResourceField.OVERALLOCATED, overallocated);
+      }
+      return (overallocated.booleanValue());
    }
 
    /**
@@ -926,7 +935,18 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getWorkVariance ()
    {
-      return ((Duration)get(ResourceField.WORK_VARIANCE));
+      Duration variance = (Duration)get(ResourceField.WORK_VARIANCE);
+      if (variance == null)
+      {
+         Duration work = getWork();
+         Duration baselineWork = getBaselineWork();
+         if (work != null && baselineWork != null)
+         {
+            variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectHeader()).getDuration(), work.getUnits());
+            set(ResourceField.WORK_VARIANCE, variance);
+         }
+      }
+      return (variance);
    }
 
    /**
@@ -946,7 +966,18 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCostVariance ()
    {
-      return ((Number)get(ResourceField.COST_VARIANCE));
+      Number variance = (Number)get(ResourceField.COST_VARIANCE);
+      if (variance == null)
+      {
+         Number cost = getCost();
+         Number baselineCost = getBaselineCost();         
+         if (cost != null && baselineCost != null)
+         {
+            variance = NumberUtility.getDouble(cost.doubleValue() - baselineCost.doubleValue());
+            set(ResourceField.COST_VARIANCE, variance);
+         }
+      }      
+      return (variance);
    }
 
    /**
@@ -966,7 +997,18 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getSV ()
    {
-      return ((Number)get(ResourceField.SV));
+      Number variance = (Number)get(ResourceField.SV);
+      if (variance == null)
+      {
+         Number bcwp = getBCWP();
+         Number bcws = getBCWS();
+         if (bcwp != null && bcws != null)
+         {
+            variance = NumberUtility.getDouble(bcwp.doubleValue() - bcws.doubleValue());
+            set(ResourceField.SV, variance);
+         }         
+      }
+      return (variance);      
    }
 
    /**
@@ -986,7 +1028,13 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCV ()
    {
-      return ((Number)get(ResourceField.CV));
+      Number variance = (Number)get(ResourceField.CV);
+      if (variance == null)
+      {
+         variance = new Double (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         set(ResourceField.CV, variance);
+      }
+      return (variance);
    }
 
    /**
@@ -4356,7 +4404,97 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
    {
       if (field != null)
       {
-         m_array[field.getValue()] = value;
+         int index = field.getValue();
+         fireFieldChangeEvent(field, m_array[index], value);
+         m_array[index] = value;
+      }
+   }
+   
+   /**
+    * Handle the change in a field value. Reset any cached calculated
+    * values affected by this change, pass on the event to any external
+    * listeners.
+    * 
+    * @param field field changed
+    * @param oldValue old field value
+    * @param newValue new field value
+    */   
+   private void fireFieldChangeEvent (FieldType field, Object oldValue, Object newValue)
+   {
+      //
+      // Internal event handling
+      //
+      switch (field.getValue())
+      {
+         case ResourceField.COST_VALUE:
+         case ResourceField.BASELINE_COST_VALUE:
+         {
+            m_array[ResourceField.COST_VARIANCE_VALUE] = null;
+            break;
+         }
+         
+         case ResourceField.WORK_VALUE:
+         case ResourceField.BASELINE_WORK_VALUE:
+         {
+            m_array[ResourceField.WORK_VARIANCE_VALUE] = null;
+            break;
+         }         
+                  
+         case ResourceField.BCWP_VALUE:
+         case ResourceField.ACWP_VALUE:
+         {
+            m_array[ResourceField.CV_VALUE] = null;
+            m_array[ResourceField.SV_VALUE] = null;
+            break;
+         }
+         
+         case ResourceField.BCWS_VALUE:
+         {
+            m_array[ResourceField.SV_VALUE] = null;          
+            break;
+         }     
+         
+         case ResourceField.PEAK_VALUE:
+         case ResourceField.MAX_UNITS_VALUE:
+         {
+            m_array[ResourceField.OVERALLOCATED_VALUE] = null;
+            break;
+         }
+      }
+            
+      //
+      // External event handling
+      //
+      if (m_listeners != null)
+      {
+         Iterator iter = m_listeners.iterator();
+         while (iter.hasNext() == true)
+         {
+            ((FieldListener)iter.next()).fieldChange(this, field, oldValue, newValue);
+         }
+      }
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public void addFieldListener (FieldListener listener)
+   {
+      if (m_listeners == null)
+      {
+         m_listeners = new LinkedList();
+      }
+      m_listeners.add(listener);
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public void removeFieldListener (FieldListener listener)
+   {
+      if (m_listeners != null)
+      {
+         m_listeners.remove(listener);
       }
    }
    
@@ -4418,4 +4556,5 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
    private Date m_creationDate;   
    private boolean m_enterprise;
    private Integer m_subprojectResourceUniqueID;   
+   private List m_listeners;
 }
