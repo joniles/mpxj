@@ -37,6 +37,16 @@ import java.util.Locale;
 public final class Column
 {
    /**
+    * Constructor.
+    * 
+    * @param project reference to the parent project
+    */
+   public Column (ProjectFile project)
+   {
+      m_project = project;
+   }
+   
+   /**
     * Retrieves a value representing the alignment of data displayed in
     * the column.
     *
@@ -70,11 +80,9 @@ public final class Column
    }
 
    /**
-    * Retrieves the user defined column title. If the column has not had a
-    * user defined title provided for it, then the column will be headed
-    * by the default title text, and this method will return null.
+    * Retrieves the column title.
     *
-    * @return user defined column title
+    * @return column title
     */
    public String getTitle()
    {
@@ -82,12 +90,10 @@ public final class Column
    }
 
    /**
-    * Retrieves the user defined column title. If the column has not had a
-    * user defined title provided for it, then the column will be headed
-    * by the default title text, and this method will return null.
+    * Retrieves the column title for the given locale.
     *
     * @param locale required locale for the default column title
-    * @return user defined column title
+    * @return column title
     */
    public String getTitle (Locale locale)
    {
@@ -98,8 +104,20 @@ public final class Column
          result = m_title;
       }
       else
-      {
-         result = m_fieldType.getName(locale);
+      {     
+         if (m_fieldType instanceof TaskField)
+         {
+            result = m_project.getTaskFieldAlias((TaskField)m_fieldType);
+         }
+         else
+         {
+            result = m_project.getResourceFieldAlias((ResourceField)m_fieldType);
+         }
+         
+         if (result == null)
+         {
+            result = m_fieldType.getName(locale);
+         }
       }
 
       return (result);
@@ -240,4 +258,5 @@ public final class Column
    private int m_alignTitle;
    private int m_alignData;
    private String m_title;
+   private ProjectFile m_project;
 }

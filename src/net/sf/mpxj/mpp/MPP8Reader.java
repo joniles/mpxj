@@ -1275,7 +1275,7 @@ final class MPP8Reader implements MPPVariantReader
          if (extendedData != null)
          {
             columnData = fdf.getByteArray(getOffset(extendedData, 8));
-            processColumnData (table, columnData);
+            processColumnData (file, table, columnData);
          }
       }
    }
@@ -1284,11 +1284,12 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method processes the column data associated with the
     * current table.
-    *
+    * 
+    * @param file parent file
     * @param table current table
     * @param data raw column data
     */
-   private void processColumnData (Table table, byte[] data)
+   private void processColumnData (ProjectFile file, Table table, byte[] data)
    {
       int columnCount = MPPUtility.getShort(data, 4)+1;
       int index = 8;
@@ -1298,7 +1299,7 @@ final class MPP8Reader implements MPPVariantReader
 
       for (int loop=0; loop < columnCount; loop++)
       {
-         column = new Column ();
+         column = new Column (file);
 
          if (loop==0)
          {

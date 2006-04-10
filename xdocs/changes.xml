@@ -12,8 +12,9 @@
       <action dev="joniles" type="add">Added support overallocated flag to all MPP file formats.</action>
       <action dev="joniles" type="add">Added support for calculating duration variance from MPP files.</action>
       <action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>
-      <action dev="joniles" type="add">Added support for attribute change listeners for Task and Resource classes.</action>
+      <action dev="joniles" type="add">Added support for attribute change listeners for Task and Resource classes.</action>      
       <action dev="joniles" type="add">Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</action>
+      <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
    </release>
             
    <release version="0.9.2" date="07/03/2006"> 

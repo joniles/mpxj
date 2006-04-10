@@ -2244,7 +2244,7 @@ final class MPP9Reader implements MPPVariantReader
          table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
          file.addTable(table);
 
-         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
+         processColumnData (file, table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
          
          //System.out.println(table);
       }
@@ -2254,10 +2254,11 @@ final class MPP9Reader implements MPPVariantReader
     * This method processes the column data associated with the
     * current table.
     *
+    * @param file parent file
     * @param table current table
     * @param data raw column data
     */
-   private void processColumnData (Table table, byte[] data)
+   private void processColumnData (ProjectFile file, Table table, byte[] data)
    {
       if (data != null)
       {
@@ -2269,7 +2270,7 @@ final class MPP9Reader implements MPPVariantReader
 
          for (int loop=0; loop < columnCount; loop++)
          {
-            column = new Column ();
+            column = new Column (file);
 
             if (table.getResourceFlag() == false)
             {
