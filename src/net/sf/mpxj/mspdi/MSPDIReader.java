@@ -579,8 +579,7 @@ public final class MSPDIReader extends AbstractProjectReader
          mpx.setNotes(xml.getNotes());
       }
       mpx.setNtAccount(xml.getNTAccount());
-      //mpx.setObjects();
-      mpx.setOverAllocated(xml.isOverAllocated());
+      //mpx.setObjects();      
       mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
       mpx.setOvertimeRate(DatatypeConverter.parseRate(xml.getOvertimeRate()));
       mpx.setOvertimeRateFormat(DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
@@ -606,6 +605,10 @@ public final class MSPDIReader extends AbstractProjectReader
       readResourceExtendedAttributes (xml, mpx);
 
       mpx.setResourceCalendar((ProjectCalendar)calendarMap.get(xml.getCalendarUID()));
+      
+      // ensure that we cache this value
+      mpx.setOverAllocated(xml.isOverAllocated());
+      
       m_projectFile.fireResourceReadEvent(mpx);
    }
 
