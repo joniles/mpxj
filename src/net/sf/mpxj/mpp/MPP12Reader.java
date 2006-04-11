@@ -1381,7 +1381,7 @@ final class MPP12Reader implements MPPVariantReader
          //task.setExternalTask(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 8));
 //       From MS Project 2003
-//         task.setFinishSlack();
+         task.setFinishSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          //task.setFinishVariance(); // Calculated value
          task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
          task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
@@ -1415,7 +1415,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setFlag18((metaData[39] & 0x40) != 0);
          task.setFlag19((metaData[39] & 0x80) != 0);
          task.setFlag20((metaData[40] & 0x01) != 0);
-         //task.setFreeSlack();  // Calculated value
+         task.setFreeSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
 //       From MS Project 2003
 //         task.setGroupBySummary();
          task.setHideBar((metaData[10] & 0x80) != 0);
@@ -1497,7 +1497,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setRollup((metaData[10] & 0x08) != 0);
 //       From MS Project 2003
 //         task.setSPI();
-         task.setStart (MPPUtility.getTimestamp (data, 88));
+         task.setStartSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
 //       From MS Project 2003
 //         task.setStartSlack();
          //task.setStartVariance(); // Calculated value

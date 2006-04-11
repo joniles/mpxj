@@ -3237,7 +3237,50 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Duration getTotalSlack ()
    {
-      return ((Duration)get(TaskField.TOTAL_SLACK));
+      Duration totalSlack = (Duration)get(TaskField.TOTAL_SLACK);
+      if (totalSlack == null)
+      {
+         TimeUnit units = getDuration().getUnits();
+         
+         Duration startSlack = getStartSlack();
+         if (startSlack == null)
+         {
+            startSlack = Duration.getInstance(0, units);
+         }
+         else
+         {
+            if (startSlack.getUnits() != units)
+            {                        
+               startSlack = startSlack.convertUnits(units, getParentFile().getProjectHeader());
+            }
+         }
+         
+         Duration finishSlack = getFinishSlack();
+         if (finishSlack == null)
+         {
+            finishSlack = Duration.getInstance(0, units);
+         }
+         else
+         {
+            if (finishSlack.getUnits() != units)
+            {                        
+               finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectHeader());
+            }
+         }
+         
+         if (finishSlack.getDuration() < startSlack.getDuration())
+         {
+            totalSlack = finishSlack;
+         }
+         else
+         {
+            totalSlack = startSlack;
+         } 
+         
+         set(TaskField.TOTAL_SLACK, totalSlack);
+      }
+      
+      return (totalSlack);      
    }
 
    /**
@@ -5968,7 +6011,47 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       m_expanded = expanded;
    }
 
+   /**
+    * Set the start slack.
+    * 
+    * @param duration start slack
+    */
+   public void setStartSlack (Duration duration)
+   {
+      set(TaskField.START_SLACK, duration);
+   }
 
+   /**
+    * Set the finish slack.
+    * 
+    * @param duration finish slack
+    */
+   public void setFinishSlack (Duration duration)
+   {
+      set(TaskField.FINISH_SLACK, duration);
+   }
+   
+   /**
+    * Retrieve the start slack.
+    * 
+    * @return start slack
+    */
+   public Duration getStartSlack ()
+   {
+      return ((Duration)get(TaskField.START_SLACK));
+   }
+
+   /**
+    * Retrieve the finish slack.
+    * 
+    * @return finish slack
+    */
+   public Duration getFinishSlack ()
+   {
+      return ((Duration)get(TaskField.FINISH_SLACK));
+   }
+   
+   
    /**
     * Retrieve the value of a field using its alias.
     *
@@ -6135,6 +6218,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
             m_array[TaskField.SV_VALUE] = null;          
             break;
          }         
+         
+         case TaskField.START_SLACK_VALUE:
+         case TaskField.FINISH_SLACK_VALUE:
+         {
+            m_array[TaskField.TOTAL_SLACK_VALUE] = null;
+            break;
+         }
       }
       
       //

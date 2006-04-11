@@ -1380,7 +1380,7 @@ final class MPP9Reader implements MPPVariantReader
          //task.setExternalTask(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 8));
 //       From MS Project 2003
-//         task.setFinishSlack();
+         task.setFinishSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          //task.setFinishVariance(); // Calculated value
          task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
          task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
@@ -1414,7 +1414,7 @@ final class MPP9Reader implements MPPVariantReader
          task.setFlag18((metaData[39] & 0x40) != 0);
          task.setFlag19((metaData[39] & 0x80) != 0);
          task.setFlag20((metaData[40] & 0x01) != 0);
-         //task.setFreeSlack();  // Calculated value
+         task.setFreeSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
 //       From MS Project 2003
 //         task.setGroupBySummary();
          task.setHideBar((metaData[10] & 0x80) != 0);
@@ -1498,7 +1498,7 @@ final class MPP9Reader implements MPPVariantReader
 //         task.setSPI();
          task.setStart (MPPUtility.getTimestamp (data, 88));
 //       From MS Project 2003
-//         task.setStartSlack();
+         task.setStartSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          //task.setStartVariance(); // Calculated value
          task.setStart1(taskVarData.getTimestamp (id, TASK_START1));
          task.setStart2(taskVarData.getTimestamp (id, TASK_START2));
@@ -2342,9 +2342,6 @@ final class MPP9Reader implements MPPVariantReader
 
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {
-//      {24, 4},   
-//      {28, 4},   
-//      {32, 4},   
 //      {36, 4},
 //      {42, 18},
 //      {116, 4},      

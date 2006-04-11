@@ -817,8 +817,7 @@ public final class MSPDIReader extends AbstractProjectReader
       //mpx.setText7();
       //mpx.setText8();
       //mpx.setText9();
-      //mpx.setText10();
-      mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
+      //mpx.setText10();      
       mpx.setType(xml.getType());
       mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
       //mpx.setUpdateNeeded();
@@ -827,6 +826,9 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getWork()));
       mpx.setWorkVariance(Duration.getInstance (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
 
+      // read last to ensure correct caching
+      mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
+      
       readTaskExtendedAttributes(xml, mpx);
 
       m_projectFile.fireTaskReadEvent(mpx);
