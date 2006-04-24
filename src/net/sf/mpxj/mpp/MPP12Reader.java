@@ -251,7 +251,8 @@ final class MPP12Reader implements MPPVariantReader
             //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
             //System.out.println (offset);
 
-            switch (itemHeader[16])
+            byte subProjectType = itemHeader[16];            
+            switch (subProjectType)
             {
                //
                // Project name or file name strings, repeated twice
@@ -291,6 +292,7 @@ final class MPP12Reader implements MPPVariantReader
                // task unique ID, path, unknown, file name
                //
                case (byte)0x81:
+               case 0x41:                  
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
