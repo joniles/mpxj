@@ -9,7 +9,7 @@
     <logo>/images/logo.jpg</logo>
   </organization>
   <inceptionYear>2000</inceptionYear>
-  <package>com.tapsterrock</package>
+  <package>net.sf.mpxj</package>
   <logo></logo>
   <shortDescription>Microsoft Project Exchange For Java</shortDescription>
 
