@@ -1738,7 +1738,7 @@ final class MPP12Reader implements MPPVariantReader
                         rel = task2.addPredecessor(task1);
                         rel.setType (RelationType.getInstance(MPPUtility.getShort(data, 12)));
                         durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
-                        rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 16), durationUnits));
+                        rel.setDuration(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt (data, 16), durationUnits));
                      }
                   }
                }

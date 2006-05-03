@@ -408,7 +408,12 @@ final class MPP9Reader implements MPPVariantReader
 
       if (uniqueIDOffset != -1)
       {
-         sp.setUniqueID(new Integer(MPPUtility.getInt(data, uniqueIDOffset)));
+         int value = MPPUtility.getInt(data, uniqueIDOffset);
+         if (value < 1000)
+         {
+            value = 0x01000000 + ((value-1) * 0x00400000);
+         }
+         sp.setUniqueID(new Integer(value));        
       }
 
       //
@@ -1736,7 +1741,7 @@ final class MPP9Reader implements MPPVariantReader
                         rel = task2.addPredecessor(task1);
                         rel.setType (RelationType.getInstance(MPPUtility.getShort(data, 12)));
                         durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
-                        rel.setDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 16), durationUnits));
+                        rel.setDuration(MPPUtility.getAdjustedDuration(file, MPPUtility.getInt (data, 16), durationUnits));
                      }
                   }
                }
