@@ -105,7 +105,8 @@ public final class MPXReader extends AbstractProjectReader
          m_resourceModel.setLocale(m_locale);
          m_baseOutlineLevel = -1;
          m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
-
+         m_projectFile.setAutoCalendarUniqueID(true);
+         
          bis.reset();
 
          //
@@ -168,6 +169,8 @@ public final class MPXReader extends AbstractProjectReader
          //
          m_projectFile.updateUniqueCounters();
 
+         m_projectFile.setAutoCalendarUniqueID(false);
+         
          return (m_projectFile);
       }
 
