@@ -23,10 +23,10 @@
 
   <repository>
     <connection>
-      scm:cvs:pserver:anonymous@cvs.sf.net:/cvsroot/mpxj:src
+      scm:cvs:pserver:anonymous@mpxj.cvs.sf.net:/cvsroot/mpxj:src
     </connection>
     <url>
-      http://cvs.sourceforge.net/viewcvs.py/mpxj/
+      http://mpxj.cvs.sourceforge.net/mpxj/
     </url>
   </repository>
 
