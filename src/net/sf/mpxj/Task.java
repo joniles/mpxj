@@ -3240,7 +3240,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       Duration totalSlack = (Duration)get(TaskField.TOTAL_SLACK);
       if (totalSlack == null)
       {
-         TimeUnit units = getDuration().getUnits();
+         Duration duration = getDuration();
+         if (duration == null)
+         {
+            duration = Duration.getInstance(0, TimeUnit.DAYS);
+         }
+         
+         TimeUnit units = duration.getUnits();
          
          Duration startSlack = getStartSlack();
          if (startSlack == null)
