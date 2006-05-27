@@ -142,6 +142,25 @@ class Props extends MPPComponent
    }
 
    /**
+    * Retrieves a timestamp from the property data.
+    *
+    * @param type Type identifier
+    * @return timestamp
+    */   
+   public Date getTimestamp (Integer type)
+   {
+      Date result = null;
+
+      byte[] item = (byte[])m_map.get (type);
+      if (item != null)
+      {
+         result = MPPUtility.getTimestamp(item);
+      }
+
+      return (result);
+   }
+   
+   /**
     * Retrieves a boolean value from the property data.
     *
     * @param type Type identifier
@@ -206,7 +225,9 @@ class Props extends MPPComponent
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
    public static final Integer PASSWORD_FLAG = new Integer (893386752);
-
+   
+   public static final Integer STATUS_DATE = new Integer(37748805);
+   
    public static final Integer SUBPROJECT_COUNT = new Integer(37748868);
    public static final Integer SUBPROJECT_DATA = new Integer(37748898);
    public static final Integer SUBPROJECT_TASK_COUNT = new Integer(37748900);

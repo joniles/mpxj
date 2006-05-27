@@ -169,7 +169,8 @@ final class MPP9Reader implements MPPVariantReader
       ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
-
+      ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));
+      
       //ph.setDefaultDurationIsFixed();
       ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
       ph.setMinutesPerDay(new Integer(props.getInt(Props.MINUTES_PER_DAY)));
