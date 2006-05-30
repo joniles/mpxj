@@ -20,6 +20,7 @@
       <action dev="joniles" type="fix">Fixed incorrect calculation of lag times for some MPP files.</action>
       <action dev="joniles" type="fix">Fixed missing predecessor tasks in certain rare MPP9 files.</action>
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
+      <action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
    </release>
             
    <release version="0.9.2" date="07/03/2006"> 

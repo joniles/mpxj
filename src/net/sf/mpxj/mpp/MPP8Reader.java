@@ -461,10 +461,10 @@ final class MPP8Reader implements MPPVariantReader
          // This appears to be a set of flags rather than a single value.
          // The data I have seen to date shows deleted tasks having values of
          // 0x0001 and 0x0002. Valid tasks have had values of 0x0000, 0x0914,
-         // 0x0040 and 0x004A.
+         // 0x0040, 0x004A and 0x0031
          //
          deleted = MPPUtility.getShort(data, 272);
-         if ((deleted & 0xC0) == 0 && (deleted & 0x03) != 0)
+         if ((deleted & 0xC0) == 0 && (deleted & 0x03) != 0 && deleted != 0x0031)
          {
             continue;
          }
