@@ -18,6 +18,7 @@
       <action dev="joniles" type="add">Added support for the status date property of the project.</action>            
       <action dev="joniles" type="fix">Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</action>
       <action dev="joniles" type="fix">Fixed incorrect calculation of lag times for some MPP files.</action>
+      <action dev="joniles" type="fix">Fixed missing predecessor tasks in certain rare MPP9 files.</action>
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
    </release>
             

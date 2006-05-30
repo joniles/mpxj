@@ -1699,7 +1699,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
       FixedMeta consFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedMeta"))), 10);
-      FixedData consFixedData = new FixedData (20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
+      FixedData consFixedData = new FixedData (consFixedMeta, 20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
 
       int count = consFixedMeta.getItemCount();
       int index;

@@ -101,6 +101,59 @@ final class FixedData extends MPPComponent
    }
 
    /**
+    * This constructor does the same job as the one above, but assumes that
+    * the item size reported in the meta information is wrong, and
+    * instead uses the supplied item size.
+    * 
+    * @param meta meta data about the contents of this fixed data block
+    * @param itemSize expected item size
+    * @param is input stream from which the data is read
+    * @throws IOException
+    */
+   FixedData (FixedMeta meta, int itemSize, InputStream is)
+      throws IOException
+   {
+      byte[] buffer = new byte[is.available()];
+      is.read(buffer);
+   
+      int itemCount = meta.getItemCount();
+      m_array = new Object[itemCount];
+      m_offset = new int[itemCount];
+   
+      byte[] metaData;
+      int itemOffset;
+      int available;
+   
+      for (int loop=0; loop < itemCount; loop++)
+      {
+         metaData = meta.getByteArrayValue(loop);
+         itemOffset = MPPUtility.getInt(metaData, 4);
+   
+         if (itemOffset > buffer.length)
+         {
+            continue;
+         }
+   
+         available = buffer.length - itemOffset;
+   
+         if (itemSize < 0)
+         {
+            itemSize = available;
+         }
+         else
+         {
+            if (itemSize > available)
+            {
+               itemSize = available;
+            }
+         }
+   
+         m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
+         m_offset[loop] = itemOffset;
+      }
+   }
+   
+   /**
     * This constructor is provided to allow the contents of a fixed data
     * block to be read when the size of the items in the data block is
     * fixed and known in advance. This is used in one particular instance
