@@ -109,35 +109,58 @@ public final class SubProject
    }
 
    /**
+    * Retrieves the offset applied to task unique IDs
+    * from the sub project.
+    *
+    * @return unique ID offset
+    */
+   public Integer getUniqueIDOffset()
+   {
+      return (m_uniqueIDOffset);
+   }
+
+   /**
+    * Set the the offset applied to task unique IDs
+    * from the sub project.
+    *
+    * @param uniqueIDOffset unique ID offset
+    */
+   public void setUniqueIDOffset (Integer uniqueIDOffset)
+   {
+      m_uniqueIDOffset = uniqueIDOffset;
+   }
+
+   /**
     * Retrieve the unique ID of the task to which this subproject
     * relates.
     *
     * @return task Unique ID
     */
-   public Integer getUniqueID()
+   public Integer getTaskUniqueID()
    {
-      return (m_uniqueID);
+      return (m_taskUniqueID);
    }
 
    /**
-    * Set the unique ID.
+    * Set the unique ID of the task to which this subproject relates.
     *
-    * @param uniqueID unique ID
+    * @param taskUniqueID task unique ID
     */
-   public void setUniqueID (Integer uniqueID)
+   public void setTaskUniqueID (Integer taskUniqueID)
    {
-      m_uniqueID = uniqueID;
+      m_taskUniqueID = taskUniqueID;
    }
-
+   
    /**
     * {@inheritDoc}
     */
    public String toString ()
    {
-      return ("[SubProject uniqueID=" + m_uniqueID + " path="+m_fullPath+"]");
+      return ("[SubProject uniqueIDOffset=" + m_uniqueIDOffset + " path="+m_fullPath+"]");
    }
 
-   private Integer m_uniqueID;
+   private Integer m_taskUniqueID;
+   private Integer m_uniqueIDOffset;
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

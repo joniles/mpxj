@@ -287,7 +287,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
-                  m_taskSubProjects.put(sp.getUniqueID(), sp);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                   break;
                }
 
@@ -312,7 +312,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
-                  m_taskSubProjects.put(sp.getUniqueID(), sp);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                   break;
                }
 
@@ -332,7 +332,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
-                  m_taskSubProjects.put(sp.getUniqueID(), sp);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                   break;
                }
 
@@ -410,11 +410,13 @@ final class MPP9Reader implements MPPVariantReader
       if (uniqueIDOffset != -1)
       {
          int value = MPPUtility.getInt(data, uniqueIDOffset);
+         sp.setTaskUniqueID(new Integer(value));
+         
          if (value < 1000)
          {
             value = 0x01000000 + ((value-1) * 0x00400000);
          }
-         sp.setUniqueID(new Integer(value));        
+         sp.setUniqueIDOffset(new Integer(value));        
       }
 
       //
