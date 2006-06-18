@@ -25,6 +25,7 @@
 package net.sf.mpxj.utility;
 
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -119,6 +120,25 @@ public final class MPXJDateFormat extends DateFormat
       return (m_format.format(date, toAppendTo, fieldPosition));
    }
 
+   /**
+    * Allows the AM/PM text to be set.
+    * 
+    * @param am AM text
+    * @param pm PM text
+    */
+   public void setAmPmText (String am, String pm)
+   {
+      String [] symbolData = new String[]{am,pm};
+      
+      DateFormatSymbols symbols = m_format.getDateFormatSymbols();
+      symbols.setAmPmStrings(symbolData);
+      m_format.setDateFormatSymbols(symbols);
+      
+      symbols = m_alternativeFormat.getDateFormatSymbols();
+      symbols.setAmPmStrings(symbolData);
+      m_alternativeFormat.setDateFormatSymbols(symbols);      
+   }
+   
    /**
     * Internal SimpleDateFormat object used to carry out the formatting work.
     * Note that we force the locale to English at this point. This is done

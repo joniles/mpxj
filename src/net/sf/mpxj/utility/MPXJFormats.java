@@ -624,6 +624,9 @@ public final class MPXJFormats
       m_dateTimeFormat.setLocale(m_locale, m_nullText);
       m_dateFormat.setLocale(m_locale, m_nullText);
       m_timeFormat.setNullText(m_nullText);
+      
+      m_dateTimeFormat.setAmPmText(header.getAMText(), header.getPMText());
+      m_timeFormat.setAmPmText(header.getAMText(), header.getPMText());
    }
 
    /**

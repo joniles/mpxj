@@ -327,7 +327,7 @@ public final class LocaleData_it extends ListResourceBundle
 
 
       {LocaleData.DATE_ORDER, DateOrder.DMY},
-      {LocaleData.TIME_FORMAT, ProjectTimeFormat.TWELVE_HOUR},
+      {LocaleData.TIME_FORMAT, ProjectTimeFormat.TWENTY_FOUR_HOUR},
       {LocaleData.DATE_SEPARATOR, "/"},
       {LocaleData.TIME_SEPARATOR, ":"},
       {LocaleData.AM_TEXT, ""},

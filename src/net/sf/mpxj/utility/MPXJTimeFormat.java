@@ -24,6 +24,7 @@
 
 package net.sf.mpxj.utility;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,5 +74,18 @@ public final class MPXJTimeFormat extends SimpleDateFormat
       return (result);
    }
 
+   /**
+    * Allows the AM/PM text to be set.
+    * 
+    * @param am AM text
+    * @param pm PM text
+    */
+   public void setAmPmText (String am, String pm)
+   {
+      DateFormatSymbols symbols = getDateFormatSymbols();
+      symbols.setAmPmStrings(new String[]{am,pm});
+      setDateFormatSymbols(symbols);      
+   }
+   
    private String m_null = "NA";
 }
