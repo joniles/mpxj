@@ -735,6 +735,7 @@ public final class MSPDIReader extends AbstractProjectReader
       //mpx.setFlag8();
       //mpx.setFlag9();
       //mpx.setFlag10();
+      // This is not correct?
       mpx.setFreeSlack(DatatypeConverter.parseDurationInMinutes(xml.getFreeSlack()));
       mpx.setHideBar(xml.isHideBar());
       mpx.setHyperlink(xml.getHyperlink());

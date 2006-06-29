@@ -22,6 +22,7 @@
       <action dev="joniles" type="fix">Fixed incorrect MPX file AM/PM text setting in certain locales.</action>
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
       <action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
+      <action dev="joniles" type="update">Updated to significantly improve the performance of writing MSPDI files.</action>
    </release>
             
    <release version="0.9.2" date="07/03/2006"> 

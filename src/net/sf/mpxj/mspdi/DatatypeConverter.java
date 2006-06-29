@@ -980,8 +980,7 @@ public final class DatatypeConverter
       {
          TimeUnit durationType = duration.getUnits();
 
-         if (writer.getMicrosoftProjectCompatibleOutput() == false ||
-             durationType.getValue() == TimeUnit.HOURS_VALUE ||
+         if (durationType.getValue() == TimeUnit.HOURS_VALUE ||
              durationType.getValue() == TimeUnit.ELAPSED_HOURS_VALUE)
          {
             result = new XsdDuration(duration).toString();
@@ -1467,6 +1466,103 @@ public final class DatatypeConverter
    }
 
    /**
+    * Print a boolean.
+    *
+    * @param value boolean
+    * @return boolean value
+    */
+   public static final String printBoolean (boolean value)
+   {
+      return (value?"1":"0");
+   }
+
+   /**
+    * Parse a boolean.
+    *
+    * @param value boolean
+    * @return Boolean value
+    */
+   public static final boolean parseBoolean (String value)
+   {
+      return (value==null||value.charAt(0)!='1'?false:true);
+   }
+
+   /**
+    * Print a time value.
+    *
+    * @param value time value
+    * @return time value
+    */
+   public static final String printTime (Calendar value)
+   {
+      return (value==null?null:getTimeFormat().format(value.getTime()));
+   }
+
+   /**
+    * Parse a time value.
+    *
+    * @param value time value
+    * @return time value
+    */
+   public static final Calendar parseTime (String value)
+   {     
+      Calendar cal = null;
+      if (value!=null&&value.length()!=0)
+      {
+         cal = Calendar.getInstance();
+         try
+         {
+            cal.setTime(getTimeFormat().parse(value));
+         }
+         
+         catch (ParseException ex)
+         {
+            cal = null;
+         }
+      }
+      return (cal);
+   }
+
+   /**
+    * Print a date time value.
+    *
+    * @param value date time value
+    * @return string representation
+    */
+   public static final String printDateTime (Calendar value)
+   {
+      return (value==null?null:getDateFormat().format(value.getTime()));
+   }
+
+   /**
+    * Parse a date time value.
+    *
+    * @param value string representation
+    * @return date time value
+    */
+   public static final Calendar parseDateTime (String value)
+   {
+      Calendar result = null;
+
+      if (value != null && value.length() != 0)
+      {
+         try
+         {
+            result= Calendar.getInstance();
+            result.setTime(getDateFormat().parse(value));
+         }
+   
+         catch (ParseException ex)
+         {
+            result = null;
+         }
+      }
+      
+      return (result);
+
+   }
+   
+   /**
     * This method is called to set the parent file for the current
     * write operation. This allows task and resource write events
     * to be captured and passed to any file listeners.
@@ -1511,7 +1607,25 @@ public final class DatatypeConverter
 
    }
 
+   /**
+    * Retrieve a time formatter.
+    *
+    * @return DateFormat instance
+    */   
+   private static final DateFormat getTimeFormat ()
+   {
+      DateFormat df = (DateFormat)TIME_FORMAT.get();
+      if (df == null)
+      {
+         df = new SimpleDateFormat("HH:mm:ss");
+         df.setLenient(false);
+      }
+      return (df);
+
+   }
+
    private static final ThreadLocal DATE_FORMAT = new ThreadLocal ();
+   private static final ThreadLocal TIME_FORMAT = new ThreadLocal ();
    private static final ThreadLocal NUMBER_FORMAT = new ThreadLocal ();
    private static final String ZERO_DURATION = "PT0H0M0S";
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
