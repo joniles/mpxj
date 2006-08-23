@@ -165,7 +165,7 @@ public final class GraphicalIndicatorReader
       m_dataOffset += 4;            
       criteria.setIndicator(indicatorType);
 
-      if (m_dataOffset < m_data.length)
+      if (m_dataOffset+4 < m_data.length)
       {
          int operatorValue = MPPUtility.getInt(m_data, m_dataOffset);
          m_dataOffset += 4;            
