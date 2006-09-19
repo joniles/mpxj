@@ -140,7 +140,8 @@ final class MPP12Reader implements MPPVariantReader
       projectDir = (DirectoryEntry)root.getEntry ("   212");
       processViewPropertyData(projectDir);
       processTableData (file, projectDir);
-      processViewData (file, projectDir);
+      // Not correct for MPP12
+      //processViewData (file, projectDir);
    }
 
    /**
@@ -923,7 +924,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
 
-      MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
+      //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
       VarMeta calVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
@@ -1228,6 +1229,7 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))));
       //System.out.println(taskFixedData);
+      //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
 
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
@@ -1473,9 +1475,9 @@ final class MPP12Reader implements MPPVariantReader
          task.setRollup((metaData[10] & 0x08) != 0);
 //       From MS Project 2003
 //         task.setSPI();
-         task.setStartSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         task.setStart (MPPUtility.getTimestamp (data, 88));
 //       From MS Project 2003
-//         task.setStartSlack();
+         task.setStartSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          //task.setStartVariance(); // Calculated value
          task.setStart1(taskVarData.getTimestamp (id, TASK_START1));
          task.setStart2(taskVarData.getTimestamp (id, TASK_START2));
@@ -2341,6 +2343,143 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Task data types.
     */
+
+   //
+   // MPP12 verified
+   //
+   private static final Integer TASK_NAME = new Integer (14);
+
+   private static final Integer TASK_NUMBER1 = new Integer (87);
+   private static final Integer TASK_NUMBER2 = new Integer (88);
+   private static final Integer TASK_NUMBER3 = new Integer (89);
+   private static final Integer TASK_NUMBER4 = new Integer (90);
+   private static final Integer TASK_NUMBER5 = new Integer (91);
+   
+   private static final Integer TASK_COST1 = new Integer (106);
+   private static final Integer TASK_COST2 = new Integer (107);
+   private static final Integer TASK_COST3 = new Integer (108);   
+   
+   private static final Integer TASK_CONTACT = new Integer (112);
+   
+   private static final Integer TASK_COST4 = new Integer (258);
+   private static final Integer TASK_COST5 = new Integer (259);
+   private static final Integer TASK_COST6 = new Integer (260);
+   private static final Integer TASK_COST7 = new Integer (261);
+   private static final Integer TASK_COST8 = new Integer (262);
+   private static final Integer TASK_COST9 = new Integer (263);
+   private static final Integer TASK_COST10 = new Integer (264);
+
+   private static final Integer TASK_DATE1 = new Integer (265);
+   private static final Integer TASK_DATE2 = new Integer (266);
+   private static final Integer TASK_DATE3 = new Integer (267);
+   private static final Integer TASK_DATE4 = new Integer (268);
+   private static final Integer TASK_DATE5 = new Integer (269);
+   private static final Integer TASK_DATE6 = new Integer (270);
+   private static final Integer TASK_DATE7 = new Integer (271);
+   private static final Integer TASK_DATE8 = new Integer (272);
+   private static final Integer TASK_DATE9 = new Integer (273);
+   private static final Integer TASK_DATE10 = new Integer (274);
+
+   private static final Integer TASK_NUMBER6 = new Integer (302);
+   private static final Integer TASK_NUMBER7 = new Integer (303);
+   private static final Integer TASK_NUMBER8 = new Integer (304);
+   private static final Integer TASK_NUMBER9 = new Integer (305);
+   private static final Integer TASK_NUMBER10 = new Integer (306);
+   
+   
+   private static final Integer TASK_DURATION1 = new Integer (103);
+   private static final Integer TASK_DURATION1_UNITS = new Integer (183);
+   private static final Integer TASK_DURATION2 = new Integer (104);
+   private static final Integer TASK_DURATION2_UNITS = new Integer (184);
+   private static final Integer TASK_DURATION3 = new Integer (105);
+   private static final Integer TASK_DURATION3_UNITS = new Integer (185);
+   private static final Integer TASK_DURATION4 = new Integer (275);
+   private static final Integer TASK_DURATION4_UNITS = new Integer (337);
+   private static final Integer TASK_DURATION5 = new Integer (276);
+   private static final Integer TASK_DURATION5_UNITS = new Integer (187);
+   private static final Integer TASK_DURATION6 = new Integer (277);
+   private static final Integer TASK_DURATION6_UNITS = new Integer (188);
+   private static final Integer TASK_DURATION7 = new Integer (278);
+   private static final Integer TASK_DURATION7_UNITS = new Integer (189);
+   private static final Integer TASK_DURATION8 = new Integer (279);
+   private static final Integer TASK_DURATION8_UNITS = new Integer (190);
+   private static final Integer TASK_DURATION9 = new Integer (280);
+   private static final Integer TASK_DURATION9_UNITS = new Integer (191);
+   private static final Integer TASK_DURATION10 = new Integer (281);
+   private static final Integer TASK_DURATION10_UNITS = new Integer (192);
+
+
+   private static final Integer TASK_START1 = new Integer (52);
+   private static final Integer TASK_FINISH1 = new Integer (53);
+   private static final Integer TASK_START2 = new Integer (55);
+   private static final Integer TASK_FINISH2 = new Integer (56);
+   private static final Integer TASK_START3 = new Integer (58);
+   private static final Integer TASK_FINISH3 = new Integer (59);
+   private static final Integer TASK_START4 = new Integer (61);
+   private static final Integer TASK_FINISH4 = new Integer (62);
+   private static final Integer TASK_START5 = new Integer (64);
+   private static final Integer TASK_FINISH5 = new Integer (65);
+   private static final Integer TASK_START6 = new Integer (282);
+   private static final Integer TASK_FINISH6 = new Integer (283);
+   private static final Integer TASK_START7 = new Integer (284);
+   private static final Integer TASK_FINISH7 = new Integer (285);
+   private static final Integer TASK_START8 = new Integer (286);
+   private static final Integer TASK_FINISH8 = new Integer (287);
+   private static final Integer TASK_START9 = new Integer (288);
+   private static final Integer TASK_FINISH9 = new Integer (289);
+   private static final Integer TASK_START10 = new Integer (290);
+   private static final Integer TASK_FINISH10 = new Integer (291);
+
+   private static final Integer TASK_HYPERLINK = new Integer (215);
+   
+   private static final Integer TASK_NOTES = new Integer (15);
+
+   private static final Integer TASK_NUMBER11 = new Integer (307);
+   private static final Integer TASK_NUMBER12 = new Integer (308);
+   private static final Integer TASK_NUMBER13 = new Integer (309);
+   private static final Integer TASK_NUMBER14 = new Integer (310);
+   private static final Integer TASK_NUMBER15 = new Integer (311);
+   private static final Integer TASK_NUMBER16 = new Integer (312);
+   private static final Integer TASK_NUMBER17 = new Integer (313);
+   private static final Integer TASK_NUMBER18 = new Integer (314);
+   private static final Integer TASK_NUMBER19 = new Integer (315);
+   private static final Integer TASK_NUMBER20 = new Integer (316);
+
+   private static final Integer TASK_TEXT1 = new Integer (51);
+   private static final Integer TASK_TEXT2 = new Integer (54);
+   private static final Integer TASK_TEXT3 = new Integer (57);
+   private static final Integer TASK_TEXT4 = new Integer (60);
+   private static final Integer TASK_TEXT5 = new Integer (63);
+   private static final Integer TASK_TEXT6 = new Integer (66);
+   private static final Integer TASK_TEXT7 = new Integer (67);
+   private static final Integer TASK_TEXT8 = new Integer (68);
+   private static final Integer TASK_TEXT9 = new Integer (69);
+   private static final Integer TASK_TEXT10 = new Integer (70);
+
+   private static final Integer TASK_TEXT11 = new Integer (317);
+   private static final Integer TASK_TEXT12 = new Integer (318);
+   private static final Integer TASK_TEXT13 = new Integer (319);
+   private static final Integer TASK_TEXT14 = new Integer (320);
+   private static final Integer TASK_TEXT15 = new Integer (321);
+   private static final Integer TASK_TEXT16 = new Integer (322);
+   private static final Integer TASK_TEXT17 = new Integer (323);
+   private static final Integer TASK_TEXT18 = new Integer (324);
+   private static final Integer TASK_TEXT19 = new Integer (325);
+   private static final Integer TASK_TEXT20 = new Integer (326);
+   private static final Integer TASK_TEXT21 = new Integer (327);
+   private static final Integer TASK_TEXT22 = new Integer (328);
+   private static final Integer TASK_TEXT23 = new Integer (329);
+   private static final Integer TASK_TEXT24 = new Integer (330);
+   private static final Integer TASK_TEXT25 = new Integer (331);
+   private static final Integer TASK_TEXT26 = new Integer (332);
+   private static final Integer TASK_TEXT27 = new Integer (333);
+   private static final Integer TASK_TEXT28 = new Integer (334);
+   private static final Integer TASK_TEXT29 = new Integer (335);
+   private static final Integer TASK_TEXT30 = new Integer (336);
+
+   //
+   // Unverified
+   //
    private static final Integer TASK_ACTUAL_OVERTIME_WORK = new Integer (3);
    private static final Integer TASK_REMAINING_OVERTIME_WORK = new Integer (4);
    private static final Integer TASK_OVERTIME_COST = new Integer (5);
@@ -2351,115 +2490,13 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);
 
    private static final Integer TASK_WBS = new Integer (10);
-   private static final Integer TASK_NAME = new Integer (11);
-   private static final Integer TASK_CONTACT = new Integer (12);
+   
 
-   private static final Integer TASK_TEXT1 = new Integer (14);
-   private static final Integer TASK_TEXT2 = new Integer (15);
-   private static final Integer TASK_TEXT3 = new Integer (16);
-   private static final Integer TASK_TEXT4 = new Integer (17);
-   private static final Integer TASK_TEXT5 = new Integer (18);
-   private static final Integer TASK_TEXT6 = new Integer (19);
-   private static final Integer TASK_TEXT7 = new Integer (20);
-   private static final Integer TASK_TEXT8 = new Integer (21);
-   private static final Integer TASK_TEXT9 = new Integer (22);
-   private static final Integer TASK_TEXT10 = new Integer (23);
 
-   private static final Integer TASK_START1 = new Integer (24);
-   private static final Integer TASK_FINISH1 = new Integer (25);
-   private static final Integer TASK_START2 = new Integer (26);
-   private static final Integer TASK_FINISH2 = new Integer (27);
-   private static final Integer TASK_START3 = new Integer (28);
-   private static final Integer TASK_FINISH3 = new Integer (29);
-   private static final Integer TASK_START4 = new Integer (30);
-   private static final Integer TASK_FINISH4 = new Integer (31);
-   private static final Integer TASK_START5 = new Integer (32);
-   private static final Integer TASK_FINISH5 = new Integer (33);
-   private static final Integer TASK_START6 = new Integer (34);
-   private static final Integer TASK_FINISH6 = new Integer (35);
-   private static final Integer TASK_START7 = new Integer (36);
-   private static final Integer TASK_FINISH7 = new Integer (37);
-   private static final Integer TASK_START8 = new Integer (38);
-   private static final Integer TASK_FINISH8 = new Integer (39);
-   private static final Integer TASK_START9 = new Integer (40);
-   private static final Integer TASK_FINISH9 = new Integer (41);
-   private static final Integer TASK_START10 = new Integer (42);
-   private static final Integer TASK_FINISH10 = new Integer (43);
 
-   private static final Integer TASK_NUMBER1 = new Integer (45);
-   private static final Integer TASK_NUMBER2 = new Integer (46);
-   private static final Integer TASK_NUMBER3 = new Integer (47);
-   private static final Integer TASK_NUMBER4 = new Integer (48);
-   private static final Integer TASK_NUMBER5 = new Integer (49);
-   private static final Integer TASK_NUMBER6 = new Integer (50);
-   private static final Integer TASK_NUMBER7 = new Integer (51);
-   private static final Integer TASK_NUMBER8 = new Integer (52);
-   private static final Integer TASK_NUMBER9 = new Integer (53);
-   private static final Integer TASK_NUMBER10 = new Integer (54);
 
-   private static final Integer TASK_DURATION1 = new Integer (55);
-   private static final Integer TASK_DURATION1_UNITS = new Integer (56);
-   private static final Integer TASK_DURATION2 = new Integer (57);
-   private static final Integer TASK_DURATION2_UNITS = new Integer (58);
-   private static final Integer TASK_DURATION3 = new Integer (59);
-   private static final Integer TASK_DURATION3_UNITS = new Integer (60);
-   private static final Integer TASK_DURATION4 = new Integer (61);
-   private static final Integer TASK_DURATION4_UNITS = new Integer (62);
-   private static final Integer TASK_DURATION5 = new Integer (63);
-   private static final Integer TASK_DURATION5_UNITS = new Integer (64);
-   private static final Integer TASK_DURATION6 = new Integer (65);
-   private static final Integer TASK_DURATION6_UNITS = new Integer (66);
-   private static final Integer TASK_DURATION7 = new Integer (67);
-   private static final Integer TASK_DURATION7_UNITS = new Integer (68);
-   private static final Integer TASK_DURATION8 = new Integer (69);
-   private static final Integer TASK_DURATION8_UNITS = new Integer (70);
-   private static final Integer TASK_DURATION9 = new Integer (71);
-   private static final Integer TASK_DURATION9_UNITS = new Integer (72);
-   private static final Integer TASK_DURATION10 = new Integer (73);
-   private static final Integer TASK_DURATION10_UNITS = new Integer (74);
 
-   private static final Integer TASK_DATE1 = new Integer (80);
-   private static final Integer TASK_DATE2 = new Integer (81);
-   private static final Integer TASK_DATE3 = new Integer (82);
-   private static final Integer TASK_DATE4 = new Integer (83);
-   private static final Integer TASK_DATE5 = new Integer (84);
-   private static final Integer TASK_DATE6 = new Integer (85);
-   private static final Integer TASK_DATE7 = new Integer (86);
-   private static final Integer TASK_DATE8 = new Integer (87);
-   private static final Integer TASK_DATE9 = new Integer (88);
-   private static final Integer TASK_DATE10 = new Integer (89);
 
-   private static final Integer TASK_TEXT11 = new Integer (90);
-   private static final Integer TASK_TEXT12 = new Integer (91);
-   private static final Integer TASK_TEXT13 = new Integer (92);
-   private static final Integer TASK_TEXT14 = new Integer (93);
-   private static final Integer TASK_TEXT15 = new Integer (94);
-   private static final Integer TASK_TEXT16 = new Integer (95);
-   private static final Integer TASK_TEXT17 = new Integer (96);
-   private static final Integer TASK_TEXT18 = new Integer (97);
-   private static final Integer TASK_TEXT19 = new Integer (98);
-   private static final Integer TASK_TEXT20 = new Integer (99);
-   private static final Integer TASK_TEXT21 = new Integer (100);
-   private static final Integer TASK_TEXT22 = new Integer (101);
-   private static final Integer TASK_TEXT23 = new Integer (102);
-   private static final Integer TASK_TEXT24 = new Integer (103);
-   private static final Integer TASK_TEXT25 = new Integer (104);
-   private static final Integer TASK_TEXT26 = new Integer (105);
-   private static final Integer TASK_TEXT27 = new Integer (106);
-   private static final Integer TASK_TEXT28 = new Integer (107);
-   private static final Integer TASK_TEXT29 = new Integer (108);
-   private static final Integer TASK_TEXT30 = new Integer (109);
-
-   private static final Integer TASK_NUMBER11 = new Integer (110);
-   private static final Integer TASK_NUMBER12 = new Integer (111);
-   private static final Integer TASK_NUMBER13 = new Integer (112);
-   private static final Integer TASK_NUMBER14 = new Integer (113);
-   private static final Integer TASK_NUMBER15 = new Integer (114);
-   private static final Integer TASK_NUMBER16 = new Integer (115);
-   private static final Integer TASK_NUMBER17 = new Integer (116);
-   private static final Integer TASK_NUMBER18 = new Integer (117);
-   private static final Integer TASK_NUMBER19 = new Integer (118);
-   private static final Integer TASK_NUMBER20 = new Integer (119);
 
    private static final Integer TASK_OUTLINECODE1 = new Integer (123);
    private static final Integer TASK_OUTLINECODE2 = new Integer (124);
@@ -2472,24 +2509,19 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_OUTLINECODE9 = new Integer (131);
    private static final Integer TASK_OUTLINECODE10 = new Integer (132);
 
-   private static final Integer TASK_HYPERLINK = new Integer (133);
+   
 
-   private static final Integer TASK_COST1 = new Integer (134);
-   private static final Integer TASK_COST2 = new Integer (135);
-   private static final Integer TASK_COST3 = new Integer (136);
-   private static final Integer TASK_COST4 = new Integer (137);
-   private static final Integer TASK_COST5 = new Integer (138);
-   private static final Integer TASK_COST6 = new Integer (139);
-   private static final Integer TASK_COST7 = new Integer (140);
-   private static final Integer TASK_COST8 = new Integer (141);
-   private static final Integer TASK_COST9 = new Integer (142);
-   private static final Integer TASK_COST10 = new Integer (143);
+   
+   
 
-   private static final Integer TASK_NOTES = new Integer (144);
+   
+   
+
+   
 
    /**
     * Resource data types.
-    */
+    */   
    private static final Integer RESOURCE_NAME = new Integer (1);
    private static final Integer RESOURCE_INITIALS = new Integer (3);
    private static final Integer RESOURCE_GROUP = new Integer (4);
