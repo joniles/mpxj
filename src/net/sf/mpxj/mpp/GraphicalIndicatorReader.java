@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.IOException;
 import java.util.Date;
 
 import net.sf.mpxj.DataType;
@@ -48,10 +47,8 @@ public final class GraphicalIndicatorReader
     * 
     * @param file parent project file
     * @param props properties data
-    * @throws IOException
     */
    public void process (ProjectFile file, Props props)
-      throws IOException
    {
       m_file = file;
       m_data = props.getByteArray(Props.GRAPHICAL_INDICATOR_DATA);
@@ -215,7 +212,7 @@ public final class GraphicalIndicatorReader
       }
       else
       {                  
-         int dataTypeValue = MPPUtility.getShort(m_data, m_dataOffset);
+         //int dataTypeValue = MPPUtility.getShort(m_data, m_dataOffset);
          m_dataOffset += 2;
          
          switch (type.getDataType().getType())

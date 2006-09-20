@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.IOException;
-
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
@@ -45,10 +43,9 @@ public final class ProjectHeaderReader
     * @param file parent project file
     * @param props properties data
     * @param rootDir Root of the POI file system.
-    * @throws IOException
     */
    public void process (ProjectFile file, Props props, DirectoryEntry rootDir)
-      throws MPXJException, IOException
+      throws MPXJException
    {
       ProjectHeader ph = file.getProjectHeader();
       ph.setScheduleFrom(ScheduleFrom.getInstance(1-props.getShort(Props.SCHEDULE_FROM)));

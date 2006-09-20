@@ -316,7 +316,6 @@ public final class Duration implements Comparable
     */
    public int compareTo(Object o)
    {
-      int result;
       Duration rhs = (Duration)o;
       
       if (m_units != rhs.m_units)

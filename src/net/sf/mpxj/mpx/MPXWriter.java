@@ -1305,17 +1305,6 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value value
     * @return formatted value
     */
-   private String formatDecimal (Number value)
-   {
-      return (value==null?null:m_formats.getDecimalFormat().format(value));
-   }
-
-   /**
-    * This method formats a decimal value.
-    *
-    * @param value value
-    * @return formatted value
-    */
    private String formatDecimal (double value)
    {
       return (m_formats.getDecimalFormat().format(value));

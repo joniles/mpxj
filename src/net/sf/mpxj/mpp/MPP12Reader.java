@@ -190,7 +190,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param props file properties
     */
    private void processSubProjectData (ProjectFile file, Props12 props)
-   {
+   {     
       byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
 
       //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
@@ -379,7 +379,14 @@ final class MPP12Reader implements MPPVariantReader
 
       if (uniqueIDOffset != -1)
       {
-         sp.setUniqueIDOffset(new Integer(MPPUtility.getInt(data, uniqueIDOffset)));
+         int value = MPPUtility.getInt(data, uniqueIDOffset);
+         sp.setTaskUniqueID(new Integer(value));
+         
+         if (value < 1000)
+         {
+            value = 0x01000000 + ((value-1) * 0x00400000);
+         }
+         sp.setUniqueIDOffset(new Integer(value));        
       }
 
       //
@@ -1741,7 +1748,9 @@ final class MPP12Reader implements MPPVariantReader
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
-
+      //System.out.println(rscVarMeta);
+      //System.out.println(rscVarData);
+      
       TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -1974,6 +1983,10 @@ final class MPP12Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
+      
+      //System.out.println(assnVarMeta);
+      //System.out.println(assnVarData);
+      
       Set set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
 
@@ -1992,6 +2005,8 @@ final class MPP12Reader implements MPPVariantReader
             continue;
          }
 
+         
+         
          int id = MPPUtility.getInt(data, 0);
          final Integer varDataId = new Integer(id);
          if (set.contains(varDataId) == false)
@@ -2016,6 +2031,12 @@ final class MPP12Reader implements MPPVariantReader
 
             if (resource != null)
             {
+               //System.out.println("Task: " + task.getName());
+               //System.out.println("Resource: " + resource.getName());
+               //System.out.println(MPPUtility.hexdump(data, false, 16, ""));
+               //System.out.println(MPPUtility.hexdump(incompleteWork, false, 16, ""));
+               //System.out.println(MPPUtility.hexdump(meta, false, 16, ""));               
+
                ResourceAssignment assignment = task.addResourceAssignment (resource);
                assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 110)/100));
                assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
@@ -2030,10 +2051,18 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
 
-               if (incompleteWork != null)
+               // based on the fact that this is byte 28 still, this
+               // could be the "incomplete work" data set
+               byte[] otherData = assnVarData.getByteArray(varDataId, ASSIGNMENT_DATA);
+               if (otherData != null)
                {
-                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
+                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(otherData, 28)));
                }
+               
+//               if (incompleteWork != null)
+//               {
+//                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
+//               }
             }
          }
       }
@@ -2477,6 +2506,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_TEXT29 = new Integer (335);
    private static final Integer TASK_TEXT30 = new Integer (336);
 
+   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (458);
+   
    //
    // Unverified
    //
@@ -2485,8 +2516,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_OVERTIME_COST = new Integer (5);
    private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
    private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);
-
-   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (8);
+   
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);
 
    private static final Integer TASK_WBS = new Integer (10);
@@ -2514,20 +2544,22 @@ final class MPP12Reader implements MPPVariantReader
    
    
 
-   
-   
-
-   
-
    /**
     * Resource data types.
     */   
+   
+   //
+   // MPP12 verified
+   //
    private static final Integer RESOURCE_NAME = new Integer (1);
-   private static final Integer RESOURCE_INITIALS = new Integer (3);
-   private static final Integer RESOURCE_GROUP = new Integer (4);
-   private static final Integer RESOURCE_CODE = new Integer (5);
+   private static final Integer RESOURCE_INITIALS = new Integer (2);
+   private static final Integer RESOURCE_GROUP = new Integer (3);   
+   private static final Integer RESOURCE_CODE = new Integer (10);
+      
+   //
+   // Unverified
+   //
    private static final Integer RESOURCE_EMAIL = new Integer (6);
-
    private static final Integer RESOURCE_TEXT1 = new Integer (10);
    private static final Integer RESOURCE_TEXT2 = new Integer (11);
    private static final Integer RESOURCE_TEXT3 = new Integer (12);
@@ -2666,6 +2698,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer INCOMPLETE_WORK = new Integer(7);
    private static final Integer COMPLETE_WORK = new Integer(9);
 
+   private static final Integer ASSIGNMENT_DATA = new Integer(49);
+   
    /**
     * Mask used to isolate confirmed flag from the duration units field.
     */

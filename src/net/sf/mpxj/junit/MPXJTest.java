@@ -42,6 +42,8 @@ public class MPXJTest extends TestSuite
       addTestSuite (SlackTest.class);
       addTestSuite (MppProjectHeaderTest.class);
       addTestSuite (MppTaskTest.class);
+      addTestSuite (MppResourceTest.class);
+      addTestSuite (MppSubprojectTest.class);
    }
 
    /**
