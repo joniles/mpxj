@@ -1238,7 +1238,9 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
-
+      //System.out.println(outlineCodeVarData.getVarMeta());
+      //System.out.println(outlineCodeVarData);
+      
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -1439,16 +1441,16 @@ final class MPP12Reader implements MPPVariantReader
          task.setNumber19(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER19)));
          task.setNumber20(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
-         task.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
-         task.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
-         task.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
-         task.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
-         task.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
-         task.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
-         task.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
-         task.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
-         task.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
-         task.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
+         task.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
+         task.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
+         task.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
+         task.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
+         task.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
+         task.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
+         task.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
+         task.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
+         task.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
+         task.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, 2, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
          task.setOutlineLevel (new Integer(MPPUtility.getShort (data, 40)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
@@ -2019,10 +2021,10 @@ final class MPP12Reader implements MPPVariantReader
 
          if (task != null)
          {
-            byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));            
+            byte[] incompleteWork = assnVarData.getByteArray(varDataId, INCOMPLETE_WORK);
             if (task.getSplits() != null)
             {
-               byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
+               byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
                processSplitData(task, completeWork, incompleteWork);
             }
 
@@ -2050,19 +2052,11 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setStart(MPPUtility.getTimestamp(data, 12));
                assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
-
-               // based on the fact that this is byte 28 still, this
-               // could be the "incomplete work" data set
-               byte[] otherData = assnVarData.getByteArray(varDataId, ASSIGNMENT_DATA);
-               if (otherData != null)
-               {
-                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(otherData, 28)));
-               }
                
-//               if (incompleteWork != null)
-//               {
-//                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
-//               }
+               if (incompleteWork != null)
+               {
+                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
+               }
             }
          }
       }
@@ -2507,7 +2501,18 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_TEXT30 = new Integer (336);
 
    private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (458);
-   
+
+   private static final Integer TASK_OUTLINECODE1 = new Integer (417);
+   private static final Integer TASK_OUTLINECODE2 = new Integer (419);
+   private static final Integer TASK_OUTLINECODE3 = new Integer (421);
+   private static final Integer TASK_OUTLINECODE4 = new Integer (423);
+   private static final Integer TASK_OUTLINECODE5 = new Integer (425);
+   private static final Integer TASK_OUTLINECODE6 = new Integer (427);
+   private static final Integer TASK_OUTLINECODE7 = new Integer (429);
+   private static final Integer TASK_OUTLINECODE8 = new Integer (431);
+   private static final Integer TASK_OUTLINECODE9 = new Integer (433);
+   private static final Integer TASK_OUTLINECODE10 = new Integer (435);
+
    //
    // Unverified
    //
@@ -2528,16 +2533,6 @@ final class MPP12Reader implements MPPVariantReader
 
 
 
-   private static final Integer TASK_OUTLINECODE1 = new Integer (123);
-   private static final Integer TASK_OUTLINECODE2 = new Integer (124);
-   private static final Integer TASK_OUTLINECODE3 = new Integer (125);
-   private static final Integer TASK_OUTLINECODE4 = new Integer (126);
-   private static final Integer TASK_OUTLINECODE5 = new Integer (127);
-   private static final Integer TASK_OUTLINECODE6 = new Integer (128);
-   private static final Integer TASK_OUTLINECODE7 = new Integer (129);
-   private static final Integer TASK_OUTLINECODE8 = new Integer (130);
-   private static final Integer TASK_OUTLINECODE9 = new Integer (131);
-   private static final Integer TASK_OUTLINECODE10 = new Integer (132);
 
    
 
@@ -2694,11 +2689,9 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST10 = new Integer (134);
 
    private static final Integer TABLE_COLUMN_DATA = new Integer (1);
-   private static final Integer OUTLINECODE_DATA = new Integer (1);
-   private static final Integer INCOMPLETE_WORK = new Integer(7);
-   private static final Integer COMPLETE_WORK = new Integer(9);
-
-   private static final Integer ASSIGNMENT_DATA = new Integer(49);
+   private static final Integer OUTLINECODE_DATA = new Integer (22);
+   private static final Integer INCOMPLETE_WORK = new Integer(49);
+   private static final Integer COMPLETE_WORK = new Integer(50);
    
    /**
     * Mask used to isolate confirmed flag from the duration units field.

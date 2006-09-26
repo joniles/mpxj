@@ -264,6 +264,36 @@ final class Var2Data extends MPPComponent
 
    /**
     * This method rerieves an integer of the specified type,
+    * belonging to the item with the specified unique ID. Note that
+    * the integer value is read from an arbitrary offset within the 
+    * bute array of data.
+    *
+    * @param id unique ID of entity to which this data belongs
+    * @param offset offset into the byte array fom which to read the integer
+    * @param type data type identifier
+    * @return required integer data
+    */
+   public int getInt (Integer id, int offset, Integer type)
+   {
+      int result = 0;
+
+      Integer metaOffset = m_meta.getOffset (id, type);
+
+      if (metaOffset != null)
+      {
+         byte[] value = (byte[])m_map.get (metaOffset);
+
+         if (value != null)
+         {
+            result = MPPUtility.getInt(value, offset);
+         }
+      }
+
+      return (result);
+   }
+
+   /**
+    * This method rerieves an integer of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs

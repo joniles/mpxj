@@ -63,8 +63,8 @@ public class MppResourceTest extends MPXJTestCase
      * 
      * @throws Exception
      */       
-    public void testMpp12Resource() 
-       throws Exception 
+    public void testMpp12Resource()
+       throws Exception
     {
        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12resource.mpp");
        testResources(mpp);
@@ -75,10 +75,10 @@ public class MppResourceTest extends MPXJTestCase
      * 
      * @throws Exception
      */   
-     public void testMpp9Assignment() 
-        throws Exception 
+     public void testMpp9Assignment()
+        throws Exception
      {
-         ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9resource.mpp");        
+         ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9resource.mpp");
          testResourceAssignments(mpp);
      }
 
@@ -87,10 +87,10 @@ public class MppResourceTest extends MPXJTestCase
       * 
       * @throws Exception
       */   
-      public void testMpp12Assignment() 
-         throws Exception 
+      public void testMpp12Assignment()
+         throws Exception
       {
-          ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12resource.mpp");        
+          ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12resource.mpp");
           testResourceAssignments(mpp);
       }
 
@@ -164,6 +164,9 @@ public class MppResourceTest extends MPXJTestCase
         assertEquals("10", resourceWade.getCode());
         assertEquals("20", resourceJon.getCode());
         assertEquals("30", resourceBrian.getCode());
+
+        assertEquals("Standard", resourceWade.getBaseCalendar()); // both of these currently return null from MPP9
+        assertEquals("Night Shift", resourceBrian.getBaseCalendar());
     }
 
     /**
@@ -201,5 +204,4 @@ public class MppResourceTest extends MPXJTestCase
         ResourceAssignment ra2 = (ResourceAssignment)listResourceAssignments.get(3);
         assertEquals(WorkContour.TURTLE, ra2.getWorkContour());
     }
-
 }

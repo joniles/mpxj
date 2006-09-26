@@ -34,6 +34,7 @@ import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -63,8 +64,8 @@ public class MppTaskTest extends MPXJTestCase
      * 
      * @throws Exception
      */       
-    public void testMpp12Task() 
-       throws Exception 
+    public void testMpp12Task()
+       throws Exception
     {
        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12task.mpp");
        testBasicTask(mpp);
@@ -75,8 +76,8 @@ public class MppTaskTest extends MPXJTestCase
      * 
      * @throws Exception
      */   
-     public void testMpp9Baseline() 
-        throws Exception 
+     public void testMpp9Baseline()
+        throws Exception
      {
          ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9baseline.mpp");
          testBaselineTasks(mpp);
@@ -87,12 +88,60 @@ public class MppTaskTest extends MPXJTestCase
       * 
       * @throws Exception
       */   
-      public void testMpp12Baseline() 
-         throws Exception 
+      public void testMpp12Baseline()
+         throws Exception
       {
           ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12baseline.mpp");
           testBaselineTasks(mpp);
       }
+
+    /**
+     * Test Split Tasks in an MPP9 file.
+     *
+     * @throws Exception
+     */
+    public void testMpp9Splits()
+       throws Exception 
+    {
+        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9splittask.mpp");
+        testSplitTasks(mpp);
+    }
+
+    /**
+     * Test Split Tasks in an MPP12 file.
+     *
+     * @throws Exception
+     */
+    public void testMpp12Splits()
+       throws Exception 
+    {
+        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12splittask.mpp");
+        testSplitTasks(mpp);
+    }
+
+    /**
+     * Tests Relations in an MPP9 file.
+     *
+     * @throws Exception
+     */
+    public void testMpp9Relations()
+       throws Exception 
+    {
+        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9relations.mpp");
+        testRelations(mpp);
+    }
+
+    /**
+     * Tests Relations in an MPP12 file.
+     *
+     * @throws Exception
+     */
+    public void testMpp12Relations()
+       throws Exception 
+    {
+        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12relations.mpp");
+        testRelations(mpp);
+    }
 
       /**
        * Tests dozens of basic fields of a Task.
@@ -405,8 +454,18 @@ public class MppTaskTest extends MPXJTestCase
          assertEquals(new Double(20), task.getNumber20());
          // outline level
          assertEquals(new Integer(1), task.getOutlineLevel());
-         // outline code
+         // outline codes
          assertEquals("1", task.getOutlineNumber());
+         assertEquals("1", task.getOutlineCode1());
+         assertEquals("A", task.getOutlineCode2());
+         assertEquals("a", task.getOutlineCode3());
+         assertEquals("Aa", task.getOutlineCode4());
+         assertEquals("5", task.getOutlineCode5());
+         assertEquals("6", task.getOutlineCode6());
+         assertEquals("7", task.getOutlineCode7());
+         assertEquals("8", task.getOutlineCode8());
+         assertEquals("9", task.getOutlineCode9());
+         assertEquals("10", task.getOutlineCode10());
          // priority
          assertEquals(Priority.getInstance(600), task.getPriority());
          // remaining work
@@ -623,4 +682,94 @@ public class MppTaskTest extends MPXJTestCase
           assertEquals(outlineNumber, subtaskB1a.getOutlineNumber());
           assertEquals(outlineNumber, subtaskB1a.getWBS());
       }
+
+
+    /**
+     * Tests Split Tasks.
+     * 
+     * @param mpp MPP file
+     */
+    private void testSplitTasks(ProjectFile mpp) 
+    {
+        Task task1  = mpp.getTaskByID(new Integer(1));
+        Task task2  = mpp.getTaskByID(new Integer(2));
+
+        List listSplits1 = task1.getSplits();
+        List listSplits2 = task2.getSplits();
+
+        assertEquals(3, listSplits1.size());
+        assertEquals(5, listSplits2.size());
+
+        Duration duration = (Duration)listSplits1.get(0);
+        assertEquals(32, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+        duration = (Duration)listSplits1.get(1);
+        assertEquals(56, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+        duration = (Duration)listSplits1.get(2);
+        assertEquals(104, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+
+        duration = (Duration)listSplits2.get(0);
+        assertEquals(24, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+        duration = (Duration)listSplits2.get(1);
+        assertEquals(40, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+        duration = (Duration)listSplits2.get(2);
+        assertEquals(80, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+        duration = (Duration)listSplits2.get(3);
+        assertEquals(104, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+        duration = (Duration)listSplits2.get(4);
+        assertEquals(160, (int)duration.getDuration());
+        assertEquals(TimeUnit.HOURS, duration.getUnits());
+    }
+
+    /**
+     * Tests Relations.
+     * 
+     * @param mpp mpp file
+     */
+    private void testRelations(ProjectFile mpp) 
+    {
+        List listAllTasks = mpp.getAllTasks();
+        assertTrue(listAllTasks != null);
+
+        Task task1 = mpp.getTaskByID(new Integer(1));
+        Task task2 = mpp.getTaskByID(new Integer(2));
+        Task task3 = mpp.getTaskByID(new Integer(3));
+        Task task4 = mpp.getTaskByID(new Integer(4));
+        Task task5 = mpp.getTaskByID(new Integer(5));
+
+        List listPreds = task2.getPredecessors();
+        Relation relation = (Relation)listPreds.get(0);
+        assertEquals(1, relation.getTaskID().intValue());
+        assertEquals(1, relation.getTaskUniqueID().intValue());
+        assertEquals(RelationType.FINISH_START, relation.getType());
+        assertEquals(task1, relation.getTask());
+
+        listPreds = task3.getPredecessors();
+        relation = (Relation)listPreds.get(0);
+        assertEquals(2, relation.getTaskID().intValue());
+        assertEquals(2, relation.getTaskUniqueID().intValue());
+        assertEquals(RelationType.START_START, relation.getType());
+        Duration duration = relation.getDuration();
+        assertEquals(1, (int)duration.getDuration());
+        assertEquals(TimeUnit.DAYS, duration.getUnits());
+
+        listPreds = task4.getPredecessors();
+        relation = (Relation)listPreds.get(0);
+        assertEquals(3, relation.getTaskID().intValue());
+        assertEquals(3, relation.getTaskUniqueID().intValue());
+        assertEquals(RelationType.FINISH_FINISH, relation.getType());
+
+        listPreds = task5.getPredecessors();
+        relation = (Relation)listPreds.get(0);
+        assertEquals(4, relation.getTaskID().intValue());
+        assertEquals(4, relation.getTaskUniqueID().intValue());
+        assertEquals(RelationType.START_FINISH, relation.getType());
+    }
+
 }
