@@ -104,6 +104,8 @@ final class SummaryInformation
          for (int loop=0; loop < properties.length; loop++)
          {
            property = properties[loop];
+           // the following casuses an "unnecessary cast" warning in JDK1.4
+           // this is in place to ensure compatibility with JDK1.5
            map.put(new Integer(index+(int)property.getID()), property.getValue());
            //System.out.println ("id="+(index+property.getID())+" value="+property.getValue());
          }
