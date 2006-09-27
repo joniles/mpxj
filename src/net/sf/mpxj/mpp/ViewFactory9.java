@@ -1,5 +1,5 @@
 /*
- * file:       DefaultViewFactory.java
+ * file:       ViewFactory9.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
  * date:       Apr 7, 2005
@@ -34,7 +34,7 @@ import net.sf.mpxj.ViewType;
 /**
  * Default implementation of a view factory for MPP9 files.
  */
-class DefaultViewFactory implements ViewFactory
+class ViewFactory9 implements ViewFactory
 {
    /**
     * {@inheritDoc}
@@ -61,7 +61,7 @@ class DefaultViewFactory implements ViewFactory
    
             default:
             {
-               view = new View9 (fixedData);            
+               view = new GenericView (fixedData);            
                break;
             }
          }

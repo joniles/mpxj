@@ -140,8 +140,7 @@ final class MPP12Reader implements MPPVariantReader
       projectDir = (DirectoryEntry)root.getEntry ("   212");
       processViewPropertyData(projectDir);
       processTableData (file, projectDir);
-      // Not correct for MPP12
-      //processViewData (file, projectDir);
+      processViewData (file, projectDir);
    }
 
    /**
@@ -2195,12 +2194,12 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      FixedData fixedData = new FixedData (138, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       
       int items = fixedMeta.getItemCount();
       View view;
-      ViewFactory factory = new DefaultViewFactory ();
-
+      ViewFactory factory = new ViewFactory12 ();
+   
       int lastOffset = -1;
       for (int loop=0; loop < items; loop++)
       {        
@@ -2688,7 +2687,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST9 = new Integer (133);
    private static final Integer RESOURCE_COST10 = new Integer (134);
 
-   private static final Integer TABLE_COLUMN_DATA = new Integer (1);
+   private static final Integer TABLE_COLUMN_DATA = new Integer (6);
    private static final Integer OUTLINECODE_DATA = new Integer (22);
    private static final Integer INCOMPLETE_WORK = new Integer(49);
    private static final Integer COMPLETE_WORK = new Integer(50);

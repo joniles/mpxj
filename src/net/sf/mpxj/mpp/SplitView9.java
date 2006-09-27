@@ -31,7 +31,7 @@ import java.io.IOException;
  * which is made up of two existing views, typically shown above
  * and below the division of a split screen.
  */
-public class SplitView9 extends View9
+public class SplitView9 extends GenericView
 {
    /**
     * Constructor.

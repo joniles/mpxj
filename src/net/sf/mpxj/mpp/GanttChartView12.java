@@ -1,8 +1,8 @@
 /*
- * file:       GanttChartView9.java
+ * file:       GanttChartView12.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2005
- * date:       Apr 7, 2005
+ * copyright:  (c) Tapster Rock Limited 2006
+ * date:       27 September 2006
  */
 
 /*
@@ -33,7 +33,7 @@ import net.sf.mpxj.ProjectFile;
  * This class represents the set of properties used to define the appearance
  * of a Gantt chart view in MS Project.
  */
-public final class GanttChartView9 extends GanttChartView
+public final class GanttChartView12 extends GanttChartView
 {
    /**
     * {@inheritDoc}
@@ -54,11 +54,11 @@ public final class GanttChartView9 extends GanttChartView
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView9 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
+   GanttChartView12 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException
    {
       super (parent, fixedMeta, fixedData, varData, fontBases);
    }
    
-   private static final Integer PROPERTIES = new Integer (1);
+   private static final Integer PROPERTIES = new Integer (6);
 }

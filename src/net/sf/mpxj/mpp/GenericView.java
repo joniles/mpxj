@@ -35,14 +35,14 @@ import net.sf.mpxj.ViewType;
  * looked at a view (for example the Resource Usage view), information about
  * that view will not be present in the MPP file.
  */
-public class View9 extends AbstractMppView
+public class GenericView extends AbstractMppView
 {
    /**
     * Extract the view data from the view data block.
     *
     * @param data view data
     */
-   public View9 (byte[] data)
+   public GenericView (byte[] data)
    {
       m_id = new Integer (MPPUtility.getInt(data, 0));
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));

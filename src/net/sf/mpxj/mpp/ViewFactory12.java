@@ -1,8 +1,8 @@
 /*
- * file:       GanttChartView9.java
+ * file:       ViewFactory12.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Apr 7, 2005
+ * date:       27 September 2006
  */
 
 /*
@@ -27,38 +27,46 @@ import java.io.IOException;
 import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.View;
+import net.sf.mpxj.ViewType;
 
 
 /**
- * This class represents the set of properties used to define the appearance
- * of a Gantt chart view in MS Project.
+ * Default implementation of a view factory for MPP12 files.
  */
-public final class GanttChartView9 extends GanttChartView
+class ViewFactory12 implements ViewFactory
 {
    /**
     * {@inheritDoc}
     */
-   protected Integer getPropertiesID()
-   {
-      return (PROPERTIES);
-   }
-   
-   /**
-    * Create a GanttChartView from the fixed and var data blocks associated
-    * with a view.
-    *
-    * @param parent parent MPP file
-    * @param fixedMeta fixed meta data block
-    * @param fixedData fixed data block
-    * @param varData var data block
-    * @param fontBases map of font bases
-    * @throws IOException
-    */
-   GanttChartView9 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
+   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
       throws IOException
    {
-      super (parent, fixedMeta, fixedData, varData, fontBases);
-   }
+      View view;
+      int type  = MPPUtility.getShort(fixedData, 110);
+      if (type == 1)
+      {
+         view = new SplitView9 (fixedData, varData);
+      }
+      else
+      {
+         type = MPPUtility.getShort(fixedData, 112);
+         switch (type)
+         {
+            case ViewType.GANTT_CHART_VALUE:
+            {
+               view = new GanttChartView12 (file, fixedMeta, fixedData, varData, fontBases);               
+               break;
+            }
    
-   private static final Integer PROPERTIES = new Integer (1);
+            default:
+            {
+               view = new GenericView (fixedData);            
+               break;
+            }
+         }
+      }
+            
+      return (view);
+   }
 }

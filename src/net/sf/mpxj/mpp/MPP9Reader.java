@@ -2179,7 +2179,7 @@ final class MPP9Reader implements MPPVariantReader
       
       int items = fixedMeta.getItemCount();
       View view;
-      ViewFactory factory = new DefaultViewFactory ();
+      ViewFactory factory = new ViewFactory9 ();
 
       int lastOffset = -1;
       for (int loop=0; loop < items; loop++)
