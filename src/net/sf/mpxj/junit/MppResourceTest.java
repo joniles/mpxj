@@ -165,6 +165,19 @@ public class MppResourceTest extends MPXJTestCase
         assertEquals("20", resourceJon.getCode());
         assertEquals("30", resourceBrian.getCode());
 
+        assertEquals(1, resourceWade.getCost1().intValue());
+        assertEquals(2, resourceWade.getCost2().intValue());
+        assertEquals(3, resourceWade.getCost3().intValue());
+        assertEquals(4, resourceWade.getCost4().intValue());
+        assertEquals(5, resourceWade.getCost5().intValue());
+        assertEquals(6, resourceWade.getCost6().intValue());
+        assertEquals(7, resourceWade.getCost7().intValue());
+        assertEquals(8, resourceWade.getCost8().intValue());
+        assertEquals(9, resourceWade.getCost9().intValue());
+        assertEquals(10, resourceWade.getCost10().intValue());
+       
+        assertEquals("wade.golden@steelray.com", resourceWade.getEmailAddress());
+        
         //assertEquals("Standard", resourceWade.getBaseCalendar()); // both of these currently return null from MPP9
         //assertEquals("Night Shift", resourceBrian.getBaseCalendar());
     }

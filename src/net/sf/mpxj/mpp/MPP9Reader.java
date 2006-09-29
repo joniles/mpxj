@@ -1406,7 +1406,7 @@ final class MPP9Reader implements MPPVariantReader
 //         task.setIgnoreResourceCalendar();
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 92));
-         task.setLateStart(MPPUtility.getTimestamp(data, 12));
+         task.setLateStart(MPPUtility.getTimestamp(data, 148));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));

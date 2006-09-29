@@ -1411,7 +1411,7 @@ final class MPP12Reader implements MPPVariantReader
 //         task.setIgnoreResourceCalendar();
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 92));
-         task.setLateStart(MPPUtility.getTimestamp(data, 12));
+         task.setLateStart(MPPUtility.getTimestamp(data, 148));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));
@@ -2519,22 +2519,9 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_REMAINING_OVERTIME_WORK = new Integer (4);
    private static final Integer TASK_OVERTIME_COST = new Integer (5);
    private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
-   private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);
-   
+   private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);   
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);
-
    private static final Integer TASK_WBS = new Integer (10);
-   
-
-
-
-
-
-
-
-
-   
-
    
    
 
@@ -2549,11 +2536,23 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_INITIALS = new Integer (2);
    private static final Integer RESOURCE_GROUP = new Integer (3);   
    private static final Integer RESOURCE_CODE = new Integer (10);
-      
+
+   private static final Integer RESOURCE_COST1 = new Integer (123);
+   private static final Integer RESOURCE_COST2 = new Integer (124);
+   private static final Integer RESOURCE_COST3 = new Integer (125);
+   private static final Integer RESOURCE_COST4 = new Integer (166);
+   private static final Integer RESOURCE_COST5 = new Integer (167);
+   private static final Integer RESOURCE_COST6 = new Integer (168);
+   private static final Integer RESOURCE_COST7 = new Integer (169);
+   private static final Integer RESOURCE_COST8 = new Integer (170);
+   private static final Integer RESOURCE_COST9 = new Integer (171);
+   private static final Integer RESOURCE_COST10 = new Integer (172);
+
+   private static final Integer RESOURCE_EMAIL = new Integer (35);
+   
    //
    // Unverified
    //
-   private static final Integer RESOURCE_EMAIL = new Integer (6);
    private static final Integer RESOURCE_TEXT1 = new Integer (10);
    private static final Integer RESOURCE_TEXT2 = new Integer (11);
    private static final Integer RESOURCE_TEXT3 = new Integer (12);
@@ -2676,16 +2675,6 @@ final class MPP12Reader implements MPPVariantReader
 
    private static final Integer RESOURCE_NOTES = new Integer (124);
 
-   private static final Integer RESOURCE_COST1 = new Integer (125);
-   private static final Integer RESOURCE_COST2 = new Integer (126);
-   private static final Integer RESOURCE_COST3 = new Integer (127);
-   private static final Integer RESOURCE_COST4 = new Integer (128);
-   private static final Integer RESOURCE_COST5 = new Integer (129);
-   private static final Integer RESOURCE_COST6 = new Integer (130);
-   private static final Integer RESOURCE_COST7 = new Integer (131);
-   private static final Integer RESOURCE_COST8 = new Integer (132);
-   private static final Integer RESOURCE_COST9 = new Integer (133);
-   private static final Integer RESOURCE_COST10 = new Integer (134);
 
    private static final Integer TABLE_COLUMN_DATA = new Integer (6);
    private static final Integer OUTLINECODE_DATA = new Integer (22);
