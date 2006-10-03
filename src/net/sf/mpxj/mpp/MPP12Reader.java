@@ -1860,16 +1860,16 @@ final class MPP12Reader implements MPPVariantReader
          resource.setNumber19(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER19)));
          resource.setNumber20(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER20)));
          //resource.setObjects(); // Calculated value
-         resource.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
-         resource.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
-         resource.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
-         resource.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
-         resource.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
-         resource.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
-         resource.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
-         resource.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
-         resource.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
-         resource.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
+         resource.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
+         resource.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
+         resource.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
+         resource.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
+         resource.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
+         resource.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
+         resource.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
+         resource.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
+         resource.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
+         resource.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164)/100));
          resource.setOvertimeRate(new Rate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
@@ -2549,132 +2549,130 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST10 = new Integer (172);
 
    private static final Integer RESOURCE_EMAIL = new Integer (35);
-   
+
+   private static final Integer RESOURCE_DATE1 = new Integer (173);
+   private static final Integer RESOURCE_DATE2 = new Integer (174);
+   private static final Integer RESOURCE_DATE3 = new Integer (175);
+   private static final Integer RESOURCE_DATE4 = new Integer (176);
+   private static final Integer RESOURCE_DATE5 = new Integer (177);
+   private static final Integer RESOURCE_DATE6 = new Integer (178);
+   private static final Integer RESOURCE_DATE7 = new Integer (179);
+   private static final Integer RESOURCE_DATE8 = new Integer (180);
+   private static final Integer RESOURCE_DATE9 = new Integer (181);
+   private static final Integer RESOURCE_DATE10 = new Integer (182);
+
+   private static final Integer RESOURCE_START1 = new Integer (102);
+   private static final Integer RESOURCE_START2 = new Integer (103);
+   private static final Integer RESOURCE_START3 = new Integer (104);
+   private static final Integer RESOURCE_START4 = new Integer (105);
+   private static final Integer RESOURCE_START5 = new Integer (106);
+   private static final Integer RESOURCE_START6 = new Integer (220);
+   private static final Integer RESOURCE_START7 = new Integer (221);
+   private static final Integer RESOURCE_START8 = new Integer (222);
+   private static final Integer RESOURCE_START9 = new Integer (223);
+   private static final Integer RESOURCE_START10 = new Integer (224);
+
+   private static final Integer RESOURCE_FINISH1 = new Integer (107);
+   private static final Integer RESOURCE_FINISH2 = new Integer (108);
+   private static final Integer RESOURCE_FINISH3 = new Integer (109);
+   private static final Integer RESOURCE_FINISH4 = new Integer (110);
+   private static final Integer RESOURCE_FINISH5 = new Integer (111);
+   private static final Integer RESOURCE_FINISH6 = new Integer (190);
+   private static final Integer RESOURCE_FINISH7 = new Integer (191);
+   private static final Integer RESOURCE_FINISH8 = new Integer (192);
+   private static final Integer RESOURCE_FINISH9 = new Integer (193);
+   private static final Integer RESOURCE_FINISH10 = new Integer (194);
+
+   private static final Integer RESOURCE_OUTLINECODE1 = new Integer (279);
+   private static final Integer RESOURCE_OUTLINECODE2 = new Integer (281);
+   private static final Integer RESOURCE_OUTLINECODE3 = new Integer (283);
+   private static final Integer RESOURCE_OUTLINECODE4 = new Integer (285);
+   private static final Integer RESOURCE_OUTLINECODE5 = new Integer (287);
+   private static final Integer RESOURCE_OUTLINECODE6 = new Integer (289);
+   private static final Integer RESOURCE_OUTLINECODE7 = new Integer (291);
+   private static final Integer RESOURCE_OUTLINECODE8 = new Integer (293);
+   private static final Integer RESOURCE_OUTLINECODE9 = new Integer (295);
+   private static final Integer RESOURCE_OUTLINECODE10 = new Integer (297);
+
+   private static final Integer RESOURCE_DURATION1 = new Integer (117);
+   private static final Integer RESOURCE_DURATION2 = new Integer (118);
+   private static final Integer RESOURCE_DURATION3 = new Integer (119);
+   private static final Integer RESOURCE_DURATION4 = new Integer (183);
+   private static final Integer RESOURCE_DURATION5 = new Integer (184);
+   private static final Integer RESOURCE_DURATION6 = new Integer (185);
+   private static final Integer RESOURCE_DURATION7 = new Integer (186);
+   private static final Integer RESOURCE_DURATION8 = new Integer (187);
+   private static final Integer RESOURCE_DURATION9 = new Integer (188);
+   private static final Integer RESOURCE_DURATION10 = new Integer (189);
+
+   private static final Integer RESOURCE_DURATION1_UNITS = new Integer (120);
+   private static final Integer RESOURCE_DURATION2_UNITS = new Integer (121);
+   private static final Integer RESOURCE_DURATION3_UNITS = new Integer (122);
+   private static final Integer RESOURCE_DURATION4_UNITS = new Integer (245);
+   private static final Integer RESOURCE_DURATION5_UNITS = new Integer (246);
+   private static final Integer RESOURCE_DURATION6_UNITS = new Integer (247);
+   private static final Integer RESOURCE_DURATION7_UNITS = new Integer (248);
+   private static final Integer RESOURCE_DURATION8_UNITS = new Integer (249);
+   private static final Integer RESOURCE_DURATION9_UNITS = new Integer (250);
+   private static final Integer RESOURCE_DURATION10_UNITS = new Integer (251);
+
+   private static final Integer RESOURCE_NUMBER1 = new Integer (112);
+   private static final Integer RESOURCE_NUMBER2 = new Integer (113);
+   private static final Integer RESOURCE_NUMBER3 = new Integer (114);
+   private static final Integer RESOURCE_NUMBER4 = new Integer (115);
+   private static final Integer RESOURCE_NUMBER5 = new Integer (116);
+   private static final Integer RESOURCE_NUMBER6 = new Integer (205);
+   private static final Integer RESOURCE_NUMBER7 = new Integer (206);
+   private static final Integer RESOURCE_NUMBER8 = new Integer (207);
+   private static final Integer RESOURCE_NUMBER9 = new Integer (208);
+   private static final Integer RESOURCE_NUMBER10 = new Integer (209);
+   private static final Integer RESOURCE_NUMBER11 = new Integer (210);
+   private static final Integer RESOURCE_NUMBER12 = new Integer (211);
+   private static final Integer RESOURCE_NUMBER13 = new Integer (212);
+   private static final Integer RESOURCE_NUMBER14 = new Integer (213);
+   private static final Integer RESOURCE_NUMBER15 = new Integer (214);
+   private static final Integer RESOURCE_NUMBER16 = new Integer (215);
+   private static final Integer RESOURCE_NUMBER17 = new Integer (216);
+   private static final Integer RESOURCE_NUMBER18 = new Integer (217);
+   private static final Integer RESOURCE_NUMBER19 = new Integer (218);
+   private static final Integer RESOURCE_NUMBER20 = new Integer (219);
+
+   private static final Integer RESOURCE_TEXT1 = new Integer (8);
+   private static final Integer RESOURCE_TEXT2 = new Integer (9);
+   private static final Integer RESOURCE_TEXT3 = new Integer (30);
+   private static final Integer RESOURCE_TEXT4 = new Integer (31);
+   private static final Integer RESOURCE_TEXT5 = new Integer (32);
+   private static final Integer RESOURCE_TEXT6 = new Integer (97);
+   private static final Integer RESOURCE_TEXT7 = new Integer (98);
+   private static final Integer RESOURCE_TEXT8 = new Integer (99);
+   private static final Integer RESOURCE_TEXT9 = new Integer (100);
+   private static final Integer RESOURCE_TEXT10 = new Integer (101);
+   private static final Integer RESOURCE_TEXT11 = new Integer (225);
+   private static final Integer RESOURCE_TEXT12 = new Integer (226);
+   private static final Integer RESOURCE_TEXT13 = new Integer (227);
+   private static final Integer RESOURCE_TEXT14 = new Integer (228);
+   private static final Integer RESOURCE_TEXT15 = new Integer (229);
+   private static final Integer RESOURCE_TEXT16 = new Integer (230);
+   private static final Integer RESOURCE_TEXT17 = new Integer (231);
+   private static final Integer RESOURCE_TEXT18 = new Integer (232);
+   private static final Integer RESOURCE_TEXT19 = new Integer (233);
+   private static final Integer RESOURCE_TEXT20 = new Integer (234);
+   private static final Integer RESOURCE_TEXT21 = new Integer (235);
+   private static final Integer RESOURCE_TEXT22 = new Integer (236);
+   private static final Integer RESOURCE_TEXT23 = new Integer (237);
+   private static final Integer RESOURCE_TEXT24 = new Integer (238);
+   private static final Integer RESOURCE_TEXT25 = new Integer (239);
+   private static final Integer RESOURCE_TEXT26 = new Integer (240);
+   private static final Integer RESOURCE_TEXT27 = new Integer (241);
+   private static final Integer RESOURCE_TEXT28 = new Integer (242);
+   private static final Integer RESOURCE_TEXT29 = new Integer (243);
+   private static final Integer RESOURCE_TEXT30 = new Integer (244);
+
    //
    // Unverified
    //
-   private static final Integer RESOURCE_TEXT1 = new Integer (10);
-   private static final Integer RESOURCE_TEXT2 = new Integer (11);
-   private static final Integer RESOURCE_TEXT3 = new Integer (12);
-   private static final Integer RESOURCE_TEXT4 = new Integer (13);
-   private static final Integer RESOURCE_TEXT5 = new Integer (14);
-   private static final Integer RESOURCE_TEXT6 = new Integer (15);
-   private static final Integer RESOURCE_TEXT7 = new Integer (16);
-   private static final Integer RESOURCE_TEXT8 = new Integer (17);
-   private static final Integer RESOURCE_TEXT9 = new Integer (18);
-   private static final Integer RESOURCE_TEXT10 = new Integer (19);
-   private static final Integer RESOURCE_TEXT11 = new Integer (20);
-   private static final Integer RESOURCE_TEXT12 = new Integer (21);
-   private static final Integer RESOURCE_TEXT13 = new Integer (22);
-   private static final Integer RESOURCE_TEXT14 = new Integer (23);
-   private static final Integer RESOURCE_TEXT15 = new Integer (24);
-   private static final Integer RESOURCE_TEXT16 = new Integer (25);
-   private static final Integer RESOURCE_TEXT17 = new Integer (26);
-   private static final Integer RESOURCE_TEXT18 = new Integer (27);
-   private static final Integer RESOURCE_TEXT19 = new Integer (28);
-   private static final Integer RESOURCE_TEXT20 = new Integer (29);
-   private static final Integer RESOURCE_TEXT21 = new Integer (30);
-   private static final Integer RESOURCE_TEXT22 = new Integer (31);
-   private static final Integer RESOURCE_TEXT23 = new Integer (32);
-   private static final Integer RESOURCE_TEXT24 = new Integer (33);
-   private static final Integer RESOURCE_TEXT25 = new Integer (34);
-   private static final Integer RESOURCE_TEXT26 = new Integer (35);
-   private static final Integer RESOURCE_TEXT27 = new Integer (36);
-   private static final Integer RESOURCE_TEXT28 = new Integer (37);
-   private static final Integer RESOURCE_TEXT29 = new Integer (38);
-   private static final Integer RESOURCE_TEXT30 = new Integer (39);
-
-   private static final Integer RESOURCE_START1 = new Integer (40);
-   private static final Integer RESOURCE_START2 = new Integer (41);
-   private static final Integer RESOURCE_START3 = new Integer (42);
-   private static final Integer RESOURCE_START4 = new Integer (43);
-   private static final Integer RESOURCE_START5 = new Integer (44);
-   private static final Integer RESOURCE_START6 = new Integer (45);
-   private static final Integer RESOURCE_START7 = new Integer (46);
-   private static final Integer RESOURCE_START8 = new Integer (47);
-   private static final Integer RESOURCE_START9 = new Integer (48);
-   private static final Integer RESOURCE_START10 = new Integer (49);
-
-   private static final Integer RESOURCE_FINISH1 = new Integer (50);
-   private static final Integer RESOURCE_FINISH2 = new Integer (51);
-   private static final Integer RESOURCE_FINISH3 = new Integer (52);
-   private static final Integer RESOURCE_FINISH4 = new Integer (53);
-   private static final Integer RESOURCE_FINISH5 = new Integer (54);
-   private static final Integer RESOURCE_FINISH6 = new Integer (55);
-   private static final Integer RESOURCE_FINISH7 = new Integer (56);
-   private static final Integer RESOURCE_FINISH8 = new Integer (57);
-   private static final Integer RESOURCE_FINISH9 = new Integer (58);
-   private static final Integer RESOURCE_FINISH10 = new Integer (59);
-
-   private static final Integer RESOURCE_NUMBER1 = new Integer (60);
-   private static final Integer RESOURCE_NUMBER2 = new Integer (61);
-   private static final Integer RESOURCE_NUMBER3 = new Integer (62);
-   private static final Integer RESOURCE_NUMBER4 = new Integer (63);
-   private static final Integer RESOURCE_NUMBER5 = new Integer (64);
-   private static final Integer RESOURCE_NUMBER6 = new Integer (65);
-   private static final Integer RESOURCE_NUMBER7 = new Integer (66);
-   private static final Integer RESOURCE_NUMBER8 = new Integer (67);
-   private static final Integer RESOURCE_NUMBER9 = new Integer (68);
-   private static final Integer RESOURCE_NUMBER10 = new Integer (69);
-   private static final Integer RESOURCE_NUMBER11 = new Integer (70);
-   private static final Integer RESOURCE_NUMBER12 = new Integer (71);
-   private static final Integer RESOURCE_NUMBER13 = new Integer (72);
-   private static final Integer RESOURCE_NUMBER14 = new Integer (73);
-   private static final Integer RESOURCE_NUMBER15 = new Integer (74);
-   private static final Integer RESOURCE_NUMBER16 = new Integer (75);
-   private static final Integer RESOURCE_NUMBER17 = new Integer (76);
-   private static final Integer RESOURCE_NUMBER18 = new Integer (77);
-   private static final Integer RESOURCE_NUMBER19 = new Integer (78);
-   private static final Integer RESOURCE_NUMBER20 = new Integer (79);
-
-   private static final Integer RESOURCE_DURATION1 = new Integer (80);
-   private static final Integer RESOURCE_DURATION2 = new Integer (81);
-   private static final Integer RESOURCE_DURATION3 = new Integer (82);
-   private static final Integer RESOURCE_DURATION4 = new Integer (83);
-   private static final Integer RESOURCE_DURATION5 = new Integer (84);
-   private static final Integer RESOURCE_DURATION6 = new Integer (85);
-   private static final Integer RESOURCE_DURATION7 = new Integer (86);
-   private static final Integer RESOURCE_DURATION8 = new Integer (87);
-   private static final Integer RESOURCE_DURATION9 = new Integer (88);
-   private static final Integer RESOURCE_DURATION10 = new Integer (89);
-
-   private static final Integer RESOURCE_DURATION1_UNITS = new Integer (90);
-   private static final Integer RESOURCE_DURATION2_UNITS = new Integer (91);
-   private static final Integer RESOURCE_DURATION3_UNITS = new Integer (92);
-   private static final Integer RESOURCE_DURATION4_UNITS = new Integer (93);
-   private static final Integer RESOURCE_DURATION5_UNITS = new Integer (94);
-   private static final Integer RESOURCE_DURATION6_UNITS = new Integer (95);
-   private static final Integer RESOURCE_DURATION7_UNITS = new Integer (96);
-   private static final Integer RESOURCE_DURATION8_UNITS = new Integer (97);
-   private static final Integer RESOURCE_DURATION9_UNITS = new Integer (98);
-   private static final Integer RESOURCE_DURATION10_UNITS = new Integer (99);
-
    private static final Integer RESOURCE_SUBPROJECTRESOURCEID = new Integer (102);
-
-   private static final Integer RESOURCE_DATE1 = new Integer (103);
-   private static final Integer RESOURCE_DATE2 = new Integer (104);
-   private static final Integer RESOURCE_DATE3 = new Integer (105);
-   private static final Integer RESOURCE_DATE4 = new Integer (106);
-   private static final Integer RESOURCE_DATE5 = new Integer (107);
-   private static final Integer RESOURCE_DATE6 = new Integer (108);
-   private static final Integer RESOURCE_DATE7 = new Integer (109);
-   private static final Integer RESOURCE_DATE8 = new Integer (110);
-   private static final Integer RESOURCE_DATE9 = new Integer (111);
-   private static final Integer RESOURCE_DATE10 = new Integer (112);
-
-   private static final Integer RESOURCE_OUTLINECODE1 = new Integer (113);
-   private static final Integer RESOURCE_OUTLINECODE2 = new Integer (114);
-   private static final Integer RESOURCE_OUTLINECODE3 = new Integer (115);
-   private static final Integer RESOURCE_OUTLINECODE4 = new Integer (116);
-   private static final Integer RESOURCE_OUTLINECODE5 = new Integer (117);
-   private static final Integer RESOURCE_OUTLINECODE6 = new Integer (118);
-   private static final Integer RESOURCE_OUTLINECODE7 = new Integer (119);
-   private static final Integer RESOURCE_OUTLINECODE8 = new Integer (120);
-   private static final Integer RESOURCE_OUTLINECODE9 = new Integer (121);
-   private static final Integer RESOURCE_OUTLINECODE10 = new Integer (122);
-
    private static final Integer RESOURCE_NOTES = new Integer (124);
-
 
    private static final Integer TABLE_COLUMN_DATA = new Integer (6);
    private static final Integer OUTLINECODE_DATA = new Integer (22);
