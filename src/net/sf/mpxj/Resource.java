@@ -2681,7 +2681,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber4 ()
    {
-      return ((Number)get (ResourceField.NUMBER14));
+      return ((Number)get (ResourceField.NUMBER4));
    }
 
 
