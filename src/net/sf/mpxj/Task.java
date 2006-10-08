@@ -3274,15 +3274,39 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
             }
          }
          
-         if (finishSlack.getDuration() < startSlack.getDuration())
+         double startSlackDuration = startSlack.getDuration();
+         double finishSlackDuration = finishSlack.getDuration();
+         
+         if (startSlackDuration == 0 && finishSlackDuration == 0)
          {
-            totalSlack = finishSlack;
+            totalSlack = startSlack;
          }
          else
          {
-            totalSlack = startSlack;
-         } 
-         
+            if (startSlackDuration != 0 && finishSlackDuration != 0)
+            {
+               if (startSlackDuration < finishSlackDuration)
+               {
+                  totalSlack = startSlack;
+               }
+               else
+               {
+                  totalSlack = finishSlack;
+               }
+            }
+            else
+            {
+               if (startSlackDuration != 0)
+               {
+                  totalSlack = startSlack;
+               }
+               else
+               {
+                  totalSlack = finishSlack;
+               }
+            }
+         }
+                  
          set(TaskField.TOTAL_SLACK, totalSlack);
       }
       

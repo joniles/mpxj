@@ -21,7 +21,8 @@
       <action dev="joniles" type="fix">Fixed missing predecessor tasks in certain rare MPP9 files.</action>
       <action dev="joniles" type="fix">Fixed incorrect MPX file AM/PM text setting in certain locales.</action>
       <action dev="joniles" type="fix">Fixed an ArrayIndexOutOfBoundsException.</action>
-      <action dev="joniles" type="fix">Incorrect late strat date read from an MPP9 file.</action>
+      <action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
+      <action dev="joniles" type="fix">Incorrect total slack calculation.</action>
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
       <action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
       <action dev="joniles" type="update">Updated to significantly improve the performance of writing MSPDI files.</action>
