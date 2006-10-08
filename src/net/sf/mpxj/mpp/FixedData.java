@@ -58,43 +58,67 @@ final class FixedData extends MPPComponent
    FixedData (FixedMeta meta, InputStream is)
       throws IOException
    {
+      this(meta, is, 0);
+   }
+
+   /**
+    * This version of the above constructor allows us to limited the
+    * size of blocks we copy where we have an idea o fthe maximum expected
+    * block size. This prevents us from reading riciculously large amounts
+    * of unnecessary data, causing OutOfMemory exceptions.
+    * 
+    * @param meta meta data about the contents of this fixed data block
+    * @throws IOException on file read failure
+    * @param maxExpectedSize maximum expected block size
+    * @param is input stream from which the data is read
+    */
+   FixedData (FixedMeta meta, InputStream is, int maxExpectedSize)
+      throws IOException
+   {
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
-
+   
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-
+   
       byte[] metaData;
       int itemOffset;
       int itemSize;
       int available;
-
+   
       for (int loop=0; loop < itemCount; loop++)
       {
          metaData = meta.getByteArrayValue(loop);
          itemSize = MPPUtility.getInt(metaData, 0);
          itemOffset = MPPUtility.getInt(metaData, 4);
-
+   
          if (itemOffset > buffer.length)
          {
             continue;
          }
-
+   
          available = buffer.length - itemOffset;
-
-         if (itemSize < 0)
+   
+         if (itemSize < 0 || itemSize > available)
          {
-            itemSize = available;
-         }
-         else
-         {
-            if (itemSize > available)
+            if (maxExpectedSize == 0)
             {
                itemSize = available;
+            }            
+            else
+            {
+               if (maxExpectedSize < available)
+               {
+                  itemSize = maxExpectedSize;
+               }
+               else
+               {
+                  itemSize = available;                  
+               }
             }
          }
-
+   
          m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
          m_offset[loop] = itemOffset;
       }
