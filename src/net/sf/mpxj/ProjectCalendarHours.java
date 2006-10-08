@@ -119,6 +119,32 @@ public final class ProjectCalendarHours
       return (m_dateRanges.iterator());
    }
 
+   /**
+    * Returns the number of date ranges associated with this instance.
+    * 
+    * @return number of date ranges
+    */
+   public int getDateRangeCount ()
+   {
+      return (m_dateRanges.size());
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public String toString ()
+   {
+      StringBuffer sb = new StringBuffer();
+      sb.append("[ProjectCalendarHours ");
+      Iterator iter = m_dateRanges.iterator();
+      while (iter.hasNext())
+      {
+         sb.append(iter.next().toString());
+      }
+      sb.append("]");
+      return (sb.toString());               
+   }
+   
    private ProjectCalendar m_parentCalendar;
    private Day m_day;
    private LinkedList m_dateRanges = new LinkedList ();

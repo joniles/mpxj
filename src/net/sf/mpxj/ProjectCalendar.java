@@ -247,7 +247,7 @@ public final class ProjectCalendar extends ProjectEntity
     * to get a boolean value if the underlying flag value is DEFAULT. If
     * isWorkingDay were the only method available to access this flag,
     * it would not be possible to determine that a resource calendar
-    * had one or moe flags set to DEFAULT.
+    * had one or more flags set to DEFAULT.
     *
     * @param day required day
     * @return value of underlying working day flag
@@ -1068,6 +1068,14 @@ public final class ProjectCalendar extends ProjectEntity
       }
       
       return (total);
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public String toString()
+   {
+      return ("[ProjectCalendar name=" + m_name + "]");
    }
    
    /**

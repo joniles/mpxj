@@ -82,6 +82,14 @@ public final class DateRange
       m_endDate = endDate;
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public String toString ()
+   {
+      return("[DateRange start=" + m_startDate + " end=" + m_endDate + "]");
+   }
+   
    public static final DateRange EMPTY_RANGE = new DateRange (null, null);
 
    private Date m_startDate;
