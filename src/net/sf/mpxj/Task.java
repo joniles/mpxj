@@ -6286,7 +6286,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public String toString()
    {
-      return ("[Task name=" + getName() + "]");
+      return ("[Task id=" + getID() + " name=" + getName() + "]");
    }
    
    /**
