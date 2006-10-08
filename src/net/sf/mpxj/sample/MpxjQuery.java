@@ -152,7 +152,7 @@ public class MpxjQuery
     */
    private static void listProjectHeader (ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm z");
       ProjectHeader header = file.getProjectHeader();
       Date startDate = header.getStartDate();
       Date finishDate = header.getFinishDate();
@@ -190,7 +190,7 @@ public class MpxjQuery
     */
    private static void listTasks (ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy hh:mm z");
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm z");
       List allTasks = file.getAllTasks();
       Iterator iter = allTasks.iterator();
       Task task;
