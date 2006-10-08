@@ -143,6 +143,8 @@ public class MpxjQuery
       listResourceNotes (mpx);
 
       listPredecessors (mpx);
+      
+      listSlack (mpx);
    }
 
    /**
@@ -489,6 +491,27 @@ public class MpxjQuery
             }
          }
       }
+   }
+   
+   /**
+    * List the slack values for each task.
+    * 
+    * @param file ProjectFile instance
+    */
+   private static void listSlack (ProjectFile file)
+   {
+      List tasks = file.getAllTasks();
+      Iterator iter = tasks.iterator();
+      Task task;
+      List predecessors;
+      Iterator predecessorIterator;
+      Relation relation;
+
+      while (iter.hasNext() == true)
+      {
+         task = (Task)iter.next();
+         System.out.println(task.getName() + " Total Slack=" + task.getTotalSlack() + " Start Slack=" + task.getStartSlack() + " Finish Slack=" + task.getFinishSlack());
+      }      
    }
 }
 
