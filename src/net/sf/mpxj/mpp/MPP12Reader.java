@@ -933,14 +933,17 @@ final class MPP12Reader implements MPPVariantReader
       //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
       VarMeta calVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
+      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream ((DocumentEntry)calDir.getEntry("Var2Data")));
 
-      DocumentEntry v2d = (DocumentEntry)calDir.getEntry("Var2Data");
-      DocumentInputStream dis=  new DocumentInputStream (v2d);
-      Var2Data calVarData = new Var2Data (calVarMeta, dis);
-
+      //System.out.println(calVarMeta);
+      //System.out.println(calVarData);
+      
       FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
       FixedData calFixedData = new FixedData (calFixedMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedData"))));
 
+      //System.out.println (calFixedMeta);
+      //System.out.println (calFixedData);
+      
       HashMap calendarMap = new HashMap ();
       int items = calFixedData.getItemCount();
       byte[] fixedData;
@@ -1006,7 +1009,8 @@ final class MPP12Reader implements MPPVariantReader
                   if (varData != null)
                   {
                      processCalendarHours (varData, cal);
-                     processCalendarExceptions (varData, cal);
+                     //Incomplete
+                     //processCalendarExceptions (varData, cal);
                   }
 
                   calendarMap.put (calendarID, cal);
@@ -1025,6 +1029,10 @@ final class MPP12Reader implements MPPVariantReader
     * day status for each day, and if present, sets the hours for that
     * day.
     *
+    * NOTE: MPP12 defines the concept of working weeks. MPXJ does not
+    * currently support this, and thus we only read the working hours
+    * for the default working week.
+    * 
     * @param data calendar data block
     * @param cal calendar instance
     * @throws net.sf.mpxj.MPXJException
@@ -1034,14 +1042,14 @@ final class MPP12Reader implements MPPVariantReader
    {
       int offset;
       ProjectCalendarHours hours;
-      int periodCount;
       int periodIndex;
       int index;
       int defaultFlag;
       Date start;
       long duration;
       Day day;
-
+      List dateRanges = new ArrayList(5);
+      
       //
       // Configure default time ranges
       //
@@ -1066,7 +1074,7 @@ final class MPP12Reader implements MPPVariantReader
 
       for (index=0; index < 7; index++)
       {
-         offset = 4 + (60 * index);
+         offset = 2 + (60 * index);
          defaultFlag = MPPUtility.getShort (data, offset);
          day = Day.getInstance(index+1);
 
@@ -1089,8 +1097,25 @@ final class MPP12Reader implements MPPVariantReader
          }
          else
          {
-            periodCount = MPPUtility.getShort (data, offset+2);
-            if (periodCount == 0)
+            dateRanges.clear();
+            
+            periodIndex = 0;
+            while (periodIndex < 5)
+            {
+               int startOffset = offset + 6 + (periodIndex * 2);
+               if (MPPUtility.getShort(data, startOffset) == 0)
+               {
+                  break;
+               }
+               start = MPPUtility.getTime (data, startOffset);
+               int durationOffset = offset + 18 + (periodIndex * 4);
+               duration = MPPUtility.getDuration (data, durationOffset);
+               Date end = new Date (start.getTime()+duration);
+               dateRanges.add(new DateRange (start, end));              
+               ++periodIndex;
+            }
+            
+            if (dateRanges.isEmpty())
             {
                cal.setWorkingDay(day, false);
             }
@@ -1099,11 +1124,10 @@ final class MPP12Reader implements MPPVariantReader
                cal.setWorkingDay(day, true);
                hours = cal.addCalendarHours(Day.getInstance(index+1));
 
-               for (periodIndex=0; periodIndex < periodCount; periodIndex++)
+               Iterator iter = dateRanges.iterator();
+               while (iter.hasNext())
                {
-                  start = MPPUtility.getTime (data, offset + 8 + (periodIndex * 2));
-                  duration = MPPUtility.getDuration (data, offset + 20 + (periodIndex * 4));
-                  hours.addDateRange(new DateRange (start, new Date (start.getTime()+duration)));
+                  hours.addDateRange((DateRange)iter.next());
                }
             }
          }
@@ -2360,7 +2384,7 @@ final class MPP12Reader implements MPPVariantReader
     * Calendar data types.
     */
    private static final Integer CALENDAR_NAME = new Integer (1);
-   private static final Integer CALENDAR_DATA = new Integer (3);
+   private static final Integer CALENDAR_DATA = new Integer (8);
 
    /**
     * Task data types.
