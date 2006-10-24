@@ -313,6 +313,51 @@ public final class ProjectCalendarException
    {
       m_toTime5 = to;
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   public String toString()
+   {
+      StringBuffer sb = new StringBuffer();
+      sb.append("[ProjectCalendarException");
+      sb.append(" working=" + m_working);
+      sb.append(" fromDate=" + m_fromDate);
+      sb.append(" toDate=" + m_toDate);
+      
+      if (m_fromTime1 != null)
+      {
+         sb.append(" fromTime1=" + m_fromTime1);
+         sb.append(" toTime1=" + m_toTime1);
+      }
+      
+      if (m_fromTime2 != null)
+      {
+         sb.append(" fromTime2=" + m_fromTime2);
+         sb.append(" toTime2=" + m_toTime2);
+      }
+      
+      if (m_fromTime3 != null)
+      {
+         sb.append(" fromTime3=" + m_fromTime3);
+         sb.append(" toTime3=" + m_toTime3);
+      }
+
+      if (m_fromTime4 != null)
+      {
+         sb.append(" fromTime4=" + m_fromTime4);
+         sb.append(" toTime4=" + m_toTime4);
+      }
+
+      if (m_fromTime5 != null)
+      {
+         sb.append(" fromTime5=" + m_fromTime5);
+         sb.append(" toTime5=" + m_toTime5);
+      }
+
+      sb.append("]");
+      return (sb.toString());
+   }
    
    private Date m_fromDate;
    private Date m_toDate;

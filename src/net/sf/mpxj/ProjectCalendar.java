@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -1075,7 +1077,40 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public String toString()
    {
-      return ("[ProjectCalendar name=" + m_name + "]");
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      PrintWriter pw = new PrintWriter (os);
+      pw.println("[ProjectCalendar");
+      pw.println("   ID=" + m_uniqueID);
+      pw.println("   name=" + m_name);
+      pw.println("   baseCalendarFlag=" + m_baseCalendarFlag);
+      pw.println("   baseCalendarName=" + (m_baseCalendar==null?"":m_baseCalendar.getName()));
+      pw.println("   resource=" + (m_resource==null?"":m_resource.getName()));
+      
+      String[] dayType = {"Non-working", "Working", "Default"};
+      String[] dayName = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+      
+      for (int loop=0; loop < 7; loop++)
+      {
+         pw.println("   [Day " + dayName[loop]);
+         pw.println("      type=" + dayType[m_days[loop]]);
+         pw.println("      hours=" + m_hours[loop]);
+         pw.println("   ]");
+      }
+      
+      if (!m_exceptions.isEmpty())
+      {
+         pw.println("   [Exceptions=");
+         Iterator iter = m_exceptions.iterator();
+         while (iter.hasNext())
+         {
+            pw.println("      " + iter.next().toString());
+         }
+         pw.println("   ]");
+      }
+      
+      pw.println("]");
+      pw.flush();
+      return(os.toString());
    }
    
    /**

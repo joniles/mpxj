@@ -1,5 +1,5 @@
 /*
- * file:       MpxQuery.java
+ * file:       MpxjQuery.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2002-2003
  * date:       13/02/2003
@@ -145,6 +145,8 @@ public class MpxjQuery
       listPredecessors (mpx);
       
       listSlack (mpx);
+      
+      listCalendars (mpx);
    }
 
    /**
@@ -511,6 +513,26 @@ public class MpxjQuery
       {
          task = (Task)iter.next();
          System.out.println(task.getName() + " Total Slack=" + task.getTotalSlack() + " Start Slack=" + task.getStartSlack() + " Finish Slack=" + task.getFinishSlack());
+      }      
+   }
+   
+   /**
+    * List details of all calendars in the file.
+    * 
+    * @param file ProjectFile instance
+    */
+   private static void listCalendars (ProjectFile file)
+   {
+      Iterator iter = file.getBaseCalendars().iterator();
+      while (iter.hasNext())
+      {
+         System.out.println(iter.next().toString());
+      }
+      
+      iter = file.getResourceCalendars().iterator();
+      while (iter.hasNext())
+      {
+         System.out.println(iter.next().toString());
       }      
    }
 }
