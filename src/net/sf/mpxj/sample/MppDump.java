@@ -86,7 +86,7 @@ public class MppDump
       PrintWriter pw = new PrintWriter (new FileWriter (output));
 
       POIFSFileSystem fs = new POIFSFileSystem (is);
-      dumpTree (pw, fs.getRoot(), true);
+      dumpTree (pw, fs.getRoot(), true, true, null);
 
       is.close();
       pw.flush();
@@ -99,10 +99,12 @@ public class MppDump
     *
     * @param pw Output PrintWriter
     * @param dir DirectoryEntry to dump
+    * @param showData flag indicating if data is dumped, or just structure
     * @param hex set to true if hex output is required
+    * @param indent indent used if displaying structure only
     * @throws Exception Thrown on file read errors
     */
-   private static void dumpTree (PrintWriter pw, DirectoryEntry dir, boolean hex)
+   private static void dumpTree (PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent)
       throws Exception
    {
       long byteCount;
@@ -112,22 +114,38 @@ public class MppDump
          Entry entry = (Entry)iter.next();
          if (entry instanceof DirectoryEntry)
          {
+            String childIndent = indent;
+            if (childIndent != null)
+            {
+               childIndent += " ";
+            }
             pw.println ("start dir: " + entry.getName());
-            dumpTree (pw, (DirectoryEntry)entry, hex);
+            dumpTree (pw, (DirectoryEntry)entry, showData, hex, childIndent);
             pw.println ("end dir: " + entry.getName());
          }
          else if (entry instanceof DocumentEntry)
          {
-            pw.println ("start doc: " + entry.getName());
-            if (hex == true)
+            if (showData)
             {
-               byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
+               pw.println ("start doc: " + entry.getName());
+               if (hex == true)
+               {
+                  byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
+               }
+               else
+               {
+                  byteCount = asciidump (new DocumentInputStream ((DocumentEntry)entry), pw);
+               }
+               pw.println ("end doc: " + entry.getName() + " (" + byteCount +" bytes read)");               
             }
             else
             {
-               byteCount = asciidump (new DocumentInputStream ((DocumentEntry)entry), pw);
+               if (indent != null)
+               {
+                  pw.print(indent);
+               }                              
+               pw.println ("doc: " + entry.getName());
             }
-            pw.println ("end doc: " + entry.getName() + " (" + byteCount +" bytes read)");
          }
          else
          {
