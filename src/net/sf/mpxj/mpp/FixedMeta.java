@@ -58,7 +58,7 @@ final class FixedMeta extends MPPComponent
       int fileSize = is.available();
 
       //
-      // First 8 bytes
+      // First 4 bytes
       //
       if (readInt (is) != MAGIC)
       {
