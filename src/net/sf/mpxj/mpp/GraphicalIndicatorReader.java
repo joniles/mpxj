@@ -233,7 +233,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case DataType.CURRENCY_VALUE: // 0x05
+            case DataType.CURRENCY_VALUE: // 0x06
             {
                Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset)/100);
                m_dataOffset += 8;
