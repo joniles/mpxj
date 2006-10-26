@@ -56,21 +56,21 @@ final class Props9 extends Props
 
       while (foundCount < headerCount)
       {
-         int attrib1 = readInt(is);
-         int attrib2 = readInt(is);
+         int itemSize = readInt(is);
+         int itemKey = readInt(is);
          /*int attrib3 = */readInt(is);
          availableBytes -= 12;
 
-         if (availableBytes < attrib1 || attrib1 < 1)
+         if (availableBytes < itemSize || itemSize < 1)
          {
             break;
          }
 
-         data = new byte[attrib1];
+         data = new byte[itemSize];
          is.read(data);
-         availableBytes -= attrib1;
+         availableBytes -= itemSize;
 
-         m_map.put(new Integer (attrib2), data);
+         m_map.put(new Integer (itemKey), data);
          //pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;
 
