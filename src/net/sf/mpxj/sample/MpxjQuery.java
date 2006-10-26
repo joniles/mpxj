@@ -238,7 +238,7 @@ public class MpxjQuery
             duration = "(no duration supplied)";
          }
 
-         System.out.println ("Task: " + task.getName() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Unique ID=" + task.getUniqueID() + ")");
+         System.out.println ("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + ")");
       }
       System.out.println ();
    }
