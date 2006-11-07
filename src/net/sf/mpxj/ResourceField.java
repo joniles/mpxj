@@ -345,7 +345,7 @@ public final class ResourceField implements FieldType
    public static final ResourceField PEAK = new ResourceField(PEAK_VALUE, DataType.NUMERIC);
    public static final ResourceField UNIQUE_ID = new ResourceField(UNIQUE_ID_VALUE, DataType.NUMERIC);
    public static final ResourceField NOTES = new ResourceField(NOTES_VALUE, DataType.STRING);
-   public static final ResourceField PERCENT_WORK_COMPLETE = new ResourceField(PERCENT_WORK_COMPLETE_VALUE, DataType.NUMERIC);
+   public static final ResourceField PERCENT_WORK_COMPLETE = new ResourceField(PERCENT_WORK_COMPLETE_VALUE, DataType.PERCENTAGE);
    public static final ResourceField TEXT3 = new ResourceField(TEXT3_VALUE, DataType.STRING);
    public static final ResourceField TEXT4 = new ResourceField(TEXT4_VALUE, DataType.STRING);
    public static final ResourceField TEXT5 = new ResourceField(TEXT5_VALUE, DataType.STRING);

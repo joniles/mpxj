@@ -388,7 +388,7 @@ public final class TaskField implements FieldType
    public static final TaskField DURATION_VARIANCE = new TaskField(DURATION_VARIANCE_VALUE, DataType.DURATION);
    public static final TaskField REMAINING_DURATION = new TaskField(REMAINING_DURATION_VALUE, DataType.DURATION);
    public static final TaskField PERCENT_COMPLETE = new TaskField(PERCENT_COMPLETE_VALUE, DataType.PERCENTAGE);
-   public static final TaskField PERCENT_WORK_COMPLETE = new TaskField(PERCENT_WORK_COMPLETE_VALUE, DataType.NUMERIC);
+   public static final TaskField PERCENT_WORK_COMPLETE = new TaskField(PERCENT_WORK_COMPLETE_VALUE, DataType.PERCENTAGE);
    public static final TaskField START = new TaskField(START_VALUE, DataType.DATE);
    public static final TaskField FINISH = new TaskField(FINISH_VALUE, DataType.DATE);
    public static final TaskField EARLY_START = new TaskField(EARLY_START_VALUE, DataType.DATE);
