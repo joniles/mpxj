@@ -1,5 +1,5 @@
 /*
- * file:       View9.java
+ * file:       GenericView.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2003
  * date:       06/04/2005

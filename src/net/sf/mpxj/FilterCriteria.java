@@ -1,8 +1,8 @@
 /*
- * file:       GraphicalIndicatorCriteria.java
+ * file:       FilterCriteria.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2006
- * date:       15-Feb-2006
+ * date:       30-Oct-2006
  */
  
 /*
@@ -25,71 +25,68 @@ package net.sf.mpxj;
 
 
 /**
- * This class represents the criteria used to determine if a graphical
- * indicator is displayed in place of an attribute value.
+ * This class represents the criteria used to determine if a row is filtered
+ * from a view.
  */
-public final class GraphicalIndicatorCriteria extends GenericCriteria
+public final class FilterCriteria extends GenericCriteria
 {
    /**
     * Constructor.
     * 
     * @param projectFile parent project file
     */
-   public GraphicalIndicatorCriteria (ProjectFile projectFile)
+   public FilterCriteria (ProjectFile projectFile)
    {
       super (projectFile);
    }
-   
+      
    /**
-    * Retrieve the number of the indicator to be displayed.
+    * Called to evaluate whether a row on a task or resource view should 
+    * be filtered. Returns false if the row should be filtered out.
     * 
-    * @return indicator number
-    */
-   public int getIndicator()
-   {
-      return m_indicator;
-   }
-   
-   /**
-    * Set the number of the indicator to be displayed.
-    * 
-    * @param indicator indicator number
-    */
-   public void setIndicator(int indicator)
-   {
-      m_indicator = indicator;
-   }
-   
-
-   /**
-    * Evaluate this criteria to determine if a graphical indicator should
-    * be displayed. This method will return -1 if no indicator should
-    * be displayed, or it will return a positive integer identifying the
-    * required indicator.
-    * 
-    * @param container field container
+    * @param container task or resource data container
     * @return boolean flag
     */
-   public int evaluate (FieldContainer container)
+   public boolean evaluate (FieldContainer container)
    {
-      return (evaluateCriteria(container)?m_indicator:-1);
+      return (evaluateCriteria(container));
    }
    
-      
+   /**
+    * Flag indicating if a logical AND operator is used to join the 
+    * following filter criteria (true) or a logical OR (false).
+    * 
+    * @param logicalAnd boolean flag
+    */
+   public void setLogicalAnd(boolean logicalAnd)
+   {
+      m_logicalAnd = logicalAnd;
+   }
+   
+   /**
+    * Retrieves the "logical and" flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getLogiclAnd ()
+   {
+      return (m_logicalAnd);
+   }
+   
    /**
     * {@inheritDoc}
     */
    public String toString ()
    {
       StringBuffer sb = new StringBuffer();
-      sb.append("[GraphicalIndicatorCriteria indicator=");
-      sb.append(m_indicator);
+      sb.append("[FilterCriteria");
+      sb.append(" logicalAnd=");
+      sb.append(m_logicalAnd);
       sb.append(" criteria=");
       sb.append(super.toString());
       sb.append("]");
       return (sb.toString());
    }
    
-
-   private int m_indicator;
+   private boolean m_logicalAnd;
 }

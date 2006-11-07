@@ -25,12 +25,10 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
@@ -114,40 +112,11 @@ public class GraphicalIndicator
       //
       // Now we have the criteria, evaluate each one until we get a result
       //
-      Object operand = container.get(m_fieldType);
-      switch (m_fieldType.getDataType().getType())
-      {
-         case DataType.DATE_VALUE:
-         {
-            if (operand != null)
-            {
-               operand = DateUtility.getDayStartDate((Date)operand);
-            }
-            break;
-         }
-         
-         case DataType.DURATION_VALUE:
-         {
-            if (operand != null)
-            {
-               Duration dur = (Duration)operand;
-               operand = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
-            }
-            break;
-         }
-         
-         case DataType.STRING_VALUE:
-         {
-            operand = operand==null?"":operand;
-            break;
-         }
-      }
-      
       int result = -1;
       Iterator iter = criteria.iterator();
       while (iter.hasNext() == true)
       {
-         result = ((GraphicalIndicatorCriteria)iter.next()).evaluate(operand, container);
+         result = ((GraphicalIndicatorCriteria)iter.next()).evaluate(container);
          if (result != -1)
          {
             break;

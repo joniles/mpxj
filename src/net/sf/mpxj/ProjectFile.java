@@ -1490,6 +1490,57 @@ public final class ProjectFile
    }
 
    /**
+    * Adds a filter definition to this project file.
+    * 
+    * @param filter filter definition
+    */
+   public void addFilter (Filter filter)
+   {
+      if (filter.isTaskFilter())
+      {
+         m_taskFilters.add(filter);
+      }
+      
+      if (filter.isResourceFilter())
+      {
+         m_resourceFilters.add(filter);
+      }
+      
+      m_filtersByName.put(filter.getName(), filter);
+   }
+   
+   /**
+    * Retrieves a list of all resource filters.
+    * 
+    * @return list of all resource filters
+    */
+   public List getAllResourceFilters ()
+   {
+      return (m_resourceFilters);
+   }
+   
+   /**
+    * Retrieves a list of all task filters.
+    * 
+    * @return list of all task filters
+    */
+   public List getAllTaskFilters ()
+   {
+      return (m_taskFilters);
+   }
+   
+   /**
+    * Retrieve a gven filter by name.
+    * 
+    * @param name filter name
+    * @return filter instance
+    */
+   public Filter getFilterByName (String name)
+   {
+      return ((Filter)m_filtersByName.get(name));
+   }
+   
+   /**
     * Adds the definition of a graphical indicator for a field type.
     * 
     * @param field field type
@@ -1759,6 +1810,21 @@ public final class ProjectFile
     */
    private Map m_resourceTablesByName = new HashMap();
 
+   /**
+    * List of all task filters.
+    */
+   private List m_taskFilters = new ArrayList();
+
+   /**
+    * List of all resource filters.
+    */
+   private List m_resourceFilters = new ArrayList();
+
+   /**
+    * Index of filters by name.
+    */
+   private Map m_filtersByName = new HashMap();
+   
    /**
     * Resource sub project.
     */

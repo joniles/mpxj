@@ -1,7 +1,7 @@
 /*
  * file:       MPP9Reader.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * copyright:  (c) Tapster Rock Limited 2002-2006
  * date:       22/05/2003
  */
 
@@ -146,6 +146,8 @@ final class MPP9Reader implements MPPVariantReader
       processViewPropertyData(projectDir);
       processTableData (file, projectDir);
       processViewData (file, projectDir);
+      processFilterData(file, projectDir);
+      processGroupData(file, projectDir);
    }
 
    /**
@@ -507,6 +509,7 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      //System.out.println(props);
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -2232,6 +2235,53 @@ final class MPP9Reader implements MPPVariantReader
       }
    }
 
+   /**
+    * Read filter definitions.
+    * 
+    * @param file project file
+    * @param projectDir project data directory
+    * @throws IOException
+    */
+   private void processFilterData (ProjectFile file, DirectoryEntry projectDir)
+      throws IOException
+   {           
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CFilter");
+      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
+      FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+
+//      System.out.println(fixedMeta);
+//      System.out.println(fixedData);
+//      System.out.println(varMeta);
+//      System.out.println(varData);
+
+      FilterReader reader = new FilterReader9();
+      reader.process(file, fixedData, varData);
+   }
+
+   /**
+    * Read group definitions.
+    * 
+    * @param file project file
+    * @param projectDir project data directory
+    * @throws IOException
+    */
+   private void processGroupData (ProjectFile file, DirectoryEntry projectDir)
+      throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CGrouping");
+      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
+      FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+   
+//      System.out.println(fixedMeta);
+//      System.out.println(fixedData);
+//      System.out.println(varMeta);
+//      System.out.println(varData);      
+   }
+   
    /**
     * This method processes the column data associated with the
     * current table.

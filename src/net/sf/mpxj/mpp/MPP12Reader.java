@@ -141,6 +141,8 @@ final class MPP12Reader implements MPPVariantReader
       processViewPropertyData(projectDir);
       processTableData (file, projectDir);
       processViewData (file, projectDir);
+      processFilterData(file, projectDir);
+      processGroupData(file, projectDir);
    }
 
    /**
@@ -2271,6 +2273,54 @@ final class MPP12Reader implements MPPVariantReader
 
          processColumnData (file, table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
       }
+   }
+
+   /**
+    * Read filter definitions.
+    * 
+    * @param file project file
+    * @param projectDir project data directory
+    * @throws IOException
+    */
+   private void processFilterData (ProjectFile file, DirectoryEntry projectDir)
+      throws IOException
+   {            
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CFilter");
+      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+
+      //System.out.println(fixedMeta);
+      //System.out.println(fixedData);
+      //System.out.println(varMeta);
+      //System.out.println(varData);
+
+      FilterReader reader = new FilterReader12();      
+      reader.process(file, fixedData, varData);
+   }
+
+   
+   /**
+    * Read group definitions.
+    * 
+    * @param file project file
+    * @param projectDir project data directory
+    * @throws IOException
+    */
+   private void processGroupData (ProjectFile file, DirectoryEntry projectDir)
+      throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CGrouping");
+      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+   
+//      System.out.println(fixedMeta);
+//      System.out.println(fixedData);
+//      System.out.println(varMeta);
+//      System.out.println(varData);      
    }
 
    /**

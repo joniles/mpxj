@@ -1,7 +1,7 @@
 /*
  * file:       GraphicalIndicatorReader.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2005
+ * copyright:  (c) Tapster Rock Limited 2006
  * date:       16-Feb-2006
  */
  
@@ -157,6 +157,7 @@ public final class GraphicalIndicatorReader
    private GraphicalIndicatorCriteria processCriteria (FieldType type)
    {
       GraphicalIndicatorCriteria criteria = new GraphicalIndicatorCriteria(m_file);
+      criteria.setField(type);
       
       int indicatorType = MPPUtility.getInt(m_data, m_dataOffset);
       m_dataOffset += 4;            
