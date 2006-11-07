@@ -136,6 +136,7 @@ public abstract class FilterReader
             int logicalOperator = MPPUtility.getShort(filterVarData, offset);
             switch (logicalOperator)
             {
+               case 0x19:
                case 0x1B:
                {
                   criteria.setLogicalAnd(true);

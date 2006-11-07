@@ -104,6 +104,16 @@ public class Filter
    }
    
    /**
+    * Retrieve the criteria used to define this filter.
+    * 
+    * @return list of filter criteria
+    */
+   public List getCriteria ()
+   {
+      return (m_criteria);
+   }
+   
+   /**
     * Retrieves a flag indicating if this is a task filter.
     * 
     * @return boolean flag

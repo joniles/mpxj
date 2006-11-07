@@ -115,6 +115,26 @@ public abstract class GenericCriteria
    }
 
    /**
+    * Retrieve the first value.
+    * 
+    * @return first value
+    */
+   public Object getValue ()
+   {
+      return (m_definedValues.get(0));
+   }
+
+   /**
+    * Retrieve a list of all values.
+    * 
+    * @return list of values
+    */
+   public List getValues ()
+   {
+      return (m_definedValues);
+   }
+
+   /**
     * Evaluate the criteria and return a boolean result.
     * 
     * @param container field container
