@@ -123,7 +123,7 @@ public class Filter
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         result = m_criteria.get(0) instanceof TaskField;            
+         result = ((FilterCriteria)m_criteria.get(0)).getField() instanceof TaskField;            
       }
       return (result);
    }
@@ -138,7 +138,7 @@ public class Filter
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         result = m_criteria.get(0) instanceof ResourceField;            
+         result = ((FilterCriteria)m_criteria.get(0)).getField() instanceof ResourceField;            
       }      
       return (result);
    }
