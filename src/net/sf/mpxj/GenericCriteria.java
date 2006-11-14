@@ -253,6 +253,8 @@ public abstract class GenericCriteria
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[GenericCriteria");
+      sb.append(" field=");
+      sb.append(m_field);
       sb.append(" operator=");
       sb.append(m_operator);
       if (m_definedValues.size() == 1)
