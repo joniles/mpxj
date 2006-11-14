@@ -134,6 +134,7 @@ public abstract class FilterReader
             
             // extract the logical operator here
             int logicalOperator = MPPUtility.getShort(filterVarData, offset);
+            //System.out.println("LogicalOperator=" + Integer.toHexString(logicalOperator));
             switch (logicalOperator)
             {
                case 0x19:
@@ -145,6 +146,7 @@ public abstract class FilterReader
                   break;
                }
                
+               case 0x1A:
                case 0x1C:
                {
                   criteria.setLogicalAnd(false);
@@ -211,7 +213,7 @@ public abstract class FilterReader
 
             case DataType.PERCENTAGE_VALUE:
             {
-               value = new Integer(MPPUtility.getInt(filterVarData, offset+192));
+               value = new Double(MPPUtility.getInt(filterVarData, offset+192));
                break;
             }
 
