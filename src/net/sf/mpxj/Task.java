@@ -2237,7 +2237,14 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public boolean getCritical ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(TaskField.CRITICAL)));
+      Boolean critical = (Boolean)get(TaskField.CRITICAL);
+      if (critical == null)
+      {
+         Duration totalSlack = getTotalSlack();
+         critical = Boolean.valueOf(totalSlack != null && totalSlack.getDuration() <= 0);
+         set(TaskField.CRITICAL, critical);
+      }
+      return (BooleanUtility.getBoolean(critical));
    }
 
    /**
@@ -6253,6 +6260,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
          case TaskField.FINISH_SLACK_VALUE:
          {
             m_array[TaskField.TOTAL_SLACK_VALUE] = null;
+            m_array[TaskField.CRITICAL_VALUE] = null;
             break;
          }
       }
