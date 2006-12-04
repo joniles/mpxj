@@ -275,6 +275,14 @@ public class MppFilterTest extends MPXJTestCase
        assertTrue(filter.evaluate(task5));
        assertFalse(filter.evaluate(task6));
        assertFalse(filter.evaluate(task7));       
+       
+       // Create and test an "is any value" filter
+       filter = new Filter ();
+       FilterCriteria criteria = new FilterCriteria(mpp);
+       filter.addCriteria(criteria);
+       criteria.setField(TaskField.DEADLINE);
+       criteria.setOperator(TestOperator.IS_ANY_VALUE);
+       assertTrue(filter.evaluate(task1));
     }
 
     /**
