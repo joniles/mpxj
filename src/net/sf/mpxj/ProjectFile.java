@@ -1608,6 +1608,26 @@ public final class ProjectFile
    }
 
    /**
+    * Retrieve a flag indicating if auto filter is enabled.
+    * 
+    * @return auto filter flag
+    */
+   public boolean getAutoFilter ()
+   {
+      return (m_autoFilter);
+   }
+   
+   /**
+    * Sets a flag indicating if auto filter is enabled.
+    * 
+    * @param autoFilter boolean flag
+    */
+   public void setAutoFilter (boolean autoFilter)
+   {
+      m_autoFilter = autoFilter;
+   }
+   
+   /**
     * Counter used to populate the unique ID field of a task.
     */
    private int m_taskUniqueID;
@@ -1829,4 +1849,9 @@ public final class ProjectFile
     * Resource sub project.
     */
    private SubProject m_resourceSubProject;
+   
+   /**
+    * Flag indicating if auto filter is enabled.
+    */
+   private boolean m_autoFilter;
 }

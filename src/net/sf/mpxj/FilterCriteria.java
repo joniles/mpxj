@@ -68,7 +68,7 @@ public final class FilterCriteria extends GenericCriteria
     * 
     * @return boolean flag
     */
-   public boolean getLogiclAnd ()
+   public boolean getLogicalAnd ()
    {
       return (m_logicalAnd);
    }

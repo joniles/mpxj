@@ -121,6 +121,11 @@ final class MPP9Reader implements MPPVariantReader
       }
 
       //
+      // Set the auto filter flag
+      //
+      file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+      
+      //
       // Retrieve the project directory
       //
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");

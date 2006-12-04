@@ -116,6 +116,11 @@ final class MPP12Reader implements MPPVariantReader
       }
 
       //
+      // Set the auto filter flag
+      //
+      file.setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
+
+      //
       // Retrieve the project directory
       //
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   112");

@@ -169,7 +169,7 @@ public class Filter
             {
                result = result || criteriaResult;
             }
-            logicalAnd = criteria.getLogiclAnd();
+            logicalAnd = criteria.getLogicalAnd();
          }
       }
       return (result);

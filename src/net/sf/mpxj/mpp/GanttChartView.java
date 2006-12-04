@@ -28,13 +28,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Filter;
+import net.sf.mpxj.FilterCriteria;
+import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
+import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TestOperator;
 
 
 /**
@@ -70,7 +80,7 @@ public abstract class GanttChartView extends GenericView
       
       m_showInMenu = (fixedMeta[8] & 0x08) != 0;
       
-      byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
+      byte[] propsData = varData.getByteArray(m_id, getPropertiesID());
       if (propsData != null)
       {
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
@@ -274,6 +284,12 @@ public abstract class GanttChartView extends GenericView
                   ++count;
                }
             }
+         }
+         
+         byte[] autoFilterData = props.getByteArray(AUTO_FILTER_PROPERTIES);
+         if (autoFilterData != null)
+         {
+            processAutoFilters (autoFilterData);
          }
       }
 
@@ -634,6 +650,17 @@ public abstract class GanttChartView extends GenericView
    public String getFilterName ()
    {
       return (m_filterName);
+   }
+   
+   /**
+    * Convenience method used to retrueve the filter instance
+    * associated with this view.
+    * 
+    * @return filter instance, null if no filter associated with view
+    */
+   public Filter getFilter ()
+   {
+      return (m_parent.getFilterByName(m_filterName));
    }
    
    /**
@@ -1264,6 +1291,214 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
+    * This method extracts auto filter definitions associated with this view.
+    * 
+    * @param data auto filter data
+    */
+   private void processAutoFilters (byte[] data)
+   {
+      //
+      // Offset into the block starting after the 8 byte header
+      //
+      int offset = 8;
+      String[] stringData = new String[2];
+      
+      //
+      // While we still have at least enough data for a single filter clause
+      //
+      while (offset + 224 < data.length)
+      {
+         int blockSize = MPPUtility.getShort(data, offset+8);
+         int varDataOffset= MPPUtility.getInt(data, offset+28) + 12;
+
+         stringData[0] = null;
+         stringData[1] = null;
+         
+         if (varDataOffset < blockSize)
+         {
+            stringData[0]=MPPUtility.getUnicodeString(data, offset+varDataOffset);
+            int nextOffset = varDataOffset + ((stringData[0].length() + 1 ) * 2);
+            if (nextOffset < blockSize)
+            {
+               stringData[1] = MPPUtility.getUnicodeString(data, offset + nextOffset);
+            }
+         }
+         
+         Filter filter = new Filter ();
+         FilterCriteria criteria = new FilterCriteria(m_parent);
+         filter.addCriteria(criteria);
+         
+         //
+         // Process the first criteria
+         //
+         int fieldType = MPPUtility.getShort(data, offset+4);
+         int entityType = MPPUtility.getByte(data, offset+7);
+         
+         FieldType type = null;
+         switch (entityType)
+         {
+            case 0x0B:               
+            {
+               type = MPPTaskField.getInstance(fieldType);
+               break;
+            }
+            
+            case 0x0C:               
+            {
+               type = MPPResourceField.getInstance(fieldType);
+               break;
+            }            
+         }
+         criteria.setField(type);
+            
+         int operatorValue = MPPUtility.getInt(data, offset+32);
+         criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
+
+         Object value = getValue(type, data, offset, stringData[0]);               
+         criteria.addValue(value);
+
+         if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
+         {
+            value = getValue(type, data, offset+80, null);               
+            criteria.addValue(value);               
+         }
+
+         //
+         // If we have enough data left in the block for 
+         // a second criteria then process it
+         //         
+         if (varDataOffset-272 >= 272)
+         {
+            criteria.setLogicalAnd((MPPUtility.getByte(data, offset+272) & 0x01) == 1);
+            
+            criteria = new FilterCriteria(m_parent);
+            filter.addCriteria(criteria);
+            
+            criteria.setField(type);
+
+            operatorValue = MPPUtility.getInt(data, offset+272+80);
+            criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
+
+            value = getValue(type, data, offset+272+48, stringData[1]);               
+            criteria.addValue(value);
+
+            if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
+            {
+               value = getValue(type, data, offset+272+128+80, null);               
+               criteria.addValue(value);             
+            }
+         }
+         
+         offset += blockSize;
+         
+         m_autoFilters.add(filter);
+         m_autoFiltersByType.put(type, filter);
+      }
+   }
+   
+   /**
+    * This is a generic method used to retrieve the RHS value of a filter
+    * expression.
+    * 
+    * @param type field type
+    * @param filterData filter data block
+    * @param offset current offset into the block
+    * @param stringData string data associated with this filter clause
+    * @return filter expression value
+    */
+   private Object getValue (FieldType type, byte[] filterData, int offset, String stringData)
+   {
+      Object value = null;
+      
+      boolean valueFlag = (MPPUtility.getInt(filterData, offset+192) == 1);
+      if (valueFlag == false)
+      {
+         int field = MPPUtility.getShort(filterData, offset+200);               
+         if (type instanceof TaskField)
+         {
+            value = MPPTaskField.getInstance(field);
+         }
+         else
+         {
+            value = MPPResourceField.getInstance(field);
+         }         
+      }
+      else
+      {                  
+         switch (type.getDataType().getType())
+         {
+            case DataType.DURATION_VALUE:
+            {
+               value = MPPUtility.getAdjustedDuration (m_parent, MPPUtility.getInt (filterData, offset+224), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (filterData, offset+224)));
+               break;
+            }
+            
+            case DataType.NUMERIC_VALUE:
+            {
+               value = new Double(MPPUtility.getDouble(filterData, offset+224));
+               break;
+            }
+
+            case DataType.PERCENTAGE_VALUE:
+            {
+               value = new Double(MPPUtility.getInt(filterData, offset+224));
+               break;
+            }
+
+            case DataType.CURRENCY_VALUE:
+            {
+               value = new Double(MPPUtility.getDouble(filterData, offset+224)/100);
+               break;
+            }
+            
+            case DataType.STRING_VALUE:
+            {
+               value = stringData;
+               break;
+            }
+            
+            case DataType.BOOLEAN_VALUE:
+            {
+               int intValue = MPPUtility.getShort(filterData, offset+224);
+               value = (intValue==1?Boolean.TRUE:Boolean.FALSE);
+               break;
+            }
+            
+            case DataType.DATE_VALUE:
+            {
+               value = MPPUtility.getTimestamp(filterData, offset+224);
+               break;
+            }
+         }                              
+      }       
+      
+      return (value);
+   }   
+   
+   /**
+    * Retrieves a list of all auto filters associated with this view.
+    * 
+    * @return list of filter instances
+    */
+   public List getAutoFilters ()
+   {
+      return (m_autoFilters);
+   }
+   
+   /**
+    * Retrieves the auto filter defintion associated with an 
+    * individual column. Returns null if there is no filter defined for
+    * the supplied column type.
+    * 
+    * @param type field type
+    * @return filter instance
+    */
+   public Filter getAutoFilterByType (FieldType type)
+   {
+      return ((Filter)m_autoFiltersByType.get(type));
+   }
+   
+   /**
     * Generate a string representation of this instance.
     *
     * @return string representation of this instance
@@ -1412,6 +1647,15 @@ public abstract class GanttChartView extends GenericView
          }
       }
 
+      if (!m_autoFilters.isEmpty())
+      {
+         Iterator iter = m_autoFilters.iterator();
+         while (iter.hasNext())
+         {
+            pw.println ("   AutoFilter=" + iter.next());            
+         }
+      }
+      
       pw.println ("]");
       pw.flush();
       return (os.toString());
@@ -1512,7 +1756,9 @@ public abstract class GanttChartView extends GenericView
    private LineStyle m_progressLinesOtherLineStyle;
    private ColorType m_progressLinesOtherProgressPointColor;
    private int m_progressLinesOtherProgressPointShape;
-
+   private List m_autoFilters = new LinkedList();
+   private Map m_autoFiltersByType = new HashMap ();
+   
    private static final Integer PROPERTIES = new Integer (1);
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
    private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);
@@ -1523,4 +1769,5 @@ public abstract class GanttChartView extends GenericView
    private static final Integer GROUP_NAME = new Integer (574619672);
    private static final Integer COLUMN_PROPERTIES = new Integer (574619660);
    private static final Integer PROGRESS_LINE_PROPERTIES = new Integer (574619671);
+   private static final Integer AUTO_FILTER_PROPERTIES = new Integer (574619669);
 }

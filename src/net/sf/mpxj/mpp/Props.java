@@ -236,5 +236,7 @@ class Props extends MPPComponent
    
    public static final Integer FONT_BASES = new Integer (54525952);
 
+   public static final Integer AUTO_FILTER = new Integer (893386767);
+   
    protected TreeMap m_map = new TreeMap ();
 }
