@@ -283,6 +283,16 @@ public class MppFilterTest extends MPXJTestCase
        criteria.setField(TaskField.DEADLINE);
        criteria.setOperator(TestOperator.IS_ANY_VALUE);
        assertTrue(filter.evaluate(task1));
+       
+       // Create and test a boolean filter
+       filter = new Filter ();
+       criteria = new FilterCriteria(mpp);
+       filter.addCriteria(criteria);
+       criteria.setField(TaskField.FLAG1);
+       criteria.setOperator(TestOperator.EQUALS);
+       criteria.addValue(Boolean.TRUE);
+       assertTrue(filter.evaluate(task1));
+       assertFalse(filter.evaluate(task2));       
     }
 
     /**
@@ -319,6 +329,5 @@ public class MppFilterTest extends MPXJTestCase
        filter = mpp.getFilterByName("Filter 23");
        assertTrue(filter.evaluate(task6));
        assertTrue(filter.evaluate(task7));       
-
     }
 }

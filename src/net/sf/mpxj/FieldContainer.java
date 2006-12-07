@@ -42,13 +42,23 @@ public interface FieldContainer
    public void set(FieldType field, Object value);
    
    /**
-    * Retrieve a field value.
+    * Retrieve a field value. Use the cached value. Do not attempt to
+    * calculate a value if the cached value is null.
     * 
     * @param field field identifier
     * @return field value
     */
-   public Object get(FieldType field);
-   
+   public Object getCachedValue(FieldType field);
+
+   /**
+    * Retrieve a field value. If the cached value is null, attempt to
+    * calculate the current value.
+    * 
+    * @param field field identifier
+    * @return field value
+    */
+   public Object getCurrentValue(FieldType field);
+
    /**
     * Add a listener to receive field events.
     * 

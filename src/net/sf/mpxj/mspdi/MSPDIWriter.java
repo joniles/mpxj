@@ -567,7 +567,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
          mpxFieldID = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
-         value = mpx.get(mpxFieldID);
+         value = mpx.getCachedValue(mpxFieldID);
 
          if (value != null)
          {
@@ -767,7 +767,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
          mpxFieldID = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
-         value = mpx.get(mpxFieldID);
+         value = mpx.getCachedValue(mpxFieldID);
 
          if (value != null)
          {

@@ -153,7 +153,7 @@ final class TaskModel
          Task task = (Task)iter.next();
          for (int loop=0; loop < MPXTaskField.MAX_FIELDS; loop++)
          {
-            if (task.get(MPXTaskField.getMpxjField(loop)) != null)
+            if (task.getCachedValue(MPXTaskField.getMpxjField(loop)) != null)
             {
                if (m_flags[loop] == false)
                {

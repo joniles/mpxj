@@ -132,7 +132,7 @@ final class ResourceModel
          Resource resource = (Resource)iter.next();
          for (int loop=0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
-            if (resource.get(MPXResourceField.getMpxjField(loop)) != null)
+            if (resource.getCachedValue(MPXResourceField.getMpxjField(loop)) != null)
             {
                if (m_flags[loop] == false)
                {

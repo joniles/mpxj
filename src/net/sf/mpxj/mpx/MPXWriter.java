@@ -562,7 +562,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
 
          ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
-         Object value = record.get(resourceField);
+         Object value = record.getCachedValue(resourceField);
          value = formatType(resourceField.getDataType(), value);
 
          m_buffer.append (m_delimiter);
@@ -678,7 +678,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
 
          TaskField taskField = MPXTaskField.getMpxjField(field);
-         Object value = record.get(taskField);
+         Object value = record.getCachedValue(taskField);
          value = formatType(taskField.getDataType(), value);
 
          m_buffer.append (m_delimiter);

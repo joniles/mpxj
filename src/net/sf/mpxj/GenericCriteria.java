@@ -145,7 +145,7 @@ public abstract class GenericCriteria
       //
       // Retrieve the LHS value
       //
-      Object lhs = container.get(m_field);
+      Object lhs = container.getCurrentValue(m_field);
       switch (m_field.getDataType().getType())
       {
          case DataType.DATE_VALUE:
@@ -212,7 +212,7 @@ public abstract class GenericCriteria
          if (value instanceof FieldType)
          {
             FieldType type = (FieldType)value;
-            value = container.get(type);
+            value = container.getCachedValue(type);
             
             switch (type.getDataType().getType())
             {

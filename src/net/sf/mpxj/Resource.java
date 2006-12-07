@@ -77,7 +77,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getName ()
    {
-      return ((String)get(ResourceField.NAME));
+      return ((String)getCachedValue(ResourceField.NAME));
    }
 
    /**
@@ -97,7 +97,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public ResourceType getType ()
    {
-      return ((ResourceType)get(ResourceField.TYPE));
+      return ((ResourceType)getCachedValue(ResourceField.TYPE));
    }
 
    /**
@@ -137,7 +137,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getInitials ()
    {
-      return ((String)get(ResourceField.INITIALS));
+      return ((String)getCachedValue(ResourceField.INITIALS));
    }
 
    /**
@@ -157,7 +157,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getPhonetics ()
    {
-      return ((String)get(ResourceField.PHONETICS));
+      return ((String)getCachedValue(ResourceField.PHONETICS));
    }
 
    /**
@@ -197,7 +197,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getMaterialLabel ()
    {
-      return ((String)get(ResourceField.MATERIAL_LABEL));
+      return ((String)getCachedValue(ResourceField.MATERIAL_LABEL));
    }
 
    /**
@@ -217,7 +217,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getCode ()
    {
-      return ((String)get(ResourceField.CODE));
+      return ((String)getCachedValue(ResourceField.CODE));
    }
 
    /**
@@ -237,7 +237,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getGroup ()
    {
-      return ((String)get(ResourceField.GROUP));
+      return ((String)getCachedValue(ResourceField.GROUP));
    }
 
    /**
@@ -257,7 +257,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public WorkGroup getWorkGroup ()
    {
-      return ((WorkGroup)get(ResourceField.WORKGROUP));
+      return ((WorkGroup)getCachedValue(ResourceField.WORKGROUP));
    }
 
    /**
@@ -277,7 +277,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getEmailAddress ()
    {
-      return ((String)get(ResourceField.EMAIL_ADDRESS));
+      return ((String)getCachedValue(ResourceField.EMAIL_ADDRESS));
    }
 
    /**
@@ -297,7 +297,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getHyperlink ()
    {
-      return ((String)get(ResourceField.HYPERLINK));
+      return ((String)getCachedValue(ResourceField.HYPERLINK));
    }
 
    /**
@@ -317,7 +317,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getHyperlinkAddress ()
    {
-      return ((String)get(ResourceField.HYPERLINK_ADDRESS));
+      return ((String)getCachedValue(ResourceField.HYPERLINK_ADDRESS));
    }
 
    /**
@@ -337,7 +337,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getHyperlinkSubAddress ()
    {
-      return ((String)get(ResourceField.HYPERLINK_SUBADDRESS));
+      return ((String)getCachedValue(ResourceField.HYPERLINK_SUBADDRESS));
    }
 
    /**
@@ -357,7 +357,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getMaxUnits ()
    {
-      return ((Number)get(ResourceField.MAX_UNITS));
+      return ((Number)getCachedValue(ResourceField.MAX_UNITS));
    }
 
    /**
@@ -377,7 +377,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getPeakUnits ()
    {
-      return ((Number)get(ResourceField.PEAK));
+      return ((Number)getCachedValue(ResourceField.PEAK));
    }
 
    /**
@@ -397,7 +397,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getOverAllocated ()
    {
-      Boolean overallocated = (Boolean)get(ResourceField.OVERALLOCATED);
+      Boolean overallocated = (Boolean)getCachedValue(ResourceField.OVERALLOCATED);
       if (overallocated == null)
       {
          Number peakUnits = getPeakUnits();
@@ -415,7 +415,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getAvailableFrom ()
    {
-      return ((Date)get(ResourceField.AVAILABLE_FROM));
+      return ((Date)getCachedValue(ResourceField.AVAILABLE_FROM));
    }
 
    /**
@@ -435,7 +435,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getAvailableTo ()
    {
-      return ((Date)get(ResourceField.AVAILABLE_TO));
+      return ((Date)getCachedValue(ResourceField.AVAILABLE_TO));
    }
 
    /**
@@ -465,7 +465,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart ()
    {
-      return ((Date)get(ResourceField.START));
+      return ((Date)getCachedValue(ResourceField.START));
    }
 
    /**
@@ -485,7 +485,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish ()
    {
-      return ((Date)get(ResourceField.FINISH));
+      return ((Date)getCachedValue(ResourceField.FINISH));
    }
 
    /**
@@ -507,7 +507,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getCanLevel ()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.CAN_LEVEL)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.CAN_LEVEL)));
    }
 
    /**
@@ -531,7 +531,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public AccrueType getAccrueAt ()
    {
-      return ((AccrueType)get(ResourceField.ACCRUE_AT));
+      return ((AccrueType)getCachedValue(ResourceField.ACCRUE_AT));
    }
 
    /**
@@ -551,7 +551,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getWork ()
    {
-      return ((Duration)get(ResourceField.WORK));
+      return ((Duration)getCachedValue(ResourceField.WORK));
    }
 
    /**
@@ -562,7 +562,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getRegularWork ()
    {
-      return ((Duration)get(ResourceField.REGULAR_WORK));
+      return ((Duration)getCachedValue(ResourceField.REGULAR_WORK));
    }
 
    /**
@@ -595,7 +595,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getActualWork ()
    {
-      return ((Duration)get(ResourceField.ACTUAL_WORK));
+      return ((Duration)getCachedValue(ResourceField.ACTUAL_WORK));
    }
 
    /**
@@ -615,7 +615,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getOvertimeWork ()
    {
-      return ((Duration)get(ResourceField.OVERTIME_WORK));
+      return ((Duration)getCachedValue(ResourceField.OVERTIME_WORK));
    }
 
    /**
@@ -635,7 +635,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getRemainingWork ()
    {
-      return ((Duration)get(ResourceField.REMAINING_WORK));
+      return ((Duration)getCachedValue(ResourceField.REMAINING_WORK));
    }
 
    /**
@@ -645,7 +645,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getActualOvertimeWork ()
    {
-      return ((Duration)get(ResourceField.ACTUAL_OVERTIME_WORK));
+      return ((Duration)getCachedValue(ResourceField.ACTUAL_OVERTIME_WORK));
    }
 
    /**
@@ -665,7 +665,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getRemainingOvertimeWork ()
    {
-      return ((Duration)get(ResourceField.REMAINING_OVERTIME_WORK));
+      return ((Duration)getCachedValue(ResourceField.REMAINING_OVERTIME_WORK));
    }
 
    /**
@@ -695,7 +695,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getPercentWorkComplete ()
    {
-      return ((Number)get(ResourceField.PERCENT_WORK_COMPLETE));
+      return ((Number)getCachedValue(ResourceField.PERCENT_WORK_COMPLETE));
    }
 
    /**
@@ -715,7 +715,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Rate getStandardRate ()
    {
-      return ((Rate)get(ResourceField.STANDARD_RATE));
+      return ((Rate)getCachedValue(ResourceField.STANDARD_RATE));
    }
 
    /**
@@ -755,7 +755,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost ()
    {
-      return ((Number)get(ResourceField.COST));
+      return ((Number)getCachedValue(ResourceField.COST));
    }
 
    /**
@@ -775,7 +775,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Rate getOvertimeRate ()
    {
-      return ((Rate)get(ResourceField.OVERTIME_RATE));
+      return ((Rate)getCachedValue(ResourceField.OVERTIME_RATE));
    }
 
    /**
@@ -805,7 +805,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getOvertimeCost()
    {
-      return ((Number)get(ResourceField.OVERTIME_COST));
+      return ((Number)getCachedValue(ResourceField.OVERTIME_COST));
    }
 
    /**
@@ -835,7 +835,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCostPerUse ()
    {
-      return ((Number)get(ResourceField.COST_PER_USE));
+      return ((Number)getCachedValue(ResourceField.COST_PER_USE));
    }
 
    /**
@@ -855,7 +855,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getActualCost ()
    {
-      return ((Number)get(ResourceField.ACTUAL_COST));
+      return ((Number)getCachedValue(ResourceField.ACTUAL_COST));
    }
 
    /**
@@ -865,7 +865,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getActualOvertimeCost()
    {
-      return ((Number)get(ResourceField.ACTUAL_OVERTIME_COST));
+      return ((Number)getCachedValue(ResourceField.ACTUAL_OVERTIME_COST));
    }
 
    /**
@@ -895,7 +895,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getRemainingCost ()
    {
-      return ((Number)get(ResourceField.REMAINING_COST));
+      return ((Number)getCachedValue(ResourceField.REMAINING_COST));
    }
 
    /**
@@ -905,7 +905,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getRemainingOvertimeCost()
    {
-      return ((Number)get(ResourceField.REMAINING_OVERTIME_COST));
+      return ((Number)getCachedValue(ResourceField.REMAINING_OVERTIME_COST));
    }
 
    /**
@@ -935,7 +935,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getWorkVariance ()
    {
-      Duration variance = (Duration)get(ResourceField.WORK_VARIANCE);
+      Duration variance = (Duration)getCachedValue(ResourceField.WORK_VARIANCE);
       if (variance == null)
       {
          Duration work = getWork();
@@ -966,7 +966,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCostVariance ()
    {
-      Number variance = (Number)get(ResourceField.COST_VARIANCE);
+      Number variance = (Number)getCachedValue(ResourceField.COST_VARIANCE);
       if (variance == null)
       {
          Number cost = getCost();
@@ -997,7 +997,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getSV ()
    {
-      Number variance = (Number)get(ResourceField.SV);
+      Number variance = (Number)getCachedValue(ResourceField.SV);
       if (variance == null)
       {
          Number bcwp = getBCWP();
@@ -1028,7 +1028,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCV ()
    {
-      Number variance = (Number)get(ResourceField.CV);
+      Number variance = (Number)getCachedValue(ResourceField.CV);
       if (variance == null)
       {
          variance = new Double (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
@@ -1054,7 +1054,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getACWP ()
    {
-      return ((Number)get(ResourceField.ACWP));
+      return ((Number)getCachedValue(ResourceField.ACWP));
    }
 
    /**
@@ -1074,7 +1074,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getNotes ()
    {
-      String notes = (String)get(ResourceField.NOTES);
+      String notes = (String)getCachedValue(ResourceField.NOTES);
       return (notes==null?"":notes);
    }
 
@@ -1095,7 +1095,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getBCWS ()
    {
-      return ((Number)get(ResourceField.BCWS));
+      return ((Number)getCachedValue(ResourceField.BCWS));
    }
 
    /**
@@ -1115,7 +1115,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getBCWP ()
    {
-      return ((Number)get(ResourceField.BCWP));
+      return ((Number)getCachedValue(ResourceField.BCWP));
    }
 
    /**
@@ -1488,7 +1488,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getBaseCalendar ()
    {
-      return (String)get(ResourceField.BASE_CALENDAR);
+      return (String)getCachedValue(ResourceField.BASE_CALENDAR);
    }
 
    /**
@@ -1500,7 +1500,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getBaselineCost ()
    {
-      return ((Number)get(ResourceField.BASELINE_COST));
+      return ((Number)getCachedValue(ResourceField.BASELINE_COST));
    }
 
    /**
@@ -1510,7 +1510,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getBaselineWork ()
    {
-      return ((Duration)get(ResourceField.BASELINE_WORK));
+      return ((Duration)getCachedValue(ResourceField.BASELINE_WORK));
    }
 
    /**
@@ -1520,7 +1520,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Integer getID ()
    {
-      return ((Integer) get(ResourceField.ID));
+      return ((Integer) getCachedValue(ResourceField.ID));
    }
 
    /**
@@ -1530,7 +1530,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getLinkedFields ()
    {
-      return ((String)get(ResourceField.LINKED_FIELDS));
+      return ((String)getCachedValue(ResourceField.LINKED_FIELDS));
    }
 
    /**
@@ -1540,7 +1540,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Integer getObjects ()
    {
-      return ((Integer)get (ResourceField.OBJECTS));
+      return ((Integer)getCachedValue (ResourceField.OBJECTS));
    }
 
    /**
@@ -1550,7 +1550,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText1 ()
    {
-      return ((String)get(ResourceField.TEXT1));
+      return ((String)getCachedValue(ResourceField.TEXT1));
    }
 
    /**
@@ -1560,7 +1560,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText2 ()
    {
-      return ((String)get(ResourceField.TEXT2));
+      return ((String)getCachedValue(ResourceField.TEXT2));
    }
 
    /**
@@ -1570,7 +1570,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText3 ()
    {
-      return ((String)get(ResourceField.TEXT3));
+      return ((String)getCachedValue(ResourceField.TEXT3));
    }
 
    /**
@@ -1580,7 +1580,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText4 ()
    {
-      return ((String)get(ResourceField.TEXT4));
+      return ((String)getCachedValue(ResourceField.TEXT4));
    }
 
    /**
@@ -1590,7 +1590,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText5 ()
    {
-      return ((String)get(ResourceField.TEXT5));
+      return ((String)getCachedValue(ResourceField.TEXT5));
    }
 
    /**
@@ -1600,7 +1600,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Integer getUniqueID ()
    {
-      return ((Integer)get (ResourceField.UNIQUE_ID));
+      return ((Integer)getCachedValue (ResourceField.UNIQUE_ID));
    }
 
    /**
@@ -1611,7 +1611,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText6()
    {
-      return ((String)get(ResourceField.TEXT6));
+      return ((String)getCachedValue(ResourceField.TEXT6));
    }
 
    /**
@@ -1622,7 +1622,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText7()
    {
-      return ((String)get(ResourceField.TEXT7));
+      return ((String)getCachedValue(ResourceField.TEXT7));
    }
 
    /**
@@ -1633,7 +1633,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText8()
    {
-      return ((String)get(ResourceField.TEXT8));
+      return ((String)getCachedValue(ResourceField.TEXT8));
    }
 
    /**
@@ -1644,7 +1644,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText9()
    {
-      return ((String)get(ResourceField.TEXT9));
+      return ((String)getCachedValue(ResourceField.TEXT9));
    }
 
    /**
@@ -1655,7 +1655,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText10()
    {
-      return ((String)get(ResourceField.TEXT10));
+      return ((String)getCachedValue(ResourceField.TEXT10));
    }
 
    /**
@@ -1666,7 +1666,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText11()
    {
-      return ((String)get(ResourceField.TEXT11));
+      return ((String)getCachedValue(ResourceField.TEXT11));
    }
 
    /**
@@ -1677,7 +1677,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText12()
    {
-      return ((String)get(ResourceField.TEXT12));
+      return ((String)getCachedValue(ResourceField.TEXT12));
    }
 
    /**
@@ -1688,7 +1688,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText13()
    {
-      return ((String)get(ResourceField.TEXT13));
+      return ((String)getCachedValue(ResourceField.TEXT13));
    }
 
    /**
@@ -1699,7 +1699,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText14()
    {
-      return ((String)get(ResourceField.TEXT14));
+      return ((String)getCachedValue(ResourceField.TEXT14));
    }
 
    /**
@@ -1710,7 +1710,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText15()
    {
-      return ((String)get(ResourceField.TEXT15));
+      return ((String)getCachedValue(ResourceField.TEXT15));
    }
 
    /**
@@ -1721,7 +1721,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText16()
    {
-      return ((String)get(ResourceField.TEXT16));
+      return ((String)getCachedValue(ResourceField.TEXT16));
    }
 
    /**
@@ -1732,7 +1732,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText17()
    {
-      return ((String)get(ResourceField.TEXT17));
+      return ((String)getCachedValue(ResourceField.TEXT17));
    }
 
    /**
@@ -1743,7 +1743,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText18()
    {
-      return ((String)get(ResourceField.TEXT18));
+      return ((String)getCachedValue(ResourceField.TEXT18));
    }
 
    /**
@@ -1754,7 +1754,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText19()
    {
-      return ((String)get(ResourceField.TEXT19));
+      return ((String)getCachedValue(ResourceField.TEXT19));
    }
 
    /**
@@ -1765,7 +1765,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText20()
    {
-      return ((String)get(ResourceField.TEXT20));
+      return ((String)getCachedValue(ResourceField.TEXT20));
    }
 
    /**
@@ -1776,7 +1776,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText21()
    {
-      return ((String)get(ResourceField.TEXT21));
+      return ((String)getCachedValue(ResourceField.TEXT21));
    }
 
    /**
@@ -1787,7 +1787,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText22()
    {
-      return ((String)get(ResourceField.TEXT22));
+      return ((String)getCachedValue(ResourceField.TEXT22));
    }
 
    /**
@@ -1798,7 +1798,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText23()
    {
-      return ((String)get(ResourceField.TEXT23));
+      return ((String)getCachedValue(ResourceField.TEXT23));
    }
 
    /**
@@ -1809,7 +1809,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText24()
    {
-      return ((String)get(ResourceField.TEXT24));
+      return ((String)getCachedValue(ResourceField.TEXT24));
    }
 
    /**
@@ -1820,7 +1820,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText25()
    {
-      return ((String)get(ResourceField.TEXT25));
+      return ((String)getCachedValue(ResourceField.TEXT25));
    }
 
    /**
@@ -1831,7 +1831,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText26()
    {
-      return ((String)get(ResourceField.TEXT26));
+      return ((String)getCachedValue(ResourceField.TEXT26));
    }
 
    /**
@@ -1842,7 +1842,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText27()
    {
-      return ((String)get(ResourceField.TEXT27));
+      return ((String)getCachedValue(ResourceField.TEXT27));
    }
 
    /**
@@ -1853,7 +1853,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText28()
    {
-      return ((String)get(ResourceField.TEXT28));
+      return ((String)getCachedValue(ResourceField.TEXT28));
    }
 
    /**
@@ -1864,7 +1864,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText29()
    {
-      return ((String)get(ResourceField.TEXT29));
+      return ((String)getCachedValue(ResourceField.TEXT29));
    }
 
    /**
@@ -1875,7 +1875,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getText30()
    {
-      return ((String)get(ResourceField.TEXT30));
+      return ((String)getCachedValue(ResourceField.TEXT30));
    }
 
    /**
@@ -2161,7 +2161,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart1()
    {
-      return ((Date)get(ResourceField.START1));
+      return ((Date)getCachedValue(ResourceField.START1));
    }
 
    /**
@@ -2172,7 +2172,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart2()
    {
-      return ((Date)get(ResourceField.START2));
+      return ((Date)getCachedValue(ResourceField.START2));
    }
 
    /**
@@ -2183,7 +2183,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart3()
    {
-      return ((Date)get(ResourceField.START3));
+      return ((Date)getCachedValue(ResourceField.START3));
    }
 
    /**
@@ -2194,7 +2194,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart4()
    {
-      return ((Date)get(ResourceField.START4));
+      return ((Date)getCachedValue(ResourceField.START4));
    }
 
    /**
@@ -2205,7 +2205,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart5()
    {
-      return ((Date)get(ResourceField.START5));
+      return ((Date)getCachedValue(ResourceField.START5));
    }
 
    /**
@@ -2216,7 +2216,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart6()
    {
-      return ((Date)get(ResourceField.START6));
+      return ((Date)getCachedValue(ResourceField.START6));
    }
 
    /**
@@ -2227,7 +2227,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart7()
    {
-      return ((Date)get(ResourceField.START7));
+      return ((Date)getCachedValue(ResourceField.START7));
    }
 
    /**
@@ -2238,7 +2238,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart8()
    {
-      return ((Date)get(ResourceField.START8));
+      return ((Date)getCachedValue(ResourceField.START8));
    }
 
    /**
@@ -2249,7 +2249,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart9()
    {
-      return ((Date)get(ResourceField.START9));
+      return ((Date)getCachedValue(ResourceField.START9));
    }
 
    /**
@@ -2260,7 +2260,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getStart10()
    {
-      return ((Date)get(ResourceField.START10));
+      return ((Date)getCachedValue(ResourceField.START10));
    }
 
    /**
@@ -2381,7 +2381,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish1()
    {
-      return ((Date)get(ResourceField.FINISH1));
+      return ((Date)getCachedValue(ResourceField.FINISH1));
    }
 
    /**
@@ -2392,7 +2392,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish2()
    {
-      return ((Date)get(ResourceField.FINISH2));
+      return ((Date)getCachedValue(ResourceField.FINISH2));
    }
 
    /**
@@ -2403,7 +2403,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish3()
    {
-      return ((Date)get(ResourceField.FINISH3));
+      return ((Date)getCachedValue(ResourceField.FINISH3));
    }
 
    /**
@@ -2414,7 +2414,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish4()
    {
-      return ((Date)get(ResourceField.FINISH4));
+      return ((Date)getCachedValue(ResourceField.FINISH4));
    }
 
    /**
@@ -2425,7 +2425,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish5()
    {
-      return ((Date)get(ResourceField.FINISH5));
+      return ((Date)getCachedValue(ResourceField.FINISH5));
    }
 
    /**
@@ -2436,7 +2436,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish6()
    {
-      return ((Date)get(ResourceField.FINISH6));
+      return ((Date)getCachedValue(ResourceField.FINISH6));
    }
 
    /**
@@ -2447,7 +2447,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish7()
    {
-      return ((Date)get(ResourceField.FINISH7));
+      return ((Date)getCachedValue(ResourceField.FINISH7));
    }
 
    /**
@@ -2458,7 +2458,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish8()
    {
-      return ((Date)get(ResourceField.FINISH8));
+      return ((Date)getCachedValue(ResourceField.FINISH8));
    }
 
    /**
@@ -2469,7 +2469,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish9()
    {
-      return ((Date)get(ResourceField.FINISH9));
+      return ((Date)getCachedValue(ResourceField.FINISH9));
    }
 
    /**
@@ -2480,7 +2480,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getFinish10()
    {
-      return ((Date)get(ResourceField.FINISH10));
+      return ((Date)getCachedValue(ResourceField.FINISH10));
    }
 
    /**
@@ -2612,7 +2612,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber1 ()
    {
-      return ((Number)get (ResourceField.NUMBER1));
+      return ((Number)getCachedValue (ResourceField.NUMBER1));
    }
 
 
@@ -2635,7 +2635,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber2 ()
    {
-      return ((Number)get (ResourceField.NUMBER2));
+      return ((Number)getCachedValue (ResourceField.NUMBER2));
    }
 
 
@@ -2658,7 +2658,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber3 ()
    {
-      return ((Number)get (ResourceField.NUMBER3));
+      return ((Number)getCachedValue (ResourceField.NUMBER3));
    }
 
 
@@ -2681,7 +2681,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber4 ()
    {
-      return ((Number)get (ResourceField.NUMBER4));
+      return ((Number)getCachedValue (ResourceField.NUMBER4));
    }
 
 
@@ -2704,7 +2704,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber5 ()
    {
-      return ((Number)get (ResourceField.NUMBER5));
+      return ((Number)getCachedValue (ResourceField.NUMBER5));
    }
 
 
@@ -2727,7 +2727,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber6 ()
    {
-      return ((Number)get (ResourceField.NUMBER6));
+      return ((Number)getCachedValue (ResourceField.NUMBER6));
    }
 
    /**
@@ -2749,7 +2749,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber7 ()
    {
-      return ((Number)get (ResourceField.NUMBER7));
+      return ((Number)getCachedValue (ResourceField.NUMBER7));
    }
 
    /**
@@ -2771,7 +2771,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber8 ()
    {
-      return ((Number)get (ResourceField.NUMBER8));
+      return ((Number)getCachedValue (ResourceField.NUMBER8));
    }
 
    /**
@@ -2793,7 +2793,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber9 ()
    {
-      return ((Number)get (ResourceField.NUMBER9));
+      return ((Number)getCachedValue (ResourceField.NUMBER9));
    }
 
    /**
@@ -2815,7 +2815,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber10 ()
    {
-      return ((Number)get (ResourceField.NUMBER10));
+      return ((Number)getCachedValue (ResourceField.NUMBER10));
    }
 
    /**
@@ -2837,7 +2837,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber11 ()
    {
-      return ((Number)get (ResourceField.NUMBER11));
+      return ((Number)getCachedValue (ResourceField.NUMBER11));
    }
 
    /**
@@ -2859,7 +2859,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber12 ()
    {
-      return ((Number)get (ResourceField.NUMBER12));
+      return ((Number)getCachedValue (ResourceField.NUMBER12));
    }
 
    /**
@@ -2881,7 +2881,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber13 ()
    {
-      return ((Number)get (ResourceField.NUMBER13));
+      return ((Number)getCachedValue (ResourceField.NUMBER13));
    }
 
    /**
@@ -2903,7 +2903,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber14 ()
    {
-      return ((Number)get (ResourceField.NUMBER14));
+      return ((Number)getCachedValue (ResourceField.NUMBER14));
    }
 
    /**
@@ -2925,7 +2925,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber15 ()
    {
-      return ((Number)get (ResourceField.NUMBER15));
+      return ((Number)getCachedValue (ResourceField.NUMBER15));
    }
 
    /**
@@ -2947,7 +2947,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber16 ()
    {
-      return ((Number)get (ResourceField.NUMBER16));
+      return ((Number)getCachedValue (ResourceField.NUMBER16));
    }
 
    /**
@@ -2969,7 +2969,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber17 ()
    {
-      return ((Number)get (ResourceField.NUMBER17));
+      return ((Number)getCachedValue (ResourceField.NUMBER17));
    }
 
    /**
@@ -2991,7 +2991,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber18 ()
    {
-      return ((Number)get (ResourceField.NUMBER18));
+      return ((Number)getCachedValue (ResourceField.NUMBER18));
    }
 
    /**
@@ -3013,7 +3013,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber19 ()
    {
-      return ((Number)get (ResourceField.NUMBER19));
+      return ((Number)getCachedValue (ResourceField.NUMBER19));
    }
 
    /**
@@ -3035,7 +3035,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getNumber20 ()
    {
-      return ((Number)get (ResourceField.NUMBER20));
+      return ((Number)getCachedValue (ResourceField.NUMBER20));
    }
 
    /**
@@ -3046,7 +3046,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration1()
    {
-      return (Duration)get(ResourceField.DURATION1);
+      return (Duration)getCachedValue(ResourceField.DURATION1);
    }
 
    /**
@@ -3057,7 +3057,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration2()
    {
-      return (Duration)get(ResourceField.DURATION2);
+      return (Duration)getCachedValue(ResourceField.DURATION2);
    }
 
    /**
@@ -3068,7 +3068,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration3()
    {
-      return (Duration)get(ResourceField.DURATION3);
+      return (Duration)getCachedValue(ResourceField.DURATION3);
    }
 
    /**
@@ -3079,7 +3079,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration4()
    {
-      return (Duration)get(ResourceField.DURATION4);
+      return (Duration)getCachedValue(ResourceField.DURATION4);
    }
 
    /**
@@ -3090,7 +3090,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration5()
    {
-      return (Duration)get(ResourceField.DURATION5);
+      return (Duration)getCachedValue(ResourceField.DURATION5);
    }
 
    /**
@@ -3101,7 +3101,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration6()
    {
-      return (Duration)get(ResourceField.DURATION6);
+      return (Duration)getCachedValue(ResourceField.DURATION6);
    }
 
    /**
@@ -3112,7 +3112,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration7()
    {
-      return (Duration)get(ResourceField.DURATION7);
+      return (Duration)getCachedValue(ResourceField.DURATION7);
    }
 
    /**
@@ -3123,7 +3123,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration8()
    {
-      return (Duration)get(ResourceField.DURATION8);
+      return (Duration)getCachedValue(ResourceField.DURATION8);
    }
 
    /**
@@ -3134,7 +3134,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration9()
    {
-      return (Duration)get(ResourceField.DURATION9);
+      return (Duration)getCachedValue(ResourceField.DURATION9);
    }
 
    /**
@@ -3145,7 +3145,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Duration getDuration10()
    {
-      return (Duration)get(ResourceField.DURATION10);
+      return (Duration)getCachedValue(ResourceField.DURATION10);
    }
 
    /**
@@ -3266,7 +3266,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate1()
    {
-      return ((Date)get(ResourceField.DATE1));
+      return ((Date)getCachedValue(ResourceField.DATE1));
    }
 
    /**
@@ -3277,7 +3277,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate10()
    {
-      return ((Date)get(ResourceField.DATE10));
+      return ((Date)getCachedValue(ResourceField.DATE10));
    }
 
    /**
@@ -3288,7 +3288,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate2()
    {
-      return ((Date)get(ResourceField.DATE2));
+      return ((Date)getCachedValue(ResourceField.DATE2));
    }
 
    /**
@@ -3299,7 +3299,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate3()
    {
-      return ((Date)get(ResourceField.DATE3));
+      return ((Date)getCachedValue(ResourceField.DATE3));
    }
 
    /**
@@ -3310,7 +3310,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate4()
    {
-      return ((Date)get(ResourceField.DATE4));
+      return ((Date)getCachedValue(ResourceField.DATE4));
    }
 
    /**
@@ -3321,7 +3321,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate5()
    {
-      return ((Date)get(ResourceField.DATE5));
+      return ((Date)getCachedValue(ResourceField.DATE5));
    }
 
    /**
@@ -3332,7 +3332,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate6()
    {
-      return ((Date)get(ResourceField.DATE6));
+      return ((Date)getCachedValue(ResourceField.DATE6));
    }
 
    /**
@@ -3343,7 +3343,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate7()
    {
-      return ((Date)get(ResourceField.DATE7));
+      return ((Date)getCachedValue(ResourceField.DATE7));
    }
 
    /**
@@ -3354,7 +3354,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate8()
    {
-      return ((Date)get(ResourceField.DATE8));
+      return ((Date)getCachedValue(ResourceField.DATE8));
    }
 
    /**
@@ -3365,7 +3365,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Date getDate9()
    {
-      return ((Date)get(ResourceField.DATE9));
+      return ((Date)getCachedValue(ResourceField.DATE9));
    }
 
    /**
@@ -3486,7 +3486,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost1()
    {
-      return ((Number)get(ResourceField.COST1));
+      return ((Number)getCachedValue(ResourceField.COST1));
    }
 
    /**
@@ -3497,7 +3497,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost2()
    {
-      return ((Number)get(ResourceField.COST2));
+      return ((Number)getCachedValue(ResourceField.COST2));
    }
 
    /**
@@ -3508,7 +3508,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost3()
    {
-      return ((Number)get(ResourceField.COST3));
+      return ((Number)getCachedValue(ResourceField.COST3));
    }
 
    /**
@@ -3519,7 +3519,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost4()
    {
-      return ((Number)get(ResourceField.COST4));
+      return ((Number)getCachedValue(ResourceField.COST4));
    }
 
    /**
@@ -3530,7 +3530,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost5()
    {
-      return ((Number)get(ResourceField.COST5));
+      return ((Number)getCachedValue(ResourceField.COST5));
    }
 
    /**
@@ -3541,7 +3541,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost6()
    {
-      return ((Number)get(ResourceField.COST6));
+      return ((Number)getCachedValue(ResourceField.COST6));
    }
 
    /**
@@ -3552,7 +3552,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost7()
    {
-      return ((Number)get(ResourceField.COST7));
+      return ((Number)getCachedValue(ResourceField.COST7));
    }
 
    /**
@@ -3563,7 +3563,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost8()
    {
-      return ((Number)get(ResourceField.COST8));
+      return ((Number)getCachedValue(ResourceField.COST8));
    }
 
    /**
@@ -3574,7 +3574,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost9()
    {
-      return ((Number)get(ResourceField.COST9));
+      return ((Number)getCachedValue(ResourceField.COST9));
    }
 
    /**
@@ -3585,7 +3585,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Number getCost10()
    {
-      return ((Number)get(ResourceField.COST10));
+      return ((Number)getCachedValue(ResourceField.COST10));
    }
 
    /**
@@ -3705,7 +3705,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag1()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG1)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG1)));
    }
 
    /**
@@ -3715,7 +3715,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag2()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG2)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG2)));
    }
 
    /**
@@ -3725,7 +3725,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag3()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG3)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG3)));
    }
 
    /**
@@ -3735,7 +3735,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag4()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG4)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG4)));
    }
 
    /**
@@ -3745,7 +3745,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag5()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG5)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG5)));
    }
 
    /**
@@ -3755,7 +3755,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag6()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG6)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG6)));
    }
 
    /**
@@ -3765,7 +3765,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag7()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG7)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG7)));
    }
 
    /**
@@ -3775,7 +3775,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag8()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG8)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG8)));
    }
 
    /**
@@ -3785,7 +3785,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag9()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG9)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG9)));
    }
 
    /**
@@ -3795,7 +3795,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag10()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG10)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG10)));
    }
 
    /**
@@ -3805,7 +3805,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag11()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG11)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG11)));
    }
 
    /**
@@ -3815,7 +3815,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag12()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG12)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG12)));
    }
 
    /**
@@ -3825,7 +3825,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag13()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG13)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG13)));
    }
 
    /**
@@ -3835,7 +3835,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag14()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG14)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG14)));
    }
 
    /**
@@ -3845,7 +3845,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag15()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG15)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG15)));
    }
 
    /**
@@ -3855,7 +3855,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag16()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG16)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG16)));
    }
 
    /**
@@ -3865,7 +3865,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag17()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG17)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG17)));
    }
 
    /**
@@ -3875,7 +3875,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag18()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG18)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG18)));
    }
 
    /**
@@ -3885,7 +3885,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag19()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG19)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG19)));
    }
 
    /**
@@ -3895,7 +3895,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public boolean getFlag20()
    {
-      return (BooleanUtility.getBoolean((Boolean)get(ResourceField.FLAG20)));
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(ResourceField.FLAG20)));
    }
 
    /**
@@ -4115,7 +4115,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode1 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE1));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE1));
    }
 
    /**
@@ -4135,7 +4135,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode2 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE2));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE2));
    }
 
    /**
@@ -4155,7 +4155,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode3 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE3));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE3));
    }
 
    /**
@@ -4175,7 +4175,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode4 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE4));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE4));
    }
 
    /**
@@ -4195,7 +4195,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode5 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE5));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE5));
    }
 
    /**
@@ -4215,7 +4215,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode6 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE6));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE6));
    }
 
    /**
@@ -4235,7 +4235,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode7 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE7));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE7));
    }
 
    /**
@@ -4255,7 +4255,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode8 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE8));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE8));
    }
 
    /**
@@ -4275,7 +4275,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode9 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE9));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE9));
    }
 
    /**
@@ -4295,7 +4295,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public String getOutlineCode10 ()
    {
-      return ((String)get(ResourceField.OUTLINE_CODE10));
+      return ((String)getCachedValue(ResourceField.OUTLINE_CODE10));
    }
 
    /**
@@ -4314,7 +4314,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     */
    public Object getFieldByAlias (String alias)
    {
-      return (get(getParentFile().getAliasResourceField(alias)));
+      return (getCachedValue(getParentFile().getAliasResourceField(alias)));
    }
 
    /**
@@ -4392,11 +4392,65 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
    /**
     * {@inheritDoc}
     */
-   public Object get (FieldType field)
+   public Object getCachedValue (FieldType field)
    {
       return (field==null?null:m_array[field.getValue()]);
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public Object getCurrentValue (FieldType field)
+   {
+      Object result = null;
+      
+      if (field != null)
+      {
+         int fieldValue = field.getValue();
+            
+         switch (fieldValue)
+         {
+            case ResourceField.COST_VARIANCE_VALUE:
+            {
+               result = getCostVariance();
+               break;
+            }
+            
+            case ResourceField.WORK_VARIANCE_VALUE:
+            {
+               result = getWorkVariance();
+               break;
+            }
+
+            case ResourceField.CV_VALUE:
+            {
+               result = getCV();
+               break;
+            }
+
+            case ResourceField.SV_VALUE:
+            {
+               result = getSV();
+               break;
+            }
+
+            case ResourceField.OVERALLOCATED_VALUE:
+            {
+               result = Boolean.valueOf(getOverAllocated());
+               break;
+            }
+
+            default:
+            {
+               result = m_array[fieldValue];
+               break;
+            }
+         }
+      }
+      
+      return (result);
+   }
+   
    /**
     * {@inheritDoc}
     */
