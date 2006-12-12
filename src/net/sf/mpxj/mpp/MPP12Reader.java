@@ -97,6 +97,11 @@ final class MPP12Reader implements MPPVariantReader
       m_reader = reader;
 
       //
+      // Set the file type
+      //
+      file.setMppFileType(12);
+
+      //
       // Retrieve the high level document properties
       //
       Props12 props12 = new Props12 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props12"))));
