@@ -1610,6 +1610,16 @@ final class MPP12Reader implements MPPVariantReader
                {
                   task.setFinish(task.getLateFinish());                  
                }
+               break;
+            }
+            
+            case ConstraintType.FINISH_NO_LATER_THAN_VALUE:
+            {
+               if (task.getFinish().getTime() < task.getStart().getTime())
+               {
+                  task.setFinish(task.getLateFinish());                  
+               }     
+               break;
             }
          }
 
