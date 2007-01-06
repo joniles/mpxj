@@ -99,7 +99,12 @@ public final class TaskField implements FieldType
     */
    public boolean equals (Object obj)
    {
-      return (m_value == ((TaskField)obj).m_value);
+      boolean result = false;
+      if (obj instanceof TaskField)
+      {
+         result = (m_value == ((TaskField)obj).m_value);
+      }
+      return (result);
    }
    
    /**

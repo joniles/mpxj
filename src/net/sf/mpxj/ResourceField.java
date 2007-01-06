@@ -99,7 +99,12 @@ public final class ResourceField implements FieldType
     */
    public boolean equals (Object obj)
    {
-      return (m_value == ((ResourceField)obj).m_value);
+      boolean result = false;
+      if (obj instanceof ResourceField)
+      {
+         result = (m_value == ((ResourceField)obj).m_value);
+      }
+      return (result);
    }
    
    /**

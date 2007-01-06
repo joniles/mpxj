@@ -21,6 +21,7 @@
       <action dev="joniles" type="fix">Fixed missing predecessor tasks in certain rare MPP9 files.</action>
       <action dev="joniles" type="fix">Fixed incorrect MPX file AM/PM text setting in certain locales.</action>
       <action dev="joniles" type="fix">Fixed an ArrayIndexOutOfBoundsException.</action>
+      <action dev="joniles" type="fix">Fixed a ClassCastException.</action>
       <action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
       <action dev="joniles" type="fix">Incorrect total slack calculation.</action>
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
