@@ -59,7 +59,10 @@ final class CompObj extends MPPComponent
          length = readInt(is);
          m_fileFormat = new String (readByteArray(is, length), 0, length-1);
          length = readInt(is);
-         m_applicationID = new String (readByteArray(is, length), 0, length-1);
+         if (length > 0)
+         {
+            m_applicationID = new String (readByteArray(is, length), 0, length-1);
+         }
       }
    }
 
