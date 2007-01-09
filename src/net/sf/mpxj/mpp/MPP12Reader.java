@@ -153,6 +153,7 @@ final class MPP12Reader implements MPPVariantReader
       processViewData (file, projectDir);
       processFilterData(file, projectDir);
       processGroupData(file, projectDir);
+      processSavedViewState(file, projectDir);
    }
 
    /**
@@ -2320,7 +2321,27 @@ final class MPP12Reader implements MPPVariantReader
       reader.process(file, fixedData, varData);
    }
 
+   /**
+    * Read saved view state from an MPP file.
+    * 
+    * @param file project file
+    * @param projectDir project data directory
+    * @throws IOException
+    */
+   private void processSavedViewState (ProjectFile file, DirectoryEntry projectDir)
+      throws IOException
+   {           
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CEdl");
+      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
    
+      //System.out.println(varMeta);
+      //System.out.println(varData);
+      
+      ViewStateReader reader = new ViewStateReader12();
+      reader.process(file, varData);
+   }
+ 
    /**
     * Read group definitions.
     * 

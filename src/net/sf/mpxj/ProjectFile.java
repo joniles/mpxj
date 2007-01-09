@@ -1628,6 +1628,26 @@ public final class ProjectFile
    }
    
    /**
+    * Set the saved view state associated with this file.
+    * 
+    * @param viewState view state
+    */
+   public void setViewState (ViewState viewState)
+   {
+      m_viewState = viewState;
+   }
+   
+   /**
+    * Retrieve the saved view state associated with this file.
+    * 
+    * @return view state
+    */
+   public ViewState getViewState ()
+   {
+      return (m_viewState);
+   }
+   
+   /**
     * Counter used to populate the unique ID field of a task.
     */
    private int m_taskUniqueID;
@@ -1854,4 +1874,9 @@ public final class ProjectFile
     * Flag indicating if auto filter is enabled.
     */
    private boolean m_autoFilter;
+   
+   /**
+    * Saved view state.
+    */
+   private ViewState m_viewState;
 }

@@ -153,6 +153,7 @@ final class MPP9Reader implements MPPVariantReader
       processViewData (file, projectDir);
       processFilterData(file, projectDir);
       processGroupData(file, projectDir);
+      processSavedViewState(file, projectDir);
    }
 
    /**
@@ -2296,7 +2297,28 @@ final class MPP9Reader implements MPPVariantReader
 //      System.out.println(varMeta);
 //      System.out.println(varData);      
    }
+
+   /**
+    * Read saved view state from an MPP file.
+    * 
+    * @param file project file
+    * @param projectDir project data directory
+    * @throws IOException
+    */
+   private void processSavedViewState (ProjectFile file, DirectoryEntry projectDir)
+      throws IOException
+   {           
+      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CEdl");
+      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
    
+      //System.out.println(varMeta);
+      //System.out.println(varData);
+      
+      ViewStateReader reader = new ViewStateReader9();
+      reader.process(file, varData);
+   }
+
    /**
     * This method processes the column data associated with the
     * current table.
