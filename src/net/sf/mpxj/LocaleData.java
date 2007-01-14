@@ -76,7 +76,7 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.BCWP_VALUE] = "BCWP";
       TASK_COLUMNS_ARRAY[TaskField.BCWS_VALUE] = "BCWS";
       TASK_COLUMNS_ARRAY[TaskField.SV_VALUE] = "SV";
-      TASK_COLUMNS_ARRAY[TaskField.NAME_VALUE] = "Name";
+      TASK_COLUMNS_ARRAY[TaskField.NAME_VALUE] = "Task Name";
       TASK_COLUMNS_ARRAY[TaskField.WBS_VALUE] = "WBS";
       TASK_COLUMNS_ARRAY[TaskField.CONSTRAINT_TYPE_VALUE] = "Constraint Type";
       TASK_COLUMNS_ARRAY[TaskField.CONSTRAINT_DATE_VALUE] = "Constraint Date";
