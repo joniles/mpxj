@@ -1510,6 +1510,29 @@ public final class ProjectFile
    }
    
    /**
+    * Removes a filter from this project file.
+    *
+    * @param filterName The name of the filter
+    */
+   public void removeFilter (String filterName)
+   {
+      Filter filter = getFilterByName(filterName);
+      if (filter != null) 
+      {
+         if (filter.isTaskFilter())
+         {
+            m_taskFilters.remove(filter);
+         }
+
+         if (filter.isResourceFilter())
+         {
+            m_resourceFilters.remove(filter);
+         }
+         m_filtersByName.remove(filterName);
+      }
+   }
+   
+   /**
     * Retrieves a list of all resource filters.
     * 
     * @return list of all resource filters
