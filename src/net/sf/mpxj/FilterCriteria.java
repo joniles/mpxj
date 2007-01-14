@@ -74,6 +74,43 @@ public final class FilterCriteria extends GenericCriteria
    }
    
    /**
+    * This methos retrieves the given item of prompt text.
+    * 
+    * @param index text index, either 0 or 1
+    * @return prompt text
+    */
+   public String getPromptText(int index)
+   {
+      return (m_promptText[index]);
+   }
+   
+   /**
+    * Sets an item of prompt text. Note that calling this method
+    * sets a flag indicating that the criteria has prompt text associated
+    * with it.
+    * 
+    * @param index text index, either 0 or 1
+    * @param text prompt text
+    */
+   public void setPromptText (int index, String text)
+   {
+      m_promptText[index] = text;
+      m_promptTextSet = true;
+   }
+   
+   /**
+    * Retrieves a flag indicating if prompt text has been set for 
+    * this criteria. This saves having to test both items of
+    * prompt text individually.
+    * 
+    * @return boolean flag
+    */
+   public boolean getPromptTextSet ()
+   {
+      return (m_promptTextSet);
+   }
+   
+   /**
     * {@inheritDoc}
     */
    public String toString ()
@@ -82,6 +119,16 @@ public final class FilterCriteria extends GenericCriteria
       sb.append("[FilterCriteria");
       sb.append(" logicalAnd=");
       sb.append(m_logicalAnd);
+      
+      if (m_promptTextSet)
+      {
+         sb.append( " promptText=[");
+         sb.append(m_promptText[0]);
+         sb.append(",");
+         sb.append(m_promptText[1]);
+         sb.append("]");
+      }
+      
       sb.append(" criteria=");
       sb.append(super.toString());
       sb.append("]");
@@ -89,4 +136,6 @@ public final class FilterCriteria extends GenericCriteria
    }
    
    private boolean m_logicalAnd;
+   private String[] m_promptText = new String[2];
+   private boolean m_promptTextSet;
 }

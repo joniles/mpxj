@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.List;
 
 
 /**
@@ -185,10 +184,10 @@ public final class TestOperator
     */
    private Object getSingleOperand (Object operand)
    {
-      if (operand instanceof List)
+      if (operand instanceof Object[])
       {
-         List list = (List)operand;
-         operand = list.isEmpty()?null:list.get(0);
+         Object[] list = (Object[])operand;
+         operand = list[0];
       }
       
       return (operand);
@@ -205,14 +204,11 @@ public final class TestOperator
    {
       boolean result = false;
       
-      if (lhs != null && rhs instanceof List)
+      if (lhs != null && rhs instanceof Object[])
       {
          Comparable lhsComparable = (Comparable)lhs;
-         List rhsList = (List)rhs;
-         if (rhsList.size() > 1)
-         {
-            result = (lhsComparable.compareTo(rhsList.get(0)) >=0 && lhsComparable.compareTo(rhsList.get(1)) <= 0);
-         }
+         Object[] rhsList = (Object[])rhs;
+         result = (lhsComparable.compareTo(rhsList[0]) >=0 && lhsComparable.compareTo(rhsList[1]) <= 0);
       }
                
       return (result);

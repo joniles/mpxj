@@ -1355,12 +1355,12 @@ public abstract class GanttChartView extends GenericView
          criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
 
          Object value = getValue(type, data, offset, stringData[0]);               
-         criteria.addValue(value);
+         criteria.setValue(0, value);
 
          if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
          {
             value = getValue(type, data, offset+80, null);               
-            criteria.addValue(value);               
+            criteria.setValue(1, value);               
          }
 
          //
@@ -1380,12 +1380,12 @@ public abstract class GanttChartView extends GenericView
             criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
 
             value = getValue(type, data, offset+272+48, stringData[1]);               
-            criteria.addValue(value);
+            criteria.setValue(0, value);
 
             if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
             {
                value = getValue(type, data, offset+272+128+80, null);               
-               criteria.addValue(value);             
+               criteria.setValue(1, value);             
             }
          }
          

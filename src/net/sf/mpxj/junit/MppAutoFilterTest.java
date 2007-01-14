@@ -86,80 +86,80 @@ public class MppAutoFilterTest extends MPXJTestCase
        FilterCriteria criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.DURATION, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(9, (int)((Duration)criteria.getValue()).getDuration());
-       assertEquals(TimeUnit.DAYS, ((Duration)criteria.getValue()).getUnits());
+       assertEquals(9, (int)((Duration)criteria.getValue(0)).getDuration());
+       assertEquals(TimeUnit.DAYS, ((Duration)criteria.getValue(0)).getUnits());
        assertTrue(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.DURATION, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(99, (int)((Duration)criteria.getValue()).getDuration());
-       assertEquals(TimeUnit.DAYS, ((Duration)criteria.getValue()).getUnits());
+       assertEquals(99, (int)((Duration)criteria.getValue(0)).getDuration());
+       assertEquals(TimeUnit.DAYS, ((Duration)criteria.getValue(0)).getUnits());
   
        filter = view.getAutoFilterByType(TaskField.NUMBER1);
        criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.NUMBER1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(9, ((Double)criteria.getValue()).intValue());
+       assertEquals(9, ((Double)criteria.getValue(0)).intValue());
        assertFalse(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.NUMBER1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(99, ((Double)criteria.getValue()).intValue());
+       assertEquals(99, ((Double)criteria.getValue(0)).intValue());
 
        filter = view.getAutoFilterByType(TaskField.PERCENT_COMPLETE);
        criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.PERCENT_COMPLETE, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(9, ((Double)criteria.getValue()).intValue());
+       assertEquals(9, ((Double)criteria.getValue(0)).intValue());
        assertFalse(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.PERCENT_COMPLETE, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(99, ((Double)criteria.getValue()).intValue());
+       assertEquals(99, ((Double)criteria.getValue(0)).intValue());
 
        filter = view.getAutoFilterByType(TaskField.COST1);
        criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.COST1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(9, ((Double)criteria.getValue()).intValue());
+       assertEquals(9, ((Double)criteria.getValue(0)).intValue());
        assertFalse(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.COST1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(99, ((Double)criteria.getValue()).intValue());
+       assertEquals(99, ((Double)criteria.getValue(0)).intValue());
 
        filter = view.getAutoFilterByType(TaskField.TEXT1);
        criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.TEXT1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals("9", criteria.getValue());
+       assertEquals("9", criteria.getValue(0));
        assertFalse(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.TEXT1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals("99", criteria.getValue());
+       assertEquals("99", criteria.getValue(0));
 
        filter = view.getAutoFilterByType(TaskField.FLAG1);
        criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.FLAG1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(Boolean.TRUE, criteria.getValue());
+       assertEquals(Boolean.TRUE, criteria.getValue(0));
        assertFalse(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.FLAG1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals(Boolean.FALSE, criteria.getValue());
+       assertEquals(Boolean.FALSE, criteria.getValue(0));
 
        filter = view.getAutoFilterByType(TaskField.DATE1);
        criteria = (FilterCriteria)filter.getCriteria().get(0);
        assertEquals(TaskField.DATE1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals("09/09/1999", df.format((Date)criteria.getValue()));
+       assertEquals("09/09/1999", df.format((Date)criteria.getValue(0)));
        assertFalse(criteria.getLogicalAnd());      
        criteria = (FilterCriteria)filter.getCriteria().get(1);
        assertEquals(TaskField.DATE1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
-       assertEquals("09/09/2009", df.format((Date)criteria.getValue()));
+       assertEquals("09/09/2009", df.format((Date)criteria.getValue(0)));
 
        
        //

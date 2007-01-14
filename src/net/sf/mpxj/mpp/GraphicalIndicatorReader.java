@@ -172,11 +172,11 @@ public final class GraphicalIndicatorReader
          
          if (operator != TestOperator.IS_ANY_VALUE)
          {
-            processOperandValue(type, criteria);
+            processOperandValue(0, type, criteria);
                
             if (operator == TestOperator.IS_WITHIN || operator == TestOperator.IS_NOT_WITHIN)
             {
-               processOperandValue(type, criteria);
+               processOperandValue(1, type, criteria);
             }
          }
       }
@@ -188,10 +188,11 @@ public final class GraphicalIndicatorReader
     * Process an operand value used in the definition of the graphical
     * indicator criteria.
     * 
+    * @param index position in operand list
     * @param type field type
     * @param criteria indicator criteria
     */
-   private void processOperandValue (FieldType type, GraphicalIndicatorCriteria criteria)
+   private void processOperandValue (int index, FieldType type, GraphicalIndicatorCriteria criteria)
    {
       boolean valueFlag = (MPPUtility.getInt(m_data, m_dataOffset) == 1);
       m_dataOffset += 4;
@@ -204,11 +205,11 @@ public final class GraphicalIndicatorReader
          m_dataOffset += 4;
          if (type instanceof TaskField)
          {
-            criteria.addValue(MPPTaskField.getInstance(field));
+            criteria.setValue(index, MPPTaskField.getInstance(field));
          }
          else
          {
-            criteria.addValue(MPPResourceField.getInstance(field));
+            criteria.setValue(index, MPPResourceField.getInstance(field));
          }         
       }
       else
@@ -222,7 +223,7 @@ public final class GraphicalIndicatorReader
             {
                Duration value = MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (m_data, m_dataOffset+4)));
                m_dataOffset += 6;
-               criteria.addValue(value);
+               criteria.setValue(index, value);
                break;
             }
             
@@ -230,7 +231,7 @@ public final class GraphicalIndicatorReader
             {
                Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset));
                m_dataOffset += 8;
-               criteria.addValue(value);
+               criteria.setValue(index, value);
                break;
             }
 
@@ -238,7 +239,7 @@ public final class GraphicalIndicatorReader
             {
                Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset)/100);
                m_dataOffset += 8;
-               criteria.addValue(value);
+               criteria.setValue(index, value);
                break;
             }
             
@@ -246,7 +247,7 @@ public final class GraphicalIndicatorReader
             {
                String value = MPPUtility.getUnicodeString(m_data, m_dataOffset);
                m_dataOffset += ((value.length()+1)*2);
-               criteria.addValue(value);
+               criteria.setValue(index, value);
                break;
             }
             
@@ -254,7 +255,7 @@ public final class GraphicalIndicatorReader
             {
                int value = MPPUtility.getShort(m_data, m_dataOffset);
                m_dataOffset += 2;
-               criteria.addValue(value==1?Boolean.TRUE:Boolean.FALSE);
+               criteria.setValue(index, value==1?Boolean.TRUE:Boolean.FALSE);
                break;
             }
             
@@ -262,7 +263,7 @@ public final class GraphicalIndicatorReader
             {
                Date value = MPPUtility.getTimestamp(m_data, m_dataOffset);
                m_dataOffset += 4;
-               criteria.addValue(value);
+               criteria.setValue(index, value);
                break;
             }
          }                              

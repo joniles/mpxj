@@ -23,11 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import net.sf.mpxj.utility.DateUtility;
 
@@ -90,11 +86,12 @@ public abstract class GenericCriteria
     * Add the value to list of values to be used as part of the
     * evaluation of this indicator.
     * 
+    * @param index position in the list
     * @param value evaluation value
     */
-   public void addValue (Object value)
+   public void setValue (int index, Object value)
    {
-      m_definedValues.add(value);
+      m_definedValues[index] = value;
       
       if (value instanceof FieldType)
       {
@@ -111,28 +108,20 @@ public abstract class GenericCriteria
          }
       }
       
-      m_workingValues.add(value);      
+      m_workingValues[index] = value;      
    }
 
    /**
     * Retrieve the first value.
     * 
+    * @param index position in the list
     * @return first value
     */
-   public Object getValue ()
+   public Object getValue (int index)
    {
-      return (m_definedValues.get(0));
+      return (m_definedValues[index]);
    }
 
-   /**
-    * Retrieve a list of all values.
-    * 
-    * @return list of values
-    */
-   public List getValues ()
-   {
-      return (m_definedValues);
-   }
 
    /**
     * Evaluate the criteria and return a boolean result.
@@ -177,7 +166,7 @@ public abstract class GenericCriteria
       //
       // Retrieve the RHS values
       //
-      List rhs;      
+      Object[] rhs;      
       if (m_symbolicValues == true)
       {
          rhs = processSymbolicValues (m_workingValues, container);
@@ -202,13 +191,18 @@ public abstract class GenericCriteria
     * @param container Task or Resource instance
     * @return new list of actual values
     */
-   private List processSymbolicValues (List oldValues, FieldContainer container)
+   private Object[] processSymbolicValues (Object[] oldValues, FieldContainer container)
    {
-      List newValues = new ArrayList(oldValues.size());
-      Iterator iter = oldValues.iterator();
-      while (iter.hasNext() == true)
+      Object[] newValues = new Object[2];
+      
+      for (int loop=0; loop < oldValues.length; loop++)
       {
-         Object value = iter.next();
+         Object value = oldValues[loop];
+         if (value == null)
+         {
+            continue;
+         }
+         
          if (value instanceof FieldType)
          {
             FieldType type = (FieldType)value;
@@ -241,7 +235,7 @@ public abstract class GenericCriteria
                }
             }
          }
-         newValues.add(value);
+         newValues[loop]=value;
       }      
       return (newValues);
    }
@@ -257,14 +251,11 @@ public abstract class GenericCriteria
       sb.append(m_field);
       sb.append(" operator=");
       sb.append(m_operator);
-      if (m_definedValues.size() == 1)
-      {
-         sb.append(" value=" + m_definedValues.get(0));
-      }
-      if (m_definedValues.size() == 2)
-      {
-         sb.append(" values=" + m_definedValues.get(0) + "," + m_definedValues.get(1));
-      }      
+      sb.append(" value=[");
+      sb.append(m_definedValues[0]);
+      sb.append(",");
+      sb.append(m_definedValues[1]);
+      sb.append("]");
       sb.append("]");
       return (sb.toString());
    }
@@ -273,7 +264,7 @@ public abstract class GenericCriteria
    private ProjectFile m_projectFile;
    private FieldType m_field;
    private TestOperator m_operator;
-   private List m_definedValues = new LinkedList();
-   private List m_workingValues = new LinkedList();
+   private Object[] m_definedValues = new Object[2];
+   private Object[] m_workingValues = new Object[2];
    private boolean m_symbolicValues;
 }

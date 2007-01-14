@@ -78,6 +78,9 @@ public abstract class FilterReader
          {
             continue;
          }
+
+         //System.out.println(filter.getName());
+         //System.out.println(MPPUtility.hexdump(filterVarData, true, 16, ""));
          
          int varDataOffset = MPPUtility.getInt(filterVarData, 16);
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
@@ -86,6 +89,7 @@ public abstract class FilterReader
          int offset = 20 + (2 * 80);
          while (offset + (3 * 80) <= varDataOffset)
          {
+            int startOffset = offset;
             FilterCriteria criteria = new FilterCriteria(file);
             filter.addCriteria(criteria);
             
@@ -112,19 +116,43 @@ public abstract class FilterReader
             }
             criteria.setField(type);
             
-            Object value = getValue(file, type, filterVarData, offset, varDataOffset);               
-            criteria.addValue(value);
-            
-            if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
+            if (MPPUtility.getByte(filterVarData, offset+224) == 0)
             {
-               value = getValue(file, type, filterVarData, offset+80, varDataOffset);               
-               criteria.addValue(value);               
+               Object value = getValue(file, type, filterVarData, offset, varDataOffset);               
+               criteria.setValue(0, value);
+               //System.out.println("Value=" + value);
+            }
+            else
+            {
+               String prompt = getPrompt(filterVarData, offset, varDataOffset);
+               criteria.setPromptText(0, prompt);
+               //System.out.println("Prompt=" + prompt);
+            }
+                       
+            if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
+            {                              
+               if (MPPUtility.getByte(filterVarData, offset+224+80) == 0)
+               {
+                  Object value = getValue(file, type, filterVarData, offset+80, varDataOffset);               
+                  criteria.setValue(1, value);               
+                  //System.out.println("Value=" + value);
+               }
+               else
+               {
+                  String prompt = getPrompt(filterVarData, offset+80, varDataOffset);
+                  criteria.setPromptText(1, prompt);
+                  //System.out.println("Prompt=" + prompt);
+               }
+
                offset += (4 * 80);
             }
             else
             {
                offset += (3 * 80);
             }
+            
+            //System.out.println(MPPUtility.hexdump(filterVarData, startOffset, offset-startOffset, true, 16, ""));
+            //System.out.println(criteria);
             
             // have we got enough data left for the logical operator
             if (offset + 80 > varDataOffset)
@@ -161,7 +189,11 @@ public abstract class FilterReader
                   break;
                }
             }                                                           
+            
+            
          }
+         
+         
          
         file.addFilter(filter);
         //System.out.println(filter);
@@ -247,4 +279,19 @@ public abstract class FilterReader
       
       return (value);
    }   
+   
+   /**
+    * Retrieve prompt text.
+    * 
+    * @param filterVarData filter data
+    * @param offset current offset
+    * @param varDataOffset variable data offset
+    * @return prompt text
+    */
+   private String getPrompt (byte[] filterVarData, int offset, int varDataOffset)
+   {
+      int textOffset = MPPUtility.getShort(filterVarData, offset + 232);                                          
+      String value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);      
+      return (value);
+   }      
 }
