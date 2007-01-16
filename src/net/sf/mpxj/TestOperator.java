@@ -208,7 +208,10 @@ public final class TestOperator
       {
          Comparable lhsComparable = (Comparable)lhs;
          Object[] rhsList = (Object[])rhs;
-         result = (lhsComparable.compareTo(rhsList[0]) >=0 && lhsComparable.compareTo(rhsList[1]) <= 0);
+         if (rhsList[0] != null && rhsList[1] != null)
+         {
+            result = (lhsComparable.compareTo(rhsList[0]) >=0 && lhsComparable.compareTo(rhsList[1]) <= 0);
+         }
       }
                
       return (result);
@@ -228,9 +231,23 @@ public final class TestOperator
       
       rhs = getSingleOperand(rhs);
       
-      if (lhs == null)
+      if (lhs == null || rhs == null)
       {
-         result = 1;
+         if (lhs == rhs)
+         {
+            result = 0;
+         }
+         else
+         {
+            if (lhs == null)
+            {
+               result = 1;
+            }
+            else
+            {
+               result = -1;
+            }
+         }
       }
       else
       {

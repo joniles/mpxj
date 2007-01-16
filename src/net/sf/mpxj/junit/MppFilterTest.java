@@ -389,6 +389,79 @@ public class MppFilterTest extends MPXJTestCase
        assertNull(criteria.getValue(1));
        assertNull(criteria.getPromptText(0));       
        assertEquals("RHS", criteria.getPromptText(1));       
+    }
+    
+    public void testNullValueTestOperators ()
+    {
+       TestOperator operator = TestOperator.CONTAINS;
+       assertFalse(operator.evaluate(null, null));
+       assertFalse(operator.evaluate("", null));
+       assertFalse(operator.evaluate(null, ""));
+       
+       operator = TestOperator.CONTAINS_EXACTLY;
+       assertFalse(operator.evaluate(null, null));
+       assertFalse(operator.evaluate("", null));
+       assertFalse(operator.evaluate(null, ""));
+       
+       operator = TestOperator.DOES_NOT_CONTAIN;
+       assertTrue(operator.evaluate(null, null));
+       assertTrue(operator.evaluate("", null));
+       assertTrue(operator.evaluate(null, ""));
+       
+       operator = TestOperator.DOES_NOT_EQUAL;
+       assertFalse(operator.evaluate(null, null));
+       assertTrue(operator.evaluate("", null));
+       assertTrue(operator.evaluate(null, ""));
 
+       operator = TestOperator.EQUALS;
+       assertTrue(operator.evaluate(null, null));
+       assertFalse(operator.evaluate("", null));
+       assertFalse(operator.evaluate(null, ""));
+       
+       operator = TestOperator.IS_GREATER_THAN;
+       assertFalse(operator.evaluate(null, null));
+       assertFalse(operator.evaluate("", null));
+       assertTrue(operator.evaluate(null, "")); 
+       
+       operator = TestOperator.IS_GREATER_THAN_OR_EQUAL_TO;
+       assertTrue(operator.evaluate(null, null));
+       assertFalse(operator.evaluate("", null));
+       assertTrue(operator.evaluate(null, "")); 
+       
+       operator = TestOperator.IS_LESS_THAN;
+       assertFalse(operator.evaluate(null, null));
+       assertTrue(operator.evaluate("", null));
+       assertFalse(operator.evaluate(null, "")); 
+       
+       operator = TestOperator.IS_LESS_THAN_OR_EQUAL_TO;
+       assertTrue(operator.evaluate(null, null));
+       assertTrue(operator.evaluate("", null));
+       assertFalse(operator.evaluate(null, "")); 
+       
+       Object[] allNull = new Object[]{null, null};
+       Object[] lhsNull = new Object[]{null, new Integer(10)};
+       Object[] rhsNull = new Object[]{new Integer(1), null};
+       
+       operator = TestOperator.IS_NOT_WITHIN;
+       assertTrue(operator.evaluate(null, allNull));
+       assertTrue(operator.evaluate(null, lhsNull));
+       assertTrue(operator.evaluate(null, rhsNull));       
+       assertTrue(operator.evaluate(new Integer(5), allNull));
+       assertTrue(operator.evaluate(new Integer(5), lhsNull));
+       assertTrue(operator.evaluate(new Integer(5), rhsNull));       
+       assertTrue(operator.evaluate(allNull, new Integer(5))); 
+       assertTrue(operator.evaluate(lhsNull, new Integer(5))); 
+       assertTrue(operator.evaluate(rhsNull, new Integer(5))); 
+       
+       operator = TestOperator.IS_WITHIN;
+       assertFalse(operator.evaluate(null, allNull));
+       assertFalse(operator.evaluate(null, lhsNull));
+       assertFalse(operator.evaluate(null, rhsNull));       
+       assertFalse(operator.evaluate(new Integer(5), allNull));
+       assertFalse(operator.evaluate(new Integer(5), lhsNull));
+       assertFalse(operator.evaluate(new Integer(5), rhsNull));       
+       assertFalse(operator.evaluate(allNull, new Integer(5))); 
+       assertFalse(operator.evaluate(lhsNull, new Integer(5))); 
+       assertFalse(operator.evaluate(rhsNull, new Integer(5)));               
     }
 }
