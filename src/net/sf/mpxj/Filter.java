@@ -101,6 +101,10 @@ public class Filter
    public void addCriteria (FilterCriteria criteria)
    {
       m_criteria.add(criteria);
+      if (criteria.getPromptTextSet())
+      {
+         m_promptTextSet = true;
+      }
    }
    
    /**
@@ -176,6 +180,19 @@ public class Filter
    }
    
    /**
+    * Retrieves a flag indicating if prompt text has been set for 
+    * any of the criteria associated with the filter. 
+    * This saves having to test each criteria item individually if no 
+    * prompts are present.
+    * 
+    * @return boolean flag
+    */
+   public boolean getPromptTextSet ()
+   {
+      return (m_promptTextSet);
+   }
+   
+   /**
     * {@inheritDoc}
     */
    public String toString ()
@@ -205,4 +222,5 @@ public class Filter
    private String m_name;
    private boolean m_showRelatedSummaryRows;
    private List m_criteria = new LinkedList();
+   private boolean m_promptTextSet;
 }
