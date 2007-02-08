@@ -1,0 +1,207 @@
+/*
+ * file:       GroupReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Tapster Rock Limited 2006
+ * date:       Oct 31, 2006
+ */
+ 
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.mpp;
+
+import java.io.IOException;
+import java.util.Map;
+
+import net.sf.mpxj.DataType;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Group;
+import net.sf.mpxj.GroupClause;
+import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPTaskField;
+import net.sf.mpxj.ProjectFile;
+
+/**
+ * This class allows filter definitions to be read from an MPP file.
+ */
+public abstract class GroupReader
+{
+   /**
+    * Retrieves the type used for the VarData lookup.
+    * 
+    * @return VarData type
+    */
+   protected abstract Integer getVarDataType ();
+   
+   /**
+    * Entry point for processing filter definitions.
+    * 
+    * @param file project file
+    * @param fixedData filter fixed data
+    * @param varData filter var data
+    * @param fontBases map of font bases
+    * @throws IOException
+    */
+   public void process (ProjectFile file, FixedData fixedData, Var2Data varData, Map fontBases)
+      throws IOException
+   {      
+      int groupCount = fixedData.getItemCount();
+      for (int groupLoop = 0; groupLoop < groupCount; groupLoop++)
+      {
+         byte[] groupFixedData = fixedData.getByteArrayValue(groupLoop);
+         if (groupFixedData == null || groupFixedData.length < 4)
+         {
+            continue;
+         }
+         
+         Integer groupID = new Integer(MPPUtility.getInt(groupFixedData, 0));
+                  
+         byte[] groupVarData = varData.getByteArray(groupID, getVarDataType());
+         if (groupVarData == null)
+         {
+            continue;
+         }
+         
+         String groupName = MPPUtility.getUnicodeString(groupFixedData, 4);         
+         
+         // 8 byte header, 48 byte blocks for each clause
+
+         // header=4 byte int for unique id
+         // short 4 = show summary tasks
+         // short int at byte 6 for number of clauses         
+         Integer groupUniqueID = new Integer(MPPUtility.getInt(groupVarData, 0));
+         boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
+         
+         Group group = new Group(groupID, groupName, showSummaryTasks);
+         file.addGroup(group);
+         
+         int clauseCount = MPPUtility.getShort(groupVarData, 6);
+         int offset = 8;
+         
+         for (int clauseIndex=0; clauseIndex < clauseCount; clauseIndex++)
+         {            
+            if (offset+47 > groupVarData.length)
+            {
+               break;
+            }
+            
+            GroupClause clause = new GroupClause();
+            group.addGroupClause(clause);
+            
+            int fieldType = MPPUtility.getShort(groupVarData, offset);
+            int entityType = MPPUtility.getByte(groupVarData, offset+3);
+            
+            FieldType type = null;
+            switch (entityType)
+            {
+               case 0x0B:               
+               {
+                  type = MPPTaskField.getInstance(fieldType);
+                  break;
+               }
+               
+               case 0x0C:               
+               {
+                  type = MPPResourceField.getInstance(fieldType);
+                  break;
+               }            
+            }
+
+            clause.setField(type);
+            
+            // from byte 0 2 byte short int - field type
+            // byte 3 - entity type 0b/0c
+            // 4th byte in clause is 1=asc 0=desc
+            // offset+8=font index, from font bases
+            // offset+12=color, byte
+            // offset+13=pattern, byte            
+            
+            boolean ascending = (MPPUtility.getByte(groupVarData, offset+4) != 0);
+            clause.setAscending(ascending);
+            
+            int fontIndex = MPPUtility.getByte(groupVarData, offset+8);
+            FontBase fontBase = (FontBase)fontBases.get(new Integer(fontIndex));
+            
+            
+            int style = MPPUtility.getByte(groupVarData, offset+9);
+            boolean bold = ((style & 0x01) != 0);
+            boolean italic = ((style & 0x02) != 0);
+            boolean underline = ((style & 0x04) != 0);
+            
+            
+            int fontColorIndex = MPPUtility.getByte(groupVarData, offset+10);
+            ColorType fontColor = ColorType.getInstance(fontColorIndex);
+
+            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor);
+            clause.setFont(fontStyle);
+            
+            int colorIndex = MPPUtility.getByte(groupVarData, offset+12);
+            ColorType color = ColorType.getInstance(colorIndex);
+            clause.setCellBackgroundColor(color);
+            
+            int patternIndex = MPPUtility.getByte(groupVarData, offset+13);
+            clause.setPattern(patternIndex);
+            
+            // offset+14=group on
+            int groupOn = MPPUtility.getShort(groupVarData, offset+14);
+            clause.setGroupOn(groupOn);
+            // offset+24=start at
+            // offset+40=group interval
+            
+            Object startAt = null;
+            Object groupInterval = null;
+            
+            switch (type.getDataType().getType())
+            {
+               case DataType.DURATION_VALUE:
+               case DataType.NUMERIC_VALUE:
+               case DataType.CURRENCY_VALUE:
+               {
+                  startAt = new Double(MPPUtility.getDouble(groupVarData, offset+24));
+                  groupInterval = new Double(MPPUtility.getDouble(groupVarData, offset+40));
+                  break;
+               }
+
+               case DataType.PERCENTAGE_VALUE:
+               {
+                  startAt = new Integer(MPPUtility.getInt(groupVarData, offset+24));
+                  groupInterval = new Integer(MPPUtility.getInt(groupVarData, offset+40));
+                  break;
+               }
+                              
+               case DataType.BOOLEAN_VALUE:
+               {
+                  startAt = (MPPUtility.getShort(groupVarData, offset+24)==1?Boolean.TRUE:Boolean.FALSE);
+                  break;
+               }
+               
+               case DataType.DATE_VALUE:
+               {
+                  startAt = MPPUtility.getTimestamp(groupVarData, offset+24);
+                  groupInterval = new Integer(MPPUtility.getInt(groupVarData, offset+40));
+                  break;
+               }
+            }                                          
+
+
+            clause.setStartAt(startAt);
+            clause.setGroupInterval(groupInterval);
+
+            offset += 48;
+         }
+      }      
+   }   
+}

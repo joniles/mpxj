@@ -2295,7 +2295,10 @@ final class MPP9Reader implements MPPVariantReader
 //      System.out.println(fixedMeta);
 //      System.out.println(fixedData);
 //      System.out.println(varMeta);
-//      System.out.println(varData);      
+//      System.out.println(varData);  
+      
+      GroupReader reader = new GroupReader9();
+      reader.process(file, fixedData, varData, m_fontBases);      
    }
 
    /**

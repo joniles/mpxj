@@ -2361,7 +2361,11 @@ final class MPP12Reader implements MPPVariantReader
 //      System.out.println(fixedMeta);
 //      System.out.println(fixedData);
 //      System.out.println(varMeta);
-//      System.out.println(varData);      
+//      System.out.println(varData);   
+      
+      GroupReader reader = new GroupReader12();
+      reader.process(file, fixedData, varData, m_fontBases);
+      
    }
 
    /**

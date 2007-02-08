@@ -1564,6 +1564,38 @@ public final class ProjectFile
    }
    
    /**
+    * Retrieves a list of all groups.
+    * 
+    * @return list of all groups
+    */
+   public List getAllGroups ()
+   {
+      return (m_groups);
+   }
+      
+   /**
+    * Retrieve a given group by name.
+    * 
+    * @param name group name
+    * @return Group instance
+    */
+   public Group getGroupByName (String name)
+   {
+      return ((Group)m_groupsByName.get(name));
+   }
+
+   /**
+    * Adds a group definition to this project file.
+    * 
+    * @param group group definition
+    */
+   public void addGroup (Group group)
+   {
+      m_groups.add(group);
+      m_groupsByName.put(group.getName(), group);
+   }
+   
+   /**
     * Adds the definition of a graphical indicator for a field type.
     * 
     * @param field field type
@@ -1887,6 +1919,16 @@ public final class ProjectFile
     * Index of filters by name.
     */
    private Map m_filtersByName = new HashMap();
+   
+   /**
+    * List of all groups.
+    */
+   private List m_groups = new ArrayList();
+   
+   /**
+    * Index of groups by name.
+    */
+   private Map m_groupsByName = new HashMap();
    
    /**
     * Resource sub project.

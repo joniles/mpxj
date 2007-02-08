@@ -391,6 +391,9 @@ public class MppFilterTest extends MPXJTestCase
        assertEquals("RHS", criteria.getPromptText(1));       
     }
     
+    /**
+     * Test null value handling.
+     */
     public void testNullValueTestOperators ()
     {
        TestOperator operator = TestOperator.CONTAINS;
