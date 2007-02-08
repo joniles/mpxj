@@ -802,11 +802,11 @@ public final class DatatypeConverter
                // Calculate the number of years
                //
                duration += xsd.getYears();
-               duration += (xsd.getMonths() / 12);
-               duration += (xsd.getDays() / 365);
-               duration += (xsd.getHours() / (365 * 24));
-               duration += (xsd.getMinutes() / (365 * 24 * 60));
-               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
+               duration += ((double)xsd.getMonths() / 12);
+               duration += ((double)xsd.getDays() / 365);
+               duration += ((double)xsd.getHours() / (365 * 24));
+               duration += ((double)xsd.getMinutes() / (365 * 24 * 60));
+               duration += ((double)xsd.getSeconds() / (365 * 24 * 60 * 60));
                break;
             }
 
@@ -816,11 +816,11 @@ public final class DatatypeConverter
                // Calculate the number of years
                //
                duration += xsd.getYears();
-               duration += (xsd.getMonths() / 12);
-               duration += (xsd.getDays() / 365);
-               duration += (xsd.getHours() / (365 * 24));
-               duration += (xsd.getMinutes() / (365 * 24 * 60));
-               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
+               duration += ((double)xsd.getMonths() / 12);
+               duration += ((double)xsd.getDays() / 365);
+               duration += ((double)xsd.getHours() / (365 * 24));
+               duration += ((double)xsd.getMinutes() / (365 * 24 * 60));
+               duration += ((double)xsd.getSeconds() / (365 * 24 * 60 * 60));
                break;
             }
 
@@ -831,10 +831,10 @@ public final class DatatypeConverter
                //
                duration += (xsd.getYears() * 12);
                duration += xsd.getMonths();
-               duration += (xsd.getDays() / 30);
-               duration += (xsd.getHours() / (30 * 24));
-               duration += (xsd.getMinutes() / (30 * 24 * 60));
-               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
+               duration += ((double)xsd.getDays() / 30);
+               duration += ((double)xsd.getHours() / (30 * 24));
+               duration += ((double)xsd.getMinutes() / (30 * 24 * 60));
+               duration += ((double)xsd.getSeconds() / (30 * 24 * 60 * 60));
                break;
             }
 
@@ -845,10 +845,10 @@ public final class DatatypeConverter
                //
                duration += (xsd.getYears() * 12);
                duration += xsd.getMonths();
-               duration += (xsd.getDays() / 30);
-               duration += (xsd.getHours() / (30 * 24));
-               duration += (xsd.getMinutes() / (30 * 24 * 60));
-               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
+               duration += ((double)xsd.getDays() / 30);
+               duration += ((double)xsd.getHours() / (30 * 24));
+               duration += ((double)xsd.getMinutes() / (30 * 24 * 60));
+               duration += ((double)xsd.getSeconds() / (30 * 24 * 60 * 60));
                break;
             }
 
@@ -859,10 +859,10 @@ public final class DatatypeConverter
                //
                duration += (xsd.getYears() * 52);
                duration += (xsd.getMonths() * 4);
-               duration += (xsd.getDays() / 7);
-               duration += (xsd.getHours() / (7 * 24));
-               duration += (xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
+               duration += ((double)xsd.getDays() / 7);
+               duration += ((double)xsd.getHours() / (7 * 24));
+               duration += ((double)xsd.getMinutes() / (7 * 24 * 60));
+               duration += ((double)xsd.getSeconds() / (7 * 24 * 60 * 60));
                break;
             }
 
@@ -873,10 +873,10 @@ public final class DatatypeConverter
                //
                duration += (xsd.getYears() * 52);
                duration += (xsd.getMonths() * 4);
-               duration += (xsd.getDays() / 7);
-               duration += (xsd.getHours() / (7 * 24));
-               duration += (xsd.getMinutes() / (7 * 24 * 60));
-               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
+               duration += ((double)xsd.getDays() / 7);
+               duration += ((double)xsd.getHours() / (7 * 24));
+               duration += ((double)xsd.getMinutes() / (7 * 24 * 60));
+               duration += ((double)xsd.getSeconds() / (7 * 24 * 60 * 60));
                break;
             }
 
@@ -888,9 +888,9 @@ public final class DatatypeConverter
                duration += (xsd.getYears() * 365);
                duration += (xsd.getMonths() * 30);
                duration += xsd.getDays();
-               duration += (xsd.getHours() / 24);
-               duration += (xsd.getMinutes() / (24 * 60));
-               duration += (xsd.getSeconds() / (24 * 60 * 60));
+               duration += ((double)xsd.getHours() / 24);
+               duration += ((double)xsd.getMinutes() / (24 * 60));
+               duration += ((double)xsd.getSeconds() / (24 * 60 * 60));
                break;
             }
 
@@ -902,9 +902,9 @@ public final class DatatypeConverter
                duration += (xsd.getYears() * 365);
                duration += (xsd.getMonths() * 30);
                duration += xsd.getDays();
-               duration += (xsd.getHours() / 24);
-               duration += (xsd.getMinutes() / (24 * 60));
-               duration += (xsd.getSeconds() / (24 * 60 * 60));
+               duration += ((double)xsd.getHours() / 24);
+               duration += ((double)xsd.getMinutes() / (24 * 60));
+               duration += ((double)xsd.getSeconds() / (24 * 60 * 60));
                break;
             }
 
@@ -918,8 +918,8 @@ public final class DatatypeConverter
                duration += (xsd.getMonths() * (30 * 24));
                duration += (xsd.getDays() * 24);
                duration += xsd.getHours();
-               duration += (xsd.getMinutes() / 60);
-               duration += (xsd.getSeconds() / (60 * 60));
+               duration += ((double)xsd.getMinutes() / 60);
+               duration += ((double)xsd.getSeconds() / (60 * 60));
                break;
             }
 
@@ -934,7 +934,7 @@ public final class DatatypeConverter
                duration += (xsd.getDays() * (24 * 60));
                duration += (xsd.getHours() * 60);
                duration += xsd.getMinutes();
-               duration += (xsd.getSeconds() / 60);
+               duration += ((double)xsd.getSeconds() / 60);
                break;
             }
          }
