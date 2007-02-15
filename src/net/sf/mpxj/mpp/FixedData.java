@@ -176,7 +176,7 @@ final class FixedData extends MPPComponent
          m_offset[loop] = itemOffset;
       }
    }
-   
+
    /**
     * This constructor is provided to allow the contents of a fixed data
     * block to be read when the size of the items in the data block is
@@ -191,15 +191,44 @@ final class FixedData extends MPPComponent
    FixedData (int itemSize, InputStream is)
       throws IOException
    {
+         this(itemSize, is, false);
+   }
+   
+   /**
+    * This constructor is provided to allow the contents of a fixed data
+    * block to be read when the size of the items in the data block is
+    * fixed and known in advance. This is used in one particular instance
+    * where the contents of the meta data block do not appear to be
+    * consistent.
+    *
+    * @param itemSize the size of the data items in the block
+    * @param is input stream from which the data is read
+    * @param readRemainderBlock read the final block even if it is not full size
+    * @throws IOException on file read failure
+    */
+   FixedData (int itemSize, InputStream is, boolean readRemainderBlock)
+      throws IOException
+   {
       int offset = 0;
       int itemCount = is.available() / itemSize;
+      if (readRemainderBlock == true && is.available() % itemSize != 0)
+      {
+         ++itemCount;
+      }
+      
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
 
       for (int loop=0; loop < itemCount; loop++)
       {
          m_offset[loop] = offset;
-         m_array[loop] = readByteArray (is, itemSize);
+         
+         int currentItemSize = itemSize;
+         if (readRemainderBlock == true && is.available() < itemSize)
+         {
+            currentItemSize = is.available();
+         }
+         m_array[loop] = readByteArray (is, currentItemSize);
          offset += itemSize;
       }
    }

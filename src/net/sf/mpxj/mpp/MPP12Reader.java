@@ -2255,8 +2255,11 @@ final class MPP12Reader implements MPPVariantReader
          if (offset > lastOffset)
          {
             byte[] fd = fixedData.getByteArrayValue(fixedData.getIndexFromOffset(offset));
-            view = factory.createView(file, fm, fd, viewVarData, m_fontBases);
-            file.addView(view);
+            if (fd != null)
+            {
+               view = factory.createView(file, fm, fd, viewVarData, m_fontBases);
+               file.addView(view);
+            }
             lastOffset = offset;
          }
       }      

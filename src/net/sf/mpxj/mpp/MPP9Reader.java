@@ -2208,8 +2208,11 @@ final class MPP9Reader implements MPPVariantReader
          if (offset > lastOffset)
          {
             byte[] fd = fixedData.getByteArrayValue(fixedData.getIndexFromOffset(offset));
-            view = factory.createView(file, fm, fd, viewVarData, m_fontBases);
-            file.addView(view);
+            if (fd != null)
+            {
+               view = factory.createView(file, fm, fd, viewVarData, m_fontBases);
+               file.addView(view);
+            }
             lastOffset = offset;
          }
       }      
@@ -2262,8 +2265,9 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException
    {           
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CFilter");
-      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
-      FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
+      //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      FixedData fixedData = new FixedData (220, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))), true);
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
@@ -2287,8 +2291,9 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CGrouping");
-      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
-      FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
+      //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
    

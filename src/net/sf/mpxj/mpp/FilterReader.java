@@ -65,7 +65,7 @@ public abstract class FilterReader
       for (int filterLoop = 0; filterLoop < filterCount; filterLoop++)
       {
          byte[] filterFixedData = fixedData.getByteArrayValue(filterLoop);
-         if (filterFixedData.length < 4)
+         if (filterFixedData == null || filterFixedData.length < 4)
          {
             continue;
          }
