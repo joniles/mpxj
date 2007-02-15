@@ -2241,7 +2241,9 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       if (critical == null)
       {
          Duration totalSlack = getTotalSlack();
-         critical = Boolean.valueOf(totalSlack != null && totalSlack.getDuration() <= 0);
+         critical = Boolean.valueOf(totalSlack != null && 
+                  totalSlack.getDuration() <= 0 && 
+                  getPercentageComplete().intValue() != 100);
          set(TaskField.CRITICAL, critical);
       }
       return (BooleanUtility.getBoolean(critical));
