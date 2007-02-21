@@ -699,7 +699,6 @@ public final class MSPDIReader extends AbstractProjectReader
       //mpx.setCost3();
       //mpx.setCostVariance();
       mpx.setCreateDate(DatatypeConverter.parseDate(xml.getCreateDate()));
-      mpx.setCritical(xml.isCritical());
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
       //mpx.setDelay();
@@ -829,6 +828,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       // read last to ensure correct caching
       mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
+      mpx.setCritical(xml.isCritical());
       
       readTaskExtendedAttributes(xml, mpx);
 

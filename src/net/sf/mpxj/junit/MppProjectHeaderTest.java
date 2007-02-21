@@ -31,6 +31,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 
 /**
@@ -47,7 +48,7 @@ public class MppProjectHeaderTest extends MPXJTestCase
       throws Exception
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9header.mpp");
-      testHeader(mpp);
+      testHeader(mpp, true);
    }         
 
    /**
@@ -59,15 +60,28 @@ public class MppProjectHeaderTest extends MPXJTestCase
       throws Exception
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12header.mpp");
-      testHeader(mpp);
+      testHeader(mpp, true);
    }         
+
+   /**
+    * Test project header data read from an MPD9 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpd9() 
+      throws Exception 
+   {
+      ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9header.mpd");        
+      testHeader(mpp, false);
+   }
 
    /**
     * Test the contents of the project header as read from an MPP file.
     * 
     * @param mpp project file
+    * @param isMPP is the source an MPP file
     */
-   private void testHeader (ProjectFile mpp)
+   private void testHeader (ProjectFile mpp, boolean isMPP)
    {
       //
       // Create time and date formatters
@@ -106,12 +120,16 @@ public class MppProjectHeaderTest extends MPXJTestCase
       assertEquals("title", ph.getProjectTitle());
       assertEquals("subject", ph.getSubject());
       assertEquals("author", ph.getAuthor());
-      assertEquals("keywords", ph.getKeywords());
-      assertEquals("comments", ph.getComments());
+      assertEquals("keywords", ph.getKeywords());      
       assertEquals("company", ph.getCompany());
       assertEquals("manager", ph.getManager());
       assertEquals("category", ph.getCategory());
-      
-      assertEquals(true, ph.getCalculateMultipleCriticalPaths());
+            
+      // MPP only
+      if (isMPP)
+      {
+         assertEquals("comments", ph.getComments());
+         assertEquals(true, ph.getCalculateMultipleCriticalPaths());
+      }
    }
 }

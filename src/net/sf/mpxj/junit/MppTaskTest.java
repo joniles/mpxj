@@ -38,6 +38,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 
 /**
@@ -72,28 +73,52 @@ public class MppTaskTest extends MPXJTestCase
     }
 
     /**
+     * Test task data read from an MPD9 file.
+     * 
+     * @throws Exception
+     */       
+    public void testMpd9Task ()
+       throws Exception
+    {
+       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9task.mpd");
+       testBasicTask(mpp);       
+    }
+    
+    /**
      * Test task data read from an MPP9 file.
      * 
      * @throws Exception
      */   
-     public void testMpp9Baseline()
-        throws Exception
-     {
-         ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9baseline.mpp");
-         testBaselineTasks(mpp);
-     }
+    public void testMpp9Baseline()
+       throws Exception
+    {
+        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9baseline.mpp");
+        testBaselineTasks(mpp);
+    }
 
-     /**
-      * Test task data read from an MPP12 file.
-      * 
-      * @throws Exception
-      */   
-      public void testMpp12Baseline()
-         throws Exception
-      {
-          ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12baseline.mpp");
-          testBaselineTasks(mpp);
-      }
+    /**
+     * Test task data read from an MPP12 file.
+     * 
+     * @throws Exception
+     */   
+    public void testMpp12Baseline()
+       throws Exception
+    {
+        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12baseline.mpp");
+        testBaselineTasks(mpp);
+    }
+
+    /**
+     * Test task data read from an MPD9 file.
+     * 
+     * @throws Exception
+     */   
+   public void testMpd9Baseline ()
+      throws Exception
+   {
+      ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9baseline.mpd");
+      testBaselineTasks(mpp);       
+   }
 
     /**
      * Test Split Tasks in an MPP9 file.
@@ -120,6 +145,20 @@ public class MppTaskTest extends MPXJTestCase
     }
 
     /**
+     * Test Split Tasks in an MPD9 file.
+     * 
+     * Currently split tasks are not supported in MPD files.
+     *
+     * @throws Exception
+     */
+    public void testMpd9Splits()
+       throws Exception 
+    {
+//       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9splittask.mpd");
+//       testSplitTasks(mpp);
+    }
+
+    /**
      * Tests Relations in an MPP9 file.
      *
      * @throws Exception
@@ -129,6 +168,18 @@ public class MppTaskTest extends MPXJTestCase
     {
         ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9relations.mpp");
         testRelations(mpp);
+    }
+
+    /**
+     * Tests Relations in an MPD9 file.
+     *
+     * @throws Exception
+     */
+    public void testMpd9Relations()
+       throws Exception 
+    {
+       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9relations.mpd");
+       testRelations(mpp);
     }
 
     /**

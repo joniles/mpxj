@@ -1404,7 +1404,6 @@ final class MPP12Reader implements MPPVariantReader
          //task.setExternalTask(); // Calculated value
          task.setFinish (MPPUtility.getTimestamp (data, 8));
 //       From MS Project 2003
-         task.setFinishSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          //task.setFinishVariance(); // Calculated value
          task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
          task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
@@ -1591,7 +1590,9 @@ final class MPP12Reader implements MPPVariantReader
          task.setWork(Duration.getInstance (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
-
+         
+         task.setFinishSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         
          switch (task.getConstraintType().getType())
          {
             //

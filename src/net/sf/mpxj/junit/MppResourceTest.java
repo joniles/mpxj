@@ -37,6 +37,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 
 /**
@@ -71,6 +72,19 @@ public class MppResourceTest extends MPXJTestCase
     }
 
     /**
+     * Test resource data read from an MPD9 file.
+     * 
+     * @throws Exception
+     */       
+    public void testMpd9Resource() 
+       throws Exception 
+    {
+       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9resource.mpd");        
+       testResources(mpp);
+    }
+
+
+    /**
      * Test assignment data read from an MPP9 file.
      * 
      * @throws Exception
@@ -83,7 +97,7 @@ public class MppResourceTest extends MPXJTestCase
      }
 
      /**
-      * Test assignment data read from an MPP9 file.
+      * Test assignment data read from an MPP12 file.
       * 
       * @throws Exception
       */   
@@ -92,6 +106,18 @@ public class MppResourceTest extends MPXJTestCase
       {
           ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12resource.mpp");
           testResourceAssignments(mpp);
+      }
+
+      /**
+       * Test assignment data read from an MPD9 file.
+       * 
+       * @throws Exception
+       */   
+      public void testMpd9Assignment() 
+         throws Exception 
+      {
+         ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9resource.mpd");        
+         testResourceAssignments(mpp);
       }
 
     /**

@@ -49,6 +49,7 @@ public class MPXJTest extends TestSuite
       addTestSuite (MppAutoFilterTest.class);
       addTestSuite (MppViewStateTest.class);
       addTestSuite (MppGroupTest.class);
+      addTestSuite (MppCalendarTest.class);
    }
 
    /**

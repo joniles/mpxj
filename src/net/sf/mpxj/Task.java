@@ -3066,11 +3066,10 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    }
 
    /**
-    * The Subproject File field contains the name of a project inserted
-    * into the active project file. The Subproject File field contains the
-    * inserted project's path and file name.
+    * Contains the file name and path of the sub project represented by
+    * the current task.
     *
-    * @return String path
+    * @return sub project file path
     */
    public String getSubprojectName ()
    {
@@ -6077,7 +6076,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Duration getStartSlack ()
    {
-      return ((Duration)getCachedValue(TaskField.START_SLACK));
+      Duration startSlack = (Duration)getCachedValue(TaskField.START_SLACK);
+      if (startSlack == null)
+      {
+         startSlack = DateUtility.getVariance(this, getLateStart(), getEarlyStart(), getDuration().getUnits());
+         set(TaskField.START_SLACK, startSlack);
+      }
+      return (startSlack);
    }
 
    /**
@@ -6087,7 +6092,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Duration getFinishSlack ()
    {
-      return ((Duration)getCachedValue(TaskField.FINISH_SLACK));
+      Duration finishSlack = (Duration)getCachedValue(TaskField.FINISH_SLACK);
+      if (finishSlack == null)
+      {
+         finishSlack = DateUtility.getVariance(this, getLateFinish(), getEarlyFinish(), getDuration().getUnits());
+         set(TaskField.FINISH_SLACK, finishSlack);
+      }
+      return (finishSlack);
    }
    
    
@@ -6337,6 +6348,24 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
             m_array[TaskField.TOTAL_SLACK_VALUE] = null;
             m_array[TaskField.CRITICAL_VALUE] = null;
             break;
+         }
+                  
+         case TaskField.EARLY_FINISH_VALUE:
+         case TaskField.LATE_FINISH_VALUE:
+         {
+            m_array[TaskField.FINISH_SLACK_VALUE] = null;
+            m_array[TaskField.TOTAL_SLACK_VALUE] = null;
+            m_array[TaskField.CRITICAL_VALUE] = null;            
+            break;
+         }
+         
+         case TaskField.EARLY_START_VALUE:
+         case TaskField.LATE_START_VALUE:
+         {
+            m_array[TaskField.START_SLACK_VALUE] = null;
+            m_array[TaskField.TOTAL_SLACK_VALUE] = null;
+            m_array[TaskField.CRITICAL_VALUE] = null;            
+            break;            
          }
       }
       
