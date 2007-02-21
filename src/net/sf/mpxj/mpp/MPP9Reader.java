@@ -2268,14 +2268,14 @@ final class MPP9Reader implements MPPVariantReader
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CFilter");
       //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
       //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
-      FixedData fixedData = new FixedData (220, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))), true);
+      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))), true);
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
-//      System.out.println(fixedMeta);
-//      System.out.println(fixedData);
-//      System.out.println(varMeta);
-//      System.out.println(varData);
+      //System.out.println(fixedMeta);
+      //System.out.println(fixedData);
+      //System.out.println(varMeta);
+      //System.out.println(varData);
 
       FilterReader reader = new FilterReader9();
       reader.process(file, fixedData, varData);
