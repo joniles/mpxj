@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<project name="Name" company="Organization" manager="Manager" phase="Test Phase" project-start="20070222T000000Z" mrproject-version="2" calendar="4">
+  <properties/>
+  <phases>
+    <phase name="Test Phase"/>
+  </phases>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+    </day-types>
+    <calendar id="1" name="Test Calendar 3">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days>
+        <day date="20070222" type="day-type" id="1"/>
+      </days>
+    </calendar>
+    <calendar id="2" name="Test Calendar 2">
+      <default-week mon="0" tue="0"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0900" end="1730"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days>
+        <day date="20070226" type="day-type" id="0"/>
+        <day date="20070220" type="day-type" id="0"/>
+        <day date="20070227" type="day-type" id="0"/>
+        <day date="20070219" type="day-type" id="0"/>
+      </days>
+    </calendar>
+    <calendar id="3" name="Test Calendar 1">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0900" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days>
+        <day date="20070226" type="day-type" id="1"/>
+      </days>
+    </calendar>
+    <calendar id="4" name="Default">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days/>
+      <calendar id="5" name="Derived Calendar">
+        <default-week mon="2" tue="2" wed="2" thu="2" fri="2" sat="2" sun="2"/>
+        <overridden-day-types/>
+        <days/>
+      </calendar>
+    </calendar>
+    <calendar id="6" name="Test Resource Calendar">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days/>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="Task One" note="" work="288000" start="20070222T000000Z" end="20070307T170000Z" work-start="20070222T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="2" name="Task Two" note="" work="288000" start="20070307T170000Z" end="20070321T170000Z" work-start="20070308T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+      </predecessors>
+    </task>
+  </tasks>
+  <resource-groups/>
+  <resources>
+    <resource id="1" name="Test Resource" short-name="" type="1" units="0" email="" note="" std-rate="0" calendar="6"/>
+  </resources>
+  <allocations/>
+</project>

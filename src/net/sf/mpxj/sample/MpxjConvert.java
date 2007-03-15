@@ -32,6 +32,7 @@ import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
+import net.sf.mpxj.planner.PlannerReader;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 
@@ -160,6 +161,7 @@ public final class MpxjConvert
       READER_MAP.put("MPT", MPPReader.class);
       READER_MAP.put("MPX", MPXReader.class);
       READER_MAP.put("XML", MSPDIReader.class);
+      READER_MAP.put("PLANNER", PlannerReader.class);
    }
 
    private static final Map WRITER_MAP = new HashMap ();

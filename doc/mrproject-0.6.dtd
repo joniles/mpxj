@@ -1,0 +1,135 @@
+<?xml version ='1.0' encoding='UTF-8'?>
+
+<!ELEMENT project (properties*,phases?,calendars?,tasks?,resource-groups?,resources?,allocations?)>
+<!ATTLIST project mrproject-version CDATA #REQUIRED
+                  name              CDATA #REQUIRED
+                  company           CDATA #IMPLIED
+                  manager           CDATA #IMPLIED
+                  project-start     CDATA #REQUIRED
+		  calendar          CDATA #IMPLIED
+		  phase             CDATA #IMPLIED>
+
+<!ELEMENT properties (property*)>
+
+<!--
+Note: A mistake in the format design led to this suboptimality. A
+      "property" tag can be both a property declaration and a property
+      value. When it's a declaration, all attributes except "value"
+      are required and allowed, and only "name" and "value" are
+      required and allowed. We'll fix this for the new GSF based xml format.
+-->
+
+<!ELEMENT property (list-item*)>
+<!ATTLIST property name             CDATA #REQUIRED
+                   type             (date|duration|float|int|text|text-list|cost) #IMPLIED
+                   owner            (project|task|resource) #IMPLIED
+                   label            CDATA #IMPLIED
+                   description      CDATA #IMPLIED
+                   value            CDATA #IMPLIED>
+
+<!ELEMENT list-item  EMPTY>
+<!ATTLIST list-item  value          CDATA #REQUIRED>
+
+<!ELEMENT phases (phase*)>
+
+<!ELEMENT phase EMPTY>
+<!ATTLIST phase name                CDATA #REQUIRED>
+
+<!ELEMENT predecessors (predecessor*)>
+
+<!ELEMENT constraint EMPTY>
+<!ATTLIST constraint type           CDATA #REQUIRED
+                     time           CDATA #REQUIRED>
+
+<!ELEMENT predecessor EMPTY>
+<!ATTLIST predecessor id               CDATA #REQUIRED
+                      predecessor-id   CDATA #REQUIRED
+                      type             (FS|FF|SS|SF) "FS"
+                      lag              CDATA #IMPLIED>
+
+<!ELEMENT tasks (task*)>
+
+<!ELEMENT task (properties?,constraint?,predecessors?,task*)>
+<!ATTLIST task id                   CDATA #REQUIRED
+               name                 CDATA #REQUIRED
+               note                 CDATA #IMPLIED
+               effort               CDATA #IMPLIED
+               start                CDATA #REQUIRED
+               end                  CDATA #REQUIRED
+	       work-start           CDATA #IMPLIED
+               duration             CDATA #IMPLIED
+               work                 CDATA #IMPLIED
+               percent-complete     CDATA #IMPLIED
+               priority             CDATA #IMPLIED
+               type                 (normal|milestone) "normal"
+               scheduling           (fixed-work|
+                                     fixed-duration) "fixed-work">
+
+<!ELEMENT resource-groups (group*)>
+<!ATTLIST resource-groups default_group CDATA #IMPLIED>
+
+<!ELEMENT group EMPTY>
+<!ATTLIST group id          CDATA #REQUIRED
+                name        CDATA #REQUIRED
+                admin-name  CDATA #IMPLIED
+                admin-email CDATA #IMPLIED
+                admin-phone CDATA #IMPLIED>
+
+<!ELEMENT resources (resource*)>
+
+<!ELEMENT resource (properties?)>
+<!ATTLIST resource id                 CDATA #REQUIRED
+                   name               CDATA #REQUIRED
+                   short-name         CDATA #IMPLIED
+                   email              CDATA #IMPLIED
+                   type               (1|2) #REQUIRED
+                   group              CDATA #IMPLIED
+                   units              CDATA #REQUIRED
+                   note               CDATA #IMPLIED
+                   std-rate           CDATA #IMPLIED
+                   ovt-rate           CDATA #IMPLIED
+                   calendar           CDATA #IMPLIED>
+
+<!ELEMENT allocations (allocation*)>
+
+<!ELEMENT allocation EMPTY>
+<!ATTLIST allocation task-id          CDATA #REQUIRED
+                     resource-id      CDATA #REQUIRED
+                     units            CDATA #IMPLIED>
+
+<!ELEMENT calendars (day-types,calendar*)>
+
+<!ELEMENT day-types (day-type*)>
+<!ELEMENT day-type (interval*)>
+<!ATTLIST day-type id                 CDATA #REQUIRED
+                   name               CDATA #REQUIRED
+                   description        CDATA #REQUIRED>
+
+<!ELEMENT interval EMPTY>
+<!ATTLIST interval start              CDATA #REQUIRED
+                   end                CDATA #REQUIRED>
+
+<!ELEMENT calendar (default-week,overridden-day-types?,days?,calendar*)>
+<!ATTLIST calendar     name           CDATA #REQUIRED
+		       id             CDATA #REQUIRED>
+
+<!ELEMENT default-week EMPTY>
+<!ATTLIST default-week mon            CDATA #IMPLIED
+                       tue            CDATA #IMPLIED
+                       wed            CDATA #IMPLIED
+                       thu            CDATA #IMPLIED
+                       fri            CDATA #IMPLIED
+                       sat            CDATA #IMPLIED
+                       sun            CDATA #IMPLIED>
+
+<!ELEMENT overridden-day-types (overridden-day-type*)>
+
+<!ELEMENT overridden-day-type (interval*)>
+<!ATTLIST overridden-day-type id         CDATA #REQUIRED>
+
+<!ELEMENT days (day*)>
+<!ELEMENT day (interval*)>
+<!ATTLIST day date                    CDATA #REQUIRED
+              type                    CDATA #REQUIRED
+              id                      CDATA #IMPLIED>
+

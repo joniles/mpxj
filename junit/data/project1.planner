@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<project name="" company="" manager="" phase="" project-start="20070223T000000Z" mrproject-version="2" calendar="1">
+  <properties/>
+  <phases/>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+    </day-types>
+    <calendar id="1" name="Default">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days>
+        <day date="20070201" type="day-type" id="1"/>
+      </days>
+      <calendar id="2" name="Derived From Default">
+        <default-week mon="2" tue="2" wed="2" thu="2" fri="2" sat="2" sun="2"/>
+        <overridden-day-types/>
+        <days/>
+      </calendar>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="Task One" note="" work="16200" start="20070223T000000Z" end="20070223T133000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="2" name="Task Two" note="" work="28800" start="20070223T000000Z" end="20070223T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="3" name="Task Three" note="" work="43200" start="20070223T000000Z" end="20070226T120000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="4" name="Task Four" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="5" name="Task Five" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    </task>
+    <task id="6" name="Task Five" note="" work="288000" start="20070223T000000Z" end="20070314T104000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="7" name="Task Six" note="" work="288000" start="20070223T000000Z" end="20070301T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="8" name="Task Seven" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="26" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="9" name="Task Eight" note="" work="28800" start="20070223T000000Z" end="20070223T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="999" type="normal" scheduling="fixed-work"/>
+    <task id="10" name="Task Nine" note="" work="0" start="20070223T000000Z" end="20070223T000000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work"/>
+    <task id="11" name="Task Ten" note="" work="28800" duration="288000" start="20070223T000000Z" end="20070307T160000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-duration"/>
+    <task id="12" name="Task Eleven" note="" work="28800" start="20070223T000000Z" end="20070223T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="start-no-earlier-than" time="20070223T000000Z"/>
+    </task>
+    <task id="13" name="Task Twelve" note="" work="28800" start="20070225T000000Z" end="20070226T170000Z" work-start="20070226T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="must-start-on" time="20070225T000000Z"/>
+    </task>
+    <task id="14" name="Task Thirteen" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="15" name="Task Fourteen" note="" work="288000" start="20070308T170000Z" end="20070322T170000Z" work-start="20070309T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="14" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="16" name="Task Fifteen" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="17" name="Task Sixteen" note="" work="288000" start="20070309T170000Z" end="20070323T170000Z" work-start="20070312T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="16" type="FS" lag="86400"/>
+      </predecessors>
+    </task>
+    <task id="18" name="Task Seventeen" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="19" name="Task Eighteen" note="" work="288000" start="20070223T080000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="18" type="FF"/>
+      </predecessors>
+    </task>
+    <task id="20" name="Task Nineteen" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="21" name="Task Twenty" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="20" type="SS"/>
+      </predecessors>
+    </task>
+    <task id="22" name="Task Twenty One" note="" work="288000" start="20070315T000000Z" end="20070328T170000Z" work-start="20070315T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="must-start-on" time="20070315T000000Z"/>
+    </task>
+    <task id="23" name="Task Twenty Two" note="" work="288000" start="20070301T080000Z" end="20070314T170000Z" work-start="20070301T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="22" type="SF"/>
+      </predecessors>
+    </task>
+    <task id="24" name="Task Twenty Three" note="Task Twenty Three Notes" work="28800" start="20070223T000000Z" end="20070223T170000Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="25" name="Task Twenty Four" note="" work="144000" start="20070228T000000Z" end="20070306T170000Z" work-start="20070228T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="start-no-earlier-than" time="20070228T000000Z"/>
+    </task>
+    <task id="26" name="Task Twenty Five" note="" work="144000" start="20070301T000000Z" end="20070307T170000Z" work-start="20070301T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="must-start-on" time="20070301T000000Z"/>
+    </task>
+    <task id="27" name="Task 26" note="" work="288000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="45" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="28" name="Task 27" note="" work="576000" start="20070223T000000Z" end="20070308T170000Z" work-start="20070223T080000Z" percent-complete="45" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="29" name="Task 28" note="" work="288000" start="20070223T000000Z" end="20070327T094640Z" work-start="20070223T080000Z" percent-complete="45" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="30" name="Task 29" note="" work="288000" start="20070223T000000Z" end="20070315T101640Z" work-start="20070223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+  </tasks>
+  <resource-groups/>
+  <resources>
+    <resource id="1" name="Resource One" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="2" name="Resource Two" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+  </resources>
+  <allocations>
+    <allocation task-id="30" resource-id="1" units="10"/>
+    <allocation task-id="29" resource-id="1" units="45"/>
+    <allocation task-id="28" resource-id="1" units="100"/>
+    <allocation task-id="27" resource-id="1" units="100"/>
+    <allocation task-id="7" resource-id="1" units="100"/>
+    <allocation task-id="6" resource-id="1" units="75"/>
+    <allocation task-id="30" resource-id="2" units="60"/>
+    <allocation task-id="28" resource-id="2" units="100"/>
+    <allocation task-id="7" resource-id="2" units="100"/>
+  </allocations>
+</project>

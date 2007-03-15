@@ -221,7 +221,14 @@ public final class ProjectCalendar extends ProjectEntity
       if (value == DEFAULT)
       {
          ProjectCalendar cal = getBaseCalendar();
-         result = cal.isWorkingDay(day);
+         if (cal != null)
+         {
+            result = cal.isWorkingDay(day);
+         }
+         else
+         {
+            result = (day!=Day.SATURDAY && day!=Day.SUNDAY);
+         }
       }
       else
       {

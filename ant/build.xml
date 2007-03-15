@@ -24,7 +24,8 @@
    <property name="classes.dir" value="${basedir}/classes" />
    <property name="bak.dir" value="${basedir}/bak" />
    <property name="distribution" value="${basedir}/../mpxj.zip" />
-   <property name="schema.dir" value="/net/sf/mpxj/mspdi/schema" />
+   <property name="mspdi-schema.dir" value="/net/sf/mpxj/mspdi/schema" />
+	<property name="planner-schema.dir" value="/net/sf/mpxj/planner/schema" />
 </target>
 
 
@@ -36,14 +37,19 @@
    <exec executable="${jwsdp.dir}/jaxb/bin/xjc.bat" dir="${basedir}">
 	<arg line="-classpath ${classes.dir} -d ${basedir}/src -b ${basedir}/binding.xjb -p net.sf.mpxj.mspdi.schema ${mspdi.xsd}" />
    </exec>	
+   <exec executable="${jwsdp.dir}/jaxb/bin/xjc.bat" dir="${basedir}">
+	<arg line="-dtd -classpath ${classes.dir} -d ${basedir}/src -p net.sf.mpxj.planner.schema ${basedir}/doc/mrproject-0.6.dtd" />
+   </exec>		
 </target>
 
 <target name="compile" depends="init" description="Compile Everything">
    <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}" debug="on">
       <!-- <compilerarg value="-Xlint"/> -->
    </javac>
-   <copy file="${basedir}/src/${schema.dir}/bgm.ser" todir="${classes.dir}${schema.dir}"/>
-   <copy file="${basedir}/src/${schema.dir}/jaxb.properties" todir="${classes.dir}${schema.dir}"/>
+   <copy file="${basedir}/src/${mspdi-schema.dir}/bgm.ser" todir="${classes.dir}${mspdi-schema.dir}"/>
+   <copy file="${basedir}/src/${mspdi-schema.dir}/jaxb.properties" todir="${classes.dir}${mspdi-schema.dir}"/>
+   <copy file="${basedir}/src/${planner-schema.dir}/bgm.ser" todir="${classes.dir}${planner-schema.dir}"/>
+   <copy file="${basedir}/src/${planner-schema.dir}/jaxb.properties" todir="${classes.dir}${planner-schema.dir}"/>
 </target>
 
 <target name="document" depends="init-props" description="Generate documentation">

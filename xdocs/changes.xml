@@ -10,6 +10,7 @@
 
    <release version="0.9.3" date="CVS HEAD"> 
       <action dev="joniles" type="add">Added support for reading MPD files via JDBC</action>
+      <action dev="joniles" type="add">Added support for reading Planner files</action>
       <action dev="joniles" type="add">Added support for overallocated flag to all MPP file formats.</action>
       <action dev="joniles" type="add">Added support for calculating duration variance from MPP files.</action>
       <action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>

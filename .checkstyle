@@ -3,5 +3,6 @@
 <fileset name="Java Files" enabled="true" check-config-name="MPXJ Checkstyle" type="project" location="checkstyle-config.xml" description=""><file-match-pattern match-pattern=".java$" include-pattern="true"/>
 </fileset>
 <filter name="FilesFromPackage" enabled="true"><filter-data value="src/net/sf/mpxj/mspdi/schema"/>
+<filter-data value="src/net/sf/mpxj/planner/schema"/>
 </filter>
 </fileset-config>
