@@ -552,13 +552,14 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Read task attributes from Planner
       //
+      Integer percentComplete = getInteger(plannerTask.getPercentComplete());
       //plannerTask.getDuration(); calculate from end - start, not in file?
       //plannerTask.getEffort(); not set?
       mpxjTask.setFinish(getDateTime(plannerTask.getEnd()));
       mpxjTask.setUniqueID(getInteger(plannerTask.getId()));
       mpxjTask.setName(plannerTask.getName());
       mpxjTask.setNotes(plannerTask.getNote());
-      mpxjTask.setPercentageComplete(getInteger(plannerTask.getPercentComplete()));
+      mpxjTask.setPercentageComplete(percentComplete);
       mpxjTask.setPriority(Priority.getInstance(getInt(plannerTask.getPriority())/10));
       mpxjTask.setType(getTaskType(plannerTask.getScheduling()));      
       //plannerTask.getStart(); // Start day, time is always 00:00?
@@ -596,14 +597,23 @@ public final class PlannerReader extends AbstractProjectReader
       //
       String calendarName = m_projectFile.getProjectHeader().getCalendarName();
       ProjectCalendar calendar = m_projectFile.getBaseCalendar(calendarName);
-      //Duration duration = calendar.getDuration(mpxjTask.getStart(), mpxjTask.getFinish());
       Duration duration = calendar.getWork(mpxjTask.getStart(), mpxjTask.getFinish(), TimeUnit.HOURS);
       double durationDays = duration.getDuration() / 8;
       if (durationDays > 0)
       {
          duration = Duration.getInstance(durationDays, TimeUnit.DAYS);
       }
-      mpxjTask.setDuration(duration); //we need to look at updating the get duration method so that it doesn't work in whole days and takes account of relevant calendar exceptions
+      mpxjTask.setDuration(duration);
+      
+      if (percentComplete.intValue() != 0)
+      {
+         mpxjTask.setActualStart(mpxjTask.getStart());
+         
+         if (percentComplete.intValue() == 100)
+         {
+            mpxjTask.setActualFinish(mpxjTask.getFinish());
+         }
+      }
       
       m_projectFile.fireTaskReadEvent(mpxjTask);
       
@@ -657,6 +667,21 @@ public final class PlannerReader extends AbstractProjectReader
             }
          }
       }      
+      
+      //
+      // Process child tasks
+      //
+      List childTasks = plannerTask.getTask();
+      if (childTasks != null)
+      {
+         Iterator iter = childTasks.iterator();
+         while (iter.hasNext())
+         {
+            net.sf.mpxj.planner.schema.Task childTask = (net.sf.mpxj.planner.schema.Task)iter.next();
+            readPredecessors(childTask);
+         }
+      }
+      
    }
 
    /*
