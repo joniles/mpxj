@@ -2028,7 +2028,7 @@ final class MPP9Reader implements MPPVariantReader
          if (task != null)
          {
             byte[] incompleteWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, INCOMPLETE_WORK));            
-            if (task.getSplits() != null)
+            if (task.getSplits() != null && task.getSplits().isEmpty())
             {
                byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
                processSplitData(task, completeWork, incompleteWork);

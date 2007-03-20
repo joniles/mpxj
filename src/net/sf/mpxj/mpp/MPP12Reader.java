@@ -2069,7 +2069,7 @@ final class MPP12Reader implements MPPVariantReader
          if (task != null)
          {
             byte[] incompleteWork = assnVarData.getByteArray(varDataId, INCOMPLETE_WORK);
-            if (task.getSplits() != null)
+            if (task.getSplits() != null && task.getSplits().isEmpty())
             {
                byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
                processSplitData(task, completeWork, incompleteWork);
