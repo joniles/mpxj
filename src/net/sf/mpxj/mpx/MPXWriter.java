@@ -29,7 +29,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -315,9 +317,10 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(format(record.getCompany()));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getManager()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append (m_delimiter);      
       m_buffer.append(format(record.getCalendarName()));
       m_buffer.append (m_delimiter);
+      
       m_buffer.append(format(formatDateTime(record.getStartDate())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(formatDateTime(record.getFinishDate())));
@@ -421,7 +424,14 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (record.getCalendarExceptions().isEmpty() == false)
       {
-         Iterator iter = record.getCalendarExceptions().iterator();
+         //
+         // A quirk of MS Project is that these exceptions must be
+         // in date order in the file, otherwise they are ignored
+         //
+         List exceptions = new ArrayList(record.getCalendarExceptions());
+         Collections.sort(exceptions);
+         
+         Iterator iter = exceptions.iterator();
          while (iter.hasNext() == true)
          {
             writeCalendarException(record, (ProjectCalendarException)iter.next());
@@ -1409,7 +1419,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       m_locale = locale;
    }
-
+   
    private ProjectFile m_projectFile;
    private OutputStreamWriter m_writer;
    private ResourceModel m_resourceModel;

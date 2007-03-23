@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -392,7 +394,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create a list of exceptions
       //
-      List exceptions = bc.getCalendarExceptions ();
+      // A quirk of MS Project is that these exceptions must be
+      // in date order in the file, otherwise they are ignored
+      //
+      List exceptions = new ArrayList(bc.getCalendarExceptions());
+      Collections.sort(exceptions);
+
       Iterator iter = exceptions.iterator();
       ProjectCalendarException exception;
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType period;

@@ -150,6 +150,7 @@ public final class PlannerReader extends AbstractProjectReader
       finally
       {
          m_projectFile = null;
+         m_defaultCalendar = null;
       }
    }
 
@@ -190,10 +191,10 @@ public final class PlannerReader extends AbstractProjectReader
          }
          
          Integer defaultCalendarID = getInteger(project.getCalendar());
-         ProjectCalendar defaultCalendar = m_projectFile.getBaseCalendarByUniqueID(defaultCalendarID);
-         if (defaultCalendar != null)
+         m_defaultCalendar = m_projectFile.getBaseCalendarByUniqueID(defaultCalendarID);
+         if (m_defaultCalendar != null)
          {
-            m_projectFile.getProjectHeader().setCalendarName(defaultCalendar.getName());
+            m_projectFile.getProjectHeader().setCalendarName(m_defaultCalendar.getName());
          }
       }      
    }
@@ -225,7 +226,7 @@ public final class PlannerReader extends AbstractProjectReader
       // Populate basic details
       //
       mpxjCalendar.setUniqueID(getInteger(plannerCalendar.getId()));
-      mpxjCalendar.setName(plannerCalendar.getName());
+      mpxjCalendar.setName(plannerCalendar.getName());     
       mpxjCalendar.setBaseCalendar(parentMpxjCalendar);
       
       //
@@ -382,6 +383,8 @@ public final class PlannerReader extends AbstractProjectReader
                      Date startTime = getTime(interval.getStart());
                      Date endTime = getTime(interval.getEnd());
                      
+                     m_defaultWorkingHours.add(new DateRange(startTime, endTime));
+                     
                      if (mondayHours != null)
                      {
                         mondayHours.addDateRange(new DateRange(startTime, endTime));                 
@@ -449,6 +452,44 @@ public final class PlannerReader extends AbstractProjectReader
                   exception.setFromDate(exceptionDate);
                   exception.setToDate(exceptionDate);
                   exception.setWorking(getInt(day.getId())==0);
+                  
+                  if (exception.getWorking())
+                  {
+                     if (m_defaultWorkingHours.size() > 0)
+                     {
+                        DateRange range = (DateRange)m_defaultWorkingHours.get(0);
+                        exception.setFromTime1(range.getStartDate());
+                        exception.setToTime1(range.getEndDate());
+                     }
+                     
+                     if (m_defaultWorkingHours.size() > 1)
+                     {
+                        DateRange range = (DateRange)m_defaultWorkingHours.get(1);
+                        exception.setFromTime2(range.getStartDate());
+                        exception.setToTime2(range.getEndDate());
+                     }
+                     
+                     if (m_defaultWorkingHours.size() > 2)
+                     {
+                        DateRange range = (DateRange)m_defaultWorkingHours.get(2);
+                        exception.setFromTime3(range.getStartDate());
+                        exception.setToTime3(range.getEndDate());
+                     }
+                     
+                     if (m_defaultWorkingHours.size() > 3)
+                     {
+                        DateRange range = (DateRange)m_defaultWorkingHours.get(3);
+                        exception.setFromTime4(range.getStartDate());
+                        exception.setToTime4(range.getEndDate());
+                     }
+                     
+                     if (m_defaultWorkingHours.size() > 4)
+                     {
+                        DateRange range = (DateRange)m_defaultWorkingHours.get(4);
+                        exception.setFromTime5(range.getStartDate());
+                        exception.setToTime5(range.getEndDate());
+                     }                     
+                  }
                }
             }
          }
@@ -461,6 +502,7 @@ public final class PlannerReader extends AbstractProjectReader
     * @param plannerProject Root node of the Planner file
     */
    private void readResources (Project plannerProject)
+      throws MPXJException
    {
       Resources resources = plannerProject.getResources();
       if (resources != null)
@@ -480,6 +522,7 @@ public final class PlannerReader extends AbstractProjectReader
     * @param plannerResource Resource data
     */
    private void readResource (net.sf.mpxj.planner.schema.Resource plannerResource)
+      throws MPXJException
    {
       Resource mpxjResource = m_projectFile.addResource();
 
@@ -494,6 +537,9 @@ public final class PlannerReader extends AbstractProjectReader
       //plannerResource.getOvtRate();      
       //plannerResource.getUnits();
       //plannerResource.getProperties();
+   
+      ProjectCalendar calendar = mpxjResource.addResourceCalendar();
+      calendar.setBaseCalendar(m_defaultCalendar);
       
       m_projectFile.fireResourceReadEvent(mpxjResource);
    }
@@ -560,6 +606,7 @@ public final class PlannerReader extends AbstractProjectReader
       mpxjTask.setName(plannerTask.getName());
       mpxjTask.setNotes(plannerTask.getNote());
       mpxjTask.setPercentageComplete(percentComplete);
+      mpxjTask.setPercentageWorkComplete(percentComplete);
       mpxjTask.setPriority(Priority.getInstance(getInt(plannerTask.getPriority())/10));
       mpxjTask.setType(getTaskType(plannerTask.getScheduling()));      
       //plannerTask.getStart(); // Start day, time is always 00:00?
@@ -612,8 +659,21 @@ public final class PlannerReader extends AbstractProjectReader
          if (percentComplete.intValue() == 100)
          {
             mpxjTask.setActualFinish(mpxjTask.getFinish());
+            mpxjTask.setActualDuration(duration);
+            mpxjTask.setActualWork(mpxjTask.getWork());
+            mpxjTask.setRemainingWork(Duration.getInstance(0, TimeUnit.HOURS));
+         }
+         else
+         {
+            Duration work = mpxjTask.getWork();            
+            Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete.doubleValue())/100.0d, work.getUnits());
+            
+            mpxjTask.setActualDuration(Duration.getInstance((duration.getDuration() * percentComplete.doubleValue())/100.0d, duration.getUnits()));            
+            mpxjTask.setActualWork(actualWork);            
+            mpxjTask.setRemainingWork(Duration.getInstance(work.getDuration()- actualWork.getDuration(), work.getUnits()));
          }
       }
+      mpxjTask.setEffortDriven(true);
       
       m_projectFile.fireTaskReadEvent(mpxjTask);
       
@@ -729,7 +789,15 @@ public final class PlannerReader extends AbstractProjectReader
                {
                   Duration actualWork = Duration.getInstance((work.getDuration()*(double)percentComplete)/100, work.getUnits());
                   assignment.setActualWork(actualWork);
+                  assignment.setRemainingWork(Duration.getInstance(work.getDuration()-actualWork.getDuration(), work.getUnits()));
                }
+               else
+               {
+                  assignment.setRemainingWork(work);
+               }
+               
+               assignment.setStart(task.getStart());
+               assignment.setFinish(task.getFinish());
                
                tasksWithAssignments.add(task);
             }
@@ -768,6 +836,13 @@ public final class PlannerReader extends AbstractProjectReader
                   {
                      actualWork = Duration.getInstance(actualWork.getDuration()*factor, actualWork.getUnits());
                      assignment.setActualWork(actualWork);
+                  }
+                  
+                  Duration remainingWork = assignment.getRemainingWork();
+                  if (remainingWork != null)
+                  {
+                     remainingWork = Duration.getInstance(remainingWork.getDuration()*factor, remainingWork.getUnits());
+                     assignment.setRemainingWork(remainingWork);                     
                   }
                }
             }
@@ -968,8 +1043,10 @@ public final class PlannerReader extends AbstractProjectReader
    }
    
    private ProjectFile m_projectFile;
+   private ProjectCalendar m_defaultCalendar;
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private List m_defaultWorkingHours = new LinkedList();
    
    private static Map RELATIONSHIP_TYPES = new HashMap();
    static
