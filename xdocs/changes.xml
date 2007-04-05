@@ -26,6 +26,7 @@
       <action dev="joniles" type="fix">Fixed a ClassCastException.</action>
       <action dev="joniles" type="fix">Fixed a zero length string error.</action>
       <action dev="joniles" type="fix">Fixed a duration rounding error when redaing MSPDI files.</action>
+      <action dev="joniles" type="fix">Fixed incorrect "as late as possible" constraint handling</action>
       <action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
       <action dev="joniles" type="fix">Incorrect total slack calculation.</action>
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      

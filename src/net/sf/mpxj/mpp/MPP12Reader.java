@@ -1601,8 +1601,14 @@ final class MPP12Reader implements MPPVariantReader
             //            
             case ConstraintType.AS_LATE_AS_POSSIBLE_VALUE:
             {
-               task.setStart(task.getLateStart());
-               task.setFinish(task.getLateFinish());
+               if (task.getStart().getTime() < task.getLateStart().getTime())
+               {
+                  task.setStart(task.getLateStart());
+               }
+               if (task.getFinish().getTime() < task.getLateFinish().getTime())
+               {
+                  task.setFinish(task.getLateFinish());
+               }
                break;
             }
             

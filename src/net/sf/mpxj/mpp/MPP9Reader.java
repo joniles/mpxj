@@ -880,18 +880,32 @@ final class MPP9Reader implements MPPVariantReader
       byte[] data;
       int uniqueID;
       Integer key;
-
+      Integer offset = null;
+      int validCount = 0;
+      
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
          {
             uniqueID = MPPUtility.getInt(data, 0);
+            if (validCount == 0 && uniqueID < 0)
+            {
+               offset = new Integer(uniqueID);
+            }
+            
+            if (offset != null)
+            {
+               uniqueID = offset.intValue() - uniqueID;
+            }
+            
             key = new Integer(uniqueID);
             if (taskMap.containsKey(key) == false)
             {
                taskMap.put(key, new Integer (loop));
             }
+            
+            ++validCount;
          }
       }
 
@@ -1547,7 +1561,7 @@ final class MPP9Reader implements MPPVariantReader
          task.setText30(taskVarData.getUnicodeString (id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
-         task.setUniqueID(new Integer(MPPUtility.getInt(data, 0)));
+         task.setUniqueID(id);
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
@@ -1568,8 +1582,14 @@ final class MPP9Reader implements MPPVariantReader
             //            
             case ConstraintType.AS_LATE_AS_POSSIBLE_VALUE:
             {
-               task.setStart(task.getLateStart());
-               task.setFinish(task.getLateFinish());
+               if (task.getStart().getTime() < task.getLateStart().getTime())
+               {
+                  task.setStart(task.getLateStart());
+               }
+               if (task.getFinish().getTime() < task.getLateFinish().getTime())
+               {
+                  task.setFinish(task.getLateFinish());
+               }
                break;
             }
             
