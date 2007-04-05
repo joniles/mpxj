@@ -46,14 +46,12 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
@@ -134,40 +132,11 @@ final class MPP8Reader implements MPPVariantReader
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
 
-      ProjectHeader ph = file.getProjectHeader();
-      ph.setScheduleFrom(ScheduleFrom.getInstance(1-props.getShort(Props.SCHEDULE_FROM)));
-      ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
-      ph.setDefaultStartTime(props.getTime(Props.START_TIME));
-      ph.setDefaultEndTime (props.getTime(Props.END_TIME));
-
-
-      //ds.setDefaultDurationIsFixed();
-      ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
-      ph.setMinutesPerDay(new Integer(props.getInt(Props.MINUTES_PER_DAY)));
-      ph.setMinutesPerWeek(new Integer(props.getInt(Props.MINUTES_PER_WEEK)));
-      ph.setDefaultOvertimeRate(new Rate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
-      ph.setDefaultStandardRate(new Rate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
-      ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
-      ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
-      ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
-
-      ph.setCurrencyDigits(new Integer(props.getShort(Props.CURRENCY_DIGITS)));
-      ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
-      //ph.setDecimalSeparator();
-      ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
-      //cs.setThousandsSeparator();
-
-      SummaryInformation summary = new SummaryInformation (rootDir);
-      ph.setProjectTitle(summary.getProjectTitle());
-      ph.setSubject(summary.getSubject());
-      ph.setAuthor(summary.getAuthor());
-      ph.setKeywords(summary.getKeywords());
-      ph.setComments(summary.getComments());
-      ph.setCompany(summary.getCompany());
-      ph.setManager(summary.getManager());
-      ph.setCategory(summary.getCategory());
-      ph.setRevision(summary.getRevision());
-      ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
+      //
+      // Process the project header
+      //
+      ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
+      projectHeaderReader.process(file, props, rootDir);
    }
 
    /**
