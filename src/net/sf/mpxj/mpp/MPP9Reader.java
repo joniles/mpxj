@@ -880,32 +880,18 @@ final class MPP9Reader implements MPPVariantReader
       byte[] data;
       int uniqueID;
       Integer key;
-      Integer offset = null;
-      int validCount = 0;
       
       for (int loop=0; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
          {
-            uniqueID = MPPUtility.getInt(data, 0);
-            if (validCount == 0 && uniqueID < 0)
-            {
-               offset = new Integer(uniqueID);
-            }
-            
-            if (offset != null)
-            {
-               uniqueID = offset.intValue() - uniqueID;
-            }
-            
+            uniqueID = MPPUtility.getInt(data, 0);            
             key = new Integer(uniqueID);
             if (taskMap.containsKey(key) == false)
             {
                taskMap.put(key, new Integer (loop));
-            }
-            
-            ++validCount;
+            }            
          }
       }
 
