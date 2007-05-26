@@ -744,14 +744,6 @@ public final class PlannerReader extends AbstractProjectReader
       
    }
 
-   /*
-  <allocations>
-    <allocation task-id="7" resource-id="1" units="100"/>
-    <allocation task-id="7" resource-id="2" units="100"/>
-    <allocation task-id="6" resource-id="2" units="75"/>
-  </allocations>
-    */
-   
    /**
     * This method extracts assignment data from a Planner file.
     *
@@ -927,7 +919,7 @@ public final class PlannerReader extends AbstractProjectReader
    }
 
    /**
-    * Convert aPlanner time into a Java date.
+    * Convert a Planner time into a Java date.
     * 
     * 0800
     * 
