@@ -1317,7 +1317,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
          throw new MPXJException (MPXJException.MAXIMUM_RECORDS);
       }
 
-      m_calendar = new ProjectCalendar(getParentFile(), false);
+      m_calendar = new ProjectCalendar(getParentFile());
       m_calendar.setResource(this);
       return (m_calendar);
    }

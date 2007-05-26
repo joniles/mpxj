@@ -886,12 +886,12 @@ final class MPP9Reader implements MPPVariantReader
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
          {
-            uniqueID = MPPUtility.getInt(data, 0);            
+            uniqueID = MPPUtility.getInt(data, 0);
             key = new Integer(uniqueID);
             if (taskMap.containsKey(key) == false)
             {
                taskMap.put(key, new Integer (loop));
-            }            
+            }
          }
       }
 
@@ -1011,7 +1011,7 @@ final class MPP9Reader implements MPPVariantReader
 
                   if (varData != null)
                   {
-                     processCalendarHours (varData, cal);
+                     processCalendarHours (varData, cal, baseCalendarID == -1);
                      processCalendarExceptions (varData, cal);
                   }
 
@@ -1033,9 +1033,10 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @param data calendar data block
     * @param cal calendar instance
+    * @param isBaseCalendar true if this is a base calendar
     * @throws MPXJException
     */
-   private void processCalendarHours (byte[] data, ProjectCalendar cal)
+   private void processCalendarHours (byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
       throws MPXJException
    {
       int offset;
@@ -1078,7 +1079,7 @@ final class MPP9Reader implements MPPVariantReader
 
          if (defaultFlag == 1)
          {
-            if (cal.isBaseCalendar() == true)
+            if (isBaseCalendar == true)
             {
                cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                if (cal.isWorkingDay(day) == true)

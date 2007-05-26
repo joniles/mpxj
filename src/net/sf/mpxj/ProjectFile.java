@@ -482,7 +482,7 @@ public final class ProjectFile
     */
    public ProjectCalendar addResourceCalendar ()
    {
-      ProjectCalendar calendar = new ProjectCalendar(this, false);
+      ProjectCalendar calendar = new ProjectCalendar(this);
       m_resourceCalendars.add(calendar);
       return (calendar);
    }
@@ -494,7 +494,7 @@ public final class ProjectFile
     */
    public ProjectCalendar addBaseCalendar ()
    {
-      ProjectCalendar calendar = new ProjectCalendar(this, true);
+      ProjectCalendar calendar = new ProjectCalendar(this);
       m_baseCalendars.add(calendar);
       return (calendar);
    }
@@ -516,6 +516,8 @@ public final class ProjectFile
          m_resourceCalendars.remove(calendar);
          resource.setResourceCalendar(null);
       }
+      
+      calendar.setBaseCalendar(null);
    }
 
    /**
@@ -556,7 +558,7 @@ public final class ProjectFile
     */
    public ProjectCalendar getDefaultResourceCalendar ()
    {
-      ProjectCalendar calendar = new ProjectCalendar(this, false);
+      ProjectCalendar calendar = new ProjectCalendar(this);
 
       calendar.setWorkingDay(Day.SUNDAY, ProjectCalendar.DEFAULT);
       calendar.setWorkingDay(Day.MONDAY, ProjectCalendar.DEFAULT);

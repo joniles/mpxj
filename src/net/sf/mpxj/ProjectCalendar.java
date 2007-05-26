@@ -27,7 +27,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -49,15 +48,10 @@ public final class ProjectCalendar extends ProjectEntity
     * Default constructor.
     *
     * @param file the parent file to which this record belongs.
-    * @param baseCalendar flag indicating if this is a base calendar
     */
-   ProjectCalendar (ProjectFile file, boolean baseCalendar)
+   ProjectCalendar (ProjectFile file)
    {
       super (file);
-
-      m_baseCalendarFlag = baseCalendar;
-
-      Arrays.fill(m_days, baseCalendar?WORKING:DEFAULT);
 
       if (file.getAutoCalendarUniqueID() == true)
       {
@@ -194,7 +188,17 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public void setBaseCalendar (ProjectCalendar calendar)
    {
+      if (m_baseCalendar != null)
+      {
+         m_baseCalendar.removeDerivedCalendar(this);
+      }
+      
       m_baseCalendar = calendar;
+      
+      if (m_baseCalendar != null)
+      {
+         m_baseCalendar.addDerivedCalendar(this);
+      }
    }
 
    /**
@@ -304,7 +308,7 @@ public final class ProjectCalendar extends ProjectEntity
 
       if (working == null)
       {
-         if (m_baseCalendarFlag == false)
+         if (isBaseCalendar() == false)
          {
             value = DEFAULT;
          }
@@ -567,7 +571,7 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public boolean isBaseCalendar ()
    {
-      return (m_baseCalendarFlag);
+      return (m_baseCalendar == null);
    }
 
    /**
@@ -1080,6 +1084,36 @@ public final class ProjectCalendar extends ProjectEntity
    }
    
    /**
+    * Add a reference to a calendar derived from this one.
+    * 
+    * @param calendar derived calendar instance
+    */
+   protected void addDerivedCalendar (ProjectCalendar calendar)
+   {
+      m_derivedCalendars.add(calendar);
+   }
+   
+   /**
+    * Remove a reference to a derived calendar.
+    * 
+    * @param calendar derived calendar instance
+    */
+   protected void removeDerivedCalendar(ProjectCalendar calendar)
+   {
+      m_derivedCalendars.remove(calendar);
+   }
+   
+   /**
+    * Retrieve a list of derived calendars.
+    * 
+    * @return list of derived calendars
+    */
+   public List getDerivedCalendars ()
+   {
+      return (m_derivedCalendars);
+   }
+   
+   /**
     * {@inheritDoc}
     */
    public String toString()
@@ -1089,7 +1123,6 @@ public final class ProjectCalendar extends ProjectEntity
       pw.println("[ProjectCalendar");
       pw.println("   ID=" + m_uniqueID);
       pw.println("   name=" + m_name);
-      pw.println("   baseCalendarFlag=" + m_baseCalendarFlag);
       pw.println("   baseCalendarName=" + (m_baseCalendar==null?"":m_baseCalendar.getName()));
       pw.println("   resource=" + (m_resource==null?"":m_resource.getName()));
       
@@ -1131,11 +1164,6 @@ public final class ProjectCalendar extends ProjectEntity
    private String m_name;
 
    /**
-    * Flag indicating if this is a base calendar.
-    */
-   private boolean m_baseCalendarFlag;
-
-   /**
     * Base calendar from which this calendar is derived.
     */
    private ProjectCalendar m_baseCalendar;
@@ -1161,6 +1189,11 @@ public final class ProjectCalendar extends ProjectEntity
     */
    private Resource m_resource;
 
+   /**
+    * List of calendars derived from this calendar instance.
+    */
+   private List m_derivedCalendars = new LinkedList();
+   
    /**
     * Default base calendar name to use when none is supplied.
     */

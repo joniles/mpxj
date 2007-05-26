@@ -1021,7 +1021,7 @@ final class MPP12Reader implements MPPVariantReader
 
                   if (varData != null)
                   {
-                     processCalendarHours (varData, cal);
+                     processCalendarHours (varData, cal, baseCalendarID == -1);
                      //Incomplete
                      //processCalendarExceptions (varData, cal);
                   }
@@ -1048,9 +1048,10 @@ final class MPP12Reader implements MPPVariantReader
     * 
     * @param data calendar data block
     * @param cal calendar instance
+    * @param isBaseCalendar true if this is a base calendar
     * @throws net.sf.mpxj.MPXJException
     */
-   private void processCalendarHours (byte[] data, ProjectCalendar cal)
+   private void processCalendarHours (byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
       throws MPXJException
    {
       int offset;
@@ -1093,7 +1094,7 @@ final class MPP12Reader implements MPPVariantReader
 
          if (defaultFlag == 1)
          {
-            if (cal.isBaseCalendar() == true)
+            if (isBaseCalendar == true)
             {
                cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                if (cal.isWorkingDay(day) == true)

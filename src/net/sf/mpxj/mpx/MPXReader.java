@@ -237,7 +237,7 @@ public final class MPXReader extends AbstractProjectReader
          case MPXConstants.BASE_CALENDAR_RECORD_NUMBER:
          {
             m_lastBaseCalendar = m_projectFile.addBaseCalendar();
-            populateCalendar(record, m_lastBaseCalendar);
+            populateCalendar(record, m_lastBaseCalendar, true);
             break;
          }
 
@@ -315,7 +315,7 @@ public final class MPXReader extends AbstractProjectReader
             if (m_lastResource != null)
             {
                m_lastResourceCalendar = m_lastResource.addResourceCalendar();
-               populateCalendar(record, m_lastResourceCalendar);
+               populateCalendar(record, m_lastResourceCalendar, false);
             }
 
             break;
@@ -651,10 +651,11 @@ public final class MPXReader extends AbstractProjectReader
     *
     * @param record MPX record
     * @param calendar calendar instance
+    * @param isBaseCalendar true if this is a base calendar
     */
-   private void populateCalendar(Record record, ProjectCalendar calendar)
+   private void populateCalendar(Record record, ProjectCalendar calendar, boolean isBaseCalendar)
    {
-      if (calendar.isBaseCalendar() == true)
+      if (isBaseCalendar == true)
       {
          calendar.setName(record.getString(0));
       }
