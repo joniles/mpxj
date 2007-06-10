@@ -33,6 +33,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerReader;
+import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 
@@ -169,6 +170,7 @@ public final class MpxjConvert
    {
       WRITER_MAP.put("MPX", MPXWriter.class);
       WRITER_MAP.put("XML", MSPDIWriter.class);
+      WRITER_MAP.put("PLANNER", PlannerWriter.class);
    }
 }
 

@@ -100,6 +100,7 @@ public final class PlannerReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile ();
 
+         m_projectFile.setAutoCalendarUniqueID(true);
          m_projectFile.setAutoResourceID(true);
          m_projectFile.setAutoTaskID(true);
          
@@ -526,7 +527,7 @@ public final class PlannerReader extends AbstractProjectReader
    {
       Resource mpxjResource = m_projectFile.addResource();
 
-      mpxjResource.setResourceCalendar(m_projectFile.getBaseCalendarByUniqueID(getInteger(plannerResource.getCalendar())));
+      //mpxjResource.setResourceCalendar(m_projectFile.getBaseCalendarByUniqueID(getInteger(plannerResource.getCalendar())));
       mpxjResource.setEmailAddress(plannerResource.getEmail());
       mpxjResource.setUniqueID(getInteger(plannerResource.getId()));
       mpxjResource.setName(plannerResource.getName());
@@ -539,7 +540,21 @@ public final class PlannerReader extends AbstractProjectReader
       //plannerResource.getProperties();
    
       ProjectCalendar calendar = mpxjResource.addResourceCalendar();
-      calendar.setBaseCalendar(m_defaultCalendar);
+      
+      calendar.setWorkingDay(Day.SUNDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.MONDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.TUESDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.WEDNESDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.THURSDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.FRIDAY, ProjectCalendar.DEFAULT);
+      calendar.setWorkingDay(Day.SATURDAY, ProjectCalendar.DEFAULT);
+
+      ProjectCalendar baseCalendar = m_projectFile.getBaseCalendarByUniqueID(getInteger(plannerResource.getCalendar()));
+      if (baseCalendar == null)
+      {
+         baseCalendar = m_defaultCalendar;
+      }
+      calendar.setBaseCalendar(baseCalendar);
       
       m_projectFile.fireResourceReadEvent(mpxjResource);
    }
@@ -610,7 +625,7 @@ public final class PlannerReader extends AbstractProjectReader
       mpxjTask.setPriority(Priority.getInstance(getInt(plannerTask.getPriority())/10));
       mpxjTask.setType(getTaskType(plannerTask.getScheduling()));      
       //plannerTask.getStart(); // Start day, time is always 00:00?
-      //plannerTask.getType(); // always normal, can't change in the UI?
+      mpxjTask.setMilestone(plannerTask.getType().equals("milestone"));
       
       mpxjTask.setWork(getDuration(plannerTask.getWork())); 
       
