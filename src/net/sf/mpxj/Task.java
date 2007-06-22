@@ -51,6 +51,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       super(file);
 
       setType (TaskType.FIXED_UNITS);
+      setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       
       m_parent = parent;
 
