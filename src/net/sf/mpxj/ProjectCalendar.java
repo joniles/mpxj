@@ -614,7 +614,10 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * Sets the resource to which this calendar is linked.
+    * Sets the resource to which this calendar is linked. Note that this
+    * method updates the calendar's name to be the same as the resource name.
+    * If the resource does not yet have a name, then the calendar is given
+    * a default name.
     *
     * @param resource resource instance
     */
@@ -622,6 +625,10 @@ public final class ProjectCalendar extends ProjectEntity
    {
       m_resource = resource;
       m_name = m_resource.getName();
+      if (m_name==null || m_name.length()==0)
+      {
+         m_name = "Unnamed Resource";
+      }      
    }
 
    /**
