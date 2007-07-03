@@ -156,7 +156,7 @@ public final class SubProject
     */
    public String toString ()
    {
-      return ("[SubProject uniqueIDOffset=" + m_uniqueIDOffset + " path="+m_fullPath+"]");
+      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path="+m_fullPath+"]");
    }
 
    private Integer m_taskUniqueID;
