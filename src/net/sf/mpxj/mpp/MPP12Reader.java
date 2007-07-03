@@ -254,7 +254,6 @@ final class MPP12Reader implements MPPVariantReader
                // task unique ID, 8 bytes, path, file name
                //
                case 0x09:
-               case 0x11:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -274,6 +273,27 @@ final class MPP12Reader implements MPPVariantReader
                }
 
 
+               //
+               // task unique ID, 8 bytes, path, file name
+               //
+               case 0x11:                 
+               {
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  // Unknown offset
+                  offset += 4;
+                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                  break;
+               }
 
                //
                // task unique ID, path, unknown, file name
@@ -313,6 +333,27 @@ final class MPP12Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                  break;
+               }
+
+               //
+               // task unique ID, path, file name
+               //
+               case (byte)0xC0:
+               {
+                  uniqueIDOffset = itemHeaderOffset;
+
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  // unknown offset
+                  offset += 4;
+                  
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                   break;

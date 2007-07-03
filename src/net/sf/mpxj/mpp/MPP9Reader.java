@@ -237,7 +237,9 @@ final class MPP9Reader implements MPPVariantReader
 
             //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
             //System.out.println (offset);
-            byte subProjectType = itemHeader[16];
+            //System.out.println("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
+            
+            byte subProjectType = itemHeader[16];            
             switch (subProjectType)
             {
                //
@@ -253,7 +255,6 @@ final class MPP9Reader implements MPPVariantReader
                // task unique ID, 8 bytes, path, file name
                //
                case 0x09:
-               case 0x11:               
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -272,6 +273,27 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
+               //
+               // task unique ID, 8 bytes, path, file name
+               //
+               case 0x11:                 
+               {
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  // Unknown offset
+                  offset += 4;
+                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                  break;
+               }
 
 
                //
@@ -301,7 +323,7 @@ final class MPP9Reader implements MPPVariantReader
                // task unique ID, path, file name
                //
                case 0x01:
-               case 0x08:               
+               case 0x08:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -317,6 +339,27 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
+               //
+               // task unique ID, path, file name
+               //
+               case (byte)0xC0:
+               {
+                  uniqueIDOffset = itemHeaderOffset;
+
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  // unknown offset
+                  offset += 4;
+                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                  break;
+               }
+               
                //
                // resource unique ID, path, file name
                //
@@ -501,7 +544,7 @@ final class MPP9Reader implements MPPVariantReader
          fileNameOffset += size;
       }
 
-      //System.out.println(this.toString());
+      //System.out.println(sp.toString());
 
       return (sp);
    }
