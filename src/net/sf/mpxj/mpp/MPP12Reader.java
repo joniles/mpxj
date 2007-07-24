@@ -277,6 +277,7 @@ final class MPP12Reader implements MPPVariantReader
                // task unique ID, 8 bytes, path, file name
                //
                case 0x11:                 
+               case (byte)0x91:              
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;

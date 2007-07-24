@@ -235,9 +235,12 @@ final class MPP9Reader implements MPPVariantReader
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
-            //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
-            //System.out.println (offset);
-            //System.out.println("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
+//            System.out.println ();
+//            System.out.println ();
+//            System.out.println ("offset=" + offset);
+//            System.out.println ("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
+//            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));            
+            
             
             byte subProjectType = itemHeader[16];            
             switch (subProjectType)
@@ -254,7 +257,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case 0x09:
+               case 0x09:                 
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -276,7 +279,8 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case 0x11:                 
+               case 0x11:
+               case (byte)0x91:              
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -300,7 +304,7 @@ final class MPP9Reader implements MPPVariantReader
                // task unique ID, path, unknown, file name
                //
                case (byte)0x81:
-               case 0x41:
+               case 0x41:          
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
