@@ -1141,9 +1141,8 @@ public final class MPXWriter extends AbstractProjectWriter
     * @return formatted accrue type
     */
    private String formatAccrueType (AccrueType type)
-   {
-      String[] typeNames = LocaleData.getStringArray(m_locale, LocaleData.ACCRUE_TYPES);
-      return (typeNames[type.getType()-1]);
+   {      
+      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.ACCRUE_TYPES)[type.getType()-1]);
    }
 
    /**
@@ -1154,8 +1153,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatConstraintType (ConstraintType type)
    {
-      String[] typeNames = LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES);
-      return (typeNames[type.getType()]);
+      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getType()]);
    }
 
    /**
@@ -1177,10 +1175,15 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatRate (Rate value)
    {
-      StringBuffer buffer = new StringBuffer (m_formats.getCurrencyFormat().format(value.getAmount()));
-      buffer.append ("/");
-      buffer.append (formatTimeUnit(value.getUnits()));
-      return (buffer.toString());
+      String result = null;
+      if (value != null)
+      {
+         StringBuffer buffer = new StringBuffer (m_formats.getCurrencyFormat().format(value.getAmount()));
+         buffer.append ("/");
+         buffer.append (formatTimeUnit(value.getUnits()));
+         result = buffer.toString();
+      }
+      return (result);
    }
 
    /**
@@ -1191,23 +1194,30 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatPriority (Priority value)
    {
-      String[] priorityTypes = LocaleData.getStringArray(m_locale, LocaleData.PRIORITY_TYPES);
-      int priority = value.getValue();
-      if (priority < Priority.LOWEST)
+      String result = null;
+      
+      if (value != null)
       {
-         priority = Priority.LOWEST;
-      }
-      else
-      {
-         if (priority > Priority.DO_NOT_LEVEL)
+         String[] priorityTypes = LocaleData.getStringArray(m_locale, LocaleData.PRIORITY_TYPES);
+         int priority = value.getValue();
+         if (priority < Priority.LOWEST)
          {
-            priority = Priority.DO_NOT_LEVEL;
+            priority = Priority.LOWEST;
          }
+         else
+         {
+            if (priority > Priority.DO_NOT_LEVEL)
+            {
+               priority = Priority.DO_NOT_LEVEL;
+            }
+         }
+   
+         priority /= 100;
+         
+         result = priorityTypes[priority-1];
       }
-
-      priority /= 100;
-
-      return (priorityTypes[priority-1]);
+      
+      return (result);
    }
 
    /**
@@ -1260,29 +1270,36 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatRelation (Relation relation)
    {
-      StringBuffer sb = new StringBuffer(relation.getTaskID().toString());
-
-      Duration duration = relation.getDuration();
-      RelationType type = relation.getType();
-      double durationValue = duration.getDuration();
-
-      if ((durationValue != 0) || (type != RelationType.FINISH_START))
+      String result = null;
+      
+      if (relation != null)
       {
-         String[] typeNames = LocaleData.getStringArray(m_locale, LocaleData.RELATION_TYPES);
-         sb.append (typeNames[type.getType()]);
-      }
-
-      if (durationValue != 0)
-      {
-         if (durationValue > 0)
+         StringBuffer sb = new StringBuffer(relation.getTaskID().toString());
+   
+         Duration duration = relation.getDuration();
+         RelationType type = relation.getType();
+         double durationValue = duration.getDuration();
+   
+         if ((durationValue != 0) || (type != RelationType.FINISH_START))
          {
-            sb.append('+');
+            String[] typeNames = LocaleData.getStringArray(m_locale, LocaleData.RELATION_TYPES);
+            sb.append (typeNames[type.getType()]);
          }
-
-         sb.append(formatDuration(duration));
+   
+         if (durationValue != 0)
+         {
+            if (durationValue > 0)
+            {
+               sb.append('+');
+            }
+   
+            sb.append(formatDuration(duration));
+         }
+         
+         result = sb.toString();
       }
-
-      return (sb.toString());
+      
+      return (result);
    }
 
    /**
