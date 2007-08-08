@@ -1096,14 +1096,16 @@ final class MPP12Reader implements MPPVariantReader
    private void processCalendarHours (byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
       throws MPXJException
    {
+      //System.out.println(MPPUtility.hexdump(data, false, 16, ""));
+      
       int offset;
       ProjectCalendarHours hours;
       int periodIndex;
       int index;
-      int defaultFlag;
+      //int defaultFlag;
       Date start;
       long duration;
-      Day day;
+      //Day day;
       List dateRanges = new ArrayList(5);
       
       //
@@ -1130,45 +1132,60 @@ final class MPP12Reader implements MPPVariantReader
 
       for (index=0; index < 7; index++)
       {
-         offset = 2 + (60 * index);
-         defaultFlag = MPPUtility.getShort (data, offset);
-         day = Day.getInstance(index+1);
-
-         if (defaultFlag == 1)
+         offset = 60 * index;
+         Day day = Day.getInstance(index+1);
+         int useProjectDefault = MPPUtility.getShort (data, offset);
+         if (useProjectDefault == 1)
          {
-            if (isBaseCalendar == true)
+            cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
+            if (cal.isWorkingDay(day) == true)
             {
-               cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
-               if (cal.isWorkingDay(day) == true)
+               hours = cal.addCalendarHours(Day.getInstance(index+1));
+               hours.addDateRange(new DateRange(defaultStart1, defaultEnd1));
+               hours.addDateRange(new DateRange(defaultStart2, defaultEnd2));
+            }            
+         }
+         else
+         {
+            int useBaseCalendarDefault = MPPUtility.getShort (data, offset+2);
+            
+   
+            if (useBaseCalendarDefault == 1)
+            {
+               if (isBaseCalendar == true)
                {
-                  hours = cal.addCalendarHours(Day.getInstance(index+1));
-                  hours.addDateRange(new DateRange(defaultStart1, defaultEnd1));
-                  hours.addDateRange(new DateRange(defaultStart2, defaultEnd2));
+                  cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
+                  if (cal.isWorkingDay(day) == true)
+                  {
+                     hours = cal.addCalendarHours(Day.getInstance(index+1));
+                     hours.addDateRange(new DateRange(defaultStart1, defaultEnd1));
+                     hours.addDateRange(new DateRange(defaultStart2, defaultEnd2));
+                  }
+               }
+               else
+               {
+                  cal.setWorkingDay(day, ProjectCalendar.DEFAULT);
                }
             }
             else
             {
-               cal.setWorkingDay(day, ProjectCalendar.DEFAULT);
-            }
-         }
-         else
-         {
-            dateRanges.clear();
-            
-            periodIndex = 0;
-            while (periodIndex < 5)
-            {
-               int startOffset = offset + 6 + (periodIndex * 2);
-               if (MPPUtility.getShort(data, startOffset) == 0)
+               dateRanges.clear();
+               
+               periodIndex = 0;
+               while (periodIndex < 5)
                {
-                  break;
+                  int startOffset = offset + 8 + (periodIndex * 2);
+                  if (MPPUtility.getShort(data, startOffset) == 0)
+                  {
+                     break;
+                  }
+                  start = MPPUtility.getTime (data, startOffset);
+                  int durationOffset = offset + 20 + (periodIndex * 4);
+                  duration = MPPUtility.getDuration (data, durationOffset);
+                  Date end = new Date (start.getTime()+duration);
+                  dateRanges.add(new DateRange (start, end));              
+                  ++periodIndex;
                }
-               start = MPPUtility.getTime (data, startOffset);
-               int durationOffset = offset + 18 + (periodIndex * 4);
-               duration = MPPUtility.getDuration (data, durationOffset);
-               Date end = new Date (start.getTime()+duration);
-               dateRanges.add(new DateRange (start, end));              
-               ++periodIndex;
             }
             
             if (dateRanges.isEmpty())
