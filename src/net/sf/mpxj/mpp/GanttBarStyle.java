@@ -72,7 +72,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
 
       m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+34));
       m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+38));
-      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+44));
+      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+42));
       m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+46));
       m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+50));
    }
