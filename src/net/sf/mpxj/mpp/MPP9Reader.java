@@ -236,8 +236,9 @@ final class MPP9Reader implements MPPVariantReader
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
 //            System.out.println ();
-//            System.out.println ();
+//            System.out.println ();            
 //            System.out.println ("offset=" + offset);
+//            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
 //            System.out.println ("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
 //            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));            
             
@@ -257,7 +258,8 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case 0x09:                 
+               case (byte)0x99:               
+               case 0x09:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -279,7 +281,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               case 0x11:
+               //case 0x11:
                case (byte)0x91:              
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -299,12 +301,30 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
+               case 0x11:
+               {
+                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  // Unknown offset
+                  //offset += 4;
+                  
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                  break;
+               }
 
                //
                // task unique ID, path, unknown, file name
                //
                case (byte)0x81:
-               case 0x41:          
+               case 0x41:   
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -366,7 +386,7 @@ final class MPP9Reader implements MPPVariantReader
                
                //
                // resource unique ID, path, file name
-               //
+               //               
                case 0x05:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -409,6 +429,30 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
+               // deleted entry?
+               case 0x10:
+               {
+                  offset += 8;
+                  break;
+               }
+               
+               // new resource pool entry
+               case (byte)0x44:                                                                        
+               {
+                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+
+                  offset += 4;
+                  
+                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  offset += 4;
+                  
+                  sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset);
+                  file.setResourceSubProject(sp);
+                  break;
+               }
+               
+               
                //
                // Any other value, assume 12 bytes to handle old/deleted data?
                //
