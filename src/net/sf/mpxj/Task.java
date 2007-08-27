@@ -3742,26 +3742,6 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    }
 
    /**
-    * Retrieves the external task project file name.
-    *
-    * @return external task project file name
-    */
-   public String getExternalTaskProject ()
-   {
-      return (m_externalTaskProject);
-   }
-
-   /**
-    * Sets the external task project file name.
-    *
-    * @param externalTaskProject external task project file name
-    */
-   public void setExternalTaskProject (String externalTaskProject)
-   {
-      m_externalTaskProject = externalTaskProject;
-   }
-
-   /**
     * Retrieve the ACWP value.
     *
     * @return ACWP value
@@ -6185,6 +6165,28 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    }
 
    /**
+    * If this is an external task, this method will return  the ID
+    * (note: not the unique ID) of the task in the external file.
+    * 
+    * @return external task ID
+    */
+   public Integer getExternalTaskID ()
+   {
+      return (m_externalTaskID);
+   }
+   
+   /**
+    * If this is an external task, this method is used to set the ID
+    * (note: not the unique ID) of the task in the external file.
+    * 
+    * @param externalTaskID external task ID
+    */
+   public void setExternalTaskID (Integer externalTaskID)
+   {
+      m_externalTaskID = externalTaskID;
+   }
+   
+   /**
     * {@inheritDoc}
     */
    public Object getCachedValue (FieldType field)
@@ -6461,13 +6463,13 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    private boolean m_resumeValid;   
    private Integer m_subprojectTaskUniqueID;
    private Integer m_subprojectTasksUniqueIDOffset;
-   private String m_externalTaskProject;
    private TimeUnit m_levelingDelayFormat;
    private Integer m_physicalPercentComplete;
    private EarnedValueMethod m_earnedValueMethod;
    private Duration m_actualWorkProtected;
    private Duration m_actualOvertimeWorkProtected;
    private boolean m_expanded = true;
+   private Integer m_externalTaskID;
    
    private List m_splits;
    private SubProject m_subProject;   

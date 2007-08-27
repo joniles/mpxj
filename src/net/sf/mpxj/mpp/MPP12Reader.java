@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1345,6 +1346,7 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Task task;
       boolean autoWBS = true;
+      LinkedList externalTasks = new LinkedList();
       
       RTFUtility rtf = new RTFUtility ();
       String notes;
@@ -1461,7 +1463,13 @@ final class MPP12Reader implements MPPVariantReader
          task.setEffortDriven((metaData[11] & 0x10) != 0);
          task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
          task.setExpanded(((metaData[12] & 0x02) == 0));
-         //task.setExternalTask(); // Calculated value
+         int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
+         if (externalTaskID != 0)
+         {
+            task.setExternalTaskID(new Integer(externalTaskID));
+            task.setExternalTask(true);
+            externalTasks.add(task);
+         }         
          task.setFinish (MPPUtility.getTimestamp (data, 8));
 //       From MS Project 2003
          //task.setFinishVariance(); // Calculated value
@@ -1747,7 +1755,63 @@ final class MPP12Reader implements MPPVariantReader
       //
       // Enable auto WBS if necessary
       //
-      file.setAutoWBS(autoWBS);      
+      file.setAutoWBS(autoWBS);    
+      
+      //
+      // We have now read all of the tassk, so we are in a position
+      // to perform post-processing to set up the relevant details
+      // for each external task.
+      //
+      if (!externalTasks.isEmpty())
+      {
+         processExternalTasks (externalTasks);
+      }      
+   }
+
+   /**
+    * The project files to which external tasks relate appear not to be
+    * held against each task, instead there appears to be the concept
+    * of the "current" external task file, i.e. the last one used.
+    * This method iterates through the list of tasks marked as external
+    * and attempts to ensure that the correct external project data (in the
+    * form of a SubProject object) is linked to the task.
+    * 
+    * @param externalTasks list of tasks marked as external
+    */
+   private void processExternalTasks (List externalTasks)
+   {
+      //
+      // Sort the list of tasks into ID order
+      //
+      Collections.sort(externalTasks);
+      
+      //
+      // Find any external tasks which don't have a sub project
+      // object, and set this attribute using the most recent 
+      // value.
+      //
+      Iterator iter = externalTasks.iterator();
+      SubProject currentSubProject = null;
+      
+      while (iter.hasNext())
+      {
+         Task currentTask = (Task)iter.next();
+         SubProject sp = currentTask.getSubProject();
+         if (sp == null)
+         {
+            currentTask.setSubProject(currentSubProject);
+         }
+         else
+         {
+            currentSubProject = sp;
+         }
+         
+         if (currentSubProject != null)
+         {
+            //System.out.println ("Task: " +currentTask.getUniqueID() + " " + currentTask.getName() + " File=" + currentSubProject.getFullPath() + " ID=" + currentTask.getExternalTaskID());
+            currentTask.setProject(currentSubProject.getFullPath());
+         }
+      }
    }
 
    /**
@@ -2701,6 +2765,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_OUTLINECODE9 = new Integer (433);
    private static final Integer TASK_OUTLINECODE10 = new Integer (435);
 
+   private static final Integer TASK_EXTERNAL_TASK_ID = new Integer (255);
+   
    //
    // Unverified
    //

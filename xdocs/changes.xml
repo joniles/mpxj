@@ -16,6 +16,7 @@
       <action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>
       <action dev="joniles" type="add">Added support for attribute change listeners for Task and Resource classes.</action>      
       <action dev="joniles" type="add">Added support for start slack, finish slack, free slack and total slack read from MPP files.</action>            
+      <action dev="joniles" type="add">Added support for external tasks.</action>                  
       <action dev="joniles" type="add">Added unique ID generation for calendars read from MPX files.</action>            
       <action dev="joniles" type="add">Added support for the status date property of the project.</action>            
       <action dev="joniles" type="fix">Fixed a timezone related bug when handling dates for calendar exceptions (Contributed by Todd Brannam).</action>
@@ -29,7 +30,7 @@
       <action dev="joniles" type="fix">Fixed incorrect "as late as possible" constraint handling.</action>
       <action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
       <action dev="joniles" type="fix">Incorrect total slack calculation.</action>      
-      <action dev="joniles" type="fix">Added a default for the task conatrsint type attribute to prevent a possible NPE when writing an MSPDI file.</action>
+      <action dev="joniles" type="fix">Added a default for the task constraint type attribute to prevent a possible NPE when writing an MSPDI file.</action>
       <action dev="joniles" type="fix">Added a default resource calendar name where the resource name is empty.</action>      
       <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
       <action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>

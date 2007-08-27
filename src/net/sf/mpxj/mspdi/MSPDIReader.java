@@ -713,7 +713,7 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setEffortDriven(xml.isEffortDriven());
       mpx.setEstimated(xml.isEstimated());
       mpx.setExternalTask(xml.isExternalTask());
-      mpx.setExternalTaskProject(xml.getExternalTaskProject());
+      mpx.setProject(xml.getExternalTaskProject());
       mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
       //mpx.setFinish1();
       //mpx.setFinish2();

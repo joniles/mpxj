@@ -655,7 +655,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setEffortDriven(mpx.getEffortDriven());
       xml.setEstimated(mpx.getEstimated());
       xml.setExternalTask(mpx.getExternalTask());
-      xml.setExternalTaskProject(mpx.getExternalTaskProject());
+      xml.setExternalTaskProject(mpx.getProject());
 
       Date finishDate = mpx.getFinish();
       if (finishDate != null)

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -168,8 +169,8 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException, MPXJException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
-      //MPPUtility.fileHexDump("c:\\temp\\props.txt", props.toString().getBytes());
-
+      //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+      
       //
       // Process the project header
       //
@@ -1336,6 +1337,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
 
+      
       TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -1344,6 +1346,7 @@ final class MPP9Reader implements MPPVariantReader
       byte[] metaData;
       Task task;
       boolean autoWBS = true;
+      LinkedList externalTasks = new LinkedList();
       
       RTFUtility rtf = new RTFUtility ();
       String notes;
@@ -1460,7 +1463,13 @@ final class MPP9Reader implements MPPVariantReader
          task.setEffortDriven((metaData[11] & 0x10) != 0);
          task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
          task.setExpanded(((metaData[12] & 0x02) == 0));
-         //task.setExternalTask(); // Calculated value
+         int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
+         if (externalTaskID != 0)
+         {
+            task.setExternalTaskID(new Integer(externalTaskID));
+            task.setExternalTask(true);
+            externalTasks.add(task);
+         }         
          task.setFinish (MPPUtility.getTimestamp (data, 8));
 //       From MS Project 2003
          //task.setFinishVariance(); // Calculated value
@@ -1737,7 +1746,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             task.setSplits(new LinkedList());
          }
-         
+                  
          file.fireTaskReadEvent(task);
 
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
@@ -1747,8 +1756,64 @@ final class MPP9Reader implements MPPVariantReader
       // Enable auto WBS if necessary
       //
       file.setAutoWBS(autoWBS);
+      
+      //
+      // We have now read all of the tassk, so we are in a position
+      // to perform post-processing to set up the relevant details
+      // for each external task.
+      //
+      if (!externalTasks.isEmpty())
+      {
+         processExternalTasks (externalTasks);
+      }
    }
 
+   /**
+    * The project files to which external tasks relate appear not to be
+    * held against each task, instead there appears to be the concept
+    * of the "current" external task file, i.e. the last one used.
+    * This method iterates through the list of tasks marked as external
+    * and attempts to ensure that the correct external project data (in the
+    * form of a SubProject object) is linked to the task.
+    * 
+    * @param externalTasks list of tasks marked as external
+    */
+   private void processExternalTasks (List externalTasks)
+   {
+      //
+      // Sort the list of tasks into ID order
+      //
+      Collections.sort(externalTasks);
+      
+      //
+      // Find any external tasks which don't have a sub project
+      // object, and set this attribute using the most recent 
+      // value.
+      //
+      Iterator iter = externalTasks.iterator();
+      SubProject currentSubProject = null;
+      
+      while (iter.hasNext())
+      {
+         Task currentTask = (Task)iter.next();
+         SubProject sp = currentTask.getSubProject();
+         if (sp == null)
+         {
+            currentTask.setSubProject(currentSubProject);
+         }
+         else
+         {
+            currentSubProject = sp;
+         }
+         
+         if (currentSubProject != null)
+         {
+            //System.out.println ("Task: " +currentTask.getUniqueID() + " " + currentTask.getName() + " File=" + currentSubProject.getFullPath() + " ID=" + currentTask.getExternalTaskID());
+            currentTask.setProject(currentSubProject.getFullPath());
+         }
+      }
+   }
+   
    /**
     * This method is used to extract the task hyperlink attributes
     * from a block of data and call the appropriate modifier methods
@@ -2625,6 +2690,8 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer TASK_DURATION10 = new Integer (73);
    private static final Integer TASK_DURATION10_UNITS = new Integer (74);
 
+   private static final Integer TASK_EXTERNAL_TASK_ID = new Integer (79);
+   
    private static final Integer TASK_DATE1 = new Integer (80);
    private static final Integer TASK_DATE2 = new Integer (81);
    private static final Integer TASK_DATE3 = new Integer (82);
