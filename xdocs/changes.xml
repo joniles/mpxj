@@ -8,7 +8,10 @@
 
    <body> 
 
-   <release version="0.9.3" date="CVS HEAD"> 
+   <release version="1.0.1" date="CVS HEAD"> 
+   </release>
+
+   <release version="1.0.0" date="30/08/2007"> 
       <action dev="joniles" type="add">Added support for reading MPD files via JDBC</action>
       <action dev="joniles" type="add">Added support for reading Planner files</action>
       <action dev="joniles" type="add">Added support for overallocated flag to all MPP file formats.</action>
