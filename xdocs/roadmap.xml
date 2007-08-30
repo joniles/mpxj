@@ -4,7 +4,7 @@
 <document>
    <properties>
       <title>Roadmap</title> 
-      <author email="jon.iles@tapsterrock.com">Jon Iles</author> 
+      <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
    <body> 
@@ -15,29 +15,43 @@
 out on MPXJ. This is by no means an exhaustive list, feel free to submit your own 
 requests for inclusion here.</p>
 
+<p><b>Version 2.0.0 - September 2007</b></p>   
 <ul>
-<li>Implement read/write of outline codes for MSPDI files.</li>
-<li>Extract more fields from the MPP file project header (particularly schedule from)</li>
-<li>Investigate extracting more fields from MPP files for resource assignments.</li>
-<li>Complete implementation of Props structure for MPP8 files.</li>
-<li>Extract custom task field headings from Props table for MPP8 files.</li>
-<li>Extract custom resource field headings from Props table for MPP8 files.</li>
-<li>Implement missing resource fields for MPP8 files.</li>
-<li>Implement missing task fields for MPP9 files.</li>
-<li>Implement missing resource fields for MPP9 files.</li>
-<li>Implement missing task fields for MSPDI files.</li>
-<li>Implement missing resource fields for MSPDI files.</li>
-<li>Implement missing project attributes for MPP/MSPDI files (e.g. project file start/end dates).</li>
-<li>Investigate extracting recurring task information (MPP8 taskExtData items 167 and 168?).</li>
-<li>Investigate implementing support for password protected files. (Encryption believed to be simple XOR.)</li>
-<li>Investigate subproject task attributes.</li>
-<li>Investigate the use of an alternative JAXB implementation such as JAXMe.</li>
-<li>Implement support for the MPX 3.0 file format.</li>
-<li>Implement support for baseline values.</li>
-<li>Retrieve valid value specifications/lists for user defined fields.</li>
-<li>Version 1.0 release: on completion of the bulk of the above changes.</li>
-<li>Version 2.0 release: rewrite MPXJ to use a generic data structure not tied to MPX.</li>
-<li>Investigate implementing read/write access to the MPD file format using Jackcess.</li>
+   <li>Migrate to Java 1.5</li>
+   <li>Update API to use generics</li>
+   <li>Read full recurring task information from MPP, MSPDI and MPD files</li>
+   <li>Write full recurring task information to MPX and MSPDI files</li>
+   <li>Implement support for reading Cost Rate Tables from MPP, MSPDI and MPD files</li>   
+   <li>Investigate implementing task getSuccessors functionality</li>
+   <li>Investigate implementing external task flag for MPP files</li>
+</ul>  
+
+<p><b>Version 2.1.0 - December 2007</b></p>   
+<ul>
+   <li>Implement support for reading multiple baselines from MPP, MSPDI and MPD files</li>
+   <li>Implement support for writing multiple baselines to MSPDI files</li>
+   <li>Investigate relationship between resource assignment planned work and planned cost fields and any baseline values held at resource assignment level</li>
+   <li>Implement read and write support for outline codes in MSPDI files</li>
+</ul>  
+    
+<p><b>Unscheduled</b></p>      
+<ul>
+   <li>Extract more fields from the MPP file project header</li>
+   <li>Investigate extracting more fields from MPP files for resource assignments.</li>
+   <li>Complete implementation of Props structure for MPP8 files.</li>
+   <li>Extract custom task field headings from Props table for MPP8 files.</li>
+   <li>Extract custom resource field headings from Props table for MPP8 files.</li>
+   <li>Implement missing resource fields for MPP8 files.</li>
+   <li>Implement missing task fields for MPP9 files.</li>
+   <li>Implement missing resource fields for MPP9 files.</li>
+   <li>Implement missing task fields for MSPDI files.</li>
+   <li>Implement missing resource fields for MSPDI files.</li>
+   <li>Implement missing project attributes for MPP/MSPDI files (e.g. project file start/end dates).</li>
+   <li>Investigate extracting recurring task information (MPP8 taskExtData items 167 and 168?).</li>
+   <li>Investigate implementing support for password protected files. (Encryption believed to be simple XOR.)</li>
+   <li>Investigate subproject task attributes.</li>
+   <li>Retrieve valid value specifications/lists for user defined fields.</li>
+   <li>Investigate implementing read/write access to the MPD file format using Jackcess.</li>
 </ul>
 </section>
 </body>
