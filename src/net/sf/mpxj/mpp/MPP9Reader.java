@@ -261,6 +261,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                case (byte)0x99:               
                case 0x09:
+               case 0x0D:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -282,7 +283,6 @@ final class MPP9Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //
-               //case 0x11:
                case (byte)0x91:              
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -452,8 +452,7 @@ final class MPP9Reader implements MPPVariantReader
                   file.setResourceSubProject(sp);
                   break;
                }
-               
-               
+                              
                //
                // Any other value, assume 12 bytes to handle old/deleted data?
                //
