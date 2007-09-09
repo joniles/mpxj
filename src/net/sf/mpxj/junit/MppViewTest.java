@@ -73,16 +73,16 @@ public class MppViewTest extends MPXJTestCase
      */
     private void testViews(ProjectFile mpp) 
     {
-        List views = mpp.getViews();
+        List<View> views = mpp.getViews();
 
         // not sure what order MPP12 will store the views in,
         // so make a Set to check against when done reading in the views
-        HashSet setViewNames = new HashSet();
+        HashSet<String> setViewNames = new HashSet<String>();
 
         for (int viewNum = 0; viewNum < views.size(); viewNum++) 
         {
             // View Names
-            View view = (View) views.get(viewNum);
+            View view = views.get(viewNum);
             String viewName = view.getName();
             setViewNames.add(viewName);
             Table table = null;
@@ -98,11 +98,11 @@ public class MppViewTest extends MPXJTestCase
                     assertEquals(ViewType.GANTT_CHART, viewType);
 
                     // verify all columns
-                    List cols = table.getColumns();
-                    HashSet setColumnNames = new HashSet();
+                    List<Column> cols = table.getColumns();
+                    HashSet<String> setColumnNames = new HashSet<String>();
                     for (int n = 0; n < cols.size(); n++) 
                     {
-                        Column col = (Column) cols.get(n);
+                        Column col = cols.get(n);
                         setColumnNames.add(col.getTitle());
                         int width = col.getWidth();
                         assertTrue(width > 0);

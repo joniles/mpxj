@@ -32,7 +32,7 @@ import net.sf.mpxj.utility.DateUtility;
  * an MPX file. It is used to define exceptions to the working days described
  * in both base and resource calendars.
  */
-public final class ProjectCalendarException implements Comparable
+public final class ProjectCalendarException implements Comparable<ProjectCalendarException>
 {
    /**
     * Returns the from date.
@@ -317,17 +317,17 @@ public final class ProjectCalendarException implements Comparable
    /**
     * {@inheritDoc}
     */
-   public int compareTo (Object o)
+   public int compareTo (ProjectCalendarException o)
    {
       long fromTime1 = m_fromDate.getTime();
-      long fromTime2 = ((ProjectCalendarException)o).m_fromDate.getTime();
+      long fromTime2 = o.m_fromDate.getTime();
       return ((fromTime1 < fromTime2) ? (-1) : ((fromTime1 == fromTime2) ? 0 : 1));
    }
 
    /**
     * {@inheritDoc}
     */
-   public String toString()
+   @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[ProjectCalendarException");

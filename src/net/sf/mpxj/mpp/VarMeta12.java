@@ -40,7 +40,7 @@ final class VarMeta12 extends AbstractVarMeta
    /**
     * Constructor. Extracts that makes up this block from the input stream.
     *
-    * @param is Input stream from whic data is read
+    * @param is Input stream from which data is read
     * @throws IOException on file read error
     */
    VarMeta12 (InputStream is)
@@ -60,7 +60,7 @@ final class VarMeta12 extends AbstractVarMeta
       Integer uniqueID;
       Integer type;
       Integer offset;
-      Map map;
+      Map<Integer, Integer> map;
       m_offsets = new int[m_itemCount];
 
       for (int loop=0; loop < m_itemCount; loop++)
@@ -70,10 +70,10 @@ final class VarMeta12 extends AbstractVarMeta
          type = new Integer (readShort(is));
          readShort(is); // unknown 2 bytes
 
-         map = (Map)m_table.get (uniqueID);
+         map = m_table.get (uniqueID);
          if (map == null)
          {
-            map = new TreeMap ();
+            map = new TreeMap<Integer, Integer> ();
             m_table.put (uniqueID, map);
          }
 

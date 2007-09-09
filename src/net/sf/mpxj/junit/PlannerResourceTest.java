@@ -40,6 +40,7 @@ public class PlannerResourceTest extends MPXJTestCase
     public void testPlannerResource() 
        throws Exception 
     {
-        ProjectFile mpp = new PlannerReader().read (m_basedir + "/planner-resource.planner");       
+        ProjectFile mpp = new PlannerReader().read (m_basedir + "/planner-resource.planner");  
+        assertNotNull(mpp);
     }
 }

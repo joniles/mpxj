@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.IOException;
 import java.util.Map;
 
 import net.sf.mpxj.DataType;
@@ -53,10 +52,8 @@ public abstract class GroupReader
     * @param fixedData filter fixed data
     * @param varData filter var data
     * @param fontBases map of font bases
-    * @throws IOException
     */
-   public void process (ProjectFile file, FixedData fixedData, Var2Data varData, Map fontBases)
-      throws IOException
+   public void process (ProjectFile file, FixedData fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
    {      
       int groupCount = fixedData.getItemCount();
       for (int groupLoop = 0; groupLoop < groupCount; groupLoop++)
@@ -82,7 +79,7 @@ public abstract class GroupReader
          // header=4 byte int for unique id
          // short 4 = show summary tasks
          // short int at byte 6 for number of clauses         
-         Integer groupUniqueID = new Integer(MPPUtility.getInt(groupVarData, 0));
+         //Integer groupUniqueID = new Integer(MPPUtility.getInt(groupVarData, 0));
          boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
          
          Group group = new Group(groupID, groupName, showSummaryTasks);
@@ -106,18 +103,19 @@ public abstract class GroupReader
             
             FieldType type = null;
             switch (entityType)
-            {
-               case 0x0B:               
-               {
-                  type = MPPTaskField.getInstance(fieldType);
-                  break;
-               }
-               
+            {               
                case 0x0C:               
                {
                   type = MPPResourceField.getInstance(fieldType);
                   break;
-               }            
+               }
+               
+               default:
+               case 0x0B:               
+               {
+                  type = MPPTaskField.getInstance(fieldType);
+                  break;
+               }               
             }
 
             clause.setField(type);
@@ -133,7 +131,7 @@ public abstract class GroupReader
             clause.setAscending(ascending);
             
             int fontIndex = MPPUtility.getByte(groupVarData, offset+8);
-            FontBase fontBase = (FontBase)fontBases.get(new Integer(fontIndex));
+            FontBase fontBase = fontBases.get(new Integer(fontIndex));
             
             
             int style = MPPUtility.getByte(groupVarData, offset+9);

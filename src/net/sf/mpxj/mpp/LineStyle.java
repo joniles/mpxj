@@ -75,7 +75,7 @@ public final class LineStyle
     *
     * @return String representation of this line style
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (getName());
    }

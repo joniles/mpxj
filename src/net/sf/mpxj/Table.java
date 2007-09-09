@@ -126,7 +126,7 @@ public final class Table
     *
     * @return list of columns
     */
-   public List getColumns ()
+   public List<Column> getColumns ()
    {
       return (m_columns);
    }
@@ -137,7 +137,7 @@ public final class Table
     *
     * @return formatted contents of this table
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
@@ -149,7 +149,7 @@ public final class Table
       pw.print (" resourceFlag=");
       pw.println (m_resourceFlag);
 
-      Iterator iter = m_columns.iterator();
+      Iterator<Column> iter = m_columns.iterator();
       while (iter.hasNext() == true)
       {
          pw.print ("   ");
@@ -165,5 +165,5 @@ public final class Table
    private int m_id;
    private String m_name;
    private boolean m_resourceFlag;
-   private ArrayList m_columns = new ArrayList ();
+   private ArrayList<Column> m_columns = new ArrayList<Column> ();
 }

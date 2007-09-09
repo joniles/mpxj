@@ -2,7 +2,7 @@
  * file:       FilterReader.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2006
- * date:       Oct 31, 2006
+ * date:       2006-10-31
  */
  
 /*
@@ -22,8 +22,6 @@
  */
 
 package net.sf.mpxj.mpp;
-
-import java.io.IOException;
 
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
@@ -53,10 +51,8 @@ public abstract class FilterReader
     * @param file project file
     * @param fixedData filter fixed data
     * @param varData filter var data
-    * @throws IOException
     */
-   public void process (ProjectFile file, FixedData fixedData, Var2Data varData)
-      throws IOException
+   public void process (ProjectFile file, FixedData fixedData, Var2Data varData)      
    {      
       Filter filter;
       boolean lastLogicalAnd = true;
@@ -88,8 +84,7 @@ public abstract class FilterReader
          // 20 byte header, ignore first 2 80 byte blocks
          int offset = 20 + (2 * 80);
          while (offset + (3 * 80) <= varDataOffset)
-         {
-            int startOffset = offset;
+         {            
             FilterCriteria criteria = new FilterCriteria(file);
             filter.addCriteria(criteria);
             

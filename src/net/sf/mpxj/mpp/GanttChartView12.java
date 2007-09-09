@@ -38,7 +38,7 @@ public final class GanttChartView12 extends GanttChartView
    /**
     * {@inheritDoc}
     */
-   protected Integer getPropertiesID()
+   @Override protected Integer getPropertiesID()
    {
       return (PROPERTIES);
    }
@@ -54,7 +54,7 @@ public final class GanttChartView12 extends GanttChartView
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView12 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
+   GanttChartView12 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
       super (parent, fixedMeta, fixedData, varData, fontBases);

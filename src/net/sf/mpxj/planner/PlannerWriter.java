@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,7 +43,6 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -166,15 +164,15 @@ public final class PlannerWriter extends AbstractProjectWriter
       Calendars calendars = m_factory.createCalendars();
       m_plannerProject.setCalendars (calendars);
       writeDayTypes(calendars);
-      List calendar = calendars.getCalendar();
+      List<net.sf.mpxj.planner.schema.Calendar> calendar = calendars.getCalendar();
       
       //
       // Process each calendar in turn
       //
-      Iterator iter = m_projectFile.getBaseCalendars().iterator();    
+      Iterator<ProjectCalendar> iter = m_projectFile.getBaseCalendars().iterator();    
       while (iter.hasNext() == true)
       {
-         ProjectCalendar mpxjCalendar = (ProjectCalendar)iter.next();
+         ProjectCalendar mpxjCalendar = iter.next();
          
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();         
          calendar.add (plannerCalendar);
@@ -193,7 +191,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    {
       DayTypes dayTypes = m_factory.createDayTypes();
       calendars.setDayTypes(dayTypes);
-      List typeList = dayTypes.getDayType();
+      List<DayType> typeList = dayTypes.getDayType();
       
       DayType dayType = m_factory.createDayType();
       typeList.add(dayType);
@@ -215,7 +213,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
    
    /**
-    * This method writes data for a single calandar to a Planner file.
+    * This method writes data for a single calendar to a Planner file.
     *
     * @param mpxjCalendar MPXJ calendar instance
     * @param plannerCalendar Planner calendar instance
@@ -249,17 +247,17 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       OverriddenDayTypes odt = m_factory.createOverriddenDayTypes();
       plannerCalendar.setOverriddenDayTypes(odt);      
-      List typeList = odt.getOverriddenDayType();
+      List<OverriddenDayType> typeList = odt.getOverriddenDayType();
       Sequence uniqueID = new Sequence(0);
 
       //
       // This is a bit arbitrary, so not ideal, however...
-      // The idea here is that MS Prject allows us to specify working hours
+      // The idea here is that MS Project allows us to specify working hours
       // for each day of the week individually. Planner doesn't do this,
       // but instead allows us to specify working hours for each day type.
       // What we are doing here is stepping through the days of the week to 
       // find the first working day, then using the hours for that day
-      // as the housr for the working day type in Planner.
+      // as the hours for the working day type in Planner.
       //
       for (int dayLoop=1; dayLoop < 8; dayLoop++)
       {
@@ -276,18 +274,18 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       Days plannerDays = m_factory.createDays();
       plannerCalendar.setDays(plannerDays);
-      List dayList = plannerDays.getDay();
+      List<net.sf.mpxj.planner.schema.Day> dayList = plannerDays.getDay();
       processExceptionDays (mpxjCalendar, dayList);
 
       //
       // Process any derived calendars
       //
-      List calendarList = plannerCalendar.getCalendar();
+      List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
       
-      Iterator iter = mpxjCalendar.getDerivedCalendars().iterator();
+      Iterator<ProjectCalendar> iter = mpxjCalendar.getDerivedCalendars().iterator();
       while (iter.hasNext())
       {
-         ProjectCalendar mpxjDerivedCalendar = (ProjectCalendar)iter.next();
+         ProjectCalendar mpxjDerivedCalendar = iter.next();
          net.sf.mpxj.planner.schema.Calendar plannerDerivedCalendar = m_factory.createCalendar();   
          calendarList.add(plannerDerivedCalendar);
          writeCalendar(mpxjDerivedCalendar, plannerDerivedCalendar);
@@ -303,7 +301,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param typeList Planner list of days
     * @throws JAXBException
     */
-   private void processWorkingHours (ProjectCalendar mpxjCalendar, Sequence uniqueID, Day day, List typeList)
+   private void processWorkingHours (ProjectCalendar mpxjCalendar, Sequence uniqueID, Day day, List<OverriddenDayType> typeList)
       throws JAXBException
    {
       if (isWorkingDay(mpxjCalendar, day))
@@ -314,11 +312,11 @@ public final class PlannerWriter extends AbstractProjectWriter
             OverriddenDayType odt = m_factory.createOverriddenDayType();
             typeList.add(odt);
             odt.setId(getIntegerString(uniqueID.next()));
-            List intervalList = odt.getInterval();
-            Iterator iter = mpxjHours.iterator();
+            List<Interval> intervalList = odt.getInterval();
+            Iterator<DateRange> iter = mpxjHours.iterator();
             while (iter.hasNext())
             {
-               DateRange mpxjRange = (DateRange)iter.next();
+               DateRange mpxjRange = iter.next();
                Interval interval = m_factory.createInterval();
                intervalList.add(interval);
                interval.setStart(getTimeString(mpxjRange.getStartDate()));
@@ -335,13 +333,13 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param dayList Planner list of exception days
     * @throws JAXBException
     */
-   private void processExceptionDays (ProjectCalendar mpxjCalendar, List dayList)
+   private void processExceptionDays (ProjectCalendar mpxjCalendar, List<net.sf.mpxj.planner.schema.Day> dayList)
       throws JAXBException
    {
-      Iterator iter = mpxjCalendar.getCalendarExceptions().iterator();
+      Iterator<ProjectCalendarException> iter = mpxjCalendar.getCalendarExceptions().iterator();
       while (iter.hasNext())
       {
-         ProjectCalendarException mpxjCalendarException = (ProjectCalendarException)iter.next();                  
+         ProjectCalendarException mpxjCalendarException = iter.next();                  
          
          
          Date rangeStartDay = mpxjCalendarException.getFromDate();
@@ -392,11 +390,11 @@ public final class PlannerWriter extends AbstractProjectWriter
    {
       Resources resources = m_factory.createResources();
       m_plannerProject.setResources(resources);
-      List resourceList = resources.getResource();
-      Iterator iter = m_projectFile.getAllResources().iterator();
+      List<net.sf.mpxj.planner.schema.Resource> resourceList = resources.getResource();
+      Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
       while (iter.hasNext())
       {
-         Resource mpxjResource = (Resource)iter.next();
+         Resource mpxjResource = iter.next();
          net.sf.mpxj.planner.schema.Resource plannerResource = m_factory.createResource();
          resourceList.add(plannerResource);
          writeResource(mpxjResource, plannerResource);
@@ -440,11 +438,11 @@ public final class PlannerWriter extends AbstractProjectWriter
    {
       Tasks tasks = m_factory.createTasks();
       m_plannerProject.setTasks(tasks);
-      List taskList = tasks.getTask();
-      Iterator iter = m_projectFile.getChildTasks().iterator();
+      List<net.sf.mpxj.planner.schema.Task> taskList = tasks.getTask();
+      Iterator<Task> iter = m_projectFile.getChildTasks().iterator();
       while (iter.hasNext())
       {
-         writeTask((Task)iter.next(), taskList);
+         writeTask(iter.next(), taskList);
       }
    }
 
@@ -455,7 +453,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param mpxjTask MPXJ Task instance
     * @param taskList list of child tasks for current parent
     */
-   private void writeTask (Task mpxjTask, List taskList)
+   private void writeTask (Task mpxjTask, List<net.sf.mpxj.planner.schema.Task> taskList)
       throws JAXBException
    {
       net.sf.mpxj.planner.schema.Task plannerTask = m_factory.createTask();
@@ -507,11 +505,11 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Write child tasks
       //
-      List childTaskList = plannerTask.getTask();
-      Iterator iter = mpxjTask.getChildTasks().iterator();
+      List<net.sf.mpxj.planner.schema.Task> childTaskList = plannerTask.getTask();
+      Iterator<Task> iter = mpxjTask.getChildTasks().iterator();
       while (iter.hasNext())
       {
-         writeTask((Task)iter.next(), childTaskList);
+         writeTask(iter.next(), childTaskList);
       }
    }
 
@@ -529,31 +527,27 @@ public final class PlannerWriter extends AbstractProjectWriter
     * expect.
     *
     * @param mpxjTask MPXJ task instance
-    * @param plannerTask lanner task instance
+    * @param plannerTask planner task instance
     */
    private void writePredecessors (Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
       throws JAXBException
    {      
-      TreeSet set = new TreeSet ();
+      TreeSet<Integer> set = new TreeSet<Integer> ();
       Integer taskID;
-      Relation rel;
-      Iterator iter;
 
       Predecessors plannerPredecessors = m_factory.createPredecessors();
       plannerTask.setPredecessors(plannerPredecessors);
-      List predecessorList = plannerPredecessors.getPredecessor();
+      List<Predecessor> predecessorList = plannerPredecessors.getPredecessor();
       int id = 0;
       
       //
       // Process the list of predecessors specified by Unique ID
       //
-      List predecessors = mpxjTask.getUniqueIDPredecessors();
+      List<Relation> predecessors = mpxjTask.getUniqueIDPredecessors();
       if (predecessors != null)
-      {
-         iter = predecessors.iterator();         
-         while (iter.hasNext() == true)
+      {         
+         for (Relation rel : predecessors)
          {
-            rel = (Relation)iter.next();
             taskID = rel.getTaskUniqueID();
             set.add(taskID);
             
@@ -561,7 +555,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             plannerPredecessor.setId(getIntegerString(++id));
             plannerPredecessor.setPredecessorId(getIntegerString(taskID));            
             plannerPredecessor.setLag(getDurationString(rel.getDuration()));
-            plannerPredecessor.setType((String)RELATIONSHIP_TYPES.get(rel.getType()));
+            plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
             predecessorList.add(plannerPredecessor);
          }
       }
@@ -575,10 +569,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       if (predecessors != null)
       {
          Task task;
-         iter = predecessors.iterator();
-         while (iter.hasNext() == true)
+         for (Relation rel : predecessors)
          {
-            rel = (Relation)iter.next();
             task = m_projectFile.getTaskByID(rel.getTaskID());
             if (task != null)
             {
@@ -589,7 +581,7 @@ public final class PlannerWriter extends AbstractProjectWriter
                   plannerPredecessor.setId(getIntegerString(++id));
                   plannerPredecessor.setPredecessorId(getIntegerString(taskID));
                   plannerPredecessor.setLag(getDurationString(rel.getDuration()));
-                  plannerPredecessor.setType((String)RELATIONSHIP_TYPES.get(rel.getType()));
+                  plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
                   predecessorList.add(plannerPredecessor);
                }
             }
@@ -608,11 +600,11 @@ public final class PlannerWriter extends AbstractProjectWriter
       Allocations allocations = m_factory.createAllocations();
       m_plannerProject.setAllocations(allocations);
       
-      List allocationList = allocations.getAllocation();
-      Iterator iter = m_projectFile.getAllResourceAssignments().iterator();
+      List<Allocation> allocationList = allocations.getAllocation();
+      Iterator<ResourceAssignment> iter = m_projectFile.getAllResourceAssignments().iterator();
       while (iter.hasNext())
       {
-         ResourceAssignment mpxjAssignment = (ResourceAssignment)iter.next();
+         ResourceAssignment mpxjAssignment = iter.next();
          Allocation plannerAllocation = m_factory.createAllocation();
          allocationList.add(plannerAllocation);
          
@@ -650,73 +642,6 @@ public final class PlannerWriter extends AbstractProjectWriter
       }
       
       return (result.toString());      
-   }
-
-   /**
-    * Convert a Planner date into a Java date.
-    * 
-    * 20070222
-    * 
-    * @param value Planner date
-    * @return Java Date instance
-    */
-   private Date getDate (String value)
-      throws MPXJException
-   {
-      try
-      {   
-         Number year = m_fourDigitFormat.parse(value.substring(0,4));
-         Number month = m_twoDigitFormat.parse(value.substring(4,6));
-         Number day = m_twoDigitFormat.parse(value.substring(6,8));
-         
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.YEAR, year.intValue());
-         cal.set(Calendar.MONTH, month.intValue()-1);
-         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-         
-         cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-
-         return (cal.getTime());
-      }
-      
-      catch (ParseException ex)
-      {
-         throw new MPXJException ("Failed to parse date " + value, ex);
-      }      
-   }
-
-   /**
-    * Convert aPlanner time into a Java date.
-    * 
-    * 0800
-    * 
-    * @param value Planner time
-    * @return Java Date instance
-    */
-   private Date getTime (String value)
-      throws MPXJException
-   {
-      try
-      {   
-         Number hours = m_twoDigitFormat.parse(value.substring(0,2));
-         Number minutes = m_twoDigitFormat.parse(value.substring(2,4));
-       
-         Calendar cal = Calendar.getInstance();
-         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-         cal.set(Calendar.MINUTE, minutes.intValue());
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         
-         return (cal.getTime());
-      }
-      
-      catch (ParseException ex)
-      {
-         throw new MPXJException ("Failed to parse time " + value, ex);
-      }      
    }
 
    /**
@@ -995,7 +920,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    
-   private static Map RELATIONSHIP_TYPES = new HashMap();
+   private static Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<RelationType, String>();
    static
    {
       RELATIONSHIP_TYPES.put(RelationType.FINISH_FINISH, "FF");

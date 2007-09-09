@@ -24,9 +24,12 @@
 package net.sf.mpxj.utility;
 
 /**
- * Represents a pait of values.
+ * Represents a pair of values.
+ * 
+ * @param <L> first value type
+ * @param <R> second value type
  */
-public final class Pair
+public final class Pair<L, R>
 {
    /**
     * Constructor.
@@ -34,7 +37,7 @@ public final class Pair
     * @param first first object
     * @param second second object
     */
-   public Pair (Object first, Object second)
+   public Pair (L first, R second)
    {
       m_first = first;
       m_second = second;
@@ -45,7 +48,7 @@ public final class Pair
     *
     * @return first object
     */
-   public Object getFirst ()
+   public L getFirst ()
    {
       return (m_first);
    }
@@ -55,11 +58,11 @@ public final class Pair
     *
     * @return second object
     */
-   public Object getSecond ()
+   public R getSecond ()
    {
       return (m_second);
    }
 
-   private Object m_first;
-   private Object m_second;
+   private L m_first;
+   private R m_second;
 }

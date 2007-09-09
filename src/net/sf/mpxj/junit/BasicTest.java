@@ -41,9 +41,11 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.View;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -497,10 +499,10 @@ public class BasicTest extends MPXJTestCase
       assertEquals (task2.getParentTask(), task1);
 
       task1.addTask();
-      List children = task1.getChildTasks();
+      List<Task> children = task1.getChildTasks();
       assertEquals (children.size(), 2);
 
-      List toplevel = file.getChildTasks();
+      List<Task> toplevel = file.getChildTasks();
       assertEquals (toplevel.size(), 1);
    }
 
@@ -596,15 +598,15 @@ public class BasicTest extends MPXJTestCase
       // Test the remaining work attribute
       //
       Task task = file.getTaskByUniqueID(new Integer(2));
-      List assignments = task.getResourceAssignments();
+      List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
 
-      Iterator iter = assignments.iterator();
+      Iterator<ResourceAssignment> iter = assignments.iterator();
       ResourceAssignment assignment;
 
       while (iter.hasNext() == true)
       {
-         assignment = (ResourceAssignment)iter.next();
+         assignment = iter.next();
 
          switch (NumberUtility.getInt(assignment.getResourceID()))
          {
@@ -676,20 +678,20 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/sample.mpx");
       ProjectFile mpx = new MPXReader().read (in);
-      List tasks = mpx.getAllTasks();
-      Iterator taskIter = tasks.iterator();
+      List<Task> tasks = mpx.getAllTasks();
+      Iterator<Task> taskIter = tasks.iterator();
 
       while (taskIter.hasNext() == true)
       {
-         Task task = (Task)taskIter.next();
-         List rels = task.getPredecessors();
+         Task task = taskIter.next();
+         List<Relation> rels = task.getPredecessors();
          if (rels != null)
          {
-            Iterator relIter = rels.iterator();
+            Iterator<Relation> relIter = rels.iterator();
 
             while (relIter.hasNext() == true)
             {
-               Relation rel = (Relation)relIter.next();
+               Relation rel = relIter.next();
                mpx.getTaskByUniqueID(rel.getTaskUniqueID());
             }
          }
@@ -926,29 +928,16 @@ public class BasicTest extends MPXJTestCase
    public void testBug3 ()
       throws Exception
    {
-      File out = null;
+      File in = new File (m_basedir + "/bug3.mpp");
+      ProjectFile mpp = new MPPReader().read (in);
+      List<Task> tasks = mpp.getAllTasks();
+      Iterator<Task> iter = tasks.iterator();
+      Task task;
 
-      try
+      while (iter.hasNext() == true)
       {
-         File in = new File (m_basedir + "/bug3.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         List tasks = mpp.getAllTasks();
-         Iterator iter = tasks.iterator();
-         Task task;
-
-         while (iter.hasNext() == true)
-         {
-            task = (Task)iter.next();
-            assertEquals("Outline levels do not match", task.getOutlineLevel().intValue(), calculateOutlineLevel(task));
-         }
-      }
-
-      finally
-      {
-         if (out != null)
-         {
-            out.delete();
-         }
+         task = iter.next();
+         assertEquals("Outline levels do not match", task.getOutlineLevel().intValue(), calculateOutlineLevel(task));
       }
    }
 
@@ -1041,15 +1030,15 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp8flags1.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List tasks = mpp.getAllTasks();
+      List<Task> tasks = mpp.getAllTasks();
       assertTrue ("Not enough tasks", (tasks.size() > 0));
       assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
 
-      Iterator iter = tasks.iterator();
+      Iterator<Task> iter = tasks.iterator();
       Task task;
       while (iter.hasNext())
       {
-         task = (Task)iter.next();
+         task = iter.next();
          assertFalse(task.getName(), task.getFlag1());
          assertFalse(task.getName(), task.getFlag2());
          assertFalse(task.getName(), task.getFlag3());
@@ -1071,7 +1060,7 @@ public class BasicTest extends MPXJTestCase
          assertFalse(task.getName(), task.getFlag19());
          //assertFalse(task.getName(), task.getFlag20());
 
-         task = (Task)iter.next();
+         task = iter.next();
          assertTrue(task.getName(), task.getFlag1());
          assertTrue(task.getName(), task.getFlag2());
          assertTrue(task.getName(), task.getFlag3());
@@ -1097,7 +1086,7 @@ public class BasicTest extends MPXJTestCase
 
    /**
     * This test reads flags from an MPP8 file where each set of 20 tasks has
-    * a sngle flag from 1-20 set. The next set of 20 tasks increases by
+    * a single flag from 1-20 set. The next set of 20 tasks increases by
     * one outline level.
     *
     * @throws Exception
@@ -1107,16 +1096,16 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp8flags2.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List tasks = mpp.getAllTasks();
+      List<Task> tasks = mpp.getAllTasks();
 
-      Iterator iter = tasks.iterator();
+      Iterator<Task> iter = tasks.iterator();
       Task task;
       int index = 0;
       boolean[] flags;
 
       while (iter.hasNext())
       {
-         task = (Task)iter.next();
+         task = iter.next();
          if (task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
@@ -1142,15 +1131,15 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp9flags1.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List tasks = mpp.getAllTasks();
+      List<Task> tasks = mpp.getAllTasks();
       assertTrue ("Not enough tasks", (tasks.size() > 0));
       assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
 
-      Iterator iter = tasks.iterator();
+      Iterator<Task> iter = tasks.iterator();
       Task task;
       while (iter.hasNext())
       {
-         task = (Task)iter.next();
+         task = iter.next();
          assertFalse(task.getName(), task.getFlag1());
          assertFalse(task.getName(), task.getFlag2());
          assertFalse(task.getName(), task.getFlag3());
@@ -1172,7 +1161,7 @@ public class BasicTest extends MPXJTestCase
          assertFalse(task.getName(), task.getFlag19());
          assertFalse(task.getName(), task.getFlag20());
 
-         task = (Task)iter.next();
+         task = iter.next();
          assertTrue(task.getName(), task.getFlag1());
          assertTrue(task.getName(), task.getFlag2());
          assertTrue(task.getName(), task.getFlag3());
@@ -1198,7 +1187,7 @@ public class BasicTest extends MPXJTestCase
 
    /**
     * This test reads flags from an MPP9 file where each set of 20 tasks has
-    * a sngle flag from 1-20 set. The next set of 20 tasks increases by
+    * a single flag from 1-20 set. The next set of 20 tasks increases by
     * one outline level.
     *
     * @throws Exception
@@ -1208,16 +1197,16 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp8flags2.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List tasks = mpp.getAllTasks();
+      List<Task> tasks = mpp.getAllTasks();
 
-      Iterator iter = tasks.iterator();
+      Iterator<Task> iter = tasks.iterator();
       Task task;
       int index = 0;
       boolean[] flags;
 
       while (iter.hasNext())
       {
-         task = (Task)iter.next();
+         task = iter.next();
          if (task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
@@ -1300,7 +1289,7 @@ public class BasicTest extends MPXJTestCase
       throws Exception
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
-      List views = mpp.getViews();
+      List<View> views = mpp.getViews();
       assertEquals("Incorrect number of views", 1, views.size());
 
       mpp = new MPPReader().read (m_basedir + "/sample.mpp");
@@ -1317,7 +1306,7 @@ public class BasicTest extends MPXJTestCase
       throws Exception
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
-      List tables = mpp.getTables();
+      List<Table> tables = mpp.getTables();
 //      Iterator iter = tables.iterator();
 //      while (iter.hasNext() == true)
 //      {
@@ -1355,13 +1344,13 @@ public class BasicTest extends MPXJTestCase
          //
          File in = new File (m_basedir + "/sample1.mpp");
          ProjectFile mpp = new MPPReader().read (in);
-         Iterator iter = mpp.getAllTasks().iterator();
+         Iterator<Task> iter = mpp.getAllTasks().iterator();
          Task task;
          ProjectCalendar cal;
 
          while (iter.hasNext() == true)
          {
-            task = (Task)iter.next();
+            task = iter.next();
             cal = task.getCalendar();
             if (cal != null)
             {
@@ -1384,7 +1373,7 @@ public class BasicTest extends MPXJTestCase
 
          while (iter.hasNext() == true)
          {
-            task = (Task)iter.next();
+            task = iter.next();
             cal = task.getCalendar();
             if (cal != null)
             {
@@ -1879,11 +1868,11 @@ public class BasicTest extends MPXJTestCase
     */
    private void commonMspdiExtendedAttributeTests (ProjectFile xml)
    {
-      List tasks = xml.getAllTasks();
+      List<Task> tasks = xml.getAllTasks();
       assertEquals (2, tasks.size());
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 
-      Task task = (Task)tasks.get(1);
+      Task task = tasks.get(1);
       assertEquals("Task Text One", task.getText1());
       assertEquals("01/01/2004", df.format(task.getStart1()));
       assertEquals("31/12/2004", df.format(task.getFinish1()));
@@ -1894,10 +1883,10 @@ public class BasicTest extends MPXJTestCase
       assertEquals(13.0, task.getDuration1().getDuration(), 0.0);
       assertEquals(TimeUnit.DAYS, task.getDuration1().getUnits());
 
-      List resources = xml.getAllResources();
+      List<Resource> resources = xml.getAllResources();
       assertEquals(2, resources.size());
 
-      Resource resource = (Resource)resources.get(1);
+      Resource resource = resources.get(1);
       assertEquals("Resource Text One", resource.getText1());
       assertEquals("01/01/2003", df.format(resource.getStart1()));
       assertEquals("31/12/2003", df.format(resource.getFinish1()));
@@ -2246,9 +2235,9 @@ public class BasicTest extends MPXJTestCase
       //
       task = mpp.getTaskByUniqueID(new Integer(5));
       assertEquals("Task Five", task.getName());
-      List assignments = task.getResourceAssignments();
+      List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
-      ResourceAssignment assignment = (ResourceAssignment)assignments.get(0);
+      ResourceAssignment assignment = assignments.get(0);
       resource = assignment.getResource();
       assertEquals("Resource Six", resource.getName());
       assignments = resource.getTaskAssignments();

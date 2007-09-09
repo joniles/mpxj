@@ -89,7 +89,7 @@ public final class TaskField implements FieldType
     *
     * @return string representation
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (getName());
    }
@@ -97,7 +97,7 @@ public final class TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public boolean equals (Object obj)
+   @Override public boolean equals (Object obj)
    {
       boolean result = false;
       if (obj instanceof TaskField)
@@ -110,7 +110,7 @@ public final class TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public int hashCode ()
+   @Override public int hashCode ()
    {
       return (m_value);
    }

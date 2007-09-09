@@ -42,18 +42,18 @@ public final class LocaleData_fr extends ListResourceBundle
    /**
     * {@inheritDoc}
     */
-   public Object[][] getContents()
+   @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);
    }
 
    private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "h", "j", "s", "ms", "a", "%", "me", "he", "je", "se", "mse", "???", "e%"};
-   private static final HashMap TIME_UNITS_MAP_DATA = new HashMap ();
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer> ();
 
    static
- {
+   {
       for (int loop=0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
-    {
+      {
          TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], new Integer(loop));
       }
    }

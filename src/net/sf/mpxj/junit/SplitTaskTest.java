@@ -46,7 +46,7 @@ public class SplitTaskTest extends MPXJTestCase
    public void testSplits1 ()
       throws Exception
    {
-      List splits = new LinkedList();
+      List<Duration> splits = new LinkedList<Duration>();
       splits.add(Duration.getInstance(32, TimeUnit.HOURS));
       splits.add(Duration.getInstance(40, TimeUnit.HOURS));
       splits.add(Duration.getInstance(88, TimeUnit.HOURS));
@@ -107,7 +107,7 @@ public class SplitTaskTest extends MPXJTestCase
    public void testSplits2 ()
       throws Exception
    {
-      List splits = new LinkedList();
+      List<Duration> splits = new LinkedList<Duration>();
 
       ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9b.mpp");
       

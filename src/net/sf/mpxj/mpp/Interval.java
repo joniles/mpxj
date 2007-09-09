@@ -75,7 +75,7 @@ public final class Interval
     *
     * @return String representation of this line style
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (getName());
    }

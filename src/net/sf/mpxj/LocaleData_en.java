@@ -33,7 +33,7 @@ public final class LocaleData_en extends ListResourceBundle
    /**
     * {@inheritDoc}
     */
-   public Object[][] getContents()
+   @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);
    }

@@ -177,7 +177,7 @@ public final class TestOperator
    
    /**
     * This method is used to ensure that if a list of operand values has been
-    * suppied, that a single operand is extracted.
+    * supplied, that a single operand is extracted.
     * 
     * @param operand operand value
     * @return single operand value
@@ -304,7 +304,7 @@ public final class TestOperator
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (NAME_VALUES[m_type]);
    }

@@ -77,7 +77,7 @@ public final class ProjectCalendar extends ProjectEntity
     *
     * @return List of calendar exceptions
     */
-   public List getCalendarExceptions ()
+   public List<ProjectCalendarException> getCalendarExceptions ()
    {
       return (m_exceptions);
    }
@@ -647,12 +647,12 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public ProjectCalendarException getException (Date date)
    {      
-      Iterator iter = m_exceptions.iterator();
+      Iterator<ProjectCalendarException> iter = m_exceptions.iterator();
       ProjectCalendarException exception = null;
 
       while (iter.hasNext() == true)
       {
-         exception = (ProjectCalendarException)iter.next();
+         exception = iter.next();
          if (exception.contains(date) == true)
          {
             break;
@@ -925,10 +925,10 @@ public final class ProjectCalendar extends ProjectEntity
       long total = 0;
       long currentTime = DateUtility.getCanonicalTime(date).getTime();
       
-      Iterator iter = hours.iterator();      
+      Iterator<DateRange> iter = hours.iterator();      
       while (iter.hasNext() == true)
       {
-         DateRange range = (DateRange)iter.next();
+         DateRange range = iter.next();
          total += getTime(range.getStartDate(), range.getEndDate(), currentTime, after);
       }
    
@@ -950,10 +950,10 @@ public final class ProjectCalendar extends ProjectEntity
       Date start = DateUtility.getCanonicalTime(startDate);
       Date end = DateUtility.getCanonicalTime(endDate);
       
-      Iterator iter = hours.iterator();      
+      Iterator<DateRange> iter = hours.iterator();      
       while (iter.hasNext() == true)
       {
-         DateRange range = (DateRange)iter.next();
+         DateRange range = iter.next();
          total += getTime(start, end, DateUtility.getCanonicalTime(range.getStartDate()), DateUtility.getCanonicalTime(range.getEndDate()));
       }
    
@@ -971,10 +971,10 @@ public final class ProjectCalendar extends ProjectEntity
    {
       long total = 0;
       
-      Iterator iter = hours.iterator();      
+      Iterator<DateRange> iter = hours.iterator();      
       while (iter.hasNext() == true)
       {
-         DateRange range = (DateRange)iter.next();
+         DateRange range = iter.next();
          total += getTime(range.getStartDate(), range.getEndDate());
       }
    
@@ -984,12 +984,12 @@ public final class ProjectCalendar extends ProjectEntity
    
    /**
     * Calculates how much of a time range is before or after a
-    * target interesction point.
+    * target intersection point.
     * 
     * @param start time range start
     * @param end time range end
     * @param target target intersection point
-    * @param after true if time fater target required, false for time before
+    * @param after true if time after target required, false for time before
     * @return length of time in milliseconds
     */
    private long getTime (Date start, Date end, long target, boolean after)
@@ -1115,7 +1115,7 @@ public final class ProjectCalendar extends ProjectEntity
     * 
     * @return list of derived calendars
     */
-   public List getDerivedCalendars ()
+   public List<ProjectCalendar> getDerivedCalendars ()
    {
       return (m_derivedCalendars);
    }
@@ -1123,7 +1123,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * {@inheritDoc}
     */
-   public String toString()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);
@@ -1147,10 +1147,9 @@ public final class ProjectCalendar extends ProjectEntity
       if (!m_exceptions.isEmpty())
       {
          pw.println("   [Exceptions=");
-         Iterator iter = m_exceptions.iterator();
-         while (iter.hasNext())
+         for (ProjectCalendarException ex : m_exceptions)
          {
-            pw.println("      " + iter.next().toString());
+            pw.println("      " + ex.toString());
          }
          pw.println("   ]");
       }
@@ -1184,7 +1183,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * List of exceptions to the base calendar.
     */
-   private LinkedList m_exceptions = new LinkedList();
+   private LinkedList<ProjectCalendarException> m_exceptions = new LinkedList<ProjectCalendarException>();
 
    /**
     * List of working hours for the base calendar.
@@ -1199,7 +1198,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * List of calendars derived from this calendar instance.
     */
-   private List m_derivedCalendars = new LinkedList();
+   private List<ProjectCalendar> m_derivedCalendars = new LinkedList<ProjectCalendar>();
    
    /**
     * Default base calendar name to use when none is supplied.
@@ -1217,7 +1216,7 @@ public final class ProjectCalendar extends ProjectEntity
    public static final int WORKING = 1;
 
    /**
-    * Copnstant used to represent that a day in a derived calendar used
+    * Constant used to represent that a day in a derived calendar used
     * the value specified in the base calendar to indicate if it is working
     * or not.
     */

@@ -92,7 +92,7 @@ public class MppSubprojectTest extends MPXJTestCase
 
         // Subproject A
         SubProject subprojectA = taskSubprojectA.getSubProject();
-        assertTrue(subprojectA != null);
+        assertNotNull(subprojectA);
         final String expectedFilenameA = "\\SubprojectA-9.mpp";
         //assertEquals(expectedFilenameA, subprojectA.getDosFileName());
         assertTrue(expectedFilenameA.indexOf(subprojectA.getFileName()) != -1);
@@ -101,7 +101,7 @@ public class MppSubprojectTest extends MPXJTestCase
         assertEquals(new Integer(2), subprojectA.getTaskUniqueID());
         assertEquals(new Integer(20971520), subprojectA.getUniqueIDOffset());
 
-        //assertEquals(null, taskSubprojectA.getSubprojectName());  // todo: why is this null?
+        //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
         assertEquals(false, taskSubprojectA.getSubprojectReadOnly());
         
         if (isMPP)

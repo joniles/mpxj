@@ -46,7 +46,7 @@ final class InputStreamTokenizer extends Tokenizer
    /**
     * {@inheritDoc}
     */
-   protected int read ()
+   @Override protected int read ()
       throws IOException
    {
       return (m_stream.read());

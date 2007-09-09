@@ -37,7 +37,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * This class represents the Resource record as found in an MPX file.
  */
-public final class Resource extends ProjectEntity implements Comparable, FieldContainer
+public final class Resource extends ProjectEntity implements Comparable<Resource>, FieldContainer
 {
    /**
     * Default constructor.
@@ -1375,10 +1375,10 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
 
       if (m_assignments.isEmpty() == false)
       {
-         Iterator iter = m_assignments.iterator();
+         Iterator<ResourceAssignment> iter = m_assignments.iterator();
          while (iter.hasNext() == true)
          {
-            ((ResourceAssignment)iter.next()).setResourceID(val);
+            iter.next().setResourceID(val);
          }
       }
    }
@@ -1472,10 +1472,10 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
 
       if (m_assignments.isEmpty() == false)
       {
-         Iterator iter = m_assignments.iterator();
+         Iterator<ResourceAssignment> iter = m_assignments.iterator();
          while (iter.hasNext() == true)
          {
-            ((ResourceAssignment)iter.next()).setResourceUniqueID(val);
+            iter.next().setResourceUniqueID(val);
          }
       }
    }
@@ -4359,7 +4359,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     * 
     * @return list of tasks assigned to this resource
     */
-   public List getTaskAssignments ()
+   public List<ResourceAssignment> getTaskAssignments ()
    {
       return (m_assignments);
    }
@@ -4521,10 +4521,10 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
       //
       if (m_listeners != null)
       {
-         Iterator iter = m_listeners.iterator();
+         Iterator<FieldListener> iter = m_listeners.iterator();
          while (iter.hasNext() == true)
          {
-            ((FieldListener)iter.next()).fieldChange(this, field, oldValue, newValue);
+            iter.next().fieldChange(this, field, oldValue, newValue);
          }
       }
    }
@@ -4536,7 +4536,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList();
+         m_listeners = new LinkedList<FieldListener>();
       }
       m_listeners.add(listener);
    }
@@ -4574,10 +4574,10 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
     * @param o object to compare this instance with
     * @return result of comparison
     */
-   public int compareTo (Object o)
+   public int compareTo (Resource o)
    {
       int id1 = NumberUtility.getInt(getID());
-      int id2 = NumberUtility.getInt(((Resource)o).getID());
+      int id2 = NumberUtility.getInt(o.getID());
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
@@ -4594,7 +4594,7 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
    /**
     * List of all assignments for this resource.
     */
-   private List m_assignments = new LinkedList();
+   private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
 
   
    private boolean m_null;
@@ -4610,5 +4610,5 @@ public final class Resource extends ProjectEntity implements Comparable, FieldCo
    private Date m_creationDate;   
    private boolean m_enterprise;
    private Integer m_subprojectResourceUniqueID;   
-   private List m_listeners;
+   private List<FieldListener> m_listeners;
 }

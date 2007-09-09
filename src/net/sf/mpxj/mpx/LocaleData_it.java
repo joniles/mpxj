@@ -41,13 +41,13 @@ public final class LocaleData_it extends ListResourceBundle
    /**
     * {@inheritDoc}
     */
-   public Object[][] getContents ()
+   @Override public Object[][] getContents ()
    {
       return (RESOURCE_DATA);
    }
 
    private static final String[] TIME_UNITS_ARRAY_DATA = {"r", "o", "g", "s", "m", "a", "%", "tr", "to", "tg", "ts", "tm", "ta", "t%"};
-   private static final HashMap TIME_UNITS_MAP_DATA = new HashMap();
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
    static
    {

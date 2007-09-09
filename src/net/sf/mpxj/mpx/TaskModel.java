@@ -26,7 +26,6 @@ package net.sf.mpxj.mpx;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import net.sf.mpxj.MPXJException;
@@ -147,10 +146,8 @@ final class TaskModel
          Arrays.fill(m_flags, false);
       }
 
-      Iterator iter = m_parentFile.getAllTasks().iterator();
-      while (iter.hasNext() == true)
+      for (Task task : m_parentFile.getAllTasks())
       {
-         Task task = (Task)iter.next();
          for (int loop=0; loop < MPXTaskField.MAX_FIELDS; loop++)
          {
             if (task.getCachedValue(MPXTaskField.getMpxjField(loop)) != null)
@@ -179,7 +176,7 @@ final class TaskModel
     *
     * @return string containing the data for this record in MPX format.
     */
-   public String toString ()
+   @Override public String toString ()
    {
       populateModel();
 
@@ -238,7 +235,7 @@ final class TaskModel
    private int getTaskCode (String field)
       throws MPXJException
    {
-      Integer result = (Integer)m_taskNumbers.get(field.trim());
+      Integer result = m_taskNumbers.get(field.trim());
 
       if (result == null)
       {
@@ -274,5 +271,5 @@ final class TaskModel
    /**
     * Map used to store task field numbers.
     */
-   private HashMap m_taskNumbers = new HashMap();
+   private HashMap<String, Integer> m_taskNumbers = new HashMap<String, Integer>();
 }

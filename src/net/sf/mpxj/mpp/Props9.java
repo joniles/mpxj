@@ -93,21 +93,21 @@ final class Props9 extends Props
     *
     * @return formatted contents of this block
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
 
       pw.println ("BEGIN Props");
 
-      Iterator iter = m_map.keySet().iterator();
+      Iterator<Integer> iter = m_map.keySet().iterator();
       Integer key;
 
       while (iter.hasNext() == true)
       {
-         key = (Integer)iter.next();
+         key = iter.next();
          pw.println ("   Key: " + key + " Value: ");
-         pw.println (MPPUtility.hexdump((byte[])m_map.get(key), true, 16, "      "));
+         pw.println (MPPUtility.hexdump(m_map.get(key), true, 16, "      "));
       }
 
       pw.println ("END Props");

@@ -81,13 +81,13 @@ public class MppGroupTest extends MPXJTestCase
        assertEquals("Group 1", group.getName());
        assertFalse(group.getShowSummaryTasks());
        
-       List clauses = group.getGroupClauses();
+       List<GroupClause> clauses = group.getGroupClauses();
        assertNotNull(clauses);
        
        //
        // Test clause 1
        //
-       GroupClause clause = (GroupClause)clauses.get(0);
+       GroupClause clause = clauses.get(0);
        assertEquals(TaskField.DURATION1, clause.getField());
        assertTrue(clause.getAscending());
        FontStyle font = clause.getFont();
@@ -104,7 +104,7 @@ public class MppGroupTest extends MPXJTestCase
        //
        // Test clause 2
        //
-       clause = (GroupClause)clauses.get(1);
+       clause = clauses.get(1);
        assertEquals(TaskField.NUMBER1, clause.getField());
        assertFalse(clause.getAscending());
        font = clause.getFont();
@@ -121,7 +121,7 @@ public class MppGroupTest extends MPXJTestCase
        //
        // Test clause 3
        //
-       clause = (GroupClause)clauses.get(2);
+       clause = clauses.get(2);
        assertEquals(TaskField.COST1, clause.getField());
        assertTrue(clause.getAscending());
        font = clause.getFont();
@@ -138,7 +138,7 @@ public class MppGroupTest extends MPXJTestCase
        //
        // Test clause 4
        //
-       clause = (GroupClause)clauses.get(3);
+       clause = clauses.get(3);
        assertEquals(TaskField.PERCENT_COMPLETE, clause.getField());
        assertFalse(clause.getAscending());
        font = clause.getFont();
@@ -155,7 +155,7 @@ public class MppGroupTest extends MPXJTestCase
        //
        // Test clause 5
        //
-       clause = (GroupClause)clauses.get(4);
+       clause = clauses.get(4);
        assertEquals(TaskField.FLAG1, clause.getField());
        assertTrue(clause.getAscending());
        font = clause.getFont();
@@ -169,7 +169,7 @@ public class MppGroupTest extends MPXJTestCase
        //
        // Test clause 6
        //
-       clause = (GroupClause)clauses.get(5);
+       clause = clauses.get(5);
        assertEquals(TaskField.DATE1, clause.getField());
        assertFalse(clause.getAscending());
        font = clause.getFont();

@@ -154,7 +154,7 @@ public final class SubProject
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path="+m_fullPath+"]");
    }

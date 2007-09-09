@@ -120,7 +120,7 @@ public final class FileVersion
     *
     * @return string representation of the file type
     */
-   public String toString ()
+   @Override public String toString ()
    {
       String result;
 

@@ -81,7 +81,7 @@ public final class ResourceType
    /**
     * {@inheritDoc}
     */
-   public boolean equals (Object obj)
+   @Override public boolean equals (Object obj)
    {
       return (m_value == ((ResourceType)obj).m_value);
    }
@@ -89,7 +89,7 @@ public final class ResourceType
    /**
     * {@inheritDoc}
     */
-   public int hashCode ()
+   @Override public int hashCode ()
    {
       return (m_value);
    }
@@ -97,7 +97,7 @@ public final class ResourceType
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       String result;
 

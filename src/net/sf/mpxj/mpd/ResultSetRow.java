@@ -46,17 +46,17 @@ final class ResultSetRow extends MapRow
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
-   public ResultSetRow (ResultSet rs, Map meta)
+   public ResultSetRow (ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
-      super (new HashMap());
+      super (new HashMap<String, Object>());
       
-      Iterator iter = meta.entrySet().iterator();
+      Iterator<Entry<String, Integer>> iter = meta.entrySet().iterator();
       while (iter.hasNext() == true)
       {
-         Entry entry = (Entry)iter.next();
-         String name = (String)entry.getKey();
-         int type = ((Integer)entry.getValue()).intValue();
+         Entry<String, Integer> entry = iter.next();
+         String name = entry.getKey();
+         int type = (entry.getValue()).intValue();
          Object value;
          
          switch (type)

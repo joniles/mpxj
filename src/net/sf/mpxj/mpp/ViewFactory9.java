@@ -39,7 +39,7 @@ class ViewFactory9 implements ViewFactory
    /**
     * {@inheritDoc}
     */
-   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
+   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
       View view;

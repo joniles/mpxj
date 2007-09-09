@@ -100,7 +100,7 @@ public class FontStyle
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + "]");
    }

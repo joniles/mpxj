@@ -88,7 +88,7 @@ public class Day
     *
     * @return string representation
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (Integer.toString(m_value));
    }

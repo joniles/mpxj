@@ -36,7 +36,7 @@ import java.io.InputStream;
 
 /**
  * This is a trivial class used to dump the contents of an MPP file
- * broken down into its interal file and directory structure, with the
+ * broken down into its internal file and directory structure, with the
  * content of each of the files written out as hex digits, and their
  * ASCII equivalents.
  */
@@ -104,14 +104,14 @@ public class MppDump
     * @param indent indent used if displaying structure only
     * @throws Exception Thrown on file read errors
     */
-   private static void dumpTree (PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent)
+   @SuppressWarnings("unchecked") private static void dumpTree (PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent)
       throws Exception
    {
       long byteCount;
 
-      for (Iterator iter = dir.getEntries(); iter.hasNext(); )
+      for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext(); )
       {
-         Entry entry = (Entry)iter.next();
+         Entry entry = iter.next();
          if (entry instanceof DirectoryEntry)
          {
             String childIndent = indent;

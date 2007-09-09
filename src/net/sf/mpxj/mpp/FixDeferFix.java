@@ -145,7 +145,7 @@ final class FixDeferFix extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
@@ -174,8 +174,8 @@ final class FixDeferFix extends MPPComponent
       int nextBlockOffset;
       byte[] buffer;
       int bufferOffset;
-      TreeSet skipped = new TreeSet ();
-      TreeSet read = new TreeSet ();
+      TreeSet<Integer> skipped = new TreeSet<Integer> ();
+      TreeSet<Integer> read = new TreeSet<Integer> ();
       int startOffset;
 
       while (fileOffset < available || skipped.size() != 0)
@@ -184,7 +184,7 @@ final class FixDeferFix extends MPPComponent
 
          if (fileOffset >= available)
          {
-            temp = (Integer)skipped.first();
+            temp = skipped.first();
             skipped.remove(temp);
             fileOffset = temp.intValue();
          }

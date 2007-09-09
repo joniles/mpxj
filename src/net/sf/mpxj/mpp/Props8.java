@@ -153,7 +153,7 @@ final class Props8 extends Props
     *
     * @return formatted contents of this block
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
@@ -168,13 +168,13 @@ final class Props8 extends Props
          pw.println ("   INCOMPLETE");
       }
 
-      Iterator iter = m_map.keySet().iterator();
+      Iterator<Integer> iter = m_map.keySet().iterator();
       Integer key;
 
       while (iter.hasNext() == true)
       {
-         key = (Integer)iter.next();
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump((byte[])m_map.get(key), true));
+         key = iter.next();
+         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump(m_map.get(key), true));
       }
 
       pw.println ("END Props");

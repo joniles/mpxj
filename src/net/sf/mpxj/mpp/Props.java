@@ -43,7 +43,7 @@ class Props extends MPPComponent
     */
    public byte[] getByteArray (Integer type)
    {
-      return ((byte[])m_map.get (type));
+      return (m_map.get (type));
    }
 
    /**
@@ -56,7 +56,7 @@ class Props extends MPPComponent
    {
       byte result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = item[0];
@@ -75,7 +75,7 @@ class Props extends MPPComponent
    {
       int result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getShort(item);
@@ -94,7 +94,7 @@ class Props extends MPPComponent
    {
       int result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getInt(item);
@@ -113,7 +113,7 @@ class Props extends MPPComponent
    {
       double result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getDouble(item);
@@ -132,7 +132,7 @@ class Props extends MPPComponent
    {
       Date result = null;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getTime(item);
@@ -151,7 +151,7 @@ class Props extends MPPComponent
    {
       Date result = null;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getTimestamp(item);
@@ -170,7 +170,7 @@ class Props extends MPPComponent
    {
       boolean result = false;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = !(MPPUtility.getShort(item) == 0);
@@ -189,7 +189,7 @@ class Props extends MPPComponent
    {
       String result = null;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getUnicodeString(item);
@@ -238,5 +238,5 @@ class Props extends MPPComponent
 
    public static final Integer AUTO_FILTER = new Integer (893386767);
    
-   protected TreeMap m_map = new TreeMap ();
+   protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
 }

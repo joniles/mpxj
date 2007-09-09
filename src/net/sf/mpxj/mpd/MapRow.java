@@ -41,7 +41,7 @@ class MapRow implements Row
     * 
     * @param map map to be wrapped by this instance
     */
-   public MapRow (Map map)
+   public MapRow (Map<String, Object> map)
    {
       m_map = map;
    }
@@ -160,5 +160,5 @@ class MapRow implements Row
       return (result);
    }
    
-   protected Map m_map;
+   protected Map<String, Object> m_map;
 }

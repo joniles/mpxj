@@ -29,7 +29,7 @@ package net.sf.mpxj;
 /**
  * This represents time durations as specified in an MPX file.
  */
-public final class Duration implements Comparable
+public final class Duration implements Comparable<Duration>
 {
    /**
     * Constructs an instance of this class from a duration amount and
@@ -297,7 +297,7 @@ public final class Duration implements Comparable
    /**
     * {@inheritDoc}
     */
-   public boolean equals (Object o)
+   @Override public boolean equals (Object o)
    {
       Duration rhs = (Duration)o;
       return (m_duration == rhs.m_duration && m_units == rhs.m_units);
@@ -306,7 +306,7 @@ public final class Duration implements Comparable
    /**
     * {@inheritDoc}
     */
-   public int hashCode ()
+   @Override public int hashCode ()
    {
       return (m_units.getValue() + (int)m_duration);
    }
@@ -314,10 +314,8 @@ public final class Duration implements Comparable
    /**
     * {@inheritDoc}
     */
-   public int compareTo(Object o)
+   public int compareTo (Duration rhs)
    {
-      Duration rhs = (Duration)o;
-      
       if (m_units != rhs.m_units)
       {
          rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8*60), (5*8*60));
@@ -329,7 +327,7 @@ public final class Duration implements Comparable
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (m_duration + m_units.toString());
    }

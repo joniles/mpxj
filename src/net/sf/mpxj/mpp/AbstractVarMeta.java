@@ -68,12 +68,12 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    public Integer[] getUniqueIdentifierArray ()
    {
       Integer[] result = new Integer [m_table.size()];
-      Iterator iter = m_table.keySet().iterator();
+      Iterator<Integer> iter = m_table.keySet().iterator();
       int index = 0;
 
       while (iter.hasNext() == true)
       {
-         result[index] = (Integer)iter.next();
+         result[index] = iter.next();
          ++index;
       }
       return (result);
@@ -85,7 +85,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return set of unique identifiers
     */
-   public Set getUniqueIdentifierSet ()
+   public Set<Integer> getUniqueIdentifierSet ()
    {
       return (m_table.keySet());
    }
@@ -103,10 +103,10 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    {
       Integer result = null;
 
-      Map map = (Map)m_table.get(id);
+      Map<Integer, Integer> map = m_table.get(id);
       if (map != null)
       {
-         result = (Integer)map.get(type);
+         result = map.get(type);
       }
 
       return (result);
@@ -130,7 +130,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return formatted contents of this block
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
@@ -139,23 +139,23 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       pw.println ("   Item count: " + m_itemCount);
       pw.println ("   Data size: " + m_dataSize);
 
-      Iterator tableIter = m_table.keySet().iterator();
-      Map map;
-      Iterator mapIter;
+      Iterator<Integer> tableIter = m_table.keySet().iterator();
+      Map<Integer, Integer> map;
+      Iterator<Integer> mapIter;
       Integer uniqueID;
       Integer type;
       Integer offset;
 
       while (tableIter.hasNext() == true)
       {
-         uniqueID = (Integer)tableIter.next();
+         uniqueID = tableIter.next();
          pw.println ("   Entries for Unique ID: " + uniqueID);
-         map = (Map)m_table.get(uniqueID);
+         map = m_table.get(uniqueID);
          mapIter = map.keySet().iterator();
          while (mapIter.hasNext() == true)
          {
-            type = (Integer)mapIter.next();
-            offset = (Integer)map.get(type);
+            type = mapIter.next();
+            offset = map.get(type);
             pw.println ("      Type=" + type + " Offset=" + offset);
          }
       }
@@ -173,5 +173,5 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    protected int m_unknown3;
    protected int m_dataSize;
    protected int[] m_offsets;
-   protected Map m_table = new TreeMap ();
+   protected Map<Integer, Map<Integer, Integer>> m_table = new TreeMap<Integer, Map<Integer, Integer>> ();
 }

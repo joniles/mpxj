@@ -40,6 +40,7 @@ public class PlannerCalendarTest extends MPXJTestCase
     public void testPlannerCalendar() 
        throws Exception 
     {
-        ProjectFile mpp = new PlannerReader().read (m_basedir + "/planner-calendar.planner");       
+        ProjectFile mpp = new PlannerReader().read (m_basedir + "/planner-calendar.planner");  
+        assertNotNull(mpp);
     }
 }

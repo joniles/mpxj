@@ -72,7 +72,7 @@ public class MppViewStateTest extends MPXJTestCase
        
        assertEquals("Gantt Chart", state.getViewName());
        
-       List list = state.getUniqueIdList();
+       List<Integer> list = state.getUniqueIdList();
        assertEquals(50, list.size());
     }
 }

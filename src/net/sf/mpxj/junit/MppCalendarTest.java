@@ -87,7 +87,7 @@ public class MppCalendarTest extends MPXJTestCase
     {
        DateFormat tf = new SimpleDateFormat ("HH:mm");
        
-       List baseCalendars = mpp.getBaseCalendars();
+       List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
        assertEquals(5, baseCalendars.size());
        
        ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(new Integer(1));
@@ -116,7 +116,7 @@ public class MppCalendarTest extends MPXJTestCase
        assertEquals("13:00", tf.format(range.getStartDate()));
        assertEquals("17:00", tf.format(range.getEndDate()));
        
-       List resourceCalendars = mpp.getResourceCalendars();
+       List<ProjectCalendar> resourceCalendars = mpp.getResourceCalendars();
        assertEquals(2, resourceCalendars.size());       
     }
 }

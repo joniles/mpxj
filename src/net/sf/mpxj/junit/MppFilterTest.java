@@ -87,44 +87,44 @@ public class MppFilterTest extends MPXJTestCase
        // Test all data types
        //
        Filter filter = mpp.getFilterByName("Filter 1");
-       FilterCriteria criteria = (FilterCriteria)filter.getCriteria().get(0);
+       FilterCriteria criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.DURATION1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals(45, (int)((Duration)criteria.getValue(0)).getDuration());
        assertEquals(TimeUnit.DAYS, ((Duration)criteria.getValue(0)).getUnits());
        
        filter = mpp.getFilterByName("Filter 2");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.NUMBER1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals(99, ((Double)criteria.getValue(0)).intValue());
        
        filter = mpp.getFilterByName("Filter 3");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.PERCENT_COMPLETE, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals(10, ((Double)criteria.getValue(0)).intValue());
 
        filter = mpp.getFilterByName("Filter 4");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.COST1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals(99, ((Double)criteria.getValue(0)).intValue());
 
        filter = mpp.getFilterByName("Filter 5");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.TEXT1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals("Hello", (String)criteria.getValue(0));
        
        filter = mpp.getFilterByName("Filter 6");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.FLAG1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals(true, ((Boolean)criteria.getValue(0)).booleanValue());
        
        filter = mpp.getFilterByName("Filter 7");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TaskField.DATE1, criteria.getField());
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        assertEquals("18/07/2006", df.format((Date)criteria.getValue(0)));       
@@ -133,28 +133,28 @@ public class MppFilterTest extends MPXJTestCase
        // Test all operators
        //
        filter = mpp.getFilterByName("Filter 8");
-       criteria = (FilterCriteria)filter.getCriteria().get(0);
+       criteria = filter.getCriteria().get(0);
        assertEquals(TestOperator.EQUALS, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(1);
+       criteria = filter.getCriteria().get(1);
        assertEquals(TestOperator.DOES_NOT_EQUAL, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(2);
+       criteria = filter.getCriteria().get(2);
        assertEquals(TestOperator.IS_GREATER_THAN, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(3);
+       criteria = filter.getCriteria().get(3);
        assertEquals(TestOperator.IS_GREATER_THAN_OR_EQUAL_TO, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(4);
+       criteria = filter.getCriteria().get(4);
        assertEquals(TestOperator.IS_LESS_THAN, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(5);
+       criteria = filter.getCriteria().get(5);
        assertEquals(TestOperator.IS_LESS_THAN_OR_EQUAL_TO, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(6);
+       criteria = filter.getCriteria().get(6);
        assertEquals(TestOperator.IS_WITHIN, criteria.getOperator());
        
-       criteria = (FilterCriteria)filter.getCriteria().get(7);
+       criteria = filter.getCriteria().get(7);
        assertEquals(TestOperator.IS_NOT_WITHIN, criteria.getOperator());
     }
     
@@ -344,47 +344,47 @@ public class MppFilterTest extends MPXJTestCase
        Filter filter = mpp.getFilterByName("Filter 24");
        assertNotNull(filter);
 
-       FilterCriteria criteria = (FilterCriteria)filter.getCriteria().get(0);
+       FilterCriteria criteria = filter.getCriteria().get(0);
        assertNull(criteria.getValue(0));
        assertEquals("Duration1", criteria.getPromptText(0));
        
-       criteria = (FilterCriteria)filter.getCriteria().get(1);
+       criteria = filter.getCriteria().get(1);
        assertNull(criteria.getValue(0));
        assertEquals("Number1", criteria.getPromptText(0));
        
-       criteria = (FilterCriteria)filter.getCriteria().get(2);
+       criteria = filter.getCriteria().get(2);
        assertNull(criteria.getValue(0));
        assertEquals("%Complete", criteria.getPromptText(0));       
        
-       criteria = (FilterCriteria)filter.getCriteria().get(3);
+       criteria = filter.getCriteria().get(3);
        assertNull(criteria.getValue(0));
        assertEquals("Cost1", criteria.getPromptText(0));       
        
-       criteria = (FilterCriteria)filter.getCriteria().get(4);
+       criteria = filter.getCriteria().get(4);
        assertNull(criteria.getValue(0));
        assertEquals("Text1", criteria.getPromptText(0));       
        
-       criteria = (FilterCriteria)filter.getCriteria().get(5);
+       criteria = filter.getCriteria().get(5);
        assertNull(criteria.getValue(0));
        assertEquals("Flag1", criteria.getPromptText(0));       
        
-       criteria = (FilterCriteria)filter.getCriteria().get(6);
+       criteria = filter.getCriteria().get(6);
        assertNull(criteria.getValue(0));
        assertEquals("Date1", criteria.getPromptText(0));       
        
-       criteria = (FilterCriteria)filter.getCriteria().get(7);
+       criteria = filter.getCriteria().get(7);
        assertNull(criteria.getValue(0));
        assertNull(criteria.getValue(1));
        assertEquals("LHS", criteria.getPromptText(0));       
        assertEquals("RHS", criteria.getPromptText(1));       
        
-       criteria = (FilterCriteria)filter.getCriteria().get(8);
+       criteria = filter.getCriteria().get(8);
        assertNull(criteria.getValue(0));
        assertNotNull(criteria.getValue(1));
        assertEquals("LHS", criteria.getPromptText(0));       
        assertNull(criteria.getPromptText(1));       
 
-       criteria = (FilterCriteria)filter.getCriteria().get(9);
+       criteria = filter.getCriteria().get(9);
        assertNotNull(criteria.getValue(0));
        assertNull(criteria.getValue(1));
        assertNull(criteria.getPromptText(0));       

@@ -377,7 +377,7 @@ public final class MPXReader extends AbstractProjectReader
                m_baseOutlineLevel = outlineLevel;
             }
 
-            List childTasks = m_projectFile.getChildTasks();
+            List<Task> childTasks = m_projectFile.getChildTasks();
             if (outlineLevel == m_baseOutlineLevel)
             {
                childTasks.add(m_lastTask);
@@ -389,7 +389,7 @@ public final class MPXReader extends AbstractProjectReader
                   throw new MPXJException(MPXJException.INVALID_OUTLINE);
                }
 
-               ((Task)childTasks.get(childTasks.size()-1)).addChildTask(m_lastTask, outlineLevel);
+               childTasks.get(childTasks.size()-1).addChildTask(m_lastTask, outlineLevel);
             }
 
             m_projectFile.fireTaskReadEvent(m_lastTask);
@@ -804,10 +804,10 @@ public final class MPXReader extends AbstractProjectReader
     * @return relation list
     * @throws MPXJException
     */
-   private List populateRelationList (String data)
+   private List<Relation> populateRelationList (String data)
       throws MPXJException
    {
-      List list = new LinkedList ();
+      List<Relation> list = new LinkedList<Relation> ();
 
       int length = data.length();
 
@@ -956,6 +956,7 @@ public final class MPXReader extends AbstractProjectReader
          if (taskField == null)
          {
             System.out.println ("Null Task Field " + mpxFieldID);
+            continue;
          }
          
          switch (taskField.getValue())

@@ -60,7 +60,7 @@ public abstract class ViewStateReader
       {
          String viewName = MPPUtility.removeAmpersands(props.getUnicodeString(VIEW_NAME));
          byte[] listData = props.getByteArray(VIEW_CONTENTS);
-         List uniqueIdList = new LinkedList();
+         List<Integer> uniqueIdList = new LinkedList<Integer>();
          if (listData != null)
          {               
             for (int index=0; index < listData.length; index += 4)
@@ -78,10 +78,7 @@ public abstract class ViewStateReader
          file.setViewState(state);
       }
    }   
-   
-   private static final Integer PROPS_ID = new Integer (1);
-   private static final Integer PROPS_TYPE = new Integer (1);
-   
+      
    private static final Integer VIEW_NAME = new Integer(641728536);
    private static final Integer VIEW_CONTENTS = new Integer(641728565);
 }

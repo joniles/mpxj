@@ -89,7 +89,7 @@ public final class Rate
    /**
     * {@inheritDoc}
     */
-   public boolean equals (Object obj)
+   @Override public boolean equals (Object obj)
    {
       Rate rhs = (Rate)obj;
       return (m_amount == rhs.m_amount && m_units == rhs.m_units);
@@ -98,7 +98,7 @@ public final class Rate
    /**
     * {@inheritDoc}
     */
-   public int hashCode()
+   @Override public int hashCode()
    {
       return ((int)m_amount + m_units.hashCode());
    }

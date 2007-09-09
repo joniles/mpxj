@@ -70,9 +70,9 @@ public final class RTFEmbeddedObject
     * Constructor.
     *
     * @param blocks list of data blocks
-    * @param type extepcetd type of next block.
+    * @param type expected type of next block.
     */
-   private RTFEmbeddedObject (List blocks, int type)
+   private RTFEmbeddedObject (List<byte[]> blocks, int type)
    {
       switch (type)
       {
@@ -116,7 +116,7 @@ public final class RTFEmbeddedObject
    }
 
    /**
-    * Retrieve the data asscociated with this block as a byte array.
+    * Retrieve the data associated with this block as a byte array.
     *
     * @return byte array of data
     */
@@ -138,29 +138,29 @@ public final class RTFEmbeddedObject
    /**
     * This method generates a list of lists. Each list represents the data
     * for an embedded object, and contains set set of RTFEmbeddedObject instances
-    * that make up teh embedded object. This method will return null
+    * that make up the embedded object. This method will return null
     * if there are no embedded objects in the RTF document.
     *
     * @param text RTF document
     * @return list of lists of RTFEmbeddedObject instances
     */
-   public static List getEmbeddedObjects (String text)
+   public static List<List<RTFEmbeddedObject>> getEmbeddedObjects (String text)
    {
-      List objects = null;
-      List objectData;
+      List<List<RTFEmbeddedObject>> objects = null;
+      List<RTFEmbeddedObject> objectData;
 
       int offset = text.indexOf(OBJDATA);
       if (offset != -1)
       {
-         objects = new LinkedList();
-      }
-
-      while (offset != -1)
-      {
-         objectData = new LinkedList();
-         objects.add(objectData);
-         offset = readObjectData(offset, text, objectData);
-         offset = text.indexOf(OBJDATA, offset);
+         objects = new LinkedList<List<RTFEmbeddedObject>>();
+         
+         while (offset != -1)
+         {
+            objectData = new LinkedList<RTFEmbeddedObject>();
+            objects.add(objectData);
+            offset = readObjectData(offset, text, objectData);
+            offset = text.indexOf(OBJDATA, offset);
+         }         
       }
 
       return (objects);
@@ -173,12 +173,12 @@ public final class RTFEmbeddedObject
     * @param blocks list of data blocks
     * @return int value
     */
-   private int getInt (List blocks)
+   private int getInt (List<byte[]> blocks)
    {
       int result;
       if (blocks.isEmpty() == false)
       {
-         byte[] data = (byte[])blocks.remove(0);
+         byte[] data = blocks.remove(0);
          result = MPPUtility.getInt(data);
       }
       else
@@ -198,7 +198,7 @@ public final class RTFEmbeddedObject
     * @param length expected length of the data
     * @return byte array
     */
-   private byte[] getData (List blocks, int length)
+   private byte[] getData (List<byte[]> blocks, int length)
    {
       byte[] result;
 
@@ -215,7 +215,7 @@ public final class RTFEmbeddedObject
 
          while (offset < length)
          {
-            data = (byte[])blocks.remove(0);
+            data = blocks.remove(0);
             System.arraycopy(data, 0, result, offset, data.length);
             offset += data.length;
          }
@@ -236,11 +236,11 @@ public final class RTFEmbeddedObject
     * @param offset offset into the RTF document
     * @param text RTF document
     * @param objects destination for RTFEmbeddedObject instances
-    * @return new offset into trhe RTF document
+    * @return new offset into the RTF document
     */
-   private static int readObjectData (int offset, String text, List objects)
+   private static int readObjectData (int offset, String text, List<RTFEmbeddedObject> objects)
    {
-      LinkedList blocks = new LinkedList();
+      LinkedList<byte[]> blocks = new LinkedList<byte[]>();
 
       offset += (OBJDATA.length());
       offset = skipEndOfLine(text, offset);
@@ -363,7 +363,7 @@ public final class RTFEmbeddedObject
     * @param blocks list of blocks
     * @return next offset
     */
-   private static int readDataBlock (String text, int offset, int length, List blocks)
+   private static int readDataBlock (String text, int offset, int length, List<byte[]> blocks)
    {
       int bytes = length/2;
       byte[] data = new byte[bytes];
@@ -381,7 +381,7 @@ public final class RTFEmbeddedObject
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);

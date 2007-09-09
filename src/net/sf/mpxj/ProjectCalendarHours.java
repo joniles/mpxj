@@ -103,7 +103,7 @@ public final class ProjectCalendarHours
 
       if (index >= 0 && index < m_dateRanges.size())
       {
-         result = (DateRange)m_dateRanges.get(index);
+         result = m_dateRanges.get(index);
       }
 
       return (result);
@@ -114,7 +114,7 @@ public final class ProjectCalendarHours
     *
     * @return iterator.
     */
-   public Iterator iterator ()
+   public Iterator<DateRange> iterator ()
    {
       return (m_dateRanges.iterator());
    }
@@ -132,14 +132,13 @@ public final class ProjectCalendarHours
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[ProjectCalendarHours ");
-      Iterator iter = m_dateRanges.iterator();
-      while (iter.hasNext())
+      for (DateRange range : m_dateRanges)
       {
-         sb.append(iter.next().toString());
+         sb.append(range.toString());
       }
       sb.append("]");
       return (sb.toString());               
@@ -147,5 +146,5 @@ public final class ProjectCalendarHours
    
    private ProjectCalendar m_parentCalendar;
    private Day m_day;
-   private LinkedList m_dateRanges = new LinkedList ();
+   private LinkedList<DateRange> m_dateRanges = new LinkedList<DateRange> ();
 }

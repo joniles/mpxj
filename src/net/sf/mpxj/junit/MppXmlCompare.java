@@ -2,7 +2,7 @@
  * file:       MppXmlCompare.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Dec 5, 2005
+ * date:       2005-12-05
  */
 
 package net.sf.mpxj.junit;
@@ -56,15 +56,15 @@ public final class MppXmlCompare
    private void compareTasks ()
       throws Exception
    {
-      List xmlTasks = m_xml.getAllTasks();
+      List<Task> xmlTasks = m_xml.getAllTasks();
 
       // won't always match - tasks with blank names not preserved?
       //List mppTasks = m_mpp.getAllTasks();
       //assertEquals(xmlTasks.size(), mppTasks.size());
 
-      for (Iterator iter = xmlTasks.iterator(); iter.hasNext(); )
+      for (Iterator<Task> iter = xmlTasks.iterator(); iter.hasNext(); )
       {
-         Task xmlTask = (Task)iter.next();
+         Task xmlTask = iter.next();
 
          // too much variability
          if (NumberUtility.getInt(xmlTask.getUniqueID()) == 0)
@@ -295,13 +295,13 @@ public final class MppXmlCompare
    private void compareResources ()
       throws Exception
    {
-      List xmlResources = m_xml.getAllResources();
+      List<Resource> xmlResources = m_xml.getAllResources();
       //List mppResources = m_mpp.getAllResources();
       //assertEquals(xmlResources.size(), mppResources.size());
 
-      for (Iterator iter = xmlResources.iterator(); iter.hasNext(); )
+      for (Iterator<Resource> iter = xmlResources.iterator(); iter.hasNext(); )
       {
-         Resource xmlResource = (Resource)iter.next();
+         Resource xmlResource = iter.next();
 
          // too much variability
          if (NumberUtility.getInt(xmlResource.getUniqueID()) == 0)
@@ -614,7 +614,7 @@ public final class MppXmlCompare
    {
       if (expected != null || actual != null)
       {
-         if (expected != null && expected != null)
+         if (expected != null && actual != null)
          {
             assertEquals (expected.doubleValue(), actual.doubleValue(), 0.05);
          }
@@ -661,8 +661,8 @@ public final class MppXmlCompare
          }
          else
          {
-            if ((actual == null && expected.getDuration() != 0) ||
-                (actual.getDuration() != 0 && expected == null))
+            if ((actual == null && expected != null && expected.getDuration() != 0) ||
+                (actual != null && actual.getDuration() != 0 && expected == null))
             {
                assertEquals((Object)expected, (Object)actual);
             }

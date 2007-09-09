@@ -87,7 +87,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         result = (byte[])m_map.get (offset);
+         result = m_map.get (offset);
       }
 
       return (result);
@@ -120,7 +120,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         byte[] value = (byte[])m_map.get (offset);
+         byte[] value = m_map.get (offset);
          if (value != null)
          {
             result = MPPUtility.getUnicodeString(value);
@@ -160,7 +160,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         byte[] value = (byte[])m_map.get (offset);
+         byte[] value = m_map.get (offset);
          if (value != null)
          {
             result = MPPUtility.getTimestamp(value);
@@ -184,7 +184,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         byte[] value = (byte[])m_map.get (offset);
+         byte[] value = m_map.get (offset);
          if (value != null)
          {
             result = MPPUtility.getString(value);
@@ -224,7 +224,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         byte[] value = (byte[])m_map.get (offset);
+         byte[] value = m_map.get (offset);
 
          if (value != null)
          {
@@ -251,7 +251,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         byte[] value = (byte[])m_map.get (offset);
+         byte[] value = m_map.get (offset);
 
          if (value != null)
          {
@@ -281,7 +281,7 @@ final class Var2Data extends MPPComponent
 
       if (metaOffset != null)
       {
-         byte[] value = (byte[])m_map.get (metaOffset);
+         byte[] value = m_map.get (metaOffset);
 
          if (value != null)
          {
@@ -308,7 +308,7 @@ final class Var2Data extends MPPComponent
 
       if (offset != null)
       {
-         byte[] value = (byte[])m_map.get (offset);
+         byte[] value = m_map.get (offset);
 
          if (value != null)
          {
@@ -349,19 +349,19 @@ final class Var2Data extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
-      Iterator iter = m_map.keySet().iterator();
+      Iterator<Integer> iter = m_map.keySet().iterator();
       Integer offset;
       byte[] data;
 
       pw.println ("BEGIN Var2Data");
       while (iter.hasNext() == true)
       {
-         offset = (Integer)iter.next();
-         data = (byte[])m_map.get(offset);
+         offset = iter.next();
+         data = m_map.get(offset);
          pw.println ("   Data at offset: " + offset + " size: " + data.length);
          pw.println (MPPUtility.hexdump (data, true, 16, "   "));
       }
@@ -375,7 +375,7 @@ final class Var2Data extends MPPComponent
    /**
     * Map containing data items indexed by offset.
     */
-   private TreeMap m_map = new TreeMap ();
+   private TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
 
    /**
     * Reference to the meta data associated with this block.

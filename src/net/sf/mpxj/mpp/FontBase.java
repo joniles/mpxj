@@ -77,7 +77,7 @@ public class FontBase
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return ("[FontBase name=" + m_name + " size=" + m_size +"]");
    }

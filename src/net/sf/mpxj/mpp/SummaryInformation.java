@@ -2,7 +2,7 @@
  * file:       SummaryInformation.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2004
- * date:       Dec 2, 2004
+ * date:       2004-12-02
  */
 
 /*
@@ -58,7 +58,7 @@ final class SummaryInformation
       try
       {
          PropertySet ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005SummaryInformation"))));
-         HashMap map = getPropertyMap(ps);
+         HashMap<Integer, Object> map = getPropertyMap(ps);
          m_projectTitle = (String)map.get(PROJECT_TITLE);
          m_subject = (String)map.get(SUBJECT);
          m_author = (String)map.get(AUTHOR);
@@ -87,24 +87,24 @@ final class SummaryInformation
     * @param ps property set
     * @return map
     */
-   private HashMap getPropertyMap (PropertySet ps)
+   @SuppressWarnings("unchecked") private HashMap<Integer, Object> getPropertyMap (PropertySet ps)
    {
-      HashMap map = new HashMap();
+      HashMap<Integer, Object> map = new HashMap<Integer, Object>();
       Property[] properties;
       Property property;
-      List sections = ps.getSections();
-      Iterator iter = sections.iterator();
+      List<Section> sections = ps.getSections();
+      Iterator<Section> iter = sections.iterator();
       Section section;
       int index = 100;
 
       while (iter.hasNext() == true)
       {
-         section = (Section)iter.next();
+         section = iter.next();
          properties = section.getProperties();
          for (int loop=0; loop < properties.length; loop++)
          {
            property = properties[loop];
-           // the following casuses an "unnecessary cast" warning in JDK1.4
+           // the following causes an "unnecessary cast" warning in JDK1.4
            // this is in place to ensure compatibility with JDK1.5
            map.put(new Integer(index+(int)property.getID()), property.getValue());
            //System.out.println ("id="+(index+property.getID())+" value="+property.getValue());
@@ -205,13 +205,13 @@ final class SummaryInformation
    }
 
    /**
-    * Retrive the Document Summary Information. This
+    * Retrieve the Document Summary Information. This
     * allows the caller to examine custom document summary information
     * which may be defined in the project file.
     *
     * @return the Document Summary Information HashMap
     */
-   public Map getDocumentSummaryInformation()
+   public Map<Integer, Object> getDocumentSummaryInformation()
    {
       return (m_documentSummaryInformation);
    }
@@ -227,7 +227,7 @@ final class SummaryInformation
    private String m_manager;
    private String m_company;
 
-   private HashMap m_documentSummaryInformation;
+   private HashMap<Integer, Object> m_documentSummaryInformation;
 
    /**
     * Constants representing Summary Information properties.

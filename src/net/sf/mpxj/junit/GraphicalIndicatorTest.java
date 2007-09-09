@@ -49,57 +49,43 @@ public class GraphicalIndicatorTest extends MPXJTestCase
    public void testGraphicalIndicators ()
       throws Exception
    {
-      File out = null;
-      boolean success = true;
-   
-      try
-      {
-         File in = new File (m_basedir + "/GraphicalIndicatorTest.mpp");
-         ProjectFile project = new MPPReader().read(in);
-         List taskList = project.getAllTasks();
-         Task[] tasks = (Task[])taskList.toArray(new Task[taskList.size()]);
-         
-         testIndicator (project, TaskField.COST1, tasks, COST1_RESULTS);
-         testIndicator (project, TaskField.COST2, tasks, COST2_RESULTS);
-         testIndicator (project, TaskField.COST3, tasks, COST3_RESULTS);
-         testIndicator (project, TaskField.COST4, tasks, COST4_RESULTS);
-         
-         testIndicator (project, TaskField.DATE1, tasks, DATE1_RESULTS);
-         testIndicator (project, TaskField.DATE2, tasks, DATE2_RESULTS);
-         testIndicator (project, TaskField.DATE3, tasks, DATE3_RESULTS);
-         testIndicator (project, TaskField.DATE4, tasks, DATE4_RESULTS);
-         testIndicator (project, TaskField.DATE5, tasks, DATE5_RESULTS);
-         
-         testIndicator (project, TaskField.DURATION1, tasks, DURATION1_RESULTS);
-         testIndicator (project, TaskField.DURATION2, tasks, DURATION2_RESULTS);
-         testIndicator (project, TaskField.DURATION3, tasks, DURATION3_RESULTS);
-         testIndicator (project, TaskField.DURATION4, tasks, DURATION4_RESULTS);         
-         
-         testIndicator (project, TaskField.FLAG1, tasks, FLAG_RESULTS);
-         testIndicator (project, TaskField.FLAG2, tasks, FLAG_RESULTS);
-         testIndicator (project, TaskField.FLAG3, tasks, FLAG_RESULTS);         
-         
-         testIndicator (project, TaskField.NUMBER1, tasks, NUMBER1_RESULTS);
-         testIndicator (project, TaskField.NUMBER2, tasks, NUMBER2_RESULTS);
-         testIndicator (project, TaskField.NUMBER3, tasks, NUMBER3_RESULTS);
-         testIndicator (project, TaskField.NUMBER4, tasks, NUMBER4_RESULTS);                  
-         
-         testIndicator (project, TaskField.TEXT1, tasks, TEXT1_RESULTS);
-         testIndicator (project, TaskField.TEXT2, tasks, TEXT2_RESULTS);
-         testIndicator (project, TaskField.TEXT3, tasks, TEXT3_RESULTS);
-         testIndicator (project, TaskField.TEXT4, tasks, TEXT4_RESULTS);                  
-         testIndicator (project, TaskField.TEXT5, tasks, TEXT5_RESULTS);                  
-         testIndicator (project, TaskField.TEXT6, tasks, TEXT6_RESULTS);                  
-         testIndicator (project, TaskField.TEXT7, tasks, TEXT7_RESULTS);                  
-      }      
-   
-      finally
-      {
-         if (out != null && success == true)
-         {
-            out.delete();
-         }
-      }
+      File in = new File (m_basedir + "/GraphicalIndicatorTest.mpp");
+      ProjectFile project = new MPPReader().read(in);
+      List<Task> taskList = project.getAllTasks();
+      Task[] tasks = taskList.toArray(new Task[taskList.size()]);
+      
+      testIndicator (project, TaskField.COST1, tasks, COST1_RESULTS);
+      testIndicator (project, TaskField.COST2, tasks, COST2_RESULTS);
+      testIndicator (project, TaskField.COST3, tasks, COST3_RESULTS);
+      testIndicator (project, TaskField.COST4, tasks, COST4_RESULTS);
+      
+      testIndicator (project, TaskField.DATE1, tasks, DATE1_RESULTS);
+      testIndicator (project, TaskField.DATE2, tasks, DATE2_RESULTS);
+      testIndicator (project, TaskField.DATE3, tasks, DATE3_RESULTS);
+      testIndicator (project, TaskField.DATE4, tasks, DATE4_RESULTS);
+      testIndicator (project, TaskField.DATE5, tasks, DATE5_RESULTS);
+      
+      testIndicator (project, TaskField.DURATION1, tasks, DURATION1_RESULTS);
+      testIndicator (project, TaskField.DURATION2, tasks, DURATION2_RESULTS);
+      testIndicator (project, TaskField.DURATION3, tasks, DURATION3_RESULTS);
+      testIndicator (project, TaskField.DURATION4, tasks, DURATION4_RESULTS);         
+      
+      testIndicator (project, TaskField.FLAG1, tasks, FLAG_RESULTS);
+      testIndicator (project, TaskField.FLAG2, tasks, FLAG_RESULTS);
+      testIndicator (project, TaskField.FLAG3, tasks, FLAG_RESULTS);         
+      
+      testIndicator (project, TaskField.NUMBER1, tasks, NUMBER1_RESULTS);
+      testIndicator (project, TaskField.NUMBER2, tasks, NUMBER2_RESULTS);
+      testIndicator (project, TaskField.NUMBER3, tasks, NUMBER3_RESULTS);
+      testIndicator (project, TaskField.NUMBER4, tasks, NUMBER4_RESULTS);                  
+      
+      testIndicator (project, TaskField.TEXT1, tasks, TEXT1_RESULTS);
+      testIndicator (project, TaskField.TEXT2, tasks, TEXT2_RESULTS);
+      testIndicator (project, TaskField.TEXT3, tasks, TEXT3_RESULTS);
+      testIndicator (project, TaskField.TEXT4, tasks, TEXT4_RESULTS);                  
+      testIndicator (project, TaskField.TEXT5, tasks, TEXT5_RESULTS);                  
+      testIndicator (project, TaskField.TEXT6, tasks, TEXT6_RESULTS);                  
+      testIndicator (project, TaskField.TEXT7, tasks, TEXT7_RESULTS);                  
    }   
      
    /**

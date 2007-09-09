@@ -180,10 +180,10 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
          m_writer.write(m_resourceModel.toString());
-         Iterator iter = m_projectFile.getAllResources().iterator();
+         Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
          while (iter.hasNext())
          {
-            writeResource ((Resource)iter.next());
+            writeResource (iter.next());
          }
       }
       
@@ -300,10 +300,10 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write project calendars
       //
-      Iterator iter = m_projectFile.getBaseCalendars().iterator();
+      Iterator<ProjectCalendar> iter = m_projectFile.getBaseCalendars().iterator();
       while (iter.hasNext())
       {
-         writeCalendar((ProjectCalendar)iter.next());
+         writeCalendar(iter.next());
       }
       
       //
@@ -428,13 +428,13 @@ public final class MPXWriter extends AbstractProjectWriter
          // A quirk of MS Project is that these exceptions must be
          // in date order in the file, otherwise they are ignored
          //
-         List exceptions = new ArrayList(record.getCalendarExceptions());
+         List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(record.getCalendarExceptions());
          Collections.sort(exceptions);
          
-         Iterator iter = exceptions.iterator();
+         Iterator<ProjectCalendarException> iter = exceptions.iterator();
          while (iter.hasNext() == true)
          {
-            writeCalendarException(record, (ProjectCalendarException)iter.next());
+            writeCalendarException(record, iter.next());
          }
       }
    }
@@ -721,11 +721,11 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       if (record.getResourceAssignments().isEmpty() == false)
       {
-         Iterator list = record.getResourceAssignments().iterator();
+         Iterator<ResourceAssignment> list = record.getResourceAssignments().iterator();
 
          while (list.hasNext())
          {
-            writeResourceAssignment((ResourceAssignment)list.next());
+            writeResourceAssignment(list.next());
          }
       }
 
@@ -884,13 +884,13 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param tasks list of tasks
     * @throws IOException
     */
-   private void writeTasks (List tasks)
+   private void writeTasks (List<Task> tasks)
       throws IOException
    {
-      Iterator iter = tasks.iterator();
+      Iterator<Task> iter = tasks.iterator();
       while (iter.hasNext())
       {
-         Task task = (Task)iter.next();
+         Task task = iter.next();
          writeTask(task);
          writeTasks(task.getChildTasks());
       }
@@ -1237,14 +1237,14 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value relation list instance
     * @return formatted relation list
     */
-   private String formatRelationList (List value)
+   private String formatRelationList (List<Relation> value)
    {
       String result = null;
 
       if (value != null)
       {
          StringBuffer sb = new StringBuffer();
-         Iterator iter = value.iterator();
+         Iterator<Relation> iter = value.iterator();
 
          while (iter.hasNext() == true)
          {
@@ -1253,7 +1253,7 @@ public final class MPXWriter extends AbstractProjectWriter
                sb.append(m_delimiter);
             }
 
-            sb.append(formatRelation((Relation)iter.next()));
+            sb.append(formatRelation(iter.next()));
          }
 
          result = sb.toString();
@@ -1404,7 +1404,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
          case DataType.RELATION_LIST_VALUE:
          {
-            value = formatRelationList((List)value);
+            value = formatRelationList((List<Relation>)value);
             break;
          }
 

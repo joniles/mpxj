@@ -59,7 +59,7 @@ final class VarMeta9 extends AbstractVarMeta
       Integer uniqueID;
       Integer type;
       Integer offset;
-      Map map;
+      Map<Integer, Integer> map;
       m_offsets = new int[m_itemCount];
 
       //
@@ -78,10 +78,10 @@ final class VarMeta9 extends AbstractVarMeta
          type = new Integer (readByte (is));
          offset = new Integer (readInt (is));
 
-         map = (Map)m_table.get (uniqueID);
+         map = m_table.get (uniqueID);
          if (map == null)
          {
-            map = new TreeMap ();
+            map = new TreeMap<Integer, Integer> ();
             m_table.put (uniqueID, map);
          }
          map.put (type, offset);

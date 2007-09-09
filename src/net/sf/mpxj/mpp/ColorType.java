@@ -88,7 +88,7 @@ public final class ColorType
     *
     * @return String representation of this color
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (getName());
    }

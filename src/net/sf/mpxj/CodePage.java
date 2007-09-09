@@ -100,7 +100,7 @@ public final class CodePage
     *
     * @return codepage
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (m_value);
    }

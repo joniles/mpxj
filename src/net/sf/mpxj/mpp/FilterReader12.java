@@ -34,7 +34,7 @@ public final class FilterReader12 extends FilterReader
     * 
     * @return VarData type
     */
-   protected Integer getVarDataType ()
+   @Override protected Integer getVarDataType ()
    {
       return(FILTER_DATA);
    }

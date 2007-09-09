@@ -67,7 +67,7 @@ final class Record
 
          m_formats = formats;
 
-         LinkedList list = new LinkedList();
+         LinkedList<String> list = new LinkedList<String>();
 
          while (tk.nextToken() == Tokenizer.TT_WORD)
          {
@@ -76,8 +76,8 @@ final class Record
 
          if (list.size() > 0)
          {
-            m_recordNumber = (String)list.remove(0);
-            m_fields = (String[])list.toArray(new String[list.size()]);
+            m_recordNumber = list.remove(0);
+            m_fields = list.toArray(new String[list.size()]);
          }
       }
 

@@ -50,7 +50,7 @@ public final class MPXJTimeFormat extends SimpleDateFormat
    /**
     * {@inheritDoc}
     */
-   public Date parse (String str)
+   @Override public Date parse (String str)
       throws ParseException
    {
       Date result;

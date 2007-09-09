@@ -47,6 +47,6 @@ interface ViewFactory
     * @return View instance
     * @throws IOException
     */
-   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
+   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException;
 }

@@ -35,6 +35,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
+import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -267,10 +268,10 @@ public class MppTaskTest extends MPXJTestCase
          assertNotNull(projectHeader);
 
          // test various global properties
-         List listAllTasks = mpp.getAllTasks();
-         List listAllResources = mpp.getAllResources();
-         assertTrue(listAllTasks != null);
-         assertTrue(listAllResources != null);
+         List<Task> listAllTasks = mpp.getAllTasks();
+         List<Resource> listAllResources = mpp.getAllResources();
+         assertNotNull(listAllTasks);
+         assertNotNull(listAllResources);
          assertEquals(2, listAllTasks.size());
          // This will fail in MPP12 as we appear to have a summary resource
          //assertEquals(1, listAllResources.size());
@@ -278,14 +279,14 @@ public class MppTaskTest extends MPXJTestCase
          /* Test Specifics */
 
          // task 0 - the project task
-         Task task = (Task)listAllTasks.get(0);
-         assertTrue(task != null);
+         Task task = listAllTasks.get(0);
+         assertNotNull(task);
          assertEquals(0, task.getID().intValue());
          assertEquals("MPP12 Test", task.getName());
 
          // task 1
-         task = (Task)listAllTasks.get(1);
-         assertTrue(task != null);
+         task = listAllTasks.get(1);
+         assertNotNull(task);
          assertEquals(1, task.getID().intValue());
          // name
          assertEquals("Task #1", task.getName());
@@ -626,10 +627,10 @@ public class MppTaskTest extends MPXJTestCase
 
           DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 
-          List listAllTasks = mpp.getAllTasks();
-          List listAllResources = mpp.getAllResources();
-          assertTrue(listAllTasks != null);
-          assertTrue(listAllResources != null);
+          List<Task> listAllTasks = mpp.getAllTasks();
+          List<Resource> listAllResources = mpp.getAllResources();
+          assertNotNull(listAllTasks);
+          assertNotNull(listAllResources);
           assertTrue(listAllTasks.size() > 0);
           assertTrue(listAllResources.size() > 0);
 
@@ -637,33 +638,33 @@ public class MppTaskTest extends MPXJTestCase
                   complexOutlineNumberTask, subtaskA, subtaskA1, subtaskA2, subtaskB, subtaskB1, subtaskB1a;
 
           // verify that the get()s match the right tasks
-          baseTask = (Task)listAllTasks.get(1);
+          baseTask = listAllTasks.get(1);
           assertEquals("Base Task", baseTask.getName());
-          subtask1 = (Task)listAllTasks.get(2);
+          subtask1 = listAllTasks.get(2);
           assertEquals("Subtask 1", subtask1.getName());
-          subtask2 = (Task)listAllTasks.get(3);
+          subtask2 = listAllTasks.get(3);
           assertEquals("Subtask 2", subtask2.getName());
-          subtask3 = (Task)listAllTasks.get(4);
+          subtask3 = listAllTasks.get(4);
           assertEquals("Subtask 3", subtask3.getName());
-          subtask4 = (Task)listAllTasks.get(5);
+          subtask4 = listAllTasks.get(5);
           assertEquals("Subtask 4", subtask4.getName());
-          subtask5 = (Task)listAllTasks.get(6);
+          subtask5 = listAllTasks.get(6);
           assertEquals("Subtask 5", subtask5.getName());
-          completeTask = (Task)listAllTasks.get(7);
+          completeTask = listAllTasks.get(7);
           assertEquals("Complete", completeTask.getName());
-          complexOutlineNumberTask = (Task)listAllTasks.get(8);
+          complexOutlineNumberTask = listAllTasks.get(8);
           assertEquals("Complex Outline Number", complexOutlineNumberTask.getName());
-          subtaskA = (Task)listAllTasks.get(9);
+          subtaskA = listAllTasks.get(9);
           assertEquals("Subtask A", subtaskA.getName());
-          subtaskA1 = (Task)listAllTasks.get(10);
+          subtaskA1 = listAllTasks.get(10);
           assertEquals("Subtask A1", subtaskA1.getName());
-          subtaskA2 = (Task)listAllTasks.get(11);
+          subtaskA2 = listAllTasks.get(11);
           assertEquals("Subtask A2", subtaskA2.getName());
-          subtaskB = (Task)listAllTasks.get(12);
+          subtaskB = listAllTasks.get(12);
           assertEquals("Subtask B", subtaskB.getName());
-          subtaskB1 = (Task)listAllTasks.get(13);
+          subtaskB1 = listAllTasks.get(13);
           assertEquals("Subtask B1", subtaskB1.getName());
-          subtaskB1a = (Task)listAllTasks.get(14);
+          subtaskB1a = listAllTasks.get(14);
           assertEquals("Subtask B1a", subtaskB1a.getName());
 
           // Baseline for 'Base Task'
@@ -693,9 +694,9 @@ public class MppTaskTest extends MPXJTestCase
           assertEquals("01/09/2006", df.format(subtask2.getBaselineFinish()));
 
           // Predecessor for Subtask 2
-          List predecessors = subtask2.getPredecessors();
+          List<Relation> predecessors = subtask2.getPredecessors();
           assertEquals(1, predecessors.size());
-          Relation relation = (Relation)predecessors.get(0);
+          Relation relation = predecessors.get(0);
           // check task id that's stored in the Relation
           assertEquals(subtask1.getID(), relation.getTaskID());
           // check task unique id that's stored in the Relation
@@ -708,11 +709,11 @@ public class MppTaskTest extends MPXJTestCase
           // Type for 'Subtask 2'
           assertEquals(TaskType.FIXED_UNITS, subtask2.getType());
 
-          // Predecessors for Subtask 5 (multiple preds)
+          // Predecessors for Subtask 5 (multiple predecessors)
           predecessors = subtask5.getPredecessors();
           assertEquals(2, predecessors.size());
-          relation = (Relation)predecessors.get(0);
-          Relation relation2 = (Relation)predecessors.get(1);
+          relation = predecessors.get(0);
+          Relation relation2 = predecessors.get(1);
           assertEquals(subtask3.getID(), relation.getTaskID());
           assertEquals(subtask4.getID(), relation2.getTaskID());
           // Type for subtask 5
@@ -745,35 +746,35 @@ public class MppTaskTest extends MPXJTestCase
         Task task1  = mpp.getTaskByID(new Integer(1));
         Task task2  = mpp.getTaskByID(new Integer(2));
 
-        List listSplits1 = task1.getSplits();
-        List listSplits2 = task2.getSplits();
+        List<Duration> listSplits1 = task1.getSplits();
+        List<Duration> listSplits2 = task2.getSplits();
 
         assertEquals(3, listSplits1.size());
         assertEquals(5, listSplits2.size());
 
-        Duration duration = (Duration)listSplits1.get(0);
+        Duration duration = listSplits1.get(0);
         assertEquals(32, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
-        duration = (Duration)listSplits1.get(1);
+        duration = listSplits1.get(1);
         assertEquals(56, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
-        duration = (Duration)listSplits1.get(2);
+        duration = listSplits1.get(2);
         assertEquals(104, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
 
-        duration = (Duration)listSplits2.get(0);
+        duration = listSplits2.get(0);
         assertEquals(24, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
-        duration = (Duration)listSplits2.get(1);
+        duration = listSplits2.get(1);
         assertEquals(40, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
-        duration = (Duration)listSplits2.get(2);
+        duration = listSplits2.get(2);
         assertEquals(80, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
-        duration = (Duration)listSplits2.get(3);
+        duration = listSplits2.get(3);
         assertEquals(104, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
-        duration = (Duration)listSplits2.get(4);
+        duration = listSplits2.get(4);
         assertEquals(160, (int)duration.getDuration());
         assertEquals(TimeUnit.HOURS, duration.getUnits());
     }
@@ -785,8 +786,8 @@ public class MppTaskTest extends MPXJTestCase
      */
     private void testRelations(ProjectFile mpp) 
     {
-        List listAllTasks = mpp.getAllTasks();
-        assertTrue(listAllTasks != null);
+        List<Task> listAllTasks = mpp.getAllTasks();
+        assertNotNull(listAllTasks);
 
         Task task1 = mpp.getTaskByID(new Integer(1));
         Task task2 = mpp.getTaskByID(new Integer(2));
@@ -794,15 +795,15 @@ public class MppTaskTest extends MPXJTestCase
         Task task4 = mpp.getTaskByID(new Integer(4));
         Task task5 = mpp.getTaskByID(new Integer(5));
 
-        List listPreds = task2.getPredecessors();
-        Relation relation = (Relation)listPreds.get(0);
+        List<Relation> listPreds = task2.getPredecessors();
+        Relation relation = listPreds.get(0);
         assertEquals(1, relation.getTaskID().intValue());
         assertEquals(1, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.FINISH_START, relation.getType());
         assertEquals(task1, relation.getTask());
 
         listPreds = task3.getPredecessors();
-        relation = (Relation)listPreds.get(0);
+        relation = listPreds.get(0);
         assertEquals(2, relation.getTaskID().intValue());
         assertEquals(2, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.START_START, relation.getType());
@@ -811,13 +812,13 @@ public class MppTaskTest extends MPXJTestCase
         assertEquals(TimeUnit.DAYS, duration.getUnits());
 
         listPreds = task4.getPredecessors();
-        relation = (Relation)listPreds.get(0);
+        relation = listPreds.get(0);
         assertEquals(3, relation.getTaskID().intValue());
         assertEquals(3, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.FINISH_FINISH, relation.getType());
 
         listPreds = task5.getPredecessors();
-        relation = (Relation)listPreds.get(0);
+        relation = listPreds.get(0);
         assertEquals(4, relation.getTaskID().intValue());
         assertEquals(4, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.START_FINISH, relation.getType());

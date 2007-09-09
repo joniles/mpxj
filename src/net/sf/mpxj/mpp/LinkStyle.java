@@ -75,7 +75,7 @@ public final class LinkStyle
     *
     * @return string representation of this instance
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (getName());
    }

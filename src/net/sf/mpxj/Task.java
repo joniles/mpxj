@@ -38,7 +38,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * This class represents a task record from an MPX file.
  */
-public final class Task extends ProjectEntity implements Comparable, FieldContainer
+public final class Task extends ProjectEntity implements Comparable<Task>, FieldContainer
 {
    /**
     * Default constructor.
@@ -232,7 +232,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       {
          if (m_children.isEmpty() == false)
          {
-            ((Task)m_children.get(m_children.size()-1)).addChildTask(child, childOutlineLevel);
+            (m_children.get(m_children.size()-1)).addChildTask(child, childOutlineLevel);
          }
       }
    }
@@ -311,14 +311,14 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public ResourceAssignment addResourceAssignment (Resource resource)
    {
-      Iterator iter = m_assignments.iterator();
+      Iterator<ResourceAssignment> iter = m_assignments.iterator();
       ResourceAssignment assignment = null;
       Integer resourceUniqueID = resource.getUniqueID();
       Integer uniqueID;
 
       while (iter.hasNext() == true)
       {
-         assignment = (ResourceAssignment)iter.next();
+         assignment = iter.next();
          uniqueID = assignment.getResourceUniqueID();
          if (uniqueID.equals(resourceUniqueID) == true)
          {
@@ -365,7 +365,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return list of resource assignments
     */
-   public List getResourceAssignments ()
+   public List<ResourceAssignment> getResourceAssignments ()
    {
       return (m_assignments);
    }
@@ -404,11 +404,11 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       //
       // Retrieve the list of predecessors
       //
-      List list = (List)getCachedValue(TaskField.PREDECESSORS);
+      List<Relation> list = (List<Relation>)getCachedValue(TaskField.PREDECESSORS);
 
       if (list == null)
       {
-         list = new LinkedList();
+         list = new LinkedList<Relation>();
          set(TaskField.PREDECESSORS, list);
       }
 
@@ -420,11 +420,11 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
 
       if (task != null)
       {
-         Iterator iter = list.iterator();
+         Iterator<Relation> iter = list.iterator();
 
          while (iter.hasNext() == true)
          {
-            rel = (Relation)iter.next();
+            rel = iter.next();
             if (NumberUtility.equals(rel.getTaskID(), task.getID()))
             {
                break;
@@ -475,11 +475,11 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       //
       // Retrieve the list of predecessors
       //
-      List list = (List)getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS);
+      List<Relation> list = (List<Relation>)getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS);
 
       if (list == null)
       {
-         list = new LinkedList();
+         list = new LinkedList<Relation>();
          set(TaskField.UNIQUE_ID_PREDECESSORS, list);
       }
 
@@ -491,11 +491,10 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
 
       if (task != null)
       {
-         Iterator iter = list.iterator();
-
+         Iterator<Relation> iter = list.iterator();
          while (iter.hasNext() == true)
          {
-            rel = (Relation)iter.next();
+            rel = iter.next();
             if (NumberUtility.equals(rel.getTaskUniqueID(), task.getUniqueID()))
             {
                break;
@@ -543,11 +542,11 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Relation addSuccessor (Task task)
    {
-      List list = (List)getCachedValue(TaskField.SUCCESSORS);
+      List<Relation> list = (List<Relation>)getCachedValue(TaskField.SUCCESSORS);
 
       if (list == null)
       {
-         list = new LinkedList();
+         list = new LinkedList<Relation>();
          set(TaskField.SUCCESSORS, list);
       }
 
@@ -584,11 +583,11 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     */
    public Relation addUniqueIdSuccessor (Task task)
    {
-      List list = (List)getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS);
+      List<Relation> list = (List<Relation>)getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS);
 
       if (list == null)
       {
-         list = new LinkedList();
+         list = new LinkedList<Relation>();
          set(TaskField.UNIQUE_ID_SUCCESSORS, list);
       }
 
@@ -1422,7 +1421,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @param list list of relationships
     */
-   public void setPredecessors (List list)
+   public void setPredecessors (List<Relation> list)
    {
       set(TaskField.PREDECESSORS, list);
    }
@@ -1682,7 +1681,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @param list list of relationships
     */
-   public void setSuccessors (List list)
+   public void setSuccessors (List<Relation> list)
    {
       set(TaskField.SUCCESSORS, list);
    }
@@ -1863,7 +1862,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @param list list of relationships
     */
-   public void setUniqueIDPredecessors (List list)
+   public void setUniqueIDPredecessors (List<Relation> list)
    {
       set(TaskField.UNIQUE_ID_PREDECESSORS, list);
    }
@@ -1876,7 +1875,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @param list list of relationships
     */
-   public void setUniqueIDSuccessors (List list)
+   public void setUniqueIDSuccessors (List<Relation> list)
    {
       set(TaskField.UNIQUE_ID_SUCCESSORS, list);
    }
@@ -2824,9 +2823,9 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return RelationList instance
     */
-   public List getPredecessors ()
+   public List<Relation> getPredecessors ()
    {
-      return ((List)getCachedValue(TaskField.PREDECESSORS));
+      return ((List<Relation>)getCachedValue(TaskField.PREDECESSORS));
    }
 
    /**
@@ -3089,9 +3088,9 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return RelationList instance
     */
-   public List getSuccessors ()
+   public List<Relation> getSuccessors ()
    {
-      return ((List)getCachedValue(TaskField.SUCCESSORS));
+      return ((List<Relation>)getCachedValue(TaskField.SUCCESSORS));
    }
 
    /**
@@ -3343,9 +3342,9 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return list of predecessor UniqueIDs
     */
-   public List getUniqueIDPredecessors ()
+   public List<Relation> getUniqueIDPredecessors ()
    {
-      return ((List)getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS));
+      return ((List<Relation>)getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS));
    }
 
    /**
@@ -3356,9 +3355,9 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return list of predecessor UniqueIDs
     */
-   public List getUniqueIDSuccessors ()
+   public List<Relation> getUniqueIDSuccessors ()
    {
-      return ((List)getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS));
+      return ((List<Relation>)getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS));
    }
 
    /**
@@ -3449,7 +3448,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return child tasks
     */
-   public List getChildTasks ()
+   public List<Task> getChildTasks ()
    {
       return (m_children);
    }
@@ -3465,10 +3464,10 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     * @param o object to compare this instance with
     * @return result of comparison
     */
-   public int compareTo (Object o)
+   public int compareTo (Task o)
    {
       int id1 = NumberUtility.getInt(getID());
-      int id2 = NumberUtility.getInt(((Task)o).getID());
+      int id2 = NumberUtility.getInt(o.getID());
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
@@ -6121,7 +6120,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @return list of split times
     */
-   public List getSplits ()
+   public List<Duration> getSplits ()
    {
       return (m_splits);
    }
@@ -6131,7 +6130,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     *
     * @param splits list of split times
     */
-   public void setSplits (List splits)
+   public void setSplits (List<Duration> splits)
    {
       m_splits = splits;
    }
@@ -6377,10 +6376,10 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
       //
       if (m_listeners != null)
       {
-         Iterator iter = m_listeners.iterator();
+         Iterator<FieldListener> iter = m_listeners.iterator();
          while (iter.hasNext() == true)
          {
-            ((FieldListener)iter.next()).fieldChange(this, field, oldValue, newValue);
+            iter.next().fieldChange(this, field, oldValue, newValue);
          }
       }
    }
@@ -6392,7 +6391,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    {
       if (m_listeners == null)
       {
-         m_listeners = new LinkedList();
+         m_listeners = new LinkedList<FieldListener>();
       }
       m_listeners.add(listener);
    }
@@ -6423,7 +6422,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    /**
     * {@inheritDoc}
     */
-   public String toString()
+   @Override public String toString()
    {
       return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");
    }
@@ -6444,12 +6443,12 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
     * This list holds references to all tasks that are children of the
     * current task as specified by the outline level.
     */
-   private List m_children = new LinkedList();
+   private List<Task> m_children = new LinkedList<Task>();
 
    /**
     * List of resource assignments for this task.
     */
-   private List m_assignments = new LinkedList();
+   private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
 
    /**
     * Recurring task details associated with this task.
@@ -6471,7 +6470,7 @@ public final class Task extends ProjectEntity implements Comparable, FieldContai
    private boolean m_expanded = true;
    private Integer m_externalTaskID;
    
-   private List m_splits;
+   private List<Duration> m_splits;
    private SubProject m_subProject;   
-   private List m_listeners;
+   private List<FieldListener> m_listeners;
 }

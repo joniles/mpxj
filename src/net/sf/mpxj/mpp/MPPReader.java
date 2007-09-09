@@ -2,7 +2,7 @@
  * file:       MPPReader.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Dec 21, 2005
+ * date:       2005-12-21
  */
 
 /*
@@ -67,12 +67,12 @@ public final class MPPReader extends AbstractProjectReader
          //
          CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
          String format = compObj.getFileFormat();
-         Class readerClass = (Class)FILE_CLASS_MAP.get(format);
+         Class<? extends MPPVariantReader> readerClass = FILE_CLASS_MAP.get(format);
          if (readerClass == null)
          {
             throw new MPXJException (MPXJException.INVALID_FILE + ": " + format);
          }
-         MPPVariantReader reader = (MPPVariantReader)readerClass.newInstance();
+         MPPVariantReader reader = readerClass.newInstance();
          reader.process (this, projectFile, root);
 
          //
@@ -87,13 +87,13 @@ public final class MPPReader extends AbstractProjectReader
          //
          // Perform post-processing to set the summary flag
          //
-         List tasks = projectFile.getAllTasks();
-         Iterator iter = tasks.iterator();
+         List<Task> tasks = projectFile.getAllTasks();
+         Iterator<Task> iter = tasks.iterator();
          Task task;
 
          while (iter.hasNext() == true)
          {
-            task = (Task)iter.next();
+            task = iter.next();
             task.setSummary(task.getChildTasks().size() != 0);
          }
 
@@ -154,7 +154,7 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * Populate a map of file types and file processing classes.
     */
-   private static final Map FILE_CLASS_MAP = new HashMap ();
+   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<String, Class<? extends MPPVariantReader>> ();
    static
    {
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);

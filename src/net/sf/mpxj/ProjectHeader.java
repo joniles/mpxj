@@ -2075,7 +2075,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param documentSummaryInformation The Document Summary Information Map
     */
-   public void setDocumentSummaryInformation(Map documentSummaryInformation)
+   public void setDocumentSummaryInformation(Map<Integer, Object> documentSummaryInformation)
    {
       m_documentSummaryInformation = documentSummaryInformation;
    }
@@ -2087,7 +2087,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return the Document Summary Information Map
     */
-   public Map getDocumentSummaryInformation()
+   public Map<Integer, Object> getDocumentSummaryInformation()
    {
      return (m_documentSummaryInformation);
    }
@@ -2205,7 +2205,7 @@ public final class ProjectHeader extends ProjectEntity
    private boolean m_newTaskStartIsProjectStart;
    private Day m_weekStartDay;
    private boolean m_calculateMultipleCriticalPaths;
-   private Map m_documentSummaryInformation;
+   private Map<Integer, Object> m_documentSummaryInformation;
 
    /*
     * Missing MSPDI attributes

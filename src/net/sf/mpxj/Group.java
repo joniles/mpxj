@@ -95,7 +95,7 @@ public final class Group
     * 
     * @return list of clauses
     */
-   public List getGroupClauses ()
+   public List<GroupClause> getGroupClauses ()
    {
       return (m_clauses);
    }
@@ -103,7 +103,7 @@ public final class Group
    /**
     * {@inheritDoc}
     */
-   public String toString()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);
@@ -112,7 +112,7 @@ public final class Group
       pw.println(" name=" + m_name);
       pw.println(" showSummaryTasks=" + m_showSummaryTasks);
       pw.println(" [Clauses=");
-      Iterator iter = m_clauses.iterator();
+      Iterator<GroupClause> iter = m_clauses.iterator();
       while (iter.hasNext())
       {
          pw.println("  " + iter.next());
@@ -127,5 +127,5 @@ public final class Group
    private Integer m_id;
    private String m_name;
    private boolean m_showSummaryTasks;
-   private List m_clauses = new LinkedList();
+   private List<GroupClause> m_clauses = new LinkedList<GroupClause>();
 }

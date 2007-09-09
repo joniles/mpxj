@@ -1104,14 +1104,14 @@ final class MPPUtility
    private static final int DEFAULT_DST_SAVINGS = 3600000;
 
    /**
-    * Flag used to indicate the existance of the getDSTSavings
+    * Flag used to indicate the existence of the getDSTSavings
     * method that was introduced in Java 1.4.
     */
    private static boolean HAS_DST_SAVINGS;
 
    static
    {
-      Class tz = TimeZone.class;
+      Class<TimeZone> tz = TimeZone.class;
 
       try
       {

@@ -222,7 +222,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     *
     * @return string representation of this instance
     */
-   public String toString ()
+   @Override public String toString ()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);

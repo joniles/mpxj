@@ -24,8 +24,6 @@
 
 package net.sf.mpxj;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
 
 /**
  * Standard exception type thrown by the MPXJ library.
@@ -51,58 +49,8 @@ public final class MPXJException extends Exception
     */
    public MPXJException (String message, Exception exception)
    {
-      super (message);
-      m_exception = exception;
+      super (message, exception);
    }
-
-   /**
-    * Prints the stack trace, including details of any nested exception.
-    *
-    * @param s output print stream
-    */
-   public void printStackTrace (PrintStream s)
-   {
-      super.printStackTrace(s);
-
-      if (m_exception != null)
-      {
-         s.println ();
-         s.print("Nested Exception is: ");
-         m_exception.printStackTrace(s);
-      }
-   }
-
-   /**
-    * Prints the stack trace, including details of any nested exception.
-    *
-    * @param s output print writer
-    */
-   public void printStackTrace (PrintWriter s)
-   {
-      super.printStackTrace(s);
-
-      if (m_exception != null)
-      {
-         s.println ();
-         s.print("Nested Exception is: ");
-         m_exception.printStackTrace(s);
-      }
-   }
-
-   /**
-    * Returns the embedded exception.
-    *
-    * @return exception
-    */
-   public Exception getException ()
-   {
-      return (m_exception);
-   }
-
-   /**
-    * Embedded exception.
-    */
-   private Exception m_exception;
 
    /**
     * Maximum records error message.

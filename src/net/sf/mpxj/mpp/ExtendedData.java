@@ -78,7 +78,7 @@ final class ExtendedData
    {
       String result = null;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = m_data.getString(getOffset(item));
@@ -97,7 +97,7 @@ final class ExtendedData
    {
       String result = null;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = m_data.getUnicodeString(getOffset(item));
@@ -116,7 +116,7 @@ final class ExtendedData
    {
       int result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getShort(item);
@@ -135,7 +135,7 @@ final class ExtendedData
    {
       int result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getInt(item);
@@ -154,7 +154,7 @@ final class ExtendedData
    {
       long result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getLong6(item);
@@ -173,7 +173,7 @@ final class ExtendedData
    {
       double result = 0;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getDouble(item);
@@ -192,7 +192,7 @@ final class ExtendedData
    {
       Date result = null;
 
-      byte[] item = (byte[])m_map.get (type);
+      byte[] item = m_map.get (type);
       if (item != null)
       {
          result = MPPUtility.getTimestamp(item);
@@ -218,21 +218,21 @@ final class ExtendedData
     *
     * @return string representation of extended data block
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
 
       pw.println ("BEGIN ExtendedData");
 
-      Iterator iter = m_map.keySet().iterator();
+      Iterator<Integer> iter = m_map.keySet().iterator();
       byte[] item;
       Integer type;
 
       while (iter.hasNext() == true)
       {
-         type = (Integer)iter.next();
-         item = (byte[])m_map.get(type);
+         type = iter.next();
+         item = m_map.get(type);
          pw.println ("Type: " + type + " Data:" + MPPUtility.hexdump(item, false));
       }
 
@@ -244,5 +244,5 @@ final class ExtendedData
    }
 
    private FixDeferFix m_data;
-   private HashMap m_map = new HashMap ();
+   private HashMap<Integer, byte[]> m_map = new HashMap<Integer, byte[]> ();
 }

@@ -37,6 +37,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.Priority;
@@ -229,7 +230,7 @@ abstract class MPD9AbstractReader
             if (resourceID != null && resourceID.intValue() != 0)
             {
                cal = m_project.addResourceCalendar();
-               m_baseCalendars.add(new Pair(cal, row.getInteger("CAL_BASE_UID")));
+               m_baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, row.getInteger("CAL_BASE_UID")));
                m_resourceMap.put (resourceID, cal);            
             }
          }
@@ -349,19 +350,19 @@ abstract class MPD9AbstractReader
     */
    protected void updateBaseCalendarNames ()
    {
-      Iterator iter = m_baseCalendars.iterator();
-      Pair pair;
+      Iterator<Pair<ProjectCalendar, Integer>> iter = m_baseCalendars.iterator();
+      Pair<ProjectCalendar, Integer> pair;
       ProjectCalendar cal;
       Integer baseCalendarID;
       ProjectCalendar baseCal;
 
       while (iter.hasNext() == true)
       {
-         pair = (Pair)iter.next();
-         cal = (ProjectCalendar)pair.getFirst();
-         baseCalendarID = (Integer)pair.getSecond();
+         pair = iter.next();
+         cal = pair.getFirst();
+         baseCalendarID = pair.getSecond();
 
-         baseCal = (ProjectCalendar)m_calendarMap.get(baseCalendarID);
+         baseCal = m_calendarMap.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);
@@ -1099,13 +1100,13 @@ abstract class MPD9AbstractReader
       //
       // Perform post-processing to set the summary flag
       //
-      List tasks = m_project.getAllTasks();
-      Iterator iter = tasks.iterator();
+      List<Task> tasks = m_project.getAllTasks();
+      Iterator<Task> iter = tasks.iterator();
       Task task;
 
       while (iter.hasNext() == true)
       {
-         task = (Task)iter.next();
+         task = iter.next();
          task.setSummary(task.getChildTasks().size() != 0);
       }
 
@@ -1190,15 +1191,15 @@ abstract class MPD9AbstractReader
    protected Integer m_projectID;
    private boolean m_preserveNoteFormatting;         
    protected ProjectFile m_project;
-   private Map m_calendarMap = new HashMap();
-   private List m_baseCalendars = new LinkedList();
-   private Map m_resourceMap = new HashMap ();
+   private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<Integer, ProjectCalendar>();
+   private List<Pair<ProjectCalendar, Integer>> m_baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
+   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
    private RTFUtility m_rtf = new RTFUtility ();      
    private boolean m_autoWBS = true;
    
    //private static final Duration ZERO_DURATION = Duration.getInstance(0, TimeUnit.HOURS);
    
-   private static final Set COST_FIELDS = new HashSet();
+   private static final Set<FieldType> COST_FIELDS = new HashSet<FieldType>();
    static
    {
       COST_FIELDS.add(TaskField.COST1);

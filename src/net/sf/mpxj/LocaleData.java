@@ -36,7 +36,7 @@ public class LocaleData extends ListResourceBundle
    /**
     * {@inheritDoc}
     */
-   public Object[][] getContents()
+   @Override public Object[][] getContents()
    {
       return (RESOURCES);
    }

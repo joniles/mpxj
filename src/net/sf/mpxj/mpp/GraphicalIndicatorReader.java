@@ -101,7 +101,7 @@ public final class GraphicalIndicatorReader
       //System.out.println("Header: " + type);
       //System.out.println(MPPUtility.hexdump(m_data, m_dataOffset, 36, false, 16, ""));
       
-      GraphicalIndicator indicator = new GraphicalIndicator(m_file);
+      GraphicalIndicator indicator = new GraphicalIndicator();
       indicator.setFieldType(type);
       int flags = m_data[m_dataOffset];
       indicator.setProjectSummaryInheritsFromSummaryRows((flags & 0x08) != 0);

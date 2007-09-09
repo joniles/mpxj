@@ -136,7 +136,7 @@ public class TableFontStyle extends FontStyle
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged?" italic="+getItalic():"") + (m_boldChanged?" bold="+getBold():"") + (m_underlineChanged?" underline="+getUnderline():"") + (m_fontChanged?" font="+getFontBase():"") + (m_colorChanged?" color="+getColor():"") + "]");
    }

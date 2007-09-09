@@ -27,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -294,12 +293,10 @@ public final class MPDUtility
     * 
     * @param row row data
     */
-   public static void dumpRow (Map row)
+   public static void dumpRow (Map<String, Object> row)
    {
-      Iterator iter = row.entrySet().iterator();
-      while (iter.hasNext() == true)
+      for (Entry<String, Object> entry : row.entrySet())
       {
-         Entry entry = (Entry)iter.next();
          Object value = entry.getValue();
          System.out.println (entry.getKey() + " = " + value + " ( " + (value==null?"":value.getClass().getName()) + ")");
       }      

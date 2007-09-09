@@ -34,7 +34,7 @@ public final class ViewStateReader12 extends ViewStateReader
    /**
     * {@inheritDoc}
     */
-   protected Props getProps (Var2Data varData)
+   @Override protected Props getProps (Var2Data varData)
       throws IOException
    {
       Props props = null;
@@ -49,8 +49,5 @@ public final class ViewStateReader12 extends ViewStateReader
    
    
    private static final Integer PROPS_ID = new Integer (1);
-   private static final Integer PROPS_TYPE = new Integer (6);
-   
-   private static final Integer VIEW_NAME = new Integer(641728536);
-   private static final Integer VIEW_CONTENTS = new Integer(641728565);
+   private static final Integer PROPS_TYPE = new Integer (6);   
 }

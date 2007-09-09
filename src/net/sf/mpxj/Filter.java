@@ -96,7 +96,7 @@ public class Filter
    /**
     * Adds a criteria expression to the filter.
     * 
-    * @param criteria criteri aexpression
+    * @param criteria criteria expression
     */
    public void addCriteria (FilterCriteria criteria)
    {
@@ -112,7 +112,7 @@ public class Filter
     * 
     * @return list of filter criteria
     */
-   public List getCriteria ()
+   public List<FilterCriteria> getCriteria ()
    {
       return (m_criteria);
    }
@@ -127,7 +127,7 @@ public class Filter
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         result = ((FilterCriteria)m_criteria.get(0)).getField() instanceof TaskField;            
+         result = m_criteria.get(0).getField() instanceof TaskField;            
       }
       return (result);
    }
@@ -142,7 +142,7 @@ public class Filter
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         result = ((FilterCriteria)m_criteria.get(0)).getField() instanceof ResourceField;            
+         result = m_criteria.get(0).getField() instanceof ResourceField;            
       }      
       return (result);
    }
@@ -160,10 +160,10 @@ public class Filter
       if (!m_criteria.isEmpty())
       {
          boolean logicalAnd = true;
-         Iterator iter = m_criteria.iterator();
+         Iterator<FilterCriteria> iter = m_criteria.iterator();
          while (iter.hasNext())
          {
-            FilterCriteria criteria = (FilterCriteria)iter.next();
+            FilterCriteria criteria = iter.next();
             boolean criteriaResult = criteria.evaluate(container);
             if (logicalAnd)
             {
@@ -195,7 +195,7 @@ public class Filter
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[Filter id=");
@@ -206,7 +206,7 @@ public class Filter
       sb.append(m_showRelatedSummaryRows);
       sb.append(" criteria=[");
       
-      Iterator iter = m_criteria.iterator();
+      Iterator<FilterCriteria> iter = m_criteria.iterator();
       while (iter.hasNext())
       {
          sb.append(iter.next().toString());
@@ -221,6 +221,6 @@ public class Filter
    private Integer m_id;
    private String m_name;
    private boolean m_showRelatedSummaryRows;
-   private List m_criteria = new LinkedList();
+   private List<FilterCriteria> m_criteria = new LinkedList<FilterCriteria>();
    private boolean m_promptTextSet;
 }

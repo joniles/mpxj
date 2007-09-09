@@ -125,7 +125,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          Project project = (Project)unmarshaller.unmarshal (doc);
 
-         HashMap calendarMap = new HashMap ();
+         HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<BigInteger, ProjectCalendar> ();
 
          readProjectHeader (project);
          readProjectExtendedAttributes(project);
@@ -241,23 +241,23 @@ public final class MSPDIReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts calandar data from an MSPDI file.
+    * This method extracts calendar data from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
     * @param map Map of calendar UIDs to names
     */
-   private void readCalendars (Project project, HashMap map)
+   private void readCalendars (Project project, HashMap<BigInteger, ProjectCalendar> map)
    {
       Project.CalendarsType calendars = project.getCalendars();
       if (calendars != null)
       {
-         List calendar = calendars.getCalendar();
-         Iterator iter = calendar.iterator();
-         LinkedList baseCalendars = new LinkedList();
+         List<Project.CalendarsType.CalendarType> calendar = calendars.getCalendar();
+         Iterator<Project.CalendarsType.CalendarType> iter = calendar.iterator();
+         LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars = new LinkedList<Pair<ProjectCalendar, BigInteger>>();
 
          while (iter.hasNext() == true)
          {
-            readCalendar ((Project.CalendarsType.CalendarType)iter.next(), map, baseCalendars);
+            readCalendar (iter.next(), map, baseCalendars);
          }
 
          updateBaseCalendarNames (baseCalendars, map);
@@ -275,21 +275,21 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private static void updateBaseCalendarNames (List baseCalendars, HashMap map)
+   private static void updateBaseCalendarNames (List<Pair<ProjectCalendar, BigInteger>> baseCalendars, HashMap<BigInteger, ProjectCalendar> map)
    {
-      Iterator iter = baseCalendars.iterator();
-      Pair pair;
+      Iterator<Pair<ProjectCalendar, BigInteger>> iter = baseCalendars.iterator();
+      Pair<ProjectCalendar, BigInteger> pair;
       ProjectCalendar cal;
       BigInteger baseCalendarID;
       ProjectCalendar baseCal;
 
       while (iter.hasNext() == true)
       {
-         pair = (Pair)iter.next();
-         cal = (ProjectCalendar)pair.getFirst();
-         baseCalendarID = (BigInteger)pair.getSecond();
+         pair = iter.next();
+         cal = pair.getFirst();
+         baseCalendarID = pair.getSecond();
 
-         baseCal = (ProjectCalendar)map.get(baseCalendarID);
+         baseCal = map.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);
@@ -298,16 +298,15 @@ public final class MSPDIReader extends AbstractProjectReader
    }
 
    /**
-    * This method extracts data for a single calandar from an MSPDI file.
+    * This method extracts data for a single calendar from an MSPDI file.
     *
     * @param calendar Calendar data
     * @param map Map of calendar UIDs to names
     * @param baseCalendars list of base calendars
     */
-   private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap map, LinkedList baseCalendars)
+   private void readCalendar (Project.CalendarsType.CalendarType calendar, HashMap<BigInteger, ProjectCalendar> map, LinkedList<Pair<ProjectCalendar, BigInteger>> baseCalendars)
    {
       ProjectCalendar bc;
-      Iterator iter;
 
       if (calendar.isIsBaseCalendar() == true)
       {
@@ -323,18 +322,18 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
       {
-         baseCalendars.add(new Pair(bc, baseCalendarID));
+         baseCalendars.add(new Pair<ProjectCalendar, BigInteger>(bc, baseCalendarID));
       }
 
       Project.CalendarsType.CalendarType.WeekDaysType days = calendar.getWeekDays();
       if (days != null)
       {
-         List day = days.getWeekDay();
-         iter = day.iterator();
+         List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType> day = days.getWeekDay();
+         Iterator<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType> iter = day.iterator();
 
          while (iter.hasNext() == true)
          {
-            readDay (bc, (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType)iter.next());
+            readDay (bc, iter.next());
          }
       }
 
@@ -381,13 +380,13 @@ public final class MSPDIReader extends AbstractProjectReader
       if (times != null)
       {
          Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType period;
-         List time = times.getWorkingTime();
-         Iterator iter = time.iterator();
+         List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> time = times.getWorkingTime();
+         Iterator<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> iter = time.iterator();
          Date startTime;
          Date endTime;
          while (iter.hasNext() == true)
          {
-            period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
+            period = iter.next();
             startTime = DatatypeConverter.parseTime(period.getFromTime());
             endTime = DatatypeConverter.parseTime(period.getToTime());
 
@@ -418,26 +417,26 @@ public final class MSPDIReader extends AbstractProjectReader
       if (times != null)
       {
          Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType period;
-         List time = times.getWorkingTime();
-         Iterator iter = time.iterator();
+         List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> time = times.getWorkingTime();
+         Iterator<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> iter = time.iterator();
 
          if (iter.hasNext() == true)
          {
-            period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
+            period = iter.next();
             exception.setFromTime1(DatatypeConverter.parseTime(period.getFromTime()));
             exception.setToTime1(DatatypeConverter.parseTime(period.getToTime()));
          }
 
          if (iter.hasNext() == true)
          {
-            period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
+            period = iter.next();
             exception.setFromTime2(DatatypeConverter.parseTime(period.getFromTime()));
             exception.setToTime2(DatatypeConverter.parseTime(period.getToTime()));
          }
 
          if (iter.hasNext() == true)
          {
-            period = (Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType)iter.next();
+            period = iter.next();
             exception.setFromTime3(DatatypeConverter.parseTime(period.getFromTime()));
             exception.setToTime3(DatatypeConverter.parseTime(period.getToTime()));
          }
@@ -454,12 +453,12 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.ExtendedAttributesType attributes = project.getExtendedAttributes();
       if (attributes != null)
       {
-         List attribute = attributes.getExtendedAttribute();
-         Iterator iter = attribute.iterator();
+         List<Project.ExtendedAttributesType.ExtendedAttributeType> attribute = attributes.getExtendedAttribute();
+         Iterator<Project.ExtendedAttributesType.ExtendedAttributeType> iter = attribute.iterator();
 
          while (iter.hasNext() == true)
          {
-            readFieldAlias ((Project.ExtendedAttributesType.ExtendedAttributeType)iter.next());
+            readFieldAlias (iter.next());
          }
       }
    }
@@ -510,16 +509,16 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param project Root node of the MSPDI file
     * @param calendarMap Map of calendar UIDs to names
     */
-   private void readResources (Project project, HashMap calendarMap)
+   private void readResources (Project project, HashMap<BigInteger, ProjectCalendar> calendarMap)
    {
       Project.ResourcesType resources = project.getResources();
       if (resources != null)
       {
-         List resource = resources.getResource();
-         Iterator iter = resource.iterator();
+         List<Project.ResourcesType.ResourceType> resource = resources.getResource();
+         Iterator<Project.ResourcesType.ResourceType> iter = resource.iterator();
          while (iter.hasNext() == true)
          {
-            readResource ((Project.ResourcesType.ResourceType)iter.next(), calendarMap);
+            readResource (iter.next(), calendarMap);
          }
       }
    }
@@ -530,7 +529,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * @param xml Resource data
     * @param calendarMap Map of calendar UIDs to names
     */
-   private void readResource (Project.ResourcesType.ResourceType xml, HashMap calendarMap)
+   private void readResource (Project.ResourcesType.ResourceType xml, HashMap<BigInteger, ProjectCalendar> calendarMap)
    {
       Resource mpx = m_projectFile.addResource();
 
@@ -604,7 +603,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
       readResourceExtendedAttributes (xml, mpx);
 
-      mpx.setResourceCalendar((ProjectCalendar)calendarMap.get(xml.getCalendarUID()));
+      mpx.setResourceCalendar(calendarMap.get(xml.getCalendarUID()));
       
       // ensure that we cache this value
       mpx.setOverAllocated(xml.isOverAllocated());
@@ -620,13 +619,13 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readResourceExtendedAttributes (Project.ResourcesType.ResourceType xml, Resource mpx)
    {
-      List extendedAttributes = xml.getExtendedAttribute();
-      Iterator iter = extendedAttributes.iterator();
+      List<Project.ResourcesType.ResourceType.ExtendedAttributeType> extendedAttributes = xml.getExtendedAttribute();
+      Iterator<Project.ResourcesType.ResourceType.ExtendedAttributeType> iter = extendedAttributes.iterator();
       Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
 
       while (iter.hasNext() == true)
       {
-         attrib = (Project.ResourcesType.ResourceType.ExtendedAttributeType)iter.next();
+         attrib = iter.next();
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
          ResourceField mpxFieldID = MPPResourceField.getInstance(xmlFieldID);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
@@ -643,17 +642,17 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.TasksType tasks = project.getTasks();
       if (tasks != null)
       {
-         List task = tasks.getTask();
-         Iterator iter = task.iterator();
+         List<Project.TasksType.TaskType> task = tasks.getTask();
+         Iterator<Project.TasksType.TaskType> iter = task.iterator();
          while (iter.hasNext() == true)
          {
-            readTask ((Project.TasksType.TaskType)iter.next());
+            readTask (iter.next());
          }
 
          iter = task.iterator();
          while (iter.hasNext() == true)
          {
-            readPredecessors ((Project.TasksType.TaskType)iter.next());
+            readPredecessors (iter.next());
          }
       }
 
@@ -843,13 +842,13 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readTaskExtendedAttributes (Project.TasksType.TaskType xml, Task mpx)
    {
-      List extendedAttributes = xml.getExtendedAttribute();
-      Iterator iter = extendedAttributes.iterator();
+      List<Project.TasksType.TaskType.ExtendedAttributeType> extendedAttributes = xml.getExtendedAttribute();
+      Iterator<Project.TasksType.TaskType.ExtendedAttributeType> iter = extendedAttributes.iterator();
       Project.TasksType.TaskType.ExtendedAttributeType attrib;
 
       while (iter.hasNext() == true)
       {
-         attrib = (Project.TasksType.TaskType.ExtendedAttributeType)iter.next();
+         attrib = iter.next();
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
          TaskField mpxFieldID = MPPTaskField.getInstance(xmlFieldID);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
@@ -891,12 +890,12 @@ public final class MSPDIReader extends AbstractProjectReader
          Task currTask = m_projectFile.getTaskByUniqueID(uid);
          if (currTask != null)
          {
-            List predecessors = task.getPredecessorLink();
-            Iterator iter = predecessors.iterator();
+            List<Project.TasksType.TaskType.PredecessorLinkType> predecessors = task.getPredecessorLink();
+            Iterator<Project.TasksType.TaskType.PredecessorLinkType> iter = predecessors.iterator();
 
             while (iter.hasNext() == true)
             {
-               readPredecessor (currTask, (Project.TasksType.TaskType.PredecessorLinkType)iter.next());
+               readPredecessor (currTask, iter.next());
             }
          }
       }
@@ -954,11 +953,11 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.AssignmentsType assignments = project.getAssignments();
       if (assignments != null)
       {
-         List assignment = assignments.getAssignment();
-         Iterator iter = assignment.iterator();
+         List<Project.AssignmentsType.AssignmentType> assignment = assignments.getAssignment();
+         Iterator<Project.AssignmentsType.AssignmentType> iter = assignment.iterator();
          while (iter.hasNext() == true)
          {
-            readAssignment ((Project.AssignmentsType.AssignmentType)iter.next());
+            readAssignment (iter.next());
          }
       }
    }

@@ -806,7 +806,7 @@ public final class DatatypeConverter
                duration += ((double)xsd.getDays() / 365);
                duration += ((double)xsd.getHours() / (365 * 24));
                duration += ((double)xsd.getMinutes() / (365 * 24 * 60));
-               duration += ((double)xsd.getSeconds() / (365 * 24 * 60 * 60));
+               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
                break;
             }
 
@@ -820,7 +820,7 @@ public final class DatatypeConverter
                duration += ((double)xsd.getDays() / 365);
                duration += ((double)xsd.getHours() / (365 * 24));
                duration += ((double)xsd.getMinutes() / (365 * 24 * 60));
-               duration += ((double)xsd.getSeconds() / (365 * 24 * 60 * 60));
+               duration += (xsd.getSeconds() / (365 * 24 * 60 * 60));
                break;
             }
 
@@ -834,7 +834,7 @@ public final class DatatypeConverter
                duration += ((double)xsd.getDays() / 30);
                duration += ((double)xsd.getHours() / (30 * 24));
                duration += ((double)xsd.getMinutes() / (30 * 24 * 60));
-               duration += ((double)xsd.getSeconds() / (30 * 24 * 60 * 60));
+               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
                break;
             }
 
@@ -848,7 +848,7 @@ public final class DatatypeConverter
                duration += ((double)xsd.getDays() / 30);
                duration += ((double)xsd.getHours() / (30 * 24));
                duration += ((double)xsd.getMinutes() / (30 * 24 * 60));
-               duration += ((double)xsd.getSeconds() / (30 * 24 * 60 * 60));
+               duration += (xsd.getSeconds() / (30 * 24 * 60 * 60));
                break;
             }
 
@@ -862,7 +862,7 @@ public final class DatatypeConverter
                duration += ((double)xsd.getDays() / 7);
                duration += ((double)xsd.getHours() / (7 * 24));
                duration += ((double)xsd.getMinutes() / (7 * 24 * 60));
-               duration += ((double)xsd.getSeconds() / (7 * 24 * 60 * 60));
+               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
                break;
             }
 
@@ -876,7 +876,7 @@ public final class DatatypeConverter
                duration += ((double)xsd.getDays() / 7);
                duration += ((double)xsd.getHours() / (7 * 24));
                duration += ((double)xsd.getMinutes() / (7 * 24 * 60));
-               duration += ((double)xsd.getSeconds() / (7 * 24 * 60 * 60));
+               duration += (xsd.getSeconds() / (7 * 24 * 60 * 60));
                break;
             }
 
@@ -890,7 +890,7 @@ public final class DatatypeConverter
                duration += xsd.getDays();
                duration += ((double)xsd.getHours() / 24);
                duration += ((double)xsd.getMinutes() / (24 * 60));
-               duration += ((double)xsd.getSeconds() / (24 * 60 * 60));
+               duration += (xsd.getSeconds() / (24 * 60 * 60));
                break;
             }
 
@@ -904,7 +904,7 @@ public final class DatatypeConverter
                duration += xsd.getDays();
                duration += ((double)xsd.getHours() / 24);
                duration += ((double)xsd.getMinutes() / (24 * 60));
-               duration += ((double)xsd.getSeconds() / (24 * 60 * 60));
+               duration += (xsd.getSeconds() / (24 * 60 * 60));
                break;
             }
 
@@ -919,7 +919,7 @@ public final class DatatypeConverter
                duration += (xsd.getDays() * 24);
                duration += xsd.getHours();
                duration += ((double)xsd.getMinutes() / 60);
-               duration += ((double)xsd.getSeconds() / (60 * 60));
+               duration += (xsd.getSeconds() / (60 * 60));
                break;
             }
 
@@ -934,7 +934,7 @@ public final class DatatypeConverter
                duration += (xsd.getDays() * (24 * 60));
                duration += (xsd.getHours() * 60);
                duration += xsd.getMinutes();
-               duration += ((double)xsd.getSeconds() / 60);
+               duration += (xsd.getSeconds() / 60);
                break;
             }
          }
@@ -1425,7 +1425,7 @@ public final class DatatypeConverter
     */
    public static final String printTaskUID (Integer value)
    {
-      ProjectFile file = (ProjectFile)PARENT_FILE.get();
+      ProjectFile file = PARENT_FILE.get();
       file.fireTaskWrittenEvent(file.getTaskByUniqueID(value));
       return (value.toString());
    }
@@ -1449,7 +1449,7 @@ public final class DatatypeConverter
     */
    public static final String printResourceUID (Integer value)
    {
-      ProjectFile file = (ProjectFile)PARENT_FILE.get();
+      ProjectFile file = PARENT_FILE.get();
       file.fireResourceWrittenEvent(file.getResourceByUniqueID(value));
       return (value.toString());
    }
@@ -1581,7 +1581,7 @@ public final class DatatypeConverter
     */
    private static final NumberFormat getNumberFormat ()
    {
-      NumberFormat format = (NumberFormat)NUMBER_FORMAT.get();
+      NumberFormat format = NUMBER_FORMAT.get();
       if (format == null)
       {
          format = new DecimalFormat("#.##");
@@ -1597,7 +1597,7 @@ public final class DatatypeConverter
     */
    private static final DateFormat getDateFormat ()
    {
-      DateFormat df = (DateFormat)DATE_FORMAT.get();
+      DateFormat df = DATE_FORMAT.get();
       if (df == null)
       {
          df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -1614,7 +1614,7 @@ public final class DatatypeConverter
     */   
    private static final DateFormat getTimeFormat ()
    {
-      DateFormat df = (DateFormat)TIME_FORMAT.get();
+      DateFormat df = TIME_FORMAT.get();
       if (df == null)
       {
          df = new SimpleDateFormat("HH:mm:ss");
@@ -1624,11 +1624,11 @@ public final class DatatypeConverter
 
    }
 
-   private static final ThreadLocal DATE_FORMAT = new ThreadLocal ();
-   private static final ThreadLocal TIME_FORMAT = new ThreadLocal ();
-   private static final ThreadLocal NUMBER_FORMAT = new ThreadLocal ();
+   private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat> ();
+   private static final ThreadLocal<DateFormat> TIME_FORMAT = new ThreadLocal<DateFormat> ();
+   private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = new ThreadLocal<NumberFormat> ();
    private static final String ZERO_DURATION = "PT0H0M0S";
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
-   private static final ThreadLocal PARENT_FILE = new ThreadLocal ();
+   private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<ProjectFile> ();
 }

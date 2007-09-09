@@ -79,7 +79,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[GraphicalIndicatorCriteria indicator=");

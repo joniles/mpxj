@@ -2,7 +2,7 @@
  * file:       ViewState.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2007
- * date:       Jan 8, 2007
+ * date:       2007-01-08
  */
  
 /*
@@ -37,7 +37,7 @@ public final class ViewState
     * @param viewName view name
     * @param uniqueIdList unique ID list
     */
-   public ViewState (String viewName, List uniqueIdList)
+   public ViewState (String viewName, List<Integer> uniqueIdList)
    {
       m_viewName = viewName;
       m_uniqueIdList = uniqueIdList;
@@ -58,11 +58,11 @@ public final class ViewState
     * 
     * @return unique ID list
     */
-   public List getUniqueIdList()
+   public List<Integer> getUniqueIdList()
    {
       return m_uniqueIdList;
    }
 
    private String m_viewName;
-   private List m_uniqueIdList;
+   private List<Integer> m_uniqueIdList;
 }

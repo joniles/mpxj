@@ -71,7 +71,7 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map fontBases)
+   GanttChartView (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
       super (fixedData);
@@ -1244,10 +1244,10 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return FontStyle instance
     */
-   private FontStyle getFontStyle (byte[] data, int offset, Map fontBases)
+   private FontStyle getFontStyle (byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       Integer index = new Integer(MPPUtility.getByte(data, offset));
-      FontBase fontBase = (FontBase)fontBases.get(index);
+      FontBase fontBase = fontBases.get(index);
       int style = MPPUtility.getByte(data, offset+1);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+2));
 
@@ -1266,7 +1266,7 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return ColumnFontStyle instance
     */
-   private TableFontStyle getColumnFontStyle (byte[] data, int offset, Map fontBases)
+   private TableFontStyle getColumnFontStyle (byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
       FieldType fieldType = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+4));
@@ -1275,7 +1275,7 @@ public abstract class GanttChartView extends GenericView
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
       int change = MPPUtility.getByte(data, offset+12);
 
-      FontBase fontBase = (FontBase)fontBases.get(index);
+      FontBase fontBase = fontBases.get(index);
 
       boolean bold = ((style & 0x01) != 0);
       boolean italic = ((style & 0x02) != 0);
@@ -1480,13 +1480,13 @@ public abstract class GanttChartView extends GenericView
     * 
     * @return list of filter instances
     */
-   public List getAutoFilters ()
+   public List<Filter> getAutoFilters ()
    {
       return (m_autoFilters);
    }
    
    /**
-    * Retrieves the auto filter defintion associated with an 
+    * Retrieves the auto filter definition associated with an 
     * individual column. Returns null if there is no filter defined for
     * the supplied column type.
     * 
@@ -1495,7 +1495,7 @@ public abstract class GanttChartView extends GenericView
     */
    public Filter getAutoFilterByType (FieldType type)
    {
-      return ((Filter)m_autoFiltersByType.get(type));
+      return (m_autoFiltersByType.get(type));
    }
    
    /**
@@ -1503,7 +1503,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return string representation of this instance
     */
-   public String toString ()
+   @Override public String toString ()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);
@@ -1649,7 +1649,7 @@ public abstract class GanttChartView extends GenericView
 
       if (!m_autoFilters.isEmpty())
       {
-         Iterator iter = m_autoFilters.iterator();
+         Iterator<Filter> iter = m_autoFilters.iterator();
          while (iter.hasNext())
          {
             pw.println ("   AutoFilter=" + iter.next());            
@@ -1756,10 +1756,9 @@ public abstract class GanttChartView extends GenericView
    private LineStyle m_progressLinesOtherLineStyle;
    private ColorType m_progressLinesOtherProgressPointColor;
    private int m_progressLinesOtherProgressPointShape;
-   private List m_autoFilters = new LinkedList();
-   private Map m_autoFiltersByType = new HashMap ();
-   
-   private static final Integer PROPERTIES = new Integer (1);
+   private List<Filter> m_autoFilters = new LinkedList<Filter>();
+   private Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter> ();
+      
    private static final Integer VIEW_PROPERTIES = new Integer (574619656);
    private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);
    private static final Integer BAR_PROPERTIES = new Integer (574619661);

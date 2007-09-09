@@ -81,7 +81,7 @@ public final class ViewType
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (TYPE_NAMES[m_type]);
    }

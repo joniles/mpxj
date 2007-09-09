@@ -53,7 +53,7 @@ public final class TimeUnit
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (NAMES[m_value]);
    }

@@ -192,7 +192,7 @@ public final class Column
     *
     * @return formatted contents of this column
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);

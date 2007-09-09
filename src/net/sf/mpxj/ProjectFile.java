@@ -71,22 +71,16 @@ public final class ProjectFile
     */
    public void updateUniqueIdentifiers ()
    {
-      Iterator iter = m_allTasks.iterator();
-      Task task;
-      while (iter.hasNext() == true)
+      for(Task task : m_allTasks)
       {
-         task = (Task)iter.next();
          if (task.getUniqueID() == null)
          {
             task.setUniqueID(task.getID());
          }
       }
 
-      iter = m_allResources.iterator();
-      Resource resource;
-      while (iter.hasNext() == true)
+      for (Resource resource : m_allResources)
       {
-         resource = (Resource)iter.next();
          if (resource.getUniqueID() == null)
          {
             resource.setUniqueID(resource.getID());
@@ -96,7 +90,7 @@ public final class ProjectFile
 
    /**
     * This method is provided to allow child tasks that have been created
-    * programatically to be added as a record to the main file.
+    * programmatically to be added as a record to the main file.
     *
     * @param task task created as a child of another task
     */
@@ -145,11 +139,10 @@ public final class ProjectFile
       //
       // Remove all resource assignments
       //
-      Iterator iter = m_allResourceAssignments.iterator();
-      ResourceAssignment assignment;
+      Iterator<ResourceAssignment> iter = m_allResourceAssignments.iterator();
       while (iter.hasNext() == true)
       {
-         assignment = (ResourceAssignment)iter.next();
+         ResourceAssignment assignment = iter.next();
          if (assignment.getTask() == task)
          {
             assignment.getResource().removeResourceAssignment(assignment);
@@ -162,13 +155,13 @@ public final class ProjectFile
       //
       while (true)
       {
-         List childTaskList = task.getChildTasks();
+         List<Task> childTaskList = task.getChildTasks();
          if (childTaskList.isEmpty() == true)
          {
             break;
          }
 
-         removeTask((Task)childTaskList.get(0));
+         removeTask(childTaskList.get(0));
       }
    }
 
@@ -185,17 +178,17 @@ public final class ProjectFile
       if (m_allTasks.isEmpty() == false)
       {
          Collections.sort(m_allTasks);
-         Task firstTask = (Task)m_allTasks.get(0);
+         Task firstTask = m_allTasks.get(0);
          int id = NumberUtility.getInt(firstTask.getID());
          if (id != 0)
          {
             id = 1;
          }
 
-         Iterator iter = m_allTasks.iterator();
+         Iterator<Task> iter = m_allTasks.iterator();
          while (iter.hasNext() == true)
          {
-            ((Task)iter.next()).setID(new Integer(id++));
+            (iter.next()).setID(new Integer(id++));
          }
       }
    }
@@ -215,11 +208,10 @@ public final class ProjectFile
          Collections.sort(m_allResources);
          int id = 1;
 
-         Iterator iter = m_allResources.iterator();
+         Iterator<Resource> iter = m_allResources.iterator();
          while (iter.hasNext() == true)
          {
-            Resource resource = (Resource)iter.next();
-            resource.setID(new Integer(id++));
+            iter.next().setID(new Integer(id++));
          }
       }
    }
@@ -230,7 +222,7 @@ public final class ProjectFile
     *
     * @return list of tasks
     */
-   public List getChildTasks ()
+   public List<Task> getChildTasks ()
    {
       return (m_childTasks);
    }
@@ -241,7 +233,7 @@ public final class ProjectFile
     *
     * @return list of all tasks
     */
-   public List getAllTasks ()
+   public List<Task> getAllTasks ()
    {
       return (m_allTasks);
    }
@@ -577,7 +569,7 @@ public final class ProjectFile
     *
     * @return list of base calendars
     */
-   public List getBaseCalendars ()
+   public List<ProjectCalendar> getBaseCalendars ()
    {
       return (m_baseCalendars);
    }
@@ -588,7 +580,7 @@ public final class ProjectFile
     *
     * @return list of resource calendars
     */
-   public List getResourceCalendars ()
+   public List<ProjectCalendar> getResourceCalendars ()
    {
       return (m_resourceCalendars);
    }
@@ -626,12 +618,11 @@ public final class ProjectFile
       m_resourceUniqueIDMap.remove(resource.getUniqueID());
       m_resourceIDMap.remove(resource.getID());
 
-      Iterator iter = m_allResourceAssignments.iterator();
-      ResourceAssignment assignment;
+      Iterator<ResourceAssignment> iter = m_allResourceAssignments.iterator();
       Integer resourceUniqueID = resource.getUniqueID();
       while (iter.hasNext() == true)
       {
-         assignment = (ResourceAssignment)iter.next();
+         ResourceAssignment assignment = iter.next();
          if (NumberUtility.equals(assignment.getResourceUniqueID(), resourceUniqueID))
          {
             assignment.getTask().removeResourceAssignment(assignment);
@@ -652,7 +643,7 @@ public final class ProjectFile
     *
     * @return list of all resources
     */
-   public List getAllResources ()
+   public List<Resource> getAllResources ()
    {
       return (m_allResources);
    }
@@ -663,7 +654,7 @@ public final class ProjectFile
     *
     * @return list of all resources
     */
-   public List getAllResourceAssignments ()
+   public List<ResourceAssignment> getAllResourceAssignments ()
    {
       return (m_allResourceAssignments);
    }
@@ -717,13 +708,11 @@ public final class ProjectFile
 
       if (calendarName != null && calendarName.length() != 0)
       {
-         String name;
-         Iterator iter = m_baseCalendars.iterator();
-
+         Iterator<ProjectCalendar> iter = m_baseCalendars.iterator();
          while (iter.hasNext() == true)
          {
-            calendar = (ProjectCalendar)iter.next();
-            name = calendar.getName();
+            calendar = iter.next();
+            String name = calendar.getName();
 
             if ((name != null) && (name.equalsIgnoreCase(calendarName) == true))
             {
@@ -747,7 +736,7 @@ public final class ProjectFile
     */
    public ProjectCalendar getBaseCalendarByUniqueID (Integer calendarID)
    {
-      return ((ProjectCalendar)m_calendarUniqueIDMap.get(calendarID));
+      return (m_calendarUniqueIDMap.get(calendarID));
    }
 
    /**
@@ -812,7 +801,7 @@ public final class ProjectFile
     */
    public Task getTaskByID (Integer id)
    {
-      return ((Task)m_taskIDMap.get(id));
+      return (m_taskIDMap.get(id));
    }
 
    /**
@@ -824,7 +813,7 @@ public final class ProjectFile
     */
    public Task getTaskByUniqueID (Integer id)
    {
-      return ((Task)m_taskUniqueIDMap.get(id));
+      return (m_taskUniqueIDMap.get(id));
    }
 
    /**
@@ -836,7 +825,7 @@ public final class ProjectFile
     */
    public Resource getResourceByID (Integer id)
    {
-      return ((Resource)m_resourceIDMap.get(id));
+      return (m_resourceIDMap.get(id));
    }
 
    /**
@@ -848,7 +837,7 @@ public final class ProjectFile
     */
    public Resource getResourceByUniqueID (Integer id)
    {
-      return ((Resource)m_resourceUniqueIDMap.get(id));
+      return (m_resourceUniqueIDMap.get(id));
    }
 
    /**
@@ -864,20 +853,16 @@ public final class ProjectFile
          Collections.sort(m_allTasks);
          m_childTasks.clear();
 
-         Task task;
          Task lastTask = null;
-         Task parent;
-         int level;
          int lastLevel = -1;
-
-         Iterator iter = m_allTasks.iterator();
+         Iterator<Task> iter = m_allTasks.iterator();
 
          while (iter.hasNext() == true)
          {
-            task = (Task)iter.next();
+            Task task = iter.next();
             task.clearChildTasks();
-            level = NumberUtility.getInt(task.getOutlineLevel());
-            parent = null;
+            int level = NumberUtility.getInt(task.getOutlineLevel());
+            Task parent = null;
 
             if (lastTask != null)
             {
@@ -944,9 +929,8 @@ public final class ProjectFile
       //
       // Update task unique IDs
       //
-      for(Iterator iter=m_allTasks.iterator(); iter.hasNext();)
+      for(Task task : m_allTasks)
       {
-         Task task = (Task)iter.next();
          int uniqueID = NumberUtility.getInt(task.getUniqueID());
          if (uniqueID > m_taskUniqueID)
          {
@@ -957,9 +941,8 @@ public final class ProjectFile
       //
       // Update resource unique IDs
       //
-      for(Iterator iter=m_allResources.iterator(); iter.hasNext();)
+      for(Resource resource : m_allResources)
       {
-         Resource resource = (Resource)iter.next();
          int uniqueID = NumberUtility.getInt(resource.getUniqueID());
          if (uniqueID > m_resourceUniqueID)
          {
@@ -970,9 +953,8 @@ public final class ProjectFile
       //
       // Update base calendar unique IDs
       //
-      for(Iterator iter=m_baseCalendars.iterator(); iter.hasNext();)
+      for(ProjectCalendar calendar : m_baseCalendars)
       {
-         ProjectCalendar calendar = (ProjectCalendar)iter.next();
          int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
          {
@@ -983,9 +965,8 @@ public final class ProjectFile
       //
       // Update resource calendar unique IDs
       //
-      for(Iterator iter=m_resourceCalendars.iterator(); iter.hasNext();)
+      for(ProjectCalendar calendar : m_resourceCalendars)
       {
-         ProjectCalendar calendar = (ProjectCalendar)iter.next();
          int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
          {
@@ -1002,16 +983,10 @@ public final class ProjectFile
     */
    public Date getStartDate ()
    {
-      Date startDate = null;
+      Date startDate = null;     
 
-      Iterator iter = m_allTasks.iterator();
-      Task task;
-      Date taskStartDate;
-
-      while (iter.hasNext() == true)
+      for (Task task : m_allTasks)
       {
-         task = (Task)iter.next();
-
          //
          // If a hidden "summary" task is present we ignore it
          //
@@ -1023,9 +998,10 @@ public final class ProjectFile
          //
          // Select the actual or forecast start date. Note that the
          // behaviour is different for milestones. The milestone end date
-         // is alway correct, the milestone start date may be different
+         // is always correct, the milestone start date may be different
          // to reflect a missed deadline.
          //
+         Date taskStartDate;
          if (task.getMilestone() == true)
          {
             taskStartDate = task.getActualFinish();
@@ -1072,14 +1048,8 @@ public final class ProjectFile
    {
       Date finishDate = null;
 
-      Iterator iter = m_allTasks.iterator();
-      Task task;
-      Date taskFinishDate;
-
-      while (iter.hasNext() == true)
+      for (Task task : m_allTasks)
       {
-         task = (Task)iter.next();
-
          //
          // If a hidden "summary" task is present we ignore it
          //
@@ -1091,6 +1061,7 @@ public final class ProjectFile
          //
          // Select the actual or forecast start date
          //
+         Date taskFinishDate;
          taskFinishDate = task.getActualFinish();
          if (taskFinishDate == null)
          {
@@ -1126,9 +1097,9 @@ public final class ProjectFile
    {
       if (m_projectListeners != null)
       {
-         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         for (ProjectListener listener : m_projectListeners)
          {
-            ((ProjectListener)iter.next()).taskRead(task);
+            listener.taskRead(task);
          }
       }
    }
@@ -1143,9 +1114,9 @@ public final class ProjectFile
    {
       if (m_projectListeners != null)
       {
-         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         for (ProjectListener listener : m_projectListeners)
          {
-            ((ProjectListener)iter.next()).taskWritten(task);
+            listener.taskWritten(task);
          }
       }
    }
@@ -1160,9 +1131,9 @@ public final class ProjectFile
    {
       if (m_projectListeners != null)
       {
-         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         for (ProjectListener listener : m_projectListeners)
          {
-            ((ProjectListener)iter.next()).resourceRead(resource);
+            listener.resourceRead(resource);
          }
       }
    }
@@ -1177,9 +1148,9 @@ public final class ProjectFile
    {
       if (m_projectListeners != null)
       {
-         for (Iterator iter=m_projectListeners.iterator(); iter.hasNext();)
+         for (ProjectListener listener : m_projectListeners)
          {
-            ((ProjectListener)iter.next()).resourceWritten(resource);
+            listener.resourceWritten(resource);
          }
       }
    }
@@ -1193,7 +1164,7 @@ public final class ProjectFile
    {
       if (m_projectListeners == null)
       {
-         m_projectListeners = new LinkedList();
+         m_projectListeners = new LinkedList<ProjectListener>();
       }
       m_projectListeners.add(listener);
    }
@@ -1236,7 +1207,7 @@ public final class ProjectFile
     */
    public String getTaskFieldAlias (TaskField field)
    {
-      return ((String)m_taskFieldAlias.get(field));
+      return (m_taskFieldAlias.get(field));
    }
 
    /**
@@ -1248,7 +1219,7 @@ public final class ProjectFile
     */
    public TaskField getAliasTaskField (String alias)
    {
-      return ((TaskField)m_aliasTaskField.get(alias));
+      return (m_aliasTaskField.get(alias));
    }
 
    /**
@@ -1276,7 +1247,7 @@ public final class ProjectFile
     */
    public String getResourceFieldAlias (ResourceField field)
    {
-      return ((String)m_resourceFieldAlias.get(field));
+      return (m_resourceFieldAlias.get(field));
    }
 
    /**
@@ -1288,7 +1259,7 @@ public final class ProjectFile
     */
    public ResourceField getAliasResourceField (String alias)
    {
-      return ((ResourceField)m_aliasResourceField.get(alias));
+      return (m_aliasResourceField.get(alias));
    }
 
    /**
@@ -1297,7 +1268,7 @@ public final class ProjectFile
     *
     * @return task field to alias map
     */
-   public Map getTaskFieldAliasMap ()
+   public Map<TaskField, String> getTaskFieldAliasMap ()
    {
       return (m_taskFieldAlias);
    }
@@ -1308,7 +1279,7 @@ public final class ProjectFile
     *
     * @return resource field to alias map
     */
-   public Map getResourceFieldAliasMap ()
+   public Map<ResourceField, String> getResourceFieldAliasMap ()
    {
       return (m_resourceFieldAlias);
    }
@@ -1458,7 +1429,7 @@ public final class ProjectFile
     *
     * @return list of views
     */
-   public List getViews ()
+   public List<View> getViews ()
    {
       return (m_views);
    }
@@ -1486,7 +1457,7 @@ public final class ProjectFile
     *
     * @return list of tables
     */
-   public List getTables ()
+   public List<Table> getTables ()
    {
       return (m_tables);
    }
@@ -1539,7 +1510,7 @@ public final class ProjectFile
     * 
     * @return list of all resource filters
     */
-   public List getAllResourceFilters ()
+   public List<Filter> getAllResourceFilters ()
    {
       return (m_resourceFilters);
    }
@@ -1549,20 +1520,20 @@ public final class ProjectFile
     * 
     * @return list of all task filters
     */
-   public List getAllTaskFilters ()
+   public List<Filter> getAllTaskFilters ()
    {
       return (m_taskFilters);
    }
    
    /**
-    * Retrieve a gven filter by name.
+    * Retrieve a given filter by name.
     * 
     * @param name filter name
     * @return filter instance
     */
    public Filter getFilterByName (String name)
    {
-      return ((Filter)m_filtersByName.get(name));
+      return (m_filtersByName.get(name));
    }
    
    /**
@@ -1570,7 +1541,7 @@ public final class ProjectFile
     * 
     * @return list of all groups
     */
-   public List getAllGroups ()
+   public List<Group> getAllGroups ()
    {
       return (m_groups);
    }
@@ -1583,7 +1554,7 @@ public final class ProjectFile
     */
    public Group getGroupByName (String name)
    {
-      return ((Group)m_groupsByName.get(name));
+      return (m_groupsByName.get(name));
    }
 
    /**
@@ -1617,7 +1588,7 @@ public final class ProjectFile
     */
    public GraphicalIndicator getGraphicalIndicator (FieldType field)
    {
-      return ((GraphicalIndicator)m_graphicalIndicators.get(field));
+      return (m_graphicalIndicators.get(field));
    }
    
    /**
@@ -1629,7 +1600,7 @@ public final class ProjectFile
     */
    public Table getTaskTableByName (String name)
    {
-      return ((Table)m_taskTablesByName.get(name));
+      return (m_taskTablesByName.get(name));
    }
 
    /**
@@ -1641,7 +1612,7 @@ public final class ProjectFile
     */
    public Table getResourceTableByName (String name)
    {
-      return ((Table)m_resourceTablesByName.get(name));
+      return (m_resourceTablesByName.get(name));
    }
 
    /**
@@ -1733,35 +1704,35 @@ public final class ProjectFile
     * This list holds a reference to all resources defined in the
     * MPX file.
     */
-   private List m_allResources = new LinkedList();
+   private List<Resource> m_allResources = new LinkedList<Resource>();
 
    /**
     * This list holds a reference to all tasks defined in the
     * MPX file.
     */
-   private List m_allTasks = new LinkedList();
+   private List<Task> m_allTasks = new LinkedList<Task>();
 
    /**
     * List holding references to the top level tasks
     * as defined by the outline level.
     */
-   private List m_childTasks = new LinkedList();
+   private List<Task> m_childTasks = new LinkedList<Task>();
 
    /**
     * This list holds a reference to all resource assignments defined in the
     * MPX file.
     */
-   private List m_allResourceAssignments = new LinkedList();
+   private List<ResourceAssignment> m_allResourceAssignments = new LinkedList<ResourceAssignment>();
 
    /**
     * List holding references to all base calendars.
     */
-   private List m_baseCalendars = new LinkedList();
+   private List<ProjectCalendar> m_baseCalendars = new LinkedList<ProjectCalendar>();
 
    /**
     * List holding references to all resource calendars.
     */
-   private List m_resourceCalendars = new LinkedList();
+   private List<ProjectCalendar> m_resourceCalendars = new LinkedList<ProjectCalendar>();
 
    /**
     * File creation record.
@@ -1829,52 +1800,52 @@ public final class ProjectFile
    /**
     * Maps from a task field number to a task alias.
     */
-   private Map m_taskFieldAlias = new HashMap();
+   private Map<TaskField, String> m_taskFieldAlias = new HashMap<TaskField, String>();
 
    /**
     * Maps from a task field alias to a task field number.
     */
-   private Map m_aliasTaskField = new HashMap();
+   private Map<String, TaskField> m_aliasTaskField = new HashMap<String, TaskField>();
 
    /**
     * Maps from a resource field number to a resource alias.
     */
-   private Map m_resourceFieldAlias = new HashMap();
+   private Map<ResourceField, String> m_resourceFieldAlias = new HashMap<ResourceField, String>();
 
    /**
     * Maps from a resource field alias to a resource field number.
     */
-   private Map m_aliasResourceField = new HashMap();
+   private Map<String, ResourceField> m_aliasResourceField = new HashMap<String, ResourceField>();
 
    /**
     * Maps from a task unique ID to a task instance.
     */
-   private Map m_taskUniqueIDMap = new HashMap();
+   private Map<Integer, Task> m_taskUniqueIDMap = new HashMap<Integer, Task>();
 
    /**
     * Maps from a task ID to a task instance.
     */
-   private Map m_taskIDMap = new HashMap();
+   private Map<Integer, Task> m_taskIDMap = new HashMap<Integer, Task>();
 
    /**
     * Maps from a resource unique ID to a resource instance.
     */
-   private Map m_resourceUniqueIDMap = new HashMap();
+   private Map<Integer, Resource> m_resourceUniqueIDMap = new HashMap<Integer, Resource>();
 
    /**
     * Maps from a resource ID to a resource instance.
     */
-   private Map m_resourceIDMap = new HashMap();
+   private Map<Integer, Resource> m_resourceIDMap = new HashMap<Integer, Resource>();
 
    /**
     * Maps from a calendar unique ID to a calendar instance.
     */
-   private Map m_calendarUniqueIDMap = new HashMap();
+   private Map<Integer, ProjectCalendar> m_calendarUniqueIDMap = new HashMap<Integer, ProjectCalendar>();
    
    /**
     * List of project event listeners.
     */
-   private List m_projectListeners;
+   private List<ProjectListener> m_projectListeners;
 
    /**
     * This value is used to represent the type of MPP file that
@@ -1885,52 +1856,52 @@ public final class ProjectFile
    /**
     * List of views defined in this file.
     */
-   private List m_views = new ArrayList();
+   private List<View> m_views = new ArrayList<View>();
 
    /**
     * List of tables defined in this file.
     */
-   private List m_tables = new ArrayList();
+   private List<Table> m_tables = new ArrayList<Table>();
 
    /**
     * Map of graphical indicator data.
     */
-   private Map m_graphicalIndicators = new HashMap();
+   private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
    
    /**
     * Index of task tables by name.
     */
-   private Map m_taskTablesByName = new HashMap();
+   private Map<String, Table> m_taskTablesByName = new HashMap<String, Table>();
 
    /**
     * Index of resource tables by name.
     */
-   private Map m_resourceTablesByName = new HashMap();
+   private Map<String, Table> m_resourceTablesByName = new HashMap<String, Table>();
 
    /**
     * List of all task filters.
     */
-   private List m_taskFilters = new ArrayList();
+   private List<Filter> m_taskFilters = new ArrayList<Filter>();
 
    /**
     * List of all resource filters.
     */
-   private List m_resourceFilters = new ArrayList();
+   private List<Filter> m_resourceFilters = new ArrayList<Filter>();
 
    /**
     * Index of filters by name.
     */
-   private Map m_filtersByName = new HashMap();
+   private Map<String, Filter> m_filtersByName = new HashMap<String, Filter>();
    
    /**
     * List of all groups.
     */
-   private List m_groups = new ArrayList();
+   private List<Group> m_groups = new ArrayList<Group>();
    
    /**
     * Index of groups by name.
     */
-   private Map m_groupsByName = new HashMap();
+   private Map<String, Group> m_groupsByName = new HashMap<String, Group>();
    
    /**
     * Resource sub project.

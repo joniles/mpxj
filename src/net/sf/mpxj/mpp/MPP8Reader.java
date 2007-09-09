@@ -94,7 +94,7 @@ final class MPP8Reader implements MPPVariantReader
       //
       file.setMppFileType(8);
 
-      HashMap calendarMap = new HashMap ();
+      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
@@ -148,7 +148,7 @@ final class MPP8Reader implements MPPVariantReader
     * @throws MPXJException
     * @throws IOException
     */
-   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap calendarMap)
+   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
       throws MPXJException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -197,7 +197,7 @@ final class MPP8Reader implements MPPVariantReader
       int baseCalendarID;
       int periodIndex;
       Day day;
-      List baseCalendars = new LinkedList();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
 
       for (int loop=0; loop < calendars; loop++)
       {
@@ -231,7 +231,7 @@ final class MPP8Reader implements MPPVariantReader
             if (baseCalendarID > 0)
             {
                cal = file.getDefaultResourceCalendar ();
-               baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
+               baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
             }
             else
             {
@@ -244,7 +244,7 @@ final class MPP8Reader implements MPPVariantReader
             if (baseCalendarID > 0)
             {
                cal = file.addResourceCalendar ();
-               baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
+               baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
             }
             else
             {
@@ -359,21 +359,21 @@ final class MPP8Reader implements MPPVariantReader
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private void updateBaseCalendarNames (List baseCalendars, HashMap map)
+   private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
    {
-      Iterator iter = baseCalendars.iterator();
-      Pair pair;
+      Iterator<Pair<ProjectCalendar, Integer>> iter = baseCalendars.iterator();
+      Pair<ProjectCalendar, Integer> pair;
       ProjectCalendar cal;
       Integer baseCalendarID;
       ProjectCalendar baseCal;
 
       while (iter.hasNext() == true)
       {
-         pair = (Pair)iter.next();
-         cal = (ProjectCalendar)pair.getFirst();
-         baseCalendarID = (Integer)pair.getSecond();
+         pair = iter.next();
+         cal = pair.getFirst();
+         baseCalendarID = pair.getSecond();
 
-         baseCal = (ProjectCalendar)map.get(baseCalendarID);
+         baseCal = map.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);
@@ -833,7 +833,7 @@ final class MPP8Reader implements MPPVariantReader
     * @param calendarMap map of calendar IDs and calendar instances
     * @throws IOException
     */
-   private void processResourceData (ProjectFile file, DirectoryEntry projectDir, HashMap calendarMap)
+   private void processResourceData (ProjectFile file, DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
       throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -1032,7 +1032,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          // Attach the resource calendar
          //
-         calendar = (ProjectCalendar)calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
+         calendar = calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
          resource.setResourceCalendar(calendar);
 
          //

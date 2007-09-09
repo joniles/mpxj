@@ -115,13 +115,13 @@ public final class MpxjConvert
 
       String extension = name.substring(index+1).toUpperCase();
 
-      Class fileClass = (Class)READER_MAP.get(extension);
+      Class<? extends ProjectReader> fileClass = READER_MAP.get(extension);
       if (fileClass == null)
       {
          throw new Exception ("Cannot read files of type: " + name);
       }
 
-      ProjectReader file = (ProjectReader)fileClass.newInstance();
+      ProjectReader file = fileClass.newInstance();
 
       return (file);
    }
@@ -144,18 +144,18 @@ public final class MpxjConvert
 
       String extension = name.substring(index+1).toUpperCase();
 
-      Class fileClass = (Class)WRITER_MAP.get(extension);
+      Class<? extends ProjectWriter> fileClass = WRITER_MAP.get(extension);
       if (fileClass == null)
       {
          throw new Exception ("Cannot write files of type: " + name);
       }
 
-      ProjectWriter file = (ProjectWriter)fileClass.newInstance();
+      ProjectWriter file = fileClass.newInstance();
 
       return (file);
    }
 
-   private static final Map READER_MAP = new HashMap ();
+   private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<String, Class<? extends ProjectReader>> ();
    static
    {
       READER_MAP.put("MPP", MPPReader.class);
@@ -165,7 +165,7 @@ public final class MpxjConvert
       READER_MAP.put("PLANNER", PlannerReader.class);
    }
 
-   private static final Map WRITER_MAP = new HashMap ();
+   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>> ();
    static
    {
       WRITER_MAP.put("MPX", MPXWriter.class);

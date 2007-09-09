@@ -99,7 +99,7 @@ public class GridLines
     *
     * @return string representation of this instance
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return ("[GridLines NormalLineColor=" + m_normalLineColor+" NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor);
    }

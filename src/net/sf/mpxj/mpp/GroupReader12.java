@@ -34,7 +34,7 @@ public final class GroupReader12 extends GroupReader
     * 
     * @return VarData type
     */
-   protected Integer getVarDataType ()
+   @Override protected Integer getVarDataType ()
    {
       return(GROUP_DATA);
    }

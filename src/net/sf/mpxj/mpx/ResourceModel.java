@@ -26,7 +26,6 @@ package net.sf.mpxj.mpx;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import net.sf.mpxj.MPXJException;
@@ -126,10 +125,8 @@ final class ResourceModel
          Arrays.fill(m_flags, false);
       }
 
-      Iterator iter = m_parentFile.getAllResources().iterator();
-      while (iter.hasNext() == true)
+      for (Resource resource : m_parentFile.getAllResources())
       {
-         Resource resource = (Resource)iter.next();
          for (int loop=0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
             if (resource.getCachedValue(MPXResourceField.getMpxjField(loop)) != null)
@@ -158,7 +155,7 @@ final class ResourceModel
     *
     * @return string containing the data for this record in MPX format.
     */
-   public String toString()
+   @Override public String toString()
    {
       populateModel();
 
@@ -237,7 +234,7 @@ final class ResourceModel
    private int getResourceCode (String field)
       throws MPXJException
    {
-      Integer result = (Integer)m_resourceNumbers.get(field);
+      Integer result = m_resourceNumbers.get(field);
 
       if (result == null)
       {
@@ -250,7 +247,7 @@ final class ResourceModel
    private ProjectFile m_parentFile;
 
    /**
-    * Array of flags indicting whether each field has already been
+    * Array of flags indicating whether each field has already been
     * added to the model.
     */
    private boolean[] m_flags = new boolean [MPXResourceField.MAX_FIELDS];
@@ -273,5 +270,5 @@ final class ResourceModel
    /**
     * Map to store Resource field Numbers.
     */
-   private HashMap m_resourceNumbers = new HashMap();
+   private HashMap<String, Integer> m_resourceNumbers = new HashMap<String, Integer>();
 }

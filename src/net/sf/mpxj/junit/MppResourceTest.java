@@ -140,7 +140,7 @@ public class MppResourceTest extends MPXJTestCase
 
        DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
        
-        List listAllResources = mpp.getAllResources();
+        List<Resource> listAllResources = mpp.getAllResources();
         assertTrue(listAllResources != null);
         // Fails for MPP12 as there is a summary resource
         //assertEquals(4, listAllResources.size());
@@ -337,9 +337,9 @@ public class MppResourceTest extends MPXJTestCase
         Integer intOne = new Integer(1);
         DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 
-        List listResourceAssignments = mpp.getAllResourceAssignments();
+        List<ResourceAssignment> listResourceAssignments = mpp.getAllResourceAssignments();
 
-        ResourceAssignment ra = (ResourceAssignment)listResourceAssignments.get(0);
+        ResourceAssignment ra = listResourceAssignments.get(0);
         // id
         assertEquals(intOne, ra.getResourceID());
         assertEquals(intOne, ra.getResourceUniqueID());
@@ -359,7 +359,7 @@ public class MppResourceTest extends MPXJTestCase
 
         // Task 2
         // contour
-        ResourceAssignment ra2 = (ResourceAssignment)listResourceAssignments.get(3);
+        ResourceAssignment ra2 = listResourceAssignments.get(3);
         assertEquals(WorkContour.TURTLE, ra2.getWorkContour());
     }
 }

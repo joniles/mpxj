@@ -74,7 +74,7 @@ public final class MPXJNumberFormat extends DecimalFormat
    /**
     * {@inheritDoc}
     */
-   public Number parse (String str, ParsePosition parsePosition)
+   @Override public Number parse (String str, ParsePosition parsePosition)
    {
       Number result = null;
 

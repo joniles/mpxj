@@ -58,7 +58,7 @@ interface VarMeta
     *
     * @return set of unique identifiers
     */
-   public Set getUniqueIdentifierSet();
+   public Set<Integer> getUniqueIdentifierSet();
 
    /**
     * This method retrieves the offset of a given entry in the Var2Data block.

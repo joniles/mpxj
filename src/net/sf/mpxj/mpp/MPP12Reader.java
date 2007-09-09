@@ -48,7 +48,6 @@ import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
@@ -139,7 +138,7 @@ final class MPP12Reader implements MPPVariantReader
       //
       // Extract the required data from the MPP file
       //
-      HashMap resourceMap = new HashMap ();
+      HashMap<Integer, ProjectCalendar> resourceMap = new HashMap<Integer, ProjectCalendar> ();
 
       processPropertyData (file, root, projectDir);
       processCalendarData (file, projectDir, resourceMap);
@@ -161,7 +160,7 @@ final class MPP12Reader implements MPPVariantReader
     * This method extracts and collates global property data.
     *
     * @param file Parent MPX file
-    * @param rootDir root direcory of the file
+    * @param rootDir root directory of the file
     * @param projectDir Project data directory
     * @throws java.io.IOException
     */
@@ -611,146 +610,145 @@ final class MPP12Reader implements MPPVariantReader
       if (data != null)
       {
          int offset = 0;
-         String alias;
-         ArrayList aliases = new ArrayList(300);
+         ArrayList<String> aliases = new ArrayList<String>(300);
 
          while (offset < data.length)
          {
-            alias = MPPUtility.getUnicodeString(data, offset);
+            String alias = MPPUtility.getUnicodeString(data, offset);
             aliases.add(alias);
             offset += (alias.length()+1)*2;
          }
 
-         file.setTaskFieldAlias(TaskField.TEXT1, (String)aliases.get(118));
-         file.setTaskFieldAlias(TaskField.TEXT2, (String)aliases.get(119));
-         file.setTaskFieldAlias(TaskField.TEXT3, (String)aliases.get(120));
-         file.setTaskFieldAlias(TaskField.TEXT4, (String)aliases.get(121));
-         file.setTaskFieldAlias(TaskField.TEXT5, (String)aliases.get(122));
-         file.setTaskFieldAlias(TaskField.TEXT6, (String)aliases.get(123));
-         file.setTaskFieldAlias(TaskField.TEXT7, (String)aliases.get(124));
-         file.setTaskFieldAlias(TaskField.TEXT8, (String)aliases.get(125));
-         file.setTaskFieldAlias(TaskField.TEXT9, (String)aliases.get(126));
-         file.setTaskFieldAlias(TaskField.TEXT10, (String)aliases.get(127 ));
-         file.setTaskFieldAlias(TaskField.START1, (String)aliases.get(128));
-         file.setTaskFieldAlias(TaskField.FINISH1, (String)aliases.get(129));
-         file.setTaskFieldAlias(TaskField.START2, (String)aliases.get(130));
-         file.setTaskFieldAlias(TaskField.FINISH2, (String)aliases.get(131));
-         file.setTaskFieldAlias(TaskField.START3, (String)aliases.get(132));
-         file.setTaskFieldAlias(TaskField.FINISH3, (String)aliases.get(133));
-         file.setTaskFieldAlias(TaskField.START4, (String)aliases.get(134));
-         file.setTaskFieldAlias(TaskField.FINISH4, (String)aliases.get(135));
-         file.setTaskFieldAlias(TaskField.START5, (String)aliases.get(136));
-         file.setTaskFieldAlias(TaskField.FINISH5, (String)aliases.get(137));
-         file.setTaskFieldAlias(TaskField.START6, (String)aliases.get(138));
-         file.setTaskFieldAlias(TaskField.FINISH6, (String)aliases.get(139));
-         file.setTaskFieldAlias(TaskField.START7, (String)aliases.get(140));
-         file.setTaskFieldAlias(TaskField.FINISH7, (String)aliases.get(141));
-         file.setTaskFieldAlias(TaskField.START8, (String)aliases.get(142));
-         file.setTaskFieldAlias(TaskField.FINISH8, (String)aliases.get(143));
-         file.setTaskFieldAlias(TaskField.START9, (String)aliases.get(144));
-         file.setTaskFieldAlias(TaskField.FINISH9, (String)aliases.get(145));
-         file.setTaskFieldAlias(TaskField.START10, (String)aliases.get(146));
-         file.setTaskFieldAlias(TaskField.FINISH10, (String)aliases.get(147));
-         file.setTaskFieldAlias(TaskField.NUMBER1, (String)aliases.get(149));
-         file.setTaskFieldAlias(TaskField.NUMBER2, (String)aliases.get(150));
-         file.setTaskFieldAlias(TaskField.NUMBER3, (String)aliases.get(151));
-         file.setTaskFieldAlias(TaskField.NUMBER4, (String)aliases.get(152));
-         file.setTaskFieldAlias(TaskField.NUMBER5, (String)aliases.get(153));
-         file.setTaskFieldAlias(TaskField.NUMBER6, (String)aliases.get(154));
-         file.setTaskFieldAlias(TaskField.NUMBER7, (String)aliases.get(155));
-         file.setTaskFieldAlias(TaskField.NUMBER8, (String)aliases.get(156));
-         file.setTaskFieldAlias(TaskField.NUMBER9, (String)aliases.get(157));
-         file.setTaskFieldAlias(TaskField.NUMBER10, (String)aliases.get(158));
-         file.setTaskFieldAlias(TaskField.DURATION1, (String)aliases.get(159));
-         file.setTaskFieldAlias(TaskField.DURATION2, (String)aliases.get(161));
-         file.setTaskFieldAlias(TaskField.DURATION3, (String)aliases.get(163));
-         file.setTaskFieldAlias(TaskField.DURATION4, (String)aliases.get(165));
-         file.setTaskFieldAlias(TaskField.DURATION5, (String)aliases.get(167));
-         file.setTaskFieldAlias(TaskField.DURATION6, (String)aliases.get(169));
-         file.setTaskFieldAlias(TaskField.DURATION7, (String)aliases.get(171));
-         file.setTaskFieldAlias(TaskField.DURATION8, (String)aliases.get(173));
-         file.setTaskFieldAlias(TaskField.DURATION9, (String)aliases.get(175));
-         file.setTaskFieldAlias(TaskField.DURATION10, (String)aliases.get(177));
-         file.setTaskFieldAlias(TaskField.DATE1, (String)aliases.get(184));
-         file.setTaskFieldAlias(TaskField.DATE2, (String)aliases.get(185));
-         file.setTaskFieldAlias(TaskField.DATE3, (String)aliases.get(186));
-         file.setTaskFieldAlias(TaskField.DATE4, (String)aliases.get(187));
-         file.setTaskFieldAlias(TaskField.DATE5, (String)aliases.get(188));
-         file.setTaskFieldAlias(TaskField.DATE6, (String)aliases.get(189));
-         file.setTaskFieldAlias(TaskField.DATE7, (String)aliases.get(190));
-         file.setTaskFieldAlias(TaskField.DATE8, (String)aliases.get(191));
-         file.setTaskFieldAlias(TaskField.DATE9, (String)aliases.get(192));
-         file.setTaskFieldAlias(TaskField.DATE10, (String)aliases.get(193));
-         file.setTaskFieldAlias(TaskField.TEXT11, (String)aliases.get(194));
-         file.setTaskFieldAlias(TaskField.TEXT12, (String)aliases.get(195));
-         file.setTaskFieldAlias(TaskField.TEXT13, (String)aliases.get(196));
-         file.setTaskFieldAlias(TaskField.TEXT14, (String)aliases.get(197));
-         file.setTaskFieldAlias(TaskField.TEXT15, (String)aliases.get(198));
-         file.setTaskFieldAlias(TaskField.TEXT16, (String)aliases.get(199));
-         file.setTaskFieldAlias(TaskField.TEXT17, (String)aliases.get(200));
-         file.setTaskFieldAlias(TaskField.TEXT18, (String)aliases.get(201));
-         file.setTaskFieldAlias(TaskField.TEXT19, (String)aliases.get(202));
-         file.setTaskFieldAlias(TaskField.TEXT20, (String)aliases.get(203));
-         file.setTaskFieldAlias(TaskField.TEXT21, (String)aliases.get(204));
-         file.setTaskFieldAlias(TaskField.TEXT22, (String)aliases.get(205));
-         file.setTaskFieldAlias(TaskField.TEXT23, (String)aliases.get(206));
-         file.setTaskFieldAlias(TaskField.TEXT24, (String)aliases.get(207));
-         file.setTaskFieldAlias(TaskField.TEXT25, (String)aliases.get(208));
-         file.setTaskFieldAlias(TaskField.TEXT26, (String)aliases.get(209));
-         file.setTaskFieldAlias(TaskField.TEXT27, (String)aliases.get(210));
-         file.setTaskFieldAlias(TaskField.TEXT28, (String)aliases.get(211));
-         file.setTaskFieldAlias(TaskField.TEXT29, (String)aliases.get(212));
-         file.setTaskFieldAlias(TaskField.TEXT30, (String)aliases.get(213));
-         file.setTaskFieldAlias(TaskField.NUMBER11, (String)aliases.get(214));
-         file.setTaskFieldAlias(TaskField.NUMBER12, (String)aliases.get(215));
-         file.setTaskFieldAlias(TaskField.NUMBER13, (String)aliases.get(216));
-         file.setTaskFieldAlias(TaskField.NUMBER14, (String)aliases.get(217));
-         file.setTaskFieldAlias(TaskField.NUMBER15, (String)aliases.get(218));
-         file.setTaskFieldAlias(TaskField.NUMBER16, (String)aliases.get(219));
-         file.setTaskFieldAlias(TaskField.NUMBER17, (String)aliases.get(220));
-         file.setTaskFieldAlias(TaskField.NUMBER18, (String)aliases.get(221));
-         file.setTaskFieldAlias(TaskField.NUMBER19, (String)aliases.get(222));
-         file.setTaskFieldAlias(TaskField.NUMBER20, (String)aliases.get(223));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE1, (String)aliases.get(227));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE2, (String)aliases.get(228));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE3, (String)aliases.get(229));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE4, (String)aliases.get(230));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE5, (String)aliases.get(231));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE6, (String)aliases.get(232));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE7, (String)aliases.get(233));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE8, (String)aliases.get(234));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE9, (String)aliases.get(235));
-         file.setTaskFieldAlias(TaskField.OUTLINE_CODE10, (String)aliases.get(236));
-         file.setTaskFieldAlias(TaskField.FLAG1, (String)aliases.get(237));
-         file.setTaskFieldAlias(TaskField.FLAG2, (String)aliases.get(238));
-         file.setTaskFieldAlias(TaskField.FLAG3, (String)aliases.get(239));
-         file.setTaskFieldAlias(TaskField.FLAG4, (String)aliases.get(240));
-         file.setTaskFieldAlias(TaskField.FLAG5, (String)aliases.get(241));
-         file.setTaskFieldAlias(TaskField.FLAG6, (String)aliases.get(242));
-         file.setTaskFieldAlias(TaskField.FLAG7, (String)aliases.get(243));
-         file.setTaskFieldAlias(TaskField.FLAG8, (String)aliases.get(244));
-         file.setTaskFieldAlias(TaskField.FLAG9, (String)aliases.get(245));
-         file.setTaskFieldAlias(TaskField.FLAG10, (String)aliases.get(246));
-         file.setTaskFieldAlias(TaskField.FLAG11, (String)aliases.get(247));
-         file.setTaskFieldAlias(TaskField.FLAG12, (String)aliases.get(248));
-         file.setTaskFieldAlias(TaskField.FLAG13, (String)aliases.get(249));
-         file.setTaskFieldAlias(TaskField.FLAG14, (String)aliases.get(250));
-         file.setTaskFieldAlias(TaskField.FLAG15, (String)aliases.get(251));
-         file.setTaskFieldAlias(TaskField.FLAG16, (String)aliases.get(252));
-         file.setTaskFieldAlias(TaskField.FLAG17, (String)aliases.get(253));
-         file.setTaskFieldAlias(TaskField.FLAG18, (String)aliases.get(254));
-         file.setTaskFieldAlias(TaskField.FLAG19, (String)aliases.get(255));
-         file.setTaskFieldAlias(TaskField.FLAG20, (String)aliases.get(256));
-         file.setTaskFieldAlias(TaskField.COST1, (String)aliases.get(278));
-         file.setTaskFieldAlias(TaskField.COST2, (String)aliases.get(279));
-         file.setTaskFieldAlias(TaskField.COST3, (String)aliases.get(280));
-         file.setTaskFieldAlias(TaskField.COST4, (String)aliases.get(281));
-         file.setTaskFieldAlias(TaskField.COST5, (String)aliases.get(282));
-         file.setTaskFieldAlias(TaskField.COST6, (String)aliases.get(283));
-         file.setTaskFieldAlias(TaskField.COST7, (String)aliases.get(284));
-         file.setTaskFieldAlias(TaskField.COST8, (String)aliases.get(285));
-         file.setTaskFieldAlias(TaskField.COST9, (String)aliases.get(286));
-         file.setTaskFieldAlias(TaskField.COST10, (String)aliases.get(287));
+         file.setTaskFieldAlias(TaskField.TEXT1, aliases.get(118));
+         file.setTaskFieldAlias(TaskField.TEXT2, aliases.get(119));
+         file.setTaskFieldAlias(TaskField.TEXT3, aliases.get(120));
+         file.setTaskFieldAlias(TaskField.TEXT4, aliases.get(121));
+         file.setTaskFieldAlias(TaskField.TEXT5, aliases.get(122));
+         file.setTaskFieldAlias(TaskField.TEXT6, aliases.get(123));
+         file.setTaskFieldAlias(TaskField.TEXT7, aliases.get(124));
+         file.setTaskFieldAlias(TaskField.TEXT8, aliases.get(125));
+         file.setTaskFieldAlias(TaskField.TEXT9, aliases.get(126));
+         file.setTaskFieldAlias(TaskField.TEXT10, aliases.get(127 ));
+         file.setTaskFieldAlias(TaskField.START1, aliases.get(128));
+         file.setTaskFieldAlias(TaskField.FINISH1, aliases.get(129));
+         file.setTaskFieldAlias(TaskField.START2, aliases.get(130));
+         file.setTaskFieldAlias(TaskField.FINISH2, aliases.get(131));
+         file.setTaskFieldAlias(TaskField.START3, aliases.get(132));
+         file.setTaskFieldAlias(TaskField.FINISH3, aliases.get(133));
+         file.setTaskFieldAlias(TaskField.START4, aliases.get(134));
+         file.setTaskFieldAlias(TaskField.FINISH4, aliases.get(135));
+         file.setTaskFieldAlias(TaskField.START5, aliases.get(136));
+         file.setTaskFieldAlias(TaskField.FINISH5, aliases.get(137));
+         file.setTaskFieldAlias(TaskField.START6, aliases.get(138));
+         file.setTaskFieldAlias(TaskField.FINISH6, aliases.get(139));
+         file.setTaskFieldAlias(TaskField.START7, aliases.get(140));
+         file.setTaskFieldAlias(TaskField.FINISH7, aliases.get(141));
+         file.setTaskFieldAlias(TaskField.START8, aliases.get(142));
+         file.setTaskFieldAlias(TaskField.FINISH8, aliases.get(143));
+         file.setTaskFieldAlias(TaskField.START9, aliases.get(144));
+         file.setTaskFieldAlias(TaskField.FINISH9, aliases.get(145));
+         file.setTaskFieldAlias(TaskField.START10, aliases.get(146));
+         file.setTaskFieldAlias(TaskField.FINISH10, aliases.get(147));
+         file.setTaskFieldAlias(TaskField.NUMBER1, aliases.get(149));
+         file.setTaskFieldAlias(TaskField.NUMBER2, aliases.get(150));
+         file.setTaskFieldAlias(TaskField.NUMBER3, aliases.get(151));
+         file.setTaskFieldAlias(TaskField.NUMBER4, aliases.get(152));
+         file.setTaskFieldAlias(TaskField.NUMBER5, aliases.get(153));
+         file.setTaskFieldAlias(TaskField.NUMBER6, aliases.get(154));
+         file.setTaskFieldAlias(TaskField.NUMBER7, aliases.get(155));
+         file.setTaskFieldAlias(TaskField.NUMBER8, aliases.get(156));
+         file.setTaskFieldAlias(TaskField.NUMBER9, aliases.get(157));
+         file.setTaskFieldAlias(TaskField.NUMBER10, aliases.get(158));
+         file.setTaskFieldAlias(TaskField.DURATION1, aliases.get(159));
+         file.setTaskFieldAlias(TaskField.DURATION2, aliases.get(161));
+         file.setTaskFieldAlias(TaskField.DURATION3, aliases.get(163));
+         file.setTaskFieldAlias(TaskField.DURATION4, aliases.get(165));
+         file.setTaskFieldAlias(TaskField.DURATION5, aliases.get(167));
+         file.setTaskFieldAlias(TaskField.DURATION6, aliases.get(169));
+         file.setTaskFieldAlias(TaskField.DURATION7, aliases.get(171));
+         file.setTaskFieldAlias(TaskField.DURATION8, aliases.get(173));
+         file.setTaskFieldAlias(TaskField.DURATION9, aliases.get(175));
+         file.setTaskFieldAlias(TaskField.DURATION10, aliases.get(177));
+         file.setTaskFieldAlias(TaskField.DATE1, aliases.get(184));
+         file.setTaskFieldAlias(TaskField.DATE2, aliases.get(185));
+         file.setTaskFieldAlias(TaskField.DATE3, aliases.get(186));
+         file.setTaskFieldAlias(TaskField.DATE4, aliases.get(187));
+         file.setTaskFieldAlias(TaskField.DATE5, aliases.get(188));
+         file.setTaskFieldAlias(TaskField.DATE6, aliases.get(189));
+         file.setTaskFieldAlias(TaskField.DATE7, aliases.get(190));
+         file.setTaskFieldAlias(TaskField.DATE8, aliases.get(191));
+         file.setTaskFieldAlias(TaskField.DATE9, aliases.get(192));
+         file.setTaskFieldAlias(TaskField.DATE10, aliases.get(193));
+         file.setTaskFieldAlias(TaskField.TEXT11, aliases.get(194));
+         file.setTaskFieldAlias(TaskField.TEXT12, aliases.get(195));
+         file.setTaskFieldAlias(TaskField.TEXT13, aliases.get(196));
+         file.setTaskFieldAlias(TaskField.TEXT14, aliases.get(197));
+         file.setTaskFieldAlias(TaskField.TEXT15, aliases.get(198));
+         file.setTaskFieldAlias(TaskField.TEXT16, aliases.get(199));
+         file.setTaskFieldAlias(TaskField.TEXT17, aliases.get(200));
+         file.setTaskFieldAlias(TaskField.TEXT18, aliases.get(201));
+         file.setTaskFieldAlias(TaskField.TEXT19, aliases.get(202));
+         file.setTaskFieldAlias(TaskField.TEXT20, aliases.get(203));
+         file.setTaskFieldAlias(TaskField.TEXT21, aliases.get(204));
+         file.setTaskFieldAlias(TaskField.TEXT22, aliases.get(205));
+         file.setTaskFieldAlias(TaskField.TEXT23, aliases.get(206));
+         file.setTaskFieldAlias(TaskField.TEXT24, aliases.get(207));
+         file.setTaskFieldAlias(TaskField.TEXT25, aliases.get(208));
+         file.setTaskFieldAlias(TaskField.TEXT26, aliases.get(209));
+         file.setTaskFieldAlias(TaskField.TEXT27, aliases.get(210));
+         file.setTaskFieldAlias(TaskField.TEXT28, aliases.get(211));
+         file.setTaskFieldAlias(TaskField.TEXT29, aliases.get(212));
+         file.setTaskFieldAlias(TaskField.TEXT30, aliases.get(213));
+         file.setTaskFieldAlias(TaskField.NUMBER11, aliases.get(214));
+         file.setTaskFieldAlias(TaskField.NUMBER12, aliases.get(215));
+         file.setTaskFieldAlias(TaskField.NUMBER13, aliases.get(216));
+         file.setTaskFieldAlias(TaskField.NUMBER14, aliases.get(217));
+         file.setTaskFieldAlias(TaskField.NUMBER15, aliases.get(218));
+         file.setTaskFieldAlias(TaskField.NUMBER16, aliases.get(219));
+         file.setTaskFieldAlias(TaskField.NUMBER17, aliases.get(220));
+         file.setTaskFieldAlias(TaskField.NUMBER18, aliases.get(221));
+         file.setTaskFieldAlias(TaskField.NUMBER19, aliases.get(222));
+         file.setTaskFieldAlias(TaskField.NUMBER20, aliases.get(223));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE1, aliases.get(227));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE2, aliases.get(228));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE3, aliases.get(229));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE4, aliases.get(230));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE5, aliases.get(231));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE6, aliases.get(232));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE7, aliases.get(233));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE8, aliases.get(234));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE9, aliases.get(235));
+         file.setTaskFieldAlias(TaskField.OUTLINE_CODE10, aliases.get(236));
+         file.setTaskFieldAlias(TaskField.FLAG1, aliases.get(237));
+         file.setTaskFieldAlias(TaskField.FLAG2, aliases.get(238));
+         file.setTaskFieldAlias(TaskField.FLAG3, aliases.get(239));
+         file.setTaskFieldAlias(TaskField.FLAG4, aliases.get(240));
+         file.setTaskFieldAlias(TaskField.FLAG5, aliases.get(241));
+         file.setTaskFieldAlias(TaskField.FLAG6, aliases.get(242));
+         file.setTaskFieldAlias(TaskField.FLAG7, aliases.get(243));
+         file.setTaskFieldAlias(TaskField.FLAG8, aliases.get(244));
+         file.setTaskFieldAlias(TaskField.FLAG9, aliases.get(245));
+         file.setTaskFieldAlias(TaskField.FLAG10, aliases.get(246));
+         file.setTaskFieldAlias(TaskField.FLAG11, aliases.get(247));
+         file.setTaskFieldAlias(TaskField.FLAG12, aliases.get(248));
+         file.setTaskFieldAlias(TaskField.FLAG13, aliases.get(249));
+         file.setTaskFieldAlias(TaskField.FLAG14, aliases.get(250));
+         file.setTaskFieldAlias(TaskField.FLAG15, aliases.get(251));
+         file.setTaskFieldAlias(TaskField.FLAG16, aliases.get(252));
+         file.setTaskFieldAlias(TaskField.FLAG17, aliases.get(253));
+         file.setTaskFieldAlias(TaskField.FLAG18, aliases.get(254));
+         file.setTaskFieldAlias(TaskField.FLAG19, aliases.get(255));
+         file.setTaskFieldAlias(TaskField.FLAG20, aliases.get(256));
+         file.setTaskFieldAlias(TaskField.COST1, aliases.get(278));
+         file.setTaskFieldAlias(TaskField.COST2, aliases.get(279));
+         file.setTaskFieldAlias(TaskField.COST3, aliases.get(280));
+         file.setTaskFieldAlias(TaskField.COST4, aliases.get(281));
+         file.setTaskFieldAlias(TaskField.COST5, aliases.get(282));
+         file.setTaskFieldAlias(TaskField.COST6, aliases.get(283));
+         file.setTaskFieldAlias(TaskField.COST7, aliases.get(284));
+         file.setTaskFieldAlias(TaskField.COST8, aliases.get(285));
+         file.setTaskFieldAlias(TaskField.COST9, aliases.get(286));
+         file.setTaskFieldAlias(TaskField.COST10, aliases.get(287));
       }
    }
 
@@ -764,147 +762,146 @@ final class MPP12Reader implements MPPVariantReader
    {
       if (data != null)
       {
-         int offset = 0;
-         String alias;
-         ArrayList aliases = new ArrayList(250);
+         int offset = 0;         
+         ArrayList<String> aliases = new ArrayList<String>(250);
 
          while (offset < data.length)
          {
-            alias = MPPUtility.getUnicodeString(data, offset);
+            String alias = MPPUtility.getUnicodeString(data, offset);
             aliases.add(alias);
             offset += (alias.length()+1)*2;
          }
 
-         file.setResourceFieldAlias(ResourceField.TEXT1, (String)aliases.get(52));
-         file.setResourceFieldAlias(ResourceField.TEXT2, (String)aliases.get(53));
-         file.setResourceFieldAlias(ResourceField.TEXT3, (String)aliases.get(54));
-         file.setResourceFieldAlias(ResourceField.TEXT4, (String)aliases.get(55));
-         file.setResourceFieldAlias(ResourceField.TEXT5, (String)aliases.get(56));
-         file.setResourceFieldAlias(ResourceField.TEXT6, (String)aliases.get(57));
-         file.setResourceFieldAlias(ResourceField.TEXT7, (String)aliases.get(58));
-         file.setResourceFieldAlias(ResourceField.TEXT8, (String)aliases.get(59));
-         file.setResourceFieldAlias(ResourceField.TEXT9, (String)aliases.get(60));
-         file.setResourceFieldAlias(ResourceField.TEXT10, (String)aliases.get(61));
-         file.setResourceFieldAlias(ResourceField.TEXT11, (String)aliases.get(62));
-         file.setResourceFieldAlias(ResourceField.TEXT12, (String)aliases.get(63));
-         file.setResourceFieldAlias(ResourceField.TEXT13, (String)aliases.get(64));
-         file.setResourceFieldAlias(ResourceField.TEXT14, (String)aliases.get(65));
-         file.setResourceFieldAlias(ResourceField.TEXT15, (String)aliases.get(66));
-         file.setResourceFieldAlias(ResourceField.TEXT16, (String)aliases.get(67));
-         file.setResourceFieldAlias(ResourceField.TEXT17, (String)aliases.get(68));
-         file.setResourceFieldAlias(ResourceField.TEXT18, (String)aliases.get(69));
-         file.setResourceFieldAlias(ResourceField.TEXT19, (String)aliases.get(70));
-         file.setResourceFieldAlias(ResourceField.TEXT20, (String)aliases.get(71));
-         file.setResourceFieldAlias(ResourceField.TEXT21, (String)aliases.get(72));
-         file.setResourceFieldAlias(ResourceField.TEXT22, (String)aliases.get(73));
-         file.setResourceFieldAlias(ResourceField.TEXT23, (String)aliases.get(74));
-         file.setResourceFieldAlias(ResourceField.TEXT24, (String)aliases.get(75));
-         file.setResourceFieldAlias(ResourceField.TEXT25, (String)aliases.get(76));
-         file.setResourceFieldAlias(ResourceField.TEXT26, (String)aliases.get(77));
-         file.setResourceFieldAlias(ResourceField.TEXT27, (String)aliases.get(78));
-         file.setResourceFieldAlias(ResourceField.TEXT28, (String)aliases.get(79));
-         file.setResourceFieldAlias(ResourceField.TEXT29, (String)aliases.get(80));
-         file.setResourceFieldAlias(ResourceField.TEXT30, (String)aliases.get(81));
-         file.setResourceFieldAlias(ResourceField.START1, (String)aliases.get(82));
-         file.setResourceFieldAlias(ResourceField.START2, (String)aliases.get(83));
-         file.setResourceFieldAlias(ResourceField.START3, (String)aliases.get(84));
-         file.setResourceFieldAlias(ResourceField.START4, (String)aliases.get(85));
-         file.setResourceFieldAlias(ResourceField.START5, (String)aliases.get(86));
-         file.setResourceFieldAlias(ResourceField.START6, (String)aliases.get(87));
-         file.setResourceFieldAlias(ResourceField.START7, (String)aliases.get(88));
-         file.setResourceFieldAlias(ResourceField.START8, (String)aliases.get(89));
-         file.setResourceFieldAlias(ResourceField.START9, (String)aliases.get(90));
-         file.setResourceFieldAlias(ResourceField.START10, (String)aliases.get(91));
-         file.setResourceFieldAlias(ResourceField.FINISH1, (String)aliases.get(92));
-         file.setResourceFieldAlias(ResourceField.FINISH2, (String)aliases.get(93));
-         file.setResourceFieldAlias(ResourceField.FINISH3, (String)aliases.get(94));
-         file.setResourceFieldAlias(ResourceField.FINISH4, (String)aliases.get(95));
-         file.setResourceFieldAlias(ResourceField.FINISH5, (String)aliases.get(96));
-         file.setResourceFieldAlias(ResourceField.FINISH6, (String)aliases.get(97));
-         file.setResourceFieldAlias(ResourceField.FINISH7, (String)aliases.get(98));
-         file.setResourceFieldAlias(ResourceField.FINISH8, (String)aliases.get(99));
-         file.setResourceFieldAlias(ResourceField.FINISH9, (String)aliases.get(100));
-         file.setResourceFieldAlias(ResourceField.FINISH10, (String)aliases.get(101));
-         file.setResourceFieldAlias(ResourceField.NUMBER1, (String)aliases.get(102));
-         file.setResourceFieldAlias(ResourceField.NUMBER2, (String)aliases.get(103));
-         file.setResourceFieldAlias(ResourceField.NUMBER3, (String)aliases.get(104));
-         file.setResourceFieldAlias(ResourceField.NUMBER4, (String)aliases.get(105));
-         file.setResourceFieldAlias(ResourceField.NUMBER5, (String)aliases.get(106));
-         file.setResourceFieldAlias(ResourceField.NUMBER6, (String)aliases.get(107));
-         file.setResourceFieldAlias(ResourceField.NUMBER7, (String)aliases.get(108));
-         file.setResourceFieldAlias(ResourceField.NUMBER8, (String)aliases.get(109));
-         file.setResourceFieldAlias(ResourceField.NUMBER9, (String)aliases.get(110));
-         file.setResourceFieldAlias(ResourceField.NUMBER10, (String)aliases.get(111));
-         file.setResourceFieldAlias(ResourceField.NUMBER11, (String)aliases.get(112));
-         file.setResourceFieldAlias(ResourceField.NUMBER12, (String)aliases.get(113));
-         file.setResourceFieldAlias(ResourceField.NUMBER13, (String)aliases.get(114));
-         file.setResourceFieldAlias(ResourceField.NUMBER14, (String)aliases.get(115));
-         file.setResourceFieldAlias(ResourceField.NUMBER15, (String)aliases.get(116));
-         file.setResourceFieldAlias(ResourceField.NUMBER16, (String)aliases.get(117));
-         file.setResourceFieldAlias(ResourceField.NUMBER17, (String)aliases.get(118));
-         file.setResourceFieldAlias(ResourceField.NUMBER18, (String)aliases.get(119));
-         file.setResourceFieldAlias(ResourceField.NUMBER19, (String)aliases.get(120));
-         file.setResourceFieldAlias(ResourceField.NUMBER20, (String)aliases.get(121));
-         file.setResourceFieldAlias(ResourceField.DURATION1, (String)aliases.get(122));
-         file.setResourceFieldAlias(ResourceField.DURATION2, (String)aliases.get(123));
-         file.setResourceFieldAlias(ResourceField.DURATION3, (String)aliases.get(124));
-         file.setResourceFieldAlias(ResourceField.DURATION4, (String)aliases.get(125));
-         file.setResourceFieldAlias(ResourceField.DURATION5, (String)aliases.get(126));
-         file.setResourceFieldAlias(ResourceField.DURATION6, (String)aliases.get(127));
-         file.setResourceFieldAlias(ResourceField.DURATION7, (String)aliases.get(128));
-         file.setResourceFieldAlias(ResourceField.DURATION8, (String)aliases.get(129));
-         file.setResourceFieldAlias(ResourceField.DURATION9, (String)aliases.get(130));
-         file.setResourceFieldAlias(ResourceField.DURATION10, (String)aliases.get(131));
-         file.setResourceFieldAlias(ResourceField.DATE1, (String)aliases.get(145));
-         file.setResourceFieldAlias(ResourceField.DATE2, (String)aliases.get(146));
-         file.setResourceFieldAlias(ResourceField.DATE3, (String)aliases.get(147));
-         file.setResourceFieldAlias(ResourceField.DATE4, (String)aliases.get(148));
-         file.setResourceFieldAlias(ResourceField.DATE5, (String)aliases.get(149));
-         file.setResourceFieldAlias(ResourceField.DATE6, (String)aliases.get(150));
-         file.setResourceFieldAlias(ResourceField.DATE7, (String)aliases.get(151));
-         file.setResourceFieldAlias(ResourceField.DATE8, (String)aliases.get(152));
-         file.setResourceFieldAlias(ResourceField.DATE9, (String)aliases.get(153));
-         file.setResourceFieldAlias(ResourceField.DATE10, (String)aliases.get(154));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE1, (String)aliases.get(155));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE2, (String)aliases.get(156));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE3, (String)aliases.get(157));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE4, (String)aliases.get(158));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE5, (String)aliases.get(159));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE6, (String)aliases.get(160));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE7, (String)aliases.get(161));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE8, (String)aliases.get(162));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE9, (String)aliases.get(163));
-         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE10, (String)aliases.get(164));
-         file.setResourceFieldAlias(ResourceField.FLAG10, (String)aliases.get(165));
-         file.setResourceFieldAlias(ResourceField.FLAG1, (String)aliases.get(166));
-         file.setResourceFieldAlias(ResourceField.FLAG2, (String)aliases.get(167));
-         file.setResourceFieldAlias(ResourceField.FLAG3, (String)aliases.get(168));
-         file.setResourceFieldAlias(ResourceField.FLAG4, (String)aliases.get(169));
-         file.setResourceFieldAlias(ResourceField.FLAG5, (String)aliases.get(170));
-         file.setResourceFieldAlias(ResourceField.FLAG6, (String)aliases.get(171));
-         file.setResourceFieldAlias(ResourceField.FLAG7, (String)aliases.get(172));
-         file.setResourceFieldAlias(ResourceField.FLAG8, (String)aliases.get(173));
-         file.setResourceFieldAlias(ResourceField.FLAG9, (String)aliases.get(174));
-         file.setResourceFieldAlias(ResourceField.FLAG11, (String)aliases.get(175));
-         file.setResourceFieldAlias(ResourceField.FLAG12, (String)aliases.get(176));
-         file.setResourceFieldAlias(ResourceField.FLAG13, (String)aliases.get(177));
-         file.setResourceFieldAlias(ResourceField.FLAG14, (String)aliases.get(178));
-         file.setResourceFieldAlias(ResourceField.FLAG15, (String)aliases.get(179));
-         file.setResourceFieldAlias(ResourceField.FLAG16, (String)aliases.get(180));
-         file.setResourceFieldAlias(ResourceField.FLAG17, (String)aliases.get(181));
-         file.setResourceFieldAlias(ResourceField.FLAG18, (String)aliases.get(182));
-         file.setResourceFieldAlias(ResourceField.FLAG19, (String)aliases.get(183));
-         file.setResourceFieldAlias(ResourceField.FLAG20, (String)aliases.get(184));
-         file.setResourceFieldAlias(ResourceField.COST1, (String)aliases.get(207));
-         file.setResourceFieldAlias(ResourceField.COST2, (String)aliases.get(208));
-         file.setResourceFieldAlias(ResourceField.COST3, (String)aliases.get(209));
-         file.setResourceFieldAlias(ResourceField.COST4, (String)aliases.get(210));
-         file.setResourceFieldAlias(ResourceField.COST5, (String)aliases.get(211));
-         file.setResourceFieldAlias(ResourceField.COST6, (String)aliases.get(212));
-         file.setResourceFieldAlias(ResourceField.COST7, (String)aliases.get(213));
-         file.setResourceFieldAlias(ResourceField.COST8, (String)aliases.get(214));
-         file.setResourceFieldAlias(ResourceField.COST9, (String)aliases.get(215));
-         file.setResourceFieldAlias(ResourceField.COST10, (String)aliases.get(216));
+         file.setResourceFieldAlias(ResourceField.TEXT1, aliases.get(52));
+         file.setResourceFieldAlias(ResourceField.TEXT2, aliases.get(53));
+         file.setResourceFieldAlias(ResourceField.TEXT3, aliases.get(54));
+         file.setResourceFieldAlias(ResourceField.TEXT4, aliases.get(55));
+         file.setResourceFieldAlias(ResourceField.TEXT5, aliases.get(56));
+         file.setResourceFieldAlias(ResourceField.TEXT6, aliases.get(57));
+         file.setResourceFieldAlias(ResourceField.TEXT7, aliases.get(58));
+         file.setResourceFieldAlias(ResourceField.TEXT8, aliases.get(59));
+         file.setResourceFieldAlias(ResourceField.TEXT9, aliases.get(60));
+         file.setResourceFieldAlias(ResourceField.TEXT10, aliases.get(61));
+         file.setResourceFieldAlias(ResourceField.TEXT11, aliases.get(62));
+         file.setResourceFieldAlias(ResourceField.TEXT12, aliases.get(63));
+         file.setResourceFieldAlias(ResourceField.TEXT13, aliases.get(64));
+         file.setResourceFieldAlias(ResourceField.TEXT14, aliases.get(65));
+         file.setResourceFieldAlias(ResourceField.TEXT15, aliases.get(66));
+         file.setResourceFieldAlias(ResourceField.TEXT16, aliases.get(67));
+         file.setResourceFieldAlias(ResourceField.TEXT17, aliases.get(68));
+         file.setResourceFieldAlias(ResourceField.TEXT18, aliases.get(69));
+         file.setResourceFieldAlias(ResourceField.TEXT19, aliases.get(70));
+         file.setResourceFieldAlias(ResourceField.TEXT20, aliases.get(71));
+         file.setResourceFieldAlias(ResourceField.TEXT21, aliases.get(72));
+         file.setResourceFieldAlias(ResourceField.TEXT22, aliases.get(73));
+         file.setResourceFieldAlias(ResourceField.TEXT23, aliases.get(74));
+         file.setResourceFieldAlias(ResourceField.TEXT24, aliases.get(75));
+         file.setResourceFieldAlias(ResourceField.TEXT25, aliases.get(76));
+         file.setResourceFieldAlias(ResourceField.TEXT26, aliases.get(77));
+         file.setResourceFieldAlias(ResourceField.TEXT27, aliases.get(78));
+         file.setResourceFieldAlias(ResourceField.TEXT28, aliases.get(79));
+         file.setResourceFieldAlias(ResourceField.TEXT29, aliases.get(80));
+         file.setResourceFieldAlias(ResourceField.TEXT30, aliases.get(81));
+         file.setResourceFieldAlias(ResourceField.START1, aliases.get(82));
+         file.setResourceFieldAlias(ResourceField.START2, aliases.get(83));
+         file.setResourceFieldAlias(ResourceField.START3, aliases.get(84));
+         file.setResourceFieldAlias(ResourceField.START4, aliases.get(85));
+         file.setResourceFieldAlias(ResourceField.START5, aliases.get(86));
+         file.setResourceFieldAlias(ResourceField.START6, aliases.get(87));
+         file.setResourceFieldAlias(ResourceField.START7, aliases.get(88));
+         file.setResourceFieldAlias(ResourceField.START8, aliases.get(89));
+         file.setResourceFieldAlias(ResourceField.START9, aliases.get(90));
+         file.setResourceFieldAlias(ResourceField.START10, aliases.get(91));
+         file.setResourceFieldAlias(ResourceField.FINISH1, aliases.get(92));
+         file.setResourceFieldAlias(ResourceField.FINISH2, aliases.get(93));
+         file.setResourceFieldAlias(ResourceField.FINISH3, aliases.get(94));
+         file.setResourceFieldAlias(ResourceField.FINISH4, aliases.get(95));
+         file.setResourceFieldAlias(ResourceField.FINISH5, aliases.get(96));
+         file.setResourceFieldAlias(ResourceField.FINISH6, aliases.get(97));
+         file.setResourceFieldAlias(ResourceField.FINISH7, aliases.get(98));
+         file.setResourceFieldAlias(ResourceField.FINISH8, aliases.get(99));
+         file.setResourceFieldAlias(ResourceField.FINISH9, aliases.get(100));
+         file.setResourceFieldAlias(ResourceField.FINISH10, aliases.get(101));
+         file.setResourceFieldAlias(ResourceField.NUMBER1, aliases.get(102));
+         file.setResourceFieldAlias(ResourceField.NUMBER2, aliases.get(103));
+         file.setResourceFieldAlias(ResourceField.NUMBER3, aliases.get(104));
+         file.setResourceFieldAlias(ResourceField.NUMBER4, aliases.get(105));
+         file.setResourceFieldAlias(ResourceField.NUMBER5, aliases.get(106));
+         file.setResourceFieldAlias(ResourceField.NUMBER6, aliases.get(107));
+         file.setResourceFieldAlias(ResourceField.NUMBER7, aliases.get(108));
+         file.setResourceFieldAlias(ResourceField.NUMBER8, aliases.get(109));
+         file.setResourceFieldAlias(ResourceField.NUMBER9, aliases.get(110));
+         file.setResourceFieldAlias(ResourceField.NUMBER10, aliases.get(111));
+         file.setResourceFieldAlias(ResourceField.NUMBER11, aliases.get(112));
+         file.setResourceFieldAlias(ResourceField.NUMBER12, aliases.get(113));
+         file.setResourceFieldAlias(ResourceField.NUMBER13, aliases.get(114));
+         file.setResourceFieldAlias(ResourceField.NUMBER14, aliases.get(115));
+         file.setResourceFieldAlias(ResourceField.NUMBER15, aliases.get(116));
+         file.setResourceFieldAlias(ResourceField.NUMBER16, aliases.get(117));
+         file.setResourceFieldAlias(ResourceField.NUMBER17, aliases.get(118));
+         file.setResourceFieldAlias(ResourceField.NUMBER18, aliases.get(119));
+         file.setResourceFieldAlias(ResourceField.NUMBER19, aliases.get(120));
+         file.setResourceFieldAlias(ResourceField.NUMBER20, aliases.get(121));
+         file.setResourceFieldAlias(ResourceField.DURATION1, aliases.get(122));
+         file.setResourceFieldAlias(ResourceField.DURATION2, aliases.get(123));
+         file.setResourceFieldAlias(ResourceField.DURATION3, aliases.get(124));
+         file.setResourceFieldAlias(ResourceField.DURATION4, aliases.get(125));
+         file.setResourceFieldAlias(ResourceField.DURATION5, aliases.get(126));
+         file.setResourceFieldAlias(ResourceField.DURATION6, aliases.get(127));
+         file.setResourceFieldAlias(ResourceField.DURATION7, aliases.get(128));
+         file.setResourceFieldAlias(ResourceField.DURATION8, aliases.get(129));
+         file.setResourceFieldAlias(ResourceField.DURATION9, aliases.get(130));
+         file.setResourceFieldAlias(ResourceField.DURATION10, aliases.get(131));
+         file.setResourceFieldAlias(ResourceField.DATE1, aliases.get(145));
+         file.setResourceFieldAlias(ResourceField.DATE2, aliases.get(146));
+         file.setResourceFieldAlias(ResourceField.DATE3, aliases.get(147));
+         file.setResourceFieldAlias(ResourceField.DATE4, aliases.get(148));
+         file.setResourceFieldAlias(ResourceField.DATE5, aliases.get(149));
+         file.setResourceFieldAlias(ResourceField.DATE6, aliases.get(150));
+         file.setResourceFieldAlias(ResourceField.DATE7, aliases.get(151));
+         file.setResourceFieldAlias(ResourceField.DATE8, aliases.get(152));
+         file.setResourceFieldAlias(ResourceField.DATE9, aliases.get(153));
+         file.setResourceFieldAlias(ResourceField.DATE10, aliases.get(154));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE1, aliases.get(155));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE2, aliases.get(156));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE3, aliases.get(157));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE4, aliases.get(158));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE5, aliases.get(159));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE6, aliases.get(160));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE7, aliases.get(161));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE8, aliases.get(162));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE9, aliases.get(163));
+         file.setResourceFieldAlias(ResourceField.OUTLINE_CODE10, aliases.get(164));
+         file.setResourceFieldAlias(ResourceField.FLAG10, aliases.get(165));
+         file.setResourceFieldAlias(ResourceField.FLAG1, aliases.get(166));
+         file.setResourceFieldAlias(ResourceField.FLAG2, aliases.get(167));
+         file.setResourceFieldAlias(ResourceField.FLAG3, aliases.get(168));
+         file.setResourceFieldAlias(ResourceField.FLAG4, aliases.get(169));
+         file.setResourceFieldAlias(ResourceField.FLAG5, aliases.get(170));
+         file.setResourceFieldAlias(ResourceField.FLAG6, aliases.get(171));
+         file.setResourceFieldAlias(ResourceField.FLAG7, aliases.get(172));
+         file.setResourceFieldAlias(ResourceField.FLAG8, aliases.get(173));
+         file.setResourceFieldAlias(ResourceField.FLAG9, aliases.get(174));
+         file.setResourceFieldAlias(ResourceField.FLAG11, aliases.get(175));
+         file.setResourceFieldAlias(ResourceField.FLAG12, aliases.get(176));
+         file.setResourceFieldAlias(ResourceField.FLAG13, aliases.get(177));
+         file.setResourceFieldAlias(ResourceField.FLAG14, aliases.get(178));
+         file.setResourceFieldAlias(ResourceField.FLAG15, aliases.get(179));
+         file.setResourceFieldAlias(ResourceField.FLAG16, aliases.get(180));
+         file.setResourceFieldAlias(ResourceField.FLAG17, aliases.get(181));
+         file.setResourceFieldAlias(ResourceField.FLAG18, aliases.get(182));
+         file.setResourceFieldAlias(ResourceField.FLAG19, aliases.get(183));
+         file.setResourceFieldAlias(ResourceField.FLAG20, aliases.get(184));
+         file.setResourceFieldAlias(ResourceField.COST1, aliases.get(207));
+         file.setResourceFieldAlias(ResourceField.COST2, aliases.get(208));
+         file.setResourceFieldAlias(ResourceField.COST3, aliases.get(209));
+         file.setResourceFieldAlias(ResourceField.COST4, aliases.get(210));
+         file.setResourceFieldAlias(ResourceField.COST5, aliases.get(211));
+         file.setResourceFieldAlias(ResourceField.COST6, aliases.get(212));
+         file.setResourceFieldAlias(ResourceField.COST7, aliases.get(213));
+         file.setResourceFieldAlias(ResourceField.COST8, aliases.get(214));
+         file.setResourceFieldAlias(ResourceField.COST9, aliases.get(215));
+         file.setResourceFieldAlias(ResourceField.COST10, aliases.get(216));
       }
    }
 
@@ -916,9 +913,9 @@ final class MPP12Reader implements MPPVariantReader
     * @param taskFixedData Fixed data for this task
     * @return Mapping between task identifiers and block position
     */
-   private TreeMap createTaskMap (FixedMeta taskFixedMeta, FixedData taskFixedData)
+   private TreeMap<Integer, Integer> createTaskMap (FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
-      TreeMap taskMap = new TreeMap ();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer> ();
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
@@ -950,9 +947,9 @@ final class MPP12Reader implements MPPVariantReader
     * @param rscFixedData resource fixed data
     * @return map of resource IDs to resource data
     */
-   private TreeMap createResourceMap (FixedMeta rscFixedMeta, FixedData rscFixedData)
+   private TreeMap<Integer, Integer> createResourceMap (FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      TreeMap resourceMap = new TreeMap ();
+      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer> ();
       int itemCount = rscFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
@@ -971,7 +968,7 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * The format of the calandar data is a 4 byte header followed
+    * The format of the calendar data is a 4 byte header followed
     * by 7x 60 byte blocks, one for each day of the week. Optionally
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
@@ -981,7 +978,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param resourceMap map of resource IDs to resource data
     * @throws java.io.IOException
     */
-   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap resourceMap)
+   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> resourceMap)
       throws MPXJException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -1000,7 +997,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
       
-      HashMap calendarMap = new HashMap ();
+      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
       int items = calFixedData.getItemCount();
       byte[] fixedData;
       byte[] varData;
@@ -1009,7 +1006,7 @@ final class MPP12Reader implements MPPVariantReader
       Integer resourceID;
       int offset;
       ProjectCalendar cal;
-      List baseCalendars = new LinkedList();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
 
       for (int loop=0; loop < items; loop++)
       {
@@ -1055,7 +1052,7 @@ final class MPP12Reader implements MPPVariantReader
                         cal = file.getDefaultResourceCalendar();
                      }
 
-                     baseCalendars.add(new Pair(cal, new Integer(baseCalendarID)));
+                     baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
                      resourceID = new Integer (MPPUtility.getInt(fixedData, offset+8));
                      resourceMap.put (resourceID, cal);
                   }
@@ -1107,7 +1104,7 @@ final class MPP12Reader implements MPPVariantReader
       Date start;
       long duration;
       //Day day;
-      List dateRanges = new ArrayList(5);
+      List<DateRange> dateRanges = new ArrayList<DateRange>(5);
       
       //
       // Configure default time ranges
@@ -1198,10 +1195,10 @@ final class MPP12Reader implements MPPVariantReader
                cal.setWorkingDay(day, true);
                hours = cal.addCalendarHours(Day.getInstance(index+1));
 
-               Iterator iter = dateRanges.iterator();
+               Iterator<DateRange> iter = dateRanges.iterator();
                while (iter.hasNext())
                {
-                  hours.addDateRange((DateRange)iter.next());
+                  hours.addDateRange(iter.next());
                }
             }
          }
@@ -1215,65 +1212,65 @@ final class MPP12Reader implements MPPVariantReader
     * @param data calendar data block
     * @param cal calendar instance
     */
-   private void processCalendarExceptions (byte[] data, ProjectCalendar cal)
-   {
-      //
-      // Handle any exceptions
-      //
-      int exceptionCount = MPPUtility.getShort (data, 0);
-
-      if (exceptionCount != 0)
-      {
-         int index;
-         int offset;
-         ProjectCalendarException exception;
-         long duration;
-         int periodCount;
-         Date start;
-
-         for (index=0; index < exceptionCount; index++)
-         {
-            offset = 4 + (60 * 7) + (index * 64);
-            exception = cal.addCalendarException();
-            exception.setFromDate(MPPUtility.getDate (data, offset));
-            exception.setToDate(MPPUtility.getDate (data, offset+2));
-
-            periodCount = MPPUtility.getShort (data, offset+6);
-            if (periodCount == 0)
-            {
-               exception.setWorking (false);
-            }
-            else
-            {
-               exception.setWorking (true);
-
-               start = MPPUtility.getTime (data, offset+12);
-               duration = MPPUtility.getDuration (data, offset+24);
-               exception.setFromTime1(start);
-               exception.setToTime1(new Date (start.getTime() + duration));
-
-               if (periodCount > 1)
-               {
-                  start = MPPUtility.getTime (data, offset+14);
-                  duration = MPPUtility.getDuration (data, offset+28);
-                  exception.setFromTime2(start);
-                  exception.setToTime2(new Date (start.getTime() + duration));
-
-                  if (periodCount > 2)
-                  {
-                     start = MPPUtility.getTime (data, offset+16);
-                     duration = MPPUtility.getDuration (data, offset+32);
-                     exception.setFromTime3(start);
-                     exception.setToTime3(new Date (start.getTime() + duration));
-                  }
-               }
-               //
-               // Note that MPP defines 5 time ranges rather than 3
-               //
-            }
-         }
-      }
-   }
+//   private void processCalendarExceptions (byte[] data, ProjectCalendar cal)
+//   {
+//      //
+//      // Handle any exceptions
+//      //
+//      int exceptionCount = MPPUtility.getShort (data, 0);
+//
+//      if (exceptionCount != 0)
+//      {
+//         int index;
+//         int offset;
+//         ProjectCalendarException exception;
+//         long duration;
+//         int periodCount;
+//         Date start;
+//
+//         for (index=0; index < exceptionCount; index++)
+//         {
+//            offset = 4 + (60 * 7) + (index * 64);
+//            exception = cal.addCalendarException();
+//            exception.setFromDate(MPPUtility.getDate (data, offset));
+//            exception.setToDate(MPPUtility.getDate (data, offset+2));
+//
+//            periodCount = MPPUtility.getShort (data, offset+6);
+//            if (periodCount == 0)
+//            {
+//               exception.setWorking (false);
+//            }
+//            else
+//            {
+//               exception.setWorking (true);
+//
+//               start = MPPUtility.getTime (data, offset+12);
+//               duration = MPPUtility.getDuration (data, offset+24);
+//               exception.setFromTime1(start);
+//               exception.setToTime1(new Date (start.getTime() + duration));
+//
+//               if (periodCount > 1)
+//               {
+//                  start = MPPUtility.getTime (data, offset+14);
+//                  duration = MPPUtility.getDuration (data, offset+28);
+//                  exception.setFromTime2(start);
+//                  exception.setToTime2(new Date (start.getTime() + duration));
+//
+//                  if (periodCount > 2)
+//                  {
+//                     start = MPPUtility.getTime (data, offset+16);
+//                     duration = MPPUtility.getDuration (data, offset+32);
+//                     exception.setFromTime3(start);
+//                     exception.setToTime3(new Date (start.getTime() + duration));
+//                  }
+//               }
+//               //
+//               // Note that MPP defines 5 time ranges rather than 3
+//               //
+//            }
+//         }
+//      }
+//   }
 
 
    /**
@@ -1287,21 +1284,21 @@ final class MPP12Reader implements MPPVariantReader
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private void updateBaseCalendarNames (List baseCalendars, HashMap map)
+   private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
    {
-      Iterator iter = baseCalendars.iterator();
-      Pair pair;
+      Iterator<Pair<ProjectCalendar, Integer>> iter = baseCalendars.iterator();
+      Pair<ProjectCalendar, Integer> pair;
       ProjectCalendar cal;
       Integer baseCalendarID;
       ProjectCalendar baseCal;
 
       while (iter.hasNext() == true)
       {
-         pair = (Pair)iter.next();
-         cal = (ProjectCalendar)pair.getFirst();
-         baseCalendarID = (Integer)pair.getSecond();
+         pair = iter.next();
+         cal = pair.getFirst();
+         baseCalendarID = pair.getSecond();
 
-         baseCal = (ProjectCalendar)map.get(baseCalendarID);
+         baseCal = map.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);
@@ -1338,7 +1335,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(outlineCodeVarData.getVarMeta());
       //System.out.println(outlineCodeVarData);
       
-      TreeMap taskMap = createTaskMap (taskFixedMeta, taskFixedData);
+      TreeMap<Integer, Integer> taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       Integer[] uniqueid = taskVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer offset;
@@ -1346,7 +1343,7 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Task task;
       boolean autoWBS = true;
-      LinkedList externalTasks = new LinkedList();
+      LinkedList<Task> externalTasks = new LinkedList<Task>();
       
       RTFUtility rtf = new RTFUtility ();
       String notes;
@@ -1355,7 +1352,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          id = uniqueid[loop];
 
-         offset = (Integer)taskMap.get(id);
+         offset = taskMap.get(id);
          if (taskFixedData.isValidOffset(offset) == false)
          {
             continue;
@@ -1729,10 +1726,10 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Set the sub project flag
          //
-         task.setSubProject((SubProject)m_taskSubProjects.get(task.getUniqueID()));
+         task.setSubProject(m_taskSubProjects.get(task.getUniqueID()));
 
          //
-         // If we have a WBS value from the MPP file, don't autogenerate
+         // If we have a WBS value from the MPP file, don't auto generate
          //
          if (task.getWBS() != null)
          {
@@ -1744,7 +1741,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          if ((metaData[9]&0x80) == 0)
          {
-            task.setSplits(new LinkedList());
+            task.setSplits(new LinkedList<Duration>());
          }
                   
          file.fireTaskReadEvent(task);
@@ -1758,7 +1755,7 @@ final class MPP12Reader implements MPPVariantReader
       file.setAutoWBS(autoWBS);    
       
       //
-      // We have now read all of the tassk, so we are in a position
+      // We have now read all of the task, so we are in a position
       // to perform post-processing to set up the relevant details
       // for each external task.
       //
@@ -1778,7 +1775,7 @@ final class MPP12Reader implements MPPVariantReader
     * 
     * @param externalTasks list of tasks marked as external
     */
-   private void processExternalTasks (List externalTasks)
+   private void processExternalTasks (List<Task> externalTasks)
    {
       //
       // Sort the list of tasks into ID order
@@ -1790,12 +1787,12 @@ final class MPP12Reader implements MPPVariantReader
       // object, and set this attribute using the most recent 
       // value.
       //
-      Iterator iter = externalTasks.iterator();
+      Iterator<Task> iter = externalTasks.iterator();
       SubProject currentSubProject = null;
       
       while (iter.hasNext())
       {
-         Task currentTask = (Task)iter.next();
+         Task currentTask = iter.next();
          SubProject sp = currentTask.getSubProject();
          if (sp == null)
          {
@@ -1919,7 +1916,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param resourceCalendarMap map of resource IDs to resource data
     * @throws java.io.IOException
     */
-   private void processResourceData (ProjectFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap resourceCalendarMap)
+   private void processResourceData (ProjectFile file,  DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap<Integer, ProjectCalendar> resourceCalendarMap)
       throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -1930,7 +1927,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       
-      TreeMap resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
+      TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer offset;
@@ -1944,7 +1941,7 @@ final class MPP12Reader implements MPPVariantReader
       for (int loop=0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
-         offset = (Integer)resourceMap.get(id);
+         offset = resourceMap.get(id);
          if (rscFixedData.isValidOffset(offset) == false)
          {
             continue;
@@ -2140,7 +2137,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Configure the resource calendar
          //
-         resource.setResourceCalendar((ProjectCalendar)resourceCalendarMap.get(id));
+         resource.setResourceCalendar(resourceCalendarMap.get(id));
 
          file.fireResourceReadEvent(resource);
       }
@@ -2166,7 +2163,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(assnVarMeta);
       //System.out.println(assnVarData);
       
-      Set set = assnVarMeta.getUniqueIdentifierSet();
+      Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
 
       for (int loop=0; loop < count; loop++)
@@ -2259,7 +2256,7 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processSplitData (Task task, byte[] completeHours, byte[] incompleteHours)
    {            
-      LinkedList splits = new LinkedList ();
+      LinkedList<Duration> splits = new LinkedList<Duration> ();
 
       if (completeHours != null)
       {
@@ -2300,7 +2297,7 @@ final class MPP12Reader implements MPPVariantReader
             double timeOffset = 0;
             if (splits.isEmpty() == false)
             {
-               timeOffset = ((Duration)splits.removeLast()).getDuration();
+               timeOffset = splits.removeLast().getDuration();
             }
             splitTime += timeOffset;
             Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
@@ -2313,11 +2310,11 @@ final class MPP12Reader implements MPPVariantReader
             {
                if (splitCount % 2 != 0)
                {
-                  timeOffset = ((Duration)splits.removeLast()).getDuration();
+                  timeOffset = splits.removeLast().getDuration();
                }
                else
                {
-                  timeOffset = ((Duration)splits.getLast()).getDuration();
+                  timeOffset = splits.getLast().getDuration();
                }
             }
 
@@ -2606,8 +2603,8 @@ final class MPP12Reader implements MPPVariantReader
 //   };
 
    private MPPReader m_reader;
-   private Map m_fontBases = new HashMap();
-   private Map m_taskSubProjects = new HashMap ();
+   private Map<Integer, FontBase> m_fontBases = new HashMap<Integer, FontBase>();
+   private Map<Integer, SubProject> m_taskSubProjects = new HashMap<Integer, SubProject> ();
 
    /**
     * Calendar data types.

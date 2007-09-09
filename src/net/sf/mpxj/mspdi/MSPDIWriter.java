@@ -197,7 +197,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.ExtendedAttributesType attributes = factory.createProjectTypeExtendedAttributesType();
       project.setExtendedAttributes(attributes);
-      List list = attributes.getExtendedAttribute();
+      List<Project.ExtendedAttributesType.ExtendedAttributeType> list = attributes.getExtendedAttribute();
 
       writeTaskFieldAliases(factory, list);
       writeResourceFieldAliases(factory, list);      
@@ -210,17 +210,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param list field alias list
     * @throws JAXBException
     */
-   private void writeTaskFieldAliases (ObjectFactory factory, List list)
+   private void writeTaskFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributesType.ExtendedAttributeType> list)
       throws JAXBException
    {
-      Map fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
+      Map<TaskField, String> fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
       
       for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
          TaskField key = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
          Integer fieldID = new Integer (MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
          String name = key.getName();
-         String alias = (String)fieldAliasMap.get(key);
+         String alias = fieldAliasMap.get(key);
    
          Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
          list.add(attribute);
@@ -237,17 +237,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param list field alias list
     * @throws JAXBException
     */   
-   private void writeResourceFieldAliases (ObjectFactory factory, List list)
+   private void writeResourceFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributesType.ExtendedAttributeType> list)
       throws JAXBException
    {
-      Map fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
+      Map<ResourceField, String> fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
       
       for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
          ResourceField key = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
          Integer fieldID = new Integer (MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
          String name = key.getName();
-         String alias = (String)fieldAliasMap.get(key);
+         String alias = fieldAliasMap.get(key);
    
          Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
          list.add(attribute);
@@ -258,7 +258,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
    
    /**
-    * This method writes calandar data to an MSPDI file.
+    * This method writes calendar data to an MSPDI file.
     *
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
@@ -272,42 +272,36 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // add them to a list ready for processing, and create a map between
       // names and unique IDs
       //
-      LinkedList calendarList = new LinkedList(m_projectFile.getBaseCalendars ());
-      Iterator iter = m_projectFile.getAllResources().iterator();
-      ProjectCalendar cal;
+      LinkedList<ProjectCalendar> calendarList = new LinkedList<ProjectCalendar>(m_projectFile.getBaseCalendars ());
 
-      while (iter.hasNext() == true)
+      for (Resource resource : m_projectFile.getAllResources())
       {
-         cal = ((Resource)iter.next()).getResourceCalendar();
+         ProjectCalendar cal = resource.getResourceCalendar();
          if (cal != null)
          {
             calendarList.add(cal);
          }
       }
 
-
       //
       // Create the new MSPDI calendar list
       //
       Project.CalendarsType calendars = factory.createProjectTypeCalendarsType();
       project.setCalendars (calendars);
-      List calendar = calendars.getCalendar();
+      List<Project.CalendarsType.CalendarType> calendar = calendars.getCalendar();
 
       //
       // Process each calendar in turn
       //
-      iter = calendarList.iterator();
       factory.createProjectTypeCalendarsTypeCalendarType();
-
-      while (iter.hasNext() == true)
+      for (ProjectCalendar cal : calendarList)
       {
-         cal = (ProjectCalendar)iter.next();
          calendar.add (writeCalendar (factory, cal));
       }
    }
 
    /**
-    * This method writes data for a single calandar to an MSPDI file.
+    * This method writes data for a single calendar to an MSPDI file.
     *
     * @param factory ObjectFactory instance
     * @param bc Base calendar data
@@ -339,44 +333,37 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Create a list of normal days
       //
       Project.CalendarsType.CalendarType.WeekDaysType days = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysType();
-      Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times;
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType time;
       ProjectCalendarHours bch;
-      List timesList;
 
       calendar.setWeekDays (days);
-      List dayList = days.getWeekDay();
+      List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType> dayList = days.getWeekDay();
 
-      Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day;
-      int loop;
-      int workingFlag;
-      DateRange range;
-      Iterator rangeIter;
 
-      for (loop=1; loop < 8; loop++)
+      for (int loop=1; loop < 8; loop++)
       {
-         workingFlag = bc.getWorkingDay(Day.getInstance(loop));
+         int workingFlag = bc.getWorkingDay(Day.getInstance(loop));
 
          if (workingFlag != ProjectCalendar.DEFAULT)
          {
-            day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
+            Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
             dayList.add(day);
             day.setDayType(BigInteger.valueOf(loop));
             day.setDayWorking(workingFlag == ProjectCalendar.WORKING);
 
             if (workingFlag == ProjectCalendar.WORKING)
             {
-               times = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
+               Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
                day.setWorkingTimes(times);
-               timesList = times.getWorkingTime();
+               List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> timesList = times.getWorkingTime();
 
                bch = bc.getCalendarHours (Day.getInstance(loop));
                if (bch != null)
                {
-                  rangeIter = bch.iterator();
+                  Iterator<DateRange> rangeIter = bch.iterator();
                   while (rangeIter.hasNext() == true)
                   {
-                     range = (DateRange)rangeIter.next();
+                     DateRange range = rangeIter.next();
                      if (range != null)
                      {
                         time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
@@ -397,20 +384,20 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // A quirk of MS Project is that these exceptions must be
       // in date order in the file, otherwise they are ignored
       //
-      List exceptions = new ArrayList(bc.getCalendarExceptions());
+      List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(bc.getCalendarExceptions());
       Collections.sort(exceptions);
 
-      Iterator iter = exceptions.iterator();
+      Iterator<ProjectCalendarException> iter = exceptions.iterator();
       ProjectCalendarException exception;
       Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType period;
       boolean working;
 
       while (iter.hasNext() == true)
       {
-         exception = (ProjectCalendarException)iter.next();
+         exception = iter.next();
          working = exception.getWorking();
 
-         day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
+         Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
          dayList.add(day);
          day.setDayType(BIGINTEGER_ZERO);
          day.setDayWorking(working);
@@ -422,9 +409,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (working == true)
          {
-            times = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
+            Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
             day.setWorkingTimes(times);
-            timesList = times.getWorkingTime();
+            List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> timesList = times.getWorkingTime();
 
             time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
             timesList.add (time);
@@ -461,12 +448,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.ResourcesType resources = factory.createProjectTypeResourcesType();
       project.setResources(resources);
-      List list = resources.getResource();
+      List<Project.ResourcesType.ResourceType> list = resources.getResource();
 
-      Iterator iter = m_projectFile.getAllResources().iterator();
+      Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
       while (iter.hasNext() == true)
       {
-         list.add (writeResource (factory, (Resource)iter.next()));
+         list.add (writeResource (factory, iter.next()));
       }
    }
 
@@ -566,7 +553,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       throws JAXBException
    {
       Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
-      List extendedAttributes = xml.getExtendedAttribute();
+      List<Project.ResourcesType.ResourceType.ExtendedAttributeType> extendedAttributes = xml.getExtendedAttribute();
       Object value;
       ResourceField mpxFieldID;
       Integer xmlFieldID;
@@ -602,12 +589,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       Project.TasksType tasks = factory.createProjectTypeTasksType();
       project.setTasks (tasks);
-      List list = tasks.getTask();
+      List<Project.TasksType.TaskType> list = tasks.getTask();
 
-      Iterator iter = m_projectFile.getAllTasks().iterator();
+      Iterator<Task> iter = m_projectFile.getAllTasks().iterator();
       while (iter.hasNext() == true)
       {
-         list.add (writeTask (factory, (Task)iter.next()));
+         list.add (writeTask (factory, iter.next()));
       }
    }
 
@@ -766,7 +753,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       throws JAXBException
    {
       Project.TasksType.TaskType.ExtendedAttributeType attrib;
-      List extendedAttributes = xml.getExtendedAttribute();
+      List<Project.TasksType.TaskType.ExtendedAttributeType> extendedAttributes = xml.getExtendedAttribute();
       Object value;
       TaskField mpxFieldID;
       Integer xmlFieldID;
@@ -845,22 +832,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writePredecessors (ObjectFactory factory, Project.TasksType.TaskType xml, Task mpx)
       throws JAXBException
    {
-      TreeSet set = new TreeSet ();
+      TreeSet<Integer> set = new TreeSet<Integer> ();
       Integer taskID;
       Relation rel;
-      List list = xml.getPredecessorLink();
-      Iterator iter;
+      List<Project.TasksType.TaskType.PredecessorLinkType> list = xml.getPredecessorLink();
+      Iterator<Relation> iter;
 
       //
       // Process the list of predecessors specified by Unique ID
       //
-      List predecessors = mpx.getUniqueIDPredecessors();
+      List<Relation> predecessors = mpx.getUniqueIDPredecessors();
       if (predecessors != null)
       {
          iter = predecessors.iterator();
          while (iter.hasNext() == true)
          {
-            rel = (Relation)iter.next();
+            rel = iter.next();
             taskID = rel.getTaskID();
             set.add(taskID);
             list.add (writePredecessor (factory, taskID, rel.getType(), rel.getDuration()));
@@ -879,7 +866,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          iter = predecessors.iterator();
          while (iter.hasNext() == true)
          {
-            rel = (Relation)iter.next();
+            rel = iter.next();
             task = m_projectFile.getTaskByID(rel.getTaskID());
             if (task != null)
             {
@@ -934,11 +921,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       int uid = 0;
       Project.AssignmentsType assignments = factory.createProjectTypeAssignmentsType();
       project.setAssignments(assignments);
-      List list = assignments.getAssignment();
-      Iterator iter = m_projectFile.getAllResourceAssignments().iterator();
-      while (iter.hasNext() == true)
+      List<Project.AssignmentsType.AssignmentType> list = assignments.getAssignment();
+      
+      for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
       {
-         list.add(writeAssignment (factory, (ResourceAssignment)iter.next(), uid));
+         list.add(writeAssignment (factory, assignment, uid));
          ++uid;
       }
 
@@ -948,11 +935,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // write a dummy resource assignment record to ensure that the MSPDI
       // file shows the correct percent complete amount for the task.
       //
-      iter = m_projectFile.getAllTasks().iterator();
-
-      while (iter.hasNext() == true)
+      for (Task task : m_projectFile.getAllTasks())
       {
-         Task task = (Task)iter.next();
          double percentComplete = NumberUtility.getDouble(task.getPercentageComplete());
          if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
          {

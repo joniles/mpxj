@@ -331,7 +331,7 @@ final class XsdDuration
     *
     * @return xsd:duration value
     */
-   public String toString ()
+   @Override public String toString ()
    {
       StringBuffer buffer = new StringBuffer ("P");
       boolean negative = false;

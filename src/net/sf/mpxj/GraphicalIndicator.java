@@ -39,16 +39,6 @@ import net.sf.mpxj.utility.NumberUtility;
 public class GraphicalIndicator
 {
    /**
-    * Constructor.
-    * 
-    * @param projectFile parent project file
-    */
-   public GraphicalIndicator (ProjectFile projectFile)
-   {
-      m_projectFile = projectFile;
-   }
-   
-   /**
     * This method evaluates a if a graphical indicator should
     * be displayed, given a set of Task or Resource data. The
     * method will return -1 if no indicator should be displayed.
@@ -61,7 +51,7 @@ public class GraphicalIndicator
       //
       // First step - determine the list of criteria we are should use
       //
-      List criteria;      
+      List<GraphicalIndicatorCriteria> criteria;      
       if (container instanceof Task)
       {
          Task task = (Task)container;
@@ -113,10 +103,10 @@ public class GraphicalIndicator
       // Now we have the criteria, evaluate each one until we get a result
       //
       int result = -1;
-      Iterator iter = criteria.iterator();
+      Iterator<GraphicalIndicatorCriteria> iter = criteria.iterator();
       while (iter.hasNext() == true)
       {
-         result = ((GraphicalIndicatorCriteria)iter.next()).evaluate(container);
+         result = iter.next().evaluate(container);
          if (result != -1)
          {
             break;
@@ -182,7 +172,7 @@ public class GraphicalIndicator
     * 
     * @return list of non-summary row criteria
     */
-   public List getNonSummaryRowCriteria()
+   public List<GraphicalIndicatorCriteria> getNonSummaryRowCriteria()
    {
       return (m_nonSummaryRowCriteria);
    }
@@ -192,7 +182,7 @@ public class GraphicalIndicator
     * 
     * @return list of project summary criteria
     */
-   public List getProjectSummaryCriteria()
+   public List<GraphicalIndicatorCriteria> getProjectSummaryCriteria()
    {
       return (m_projectSummaryCriteria);
    }
@@ -202,7 +192,7 @@ public class GraphicalIndicator
     * 
     * @return list of summary row criteria
     */
-   public List getSummaryRowCriteria()
+   public List<GraphicalIndicatorCriteria> getSummaryRowCriteria()
    {
       return m_summaryRowCriteria;
    }
@@ -306,7 +296,7 @@ public class GraphicalIndicator
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);
@@ -317,7 +307,7 @@ public class GraphicalIndicator
       pw.println(" ProjectSummaryInheritsFromSummaryRows=" + m_projectSummaryInheritsFromSummaryRows);
       pw.println(" ShowDataValuesInToolTips=" + m_showDataValuesInToolTips);
       pw.println(" NonSummaryRowCriteria=");
-      Iterator iter = m_nonSummaryRowCriteria.iterator();
+      Iterator<GraphicalIndicatorCriteria> iter = m_nonSummaryRowCriteria.iterator();
       while (iter.hasNext() == true)
       {
          pw.println("  " + iter.next());
@@ -338,14 +328,13 @@ public class GraphicalIndicator
       pw.flush();
       return (os.toString());     
    }
-   
-   private ProjectFile m_projectFile;
+      
    private FieldType m_fieldType;
    private boolean m_displayGraphicalIndicators;
    private boolean m_summaryRowsInheritFromNonSummaryRows;
    private boolean m_projectSummaryInheritsFromSummaryRows;
    private boolean m_showDataValuesInToolTips;
-   private List m_nonSummaryRowCriteria = new LinkedList();
-   private List m_summaryRowCriteria = new LinkedList();
-   private List m_projectSummaryCriteria = new LinkedList();
+   private List<GraphicalIndicatorCriteria> m_nonSummaryRowCriteria = new LinkedList<GraphicalIndicatorCriteria>();
+   private List<GraphicalIndicatorCriteria> m_summaryRowCriteria = new LinkedList<GraphicalIndicatorCriteria>();
+   private List<GraphicalIndicatorCriteria> m_projectSummaryCriteria = new LinkedList<GraphicalIndicatorCriteria>();
 }

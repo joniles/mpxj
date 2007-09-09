@@ -74,7 +74,7 @@ public final class MPXJDateFormat extends DateFormat
    /**
     * {@inheritDoc}
     */
-   public Date parse (String str, ParsePosition pos)
+   @Override public Date parse (String str, ParsePosition pos)
    {
       Date result;
 
@@ -115,7 +115,7 @@ public final class MPXJDateFormat extends DateFormat
    /**
     * {@inheritDoc}
     */
-   public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
+   @Override public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
    {
       return (m_format.format(date, toAppendTo, fieldPosition));
    }

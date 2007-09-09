@@ -88,7 +88,7 @@ public final class TimescaleUnits
     *
     * @return string representation of this instance
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return (getName());
    }

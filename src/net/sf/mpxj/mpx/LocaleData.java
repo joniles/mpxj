@@ -46,7 +46,7 @@ public final class LocaleData extends ListResourceBundle
    /**
     * {@inheritDoc}
     */
-   public Object[][] getContents()
+   @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);
    }
@@ -166,7 +166,7 @@ public final class LocaleData extends ListResourceBundle
    public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
 
    private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "h", "d", "w", "mon", "y", "%", "em", "eh", "ed", "ew", "emon", "ey", "e%"};
-   private static final HashMap TIME_UNITS_MAP_DATA = new HashMap ();
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer> ();
 
    static
    {

@@ -182,13 +182,12 @@ public final class PlannerReader extends AbstractProjectReader
       Calendars calendars = project.getCalendars();
       if (calendars != null)
       {
-         List calendar = calendars.getCalendar();
-         Iterator iter = calendar.iterator();
-         LinkedList baseCalendars = new LinkedList();
+         List<net.sf.mpxj.planner.schema.Calendar> calendar = calendars.getCalendar();
+         Iterator<net.sf.mpxj.planner.schema.Calendar> iter = calendar.iterator();
 
          while (iter.hasNext() == true)
          {
-            readCalendar ((net.sf.mpxj.planner.schema.Calendar)iter.next(), null);
+            readCalendar (iter.next(), null);
          }
          
          Integer defaultCalendarID = getInteger(project.getCalendar());
@@ -202,7 +201,7 @@ public final class PlannerReader extends AbstractProjectReader
 
 
    /**
-    * This method extracts data for a single calandar from a Planner file.
+    * This method extracts data for a single calendar from a Planner file.
     *
     * @param plannerCalendar Calendar data
     * @param parentMpxjCalendar parent of derived calendar
@@ -256,13 +255,13 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Process any derived calendars
       //
-      List calendarList = (List)plannerCalendar.getCalendar();
+      List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
       if (calendarList != null)
       {
-         Iterator iter = calendarList.iterator();
+         Iterator<net.sf.mpxj.planner.schema.Calendar> iter = calendarList.iterator();
          while (iter.hasNext())
          {
-            readCalendar((net.sf.mpxj.planner.schema.Calendar)iter.next(), mpxjCalendar);
+            readCalendar(iter.next(), mpxjCalendar);
          }
       }
    }
@@ -312,14 +311,14 @@ public final class PlannerReader extends AbstractProjectReader
       OverriddenDayTypes types = plannerCalendar.getOverriddenDayTypes();
       if (types != null)
       {
-        List typeList = types.getOverriddenDayType();
+        List<OverriddenDayType> typeList = types.getOverriddenDayType();
          if (typeList != null)
          {
-            Iterator iter = typeList.iterator();
+            Iterator<OverriddenDayType> iter = typeList.iterator();
             OverriddenDayType odt = null;
             while (iter.hasNext())
             {
-               odt = (OverriddenDayType)iter.next();
+               odt = iter.next();
                if (getInt(odt.getId()) != 0)
                {
                   odt = null;
@@ -331,7 +330,7 @@ public final class PlannerReader extends AbstractProjectReader
             
             if (odt != null)
             {
-               List intervalList = odt.getInterval();
+               List<Interval> intervalList = odt.getInterval();
                if (intervalList != null)
                {
                   ProjectCalendarHours mondayHours = null;
@@ -377,10 +376,8 @@ public final class PlannerReader extends AbstractProjectReader
                      sundayHours = mpxjCalendar.addCalendarHours(Day.SUNDAY);
                   }
 
-                  iter = intervalList.iterator();
-                  while (iter.hasNext())
+                  for (Interval interval : intervalList)
                   {
-                     Interval interval = (Interval)iter.next();
                      Date startTime = getTime(interval.getStart());
                      Date endTime = getTime(interval.getEnd());
                      
@@ -439,13 +436,11 @@ public final class PlannerReader extends AbstractProjectReader
       Days days = plannerCalendar.getDays();
       if (days != null)
       {
-         List dayList = days.getDay();
+         List<net.sf.mpxj.planner.schema.Day> dayList = days.getDay();
          if (dayList != null)
          {
-            Iterator iter = dayList.iterator();
-            while (iter.hasNext())
+            for (net.sf.mpxj.planner.schema.Day day : dayList)
             {                              
-               net.sf.mpxj.planner.schema.Day day = (net.sf.mpxj.planner.schema.Day)iter.next();
                if (day.getType().equals("day-type"))
                {
                   Date exceptionDate = getDate(day.getDate());                  
@@ -458,35 +453,35 @@ public final class PlannerReader extends AbstractProjectReader
                   {
                      if (m_defaultWorkingHours.size() > 0)
                      {
-                        DateRange range = (DateRange)m_defaultWorkingHours.get(0);
+                        DateRange range = m_defaultWorkingHours.get(0);
                         exception.setFromTime1(range.getStartDate());
                         exception.setToTime1(range.getEndDate());
                      }
                      
                      if (m_defaultWorkingHours.size() > 1)
                      {
-                        DateRange range = (DateRange)m_defaultWorkingHours.get(1);
+                        DateRange range = m_defaultWorkingHours.get(1);
                         exception.setFromTime2(range.getStartDate());
                         exception.setToTime2(range.getEndDate());
                      }
                      
                      if (m_defaultWorkingHours.size() > 2)
                      {
-                        DateRange range = (DateRange)m_defaultWorkingHours.get(2);
+                        DateRange range = m_defaultWorkingHours.get(2);
                         exception.setFromTime3(range.getStartDate());
                         exception.setToTime3(range.getEndDate());
                      }
                      
                      if (m_defaultWorkingHours.size() > 3)
                      {
-                        DateRange range = (DateRange)m_defaultWorkingHours.get(3);
+                        DateRange range = m_defaultWorkingHours.get(3);
                         exception.setFromTime4(range.getStartDate());
                         exception.setToTime4(range.getEndDate());
                      }
                      
                      if (m_defaultWorkingHours.size() > 4)
                      {
-                        DateRange range = (DateRange)m_defaultWorkingHours.get(4);
+                        DateRange range = m_defaultWorkingHours.get(4);
                         exception.setFromTime5(range.getStartDate());
                         exception.setToTime5(range.getEndDate());
                      }                     
@@ -508,11 +503,11 @@ public final class PlannerReader extends AbstractProjectReader
       Resources resources = plannerProject.getResources();
       if (resources != null)
       {
-         List resource = resources.getResource();
-         Iterator iter = resource.iterator();
+         List<net.sf.mpxj.planner.schema.Resource> resource = resources.getResource();
+         Iterator<net.sf.mpxj.planner.schema.Resource> iter = resource.iterator();
          while (iter.hasNext() == true)
          {
-            readResource ((net.sf.mpxj.planner.schema.Resource)iter.next());
+            readResource (iter.next());
          }
       }
    }
@@ -570,17 +565,17 @@ public final class PlannerReader extends AbstractProjectReader
       Tasks tasks = plannerProject.getTasks();
       if (tasks != null)
       {
-         List task = tasks.getTask();
-         Iterator iter = task.iterator();
+         List<net.sf.mpxj.planner.schema.Task> task = tasks.getTask();
+         Iterator<net.sf.mpxj.planner.schema.Task> iter = task.iterator();
          while (iter.hasNext() == true)
          {
-            readTask (null, (net.sf.mpxj.planner.schema.Task)iter.next());
+            readTask (null, iter.next());
          }
 
          iter = task.iterator();
          while (iter.hasNext() == true)
          {
-            readPredecessors ((net.sf.mpxj.planner.schema.Task)iter.next());
+            readPredecessors (iter.next());
          }
       }
 
@@ -695,13 +690,13 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Process child tasks
       //
-      List childTasks = plannerTask.getTask();
+      List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
       if (childTasks != null)
       {
-         Iterator iter = childTasks.iterator();
+         Iterator<net.sf.mpxj.planner.schema.Task> iter = childTasks.iterator();
          while (iter.hasNext())
          {
-            net.sf.mpxj.planner.schema.Task childTask = (net.sf.mpxj.planner.schema.Task)iter.next();
+            net.sf.mpxj.planner.schema.Task childTask = iter.next();
             readTask (mpxjTask, childTask);
          }
       }
@@ -719,13 +714,13 @@ public final class PlannerReader extends AbstractProjectReader
       Predecessors predecessors = plannerTask.getPredecessors();
       if (predecessors != null)
       {
-         List predecessorList = predecessors.getPredecessor();
+         List<Predecessor> predecessorList = predecessors.getPredecessor();
          if (predecessorList != null)
          {
-            Iterator iter = predecessorList.iterator();
+            Iterator<Predecessor> iter = predecessorList.iterator();
             while (iter.hasNext())
             {
-               Predecessor predecessor = (Predecessor)iter.next();
+               Predecessor predecessor = iter.next();
                Integer predecessorID = getInteger(predecessor.getPredecessorId());
                Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
                if (predecessorTask != null)
@@ -737,7 +732,7 @@ public final class PlannerReader extends AbstractProjectReader
                   }
                   Relation relationship = mpxjTask.addPredecessor(predecessorTask);
                   relationship.setDuration(lag);
-                  relationship.setType((RelationType)RELATIONSHIP_TYPES.get(predecessor.getType()));
+                  relationship.setType(RELATIONSHIP_TYPES.get(predecessor.getType()));
                }
             }
          }
@@ -746,13 +741,13 @@ public final class PlannerReader extends AbstractProjectReader
       //
       // Process child tasks
       //
-      List childTasks = plannerTask.getTask();
+      List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
       if (childTasks != null)
       {
-         Iterator iter = childTasks.iterator();
+         Iterator<net.sf.mpxj.planner.schema.Task> iter = childTasks.iterator();
          while (iter.hasNext())
          {
-            net.sf.mpxj.planner.schema.Task childTask = (net.sf.mpxj.planner.schema.Task)iter.next();
+            net.sf.mpxj.planner.schema.Task childTask = iter.next();
             readPredecessors(childTask);
          }
       }
@@ -767,15 +762,13 @@ public final class PlannerReader extends AbstractProjectReader
    private void readAssignments (Project plannerProject)
    {
       Allocations allocations = plannerProject.getAllocations();
-      List allocationList = allocations.getAllocation();
+      List<Allocation> allocationList = allocations.getAllocation();
       if (allocationList != null)
       {
-         Set tasksWithAssignments = new HashSet();
+         Set<Task> tasksWithAssignments = new HashSet<Task>();
          
-         Iterator iter = allocationList.iterator();
-         while (iter.hasNext())
+         for (Allocation allocation : allocationList)
          {
-            Allocation allocation = (Allocation)iter.next();
             Integer taskID = getInteger(allocation.getTaskId());
             Integer resourceID = getInteger(allocation.getResourceId());
             Integer units = getInteger(allocation.getUnits());
@@ -794,7 +787,7 @@ public final class PlannerReader extends AbstractProjectReader
                
                if (percentComplete != 0)
                {
-                  Duration actualWork = Duration.getInstance((work.getDuration()*(double)percentComplete)/100, work.getUnits());
+                  Duration actualWork = Duration.getInstance((work.getDuration()*percentComplete)/100, work.getUnits());
                   assignment.setActualWork(actualWork);
                   assignment.setRemainingWork(Duration.getInstance(work.getDuration()-actualWork.getDuration(), work.getUnits()));
                }
@@ -813,26 +806,19 @@ public final class PlannerReader extends AbstractProjectReader
          //
          // Adjust work per assignment for tasks with multiple assignments
          //
-         iter = tasksWithAssignments.iterator();
-         while (iter.hasNext())
+         for (Task task : tasksWithAssignments)
          {
-            Task task = (Task)iter.next();
-            List assignments = task.getResourceAssignments();
+            List<ResourceAssignment> assignments = task.getResourceAssignments();
             if (assignments.size() > 1)
             {
                double maxUnits = 0;
-               Iterator assignmentIterator = assignments.iterator();
-               while (assignmentIterator.hasNext())
+               for (ResourceAssignment assignment : assignments)
                {
-                  ResourceAssignment assignment = (ResourceAssignment)assignmentIterator.next();
                   maxUnits += assignment.getUnits().doubleValue();
                }
-               
-               
-               assignmentIterator = assignments.iterator();
-               while (assignmentIterator.hasNext())
+                              
+               for (ResourceAssignment assignment : assignments)
                {
-                  ResourceAssignment assignment = (ResourceAssignment)assignmentIterator.next();
                   Duration work = assignment.getWork();
                   double factor = assignment.getUnits().doubleValue()/maxUnits;
                   
@@ -1041,7 +1027,7 @@ public final class PlannerReader extends AbstractProjectReader
          }
          else
          {
-            double durationDays = ((double)hours) / 8;
+            double durationDays = hours / 8;
             result = Duration.getInstance(durationDays, TimeUnit.DAYS);
          }
       }
@@ -1053,9 +1039,9 @@ public final class PlannerReader extends AbstractProjectReader
    private ProjectCalendar m_defaultCalendar;
    private NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
-   private List m_defaultWorkingHours = new LinkedList();
+   private List<DateRange> m_defaultWorkingHours = new LinkedList<DateRange>();
    
-   private static Map RELATIONSHIP_TYPES = new HashMap();
+   private static Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<String, RelationType>();
    static
    {
       RELATIONSHIP_TYPES.put("FF", RelationType.FINISH_FINISH);

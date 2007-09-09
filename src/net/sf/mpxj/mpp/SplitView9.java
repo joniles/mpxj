@@ -87,7 +87,7 @@ public class SplitView9 extends GenericView
    /**
     * {@inheritDoc}
     */
-   public String toString ()
+   @Override public String toString ()
    {
       return ("[SplitView9 upperViewName=" + m_upperViewName + " lowerViewName=" + m_lowerViewName + "]");
    }
