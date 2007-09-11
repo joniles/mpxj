@@ -8,7 +8,11 @@
 
    <body> 
 
-   <release version="1.0.1" date="CVS HEAD"> 
+   <release version="2.0.0" date="CVS HEAD">
+		<action dev="joniles" type="update">Migrated to Java 5</action>
+ 		<action dev="joniles" type="update">Introduced generics</action>
+		<action dev="joniles" type="update">Updated to POI 3.0.1</action>
+		<action dev="joniles" type="update">Updated to JAXB 2.1.4</action>
    </release>
 
    <release version="1.0.0" date="30/08/2007"> 
@@ -29,13 +33,13 @@
       <action dev="joniles" type="fix">Fixed an ArrayIndexOutOfBoundsException.</action>
       <action dev="joniles" type="fix">Fixed a ClassCastException.</action>
       <action dev="joniles" type="fix">Fixed a zero length string error.</action>
-      <action dev="joniles" type="fix">Fixed a duration rounding error when redaing MSPDI files.</action>
+      <action dev="joniles" type="fix">Fixed a duration rounding error when reading MSPDI files.</action>
       <action dev="joniles" type="fix">Fixed incorrect "as late as possible" constraint handling.</action>
       <action dev="joniles" type="fix">Incorrect late start date read from an MPP9 file.</action>
       <action dev="joniles" type="fix">Incorrect total slack calculation.</action>      
       <action dev="joniles" type="fix">Added a default for the task constraint type attribute to prevent a possible NPE when writing an MSPDI file.</action>
       <action dev="joniles" type="fix">Added a default resource calendar name where the resource name is empty.</action>      
-      <action dev="joniles" type="update">Updated the Column.getTitle method to take acount of user defined column aliases.</action>      
+      <action dev="joniles" type="update">Updated the Column.getTitle method to take account of user defined column aliases.</action>      
       <action dev="joniles" type="update">Updated to add another condition to the test for deleted tasks in MPP8 files.</action>
       <action dev="joniles" type="update">Updated to significantly improve the performance of writing MSPDI files.</action>
    </release>
@@ -68,7 +72,7 @@
       <action dev="joniles" type="add">Added support for reading calculate multiple critical paths flag.</action>
       <action dev="joniles" type="fix">Fixed a bug which could case an array out of bounds exception in the Priority (contributed by Frank Illenberger).</action>
       <action dev="joniles" type="fix">Fixed bug #1346735 "Priorities of the tasks are exported incorrectly".</action>      
-      <action dev="joniles" type="add">Added code to allow tasks, resources, resource assignemnts and calendars to be removed from the data structure.</action>
+      <action dev="joniles" type="add">Added code to allow tasks, resources, resource assignments and calendars to be removed from the data structure.</action>
       <action dev="joniles" type="add">Implemented Italian MPX file format translation (contributed by Elio Zoggia).</action>
       <action dev="joniles" type="update">Cleaned up calendar usage.</action>
       <action dev="joniles" type="add">Added support for retrieval of custom document summary fields from the project header (contributed by Wade Golden).</action>      
@@ -121,7 +125,7 @@
       <action dev="joniles" type="add">Added support for early start, early finish, late start, late finish to MPP files.</action>      
       <action dev="joniles" type="update">Updated MPP9 file support to handle start as late as possible constraints. </action>            
       <action dev="joniles" type="add">Added support for sub project file information in MPP9 files.</action>      
-      <action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not beng read.</action>            
+      <action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not being read.</action>            
       <action dev="joniles" type="fix">Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</action>
       <action dev="joniles" type="update">Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</action>
       <action dev="joniles" type="fix">Fixed a bug when reading MPX files where the field delimiter was not comma, and task relation lists contained more then one entry.</action>
@@ -187,7 +191,7 @@
    <release version="0.0.21" date="06/05/2004"> 
       <action dev="joniles" type="fix">Fixed a bug where the task start date attribute was not always correct for MPP8 files.</action>
       <action dev="joniles" type="fix">Fixed a bug causing valid tasks to be incorrectly identified as being deleted in MPP8 files.</action>
-      <action dev="joniles" type="fix">Fixed a bug causing en exception when reading certain MPP9 files.</action>
+      <action dev="joniles" type="fix">Fixed a bug causing an exception when reading certain MPP9 files.</action>
       <action dev="joniles" type="update">Updated to allow localised MPX files to be written and read.</action>
       <action dev="joniles" type="add">Implemented support for German MPX files.</action>
       <action dev="joniles" type="add">Implemented generic mechanism for dealing with task field aliases.</action>

@@ -184,10 +184,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     * Write the standard set of day types.
     * 
     * @param calendars parent collection of calendars
-    * @throws JAXBException
     */
    private void writeDayTypes (Calendars calendars)
-      throws JAXBException
    {
       DayTypes dayTypes = m_factory.createDayTypes();
       calendars.setDayTypes(dayTypes);
@@ -299,10 +297,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param uniqueID unique ID sequence generation
     * @param day Day instance
     * @param typeList Planner list of days
-    * @throws JAXBException
     */
    private void processWorkingHours (ProjectCalendar mpxjCalendar, Sequence uniqueID, Day day, List<OverriddenDayType> typeList)
-      throws JAXBException
    {
       if (isWorkingDay(mpxjCalendar, day))
       {       
@@ -331,10 +327,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     * 
     * @param mpxjCalendar MPXJ Calendar instance
     * @param dayList Planner list of exception days
-    * @throws JAXBException
     */
    private void processExceptionDays (ProjectCalendar mpxjCalendar, List<net.sf.mpxj.planner.schema.Day> dayList)
-      throws JAXBException
    {
       Iterator<ProjectCalendarException> iter = mpxjCalendar.getCalendarExceptions().iterator();
       while (iter.hasNext())
@@ -382,11 +376,8 @@ public final class PlannerWriter extends AbstractProjectWriter
    
    /**
     * This method writes resource data to a Planner file.
-    *
-    * @throws JAXBException on xml creation errors
     */
    private void writeResources ()
-      throws JAXBException
    {
       Resources resources = m_factory.createResources();
       m_plannerProject.setResources(resources);
@@ -530,7 +521,6 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param plannerTask planner task instance
     */
    private void writePredecessors (Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
-      throws JAXBException
    {      
       TreeSet<Integer> set = new TreeSet<Integer> ();
       Integer taskID;
@@ -592,10 +582,8 @@ public final class PlannerWriter extends AbstractProjectWriter
    /**
     * This method writes assignment data to a Planner file.
     *
-    * @throws JAXBException on xml creation errors
     */
    private void writeAssignments ()
-      throws JAXBException
    {
       Allocations allocations = m_factory.createAllocations();
       m_plannerProject.setAllocations(allocations);

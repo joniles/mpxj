@@ -52,6 +52,7 @@ final class TimeUnitUtility
     * @return numeric constant
     * @throws MPXJException normally thrown when parsing fails
     */
+   @SuppressWarnings("unchecked")
    public static TimeUnit getInstance (String units, Locale locale)
       throws MPXJException
    {

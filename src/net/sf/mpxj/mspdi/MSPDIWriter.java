@@ -2,7 +2,7 @@
  * file:       MSPDIWriter.java
  * author:     Jon Iles
  * copyright:  (c) Tapster Rock Limited 2005
- * date:       Dec 30, 2005
+ * date:       2005-12-30
  */
 
 /*
@@ -122,11 +122,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       ProjectHeader header = m_projectFile.getProjectHeader ();
 
-      project.setActualsInSync(header.getActualsInSync());
-      project.setAdminProject(header.getAdminProject());
+      project.setActualsInSync(Boolean.valueOf(header.getActualsInSync()));
+      project.setAdminProject(Boolean.valueOf(header.getAdminProject()));
       project.setAuthor(header.getAuthor());
-      project.setAutoAddNewResourcesAndTasks(header.getAutoAddNewResourcesAndTasks());
-      project.setAutolink(header.getAutolink());
+      project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(header.getAutoAddNewResourcesAndTasks()));
+      project.setAutolink(Boolean.valueOf(header.getAutolink()));
       project.setBaselineForEarnedValue(NumberUtility.getBigInteger(header.getBaselineForEarnedValue()));
       project.setCalendarUID(BigInteger.ONE);
       project.setCategory(header.getCategory());
@@ -147,38 +147,38 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setDefaultTaskType(header.getDefaultTaskType());
       project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(header.getDefaultDurationUnits()));
       project.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(header.getEarnedValueMethod()));
-      project.setEditableActualCosts(header.getEditableActualCosts());
+      project.setEditableActualCosts(Boolean.valueOf(header.getEditableActualCosts()));
       project.setExtendedCreationDate(DatatypeConverter.printDate(header.getExtendedCreationDate()));
       project.setFinishDate(DatatypeConverter.printDate(header.getFinishDate()));
-      project.setFiscalYearStart(header.getFiscalYearStart());
+      project.setFiscalYearStart(Boolean.valueOf(header.getFiscalYearStart()));
       project.setFYStartDate(NumberUtility.getBigInteger(header.getFiscalYearStartMonth()));
-      project.setHonorConstraints(header.getHonorConstraints());
-      project.setInsertedProjectsLikeSummary(header.getInsertedProjectsLikeSummary());
+      project.setHonorConstraints(Boolean.valueOf(header.getHonorConstraints()));
+      project.setInsertedProjectsLikeSummary(Boolean.valueOf(header.getInsertedProjectsLikeSummary()));
       project.setLastSaved(DatatypeConverter.printDate(header.getLastSaved()));
       project.setManager(header.getManager());
-      project.setMicrosoftProjectServerURL(header.getMicrosoftProjectServerURL());
+      project.setMicrosoftProjectServerURL(Boolean.valueOf(header.getMicrosoftProjectServerURL()));
       project.setMinutesPerDay(NumberUtility.getBigInteger(header.getMinutesPerDay()));
       project.setMinutesPerWeek(NumberUtility.getBigInteger(header.getMinutesPerWeek()));
-      project.setMoveCompletedEndsBack(header.getMoveCompletedEndsBack());
-      project.setMoveCompletedEndsForward(header.getMoveCompletedEndsForward());
-      project.setMoveRemainingStartsBack(header.getMoveRemainingStartsBack());
-      project.setMoveRemainingStartsForward(header.getMoveRemainingStartsForward());
-      project.setMultipleCriticalPaths(header.getMultipleCriticalPaths());
+      project.setMoveCompletedEndsBack(Boolean.valueOf(header.getMoveCompletedEndsBack()));
+      project.setMoveCompletedEndsForward(Boolean.valueOf(header.getMoveCompletedEndsForward()));
+      project.setMoveRemainingStartsBack(Boolean.valueOf(header.getMoveRemainingStartsBack()));
+      project.setMoveRemainingStartsForward(Boolean.valueOf(header.getMoveRemainingStartsForward()));
+      project.setMultipleCriticalPaths(Boolean.valueOf(header.getMultipleCriticalPaths()));
       project.setName(header.getName());
-      project.setNewTasksEffortDriven(header.getNewTasksEffortDriven());
-      project.setNewTasksEstimated(header.getNewTasksEstimated());
+      project.setNewTasksEffortDriven(Boolean.valueOf(header.getNewTasksEffortDriven()));
+      project.setNewTasksEstimated(Boolean.valueOf(header.getNewTasksEstimated()));
       project.setNewTaskStartDate(header.getNewTaskStartIsProjectStart()==true?BigInteger.ZERO:BigInteger.ONE);
-      project.setProjectExternallyEdited(header.getProjectExternallyEdited());
-      project.setRemoveFileProperties(header.getRemoveFileProperties());
+      project.setProjectExternallyEdited(Boolean.valueOf(header.getProjectExternallyEdited()));
+      project.setRemoveFileProperties(Boolean.valueOf(header.getRemoveFileProperties()));
       project.setRevision(NumberUtility.getBigInteger(header.getRevision()));
-      project.setScheduleFromStart(header.getScheduleFrom() == ScheduleFrom.START);
-      project.setSplitsInProgressTasks(header.getSplitInProgressTasks());
-      project.setSpreadActualCost(header.getSpreadActualCost());
-      project.setSpreadPercentComplete(header.getSpreadPercentComplete());
+      project.setScheduleFromStart(Boolean.valueOf(header.getScheduleFrom() == ScheduleFrom.START));
+      project.setSplitsInProgressTasks(Boolean.valueOf(header.getSplitInProgressTasks()));
+      project.setSpreadActualCost(Boolean.valueOf(header.getSpreadActualCost()));
+      project.setSpreadPercentComplete(Boolean.valueOf(header.getSpreadPercentComplete()));
       project.setStartDate(DatatypeConverter.printDate(header.getStartDate()));
       project.setStatusDate(DatatypeConverter.printDate(header.getStatusDate()));
       project.setSubject(header.getSubject());
-      project.setTaskUpdatesResource(header.getUpdatingTaskStatusUpdatesResourceStatus());
+      project.setTaskUpdatesResource(Boolean.valueOf(header.getUpdatingTaskStatusUpdatesResourceStatus()));
       project.setTitle(header.getProjectTitle());
       project.setUID(header.getUniqueID());
       project.setWeekStartDay(DatatypeConverter.printDay(header.getWeekStartDay()));
@@ -190,14 +190,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param factory object factory
     * @param project Root node of the MSPDI file
-    * @throws JAXBException
     */
    private void writeProjectExtendedAttributes (ObjectFactory factory, Project project)
-      throws JAXBException
    {
-      Project.ExtendedAttributesType attributes = factory.createProjectTypeExtendedAttributesType();
+      Project.ExtendedAttributes attributes = factory.createProjectExtendedAttributes();
       project.setExtendedAttributes(attributes);
-      List<Project.ExtendedAttributesType.ExtendedAttributeType> list = attributes.getExtendedAttribute();
+      List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
       writeTaskFieldAliases(factory, list);
       writeResourceFieldAliases(factory, list);      
@@ -208,10 +206,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * 
     * @param factory object factory
     * @param list field alias list
-    * @throws JAXBException
     */
-   private void writeTaskFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributesType.ExtendedAttributeType> list)
-      throws JAXBException
+   private void writeTaskFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
       Map<TaskField, String> fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
       
@@ -222,7 +218,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
    
-         Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
+         Project.ExtendedAttributes.ExtendedAttribute attribute = factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(fieldID.toString());
          attribute.setFieldName(name);
@@ -235,10 +231,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * 
     * @param factory object factory
     * @param list field alias list
-    * @throws JAXBException
     */   
-   private void writeResourceFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributesType.ExtendedAttributeType> list)
-      throws JAXBException
+   private void writeResourceFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
       Map<ResourceField, String> fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
       
@@ -249,7 +243,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
    
-         Project.ExtendedAttributesType.ExtendedAttributeType attribute = factory.createProjectTypeExtendedAttributesTypeExtendedAttributeType();
+         Project.ExtendedAttributes.ExtendedAttribute attribute = factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(fieldID.toString());
          attribute.setFieldName(name);
@@ -262,10 +256,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
-    * @throws JAXBException on xml creation errors
     */
    private void writeCalendars (ObjectFactory factory, Project project)
-      throws JAXBException
    {
       //
       // First step, find all of the base calendars and resource calendars,
@@ -286,14 +278,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create the new MSPDI calendar list
       //
-      Project.CalendarsType calendars = factory.createProjectTypeCalendarsType();
+      Project.Calendars calendars = factory.createProjectCalendars();
       project.setCalendars (calendars);
-      List<Project.CalendarsType.CalendarType> calendar = calendars.getCalendar();
+      List<Project.Calendars.Calendar> calendar = calendars.getCalendar();
 
       //
       // Process each calendar in turn
       //
-      factory.createProjectTypeCalendarsTypeCalendarType();
+      factory.createProjectCalendarsCalendar();
       for (ProjectCalendar cal : calendarList)
       {
          calendar.add (writeCalendar (factory, cal));
@@ -306,17 +298,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param bc Base calendar data
     * @return New MSPDI calendar instance
-    * @throws JAXBException on xml creation errors
     */
-   private Project.CalendarsType.CalendarType writeCalendar (ObjectFactory factory, ProjectCalendar bc)
-      throws JAXBException
+   private Project.Calendars.Calendar writeCalendar (ObjectFactory factory, ProjectCalendar bc)
    {
       //
       // Create a calendar
       //
-      Project.CalendarsType.CalendarType calendar = factory.createProjectTypeCalendarsTypeCalendarType();
+      Project.Calendars.Calendar calendar = factory.createProjectCalendarsCalendar();
       calendar.setUID(NumberUtility.getBigInteger(bc.getUniqueID()));
-      calendar.setIsBaseCalendar(bc.isBaseCalendar());
+      calendar.setIsBaseCalendar(Boolean.valueOf(bc.isBaseCalendar()));
 
       if (bc.isBaseCalendar() == false)
       {
@@ -332,12 +322,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Create a list of normal days
       //
-      Project.CalendarsType.CalendarType.WeekDaysType days = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysType();
-      Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType time;
+      Project.Calendars.Calendar.WeekDays days = factory.createProjectCalendarsCalendarWeekDays();
+      Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time;
       ProjectCalendarHours bch;
 
       calendar.setWeekDays (days);
-      List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType> dayList = days.getWeekDay();
+      List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
 
 
       for (int loop=1; loop < 8; loop++)
@@ -346,16 +336,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (workingFlag != ProjectCalendar.DEFAULT)
          {
-            Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
+            Project.Calendars.Calendar.WeekDays.WeekDay day = factory.createProjectCalendarsCalendarWeekDaysWeekDay();
             dayList.add(day);
             day.setDayType(BigInteger.valueOf(loop));
-            day.setDayWorking(workingFlag == ProjectCalendar.WORKING);
+            day.setDayWorking(Boolean.valueOf(workingFlag == ProjectCalendar.WORKING));
 
             if (workingFlag == ProjectCalendar.WORKING)
             {
-               Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
+               Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes ();
                day.setWorkingTimes(times);
-               List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> timesList = times.getWorkingTime();
+               List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
                bch = bc.getCalendarHours (Day.getInstance(loop));
                if (bch != null)
@@ -366,7 +356,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      DateRange range = rangeIter.next();
                      if (range != null)
                      {
-                        time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+                        time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
                         timesList.add (time);
 
                         time.setFromTime(DatatypeConverter.printTime(range.getStartDate()));
@@ -389,7 +379,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       Iterator<ProjectCalendarException> iter = exceptions.iterator();
       ProjectCalendarException exception;
-      Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.TimePeriodType period;
+      Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period;
       boolean working;
 
       while (iter.hasNext() == true)
@@ -397,35 +387,35 @@ public final class MSPDIWriter extends AbstractProjectWriter
          exception = iter.next();
          working = exception.getWorking();
 
-         Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType day = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayType();
+         Project.Calendars.Calendar.WeekDays.WeekDay day = factory.createProjectCalendarsCalendarWeekDaysWeekDay();
          dayList.add(day);
          day.setDayType(BIGINTEGER_ZERO);
-         day.setDayWorking(working);
+         day.setDayWorking(Boolean.valueOf(working));
 
-         period = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeTimePeriodType();
+         period = factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
          period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
          period.setToDate(DatatypeConverter.printDate (exception.getToDate()));
 
          if (working == true)
          {
-            Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType times = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesType ();
+            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes ();
             day.setWorkingTimes(times);
-            List<Project.CalendarsType.CalendarType.WeekDaysType.WeekDayType.WorkingTimesType.WorkingTimeType> timesList = times.getWorkingTime();
+            List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-            time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+            time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
             timesList.add (time);
 
             time.setFromTime(DatatypeConverter.printTime(exception.getFromTime1()));
             time.setToTime(DatatypeConverter.printTime(exception.getToTime1()));
 
-            time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+            time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
             timesList.add (time);
 
             time.setFromTime(DatatypeConverter.printTime(exception.getFromTime2()));
             time.setToTime(DatatypeConverter.printTime(exception.getToTime2()));
 
-            time = factory.createProjectTypeCalendarsTypeCalendarTypeWeekDaysTypeWeekDayTypeWorkingTimesTypeWorkingTimeType ();
+            time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
             timesList.add (time);
 
             time.setFromTime(DatatypeConverter.printTime(exception.getFromTime3()));
@@ -441,14 +431,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
-    * @throws JAXBException on xml creation errors
     */
    private void writeResources (ObjectFactory factory, Project project)
-      throws JAXBException
    {
-      Project.ResourcesType resources = factory.createProjectTypeResourcesType();
+      Project.Resources resources = factory.createProjectResources();
       project.setResources(resources);
-      List<Project.ResourcesType.ResourceType> list = resources.getResource();
+      List<Project.Resources.Resource> list = resources.getResource();
 
       Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
       while (iter.hasNext() == true)
@@ -463,12 +451,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param mpx Resource data
     * @return New MSPDI resource instance
-    * @throws JAXBException on xml creation errors
     */
-   private Project.ResourcesType.ResourceType writeResource (ObjectFactory factory, Resource mpx)
-      throws JAXBException
+   private Project.Resources.Resource writeResource (ObjectFactory factory, Resource mpx)
    {
-      Project.ResourcesType.ResourceType xml = factory.createProjectTypeResourcesTypeResourceType();
+      Project.Resources.Resource xml = factory.createProjectResourcesResource();
       ProjectCalendar cal = mpx.getResourceCalendar();
       if (cal != null)
       {
@@ -489,7 +475,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
       xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
       xml.setBookingType(mpx.getBookingType());
-      xml.setCanLevel(mpx.getCanLevel());
+      xml.setCanLevel(Boolean.valueOf(mpx.getCanLevel()));
       xml.setCode(mpx.getCode());
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
       xml.setCostPerUse(DatatypeConverter.printCurrency(mpx.getCostPerUse()));
@@ -504,16 +490,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setID(NumberUtility.getBigInteger(mpx.getID()));
       xml.setInitials(mpx.getInitials());
-      xml.setIsEnterprise(mpx.getEnterprise());
-      xml.setIsGeneric(mpx.getGeneric());
-      xml.setIsInactive(mpx.getInactive());
-      xml.setIsNull(mpx.getNull());
+      xml.setIsEnterprise(Boolean.valueOf(mpx.getEnterprise()));
+      xml.setIsGeneric(Boolean.valueOf(mpx.getGeneric()));
+      xml.setIsInactive(Boolean.valueOf(mpx.getInactive()));
+      xml.setIsNull(Boolean.valueOf(mpx.getNull()));
       xml.setMaterialLabel(mpx.getMaterialLabel());
       xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
       xml.setNTAccount(mpx.getNtAccount());
-      xml.setOverAllocated(mpx.getOverAllocated());
+      xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeRate(DatatypeConverter.printRate (mpx.getOvertimeRate()));
       xml.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(mpx.getOvertimeRateFormat()));
@@ -547,13 +533,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory JAXB object factory
     * @param xml MSPDI resource
     * @param mpx MPXJ resource
-    * @throws JAXBException
     */
-   private void writeResourceExtendedAttributes (ObjectFactory factory, Project.ResourcesType.ResourceType xml, Resource mpx)
-      throws JAXBException
+   private void writeResourceExtendedAttributes (ObjectFactory factory, Project.Resources.Resource xml, Resource mpx)
    {
-      Project.ResourcesType.ResourceType.ExtendedAttributeType attrib;
-      List<Project.ResourcesType.ResourceType.ExtendedAttributeType> extendedAttributes = xml.getExtendedAttribute();
+      Project.Resources.Resource.ExtendedAttribute attrib;
+      List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       Object value;
       ResourceField mpxFieldID;
       Integer xmlFieldID;
@@ -567,7 +551,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             xmlFieldID = new Integer(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
 
-            attrib = factory.createProjectTypeResourcesTypeResourceTypeExtendedAttributeType();
+            attrib = factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
@@ -582,14 +566,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
-    * @throws JAXBException on xml creation errors
     */
    private void writeTasks (ObjectFactory factory, Project project)
-      throws JAXBException
    {
-      Project.TasksType tasks = factory.createProjectTypeTasksType();
+      Project.Tasks tasks = factory.createProjectTasks();
       project.setTasks (tasks);
-      List<Project.TasksType.TaskType> list = tasks.getTask();
+      List<Project.Tasks.Task> list = tasks.getTask();
 
       Iterator<Task> iter = m_projectFile.getAllTasks().iterator();
       while (iter.hasNext() == true)
@@ -605,12 +587,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param mpx Task data
     * @return new task instance
-    * @throws JAXBException on xml creation errors
     */
-   private Project.TasksType.TaskType writeTask (ObjectFactory factory, Task mpx)
-      throws JAXBException
+   private Project.Tasks.Task writeTask (ObjectFactory factory, Task mpx)
    {
-      Project.TasksType.TaskType xml = factory.createProjectTypeTasksTypeTaskType();
+      Project.Tasks.Task xml = factory.createProjectTasksTask();
 
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
       xml.setActualDuration(DatatypeConverter.printDuration(this, mpx.getActualDuration()));
@@ -630,7 +610,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setContact(mpx.getContact());
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
       xml.setCreateDate(DatatypeConverter.printDate(mpx.getCreateDate()));
-      xml.setCritical(mpx.getCritical());
+      xml.setCritical(Boolean.valueOf(mpx.getCritical()));
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDeadline(DatatypeConverter.printDate(mpx.getDeadline()));
       xml.setDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
@@ -639,9 +619,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setEarlyFinish(DatatypeConverter.printDate(mpx.getEarlyFinish()));
       xml.setEarlyStart(DatatypeConverter.printDate(mpx.getEarlyStart()));
       xml.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(mpx.getEarnedValueMethod()));
-      xml.setEffortDriven(mpx.getEffortDriven());
-      xml.setEstimated(mpx.getEstimated());
-      xml.setExternalTask(mpx.getExternalTask());
+      xml.setEffortDriven(Boolean.valueOf(mpx.getEffortDriven()));
+      xml.setEstimated(Boolean.valueOf(mpx.getEstimated()));
+      xml.setExternalTask(Boolean.valueOf(mpx.getExternalTask()));
       xml.setExternalTaskProject(mpx.getProject());
 
       Date finishDate = mpx.getFinish();
@@ -663,19 +643,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // This is not correct
       //xml.setFreeSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getFreeSlack())*1000));
       xml.setFreeSlack(BIGINTEGER_ZERO);
-      xml.setHideBar(mpx.getHideBar());
-      xml.setIsNull(mpx.getNull());
-      xml.setIsSubproject(mpx.getSubProject()!=null);
-      xml.setIsSubprojectReadOnly(mpx.getSubprojectReadOnly());
+      xml.setHideBar(Boolean.valueOf(mpx.getHideBar()));
+      xml.setIsNull(Boolean.valueOf(mpx.getNull()));
+      xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject()!=null));
+      xml.setIsSubprojectReadOnly(Boolean.valueOf(mpx.getSubprojectReadOnly()));
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setID(NumberUtility.getBigInteger(mpx.getID()));
-      xml.setIgnoreResourceCalendar(mpx.getIgnoreResourceCalendar());
+      xml.setIgnoreResourceCalendar(Boolean.valueOf(mpx.getIgnoreResourceCalendar()));
       xml.setLateFinish(DatatypeConverter.printDate(mpx.getLateFinish()));
       xml.setLateStart(DatatypeConverter.printDate(mpx.getLateStart()));
-      xml.setLevelAssignments(mpx.getLevelAssignments());
-      xml.setLevelingCanSplit(mpx.getLevelingCanSplit());
+      xml.setLevelAssignments(Boolean.valueOf(mpx.getLevelAssignments()));
+      xml.setLevelingCanSplit(Boolean.valueOf(mpx.getLevelingCanSplit()));
 
       if (mpx.getLevelingDelay() != null)
       {
@@ -683,19 +663,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat()));
       }
 
-      xml.setMilestone(mpx.getMilestone());
+      xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
       xml.setName(mpx.getName());
       xml.setNotes(mpx.getNotes());
       xml.setOutlineLevel(NumberUtility.getBigInteger(mpx.getOutlineLevel()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
-      xml.setOverAllocated(mpx.getOverAllocated());
+      xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setPercentComplete(NumberUtility.getBigInteger(mpx.getPercentageComplete()));
       xml.setPercentWorkComplete(NumberUtility.getBigInteger(mpx.getPercentageWorkComplete()));
       xml.setPhysicalPercentComplete(NumberUtility.getBigInteger(mpx.getPhysicalPercentComplete()));
       xml.setPriority(DatatypeConverter.printPriority(mpx.getPriority()));
-      xml.setRecurring(mpx.getRecurring());
+      xml.setRecurring(Boolean.valueOf(mpx.getRecurring()));
       xml.setRegularWork(DatatypeConverter.printDuration(this, mpx.getRegularWork()));
       xml.setRemainingCost(DatatypeConverter.printCurrency(mpx.getRemainingCost()));
 
@@ -719,13 +699,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResume(DatatypeConverter.printDate(mpx.getResume()));
-      xml.setResumeValid(mpx.getResumeValid());
-      xml.setRollup(mpx.getRollup());
+      xml.setResumeValid(Boolean.valueOf(mpx.getResumeValid()));
+      xml.setRollup(Boolean.valueOf(mpx.getRollup()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setStartVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getStartVariance())*1000));
       xml.setStop(DatatypeConverter.printDate (mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
-      xml.setSummary(mpx.getSummary());
+      xml.setSummary(Boolean.valueOf(mpx.getSummary()));
       xml.setTotalSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack())*1000));
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
@@ -747,13 +727,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory JAXB object factory
     * @param xml MSPDI task
     * @param mpx MPXJ task
-    * @throws JAXBException
     */
-   private void writeTaskExtendedAttributes (ObjectFactory factory, Project.TasksType.TaskType xml, Task mpx)
-      throws JAXBException
+   private void writeTaskExtendedAttributes (ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
    {
-      Project.TasksType.TaskType.ExtendedAttributeType attrib;
-      List<Project.TasksType.TaskType.ExtendedAttributeType> extendedAttributes = xml.getExtendedAttribute();
+      Project.Tasks.Task.ExtendedAttribute attrib;
+      List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       Object value;
       TaskField mpxFieldID;
       Integer xmlFieldID;
@@ -767,7 +745,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             xmlFieldID = new Integer (MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
 
-            attrib = factory.createProjectTypeTasksTypeTaskTypeExtendedAttributeType();
+            attrib = factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
             attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
@@ -827,15 +805,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param xml MSPDI task data
     * @param mpx MPX task data
-    * @throws JAXBException on xml creation errors
     */
-   private void writePredecessors (ObjectFactory factory, Project.TasksType.TaskType xml, Task mpx)
-      throws JAXBException
+   private void writePredecessors (ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
    {
       TreeSet<Integer> set = new TreeSet<Integer> ();
       Integer taskID;
       Relation rel;
-      List<Project.TasksType.TaskType.PredecessorLinkType> list = xml.getPredecessorLink();
+      List<Project.Tasks.Task.PredecessorLink> list = xml.getPredecessorLink();
       Iterator<Relation> iter;
 
       //
@@ -888,12 +864,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param type The predecessor type
     * @param lag The lag duration
     * @return A new link to be added to the MSPDI file
-    * @throws JAXBException on xml creation errors
     */
-   private Project.TasksType.TaskType.PredecessorLinkType writePredecessor (ObjectFactory factory, Integer taskID, RelationType type, Duration lag)
-      throws JAXBException
+   private Project.Tasks.Task.PredecessorLink writePredecessor (ObjectFactory factory, Integer taskID, RelationType type, Duration lag)
    {
-      Project.TasksType.TaskType.PredecessorLinkType link = factory.createProjectTypeTasksTypeTaskTypePredecessorLinkType();
+      Project.Tasks.Task.PredecessorLink link = factory.createProjectTasksTaskPredecessorLink();
 
       link.setPredecessorUID (NumberUtility.getBigInteger(taskID));
       link.setType (BigInteger.valueOf(type.getType()));
@@ -913,15 +887,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
-    * @throws JAXBException on xml creation errors
     */
    private void writeAssignments (ObjectFactory factory, Project project)
-      throws JAXBException
    {
       int uid = 0;
-      Project.AssignmentsType assignments = factory.createProjectTypeAssignmentsType();
+      Project.Assignments assignments = factory.createProjectAssignments();
       project.setAssignments(assignments);
-      List<Project.AssignmentsType.AssignmentType> list = assignments.getAssignment();
+      List<Project.Assignments.Assignment> list = assignments.getAssignment();
       
       for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
       {
@@ -970,12 +942,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx Resource assignment data
     * @param uid Unique ID for the new assignment
     * @return New MSPDI assignment instance
-    * @throws JAXBException on xml creation errors
     */
-   private Project.AssignmentsType.AssignmentType writeAssignment (ObjectFactory factory, ResourceAssignment mpx, int uid)
-      throws JAXBException
+   private Project.Assignments.Assignment writeAssignment (ObjectFactory factory, ResourceAssignment mpx, int uid)
    {
-      Project.AssignmentsType.AssignmentType xml = factory.createProjectTypeAssignmentsTypeAssignmentType();
+      Project.Assignments.Assignment xml = factory.createProjectAssignmentsAssignment();
 
       xml.setActualCost(DatatypeConverter.printCurrency (mpx.getActualCost()));
       xml.setActualWork(DatatypeConverter.printDuration (this, mpx.getActualWork()));

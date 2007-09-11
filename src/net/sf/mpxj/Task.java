@@ -399,6 +399,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param task the predecessor task
     * @return relationship
     */
+   @SuppressWarnings("unchecked")
    public Relation addPredecessor (Task task)
    {
       //
@@ -470,19 +471,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param task the predecessor task
     * @return relationship
     */
+   @SuppressWarnings("unchecked") 
    public Relation addUniqueIdPredecessor (Task task)
    {
       //
       // Retrieve the list of predecessors
       //
       List<Relation> list = (List<Relation>)getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS);
-
       if (list == null)
       {
          list = new LinkedList<Relation>();
          set(TaskField.UNIQUE_ID_PREDECESSORS, list);
       }
-
+      
       //
       // Ensure that there is only one relationship between
       // these two tasks.
@@ -540,6 +541,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param task the successor task
     * @return relationship
     */
+   @SuppressWarnings("unchecked") 
    public Relation addSuccessor (Task task)
    {
       List<Relation> list = (List<Relation>)getCachedValue(TaskField.SUCCESSORS);
@@ -581,6 +583,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param task the successor task
     * @return relationship
     */
+   @SuppressWarnings("unchecked") 
    public Relation addUniqueIdSuccessor (Task task)
    {
       List<Relation> list = (List<Relation>)getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS);
@@ -2823,6 +2826,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return RelationList instance
     */
+   @SuppressWarnings("unchecked")
    public List<Relation> getPredecessors ()
    {
       return ((List<Relation>)getCachedValue(TaskField.PREDECESSORS));
@@ -3088,6 +3092,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return RelationList instance
     */
+   @SuppressWarnings("unchecked")
    public List<Relation> getSuccessors ()
    {
       return ((List<Relation>)getCachedValue(TaskField.SUCCESSORS));
@@ -3342,6 +3347,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return list of predecessor UniqueIDs
     */
+   @SuppressWarnings("unchecked")
    public List<Relation> getUniqueIDPredecessors ()
    {
       return ((List<Relation>)getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS));
@@ -3355,6 +3361,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return list of predecessor UniqueIDs
     */
+   @SuppressWarnings("unchecked")
    public List<Relation> getUniqueIDSuccessors ()
    {
       return ((List<Relation>)getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS));
@@ -6059,8 +6066,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Duration startSlack = (Duration)getCachedValue(TaskField.START_SLACK);
       if (startSlack == null)
       {
-         startSlack = DateUtility.getVariance(this, getLateStart(), getEarlyStart(), getDuration().getUnits());
-         set(TaskField.START_SLACK, startSlack);
+         Duration duration = getDuration();
+         if (duration != null)
+         {
+            startSlack = DateUtility.getVariance(this, getLateStart(), getEarlyStart(), duration.getUnits());
+            set(TaskField.START_SLACK, startSlack);
+         }
       }
       return (startSlack);
    }
@@ -6075,8 +6086,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Duration finishSlack = (Duration)getCachedValue(TaskField.FINISH_SLACK);
       if (finishSlack == null)
       {
-         finishSlack = DateUtility.getVariance(this, getLateFinish(), getEarlyFinish(), getDuration().getUnits());
-         set(TaskField.FINISH_SLACK, finishSlack);
+         Duration duration = getDuration();
+         if (duration != null)
+         {
+            finishSlack = DateUtility.getVariance(this, getLateFinish(), getEarlyFinish(), duration.getUnits());
+            set(TaskField.FINISH_SLACK, finishSlack);
+         }
       }
       return (finishSlack);
    }

@@ -200,6 +200,7 @@ public final class TestOperator
     * @param rhs range operand
     * @return boolean result
     */
+   @SuppressWarnings("unchecked")
    private boolean evaluateWithin (Object lhs, Object rhs)
    {
       boolean result = false;
@@ -225,6 +226,7 @@ public final class TestOperator
     * @param rhs operand
     * @return boolean result
     */
+   @SuppressWarnings("unchecked")
    private int evaluateCompareTo (Object lhs, Object rhs)
    {
       int result;

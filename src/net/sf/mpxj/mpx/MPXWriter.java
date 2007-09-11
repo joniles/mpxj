@@ -1344,6 +1344,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value input value
     * @return output value
     */
+   @SuppressWarnings("unchecked")
    private Object formatType (DataType type, Object value)
    {
       switch (type.getType())

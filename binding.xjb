@@ -11,11 +11,6 @@
                     xmlType="xsd:float"     
                     parseMethod="javax.xml.bind.DatatypeConverter.parseDecimal" 
                     printMethod="javax.xml.bind.DatatypeConverter.printDecimal"/>      
-      <!-- globally map boolean types to Boolean to allow custom print and parse to be used -->
-      <jxb:javaType name="boolean"
-                    xmlType="xsd:boolean"     
-                    parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean" 
-                    printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printBoolean"/>      
       <!-- globally map time types to Calendar to allow custom print and parse to be used -->
       <jxb:javaType name="java.util.Calendar"
                     xmlType="xsd:time"     
@@ -26,6 +21,17 @@
                     xmlType="xsd:dateTime"     
                     parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseDateTime" 
                     printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printDateTime"/>      
+      <!-- globally map duration types to String to allow custom print and parse to be used -->
+      <jxb:javaType name="java.lang.String"
+                    xmlType="xsd:duration"     
+                    parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseString" 
+                    printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printString"/>
+		<!-- globally map boolean types to String to allow custom print and parse to be used -->                    
+		<jxb:javaType name="boolean"
+                    xmlType="xsd:boolean"     
+                    parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseBoolean" 
+                    printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printBoolean"/>      
+                          
    </jxb:globalBindings>      
    
    <!-- Project.CurrencySymbolPosition -->      
