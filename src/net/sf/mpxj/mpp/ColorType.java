@@ -25,10 +25,12 @@ package net.sf.mpxj.mpp;
 
 import java.awt.Color;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * This class represents the colors used by Microsoft Project.
  */
-public final class ColorType
+public final class ColorType implements MpxjEnum
 {
    /**
     * Private constructor.

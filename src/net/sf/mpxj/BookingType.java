@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated booking type values.
  */
-public final class BookingType
+public final class BookingType implements MpxjEnum
 {
    /**
     * Private constructor.

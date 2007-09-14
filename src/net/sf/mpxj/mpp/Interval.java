@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * This class represents daily, weekly or monthly time intervals.
  */
-public final class Interval
+public final class Interval implements MpxjEnum
 {
    /**
     * Private constructor.

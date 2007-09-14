@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated date order values.
  */
-public final class DateOrder
+public final class DateOrder implements MpxjEnum
 {
    /**
     * Private constructor.

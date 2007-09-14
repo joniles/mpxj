@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated work group values.
  */
-public final class WorkGroup
+public final class WorkGroup implements MpxjEnum
 {
    /**
     * Private constructor.

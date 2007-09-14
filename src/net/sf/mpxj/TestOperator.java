@@ -23,13 +23,15 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 
 
 /**
  * This class represents the set of operators used to perform a test
  * between two or more operands.
  */
-public final class TestOperator
+public final class TestOperator implements MpxjEnum
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -39,7 +41,7 @@ public final class TestOperator
     */
    private TestOperator (int type)
    {
-      m_type = type;
+      m_value = type;
    }
 
    /**
@@ -65,9 +67,9 @@ public final class TestOperator
     *
     * @return int representation of the constraint type
     */
-   public int getType ()
+   public int getValue ()
    {
-      return (m_type);
+      return (m_value);
    }
 
    /**
@@ -83,7 +85,7 @@ public final class TestOperator
    {
       boolean result = false;
       
-      switch (m_type)
+      switch (m_value)
       {
          case IS_ANY_VALUE_VALUE:
          {
@@ -308,7 +310,7 @@ public final class TestOperator
     */
    @Override public String toString ()
    {
-      return (NAME_VALUES[m_type]);
+      return (NAME_VALUES[m_value]);
    }
    
    public static final int IS_ANY_VALUE_VALUE = 0;      
@@ -376,5 +378,5 @@ public final class TestOperator
    /**
     * Internal representation.
     */
-   private int m_type;
+   private int m_value;
 }

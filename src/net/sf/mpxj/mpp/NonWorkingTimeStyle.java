@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Class representing how non-working time is shown on a Gantt chart.
  */
-public final class NonWorkingTimeStyle
+public final class NonWorkingTimeStyle implements MpxjEnum
 {
    /**
     * Private constructor.

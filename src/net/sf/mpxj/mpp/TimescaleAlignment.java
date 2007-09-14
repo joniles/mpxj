@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Class representing the label alignment on a Gantt chart timescale.
  */
-public final class TimescaleAlignment
+public final class TimescaleAlignment implements MpxjEnum
 {
    /**
     * Private constructor.

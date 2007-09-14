@@ -25,11 +25,13 @@ package net.sf.mpxj;
 
 import java.util.Locale;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * This interface is implemented by classes which represent a field
  * in either the Task or Resource entity.
  */
-public interface FieldType
+public interface FieldType extends MpxjEnum
 {
    /**
     * Retrieve the name of this field using the default locale.
@@ -45,13 +47,6 @@ public interface FieldType
     * @return field name
     */
    public String getName (Locale locale);
-
-   /**
-    * Retrieve the internal numeric representation of the field.
-    *
-    * @return numeric representation of the field type
-    */
-   public int getValue ();
    
    /**
     * Retrieve the data type of this field.

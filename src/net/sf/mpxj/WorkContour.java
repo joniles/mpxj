@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated work contour values.
  */
-public final class WorkContour
+public final class WorkContour implements MpxjEnum
 {
    /**
     * Private constructor.

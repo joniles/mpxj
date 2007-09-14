@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated earned value method values.
  */
-public final class EarnedValueMethod
+public final class EarnedValueMethod implements MpxjEnum
 {
    /**
     * Private constructor.

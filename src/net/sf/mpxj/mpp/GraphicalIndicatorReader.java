@@ -217,7 +217,7 @@ public final class GraphicalIndicatorReader
          //int dataTypeValue = MPPUtility.getShort(m_data, m_dataOffset);
          m_dataOffset += 2;
          
-         switch (type.getDataType().getType())
+         switch (type.getDataType().getValue())
          {
             case DataType.DURATION_VALUE: // 0x03
             {

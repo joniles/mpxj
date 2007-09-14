@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated date format values.
  */
-public final class ProjectDateFormat
+public final class ProjectDateFormat implements MpxjEnum
 {
    /**
     * Private constructor.

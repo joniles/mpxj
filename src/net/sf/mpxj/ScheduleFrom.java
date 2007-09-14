@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated schedule from values.
  */
-public final class ScheduleFrom
+public final class ScheduleFrom implements MpxjEnum
 {
    /**
     * Private constructor.

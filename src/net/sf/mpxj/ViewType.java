@@ -23,11 +23,13 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 
 /**
  * This class represents the enumeration of the valid types of view.
  */
-public final class ViewType
+public final class ViewType implements MpxjEnum
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -40,11 +42,11 @@ public final class ViewType
    {
       if (type < UNKNOWN_VALUE || type > RESOURCE_USAGE_VALUE)
       {
-         m_type = UNKNOWN_VALUE;
+         m_value = UNKNOWN_VALUE;
       }
       else
       {
-         m_type = type;
+         m_value = type;
       }
    }
 
@@ -73,9 +75,9 @@ public final class ViewType
     *
     * @return int representation of the view type
     */
-   public int getType ()
+   public int getValue ()
    {
-      return (m_type);
+      return (m_value);
    }
 
    /**
@@ -83,7 +85,7 @@ public final class ViewType
     */
    @Override public String toString ()
    {
-      return (TYPE_NAMES[m_type]);
+      return (TYPE_NAMES[m_value]);
    }
    
    public static final int UNKNOWN_VALUE = 0;
@@ -165,5 +167,5 @@ public final class ViewType
    /**
     * Internal representation of the view type.
     */
-   private int m_type;
+   private int m_value;
 }

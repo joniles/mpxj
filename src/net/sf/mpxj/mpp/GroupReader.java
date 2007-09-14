@@ -162,7 +162,7 @@ public abstract class GroupReader
             Object startAt = null;
             Object groupInterval = null;
             
-            switch (type.getDataType().getType())
+            switch (type.getDataType().getValue())
             {
                case DataType.DURATION_VALUE:
                case DataType.NUMERIC_VALUE:

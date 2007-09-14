@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * This class represents the data type of an attribute.
  */
-public final class DataType
+public final class DataType implements MpxjEnum
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -36,7 +38,7 @@ public final class DataType
     */
    private DataType (int type)
    {
-      m_type = type;
+      m_value = type;
    }
 
    /**
@@ -45,9 +47,9 @@ public final class DataType
     *
     * @return int representation of the data type
     */
-   public int getType ()
+   public int getValue ()
    {
-      return (m_type);
+      return (m_value);
    }
 
    public static final int STRING_VALUE = 1;
@@ -85,5 +87,5 @@ public final class DataType
    /**
     * Internal representation of the data type.
     */
-   private int m_type;
+   private int m_value;
 }

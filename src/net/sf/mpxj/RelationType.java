@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 
 /**
  * This class is used to represent a relation type. It provides a mapping
@@ -30,7 +32,7 @@ package net.sf.mpxj;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class RelationType
+public final class RelationType implements MpxjEnum
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -43,11 +45,11 @@ public final class RelationType
    {
       if (type < 0 || type > MAX_TYPE_VALUES)
       {
-         m_type = FINISH_START_VALUE;
+         m_value = FINISH_START_VALUE;
       }
       else
       {
-         m_type = type;
+         m_value = type;
       }
    }
 
@@ -75,9 +77,9 @@ public final class RelationType
     *
     * @return int representation of the constraint type
     */
-   public int getType ()
+   public int getValue ()
    {
-      return (m_type);
+      return (m_value);
    }
 
    /**
@@ -85,7 +87,7 @@ public final class RelationType
     */
    @Override public String toString ()
    {
-      return (TYPE_NAMES[m_type]);
+      return (TYPE_NAMES[m_value]);
    }
    
    public static final int FINISH_FINISH_VALUE = 0;
@@ -124,5 +126,5 @@ public final class RelationType
    /**
     * Internal representation.
     */
-   private int m_type;
+   private int m_value;
 }

@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Class representing the units which may be shown on a Gantt chart timescale.
  */
-public final class TimescaleUnits
+public final class TimescaleUnits implements MpxjEnum
 {
    /**
     * Private constructor.
@@ -83,6 +85,16 @@ public final class TimescaleUnits
       return (result);
    }
 
+   /**
+    * Retrieves the int representation of this enum.
+    *
+    * @return enum value
+    */
+   public int getValue ()
+   {
+      return (m_value);
+   }
+   
    /**
     * Generate a string representation of this instance.
     *

@@ -224,7 +224,7 @@ public final class DatatypeConverter
     */
    public static final void parseExtendedAttribute (ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID)
    {
-      switch (mpxFieldID.getDataType().getType())
+      switch (mpxFieldID.getDataType().getValue())
       {
          case DataType.STRING_VALUE:
          {
@@ -345,7 +345,6 @@ public final class DatatypeConverter
       return (result);
    }
 
-
    /**
     * Print an accrue type.
     *
@@ -354,7 +353,7 @@ public final class DatatypeConverter
     */
    public static final String printAccrueType (AccrueType value)
    {
-      return (Integer.toString(value==null?AccrueType.PRORATED_VALUE:value.getType()));
+      return (Integer.toString(value==null?AccrueType.PRORATED.getValue():value.getValue()));
    }
 
    /**
@@ -1414,7 +1413,7 @@ public final class DatatypeConverter
     */
    public static final BigInteger printConstraintType (ConstraintType value)
    {
-      return (value==null?null:BigInteger.valueOf(value.getType()));
+      return (value==null?null:BigInteger.valueOf(value.getValue()));
    }
 
    /**

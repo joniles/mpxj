@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 
 /**
  * This class is used to represent a constraint type. It provides a mapping
@@ -30,7 +32,7 @@ package net.sf.mpxj;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class ConstraintType
+public final class ConstraintType implements MpxjEnum
 {
    /**
     * This constructor takes the numeric enumerated representation of a
@@ -44,11 +46,11 @@ public final class ConstraintType
    {
       if (type < AS_SOON_AS_POSSIBLE_VALUE || type > FINISH_NO_LATER_THAN_VALUE)
       {
-         m_type = AS_SOON_AS_POSSIBLE_VALUE;
+         m_value = AS_SOON_AS_POSSIBLE_VALUE;
       }
       else
       {
-         m_type = type;
+         m_value = type;
       }
    }
 
@@ -96,9 +98,9 @@ public final class ConstraintType
     *
     * @return int representation of the constraint type
     */
-   public int getType ()
+   public int getValue ()
    {
-      return (m_type);
+      return (m_value);
    }
 
    public static final int AS_SOON_AS_POSSIBLE_VALUE = 0;
@@ -134,5 +136,5 @@ public final class ConstraintType
    /**
     * Internal representation of the constraint type.
     */
-   private int m_type;
+   private int m_value;
 }

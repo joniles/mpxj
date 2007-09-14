@@ -1425,7 +1425,7 @@ public abstract class GanttChartView extends GenericView
       }
       else
       {                  
-         switch (type.getDataType().getType())
+         switch (type.getDataType().getValue())
          {
             case DataType.DURATION_VALUE:
             {

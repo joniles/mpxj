@@ -23,12 +23,14 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 
 /**
  * This class contains utility functions allowing time unit specifications
  * to be parsed and formatted.
  */
-public final class TimeUnit
+public final class TimeUnit implements MpxjEnum
 {
    /**
     * Private constructor.

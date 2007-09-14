@@ -1142,7 +1142,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatAccrueType (AccrueType type)
    {      
-      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.ACCRUE_TYPES)[type.getType()-1]);
+      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.ACCRUE_TYPES)[type.getValue()-1]);
    }
 
    /**
@@ -1153,7 +1153,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatConstraintType (ConstraintType type)
    {
-      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getType()]);
+      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()]);
    }
 
    /**
@@ -1283,7 +1283,7 @@ public final class MPXWriter extends AbstractProjectWriter
          if ((durationValue != 0) || (type != RelationType.FINISH_START))
          {
             String[] typeNames = LocaleData.getStringArray(m_locale, LocaleData.RELATION_TYPES);
-            sb.append (typeNames[type.getType()]);
+            sb.append (typeNames[type.getValue()]);
          }
    
          if (durationValue != 0)
@@ -1347,7 +1347,7 @@ public final class MPXWriter extends AbstractProjectWriter
    @SuppressWarnings("unchecked")
    private Object formatType (DataType type, Object value)
    {
-      switch (type.getType())
+      switch (type.getValue())
       {
          case DataType.DATE_VALUE:
          {

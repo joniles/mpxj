@@ -1658,7 +1658,7 @@ final class MPP12Reader implements MPPVariantReader
          
          task.setFinishSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          
-         switch (task.getConstraintType().getType())
+         switch (task.getConstraintType().getValue())
          {
             //
             // Adjust the start and finish dates if the task

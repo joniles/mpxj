@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 
 /**
  * This class is used to represent an accrue type. It provides a mapping
@@ -30,7 +32,7 @@ package net.sf.mpxj;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class AccrueType
+public final class AccrueType implements MpxjEnum
 {
    /**
     * This constructor takes the numeric enumerated representation of an
@@ -43,11 +45,11 @@ public final class AccrueType
    {
       if (type < START_VALUE || type > PRORATED_VALUE)
       {
-         m_type = PRORATED_VALUE;
+         m_value = PRORATED_VALUE;
       }
       else
       {
-         m_type = type;
+         m_value = type;
       }
    }
 
@@ -100,9 +102,9 @@ public final class AccrueType
     *
     * @return int representation of the accrue type
     */
-   public int getType ()
+   public int getValue ()
    {
-      return (m_type);
+      return (m_value);
    }
 
    public static final int START_VALUE = 1;
@@ -126,5 +128,5 @@ public final class AccrueType
    /**
     * Internal representation of the accrue type.
     */
-   private int m_type;
+   private int m_value;
 }

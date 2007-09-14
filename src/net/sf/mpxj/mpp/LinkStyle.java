@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Class representing how links are drawn on a Gantt chart.
  */
-public final class LinkStyle
+public final class LinkStyle implements MpxjEnum
 {
    /**
     * Private constructor.

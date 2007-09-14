@@ -870,7 +870,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Tasks.Task.PredecessorLink link = factory.createProjectTasksTaskPredecessorLink();
 
       link.setPredecessorUID (NumberUtility.getBigInteger(taskID));
-      link.setType (BigInteger.valueOf(type.getType()));
+      link.setType (BigInteger.valueOf(type.getValue()));
 
       if (lag != null && lag.getDuration() != 0)
       {

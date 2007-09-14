@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * This class represents the grid line styles used by Microsoft Project.
  */
-public final class LineStyle
+public final class LineStyle implements MpxjEnum
 {
    /**
     * Private constructor.

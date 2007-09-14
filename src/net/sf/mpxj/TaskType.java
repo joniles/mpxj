@@ -23,10 +23,12 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated task type values.
  */
-public final class TaskType
+public final class TaskType implements MpxjEnum
 {
    /**
     * Private constructor.
