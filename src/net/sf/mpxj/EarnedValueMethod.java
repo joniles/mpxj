@@ -23,83 +23,93 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated earned value method values.
  */
-public final class EarnedValueMethod implements MpxjEnum
+public enum EarnedValueMethod implements MpxjEnum
 {
+   PERCENT_COMPLETE (0),
+   PHYSICAL_PERCENT_COMPLETE (1);
+   
    /**
     * Private constructor.
-    *
-    * @param value earned value method value
+    * 
+    * @param type int version of the enum
     */
-   private EarnedValueMethod (int value)
+   private EarnedValueMethod (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the earned value method.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return earned value method value
+    * @param type int type
+    * @return enum instance
+    */
+   public static EarnedValueMethod getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = PHYSICAL_PERCENT_COMPLETE.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static EarnedValueMethod getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
+
    /**
-    * Retrieve an EarnedValueMethod instance representing the supplied value.
-    *
-    * @param value earned value method
-    * @return EarnedValueMethod instance
+    * Array mapping int types to enums.
     */
-   public static EarnedValueMethod getInstance (int value)
-   {
-      EarnedValueMethod result;
-
-      switch (value)
+   private static final EarnedValueMethod[] TYPE_VALUES = new EarnedValueMethod[2];
+   static
+   {      
+      for (EarnedValueMethod e : EnumSet.range(EarnedValueMethod.PERCENT_COMPLETE, EarnedValueMethod.PHYSICAL_PERCENT_COMPLETE))
       {
-         case PERCENT_COMPLETE_VALUE:
-         {
-            result = PERCENT_COMPLETE;
-            break;
-         }
-
-         default:
-         case PHYSICAL_PERCENT_COMPLETE_VALUE:
-         {
-            result = PHYSICAL_PERCENT_COMPLETE;
-            break;
-         }
+         TYPE_VALUES[e.getValue()] = e;
       }
-
-      return (result);
    }
 
 
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing Percent Complete.
-    */
-   public static final int PERCENT_COMPLETE_VALUE = 0;
-
-   /**
-    * Constant representing Physical Percent Complete.
-    */
-   public static final int PHYSICAL_PERCENT_COMPLETE_VALUE = 1;
-
-   /**
-    * Constant representing Percent Complete.
-    */
-   public static final EarnedValueMethod PERCENT_COMPLETE = new EarnedValueMethod(PERCENT_COMPLETE_VALUE);
-
-   /**
-    * Constant representing Physical Percent Complete.
-    */
-   public static final EarnedValueMethod PHYSICAL_PERCENT_COMPLETE = new EarnedValueMethod(PHYSICAL_PERCENT_COMPLETE_VALUE);
 }

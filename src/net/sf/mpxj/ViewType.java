@@ -23,57 +23,87 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
  * This class represents the enumeration of the valid types of view.
  */
-public final class ViewType implements MpxjEnum
+public enum ViewType implements MpxjEnum
 {
+   UNKNOWN (0, "UNKNOWN"),
+   GANTT_CHART (1, "GANTT_CHART"),
+   NETWORK_DIAGRAM (2, "NETWORK_DIAGRAM"),
+   RELATIONSHIP_DIAGRAM (3, "RELATIONSHIP_DIAGRAM"),
+   TASK_FORM (4, "TASK_FORM"),
+   TASK_SHEET (5, "TASK_SHEET"),
+   RESOURCE_FORM (6, "RESOURCE_FORM"),
+   RESOURCE_SHEET (7, "RESOURCE_SHEET"),
+   RESOURCE_GRAPH (8, "RESOURCE_GRAPH"),
+   TASK_DETAILS_FORM (10, "TASK_DETAILS_FORM"),
+   TASK_NAME_FORM (11, "TASK_NAME_FORM"),
+   RESOURCE_NAME_FORM (12, "RESOURCE_NAME_FORM"),
+   CALENDAR (13, "CALENDAR"),
+   TASK_USAGE (14, "TASK_USAGE"),
+   RESOURCE_USAGE (15, "RESOURCE_USAGE");
+   
    /**
-    * This constructor takes the numeric enumerated representation of a
-    * view type and populates the class instance appropriately.
-    * Note that unrecognised values are treated as "UNKNOWN".
-    *
-    * @param type int version of the view type
+    * Private constructor.
+    * 
+    * @param type int version of the enum
+    * @param name enum name
     */
-   private ViewType (int type)
+   private ViewType (int type, String name)
    {
-      if (type < UNKNOWN_VALUE || type > RESOURCE_USAGE_VALUE)
-      {
-         m_value = UNKNOWN_VALUE;
-      }
-      else
-      {
-         m_value = type;
-      }
+      m_value = type;
+      m_name = name;
    }
 
+
    /**
-    * This method takes a numeric enumerated view type value
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as "UNKNOWN".
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type numeric enumerated view type
-    * @return ViewType class instance
+    * @param type int type
+    * @return enum instance
     */
    public static ViewType getInstance (int type)
-   {
-      if (type < UNKNOWN_VALUE || type > RESOURCE_USAGE_VALUE)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = UNKNOWN_VALUE;
+         type = UNKNOWN.getValue();
       }
-
       return (TYPE_VALUES[type]);
    }
 
 
    /**
-    * Accessor method used to retrieve the numeric representation of the
-    * view type.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return int representation of the view type
+    * @param type int type
+    * @return enum instance
+    */
+   public static ViewType getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
@@ -81,91 +111,39 @@ public final class ViewType implements MpxjEnum
    }
 
    /**
+    * Retrieve the name of this enum.
+    * 
+    * @return enum name
+    */
+   public String getName ()
+   {
+      return (m_name);
+   }
+   
+   /**
     * {@inheritDoc}
     */
    @Override public String toString ()
    {
-      return (TYPE_NAMES[m_value]);
+      return (m_name);
    }
-   
-   public static final int UNKNOWN_VALUE = 0;
-   public static final int GANTT_CHART_VALUE = 1;
-   public static final int NETWORK_DIAGRAM_VALUE = 2;
-   public static final int RELATIONSHIP_DIAGRAM_VALUE = 3;
-   public static final int TASK_FORM_VALUE = 4;
-   public static final int TASK_SHEET_VALUE = 5;
-   public static final int RESOURCE_FORM_VALUE = 6;
-   public static final int RESOURCE_SHEET_VALUE = 7;
-   public static final int RESOURCE_GRAPH_VALUE=8;
-   public static final int TASK_DETAILS_FORM_VALUE = 10;
-   public static final int TASK_NAME_FORM_VALUE = 11;
-   public static final int RESOURCE_NAME_FORM_VALUE = 12;
-   public static final int CALENDAR_VALUE = 13;
-   public static final int TASK_USAGE_VALUE = 14;
-   public static final int RESOURCE_USAGE_VALUE=15;
 
-   public static final ViewType UNKNOWN = new ViewType (UNKNOWN_VALUE);
-   public static final ViewType GANTT_CHART = new ViewType (GANTT_CHART_VALUE);
-   public static final ViewType NETWORK_DIAGRAM = new ViewType (NETWORK_DIAGRAM_VALUE);
-   public static final ViewType RELATIONSHIP_DIAGRAM = new ViewType (RELATIONSHIP_DIAGRAM_VALUE);
-   public static final ViewType TASK_FORM = new ViewType (TASK_FORM_VALUE);
-   public static final ViewType TASK_SHEET = new ViewType (TASK_SHEET_VALUE);
-   public static final ViewType RESOURCE_FORM = new ViewType (RESOURCE_FORM_VALUE);
-   public static final ViewType RESOURCE_SHEET = new ViewType (RESOURCE_SHEET_VALUE);
-   public static final ViewType RESOURCE_GRAPH = new ViewType (RESOURCE_GRAPH_VALUE);
-   public static final ViewType TASK_DETAILS_FORM = new ViewType (TASK_DETAILS_FORM_VALUE);
-   public static final ViewType TASK_NAME_FORM = new ViewType (TASK_NAME_FORM_VALUE);
-   public static final ViewType RESOURCE_NAME_FORM = new ViewType (RESOURCE_NAME_FORM_VALUE);   
-   public static final ViewType CALENDAR = new ViewType (CALENDAR_VALUE);
-   public static final ViewType TASK_USAGE = new ViewType (TASK_USAGE_VALUE);
-   public static final ViewType RESOURCE_USAGE = new ViewType (RESOURCE_USAGE_VALUE);   
-   
    /**
-    * Array of type values matching the above constants.
+    * Array mapping int types to enums.
     */
-   private static final ViewType[] TYPE_VALUES =
-   {
-      UNKNOWN,
-      GANTT_CHART,
-      NETWORK_DIAGRAM,
-      RELATIONSHIP_DIAGRAM,
-      TASK_FORM,
-      TASK_SHEET,
-      RESOURCE_FORM,
-      RESOURCE_SHEET,
-      RESOURCE_GRAPH,
-      UNKNOWN,
-      TASK_DETAILS_FORM,
-      TASK_NAME_FORM,
-      RESOURCE_NAME_FORM,
-      CALENDAR,
-      TASK_USAGE,
-      RESOURCE_USAGE
-   };
+   private static final ViewType[] TYPE_VALUES = new ViewType[16];
+   static
+   {      
+      for (ViewType e : EnumSet.range(ViewType.UNKNOWN, ViewType.RESOURCE_USAGE))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
 
 
-   private static final String[] TYPE_NAMES =
-   {
-      "UNKNOWN",
-      "GANTT_CHART",
-      "NETWORK_DIAGRAM",
-      "RELATIONSHIP_DIAGRAM",
-      "TASK_FORM",
-      "TASK_SHEET",
-      "RESOURCE_FORM",
-      "RESOURCE_SHEET",
-      "RESOURCE_GRAPH",
-      "UNKNOWN",
-      "TASK_DETAILS_FORM",
-      "TASK_NAME_FORM",
-      "RESOURCE_NAME_FORM",
-      "CALENDAR",
-      "TASK_USAGE",
-      "RESOURCE_USAGE"
-   };
-   
    /**
-    * Internal representation of the view type.
+    * Internal representation of the enum int type.
     */
    private int m_value;
+   private String m_name;
 }

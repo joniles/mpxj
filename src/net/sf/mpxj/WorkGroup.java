@@ -23,71 +23,96 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated work group values.
  */
-public final class WorkGroup implements MpxjEnum
+public enum WorkGroup implements MpxjEnum
 {
+   DEFAULT (0),
+   NONE (1),
+   EMAIL (2),
+   WEB (3);
+
+   
    /**
     * Private constructor.
-    *
-    * @param value work group value
+    * 
+    * @param type int version of the enum
     */
-   private WorkGroup (int value)
+   private WorkGroup (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the work group.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return work group value
+    * @param type int type
+    * @return enum instance
+    */
+   public static WorkGroup getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = NONE.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static WorkGroup getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
+
    /**
-    * Retrieve a WorkGroup instance representing the supplied value.
-    *
-    * @param value work group value
-    * @return WorkGroup instance
+    * Array mapping int types to enums.
     */
-   public static WorkGroup getInstance (int value)
-   {
-      WorkGroup result;
-
-      switch (value)
+   private static final WorkGroup[] TYPE_VALUES = new WorkGroup[4];
+   static
+   {      
+      for (WorkGroup e : EnumSet.range(WorkGroup.DEFAULT, WorkGroup.WEB))
       {
-         case DEFAULT_VALUE:
-         {
-            result = DEFAULT;
-            break;
-         }
-
-         default:
-         case NONE_VALUE:
-         {
-            result = NONE;
-            break;
-         }
+         TYPE_VALUES[e.getValue()] = e;
       }
-
-      return (result);
    }
 
+
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   public static final int DEFAULT_VALUE = 0;
-   public static final int NONE_VALUE = 1;
-   public static final int EMAIL_VALUE = 2;
-   public static final int WEB_VALUE = 3;
-
-   public static final WorkGroup DEFAULT = new WorkGroup(DEFAULT_VALUE);
-   public static final WorkGroup NONE = new WorkGroup(NONE_VALUE);
-   public static final WorkGroup EMAIL = new WorkGroup(EMAIL_VALUE);
-   public static final WorkGroup WEB = new WorkGroup(WEB_VALUE);
 }

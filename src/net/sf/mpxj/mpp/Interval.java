@@ -23,43 +23,78 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class represents daily, weekly or monthly time intervals.
  */
-public final class Interval implements MpxjEnum
+public enum Interval implements MpxjEnum
 {
+   DAILY (0, "Daily"),
+   WEEKLY (1, "Weekly"),
+   MONTHLY (2, "Monthly");
+   
    /**
     * Private constructor.
-    *
-    * @param value interval type
+    * 
+    * @param type int version of the enum
+    * @param name name of the enum
     */
-   private Interval (int value)
+   private Interval (int type, String name)
    {
-      m_value = value;
+      m_value = type;
+      m_name = name;
    }
 
-   /**
-    * Retrieve an instance of this type based data from MS Project.
-    *
-    * @param value interval type
-    * @return Interval instance
-    */
-   public static Interval getInstance (int value)
-   {
-      Interval interval;
 
-      if (value < 0 || value >= INTERVAL_TYPES.length)
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static Interval getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         interval = DAILY;
+         type = DAILY.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static Interval getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
       }
       else
       {
-         interval = INTERVAL_TYPES[value];
+         value = NumberUtility.getInt(type);
       }
+      return (getInstance(value));
+   }
 
-      return (interval);
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
+    */
+   public int getValue ()
+   {
+      return (m_value);
    }
 
    /**
@@ -69,7 +104,7 @@ public final class Interval implements MpxjEnum
     */
    public String getName ()
    {
-      return (INTERVAL_NAMES[m_value]);
+      return (m_name);
    }
 
    /**
@@ -83,36 +118,21 @@ public final class Interval implements MpxjEnum
    }
 
    /**
-    * Retrieve the value associated with this instance.
-    *
-    * @return int value
+    * Array mapping int types to enums.
     */
-   public int getValue ()
-   {
-      return (m_value);
+   private static final Interval[] TYPE_VALUES = new Interval[3];
+   static
+   {      
+      for (Interval e : EnumSet.range(Interval.DAILY, Interval.MONTHLY))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
    }
 
-   public static final int DAILY_VALUE = 0;
-   public static final int WEEKLY_VALUE = 1;
-   public static final int MONTHLY_VALUE = 2;
 
-   public static final Interval DAILY = new Interval (DAILY_VALUE);
-   public static final Interval WEEKLY = new Interval (WEEKLY_VALUE);
-   public static final Interval MONTHLY = new Interval (MONTHLY_VALUE);
-
-   private static final Interval[] INTERVAL_TYPES =
-   {
-      DAILY,
-      WEEKLY,
-      MONTHLY
-   };
-
-   private static final String[] INTERVAL_NAMES =
-   {
-      "Daily",
-      "Weekly",
-      "Monthly"
-   };
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
+   private String m_name;
 }

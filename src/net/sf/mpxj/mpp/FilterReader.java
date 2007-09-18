@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.FilterCriteria;
@@ -224,49 +223,54 @@ public abstract class FilterReader
       }
       else
       {                  
-         switch (type.getDataType().getValue())
+         switch (type.getDataType())
          {
-            case DataType.DURATION_VALUE:
+            case DURATION:
             {
                value = MPPUtility.getAdjustedDuration (file, MPPUtility.getInt (filterVarData, offset+192), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (filterVarData, offset+192)));
                break;
             }
             
-            case DataType.NUMERIC_VALUE:
+            case NUMERIC:
             {
                value = new Double(MPPUtility.getDouble(filterVarData, offset+192));
                break;
             }
 
-            case DataType.PERCENTAGE_VALUE:
+            case PERCENTAGE:
             {
                value = new Double(MPPUtility.getInt(filterVarData, offset+192));
                break;
             }
 
-            case DataType.CURRENCY_VALUE:
+            case CURRENCY:
             {
                value = new Double(MPPUtility.getDouble(filterVarData, offset+192)/100);
                break;
             }
             
-            case DataType.STRING_VALUE:
+            case STRING:
             {
                int textOffset = MPPUtility.getShort(filterVarData, offset + 228);                                          
                value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);
                break;
             }
             
-            case DataType.BOOLEAN_VALUE:
+            case BOOLEAN:
             {
                int intValue = MPPUtility.getShort(filterVarData, offset+192);
                value = (intValue==1?Boolean.TRUE:Boolean.FALSE);
                break;
             }
             
-            case DataType.DATE_VALUE:
+            case DATE:
             {
                value = MPPUtility.getTimestamp(filterVarData, offset+192);
+               break;
+            }
+            
+            default:
+            {
                break;
             }
          }                              

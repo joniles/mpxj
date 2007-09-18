@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.util.Map;
 
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.GroupClause;
@@ -162,34 +161,39 @@ public abstract class GroupReader
             Object startAt = null;
             Object groupInterval = null;
             
-            switch (type.getDataType().getValue())
+            switch (type.getDataType())
             {
-               case DataType.DURATION_VALUE:
-               case DataType.NUMERIC_VALUE:
-               case DataType.CURRENCY_VALUE:
+               case DURATION:
+               case NUMERIC:
+               case CURRENCY:
                {
                   startAt = new Double(MPPUtility.getDouble(groupVarData, offset+24));
                   groupInterval = new Double(MPPUtility.getDouble(groupVarData, offset+40));
                   break;
                }
 
-               case DataType.PERCENTAGE_VALUE:
+               case PERCENTAGE:
                {
                   startAt = new Integer(MPPUtility.getInt(groupVarData, offset+24));
                   groupInterval = new Integer(MPPUtility.getInt(groupVarData, offset+40));
                   break;
                }
                               
-               case DataType.BOOLEAN_VALUE:
+               case BOOLEAN:
                {
                   startAt = (MPPUtility.getShort(groupVarData, offset+24)==1?Boolean.TRUE:Boolean.FALSE);
                   break;
                }
                
-               case DataType.DATE_VALUE:
+               case DATE:
                {
                   startAt = MPPUtility.getTimestamp(groupVarData, offset+24);
                   groupInterval = new Integer(MPPUtility.getInt(groupVarData, offset+40));
+                  break;
+               }
+               
+               default:
+               {
                   break;
                }
             }                                          

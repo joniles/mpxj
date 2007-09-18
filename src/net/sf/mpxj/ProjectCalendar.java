@@ -800,37 +800,37 @@ public final class ProjectCalendar extends ProjectEntity
       }
       
       double duration = 0;
-      switch (format.getValue())
+      switch (format)
       {
-         case TimeUnit.MINUTES_VALUE:
+         case MINUTES:
          {
             duration = totalTime;
             duration /= (60 * 1000);
             break;
          }
 
-         case TimeUnit.HOURS_VALUE:
+         case HOURS:
          {
             duration = totalTime;
             duration /= (60 * 60 * 1000);
             break;
          }
          
-         case TimeUnit.DAYS_VALUE:
+         case DAYS:
          {
             duration = totalTime;
             duration /= (getParentFile().getProjectHeader().getMinutesPerDay().doubleValue() * 60 * 1000);
             break;            
          }
          
-         case TimeUnit.WEEKS_VALUE:
+         case WEEKS:
          {
             duration = totalTime;
             duration /= (getParentFile().getProjectHeader().getMinutesPerWeek().doubleValue() * 60 * 1000);
             break;            
          }
          
-         case TimeUnit.MONTHS_VALUE:
+         case MONTHS:
          {
             ProjectHeader header = getParentFile().getProjectHeader();
             duration = totalTime;

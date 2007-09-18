@@ -7,6 +7,7 @@
  
 package net.sf.mpxj.utility;
 
+
 /**
  * This interface defines the common features of enums used by MPXJ.
  */
@@ -19,4 +20,5 @@ public interface MpxjEnum
     * @return enum value
     */
    public int getValue();   
+      
 }

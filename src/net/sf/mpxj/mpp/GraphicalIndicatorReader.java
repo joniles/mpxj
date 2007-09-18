@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
@@ -217,9 +216,9 @@ public final class GraphicalIndicatorReader
          //int dataTypeValue = MPPUtility.getShort(m_data, m_dataOffset);
          m_dataOffset += 2;
          
-         switch (type.getDataType().getValue())
+         switch (type.getDataType())
          {
-            case DataType.DURATION_VALUE: // 0x03
+            case DURATION: // 0x03
             {
                Duration value = MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (m_data, m_dataOffset+4)));
                m_dataOffset += 6;
@@ -227,7 +226,7 @@ public final class GraphicalIndicatorReader
                break;
             }
             
-            case DataType.NUMERIC_VALUE: // 0x05
+            case NUMERIC: // 0x05
             {
                Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset));
                m_dataOffset += 8;
@@ -235,7 +234,7 @@ public final class GraphicalIndicatorReader
                break;
             }
 
-            case DataType.CURRENCY_VALUE: // 0x06
+            case CURRENCY: // 0x06
             {
                Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset)/100);
                m_dataOffset += 8;
@@ -243,7 +242,7 @@ public final class GraphicalIndicatorReader
                break;
             }
             
-            case DataType.STRING_VALUE: // 0x08
+            case STRING: // 0x08
             {
                String value = MPPUtility.getUnicodeString(m_data, m_dataOffset);
                m_dataOffset += ((value.length()+1)*2);
@@ -251,7 +250,7 @@ public final class GraphicalIndicatorReader
                break;
             }
             
-            case DataType.BOOLEAN_VALUE: // 0x0B
+            case BOOLEAN: // 0x0B
             {
                int value = MPPUtility.getShort(m_data, m_dataOffset);
                m_dataOffset += 2;
@@ -259,11 +258,16 @@ public final class GraphicalIndicatorReader
                break;
             }
             
-            case DataType.DATE_VALUE: // 0x13
+            case DATE: // 0x13
             {
                Date value = MPPUtility.getTimestamp(m_data, m_dataOffset);
                m_dataOffset += 4;
                criteria.setValue(index, value);
+               break;
+            }
+            
+            default:
+            {
                break;
             }
          }                              

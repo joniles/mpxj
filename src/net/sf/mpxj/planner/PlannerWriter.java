@@ -55,7 +55,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.planner.schema.Allocation;
 import net.sf.mpxj.planner.schema.Allocations;
 import net.sf.mpxj.planner.schema.Calendars;
@@ -816,40 +815,40 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          double seconds = 0;
          
-         switch (value.getUnits().getValue())
+         switch (value.getUnits())
          {
-            case TimeUnit.MINUTES_VALUE:
-            case TimeUnit.ELAPSED_MINUTES_VALUE:
+            case MINUTES:
+            case ELAPSED_MINUTES:
             {
                seconds = value.getDuration() * 60;
                break;
             }
 
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                seconds = value.getDuration() * (8 * 60 * 60);
                break;
             }
 
-            case TimeUnit.DAYS_VALUE:
-            case TimeUnit.ELAPSED_DAYS_VALUE:
+            case DAYS:
+            case ELAPSED_DAYS:
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                seconds = value.getDuration() * (minutesPerDay * 60);
                break;
             }
             
-            case TimeUnit.WEEKS_VALUE:
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
+            case WEEKS:
+            case ELAPSED_WEEKS:
             {
                double minutesPerWeek = m_projectFile.getProjectHeader().getMinutesPerWeek().doubleValue();
                seconds = value.getDuration() * (minutesPerWeek * 60);
                break;
             }
 
-            case TimeUnit.MONTHS_VALUE:
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
+            case MONTHS:
+            case ELAPSED_MONTHS:
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
@@ -857,12 +856,17 @@ public final class PlannerWriter extends AbstractProjectWriter
                break;
             }
 
-            case TimeUnit.YEARS_VALUE:
-            case TimeUnit.ELAPSED_YEARS_VALUE:
+            case YEARS:
+            case ELAPSED_YEARS:
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
                seconds = value.getDuration() * (12 * daysPerMonth * minutesPerDay * 60);
+               break;
+            }    
+            
+            default:
+            {
                break;
             }            
          }

@@ -126,61 +126,66 @@ public final class Duration implements Comparable<Duration>
     */
    public static Duration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek)
    {
-      switch (fromUnits.getValue())
+      switch (fromUnits)
       {
-         case TimeUnit.YEARS_VALUE:
+         case YEARS:
          {
             duration *= (minutesPerWeek * 52);
             break;
          }
 
-         case TimeUnit.ELAPSED_YEARS_VALUE:
+         case ELAPSED_YEARS:
          {
             duration *= (60 * 24 * 7 * 52);
             break;
          }
 
-         case TimeUnit.MONTHS_VALUE:
+         case MONTHS:
          {
             duration *= (minutesPerWeek * 4);
             break;
          }
 
-         case TimeUnit.ELAPSED_MONTHS_VALUE:
+         case ELAPSED_MONTHS:
          {
             duration *= (60 * 24 * 7 * 4);
             break;
          }
 
-         case TimeUnit.WEEKS_VALUE:
+         case WEEKS:
          {
             duration *= minutesPerWeek;
             break;
          }
 
-         case TimeUnit.ELAPSED_WEEKS_VALUE:
+         case ELAPSED_WEEKS:
          {
             duration *= (60 * 24 * 7);
             break;
          }
 
-         case TimeUnit.DAYS_VALUE:
+         case DAYS:
          {
             duration *= minutesPerDay;
             break;
          }
 
-         case TimeUnit.ELAPSED_DAYS_VALUE:
+         case ELAPSED_DAYS:
          {
             duration *= (60 * 24);
             break;
          }
 
 
-         case TimeUnit.HOURS_VALUE:
-         case TimeUnit.ELAPSED_HOURS_VALUE:
+         case HOURS:
+         case ELAPSED_HOURS:
          {
             duration *= 60;
+            break;
+         }
+         
+         default:
+         {
             break;
          }
       }
@@ -188,62 +193,67 @@ public final class Duration implements Comparable<Duration>
 
       if (toUnits != TimeUnit.MINUTES && toUnits != TimeUnit.ELAPSED_MINUTES)
       {
-         switch (toUnits.getValue())
+         switch (toUnits)
          {
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                duration /= 60;
                break;
             }
 
-            case TimeUnit.DAYS_VALUE:
+            case DAYS:
             {
                duration /= minutesPerDay;
                break;
             }
 
-            case TimeUnit.ELAPSED_DAYS_VALUE:
+            case ELAPSED_DAYS:
             {
                duration /= (60 * 24);
                break;
             }
 
-            case TimeUnit.WEEKS_VALUE:
+            case WEEKS:
             {
                duration /= minutesPerWeek;
                break;
             }
 
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
+            case ELAPSED_WEEKS:
             {
                duration /= (60 * 24 * 7);
                break;
             }
 
-            case TimeUnit.MONTHS_VALUE:
+            case MONTHS:
             {
                duration /= (minutesPerWeek * 4);
                break;
             }
 
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
+            case ELAPSED_MONTHS:
             {
                duration /= (60 * 24 * 7 * 4);
                break;
             }
 
-            case TimeUnit.YEARS_VALUE:
+            case YEARS:
             {
                duration /= (minutesPerWeek * 52);
                break;
             }
 
-            case TimeUnit.ELAPSED_YEARS_VALUE:
+            case ELAPSED_YEARS:
             {
                duration /= (60 * 24 * 7 * 52);
                break;
             }
+            
+            default:
+            {
+               break;
+            }            
          }
       }
 

@@ -24,44 +24,82 @@
 package net.sf.mpxj.mpp;
 
 import java.awt.Color;
+import java.util.EnumSet;
 
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * This class represents the colors used by Microsoft Project.
+ * This enum represents the colors used by Microsoft Project.
  */
-public final class ColorType implements MpxjEnum
+public enum ColorType implements MpxjEnum
 {
+   BLACK (0, "Black", Color.BLACK),
+   RED (1, "Red", Color.RED),
+   YELLOW (2, "Yellow", Color.YELLOW),
+   LIME (3, "Lime", Color.GREEN),
+   AQUA (4, "Aqua", Color.CYAN),
+   BLUE (5, "Blue", Color.BLUE),
+   FUSCHIA (6, "Fuschia", Color.MAGENTA),
+   WHITE (7, "White", Color.WHITE),
+   MAROON (8, "Maroon", new Color(132, 0, 0)),
+   GREEN (9, "Green", new Color(0, 130, 0)),
+   OLIVE (10, "Olive", new Color(132, 130, 0)),
+   NAVY (11, "Navy", new Color(0, 0, 132)),
+   PURPLE (12, "Purple", new Color(132, 0, 132)),
+   TEAL (13, "Teal", new Color(0, 130, 132)),
+   GRAY (14, "Gray", new Color(132, 130, 132)),
+   SILVER (15, "Silver", new Color(198, 195, 198)),
+   AUTOMATIC (16, "Automatic", null);
+  
    /**
     * Private constructor.
-    *
-    * @param value color number
+    * 
+    * @param type int version of the enum
+    * @param name color name
+    * @param color Java color instance
     */
-   private ColorType (int value)
+   private ColorType (int type, String name, Color color)
    {
-      m_value = value;
+      m_value = type;    
+      m_name = name;
+      m_color = color;
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static ColorType getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = AUTOMATIC.getValue();
+      }
+      return (TYPE_VALUES[type]);
    }
 
    /**
-    * Retrieve an instance of this type based on a color number from MS Project.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param value color number
-    * @return ColorType instance
+    * @param type int type
+    * @return enum instance
     */
-   public static ColorType getInstance (int value)
+   public static ColorType getInstance (Number type)
    {
-      ColorType color;
-
-      if (value < 0 || value >= COLOR_TYPES.length)
+      int value;
+      if (type == null)
       {
-         color = AUTOMATIC;
+         value = -1;
       }
       else
       {
-         color = COLOR_TYPES[value];
+         value = NumberUtility.getInt(type);
       }
-
-      return (color);
+      return (getInstance(value));
    }
 
    /**
@@ -71,7 +109,7 @@ public final class ColorType implements MpxjEnum
     */
    public String getName ()
    {
-      return (COLOR_NAMES[m_value]);
+      return (m_name);
    }
 
    /**
@@ -82,127 +120,37 @@ public final class ColorType implements MpxjEnum
     */
    public Color getColor ()
    {
-      return (COLOR_OBJECTS[m_value]);
+      return (m_color);
    }
 
    /**
-    * Retrieve the String representation of this color.
+    * Accessor method used to retrieve the numeric representation of the enum. 
     *
-    * @return String representation of this color
-    */
-   @Override public String toString ()
-   {
-      return (getName());
-   }
-
-   /**
-    * Retrieve the value associated with this instance.
-    *
-    * @return int value
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
-   public static final int BLACK_VALUE = 0;
-   public static final int RED_VALUE = 1;
-   public static final int YELLOW_VALUE = 2;
-   public static final int LIME_VALUE = 3;
-   public static final int AQUA_VALUE = 4;
-   public static final int BLUE_VALUE = 5;
-   public static final int FUSCHIA_VALUE = 6;
-   public static final int WHITE_VALUE = 7;
-   public static final int MAROON_VALUE = 8;
-   public static final int GREEN_VALUE = 9;
-   public static final int OLIVE_VALUE = 10;
-   public static final int NAVY_VALUE = 11;
-   public static final int PURPLE_VALUE = 12;
-   public static final int TEAL_VALUE = 13;
-   public static final int GRAY_VALUE = 14;
-   public static final int SILVER_VALUE = 15;
-   public static final int AUTOMATIC_VALUE = 16;
 
-   public static final ColorType BLACK = new ColorType (BLACK_VALUE);
-   public static final ColorType RED = new ColorType (RED_VALUE);
-   public static final ColorType YELLOW = new ColorType (YELLOW_VALUE);
-   public static final ColorType LIME = new ColorType (LIME_VALUE);
-   public static final ColorType AQUA = new ColorType (AQUA_VALUE);
-   public static final ColorType BLUE = new ColorType (BLUE_VALUE);
-   public static final ColorType FUSCHIA = new ColorType (FUSCHIA_VALUE);
-   public static final ColorType WHITE = new ColorType (WHITE_VALUE);
-   public static final ColorType MAROON = new ColorType (MAROON_VALUE);
-   public static final ColorType GREEN = new ColorType (GREEN_VALUE);
-   public static final ColorType OLIVE = new ColorType (OLIVE_VALUE);
-   public static final ColorType NAVY = new ColorType (NAVY_VALUE);
-   public static final ColorType PURPLE = new ColorType (PURPLE_VALUE);
-   public static final ColorType TEAL = new ColorType (TEAL_VALUE);
-   public static final ColorType GRAY = new ColorType (GRAY_VALUE);
-   public static final ColorType SILVER = new ColorType (SILVER_VALUE);
-   public static final ColorType AUTOMATIC = new ColorType (AUTOMATIC_VALUE);
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final ColorType[] TYPE_VALUES = new ColorType[17];
+   static
+   {      
+      for (ColorType e : EnumSet.range(ColorType.BLACK, ColorType.AUTOMATIC))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
 
-   private static final ColorType[] COLOR_TYPES =
-   {
-      BLACK,
-      RED,
-      YELLOW,
-      LIME,
-      AQUA,
-      BLUE,
-      FUSCHIA,
-      WHITE,
-      MAROON,
-      GREEN,
-      OLIVE,
-      NAVY,
-      PURPLE,
-      TEAL,
-      GRAY,
-      SILVER,
-      AUTOMATIC
-   };
 
-   private static final String[] COLOR_NAMES =
-   {
-      "Black",
-      "Red",
-      "Yellow",
-      "Lime",
-      "Aqua",
-      "Blue",
-      "Fuschia",
-      "White",
-      "Maroon",
-      "Green",
-      "Olive",
-      "Navy",
-      "Purple",
-      "Teal",
-      "Gray",
-      "Silver",
-      "Automatic"
-   };
-
-   private static final Color[] COLOR_OBJECTS =
-   {
-      Color.BLACK,
-      Color.RED,
-      Color.YELLOW,
-      Color.GREEN,
-      Color.CYAN,
-      Color.BLUE,
-      Color.MAGENTA,
-      Color.WHITE,
-      new Color(132, 0, 0),
-      new Color(0, 130, 0),
-      new Color(132, 130, 0),
-      new Color(0, 0, 132),
-      new Color(132, 0, 132),
-      new Color(0, 130, 132),
-      new Color(132, 130, 132),
-      new Color(198, 195, 198),
-      null
-   };
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
+   private String m_name;
+   private Color m_color;
 }

@@ -23,174 +23,178 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated date format values.
  */
-public final class ProjectDateFormat implements MpxjEnum
+public enum ProjectDateFormat implements MpxjEnum
 {
    /**
-    * Private constructor.
-    *
-    * @param value date format value
+    * This format represents dates in the form 25/12/98 12:56.
     */
-   private ProjectDateFormat (int value)
-   {
-      m_value = value;
-   }
+   DD_MM_YY_HH_MM (0),
 
    /**
-    * Retrieves the int representation of the date format.
+    * This format represents dates in the form 25/05/98.
+    */
+   DD_MM_YY (1),
+
+   /**
+    * This format represents dates in the form 13 December 2002 12:56.
+    */
+   DD_MMMMM_YYYY_HH_MM (2),
+
+   /**
+    * This format represents dates in the form 13 December 2002.
+    */
+   DD_MMMMM_YYYY (3),
+
+   /**
+    * This format represents dates in the form 24 Nov 12:56.
+    */
+   DD_MMM_HH_MM (4),
+
+   /**
+    * This format represents dates in the form 25 Aug '98.
+    */
+   DD_MMM_YY (5),
+
+   /**
+    * This format represents dates in the form 25 September.
+    */
+   DD_MMMMM (6),
+
+   /**
+    * This format represents dates in the form 25 Aug.
+    */
+   DD_MMM (7),
+
+   /**
+    * This format represents dates in the form Thu 25/05/98 12:56.
+    */
+   EEE_DD_MM_YY_HH_MM (8),
+
+   /**
+    * This format represents dates in the form Wed 25/05/98.
+    */
+   EEE_DD_MM_YY (9),
+
+   /**
+    * This format represents dates in the form Wed 25 Mar '98.
+    */
+   EEE_DD_MMM_YY (10),
+
+   /**
+    * This format represents dates in the form Wed 12:56.
+    */
+   EEE_HH_MM (11),
+
+   /**
+    * This format represents dates in the form 25/5.
+    */
+   DD_MM (12),
+
+   /**
+    * This format represents dates in the form 23.
+    */
+   DD (13),
+
+   /**
+    * This format represents dates in the form 12:56.
+    */
+   HH_MM (14),
+
+   /**
+    * This format represents dates in the form Wed 23 Mar..
+    */
+   EEE_DD_MMM (15),
+
+   /**
+    * This format represents dates in the form Wed 25/5.
+    */
+   EEE_DD_MM (16),
+
+   /**
+    * This format represents dates in the form Wed 05.
+    */
+   EEE_DD (17),
+
+   /**
+    * This format represents dates in the form 5/W25.
+    */
+   DD_WWW (18),
+
+   /**
+    * This format represents dates in the form 5/W25/98 12:56.
+    */
+   DD_WWW_YY_HH_MM (19),
+
+   /**
+    * This format represents dates in the form 25/05/1998.
+    */
+   DD_MM_YYYY (20);
+
+   
+   /**
+    * Private constructor.
+    * 
+    * @param type int version of the enum
+    */
+   private ProjectDateFormat (int type)
+   {
+      m_value = type;
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return date format value
+    * @param type int type
+    * @return enum instance
+    */
+   public static ProjectDateFormat getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = DD_MM_YYYY.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static ProjectDateFormat getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
-   }
-
-   /**
-    * Retrieve a DateFormat instance representing the supplied value.
-    *
-    * @param value date format value
-    * @return DateFormat instance
-    */
-   public static ProjectDateFormat getInstance (int value)
-   {
-      ProjectDateFormat result;
-
-      switch (value)
-      {
-         case DD_MM_YY_HH_MM_VALUE:
-         {
-            result = DD_MM_YY_HH_MM;
-            break;
-         }
-
-         case DD_MM_YY_VALUE:
-         {
-            result = DD_MM_YY;
-            break;
-         }
-
-         case DD_MMMMM_YYYY_HH_MM_VALUE:
-         {
-            result = DD_MMMMM_YYYY_HH_MM;
-            break;
-         }
-
-         case DD_MMMMM_YYYY_VALUE:
-         {
-            result = DD_MMMMM_YYYY;
-            break;
-         }
-
-         case DD_MMM_HH_MM_VALUE:
-         {
-            result = DD_MMM_HH_MM;
-            break;
-         }
-
-         case DD_MMM_YY_VALUE:
-         {
-            result = DD_MMM_YY;
-            break;
-         }
-
-         case DD_MMMMM_VALUE:
-         {
-            result = DD_MMMMM;
-            break;
-         }
-
-         case DD_MMM_VALUE:
-         {
-            result = DD_MMM;
-            break;
-         }
-
-         case EEE_DD_MM_YY_HH_MM_VALUE:
-         {
-            result = EEE_DD_MM_YY_HH_MM;
-            break;
-         }
-
-         case EEE_DD_MM_YY_VALUE:
-         {
-            result = EEE_DD_MM_YY;
-            break;
-         }
-
-         case EEE_DD_MMM_YY_VALUE:
-         {
-            result = EEE_DD_MMM_YY;
-            break;
-         }
-
-         case EEE_HH_MM_VALUE:
-         {
-            result = EEE_HH_MM;
-            break;
-         }
-
-         case DD_MM_VALUE:
-         {
-            result = DD_MM;
-            break;
-         }
-
-         case DD_VALUE:
-         {
-            result = DD;
-            break;
-         }
-
-         case HH_MM_VALUE:
-         {
-            result = HH_MM;
-            break;
-         }
-
-         case EEE_DD_MMM_VALUE:
-         {
-            result = EEE_DD_MMM;
-            break;
-         }
-
-         case EEE_DD_MM_VALUE:
-         {
-            result = EEE_DD_MM;
-            break;
-         }
-
-         case EEE_DD_VALUE:
-         {
-            result = EEE_DD;
-            break;
-         }
-
-         case DD_WWW_VALUE:
-         {
-            result = DD_WWW;
-            break;
-         }
-
-         case DD_WWW_YY_HH_MM_VALUE:
-         {
-            result = DD_WWW_YY_HH_MM;
-            break;
-         }
-
-         default:
-         case DD_MM_YYYY_VALUE:
-         {
-            result = DD_MM_YYYY;
-            break;
-         }
-      }
-
-      return (result);
    }
 
    /**
@@ -204,217 +208,20 @@ public final class ProjectDateFormat implements MpxjEnum
       return (Integer.toString(m_value));
    }
 
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final ProjectDateFormat[] TYPE_VALUES = new ProjectDateFormat[21];
+   static
+   {      
+      for (ProjectDateFormat e : EnumSet.range(ProjectDateFormat.DD_MM_YY_HH_MM, ProjectDateFormat.DD_MM_YYYY))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
 
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * This format represents dates in the form 25/12/98 12:56.
-    */
-   public static final int DD_MM_YY_HH_MM_VALUE = 0;
-
-   /**
-    * This format represents dates in the form 25/05/98.
-    */
-   public static final int DD_MM_YY_VALUE = 1;
-
-   /**
-    * This format represents dates in the form 13 December 2002 12:56.
-    */
-   public static final int DD_MMMMM_YYYY_HH_MM_VALUE = 2;
-
-   /**
-    * This format represents dates in the form 13 December 2002.
-    */
-   public static final int DD_MMMMM_YYYY_VALUE = 3;
-
-   /**
-    * This format represents dates in the form 24 Nov 12:56.
-    */
-   public static final int DD_MMM_HH_MM_VALUE = 4;
-
-   /**
-    * This format represents dates in the form 25 Aug '98.
-    */
-   public static final int DD_MMM_YY_VALUE = 5;
-
-   /**
-    * This format represents dates in the form 25 September.
-    */
-   public static final int DD_MMMMM_VALUE = 6;
-
-   /**
-    * This format represents dates in the form 25 Aug.
-    */
-   public static final int DD_MMM_VALUE = 7;
-
-   /**
-    * This format represents dates in the form Thu 25/05/98 12:56.
-    */
-   public static final int EEE_DD_MM_YY_HH_MM_VALUE = 8;
-
-   /**
-    * This format represents dates in the form Wed 25/05/98.
-    */
-   public static final int EEE_DD_MM_YY_VALUE = 9;
-
-   /**
-    * This format represents dates in the form Wed 25 Mar '98.
-    */
-   public static final int EEE_DD_MMM_YY_VALUE = 10;
-
-   /**
-    * This format represents dates in the form Wed 12:56.
-    */
-   public static final int EEE_HH_MM_VALUE = 11;
-
-   /**
-    * This format represents dates in the form 25/5.
-    */
-   public static final int DD_MM_VALUE = 12;
-
-   /**
-    * This format represents dates in the form 23.
-    */
-   public static final int DD_VALUE = 13;
-
-   /**
-    * This format represents dates in the form 12:56.
-    */
-   public static final int HH_MM_VALUE = 14;
-
-   /**
-    * This format represents dates in the form Wed 23 Mar..
-    */
-   public static final int EEE_DD_MMM_VALUE = 15;
-
-   /**
-    * This format represents dates in the form Wed 25/5.
-    */
-   public static final int EEE_DD_MM_VALUE = 16;
-
-   /**
-    * This format represents dates in the form Wed 05.
-    */
-   public static final int EEE_DD_VALUE = 17;
-
-   /**
-    * This format represents dates in the form 5/W25.
-    */
-   public static final int DD_WWW_VALUE = 18;
-
-   /**
-    * This format represents dates in the form 5/W25/98 12:56.
-    */
-   public static final int DD_WWW_YY_HH_MM_VALUE = 19;
-
-   /**
-    * This format represents dates in the form 25/05/1998.
-    */
-   public static final int DD_MM_YYYY_VALUE = 20;
-
-   /**
-    * This format represents dates in the form 25/12/98 12:56.
-    */
-   public static final ProjectDateFormat DD_MM_YY_HH_MM = new ProjectDateFormat(DD_MM_YY_HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form 25/05/98.
-    */
-   public static final ProjectDateFormat DD_MM_YY = new ProjectDateFormat(DD_MM_YY_VALUE);
-
-   /**
-    * This format represents dates in the form 13 December 2002 12:56.
-    */
-   public static final ProjectDateFormat DD_MMMMM_YYYY_HH_MM = new ProjectDateFormat(DD_MMMMM_YYYY_HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form 13 December 2002.
-    */
-   public static final ProjectDateFormat DD_MMMMM_YYYY = new ProjectDateFormat(DD_MMMMM_YYYY_VALUE);
-
-   /**
-    * This format represents dates in the form 24 Nov 12:56.
-    */
-   public static final ProjectDateFormat DD_MMM_HH_MM = new ProjectDateFormat(DD_MMM_HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form 25 Aug '98.
-    */
-   public static final ProjectDateFormat DD_MMM_YY = new ProjectDateFormat(DD_MMM_YY_VALUE);
-
-   /**
-    * This format represents dates in the form 25 September.
-    */
-   public static final ProjectDateFormat DD_MMMMM = new ProjectDateFormat(DD_MMMMM_VALUE);
-
-   /**
-    * This format represents dates in the form 25 Aug.
-    */
-   public static final ProjectDateFormat DD_MMM = new ProjectDateFormat(DD_MMM_VALUE);
-
-   /**
-    * This format represents dates in the form Thu 25/05/98 12:56.
-    */
-   public static final ProjectDateFormat EEE_DD_MM_YY_HH_MM = new ProjectDateFormat(EEE_DD_MM_YY_HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form Wed 25/05/98.
-    */
-   public static final ProjectDateFormat EEE_DD_MM_YY = new ProjectDateFormat(EEE_DD_MM_YY_VALUE);
-
-   /**
-    * This format represents dates in the form Wed 25 Mar '98.
-    */
-   public static final ProjectDateFormat EEE_DD_MMM_YY = new ProjectDateFormat(EEE_DD_MMM_YY_VALUE);
-
-   /**
-    * This format represents dates in the form Wed 12:56.
-    */
-   public static final ProjectDateFormat EEE_HH_MM = new ProjectDateFormat(EEE_HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form 25/5.
-    */
-   public static final ProjectDateFormat DD_MM = new ProjectDateFormat(DD_MM_VALUE);
-
-   /**
-    * This format represents dates in the form 23.
-    */
-   public static final ProjectDateFormat DD = new ProjectDateFormat(DD_VALUE);
-
-   /**
-    * This format represents dates in the form 12:56.
-    */
-   public static final ProjectDateFormat HH_MM = new ProjectDateFormat(HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form Wed 23 Mar.
-    */
-   public static final ProjectDateFormat EEE_DD_MMM = new ProjectDateFormat(EEE_DD_MMM_VALUE);
-
-   /**
-    * This format represents dates in the form Wed 25/5.
-    */
-   public static final ProjectDateFormat EEE_DD_MM = new ProjectDateFormat(EEE_DD_MM_VALUE);
-
-   /**
-    * This format represents dates in the form Wed 05.
-    */
-   public static final ProjectDateFormat EEE_DD = new ProjectDateFormat(EEE_DD_VALUE);
-
-   /**
-    * This format represents dates in the form 5/W25.
-    */
-   public static final ProjectDateFormat DD_WWW = new ProjectDateFormat(DD_WWW_VALUE);
-
-   /**
-    * This format represents dates in the form 5/W25/98 12:56.
-    */
-   public static final ProjectDateFormat DD_WWW_YY_HH_MM = new ProjectDateFormat(DD_WWW_YY_HH_MM_VALUE);
-
-   /**
-    * This format represents dates in the form 25/05/1998.
-    */
-   public static final ProjectDateFormat DD_MM_YYYY = new ProjectDateFormat(DD_MM_YYYY_VALUE);
-
 }

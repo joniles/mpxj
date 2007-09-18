@@ -23,101 +23,94 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated task type values.
  */
-public final class TaskType implements MpxjEnum
+public enum TaskType implements MpxjEnum
 {
+   FIXED_UNITS (0),
+   FIXED_DURATION (1),
+   FIXED_WORK (2);
+   
    /**
     * Private constructor.
-    *
-    * @param value task type value
+    * 
+    * @param type int version of the enum
     */
-   private TaskType (int value)
+   private TaskType (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the task type.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return task type value
+    * @param type int type
+    * @return enum instance
+    */
+   public static TaskType getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = FIXED_WORK.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static TaskType getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
+
    /**
-    * Retrieve a TaskType instance representing the supplied value.
-    *
-    * @param value task type value
-    * @return TaskType instance
+    * Array mapping int types to enums.
     */
-   public static TaskType getInstance (int value)
-   {
-      TaskType result;
-
-      switch (value)
+   private static final TaskType[] TYPE_VALUES = new TaskType[3];
+   static
+   {      
+      for (TaskType e : EnumSet.range(TaskType.FIXED_UNITS, TaskType.FIXED_WORK))
       {
-         case FIXED_UNITS_VALUE:
-         {
-            result = FIXED_UNITS;
-            break;
-         }
-
-         case FIXED_DURATION_VALUE:
-         {
-            result = FIXED_DURATION;
-            break;
-         }
-
-         default:
-         case FIXED_WORK_VALUE:
-         {
-            result = FIXED_WORK;
-            break;
-         }
+         TYPE_VALUES[e.getValue()] = e;
       }
-
-      return (result);
    }
 
 
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing Fixed Units.
-    */
-   public static final int FIXED_UNITS_VALUE = 0;
-
-   /**
-    * Constant representing Fixed Duration.
-    */
-   public static final int FIXED_DURATION_VALUE = 1;
-
-   /**
-    * Constant representing Fixed Work.
-    */
-   public static final int FIXED_WORK_VALUE = 2;
-
-
-   /**
-    * Constant representing Fixed Units.
-    */
-   public static final TaskType FIXED_UNITS = new TaskType(FIXED_UNITS_VALUE);
-
-   /**
-    * Constant representing Fixed Duration.
-    */
-   public static final TaskType FIXED_DURATION = new TaskType(FIXED_DURATION_VALUE);
-
-   /**
-    * Constant representing Fixed Work.
-    */
-   public static final TaskType FIXED_WORK = new TaskType(FIXED_WORK_VALUE);
-
 }

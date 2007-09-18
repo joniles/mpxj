@@ -11,6 +11,7 @@
    <release version="2.0.0" date="CVS HEAD">
 		<action dev="joniles" type="update">Migrated to Java 5</action>
  		<action dev="joniles" type="update">Introduced generics</action>
+ 		<action dev="joniles" type="update">Introduced enums</action>
 		<action dev="joniles" type="update">Updated to POI 3.0.1</action>
 		<action dev="joniles" type="update">Updated to JAXB 2.1.4</action>
    </release>
@@ -49,7 +50,7 @@
       <action dev="joniles" type="add">Added support for graphical indicators.</action>      
       <action dev="joniles" type="add">Added a workaround for a bug in MS Project which is seen when calendar exceptions are exported to an MSPDI file. If the exception contained seconds and milliseconds, MS Project marked every day as being affected by the exception, not the day or range of days specified.</action>      
       <action dev="joniles" type="update">Updated to make date/time/number formats generic, and thus available to end users. For example, this allows users to format currencies in line with the settings in the project file.</action>      
-      <action dev="joniles" type="update">Standardized on minutes per day and minutes per week, rather than hours per day and hours per week.</action>
+      <action dev="joniles" type="update">Standardised on minutes per day and minutes per week, rather than hours per day and hours per week.</action>
       <action dev="joniles" type="update">Provided additional time ranges for calendar exceptions.</action>      
       <action dev="joniles" type="update">Refactored Task and Resource to use TaskField and ResourceField to identify fields.</action>      
       <action dev="joniles" type="update">Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.</action>

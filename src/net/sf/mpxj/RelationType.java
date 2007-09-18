@@ -23,7 +23,10 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
@@ -32,50 +35,67 @@ import net.sf.mpxj.utility.MpxjEnum;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class RelationType implements MpxjEnum
+public enum RelationType implements MpxjEnum
 {
+   FINISH_FINISH (0, "FF"),
+   FINISH_START (1, "FS"),
+   START_FINISH (2, "SF"),
+   START_START (3, "SS");
+   
    /**
-    * This constructor takes the numeric enumerated representation of a
-    * relation type and populates the class instance appropriately.
-    * Note that unrecognised values are treated as finish-start.
-    *
-    * @param type int version of the relation type
+    * Private constructor.
+    * 
+    * @param type int version of the enum
+    * @param name enum name
     */
-   private RelationType (int type)
-   {
-      if (type < 0 || type > MAX_TYPE_VALUES)
-      {
-         m_value = FINISH_START_VALUE;
-      }
-      else
-      {
-         m_value = type;
-      }
+   private RelationType (int type, String name)
+   {   
+      m_value = type;
+      m_name = name;
    }
 
+
    /**
-    * This method takes the integer enumeration of a relation type
-    * and returns an appropriate class instance. Note that unrecognised
-    * values are treated as finish-start.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type integer relation type enumeration
-    * @return RelationType instance
+    * @param type int type
+    * @return enum instance
     */
    public static RelationType getInstance (int type)
-   {
+   {      
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = FINISH_START_VALUE;
+         type = FINISH_START.getValue();
       }
-
       return (TYPE_VALUES[type]);
    }
 
+
    /**
-    * Accessor method used to retrieve the numeric representation of the
-    * constraint type.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return int representation of the constraint type
+    * @param type int type
+    * @return enum instance
+    */
+   public static RelationType getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
@@ -87,44 +107,25 @@ public final class RelationType implements MpxjEnum
     */
    @Override public String toString ()
    {
-      return (TYPE_NAMES[m_value]);
+      return (m_name);
    }
-   
-   public static final int FINISH_FINISH_VALUE = 0;
-   public static final int FINISH_START_VALUE = 1;
-   public static final int START_FINISH_VALUE = 2;
-   public static final int START_START_VALUE = 3;
-   public static final int MAX_TYPE_VALUES = 4;
-
-   public static final RelationType FINISH_FINISH = new RelationType (FINISH_FINISH_VALUE);
-   public static final RelationType FINISH_START = new RelationType (FINISH_START_VALUE);
-   public static final RelationType START_FINISH = new RelationType (START_FINISH_VALUE);
-   public static final RelationType START_START = new RelationType (START_START_VALUE);
 
    /**
-    * Array of type values matching the above constants.
+    * Array mapping int types to enums.
     */
-   private static final RelationType[] TYPE_VALUES =
-   {
-      FINISH_FINISH,
-      FINISH_START,
-      START_FINISH,
-      START_START
-   };
+   private static final RelationType[] TYPE_VALUES = new RelationType[4];
+   static
+   {      
+      for (RelationType e : EnumSet.range(RelationType.FINISH_FINISH, RelationType.START_START))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
+
 
    /**
-    * For debugging only.
-    */
-   private static final String[] TYPE_NAMES =
-   {
-      "FF",
-      "FS",
-      "SF",
-      "SS"
-   };
-   
-   /**
-    * Internal representation.
+    * Internal representation of the enum int type.
     */
    private int m_value;
+   private String m_name;
 }

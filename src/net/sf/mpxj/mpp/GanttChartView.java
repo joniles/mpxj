@@ -34,7 +34,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
@@ -1425,48 +1424,53 @@ public abstract class GanttChartView extends GenericView
       }
       else
       {                  
-         switch (type.getDataType().getValue())
+         switch (type.getDataType())
          {
-            case DataType.DURATION_VALUE:
+            case DURATION:
             {
                value = MPPUtility.getAdjustedDuration (m_parent, MPPUtility.getInt (filterData, offset+224), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (filterData, offset+224)));
                break;
             }
             
-            case DataType.NUMERIC_VALUE:
+            case NUMERIC:
             {
                value = new Double(MPPUtility.getDouble(filterData, offset+224));
                break;
             }
 
-            case DataType.PERCENTAGE_VALUE:
+            case PERCENTAGE:
             {
                value = new Double(MPPUtility.getInt(filterData, offset+224));
                break;
             }
 
-            case DataType.CURRENCY_VALUE:
+            case CURRENCY:
             {
                value = new Double(MPPUtility.getDouble(filterData, offset+224)/100);
                break;
             }
             
-            case DataType.STRING_VALUE:
+            case STRING:
             {
                value = stringData;
                break;
             }
             
-            case DataType.BOOLEAN_VALUE:
+            case BOOLEAN:
             {
                int intValue = MPPUtility.getShort(filterData, offset+224);
                value = (intValue==1?Boolean.TRUE:Boolean.FALSE);
                break;
             }
             
-            case DataType.DATE_VALUE:
+            case DATE:
             {
                value = MPPUtility.getTimestamp(filterData, offset+224);
+               break;
+            }
+            
+            default:
+            {
                break;
             }
          }                              

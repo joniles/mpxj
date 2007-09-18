@@ -27,7 +27,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.TimeUnit;
 
 /**
  * This class parses and represents an xsd:duration value.
@@ -100,18 +99,18 @@ final class XsdDuration
 
          if (amount != 0)
          {
-            switch (duration.getUnits().getValue())
+            switch (duration.getUnits())
             {
-               case TimeUnit.MINUTES_VALUE:
-               case TimeUnit.ELAPSED_MINUTES_VALUE:
+               case MINUTES:
+               case ELAPSED_MINUTES:
                {
                   m_minutes = (int)amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case TimeUnit.HOURS_VALUE:
-               case TimeUnit.ELAPSED_HOURS_VALUE:
+               case HOURS:
+               case ELAPSED_HOURS:
                {
                   m_hours = (int)amount;
                   amount = (amount * 60) - (m_hours * 60);
@@ -120,8 +119,8 @@ final class XsdDuration
                   break;
                }
 
-               case TimeUnit.DAYS_VALUE:
-               case TimeUnit.ELAPSED_DAYS_VALUE:
+               case DAYS:
+               case ELAPSED_DAYS:
                {
                   m_days = (int)amount;
                   amount = (amount * 24) - (m_days * 24);
@@ -132,8 +131,8 @@ final class XsdDuration
                   break;
                }
 
-               case TimeUnit.WEEKS_VALUE:
-               case TimeUnit.ELAPSED_WEEKS_VALUE:
+               case WEEKS:
+               case ELAPSED_WEEKS:
                {
                   amount *= 7;
                   m_days = (int)amount;
@@ -145,8 +144,8 @@ final class XsdDuration
                   break;
                }
 
-               case TimeUnit.MONTHS_VALUE:
-               case TimeUnit.ELAPSED_MONTHS_VALUE:
+               case MONTHS:
+               case ELAPSED_MONTHS:
                {
                   m_months = (int)amount;
                   amount = (amount * 28) - (m_months * 28);
@@ -159,8 +158,8 @@ final class XsdDuration
                   break;
                }
 
-               case TimeUnit.YEARS_VALUE:
-               case TimeUnit.ELAPSED_YEARS_VALUE:
+               case YEARS:
+               case ELAPSED_YEARS:
                {
                   m_years = (int)amount;
                   amount = (amount * 12) - (m_years * 12);
@@ -174,6 +173,11 @@ final class XsdDuration
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
+               
+               default:
+               {
+                  break;
+               }               
             }
          }
       }
@@ -181,7 +185,7 @@ final class XsdDuration
 
    /**
     * This method is called repeatedly to parse each duration component
-    * from srting data in xsd:duration format. Each component consists
+    * from sorting data in xsd:duration format. Each component consists
     * of a number, followed by a letter representing the type.
     *
     * @param duration xsd:duration formatted string

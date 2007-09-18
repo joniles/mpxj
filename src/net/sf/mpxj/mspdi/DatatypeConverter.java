@@ -224,41 +224,46 @@ public final class DatatypeConverter
     */
    public static final void parseExtendedAttribute (ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID)
    {
-      switch (mpxFieldID.getDataType().getValue())
+      switch (mpxFieldID.getDataType())
       {
-         case DataType.STRING_VALUE:
+         case STRING:
          {
             mpx.set(mpxFieldID, value);
             break;
          }
 
-         case DataType.DATE_VALUE:
+         case DATE:
          {
             mpx.set(mpxFieldID, parseExtendedAttributeDate(value));
             break;
          }
 
-         case DataType.CURRENCY_VALUE:
+         case CURRENCY:
          {
             mpx.set(mpxFieldID, parseExtendedAttributeCurrency(value));
             break;
          }
 
-         case DataType.BOOLEAN_VALUE:
+         case BOOLEAN:
          {
             mpx.set(mpxFieldID, parseExtendedAttributeBoolean(value));
             break;
          }
 
-         case DataType.NUMERIC_VALUE:
+         case NUMERIC:
          {
             mpx.set(mpxFieldID, parseExtendedAttributeNumber(value));
             break;
          }
 
-         case DataType.DURATION_VALUE:
+         case DURATION:
          {
             mpx.set(mpxFieldID, parseDuration(file, null, value));
+            break;
+         }
+         
+         default:
+         {
             break;
          }
       }
@@ -375,7 +380,7 @@ public final class DatatypeConverter
     */
    public static final String  printResourceType (ResourceType value)
    {
-      return (Integer.toString(value==null?ResourceType.WORK_VALUE:value.getValue()));
+      return (Integer.toString(value==null?ResourceType.WORK.getValue():value.getValue()));
    }
 
    /**
@@ -397,7 +402,7 @@ public final class DatatypeConverter
     */
    public static final String printWorkGroup (WorkGroup value)
    {
-      return (Integer.toString(value==null?WorkGroup.DEFAULT_VALUE:value.getValue()));
+      return (Integer.toString(value==null?WorkGroup.DEFAULT.getValue():value.getValue()));
    }
 
    /**
@@ -419,7 +424,7 @@ public final class DatatypeConverter
     */
    public static final String printWorkContour (WorkContour value)
    {
-      return (Integer.toString(value==null?WorkContour.FLAT_VALUE:value.getValue()));
+      return (Integer.toString(value==null?WorkContour.FLAT.getValue():value.getValue()));
    }
 
    /**
@@ -441,7 +446,7 @@ public final class DatatypeConverter
     */
    public static final String printBookingType (BookingType value)
    {
-      return (Integer.toString(value==null?BookingType.COMMITTED_VALUE:value.getValue()));
+      return (Integer.toString(value==null?BookingType.COMMITTED.getValue():value.getValue()));
    }
 
    /**
@@ -463,7 +468,7 @@ public final class DatatypeConverter
     */
    public static final String printTaskType (TaskType value)
    {
-      return (Integer.toString(value==null?TaskType.FIXED_UNITS_VALUE:value.getValue()));
+      return (Integer.toString(value==null?TaskType.FIXED_UNITS.getValue():value.getValue()));
    }
 
    /**
@@ -485,7 +490,7 @@ public final class DatatypeConverter
     */
    public static final BigInteger printEarnedValueMethod (EarnedValueMethod value)
    {
-      return (value==null?BigInteger.valueOf(EarnedValueMethod.PERCENT_COMPLETE_VALUE):BigInteger.valueOf(value.getValue()));
+      return (value==null?BigInteger.valueOf(EarnedValueMethod.PERCENT_COMPLETE.getValue()):BigInteger.valueOf(value.getValue()));
    }
 
    /**
@@ -529,7 +534,7 @@ public final class DatatypeConverter
     */
    public static final BigInteger printTimeUnit (TimeUnit value)
    {
-      return (BigInteger.valueOf(value==null?TimeUnit.DAYS_VALUE+1:value.getValue()+1));
+      return (BigInteger.valueOf(value==null?TimeUnit.DAYS.getValue()+1:value.getValue()+1));
    }
 
    /**
@@ -706,40 +711,40 @@ public final class DatatypeConverter
          value = TimeUnit.HOURS;
       }
 
-      switch (value.getValue())
+      switch (value)
       {
-         case TimeUnit.MINUTES_VALUE:
+         case MINUTES:
          {
             result = 1;
             break;
          }
 
-         case TimeUnit.DAYS_VALUE:
+         case DAYS:
          {
             result = 3;
             break;
          }
 
-         case TimeUnit.WEEKS_VALUE:
+         case WEEKS:
          {
             result = 4;
             break;
          }
 
-         case TimeUnit.MONTHS_VALUE:
+         case MONTHS:
          {
             result = 5;
             break;
          }
 
-         case TimeUnit.YEARS_VALUE:
+         case YEARS:
          {
             result = 7;
             break;
          }
 
          default:
-         case TimeUnit.HOURS_VALUE:
+         case HOURS:
          {
             result = 2;
             break;
@@ -793,9 +798,9 @@ public final class DatatypeConverter
 
          double duration = 0;
 
-         switch (units.getValue())
+         switch (units)
          {
-            case TimeUnit.YEARS_VALUE:
+            case YEARS:
             {
                //
                // Calculate the number of years
@@ -809,7 +814,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.ELAPSED_YEARS_VALUE:
+            case ELAPSED_YEARS:
             {
                //
                // Calculate the number of years
@@ -823,7 +828,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.MONTHS_VALUE:
+            case MONTHS:
             {
                //
                // Calculate the number of months
@@ -837,7 +842,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
+            case ELAPSED_MONTHS:
             {
                //
                // Calculate the number of months
@@ -851,7 +856,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.WEEKS_VALUE:
+            case WEEKS:
             {
                //
                // Calculate the number of weeks
@@ -865,7 +870,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
+            case ELAPSED_WEEKS:
             {
                //
                // Calculate the number of weeks
@@ -879,7 +884,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.DAYS_VALUE:
+            case DAYS:
             {
                //
                // Calculate the number of days
@@ -893,7 +898,7 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.ELAPSED_DAYS_VALUE:
+            case ELAPSED_DAYS:
             {
                //
                // Calculate the number of days
@@ -907,8 +912,8 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                //
                // Calculate the number of hours
@@ -922,8 +927,8 @@ public final class DatatypeConverter
                break;
             }
 
-            case TimeUnit.MINUTES_VALUE:
-            case TimeUnit.ELAPSED_MINUTES_VALUE:
+            case MINUTES:
+            case ELAPSED_MINUTES:
             {
                //
                // Calculate the number of minutes
@@ -936,6 +941,11 @@ public final class DatatypeConverter
                duration += (xsd.getSeconds() / 60);
                break;
             }
+            
+            default:
+            {
+               break;
+            }               
          }
 
 
@@ -979,8 +989,8 @@ public final class DatatypeConverter
       {
          TimeUnit durationType = duration.getUnits();
 
-         if (durationType.getValue() == TimeUnit.HOURS_VALUE ||
-             durationType.getValue() == TimeUnit.ELAPSED_HOURS_VALUE)
+         if (durationType == TimeUnit.HOURS ||
+             durationType == TimeUnit.ELAPSED_HOURS)
          {
             result = new XsdDuration(duration).toString();
          }
@@ -1158,76 +1168,76 @@ public final class DatatypeConverter
          value = TimeUnit.HOURS;
       }
 
-      switch (value.getValue())
+      switch (value)
       {
-         case TimeUnit.MINUTES_VALUE:
+         case MINUTES:
          {
             result = 3;
             break;
          }
 
-         case TimeUnit.ELAPSED_MINUTES_VALUE:
+         case ELAPSED_MINUTES:
          {
             result = 4;
             break;
          }
 
-         case TimeUnit.ELAPSED_HOURS_VALUE:
+         case ELAPSED_HOURS:
          {
             result = 6;
             break;
          }
 
-         case TimeUnit.DAYS_VALUE:
+         case DAYS:
          {
             result = 7;
             break;
          }
 
-         case TimeUnit.ELAPSED_DAYS_VALUE:
+         case ELAPSED_DAYS:
          {
             result = 8;
             break;
          }
 
-         case TimeUnit.WEEKS_VALUE:
+         case WEEKS:
          {
             result = 9;
             break;
          }
 
-         case TimeUnit.ELAPSED_WEEKS_VALUE:
+         case ELAPSED_WEEKS:
          {
             result = 10;
             break;
          }
 
-         case TimeUnit.MONTHS_VALUE:
+         case MONTHS:
          {
             result = 11;
             break;
          }
 
-         case TimeUnit.ELAPSED_MONTHS_VALUE:
+         case ELAPSED_MONTHS:
          {
             result = 12;
             break;
          }
 
-         case TimeUnit.PERCENT_VALUE:
+         case PERCENT:
          {
             result = 19;
             break;
          }
 
-         case TimeUnit.ELAPSED_PERCENT_VALUE:
+         case ELAPSED_PERCENT:
          {
             result = 20;
             break;
          }
 
          default:
-         case TimeUnit.HOURS_VALUE:
+         case HOURS:
          {
             result = 5;
             break;
@@ -1300,42 +1310,47 @@ public final class DatatypeConverter
       {
          result = duration.getDuration();
 
-         switch (duration.getUnits().getValue())
+         switch (duration.getUnits())
          {
-            case TimeUnit.HOURS_VALUE:
-            case TimeUnit.ELAPSED_HOURS_VALUE:
+            case HOURS:
+            case ELAPSED_HOURS:
             {
                result *= 60;
                break;
             }
 
-            case TimeUnit.DAYS_VALUE:
-            case TimeUnit.ELAPSED_DAYS_VALUE:
+            case DAYS:
+            case ELAPSED_DAYS:
             {
                result *= (60 * 8);
                break;
             }
 
-            case TimeUnit.WEEKS_VALUE:
-            case TimeUnit.ELAPSED_WEEKS_VALUE:
+            case WEEKS:
+            case ELAPSED_WEEKS:
             {
                result *= (60 * 8 * 5);
                break;
             }
 
-            case TimeUnit.MONTHS_VALUE:
-            case TimeUnit.ELAPSED_MONTHS_VALUE:
+            case MONTHS:
+            case ELAPSED_MONTHS:
             {
                result *= (60 * 8 * 5 * 4);
                break;
             }
 
-            case TimeUnit.YEARS_VALUE:
-            case TimeUnit.ELAPSED_YEARS_VALUE:
+            case YEARS:
+            case ELAPSED_YEARS:
             {
                result *= (60 * 8 * 5 * 52);
                break;
             }
+            
+            default:
+            {
+               break;
+            }            
          }
       }
 

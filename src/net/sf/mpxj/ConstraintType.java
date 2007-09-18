@@ -23,7 +23,10 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
@@ -32,109 +35,89 @@ import net.sf.mpxj.utility.MpxjEnum;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class ConstraintType implements MpxjEnum
+public enum ConstraintType implements MpxjEnum
 {
+   AS_SOON_AS_POSSIBLE (0),
+   AS_LATE_AS_POSSIBLE (1),
+   MUST_START_ON (2),
+   MUST_FINISH_ON (3),
+   START_NO_EARLIER_THAN (4),
+   START_NO_LATER_THAN (5),
+   FINISH_NO_EARLIER_THAN (6),
+   FINISH_NO_LATER_THAN (7);
+   
    /**
-    * This constructor takes the numeric enumerated representation of a
-    * constraint type and populates the class instance appropriately.
-    * Note that unrecognised values are treated as "As Soon As Possible"
-    * constraints.
-    *
-    * @param type int version of the constraint type
+    * Private constructor.
+    * 
+    * @param type int version of the enum
     */
    private ConstraintType (int type)
    {
-      if (type < AS_SOON_AS_POSSIBLE_VALUE || type > FINISH_NO_LATER_THAN_VALUE)
-      {
-         m_value = AS_SOON_AS_POSSIBLE_VALUE;
-      }
-      else
-      {
-         m_value = type;
-      }
+      m_value = type;
    }
 
+
    /**
-    * This method takes the integer enumeration of a constraint type
-    * and returns an appropriate class instance. Note that unrecognised
-    * values are treated as "As Soon As Possible" constraints.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type integer constraint type enumeration
-    * @return ConstraintType instance
+    * @param type int type
+    * @return enum instance
     */
    public static ConstraintType getInstance (int type)
-   {
+   {      
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = 0;
+         type = AS_SOON_AS_POSSIBLE.getValue();
       }
-
       return (TYPE_VALUES[type]);
    }
 
    /**
-    * This method takes the integer enumeration of a constraint type
-    * and returns an appropriate class instance. Note that unrecognised
-    * values are treated as "As Soon As Possible" constraints.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type integer constraint type enumeration
-    * @return ConstraintType instance
+    * @param type int type
+    * @return enum instance
     */
    public static ConstraintType getInstance (Number type)
    {
-      int index = 0;
-
-      if (type != null)
+      int value;
+      if (type == null)
       {
-         index= type.intValue();
+         value = -1;
       }
-
-      return (getInstance(index));
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
    }
 
    /**
-    * Accessor method used to retrieve the numeric representation of the
-    * constraint type.
+    * Accessor method used to retrieve the numeric representation of the enum. 
     *
-    * @return int representation of the constraint type
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
-   public static final int AS_SOON_AS_POSSIBLE_VALUE = 0;
-   public static final int AS_LATE_AS_POSSIBLE_VALUE = 1;
-   public static final int MUST_START_ON_VALUE = 2;
-   public static final int MUST_FINISH_ON_VALUE = 3;
-   public static final int START_NO_EARLIER_THAN_VALUE = 4;
-   public static final int START_NO_LATER_THAN_VALUE = 5;
-   public static final int FINISH_NO_EARLIER_THAN_VALUE = 6;
-   public static final int FINISH_NO_LATER_THAN_VALUE = 7;
-
-   public static final ConstraintType AS_SOON_AS_POSSIBLE = new ConstraintType(AS_SOON_AS_POSSIBLE_VALUE);
-   public static final ConstraintType AS_LATE_AS_POSSIBLE = new ConstraintType(AS_LATE_AS_POSSIBLE_VALUE);
-   public static final ConstraintType MUST_START_ON = new ConstraintType(MUST_START_ON_VALUE);
-   public static final ConstraintType MUST_FINISH_ON = new ConstraintType(MUST_FINISH_ON_VALUE);
-   public static final ConstraintType START_NO_EARLIER_THAN = new ConstraintType(START_NO_EARLIER_THAN_VALUE);
-   public static final ConstraintType START_NO_LATER_THAN = new ConstraintType(START_NO_LATER_THAN_VALUE);
-   public static final ConstraintType FINISH_NO_EARLIER_THAN = new ConstraintType(FINISH_NO_EARLIER_THAN_VALUE);
-   public static final ConstraintType FINISH_NO_LATER_THAN = new ConstraintType(FINISH_NO_LATER_THAN_VALUE);
-
-   private static final ConstraintType[] TYPE_VALUES =
-   {
-      AS_SOON_AS_POSSIBLE,
-      AS_LATE_AS_POSSIBLE,
-      MUST_START_ON,
-      MUST_FINISH_ON,
-      START_NO_EARLIER_THAN,
-      START_NO_LATER_THAN,
-      FINISH_NO_EARLIER_THAN,
-      FINISH_NO_LATER_THAN
-   };
 
    /**
-    * Internal representation of the constraint type.
+    * Array mapping int types to enums.
+    */
+   private static final ConstraintType[] TYPE_VALUES = new ConstraintType[8];
+   static
+   {      
+      for (ConstraintType e : EnumSet.range(ConstraintType.AS_SOON_AS_POSSIBLE, ConstraintType.FINISH_NO_LATER_THAN))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
+
+
+   /**
+    * Internal representation of the enum int type.
     */
    private int m_value;
 }

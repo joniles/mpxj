@@ -23,43 +23,80 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class represents the grid line styles used by Microsoft Project.
  */
-public final class LineStyle implements MpxjEnum
+public enum LineStyle implements MpxjEnum
 {
+   NONE (0, "None"),
+   SOLID (1, "Solid"),
+   DOTTED1 (2, "Dotted1"),
+   DOTTED2 (3, "Dotted2"),
+   DASHED (4, "Dashed");
+   
    /**
     * Private constructor.
-    *
-    * @param value grid line style
+    * 
+    * @param type int version of the enum
+    * @param name name of the enum
     */
-   private LineStyle (int value)
+   private LineStyle (int type, String name)
    {
-      m_value = value;
+      m_value = type;
+      m_name = name;
    }
 
-   /**
-    * Retrieve an instance of this type based on a line style from MS Project.
-    *
-    * @param value line style
-    * @return GridLineStyle instance
-    */
-   public static LineStyle getInstance (int value)
-   {
-      LineStyle style;
 
-      if (value < 0 || value >= STYLE_TYPES.length)
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static LineStyle getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         style = NONE;
+         type = NONE.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static LineStyle getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
       }
       else
       {
-         style = STYLE_TYPES[value];
+         value = NumberUtility.getInt(type);
       }
+      return (getInstance(value));
+   }
 
-      return (style);
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
+    */
+   public int getValue ()
+   {
+      return (m_value);
    }
 
    /**
@@ -69,7 +106,7 @@ public final class LineStyle implements MpxjEnum
     */
    public String getName ()
    {
-      return (STYLE_NAMES[m_value]);
+      return (m_name);
    }
 
    /**
@@ -83,44 +120,21 @@ public final class LineStyle implements MpxjEnum
    }
 
    /**
-    * Retrieve the value associated with this instance.
-    *
-    * @return int value
+    * Array mapping int types to enums.
     */
-   public int getValue ()
-   {
-      return (m_value);
+   private static final LineStyle[] TYPE_VALUES = new LineStyle[5];
+   static
+   {      
+      for (LineStyle e : EnumSet.range(LineStyle.NONE, LineStyle.DASHED))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
    }
 
-   public static final int NONE_VALUE = 0;
-   public static final int SOLID_VALUE = 1;
-   public static final int DOTTED1_VALUE = 2;
-   public static final int DOTTED2_VALUE = 3;
-   public static final int DASHED_VALUE = 4;
 
-   public static final LineStyle NONE = new LineStyle (NONE_VALUE);
-   public static final LineStyle SOLID = new LineStyle (SOLID_VALUE);
-   public static final LineStyle DOTTED1 = new LineStyle (DOTTED1_VALUE);
-   public static final LineStyle DOTTED2 = new LineStyle (DOTTED2_VALUE);
-   public static final LineStyle DASHED = new LineStyle (DASHED_VALUE);
-
-   private static final LineStyle[] STYLE_TYPES =
-   {
-      NONE,
-      SOLID,
-      DOTTED1,
-      DOTTED2,
-      DASHED
-   };
-
-   private static final String[] STYLE_NAMES =
-   {
-      "None",
-      "Solid",
-      "Dotted1",
-      "Dotted2",
-      "Dashed"
-   };
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
+   private String m_name;
 }

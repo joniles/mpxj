@@ -23,29 +23,143 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
  * This class contains utility functions allowing time unit specifications
  * to be parsed and formatted.
  */
-public final class TimeUnit implements MpxjEnum
+public enum TimeUnit implements MpxjEnum
 {
    /**
-    * Private constructor.
-    *
-    * @param value time unit value
+    * Constant representing Minutes.
     */
-   private TimeUnit (int value)
-   {
-      m_value = value;
-   }
+   MINUTES (0, "m"),
 
    /**
-    * Retrieves the int representation of the time unit.
+    * Constant representing Hours.
+    */
+   HOURS (1, "h"),
+
+   /**
+    * Constant representing Days.
+    */
+   DAYS (2, "d"),
+
+   /**
+    * Constant representing Weeks.
+    */
+   WEEKS (3, "w"),
+
+   /**
+    * Constant representing Months.
+    */
+   MONTHS (4, "mo"),
+
+   /**
+    * Constant representing Years.
+    */
+   YEARS (5, "y"),
+
+   /**
+    * Constant representing Percent.
+    */
+   PERCENT (6, "%"),
+
+   /**
+    * Constant representing Elapsed Minutes.
+    */
+   ELAPSED_MINUTES (7, "em"),
+
+   /**
+    * Constant representing Elapsed Hours.
+    */
+   ELAPSED_HOURS (8, "eh"),
+
+   /**
+    * Constant representing Elapsed Days.
+    */
+   ELAPSED_DAYS (9, "ed"),
+
+   /**
+    * Constant representing Elapsed Weeks.
+    */
+   ELAPSED_WEEKS (10, "ew"),
+
+   /**
+    * Constant representing Elapsed Months.
+    */
+   ELAPSED_MONTHS (11, "emo"),
+
+   /**
+    * Constant representing Elapsed Years.
+    */
+   ELAPSED_YEARS (12, "ey"),
+
+   /**
+    * Constant representing Elapsed Percent.
+    */
+   ELAPSED_PERCENT (13, "e%");
+
+   
+   /**
+    * Private constructor.
+    * 
+    * @param type int version of the enum
+    * @param name enum name
+    */
+   private TimeUnit (int type, String name)
+   {
+      m_value = type;
+      m_name = name;
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return time unit value
+    * @param type int type
+    * @return enum instance
+    */
+   public static TimeUnit getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = DAYS.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static TimeUnit getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
@@ -53,281 +167,39 @@ public final class TimeUnit implements MpxjEnum
    }
 
    /**
+    * Retrieve the name associated with this enum.
+    * 
+    * @return name
+    */
+   public String getName ()
+   {
+      return (m_name);
+   }
+   
+   /**
     * {@inheritDoc}
     */
    @Override public String toString ()
    {
-      return (NAMES[m_value]);
+      return (getName());
    }
-
+   
    /**
-    * Retrieve a TimeUnit instance representing the supplied value.
-    *
-    * @param value time unit value
-    * @return TimeUnit instance
+    * Array mapping int types to enums.
     */
-   public static TimeUnit getInstance (int value)
-   {
-      TimeUnit result;
-
-      switch (value)
+   private static final TimeUnit[] TYPE_VALUES = new TimeUnit[14];
+   static
+   {      
+      for (TimeUnit e : EnumSet.range(TimeUnit.MINUTES, TimeUnit.ELAPSED_PERCENT))
       {
-         case MINUTES_VALUE:
-         {
-            result = MINUTES;
-            break;
-         }
-
-         case HOURS_VALUE:
-         {
-            result = HOURS;
-            break;
-         }
-
-         case DAYS_VALUE:
-         {
-            result = DAYS;
-            break;
-         }
-
-         case WEEKS_VALUE:
-         {
-            result = WEEKS;
-            break;
-         }
-
-         case MONTHS_VALUE:
-         {
-            result = MONTHS;
-            break;
-         }
-
-         case YEARS_VALUE:
-         {
-            result = YEARS;
-            break;
-         }
-
-         case PERCENT_VALUE:
-         {
-            result = PERCENT;
-            break;
-         }
-
-         case ELAPSED_MINUTES_VALUE:
-         {
-            result = ELAPSED_MINUTES;
-            break;
-         }
-
-         case ELAPSED_HOURS_VALUE:
-         {
-            result = ELAPSED_HOURS;
-            break;
-         }
-
-         case ELAPSED_DAYS_VALUE:
-         {
-            result = ELAPSED_DAYS;
-            break;
-         }
-
-         case ELAPSED_WEEKS_VALUE:
-         {
-            result = ELAPSED_WEEKS;
-            break;
-         }
-
-         case ELAPSED_MONTHS_VALUE:
-         {
-            result = ELAPSED_MONTHS;
-            break;
-         }
-
-         case ELAPSED_YEARS_VALUE:
-         {
-            result = ELAPSED_YEARS;
-            break;
-         }
-
-         case ELAPSED_PERCENT_VALUE:
-         {
-            result = ELAPSED_PERCENT;
-            break;
-         }
-
-         default:
-         {
-            result = DAYS;
-            break;
-         }
+         TYPE_VALUES[e.getValue()] = e;
       }
-
-      return (result);
    }
 
 
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing Minutes.
-    */
-   public static final int MINUTES_VALUE = 0;
-
-   /**
-    * Constant representing Hours.
-    */
-   public static final int HOURS_VALUE = 1;
-
-   /**
-    * Constant representing Days.
-    */
-   public static final int DAYS_VALUE = 2;
-
-   /**
-    * Constant representing Weeks.
-    */
-   public static final int WEEKS_VALUE = 3;
-
-   /**
-    * Constant representing Months.
-    */
-   public static final int MONTHS_VALUE = 4;
-
-   /**
-    * Constant representing Years.
-    */
-   public static final int YEARS_VALUE = 5;
-
-   /**
-    * Constant representing Percent.
-    */
-   public static final int PERCENT_VALUE = 6;
-
-   /**
-    * Constant representing Elapsed Minutes.
-    */
-   public static final int ELAPSED_MINUTES_VALUE = 7;
-
-   /**
-    * Constant representing Elapsed Hours.
-    */
-   public static final int ELAPSED_HOURS_VALUE = 8;
-
-   /**
-    * Constant representing Elapsed Days.
-    */
-   public static final int ELAPSED_DAYS_VALUE = 9;
-
-   /**
-    * Constant representing Elapsed Weeks.
-    */
-   public static final int ELAPSED_WEEKS_VALUE = 10;
-
-   /**
-    * Constant representing Elapsed Months.
-    */
-   public static final int ELAPSED_MONTHS_VALUE = 11;
-
-   /**
-    * Constant representing Elapsed Years.
-    */
-   public static final int ELAPSED_YEARS_VALUE = 12;
-
-   /**
-    * Constant representing Elapsed Percent.
-    */
-   public static final int ELAPSED_PERCENT_VALUE = 13;
-
-
-   /**
-    * Constant representing Minutes.
-    */
-   public static final TimeUnit MINUTES = new TimeUnit(MINUTES_VALUE);
-
-   /**
-    * Constant representing Hours.
-    */
-   public static final TimeUnit HOURS = new TimeUnit(HOURS_VALUE);
-
-   /**
-    * Constant representing Days.
-    */
-   public static final TimeUnit DAYS = new TimeUnit(DAYS_VALUE);
-
-   /**
-    * Constant representing Weeks.
-    */
-   public static final TimeUnit WEEKS = new TimeUnit(WEEKS_VALUE);
-
-   /**
-    * Constant representing Months.
-    */
-   public static final TimeUnit MONTHS = new TimeUnit(MONTHS_VALUE);
-
-   /**
-    * Constant representing Years.
-    */
-   public static final TimeUnit YEARS = new TimeUnit(YEARS_VALUE);
-
-   /**
-    * Constant representing Percent.
-    */
-   public static final TimeUnit PERCENT = new TimeUnit(PERCENT_VALUE);
-
-   /**
-    * Constant representing Elapsed Minutes.
-    */
-   public static final TimeUnit ELAPSED_MINUTES = new TimeUnit(ELAPSED_MINUTES_VALUE);
-
-   /**
-    * Constant representing Elapsed Hours.
-    */
-   public static final TimeUnit ELAPSED_HOURS = new TimeUnit(ELAPSED_HOURS_VALUE);
-
-   /**
-    * Constant representing Elapsed Days.
-    */
-   public static final TimeUnit ELAPSED_DAYS = new TimeUnit(ELAPSED_DAYS_VALUE);
-
-   /**
-    * Constant representing Elapsed Weeks.
-    */
-   public static final TimeUnit ELAPSED_WEEKS = new TimeUnit(ELAPSED_WEEKS_VALUE);
-
-   /**
-    * Constant representing Elapsed Months.
-    */
-   public static final TimeUnit ELAPSED_MONTHS = new TimeUnit(ELAPSED_MONTHS_VALUE);
-
-   /**
-    * Constant representing Elapsed Years.
-    */
-   public static final TimeUnit ELAPSED_YEARS = new TimeUnit(ELAPSED_YEARS_VALUE);
-
-   /**
-    * Constant representing Elapsed Percent.
-    */
-   public static final TimeUnit ELAPSED_PERCENT = new TimeUnit(ELAPSED_PERCENT_VALUE);
-
-   /**
-    * Used for debugging only.
-    */
-   private static final String[] NAMES =
-   {
-      "m",
-      "h",
-      "d",
-      "w",
-      "mo",
-      "y",
-      "%",
-      "em",
-      "eh",
-      "ed",
-      "ew",
-      "emo",
-      "ey",
-      "e%"      
-   };
+   private String m_name;
 }

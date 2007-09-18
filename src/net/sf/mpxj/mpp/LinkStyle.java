@@ -23,42 +23,78 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Class representing how links are drawn on a Gantt chart.
  */
-public final class LinkStyle implements MpxjEnum
+public enum LinkStyle implements MpxjEnum
 {
+   NONE (0, "None"),
+   END_TOP (1, "End Top"),
+   END_START (2, "End Start");
+   
    /**
     * Private constructor.
-    *
-    * @param value alignment value from an MS Project file
+    * 
+    * @param type int version of the enum
+    * @param name enum name
     */
-   private LinkStyle (int value)
+   private LinkStyle (int type, String name)
    {
-      m_value = value;
+      m_value = type;
+      m_name = name;
    }
 
+
    /**
-    * Retrieve an instance of this class based on the data read from an
-    * MS Project file.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param value value from an MS Project file
-    * @return instance of this class
+    * @param type int type
+    * @return enum instance
     */
-   public static LinkStyle getInstance (int value)
-   {
-      LinkStyle result;
-
-      if (value < 0 || value >= STYLE_ARRAY.length)
+   public static LinkStyle getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         value = 1;
+         type = END_TOP.getValue();
       }
+      return (TYPE_VALUES[type]);
+   }
 
-      result = STYLE_ARRAY[value];
 
-      return (result);
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static LinkStyle getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
+    */
+   public int getValue ()
+   {
+      return (m_value);
    }
 
    /**
@@ -69,7 +105,7 @@ public final class LinkStyle implements MpxjEnum
     */
    public String getName ()
    {
-      return (STYLE_NAMES[m_value]);
+      return (m_name);
    }
 
    /**
@@ -83,36 +119,21 @@ public final class LinkStyle implements MpxjEnum
    }
 
    /**
-    * Retrieve the value associated with this instance.
-    *
-    * @return int value
+    * Array mapping int types to enums.
     */
-   public int getValue ()
-   {
-      return (m_value);
+   private static final LinkStyle[] TYPE_VALUES = new LinkStyle[3];
+   static
+   {      
+      for (LinkStyle e : EnumSet.range(LinkStyle.NONE, LinkStyle.END_START))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
    }
 
-   public static final int NONE_VALUE = 0;
-   public static final int END_TOP_VALUE = 1;
-   public static final int END_START_VALUE = 2;
 
-   public static final LinkStyle NONE = new LinkStyle (NONE_VALUE);
-   public static final LinkStyle END_TOP = new LinkStyle (END_TOP_VALUE);
-   public static final LinkStyle END_START = new LinkStyle (END_START_VALUE);
-
-   private static final LinkStyle[] STYLE_ARRAY =
-   {
-      NONE,
-      END_TOP,
-      END_START
-   };
-
-   private static final String[] STYLE_NAMES =
-   {
-      "None",
-      "End Top",
-      "End Start",
-   };
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
+   private String m_name;
 }

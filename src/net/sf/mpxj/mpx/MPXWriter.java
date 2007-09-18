@@ -1347,71 +1347,77 @@ public final class MPXWriter extends AbstractProjectWriter
    @SuppressWarnings("unchecked")
    private Object formatType (DataType type, Object value)
    {
-      switch (type.getValue())
+      switch (type)
       {
-         case DataType.DATE_VALUE:
+         case DATE:
          {
             value = formatDateTime((Date)value);
             break;
          }
 
-         case DataType.CURRENCY_VALUE:
+         case CURRENCY:
          {
             value = formatCurrency((Number)value);
             break;
          }
 
-         case DataType.UNITS_VALUE:
+         case UNITS:
          {
             value = formatUnits((Number)value);
             break;
          }
 
-         case DataType.PERCENTAGE_VALUE:
+         case PERCENTAGE:
          {
             value = formatPercentage((Number)value);
             break;
          }
 
-         case DataType.ACCRUE_VALUE:
+         case ACCRUE:
          {
             value = formatAccrueType((AccrueType)value);
             break;
          }
 
-         case DataType.CONSTRAINT_VALUE:
+         case CONSTRAINT:
          {
             value = formatConstraintType((ConstraintType)value);
             break;
          }
 
-         case DataType.DURATION_VALUE:
+         case DURATION:
          {
             value = formatDuration((Duration)value);
             break;
          }
 
-         case DataType.RATE_VALUE:
+         case RATE:
          {
             value = formatRate((Rate)value);
             break;
          }
 
-         case DataType.PRIORITY_VALUE:
+         case PRIORITY:
          {
             value = formatPriority((Priority)value);
             break;
          }
 
-         case DataType.RELATION_LIST_VALUE:
+         case RELATION_LIST:
          {
             value = formatRelationList((List<Relation>)value);
             break;
          }
 
-         case DataType.TASK_TYPE_VALUE:
+         case TASK_TYPE:
          {
             value = formatTaskType ((TaskType)value);
+            break;
+         }
+         
+         default:
+         {
+            break;
          }
       }
 

@@ -23,62 +23,77 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated time format values.
  */
-public final class ProjectTimeFormat implements MpxjEnum
+
+public enum ProjectTimeFormat implements MpxjEnum
 {
+   TWELVE_HOUR (0),
+   TWENTY_FOUR_HOUR (1);
+   
    /**
     * Private constructor.
-    *
-    * @param value time format value
+    * 
+    * @param type int version of the enum
     */
-   private ProjectTimeFormat (int value)
+   private ProjectTimeFormat (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the time format.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return time format value
+    * @param type int type
+    * @return enum instance
+    */
+   public static ProjectTimeFormat getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = TWELVE_HOUR.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static ProjectTimeFormat getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
-
-   /**
-    * Retrieve a TimeFormat instance representing the supplied value.
-    *
-    * @param value time format value
-    * @return TimeFormat instance
-    */
-   public static ProjectTimeFormat getInstance (int value)
-   {
-      ProjectTimeFormat result;
-
-      switch (value)
-      {
-         case TWENTY_FOUR_HOUR_VALUE:
-         {
-            result = TWENTY_FOUR_HOUR;
-            break;
-         }
-
-         default:
-         case TWELVE_HOUR_VALUE:
-         {
-            result = TWELVE_HOUR;
-            break;
-         }
-      }
-
-      return (result);
-   }
-
 
    /**
     * Returns a string representation of the time format type
@@ -91,26 +106,21 @@ public final class ProjectTimeFormat implements MpxjEnum
       return (Integer.toString(m_value));
    }
 
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final ProjectTimeFormat[] TYPE_VALUES = new ProjectTimeFormat[2];
+   static
+   {      
+      for (ProjectTimeFormat e : EnumSet.range(ProjectTimeFormat.TWELVE_HOUR, ProjectTimeFormat.TWENTY_FOUR_HOUR))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
+
+
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing 12 hour time.
-    */
-   public static final int TWELVE_HOUR_VALUE = 0;
-
-   /**
-    * Constant representing 24 hour time.
-    */
-   public static final int TWENTY_FOUR_HOUR_VALUE = 1;
-
-   /**
-    * Constant representing 12 hour time.
-    */
-   public static final ProjectTimeFormat TWELVE_HOUR = new ProjectTimeFormat(TWELVE_HOUR_VALUE);
-
-   /**
-    * Constant representing 24 hour time.
-    */
-   public static final ProjectTimeFormat TWENTY_FOUR_HOUR = new ProjectTimeFormat(TWENTY_FOUR_HOUR_VALUE);
-
 }

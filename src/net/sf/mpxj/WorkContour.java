@@ -23,123 +23,101 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated work contour values.
  */
-public final class WorkContour implements MpxjEnum
+public enum WorkContour implements MpxjEnum
 {
+   FLAT (0),
+   BACK_LOADED (1),
+   FRONT_LOADED (2),
+   DOUBLE_PEAK (3),
+   EARLY_PEAK (4),
+   LATE_PEAK (5),
+   BELL (6),
+   TURTLE (7),
+   CONTOURED (8);
+
+   
    /**
     * Private constructor.
-    *
-    * @param value work contour value
+    * 
+    * @param type int version of the enum
     */
-   private WorkContour (int value)
+   private WorkContour (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the work contour.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return work group value
+    * @param type int type
+    * @return enum instance
+    */
+   public static WorkContour getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = FLAT.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static WorkContour getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
+
    /**
-    * Retrieve a WorkContour instance representing the supplied value.
-    *
-    * @param value work group value
-    * @return WorkContour instance
+    * Array mapping int types to enums.
     */
-   public static WorkContour getInstance (int value)
-   {
-      WorkContour result;
-
-      switch (value)
+   private static final WorkContour[] TYPE_VALUES = new WorkContour[9];
+   static
+   {      
+      for (WorkContour e : EnumSet.range(WorkContour.FLAT, WorkContour.CONTOURED))
       {
-         case BACK_LOADED_VALUE:
-         {
-            result = BACK_LOADED;
-            break;
-         }
-
-         case FRONT_LOADED_VALUE:
-         {
-            result = FRONT_LOADED;
-            break;
-         }
-
-         case DOUBLE_PEAK_VALUE:
-         {
-            result = DOUBLE_PEAK;
-            break;
-         }
-
-         case EARLY_PEAK_VALUE:
-         {
-            result = EARLY_PEAK;
-            break;
-         }
-
-         case LATE_PEAK_VALUE:
-         {
-            result = LATE_PEAK;
-            break;
-         }
-
-         case BELL_VALUE:
-         {
-            result = BELL;
-            break;
-         }
-
-         case TURTLE_VALUE:
-         {
-            result = TURTLE;
-            break;
-         }
-
-         case CONTOURED_VALUE:
-         {
-            result = CONTOURED;
-            break;
-         }
-
-         default:
-         case FLAT_VALUE:
-         {
-            result = FLAT;
-            break;
-         }
+         TYPE_VALUES[e.getValue()] = e;
       }
-
-      return (result);
    }
 
+
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   public static final int FLAT_VALUE = 0;
-   public static final int BACK_LOADED_VALUE = 1;
-   public static final int FRONT_LOADED_VALUE = 2;
-   public static final int DOUBLE_PEAK_VALUE = 3;
-   public static final int EARLY_PEAK_VALUE = 4;
-   public static final int LATE_PEAK_VALUE = 5;
-   public static final int BELL_VALUE = 6;
-   public static final int TURTLE_VALUE = 7;
-   public static final int CONTOURED_VALUE = 8;
-
-   public static final WorkContour FLAT = new WorkContour(FLAT_VALUE);
-   public static final WorkContour BACK_LOADED = new WorkContour(BACK_LOADED_VALUE);
-   public static final WorkContour FRONT_LOADED = new WorkContour(FRONT_LOADED_VALUE);
-   public static final WorkContour DOUBLE_PEAK = new WorkContour(DOUBLE_PEAK_VALUE);
-   public static final WorkContour EARLY_PEAK = new WorkContour(EARLY_PEAK_VALUE);
-   public static final WorkContour LATE_PEAK = new WorkContour(LATE_PEAK_VALUE);
-   public static final WorkContour BELL = new WorkContour(BELL_VALUE);
-   public static final WorkContour TURTLE = new WorkContour(TURTLE_VALUE);
-   public static final WorkContour CONTOURED = new WorkContour(CONTOURED_VALUE);
 }

@@ -43,17 +43,17 @@ class ViewFactory9 implements ViewFactory
       throws IOException
    {
       View view;
-      int type  = MPPUtility.getShort(fixedData, 110);
-      if (type == 1)
+      int splitViewFlag  = MPPUtility.getShort(fixedData, 110);
+      if (splitViewFlag == 1)
       {
          view = new SplitView9 (fixedData, varData);
       }
       else
       {
-         type = MPPUtility.getShort(fixedData, 112);
+         ViewType type = ViewType.getInstance(MPPUtility.getShort(fixedData, 112));
          switch (type)
          {
-            case ViewType.GANTT_CHART_VALUE:
+            case GANTT_CHART:
             {
                view = new GanttChartView9 (file, fixedMeta, fixedData, varData, fontBases);               
                break;

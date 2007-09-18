@@ -23,66 +23,76 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated date order values.
  */
-public final class DateOrder implements MpxjEnum
+public enum DateOrder implements MpxjEnum
 {
+   MDY (0),
+   DMY (1),
+   YMD (2);
+   
    /**
     * Private constructor.
-    *
-    * @param value date order value
+    * 
+    * @param type int version of the enum
     */
-   private DateOrder (int value)
+   private DateOrder (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the date order.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return date order value
+    * @param type int type
+    * @return enum instance
+    */
+   public static DateOrder getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = MDY.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static DateOrder getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
-   }
-
-   /**
-    * Retrieve a DateOrder instance representing the supplied value.
-    *
-    * @param value date order value
-    * @return DateOrder instance
-    */
-   public static DateOrder getInstance (int value)
-   {
-      DateOrder result;
-
-      switch (value)
-      {
-         case DMY_VALUE:
-         {
-            result = DMY;
-            break;
-         }
-
-         case YMD_VALUE:
-         {
-            result = YMD;
-            break;
-         }
-
-         default:
-         case MDY_VALUE:
-         {
-            result = MDY;
-            break;
-         }
-      }
-
-      return (result);
    }
 
    /**
@@ -96,38 +106,21 @@ public final class DateOrder implements MpxjEnum
       return (Integer.toString(m_value));
    }
 
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final DateOrder[] TYPE_VALUES = new DateOrder[3];
+   static
+   {      
+      for (DateOrder e : EnumSet.range(DateOrder.MDY, DateOrder.YMD))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
 
+
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing MDY.
-    */
-   public static final int MDY_VALUE = 0;
-
-   /**
-    * Constant representing DMY.
-    */
-   public static final int DMY_VALUE = 1;
-
-   /**
-    * Constant representing YMD.
-    */
-   public static final int YMD_VALUE = 2;
-
-
-   /**
-    * Constant representing MDY.
-    */
-   public static final DateOrder MDY = new DateOrder(MDY_VALUE);
-
-   /**
-    * Constant representing DMY.
-    */
-   public static final DateOrder DMY = new DateOrder(DMY_VALUE);
-
-   /**
-    * Constant representing YMD.
-    */
-   public static final DateOrder YMD = new DateOrder(YMD_VALUE);
-
 }

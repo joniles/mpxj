@@ -23,85 +23,72 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
 
 /**
- * Instances of this class represent enumerated booking type values.
+ * Enumeration representing booking types.
  */
-public final class BookingType implements MpxjEnum
+public enum BookingType implements MpxjEnum
 {
+   COMMITTED (0),
+   PROPOSED (1);
+   
    /**
     * Private constructor.
-    *
-    * @param value resource type value
+    * 
+    * @param type int version of the enum
     */
-   private BookingType (int value)
+   private BookingType (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the booking type.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return booking type value
+    * @param type int type
+    * @return enum instance
+    */
+   public static BookingType getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = PROPOSED.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
+
    /**
-    * Retrieve a BookingType instance representing the supplied value.
-    *
-    * @param value resource type value
-    * @return BookingType instance
+    * Array mapping int types to enums.
     */
-   public static BookingType getInstance (int value)
-   {
-      BookingType result;
-
-      switch (value)
+   private static final BookingType[] TYPE_VALUES = new BookingType[2];
+   static
+   {      
+      for (BookingType e : EnumSet.range(BookingType.COMMITTED, BookingType.PROPOSED))
       {
-         case COMMITTED_VALUE:
-         {
-            result = COMMITTED;
-            break;
-         }
-
-         default:
-         case PROPOSED_VALUE:
-         {
-            result = PROPOSED;
-            break;
-         }
+         TYPE_VALUES[e.getValue()] = e;
       }
-
-      return (result);
    }
 
 
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing Material.
-    */
-   public static final int COMMITTED_VALUE = 0;
-
-   /**
-    * Constant representing Work.
-    */
-   public static final int PROPOSED_VALUE = 1;
-
-
-
-   /**
-    * Constant representing Material.
-    */
-   public static final BookingType COMMITTED = new BookingType(COMMITTED_VALUE);
-
-   /**
-    * Constant representing Work.
-    */
-   public static final BookingType PROPOSED = new BookingType(PROPOSED_VALUE);
 }
+

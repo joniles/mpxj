@@ -135,9 +135,9 @@ public abstract class GenericCriteria
       // Retrieve the LHS value
       //
       Object lhs = container.getCurrentValue(m_field);
-      switch (m_field.getDataType().getValue())
+      switch (m_field.getDataType())
       {
-         case DataType.DATE_VALUE:
+         case DATE:
          {
             if (lhs != null)
             {
@@ -146,7 +146,7 @@ public abstract class GenericCriteria
             break;
          }
          
-         case DataType.DURATION_VALUE:
+         case DURATION:
          {
             if (lhs != null)
             {
@@ -156,9 +156,14 @@ public abstract class GenericCriteria
             break;
          }
          
-         case DataType.STRING_VALUE:
+         case STRING:
          {
             lhs = lhs==null?"":lhs;
+            break;
+         }
+         
+         default:
+         {
             break;
          }
       }
@@ -208,9 +213,9 @@ public abstract class GenericCriteria
             FieldType type = (FieldType)value;
             value = container.getCachedValue(type);
             
-            switch (type.getDataType().getValue())
+            switch (type.getDataType())
             {
-               case DataType.DATE_VALUE:
+               case DATE:
                {
                   if (value != null)
                   {
@@ -219,7 +224,7 @@ public abstract class GenericCriteria
                   break;
                }
 
-               case DataType.DURATION_VALUE:
+               case DURATION:
                {
                   if (value != null && ((Duration)value).getUnits() != TimeUnit.HOURS)
                   {
@@ -228,9 +233,14 @@ public abstract class GenericCriteria
                   break;
                }
                
-               case DataType.STRING_VALUE:
+               case STRING:
                {
                   value = value==null?"":value;
+                  break;
+               }
+               
+               default:
+               {
                   break;
                }
             }

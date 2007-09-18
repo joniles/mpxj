@@ -23,7 +23,10 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 /**
@@ -32,101 +35,84 @@ import net.sf.mpxj.utility.MpxjEnum;
  * file, and an enumerated representation that can be more easily manipulated
  * programatically.
  */
-public final class AccrueType implements MpxjEnum
+public enum AccrueType implements MpxjEnum
 {
+   START (1),
+   END (2),
+   PRORATED(3);
+   
    /**
-    * This constructor takes the numeric enumerated representation of an
-    * accrue type and populates the class instance appropriately.
-    * Note that unrecognised values are treated as "Prorated".
-    *
-    * @param type int version of the accrue type
+    * Private constructor.
+    * 
+    * @param type int version of the enum
     */
    private AccrueType (int type)
    {
-      if (type < START_VALUE || type > PRORATED_VALUE)
+      m_value = type;
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static AccrueType getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         m_value = PRORATED_VALUE;
+         type = PRORATED.getValue();
       }
-      else
-      {
-         m_value = type;
-      }
+      return (TYPE_VALUES[type]);
    }
 
    /**
-    * This method takes a numeric enumerated accrue type value
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as "Prorated".
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type numeric enumerated accrue type
-    * @return AccrueType class instance
+    * @param type int type
+    * @return enum instance
     */
    public static AccrueType getInstance (Number type)
    {
-      AccrueType result;
-
+      int value;
       if (type == null)
       {
-         result = TYPE_VALUES[PRORATED_VALUE-1];
+         value = -1;
       }
       else
       {
-         result = getInstance (type.intValue());
+         value = NumberUtility.getInt(type);
       }
-
-      return (result);
+      return (getInstance(value));
    }
 
    /**
-    * This method takes a numeric enumerated accrue type value
-    * and populates the class instance appropriately. Note that unrecognised
-    * values are treated as "Prorated".
+    * Accessor method used to retrieve the numeric representation of the enum. 
     *
-    * @param type numeric enumerated accrue type
-    * @return AccrueType class instance
-    */
-   public static AccrueType getInstance (int type)
-   {
-      if (type < START_VALUE || type > PRORATED_VALUE)
-      {
-         type = PRORATED_VALUE;
-      }
-
-      return (TYPE_VALUES[type-1]);
-   }
-
-
-   /**
-    * Accessor method used to retrieve the numeric representation of the
-    * accrue type.
-    *
-    * @return int representation of the accrue type
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
    }
 
-   public static final int START_VALUE = 1;
-   public static final int END_VALUE = 2;
-   public static final int PRORATED_VALUE = 3;
-
-   public static final AccrueType START = new AccrueType (START_VALUE);
-   public static final AccrueType END = new AccrueType (END_VALUE);
-   public static final AccrueType PRORATED = new AccrueType (PRORATED_VALUE);
 
    /**
-    * Array of type values matching the above constants.
+    * Array mapping int types to enums.
     */
-   private static final AccrueType[] TYPE_VALUES =
-   {
-      START,
-      END,
-      PRORATED,
-   };
-
+   private static final AccrueType[] TYPE_VALUES = new AccrueType[4];
+   static
+   {      
+      for (AccrueType e : EnumSet.range(AccrueType.START, AccrueType.PRORATED))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
+  
    /**
-    * Internal representation of the accrue type.
+    * Internal representation of the enum int type.
     */
    private int m_value;
 }
+

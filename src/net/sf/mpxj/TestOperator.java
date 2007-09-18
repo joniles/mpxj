@@ -23,7 +23,10 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 
 
@@ -31,41 +34,212 @@ import net.sf.mpxj.utility.MpxjEnum;
  * This class represents the set of operators used to perform a test
  * between two or more operands.
  */
-public final class TestOperator implements MpxjEnum
+public enum TestOperator implements MpxjEnum
 {
+   IS_ANY_VALUE (0)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (true);
+      }
+   },
+   
+   IS_WITHIN (1)
+   {
+      /**
+       * {@inheritDoc}
+       */      
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateWithin(lhs, rhs));
+      }
+   },
+
+   IS_GREATER_THAN (2)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateCompareTo(lhs, rhs) > 0);
+      }
+   },
+
+   IS_LESS_THAN (3)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateCompareTo(lhs, rhs) < 0);
+      }
+   },
+   
+   IS_GREATER_THAN_OR_EQUAL_TO (4)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateCompareTo(lhs, rhs) >= 0);
+      }
+   },
+   
+   IS_LESS_THAN_OR_EQUAL_TO (5)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateCompareTo(lhs, rhs) <= 0);
+      }
+   },
+   
+   EQUALS (6)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         boolean result;
+         
+         if (lhs == null)
+         {
+            result = (lhs == getSingleOperand(rhs));
+         }
+         else
+         {
+            result = lhs.equals(getSingleOperand(rhs));
+         }
+         return (result);
+      }
+   },
+   
+   DOES_NOT_EQUAL (7)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         boolean result;
+         if (lhs == null)
+         {
+            result = (lhs != getSingleOperand(rhs));
+         }
+         else
+         {
+            result = !lhs.equals(getSingleOperand(rhs));  
+         }
+         return(result);
+      }
+   },
+   
+   CONTAINS (8)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateContains(lhs, rhs));
+      }
+   },
+   
+   IS_NOT_WITHIN (9)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (!evaluateWithin(lhs, rhs));
+      }
+   },
+   
+   DOES_NOT_CONTAIN (10)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (!evaluateContains(lhs, rhs));
+      }
+   },
+   
+   CONTAINS_EXACTLY (11)
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate (Object lhs, Object rhs)
+      {
+         return (evaluateContainsExactly(lhs, rhs));
+      }
+   };
+   
+   
    /**
-    * This constructor takes the numeric enumerated representation of a
-    * test operator and populates the class instance appropriately.
-    *
-    * @param type int version of the test operator
+    * Private constructor.
+    * 
+    * @param type int version of the enum
     */
    private TestOperator (int type)
    {
       m_value = type;
    }
 
+
    /**
-    * This method takes the integer enumeration of a test operator
-    * and returns an appropriate class instance.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type integer test operator enumeration
-    * @return TestOperator instance
+    * @param type int type
+    * @return enum instance
     */
    public static TestOperator getInstance (int type)
-   {
+   {      
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = 0;
+         type = IS_ANY_VALUE.getValue();
       }
-
       return (TYPE_VALUES[type]);
    }
 
+
    /**
-    * Accessor method used to retrieve the numeric representation of the
-    * constraint type.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return int representation of the constraint type
+    * @param type int type
+    * @return enum instance
+    */
+   public static TestOperator getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
@@ -81,101 +255,7 @@ public final class TestOperator implements MpxjEnum
     * @param rhs operand
     * @return boolean result
     */
-   public boolean evaluate (Object lhs, Object rhs)
-   {
-      boolean result = false;
-      
-      switch (m_value)
-      {
-         case IS_ANY_VALUE_VALUE:
-         {
-            result = true;
-            break;
-         }
-         
-         case IS_WITHIN_VALUE:
-         {
-            result = evaluateWithin(lhs, rhs);
-            break;
-         }
-         
-         case IS_GREATER_THAN_VALUE:
-         {
-            result = evaluateCompareTo(lhs, rhs) > 0;
-            break;
-         }
-         
-         case IS_LESS_THAN_VALUE:
-         {
-            result = evaluateCompareTo(lhs, rhs) < 0;
-            break;
-         }
-         
-         case IS_GREATER_THAN_OR_EQUAL_TO_VALUE:
-         {
-            result = evaluateCompareTo(lhs, rhs) >= 0;            
-            break;
-         }
-         
-         case IS_LESS_THAN_OR_EQUAL_TO_VALUE:
-         {
-            result = evaluateCompareTo(lhs, rhs) <= 0;
-            break;
-         }
-         
-         case EQUALS_VALUE:
-         {
-            if (lhs == null)
-            {
-               result = (lhs == getSingleOperand(rhs));
-            }
-            else
-            {
-               result = lhs.equals(getSingleOperand(rhs));
-            }
-            break;
-         }
-         
-         case DOES_NOT_EQUAL_VALUE:
-         {
-            if (lhs == null)
-            {
-               result = (lhs != getSingleOperand(rhs));
-            }
-            else
-            {
-               result = !lhs.equals(getSingleOperand(rhs));  
-            }
-            break;
-         }
-         
-         case CONTAINS_VALUE:
-         {
-            result = evaluateContains(lhs, rhs);
-            break;
-         }
-         
-         case IS_NOT_WITHIN_VALUE:
-         {
-            result = !evaluateWithin(lhs, rhs);
-            break;
-         }
-         
-         case DOES_NOT_CONTAIN_VALUE:
-         {
-            result = !evaluateContains(lhs, rhs);
-            break;
-         }
-         
-         case CONTAINS_EXACTLY_VALUE:
-         {
-            result = evaluateContainsExactly(lhs, rhs);
-            break;
-         }         
-      }
-      
-      return (result);
-   }
+   public abstract boolean evaluate (Object lhs, Object rhs);
    
    /**
     * This method is used to ensure that if a list of operand values has been
@@ -184,7 +264,7 @@ public final class TestOperator implements MpxjEnum
     * @param operand operand value
     * @return single operand value
     */
-   private Object getSingleOperand (Object operand)
+   protected Object getSingleOperand (Object operand)
    {
       if (operand instanceof Object[])
       {
@@ -203,7 +283,7 @@ public final class TestOperator implements MpxjEnum
     * @return boolean result
     */
    @SuppressWarnings("unchecked")
-   private boolean evaluateWithin (Object lhs, Object rhs)
+   protected boolean evaluateWithin (Object lhs, Object rhs)
    {
       boolean result = false;
       
@@ -229,7 +309,7 @@ public final class TestOperator implements MpxjEnum
     * @return boolean result
     */
    @SuppressWarnings("unchecked")
-   private int evaluateCompareTo (Object lhs, Object rhs)
+   protected int evaluateCompareTo (Object lhs, Object rhs)
    {
       int result;
       
@@ -263,13 +343,13 @@ public final class TestOperator implements MpxjEnum
    
    /**
     * Assuming the supplied arguments are both Strings, this method
-    * determines if rhs is contained within lhs. This test is case insenstive.
+    * determines if rhs is contained within lhs. This test is case insensitive.
     * 
     * @param lhs operand
     * @param rhs operand
     * @return boolean result
     */
-   private boolean evaluateContains (Object lhs, Object rhs)
+   protected boolean evaluateContains (Object lhs, Object rhs)
    {
       boolean result = false;
       
@@ -291,7 +371,7 @@ public final class TestOperator implements MpxjEnum
     * @param rhs operand
     * @return boolean result
     */   
-   private boolean evaluateContainsExactly (Object lhs, Object rhs)
+   protected boolean evaluateContainsExactly (Object lhs, Object rhs)
    {
       boolean result = false;
       
@@ -306,77 +386,20 @@ public final class TestOperator implements MpxjEnum
    }
    
    /**
-    * {@inheritDoc}
+    * Array mapping int types to enums.
     */
-   @Override public String toString ()
-   {
-      return (NAME_VALUES[m_value]);
+   private static final TestOperator[] TYPE_VALUES = new TestOperator[12];
+   static
+   {      
+      for (TestOperator e : EnumSet.range(TestOperator.IS_ANY_VALUE, TestOperator.CONTAINS_EXACTLY))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
    }
-   
-   public static final int IS_ANY_VALUE_VALUE = 0;      
-   public static final int IS_WITHIN_VALUE = 1;
-   public static final int IS_GREATER_THAN_VALUE = 2;
-   public static final int IS_LESS_THAN_VALUE = 3;
-   public static final int IS_GREATER_THAN_OR_EQUAL_TO_VALUE = 4;
-   public static final int IS_LESS_THAN_OR_EQUAL_TO_VALUE = 5;   
-   public static final int EQUALS_VALUE = 6;
-   public static final int DOES_NOT_EQUAL_VALUE = 7;
-   public static final int CONTAINS_VALUE = 8;
-   public static final int IS_NOT_WITHIN_VALUE = 9;
-   public static final int DOES_NOT_CONTAIN_VALUE = 10;
-   public static final int CONTAINS_EXACTLY_VALUE = 11;
-   public static final int MAX_TYPE_VALUES = 12;
 
-   public static final TestOperator EQUALS = new TestOperator (EQUALS_VALUE);
-   public static final TestOperator DOES_NOT_EQUAL = new TestOperator (DOES_NOT_EQUAL_VALUE);
-   public static final TestOperator IS_GREATER_THAN = new TestOperator (IS_GREATER_THAN_VALUE);
-   public static final TestOperator IS_GREATER_THAN_OR_EQUAL_TO = new TestOperator (IS_GREATER_THAN_OR_EQUAL_TO_VALUE);
-   public static final TestOperator IS_LESS_THAN = new TestOperator (IS_LESS_THAN_VALUE);
-   public static final TestOperator IS_LESS_THAN_OR_EQUAL_TO = new TestOperator (IS_LESS_THAN_OR_EQUAL_TO_VALUE);
-   public static final TestOperator IS_WITHIN = new TestOperator (IS_WITHIN_VALUE);
-   public static final TestOperator IS_NOT_WITHIN = new TestOperator (IS_NOT_WITHIN_VALUE);
-   public static final TestOperator CONTAINS = new TestOperator (CONTAINS_VALUE);
-   public static final TestOperator DOES_NOT_CONTAIN = new TestOperator (DOES_NOT_CONTAIN_VALUE);
-   public static final TestOperator CONTAINS_EXACTLY = new TestOperator (CONTAINS_EXACTLY_VALUE);
-   public static final TestOperator IS_ANY_VALUE = new TestOperator (IS_ANY_VALUE_VALUE);
-   
-   /**
-    * Array of type values matching the above constants.
-    */
-   private static final TestOperator[] TYPE_VALUES =
-   {
-      IS_ANY_VALUE,
-      IS_WITHIN,      
-      IS_GREATER_THAN,
-      IS_LESS_THAN,
-      IS_GREATER_THAN_OR_EQUAL_TO,
-      IS_LESS_THAN_OR_EQUAL_TO,      
-      EQUALS,
-      DOES_NOT_EQUAL,
-      CONTAINS,      
-      IS_NOT_WITHIN,
-      DOES_NOT_CONTAIN,
-      CONTAINS_EXACTLY
-   };
 
-   private static final String[] NAME_VALUES =
-   {
-      "IS_ANY_VALUE",
-      "IS_WITHIN",
-      "IS_GREATER_THAN",
-      "IS_LESS_THAN",
-      "IS_GREATER_THAN_OR_EQUAL_TO",
-      "IS_LESS_THAN_OR_EQUAL_TO",
-      "EQUALS",
-      "DOES_NOT_EQUAL",
-      "CONTAINS",
-      "IS_NOT_WITHIN",
-      "DOES_NOT_CONTAIN",
-      "CONTAINS_EXACTLY"
-   };
-   
    /**
-    * Internal representation.
+    * Internal representation of the enum int type.
     */
    private int m_value;
 }

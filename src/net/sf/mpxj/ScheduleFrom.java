@@ -23,60 +23,75 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated schedule from values.
  */
-public final class ScheduleFrom implements MpxjEnum
+public enum ScheduleFrom implements MpxjEnum
 {
+   START (0),
+   FINISH (1);
+   
    /**
     * Private constructor.
-    *
-    * @param value schedule from value
+    * 
+    * @param type int version of the enum
     */
-   private ScheduleFrom (int value)
+   private ScheduleFrom (int type)
    {
-      m_value = value;
+      m_value = type;
    }
 
+
    /**
-    * Retrieves the int representation of the schedule from value.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return schedule from value
+    * @param type int type
+    * @return enum instance
+    */
+   public static ScheduleFrom getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = START.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static ScheduleFrom getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
    {
       return (m_value);
-   }
-
-   /**
-    * Retrieve a ScheduleFrom instance representing the supplied value.
-    *
-    * @param value schedule from value
-    * @return ScheduleFrom instance
-    */
-   public static ScheduleFrom getInstance (int value)
-   {
-      ScheduleFrom result;
-
-      switch (value)
-      {
-         case FINISH_VALUE:
-         {
-            result = FINISH;
-            break;
-         }
-
-         default:
-         case START_VALUE:
-         {
-            result = START;
-            break;
-         }
-      }
-
-      return (result);
    }
 
    /**
@@ -90,26 +105,22 @@ public final class ScheduleFrom implements MpxjEnum
       return (Integer.toString(m_value));
    }
 
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final ScheduleFrom[] TYPE_VALUES = new ScheduleFrom[2];
+   static
+   {      
+      for (ScheduleFrom e : EnumSet.range(ScheduleFrom.START, ScheduleFrom.FINISH))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
+
+
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing Schedule From Start.
-    */
-   public static final int START_VALUE = 0;
-
-   /**
-    * Constant representing Schedule From Finish.
-    */
-   public static final int FINISH_VALUE = 1;
-
-
-   /**
-    * Constant representing Schedule From Start.
-    */
-   public static final ScheduleFrom START = new ScheduleFrom(START_VALUE);
-
-   /**
-    * Constant representing Schedule From Finish.
-    */
-   public static final ScheduleFrom FINISH = new ScheduleFrom(FINISH_VALUE);
 }
+

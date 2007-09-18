@@ -23,75 +23,75 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Instances of this class represent enumerated resource type values.
  */
-public final class ResourceType implements MpxjEnum
+public enum ResourceType implements MpxjEnum
 {
+   MATERIAL (0, "Material"),
+   WORK (1, "Work");
+   
    /**
     * Private constructor.
-    *
-    * @param value resource type value
+    * 
+    * @param type int version of the enum
+    * @param name enum name
     */
-   private ResourceType (int value)
+   private ResourceType (int type, String name)
    {
-      m_value = value;
+      m_value = type;
+      m_name = name;
    }
 
+
    /**
-    * Retrieves the int representation of the resource type.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return resource type value
+    * @param type int type
+    * @return enum instance
+    */
+   public static ResourceType getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = WORK.getValue();
+      }
+      return (TYPE_VALUES[type]);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static ResourceType getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
     */
    public int getValue ()
-   {
-      return (m_value);
-   }
-
-   /**
-    * Retrieve a ResourceType instance representing the supplied value.
-    *
-    * @param value resource type value
-    * @return ResourceType instance
-    */
-   public static ResourceType getInstance (int value)
-   {
-      ResourceType result;
-
-      switch (value)
-      {
-         case MATERIAL_VALUE:
-         {
-            result = MATERIAL;
-            break;
-         }
-
-         default:
-         case WORK_VALUE:
-         {
-            result = WORK;
-            break;
-         }
-      }
-
-      return (result);
-   }
-
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public boolean equals (Object obj)
-   {
-      return (m_value == ((ResourceType)obj).m_value);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override public int hashCode ()
    {
       return (m_value);
    }
@@ -101,41 +101,25 @@ public final class ResourceType implements MpxjEnum
     */
    @Override public String toString ()
    {
-      String result;
-
-      if (m_value == MATERIAL_VALUE)
+      return (m_name);
+   }
+   
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final ResourceType[] TYPE_VALUES = new ResourceType[2];
+   static
+   {      
+      for (ResourceType e : EnumSet.range(ResourceType.MATERIAL, ResourceType.WORK))
       {
-         result = "Material";
+         TYPE_VALUES[e.getValue()] = e;
       }
-      else
-      {
-         result = "Work";
-      }
-
-      return (result);
    }
 
+
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
-
-   /**
-    * Constant representing Material.
-    */
-   public static final int MATERIAL_VALUE = 0;
-
-   /**
-    * Constant representing Work.
-    */
-   public static final int WORK_VALUE = 1;
-
-
-
-   /**
-    * Constant representing Material.
-    */
-   public static final ResourceType MATERIAL = new ResourceType(MATERIAL_VALUE);
-
-   /**
-    * Constant representing Work.
-    */
-   public static final ResourceType WORK = new ResourceType(WORK_VALUE);
+   private String m_name;
 }

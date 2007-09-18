@@ -23,44 +23,91 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Class representing the units which may be shown on a Gantt chart timescale.
  */
-public final class TimescaleUnits implements MpxjEnum
+public enum TimescaleUnits implements MpxjEnum
 {
+   NONE (-1, "None"),
+   MINUTES (0, "Minutes"),
+   HOURS (1, "Hours"),
+   DAYS (2, "Days"),
+   WEEKS (3, "Weeks"),
+   THIRDS_OF_MONTHS (4, "Thirds of Months"),
+   MONTHS (5, "Months"),
+   QUARTERS (6, "Quarters"),
+   HALF_YEARS (7, "Half Years"),
+   YEARS (8, "Years");
+
+   
    /**
     * Private constructor.
-    *
-    * @param value units value from an MS Project file
+    * 
+    * @param type int version of the enum
+    * @param name enum name
     */
-   private TimescaleUnits (int value)
+   private TimescaleUnits (int type, String name)
    {
-      m_value = value;
+      m_value = type;
+      m_name = name;
    }
 
-   /**
-    * Retrieve an instance of this class based on the data read from an
-    * MS Project file.
-    *
-    * @param value value from an MS Project file
-    * @return instance of this class
-    */
-   public static TimescaleUnits getInstance (int value)
-   {
-      TimescaleUnits result;
 
-      if (value < 0 || value >= UNITS_ARRAY.length)
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static TimescaleUnits getInstance (int type)
+   {     
+      TimescaleUnits result;
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
          result = NONE;
       }
       else
       {
-         result = UNITS_ARRAY[value];
+         result = TYPE_VALUES[type];
       }
-
       return (result);
+   }
+
+
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static TimescaleUnits getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
+    */
+   public int getValue ()
+   {
+      return (m_value);
    }
 
    /**
@@ -71,28 +118,7 @@ public final class TimescaleUnits implements MpxjEnum
     */
    public String getName ()
    {
-      String result;
-
-      if (m_value == -1)
-      {
-         result = "None";
-      }
-      else
-      {
-         result = UNITS_NAMES[m_value];
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieves the int representation of this enum.
-    *
-    * @return enum value
-    */
-   public int getValue ()
-   {
-      return (m_value);
+      return (m_name);
    }
    
    /**
@@ -105,53 +131,22 @@ public final class TimescaleUnits implements MpxjEnum
       return (getName());
    }
 
-   public static final int NONE_VALUE = -1;
-   public static final int MINUTES_VALUE = 0;
-   public static final int HOURS_VALUE = 1;
-   public static final int DAYS_VALUE = 2;
-   public static final int WEEKS_VALUE = 3;
-   public static final int THIRDS_OF_MONTHS_VALUE = 4;
-   public static final int MONTHS_VALUE = 5;
-   public static final int QUARTERS_VALUE = 6;
-   public static final int HALF_YEARS_VALUE = 7;
-   public static final int YEARS_VALUE = 8;
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final TimescaleUnits[] TYPE_VALUES = new TimescaleUnits[9];
+   static
+   {      
+      for (TimescaleUnits e : EnumSet.range(TimescaleUnits.MINUTES, TimescaleUnits.YEARS))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
 
-   public static final TimescaleUnits NONE = new TimescaleUnits (NONE_VALUE);
-   public static final TimescaleUnits MINUTES = new TimescaleUnits (MINUTES_VALUE);
-   public static final TimescaleUnits HOURS = new TimescaleUnits (HOURS_VALUE);
-   public static final TimescaleUnits DAYS = new TimescaleUnits (DAYS_VALUE);
-   public static final TimescaleUnits WEEKS = new TimescaleUnits (WEEKS_VALUE);
-   public static final TimescaleUnits THIRDS_OF_MONTHS = new TimescaleUnits (THIRDS_OF_MONTHS_VALUE);
-   public static final TimescaleUnits MONTHS = new TimescaleUnits (MONTHS_VALUE);
-   public static final TimescaleUnits QUARTERS = new TimescaleUnits (QUARTERS_VALUE);
-   public static final TimescaleUnits HALF_YEARS = new TimescaleUnits (HALF_YEARS_VALUE);
-   public static final TimescaleUnits YEARS = new TimescaleUnits (YEARS_VALUE);
 
-   private static final TimescaleUnits[] UNITS_ARRAY =
-   {
-      MINUTES,
-      HOURS,
-      DAYS,
-      WEEKS,
-      THIRDS_OF_MONTHS,
-      MONTHS,
-      QUARTERS,
-      HALF_YEARS,
-      YEARS
-   };
-
-   private static final String[] UNITS_NAMES =
-   {
-      "Minutes",
-      "Hours",
-      "Days",
-      "Weeks",
-      "Thirds of Months",
-      "Months",
-      "Quarters",
-      "Half Years",
-      "Years"
-   };
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
+   private String m_name;
 }

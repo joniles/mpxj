@@ -176,9 +176,9 @@ public final class MPDUtility
    public static Duration getAdjustedDuration (ProjectFile file, int duration, TimeUnit timeUnit)
    {
       Duration result;
-      switch (timeUnit.getValue())
+      switch (timeUnit)
       {
-         case TimeUnit.DAYS_VALUE:
+         case DAYS:
          {
             double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
             double totalDays = duration / unitsPerDay;
@@ -186,7 +186,7 @@ public final class MPDUtility
             break;
          }
 
-         case TimeUnit.ELAPSED_DAYS_VALUE:
+         case ELAPSED_DAYS:
          {
             double unitsPerDay = 24d * 600d;
             double totalDays = duration / unitsPerDay;
@@ -194,7 +194,7 @@ public final class MPDUtility
             break;
          }
 
-         case TimeUnit.WEEKS_VALUE:
+         case WEEKS:
          {
             double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
             double totalWeeks = duration / unitsPerWeek;
@@ -202,7 +202,7 @@ public final class MPDUtility
             break;
          }
          
-         case TimeUnit.ELAPSED_WEEKS_VALUE:
+         case ELAPSED_WEEKS:
          {
             double unitsPerWeek = (60 * 24 * 7 * 10);
             double totalWeeks = duration / unitsPerWeek;
@@ -210,7 +210,7 @@ public final class MPDUtility
             break;
          }
 
-         case TimeUnit.ELAPSED_MONTHS_VALUE:
+         case ELAPSED_MONTHS:
          {
             double unitsPerMonth = (60 * 24 * 29 * 10);
             double totalMonths = duration / unitsPerMonth;
@@ -240,38 +240,38 @@ public final class MPDUtility
    {
       double duration;
 
-      switch (type.getValue())
+      switch (type)
       {
-         case TimeUnit.MINUTES_VALUE:
-         case TimeUnit.ELAPSED_MINUTES_VALUE:
+         case MINUTES:
+         case ELAPSED_MINUTES:
          {
             duration = value / 10;
             break;
          }
 
-         case TimeUnit.HOURS_VALUE:
-         case TimeUnit.ELAPSED_HOURS_VALUE:
+         case HOURS:
+         case ELAPSED_HOURS:
          {
             duration = value / 600;
             break;
          }
 
-         case TimeUnit.DAYS_VALUE:
-         case TimeUnit.ELAPSED_DAYS_VALUE:
+         case DAYS:
+         case ELAPSED_DAYS:
          {
             duration = value / 4800;
             break;
          }
 
-         case TimeUnit.WEEKS_VALUE:
-         case TimeUnit.ELAPSED_WEEKS_VALUE:
+         case WEEKS:
+         case ELAPSED_WEEKS:
          {
             duration = value / 24000;
             break;
          }
 
-         case TimeUnit.MONTHS_VALUE:
-         case TimeUnit.ELAPSED_MONTHS_VALUE:
+         case MONTHS:
+         case ELAPSED_MONTHS:
          {
             duration = value / 96000;
             break;

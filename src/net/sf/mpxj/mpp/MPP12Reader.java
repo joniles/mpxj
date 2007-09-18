@@ -1658,13 +1658,13 @@ final class MPP12Reader implements MPPVariantReader
          
          task.setFinishSlack(MPPUtility.getAdjustedDuration (file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          
-         switch (task.getConstraintType().getValue())
+         switch (task.getConstraintType())
          {
             //
             // Adjust the start and finish dates if the task
             // is constrained to start as late as possible.
             //            
-            case ConstraintType.AS_LATE_AS_POSSIBLE_VALUE:
+            case AS_LATE_AS_POSSIBLE:
             {
                if (task.getStart().getTime() < task.getLateStart().getTime())
                {
@@ -1677,7 +1677,7 @@ final class MPP12Reader implements MPPVariantReader
                break;
             }
             
-            case ConstraintType.START_NO_LATER_THAN_VALUE:
+            case START_NO_LATER_THAN:
             {
                if (task.getFinish().getTime() < task.getStart().getTime())
                {
@@ -1686,12 +1686,17 @@ final class MPP12Reader implements MPPVariantReader
                break;
             }
             
-            case ConstraintType.FINISH_NO_LATER_THAN_VALUE:
+            case FINISH_NO_LATER_THAN:
             {
                if (task.getFinish().getTime() < task.getStart().getTime())
                {
                   task.setFinish(task.getLateFinish());                  
                }     
+               break;
+            }
+
+            default:
+            {
                break;
             }
          }

@@ -23,42 +23,78 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.EnumSet;
+
 import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Class representing the label alignment on a Gantt chart timescale.
  */
-public final class TimescaleAlignment implements MpxjEnum
+public enum TimescaleAlignment implements MpxjEnum
 {
+   LEFT (0, "Left"),
+   CENTER (1, "Center"),
+   RIGHT (2, "Right");
+   
    /**
     * Private constructor.
-    *
-    * @param value alignment value from an MS Project file
+    * 
+    * @param type int version of the enum
+    * @param name enum name
     */
-   private TimescaleAlignment (int value)
+   private TimescaleAlignment (int type, String name)
    {
-      m_value = value;
+      m_value = type;
+      m_name = name;
    }
 
+
    /**
-    * Retrieve an instance of this class based on the data read from an
-    * MS Project file.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param value value from an MS Project file
-    * @return instance of this class
+    * @param type int type
+    * @return enum instance
     */
-   public static TimescaleAlignment getInstance (int value)
-   {
-      TimescaleAlignment result;
-
-      if (value < 0 || value >= ALIGNMENT_ARRAY.length)
+   public static TimescaleAlignment getInstance (int type)
+   {      
+      if (type < 0 || type >= TYPE_VALUES.length)
       {
-         value = 1;
+         type = CENTER.getValue();
       }
+      return (TYPE_VALUES[type]);
+   }
 
-      result = ALIGNMENT_ARRAY[value];
 
-      return (result);
+   /**
+    * Retrieve an instance of the enum based on its int value.
+    *
+    * @param type int type
+    * @return enum instance
+    */
+   public static TimescaleAlignment getInstance (Number type)
+   {
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
+   }
+
+
+   /**
+    * Accessor method used to retrieve the numeric representation of the enum. 
+    *
+    * @return int representation of the enum
+    */
+   public int getValue ()
+   {
+      return (m_value);
    }
 
    /**
@@ -69,7 +105,7 @@ public final class TimescaleAlignment implements MpxjEnum
     */
    public String getName ()
    {
-      return (ALIGNMENT_NAMES[m_value]);
+      return (m_name);
    }
 
    /**
@@ -83,36 +119,21 @@ public final class TimescaleAlignment implements MpxjEnum
    }
 
    /**
-    * Retrieve the value associated with this instance.
-    *
-    * @return int value
+    * Array mapping int types to enums.
     */
-   public int getValue ()
-   {
-      return (m_value);
+   private static final TimescaleAlignment[] TYPE_VALUES = new TimescaleAlignment[3];
+   static
+   {      
+      for (TimescaleAlignment e : EnumSet.range(TimescaleAlignment.LEFT, TimescaleAlignment.RIGHT))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
    }
 
-   public static final int LEFT_VALUE = 0;
-   public static final int CENTER_VALUE = 1;
-   public static final int RIGHT_VALUE = 2;
 
-   public static final TimescaleAlignment LEFT = new TimescaleAlignment (LEFT_VALUE);
-   public static final TimescaleAlignment CENTER = new TimescaleAlignment (CENTER_VALUE);
-   public static final TimescaleAlignment RIGHT = new TimescaleAlignment (RIGHT_VALUE);
-
-   private static final TimescaleAlignment[] ALIGNMENT_ARRAY =
-   {
-      LEFT,
-      CENTER,
-      RIGHT
-   };
-
-   private static final String[] ALIGNMENT_NAMES =
-   {
-      "Left",
-      "Center",
-      "Right",
-   };
-
+   /**
+    * Internal representation of the enum int type.
+    */
    private int m_value;
+   private String m_name;
 }
