@@ -252,13 +252,8 @@ public class MpxjQuery
     */
    private static void listHierarchy (ProjectFile file)
    {
-      List<Task> tasks = file.getChildTasks();
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
-
-      while (iter.hasNext() == true)
+      for (Task task: file.getChildTasks())
       {
-         task = iter.next();
          System.out.println ("Task: " + task.getName());
          listHierarchy (task, " ");
       }
@@ -274,13 +269,8 @@ public class MpxjQuery
     */
    private static void listHierarchy (Task task, String indent)
    {
-      List<Task> tasks = task.getChildTasks();
-      Iterator<Task> iter = tasks.iterator();
-      Task child;
-
-      while (iter.hasNext() == true)
+      for (Task child: task.getChildTasks())
       {
-         child = iter.next();
          System.out.println (indent + "Task: " + child.getName());
          listHierarchy (child, indent + " ");
       }
@@ -293,17 +283,13 @@ public class MpxjQuery
     */
    private static void listAssignments (ProjectFile file)
    {
-      List<ResourceAssignment> allAssignments = file.getAllResourceAssignments();
-      Iterator<ResourceAssignment> iter = allAssignments.iterator();
-      ResourceAssignment assignment;
       Task task;
       Resource resource;
       String taskName;
       String resourceName;
 
-      while (iter.hasNext() == true)
+      for (ResourceAssignment assignment: file.getAllResourceAssignments())
       {
-         assignment = iter.next();
          task = assignment.getTask ();
          if (task == null)
          {
@@ -338,28 +324,16 @@ public class MpxjQuery
     * @param file MPX file
     */
    private static void listAssignmentsByTask (ProjectFile file)
-   {
-      List<Task> tasks = file.getAllTasks();
-      Iterator<Task> taskIter = tasks.iterator();
-      Task task;
-      List<ResourceAssignment> assignments;
-      Iterator<ResourceAssignment> assignmentIter;
-      ResourceAssignment assignment;
-      Resource resource;
-      String resourceName;
-
-      while (taskIter.hasNext() == true)
+   {     
+      for (Task task : file.getAllTasks())
       {
-         task = taskIter.next();
          System.out.println ("Assignments for task " + task.getName() + ":");
 
-         assignments = task.getResourceAssignments();
-         assignmentIter = assignments.iterator();
-
-         while (assignmentIter.hasNext() == true)
+         for (ResourceAssignment assignment : task.getResourceAssignments())
          {
-            assignment = assignmentIter.next();
-            resource = assignment.getResource();
+            Resource resource = assignment.getResource();
+            String resourceName;
+            
             if (resource == null)
             {
                resourceName = "(null resource)";
@@ -386,26 +360,13 @@ public class MpxjQuery
     */
    private static void listAssignmentsByResource (ProjectFile file)
    {
-      List<Resource> resources = file.getAllResources();
-      Iterator<Resource> taskIter = resources.iterator();
-      Resource resource;
-      List<ResourceAssignment> assignments;
-      Iterator<ResourceAssignment> assignmentIter;
-      ResourceAssignment assignment;
-      Task task;
-
-      while (taskIter.hasNext() == true)
+      for (Resource resource : file.getAllResources())
       {
-         resource = taskIter.next();
          System.out.println ("Assignments for resource " + resource.getName() + ":");
 
-         assignments = resource.getTaskAssignments();
-         assignmentIter = assignments.iterator();
-
-         while (assignmentIter.hasNext() == true)
+         for (ResourceAssignment assignment: resource.getTaskAssignments())
          {
-            assignment = assignmentIter.next();
-            task = assignment.getTask();
+            Task task = assignment.getTask();
             System.out.println ("   " + task.getName());
          }
       }
@@ -502,13 +463,8 @@ public class MpxjQuery
     */
    private static void listSlack (ProjectFile file)
    {
-      List<Task> tasks = file.getAllTasks();
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
-
-      while (iter.hasNext() == true)
+      for (Task task: file.getAllTasks())
       {
-         task = iter.next();
          System.out.println(task.getName() + " Total Slack=" + task.getTotalSlack() + " Start Slack=" + task.getStartSlack() + " Finish Slack=" + task.getFinishSlack());
       }      
    }
@@ -520,16 +476,14 @@ public class MpxjQuery
     */
    private static void listCalendars (ProjectFile file)
    {
-      Iterator<ProjectCalendar> iter = file.getBaseCalendars().iterator();
-      while (iter.hasNext())
+      for (ProjectCalendar cal : file.getBaseCalendars())
       {
-         System.out.println(iter.next().toString());
+         System.out.println(cal.toString());
       }
       
-      iter = file.getResourceCalendars().iterator();
-      while (iter.hasNext())
+      for (ProjectCalendar cal : file.getResourceCalendars())
       {
-         System.out.println(iter.next().toString());
+         System.out.println(cal.toString());
       }      
    }
 }

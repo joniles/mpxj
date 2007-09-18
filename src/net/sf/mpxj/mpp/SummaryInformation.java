@@ -24,7 +24,6 @@
 package net.sf.mpxj.mpp;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -93,13 +92,10 @@ final class SummaryInformation
       Property[] properties;
       Property property;
       List<Section> sections = ps.getSections();
-      Iterator<Section> iter = sections.iterator();
-      Section section;
       int index = 100;
 
-      while (iter.hasNext() == true)
+      for (Section section: sections)
       {
-         section = iter.next();
          properties = section.getProperties();
          for (int loop=0; loop < properties.length; loop++)
          {

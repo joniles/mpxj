@@ -103,10 +103,9 @@ public class GraphicalIndicator
       // Now we have the criteria, evaluate each one until we get a result
       //
       int result = -1;
-      Iterator<GraphicalIndicatorCriteria> iter = criteria.iterator();
-      while (iter.hasNext() == true)
+      for (GraphicalIndicatorCriteria gic : criteria)
       {
-         result = iter.next().evaluate(container);
+         result = gic.evaluate(container);
          if (result != -1)
          {
             break;

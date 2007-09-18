@@ -30,7 +30,7 @@ import java.util.LinkedList;
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
  */
-public final class ProjectCalendarHours
+public final class ProjectCalendarHours implements Iterable<DateRange>
 {
    /**
     * Default constructor.

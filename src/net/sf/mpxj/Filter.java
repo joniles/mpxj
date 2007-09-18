@@ -160,10 +160,8 @@ public class Filter
       if (!m_criteria.isEmpty())
       {
          boolean logicalAnd = true;
-         Iterator<FilterCriteria> iter = m_criteria.iterator();
-         while (iter.hasNext())
+         for(FilterCriteria criteria: m_criteria)
          {
-            FilterCriteria criteria = iter.next();
             boolean criteriaResult = criteria.evaluate(container);
             if (logicalAnd)
             {

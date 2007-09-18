@@ -4521,10 +4521,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       //
       if (m_listeners != null)
       {
-         Iterator<FieldListener> iter = m_listeners.iterator();
-         while (iter.hasNext() == true)
+         for (FieldListener listener: m_listeners)
          {
-            iter.next().fieldChange(this, field, oldValue, newValue);
+            listener.fieldChange(this, field, oldValue, newValue);
          }
       }
    }

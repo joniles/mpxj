@@ -7,7 +7,6 @@
 
 package net.sf.mpxj.junit;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -62,10 +61,8 @@ public final class MppXmlCompare
       //List mppTasks = m_mpp.getAllTasks();
       //assertEquals(xmlTasks.size(), mppTasks.size());
 
-      for (Iterator<Task> iter = xmlTasks.iterator(); iter.hasNext(); )
+      for (Task xmlTask: xmlTasks)
       {
-         Task xmlTask = iter.next();
-
          // too much variability
          if (NumberUtility.getInt(xmlTask.getUniqueID()) == 0)
          {
@@ -299,10 +296,8 @@ public final class MppXmlCompare
       //List mppResources = m_mpp.getAllResources();
       //assertEquals(xmlResources.size(), mppResources.size());
 
-      for (Iterator<Resource> iter = xmlResources.iterator(); iter.hasNext(); )
+      for (Resource xmlResource: xmlResources)
       {
-         Resource xmlResource = iter.next();
-
          // too much variability
          if (NumberUtility.getInt(xmlResource.getUniqueID()) == 0)
          {

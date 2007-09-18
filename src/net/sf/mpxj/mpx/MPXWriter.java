@@ -1244,16 +1244,14 @@ public final class MPXWriter extends AbstractProjectWriter
       if (value != null)
       {
          StringBuffer sb = new StringBuffer();
-         Iterator<Relation> iter = value.iterator();
-
-         while (iter.hasNext() == true)
+         for (Relation relation: value)
          {
             if (sb.length() != 0)
             {
                sb.append(m_delimiter);
             }
 
-            sb.append(formatRelation(iter.next()));
+            sb.append(formatRelation(relation));
          }
 
          result = sb.toString();

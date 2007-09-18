@@ -600,14 +600,9 @@ public class BasicTest extends MPXJTestCase
       Task task = file.getTaskByUniqueID(new Integer(2));
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
-
-      Iterator<ResourceAssignment> iter = assignments.iterator();
-      ResourceAssignment assignment;
-
-      while (iter.hasNext() == true)
+      
+      for (ResourceAssignment assignment: assignments)
       {
-         assignment = iter.next();
-
          switch (NumberUtility.getInt(assignment.getResourceID()))
          {
             case 1:

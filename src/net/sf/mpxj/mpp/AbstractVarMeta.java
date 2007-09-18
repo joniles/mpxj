@@ -68,12 +68,10 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    public Integer[] getUniqueIdentifierArray ()
    {
       Integer[] result = new Integer [m_table.size()];
-      Iterator<Integer> iter = m_table.keySet().iterator();
       int index = 0;
-
-      while (iter.hasNext() == true)
+      for (Integer value: m_table.keySet())
       {
-         result[index] = iter.next();
+         result[index] = value;
          ++index;
       }
       return (result);

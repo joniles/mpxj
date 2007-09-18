@@ -949,11 +949,9 @@ public final class ProjectCalendar extends ProjectEntity
       long total = 0;
       Date start = DateUtility.getCanonicalTime(startDate);
       Date end = DateUtility.getCanonicalTime(endDate);
-      
-      Iterator<DateRange> iter = hours.iterator();      
-      while (iter.hasNext() == true)
+            
+      for (DateRange range: hours)
       {
-         DateRange range = iter.next();
          total += getTime(start, end, DateUtility.getCanonicalTime(range.getStartDate()), DateUtility.getCanonicalTime(range.getEndDate()));
       }
    
@@ -970,11 +968,9 @@ public final class ProjectCalendar extends ProjectEntity
    private long getTotalTime (ProjectCalendarHours hours)
    {
       long total = 0;
-      
-      Iterator<DateRange> iter = hours.iterator();      
-      while (iter.hasNext() == true)
-      {
-         DateRange range = iter.next();
+            
+      for (DateRange range: hours)
+      {         
          total += getTime(range.getStartDate(), range.getEndDate());
       }
    
