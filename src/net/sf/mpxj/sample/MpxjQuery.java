@@ -25,7 +25,6 @@ package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -175,12 +174,8 @@ public class MpxjQuery
     */
    private static void listResources (ProjectFile file)
    {
-      List<Resource> allResources = file.getAllResources();
-      Iterator<Resource> iter = allResources.iterator();      
-
-      while (iter.hasNext() == true)
+      for (Resource resource: file.getAllResources())
       {
-         Resource resource = iter.next();
          System.out.println ("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID()+")");
       }
       System.out.println ();
@@ -195,19 +190,14 @@ public class MpxjQuery
    private static void listTasks (ProjectFile file)
    {
       SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm z");
-      List<Task> allTasks = file.getAllTasks();
-      Iterator<Task> iter = allTasks.iterator();
-      Task task;
       String startDate;
       String finishDate;
       String duration;
       Date date;
       Duration dur;
 
-      while (iter.hasNext() == true)
+      for (Task task: file.getAllTasks())
       {
-         task = iter.next();
-
          date = task.getStart();
          if (date != null)
          {
@@ -381,12 +371,8 @@ public class MpxjQuery
     */
    private static void listTaskNotes (ProjectFile file)
    {
-      List<Task> tasks = file.getAllTasks();
-      Iterator<Task> taskIter = tasks.iterator();
-
-      while (taskIter.hasNext() == true)
+      for (Task task: file.getAllTasks())
       {
-         Task task = taskIter.next();
          String notes = task.getNotes();
 
          if (notes != null && notes.length() != 0)
@@ -405,12 +391,8 @@ public class MpxjQuery
     */
    private static void listResourceNotes (ProjectFile file)
    {
-      List<Resource> resources = file.getAllResources();
-      Iterator<Resource> resourceIter = resources.iterator();
-
-      while (resourceIter.hasNext() == true)
+      for (Resource resource: file.getAllResources())
       {
-         Resource resource = resourceIter.next();
          String notes = resource.getNotes();
 
          if (notes != null && notes.length() != 0)
@@ -430,24 +412,14 @@ public class MpxjQuery
     */
    private static void listPredecessors (ProjectFile file)
    {
-      List<Task> tasks = file.getAllTasks();
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
-      List<Relation> predecessors;
-      Iterator<Relation> predecessorIterator;
-      Relation relation;
-
-      while (iter.hasNext() == true)
+      for (Task task: file.getAllTasks())
       {
-         task = iter.next();
-         predecessors = task.getPredecessors();
+         List<Relation> predecessors = task.getPredecessors();
          if (predecessors != null && predecessors.isEmpty() == false)
          {
             System.out.println (task.getName() + " predecessors:");
-            predecessorIterator = predecessors.iterator();
-            while (predecessorIterator.hasNext() == true)
+            for (Relation relation : predecessors)
             {
-               relation = predecessorIterator.next();
                System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskUniqueID()).getName());
                System.out.println("   Type: " + relation.getType());
                System.out.println("   Lag: " + relation.getDuration());

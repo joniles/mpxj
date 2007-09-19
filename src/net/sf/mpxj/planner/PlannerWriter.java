@@ -30,7 +30,6 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -167,12 +166,9 @@ public final class PlannerWriter extends AbstractProjectWriter
       
       //
       // Process each calendar in turn
-      //
-      Iterator<ProjectCalendar> iter = m_projectFile.getBaseCalendars().iterator();    
-      while (iter.hasNext() == true)
+      //    
+      for (ProjectCalendar mpxjCalendar : m_projectFile.getBaseCalendars())
       {
-         ProjectCalendar mpxjCalendar = iter.next();
-         
          net.sf.mpxj.planner.schema.Calendar plannerCalendar = m_factory.createCalendar();         
          calendar.add (plannerCalendar);
          writeCalendar (mpxjCalendar, plannerCalendar);
@@ -279,10 +275,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
       
-      Iterator<ProjectCalendar> iter = mpxjCalendar.getDerivedCalendars().iterator();
-      while (iter.hasNext())
+      for (ProjectCalendar mpxjDerivedCalendar : mpxjCalendar.getDerivedCalendars())
       {
-         ProjectCalendar mpxjDerivedCalendar = iter.next();
          net.sf.mpxj.planner.schema.Calendar plannerDerivedCalendar = m_factory.createCalendar();   
          calendarList.add(plannerDerivedCalendar);
          writeCalendar(mpxjDerivedCalendar, plannerDerivedCalendar);
@@ -308,10 +302,8 @@ public final class PlannerWriter extends AbstractProjectWriter
             typeList.add(odt);
             odt.setId(getIntegerString(uniqueID.next()));
             List<Interval> intervalList = odt.getInterval();
-            Iterator<DateRange> iter = mpxjHours.iterator();
-            while (iter.hasNext())
+            for (DateRange mpxjRange : mpxjHours)
             {
-               DateRange mpxjRange = iter.next();
                Interval interval = m_factory.createInterval();
                intervalList.add(interval);
                interval.setStart(getTimeString(mpxjRange.getStartDate()));
@@ -329,12 +321,8 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void processExceptionDays (ProjectCalendar mpxjCalendar, List<net.sf.mpxj.planner.schema.Day> dayList)
    {
-      Iterator<ProjectCalendarException> iter = mpxjCalendar.getCalendarExceptions().iterator();
-      while (iter.hasNext())
+      for (ProjectCalendarException mpxjCalendarException : mpxjCalendar.getCalendarExceptions())
       {
-         ProjectCalendarException mpxjCalendarException = iter.next();                  
-         
-         
          Date rangeStartDay = mpxjCalendarException.getFromDate();
          Date rangeEndDay = mpxjCalendarException.getToDate();         
          if (DateUtility.getDayStartDate(rangeStartDay).getTime() == DateUtility.getDayEndDate(rangeEndDay).getTime())
@@ -381,10 +369,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       Resources resources = m_factory.createResources();
       m_plannerProject.setResources(resources);
       List<net.sf.mpxj.planner.schema.Resource> resourceList = resources.getResource();
-      Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
-      while (iter.hasNext())
+      for (Resource mpxjResource : m_projectFile.getAllResources())
       {
-         Resource mpxjResource = iter.next();
          net.sf.mpxj.planner.schema.Resource plannerResource = m_factory.createResource();
          resourceList.add(plannerResource);
          writeResource(mpxjResource, plannerResource);
@@ -429,10 +415,9 @@ public final class PlannerWriter extends AbstractProjectWriter
       Tasks tasks = m_factory.createTasks();
       m_plannerProject.setTasks(tasks);
       List<net.sf.mpxj.planner.schema.Task> taskList = tasks.getTask();
-      Iterator<Task> iter = m_projectFile.getChildTasks().iterator();
-      while (iter.hasNext())
+      for (Task task : m_projectFile.getChildTasks())
       {
-         writeTask(iter.next(), taskList);
+         writeTask(task, taskList);
       }
    }
 
@@ -496,10 +481,9 @@ public final class PlannerWriter extends AbstractProjectWriter
       // Write child tasks
       //
       List<net.sf.mpxj.planner.schema.Task> childTaskList = plannerTask.getTask();
-      Iterator<Task> iter = mpxjTask.getChildTasks().iterator();
-      while (iter.hasNext())
+      for (Task task : mpxjTask.getChildTasks())
       {
-         writeTask(iter.next(), childTaskList);
+         writeTask(task, childTaskList);
       }
    }
 
@@ -588,10 +572,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setAllocations(allocations);
       
       List<Allocation> allocationList = allocations.getAllocation();
-      Iterator<ResourceAssignment> iter = m_projectFile.getAllResourceAssignments().iterator();
-      while (iter.hasNext())
+      for (ResourceAssignment mpxjAssignment : m_projectFile.getAllResourceAssignments())
       {
-         ResourceAssignment mpxjAssignment = iter.next();
          Allocation plannerAllocation = m_factory.createAllocation();
          allocationList.add(plannerAllocation);
          

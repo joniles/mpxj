@@ -29,7 +29,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -124,11 +123,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processCalendars ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_calendars where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows("select * from msp_calendars where proj_id=?", m_projectID))
       {
-         processCalendar(iter.next());
+         processCalendar(row);
       }
       
       updateBaseCalendarNames();
@@ -145,13 +142,12 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processCalendarData (List<ProjectCalendar> calendars)
       throws SQLException
    {
-      Iterator<ProjectCalendar> iter = calendars.iterator();
-      while (iter.hasNext() == true)
+      for (ProjectCalendar calendar : calendars)
       {
-         ProjectCalendar calendar = iter.next();
          processCalendarData(calendar, getRows("select * from msp_calendar_data where proj_id=? and cal_uid=?", m_projectID, calendar.getUniqueID()));
       }
    }
+   
    /**
     * Process the hours and exceptions for an individual calendar.
     * 
@@ -160,10 +156,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processCalendarData (ProjectCalendar calendar, List<ResultSetRow> calendarData)
    {
-      Iterator<ResultSetRow> iter = calendarData.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : calendarData)
       {
-         processCalendarData(calendar, iter.next());
+         processCalendarData(calendar, row);
       }
    }
    
@@ -175,11 +170,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processResources ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_resources where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows("select * from msp_resources where proj_id=?", m_projectID))
       {
-         processResource(iter.next());
+         processResource(row);
       }      
    }
    
@@ -191,11 +184,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processTasks ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_tasks where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row: getRows("select * from msp_tasks where proj_id=?", m_projectID))
       {
-         processTask(iter.next());
+         processTask(row);
       }      
    }
 
@@ -207,11 +198,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processLinks ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_links where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row: getRows("select * from msp_links where proj_id=?", m_projectID))
       {
-         processLink(iter.next());
+         processLink(row);
       }      
    }
    
@@ -223,11 +212,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processAssignments ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_assignments where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row: getRows("select * from msp_assignments where proj_id=?", m_projectID))
       {
-         processAssignment(iter.next());
+         processAssignment(row);
       }      
    }
    
@@ -254,10 +241,8 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processSubProjects ()
    {
-      Iterator<Task> iter = m_project.getAllTasks().iterator();
-      while (iter.hasNext())
+      for (Task task : m_project.getAllTasks())
       {
-         Task task = iter.next();
          String subProjectFileName = task.getSubprojectName();
          int subprojectIndex = 1;
          if (subProjectFileName != null)
@@ -290,11 +275,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processTextFields ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_text_fields where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows("select * from msp_text_fields where proj_id=?", m_projectID))
       {
-         processTextField(iter.next());
+         processTextField(row);
       }            
    }
 
@@ -306,11 +289,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processNumberFields ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows ("select * from msp_number_fields where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows ("select * from msp_number_fields where proj_id=?", m_projectID))
       {
-         processNumberField(iter.next());
+         processNumberField(row);
       }            
    }
 
@@ -322,11 +303,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processFlagFields ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_flag_fields where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows("select * from msp_flag_fields where proj_id=?", m_projectID))
       {
-         processFlagField(iter.next());
+         processFlagField(row);
       }            
    }
 
@@ -338,11 +317,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processDurationFields ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_duration_fields where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows("select * from msp_duration_fields where proj_id=?", m_projectID))
       {
-         processDurationField(iter.next());
+         processDurationField(row);
       }            
    }
    
@@ -354,11 +331,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processDateFields ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows ("select * from msp_date_fields where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows ("select * from msp_date_fields where proj_id=?", m_projectID))
       {
-         processDateField(iter.next());
+         processDateField(row);
       }            
    }
 
@@ -370,11 +345,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    private void processOutlineCodeFields ()
       throws SQLException
    {
-      List<ResultSetRow> rows = getRows ("select * from msp_code_fields where proj_id=?", m_projectID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows ("select * from msp_code_fields where proj_id=?", m_projectID))
       {
-         processOutlineCodeFields(iter.next());
+         processOutlineCodeFields(row);
       }            
    }
 
@@ -390,11 +363,9 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       Integer entityID = parentRow.getInteger("CODE_REF_UID");
       Integer outlineCodeEntityID = parentRow.getInteger("CODE_UID");
       
-      List<ResultSetRow> rows = getRows ("select * from msp_outline_codes where code_uid=?", outlineCodeEntityID);
-      Iterator<ResultSetRow> iter = rows.iterator();
-      while (iter.hasNext() == true)
+      for (ResultSetRow row : getRows ("select * from msp_outline_codes where code_uid=?", outlineCodeEntityID))
       {
-         processOutlineCodeField(entityID, iter.next());
+         processOutlineCodeField(entityID, row);
       }            
    }
    

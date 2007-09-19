@@ -1100,13 +1100,8 @@ abstract class MPD9AbstractReader
       //
       // Perform post-processing to set the summary flag
       //
-      List<Task> tasks = m_project.getAllTasks();
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
-
-      while (iter.hasNext() == true)
+      for (Task task: m_project.getAllTasks())
       {
-         task = iter.next();
          task.setSummary(task.getChildTasks().size() != 0);
       }
 

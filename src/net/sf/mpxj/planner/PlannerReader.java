@@ -182,12 +182,9 @@ public final class PlannerReader extends AbstractProjectReader
       Calendars calendars = project.getCalendars();
       if (calendars != null)
       {
-         List<net.sf.mpxj.planner.schema.Calendar> calendar = calendars.getCalendar();
-         Iterator<net.sf.mpxj.planner.schema.Calendar> iter = calendar.iterator();
-
-         while (iter.hasNext() == true)
+         for (net.sf.mpxj.planner.schema.Calendar cal : calendars.getCalendar())
          {
-            readCalendar (iter.next(), null);
+            readCalendar (cal, null);
          }
          
          Integer defaultCalendarID = getInteger(project.getCalendar());
@@ -258,10 +255,9 @@ public final class PlannerReader extends AbstractProjectReader
       List<net.sf.mpxj.planner.schema.Calendar> calendarList = plannerCalendar.getCalendar();
       if (calendarList != null)
       {
-         Iterator<net.sf.mpxj.planner.schema.Calendar> iter = calendarList.iterator();
-         while (iter.hasNext())
+         for (net.sf.mpxj.planner.schema.Calendar cal : calendarList)
          {
-            readCalendar(iter.next(), mpxjCalendar);
+            readCalendar(cal, mpxjCalendar);
          }
       }
    }
@@ -503,11 +499,9 @@ public final class PlannerReader extends AbstractProjectReader
       Resources resources = plannerProject.getResources();
       if (resources != null)
       {
-         List<net.sf.mpxj.planner.schema.Resource> resource = resources.getResource();
-         Iterator<net.sf.mpxj.planner.schema.Resource> iter = resource.iterator();
-         while (iter.hasNext() == true)
+         for (net.sf.mpxj.planner.schema.Resource res : resources.getResource())
          {
-            readResource (iter.next());
+            readResource (res);
          }
       }
    }
@@ -565,17 +559,14 @@ public final class PlannerReader extends AbstractProjectReader
       Tasks tasks = plannerProject.getTasks();
       if (tasks != null)
       {
-         List<net.sf.mpxj.planner.schema.Task> task = tasks.getTask();
-         Iterator<net.sf.mpxj.planner.schema.Task> iter = task.iterator();
-         while (iter.hasNext() == true)
+         for (net.sf.mpxj.planner.schema.Task task : tasks.getTask())
          {
-            readTask (null, iter.next());
+            readTask (null, task);
          }
-
-         iter = task.iterator();
-         while (iter.hasNext() == true)
+         
+         for (net.sf.mpxj.planner.schema.Task task : tasks.getTask())
          {
-            readPredecessors (iter.next());
+            readPredecessors (task);
          }
       }
 

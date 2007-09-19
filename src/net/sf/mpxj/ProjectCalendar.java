@@ -924,11 +924,9 @@ public final class ProjectCalendar extends ProjectEntity
    {
       long total = 0;
       long currentTime = DateUtility.getCanonicalTime(date).getTime();
-      
-      Iterator<DateRange> iter = hours.iterator();      
-      while (iter.hasNext() == true)
+            
+      for (DateRange range : hours)
       {
-         DateRange range = iter.next();
          total += getTime(range.getStartDate(), range.getEndDate(), currentTime, after);
       }
    

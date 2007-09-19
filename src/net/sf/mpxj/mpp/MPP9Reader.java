@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1287,19 +1286,11 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
    {
-      Iterator<Pair<ProjectCalendar, Integer>> iter = baseCalendars.iterator();
-      Pair<ProjectCalendar, Integer> pair;
-      ProjectCalendar cal;
-      Integer baseCalendarID;
-      ProjectCalendar baseCal;
-
-      while (iter.hasNext() == true)
+      for (Pair<ProjectCalendar, Integer> pair : baseCalendars) 
       {
-         pair = iter.next();
-         cal = pair.getFirst();
-         baseCalendarID = pair.getSecond();
-
-         baseCal = map.get(baseCalendarID);
+         ProjectCalendar cal = pair.getFirst();
+         Integer baseCalendarID = pair.getSecond();
+         ProjectCalendar baseCal = map.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);
@@ -1792,12 +1783,10 @@ final class MPP9Reader implements MPPVariantReader
       // object, and set this attribute using the most recent 
       // value.
       //
-      Iterator<Task> iter = externalTasks.iterator();
       SubProject currentSubProject = null;
       
-      while (iter.hasNext())
+      for(Task currentTask : externalTasks)
       {
-         Task currentTask = iter.next();
          SubProject sp = currentTask.getSubProject();
          if (sp == null)
          {
