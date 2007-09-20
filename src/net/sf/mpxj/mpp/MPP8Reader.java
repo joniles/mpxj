@@ -29,7 +29,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -361,19 +360,11 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
    {
-      Iterator<Pair<ProjectCalendar, Integer>> iter = baseCalendars.iterator();
-      Pair<ProjectCalendar, Integer> pair;
-      ProjectCalendar cal;
-      Integer baseCalendarID;
-      ProjectCalendar baseCal;
-
-      while (iter.hasNext() == true)
+      for (Pair<ProjectCalendar, Integer> pair : baseCalendars)
       {
-         pair = iter.next();
-         cal = pair.getFirst();
-         baseCalendarID = pair.getSecond();
-
-         baseCal = map.get(baseCalendarID);
+         ProjectCalendar cal = pair.getFirst();
+         Integer baseCalendarID = pair.getSecond();
+         ProjectCalendar baseCal = map.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);

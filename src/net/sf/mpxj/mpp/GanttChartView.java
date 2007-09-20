@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1653,10 +1652,9 @@ public abstract class GanttChartView extends GenericView
 
       if (!m_autoFilters.isEmpty())
       {
-         Iterator<Filter> iter = m_autoFilters.iterator();
-         while (iter.hasNext())
+         for (Filter f : m_autoFilters)
          {
-            pw.println ("   AutoFilter=" + iter.next());            
+            pw.println ("   AutoFilter=" + f);            
          }
       }
       

@@ -26,8 +26,6 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.MPXJException;
@@ -87,13 +85,8 @@ public final class MPPReader extends AbstractProjectReader
          //
          // Perform post-processing to set the summary flag
          //
-         List<Task> tasks = projectFile.getAllTasks();
-         Iterator<Task> iter = tasks.iterator();
-         Task task;
-
-         while (iter.hasNext() == true)
+         for (Task task :  projectFile.getAllTasks())
          {
-            task = iter.next();
             task.setSummary(task.getChildTasks().size() != 0);
          }
 

@@ -25,7 +25,6 @@
 package net.sf.mpxj;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -1375,10 +1374,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
       if (m_assignments.isEmpty() == false)
       {
-         Iterator<ResourceAssignment> iter = m_assignments.iterator();
-         while (iter.hasNext() == true)
+         for (ResourceAssignment assignment : m_assignments)
          {
-            iter.next().setResourceID(val);
+            assignment.setResourceID(val);
          }
       }
    }
@@ -1472,10 +1470,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
       if (m_assignments.isEmpty() == false)
       {
-         Iterator<ResourceAssignment> iter = m_assignments.iterator();
-         while (iter.hasNext() == true)
+         for (ResourceAssignment assignment : m_assignments)
          {
-            iter.next().setResourceUniqueID(val);
+            assignment.setResourceUniqueID(val);
          }
       }
    }

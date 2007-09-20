@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
 
 
 /**
@@ -168,12 +167,8 @@ final class Props8 extends Props
          pw.println ("   INCOMPLETE");
       }
 
-      Iterator<Integer> iter = m_map.keySet().iterator();
-      Integer key;
-
-      while (iter.hasNext() == true)
+      for (Integer key : m_map.keySet())
       {
-         key = iter.next();
          pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump(m_map.get(key), true));
       }
 

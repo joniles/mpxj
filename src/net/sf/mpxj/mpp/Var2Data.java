@@ -23,13 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.TreeMap;
-import java.util.Iterator;
 import java.util.Date;
+import java.util.TreeMap;
 
 /**
  * This class represents a block of variable data. Each block of
@@ -353,15 +352,11 @@ final class Var2Data extends MPPComponent
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
-      Iterator<Integer> iter = m_map.keySet().iterator();
-      Integer offset;
-      byte[] data;
 
       pw.println ("BEGIN Var2Data");
-      while (iter.hasNext() == true)
+      for (Integer offset : m_map.keySet())
       {
-         offset = iter.next();
-         data = m_map.get(offset);
+         byte[] data = m_map.get(offset);
          pw.println ("   Data at offset: " + offset + " size: " + data.length);
          pw.println (MPPUtility.hexdump (data, true, 16, "   "));
       }

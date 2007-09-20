@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -180,10 +179,9 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          m_resourceModel = new ResourceModel(m_projectFile, m_locale);
          m_writer.write(m_resourceModel.toString());
-         Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
-         while (iter.hasNext())
+         for (Resource resource : m_projectFile.getAllResources())
          {
-            writeResource (iter.next());
+            writeResource (resource);
          }
       }
       
@@ -300,10 +298,9 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write project calendars
       //
-      Iterator<ProjectCalendar> iter = m_projectFile.getBaseCalendars().iterator();
-      while (iter.hasNext())
+      for (ProjectCalendar cal : m_projectFile.getBaseCalendars())
       {
-         writeCalendar(iter.next());
+         writeCalendar(cal);
       }
       
       //
@@ -431,10 +428,9 @@ public final class MPXWriter extends AbstractProjectWriter
          List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(record.getCalendarExceptions());
          Collections.sort(exceptions);
          
-         Iterator<ProjectCalendarException> iter = exceptions.iterator();
-         while (iter.hasNext() == true)
+         for (ProjectCalendarException ex : exceptions)
          {
-            writeCalendarException(record, iter.next());
+            writeCalendarException(record, ex);
          }
       }
    }
@@ -721,11 +717,9 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       if (record.getResourceAssignments().isEmpty() == false)
       {
-         Iterator<ResourceAssignment> list = record.getResourceAssignments().iterator();
-
-         while (list.hasNext())
+         for (ResourceAssignment assignment : record.getResourceAssignments())
          {
-            writeResourceAssignment(list.next());
+            writeResourceAssignment(assignment);
          }
       }
 
@@ -887,10 +881,8 @@ public final class MPXWriter extends AbstractProjectWriter
    private void writeTasks (List<Task> tasks)
       throws IOException
    {
-      Iterator<Task> iter = tasks.iterator();
-      while (iter.hasNext())
-      {
-         Task task = iter.next();
+      for (Task task : tasks)
+      {         
          writeTask(task);
          writeTasks(task.getChildTasks());
       }

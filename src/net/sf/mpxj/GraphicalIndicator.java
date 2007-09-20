@@ -25,7 +25,6 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -306,22 +305,19 @@ public class GraphicalIndicator
       pw.println(" ProjectSummaryInheritsFromSummaryRows=" + m_projectSummaryInheritsFromSummaryRows);
       pw.println(" ShowDataValuesInToolTips=" + m_showDataValuesInToolTips);
       pw.println(" NonSummaryRowCriteria=");
-      Iterator<GraphicalIndicatorCriteria> iter = m_nonSummaryRowCriteria.iterator();
-      while (iter.hasNext() == true)
+      for (GraphicalIndicatorCriteria gi : m_nonSummaryRowCriteria)
       {
-         pw.println("  " + iter.next());
+         pw.println("  " + gi);
       }
       pw.println(" SummaryRowCriteria=");      
-      iter = m_summaryRowCriteria.iterator();
-      while (iter.hasNext() == true)
+      for (GraphicalIndicatorCriteria gi :m_summaryRowCriteria)
       {
-         pw.println("  " + iter.next());
+         pw.println("  " + gi);
       }
       pw.println(" ProjectSummaryCriteria=");      
-      iter = m_projectSummaryCriteria.iterator();
-      while (iter.hasNext() == true)
+      for (GraphicalIndicatorCriteria gi :m_projectSummaryCriteria)
       {
-         pw.println("  " + iter.next());
+         pw.println("  " + gi);
       }      
       pw.println("]");
       pw.flush();

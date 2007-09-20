@@ -29,7 +29,6 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -51,10 +50,8 @@ final class ResultSetRow extends MapRow
    {
       super (new HashMap<String, Object>());
       
-      Iterator<Entry<String, Integer>> iter = meta.entrySet().iterator();
-      while (iter.hasNext() == true)
+      for (Entry<String, Integer> entry : meta.entrySet())
       {
-         Entry<String, Integer> entry = iter.next();
          String name = entry.getKey();
          int type = (entry.getValue()).intValue();
          Object value;

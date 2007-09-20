@@ -26,7 +26,6 @@ package net.sf.mpxj.mpd;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -350,19 +349,11 @@ abstract class MPD9AbstractReader
     */
    protected void updateBaseCalendarNames ()
    {
-      Iterator<Pair<ProjectCalendar, Integer>> iter = m_baseCalendars.iterator();
-      Pair<ProjectCalendar, Integer> pair;
-      ProjectCalendar cal;
-      Integer baseCalendarID;
-      ProjectCalendar baseCal;
-
-      while (iter.hasNext() == true)
+      for (Pair<ProjectCalendar, Integer> pair : m_baseCalendars)
       {
-         pair = iter.next();
-         cal = pair.getFirst();
-         baseCalendarID = pair.getSecond();
-
-         baseCal = m_calendarMap.get(baseCalendarID);
+         ProjectCalendar cal = pair.getFirst();
+         Integer baseCalendarID = pair.getSecond();
+         ProjectCalendar baseCal = m_calendarMap.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);

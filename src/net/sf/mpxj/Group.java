@@ -25,7 +25,6 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -112,10 +111,9 @@ public final class Group
       pw.println(" name=" + m_name);
       pw.println(" showSummaryTasks=" + m_showSummaryTasks);
       pw.println(" [Clauses=");
-      Iterator<GroupClause> iter = m_clauses.iterator();
-      while (iter.hasNext())
+      for (GroupClause gc : m_clauses)
       {
-         pw.println("  " + iter.next());
+         pw.println("  " + gc);
       }
       pw.println(" ]");
       pw.println("]");

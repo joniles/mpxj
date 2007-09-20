@@ -673,20 +673,14 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/sample.mpx");
       ProjectFile mpx = new MPXReader().read (in);
-      List<Task> tasks = mpx.getAllTasks();
-      Iterator<Task> taskIter = tasks.iterator();
 
-      while (taskIter.hasNext() == true)
+      for (Task task : mpx.getAllTasks())
       {
-         Task task = taskIter.next();
          List<Relation> rels = task.getPredecessors();
          if (rels != null)
          {
-            Iterator<Relation> relIter = rels.iterator();
-
-            while (relIter.hasNext() == true)
+            for (Relation rel : rels)
             {
-               Relation rel = relIter.next();
                mpx.getTaskByUniqueID(rel.getTaskUniqueID());
             }
          }
@@ -925,13 +919,9 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/bug3.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List<Task> tasks = mpp.getAllTasks();
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
 
-      while (iter.hasNext() == true)
+      for (Task task : mpp.getAllTasks())
       {
-         task = iter.next();
          assertEquals("Outline levels do not match", task.getOutlineLevel().intValue(), calculateOutlineLevel(task));
       }
    }
@@ -1091,16 +1081,11 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp8flags2.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List<Task> tasks = mpp.getAllTasks();
-
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
       int index = 0;
       boolean[] flags;
 
-      while (iter.hasNext())
+      for (Task task : mpp.getAllTasks())
       {
-         task = iter.next();
          if (task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
@@ -1192,16 +1177,11 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp8flags2.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List<Task> tasks = mpp.getAllTasks();
-
-      Iterator<Task> iter = tasks.iterator();
-      Task task;
       int index = 0;
       boolean[] flags;
 
-      while (iter.hasNext())
+      for (Task task : mpp.getAllTasks())
       {
-         task = iter.next();
          if (task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
@@ -1339,13 +1319,10 @@ public class BasicTest extends MPXJTestCase
          //
          File in = new File (m_basedir + "/sample1.mpp");
          ProjectFile mpp = new MPPReader().read (in);
-         Iterator<Task> iter = mpp.getAllTasks().iterator();
-         Task task;
          ProjectCalendar cal;
 
-         while (iter.hasNext() == true)
+         for (Task task : mpp.getAllTasks())
          {
-            task = iter.next();
             cal = task.getCalendar();
             if (cal != null)
             {
@@ -1364,11 +1341,8 @@ public class BasicTest extends MPXJTestCase
          // calendar names to ensure consistency
          //
          ProjectFile mspdi = new MSPDIReader().read (out.getCanonicalPath());
-         iter = mspdi.getAllTasks().iterator();
-
-         while (iter.hasNext() == true)
+         for (Task task : mspdi.getAllTasks())
          {
-            task = iter.next();
             cal = task.getCalendar();
             if (cal != null)
             {

@@ -684,10 +684,8 @@ public final class PlannerReader extends AbstractProjectReader
       List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
       if (childTasks != null)
       {
-         Iterator<net.sf.mpxj.planner.schema.Task> iter = childTasks.iterator();
-         while (iter.hasNext())
+         for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
          {
-            net.sf.mpxj.planner.schema.Task childTask = iter.next();
             readTask (mpxjTask, childTask);
          }
       }
@@ -708,10 +706,8 @@ public final class PlannerReader extends AbstractProjectReader
          List<Predecessor> predecessorList = predecessors.getPredecessor();
          if (predecessorList != null)
          {
-            Iterator<Predecessor> iter = predecessorList.iterator();
-            while (iter.hasNext())
+            for (Predecessor predecessor : predecessorList)
             {
-               Predecessor predecessor = iter.next();
                Integer predecessorID = getInteger(predecessor.getPredecessorId());
                Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
                if (predecessorTask != null)
@@ -735,14 +731,11 @@ public final class PlannerReader extends AbstractProjectReader
       List<net.sf.mpxj.planner.schema.Task> childTasks = plannerTask.getTask();
       if (childTasks != null)
       {
-         Iterator<net.sf.mpxj.planner.schema.Task> iter = childTasks.iterator();
-         while (iter.hasNext())
+         for (net.sf.mpxj.planner.schema.Task childTask : childTasks)
          {
-            net.sf.mpxj.planner.schema.Task childTask = iter.next();
             readPredecessors(childTask);
          }
-      }
-      
+      }      
    }
 
    /**

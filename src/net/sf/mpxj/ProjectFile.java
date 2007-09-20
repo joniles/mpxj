@@ -185,10 +185,9 @@ public final class ProjectFile
             id = 1;
          }
 
-         Iterator<Task> iter = m_allTasks.iterator();
-         while (iter.hasNext() == true)
+         for (Task task : m_allTasks)
          {
-            (iter.next()).setID(new Integer(id++));
+            task.setID(new Integer(id++));
          }
       }
    }
@@ -208,10 +207,9 @@ public final class ProjectFile
          Collections.sort(m_allResources);
          int id = 1;
 
-         Iterator<Resource> iter = m_allResources.iterator();
-         while (iter.hasNext() == true)
+         for (Resource resource : m_allResources)
          {
-            iter.next().setID(new Integer(id++));
+            resource.setID(new Integer(id++));
          }
       }
    }
@@ -855,11 +853,9 @@ public final class ProjectFile
 
          Task lastTask = null;
          int lastLevel = -1;
-         Iterator<Task> iter = m_allTasks.iterator();
 
-         while (iter.hasNext() == true)
+         for (Task task : m_allTasks)
          {
-            Task task = iter.next();
             task.clearChildTasks();
             int level = NumberUtility.getInt(task.getOutlineLevel());
             Task parent = null;

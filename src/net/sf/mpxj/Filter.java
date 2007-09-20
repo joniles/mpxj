@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -204,10 +203,9 @@ public class Filter
       sb.append(m_showRelatedSummaryRows);
       sb.append(" criteria=[");
       
-      Iterator<FilterCriteria> iter = m_criteria.iterator();
-      while (iter.hasNext())
+      for (FilterCriteria fc : m_criteria)
       {
-         sb.append(iter.next().toString());
+         sb.append(fc.toString());
       }
       
       sb.append("]");

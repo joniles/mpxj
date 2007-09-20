@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -137,23 +136,13 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       pw.println ("   Item count: " + m_itemCount);
       pw.println ("   Data size: " + m_dataSize);
 
-      Iterator<Integer> tableIter = m_table.keySet().iterator();
-      Map<Integer, Integer> map;
-      Iterator<Integer> mapIter;
-      Integer uniqueID;
-      Integer type;
-      Integer offset;
-
-      while (tableIter.hasNext() == true)
+      for (Integer uniqueID : m_table.keySet())
       {
-         uniqueID = tableIter.next();
          pw.println ("   Entries for Unique ID: " + uniqueID);
-         map = m_table.get(uniqueID);
-         mapIter = map.keySet().iterator();
-         while (mapIter.hasNext() == true)
+         Map<Integer, Integer> map = m_table.get(uniqueID);
+         for (Integer type : map.keySet())
          {
-            type = mapIter.next();
-            offset = map.get(type);
+            Integer offset = map.get(type);
             pw.println ("      Type=" + type + " Offset=" + offset);
          }
       }

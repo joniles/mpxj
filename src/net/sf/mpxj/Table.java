@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -149,11 +148,10 @@ public final class Table
       pw.print (" resourceFlag=");
       pw.println (m_resourceFlag);
 
-      Iterator<Column> iter = m_columns.iterator();
-      while (iter.hasNext() == true)
+      for (Column c : m_columns)
       {
          pw.print ("   ");
-         pw.print (iter.next());
+         pw.print (c);
       }
 
       pw.println ("]");

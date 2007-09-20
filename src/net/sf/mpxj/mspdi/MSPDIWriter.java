@@ -30,7 +30,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -350,10 +349,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                bch = bc.getCalendarHours (Day.getInstance(loop));
                if (bch != null)
                {
-                  Iterator<DateRange> rangeIter = bch.iterator();
-                  while (rangeIter.hasNext() == true)
+                  for (DateRange range : bch)
                   {
-                     DateRange range = rangeIter.next();
                      if (range != null)
                      {
                         time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
@@ -377,22 +374,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(bc.getCalendarExceptions());
       Collections.sort(exceptions);
 
-      Iterator<ProjectCalendarException> iter = exceptions.iterator();
-      ProjectCalendarException exception;
-      Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period;
-      boolean working;
-
-      while (iter.hasNext() == true)
+      for (ProjectCalendarException exception : exceptions)
       {
-         exception = iter.next();
-         working = exception.getWorking();
+         boolean working = exception.getWorking();
 
          Project.Calendars.Calendar.WeekDays.WeekDay day = factory.createProjectCalendarsCalendarWeekDaysWeekDay();
          dayList.add(day);
          day.setDayType(BIGINTEGER_ZERO);
          day.setDayWorking(Boolean.valueOf(working));
 
-         period = factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
+         Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
          period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
          period.setToDate(DatatypeConverter.printDate (exception.getToDate()));
@@ -438,10 +429,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setResources(resources);
       List<Project.Resources.Resource> list = resources.getResource();
 
-      Iterator<Resource> iter = m_projectFile.getAllResources().iterator();
-      while (iter.hasNext() == true)
+      for (Resource resource : m_projectFile.getAllResources())
       {
-         list.add (writeResource (factory, iter.next()));
+         list.add (writeResource (factory, resource));
       }
    }
 
@@ -573,10 +563,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setTasks (tasks);
       List<Project.Tasks.Task> list = tasks.getTask();
 
-      Iterator<Task> iter = m_projectFile.getAllTasks().iterator();
-      while (iter.hasNext() == true)
+      for (Task task : m_projectFile.getAllTasks())
       {
-         list.add (writeTask (factory, iter.next()));
+         list.add (writeTask (factory, task));
       }
    }
 
@@ -809,10 +798,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writePredecessors (ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
    {
       TreeSet<Integer> set = new TreeSet<Integer> ();
-      Integer taskID;
-      Relation rel;
       List<Project.Tasks.Task.PredecessorLink> list = xml.getPredecessorLink();
-      Iterator<Relation> iter;
 
       //
       // Process the list of predecessors specified by Unique ID
@@ -820,11 +806,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Relation> predecessors = mpx.getUniqueIDPredecessors();
       if (predecessors != null)
       {
-         iter = predecessors.iterator();
-         while (iter.hasNext() == true)
+         for (Relation rel : predecessors)
          {
-            rel = iter.next();
-            taskID = rel.getTaskID();
+            Integer taskID = rel.getTaskID();
             set.add(taskID);
             list.add (writePredecessor (factory, taskID, rel.getType(), rel.getDuration()));
          }
@@ -839,14 +823,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (predecessors != null)
       {
          Task task;
-         iter = predecessors.iterator();
-         while (iter.hasNext() == true)
+         for (Relation rel : predecessors)
          {
-            rel = iter.next();
             task = m_projectFile.getTaskByID(rel.getTaskID());
             if (task != null)
             {
-               taskID = task.getUniqueID();
+               Integer taskID = task.getUniqueID();
                if (set.contains(taskID) == false)
                {
                   list.add (writePredecessor (factory, taskID, rel.getType(), rel.getDuration()));

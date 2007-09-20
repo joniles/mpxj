@@ -27,7 +27,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * This class represents the extended data structure which is used to
@@ -225,14 +224,9 @@ final class ExtendedData
 
       pw.println ("BEGIN ExtendedData");
 
-      Iterator<Integer> iter = m_map.keySet().iterator();
-      byte[] item;
-      Integer type;
-
-      while (iter.hasNext() == true)
+      for (Integer type: m_map.keySet())
       {
-         type = iter.next();
-         item = m_map.get(type);
+         byte[] item = m_map.get(type);
          pw.println ("Type: " + type + " Data:" + MPPUtility.hexdump(item, false));
       }
 
