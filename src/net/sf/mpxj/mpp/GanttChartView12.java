@@ -1,7 +1,7 @@
 /*
  * file:       GanttChartView12.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2006
+ * copyright:  (c) Packwood Software Limited 2006
  * date:       27 September 2006
  */
 

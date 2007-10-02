@@ -1,7 +1,7 @@
 /*
  * file:       FixFix.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2003
+ * copyright:  (c) Packwood Software Limited 2002-2003
  * date:       31/03/2003
  */
 

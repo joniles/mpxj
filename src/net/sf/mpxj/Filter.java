@@ -1,7 +1,7 @@
 /*
  * file:       Filter.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2006
+ * copyright:  (c) Packwood Software Limited 2006
  * date:       Oct 30, 2006
  */
 

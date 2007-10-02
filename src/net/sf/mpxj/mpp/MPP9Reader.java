@@ -1,7 +1,7 @@
 /*
  * file:       MPP9Reader.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2006
+ * copyright:  (c) Packwood Software Limited 2002-2006
  * date:       22/05/2003
  */
 

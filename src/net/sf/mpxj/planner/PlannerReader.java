@@ -1,7 +1,7 @@
 /*
  * file:       PlannerReader.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2007
+ * copyright:  (c) Packwood Software Limited 2007
  * date:       22 February 2007
  */
 

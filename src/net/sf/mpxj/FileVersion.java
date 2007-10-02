@@ -1,7 +1,7 @@
 /*
  * file:       FileVersion.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2002-2005
+ * copyright:  (c) Packwood Software Limited 2002-2005
  * date:       17/03/2005
  */
 

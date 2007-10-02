@@ -1,7 +1,7 @@
 /*
  * file:       Group.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2007
+ * copyright:  (c) Packwood Software Limited 2007
  * date:       17 January, 2007
  */
 

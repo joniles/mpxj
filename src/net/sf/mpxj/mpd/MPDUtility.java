@@ -1,7 +1,7 @@
 /*
  * file:       MPDUtility.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2007
+ * copyright:  (c) Packwood Software Limited 2007
  * date:       02-Feb-2006
  */
  

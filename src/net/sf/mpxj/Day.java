@@ -1,7 +1,7 @@
 /*
  * file:       Day.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2005
+ * copyright:  (c) Packwood Software Limited 2005
  * date:       26/03/2005
  */
 

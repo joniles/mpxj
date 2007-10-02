@@ -1,7 +1,7 @@
 /*
  * file:       FilterReader9.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2006
+ * copyright:  (c) Packwood Software Limited 2006
  * date:       Oct 31, 2006
  */
  

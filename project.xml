@@ -4,9 +4,9 @@
   <name>MPXJ</name>
   <id>MPXJ</id>
   <organization>
-    <name>Tapster Rock Limited</name>
-    <url>http://www.tapsterrock.com/</url>
-    <logo>/images/logo.jpg</logo>
+    <name>Packwood Software Limited</name>
+    <url>http://mpxj.sf.net/</url>
+    <logo/>
   </organization>
   <inceptionYear>2000</inceptionYear>
   <package>net.sf.mpxj</package>
@@ -44,8 +44,8 @@
     <developer>
       <name>Jon Iles</name>
       <id>joniles</id>
-      <email>jon.iles@tapsterrock.com</email>
-      <organization>Tapster Rock Limited</organization>
+      <email>jon.iles@bcs.org.uk</email>
+      <organization>Packwood Software Limited</organization>
     </developer>    
   </developers>
 

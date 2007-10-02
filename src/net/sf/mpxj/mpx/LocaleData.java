@@ -1,7 +1,7 @@
 /*
  * file:       LocaleData.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2004
+ * copyright:  (c) Packwood Software Limited 2004
  * date:       24/03/2004
  */
 

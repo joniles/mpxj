@@ -1,7 +1,7 @@
 /*
  * file:       ExtendedAttributeResourceFields.java
  * author:     Jon Iles
- * copyright:  (c) Tapster Rock Limited 2005
+ * copyright:  (c) Packwood Software Limited 2005
  * date:       02-Mar-2006
  */
  
