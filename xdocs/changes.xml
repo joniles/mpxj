@@ -8,7 +8,10 @@
 
    <body> 
 
-   <release version="2.0.0" date="CVS HEAD">
+	<release version="2.0.1" date="CVS HEAD">
+	</release>
+	
+   <release version="2.0.0" date="07/10/2007">
 		<action dev="joniles" type="update">Migrated to Java 5</action>
  		<action dev="joniles" type="update">Introduced generics</action>
  		<action dev="joniles" type="update">Introduced enums</action>
