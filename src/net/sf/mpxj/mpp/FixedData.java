@@ -63,8 +63,8 @@ final class FixedData extends MPPComponent
 
    /**
     * This version of the above constructor allows us to limited the
-    * size of blocks we copy where we have an idea o fthe maximum expected
-    * block size. This prevents us from reading riciculously large amounts
+    * size of blocks we copy where we have an idea of the maximum expected
+    * block size. This prevents us from reading ridiculously large amounts
     * of unnecessary data, causing OutOfMemory exceptions.
     * 
     * @param meta meta data about the contents of this fixed data block
@@ -81,24 +81,19 @@ final class FixedData extends MPPComponent
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-   
-      byte[] metaData;
-      int itemOffset;
-      int itemSize;
-      int available;
-   
+            
       for (int loop=0; loop < itemCount; loop++)
       {
-         metaData = meta.getByteArrayValue(loop);
-         itemSize = MPPUtility.getInt(metaData, 0);
-         itemOffset = MPPUtility.getInt(metaData, 4);
+         byte[] metaData = meta.getByteArrayValue(loop);
+         int itemSize = MPPUtility.getInt(metaData, 0);
+         int itemOffset = MPPUtility.getInt(metaData, 4);
    
          if (itemOffset > buffer.length)
          {
             continue;
          }
    
-         available = buffer.length - itemOffset;
+         int available = buffer.length - itemOffset;
    
          if (itemSize < 0 || itemSize > available)
          {
@@ -119,6 +114,11 @@ final class FixedData extends MPPComponent
             }
          }
    
+         if (maxExpectedSize != 0 && itemSize > maxExpectedSize)
+         {
+            itemSize = maxExpectedSize;
+         }
+         
          m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
          m_offset[loop] = itemOffset;
       }
@@ -319,7 +319,8 @@ final class FixedData extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override 
+   public String toString ()
    {
       StringWriter sw = new StringWriter ();
       PrintWriter pw = new PrintWriter (sw);
