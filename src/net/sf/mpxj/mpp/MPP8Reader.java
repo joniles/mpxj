@@ -87,46 +87,46 @@ final class MPP8Reader implements MPPVariantReader
       throws MPXJException, IOException
    {
       m_reader = reader;
-
+      m_file = file;
+      
       //
       // Set the file type
       //
-      file.setMppFileType(8);
+      m_file.setMppFileType(8);
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
-      processPropertyData (file, root, projectDir);
+      processPropertyData (root, projectDir);
 
-      processCalendarData (file, projectDir, calendarMap);
+      processCalendarData (projectDir, calendarMap);
 
-      processResourceData (file, projectDir, calendarMap);
+      processResourceData (projectDir, calendarMap);
 
-      processTaskData (file, projectDir);
+      processTaskData (projectDir);
 
-      processConstraintData (file, projectDir);
+      processConstraintData (projectDir);
 
-      processAssignmentData (file, projectDir);
+      processAssignmentData (projectDir);
 
 
       projectDir = (DirectoryEntry)root.getEntry ("   2");
 
-      processViewData (file, projectDir);
+      processViewData (projectDir);
 
-      processTableData (file, projectDir);
+      processTableData (projectDir);
    }
 
 
    /**
     * This method extracts and collates global property data.
     *
-    * @param file Parent MPX file
     * @param rootDir root direcory of the file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processPropertyData (ProjectFile file,  DirectoryEntry rootDir, DirectoryEntry projectDir)
+   private void processPropertyData (DirectoryEntry rootDir, DirectoryEntry projectDir)
       throws MPXJException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -135,19 +135,18 @@ final class MPP8Reader implements MPPVariantReader
       // Process the project header
       //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(file, props, rootDir);
+      projectHeaderReader.process(m_file, props, rootDir);
    }
 
    /**
     * This method extracts and collates calendar data.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @param calendarMap map of calendar IDs and calendar instances
     * @throws MPXJException
     * @throws IOException
     */
-   private void processCalendarData (ProjectFile file,  DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
+   private void processCalendarData (DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
       throws MPXJException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -229,12 +228,12 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (baseCalendarID > 0)
             {
-               cal = file.getDefaultResourceCalendar ();
+               cal = m_file.getDefaultResourceCalendar ();
                baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
             }
             else
             {
-               cal = file.addDefaultBaseCalendar();
+               cal = m_file.addDefaultBaseCalendar();
                cal.setName (name);
             }
          }
@@ -242,12 +241,12 @@ final class MPP8Reader implements MPPVariantReader
          {
             if (baseCalendarID > 0)
             {
-               cal = file.addResourceCalendar ();
+               cal = m_file.addResourceCalendar ();
                baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
             }
             else
             {
-               cal = file.addBaseCalendar();
+               cal = m_file.addBaseCalendar();
                cal.setName (name);
             }
 
@@ -375,11 +374,10 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates task data.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processTaskData (ProjectFile file,  DirectoryEntry projectDir)
+   private void processTaskData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
@@ -454,7 +452,7 @@ final class MPP8Reader implements MPPVariantReader
          flags[1] = (byte)(data[269] & data[304]);
          flags[2] = (byte)(data[270] & data[305]);
 
-         task = file.addTask();
+         task = m_file.addTask();
 
          task.setActualCost(NumberUtility.getDouble (((double)MPPUtility.getLong6(data, 234)) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
@@ -505,17 +503,17 @@ final class MPP8Reader implements MPPVariantReader
          task.setDate9(taskExtData.getTimestamp(TASK_DATE9));
          task.setDate10(taskExtData.getTimestamp(TASK_DATE10));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration (MPPUtility.getAdjustedDuration (file, MPPUtility.getInt (data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
-         task.setDuration1(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
-         task.setDuration2(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
-         task.setDuration3(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION3_UNITS))));
-         task.setDuration4(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION4_UNITS))));
-         task.setDuration5(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION5_UNITS))));
-         task.setDuration6(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION6_UNITS))));
-         task.setDuration7(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
-         task.setDuration8(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
-         task.setDuration9(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getAdjustedDuration (file, taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
+         task.setDuration (MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
+         task.setDuration1(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION1_UNITS))));
+         task.setDuration2(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION2_UNITS))));
+         task.setDuration3(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION3_UNITS))));
+         task.setDuration4(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION4_UNITS))));
+         task.setDuration5(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION5_UNITS))));
+         task.setDuration6(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION6_UNITS))));
+         task.setDuration7(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION7_UNITS))));
+         task.setDuration8(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION8_UNITS))));
+         task.setDuration9(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION9_UNITS))));
+         task.setDuration10(MPPUtility.getAdjustedDuration (m_file, taskExtData.getInt (TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskExtData.getShort (TASK_DURATION10_UNITS))));
          //task.setDurationVariance(); // Calculated value
          task.setEarlyFinish (MPPUtility.getTimestamp (data, 20));
          task.setEarlyStart (MPPUtility.getTimestamp (data, 96));
@@ -699,7 +697,7 @@ final class MPP8Reader implements MPPVariantReader
             autoWBS = false;
          }
          
-         file.fireTaskReadEvent(task);
+         m_file.fireTaskReadEvent(task);
 
          //
          // Uncommenting the call to this method is useful when trying
@@ -711,7 +709,7 @@ final class MPP8Reader implements MPPVariantReader
       //
       // Enable auto WBS if necessary
       //
-      file.setAutoWBS(autoWBS);      
+      m_file.setAutoWBS(autoWBS);      
    }
 
    /**
@@ -751,11 +749,10 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates constraint data.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processConstraintData (ProjectFile file, DirectoryEntry projectDir)
+   private void processConstraintData (DirectoryEntry projectDir)
       throws IOException
    {
       //
@@ -800,8 +797,8 @@ final class MPP8Reader implements MPPVariantReader
 
                if (taskID1 != taskID2)
                {
-                  task1 = file.getTaskByUniqueID (new Integer(taskID1));
-                  task2 = file.getTaskByUniqueID (new Integer(taskID2));
+                  task1 = m_file.getTaskByUniqueID (new Integer(taskID1));
+                  task2 = m_file.getTaskByUniqueID (new Integer(taskID2));
                   if (task1 != null && task2 != null)
                   {
                      rel = task2.addPredecessor(task1);
@@ -819,12 +816,11 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates resource data.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @param calendarMap map of calendar IDs and calendar instances
     * @throws IOException
     */
-   private void processResourceData (ProjectFile file, DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
+   private void processResourceData (DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
       throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -884,7 +880,7 @@ final class MPP8Reader implements MPPVariantReader
 
          rscExtData = new ExtendedData (rscVarData, getOffset(data, 192));
 
-         resource = file.addResource();
+         resource = m_file.addResource();
 
          resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 20)));
          resource.setActualCost(NumberUtility.getDouble(((double)MPPUtility.getLong6(data, 114))/100));
@@ -1040,7 +1036,7 @@ final class MPP8Reader implements MPPVariantReader
             resource.setNotes(notes);
          }
          
-         file.fireResourceReadEvent(resource);
+         m_file.fireResourceReadEvent(resource);
       }
    }
 
@@ -1048,16 +1044,15 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates resource assignment data.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processAssignmentData (ProjectFile file, DirectoryEntry projectDir)
+   private void processAssignmentData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
-      if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && testAssignmentTasks(file, assnFixedData) == false))
+      if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && testAssignmentTasks(assnFixedData) == false))
       {
          assnFixedData = new FixFix (238, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
       }
@@ -1079,8 +1074,8 @@ final class MPP8Reader implements MPPVariantReader
 
          data = assnFixedData.getByteArrayValue(loop);
 
-         task = file.getTaskByUniqueID (new Integer(MPPUtility.getInt (data, 16)));
-         resource = file.getResourceByUniqueID (new Integer(MPPUtility.getInt (data, 20)));
+         task = m_file.getTaskByUniqueID (new Integer(MPPUtility.getInt (data, 16)));
+         resource = m_file.getResourceByUniqueID (new Integer(MPPUtility.getInt (data, 20)));
          if (task != null && resource != null)
          {
             assignment = task.addResourceAssignment (resource);
@@ -1125,11 +1120,10 @@ final class MPP8Reader implements MPPVariantReader
     * just have to keep looking for a better way to determine the correct
     * block size!
     *
-    * @param file Parent MPP file
     * @param assnFixedData Task assignment fixed data
     * @return boolean flag
     */
-   private boolean testAssignmentTasks (ProjectFile file, FixFix assnFixedData)
+   private boolean testAssignmentTasks (FixFix assnFixedData)
    {
       boolean result = true;
       int count = assnFixedData.getItemCount();
@@ -1140,8 +1134,8 @@ final class MPP8Reader implements MPPVariantReader
       for (int loop=0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
-         task = file.getTaskByUniqueID (new Integer(MPPUtility.getInt (data, 16)));
-         resource = file.getResourceByUniqueID (new Integer(MPPUtility.getInt (data, 20)));
+         task = m_file.getTaskByUniqueID (new Integer(MPPUtility.getInt (data, 16)));
+         resource = m_file.getResourceByUniqueID (new Integer(MPPUtility.getInt (data, 20)));
 
          if (task == null && resource == null)
          {
@@ -1156,11 +1150,10 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts view data from the MPP file.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processViewData (ProjectFile file, DirectoryEntry projectDir)
+   private void processViewData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
@@ -1173,18 +1166,17 @@ final class MPP8Reader implements MPPVariantReader
       {
          data = ff.getByteArrayValue(loop);
          view = new View8 (data);
-         file.addView(view);
+         m_file.addView(view);
       }
    }
 
    /**
     * This method extracts table data from the MPP file.
     *
-    * @param file Parent MPX file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processTableData (ProjectFile file, DirectoryEntry projectDir)
+   private void processTableData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
@@ -1229,13 +1221,13 @@ final class MPP8Reader implements MPPVariantReader
          }
 
          table.setName(MPPUtility.removeAmpersands(name));
-         file.addTable(table);
+         m_file.addTable(table);
 
          extendedData = fdf.getByteArray(getOffset(data, 122));
          if (extendedData != null)
          {
             columnData = fdf.getByteArray(getOffset(extendedData, 8));
-            processColumnData (file, table, columnData);
+            processColumnData (table, columnData);
          }
       }
    }
@@ -1245,11 +1237,10 @@ final class MPP8Reader implements MPPVariantReader
     * This method processes the column data associated with the
     * current table.
     * 
-    * @param file parent file
     * @param table current table
     * @param data raw column data
     */
-   private void processColumnData (ProjectFile file, Table table, byte[] data)
+   private void processColumnData (Table table, byte[] data)
    {
       int columnCount = MPPUtility.getShort(data, 4)+1;
       int index = 8;
@@ -1259,7 +1250,7 @@ final class MPP8Reader implements MPPVariantReader
 
       for (int loop=0; loop < columnCount; loop++)
       {
-         column = new Column (file);
+         column = new Column (m_file);
 
          if (loop==0)
          {
@@ -1389,7 +1380,8 @@ final class MPP8Reader implements MPPVariantReader
 //   };
 
    private MPPReader m_reader;
-
+   private ProjectFile m_file;
+   
    /**
     * Task data types.
     */
