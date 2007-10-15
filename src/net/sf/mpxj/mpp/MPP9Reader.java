@@ -95,6 +95,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       m_reader = reader;
       m_file = file;
+      m_root = root;
       m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
       
       //
@@ -134,15 +135,15 @@ final class MPP9Reader implements MPPVariantReader
 
       DirectoryEntry outlineCodeDir = (DirectoryEntry)projectDir.getEntry ("TBkndOutlCode");
       VarMeta outlineCodeVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
-      Var2Data outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
+      m_outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
 
       //
       // Extract the required data from the MPP file
       //      
-      processPropertyData (root, projectDir);
+      processPropertyData (projectDir);
       processCalendarData (projectDir);
-      processResourceData (projectDir, outlineCodeVarData);
-      processTaskData (projectDir, outlineCodeVarData);
+      processResourceData (projectDir);
+      processTaskData (projectDir);
       processConstraintData (projectDir);
       processAssignmentData (projectDir);
 
@@ -158,11 +159,10 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts and collates global property data.
     *
-    * @param rootDir root directory of the file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processPropertyData (DirectoryEntry rootDir, DirectoryEntry projectDir)
+   private void processPropertyData (DirectoryEntry projectDir)
       throws IOException, MPXJException
    {
       Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -172,7 +172,7 @@ final class MPP9Reader implements MPPVariantReader
       // Process the project header
       //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, props, rootDir);
+      projectHeaderReader.process(m_file, props, m_root);
 
       //
       // Process aliases
@@ -1302,10 +1302,9 @@ final class MPP9Reader implements MPPVariantReader
     * section of the task data, which we have yet to decode.
     *
     * @param projectDir root project directory
-    * @param outlineCodeVarData outline code data
     * @throws IOException
     */
-   private void processTaskData (DirectoryEntry projectDir, Var2Data outlineCodeVarData)
+   private void processTaskData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
@@ -1524,16 +1523,16 @@ final class MPP9Reader implements MPPVariantReader
          task.setNumber19(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER19)));
          task.setNumber20(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
-         task.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
-         task.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
-         task.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
-         task.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
-         task.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
-         task.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
-         task.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
-         task.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
-         task.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
-         task.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
+         task.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
+         task.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
+         task.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
+         task.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
+         task.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
+         task.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
+         task.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
+         task.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
+         task.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
+         task.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(new Integer(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
          task.setOutlineLevel (new Integer(MPPUtility.getShort (data, 40)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
@@ -1896,10 +1895,9 @@ final class MPP9Reader implements MPPVariantReader
     * This method extracts and collates resource data.
     *
     * @param projectDir root project directory
-    * @param outlineCodeVarData outline code data
     * @throws IOException
     */
-   private void processResourceData (DirectoryEntry projectDir, Var2Data outlineCodeVarData)
+   private void processResourceData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -2016,16 +2014,16 @@ final class MPP9Reader implements MPPVariantReader
          resource.setNumber19(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER19)));
          resource.setNumber20(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER20)));
          //resource.setObjects(); // Calculated value
-         resource.setOutlineCode1(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
-         resource.setOutlineCode2(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
-         resource.setOutlineCode3(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
-         resource.setOutlineCode4(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
-         resource.setOutlineCode5(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
-         resource.setOutlineCode6(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
-         resource.setOutlineCode7(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
-         resource.setOutlineCode8(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
-         resource.setOutlineCode9(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
-         resource.setOutlineCode10(outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
+         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
+         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
+         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
+         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
+         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
+         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
+         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
+         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
+         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
+         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164)/100));
          resource.setOvertimeRate(new Rate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
@@ -2573,9 +2571,11 @@ final class MPP9Reader implements MPPVariantReader
 //      {108, 16},
 //   };
 
-   private MPPReader m_reader;
+   private MPPReader m_reader;   
    private ProjectFile m_file;
+   private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
+   private Var2Data m_outlineCodeVarData;
    private Map<Integer, FontBase> m_fontBases = new HashMap<Integer, FontBase>();
    private Map<Integer, SubProject> m_taskSubProjects = new HashMap<Integer, SubProject> ();
 

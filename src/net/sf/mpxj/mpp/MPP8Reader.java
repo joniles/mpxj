@@ -87,6 +87,7 @@ final class MPP8Reader implements MPPVariantReader
       throws MPXJException, IOException
    {
       m_reader = reader;
+      m_root = root;
       m_file = file;
       m_calendarMap = new HashMap<Integer, ProjectCalendar> ();
       
@@ -99,7 +100,7 @@ final class MPP8Reader implements MPPVariantReader
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
-      processPropertyData (root, projectDir);
+      processPropertyData (projectDir);
 
       processCalendarData (projectDir);
 
@@ -123,11 +124,10 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates global property data.
     *
-    * @param rootDir root directory of the file
     * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processPropertyData (DirectoryEntry rootDir, DirectoryEntry projectDir)
+   private void processPropertyData (DirectoryEntry projectDir)
       throws MPXJException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
@@ -136,7 +136,7 @@ final class MPP8Reader implements MPPVariantReader
       // Process the project header
       //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, props, rootDir);
+      projectHeaderReader.process(m_file, props, m_root);
    }
 
    /**
@@ -1380,6 +1380,7 @@ final class MPP8Reader implements MPPVariantReader
    private MPPReader m_reader;
    private ProjectFile m_file;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
+   private DirectoryEntry m_root;
    
    /**
     * Task data types.
