@@ -88,21 +88,22 @@ final class MPP8Reader implements MPPVariantReader
    {
       m_reader = reader;
       m_file = file;
+      m_calendarMap = new HashMap<Integer, ProjectCalendar> ();
       
       //
       // Set the file type
       //
       m_file.setMppFileType(8);
 
-      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
+      
 
       DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
 
       processPropertyData (root, projectDir);
 
-      processCalendarData (projectDir, calendarMap);
+      processCalendarData (projectDir);
 
-      processResourceData (projectDir, calendarMap);
+      processResourceData (projectDir);
 
       processTaskData (projectDir);
 
@@ -111,18 +112,18 @@ final class MPP8Reader implements MPPVariantReader
       processAssignmentData (projectDir);
 
 
-      projectDir = (DirectoryEntry)root.getEntry ("   2");
+      DirectoryEntry viewDir = (DirectoryEntry)root.getEntry ("   2");
 
-      processViewData (projectDir);
+      processViewData (viewDir);
 
-      processTableData (projectDir);
+      processTableData (viewDir);
    }
 
 
    /**
     * This method extracts and collates global property data.
     *
-    * @param rootDir root direcory of the file
+    * @param rootDir root directory of the file
     * @param projectDir Project data directory
     * @throws IOException
     */
@@ -142,11 +143,10 @@ final class MPP8Reader implements MPPVariantReader
     * This method extracts and collates calendar data.
     *
     * @param projectDir Project data directory
-    * @param calendarMap map of calendar IDs and calendar instances
     * @throws MPXJException
     * @throws IOException
     */
-   private void processCalendarData (DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
+   private void processCalendarData (DirectoryEntry projectDir)
       throws MPXJException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -340,10 +340,10 @@ final class MPP8Reader implements MPPVariantReader
             }
          }
 
-         calendarMap.put(new Integer (calendarID), cal);
+         m_calendarMap.put(new Integer (calendarID), cal);
       }
 
-      updateBaseCalendarNames (baseCalendars, calendarMap);
+      updateBaseCalendarNames (baseCalendars);
    }
 
    /**
@@ -355,15 +355,14 @@ final class MPP8Reader implements MPPVariantReader
     * ID values into the correct names.
     *
     * @param baseCalendars list of calendars and base calendar IDs
-    * @param map map of calendar ID values and calendar objects
     */
-   private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
+   private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars)
    {
       for (Pair<ProjectCalendar, Integer> pair : baseCalendars)
       {
          ProjectCalendar cal = pair.getFirst();
          Integer baseCalendarID = pair.getSecond();
-         ProjectCalendar baseCal = map.get(baseCalendarID);
+         ProjectCalendar baseCal = m_calendarMap.get(baseCalendarID);
          if (baseCal != null)
          {
             cal.setBaseCalendar(baseCal);
@@ -817,10 +816,9 @@ final class MPP8Reader implements MPPVariantReader
     * This method extracts and collates resource data.
     *
     * @param projectDir Project data directory
-    * @param calendarMap map of calendar IDs and calendar instances
     * @throws IOException
     */
-   private void processResourceData (DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> calendarMap)
+   private void processResourceData (DirectoryEntry projectDir)
       throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -1019,7 +1017,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          // Attach the resource calendar
          //
-         calendar = calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
+         calendar = m_calendarMap.get(new Integer (MPPUtility.getInt(data, 24)));
          resource.setResourceCalendar(calendar);
 
          //
@@ -1150,13 +1148,13 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts view data from the MPP file.
     *
-    * @param projectDir Project data directory
+    * @param viewDir Project data directory
     * @throws IOException
     */
-   private void processViewData (DirectoryEntry projectDir)
+   private void processViewData (DirectoryEntry viewDir)
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CV_iew");
       FixFix ff = new FixFix (138, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
       int items = ff.getItemCount();
       byte[] data;
@@ -1173,13 +1171,13 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts table data from the MPP file.
     *
-    * @param projectDir Project data directory
+    * @param viewDir Project data directory
     * @throws IOException
     */
-   private void processTableData (DirectoryEntry projectDir)
+   private void processTableData (DirectoryEntry viewDir)
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CTable");
       FixFix ff = new FixFix (126, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
       FixDeferFix fdf = new FixDeferFix (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixDeferFix   0"))));
       int items = ff.getItemCount();
@@ -1381,6 +1379,7 @@ final class MPP8Reader implements MPPVariantReader
 
    private MPPReader m_reader;
    private ProjectFile m_file;
+   private HashMap<Integer, ProjectCalendar> m_calendarMap;
    
    /**
     * Task data types.

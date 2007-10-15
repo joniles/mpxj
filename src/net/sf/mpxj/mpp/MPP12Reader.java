@@ -94,6 +94,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       m_reader = reader;
       m_file = file;
+      m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
       
       //
       // Set the file type
@@ -136,23 +137,21 @@ final class MPP12Reader implements MPPVariantReader
 
       //
       // Extract the required data from the MPP file
-      //
-      HashMap<Integer, ProjectCalendar> resourceMap = new HashMap<Integer, ProjectCalendar> ();
-
+      //      
       processPropertyData (root, projectDir);
-      processCalendarData (projectDir, resourceMap);
-      processResourceData (projectDir, outlineCodeVarData, resourceMap);
+      processCalendarData (projectDir);
+      processResourceData (projectDir, outlineCodeVarData);
       processTaskData (projectDir, outlineCodeVarData);
       processConstraintData (projectDir);
       processAssignmentData (projectDir);
 
-      projectDir = (DirectoryEntry)root.getEntry ("   212");
-      processViewPropertyData(projectDir);
-      processTableData (projectDir);
-      processViewData (projectDir);
-      processFilterData(projectDir);
-      processGroupData(projectDir);
-      processSavedViewState(projectDir);
+      DirectoryEntry viewDir = (DirectoryEntry)root.getEntry ("   212");
+      processViewPropertyData(viewDir);
+      processTableData (viewDir);
+      processViewData (viewDir);
+      processFilterData(viewDir);
+      processGroupData(viewDir);
+      processSavedViewState(viewDir);
    }
 
    /**
@@ -549,12 +548,12 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * This method process the data held in the props file specific to the
     * visual appearance of the project data.
-    * @param projectDir project directory
+    * @param viewDir project directory
     */
-   private void processViewPropertyData (DirectoryEntry projectDir)
+   private void processViewPropertyData (DirectoryEntry viewDir)
       throws IOException
    {
-      Props12 props = new Props12 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      Props12 props = new Props12 (new DocumentInputStream (((DocumentEntry)viewDir.getEntry("Props"))));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
@@ -969,10 +968,9 @@ final class MPP12Reader implements MPPVariantReader
     * to the calendar.
     *
     * @param projectDir root project directory
-    * @param resourceMap map of resource IDs to resource data
     * @throws java.io.IOException
     */
-   private void processCalendarData (DirectoryEntry projectDir, HashMap<Integer, ProjectCalendar> resourceMap)
+   private void processCalendarData (DirectoryEntry projectDir)
       throws MPXJException, IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
@@ -1048,7 +1046,7 @@ final class MPP12Reader implements MPPVariantReader
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
                      resourceID = new Integer (MPPUtility.getInt(fixedData, offset+8));
-                     resourceMap.put (resourceID, cal);
+                     m_resourceMap.put (resourceID, cal);
                   }
 
                   cal.setUniqueID(calendarID);
@@ -1898,10 +1896,9 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @param projectDir root project directory
     * @param outlineCodeVarData outline code data
-    * @param resourceCalendarMap map of resource IDs to resource data
     * @throws java.io.IOException
     */
-   private void processResourceData (DirectoryEntry projectDir, Var2Data outlineCodeVarData, HashMap<Integer, ProjectCalendar> resourceCalendarMap)
+   private void processResourceData (DirectoryEntry projectDir, Var2Data outlineCodeVarData)
       throws IOException
    {
       DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
@@ -2122,7 +2119,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Configure the resource calendar
          //
-         resource.setResourceCalendar(resourceCalendarMap.get(id));
+         resource.setResourceCalendar(m_resourceMap.get(id));
 
          m_file.fireResourceReadEvent(resource);
       }
@@ -2342,13 +2339,13 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * This method extracts view data from the MPP file.
     *
-    * @param projectDir Project data directory
+    * @param viewDir Project data directory
     * @throws java.io.IOException
     */
-   private void processViewData (DirectoryEntry projectDir)
+   private void processViewData (DirectoryEntry viewDir)
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CV_iew");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CV_iew");
       VarMeta viewVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
@@ -2379,13 +2376,13 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * This method extracts table data from the MPP file.
     *
-    * @param projectDir Project data directory
+    * @param viewDir Project data directory
     * @throws java.io.IOException
     */
-   private void processTableData (DirectoryEntry projectDir)
+   private void processTableData (DirectoryEntry viewDir)
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CTable");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CTable");
       FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
@@ -2412,13 +2409,13 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Read filter definitions.
     * 
-    * @param projectDir project data directory
+    * @param viewDir project data directory
     * @throws IOException
     */
-   private void processFilterData (DirectoryEntry projectDir)
+   private void processFilterData (DirectoryEntry viewDir)
       throws IOException
    {            
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CFilter");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CFilter");
       FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
       FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
@@ -2436,13 +2433,13 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Read saved view state from an MPP file.
     * 
-    * @param projectDir project data directory
+    * @param viewDir project data directory
     * @throws IOException
     */
-   private void processSavedViewState (DirectoryEntry projectDir)
+   private void processSavedViewState (DirectoryEntry viewDir)
       throws IOException
    {           
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CEdl");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CEdl");
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
    
@@ -2456,13 +2453,13 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Read group definitions.
     * 
-    * @param projectDir project data directory
+    * @param viewDir project data directory
     * @throws IOException
     */
-   private void processGroupData (DirectoryEntry projectDir)
+   private void processGroupData (DirectoryEntry viewDir)
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)projectDir.getEntry ("CGrouping");
+      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CGrouping");
       FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
       FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
@@ -2582,6 +2579,7 @@ final class MPP12Reader implements MPPVariantReader
 
    private MPPReader m_reader;
    private ProjectFile m_file;
+   private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Map<Integer, FontBase> m_fontBases = new HashMap<Integer, FontBase>();
    private Map<Integer, SubProject> m_taskSubProjects = new HashMap<Integer, SubProject> ();
 
