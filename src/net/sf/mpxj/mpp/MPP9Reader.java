@@ -93,79 +93,76 @@ final class MPP9Reader implements MPPVariantReader
    public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
       throws MPXJException, IOException
    {
-      m_reader = reader;
-      m_file = file;
-      m_root = root;
-      m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
-      
-      //
-      // Set the file type
-      //
-      m_file.setMppFileType(9);
-
-      //
-      // Retrieve the high level document properties
-      //
-      Props9 props9 = new Props9 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props9"))));
-      //System.out.println(props9);
-
-      //
-      // Test for password protection. In the single byte retrieved here:
-      //
-      // 0x00 = no password
-      // 0x01 = protection password has been supplied
-      // 0x02 = write reservation password has been supplied
-      // 0x03 = both passwords have been supplied
-      //
-      if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+      try
       {
-         throw new MPXJException (MPXJException.PASSWORD_PROTECTED);
+         //
+         // Retrieve the high level document properties
+         //
+         Props9 props9 = new Props9 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props9"))));
+         //System.out.println(props9);
+   
+         //
+         // Test for password protection. In the single byte retrieved here:
+         //
+         // 0x00 = no password
+         // 0x01 = protection password has been supplied
+         // 0x02 = write reservation password has been supplied
+         // 0x03 = both passwords have been supplied
+         //
+         if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+         {
+            throw new MPXJException (MPXJException.PASSWORD_PROTECTED);
+         }
+   
+         m_reader = reader;
+         m_file = file;
+         m_root = root;
+         m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
+         m_projectDir = (DirectoryEntry)root.getEntry ("   19");
+         m_viewDir = (DirectoryEntry)root.getEntry ("   29");
+         DirectoryEntry outlineCodeDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndOutlCode");
+         VarMeta outlineCodeVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
+         m_outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
+         
+         m_file.setMppFileType(9);
+         m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
+         
+         processPropertyData ();
+         processCalendarData ();
+         processResourceData ();
+         processTaskData ();
+         processConstraintData ();
+         processAssignmentData ();
+         
+         processViewPropertyData();
+         processTableData ();
+         processViewData ();
+         processFilterData();
+         processGroupData();
+         processSavedViewState();
       }
-
-      //
-      // Set the auto filter flag
-      //
-      m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
       
-      //
-      // Retrieve the project directory
-      //
-      DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   19");
-
-
-      DirectoryEntry outlineCodeDir = (DirectoryEntry)projectDir.getEntry ("TBkndOutlCode");
-      VarMeta outlineCodeVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
-      m_outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
-
-      //
-      // Extract the required data from the MPP file
-      //      
-      processPropertyData (projectDir);
-      processCalendarData (projectDir);
-      processResourceData (projectDir);
-      processTaskData (projectDir);
-      processConstraintData (projectDir);
-      processAssignmentData (projectDir);
-
-      DirectoryEntry viewDir = (DirectoryEntry)root.getEntry ("   29");
-      processViewPropertyData(viewDir);
-      processTableData (viewDir);
-      processViewData (viewDir);
-      processFilterData(viewDir);
-      processGroupData(viewDir);
-      processSavedViewState(viewDir);
+      finally
+      {
+         m_reader = null;
+         m_file = null;
+         m_root = null;
+         m_resourceMap = null;
+         m_projectDir = null;
+         m_viewDir = null;
+         m_outlineCodeVarData = null;         
+      }
    }
 
    /**
     * This method extracts and collates global property data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processPropertyData (DirectoryEntry projectDir)
+   private void processPropertyData ()
       throws IOException, MPXJException
    {
-      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)m_projectDir.getEntry("Props"))));
       //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
       
       //
@@ -596,12 +593,11 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method process the data held in the props file specific to the
     * visual appearance of the project data.
-    * @param viewDir project directory
     */
-   private void processViewPropertyData (DirectoryEntry viewDir)
+   private void processViewPropertyData ()
       throws IOException
    {
-      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)viewDir.getEntry("Props"))));
+      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)m_viewDir.getEntry("Props"))));
       //System.out.println(props);
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
@@ -1016,13 +1012,12 @@ final class MPP9Reader implements MPPVariantReader
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
     *
-    * @param projectDir root project directory
     * @throws IOException
     */
-   private void processCalendarData (DirectoryEntry projectDir)
+   private void processCalendarData ()
       throws MPXJException, IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
+      DirectoryEntry calDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCal");
       VarMeta calVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
       Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
       FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
@@ -1301,13 +1296,12 @@ final class MPP9Reader implements MPPVariantReader
     * The missing boolean attributes are probably represented in the Props
     * section of the task data, which we have yet to decode.
     *
-    * @param projectDir root project directory
     * @throws IOException
     */
-   private void processTaskData (DirectoryEntry projectDir)
+   private void processTaskData ()
       throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
+      DirectoryEntry taskDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndTask");
       VarMeta taskVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
@@ -1833,13 +1827,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts and collates constraint data.
     *
-    * @param projectDir root project directory
     * @throws IOException
     */
-   private void processConstraintData (DirectoryEntry projectDir)
+   private void processConstraintData ()
       throws IOException
    {
-      DirectoryEntry consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
+      DirectoryEntry consDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCons");
       FixedMeta consFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedMeta"))), 10);
       FixedData consFixedData = new FixedData (consFixedMeta, 20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
       
@@ -1894,13 +1887,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts and collates resource data.
     *
-    * @param projectDir root project directory
     * @throws IOException
     */
-   private void processResourceData (DirectoryEntry projectDir)
+   private void processResourceData ()
       throws IOException
    {
-      DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
+      DirectoryEntry rscDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
@@ -2126,13 +2118,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts and collates resource assignment data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processAssignmentData (DirectoryEntry projectDir)
+   private void processAssignmentData ()
       throws IOException
    {
-      DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
+      DirectoryEntry assnDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
@@ -2324,13 +2315,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts view data from the MPP file.
     *
-    * @param viewDir Project data directory
     * @throws IOException
     */
-   private void processViewData (DirectoryEntry viewDir)
+   private void processViewData ()
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CV_iew");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CV_iew");
       VarMeta viewVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
@@ -2361,13 +2351,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * This method extracts table data from the MPP file.
     *
-    * @param viewDir Project data directory
     * @throws IOException
     */
-   private void processTableData (DirectoryEntry viewDir)
+   private void processTableData ()
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CTable");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CTable");
       FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
@@ -2396,13 +2385,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read filter definitions.
     * 
-    * @param viewDir project data directory
     * @throws IOException
     */
-   private void processFilterData (DirectoryEntry viewDir)
+   private void processFilterData ()
       throws IOException
    {           
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CFilter");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CFilter");
       //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
       //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))), true);
@@ -2421,13 +2409,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read group definitions.
     * 
-    * @param viewDir project data directory
     * @throws IOException
     */
-   private void processGroupData (DirectoryEntry viewDir)
+   private void processGroupData ()
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CGrouping");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CGrouping");
       //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
       //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
       FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
@@ -2446,13 +2433,12 @@ final class MPP9Reader implements MPPVariantReader
    /**
     * Read saved view state from an MPP file.
     * 
-    * @param viewDir project data directory
     * @throws IOException
     */
-   private void processSavedViewState (DirectoryEntry viewDir)
+   private void processSavedViewState ()
       throws IOException
    {           
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CEdl");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CEdl");
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
    
@@ -2578,7 +2564,9 @@ final class MPP9Reader implements MPPVariantReader
    private Var2Data m_outlineCodeVarData;
    private Map<Integer, FontBase> m_fontBases = new HashMap<Integer, FontBase>();
    private Map<Integer, SubProject> m_taskSubProjects = new HashMap<Integer, SubProject> ();
-
+   private DirectoryEntry m_projectDir;
+   private DirectoryEntry m_viewDir;
+   
    /**
     * Calendar data types.
     */

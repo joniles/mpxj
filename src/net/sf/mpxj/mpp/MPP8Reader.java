@@ -86,51 +86,48 @@ final class MPP8Reader implements MPPVariantReader
    public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
       throws MPXJException, IOException
    {
-      m_reader = reader;
-      m_root = root;
-      m_file = file;
-      m_calendarMap = new HashMap<Integer, ProjectCalendar> ();
+      try
+      {
+         m_reader = reader;
+         m_root = root;
+         m_file = file;
+         m_calendarMap = new HashMap<Integer, ProjectCalendar> ();
+         m_projectDir = (DirectoryEntry)root.getEntry ("   1");
+         m_viewDir = (DirectoryEntry)root.getEntry ("   2");
+         
+         m_file.setMppFileType(8);
+              
+         processPropertyData ();
+         processCalendarData ();
+         processResourceData ();
+         processTaskData ();
+         processConstraintData ();
+         processAssignmentData ();     
+         processViewData ();
+         processTableData ();
+      }
       
-      //
-      // Set the file type
-      //
-      m_file.setMppFileType(8);
-
-      
-
-      DirectoryEntry projectDir = (DirectoryEntry)root.getEntry ("   1");
-
-      processPropertyData (projectDir);
-
-      processCalendarData (projectDir);
-
-      processResourceData (projectDir);
-
-      processTaskData (projectDir);
-
-      processConstraintData (projectDir);
-
-      processAssignmentData (projectDir);
-
-
-      DirectoryEntry viewDir = (DirectoryEntry)root.getEntry ("   2");
-
-      processViewData (viewDir);
-
-      processTableData (viewDir);
+      finally
+      {
+         m_reader = null;
+         m_root = null;
+         m_file = null;
+         m_calendarMap = null;
+         m_projectDir = null;
+         m_viewDir = null;         
+      }
    }
 
 
    /**
     * This method extracts and collates global property data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processPropertyData (DirectoryEntry projectDir)
+   private void processPropertyData ()
       throws MPXJException, IOException
    {
-      Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)projectDir.getEntry("Props"))));
+      Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)m_projectDir.getEntry("Props"))));
 
       //
       // Process the project header
@@ -142,14 +139,13 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates calendar data.
     *
-    * @param projectDir Project data directory
     * @throws MPXJException
     * @throws IOException
     */
-   private void processCalendarData (DirectoryEntry projectDir)
+   private void processCalendarData ()
       throws MPXJException, IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry)projectDir.getEntry ("TBkndCal");
+      DirectoryEntry calDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCal");
       FixFix calendarFixedData = new FixFix (36, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixFix   0"))));
       FixDeferFix calendarVarData = new FixDeferFix (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixDeferFix   0"))));
 
@@ -373,13 +369,12 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates task data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processTaskData (DirectoryEntry projectDir)
+   private void processTaskData ()
       throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry)projectDir.getEntry ("TBkndTask");
+      DirectoryEntry taskDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndTask");
       FixFix taskFixedData = new FixFix (316, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixFix   0"))));
       if (taskFixedData.getDiff() != 0)
       {
@@ -748,10 +743,9 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates constraint data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processConstraintData (DirectoryEntry projectDir)
+   private void processConstraintData ()
       throws IOException
    {
       //
@@ -761,7 +755,7 @@ final class MPP8Reader implements MPPVariantReader
 
       try
       {
-         consDir = (DirectoryEntry)projectDir.getEntry ("TBkndCons");
+         consDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCons");
       }
 
       catch (FileNotFoundException ex)
@@ -815,13 +809,12 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates resource data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processResourceData (DirectoryEntry projectDir)
+   private void processResourceData ()
       throws IOException
    {
-      DirectoryEntry rscDir = (DirectoryEntry)projectDir.getEntry ("TBkndRsc");
+      DirectoryEntry rscDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndRsc");
       FixFix rscFixedData = new FixFix (196, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixFix   0"))));
       FixDeferFix rscVarData = null;
       ExtendedData rscExtData = null;
@@ -1042,13 +1035,12 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates resource assignment data.
     *
-    * @param projectDir Project data directory
     * @throws IOException
     */
-   private void processAssignmentData (DirectoryEntry projectDir)
+   private void processAssignmentData ()
       throws IOException
    {
-      DirectoryEntry assnDir = (DirectoryEntry)projectDir.getEntry ("TBkndAssn");
+      DirectoryEntry assnDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndAssn");
       FixFix assnFixedData = new FixFix (204, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixFix   0"))));
       if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && testAssignmentTasks(assnFixedData) == false))
       {
@@ -1148,13 +1140,12 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts view data from the MPP file.
     *
-    * @param viewDir Project data directory
     * @throws IOException
     */
-   private void processViewData (DirectoryEntry viewDir)
+   private void processViewData ()
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CV_iew");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CV_iew");
       FixFix ff = new FixFix (138, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
       int items = ff.getItemCount();
       byte[] data;
@@ -1171,13 +1162,12 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts table data from the MPP file.
     *
-    * @param viewDir Project data directory
     * @throws IOException
     */
-   private void processTableData (DirectoryEntry viewDir)
+   private void processTableData ()
       throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)viewDir.getEntry ("CTable");
+      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CTable");
       FixFix ff = new FixFix (126, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixFix   0"))));
       FixDeferFix fdf = new FixDeferFix (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixDeferFix   0"))));
       int items = ff.getItemCount();
@@ -1381,6 +1371,8 @@ final class MPP8Reader implements MPPVariantReader
    private ProjectFile m_file;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
    private DirectoryEntry m_root;
+   private DirectoryEntry m_projectDir;
+   private DirectoryEntry m_viewDir;
    
    /**
     * Task data types.
