@@ -122,6 +122,9 @@ final class MPP12Reader implements MPPVariantReader
          DirectoryEntry outlineCodeDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndOutlCode");
          VarMeta outlineCodeVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
+         m_fontBases = new HashMap<Integer, FontBase>();
+         m_taskSubProjects = new HashMap<Integer, SubProject> ();
+         m_parentTasks = new HashMap<Integer, Integer> ();
          
          m_file.setMppFileType(12);
          m_file.setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
@@ -149,7 +152,9 @@ final class MPP12Reader implements MPPVariantReader
          m_resourceMap = null;
          m_projectDir = null;
          m_viewDir = null;
-         m_outlineCodeVarData = null;         
+         m_outlineCodeVarData = null;
+         m_fontBases = null;
+         m_taskSubProjects = null;
       }
    }
 
@@ -1633,6 +1638,8 @@ final class MPP12Reader implements MPPVariantReader
          
          task.setFinishSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          
+         m_parentTasks.put(task.getUniqueID(), new Integer(MPPUtility.getInt(data, 36)));
+         
          switch (task.getConstraintType())
          {
             //
@@ -1742,9 +1749,121 @@ final class MPP12Reader implements MPPVariantReader
       if (!externalTasks.isEmpty())
       {
          processExternalTasks (externalTasks);
-      }      
+      } 
+      
+      //
+      // MPP12 files seem to exhibit some occasional weirdness
+      // with duplicate ID values which leads to the task structure
+      // being reported incorrectly. The following method
+      // attempts to correct this.
+      //
+      validateStructure();
    }
 
+   /**
+    * This method is called to validate the task hierarchy.
+    * Some MPP12 files contain duplicate task ID values which
+    * causes the task hierarchy to be generated incorrectly.
+    */
+   private void validateStructure ()
+   {
+      //
+      // Retrieve the list of all tasks
+      // an sort into ID order
+      //
+      List<Task> tasks = m_file.getAllTasks();
+      Collections.sort(tasks);
+      
+      //
+      // Look for duplicate ID values
+      //
+      int lastID = -1;
+      int currentID = -2;
+      for(Task task : tasks)
+      {
+         currentID = task.getID().intValue();
+         if (currentID == lastID)
+         {
+            break;
+         }
+         lastID = currentID;
+      }
+      
+      //
+      // If we've found a duplicate, ensure
+      // that the structure is correct
+      //
+      if (lastID == currentID)
+      {
+         fixStructure();
+      }
+   }
+   
+   /**
+    * This method is called to fix the task hierarchy if problems
+    * are detected.
+    */
+   private void fixStructure ()
+   {
+      //
+      // Create the hierarchical structure
+      //
+      m_file.updateStructure();
+      
+      //
+      // Validate the parent for each task
+      //
+      for (Task task: m_file.getAllTasks())
+      {
+         Task parentTask = task.getParentTask();
+         Integer parentTaskID = m_parentTasks.get(task.getUniqueID());
+         
+         if ((parentTask == null && parentTaskID.intValue() != -1) ||
+             (parentTask != null && parentTaskID.intValue() == -1) ||
+             (parentTask != null && parentTask.getUniqueID().intValue() != parentTaskID.intValue()))
+         {            
+            if (parentTask != null)
+            {
+               parentTask.removeChildTask(task);
+            }
+            
+            if (parentTaskID.intValue() != -1)
+            {
+               Task newParent = m_file.getTaskByUniqueID(parentTaskID);
+               newParent.addChildTask(task);
+               //System.out.println("Fixed: " + task);
+            }
+         }
+      }
+      
+      //
+      // Renumber the task ID values
+      //
+      int nextID = (m_file.getTaskByID(NumberUtility.INTEGER_ZERO)==null?1:0);      
+      for (Task task: m_file.getChildTasks())
+      {
+         task.setID(new Integer(nextID++));
+         nextID = renumberChildren(nextID, task);
+      }     
+   }
+
+   /**
+    * Renumbers child task IDs.
+    * 
+    * @param nextID next ID value
+    * @param parent parent task
+    * @return next ID value
+    */
+   private int renumberChildren(int nextID, Task parent)
+   {
+      for (Task task: parent.getChildTasks())
+      {
+         task.setID(new Integer(nextID++));
+         nextID = renumberChildren(nextID, task);
+      }      
+      return (nextID);
+   }
+   
    /**
     * The project files to which external tasks relate appear not to be
     * held against each task, instead there appears to be the concept
@@ -2566,10 +2685,11 @@ final class MPP12Reader implements MPPVariantReader
    private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
-   private Map<Integer, FontBase> m_fontBases = new HashMap<Integer, FontBase>();
-   private Map<Integer, SubProject> m_taskSubProjects = new HashMap<Integer, SubProject> ();
+   private Map<Integer, FontBase> m_fontBases;
+   private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
+   private Map<Integer, Integer> m_parentTasks;
    
    /**
     * Calendar data types.

@@ -239,13 +239,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
    /**
     * This method is used to associate a child task with the current
-    * task instance. It has package access, and has been designed to
+    * task instance. It has been designed to
     * allow the hierarchical outline structure of tasks in an MPX
     * file to be updated once all of the task data has been read.
     *
     * @param child child task
     */
-   void addChildTask (Task child)
+   public void addChildTask (Task child)
    {
       child.m_parent = this;
       m_children.add(child);
@@ -256,9 +256,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param child child task instance
     */
-   void removeChildTask (Task child)
+   public void removeChildTask (Task child)
    {
-      m_children.remove(child);
+      if(m_children.remove(child))
+      {
+         child.m_parent = null;
+      }
       setSummary(!m_children.isEmpty());
    }
 
@@ -266,7 +269,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * This method allows the list of child tasks to be cleared in preparation
     * for the hierarchical task structure to be built.
     */
-   void clearChildTasks ()
+   public void clearChildTasks ()
    {
       m_children.clear();
    }

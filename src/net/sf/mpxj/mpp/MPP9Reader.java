@@ -123,6 +123,8 @@ final class MPP9Reader implements MPPVariantReader
          DirectoryEntry outlineCodeDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndOutlCode");
          VarMeta outlineCodeVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
+         m_fontBases = new HashMap<Integer, FontBase>();
+         m_taskSubProjects = new HashMap<Integer, SubProject> ();
          
          m_file.setMppFileType(9);
          m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
@@ -150,7 +152,9 @@ final class MPP9Reader implements MPPVariantReader
          m_resourceMap = null;
          m_projectDir = null;
          m_viewDir = null;
-         m_outlineCodeVarData = null;         
+         m_outlineCodeVarData = null;
+         m_fontBases = null;
+         m_taskSubProjects = null;
       }
    }
 
@@ -2562,8 +2566,8 @@ final class MPP9Reader implements MPPVariantReader
    private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
-   private Map<Integer, FontBase> m_fontBases = new HashMap<Integer, FontBase>();
-   private Map<Integer, SubProject> m_taskSubProjects = new HashMap<Integer, SubProject> ();
+   private Map<Integer, FontBase> m_fontBases;
+   private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
    
