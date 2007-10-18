@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fileset-config file-format-version="1.1.0" simple-config="false">
-<fileset name="Java Files" enabled="true" check-config-name="MPXJ Checkstyle" type="project" location="checkstyle-config.xml" description=""><file-match-pattern match-pattern=".java$" include-pattern="true"/>
-</fileset>
-<filter name="FilesFromPackage" enabled="true"><filter-data value="src/net/sf/mpxj/mspdi/schema"/>
-<filter-data value="src/net/sf/mpxj/planner/schema"/>
-</filter>
+<fileset-config file-format-version="1.2.0" simple-config="false">
+    <local-check-config name="MPXJ" location="checkstyle-config.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="false"/>
+    </local-check-config>
+    <fileset name="Java Files" enabled="true" check-config-name="MPXJ" local="true">
+        <file-match-pattern match-pattern=".java$" include-pattern="true"/>
+    </fileset>
+    <filter name="FilesFromPackage" enabled="true">
+        <filter-data value="src/net/sf/mpxj/mspdi/schema"/>
+        <filter-data value="src/net/sf/mpxj/planner/schema"/>
+    </filter>
 </fileset-config>
