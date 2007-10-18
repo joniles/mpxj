@@ -11,6 +11,7 @@
 	<release version="2.0.1" date="CVS HEAD">
 		<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>	
 		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>
+		<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>
 	</release>
 	
    <release version="2.0.0" date="07/10/2007">
