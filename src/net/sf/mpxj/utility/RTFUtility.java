@@ -108,6 +108,7 @@ public final class RTFUtility
       StringBuffer result = new StringBuffer(text.length());
       boolean collectingBytes = false;
       LinkedList<String> bytes = new LinkedList<String>();
+      boolean firstWord = true;
       
       while (index < tokens.length)
       {
@@ -121,13 +122,32 @@ public final class RTFUtility
                   collectingBytes = true;               
                }
                bytes.add(token.substring(1,3));
+               
+               if (token.length() > 3)
+               {
+                  String decodedText = processBytes(bytes, currentEncoding);
+                  if (firstWord)
+                  {
+                     firstWord = false;
+                     result.append(' ');
+                  }
+                  result.append(decodedText);
+                  collectingBytes = false;
+                  bytes.clear();
+                  result.append(token.substring(3));
+               }
+               
                ++index;
                continue;
             }
-            
+                        
             if (collectingBytes)
             {            
-               String decodedText = processBytes(bytes, currentEncoding);             
+               String decodedText = processBytes(bytes, currentEncoding); 
+               if (firstWord)
+               {
+                  result.append(' ');
+               }               
                result.append(decodedText);
                collectingBytes = false;
                bytes.clear();
@@ -139,6 +159,7 @@ public final class RTFUtility
             }                      
          }
          
+         firstWord = true;         
          if(index != 0)
          {
             result.append('\\');
