@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,6 +112,7 @@ final class MPP9Reader implements MPPVariantReader
          //
          if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
          {
+            m_passwordProtected = true;
             throw new MPXJException (MPXJException.PASSWORD_PROTECTED);
          }
    
@@ -166,7 +168,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processPropertyData ()
       throws IOException, MPXJException
    {
-      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)m_projectDir.getEntry("Props"))));
+      Props9 props = new Props9 (getEncryptableInputStream(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
       
       //
@@ -258,6 +260,7 @@ final class MPP9Reader implements MPPVariantReader
                //
                case (byte)0x99:               
                case 0x09:
+               case 0x03:
                case 0x0D:
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
@@ -601,7 +604,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processViewPropertyData ()
       throws IOException
    {
-      Props9 props = new Props9 (new DocumentInputStream (((DocumentEntry)m_viewDir.getEntry("Props"))));
+      Props9 props = new Props9 (getEncryptableInputStream(m_viewDir, "Props"));
       //System.out.println(props);
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
@@ -1025,7 +1028,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta calVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
       Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
       FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData (calFixedMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedData"))));
+      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
       int items = calFixedData.getItemCount();
@@ -1309,7 +1312,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))), 768);
+      FixedData taskFixedData = new FixedData (taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768);
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
@@ -1838,7 +1841,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       DirectoryEntry consDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCons");
       FixedMeta consFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedMeta"))), 10);
-      FixedData consFixedData = new FixedData (consFixedMeta, 20, new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedData"))));
+      FixedData consFixedData = new FixedData (consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
       
       int count = consFixedMeta.getItemCount();
       int index;
@@ -1900,7 +1903,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta rscVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
+      FixedData rscFixedData = new FixedData (rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
@@ -2131,7 +2134,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta assnVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData (142, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedData"))));
+      FixedData assnFixedData = new FixedData (142, getEncryptableInputStream(assnDir, "FixedData"));
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
 
@@ -2328,7 +2331,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta viewVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
       FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData (122, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      FixedData fixedData = new FixedData (122, getEncryptableInputStream(dir, "FixedData"));
       
       int items = fixedMeta.getItemCount();
       View view;
@@ -2361,7 +2364,7 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CTable");
-      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      FixedData fixedData = new FixedData (110, getEncryptableInputStream(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
@@ -2395,9 +2398,7 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException
    {           
       DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CFilter");
-      //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
-      //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
-      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))), true);
+      FixedData fixedData = new FixedData (110, getEncryptableInputStream(dir, "FixedData"), true);
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
@@ -2419,9 +2420,7 @@ final class MPP9Reader implements MPPVariantReader
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CGrouping");
-      //FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 9);
-      //FixedData fixedData = new FixedData (fixedMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
-      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      FixedData fixedData = new FixedData (110, getEncryptableInputStream(dir, "FixedData"));
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
    
@@ -2531,6 +2530,31 @@ final class MPP9Reader implements MPPVariantReader
       }
    }
 
+   /**
+    * Method used to instantiate the appropriate input stream reader,
+    * a standard one, or one which can deal with "encrypted" data.
+    * 
+    * @param directory directory entry
+    * @param name file name
+    * @return new input stream
+    * @throws IOException
+    */
+   private InputStream getEncryptableInputStream (DirectoryEntry directory, String name)
+      throws IOException
+   {
+      DocumentEntry entry = (DocumentEntry)directory.getEntry(name);
+      InputStream stream;
+      if (m_passwordProtected)
+      {
+         stream = new EncryptedDocumentInputStream(entry);
+      }
+      else
+      {
+         stream = new DocumentInputStream (entry);
+      }
+      
+      return (stream);
+   }
    
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
@@ -2570,6 +2594,7 @@ final class MPP9Reader implements MPPVariantReader
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
+   private boolean m_passwordProtected;
    
    /**
     * Calendar data types.
