@@ -366,6 +366,43 @@ public class BasicTest extends MPXJTestCase
       }
    }
    
+   
+   /**
+    * Test Chinese localisation.
+    *
+    * @throws Exception
+    */
+   public void testRewrite10 ()
+      throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         MPXReader reader = new MPXReader();
+         MPXWriter writer = new MPXWriter ();
+         Locale chinese = new Locale ("zh");
+
+         File in = new File (m_basedir + "/sample.mpx");
+         ProjectFile mpx = reader.read(in);
+         out = File.createTempFile ("junit", ".mpx");
+         writer.setLocale(chinese);
+         writer.write (mpx, out);
+
+         reader.setLocale(chinese);
+         mpx = reader.read(out);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+   
    /**
     * Read a file created by a German version of MS Project 98.
     *

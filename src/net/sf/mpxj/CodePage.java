@@ -76,7 +76,14 @@ public final class CodePage
                }
                else
                {
-                  result = ANSI;
+                  if (value.equalsIgnoreCase(ZH.toString()) == true)
+                  {
+                     result = ZH;
+                  }
+                  else
+                  {
+                     result = ANSI;
+                  }
                }
             }
          }
@@ -100,7 +107,8 @@ public final class CodePage
     *
     * @return codepage
     */
-   @Override public String toString ()
+   @Override
+   public String toString ()
    {
       return (m_value);
    }
@@ -112,4 +120,5 @@ public final class CodePage
    public static final CodePage MAC = new CodePage("MAC", "MacRoman");
    public static final CodePage LATIN = new CodePage("850", "Cp850");
    public static final CodePage US = new CodePage("437", "Cp437");
+   public static final CodePage ZH = new CodePage("ZH", "GB2312");
 }
