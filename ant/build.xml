@@ -20,6 +20,7 @@
    <property name="lib.dir" value="${basedir}/lib" />
    <property name="jaxb.classpath" value="${lib.dir}/jaxb-api.jar:${lib.dir}/jaxb-impl.jar:${lib.dir}/jsr173_1.0_api.jar:${lib.dir}/activation.jar" />
    <property name="poi.classpath" value="${lib.dir}/poi-3.0.1-FINAL-20070705.jar" />
+   <property name="junit.classpath" value="${basedir}/junit/junit.jar" />
    <property name="doc.dir" value="${basedir}/doc/api" />
    <property name="classes.dir" value="${basedir}/classes" />
    <property name="bak.dir" value="${basedir}/bak" />
@@ -49,11 +50,12 @@
 </target>
 
 <target name="document" depends="init-props" description="Generate documentation">
+   <delete dir="${doc.dir}"/>
    <mkdir dir="${doc.dir}"/>
    <javadoc 
 	sourcepath="${basedir}/src"
-	classpath="${classpath}:${poi.classpath}:${jaxb.classpath}"
-      packagenames="net.sf.mpxj.*,net.sf.mpxj.mpp.*,net.sf.mpxj.mspdi.*,net.sf.mpxj.utility.*"
+	classpath="${classpath}:${poi.classpath}:${jaxb.classpath}:${junit.classpath}"
+      packagenames="net.sf.mpxj.*"
       destdir="${doc.dir}"
       verbose="no"
       access="public">
