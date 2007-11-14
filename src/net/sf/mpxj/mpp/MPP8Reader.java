@@ -128,7 +128,8 @@ final class MPP8Reader implements MPPVariantReader
       throws MPXJException, IOException
    {
       Props8 props = new Props8 (new DocumentInputStream (((DocumentEntry)m_projectDir.getEntry("Props"))));
-
+      //System.out.println(props);
+      
       //
       // Process the project header
       //
