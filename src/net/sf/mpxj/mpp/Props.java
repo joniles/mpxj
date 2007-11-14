@@ -225,6 +225,8 @@ class Props extends MPPComponent
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
    public static final Integer PASSWORD_FLAG = new Integer (893386752);
+   public static final Integer PROTECTION_PASSWORD_HASH = new Integer (893386756);
+   public static final Integer WRITE_RESERVATION_PASSWORD_HASH = new Integer (893386757);
    
    public static final Integer STATUS_DATE = new Integer(37748805);
    
