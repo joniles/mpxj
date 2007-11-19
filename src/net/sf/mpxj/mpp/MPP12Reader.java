@@ -228,14 +228,14 @@ final class MPP12Reader implements MPPVariantReader
 
          while (offset < itemCountOffset)
          {
-            itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
+            itemHeaderOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
             offset += 4;
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
             //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
             //System.out.println ("Offset: " + offset);
-
+            //System.out.println ("Item Header Offset: " + itemHeaderOffset);
             byte subProjectType = itemHeader[16]; 
             //System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
@@ -255,18 +255,18 @@ final class MPP12Reader implements MPPVariantReader
                case (byte)0x99:
                case 0x09:
                case 0x03:
-               case 0x0D:
+               case 0x0D:               
                {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   // sometimes offset of a task ID?
                   offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
@@ -278,15 +278,15 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, 8 bytes, path, file name
                //                 
-               case (byte)0x91:              
+               case (byte)0x91:               
                {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   // Unknown offset
@@ -297,15 +297,15 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               case 0x11:
+               case 0x11:               
                {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   // Unknown offset
@@ -320,18 +320,18 @@ final class MPP12Reader implements MPPVariantReader
                // task unique ID, path, unknown, file name
                //
                case (byte)0x81:
-               case 0x41:                  
+               case 0x41:               
                {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   // unknown offset to 2 bytes of data?
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
@@ -343,15 +343,15 @@ final class MPP12Reader implements MPPVariantReader
                // task unique ID, path, file name
                //
                case 0x01:
-               case 0x08:
+               case 0x08:               
                {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
@@ -362,14 +362,14 @@ final class MPP12Reader implements MPPVariantReader
                //
                // task unique ID, path, file name
                //
-               case (byte)0xC0:
+               case (byte)0xC0:               
                {
                   uniqueIDOffset = itemHeaderOffset;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   // unknown offset
@@ -383,15 +383,15 @@ final class MPP12Reader implements MPPVariantReader
                //
                // resource unique ID, path, file name
                //
-               case 0x05:
+               case 0x05:               
                {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset);
@@ -403,12 +403,12 @@ final class MPP12Reader implements MPPVariantReader
                // path, file name
                //
                case 0x02:
-               case 0x04:
+               case 0x04:               
                {
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset);
@@ -419,28 +419,28 @@ final class MPP12Reader implements MPPVariantReader
                //
                // Appears when a subproject is collapsed
                //
-               case (byte)0x80:
+               case (byte)0x80:               
                {
                   offset += 12;
                   break;
                }
 
                // deleted entry?
-               case 0x10:
+               case 0x10:               
                {
                   offset += 8;
                   break;
                }
-
+               
                // new resource pool entry
                case (byte)0x44:                                                                        
                {
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   offset += 4;
                   
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
                   
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset);
@@ -588,7 +588,7 @@ final class MPP12Reader implements MPPVariantReader
       }
 
       //System.out.println(sp.toString());
-
+      //System.out.println(sp.getTaskUniqueID()+","+sp.getFileName());
       return (sp);
    }
 
