@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -198,16 +199,47 @@ class Props extends MPPComponent
       return (result);
    }
 
+   /**
+    * Retrieves a date value from the property data.
+    *
+    * @param type Type identifier
+    * @return string value
+    */   
+   public Date getDate (Integer type)
+   {
+      Date result = null;
 
+      byte[] item = m_map.get (type);
+      if (item != null)
+      {
+         result = MPPUtility.getDate(item, 0);
+      }
+
+      return (result);
+   }
+
+   /**
+    * Retrieve the set of keys represented by this instance.
+    * 
+    * @return key set
+    */
+   public Set<Integer> keySet()
+   {
+      return (m_map.keySet());
+   }
+   
    /**
     * Data types.
     */
+   public static final Integer PROJECT_START_DATE = new Integer(37748738);
+   public static final Integer PROJECT_FINISH_DATE = new Integer(37748739);
    public static final Integer SCHEDULE_FROM = new Integer (37748740);
    public static final Integer DEFAULT_CALENDAR_NAME = new Integer(37748750);
    public static final Integer CURRENCY_SYMBOL = new Integer (37748752);
    public static final Integer CURRENCY_PLACEMENT = new Integer (37748753);
    public static final Integer CURRENCY_DIGITS = new Integer (37748754);
-
+  
+   
    public static final Integer DURATION_UNITS = new Integer (37748757);
    public static final Integer WORK_UNITS = new Integer (37748758);
    public static final Integer TASK_UPDATES_RESOURCE = new Integer (37748761);

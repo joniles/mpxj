@@ -33,7 +33,7 @@ import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
- * This class reads project header data from MPP9 and MPP12 files.
+ * This class reads project header data from MPP8, MPP9, and MPP12 files.
  */
 public final class ProjectHeaderReader
 {
@@ -48,6 +48,8 @@ public final class ProjectHeaderReader
       throws MPXJException
    {
       ProjectHeader ph = file.getProjectHeader();
+      ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
+      ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
       ph.setScheduleFrom(ScheduleFrom.getInstance(1-props.getShort(Props.SCHEDULE_FROM)));
       ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
