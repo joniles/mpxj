@@ -6202,6 +6202,154 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       m_externalTaskID = externalTaskID;
    }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public Number getEnterpriseCost (int index)
+   {
+      return ((Number)getCachedValue(selectTaskField(ENTERPRISE_COST_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseCost (int index, Number value)
+   {
+      set(selectTaskField(ENTERPRISE_COST_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public Date getEnterpriseDate (int index)
+   {
+      return ((Date)getCachedValue(selectTaskField(ENTERPRISE_DATE_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseDate (int index, Date value)
+   {
+      set(selectTaskField(ENTERPRISE_DATE_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public Duration getEnterpriseDuration (int index)
+   {
+      return ((Duration)getCachedValue(selectTaskField(ENTERPRISE_DURATION_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */   
+   public void setEnterpriseDuration (int index, Duration value)
+   {
+      set(selectTaskField(ENTERPRISE_DURATION_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public boolean getEnterpriseFlag (int index)
+   {
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(selectTaskField(ENTERPRISE_FLAG_FIELDS, index))));
+   }
+
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseFlag (int index, boolean value)
+   {
+      set(selectTaskField(ENTERPRISE_FLAG_FIELDS, index), value);
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public Number getEnterpriseNumber (int index)
+   {
+      return ((Number)getCachedValue(selectTaskField(ENTERPRISE_NUMBER_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */   
+   public void setEnterpriseNumber (int index, Number value)
+   {
+      set(selectTaskField(ENTERPRISE_NUMBER_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public String getEnterpriseText (int index)
+   {
+      return ((String)getCachedValue(selectTaskField(ENTERPRISE_TEXT_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */   
+   public void setEnterpriseText (int index, String value)
+   {
+      set(selectTaskField(ENTERPRISE_TEXT_FIELDS, index), value);   
+   }
+
+   /**
+    * Maps a field index to a TaskField instance.
+    * 
+    * @param fields array of fields used as the basis for the mapping.
+    * @param index required field index
+    * @return TaskField instance
+    */
+   private TaskField selectTaskField(TaskField[] fields, int index)
+   {
+      if (index < 1 || index > fields.length)
+      {
+         throw new IllegalArgumentException();
+      }
+      return (fields[index-1]);
+   }
    
    /**
     * {@inheritDoc}
@@ -6472,7 +6620,181 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    private RecurringTask m_recurringTask;
 
- 
+   private static final TaskField[] ENTERPRISE_COST_FIELDS =
+   {
+      TaskField.ENTERPRISE_COST1,
+      TaskField.ENTERPRISE_COST2,
+      TaskField.ENTERPRISE_COST3,
+      TaskField.ENTERPRISE_COST4,
+      TaskField.ENTERPRISE_COST5,
+      TaskField.ENTERPRISE_COST6,
+      TaskField.ENTERPRISE_COST7,
+      TaskField.ENTERPRISE_COST8,
+      TaskField.ENTERPRISE_COST9,
+      TaskField.ENTERPRISE_COST10
+   };
+   
+   
+   private static final TaskField[] ENTERPRISE_DATE_FIELDS =
+   {
+      TaskField.ENTERPRISE_DATE1,
+      TaskField.ENTERPRISE_DATE2,
+      TaskField.ENTERPRISE_DATE3,
+      TaskField.ENTERPRISE_DATE4,
+      TaskField.ENTERPRISE_DATE5,
+      TaskField.ENTERPRISE_DATE6,
+      TaskField.ENTERPRISE_DATE7,
+      TaskField.ENTERPRISE_DATE8,
+      TaskField.ENTERPRISE_DATE9,
+      TaskField.ENTERPRISE_DATE10,
+      TaskField.ENTERPRISE_DATE11,
+      TaskField.ENTERPRISE_DATE12,
+      TaskField.ENTERPRISE_DATE13,
+      TaskField.ENTERPRISE_DATE14,
+      TaskField.ENTERPRISE_DATE15,
+      TaskField.ENTERPRISE_DATE16,
+      TaskField.ENTERPRISE_DATE17,
+      TaskField.ENTERPRISE_DATE18,
+      TaskField.ENTERPRISE_DATE19,
+      TaskField.ENTERPRISE_DATE20,
+      TaskField.ENTERPRISE_DATE21,
+      TaskField.ENTERPRISE_DATE22,
+      TaskField.ENTERPRISE_DATE23,
+      TaskField.ENTERPRISE_DATE24,
+      TaskField.ENTERPRISE_DATE25,
+      TaskField.ENTERPRISE_DATE26,
+      TaskField.ENTERPRISE_DATE27,
+      TaskField.ENTERPRISE_DATE28,
+      TaskField.ENTERPRISE_DATE29,
+      TaskField.ENTERPRISE_DATE30
+   };
+
+   private static final TaskField[] ENTERPRISE_DURATION_FIELDS =
+   {
+      TaskField.ENTERPRISE_DURATION1,
+      TaskField.ENTERPRISE_DURATION2,
+      TaskField.ENTERPRISE_DURATION3,
+      TaskField.ENTERPRISE_DURATION4,
+      TaskField.ENTERPRISE_DURATION5,
+      TaskField.ENTERPRISE_DURATION6,
+      TaskField.ENTERPRISE_DURATION7,
+      TaskField.ENTERPRISE_DURATION8,
+      TaskField.ENTERPRISE_DURATION9,
+      TaskField.ENTERPRISE_DURATION10
+   };
+
+   private static final TaskField[] ENTERPRISE_FLAG_FIELDS =
+   {
+      TaskField.ENTERPRISE_FLAG1,
+      TaskField.ENTERPRISE_FLAG2,
+      TaskField.ENTERPRISE_FLAG3,
+      TaskField.ENTERPRISE_FLAG4,
+      TaskField.ENTERPRISE_FLAG5,
+      TaskField.ENTERPRISE_FLAG6,
+      TaskField.ENTERPRISE_FLAG7,
+      TaskField.ENTERPRISE_FLAG8,
+      TaskField.ENTERPRISE_FLAG9,
+      TaskField.ENTERPRISE_FLAG10,
+      TaskField.ENTERPRISE_FLAG11,
+      TaskField.ENTERPRISE_FLAG12,
+      TaskField.ENTERPRISE_FLAG13,
+      TaskField.ENTERPRISE_FLAG14,
+      TaskField.ENTERPRISE_FLAG15,
+      TaskField.ENTERPRISE_FLAG16,
+      TaskField.ENTERPRISE_FLAG17,
+      TaskField.ENTERPRISE_FLAG18,
+      TaskField.ENTERPRISE_FLAG19,
+      TaskField.ENTERPRISE_FLAG20
+   };
+   
+   private static final TaskField[] ENTERPRISE_NUMBER_FIELDS =
+   {
+      TaskField.ENTERPRISE_NUMBER1,
+      TaskField.ENTERPRISE_NUMBER2,
+      TaskField.ENTERPRISE_NUMBER3,
+      TaskField.ENTERPRISE_NUMBER4,
+      TaskField.ENTERPRISE_NUMBER5,
+      TaskField.ENTERPRISE_NUMBER6,
+      TaskField.ENTERPRISE_NUMBER7,
+      TaskField.ENTERPRISE_NUMBER8,
+      TaskField.ENTERPRISE_NUMBER9,
+      TaskField.ENTERPRISE_NUMBER10,
+      TaskField.ENTERPRISE_NUMBER11,
+      TaskField.ENTERPRISE_NUMBER12,
+      TaskField.ENTERPRISE_NUMBER13,
+      TaskField.ENTERPRISE_NUMBER14,
+      TaskField.ENTERPRISE_NUMBER15,
+      TaskField.ENTERPRISE_NUMBER16,
+      TaskField.ENTERPRISE_NUMBER17,
+      TaskField.ENTERPRISE_NUMBER18,
+      TaskField.ENTERPRISE_NUMBER19,
+      TaskField.ENTERPRISE_NUMBER20,
+      TaskField.ENTERPRISE_NUMBER21,
+      TaskField.ENTERPRISE_NUMBER22,
+      TaskField.ENTERPRISE_NUMBER23,
+      TaskField.ENTERPRISE_NUMBER24,
+      TaskField.ENTERPRISE_NUMBER25,
+      TaskField.ENTERPRISE_NUMBER26,
+      TaskField.ENTERPRISE_NUMBER27,
+      TaskField.ENTERPRISE_NUMBER28,
+      TaskField.ENTERPRISE_NUMBER29,
+      TaskField.ENTERPRISE_NUMBER30,
+      TaskField.ENTERPRISE_NUMBER31,
+      TaskField.ENTERPRISE_NUMBER32,
+      TaskField.ENTERPRISE_NUMBER33,
+      TaskField.ENTERPRISE_NUMBER34,
+      TaskField.ENTERPRISE_NUMBER35,
+      TaskField.ENTERPRISE_NUMBER36,
+      TaskField.ENTERPRISE_NUMBER37,
+      TaskField.ENTERPRISE_NUMBER38,
+      TaskField.ENTERPRISE_NUMBER39,
+      TaskField.ENTERPRISE_NUMBER40      
+   };
+   
+   private static final TaskField[] ENTERPRISE_TEXT_FIELDS =
+   {
+      TaskField.ENTERPRISE_TEXT1,
+      TaskField.ENTERPRISE_TEXT2,
+      TaskField.ENTERPRISE_TEXT3,
+      TaskField.ENTERPRISE_TEXT4,
+      TaskField.ENTERPRISE_TEXT5,
+      TaskField.ENTERPRISE_TEXT6,
+      TaskField.ENTERPRISE_TEXT7,
+      TaskField.ENTERPRISE_TEXT8,
+      TaskField.ENTERPRISE_TEXT9,
+      TaskField.ENTERPRISE_TEXT10,
+      TaskField.ENTERPRISE_TEXT11,
+      TaskField.ENTERPRISE_TEXT12,
+      TaskField.ENTERPRISE_TEXT13,
+      TaskField.ENTERPRISE_TEXT14,
+      TaskField.ENTERPRISE_TEXT15,
+      TaskField.ENTERPRISE_TEXT16,
+      TaskField.ENTERPRISE_TEXT17,
+      TaskField.ENTERPRISE_TEXT18,
+      TaskField.ENTERPRISE_TEXT19,
+      TaskField.ENTERPRISE_TEXT20,
+      TaskField.ENTERPRISE_TEXT21,
+      TaskField.ENTERPRISE_TEXT22,
+      TaskField.ENTERPRISE_TEXT23,
+      TaskField.ENTERPRISE_TEXT24,
+      TaskField.ENTERPRISE_TEXT25,
+      TaskField.ENTERPRISE_TEXT26,
+      TaskField.ENTERPRISE_TEXT27,
+      TaskField.ENTERPRISE_TEXT28,
+      TaskField.ENTERPRISE_TEXT29,
+      TaskField.ENTERPRISE_TEXT30,
+      TaskField.ENTERPRISE_TEXT31,
+      TaskField.ENTERPRISE_TEXT32,
+      TaskField.ENTERPRISE_TEXT33,
+      TaskField.ENTERPRISE_TEXT34,
+      TaskField.ENTERPRISE_TEXT35,
+      TaskField.ENTERPRISE_TEXT36,
+      TaskField.ENTERPRISE_TEXT37,
+      TaskField.ENTERPRISE_TEXT38,
+      TaskField.ENTERPRISE_TEXT39,
+      TaskField.ENTERPRISE_TEXT40      
+   };
+
    private boolean m_null;
    private String m_wbsLevel;   
    private TimeUnit m_durationFormat;   

@@ -813,7 +813,10 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
          TaskField mpxFieldID = MPPTaskField.getInstance(xmlFieldID);
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
+         if (mpxFieldID != null)
+         {
+            DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
+         }
       }
    }
 

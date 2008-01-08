@@ -34,7 +34,7 @@ import java.util.List;
  * This class represents the definition of a table of data from an MPP file.
  * Much of the important information held in MS Project is represented
  * in a tabular format. This class represents the attributes associated with
- * these tables. For example, the atributes of the table of data that appears
+ * these tables. For example, the attributes of the table of data that appears
  * as the left hand part of the standard Gantt Chart view in MS Project will
  * be defined here.
  */

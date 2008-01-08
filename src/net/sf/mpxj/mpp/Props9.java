@@ -26,8 +26,6 @@ package net.sf.mpxj.mpp;
 //import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * This class represents the Props files found in Microsoft Project MPP9 files.
@@ -84,31 +82,5 @@ final class Props9 extends Props
 
       //pw.flush();
       //pw.close();
-   }
-
-   /**
-    * This method dumps the contents of this properties block as a String.
-    * Note that this facility is provided as a debugging aid.
-    *
-    * @return formatted contents of this block
-    */
-   @Override public String toString ()
-   {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
-
-      pw.println ("BEGIN Props");
-
-      for (Integer key : m_map.keySet())
-      {
-         pw.println ("   Key: " + key + " Value: ");
-         pw.println (MPPUtility.hexdump(m_map.get(key), true, 16, "      "));
-      }
-
-      pw.println ("END Props");
-
-      pw.println ();
-      pw.close();
-      return (sw.toString());
    }
 }

@@ -43,7 +43,7 @@ class ProjectEntity
    }
 
    /**
-    * Accessor method allowing retreival of ProjectFile reference.
+    * Accessor method allowing retrieval of ProjectFile reference.
     *
     * @return reference to this the parent ProjectFile instance
     */

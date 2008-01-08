@@ -38,7 +38,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -1731,7 +1730,15 @@ final class MPP9Reader implements MPPVariantReader
          {
             task.setSplits(new LinkedList<Duration>());
          }
-                  
+         
+         //
+         // Process any enterprise columns
+         //
+         processTaskEnterpriseColumns(task, taskVarData);
+         
+         //
+         // Fire the task read event
+         //
          m_file.fireTaskReadEvent(task);
 
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
@@ -1753,6 +1760,205 @@ final class MPP9Reader implements MPPVariantReader
       }
    }
 
+   /**
+    * Extracts task enterprise column values. 
+    * 
+    * @param task task instance
+    * @param taskVarData task var data
+    */
+   private void processTaskEnterpriseColumns (Task task, Var2Data taskVarData)
+   {
+      byte[] data = taskVarData.getByteArray(task.getUniqueID(), TASK_ENTERPRISE_COLUMNS);
+      if (data != null)
+      {
+         PropsBlock props = new PropsBlock (data);
+         //System.out.println(props);
+         
+         for (Integer key : props.keySet())
+         {
+            int keyValue = key.intValue() - MPPTaskField.TASK_FIELD_BASE;
+            TaskField field = MPPTaskField.getInstance(keyValue);        
+            
+            if (field != null)
+            {
+               Object value = null;
+               
+               switch (field.getDataType())
+               {
+                  case CURRENCY:
+                  {
+                     value = new Double (props.getDouble(key) / 100);
+                     break;
+                  }
+               
+                  case DATE:
+                  {
+                     value = props.getTimestamp(key);
+                     break;
+                  }
+                  
+                  case DURATION:
+                  {
+                     byte[] durationData = props.getByteArray(key);
+                     double durationValueInHours = ((double)MPPUtility.getInt(durationData, 0)) / 600; 
+                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+                     break;
+                  }
+                  
+                  case BOOLEAN:               
+                  {
+                     field = null;                  
+                     int bits = props.getInt(key);                  
+                     task.set(TaskField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00002) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00004) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00008) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00010) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00020) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00040) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00080) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00100) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG9, new Boolean((bits & 0x00200) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG10, new Boolean((bits & 0x00400) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG11, new Boolean((bits & 0x00800) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG12, new Boolean((bits & 0x01000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG13, new Boolean((bits & 0x02000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG14, new Boolean((bits & 0x04000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG15, new Boolean((bits & 0x08000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG16, new Boolean((bits & 0x10000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG17, new Boolean((bits & 0x20000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG18, new Boolean((bits & 0x40000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG19, new Boolean((bits & 0x80000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG20, new Boolean((bits & 0x100000) != 0));
+                     break;
+                  }
+                  
+                  case NUMERIC:
+                  {
+                     value = new Double(props.getDouble(key));
+                     break;
+                  }
+                  
+                  case STRING:
+                  {
+                     value = props.getUnicodeString(key);
+                     break;
+                  }
+                  
+                  default:
+                  {
+                     break;
+                  }
+               }
+               
+               task.set(field, value);
+            }
+         }
+      }
+   }
+
+   /**
+    * Extracts resource enterprise column data.
+    * 
+    * @param resource resource instance
+    * @param resourceVarData resource var data
+    */
+   private void processResourceEnterpriseColumns (Resource resource, Var2Data resourceVarData)
+   {
+      byte[] data = resourceVarData.getByteArray(resource.getUniqueID(), RESOURCE_ENTERPRISE_COLUMNS);
+      if (data != null)
+      {
+         PropsBlock props = new PropsBlock (data);
+         //System.out.println(props);
+         
+         for (Integer key : props.keySet())
+         {
+            int keyValue = key.intValue() - MPPResourceField.RESOURCE_FIELD_BASE;
+            //System.out.println("Key=" + keyValue);
+            
+            ResourceField field = MPPResourceField.getInstance(keyValue);        
+            
+            if (field != null)
+            {
+               Object value = null;
+               
+               switch (field.getDataType())
+               {
+                  case CURRENCY:
+                  {
+                     value = new Double (props.getDouble(key) / 100);
+                     break;
+                  }
+               
+                  case DATE:
+                  {
+                     value = props.getTimestamp(key);
+                     break;
+                  }
+                  
+                  case DURATION:
+                  {
+                     byte[] durationData = props.getByteArray(key);
+                     double durationValueInHours = ((double)MPPUtility.getInt(durationData, 0)) / 600; 
+                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+                     break;
+                  }
+                  
+                  case BOOLEAN:               
+                  {
+                     field = null;                  
+                     int bits = props.getInt(key);                  
+                     resource.set(ResourceField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00002) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00004) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00008) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00010) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00020) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00040) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00080) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00100) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG9, new Boolean((bits & 0x00200) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG10, new Boolean((bits & 0x00400) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG11, new Boolean((bits & 0x00800) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG12, new Boolean((bits & 0x01000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG13, new Boolean((bits & 0x02000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG14, new Boolean((bits & 0x04000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG15, new Boolean((bits & 0x08000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG16, new Boolean((bits & 0x10000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG17, new Boolean((bits & 0x20000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG18, new Boolean((bits & 0x40000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG19, new Boolean((bits & 0x80000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG20, new Boolean((bits & 0x100000) != 0));
+                     break;
+                  }
+                  
+                  case NUMERIC:
+                  {
+                     value = new Double(props.getDouble(key));
+                     break;
+                  }
+                  
+                  case STRING:
+                  {
+                     value = props.getUnicodeString(key);
+                     break;
+                  }
+                  
+                  default:
+                  {
+                     break;
+                  }
+               }
+               
+               resource.set(field, value);
+            }
+         }
+      }      
+   }
+
+   
    /**
     * The project files to which external tasks relate appear not to be
     * held against each task, instead there appears to be the concept
@@ -1904,7 +2110,9 @@ final class MPP9Reader implements MPPVariantReader
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData (rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
-
+      //System.out.println(rscVarMeta);
+      //System.out.println(rscVarData);
+      
       TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
@@ -2117,6 +2325,11 @@ final class MPP9Reader implements MPPVariantReader
          //
          resource.setResourceCalendar(m_resourceMap.get(id));
 
+         //
+         // Process any enterprise columns
+         //
+         processResourceEnterpriseColumns(resource, rscVarData);
+         
          m_file.fireResourceReadEvent(resource);
       }
    }
@@ -2349,6 +2562,7 @@ final class MPP9Reader implements MPPVariantReader
             {
                view = factory.createView(m_file, fm, fd, viewVarData, m_fontBases);
                m_file.addView(view);
+               //System.out.print(view);
             }
             lastOffset = offset;
          }
@@ -2368,23 +2582,13 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
+      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE);
       int items = fixedData.getItemCount();
-      byte[] data;
-      Table table;
-
       for (int loop=0; loop < items; loop++)
       {
-         data = fixedData.getByteArrayValue(loop);
-
-         table = new Table ();
-
-         table.setID(MPPUtility.getInt(data, 0));
-         table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
-         table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
+         byte[] data = fixedData.getByteArrayValue(loop);
+         Table table = factory.createTable(m_file, data, varMeta, varData);         
          m_file.addTable(table);
-
-         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
-         
          //System.out.println(table);
       }
    }
@@ -2450,84 +2654,6 @@ final class MPP9Reader implements MPPVariantReader
       
       ViewStateReader reader = new ViewStateReader9();
       reader.process(m_file, varData);
-   }
-
-   /**
-    * This method processes the column data associated with the
-    * current table.
-    *
-    * @param table current table
-    * @param data raw column data
-    */
-   private void processColumnData (Table table, byte[] data)
-   {
-      if (data != null)
-      {
-         int columnCount = MPPUtility.getShort(data, 4)+1;
-         int index = 8;
-         int columnTitleOffset;
-         Column  column;
-         int alignment;
-
-         for (int loop=0; loop < columnCount; loop++)
-         {
-            column = new Column (m_file);
-
-            if (table.getResourceFlag() == false)
-            {
-               column.setFieldType (MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
-            }
-            else
-            {
-               column.setFieldType (MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
-            }
-
-            column.setWidth (MPPUtility.getByte(data, index+4));
-
-            columnTitleOffset = MPPUtility.getShort(data, index+6);
-            if (columnTitleOffset != 0)
-            {
-               column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
-            }
-
-            alignment = MPPUtility.getByte(data, index+8);
-            if (alignment == 32)
-            {
-               column.setAlignTitle(Column.ALIGN_LEFT);
-            }
-            else
-            {
-               if (alignment == 33)
-               {
-                  column.setAlignTitle(Column.ALIGN_CENTER);
-               }
-               else
-               {
-                  column.setAlignTitle(Column.ALIGN_RIGHT);
-               }
-            }
-
-            alignment = MPPUtility.getByte(data, index+10);
-            if (alignment == 32)
-            {
-               column.setAlignData(Column.ALIGN_LEFT);
-            }
-            else
-            {
-               if (alignment == 33)
-               {
-                  column.setAlignData(Column.ALIGN_CENTER);
-               }
-               else
-               {
-                  column.setAlignData(Column.ALIGN_RIGHT);
-               }
-            }
-
-            table.addColumn(column);
-            index += 12;
-         }
-      }
    }
 
    /**
@@ -2753,6 +2879,9 @@ final class MPP9Reader implements MPPVariantReader
 
    private static final Integer TASK_NOTES = new Integer (144);
 
+   private static final Integer TASK_ENTERPRISE_COLUMNS = new Integer(163);
+   
+
    /**
     * Resource data types.
     */
@@ -2895,7 +3024,10 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST9 = new Integer (133);
    private static final Integer RESOURCE_COST10 = new Integer (134);
 
-   private static final Integer TABLE_COLUMN_DATA = new Integer (1);
+   private static final Integer RESOURCE_ENTERPRISE_COLUMNS = new Integer(143);
+   
+   private static final Integer TABLE_COLUMN_DATA_STANDARD = new Integer (1);
+   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (2);   
    private static final Integer OUTLINECODE_DATA = new Integer (1);
    private static final Integer INCOMPLETE_WORK = new Integer(7);
    private static final Integer COMPLETE_WORK = new Integer(9);

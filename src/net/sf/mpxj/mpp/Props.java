@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeMap;
@@ -227,6 +229,34 @@ class Props extends MPPComponent
    {
       return (m_map.keySet());
    }
+   
+
+   /**
+    * This method dumps the contents of this properties block as a String.
+    * Note that this facility is provided as a debugging aid.
+    *
+    * @return formatted contents of this block
+    */
+   @Override public String toString ()
+   {
+      StringWriter sw = new StringWriter ();
+      PrintWriter pw = new PrintWriter (sw);
+
+      pw.println ("BEGIN Props");
+
+      for (Integer key : m_map.keySet())
+      {
+         pw.println ("   Key: " + key + " Value: ");
+         pw.println (MPPUtility.hexdump(m_map.get(key), true, 16, "      "));
+      }
+
+      pw.println ("END Props");
+
+      pw.println ();
+      pw.close();
+      return (sw.toString());
+   }
+   
    
    /**
     * Data types.

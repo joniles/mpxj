@@ -45,8 +45,8 @@ final class FixedMeta extends MPPComponent
     * We already know the block size, so we ignore the item count in the
     * block and work it out for ourselves.
     *
-    * @param is input stream from whic the meta data is read
-    * @param itemSize sie of each item in the block
+    * @param is input stream from which the meta data is read
+    * @param itemSize size of each item in the block
     * @throws IOException on file read failure
     */
    FixedMeta (InputStream is, int itemSize)

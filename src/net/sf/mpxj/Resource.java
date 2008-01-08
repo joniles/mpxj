@@ -4387,6 +4387,154 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public Number getEnterpriseCost (int index)
+   {
+      return ((Number)getCachedValue(selectResourceField(ENTERPRISE_COST_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseCost (int index, Number value)
+   {
+      set(selectResourceField(ENTERPRISE_COST_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public Date getEnterpriseDate (int index)
+   {
+      return ((Date)getCachedValue(selectResourceField(ENTERPRISE_DATE_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseDate (int index, Date value)
+   {
+      set(selectResourceField(ENTERPRISE_DATE_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public Duration getEnterpriseDuration (int index)
+   {
+      return ((Duration)getCachedValue(selectResourceField(ENTERPRISE_DURATION_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */   
+   public void setEnterpriseDuration (int index, Duration value)
+   {
+      set(selectResourceField(ENTERPRISE_DURATION_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public boolean getEnterpriseFlag (int index)
+   {
+      return (BooleanUtility.getBoolean((Boolean)getCachedValue(selectResourceField(ENTERPRISE_FLAG_FIELDS, index))));
+   }
+
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */
+   public void setEnterpriseFlag (int index, boolean value)
+   {
+      set(selectResourceField(ENTERPRISE_FLAG_FIELDS, index), value);
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */   
+   public Number getEnterpriseNumber (int index)
+   {
+      return ((Number)getCachedValue(selectResourceField(ENTERPRISE_NUMBER_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */   
+   public void setEnterpriseNumber (int index, Number value)
+   {
+      set(selectResourceField(ENTERPRISE_NUMBER_FIELDS, index), value);   
+   }
+
+   /**
+    * Retrieve an enterprise field value.
+    * 
+    * @param index field index
+    * @return field value
+    */
+   public String getEnterpriseText (int index)
+   {
+      return ((String)getCachedValue(selectResourceField(ENTERPRISE_TEXT_FIELDS, index)));
+   }
+   
+   /**
+    * Set an enterprise field value.
+    * 
+    * @param index field index
+    * @param value field value
+    */   
+   public void setEnterpriseText (int index, String value)
+   {
+      set(selectResourceField(ENTERPRISE_TEXT_FIELDS, index), value);   
+   }
+
+   /**
+    * Maps a field index to a ResourceField instance.
+    * 
+    * @param fields array of fields used as the basis for the mapping.
+    * @param index required field index
+    * @return ResourceField instance
+    */
+   private ResourceField selectResourceField(ResourceField[] fields, int index)
+   {
+      if (index < 1 || index > fields.length)
+      {
+         throw new IllegalArgumentException();
+      }
+      return (fields[index-1]);
+   }
+   
+   /**
     * {@inheritDoc}
     */
    public Object getCachedValue (FieldType field)
@@ -4577,6 +4725,181 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
+   private static final ResourceField[] ENTERPRISE_COST_FIELDS =
+   {
+      ResourceField.ENTERPRISE_COST1,
+      ResourceField.ENTERPRISE_COST2,
+      ResourceField.ENTERPRISE_COST3,
+      ResourceField.ENTERPRISE_COST4,
+      ResourceField.ENTERPRISE_COST5,
+      ResourceField.ENTERPRISE_COST6,
+      ResourceField.ENTERPRISE_COST7,
+      ResourceField.ENTERPRISE_COST8,
+      ResourceField.ENTERPRISE_COST9,
+      ResourceField.ENTERPRISE_COST10
+   };
+   
+   
+   private static final ResourceField[] ENTERPRISE_DATE_FIELDS =
+   {
+      ResourceField.ENTERPRISE_DATE1,
+      ResourceField.ENTERPRISE_DATE2,
+      ResourceField.ENTERPRISE_DATE3,
+      ResourceField.ENTERPRISE_DATE4,
+      ResourceField.ENTERPRISE_DATE5,
+      ResourceField.ENTERPRISE_DATE6,
+      ResourceField.ENTERPRISE_DATE7,
+      ResourceField.ENTERPRISE_DATE8,
+      ResourceField.ENTERPRISE_DATE9,
+      ResourceField.ENTERPRISE_DATE10,
+      ResourceField.ENTERPRISE_DATE11,
+      ResourceField.ENTERPRISE_DATE12,
+      ResourceField.ENTERPRISE_DATE13,
+      ResourceField.ENTERPRISE_DATE14,
+      ResourceField.ENTERPRISE_DATE15,
+      ResourceField.ENTERPRISE_DATE16,
+      ResourceField.ENTERPRISE_DATE17,
+      ResourceField.ENTERPRISE_DATE18,
+      ResourceField.ENTERPRISE_DATE19,
+      ResourceField.ENTERPRISE_DATE20,
+      ResourceField.ENTERPRISE_DATE21,
+      ResourceField.ENTERPRISE_DATE22,
+      ResourceField.ENTERPRISE_DATE23,
+      ResourceField.ENTERPRISE_DATE24,
+      ResourceField.ENTERPRISE_DATE25,
+      ResourceField.ENTERPRISE_DATE26,
+      ResourceField.ENTERPRISE_DATE27,
+      ResourceField.ENTERPRISE_DATE28,
+      ResourceField.ENTERPRISE_DATE29,
+      ResourceField.ENTERPRISE_DATE30
+   };
+
+   private static final ResourceField[] ENTERPRISE_DURATION_FIELDS =
+   {
+      ResourceField.ENTERPRISE_DURATION1,
+      ResourceField.ENTERPRISE_DURATION2,
+      ResourceField.ENTERPRISE_DURATION3,
+      ResourceField.ENTERPRISE_DURATION4,
+      ResourceField.ENTERPRISE_DURATION5,
+      ResourceField.ENTERPRISE_DURATION6,
+      ResourceField.ENTERPRISE_DURATION7,
+      ResourceField.ENTERPRISE_DURATION8,
+      ResourceField.ENTERPRISE_DURATION9,
+      ResourceField.ENTERPRISE_DURATION10
+   };
+
+   private static final ResourceField[] ENTERPRISE_FLAG_FIELDS =
+   {
+      ResourceField.ENTERPRISE_FLAG1,
+      ResourceField.ENTERPRISE_FLAG2,
+      ResourceField.ENTERPRISE_FLAG3,
+      ResourceField.ENTERPRISE_FLAG4,
+      ResourceField.ENTERPRISE_FLAG5,
+      ResourceField.ENTERPRISE_FLAG6,
+      ResourceField.ENTERPRISE_FLAG7,
+      ResourceField.ENTERPRISE_FLAG8,
+      ResourceField.ENTERPRISE_FLAG9,
+      ResourceField.ENTERPRISE_FLAG10,
+      ResourceField.ENTERPRISE_FLAG11,
+      ResourceField.ENTERPRISE_FLAG12,
+      ResourceField.ENTERPRISE_FLAG13,
+      ResourceField.ENTERPRISE_FLAG14,
+      ResourceField.ENTERPRISE_FLAG15,
+      ResourceField.ENTERPRISE_FLAG16,
+      ResourceField.ENTERPRISE_FLAG17,
+      ResourceField.ENTERPRISE_FLAG18,
+      ResourceField.ENTERPRISE_FLAG19,
+      ResourceField.ENTERPRISE_FLAG20
+   };
+   
+   private static final ResourceField[] ENTERPRISE_NUMBER_FIELDS =
+   {
+      ResourceField.ENTERPRISE_NUMBER1,
+      ResourceField.ENTERPRISE_NUMBER2,
+      ResourceField.ENTERPRISE_NUMBER3,
+      ResourceField.ENTERPRISE_NUMBER4,
+      ResourceField.ENTERPRISE_NUMBER5,
+      ResourceField.ENTERPRISE_NUMBER6,
+      ResourceField.ENTERPRISE_NUMBER7,
+      ResourceField.ENTERPRISE_NUMBER8,
+      ResourceField.ENTERPRISE_NUMBER9,
+      ResourceField.ENTERPRISE_NUMBER10,
+      ResourceField.ENTERPRISE_NUMBER11,
+      ResourceField.ENTERPRISE_NUMBER12,
+      ResourceField.ENTERPRISE_NUMBER13,
+      ResourceField.ENTERPRISE_NUMBER14,
+      ResourceField.ENTERPRISE_NUMBER15,
+      ResourceField.ENTERPRISE_NUMBER16,
+      ResourceField.ENTERPRISE_NUMBER17,
+      ResourceField.ENTERPRISE_NUMBER18,
+      ResourceField.ENTERPRISE_NUMBER19,
+      ResourceField.ENTERPRISE_NUMBER20,
+      ResourceField.ENTERPRISE_NUMBER21,
+      ResourceField.ENTERPRISE_NUMBER22,
+      ResourceField.ENTERPRISE_NUMBER23,
+      ResourceField.ENTERPRISE_NUMBER24,
+      ResourceField.ENTERPRISE_NUMBER25,
+      ResourceField.ENTERPRISE_NUMBER26,
+      ResourceField.ENTERPRISE_NUMBER27,
+      ResourceField.ENTERPRISE_NUMBER28,
+      ResourceField.ENTERPRISE_NUMBER29,
+      ResourceField.ENTERPRISE_NUMBER30,
+      ResourceField.ENTERPRISE_NUMBER31,
+      ResourceField.ENTERPRISE_NUMBER32,
+      ResourceField.ENTERPRISE_NUMBER33,
+      ResourceField.ENTERPRISE_NUMBER34,
+      ResourceField.ENTERPRISE_NUMBER35,
+      ResourceField.ENTERPRISE_NUMBER36,
+      ResourceField.ENTERPRISE_NUMBER37,
+      ResourceField.ENTERPRISE_NUMBER38,
+      ResourceField.ENTERPRISE_NUMBER39,
+      ResourceField.ENTERPRISE_NUMBER40      
+   };
+   
+   private static final ResourceField[] ENTERPRISE_TEXT_FIELDS =
+   {
+      ResourceField.ENTERPRISE_TEXT1,
+      ResourceField.ENTERPRISE_TEXT2,
+      ResourceField.ENTERPRISE_TEXT3,
+      ResourceField.ENTERPRISE_TEXT4,
+      ResourceField.ENTERPRISE_TEXT5,
+      ResourceField.ENTERPRISE_TEXT6,
+      ResourceField.ENTERPRISE_TEXT7,
+      ResourceField.ENTERPRISE_TEXT8,
+      ResourceField.ENTERPRISE_TEXT9,
+      ResourceField.ENTERPRISE_TEXT10,
+      ResourceField.ENTERPRISE_TEXT11,
+      ResourceField.ENTERPRISE_TEXT12,
+      ResourceField.ENTERPRISE_TEXT13,
+      ResourceField.ENTERPRISE_TEXT14,
+      ResourceField.ENTERPRISE_TEXT15,
+      ResourceField.ENTERPRISE_TEXT16,
+      ResourceField.ENTERPRISE_TEXT17,
+      ResourceField.ENTERPRISE_TEXT18,
+      ResourceField.ENTERPRISE_TEXT19,
+      ResourceField.ENTERPRISE_TEXT20,
+      ResourceField.ENTERPRISE_TEXT21,
+      ResourceField.ENTERPRISE_TEXT22,
+      ResourceField.ENTERPRISE_TEXT23,
+      ResourceField.ENTERPRISE_TEXT24,
+      ResourceField.ENTERPRISE_TEXT25,
+      ResourceField.ENTERPRISE_TEXT26,
+      ResourceField.ENTERPRISE_TEXT27,
+      ResourceField.ENTERPRISE_TEXT28,
+      ResourceField.ENTERPRISE_TEXT29,
+      ResourceField.ENTERPRISE_TEXT30,
+      ResourceField.ENTERPRISE_TEXT31,
+      ResourceField.ENTERPRISE_TEXT32,
+      ResourceField.ENTERPRISE_TEXT33,
+      ResourceField.ENTERPRISE_TEXT34,
+      ResourceField.ENTERPRISE_TEXT35,
+      ResourceField.ENTERPRISE_TEXT36,
+      ResourceField.ENTERPRISE_TEXT37,
+      ResourceField.ENTERPRISE_TEXT38,
+      ResourceField.ENTERPRISE_TEXT39,
+      ResourceField.ENTERPRISE_TEXT40      
+   };
+   
    /**
     * Array of field values.
     */

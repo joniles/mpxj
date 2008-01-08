@@ -37,13 +37,10 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -1353,10 +1350,14 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))), 768);
+      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))), 768);     
+      FixedMeta taskFixed2Meta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Fixed2Meta"))), 86);
+      
+      //System.out.println(taskFixedMeta);
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
+      //System.out.println(taskFixed2Meta);
       //System.out.println(outlineCodeVarData.getVarMeta());
       //System.out.println(outlineCodeVarData);
       
@@ -1366,6 +1367,7 @@ final class MPP12Reader implements MPPVariantReader
       Integer offset;
       byte[] data;
       byte[] metaData;
+      byte[] metaData2;
       Task task;
       boolean autoWBS = true;
       LinkedList<Task> externalTasks = new LinkedList<Task>();
@@ -1393,6 +1395,9 @@ final class MPP12Reader implements MPPVariantReader
          //System.out.println (MPPUtility.hexdump(data, false, 16, ""));
          //System.out.println (MPPUtility.hexdump(metaData, false, 16, ""));
 
+         metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
+         //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
+         
          task = m_file.addTask();
          task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
@@ -1776,6 +1781,11 @@ final class MPP12Reader implements MPPVariantReader
             task.setSplits(new LinkedList<Duration>());
          }
                   
+         //
+         // Process any enterprise columns
+         //
+         processTaskEnterpriseColumns(id, task, taskVarData, metaData2);
+         
          m_file.fireTaskReadEvent(task);
 
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
@@ -1907,6 +1917,348 @@ final class MPP12Reader implements MPPVariantReader
          nextID = renumberChildren(nextID, task);
       }      
       return (nextID);
+   }
+   
+   /**
+    * Extracts task enterprise column values. 
+    * 
+    * @param id task unique ID
+    * @param task task instance
+    * @param taskVarData task var data
+    * @param metaData2 task meta data
+    */
+   private void processTaskEnterpriseColumns (Integer id, Task task, Var2Data taskVarData, byte[] metaData2)
+   {
+      task.setEnterpriseCost(1, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST1) / 100));
+      task.setEnterpriseCost(2, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST2) / 100));
+      task.setEnterpriseCost(3, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST3) / 100));
+      task.setEnterpriseCost(4, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST4) / 100));
+      task.setEnterpriseCost(5, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST5) / 100));
+      task.setEnterpriseCost(6, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST6) / 100));
+      task.setEnterpriseCost(7, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST7) / 100));
+      task.setEnterpriseCost(8, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST8) / 100));
+      task.setEnterpriseCost(9, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST9) / 100));
+      task.setEnterpriseCost(10, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST10) / 100));   
+      
+      task.setEnterpriseDate(1, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE1));
+      task.setEnterpriseDate(2, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE2));
+      task.setEnterpriseDate(3, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE3));
+      task.setEnterpriseDate(4, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE4));
+      task.setEnterpriseDate(5, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE5));
+      task.setEnterpriseDate(6, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE6));
+      task.setEnterpriseDate(7, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE7));
+      task.setEnterpriseDate(8, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE8));
+      task.setEnterpriseDate(9, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE9));
+      task.setEnterpriseDate(10, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE10));
+      task.setEnterpriseDate(11, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE11));
+      task.setEnterpriseDate(12, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE12));
+      task.setEnterpriseDate(13, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE13));
+      task.setEnterpriseDate(14, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE14));
+      task.setEnterpriseDate(15, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE15));
+      task.setEnterpriseDate(16, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE16));
+      task.setEnterpriseDate(17, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE17));
+      task.setEnterpriseDate(18, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE18));
+      task.setEnterpriseDate(19, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE19));
+      task.setEnterpriseDate(20, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE20));
+      task.setEnterpriseDate(21, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE21));
+      task.setEnterpriseDate(22, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE22));
+      task.setEnterpriseDate(23, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE23));
+      task.setEnterpriseDate(24, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE24));
+      task.setEnterpriseDate(25, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE25));
+      task.setEnterpriseDate(26, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE26));
+      task.setEnterpriseDate(27, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE27));
+      task.setEnterpriseDate(28, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE28));
+      task.setEnterpriseDate(29, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE29));
+      task.setEnterpriseDate(30, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE30));
+            
+      task.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION1_UNITS))));
+      task.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION2_UNITS))));
+      task.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION3_UNITS))));
+      task.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION4_UNITS))));
+      task.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION5_UNITS))));
+      task.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION6_UNITS))));
+      task.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION7_UNITS))));
+      task.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION8_UNITS))));
+      task.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION9_UNITS))));
+      task.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION10_UNITS))));
+      
+      task.setEnterpriseNumber(1, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER1)));      
+      task.setEnterpriseNumber(2, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER2)));
+      task.setEnterpriseNumber(3, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER3)));
+      task.setEnterpriseNumber(4, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER4)));
+      task.setEnterpriseNumber(5, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER5)));
+      task.setEnterpriseNumber(6, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER6)));
+      task.setEnterpriseNumber(7, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER7)));
+      task.setEnterpriseNumber(8, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER8)));
+      task.setEnterpriseNumber(9, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER9)));
+      task.setEnterpriseNumber(10, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER10)));      
+      task.setEnterpriseNumber(11, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER11)));      
+      task.setEnterpriseNumber(12, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER12)));
+      task.setEnterpriseNumber(13, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER13)));
+      task.setEnterpriseNumber(14, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER14)));
+      task.setEnterpriseNumber(15, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER15)));
+      task.setEnterpriseNumber(16, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER16)));
+      task.setEnterpriseNumber(17, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER17)));
+      task.setEnterpriseNumber(18, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER18)));
+      task.setEnterpriseNumber(19, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER19)));
+      task.setEnterpriseNumber(20, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER20)));      
+      task.setEnterpriseNumber(21, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER21)));
+      task.setEnterpriseNumber(22, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER22)));
+      task.setEnterpriseNumber(23, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER23)));
+      task.setEnterpriseNumber(24, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER24)));
+      task.setEnterpriseNumber(25, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER25)));
+      task.setEnterpriseNumber(26, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER26)));
+      task.setEnterpriseNumber(27, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER27)));
+      task.setEnterpriseNumber(28, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER28)));
+      task.setEnterpriseNumber(29, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER29)));      
+      task.setEnterpriseNumber(30, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER30)));
+      task.setEnterpriseNumber(31, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER31)));
+      task.setEnterpriseNumber(32, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER32)));
+      task.setEnterpriseNumber(33, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER33)));
+      task.setEnterpriseNumber(34, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER34)));
+      task.setEnterpriseNumber(35, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER35)));
+      task.setEnterpriseNumber(36, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER36)));
+      task.setEnterpriseNumber(37, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER37)));
+      task.setEnterpriseNumber(38, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER38)));
+      task.setEnterpriseNumber(39, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER39)));
+      task.setEnterpriseNumber(40, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER40)));
+            
+      task.setEnterpriseText(1, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT1));
+      task.setEnterpriseText(2, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT2));
+      task.setEnterpriseText(3, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT3));
+      task.setEnterpriseText(4, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT4));
+      task.setEnterpriseText(5, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT5));
+      task.setEnterpriseText(6, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT6));
+      task.setEnterpriseText(7, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT7));
+      task.setEnterpriseText(8, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT8));
+      task.setEnterpriseText(9, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT9));
+      task.setEnterpriseText(10, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT10));
+      task.setEnterpriseText(11, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT11));
+      task.setEnterpriseText(12, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT12));
+      task.setEnterpriseText(13, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT13));
+      task.setEnterpriseText(14, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT14));
+      task.setEnterpriseText(15, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT15));
+      task.setEnterpriseText(16, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT16));
+      task.setEnterpriseText(17, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT17));
+      task.setEnterpriseText(18, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT18));
+      task.setEnterpriseText(19, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT19));
+      task.setEnterpriseText(20, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT20));
+      task.setEnterpriseText(21, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT21));
+      task.setEnterpriseText(22, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT22));
+      task.setEnterpriseText(23, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT23));
+      task.setEnterpriseText(24, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT24));
+      task.setEnterpriseText(25, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT25));
+      task.setEnterpriseText(26, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT26));
+      task.setEnterpriseText(27, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT27));
+      task.setEnterpriseText(28, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT28));
+      task.setEnterpriseText(29, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT29));      
+      task.setEnterpriseText(30, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT30));
+      task.setEnterpriseText(31, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT31));
+      task.setEnterpriseText(32, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT32));
+      task.setEnterpriseText(33, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT33));
+      task.setEnterpriseText(34, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT34));
+      task.setEnterpriseText(35, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT35));
+      task.setEnterpriseText(36, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT36));
+      task.setEnterpriseText(37, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT37));
+      task.setEnterpriseText(38, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT38));
+      task.setEnterpriseText(39, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT39));
+      task.setEnterpriseText(40, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT40));
+      
+      if (metaData2 != null)
+      {
+         int bits = MPPUtility.getInt(metaData2, 59);                  
+         task.set(TaskField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00001) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00002) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00004) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00008) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00010) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00020) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00040) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00080) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG9, new Boolean((bits & 0x00100) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG10, new Boolean((bits & 0x00200) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG11, new Boolean((bits & 0x00400) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG12, new Boolean((bits & 0x00800) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG13, new Boolean((bits & 0x01000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG14, new Boolean((bits & 0x02000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG15, new Boolean((bits & 0x04000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG16, new Boolean((bits & 0x08000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG17, new Boolean((bits & 0x10000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG18, new Boolean((bits & 0x20000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG19, new Boolean((bits & 0x40000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG20, new Boolean((bits & 0x80000) != 0));
+      }
+   }
+
+   /**
+    * Extracts resource enterprise column data.
+    * 
+    * @param id resource unique ID 
+    * @param resource resource instance
+    * @param resourceVarData resource var data
+    * @param metaData2 resource meta data 
+    */
+   private void processResourceEnterpriseColumns (Integer id, Resource resource, Var2Data resourceVarData, byte[] metaData2)
+   {
+      resource.setEnterpriseCost(1, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST1) / 100));
+      resource.setEnterpriseCost(2, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST2) / 100));
+      resource.setEnterpriseCost(3, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST3) / 100));
+      resource.setEnterpriseCost(4, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST4) / 100));
+      resource.setEnterpriseCost(5, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST5) / 100));
+      resource.setEnterpriseCost(6, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST6) / 100));
+      resource.setEnterpriseCost(7, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST7) / 100));
+      resource.setEnterpriseCost(8, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST8) / 100));
+      resource.setEnterpriseCost(9, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST9) / 100));
+      resource.setEnterpriseCost(10, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST10) / 100));   
+      
+      resource.setEnterpriseDate(1, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE1));
+      resource.setEnterpriseDate(2, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE2));
+      resource.setEnterpriseDate(3, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE3));
+      resource.setEnterpriseDate(4, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE4));
+      resource.setEnterpriseDate(5, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE5));
+      resource.setEnterpriseDate(6, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE6));
+      resource.setEnterpriseDate(7, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE7));
+      resource.setEnterpriseDate(8, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE8));
+      resource.setEnterpriseDate(9, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE9));
+      resource.setEnterpriseDate(10, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE10));
+      resource.setEnterpriseDate(11, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE11));
+      resource.setEnterpriseDate(12, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE12));
+      resource.setEnterpriseDate(13, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE13));
+      resource.setEnterpriseDate(14, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE14));
+      resource.setEnterpriseDate(15, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE15));
+      resource.setEnterpriseDate(16, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE16));
+      resource.setEnterpriseDate(17, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE17));
+      resource.setEnterpriseDate(18, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE18));
+      resource.setEnterpriseDate(19, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE19));
+      resource.setEnterpriseDate(20, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE20));
+      resource.setEnterpriseDate(21, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE21));
+      resource.setEnterpriseDate(22, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE22));
+      resource.setEnterpriseDate(23, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE23));
+      resource.setEnterpriseDate(24, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE24));
+      resource.setEnterpriseDate(25, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE25));
+      resource.setEnterpriseDate(26, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE26));
+      resource.setEnterpriseDate(27, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE27));
+      resource.setEnterpriseDate(28, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE28));
+      resource.setEnterpriseDate(29, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE29));
+      resource.setEnterpriseDate(30, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE30));
+            
+      resource.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION1_UNITS))));
+      resource.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION2_UNITS))));
+      resource.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION3_UNITS))));
+      resource.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION4_UNITS))));
+      resource.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION5_UNITS))));
+      resource.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION6_UNITS))));
+      resource.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION7_UNITS))));
+      resource.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION8_UNITS))));
+      resource.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION9_UNITS))));
+      resource.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION10_UNITS))));
+      
+      resource.setEnterpriseNumber(1, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER1)));      
+      resource.setEnterpriseNumber(2, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER2)));
+      resource.setEnterpriseNumber(3, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER3)));
+      resource.setEnterpriseNumber(4, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER4)));
+      resource.setEnterpriseNumber(5, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER5)));
+      resource.setEnterpriseNumber(6, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER6)));
+      resource.setEnterpriseNumber(7, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER7)));
+      resource.setEnterpriseNumber(8, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER8)));
+      resource.setEnterpriseNumber(9, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER9)));
+      resource.setEnterpriseNumber(10, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER10)));      
+      resource.setEnterpriseNumber(11, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER11)));      
+      resource.setEnterpriseNumber(12, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER12)));
+      resource.setEnterpriseNumber(13, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER13)));
+      resource.setEnterpriseNumber(14, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER14)));
+      resource.setEnterpriseNumber(15, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER15)));
+      resource.setEnterpriseNumber(16, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER16)));
+      resource.setEnterpriseNumber(17, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER17)));
+      resource.setEnterpriseNumber(18, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER18)));
+      resource.setEnterpriseNumber(19, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER19)));
+      resource.setEnterpriseNumber(20, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER20)));      
+      resource.setEnterpriseNumber(21, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER21)));
+      resource.setEnterpriseNumber(22, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER22)));
+      resource.setEnterpriseNumber(23, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER23)));
+      resource.setEnterpriseNumber(24, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER24)));
+      resource.setEnterpriseNumber(25, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER25)));
+      resource.setEnterpriseNumber(26, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER26)));
+      resource.setEnterpriseNumber(27, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER27)));
+      resource.setEnterpriseNumber(28, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER28)));
+      resource.setEnterpriseNumber(29, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER29)));      
+      resource.setEnterpriseNumber(30, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER30)));
+      resource.setEnterpriseNumber(31, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER31)));
+      resource.setEnterpriseNumber(32, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER32)));
+      resource.setEnterpriseNumber(33, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER33)));
+      resource.setEnterpriseNumber(34, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER34)));
+      resource.setEnterpriseNumber(35, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER35)));
+      resource.setEnterpriseNumber(36, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER36)));
+      resource.setEnterpriseNumber(37, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER37)));
+      resource.setEnterpriseNumber(38, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER38)));
+      resource.setEnterpriseNumber(39, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER39)));
+      resource.setEnterpriseNumber(40, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER40)));
+            
+      resource.setEnterpriseText(1, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT1));
+      resource.setEnterpriseText(2, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT2));
+      resource.setEnterpriseText(3, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT3));
+      resource.setEnterpriseText(4, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT4));
+      resource.setEnterpriseText(5, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT5));
+      resource.setEnterpriseText(6, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT6));
+      resource.setEnterpriseText(7, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT7));
+      resource.setEnterpriseText(8, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT8));
+      resource.setEnterpriseText(9, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT9));
+      resource.setEnterpriseText(10, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT10));
+      resource.setEnterpriseText(11, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT11));
+      resource.setEnterpriseText(12, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT12));
+      resource.setEnterpriseText(13, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT13));
+      resource.setEnterpriseText(14, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT14));
+      resource.setEnterpriseText(15, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT15));
+      resource.setEnterpriseText(16, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT16));
+      resource.setEnterpriseText(17, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT17));
+      resource.setEnterpriseText(18, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT18));
+      resource.setEnterpriseText(19, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT19));
+      resource.setEnterpriseText(20, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT20));
+      resource.setEnterpriseText(21, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT21));
+      resource.setEnterpriseText(22, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT22));
+      resource.setEnterpriseText(23, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT23));
+      resource.setEnterpriseText(24, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT24));
+      resource.setEnterpriseText(25, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT25));
+      resource.setEnterpriseText(26, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT26));
+      resource.setEnterpriseText(27, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT27));
+      resource.setEnterpriseText(28, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT28));
+      resource.setEnterpriseText(29, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT29));      
+      resource.setEnterpriseText(30, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT30));
+      resource.setEnterpriseText(31, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT31));
+      resource.setEnterpriseText(32, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT32));
+      resource.setEnterpriseText(33, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT33));
+      resource.setEnterpriseText(34, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT34));
+      resource.setEnterpriseText(35, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT35));
+      resource.setEnterpriseText(36, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT36));
+      resource.setEnterpriseText(37, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT37));
+      resource.setEnterpriseText(38, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT38));
+      resource.setEnterpriseText(39, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT39));
+      resource.setEnterpriseText(40, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT40));
+
+      if (metaData2 != null)
+      {
+         int bits = MPPUtility.getInt(metaData2, 16);                  
+         resource.set(ResourceField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00010) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00020) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00040) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00080) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00100) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00200) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00400) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00800) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG9, new Boolean((bits & 0x01000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG10, new Boolean((bits & 0x02000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG11, new Boolean((bits & 0x04000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG12, new Boolean((bits & 0x08000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG13, new Boolean((bits & 0x10000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG14, new Boolean((bits & 0x20000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG15, new Boolean((bits & 0x40000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG16, new Boolean((bits & 0x80000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG17, new Boolean((bits & 0x100000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG18, new Boolean((bits & 0x200000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG19, new Boolean((bits & 0x400000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG20, new Boolean((bits & 0x800000) != 0));         
+      }      
    }
    
    /**
@@ -2060,8 +2412,10 @@ final class MPP12Reader implements MPPVariantReader
       Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
       FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData (rscFixedMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedData"))));
+      FixedMeta rscFixed2Meta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Fixed2Meta"))), 49);
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
+      //System.out.println(rscFixed2Meta);
       
       TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
@@ -2275,6 +2629,12 @@ final class MPP12Reader implements MPPVariantReader
          //
          resource.setResourceCalendar(m_resourceMap.get(id));
 
+         //
+         // Process any enterprise columns
+         //
+         byte[] metaData2 = rscFixed2Meta.getByteArrayValue(offset.intValue());
+         processResourceEnterpriseColumns(id, resource, rscVarData, metaData2);
+         
          m_file.fireResourceReadEvent(resource);
       }
    }
@@ -2538,22 +2898,14 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
+      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE);
       int items = fixedData.getItemCount();
-      byte[] data;
-      Table table;
-
       for (int loop=0; loop < items; loop++)
       {
-         data = fixedData.getByteArrayValue(loop);
-
-         table = new Table ();
-
-         table.setID(MPPUtility.getInt(data, 0));
-         table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
-         table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
+         byte[] data = fixedData.getByteArrayValue(loop);
+         Table table = factory.createTable(m_file, data, varMeta, varData);         
          m_file.addTable(table);
-
-         processColumnData (table, varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), TABLE_COLUMN_DATA)));
+         //System.out.println(table);
       }
    }
 
@@ -2623,84 +2975,7 @@ final class MPP12Reader implements MPPVariantReader
       
    }
 
-   /**
-    * This method processes the column data associated with the
-    * current table.
-    *
-    * @param table current table
-    * @param data raw column data
-    */
-   private void processColumnData (Table table, byte[] data)
-   {
-      if (data != null)
-      {
-         int columnCount = MPPUtility.getShort(data, 4)+1;
-         int index = 8;
-         int columnTitleOffset;
-         Column  column;
-         int alignment;
-
-         for (int loop=0; loop < columnCount; loop++)
-         {
-            column = new Column (m_file);
-
-            if (table.getResourceFlag() == false)
-            {
-               column.setFieldType (MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
-            }
-            else
-            {
-               column.setFieldType (MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
-            }
-
-            column.setWidth (MPPUtility.getByte(data, index+4));
-
-            columnTitleOffset = MPPUtility.getShort(data, index+6);
-            if (columnTitleOffset != 0)
-            {
-               column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
-            }
-
-            alignment = MPPUtility.getByte(data, index+8);
-            if (alignment == 32)
-            {
-               column.setAlignTitle(Column.ALIGN_LEFT);
-            }
-            else
-            {
-               if (alignment == 33)
-               {
-                  column.setAlignTitle(Column.ALIGN_CENTER);
-               }
-               else
-               {
-                  column.setAlignTitle(Column.ALIGN_RIGHT);
-               }
-            }
-
-            alignment = MPPUtility.getByte(data, index+10);
-            if (alignment == 32)
-            {
-               column.setAlignData(Column.ALIGN_LEFT);
-            }
-            else
-            {
-               if (alignment == 33)
-               {
-                  column.setAlignData(Column.ALIGN_CENTER);
-               }
-               else
-               {
-                  column.setAlignData(Column.ALIGN_RIGHT);
-               }
-            }
-
-            table.addColumn(column);
-            index += 12;
-         }
-      }
-   }
-
+   
 //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
 //   {
 //      System.out.println (name);
@@ -2894,6 +3169,153 @@ final class MPP12Reader implements MPPVariantReader
 
    private static final Integer TASK_EXTERNAL_TASK_ID = new Integer (255);
    
+   private static final Integer TASK_ENTERPRISE_COST1 = new Integer(599);
+   private static final Integer TASK_ENTERPRISE_COST2 = new Integer(600);
+   private static final Integer TASK_ENTERPRISE_COST3 = new Integer(601);
+   private static final Integer TASK_ENTERPRISE_COST4 = new Integer(602);
+   private static final Integer TASK_ENTERPRISE_COST5 = new Integer(603);
+   private static final Integer TASK_ENTERPRISE_COST6 = new Integer(604);
+   private static final Integer TASK_ENTERPRISE_COST7 = new Integer(605);
+   private static final Integer TASK_ENTERPRISE_COST8 = new Integer(606);
+   private static final Integer TASK_ENTERPRISE_COST9 = new Integer(607);
+   private static final Integer TASK_ENTERPRISE_COST10 = new Integer(608);
+   
+   private static final Integer TASK_ENTERPRISE_DATE1 = new Integer(609);
+   private static final Integer TASK_ENTERPRISE_DATE2 = new Integer(610);
+   private static final Integer TASK_ENTERPRISE_DATE3 = new Integer(611);
+   private static final Integer TASK_ENTERPRISE_DATE4 = new Integer(612);
+   private static final Integer TASK_ENTERPRISE_DATE5 = new Integer(613);
+   private static final Integer TASK_ENTERPRISE_DATE6 = new Integer(614);
+   private static final Integer TASK_ENTERPRISE_DATE7 = new Integer(615);
+   private static final Integer TASK_ENTERPRISE_DATE8 = new Integer(616);
+   private static final Integer TASK_ENTERPRISE_DATE9 = new Integer(617);
+   private static final Integer TASK_ENTERPRISE_DATE10 = new Integer(618);
+   private static final Integer TASK_ENTERPRISE_DATE11 = new Integer(619);
+   private static final Integer TASK_ENTERPRISE_DATE12 = new Integer(620);
+   private static final Integer TASK_ENTERPRISE_DATE13 = new Integer(621);
+   private static final Integer TASK_ENTERPRISE_DATE14 = new Integer(622);
+   private static final Integer TASK_ENTERPRISE_DATE15 = new Integer(623);
+   private static final Integer TASK_ENTERPRISE_DATE16 = new Integer(624);
+   private static final Integer TASK_ENTERPRISE_DATE17 = new Integer(625);
+   private static final Integer TASK_ENTERPRISE_DATE18 = new Integer(626);
+   private static final Integer TASK_ENTERPRISE_DATE19 = new Integer(627);
+   private static final Integer TASK_ENTERPRISE_DATE20 = new Integer(628);
+   private static final Integer TASK_ENTERPRISE_DATE21 = new Integer(629);
+   private static final Integer TASK_ENTERPRISE_DATE22 = new Integer(630);
+   private static final Integer TASK_ENTERPRISE_DATE23 = new Integer(631);
+   private static final Integer TASK_ENTERPRISE_DATE24 = new Integer(632);
+   private static final Integer TASK_ENTERPRISE_DATE25 = new Integer(633);
+   private static final Integer TASK_ENTERPRISE_DATE26 = new Integer(634);
+   private static final Integer TASK_ENTERPRISE_DATE27 = new Integer(635);
+   private static final Integer TASK_ENTERPRISE_DATE28 = new Integer(636);
+   private static final Integer TASK_ENTERPRISE_DATE29 = new Integer(637);
+   private static final Integer TASK_ENTERPRISE_DATE30 = new Integer(638);
+   
+   private static final Integer TASK_ENTERPRISE_DURATION1 = new Integer(639);
+   private static final Integer TASK_ENTERPRISE_DURATION2 = new Integer(640);
+   private static final Integer TASK_ENTERPRISE_DURATION3 = new Integer(641);
+   private static final Integer TASK_ENTERPRISE_DURATION4 = new Integer(642);
+   private static final Integer TASK_ENTERPRISE_DURATION5 = new Integer(643);
+   private static final Integer TASK_ENTERPRISE_DURATION6 = new Integer(644);
+   private static final Integer TASK_ENTERPRISE_DURATION7 = new Integer(645);
+   private static final Integer TASK_ENTERPRISE_DURATION8 = new Integer(646);
+   private static final Integer TASK_ENTERPRISE_DURATION9 = new Integer(647);
+   private static final Integer TASK_ENTERPRISE_DURATION10 = new Integer(648);
+   
+   private static final Integer TASK_ENTERPRISE_DURATION1_UNITS = new Integer(649);
+   private static final Integer TASK_ENTERPRISE_DURATION2_UNITS = new Integer(650);
+   private static final Integer TASK_ENTERPRISE_DURATION3_UNITS = new Integer(651);
+   private static final Integer TASK_ENTERPRISE_DURATION4_UNITS = new Integer(652);
+   private static final Integer TASK_ENTERPRISE_DURATION5_UNITS = new Integer(653);
+   private static final Integer TASK_ENTERPRISE_DURATION6_UNITS = new Integer(654);
+   private static final Integer TASK_ENTERPRISE_DURATION7_UNITS = new Integer(655);
+   private static final Integer TASK_ENTERPRISE_DURATION8_UNITS = new Integer(656);
+   private static final Integer TASK_ENTERPRISE_DURATION9_UNITS = new Integer(657);
+   private static final Integer TASK_ENTERPRISE_DURATION10_UNITS = new Integer(658);
+   
+   private static final Integer TASK_ENTERPRISE_NUMBER1 = new Integer(699);
+   private static final Integer TASK_ENTERPRISE_NUMBER2 = new Integer(700);
+   private static final Integer TASK_ENTERPRISE_NUMBER3 = new Integer(701);
+   private static final Integer TASK_ENTERPRISE_NUMBER4 = new Integer(702);
+   private static final Integer TASK_ENTERPRISE_NUMBER5 = new Integer(703);
+   private static final Integer TASK_ENTERPRISE_NUMBER6 = new Integer(704);
+   private static final Integer TASK_ENTERPRISE_NUMBER7 = new Integer(705);
+   private static final Integer TASK_ENTERPRISE_NUMBER8 = new Integer(706);
+   private static final Integer TASK_ENTERPRISE_NUMBER9 = new Integer(707);
+   private static final Integer TASK_ENTERPRISE_NUMBER10 = new Integer(708);
+   private static final Integer TASK_ENTERPRISE_NUMBER11 = new Integer(709);
+   private static final Integer TASK_ENTERPRISE_NUMBER12 = new Integer(710);
+   private static final Integer TASK_ENTERPRISE_NUMBER13 = new Integer(711);
+   private static final Integer TASK_ENTERPRISE_NUMBER14 = new Integer(712);
+   private static final Integer TASK_ENTERPRISE_NUMBER15 = new Integer(713);
+   private static final Integer TASK_ENTERPRISE_NUMBER16 = new Integer(714);
+   private static final Integer TASK_ENTERPRISE_NUMBER17 = new Integer(715);
+   private static final Integer TASK_ENTERPRISE_NUMBER18 = new Integer(716);
+   private static final Integer TASK_ENTERPRISE_NUMBER19 = new Integer(717);
+   private static final Integer TASK_ENTERPRISE_NUMBER20 = new Integer(718);
+   private static final Integer TASK_ENTERPRISE_NUMBER21 = new Integer(719);
+   private static final Integer TASK_ENTERPRISE_NUMBER22 = new Integer(720);
+   private static final Integer TASK_ENTERPRISE_NUMBER23 = new Integer(721);
+   private static final Integer TASK_ENTERPRISE_NUMBER24 = new Integer(722);
+   private static final Integer TASK_ENTERPRISE_NUMBER25 = new Integer(723);
+   private static final Integer TASK_ENTERPRISE_NUMBER26 = new Integer(724);
+   private static final Integer TASK_ENTERPRISE_NUMBER27 = new Integer(725);
+   private static final Integer TASK_ENTERPRISE_NUMBER28 = new Integer(726);
+   private static final Integer TASK_ENTERPRISE_NUMBER29 = new Integer(727);
+   private static final Integer TASK_ENTERPRISE_NUMBER30 = new Integer(728);
+   private static final Integer TASK_ENTERPRISE_NUMBER31 = new Integer(729);
+   private static final Integer TASK_ENTERPRISE_NUMBER32 = new Integer(730);
+   private static final Integer TASK_ENTERPRISE_NUMBER33 = new Integer(731);
+   private static final Integer TASK_ENTERPRISE_NUMBER34 = new Integer(732);
+   private static final Integer TASK_ENTERPRISE_NUMBER35 = new Integer(733);
+   private static final Integer TASK_ENTERPRISE_NUMBER36 = new Integer(734);
+   private static final Integer TASK_ENTERPRISE_NUMBER37 = new Integer(735);
+   private static final Integer TASK_ENTERPRISE_NUMBER38 = new Integer(736);
+   private static final Integer TASK_ENTERPRISE_NUMBER39 = new Integer(737);
+   private static final Integer TASK_ENTERPRISE_NUMBER40 = new Integer(738);
+   
+   private static final Integer TASK_ENTERPRISE_TEXT1 = new Integer(799);
+   private static final Integer TASK_ENTERPRISE_TEXT2 = new Integer(800);
+   private static final Integer TASK_ENTERPRISE_TEXT3 = new Integer(801);
+   private static final Integer TASK_ENTERPRISE_TEXT4 = new Integer(802);
+   private static final Integer TASK_ENTERPRISE_TEXT5 = new Integer(803);
+   private static final Integer TASK_ENTERPRISE_TEXT6 = new Integer(804);
+   private static final Integer TASK_ENTERPRISE_TEXT7 = new Integer(805);
+   private static final Integer TASK_ENTERPRISE_TEXT8 = new Integer(806);
+   private static final Integer TASK_ENTERPRISE_TEXT9 = new Integer(807);
+   private static final Integer TASK_ENTERPRISE_TEXT10 = new Integer(808);
+   private static final Integer TASK_ENTERPRISE_TEXT11 = new Integer(809);
+   private static final Integer TASK_ENTERPRISE_TEXT12 = new Integer(810);
+   private static final Integer TASK_ENTERPRISE_TEXT13 = new Integer(811);
+   private static final Integer TASK_ENTERPRISE_TEXT14 = new Integer(812);
+   private static final Integer TASK_ENTERPRISE_TEXT15 = new Integer(813);
+   private static final Integer TASK_ENTERPRISE_TEXT16 = new Integer(814);
+   private static final Integer TASK_ENTERPRISE_TEXT17 = new Integer(815);
+   private static final Integer TASK_ENTERPRISE_TEXT18 = new Integer(816);
+   private static final Integer TASK_ENTERPRISE_TEXT19 = new Integer(817);
+   private static final Integer TASK_ENTERPRISE_TEXT20 = new Integer(818);
+   private static final Integer TASK_ENTERPRISE_TEXT21 = new Integer(819);
+   private static final Integer TASK_ENTERPRISE_TEXT22 = new Integer(820);
+   private static final Integer TASK_ENTERPRISE_TEXT23 = new Integer(821);
+   private static final Integer TASK_ENTERPRISE_TEXT24 = new Integer(822);
+   private static final Integer TASK_ENTERPRISE_TEXT25 = new Integer(823);
+   private static final Integer TASK_ENTERPRISE_TEXT26 = new Integer(824);
+   private static final Integer TASK_ENTERPRISE_TEXT27 = new Integer(825);
+   private static final Integer TASK_ENTERPRISE_TEXT28 = new Integer(826);
+   private static final Integer TASK_ENTERPRISE_TEXT29 = new Integer(827);
+   private static final Integer TASK_ENTERPRISE_TEXT30 = new Integer(828);
+   private static final Integer TASK_ENTERPRISE_TEXT31 = new Integer(829);
+   private static final Integer TASK_ENTERPRISE_TEXT32 = new Integer(830);
+   private static final Integer TASK_ENTERPRISE_TEXT33 = new Integer(831);
+   private static final Integer TASK_ENTERPRISE_TEXT34 = new Integer(832);
+   private static final Integer TASK_ENTERPRISE_TEXT35 = new Integer(833);
+   private static final Integer TASK_ENTERPRISE_TEXT36 = new Integer(834);
+   private static final Integer TASK_ENTERPRISE_TEXT37 = new Integer(835);
+   private static final Integer TASK_ENTERPRISE_TEXT38 = new Integer(836);
+   private static final Integer TASK_ENTERPRISE_TEXT39 = new Integer(837);
+   private static final Integer TASK_ENTERPRISE_TEXT40 = new Integer(838);
+
+   
    //
    // Unverified
    //
@@ -2904,7 +3326,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);   
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (9);
    private static final Integer TASK_WBS = new Integer (10);
-   
+ 
    
 
    /**
@@ -3050,16 +3472,165 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_TEXT29 = new Integer (243);
    private static final Integer RESOURCE_TEXT30 = new Integer (244);
 
+   private static final Integer RESOURCE_ENTERPRISE_COST1 = new Integer(446);
+   private static final Integer RESOURCE_ENTERPRISE_COST2 = new Integer(447);
+   private static final Integer RESOURCE_ENTERPRISE_COST3 = new Integer(448);
+   private static final Integer RESOURCE_ENTERPRISE_COST4 = new Integer(449);
+   private static final Integer RESOURCE_ENTERPRISE_COST5 = new Integer(450);
+   private static final Integer RESOURCE_ENTERPRISE_COST6 = new Integer(451);
+   private static final Integer RESOURCE_ENTERPRISE_COST7 = new Integer(452);
+   private static final Integer RESOURCE_ENTERPRISE_COST8 = new Integer(453);
+   private static final Integer RESOURCE_ENTERPRISE_COST9 = new Integer(454);
+   private static final Integer RESOURCE_ENTERPRISE_COST10 = new Integer(455);
+   
+   private static final Integer RESOURCE_ENTERPRISE_DATE1 = new Integer(456);
+   private static final Integer RESOURCE_ENTERPRISE_DATE2 = new Integer(457);
+   private static final Integer RESOURCE_ENTERPRISE_DATE3 = new Integer(458);
+   private static final Integer RESOURCE_ENTERPRISE_DATE4 = new Integer(459);
+   private static final Integer RESOURCE_ENTERPRISE_DATE5 = new Integer(460);
+   private static final Integer RESOURCE_ENTERPRISE_DATE6 = new Integer(461);
+   private static final Integer RESOURCE_ENTERPRISE_DATE7 = new Integer(462);
+   private static final Integer RESOURCE_ENTERPRISE_DATE8 = new Integer(463);
+   private static final Integer RESOURCE_ENTERPRISE_DATE9 = new Integer(464);
+   private static final Integer RESOURCE_ENTERPRISE_DATE10 = new Integer(465);
+   private static final Integer RESOURCE_ENTERPRISE_DATE11 = new Integer(466);
+   private static final Integer RESOURCE_ENTERPRISE_DATE12 = new Integer(467);
+   private static final Integer RESOURCE_ENTERPRISE_DATE13 = new Integer(468);
+   private static final Integer RESOURCE_ENTERPRISE_DATE14 = new Integer(469);
+   private static final Integer RESOURCE_ENTERPRISE_DATE15 = new Integer(470);
+   private static final Integer RESOURCE_ENTERPRISE_DATE16 = new Integer(471);
+   private static final Integer RESOURCE_ENTERPRISE_DATE17 = new Integer(472);
+   private static final Integer RESOURCE_ENTERPRISE_DATE18 = new Integer(473);
+   private static final Integer RESOURCE_ENTERPRISE_DATE19 = new Integer(474);
+   private static final Integer RESOURCE_ENTERPRISE_DATE20 = new Integer(475);
+   private static final Integer RESOURCE_ENTERPRISE_DATE21 = new Integer(476);
+   private static final Integer RESOURCE_ENTERPRISE_DATE22 = new Integer(477);
+   private static final Integer RESOURCE_ENTERPRISE_DATE23 = new Integer(478);
+   private static final Integer RESOURCE_ENTERPRISE_DATE24 = new Integer(479);
+   private static final Integer RESOURCE_ENTERPRISE_DATE25 = new Integer(480);
+   private static final Integer RESOURCE_ENTERPRISE_DATE26 = new Integer(481);
+   private static final Integer RESOURCE_ENTERPRISE_DATE27 = new Integer(482);
+   private static final Integer RESOURCE_ENTERPRISE_DATE28 = new Integer(483);
+   private static final Integer RESOURCE_ENTERPRISE_DATE29 = new Integer(484);
+   private static final Integer RESOURCE_ENTERPRISE_DATE30 = new Integer(485);
+   
+   private static final Integer RESOURCE_ENTERPRISE_DURATION1 = new Integer(486);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION2 = new Integer(487);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION3 = new Integer(488);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION4 = new Integer(489);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION5 = new Integer(490);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION6 = new Integer(491);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION7 = new Integer(492);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION8 = new Integer(493);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION9 = new Integer(494);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION10 = new Integer(495);
+   
+   private static final Integer RESOURCE_ENTERPRISE_DURATION1_UNITS = new Integer(496);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION2_UNITS = new Integer(497);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION3_UNITS = new Integer(498);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION4_UNITS = new Integer(499);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION5_UNITS = new Integer(500);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION6_UNITS = new Integer(501);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION7_UNITS = new Integer(502);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION8_UNITS = new Integer(503);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION9_UNITS = new Integer(504);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION10_UNITS = new Integer(505);
+   
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER1 = new Integer(546);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER2 = new Integer(547);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER3 = new Integer(548);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER4 = new Integer(549);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER5 = new Integer(550);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER6 = new Integer(551);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER7 = new Integer(552);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER8 = new Integer(553);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER9 = new Integer(554);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER10 = new Integer(555);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER11 = new Integer(556);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER12 = new Integer(557);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER13 = new Integer(558);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER14 = new Integer(559);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER15 = new Integer(560);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER16 = new Integer(561);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER17 = new Integer(562);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER18 = new Integer(563);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER19 = new Integer(564);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER20 = new Integer(565);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER21 = new Integer(566);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER22 = new Integer(567);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER23 = new Integer(568);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER24 = new Integer(569);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER25 = new Integer(570);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER26 = new Integer(571);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER27 = new Integer(572);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER28 = new Integer(573);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER29 = new Integer(574);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER30 = new Integer(575);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER31 = new Integer(576);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER32 = new Integer(577);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER33 = new Integer(578);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER34 = new Integer(579);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER35 = new Integer(580);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER36 = new Integer(581);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER37 = new Integer(582);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER38 = new Integer(583);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER39 = new Integer(584);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER40 = new Integer(585);
+   
+   private static final Integer RESOURCE_ENTERPRISE_TEXT1 = new Integer(646);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT2 = new Integer(647);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT3 = new Integer(648);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT4 = new Integer(649);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT5 = new Integer(650);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT6 = new Integer(651);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT7 = new Integer(652);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT8 = new Integer(653);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT9 = new Integer(654);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT10 = new Integer(655);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT11 = new Integer(656);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT12 = new Integer(657);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT13 = new Integer(658);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT14 = new Integer(659);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT15 = new Integer(660);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT16 = new Integer(661);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT17 = new Integer(662);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT18 = new Integer(663);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT19 = new Integer(664);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT20 = new Integer(665);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT21 = new Integer(666);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT22 = new Integer(667);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT23 = new Integer(668);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT24 = new Integer(669);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT25 = new Integer(670);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT26 = new Integer(671);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT27 = new Integer(672);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT28 = new Integer(673);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT29 = new Integer(674);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT30 = new Integer(675);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT31 = new Integer(676);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT32 = new Integer(677);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT33 = new Integer(678);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT34 = new Integer(679);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT35 = new Integer(680);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT36 = new Integer(681);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT37 = new Integer(682);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT38 = new Integer(683);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT39 = new Integer(684);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT40 = new Integer(685);
+   
    //
    // Unverified
    //
    private static final Integer RESOURCE_SUBPROJECTRESOURCEID = new Integer (102);
    private static final Integer RESOURCE_NOTES = new Integer (124);
 
-   private static final Integer TABLE_COLUMN_DATA = new Integer (6);
+   private static final Integer TABLE_COLUMN_DATA_STANDARD = new Integer (6);
+   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (7);   
    private static final Integer OUTLINECODE_DATA = new Integer (22);
    private static final Integer INCOMPLETE_WORK = new Integer(49);
    private static final Integer COMPLETE_WORK = new Integer(50);
+   
+
    
    /**
     * Mask used to isolate confirmed flag from the duration units field.

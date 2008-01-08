@@ -68,7 +68,7 @@ public final class Duration implements Comparable<Duration>
    }
 
    /**
-    * This method is used to retreve the type of units the duration
+    * This method is used to retrieve the type of units the duration
     * is expressed in. The valid types of units are found in the TimeUnit
     * class.
     *

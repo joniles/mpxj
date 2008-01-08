@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
 public class MPXJTest extends TestSuite
 {
    /**
-    * Construcor.
+    * Constructor.
     */
    public MPXJTest ()
    {
@@ -50,6 +50,7 @@ public class MPXJTest extends TestSuite
       addTestSuite (MppViewStateTest.class);
       addTestSuite (MppGroupTest.class);
       addTestSuite (MppCalendarTest.class);
+      addTestSuite (MppEnterpriseTest.class);
    }
 
    /**

@@ -114,7 +114,7 @@ public final class Column
             result = m_project.getResourceFieldAlias((ResourceField)m_fieldType);
          }
          
-         if (result == null)
+         if (result == null && m_fieldType != null)
          {
             result = m_fieldType.getName(locale);
          }

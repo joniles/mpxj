@@ -27,7 +27,7 @@ import net.sf.mpxj.listener.FieldListener;
 
 
 /**
- * This interface is implemnted by the Task and Resource classes. It
+ * This interface is implemented by the Task and Resource classes. It
  * defines the common methods used to set and retrieve field values
  * using their identifiers.
  */
