@@ -93,7 +93,7 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This method rerieves a byte array of the specified type,
+    * This method retrieves a byte array of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs

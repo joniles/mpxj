@@ -651,7 +651,7 @@ public abstract class GanttChartView extends GenericView
    }
    
    /**
-    * Convenience method used to retrueve the filter instance
+    * Convenience method used to retrieve the filter instance
     * associated with this view.
     * 
     * @return filter instance, null if no filter associated with view
