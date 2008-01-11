@@ -114,7 +114,8 @@
                regardless of the locale for which your operating system if configured.
             </p>
             <p>
-               Currently supported locales for MPX files include German, Portuguese, and Swedish. 
+               Currently supported locales for MPX files include German, Portuguese, Simplified
+		   Chinese and Swedish. 
                Producing a translation for you locale is very easy, please contact us for details
                on how you can help us to do this.
             </p>
