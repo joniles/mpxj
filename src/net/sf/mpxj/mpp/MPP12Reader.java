@@ -2891,10 +2891,18 @@ final class MPP12Reader implements MPPVariantReader
       throws IOException
    {
       DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CTable");
-      FixedData fixedData = new FixedData (110, new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData"))));
+      
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-
+      int tableCount = varMeta.getUniqueIdentifierSet().size();
+      DocumentInputStream is = new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData")));
+      int fixedItemSize = is.available()/tableCount;      
+      FixedData fixedData = new FixedData (fixedItemSize, is);
+      
+      //System.out.println(varMeta);
+      //System.out.println(varData);
+      //System.out.println(fixedData);
+      
       TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE);
       int items = fixedData.getItemCount();
       for (int loop=0; loop < items; loop++)
