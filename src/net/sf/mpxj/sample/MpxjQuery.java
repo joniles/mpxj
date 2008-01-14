@@ -426,6 +426,45 @@ public class MpxjQuery
             }
          }
       }
+      
+      //
+      // The following code is useful to produce output whichcan be compared
+      // directly with tabular data from MS Project.
+      //
+/*      
+      for (Task task: file.getAllTasks())
+      {
+         System.out.print(task.getID());
+         System.out.print('\t');
+         System.out.print(task.getName());
+         System.out.print('\t');
+         
+         List<Relation> predecessors = task.getPredecessors();
+         if (predecessors != null && predecessors.isEmpty() == false)
+         {
+            if (predecessors.size() > 1)
+            {
+               System.out.print('"');
+            }
+            boolean first = true;
+            for (Relation relation : predecessors)
+            {
+               if (!first)
+               {
+                  System.out.print(',');
+               }
+               first = false;
+               System.out.print(relation.getTaskID());               
+            }
+            if (predecessors.size() > 1)
+            {
+               System.out.print('"');
+            }            
+         }
+         
+         System.out.println();
+      }    
+*/
    }
    
    /**
