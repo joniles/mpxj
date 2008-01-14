@@ -442,7 +442,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       //
       if (rel == null)
       {
-         rel = new Relation(getParentFile());
+         rel = new Relation(getParentFile(), this);
 
          if (task != null)
          {
@@ -512,7 +512,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       //
       if (rel == null)
       {
-         rel = new Relation(getParentFile());
+         rel = new Relation(getParentFile(), this);
 
          if (task != null)
          {
@@ -555,7 +555,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          set(TaskField.SUCCESSORS, list);
       }
 
-      Relation rel = new Relation(getParentFile());
+      Relation rel = new Relation(getParentFile(), this);
 
       if (task != null)
       {
@@ -597,7 +597,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          set(TaskField.UNIQUE_ID_SUCCESSORS, list);
       }
 
-      Relation rel = new Relation(getParentFile());
+      Relation rel = new Relation(getParentFile(), this);
 
       if (task != null)
       {
@@ -6587,9 +6587,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * {@inheritDoc}
     */
-   @Override public String toString()
+   @Override 
+   public String toString()
    {
-      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");
+      SubProject externalTask = getSubProject();
+      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask()?" [EXTERNAL " + externalTask.getFullPath() + " " + getExternalTaskID()+"]":"") + "]");
    }
    
    /**

@@ -35,11 +35,13 @@ public final class Relation
    /**
     * Default constructor.
     *
-    * @param parent parent file
+    * @param parentProject parent project file
+    * @param parentTask parent task instance
     */
-   public Relation (ProjectFile parent)
+   public Relation (ProjectFile parentProject, Task parentTask)
    {
-      m_parent = parent;
+      m_parentProject = parentProject;
+      m_parentTask = parentTask;
       m_type = RelationType.FINISH_START;
       m_duration = Duration.getInstance(0, TimeUnit.DAYS);
    }
@@ -139,18 +141,32 @@ public final class Relation
     */
    public Task getTask ()
    {
-      return (m_parent.getTaskByUniqueID(m_taskUniqueID));
+      return (m_parentProject.getTaskByUniqueID(m_taskUniqueID));
    }
 
    /**
-    * Parent file.
+    * {@inheritDoc}
     */
-   private ProjectFile m_parent;
+   @Override
+   public String toString ()
+   {
+      return ("[Relation " + m_parentTask + " -> " + m_parentProject.getTaskByUniqueID(m_taskUniqueID) + "]");
+   }
+   
+   /**
+    * Parent project file.
+    */
+   private ProjectFile m_parentProject;
 
+   /**
+    * Parent task file.
+    */
+   private Task m_parentTask;
+   
    /**
     * Identifier of task with which this relationship is held.
     */
-   private Integer  m_taskID;
+   private Integer m_taskID;
    private Integer m_taskUniqueID;
 
    /**

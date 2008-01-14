@@ -800,11 +800,12 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Populates a relation list.
     *
+    * @param task parent task
     * @param data MPX relation list data
     * @return relation list
     * @throws MPXJException
     */
-   private List<Relation> populateRelationList (String data)
+   private List<Relation> populateRelationList (Task task, String data)
       throws MPXJException
    {
       List<Relation> list = new LinkedList<Relation> ();
@@ -825,7 +826,7 @@ public final class MPXReader extends AbstractProjectReader
                end = length;
             }
 
-            Relation relation = new Relation (m_projectFile);
+            Relation relation = new Relation (m_projectFile, task);
             populateRelation(data.substring(start, end).trim(), relation);
             list.add(relation);
 
@@ -966,7 +967,7 @@ public final class MPXReader extends AbstractProjectReader
             case TaskField.UNIQUE_ID_PREDECESSORS_VALUE:
             case TaskField.UNIQUE_ID_SUCCESSORS_VALUE:
             {
-               task.set(taskField, populateRelationList(field));
+               task.set(taskField, populateRelationList(task, field));
                break;
             }
 
