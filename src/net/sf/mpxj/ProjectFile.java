@@ -34,6 +34,7 @@ import java.util.Map;
 
 import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 
 
@@ -496,17 +497,19 @@ public final class ProjectFile
     */
    public void removeCalendar (ProjectCalendar calendar)
    {
-      Resource resource = calendar.getResource();
-      if (resource == null)
+      if (m_baseCalendars.contains(calendar))
       {
          m_baseCalendars.remove(calendar);
       }
-      else
+      else if (m_resourceCalendars.contains(calendar))
       {
          m_resourceCalendars.remove(calendar);
-         resource.setResourceCalendar(null);
-      }
-      
+         Resource resource = calendar.getResource();
+         if (resource != null)
+         {
+        	 resource.setResourceCalendar(null);
+         }
+      }      
       calendar.setBaseCalendar(null);
    }
 
@@ -1219,6 +1222,60 @@ public final class ProjectFile
    }
 
    /**
+    * Associates a value list with a custom task field number.
+    *
+    * @param field custom field number
+    * @param values values for the value list
+    */
+   public void setTaskFieldValueList (TaskField field, List<Object> values)
+   {
+      if ((values != null) && (values.size() != 0))
+      {
+    	 m_taskFieldValueList.put(field, values);
+      }
+   }
+
+   /**
+    * Retrieves the value list associated with a custom task field.
+    * This method will return null if no value list has been defined for
+    * this field.
+    *
+    * @param field task field instance
+    * @return alias text
+    */
+   public List<Object> getTaskFieldValueList (TaskField field)
+   {
+      return m_taskFieldValueList.get(field);
+   }
+
+   /**
+    * Associates a descriptions for value list with a custom task field number.
+    *
+    * @param field custom field number
+    * @param descriptions descriptions for the value list
+    */
+   public void setTaskFieldDescriptionList (TaskField field, List<String> descriptions)
+   {
+      if ((descriptions != null) && (descriptions.size() != 0))
+      {
+    	  m_taskFieldDescriptionList.put(field, descriptions);
+      }
+   }
+
+   /**
+    * Retrieves the description value list associated with a custom task field.
+    * This method will return null if no descriptions for the value list has been defined for
+    * this field.
+    *
+    * @param field task field instance
+    * @return alias text
+    */
+   public List<String> getTaskFieldDescriptionList (TaskField field)
+   {
+      return m_taskFieldDescriptionList.get(field);
+   }
+
+   /**
     * Associates an alias with a custom resource field number.
     *
     * @param field custom field number
@@ -1632,6 +1689,26 @@ public final class ProjectFile
    }
 
    /**
+    * This package-private method is used to add sub project details.
+    *
+    * @param project sub project
+    */
+   public void addSubProject (SubProject project)
+   {
+      m_allSubProjects.add(project);
+   }
+
+   /**
+    * Retrieves all the subprojects for this MPX file.
+    *
+    * @return all sub project details
+    */
+   public List<SubProject> getAllSubProjects ()
+   {
+      return (m_allSubProjects);
+   }
+
+   /**
     * Retrieve a flag indicating if auto filter is enabled.
     * 
     * @return auto filter flag
@@ -1670,6 +1747,96 @@ public final class ProjectFile
    {
       return (m_viewState);
    }
+   
+   /**
+    * Set whether the data in this file is encoded.
+    * 
+    * @param encoded True if the data is encoded in the file
+    */
+   public void setEncoded (boolean encoded)
+   {
+      m_encoded = encoded;
+   }
+   
+   /**
+    * Get whether the data in this file is encoded.
+    * 
+    * @return encoded
+    */
+   public boolean getEncoded ()
+   {
+      return (m_encoded);
+   }
+   
+   /**
+    * Set the key with which this data is encrypted (can be decrypted) with.
+    * 
+    * @param encryptionKey Encryption key
+    */
+   public void setEncryptionCode (byte encryptionKey)
+   {
+	   if (encryptionKey != 0x00)
+	   {
+		   m_encryptionKey = (byte)(0xFF - encryptionKey);
+	   }
+	   else
+	   {
+		   m_encryptionKey = (byte)0x00;
+	   }
+   }
+   
+   /**
+    * Get the key with which this data is encrypted (can be decrypted) with.
+    * 
+    * @return m_encryptionKey
+    */
+   public byte getEncryptionCode ()
+   {
+      return (m_encryptionKey);
+   }
+   
+   /**
+    * Sets the project file path.
+    *
+    * @param projectFilePath project file path
+    */
+   public void setProjectFilePath (String projectFilePath)
+   {
+	   m_projectFilePath = projectFilePath;
+   }
+
+   /**
+    * Gets the project file path.
+    *
+    * @return project file path
+    */
+   public String getProjectFilePath ()
+   {
+      return (m_projectFilePath);
+   }
+   
+   /**
+    * Add a custom field value list item.
+    * 
+    * @param item CustomFieldValueItem instance
+    */
+   public void addCustomFieldValueItem(CustomFieldValueItem item)
+   {
+	   m_customFieldValueItems.put(item.getUniqueID(), item);
+   }
+   
+   /**
+    * Get the custom field value list item with the given unique ID.
+    * 
+    * @param uniqueID unique ID
+    * @return CustomFieldValueItem instance
+    */
+   public CustomFieldValueItem getCustomFieldValueItem(Integer uniqueID)
+   {
+	   return m_customFieldValueItems.get(uniqueID);
+   }
+   
+   private String m_projectFilePath;
    
    /**
     * Counter used to populate the unique ID field of a task.
@@ -1746,6 +1913,16 @@ public final class ProjectFile
    private char m_delimiter = ',';
 
    /**
+    * Key with which this data is encrypted (can be decrypted) with.
+    */
+   private byte m_encryptionKey;
+   
+   /**
+    * Indicating whether the project data is encoded due to password protection.
+    */
+   private boolean m_encoded;
+
+   /**
     * Indicating whether WBS value should be calculated on creation, or will
     * be manually set.
     */
@@ -1797,6 +1974,16 @@ public final class ProjectFile
     * Maps from a task field number to a task alias.
     */
    private Map<TaskField, String> m_taskFieldAlias = new HashMap<TaskField, String>();
+
+   /**
+    * Maps from a task field number to a value list.
+    */
+   private Map<TaskField, List<Object>> m_taskFieldValueList = new HashMap<TaskField, List<Object>>();
+
+   /**
+    * Maps from a task field number to a description list.
+    */
+   private Map<TaskField, List<String>> m_taskFieldDescriptionList = new HashMap<TaskField, List<String>>();
 
    /**
     * Maps from a task field alias to a task field number.
@@ -1905,6 +2092,12 @@ public final class ProjectFile
    private SubProject m_resourceSubProject;
    
    /**
+    * This list holds a reference to all subprojects defined in the
+    * MPX file.
+    */
+   private List<SubProject> m_allSubProjects = new LinkedList<SubProject>();
+   
+   /**
     * Flag indicating if auto filter is enabled.
     */
    private boolean m_autoFilter;
@@ -1913,4 +2106,9 @@ public final class ProjectFile
     * Saved view state.
     */
    private ViewState m_viewState;
+   
+   /***
+    * Custom field value list items.
+    */
+   private Map<Integer, CustomFieldValueItem> m_customFieldValueItems = new HashMap<Integer, CustomFieldValueItem>();
 }

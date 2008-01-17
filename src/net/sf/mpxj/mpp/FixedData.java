@@ -75,25 +75,55 @@ final class FixedData extends MPPComponent
    FixedData (FixedMeta meta, InputStream is, int maxExpectedSize)
       throws IOException
    {
+	   this(meta, is, maxExpectedSize, 0);
+   }
+   
+   /**
+    * This version of the above constructor allows us to limited the
+    * size of blocks we copy where we have an idea o fthe maximum expected
+    * block size. This prevents us from reading riciculously large amounts
+    * of unnecessary data, causing OutOfMemory exceptions.
+    * 
+    * This constructor will also use the given minimum size in the case that the
+    * meta data block reports a size of 0
+    * 
+    * @param meta meta data about the contents of this fixed data block
+    * @throws IOException on file read failure
+    * @param maxExpectedSize maximum expected block size
+    * @param minSize minimum size that will be read if size of block is reported as 0.
+    * @param is input stream from which the data is read
+    */
+   FixedData (FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
+      throws IOException
+   {
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
-   
+      
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-            
+   
+      byte[] metaData;
+      int itemOffset;
+      int itemSize;
+      int available;
+   
       for (int loop=0; loop < itemCount; loop++)
       {
-         byte[] metaData = meta.getByteArrayValue(loop);
-         int itemSize = MPPUtility.getInt(metaData, 0);
-         int itemOffset = MPPUtility.getInt(metaData, 4);
+         metaData = meta.getByteArrayValue(loop);
+         itemSize = MPPUtility.getInt(metaData, 0);
+         if (itemSize == 0)
+         {
+        	 itemSize = minSize;
+         }
+         itemOffset = MPPUtility.getInt(metaData, 4);
    
          if (itemOffset > buffer.length)
          {
             continue;
          }
    
-         int available = buffer.length - itemOffset;
+         available = buffer.length - itemOffset;
    
          if (itemSize < 0 || itemSize > available)
          {

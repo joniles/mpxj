@@ -158,7 +158,7 @@ public abstract class GanttChartView extends GenericView
             m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
             m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
             m_timescaleMiddleTier.setCount(viewPropertyData[246]);
-            m_timescaleMiddleTier.setFormat(viewPropertyData[250]);
+            m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[250]));
             m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256]-32));
 
             m_timescaleBottomTier = new TimescaleTier ();
@@ -166,7 +166,7 @@ public abstract class GanttChartView extends GenericView
             m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
             m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
             m_timescaleBottomTier.setCount(viewPropertyData[248]);
-            m_timescaleBottomTier.setFormat(viewPropertyData[252]);
+            m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[252]));
             m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254]-32));
 
             m_timescaleSeparator = (flags & 0x04) != 0;
@@ -203,7 +203,7 @@ public abstract class GanttChartView extends GenericView
             m_timescaleTopTier.setUsesFiscalYear(topTierData[60]!=0);
             m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(topTierData[30]));
             m_timescaleTopTier.setCount(topTierData[32]);
-            m_timescaleTopTier.setFormat(topTierData[34]);
+            m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(topTierData[34]));
             m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36]-20));
          }
 

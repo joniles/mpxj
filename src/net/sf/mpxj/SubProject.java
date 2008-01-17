@@ -23,6 +23,9 @@
 
 package net.sf.mpxj;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * This class represents a sub project.
  */
@@ -152,6 +155,39 @@ public final class SubProject
    }
    
    /**
+    * Check to see if the given task is an external task from this subproject.
+    *
+    * @param taskUniqueID task unique ID
+    * @return true if the task is external
+    */
+   public boolean isExternalTask(Integer taskUniqueID)
+   {
+	   return m_externalTaskUniqueIDs.contains(taskUniqueID);
+   }
+   
+   /**
+    * This package-private method is used to add external task unique id.
+    *
+    * @param externalTaskUniqueID external task unique id
+    */
+   public void addExternalTaskUniqueID (Integer externalTaskUniqueID)
+   {
+	   m_externalTaskUniqueIDs.add(externalTaskUniqueID);
+   }
+
+   /**
+    * Retrieves all the external task unique ids for this MPX file.
+    *
+    * @return all sub project details
+    */
+   public List<Integer> getAllExternalTaskUniqueIDs ()
+   {
+      return (m_externalTaskUniqueIDs);
+   }
+
+
+   
+   /**
     * {@inheritDoc}
     */
    @Override public String toString ()
@@ -160,7 +196,8 @@ public final class SubProject
    }
 
    private Integer m_taskUniqueID;
-   private Integer m_uniqueIDOffset;
+   private Integer m_uniqueIDOffset;   
+   private List<Integer> m_externalTaskUniqueIDs  = new LinkedList<Integer>();
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

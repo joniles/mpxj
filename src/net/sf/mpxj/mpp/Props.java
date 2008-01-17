@@ -286,9 +286,15 @@ class Props extends MPPComponent
    public static final Integer TASK_FIELD_NAME_ALIASES = new Integer (1048577);
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
 
+   public static final Integer TASK_FIELD_CUSTOM_VALUE_LISTS = new Integer (37753744);   
+
    public static final Integer PASSWORD_FLAG = new Integer (893386752);
+   
    public static final Integer PROTECTION_PASSWORD_HASH = new Integer (893386756);
+   
    public static final Integer WRITE_RESERVATION_PASSWORD_HASH = new Integer (893386757);
+   
+   public static final Integer ENCRYPTION_CODE = new Integer (893386759);
    
    public static final Integer STATUS_DATE = new Integer(37748805);
    
@@ -301,6 +307,8 @@ class Props extends MPPComponent
    public static final Integer FONT_BASES = new Integer (54525952);
 
    public static final Integer AUTO_FILTER = new Integer (893386767);
+   
+   public static final Integer PROJECT_FILE_PATH = new Integer (893386760);
    
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
 }

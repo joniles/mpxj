@@ -11,10 +11,23 @@
 	<release version="2.0.1" date="CVS HEAD">
 		<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>	
 		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>
+		
+		<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for Enterprise task and resource fields.</action>
 		<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>
 		<action dev="joniles" type="add">Added support for Chinese MPX files (contributed by Felix Tian).</action>		
-		<action dev="joniles" type="add">Added support for reading project start and end dates from all MPP file types (Bug #1827633).</action>
+		<action dev="joniles" type="add">Added support for reading project start and end dates from all MPP file types (Bug #1827633).</action>		
+		<action dev="joniles" type="add">Added support for password protected MPP9 files (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for calendar exceptions for MPP12 files (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Improved support for hyperlinks (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for value lists and descriptions for custom fields (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for timescale formats (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for the project file path attribute (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for the ignore resource calendar attribute (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for the resource actual overtime work attribute (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for the resource material label attribute (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Added support for the resource NT account attribute (Contributed by Jari Niskala)</action>
 	</release>
 	
    <release version="2.0.0" date="07/10/2007">
@@ -29,7 +42,7 @@
    <release version="1.0.0" date="30/08/2007"> 
       <action dev="joniles" type="add">Added support for reading MPD files via JDBC</action>
       <action dev="joniles" type="add">Added support for reading Planner files</action>
-      <action dev="joniles" type="add">Added support for overallocated flag to all MPP file formats.</action>
+      <action dev="joniles" type="add">Added support for over allocated flag to all MPP file formats.</action>
       <action dev="joniles" type="add">Added support for calculating duration variance from MPP files.</action>
       <action dev="joniles" type="add">Added support for calculating start and finish variance from MPP files.</action>
       <action dev="joniles" type="add">Added support for attribute change listeners for Task and Resource classes.</action>      
@@ -148,12 +161,12 @@
 
    <release version="0.0.24" date="10/01/2005"> 
       <action dev="joniles" type="fix">Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
-      <action dev="joniles" type="update">Updated to use class instances instead of ints to represent some enumerated types.</action>
+      <action dev="joniles" type="update">Updated to use class instances instead of primitives to represent some enumerated types.</action>
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</action>
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</action>
       <action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</action>
       <action dev="joniles" type="add">Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</action>
-      <action dev="joniles" type="update">Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to descibe a project consistent with the contents of the MPP and MSPDI file formats.</action>
+      <action dev="joniles" type="update">Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.</action>
    </release>
 
    <release version="0.0.23" date="17/11/2004"> 
@@ -187,7 +200,7 @@
       <action dev="joniles" type="fix">Fixed a bug where MPP9 files containing invalid resource data were not read correctly.</action>
       <action dev="joniles" type="fix">Fixed a bug where MPXJ was using the default locale of the user's machine to create localised MPX files when a normal international MPX file was expected.</action>
       <action dev="joniles" type="fix">Fixed a bug where MPXJ not correctly handling embedded line breaks when reading and writing MPX files.</action>
-      <action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX spec.</action>
+      <action dev="joniles" type="update">Removed arbitrary restrictions on the number of various entities, originally taken from the MPX specification.</action>
       <action dev="joniles" type="update">Updated MPX documentation for Task.getFixed and Task.setFixed.</action>
       <action dev="joniles" type="update">Updated MPP9 file code to improve handling invalid offset values.</action>
       <action dev="joniles" type="update">Updated to remove leading and trailing spaces from MPX task field names before processing.</action>
@@ -228,7 +241,7 @@
    <release version="0.0.19" date="02/12/2003"> 
       <action dev="joniles" type="fix">Fixed a bug reading table data from certain MPP8 files</action>
       <action dev="joniles" type="update">Updated MSPDI support to use latest version of JAXB (from JWSDP-1.3)</action>
-      <action dev="joniles" type="update">Reimplemented base and resource calendars as a single MPXCalendar class</action>
+      <action dev="joniles" type="update">Re-implemented base and resource calendars as a single MPXCalendar class</action>
       <action dev="joniles" type="update">Updated support for base calendars and resource calendars for all file formats</action>
       <action dev="joniles" type="update">Improved MPXException to print details of any nested exception when a stack trace is printed.</action>
       <action dev="joniles" type="remove">Removed unnecessary use of ByteArray.java</action>

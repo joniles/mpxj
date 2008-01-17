@@ -54,7 +54,7 @@ public final class TimescaleTier
     *
     * @return tier label format
     */
-   public int getFormat()
+   public TimescaleFormat getFormat()
    {
       return (m_format);
    }
@@ -64,7 +64,7 @@ public final class TimescaleTier
     *
     * @param format tier label format
     */
-   public void setFormat(int format)
+   public void setFormat(TimescaleFormat format)
    {
       m_format = format;
    }
@@ -172,6 +172,6 @@ public final class TimescaleTier
    private boolean m_tickLines;
    private TimescaleUnits m_units;
    private int m_count;
-   private int m_format;
+   private TimescaleFormat m_format;
    private TimescaleAlignment m_alignment;
 }

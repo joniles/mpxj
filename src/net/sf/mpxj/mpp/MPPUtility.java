@@ -51,6 +51,79 @@ final class MPPUtility
    {
       // private constructor to prevent instantiation
    }
+   
+   /**
+    * This method decodes a byte array with the given encryption code.
+    *
+    * @param data Source data
+    * @param encryptionCode Encryption code
+    */
+   public static final void decodeBuffer(byte[] data, byte encryptionCode)
+   {
+	  for (int i = 0; i < data.length; i++)
+	  {
+		  // Just a simple XOR encryption
+		  data[i] = (byte)(data[i] ^ encryptionCode);
+	  }
+   }
+   
+   /**
+    * The mask used by Project to hide the password. The data must first
+    * be decoded using the XOR key and then the password can be read by reading
+    * the characters in given order starting with 1 and going up to 16.
+    * 00000: 00 00 04 00 00 00 05 00 07 00 12 00 10 00 06 00
+    * 00016: 14 00 00 00 00 00 08 00 16 00 00 00 00 00 02 00
+    * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
+    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00
+    * 
+    */   
+   private static final int[] PASSWORD_MASK =
+   {
+	   60, 30, 48, 2, 6, 14, 8, 22, 44, 12, 38, 10, 62, 16, 34, 24
+   };
+   
+   private static final int MINIMUM_PASSWORD_DATA_LENGTH = 64;
+
+   /**
+    * Decode the password from the given data. Will decode the data block as well. 
+    * 
+    * @param data encrypted data block
+    * @param encryptionCode encryption code
+    * 
+    * @return password
+    */
+   public static final String decodePassword(byte[] data, byte encryptionCode)
+   {
+      String result;
+      
+	   if (data.length < MINIMUM_PASSWORD_DATA_LENGTH)
+	   {
+		   result = null;
+	   }
+	   else
+	   {
+      	   MPPUtility.decodeBuffer(data, encryptionCode);
+      
+      	   StringBuffer buffer = new StringBuffer();	 
+      	   char c;
+      	
+      	   for (int i = 0; i < PASSWORD_MASK.length; i++)
+      	   {
+      		   int index = PASSWORD_MASK[i];
+      		   c = (char)data[index];
+      	
+      		   if (c == 0)
+      		   {
+      			   break;
+      		   }	
+      		   buffer.append(c);
+      	   }
+      
+      	   result = buffer.toString();
+	   }
+	   
+	   return (result);
+   }
 
    /**
     * This method extracts a portion of a byte array and writes it into
@@ -1069,6 +1142,230 @@ final class MPPUtility
       {
          ex.printStackTrace();
       }
+   }
+   
+   /**
+    * Dump out all the possible variables within the given data block.
+    *
+    * @param data data to dump from
+    * @param dumpShort true to dump all the data as shorts
+    * @param dumpInt true to dump all the data as ints
+    * @param dumpDouble true to dump all the data as Doubles
+    * @param dumpTimeStamp true to dump all the data as TimeStamps
+    * @param dumpDuration true to dump all the data as Durations (long)
+    * @param dumpDate true to dump all the data as Dates
+    * @param dumpTime true to dump all the data as Dates (time)
+    */
+   public static final void dataDump(byte[] data, boolean dumpShort, boolean dumpInt, 
+		   boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate,
+		   boolean dumpTime)
+   {
+	   System.out.println("DATA");
+	   
+	   if (data != null)
+	   {	   
+      	   System.out.println (MPPUtility.hexdump(data, false, 16, ""));
+      	   
+      	   for (int i = 0; i < data.length; i++)
+      	   {
+      	       if (dumpShort)
+      		   {
+      	    	   try
+      	    	   {
+      	    		   int sh = MPPUtility.getShort(data, i);
+      	    		   System.out.println(i + ":" + sh);
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+      	    	      // Silently ignore exceptions
+      	    	   }
+      		   }
+      	       if (dumpInt)
+      	       {
+      	    	   try
+      	    	   {
+      	    		   int sh = MPPUtility.getInt(data, i);
+      	    		   System.out.println(i + ":" + sh);
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+                      // Silently ignore exceptions      	    	      
+      	    	   }
+      	       }
+      	       if (dumpDouble)
+      	       {
+      	    	   try
+      	    	   {
+      	    		   double d = MPPUtility.getDouble(data, i);
+      	    		   System.out.println(i + ":" + d);
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+                      // Silently ignore exceptions      	    	      
+      		  	   }
+      	       }
+      	       if (dumpTimeStamp)
+      	       {
+      	    	   try
+      	    	   {
+      	    		   Date d = MPPUtility.getTimestamp(data, i);
+      	    		   if (d != null)
+      	    		   {
+      	    			   System.out.println(i + ":" + d.toString());
+      	    		   }
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+                      // Silently ignore exceptions      	    	      
+      	    	   }
+      	       }
+      	       if (dumpDuration)
+      	       {
+      	    	   try
+      	    	   {
+      	    		   long d = MPPUtility.getDuration(data, i);
+          			   System.out.println(i + ":" + d);
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+                      // Silently ignore exceptions      	    	      
+      	    	   }
+      	       }
+      	       if (dumpDate)
+      	       {
+      	    	   try
+      	    	   {
+      	    		   Date d = MPPUtility.getDate(data, i);
+      	    		   if (d != null)
+      	    		   {
+      	    			   System.out.println(i + ":" + d.toString());
+      	    		   }
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+                      // Silently ignore exceptions      	    	      
+      	    	   }
+      	       }
+      	       if (dumpTime)
+      	       {
+      	    	   try
+      	    	   {
+      	    		   Date d = MPPUtility.getTime(data, i);
+      	    		   if (d != null)
+      	    		   {
+      	    			   System.out.println(i + ":" + d.toString());
+      	    		   }
+      	    	   }
+      	    	   catch (Exception ex)
+      	    	   {
+                      // Silently ignore exceptions      	    	      
+      	    	   }
+      	       }
+      	   }
+	   }
+   }
+
+   /**
+    * Dump out all the possible variables within the given data block.
+    *
+    * @param data data to dump from
+    * @param id unique ID
+    * @param dumpShort true to dump all the data as shorts
+    * @param dumpInt true to dump all the data as ints
+    * @param dumpDouble true to dump all the data as Doubles
+    * @param dumpTimeStamp true to dump all the data as TimeStamps
+    * @param dumpUnicodeString true to dump all the data as Unicode strings
+    * @param dumpString true to dump all the data as strings
+    */
+   public static final void varDataDump(Var2Data data, Integer id, boolean dumpShort, boolean dumpInt, 
+		   boolean dumpDouble, boolean dumpTimeStamp, boolean dumpUnicodeString, boolean dumpString)
+   {
+	   System.out.println("VARDATA");
+	   for (int i = 0; i < 500; i++)
+	   {
+	       if (dumpShort)
+		   {
+	    	   try
+	    	   {
+	    		   int sh = data.getShort(id, new Integer(i));
+	    		   System.out.println(i + ":" + sh);
+	    	   }
+	    	   catch (Exception ex)
+	    	   {
+                  // Silently ignore exceptions
+	    	   }
+		   }
+	       if (dumpInt)
+	       {
+	    	   try
+	    	   {
+	    		   int sh = data.getInt(id, new Integer(i));
+	    		   System.out.println(i + ":" + sh);
+	    	   }
+	    	   catch (Exception ex)
+	    	   {
+                  // Silently ignore exceptions
+	    	   }
+	       }
+	       if (dumpDouble)
+	       {
+	    	   try
+	    	   {
+	    		   double d = data.getDouble(id, new Integer(i));
+	    		   System.out.println(i + ":" + d);
+	    		   System.out.println(i + ":" + d/60000);
+	    	   }
+	    	   catch (Exception ex)
+	    	   {
+                  // Silently ignore exceptions
+		  	   }
+	       }
+	       if (dumpTimeStamp)
+	       {
+	    	   try
+	    	   {
+	    		   Date d = data.getTimestamp(id, new Integer(i));
+	    		   if (d != null)
+	    		   {
+	    			   System.out.println(i + ":" + d.toString());
+	    		   }
+	    	   }
+	    	   catch (Exception ex)
+	    	   {
+                  // Silently ignore exceptions
+	    	   }
+	       }
+	       if (dumpUnicodeString)
+	       {
+	    	   try
+	    	   {
+	    		   String s = data.getUnicodeString(id, new Integer(i));
+	    		   if (s != null)
+	    		   {
+	    			   System.out.println(i + ":" + s);
+	    		   }
+	    	   }
+	    	   catch (Exception ex)
+	    	   {
+                  // Silently ignore exceptions
+	    	   }
+	       }
+	       if (dumpString)
+	       {
+	    	   try
+	    	   {
+	    		   String s = data.getString(id, new Integer(i));
+	    		   if (s != null)
+	    		   {
+	    			   System.out.println(i + ":" + s);
+	    		   }
+	    	   }
+	    	   catch (Exception ex)
+	    	   {
+                  // Silently ignore exceptions
+	    	   }
+	       }
+	   }
    }
 
    /**

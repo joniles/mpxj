@@ -136,6 +136,52 @@ public final class MPPReader extends AbstractProjectReader
       m_preserveNoteFormatting = preserveNoteFormatting;
    }
 
+   /**
+    * Set the read password for this Project file. This is needed in order to
+    * be allowed to read a read-protected Project file.
+    * 
+    * Note: Set this each time before calling the read method.
+    * 
+    * @param password password text
+    */
+   public void setReadPassword(String password)
+   {  
+	   m_readPassword = password;
+   }
+
+   /**
+    * Internal only. Get the read password for this Project file. This is 
+    * needed in order to be allowed to read a read-protected Project file.
+    * 
+    * @return password password text
+    */
+   public String getReadPassword()
+   {  
+	   return m_readPassword;
+   }
+
+   /**
+    * Set the write password for this Project file. Currently not used.
+    * 
+    * Note: Set this each time before calling the read method.
+    *
+    * @param password password text
+    */
+   public void setWritePassword(String password)
+   {   
+	   m_writePassword = password;
+   }
+
+   /**
+    * Internal only. Get the write password for this Project file. 
+    * Currently not used.
+    * 
+    * @return password
+    */
+   public String getWritePassword()
+   {   
+	   return m_writePassword;
+   }
 
    /**
     * Flag used to indicate whether RTF formatting in notes should
@@ -143,6 +189,8 @@ public final class MPPReader extends AbstractProjectReader
     */
    private boolean m_preserveNoteFormatting;
 
+   private String m_readPassword;
+   private String m_writePassword;
 
    /**
     * Populate a map of file types and file processing classes.

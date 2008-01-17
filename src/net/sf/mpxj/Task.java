@@ -3689,6 +3689,28 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Where a task in an MPP file represents a task from a subproject,
+    * this value will be non-zero. The value itself is the ID
+    * value shown in the parent project.
+    *
+    * @return sub project task ID
+    */
+   public Integer getSubprojectTaskID ()
+   {
+      return (m_subprojectTaskID);
+   }
+
+   /**
+    * Sets the sub project task ID.
+    *
+    * @param subprojectTaskID subproject task ID
+    */
+   public void setSubprojectTaskID (Integer subprojectTaskID)
+   {
+      m_subprojectTaskID = subprojectTaskID;
+   }
+
+   /**
     * Sets the offset added to unique task IDs from sub projects
     * to generate the task ID shown in the master project.
     *
@@ -3748,6 +3770,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setExternalTask (boolean externalTask)
    {
       set(TaskField.EXTERNAL_TASK, externalTask);
+   }
+
+   /**
+    * Retrieves the external task project file name.
+    *
+    * @return external task project file name
+    */
+   public String getExternalTaskProject ()
+   {
+      return (m_externalTaskProject);
+   }
+
+   /**
+    * Sets the external task project file name.
+    *
+    * @param externalTaskProject external task project file name
+    */
+   public void setExternalTaskProject (String externalTaskProject)
+   {
+      m_externalTaskProject = externalTaskProject;
    }
 
    /**
@@ -6154,6 +6196,27 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Task splits contain the time up to which the splits are completed.
+    *
+    * @return Duration of completed time for the splits.
+    */
+   public Duration getSplitCompleteDuration()
+   {
+	   return m_splitsComplete;
+   }
+   
+   /**
+    * Set the time up to which the splits are completed.
+    *
+    * @param splitsComplete Duration of completed time for the splits.
+    */
+   public void setSplitCompleteDuration(Duration splitsComplete)
+   {
+	   m_splitsComplete = splitsComplete;
+   }
+   
+   
+   /**
     * Removes this task from the project.
     */
    public void remove ()
@@ -6802,7 +6865,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    private TimeUnit m_durationFormat;   
    private boolean m_resumeValid;   
    private Integer m_subprojectTaskUniqueID;
+   private Integer m_subprojectTaskID;
    private Integer m_subprojectTasksUniqueIDOffset;
+   private String m_externalTaskProject;
    private TimeUnit m_levelingDelayFormat;
    private Integer m_physicalPercentComplete;
    private EarnedValueMethod m_earnedValueMethod;
@@ -6812,6 +6877,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    private Integer m_externalTaskID;
    
    private List<Duration> m_splits;
+   private Duration m_splitsComplete;
    private SubProject m_subProject;   
    private List<FieldListener> m_listeners;
 }

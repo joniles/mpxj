@@ -1818,7 +1818,7 @@ public class BasicTest extends MPXJTestCase
 
       catch (MPXJException ex)
       {
-         assertEquals(MPXJException.PASSWORD_PROTECTED, ex.getMessage());
+         assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
 
       //
@@ -1839,13 +1839,13 @@ public class BasicTest extends MPXJTestCase
 
       catch (MPXJException ex)
       {
-         assertEquals(MPXJException.PASSWORD_PROTECTED, ex.getMessage());
+         assertEquals(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD, ex.getMessage());
       }
    }
 
    /**
     * This test ensures that the task and resource extended attributes are
-    * read and writen correctly for MSPDI files.
+    * read and written correctly for MSPDI files.
     *
     * @throws Exception
     */
