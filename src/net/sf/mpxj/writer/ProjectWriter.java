@@ -32,7 +32,7 @@ import net.sf.mpxj.ProjectFile;
 
 /**
  * This interface is implemented by classes which can create project files
- * from teh contents of an ProjectFile instance.
+ * from the contents of an ProjectFile instance.
  */
 public interface ProjectWriter
 {
