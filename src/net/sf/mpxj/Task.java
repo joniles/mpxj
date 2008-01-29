@@ -2478,7 +2478,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * The Fixed Cost field shows any task expense that is not associated
     * with a resource cost.
     *
-    * @return currenct amount as float
+    * @return currency amount
     */
    public Number getFixedCost ()
    {
@@ -4163,7 +4163,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * Retrieves the effort friven flag.
+    * Retrieves the effort driven flag.
     *
     * @return Flag value
     */
