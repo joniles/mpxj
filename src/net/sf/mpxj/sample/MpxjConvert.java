@@ -23,19 +23,11 @@
 
 package net.sf.mpxj.sample;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
-import net.sf.mpxj.mpx.MPXReader;
-import net.sf.mpxj.mpx.MPXWriter;
-import net.sf.mpxj.mspdi.MSPDIReader;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-import net.sf.mpxj.planner.PlannerReader;
-import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.ProjectReaderUtility;
 import net.sf.mpxj.writer.ProjectWriter;
+import net.sf.mpxj.writer.ProjectWriterUtility;
 
 
 /**
@@ -84,93 +76,17 @@ public final class MpxjConvert
    {
       System.out.println ("Reading input file started.");
       long start = System.currentTimeMillis();
-      ProjectReader reader = getReaderObject(inputFile);
+      ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
       ProjectFile projectFile = reader.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println ("Reading input file completed in " + elapsed + "ms.");
 
       System.out.println ("Writing output file started.");
       start = System.currentTimeMillis();
-      ProjectWriter writer = getWriterObject(outputFile);
+      ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
       writer.write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
       System.out.println ("Writing output completed in " + elapsed + "ms.");
-   }
-
-   /**
-    * Create a ProjectReader instance of the appropriate type.
-    *
-    * @param name file name
-    * @return ProjectReader instance
-    * @throws Exception
-    */
-   private ProjectReader getReaderObject (String name)
-      throws Exception
-   {
-      int index = name.lastIndexOf('.');
-      if (index == -1)
-      {
-         throw new Exception ("Filename has no extension: " + name);
-      }
-
-      String extension = name.substring(index+1).toUpperCase();
-
-      Class<? extends ProjectReader> fileClass = READER_MAP.get(extension);
-      if (fileClass == null)
-      {
-         throw new Exception ("Cannot read files of type: " + name);
-      }
-
-      ProjectReader file = fileClass.newInstance();
-
-      return (file);
-   }
-
-   /**
-    * Create a ProjectWriter instance of the appropriate type.
-    *
-    * @param name file name
-    * @return ProjectWriter instance
-    * @throws Exception
-    */
-   private ProjectWriter getWriterObject (String name)
-      throws Exception
-   {
-      int index = name.lastIndexOf('.');
-      if (index == -1)
-      {
-         throw new Exception ("Filename has no extension: " + name);
-      }
-
-      String extension = name.substring(index+1).toUpperCase();
-
-      Class<? extends ProjectWriter> fileClass = WRITER_MAP.get(extension);
-      if (fileClass == null)
-      {
-         throw new Exception ("Cannot write files of type: " + name);
-      }
-
-      ProjectWriter file = fileClass.newInstance();
-
-      return (file);
-   }
-
-   private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<String, Class<? extends ProjectReader>> ();
-   static
-   {
-      READER_MAP.put("MPP", MPPReader.class);
-      READER_MAP.put("MPT", MPPReader.class);
-      READER_MAP.put("MPX", MPXReader.class);
-      READER_MAP.put("XML", MSPDIReader.class);
-      READER_MAP.put("PLANNER", PlannerReader.class);
-   }
-
-   private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>> ();
-   static
-   {
-      WRITER_MAP.put("MPX", MPXWriter.class);
-      WRITER_MAP.put("XML", MSPDIWriter.class);
-      WRITER_MAP.put("PLANNER", PlannerWriter.class);
    }
 }
 
