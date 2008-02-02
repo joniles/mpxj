@@ -8,19 +8,17 @@
 
    <body> 
 
-	<release version="2.0.1" date="CVS HEAD">
+	<release version="2.1.0" date="CVS HEAD">
 		<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>	
-		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>
-		
+		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>		
 		<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for Enterprise task and resource fields.</action>
+		<action dev="joniles" type="add">Added support for Baseline task and resource fields.</action>
 		<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>
 		<action dev="joniles" type="add">Added support for Chinese MPX files (contributed by Felix Tian).</action>		
 		<action dev="joniles" type="add">Added support for reading project start and end dates from all MPP file types (Bug #1827633).</action>		
 		<action dev="joniles" type="add">Added support for password protected MPP9 files (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for calendar exceptions for MPP12 files (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Improved support for hyperlinks (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="add">Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for value lists and descriptions for custom fields (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for timescale formats (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for the project file path attribute (Contributed by Jari Niskala)</action>
@@ -28,6 +26,8 @@
 		<action dev="joniles" type="add">Added support for the resource actual overtime work attribute (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for the resource material label attribute (Contributed by Jari Niskala)</action>
 		<action dev="joniles" type="add">Added support for the resource NT account attribute (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Improved support for hyperlinks (Contributed by Jari Niskala)</action>
+		<action dev="joniles" type="add">Improved support for custom fields in MPP12 files (Contributed by Jari Niskala)</action>		
 	</release>
 	
    <release version="2.0.0" date="07/10/2007">

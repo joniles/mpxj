@@ -4519,6 +4519,50 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineCost (int baselineNumber, Number value)
+   {
+      set(selectResourceField(BASELINE_COSTS, baselineNumber), value);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineWork (int baselineNumber, Duration value)
+   {
+	   set(selectResourceField(BASELINE_WORKS, baselineNumber), value);
+   }
+    
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Number getBaselineCost (int baselineNumber)
+   {
+      return ((Number)getCachedValue(selectResourceField(BASELINE_COSTS, baselineNumber)));
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Duration getBaselineWork (int baselineNumber)
+   {
+      return ((Duration)getCachedValue(selectResourceField(BASELINE_WORKS, baselineNumber)));
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -4529,7 +4573,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       if (index < 1 || index > fields.length)
       {
-         throw new IllegalArgumentException();
+         throw new IllegalArgumentException(index + " is not a valid field index");
       }
       return (fields[index-1]);
    }
@@ -4898,6 +4942,34 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_TEXT38,
       ResourceField.ENTERPRISE_TEXT39,
       ResourceField.ENTERPRISE_TEXT40      
+   };
+   
+   private static final ResourceField[] BASELINE_COSTS =
+   {
+      ResourceField.BASELINE1_COST,
+      ResourceField.BASELINE2_COST,
+      ResourceField.BASELINE3_COST,
+      ResourceField.BASELINE4_COST,
+      ResourceField.BASELINE5_COST,
+      ResourceField.BASELINE6_COST,
+      ResourceField.BASELINE7_COST,
+      ResourceField.BASELINE8_COST,
+      ResourceField.BASELINE9_COST,
+      ResourceField.BASELINE10_COST
+   };
+   
+   private static final ResourceField[] BASELINE_WORKS =
+   {
+      ResourceField.BASELINE1_WORK,
+      ResourceField.BASELINE2_WORK,
+      ResourceField.BASELINE3_WORK,
+      ResourceField.BASELINE4_WORK,
+      ResourceField.BASELINE5_WORK,
+      ResourceField.BASELINE6_WORK,
+      ResourceField.BASELINE7_WORK,
+      ResourceField.BASELINE8_WORK,
+      ResourceField.BASELINE9_WORK,
+      ResourceField.BASELINE10_WORK
    };
    
    /**

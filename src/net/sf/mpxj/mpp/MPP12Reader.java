@@ -1356,25 +1356,72 @@ final class MPP12Reader implements MPPVariantReader
          //task.setAssignment(); // Calculated value
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
+
          task.setBaselineCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
          task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
          task.setBaselineFinish(MPPUtility.getTimestamp (data, 108));
          task.setBaselineStart(MPPUtility.getTimestamp (data, 104));
          task.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
 
-// From MS Project 2003
-//         task.setBaseline1Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
-//         task.setBaseline1Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
-//         task.setBaseline1Finish(MPPUtility.getTimestamp (data, 108));
-//         task.setBaseline1Start(MPPUtility.getTimestamp (data, 104));
-//         task.setBaseline1Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
-// to...
-//         task.setBaseline10Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
-//         task.setBaseline10Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
-//         task.setBaseline10Finish(MPPUtility.getTimestamp (data, 108));
-//         task.setBaseline10Start(MPPUtility.getTimestamp (data, 104));
-//         task.setBaseline10Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE1_COST) / 100));
+         task.setBaselineDuration(1, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE1_DURATION, TASK_BASELINE1_DURATION_UNITS));
+         task.setBaselineFinish(1, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE1_FINISH));
+         task.setBaselineStart(1, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE1_START));
+         task.setBaselineWork(1, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE1_WORK)/60000, TimeUnit.HOURS));
+                  
+         task.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE2_COST) / 100));
+         task.setBaselineDuration(2, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE2_DURATION, TASK_BASELINE2_DURATION_UNITS));
+         task.setBaselineFinish(2, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE2_FINISH));
+         task.setBaselineStart(2, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE2_START));
+         task.setBaselineWork(2, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE2_WORK)/60000, TimeUnit.HOURS));
+       
+         task.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE3_COST) / 100));
+         task.setBaselineDuration(3, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE3_DURATION, TASK_BASELINE3_DURATION_UNITS));
+         task.setBaselineFinish(3, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE3_FINISH));
+         task.setBaselineStart(3, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE3_START));
+         task.setBaselineWork(3, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE3_WORK)/60000, TimeUnit.HOURS));
+         
+         task.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE4_COST) / 100));
+         task.setBaselineDuration(4, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE4_DURATION, TASK_BASELINE4_DURATION_UNITS));
+         task.setBaselineFinish(4, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE4_FINISH));
+         task.setBaselineStart(4, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE4_START));
+         task.setBaselineWork(4, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE4_WORK)/60000, TimeUnit.HOURS));
 
+         task.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE5_COST) / 100));
+         task.setBaselineDuration(5, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE5_DURATION, TASK_BASELINE5_DURATION_UNITS));
+         task.setBaselineFinish(5, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE5_FINISH));
+         task.setBaselineStart(5, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE5_START));
+         task.setBaselineWork(5, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE5_WORK)/60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE6_COST) / 100));
+         task.setBaselineDuration(6, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE6_DURATION, TASK_BASELINE6_DURATION_UNITS));
+         task.setBaselineFinish(6, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE6_FINISH));
+         task.setBaselineStart(6, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE6_START));
+         task.setBaselineWork(6, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE6_WORK)/60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE7_COST) / 100));
+         task.setBaselineDuration(7, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE7_DURATION, TASK_BASELINE7_DURATION_UNITS));
+         task.setBaselineFinish(7, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE7_FINISH));
+         task.setBaselineStart(7, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE7_START));
+         task.setBaselineWork(7, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE7_WORK)/60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE8_COST) / 100));
+         task.setBaselineDuration(8, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE8_DURATION, TASK_BASELINE8_DURATION_UNITS));
+         task.setBaselineFinish(8, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE8_FINISH));
+         task.setBaselineStart(8, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE8_START));
+         task.setBaselineWork(8, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE8_WORK)/60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE9_COST) / 100));
+         task.setBaselineDuration(9, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE9_DURATION, TASK_BASELINE9_DURATION_UNITS));
+         task.setBaselineFinish(9, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE9_FINISH));
+         task.setBaselineStart(9, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE9_START));
+         task.setBaselineWork(9, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE9_WORK)/60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE10_COST) / 100));
+         task.setBaselineDuration(10, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE10_DURATION, TASK_BASELINE10_DURATION_UNITS));
+         task.setBaselineFinish(10, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE10_FINISH));
+         task.setBaselineStart(10, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE10_START));
+         task.setBaselineWork(10, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE10_WORK)/60000, TimeUnit.HOURS));
 
          //task.setBCWP(); // Calculated value
          //task.setBCWS(); // Calculated value
@@ -1385,16 +1432,16 @@ final class MPP12Reader implements MPPVariantReader
          task.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 200) / 100));
          //task.setCostRateTable(); // Calculated value
          //task.setCostVariance(); // Populated below
-         task.setCost1(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST1) / 100));
-         task.setCost2(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST2) / 100));
-         task.setCost3(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST3) / 100));
-         task.setCost4(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST4) / 100));
-         task.setCost5(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST5) / 100));
-         task.setCost6(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST6) / 100));
-         task.setCost7(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST7) / 100));
-         task.setCost8(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST8) / 100));
-         task.setCost9(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST9) / 100));
-         task.setCost10(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST10) / 100));
+         task.setCost1(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST1) / 100));
+         task.setCost2(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST2) / 100));
+         task.setCost3(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST3) / 100));
+         task.setCost4(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST4) / 100));
+         task.setCost5(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST5) / 100));
+         task.setCost6(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST6) / 100));
+         task.setCost7(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST7) / 100));
+         task.setCost8(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST8) / 100));
+         task.setCost9(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST9) / 100));
+         task.setCost10(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST10) / 100));
 
 // From MS Project 2003
 //         task.setCPI();
@@ -2465,8 +2512,40 @@ final class MPP12Reader implements MPPVariantReader
          resource.setAvailableFrom(MPPUtility.getTimestamp(data, 20));
          resource.setAvailableTo(MPPUtility.getTimestamp(data, 24));
          //resource.setBaseCalendar();
+         
          resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148)/100));
          resource.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));
+         
+         resource.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE1_COST) / 100));
+         resource.setBaselineWork(1, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE1_WORK)/60000, TimeUnit.HOURS));
+         
+         resource.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE2_COST) / 100));
+         resource.setBaselineWork(2, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE2_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE3_COST) / 100));
+         resource.setBaselineWork(3, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE3_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE4_COST) / 100));
+         resource.setBaselineWork(4, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE4_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE5_COST) / 100));
+         resource.setBaselineWork(5, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE5_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE6_COST) / 100));
+         resource.setBaselineWork(6, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE6_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE7_COST) / 100));
+         resource.setBaselineWork(7, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE7_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE8_COST) / 100));
+         resource.setBaselineWork(8, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE8_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE9_COST) / 100));
+         resource.setBaselineWork(9, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE9_WORK)/60000, TimeUnit.HOURS));
+
+         resource.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE10_COST) / 100));
+         resource.setBaselineWork(10, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE10_WORK)/60000, TimeUnit.HOURS));
+
          resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
          resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140)/100));
          
@@ -3105,7 +3184,7 @@ final class MPP12Reader implements MPPVariantReader
        }
        return result;
    }
-   
+
    /**
     * Retrieve custom field value.
     * 
@@ -3541,6 +3620,76 @@ final class MPP12Reader implements MPPVariantReader
 
    private static final Integer TASK_EXTERNAL_TASK_ID = new Integer (255);
    
+   private static final Integer TASK_BASELINE1_START = new Integer(482);
+   private static final Integer TASK_BASELINE1_FINISH = new Integer(483);
+   private static final Integer TASK_BASELINE1_COST = new Integer(484);
+   private static final Integer TASK_BASELINE1_WORK = new Integer(485);
+   private static final Integer TASK_BASELINE1_DURATION = new Integer(487); 
+   private static final Integer TASK_BASELINE1_DURATION_UNITS = new Integer(488);
+   
+   private static final Integer TASK_BASELINE2_START = new Integer(493);
+   private static final Integer TASK_BASELINE2_FINISH = new Integer(494);
+   private static final Integer TASK_BASELINE2_COST = new Integer(495);
+   private static final Integer TASK_BASELINE2_WORK = new Integer(496);
+   private static final Integer TASK_BASELINE2_DURATION = new Integer(498); 
+   private static final Integer TASK_BASELINE2_DURATION_UNITS = new Integer(499);
+   
+   private static final Integer TASK_BASELINE3_START = new Integer(504);
+   private static final Integer TASK_BASELINE3_FINISH = new Integer(505);
+   private static final Integer TASK_BASELINE3_COST = new Integer(506);
+   private static final Integer TASK_BASELINE3_WORK = new Integer(507);
+   private static final Integer TASK_BASELINE3_DURATION = new Integer(509); 
+   private static final Integer TASK_BASELINE3_DURATION_UNITS = new Integer(510);
+   
+   private static final Integer TASK_BASELINE4_START = new Integer(515);
+   private static final Integer TASK_BASELINE4_FINISH = new Integer(516);
+   private static final Integer TASK_BASELINE4_COST = new Integer(517);
+   private static final Integer TASK_BASELINE4_WORK = new Integer(518);
+   private static final Integer TASK_BASELINE4_DURATION = new Integer(520);
+   private static final Integer TASK_BASELINE4_DURATION_UNITS = new Integer(521);
+   
+   private static final Integer TASK_BASELINE5_START = new Integer(526);
+   private static final Integer TASK_BASELINE5_FINISH = new Integer(527);
+   private static final Integer TASK_BASELINE5_COST = new Integer(528);
+   private static final Integer TASK_BASELINE5_WORK = new Integer(529);
+   private static final Integer TASK_BASELINE5_DURATION = new Integer(531); 
+   private static final Integer TASK_BASELINE5_DURATION_UNITS = new Integer(532);
+   
+   private static final Integer TASK_BASELINE6_START = new Integer(544);
+   private static final Integer TASK_BASELINE6_FINISH = new Integer(545);
+   private static final Integer TASK_BASELINE6_COST = new Integer(546);
+   private static final Integer TASK_BASELINE6_WORK = new Integer(547);
+   private static final Integer TASK_BASELINE6_DURATION = new Integer(549);  
+   private static final Integer TASK_BASELINE6_DURATION_UNITS = new Integer(550);
+   
+   private static final Integer TASK_BASELINE7_START = new Integer(555);
+   private static final Integer TASK_BASELINE7_FINISH = new Integer(556);
+   private static final Integer TASK_BASELINE7_COST = new Integer(557);
+   private static final Integer TASK_BASELINE7_WORK = new Integer(558);
+   private static final Integer TASK_BASELINE7_DURATION = new Integer(560); 
+   private static final Integer TASK_BASELINE7_DURATION_UNITS = new Integer(561);
+   
+   private static final Integer TASK_BASELINE8_START = new Integer(566);
+   private static final Integer TASK_BASELINE8_FINISH = new Integer(567);
+   private static final Integer TASK_BASELINE8_COST = new Integer(568);
+   private static final Integer TASK_BASELINE8_WORK = new Integer(569);
+   private static final Integer TASK_BASELINE8_DURATION = new Integer(571);
+   private static final Integer TASK_BASELINE8_DURATION_UNITS = new Integer(572);
+   
+   private static final Integer TASK_BASELINE9_START = new Integer(577);
+   private static final Integer TASK_BASELINE9_FINISH = new Integer(578);
+   private static final Integer TASK_BASELINE9_COST = new Integer(579);
+   private static final Integer TASK_BASELINE9_WORK = new Integer(580);
+   private static final Integer TASK_BASELINE9_DURATION = new Integer(582); 
+   private static final Integer TASK_BASELINE9_DURATION_UNITS = new Integer(583);
+   
+   private static final Integer TASK_BASELINE10_START = new Integer(588);
+   private static final Integer TASK_BASELINE10_FINISH = new Integer(589);
+   private static final Integer TASK_BASELINE10_COST = new Integer(590);
+   private static final Integer TASK_BASELINE10_WORK = new Integer(591);
+   private static final Integer TASK_BASELINE10_DURATION = new Integer(593);   
+   private static final Integer TASK_BASELINE10_DURATION_UNITS = new Integer(594);
+   
    //
    // Unverified
    //
@@ -3846,6 +3995,27 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_TEXT38 = new Integer(683);
    private static final Integer RESOURCE_ENTERPRISE_TEXT39 = new Integer(684);
    private static final Integer RESOURCE_ENTERPRISE_TEXT40 = new Integer(685);
+   
+   public static final Integer RESOURCE_BASELINE1_WORK = new Integer(342);
+   public static final Integer RESOURCE_BASELINE1_COST = new Integer(343);
+   public static final Integer RESOURCE_BASELINE2_WORK = new Integer(352);
+   public static final Integer RESOURCE_BASELINE2_COST = new Integer(353);
+   public static final Integer RESOURCE_BASELINE3_WORK = new Integer(362);
+   public static final Integer RESOURCE_BASELINE3_COST = new Integer(363);
+   public static final Integer RESOURCE_BASELINE4_WORK = new Integer(372);
+   public static final Integer RESOURCE_BASELINE4_COST = new Integer(373);
+   public static final Integer RESOURCE_BASELINE5_WORK = new Integer(382);
+   public static final Integer RESOURCE_BASELINE5_COST = new Integer(383);
+   public static final Integer RESOURCE_BASELINE6_WORK = new Integer(392);
+   public static final Integer RESOURCE_BASELINE6_COST = new Integer(393);
+   public static final Integer RESOURCE_BASELINE7_WORK = new Integer(402);
+   public static final Integer RESOURCE_BASELINE7_COST = new Integer(403);
+   public static final Integer RESOURCE_BASELINE8_WORK = new Integer(412);
+   public static final Integer RESOURCE_BASELINE8_COST = new Integer(413);
+   public static final Integer RESOURCE_BASELINE9_WORK = new Integer(422);
+   public static final Integer RESOURCE_BASELINE9_COST = new Integer(423);
+   public static final Integer RESOURCE_BASELINE10_WORK = new Integer(432);
+   public static final Integer RESOURCE_BASELINE10_COST = new Integer(433);
    
    //
    // Unverified

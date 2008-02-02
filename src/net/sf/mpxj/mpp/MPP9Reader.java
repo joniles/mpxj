@@ -1616,7 +1616,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
-
+      
       TreeMap<Integer, Integer> taskMap = createTaskMap (taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
@@ -1675,7 +1675,7 @@ final class MPP9Reader implements MPPVariantReader
 	        	 continue;
         	 }
          }
-         
+              
          task = m_file.addTask();
          task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
@@ -2140,10 +2140,34 @@ final class MPP9Reader implements MPPVariantReader
                   case DURATION:
                   {
                      byte[] durationData = props.getByteArray(key);
-                     double durationValueInHours = ((double)MPPUtility.getInt(durationData, 0)) / 600; 
-                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
-                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+                	  
+                     switch (field.getValue())
+                     {
+                     	case TaskField.BASELINE1_WORK_VALUE:
+                     	case TaskField.BASELINE2_WORK_VALUE:
+                     	case TaskField.BASELINE3_WORK_VALUE:
+                     	case TaskField.BASELINE4_WORK_VALUE:
+                     	case TaskField.BASELINE5_WORK_VALUE:
+                     	case TaskField.BASELINE6_WORK_VALUE:
+                     	case TaskField.BASELINE7_WORK_VALUE:
+                     	case TaskField.BASELINE8_WORK_VALUE:
+                     	case TaskField.BASELINE9_WORK_VALUE:
+                     	case TaskField.BASELINE10_WORK_VALUE:
+                     	{
+                     		double durationValueInHours = MPPUtility.getDouble(durationData)/60000;
+                     		value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                     		break;
+                     	}
+                     
+                     	default:
+                     	{
+		                     double durationValueInHours = ((double)MPPUtility.getInt(durationData, 0)) / 600; 
+		                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+		                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+		                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+		                     break;
+                     	}
+                     }
                      break;
                   }
                   
@@ -2486,6 +2510,8 @@ final class MPP9Reader implements MPPVariantReader
       FixedData rscFixedData = new FixedData (rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
+      //System.out.println(rscFixedMeta);
+      //System.out.println(rscFixedData);
       
       TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
@@ -2526,7 +2552,27 @@ final class MPP9Reader implements MPPVariantReader
          resource.setActualWork(Duration.getInstance (MPPUtility.getDouble (data, 60)/60000, TimeUnit.HOURS));
          resource.setAvailableFrom(MPPUtility.getTimestamp(data, 20));
          resource.setAvailableTo(MPPUtility.getTimestamp(data, 24));
-         //resource.setBaseCalendar();
+         //resource.setBaseCalendar();         
+         resource.setBaselineCost(1, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE1_COST) / 100));
+         resource.setBaselineCost(2, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE2_COST) / 100));
+         resource.setBaselineCost(3, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE3_COST) / 100));
+         resource.setBaselineCost(4, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE4_COST) / 100));
+         resource.setBaselineCost(5, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE5_COST) / 100));
+         resource.setBaselineCost(6, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE6_COST) / 100));
+         resource.setBaselineCost(7, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE7_COST) / 100));
+         resource.setBaselineCost(8, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE8_COST) / 100));
+         resource.setBaselineCost(9, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE9_COST) / 100));
+         resource.setBaselineCost(10, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE10_COST) / 100));         
+         resource.setBaselineWork(1, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE1_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(2, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE2_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(3, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE3_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(4, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE4_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(5, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE5_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(6, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE6_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(7, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE7_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(8, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE8_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(9, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE9_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineWork(10, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE10_WORK)/60000, TimeUnit.HOURS));         
          resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148)/100));
          resource.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));
          resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
@@ -3431,9 +3477,31 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST8 = new Integer (132);
    private static final Integer RESOURCE_COST9 = new Integer (133);
    private static final Integer RESOURCE_COST10 = new Integer (134);
-
+   
    private static final Integer RESOURCE_ENTERPRISE_COLUMNS = new Integer(143);
    
+   private static final Integer RESOURCE_BASELINE1_WORK = new Integer(144);
+   private static final Integer RESOURCE_BASELINE2_WORK = new Integer(148);
+   private static final Integer RESOURCE_BASELINE3_WORK = new Integer(152);
+   private static final Integer RESOURCE_BASELINE4_WORK = new Integer(156);
+   private static final Integer RESOURCE_BASELINE5_WORK = new Integer(160);
+   private static final Integer RESOURCE_BASELINE6_WORK = new Integer(164);
+   private static final Integer RESOURCE_BASELINE7_WORK = new Integer(168);
+   private static final Integer RESOURCE_BASELINE8_WORK = new Integer(172);
+   private static final Integer RESOURCE_BASELINE9_WORK = new Integer(176);
+   private static final Integer RESOURCE_BASELINE10_WORK = new Integer(180);
+
+   private static final Integer RESOURCE_BASELINE1_COST = new Integer(145);
+   private static final Integer RESOURCE_BASELINE2_COST = new Integer(149);
+   private static final Integer RESOURCE_BASELINE3_COST = new Integer(153);
+   private static final Integer RESOURCE_BASELINE4_COST = new Integer(157);
+   private static final Integer RESOURCE_BASELINE5_COST = new Integer(161);
+   private static final Integer RESOURCE_BASELINE6_COST = new Integer(165);
+   private static final Integer RESOURCE_BASELINE7_COST = new Integer(169);
+   private static final Integer RESOURCE_BASELINE8_COST = new Integer(173);
+   private static final Integer RESOURCE_BASELINE9_COST = new Integer(177);
+   private static final Integer RESOURCE_BASELINE10_COST = new Integer(181);
+  
    private static final Integer TABLE_COLUMN_DATA_STANDARD = new Integer (1);
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (2);   
    private static final Integer OUTLINECODE_DATA = new Integer (1);

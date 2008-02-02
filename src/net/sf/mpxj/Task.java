@@ -6386,7 +6386,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       return ((String)getCachedValue(selectTaskField(ENTERPRISE_TEXT_FIELDS, index)));
    }
-   
+
    /**
     * Set an enterprise field value.
     * 
@@ -6399,6 +6399,117 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineCost (int baselineNumber, Number value)
+   {
+      set(selectTaskField(BASELINE_COSTS, baselineNumber), value);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineDuration (int baselineNumber, Duration value)
+   {
+	   set(selectTaskField(BASELINE_DURATIONS, baselineNumber), value);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineFinish (int baselineNumber, Date value)
+   {
+	   set(selectTaskField(BASELINE_FINISHES, baselineNumber), value);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineStart (int baselineNumber, Date value)
+   {
+	   set(selectTaskField(BASELINE_STARTS, baselineNumber), value);
+   }
+
+   /**
+    * Set a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @param value baseline value
+    */
+   public void setBaselineWork (int baselineNumber, Duration value)
+   {
+	   set(selectTaskField(BASELINE_WORKS, baselineNumber), value);
+   }
+    
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Number getBaselineCost (int baselineNumber)
+   {
+      return ((Number)getCachedValue(selectTaskField(BASELINE_COSTS, baselineNumber)));
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Duration getBaselineDuration (int baselineNumber)
+   {
+      return ((Duration)getCachedValue(selectTaskField(BASELINE_DURATIONS, baselineNumber)));
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Date getBaselineFinish (int baselineNumber)
+   {
+      return ((Date)getCachedValue(selectTaskField(BASELINE_FINISHES, baselineNumber)));
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Date getBaselineStart (int baselineNumber)
+   {
+      return ((Date)getCachedValue(selectTaskField(BASELINE_STARTS, baselineNumber)));
+   }
+
+   /**
+    * Retrieve a baseline value.
+    * 
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline value
+    */
+   public Duration getBaselineWork (int baselineNumber)
+   {
+      return ((Duration)getCachedValue(selectTaskField(BASELINE_WORKS, baselineNumber)));
+   }
+   
+
+   /**
     * Maps a field index to a TaskField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -6409,7 +6520,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       if (index < 1 || index > fields.length)
       {
-         throw new IllegalArgumentException();
+         throw new IllegalArgumentException(index + " is not a valid field index");
       }
       return (fields[index-1]);
    }
@@ -6858,6 +6969,76 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       TaskField.ENTERPRISE_TEXT38,
       TaskField.ENTERPRISE_TEXT39,
       TaskField.ENTERPRISE_TEXT40      
+   };
+
+   private static final TaskField[] BASELINE_COSTS =
+   {
+      TaskField.BASELINE1_COST,
+      TaskField.BASELINE2_COST,
+      TaskField.BASELINE3_COST,
+      TaskField.BASELINE4_COST,
+      TaskField.BASELINE5_COST,
+      TaskField.BASELINE6_COST,
+      TaskField.BASELINE7_COST,
+      TaskField.BASELINE8_COST,
+      TaskField.BASELINE9_COST,
+      TaskField.BASELINE10_COST
+   };
+   
+   private static final TaskField[] BASELINE_DURATIONS =
+   {
+      TaskField.BASELINE1_DURATION,
+      TaskField.BASELINE2_DURATION,
+      TaskField.BASELINE3_DURATION,
+      TaskField.BASELINE4_DURATION,
+      TaskField.BASELINE5_DURATION,
+      TaskField.BASELINE6_DURATION,
+      TaskField.BASELINE7_DURATION,
+      TaskField.BASELINE8_DURATION,
+      TaskField.BASELINE9_DURATION,
+      TaskField.BASELINE10_DURATION
+   };
+
+   private static final TaskField[] BASELINE_STARTS =
+   {
+      TaskField.BASELINE1_START,
+      TaskField.BASELINE2_START,
+      TaskField.BASELINE3_START,
+      TaskField.BASELINE4_START,
+      TaskField.BASELINE5_START,
+      TaskField.BASELINE6_START,
+      TaskField.BASELINE7_START,
+      TaskField.BASELINE8_START,
+      TaskField.BASELINE9_START,
+      TaskField.BASELINE10_START
+   };
+
+   private static final TaskField[] BASELINE_FINISHES =
+   {
+      TaskField.BASELINE1_FINISH,
+      TaskField.BASELINE2_FINISH,
+      TaskField.BASELINE3_FINISH,
+      TaskField.BASELINE4_FINISH,
+      TaskField.BASELINE5_FINISH,
+      TaskField.BASELINE6_FINISH,
+      TaskField.BASELINE7_FINISH,
+      TaskField.BASELINE8_FINISH,
+      TaskField.BASELINE9_FINISH,
+      TaskField.BASELINE10_FINISH
+   };
+
+   private static final TaskField[] BASELINE_WORKS =
+   {
+      TaskField.BASELINE1_WORK,
+      TaskField.BASELINE2_WORK,
+      TaskField.BASELINE3_WORK,
+      TaskField.BASELINE4_WORK,
+      TaskField.BASELINE5_WORK,
+      TaskField.BASELINE6_WORK,
+      TaskField.BASELINE7_WORK,
+      TaskField.BASELINE8_WORK,
+      TaskField.BASELINE9_WORK,
+      TaskField.BASELINE10_WORK
    };
 
    private boolean m_null;

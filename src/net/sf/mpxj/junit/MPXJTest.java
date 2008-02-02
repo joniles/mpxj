@@ -51,6 +51,7 @@ public class MPXJTest extends TestSuite
       addTestSuite (MppGroupTest.class);
       addTestSuite (MppCalendarTest.class);
       addTestSuite (MppEnterpriseTest.class);
+      addTestSuite (MppBaselineTest.class);
    }
 
    /**

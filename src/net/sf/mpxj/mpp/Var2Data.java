@@ -130,7 +130,7 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This method rerieves a String of the specified type,
+    * This method retrieves a String of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs
@@ -144,7 +144,7 @@ final class Var2Data extends MPPComponent
 
 
    /**
-    * This method rerieves a timestamp of the specified type,
+    * This method retrieves a timestamp of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs
@@ -194,7 +194,7 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This method rerieves a string of the specified type,
+    * This method retrieves a string of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs
@@ -208,7 +208,7 @@ final class Var2Data extends MPPComponent
 
 
    /**
-    * This method rerieves an integer of the specified type,
+    * This method retrieves an integer of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs
@@ -235,7 +235,7 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This method rerieves an integer of the specified type,
+    * This method retrieves an integer of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs
@@ -262,10 +262,10 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This method rerieves an integer of the specified type,
+    * This method retrieves an integer of the specified type,
     * belonging to the item with the specified unique ID. Note that
     * the integer value is read from an arbitrary offset within the 
-    * bute array of data.
+    * byte array of data.
     *
     * @param id unique ID of entity to which this data belongs
     * @param offset offset into the byte array fom which to read the integer
@@ -292,7 +292,7 @@ final class Var2Data extends MPPComponent
    }
 
    /**
-    * This method rerieves an integer of the specified type,
+    * This method retrieves an integer of the specified type,
     * belonging to the item with the specified unique ID.
     *
     * @param id unique ID of entity to which this data belongs

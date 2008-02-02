@@ -514,7 +514,36 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeResourceExtendedAttributes (factory, xml, mpx);
 
+      writeResourceBaselines(factory, xml, mpx);
+      
       return (xml);
+   }
+
+   /**
+    * Writes resource baseline data.
+    * 
+    * @param factory JAXB object factory
+    * @param xmlResource MSPDI resource
+    * @param mpxjResource MPXJ resource
+    */
+   private void writeResourceBaselines (ObjectFactory factory, Project.Resources.Resource xmlResource, Resource mpxjResource)
+   {
+      Project.Resources.Resource.Baseline baseline = factory.createProjectResourcesResourceBaseline();
+      xmlResource.getBaseline().add(baseline);
+      
+      baseline.setNumber(BigInteger.ZERO);
+      baseline.setCost(DatatypeConverter.printCurrency(mpxjResource.getBaselineCost()));
+      baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork()));
+      
+      for (int loop=1; loop <=10; loop++)
+      {
+         baseline = factory.createProjectResourcesResourceBaseline();
+         xmlResource.getBaseline().add(baseline);
+         
+         baseline.setNumber(BigInteger.valueOf(loop));
+         baseline.setCost(DatatypeConverter.printCurrency(mpxjResource.getBaselineCost(loop)));
+         baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork(loop)));         
+      }
    }
 
    /**
@@ -707,9 +736,46 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeTaskExtendedAttributes (factory, xml, mpx);
 
+      writeTaskBaselines (factory, xml, mpx);
+      
       return (xml);
    }
 
+   /**
+    * Writes task baseline data.
+    * 
+    * @param factory JAXB object factory
+    * @param xmlTask MSPDI task
+    * @param mpxjTask MPXJ task
+    */
+   private void writeTaskBaselines (ObjectFactory factory, Project.Tasks.Task xmlTask, Task mpxjTask)
+   {
+      Project.Tasks.Task.Baseline baseline = factory.createProjectTasksTaskBaseline();
+      xmlTask.getBaseline().add(baseline);
+      
+      baseline.setNumber(BigInteger.ZERO);
+      baseline.setCost(DatatypeConverter.printCurrency(mpxjTask.getBaselineCost()));
+      baseline.setDuration(DatatypeConverter.printDuration(this, mpxjTask.getBaselineDuration()));
+      baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpxjTask.getBaselineDuration()));
+      baseline.setFinish(DatatypeConverter.printDate(mpxjTask.getBaselineFinish()));
+      baseline.setStart(DatatypeConverter.printDate(mpxjTask.getBaselineStart()));
+      baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork()));
+      
+      for (int loop=1; loop <=10; loop++)
+      {
+         baseline = factory.createProjectTasksTaskBaseline();
+         xmlTask.getBaseline().add(baseline);
+         
+         baseline.setNumber(BigInteger.valueOf(loop));
+         baseline.setCost(DatatypeConverter.printCurrency(mpxjTask.getBaselineCost(loop)));
+         baseline.setDuration(DatatypeConverter.printDuration(this, mpxjTask.getBaselineDuration(loop)));
+         baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpxjTask.getBaselineDuration(loop)));
+         baseline.setFinish(DatatypeConverter.printDate(mpxjTask.getBaselineFinish(loop)));
+         baseline.setStart(DatatypeConverter.printDate(mpxjTask.getBaselineStart(loop)));
+         baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork(loop)));         
+      }
+   }
+   
    /**
     * This method writes extended attribute data for a task.
     *

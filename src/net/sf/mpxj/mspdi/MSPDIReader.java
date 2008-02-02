@@ -578,12 +578,42 @@ public final class MSPDIReader extends AbstractProjectReader
 
       readResourceExtendedAttributes (xml, mpx);
 
+      readResourceBaselines (xml, mpx);
+      
       mpx.setResourceCalendar(calendarMap.get(xml.getCalendarUID()));
       
       // ensure that we cache this value
       mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
       
       m_projectFile.fireResourceReadEvent(mpx);
+   }
+
+   /**
+    * Reads baseline values for the current resource.
+    * 
+    * @param xmlResource MSPDI resource instance
+    * @param mpxjResource MPXJ resource instance
+    */
+   private void readResourceBaselines (Project.Resources.Resource xmlResource, Resource mpxjResource)
+   {
+	   for (Project.Resources.Resource.Baseline baseline: xmlResource.getBaseline())
+	   {
+		   int number = NumberUtility.getInt(baseline.getNumber());
+		   
+		   Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
+		   Duration work = DatatypeConverter.parseDuration(m_projectFile,TimeUnit.HOURS,baseline.getWork());
+		   
+		   if (number == 0)
+		   {
+		      mpxjResource.setBaselineCost(cost);
+              mpxjResource.setBaselineWork(work);		      
+		   }
+		   else
+		   {
+		      mpxjResource.setBaselineCost(number, cost);
+		      mpxjResource.setBaselineWork(number, work);
+		   }
+	   }
    }
 
    /**
@@ -798,9 +828,48 @@ public final class MSPDIReader extends AbstractProjectReader
       
       readTaskExtendedAttributes(xml, mpx);
 
+      readTaskBaselines (xml, mpx);
+      
       m_projectFile.fireTaskReadEvent(mpx);
    }
 
+   /**
+    * Reads baseline values for the current task.
+    * 
+    * @param xmlTask MSPDI task instance
+    * @param mpxjTask MPXJ task instance
+    */
+   private void readTaskBaselines (Project.Tasks.Task xmlTask, Task mpxjTask)
+   {
+	   for (Project.Tasks.Task.Baseline baseline: xmlTask.getBaseline())
+	   {
+		   int number = NumberUtility.getInt(baseline.getNumber());
+		   
+		   Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
+		   Duration duration = DatatypeConverter.parseDuration (m_projectFile, mpxjTask.getDurationFormat(), baseline.getDuration());
+		   Date finish = DatatypeConverter.parseDate(baseline.getFinish());
+		   Date start = DatatypeConverter.parseDate(baseline.getStart());
+		   Duration work = DatatypeConverter.parseDuration(m_projectFile,TimeUnit.HOURS,baseline.getWork());
+		   
+		   if (number == 0)
+		   {
+              mpxjTask.setBaselineCost(cost);
+              mpxjTask.setBaselineDuration(duration);
+              mpxjTask.setBaselineFinish(finish);
+              mpxjTask.setBaselineStart(start);
+              mpxjTask.setBaselineWork(work);		      
+		   }
+		   else
+		   {
+      		   mpxjTask.setBaselineCost(number, cost);
+      		   mpxjTask.setBaselineDuration(number, duration);
+      		   mpxjTask.setBaselineFinish(number, finish);
+      		   mpxjTask.setBaselineStart(number, start);
+      		   mpxjTask.setBaselineWork(number, work);
+		   }
+	   }
+   }
+   
    /**
     * This method processes any extended attributes associated with a task.
     *
