@@ -25,6 +25,7 @@ package net.sf.mpxj.reader;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
@@ -74,6 +75,17 @@ public final class ProjectReaderUtility
       return (file);
    }
 
+   /**
+    * Retrieves a set containing the file extensions supported by the
+    * getProjectReader method.
+    * 
+    * @return set of file extensions
+    */
+   public static Set<String> getSupportedFileExtensions ()
+   {
+      return(READER_MAP.keySet());
+   }
+   
    private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<String, Class<? extends ProjectReader>> ();
    static
    {

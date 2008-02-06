@@ -519,10 +519,8 @@ public final class ProjectFile
     * and default working hours.
     *
     * @return a new default base calendar
-    * @throws MPXJException normally thrown when a parse error occurs
     */
    public ProjectCalendar addDefaultBaseCalendar ()
-      throws MPXJException
    {
       ProjectCalendar calendar = addBaseCalendar();
       

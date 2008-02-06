@@ -102,6 +102,22 @@ public final class NumberUtility
       return (result);
    }
 
+   
+   /**
+    * Utility method used to convert an int into an Integer.
+    * This has been implemented to allow a singleton to be
+    * used to represent zero. This makes a considerable saving
+    * in memory utilisation.
+    *
+    * @param value int value
+    * @return Integer instance
+    */
+   public static final Integer getInteger(int value)
+   {
+      return (value==0?INTEGER_ZERO:new Integer(value));
+   }
+
+   
    /**
     * Utility method used to convert a Number into a BigInteger.
     *

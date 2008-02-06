@@ -35,6 +35,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.utility.DateUtility;
 
 
 
@@ -131,7 +132,7 @@ final class MPPUtility
     *
     * @param data Source data
     * @param offset Offset into source data
-    * @param size Requied size to be extracted from the source data
+    * @param size Required size to be extracted from the source data
     * @param buffer Destination buffer
     * @param bufferOffset Offset into destination buffer
     */
@@ -350,8 +351,7 @@ final class MPPUtility
       }
       else
       {
-         TimeZone tz = TimeZone.getDefault();
-         result = new Date(EPOCH + (days * MS_PER_DAY) - tz.getRawOffset());
+         result = DateUtility.getDateFromLong(EPOCH + (days * MS_PER_DAY));
       }
 
       return (result);

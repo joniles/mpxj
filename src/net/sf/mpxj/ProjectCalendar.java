@@ -25,8 +25,6 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -328,50 +326,32 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * This is a convenience method used to add a default set of calendar
     * hours to a calendar.
-    *
-    * @throws MPXJException normally thrown on parse errors
     */
    public void addDefaultCalendarHours ()
-      throws MPXJException
    {
-      try
-      {
-         ProjectCalendarHours hours;
-         SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
-         Date from1 = df.parse ("08:00");
-         Date to1 = df.parse ("12:00");
-         Date from2 = df.parse ("13:00");
-         Date to2 = df.parse ("17:00");
+      ProjectCalendarHours hours = addCalendarHours (Day.SUNDAY);
 
-         hours = addCalendarHours (Day.SUNDAY);
+      hours = addCalendarHours (Day.MONDAY);
+      hours.addDateRange(new DateRange (FROM1, TO1));
+      hours.addDateRange(new DateRange (FROM2, TO2));
 
-         hours = addCalendarHours (Day.MONDAY);
-         hours.addDateRange(new DateRange (from1, to1));
-         hours.addDateRange(new DateRange (from2, to2));
+      hours = addCalendarHours (Day.TUESDAY);
+      hours.addDateRange(new DateRange (FROM1, TO1));
+      hours.addDateRange(new DateRange (FROM2, TO2));
 
-         hours = addCalendarHours (Day.TUESDAY);
-         hours.addDateRange(new DateRange (from1, to1));
-         hours.addDateRange(new DateRange (from2, to2));
+      hours = addCalendarHours (Day.WEDNESDAY);
+      hours.addDateRange(new DateRange (FROM1, TO1));
+      hours.addDateRange(new DateRange (FROM2, TO2));
 
-         hours = addCalendarHours (Day.WEDNESDAY);
-         hours.addDateRange(new DateRange (from1, to1));
-         hours.addDateRange(new DateRange (from2, to2));
+      hours = addCalendarHours (Day.THURSDAY);
+      hours.addDateRange(new DateRange (FROM1, TO1));
+      hours.addDateRange(new DateRange (FROM2, TO2));
 
-         hours = addCalendarHours (Day.THURSDAY);
-         hours.addDateRange(new DateRange (from1, to1));
-         hours.addDateRange(new DateRange (from2, to2));
+      hours = addCalendarHours (Day.FRIDAY);
+      hours.addDateRange(new DateRange (FROM1, TO1));
+      hours.addDateRange(new DateRange (FROM2, TO2));
 
-         hours = addCalendarHours (Day.FRIDAY);
-         hours.addDateRange(new DateRange (from1, to1));
-         hours.addDateRange(new DateRange (from2, to2));
-
-         hours = addCalendarHours (Day.SATURDAY);
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException (MPXJException.INVALID_TIME, ex);
-      }
+      hours = addCalendarHours (Day.SATURDAY);
    }
 
    /**
@@ -1215,4 +1195,9 @@ public final class ProjectCalendar extends ProjectEntity
     * or not.
     */
    public static final int DEFAULT = 2;
+   
+   private static final Date FROM1 = DateUtility.getDateFromLong(25200000);
+   private static final Date TO1 = DateUtility.getDateFromLong(39600000);
+   private static final Date FROM2 = DateUtility.getDateFromLong(43200000);
+   private static final Date TO2 = DateUtility.getDateFromLong(57600000);      
 }

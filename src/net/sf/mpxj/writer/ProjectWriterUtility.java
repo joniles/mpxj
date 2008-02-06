@@ -25,6 +25,7 @@ package net.sf.mpxj.writer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
@@ -71,6 +72,17 @@ public final class ProjectWriterUtility
       ProjectWriter file = fileClass.newInstance();
 
       return (file);
+   }
+
+   /**
+    * Retrieves a set containing the file extensions supported by the
+    * getProjectWriter method.
+    * 
+    * @return set of file extensions
+    */
+   public static Set<String> getSupportedFileExtensions ()
+   {
+      return(WRITER_MAP.keySet());
    }
 
    private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<String, Class<? extends ProjectWriter>> ();
