@@ -39,13 +39,15 @@ final class TableFactory
    /**
     * Constructor.
     * 
-    * @param tableColumnDataStandard standard column data key
-    * @param tableColumnDataEnterprise enterprise column data key
+    * @param tableColumnDataStandard standard columns data key
+    * @param tableColumnDataEnterprise enterprise columns data key
+    * @param tableColumnDataBaseline baseline columns data key
     */
-   public TableFactory (Integer tableColumnDataStandard, Integer tableColumnDataEnterprise)
+   public TableFactory (Integer tableColumnDataStandard, Integer tableColumnDataEnterprise, Integer tableColumnDataBaseline)
    {
       m_tableColumnDataStandard = tableColumnDataStandard;
-      m_tableColumnDataEnterprise = tableColumnDataEnterprise;    
+      m_tableColumnDataEnterprise = tableColumnDataEnterprise; 
+      m_tableColumnDataBaseline = tableColumnDataBaseline;
    }
    
    /**
@@ -65,11 +67,20 @@ final class TableFactory
       table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
       table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
      
+      byte[] columnData = null;
+      Integer tableID = new Integer(table.getID());
+      if (m_tableColumnDataBaseline != null)
+      {
+         columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataBaseline));
+      }
       
-      byte[] columnData = varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), m_tableColumnDataEnterprise));
       if (columnData == null)
       {
-         columnData = varData.getByteArray(varMeta.getOffset(new Integer(table.getID()), m_tableColumnDataStandard));
+         columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataEnterprise));
+         if (columnData == null)
+         {
+            columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataStandard));
+         }
       }
       
       processColumnData (file, table, columnData);
@@ -86,6 +97,7 @@ final class TableFactory
     */
    private void processColumnData (ProjectFile file, Table table, byte[] data)
    {
+      //System.out.println(MPPUtility.hexdump(data, 8, data.length-8, false, 12, ""));
       if (data != null)
       {
          int columnCount = MPPUtility.getShort(data, 4)+1;
@@ -161,5 +173,6 @@ final class TableFactory
    }
    
    private Integer m_tableColumnDataStandard;
-   private Integer m_tableColumnDataEnterprise;   
+   private Integer m_tableColumnDataEnterprise; 
+   private Integer m_tableColumnDataBaseline;
 }

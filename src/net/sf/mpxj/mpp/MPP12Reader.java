@@ -3022,7 +3022,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(varData);
       //System.out.println(fixedData);
       
-      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE);
+      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
       int items = fixedData.getItemCount();
       for (int loop=0; loop < items; loop++)
       {
@@ -4024,7 +4024,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_NOTES = new Integer (124);
 
    private static final Integer TABLE_COLUMN_DATA_STANDARD = new Integer (6);
-   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (7);   
+   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (7);
+   private static final Integer TABLE_COLUMN_DATA_BASELINE = new Integer (8);
    private static final Integer OUTLINECODE_DATA = new Integer (22);
    private static final Integer INCOMPLETE_WORK = new Integer(49);
    private static final Integer COMPLETE_WORK = new Integer(50);

@@ -3020,7 +3020,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
 
-      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE);
+      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
       int items = fixedData.getItemCount();
       for (int loop=0; loop < items; loop++)
       {
@@ -3503,7 +3503,8 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_BASELINE10_COST = new Integer(181);
   
    private static final Integer TABLE_COLUMN_DATA_STANDARD = new Integer (1);
-   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (2);   
+   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (2);
+   private static final Integer TABLE_COLUMN_DATA_BASELINE = null;
    private static final Integer OUTLINECODE_DATA = new Integer (1);
    private static final Integer INCOMPLETE_WORK = new Integer(7);
    private static final Integer COMPLETE_WORK = new Integer(9);
