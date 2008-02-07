@@ -1230,7 +1230,6 @@ final class MPP9Reader implements MPPVariantReader
       byte[] data;
       int uniqueID;
       Integer key;
-      int validCount = 0;
       
       for (int loop=0; loop < itemCount; loop++)
       {
@@ -1241,28 +1240,7 @@ final class MPP9Reader implements MPPVariantReader
             key = new Integer(uniqueID);
             if (taskMap.containsKey(key) == false)
             {
-               validCount++;
                taskMap.put(key, new Integer (loop));
-            }
-         }
-         else
-         {
-            if (validCount > 0 && data != null && data.length > 0)
-            {
-           	 // Project stores the deleted tasks unique ids into the fixed data as well
-           	 // and at least in one case the deleted task was listed twice in the list
-           	 // the second time with data with it causing a phantom task to be shown.
-           	 // Couldn't reproduce this scenario unfortunately... all other times the
-           	 // unique ids are neatly ordered one after another.
-           	 //
-           	 // So let's add the unique id for the deleted task into the map so we don't
-           	 // accidentally include the task later.
-                uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
-                key = new Integer(uniqueID);
-                if (taskMap.containsKey(key) == false)
-                {
-                   taskMap.put(key, null); // use null so we can easily ignore this later
-                }        	 
             }
          }
       }
