@@ -1006,7 +1006,7 @@ public class BasicTest extends MPXJTestCase
          ++level;
       }
 
-      return (level);
+      return (level-1);
    }
 
    /**
@@ -1148,7 +1148,9 @@ public class BasicTest extends MPXJTestCase
    {
       File in = new File (m_basedir + "/mpp9flags1.mpp");
       ProjectFile mpp = new MPPReader().read (in);
-      List<Task> tasks = mpp.getAllTasks();
+      Task parentTask = mpp.getTaskByID(new Integer(0));
+      assertNotNull("Parent task missing", parentTask);
+      List<Task> tasks = parentTask.getChildTasks();
       assertTrue ("Not enough tasks", (tasks.size() > 0));
       assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
 
@@ -2192,7 +2194,7 @@ public class BasicTest extends MPXJTestCase
       // tasks, resources, and assignments.
       //
       ProjectFile mpp = new MPPReader().read (m_basedir + "/remove.mpp");
-      assertEquals(9, mpp.getAllTasks().size());
+      assertEquals(10, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
 
@@ -2202,7 +2204,7 @@ public class BasicTest extends MPXJTestCase
       Task task = mpp.getTaskByUniqueID(new Integer(1));
       assertEquals("Task One", task.getName());
       task.remove();
-      assertEquals(8, mpp.getAllTasks().size());
+      assertEquals(9, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
 
@@ -2212,7 +2214,7 @@ public class BasicTest extends MPXJTestCase
       Resource resource = mpp.getResourceByUniqueID(new Integer(1));
       assertEquals("Resource One", resource.getName());
       resource.remove();
-      assertEquals(8, mpp.getAllTasks().size());
+      assertEquals(9, mpp.getAllTasks().size());
       assertEquals(7, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
 
@@ -2222,7 +2224,7 @@ public class BasicTest extends MPXJTestCase
       task = mpp.getTaskByUniqueID(new Integer(2));
       assertEquals("Task Two", task.getName());
       task.remove();
-      assertEquals(7, mpp.getAllTasks().size());
+      assertEquals(8, mpp.getAllTasks().size());
       assertEquals(7, mpp.getAllResources().size());
       assertEquals(5, mpp.getAllResourceAssignments().size());
 
@@ -2232,7 +2234,7 @@ public class BasicTest extends MPXJTestCase
       resource = mpp.getResourceByUniqueID(new Integer(3));
       assertEquals("Resource Three", resource.getName());
       resource.remove();
-      assertEquals(7, mpp.getAllTasks().size());
+      assertEquals(8, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
       assertEquals(4, mpp.getAllResourceAssignments().size());
 
@@ -2253,7 +2255,7 @@ public class BasicTest extends MPXJTestCase
       assertEquals(1, assignments.size());
       assignments = resource.getTaskAssignments();
       assertEquals(0, assignments.size());
-      assertEquals(7, mpp.getAllTasks().size());
+      assertEquals(8, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
       assertEquals(3, mpp.getAllResourceAssignments().size());
 
@@ -2263,13 +2265,13 @@ public class BasicTest extends MPXJTestCase
       task = mpp.getTaskByUniqueID(new Integer(8));
       assertEquals("Task Eight", task.getName());
       task.remove();
-      assertEquals(5, mpp.getAllTasks().size());
+      assertEquals(6, mpp.getAllTasks().size());
       assertEquals(6, mpp.getAllResources().size());
       assertEquals(3, mpp.getAllResourceAssignments().size());
 
       //
       // As we have removed tasks and resources, call the synchronize methods
-      // to generate ID seqwuences without gaps. This will allow MS Project
+      // to generate ID sequences without gaps. This will allow MS Project
       // to display the tasks and resources without blank rows.
       //
       mpp.synchronizeTaskIDs();
@@ -2286,7 +2288,7 @@ public class BasicTest extends MPXJTestCase
          new MPXWriter().write (mpp, out);
 
          ProjectFile mpx = new MPXReader().read(out);
-         assertEquals(5, mpx.getAllTasks().size());
+         assertEquals(6, mpx.getAllTasks().size());
          assertEquals(6, mpx.getAllResources().size());
          assertEquals(3, mpx.getAllResourceAssignments().size());
       }
@@ -2301,7 +2303,7 @@ public class BasicTest extends MPXJTestCase
    }
 
    /**
-    * Basic rewrite test to exercise th MPX calendar exception read/write code.
+    * Basic rewrite test to exercise the MPX calendar exception read/write code.
     *
     * @throws Exception
     */

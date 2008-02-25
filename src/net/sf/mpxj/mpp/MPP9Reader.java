@@ -1231,7 +1231,8 @@ final class MPP9Reader implements MPPVariantReader
       int uniqueID;
       Integer key;
       
-      for (int loop=0; loop < itemCount; loop++)
+      // First three items are not tasks, so let's skip them
+      for (int loop=3; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
@@ -1242,6 +1243,22 @@ final class MPP9Reader implements MPPVariantReader
             {
                taskMap.put(key, new Integer (loop));
             }
+         }
+         else if (data != null && data.length == 2)
+         {
+        	 // Project stores the deleted tasks unique id's into the fixed data as well
+        	 // and at least in one case the deleted task was listed twice in the list
+        	 // the second time with data with it causing a phantom task to be shown.
+        	 // See CalendarErrorPhantomTasks.mpp
+        	 //
+        	 // So let's add the unique id for the deleted task into the map so we don't
+        	 // accidentally include the task later.
+             uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
+             key = new Integer(uniqueID);
+             if (taskMap.containsKey(key) == false)
+             {
+                taskMap.put(key, null); // use null so we can easily ignore this later
+             }
          }
       }
 
@@ -1589,7 +1606,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData (taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768);
+      FixedData taskFixedData = new FixedData (taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768, MINIMUM_EXPECTED_TASK_SIZE);
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
