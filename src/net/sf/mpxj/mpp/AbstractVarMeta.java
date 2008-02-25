@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -121,6 +122,26 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       return (m_offsets[index]);
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   public Set<Integer> getTypes (Integer id)
+   {
+      Set<Integer> result;
+      
+      Map<Integer, Integer> map = m_table.get(id);
+      if (map != null)
+      {
+         result = map.keySet();
+      }
+      else
+      {
+         result = new HashSet<Integer>();
+      }
+      
+      return (result);
+   }
+   
    /**
     * This method dumps the contents of this VarMeta block as a String.
     * Note that this facility is provided as a debugging aid.

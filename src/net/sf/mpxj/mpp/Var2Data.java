@@ -368,6 +368,33 @@ final class Var2Data extends MPPComponent
    }
 
    /**
+    * This is a specialised version of the toString method which 
+    * outputs just the data in this structure for the given unique ID. 
+    * 
+    * @param id unique ID
+    * @return string representation
+    */
+   public String toString (Integer id)
+   {
+      StringWriter sw = new StringWriter ();
+      PrintWriter pw = new PrintWriter (sw);
+
+      pw.println ("BEGIN Var2Data for " + id);
+      for (Integer type: m_meta.getTypes(id))
+      {
+         Integer offset = m_meta.getOffset(id, type);
+         byte[] data = m_map.get(offset);
+         pw.println ("   Data at offset: " + offset + " size: " + data.length);
+         pw.println (MPPUtility.hexdump (data, true, 16, "   "));
+      }
+      pw.println ("END Var2Data for " + id);
+      pw.println ();
+      pw.close();
+      return (sw.toString());
+   }   
+   
+   
+   /**
     * Map containing data items indexed by offset.
     */
    private TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();

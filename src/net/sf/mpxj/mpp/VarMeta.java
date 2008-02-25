@@ -79,4 +79,13 @@ interface VarMeta
     * @return offset of the item in the block
     */
    public int getOffset(int index);
+
+   /**
+    * Retrieves a set containing the types defined
+    * in the var data for a given ID.
+    * 
+    * @param id unique ID
+    * @return set of types
+    */
+   public Set<Integer> getTypes (Integer id);
 }
