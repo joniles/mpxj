@@ -27,6 +27,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,25 +69,25 @@ public class MppClean
 {
    /**
     * Main method.
-    *
+    * 
     * @param args array of command line arguments
     */
-   public static void main (String[] args)
+   public static void main(String[] args)
    {
       try
       {
          if (args.length != 2)
          {
-            System.out.println ("Usage: MppClean <input mpp file name> <output mpp file name>");
+            System.out.println("Usage: MppClean <input mpp file name> <output mpp file name>");
          }
          else
          {
-            System.out.println ("Clean started.");
+            System.out.println("Clean started.");
             long start = System.currentTimeMillis();
-            MppClean clean = new MppClean(); 
-            clean.process (args[0], args[1]);
+            MppClean clean = new MppClean();
+            clean.process(args[0], args[1]);
             long elapsed = System.currentTimeMillis() - start;
-            System.out.println ("Clean completed in " + elapsed + "ms");
+            System.out.println("Clean completed in " + elapsed + "ms");
          }
       }
 
@@ -96,7 +97,6 @@ public class MppClean
       }
    }
 
-   
    /**
     * Process an MPP file to make it anonymous.
     * 
@@ -104,18 +104,17 @@ public class MppClean
     * @param output output file name
     * @throws Exception
     */
-   private void process (String input, String output)
-      throws MPXJException, IOException
+   private void process(String input, String output) throws MPXJException, IOException
    {
       //
       // Extract the project data
       //
       MPPReader reader = new MPPReader();
       m_project = reader.read(input);
-      
+
       String varDataFileName;
       String projectDirName;
-      
+
       switch (m_project.getMppFileType())
       {
          case 8:           
@@ -144,41 +143,40 @@ public class MppClean
             throw new IllegalArgumentException("Unsupported file type " + m_project.getMppFileType());
          }
       }
-       
+
       //
       // Load the raw file
       //
-      FileInputStream is = new FileInputStream (input);
-      POIFSFileSystem fs = new POIFSFileSystem (is);
+      FileInputStream is = new FileInputStream(input);
+      POIFSFileSystem fs = new POIFSFileSystem(is);
       is.close();
-      
+
       //
       // Locate the root of the project file system
       //
-      DirectoryEntry root = fs.getRoot ();
-      m_projectDir = (DirectoryEntry)root.getEntry (projectDirName);
+      DirectoryEntry root = fs.getRoot();
+      m_projectDir = (DirectoryEntry) root.getEntry(projectDirName);
 
-    
       //
       // Process Tasks
       //
       Map<String, String> replacements = new HashMap<String, String>();
-      for (Task task: m_project.getAllTasks())
+      for (Task task : m_project.getAllTasks())
       {
          mapText(task.getName(), replacements);
       }
-      processReplacements(((DirectoryEntry)m_projectDir.getEntry ("TBkndTask")), varDataFileName, replacements, true);
+      processReplacements(((DirectoryEntry) m_projectDir.getEntry("TBkndTask")), varDataFileName, replacements, true);
 
       //
       // Process Resources
       //
       replacements.clear();
-      for (Resource resource: m_project.getAllResources())
+      for (Resource resource : m_project.getAllResources())
       {
          mapText(resource.getName(), replacements);
          mapText(resource.getInitials(), replacements);
       }
-      processReplacements((DirectoryEntry)m_projectDir.getEntry ("TBkndRsc"), varDataFileName, replacements, true);
+      processReplacements((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"), varDataFileName, replacements, true);
 
       //
       // Process project header details
@@ -190,18 +188,18 @@ public class MppClean
 
       replacements.clear();
       mapText(header.getProjectTitle(), replacements);
-      mapText(header.getSubject(), replacements);      
+      mapText(header.getSubject(), replacements);
       mapText(header.getAuthor(), replacements);
       mapText(header.getKeywords(), replacements);
       mapText(header.getComments(), replacements);
       processReplacements(root, "\005SummaryInformation", replacements, false);
-            
+
       replacements.clear();
       mapText(header.getManager(), replacements);
       mapText(header.getCompany(), replacements);
       mapText(header.getCategory(), replacements);
       processReplacements(root, "\005DocumentSummaryInformation", replacements, false);
-                  
+
       //
       // Write the replacement raw file
       //
@@ -212,8 +210,8 @@ public class MppClean
    }
 
    /**
-    * Extracts a block of data from the MPP file, and iterates through the
-    * map of find/replace pairs to make the data anonymous.
+    * Extracts a block of data from the MPP file, and iterates through the map
+    * of find/replace pairs to make the data anonymous.
     * 
     * @param parentDirectory parent directory object
     * @param fileName target file name
@@ -221,44 +219,43 @@ public class MppClean
     * @param unicode true for double byte text
     * @throws IOException
     */
-   private void processReplacements (DirectoryEntry parentDirectory, String fileName, Map<String, String> replacements, boolean unicode)
-      throws IOException
-   {     
+   private void processReplacements(DirectoryEntry parentDirectory, String fileName, Map<String, String> replacements, boolean unicode) throws IOException
+   {
       //
       // Populate a list of keys and sort into descending order of length
       //
       List<String> keys = new ArrayList<String>(replacements.keySet());
-      Collections.sort(keys, new Comparator<String>() 
+      Collections.sort(keys, new Comparator<String>()
       {
          public int compare(String o1, String o2)
          {
             return (o2.length() - o1.length());
          }
       });
-      
+
       //
       // Extract the raw file data
       //
-      DocumentEntry targetFile = (DocumentEntry)parentDirectory.getEntry(fileName);
+      DocumentEntry targetFile = (DocumentEntry) parentDirectory.getEntry(fileName);
       DocumentInputStream dis = new DocumentInputStream(targetFile);
       int dataSize = dis.available();
       byte[] data = new byte[dataSize];
       dis.read(data);
-      
+
       //
       // Replace the text
       //
-      for(String findText: keys)
+      for (String findText : keys)
       {
          String replaceText = replacements.get(findText);
-         replaceData(data, findText, replaceText, unicode);         
+         replaceData(data, findText, replaceText, unicode);
       }
-      
+
       //
       // Remove the document entry
       //
       targetFile.delete();
-      
+
       //
       // Replace it with a new one
       //
@@ -266,19 +263,19 @@ public class MppClean
    }
 
    /**
-    * Converts plan text into anonymous text. Preserves upper case, lower case, 
+    * Converts plan text into anonymous text. Preserves upper case, lower case,
     * punctuation, whitespace and digits while making the text unreadable.
     * 
     * @param oldText text to replace
     * @param replacements map of find/replace pairs
     */
-   private void mapText (String oldText, Map<String, String> replacements)
+   private void mapText(String oldText, Map<String, String> replacements)
    {
-      if (oldText != null && oldText.length() !=0 && !replacements.containsKey(oldText))
+      char c2 = 0;
+      if (oldText != null && oldText.length() != 0 && !replacements.containsKey(oldText))
       {
          StringBuffer newText = new StringBuffer(oldText.length());
-         
-         for (int loop=0; loop < oldText.length(); loop++)
+         for (int loop = 0; loop < oldText.length(); loop++)
          {
             char c = oldText.charAt(loop);
             if (Character.isUpperCase(c))
@@ -299,19 +296,34 @@ public class MppClean
                   }
                   else
                   {
-                     newText.append(c);
+                     if (Character.isLetter(c))
+                     {
+                        // Handle other codepages etc. If possible find a way to
+                        // maintain the same code page as original.
+                        // E.g. replace with a character from the same alphabet.
+                        // This 'should' work for most cases
+                        if (c2 == 0)
+                        {
+                           c2 = c;
+                        }
+                        newText.append(c2);
+                     }
+                     else
+                     {
+                        newText.append(c);
+                     }
                   }
                }
             }
          }
-                  
+
          replacements.put(oldText, newText.toString());
       }
    }
-   
+
    /**
-    * For a given find/replace pair, iterate through the supplied block
-    * of data and perform a find and replace.
+    * For a given find/replace pair, iterate through the supplied block of data
+    * and perform a find and replace.
     * 
     * @param data data block
     * @param findText text to find
@@ -323,8 +335,8 @@ public class MppClean
       boolean replaced = false;
       byte[] findBytes = getBytes(findText, unicode);
       byte[] replaceBytes = getBytes(replaceText, unicode);
-      int endIndex = data.length-findBytes.length;
-      for (int index=0; index <= endIndex; index++)
+      int endIndex = data.length - findBytes.length;
+      for (int index = 0; index <= endIndex; index++)
       {
          if (compareBytes(findBytes, data, index))
          {
@@ -339,38 +351,54 @@ public class MppClean
          System.out.println("Failed to find " + findText);
       }
    }
-   
+
    /**
-    * Convert a Java String instance into the equivalent array of single
-    * or double bytes.
+    * Convert a Java String instance into the equivalent array of single or
+    * double bytes.
     * 
     * @param value Java String instance representing text
-    * @param unicode true if double byte characters are requitred
+    * @param unicode true if double byte characters are required
     * @return byte array representing the supplied text
     */
    private byte[] getBytes(String value, boolean unicode)
    {
-      byte[] result;
+      byte[] result = null;
       if (unicode)
       {
-         result = new byte[(value.length()+1)*2];
-         for(int loop=0; loop < value.length(); loop++)
+         int start = 0;
+         // Get the bytes in UTF-16
+         byte[] bytes;
+
+         try
          {
-            int c = value.charAt(loop);
-            byte lowByte = (byte)(c & 0xFF);
-            byte highByte = (byte)(c & 0xFF00);
-            result[loop*2]=lowByte;
-            result[(loop*2)+1]=highByte;
+            bytes = value.getBytes("UTF-16");
+         }
+         catch (UnsupportedEncodingException e)
+         {
+            bytes = value.getBytes();
+         }
+
+         if (bytes.length > 2 && bytes[0] == -2 && bytes[1] == -1)
+         {
+            // Skip the unicode identifier
+            start = 2;
+         }
+         result = new byte[bytes.length - start];
+         for (int loop = start; loop < bytes.length - 1; loop += 2)
+         {
+            // Swap the order here
+            result[loop - start] = bytes[loop + 1];
+            result[loop + 1 - start] = bytes[loop];
          }
       }
       else
       {
-         result = new byte[value.length()+1];
+         result = new byte[value.length() + 1];
          System.arraycopy(value.getBytes(), 0, result, 0, value.length());
       }
       return (result);
    }
-   
+
    /**
     * Compare an array of bytes with a subsection of a larger array of bytes.
     * 
@@ -382,9 +410,9 @@ public class MppClean
    private boolean compareBytes(byte[] lhs, byte[] rhs, int rhsOffset)
    {
       boolean result = true;
-      for (int loop=0; loop < lhs.length; loop++)
-      {         
-         if (lhs[loop] != rhs[rhsOffset+loop])
+      for (int loop = 0; loop < lhs.length; loop++)
+      {
+         if (lhs[loop] != rhs[rhsOffset + loop])
          {
             result = false;
             break;
@@ -394,5 +422,5 @@ public class MppClean
    }
 
    private ProjectFile m_project;
-   private DirectoryEntry m_projectDir;   
+   private DirectoryEntry m_projectDir;
 }
