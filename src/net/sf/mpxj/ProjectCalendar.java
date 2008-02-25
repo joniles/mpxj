@@ -1196,8 +1196,8 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public static final int DEFAULT = 2;
    
-   private static final Date FROM1 = DateUtility.getDateFromLong(25200000);
-   private static final Date TO1 = DateUtility.getDateFromLong(39600000);
-   private static final Date FROM2 = DateUtility.getDateFromLong(43200000);
-   private static final Date TO2 = DateUtility.getDateFromLong(57600000);      
+   private static final Date FROM1 = DateUtility.getTime(8, 0);
+   private static final Date TO1 = DateUtility.getTime(12, 0);
+   private static final Date FROM2 = DateUtility.getTime(13, 0);
+   private static final Date TO2 = DateUtility.getTime(17, 0);      
 }

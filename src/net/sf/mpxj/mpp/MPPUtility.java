@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
@@ -420,29 +419,12 @@ final class MPPUtility
       }
       else
       {
-         TimeZone tz = TimeZone.getDefault();
          long time = getShort(data, offset);
          if (time == 65535)
          {
             time = 0;
          }
-         result = new Date((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)) - tz.getRawOffset());
-
-         if (tz.inDaylightTime(result) == true)
-         {
-            int savings;
-
-            if (HAS_DST_SAVINGS == true)
-            {
-               savings = tz.getDSTSavings();
-            }
-            else
-            {
-               savings = DEFAULT_DST_SAVINGS;
-            }
-
-            result = new Date(result.getTime() - savings);
-         }
+         result = DateUtility.getTimestampFromLong((EPOCH + (days * MS_PER_DAY) + ((time * MS_PER_MINUTE) / 10)));
       }
 
       return (result);
@@ -1393,32 +1375,4 @@ final class MPPUtility
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
-
-   /**
-    * Default value to use for DST savings if we are using a version
-    * of Java < 1.4.
-    */
-   private static final int DEFAULT_DST_SAVINGS = 3600000;
-
-   /**
-    * Flag used to indicate the existence of the getDSTSavings
-    * method that was introduced in Java 1.4.
-    */
-   private static boolean HAS_DST_SAVINGS;
-
-   static
-   {
-      Class<TimeZone> tz = TimeZone.class;
-
-      try
-      {
-         tz.getMethod("getDSTSavings", (Class[])null);
-         HAS_DST_SAVINGS = true;
-      }
-
-      catch (NoSuchMethodException ex)
-      {
-         HAS_DST_SAVINGS = false;
-      }
-   }
 }

@@ -205,4 +205,78 @@ public final class DateUtility
       TimeZone tz = TimeZone.getDefault();
       return (new Date(date - tz.getRawOffset()));      
    }   
+   
+   /**
+    * Creates a timestamp from the equivalent long value. This conversion
+    * takes account fo the time zone and any daylight savings time.
+    * 
+    * @param timestamp timestamp expressed as a long integer
+    * @return new Date instance
+    */
+   public static Date getTimestampFromLong (long timestamp)
+   {
+      TimeZone tz = TimeZone.getDefault();
+      Date result = new Date(timestamp - tz.getRawOffset());
+
+      if (tz.inDaylightTime(result) == true)
+      {
+         int savings;
+
+         if (HAS_DST_SAVINGS == true)
+         {
+            savings = tz.getDSTSavings();
+         }
+         else
+         {
+            savings = DEFAULT_DST_SAVINGS;
+         }
+
+         result = new Date(result.getTime() - savings);
+      }
+      return (result);
+   }
+   
+   /**
+    * Create a Date instance representing a specific time.
+    * 
+    * @param hour hour 0-23
+    * @param minutes minutes 0-59
+    * @return new Date instance
+    */
+   public static Date getTime (int hour, int minutes)
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.HOUR_OF_DAY, hour);
+      cal.set(Calendar.MINUTE, minutes);
+      cal.set(Calendar.SECOND, 0);
+      return(cal.getTime());
+   }   
+   
+   /**
+    * Default value to use for DST savings if we are using a version
+    * of Java < 1.4.
+    */
+   private static final int DEFAULT_DST_SAVINGS = 3600000;
+
+   /**
+    * Flag used to indicate the existence of the getDSTSavings
+    * method that was introduced in Java 1.4.
+    */
+   private static boolean HAS_DST_SAVINGS;
+
+   static
+   {
+      Class<TimeZone> tz = TimeZone.class;
+
+      try
+      {
+         tz.getMethod("getDSTSavings", (Class[])null);
+         HAS_DST_SAVINGS = true;
+      }
+
+      catch (NoSuchMethodException ex)
+      {
+         HAS_DST_SAVINGS = false;
+      }
+   }   
 }
