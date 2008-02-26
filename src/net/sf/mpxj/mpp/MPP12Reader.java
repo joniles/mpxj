@@ -861,7 +861,8 @@ final class MPP12Reader implements MPPVariantReader
       int uniqueID;
       Integer key;
 
-      for (int loop=0; loop < itemCount; loop++)
+      // First three items are not tasks, so let's skip them
+      for (int loop=3; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
@@ -872,6 +873,22 @@ final class MPP12Reader implements MPPVariantReader
             {
                taskMap.put(key, new Integer (loop));
             }
+         }
+         else if (data != null && data.length == 2)
+         {
+        	 // Project stores the deleted tasks unique id's into the fixed data as well
+        	 // and at least in one case the deleted task was listed twice in the list
+        	 // the second time with data with it causing a phantom task to be shown.
+        	 // See CalendarErrorPhantomTasks.mpp
+        	 //
+        	 // So let's add the unique id for the deleted task into the map so we don't
+        	 // accidentally include the task later.
+             uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
+             key = new Integer(uniqueID);
+             if (taskMap.containsKey(key) == false)
+             {
+                taskMap.put(key, null); // use null so we can easily ignore this later
+             }
          }
       }
 
@@ -1248,7 +1265,7 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
       Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
       FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))), 768);     
+      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))), 768, MINIMUM_EXPECTED_TASK_SIZE);     
       FixedMeta taskFixed2Meta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Fixed2Meta"))), 86);
       Props12 props = new Props12 (getEncryptableInputStream (taskDir, "Props"));
       //System.out.println(taskFixedMeta);
@@ -1304,29 +1321,20 @@ final class MPP12Reader implements MPPVariantReader
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
-
+         
+         Task temp = m_file.getTaskByID(new Integer(MPPUtility.getInt(data, 4))); 
+         if (temp != null && !taskVarMeta.getUniqueIdentifierSet().contains(id))
+         {
+            // Task with this id already exists... determine if this is the 'real' task by seeing
+            // if this task has some var data. This is sort of hokey, but it's the best method i have
+            // been able to see.
+            
+            // Sometimes Project contains phantom tasks that coexist on the same id as a valid
+	        // task. In this case don't want to include the phantom task. Seems to be a very rare case.
+        	continue;
+         }
+         
          task = m_file.addTask();
-
-//         Task temp = m_file.getTaskByID(new Integer(MPPUtility.getInt(data, 4))); 
-//         if (temp != null)
-//         {
-//        	 // Task with this id already exists... determine if this is the 'real' task by seeing
-//        	 // if this task has some var data. This is sort of hokey, but it's the best method i have
-//        	 // been able to see.
-//        	 if (taskVarMeta.getUniqueIdentifierSet().contains(id))
-//        	 {
-//        		 // Since this new task contains var data, we are going to assume the first one is
-//        		 // a deleted task and this is the real one.
-//        		 m_file.removeTask(temp);
-//        	 }
-//        	 else
-//        	 {
-//	        	 // Sometimes Project contains phantom tasks that co-exist on the same id as a valid
-//	        	 // task. In this case don't want to include the phantom task. Seems to be a very rare case.        	
-//	        	 continue;
-//        	 }
-//         }
-                  
          task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
          task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp (data, 100));
@@ -3672,13 +3680,14 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_BASELINE10_DURATION = new Integer(593);   
    private static final Integer TASK_BASELINE10_DURATION_UNITS = new Integer(594);
    
+   private static final Integer TASK_OVERTIME_COST = new Integer (168);
+   private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (169);
+
    //
    // Unverified
    //
    private static final Integer TASK_ACTUAL_OVERTIME_WORK = new Integer (3);
    private static final Integer TASK_REMAINING_OVERTIME_WORK = new Integer (4);
-   private static final Integer TASK_OVERTIME_COST = new Integer (5);
-   private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (6);
    private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);   
    private static final Integer TASK_SUBPROJECTUNIQUETASKID = new Integer (242);
    private static final Integer TASK_SUBPROJECTTASKID = new Integer (255);
