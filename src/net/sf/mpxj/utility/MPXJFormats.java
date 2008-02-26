@@ -65,7 +65,7 @@ public final class MPXJFormats
       char thousandsSeparator = header.getThousandsSeparator();
       m_unitsDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
       m_decimalFormat.applyPattern("0.00#", null, decimalSeparator, thousandsSeparator);
-      m_durationDecimalFormat.applyPattern("#.#", null, decimalSeparator, thousandsSeparator);
+      m_durationDecimalFormat.applyPattern("#.##", null, decimalSeparator, thousandsSeparator);
       m_percentageDecimalFormat.applyPattern("##0.##", null, decimalSeparator, thousandsSeparator);
       updateCurrencyFormats(header, decimalSeparator, thousandsSeparator);
       updateDateTimeFormats(header);
