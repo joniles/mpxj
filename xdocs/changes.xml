@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="2.1.0" date="CVS HEAD">
+		<action dev="joniles" type="update">Updated to POI 3.0.2</action>
 		<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>	
 		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>		
 		<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala)</action>
