@@ -428,7 +428,7 @@ public class MpxjQuery
       }
       
       //
-      // The following code is useful to produce output whichcan be compared
+      // The following code is useful to produce output which can be compared
       // directly with tabular data from MS Project.
       //
 /*      
