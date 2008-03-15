@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * This class represents embedded object data contained within an RTF
- * document. According to the RTF spec, this data has been written using
+ * document. According to the RTF specification, this data has been written using
  * the OLESaveToStream, although I have been unable to locate any existing
  * Java implementations of the equivalent OLELoadFromStream in order to
  * read this data, hence the current implementation.
@@ -44,9 +44,9 @@ import java.util.List;
  * document.
  *
  * The structure of data embedded in a notes field is beyond the scope
- * of the MPXJ doucmentation. However, generally speaking, you will find that
+ * of the MPXJ documentation. However, generally speaking, you will find that
  * each item of embedded data will be made up of two RTFEmbeddedObject instances,
- * the first is a header usually contaning string data, the second is the
+ * the first is a header usually containing string data, the second is the
  * actual payload data, which will typically be binary. You can retrieve the
  * String data using the RTFEmbeddedObject.getStringData() method, and the
  * binary data using the RTFEmbeddedObject.getData() method.
