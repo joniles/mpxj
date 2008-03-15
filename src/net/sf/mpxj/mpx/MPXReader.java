@@ -858,9 +858,10 @@ public final class MPXReader extends AbstractProjectReader
          ++index;
       }
 
+      Integer taskID;
       try
       {
-         relation.setTaskID(new Integer(relationship.substring(0, index)));
+         taskID = new Integer(relationship.substring(0, index));
       }
 
       catch (NumberFormatException ex)
@@ -871,7 +872,7 @@ public final class MPXReader extends AbstractProjectReader
       //
       // Now find the task, so we can extract the unique ID
       //
-      Task task = m_projectFile.getTaskByID(relation.getTaskID());
+      Task task = m_projectFile.getTaskByID(taskID);
       if (task != null)
       {
          relation.setTaskUniqueID(task.getUniqueID());

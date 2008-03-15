@@ -47,17 +47,6 @@ public final class Relation
    }
 
    /**
-    * Method used to retrieve the ID of the task
-    * related to the current task instance.
-    *
-    * @return task ID
-    */
-   public Integer getTaskID ()
-   {
-      return (m_taskID);
-   }
-
-   /**
     * Method used to retrieve the unique ID of the task
     * related to the current task instance.
     *
@@ -66,17 +55,6 @@ public final class Relation
    public Integer getTaskUniqueID ()
    {
       return (m_taskUniqueID);
-   }
-
-   /**
-    * Method used to set the identifier of the task
-    * related to the current task instance.
-    *
-    * @param id task identifier
-    */
-   public void setTaskID (Integer id)
-   {
-      m_taskID = id;
    }
 
    /**
@@ -166,7 +144,6 @@ public final class Relation
    /**
     * Identifier of task with which this relationship is held.
     */
-   private Integer m_taskID;
    private Integer m_taskUniqueID;
 
    /**

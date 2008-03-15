@@ -429,7 +429,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          while (iter.hasNext() == true)
          {
             rel = iter.next();
-            if (NumberUtility.equals(rel.getTaskID(), task.getID()))
+            if (NumberUtility.equals(rel.getTaskUniqueID(), task.getUniqueID()))
             {
                break;
             }
@@ -446,7 +446,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
          if (task != null)
          {
-            rel.setTaskID(task.getID());
             rel.setTaskUniqueID(task.getUniqueID());
          }
 
@@ -516,7 +515,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
          if (task != null)
          {
-            rel.setTaskID(task.getID());
             rel.setTaskUniqueID(task.getUniqueID());
          }
 
@@ -559,7 +557,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (task != null)
       {
-         rel.setTaskID(task.getID());
          rel.setTaskUniqueID(task.getUniqueID());
       }
 
@@ -601,7 +598,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (task != null)
       {
-         rel.setTaskID(task.getID());
          rel.setTaskUniqueID(task.getUniqueID());
       }
 

@@ -1527,7 +1527,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 152));
-         task.setLateStart(MPPUtility.getTimestamp(data, 148));
+         task.setLateStart(MPPUtility.getTimestamp(data, 12));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));
@@ -1787,8 +1787,8 @@ final class MPP12Reader implements MPPVariantReader
          processTaskEnterpriseColumns(id, task, taskVarData, metaData2);
          
          m_file.fireTaskReadEvent(task);
-         
-         //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);
+         //dumpUnknownData(task.getUniqueID().toString(), UNKNOWN_TASK_DATA, data);
+         //System.out.println(task);
       }
       
       //
@@ -1805,7 +1805,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          processExternalTasks (externalTasks);
       } 
-      
+            
       //
       // MPP12 files seem to exhibit some occasional weirdness
       // with duplicate ID values which leads to the task structure
@@ -1814,7 +1814,7 @@ final class MPP12Reader implements MPPVariantReader
       //
       validateStructure();
    }
-
+ 
    /**
     * This method is called to validate the task hierarchy.
     * Some MPP12 files contain duplicate task ID values which
@@ -1896,17 +1896,42 @@ final class MPP12Reader implements MPPVariantReader
          }
       }
       
-      //
-      // Renumber the task ID values
-      //
+      renumberTasks();
+   }
+     
+//   private void fixStructureOrder ()
+//   {
+//      m_file.updateStructure();
+//      fixStructureOrder(m_file.getTaskByID(NumberUtility.INTEGER_ZERO));
+//   }
+//   
+//   private void fixStructureOrder (Task parent)
+//   {     
+//      List<Task> children = parent.getChildTasks();
+//      Comparator<Task> comparator = (parent.getCritical()?START_COMPARATOR:FINISH_COMPARATOR);     
+//      Collections.sort(children, comparator);
+//     
+//      for (Task task: children)
+//      {
+//         fixStructureOrder(task);
+//      }
+//      
+//      renumberTasks();
+//   }
+
+   /**
+    * Called to renumber task IDs.
+    */
+   private void renumberTasks ()
+   {
       int nextID = (m_file.getTaskByID(NumberUtility.INTEGER_ZERO)==null?1:0);      
       for (Task task: m_file.getChildTasks())
       {
          task.setID(new Integer(nextID++));
          nextID = renumberChildren(nextID, task);
-      }     
+      }        
    }
-
+   
    /**
     * Renumbers child task IDs.
     * 
@@ -3260,22 +3285,31 @@ final class MPP12Reader implements MPPVariantReader
    }
    
    
-//   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
+//   private static void dumpUnknownData (String label, int[][] spec, byte[] data)
 //   {
-//      System.out.println (name);
+//      System.out.print (label);
 //      for (int loop=0; loop < spec.length; loop++)
 //      {
-//         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));
+//         int startByte = spec[loop][0];
+//         int length = spec[loop][1];
+//         if (length == -1)
+//         {
+//            length = data.length - startByte;
+//         }
+//         System.out.print ("["+spec[loop][0] + "]["+ MPPUtility.hexdump(data, startByte, length, false) + " ]");
 //      }
 //      System.out.println ();
 //   }
 //
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {
-//      {36, 4},
 //      {42, 18},
-//      {134, 14},
-//      {156, 4},
+//      {116, 4},
+//      {134, 2},
+//      {144, 4},
+//      {144, 16},
+//      {248, 8},
+//      {256, -1}
 //   };
 
 //   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
@@ -3296,6 +3330,35 @@ final class MPP12Reader implements MPPVariantReader
    private DirectoryEntry m_viewDir;
    private Map<Integer, Integer> m_parentTasks;
 
+   
+//   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
+//   {
+//      public int compare(Task o1, Task o2)
+//      {
+//         int result = DateUtility.compare(o1.getStart(), o2.getStart());
+//         if (result == 0)
+//         {
+//            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
+//            //result = o1.getID().intValue() - o2.getID().intValue();
+//         }         
+//         return (result);
+//      }
+//   };
+
+//   private static final Comparator<Task> FINISH_COMPARATOR = new Comparator<Task>()
+//   {
+//      public int compare(Task o1, Task o2)
+//      {
+//         int result = DateUtility.compare(o1.getFinish(), o2.getFinish()); 
+//         if (result == 0)
+//         {
+//            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
+//         }         
+//         return (result);
+//      }
+//   };
+
+   
    // Signals the end of the list of subproject task unique ids
    private static final int SUBPROJECT_LISTEND = 0x00000303;
    

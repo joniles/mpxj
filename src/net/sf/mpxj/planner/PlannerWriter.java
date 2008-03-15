@@ -506,7 +506,6 @@ public final class PlannerWriter extends AbstractProjectWriter
    private void writePredecessors (Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
    {      
       TreeSet<Integer> set = new TreeSet<Integer> ();
-      Integer taskID;
 
       Predecessors plannerPredecessors = m_factory.createPredecessors();
       plannerTask.setPredecessors(plannerPredecessors);
@@ -521,12 +520,12 @@ public final class PlannerWriter extends AbstractProjectWriter
       {         
          for (Relation rel : predecessors)
          {
-            taskID = rel.getTaskUniqueID();
-            set.add(taskID);
+            Integer taskUniqueID = rel.getTaskUniqueID();
+            set.add(taskUniqueID);
             
             Predecessor plannerPredecessor = m_factory.createPredecessor();
             plannerPredecessor.setId(getIntegerString(++id));
-            plannerPredecessor.setPredecessorId(getIntegerString(taskID));            
+            plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));            
             plannerPredecessor.setLag(getDurationString(rel.getDuration()));
             plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
             predecessorList.add(plannerPredecessor);
@@ -541,22 +540,17 @@ public final class PlannerWriter extends AbstractProjectWriter
       predecessors = mpxjTask.getPredecessors();
       if (predecessors != null)
       {
-         Task task;
          for (Relation rel : predecessors)
          {
-            task = m_projectFile.getTaskByID(rel.getTaskID());
-            if (task != null)
+            Integer taskUniqueID = rel.getTaskUniqueID();
+            if (set.contains(taskUniqueID) == false)
             {
-               taskID = task.getUniqueID();
-               if (set.contains(taskID) == false)
-               {
-                  Predecessor plannerPredecessor = m_factory.createPredecessor();                  
-                  plannerPredecessor.setId(getIntegerString(++id));
-                  plannerPredecessor.setPredecessorId(getIntegerString(taskID));
-                  plannerPredecessor.setLag(getDurationString(rel.getDuration()));
-                  plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
-                  predecessorList.add(plannerPredecessor);
-               }
+               Predecessor plannerPredecessor = m_factory.createPredecessor();                  
+               plannerPredecessor.setId(getIntegerString(++id));
+               plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
+               plannerPredecessor.setLag(getDurationString(rel.getDuration()));
+               plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
+               predecessorList.add(plannerPredecessor);
             }
          }
       }

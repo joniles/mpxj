@@ -1264,7 +1264,7 @@ public final class MPXWriter extends AbstractProjectWriter
       
       if (relation != null)
       {
-         StringBuffer sb = new StringBuffer(relation.getTaskID().toString());
+         StringBuffer sb = new StringBuffer(relation.getTask().getID().toString());
    
          Duration duration = relation.getDuration();
          RelationType type = relation.getType();

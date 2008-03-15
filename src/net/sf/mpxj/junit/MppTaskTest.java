@@ -697,8 +697,6 @@ public class MppTaskTest extends MPXJTestCase
           List<Relation> predecessors = subtask2.getPredecessors();
           assertEquals(1, predecessors.size());
           Relation relation = predecessors.get(0);
-          // check task id that's stored in the Relation
-          assertEquals(subtask1.getID(), relation.getTaskID());
           // check task unique id that's stored in the Relation
           assertEquals(subtask1.getUniqueID(), relation.getTaskUniqueID());
           // check task id stored in the Task that's stored in the relation
@@ -714,8 +712,8 @@ public class MppTaskTest extends MPXJTestCase
           assertEquals(2, predecessors.size());
           relation = predecessors.get(0);
           Relation relation2 = predecessors.get(1);
-          assertEquals(subtask3.getID(), relation.getTaskID());
-          assertEquals(subtask4.getID(), relation2.getTaskID());
+          assertEquals(subtask3.getUniqueID(), relation.getTaskUniqueID());
+          assertEquals(subtask4.getUniqueID(), relation2.getTaskUniqueID());
           // Type for subtask 5
           assertEquals(TaskType.FIXED_WORK, subtask5.getType());
 
@@ -797,14 +795,12 @@ public class MppTaskTest extends MPXJTestCase
 
         List<Relation> listPreds = task2.getPredecessors();
         Relation relation = listPreds.get(0);
-        assertEquals(1, relation.getTaskID().intValue());
         assertEquals(1, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.FINISH_START, relation.getType());
         assertEquals(task1, relation.getTask());
 
         listPreds = task3.getPredecessors();
         relation = listPreds.get(0);
-        assertEquals(2, relation.getTaskID().intValue());
         assertEquals(2, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.START_START, relation.getType());
         Duration duration = relation.getDuration();
@@ -813,13 +809,11 @@ public class MppTaskTest extends MPXJTestCase
 
         listPreds = task4.getPredecessors();
         relation = listPreds.get(0);
-        assertEquals(3, relation.getTaskID().intValue());
         assertEquals(3, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.FINISH_FINISH, relation.getType());
 
         listPreds = task5.getPredecessors();
         relation = listPreds.get(0);
-        assertEquals(4, relation.getTaskID().intValue());
         assertEquals(4, relation.getTaskUniqueID().intValue());
         assertEquals(RelationType.START_FINISH, relation.getType());
     }
