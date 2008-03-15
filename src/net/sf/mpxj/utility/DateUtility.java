@@ -156,6 +156,28 @@ public final class DateUtility
    }
 
    /**
+    * Compare two dates, handling null values.
+    * 
+    * @param d1 Date instance
+    * @param d2 Date instance
+    * @return int comparison result
+    */
+   public static int compare (Date d1, Date d2)
+   {
+      int result;
+      if (d1 == null || d2 == null)
+      {
+         result = (d1==d2?0:(d1==null?1:-1));
+      }
+      else
+      {
+         long diff = d1.getTime() - d2.getTime();
+         result = ((diff==0)?0:((diff>0)?1:-1));
+      }      
+      return (result);
+   }
+   
+   /**
     * This utility method calculates the difference in working
     * time between two dates, given the context of a task.
     * 
