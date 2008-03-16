@@ -1882,14 +1882,15 @@ final class MPP12Reader implements MPPVariantReader
 //            System.out.println("Parent Task: " + parentTask);
 //            System.out.println("ParentTask ID: " + parentTaskID);
             
-            if (parentTask != null)
-            {
-               parentTask.removeChildTask(task);
-            }
-            
+            Task newParent = null;
             if (parentTaskID.intValue() != -1)
             {
-               Task newParent = m_file.getTaskByUniqueID(parentTaskID);               
+               newParent = m_file.getTaskByUniqueID(parentTaskID);               
+            }
+            
+            if (parentTask != null && newParent != null)
+            {
+               parentTask.removeChildTask(task);
                newParent.addChildTask(task);
 //               System.out.println("FIXED");
             }
