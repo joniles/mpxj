@@ -443,8 +443,13 @@ public final class MPPResourceField
    private static final int ENTERPRISE_TEXT38_VALUE = 683;
    private static final int ENTERPRISE_TEXT39_VALUE = 684;
    private static final int ENTERPRISE_TEXT40_VALUE = 685;
+  
+   private static final int ENTERPRISE_VALUE = 691;
    
-   public static final int MAX_VALUE = 686;
+   private static final int ERRORS_VALUE = 738;
+   private static final int IMPORT_VALUE = 755;
+   
+   public static final int MAX_VALUE = 756;
    
    private static final ResourceField[] FIELD_ARRAY = new ResourceField[MAX_VALUE];
 
@@ -823,7 +828,10 @@ public final class MPPResourceField
       FIELD_ARRAY[ENTERPRISE_TEXT37_VALUE] = ResourceField.ENTERPRISE_TEXT37;
       FIELD_ARRAY[ENTERPRISE_TEXT38_VALUE] = ResourceField.ENTERPRISE_TEXT38;
       FIELD_ARRAY[ENTERPRISE_TEXT39_VALUE] = ResourceField.ENTERPRISE_TEXT39;
-      FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = ResourceField.ENTERPRISE_TEXT40;            
+      FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = ResourceField.ENTERPRISE_TEXT40; 
+      FIELD_ARRAY[ENTERPRISE_VALUE] = ResourceField.ENTERPRISE;
+      FIELD_ARRAY[ERRORS_VALUE] = ResourceField.ERRORS;
+      FIELD_ARRAY[IMPORT_VALUE] = ResourceField.IMPORT;
    }
 
    
@@ -1204,7 +1212,10 @@ public final class MPPResourceField
       ID_ARRAY[ResourceField.ENTERPRISE_TEXT37_VALUE] = ENTERPRISE_TEXT37_VALUE;
       ID_ARRAY[ResourceField.ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38_VALUE;
       ID_ARRAY[ResourceField.ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39_VALUE;
-      ID_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;            
+      ID_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;      
+      ID_ARRAY[ResourceField.ENTERPRISE_VALUE] = ENTERPRISE_VALUE;      
+      ID_ARRAY[ResourceField.ERRORS_VALUE] = ERRORS_VALUE;
+      ID_ARRAY[ResourceField.IMPORT_VALUE] = IMPORT_VALUE;
    }
    
    public static final int RESOURCE_FIELD_BASE = 0x0C400000;      

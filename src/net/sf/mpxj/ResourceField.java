@@ -511,8 +511,11 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_TEXT38_VALUE = 371;
    public static final int ENTERPRISE_TEXT39_VALUE = 372;
    public static final int ENTERPRISE_TEXT40_VALUE = 373;
- 
-   public static final int MAX_VALUE = 374;
+   public static final int ENTERPRISE_VALUE = 374;
+   public static final int ERRORS_VALUE = 375;
+   public static final int IMPORT_VALUE = 376;
+   
+   public static final int MAX_VALUE = 377;
    
    public static final ResourceField ID = new ResourceField(ID_VALUE, DataType.NUMERIC);
    public static final ResourceField NAME = new ResourceField(NAME_VALUE, DataType.STRING);
@@ -888,7 +891,10 @@ public final class ResourceField implements FieldType
    public static final ResourceField ENTERPRISE_TEXT38 = new ResourceField(ENTERPRISE_TEXT38_VALUE, DataType.STRING);
    public static final ResourceField ENTERPRISE_TEXT39 = new ResourceField(ENTERPRISE_TEXT39_VALUE, DataType.STRING);
    public static final ResourceField ENTERPRISE_TEXT40 = new ResourceField(ENTERPRISE_TEXT40_VALUE, DataType.STRING);
-
+   public static final ResourceField ENTERPRISE = new ResourceField(ENTERPRISE_VALUE, DataType.BOOLEAN);
+   public static final ResourceField ERRORS = new ResourceField(ERRORS_VALUE, DataType.STRING);
+   public static final ResourceField IMPORT = new ResourceField(IMPORT_VALUE, DataType.BOOLEAN);
+   
    private static final ResourceField[] TYPE_VALUES = new ResourceField[MAX_VALUE];
    
    static
@@ -1266,7 +1272,10 @@ public final class ResourceField implements FieldType
       TYPE_VALUES[ENTERPRISE_TEXT37_VALUE] = ENTERPRISE_TEXT37;
       TYPE_VALUES[ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38;
       TYPE_VALUES[ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39;
-      TYPE_VALUES[ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40;            
+      TYPE_VALUES[ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40;
+      TYPE_VALUES[ENTERPRISE_VALUE] = ENTERPRISE;
+      TYPE_VALUES[ERRORS_VALUE] = ERRORS;
+      TYPE_VALUES[IMPORT_VALUE] = IMPORT;
    }
    
    private int m_value;

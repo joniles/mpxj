@@ -97,6 +97,7 @@ final class TableFactory
     */
    private void processColumnData (ProjectFile file, Table table, byte[] data)
    {
+      //System.out.println("Table=" + table.getName());
       //System.out.println(MPPUtility.hexdump(data, 8, data.length-8, false, 12, ""));
       if (data != null)
       {
@@ -121,7 +122,11 @@ final class TableFactory
             
 //            if (column.getFieldType() == null)
 //            {               
-//               System.out.println("Unknown column type " + MPPUtility.getShort(data, index));
+//               System.out.println(loop + ": Unknown column type " + MPPUtility.getShort(data, index));
+//            }
+//            else
+//            {
+//               System.out.println(loop + ": " + column.getFieldType());
 //            }
             
             column.setWidth (MPPUtility.getByte(data, index+4));

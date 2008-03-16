@@ -879,7 +879,10 @@ public class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT37_VALUE] = "Enterprise Text37";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT38_VALUE] = "Enterprise Text38";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT39_VALUE] = "Enterprise Text39";
-      RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = "Enterprise Text40";      
+      RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = "Enterprise Text40";  
+      RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_VALUE] = "Enterprise";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.ERRORS_VALUE] = "Errors";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.IMPORT_VALUE] = "Import";
    }
 
    private static final Object[][] RESOURCES =
