@@ -946,7 +946,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(calVarData);
       
       FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream (calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream (calDir, "FixedData"));
 
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);

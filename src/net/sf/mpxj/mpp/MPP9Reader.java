@@ -1309,7 +1309,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta calVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
       Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
       FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream(calDir, "FixedData"), 12);
+      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
       int items = calFixedData.getItemCount();
