@@ -401,5 +401,5 @@ public final class RTFEmbeddedObject
    private int m_typeFlag2;
    private byte[] m_data;
 
-   private static final String OBJDATA = "\\objdata ";
+   private static final String OBJDATA = "\\objdata";   
 }
