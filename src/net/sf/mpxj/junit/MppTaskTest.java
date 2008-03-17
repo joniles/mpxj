@@ -43,7 +43,7 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
 
 /**
- * Testsb to exercise MPP file read functionlaity for various versions of
+ * Tests to exercise MPP file read functionality for various versions of
  * MPP file.
  */
 public class MppTaskTest extends MPXJTestCase 
