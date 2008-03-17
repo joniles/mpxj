@@ -102,22 +102,31 @@ final class FixedData extends MPPComponent
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-   
-      byte[] metaData;
-      int itemOffset;
-      int itemSize;
+     
       int available;
    
       for (int loop=0; loop < itemCount; loop++)
       {
-         metaData = meta.getByteArrayValue(loop);
-         itemSize = MPPUtility.getInt(metaData, 0);
+         byte[] metaData = meta.getByteArrayValue(loop);
+         int itemOffset = MPPUtility.getInt(metaData, 4);
+         
+         int itemSize;
+         if (loop+1==itemCount)
+         {
+            itemSize = buffer.length - itemOffset;   
+         }
+         else
+         {
+            byte[] nextMetaData = meta.getByteArrayValue(loop+1);
+            int nextItemOffset = MPPUtility.getInt(nextMetaData, 4);
+            itemSize = nextItemOffset - itemOffset;
+         }
+         
          if (itemSize == 0)
          {
         	 itemSize = minSize;
          }
-         itemOffset = MPPUtility.getInt(metaData, 4);
-   
+            
          if (itemOffset > buffer.length)
          {
             continue;

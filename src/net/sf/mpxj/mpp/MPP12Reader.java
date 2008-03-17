@@ -865,30 +865,38 @@ final class MPP12Reader implements MPPVariantReader
       for (int loop=3; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
-         if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
-         {
-            uniqueID = MPPUtility.getInt(data, 0);
-            key = new Integer(uniqueID);
-            if (taskMap.containsKey(key) == false)
+         if (data != null)
+         {     
+            byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
+            int metaDataItemSize = MPPUtility.getInt(metaData, 0);
+            if (metaDataItemSize == 2)
             {
-               taskMap.put(key, new Integer (loop));
+               // Project stores the deleted tasks unique id's into the fixed data as well
+               // and at least in one case the deleted task was listed twice in the list
+               // the second time with data with it causing a phantom task to be shown.
+               // See CalendarErrorPhantomTasks.mpp
+               //
+               // So let's add the unique id for the deleted task into the map so we don't
+               // accidentally include the task later.
+                 uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
+                 key = new Integer(uniqueID);
+                 if (taskMap.containsKey(key) == false)
+                 {
+                    taskMap.put(key, null); // use null so we can easily ignore this later
+                 }               
             }
-         }
-         else if (data != null && data.length == 2)
-         {
-        	 // Project stores the deleted tasks unique id's into the fixed data as well
-        	 // and at least in one case the deleted task was listed twice in the list
-        	 // the second time with data with it causing a phantom task to be shown.
-        	 // See CalendarErrorPhantomTasks.mpp
-        	 //
-        	 // So let's add the unique id for the deleted task into the map so we don't
-        	 // accidentally include the task later.
-             uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
-             key = new Integer(uniqueID);
-             if (taskMap.containsKey(key) == false)
-             {
-                taskMap.put(key, null); // use null so we can easily ignore this later
-             }
+            else
+            {
+               if (data.length==16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
+               {
+                  uniqueID = MPPUtility.getInt(data, 0);
+                  key = new Integer(uniqueID);
+                  if (taskMap.containsKey(key) == false)
+                  {
+                     taskMap.put(key, new Integer (loop));
+                  }
+               }               
+            }
          }
       }
 
@@ -1273,8 +1281,8 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
       //System.out.println(taskFixed2Meta);
-      //System.out.println(outlineCodeVarData.getVarMeta());
-      //System.out.println(outlineCodeVarData);
+      //System.out.println(m_outlineCodeVarData.getVarMeta());
+      //System.out.println(m_outlineCodeVarData);
       //System.out.println(props);
            
       // Process aliases      
@@ -1308,6 +1316,16 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
+         if (data.length == 16)
+         {
+            task = m_file.addTask();
+            task.setNull(true);
+            task.setUniqueID(id);
+            task.setID (new Integer(MPPUtility.getInt (data, 4)));
+            //System.out.println(task);
+            continue;
+         }
+         
          if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
          {
             continue;
@@ -1836,12 +1854,17 @@ final class MPP12Reader implements MPPVariantReader
       int currentID = -2;
       for(Task task : tasks)
       {
-         currentID = task.getID().intValue();
-         if (currentID == lastID)
+         Integer taskID = task.getID();
+         if (taskID != null)
          {
-            break;
+            currentID = taskID.intValue();
+            if (currentID == lastID)
+            {
+               break;
+            }
+            lastID = currentID;
+            currentID = -1;
          }
-         lastID = currentID;
       }
       
       //
@@ -1872,27 +1895,30 @@ final class MPP12Reader implements MPPVariantReader
       {
          Task parentTask = task.getParentTask();
          Integer parentTaskID = m_parentTasks.get(task.getUniqueID());
-                  
-         if ((parentTask == null && parentTaskID.intValue() != -1) ||
-             (parentTask != null && parentTaskID.intValue() == -1) ||
-             (parentTask != null && parentTask.getUniqueID().intValue() != parentTaskID.intValue()))
-         {            
-//            System.out.println("FIXING");
-//            System.out.println("Task: " + task);
-//            System.out.println("Parent Task: " + parentTask);
-//            System.out.println("ParentTask ID: " + parentTaskID);
-            
-            Task newParent = null;
-            if (parentTaskID.intValue() != -1)
-            {
-               newParent = m_file.getTaskByUniqueID(parentTaskID);               
-            }
-            
-            if (parentTask != null && newParent != null)
-            {
-               parentTask.removeChildTask(task);
-               newParent.addChildTask(task);
-//               System.out.println("FIXED");
+             
+         if (parentTaskID != null)
+         {
+            if ((parentTask == null && parentTaskID.intValue() != -1) ||
+                (parentTask != null && parentTaskID.intValue() == -1) ||
+                (parentTask != null && parentTask.getUniqueID().intValue() != parentTaskID.intValue()))
+            {            
+//               System.out.println("FIXING");
+//               System.out.println("Task: " + task);
+//               System.out.println("Parent Task: " + parentTask);
+//               System.out.println("ParentTask ID: " + parentTaskID);
+               
+               Task newParent = null;
+               if (parentTaskID.intValue() != -1)
+               {
+                  newParent = m_file.getTaskByUniqueID(parentTaskID);               
+               }
+               
+               if (parentTask != null && newParent != null)
+               {
+                  parentTask.removeChildTask(task);
+                  newParent.addChildTask(task);
+//                  System.out.println("FIXED");
+               }
             }
          }
       }
@@ -3301,7 +3327,7 @@ final class MPP12Reader implements MPPVariantReader
 //      }
 //      System.out.println ();
 //   }
-//
+
 //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
 //   {
 //      {42, 18},

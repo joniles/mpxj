@@ -863,9 +863,10 @@ public final class ProjectFile
 
             if (lastTask != null)
             {
-               if (level == lastLevel)
+               if (level == lastLevel || task.getNull())
                {
                   parent = lastTask.getParentTask();
+                  level = lastLevel;
                }
                else
                {

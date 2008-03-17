@@ -1235,30 +1235,39 @@ final class MPP9Reader implements MPPVariantReader
       for (int loop=3; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
-         if (data != null && data.length >= MINIMUM_EXPECTED_TASK_SIZE)
+         if (data != null)
          {
-            uniqueID = MPPUtility.getInt(data, 0);
-            key = new Integer(uniqueID);
-            if (taskMap.containsKey(key) == false)
+            byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
+            int metaDataItemSize = MPPUtility.getInt(metaData, 0);
+            
+            if (metaDataItemSize == 2)
             {
-               taskMap.put(key, new Integer (loop));
+               // Project stores the deleted tasks unique id's into the fixed data as well
+               // and at least in one case the deleted task was listed twice in the list
+               // the second time with data with it causing a phantom task to be shown.
+               // See CalendarErrorPhantomTasks.mpp
+               //
+               // So let's add the unique id for the deleted task into the map so we don't
+               // accidentally include the task later.
+               uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
+               key = new Integer(uniqueID);
+               if (taskMap.containsKey(key) == false)
+               {
+                  taskMap.put(key, null); // use null so we can easily ignore this later
+               }
             }
-         }
-         else if (data != null && data.length == 2)
-         {
-        	 // Project stores the deleted tasks unique id's into the fixed data as well
-        	 // and at least in one case the deleted task was listed twice in the list
-        	 // the second time with data with it causing a phantom task to be shown.
-        	 // See CalendarErrorPhantomTasks.mpp
-        	 //
-        	 // So let's add the unique id for the deleted task into the map so we don't
-        	 // accidentally include the task later.
-             uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
-             key = new Integer(uniqueID);
-             if (taskMap.containsKey(key) == false)
-             {
-                taskMap.put(key, null); // use null so we can easily ignore this later
-             }
+            else
+            {
+               if (metaDataItemSize !=6 && (data.length == 8 || data.length >= MINIMUM_EXPECTED_TASK_SIZE))
+               {
+                  uniqueID = MPPUtility.getInt(data, 0);
+                  key = new Integer(uniqueID);
+                  if (taskMap.containsKey(key) == false)
+                  {
+                     taskMap.put(key, new Integer (loop));
+                  }
+               }               
+            }            
          }
       }
 
@@ -1639,6 +1648,16 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
+         if (data.length == 8)
+         {
+            task = m_file.addTask();
+            task.setNull(true);
+            task.setUniqueID(id);
+            task.setID (new Integer(MPPUtility.getInt (data, 4)));
+            //System.out.println(task);
+            continue;
+         }
+               
          if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
          {
             continue;
@@ -2075,7 +2094,7 @@ final class MPP9Reader implements MPPVariantReader
          // Fire the task read event
          //
          m_file.fireTaskReadEvent(task);
-
+         //System.out.println(task);
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
       }
       
