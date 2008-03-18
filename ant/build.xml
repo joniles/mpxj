@@ -18,15 +18,31 @@
    <property name="mspdi.xsd" value="Project2003-MSPDI-correct.XSD"/>
 
    <property name="lib.dir" value="${basedir}/lib" />
-   <property name="jaxb.classpath" value="${lib.dir}/jaxb-api.jar:${lib.dir}/jaxb-impl.jar:${lib.dir}/jsr173_1.0_api.jar:${lib.dir}/activation.jar" />
-   <property name="poi.classpath" value="${lib.dir}/poi-3.0.2-FINAL-20080204.jar" />
-   <property name="junit.classpath" value="${basedir}/junit/junit.jar" />
    <property name="doc.dir" value="${basedir}/doc/api" />
    <property name="classes.dir" value="${basedir}/classes" />
    <property name="bak.dir" value="${basedir}/bak" />
    <property name="distribution" value="${basedir}/../mpxj.zip" />
    <property name="mspdi-schema.dir" value="/net/sf/mpxj/mspdi/schema" />
 	<property name="planner-schema.dir" value="/net/sf/mpxj/planner/schema" />
+	
+	<path id="jaxb.path">
+		<pathelement location="${lib.dir}/jaxb-api.jar"/>
+		<pathelement location="${lib.dir}/jaxb-impl.jar"/>
+		<pathelement location="${lib.dir}/jsr173_1.0_api.jar"/>
+		<pathelement location="${lib.dir}/activation.jar"/>
+	</path>
+
+	<path id="poi.path">
+		<pathelement location="${lib.dir}/poi-3.0.2-FINAL-20080204.jar"/>
+	</path>
+
+	<path id="junit.path">
+		<pathelement location="${basedir}/junit/junit.jar"/>
+	</path>
+
+	<property name="jaxb.classpath" refid="jaxb.path"/>	
+   <property name="poi.classpath" refid="poi.path" />
+   <property name="junit.classpath" refid="junit.path" />
 </target>
 
 
@@ -88,4 +104,23 @@
    <delete dir="${doc.dir}"/>
 </target>
 
+<target name="coverage" depends="archive" description="Code coverage using Emma">	
+	<property name="emma.dir" value="c:\java\emma-2.0.5312" />
+		
+	<path id="emmarun.path">
+		<path refid="jaxb.path"/>
+		<path refid="poi.path"/>
+		<path refid="junit.path"/>
+		<pathelement location="${basedir}/mpxj.jar"/>
+	</path>
+	
+	<property name="emmarun.classpath" refid="emmarun.path"/>
+
+	<property name="filter" value="-javax.*,-com.*,-org.*,-junit.*,-net.sf.mpxj.mspdi.schema.*"/>
+	
+   <exec executable="java" dir="${basedir}">
+		<arg line="-Xms64m -Xmx512m -Dmpxj.junit.datadir=${basedir}/junit/data -cp ${emma.dir}/lib/emma.jar emmarun -cp ${emmarun.classpath} -r html -sp ${basedir}/src -ix ${filter} junit.textui.TestRunner net.sf.mpxj.junit.MPXJTest" />
+   </exec>	
+</target>
+	
 </project>
