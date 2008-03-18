@@ -869,7 +869,7 @@ final class MPP12Reader implements MPPVariantReader
          {     
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
             int metaDataItemSize = MPPUtility.getInt(metaData, 0);
-            if (metaDataItemSize == 2)
+            if (metaDataItemSize < 16)
             {
                // Project stores the deleted tasks unique id's into the fixed data as well
                // and at least in one case the deleted task was listed twice in the list
@@ -886,11 +886,11 @@ final class MPP12Reader implements MPPVariantReader
                  }               
             }
             else
-            {
+            {                             
                if (data.length==16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
                {
                   uniqueID = MPPUtility.getInt(data, 0);
-                  key = new Integer(uniqueID);
+                  key = new Integer(uniqueID);                                   
                   if (taskMap.containsKey(key) == false)
                   {
                      taskMap.put(key, new Integer (loop));
