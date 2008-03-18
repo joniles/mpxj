@@ -1257,7 +1257,7 @@ public final class DatatypeConverter
     */
    public static final Priority parsePriority (BigInteger priority)
    {
-      return (Priority.getInstance (priority.intValue()));
+      return (priority==null?null:Priority.getInstance (priority.intValue()));
    }
 
    /**

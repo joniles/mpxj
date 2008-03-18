@@ -13,7 +13,8 @@
 		<action dev="joniles" type="fix">Updated to address an out of memory exception raised when processing certain MPP12 files.</action>	
 		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>		
 		<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala)</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1826791: Import from Project2007 ignores some tasks.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1826791: Import from Project2007 ignores some tasks.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1881769: Crash on priority not set in MSPDI-file.</action>			
 		<action dev="joniles" type="add">Added support for Enterprise task and resource fields.</action>
 		<action dev="joniles" type="add">Added support for Baseline task and resource fields.</action>
 		<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>
