@@ -1288,7 +1288,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * This method allows a pre-existing resource calendar to be attched to a
+    * This method allows a pre-existing resource calendar to be attached to a
     * resource.
     * 
     * @param calendar resource calendar
