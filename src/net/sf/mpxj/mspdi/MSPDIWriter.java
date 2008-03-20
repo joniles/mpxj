@@ -325,9 +325,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time;
       ProjectCalendarHours bch;
 
-      calendar.setWeekDays (days);
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
-
 
       for (int loop=1; loop < 8; loop++)
       {
@@ -339,7 +337,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             dayList.add(day);
             day.setDayType(BigInteger.valueOf(loop));
             day.setDayWorking(Boolean.valueOf(workingFlag == ProjectCalendar.WORKING));
-
+            
             if (workingFlag == ProjectCalendar.WORKING)
             {
                Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes ();
@@ -365,6 +363,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
          }
       }
 
+      //
+      // Do not add a weekdays tag to the calendar unless it
+      // has valid entries.
+      // Fixes SourceForge bug 1854747: MPXJ and MSP 2007 XML formats
+      //
+      if (!dayList.isEmpty())
+      {
+         calendar.setWeekDays (days);   
+      }
+      
       //
       // Create a list of exceptions
       //
