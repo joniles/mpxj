@@ -640,7 +640,7 @@ public class BasicTest extends MPXJTestCase
       
       for (ResourceAssignment assignment: assignments)
       {
-         switch (NumberUtility.getInt(assignment.getResourceID()))
+         switch (NumberUtility.getInt(assignment.getResource().getID()))
          {
             case 1:
             {

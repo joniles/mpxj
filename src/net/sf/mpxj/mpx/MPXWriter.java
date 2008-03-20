@@ -806,7 +806,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       m_buffer.append(MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getResourceID()));
+      m_buffer.append(format(record.getResource().getID()));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatUnits(record.getUnits())));
       m_buffer.append(m_delimiter);

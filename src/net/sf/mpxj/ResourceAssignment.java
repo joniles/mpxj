@@ -66,38 +66,6 @@ public final class ResourceAssignment extends ProjectEntity
    }
 
    /**
-    * Returns the resource ID associated with this assignment.
-    *
-    * @return ID
-    */
-   public Integer getResourceID ()
-   {
-      return (m_resourceID);
-   }
-
-   /**
-    * Sets the resource ID associated with this assignment.
-    *
-    * @param val  ID
-    */
-   public void setResourceID (Integer val)
-   {
-      if (val != null)
-      {
-         m_resourceID = val;
-
-         //
-         // If the resource unique ID has not yet been set,
-         // use the resource ID as the default value.
-         //
-         if (getResourceUniqueID() == null)
-         {
-            setResourceUniqueID(val);
-         }
-      }
-   }
-
-   /**
     * Returns the units of this resource assignment.
     *
     * @return units
@@ -337,15 +305,6 @@ public final class ResourceAssignment extends ProjectEntity
       if (val != null)
       {
          m_resourceUniqueID = val;
-
-         //
-         // If the resource ID has not been set, then use
-         // the resource unique ID as the default value.
-         //
-         if (getResourceID() == null)
-         {
-            setResourceID(val);
-         }
       }
    }
 
@@ -429,7 +388,6 @@ public final class ResourceAssignment extends ProjectEntity
       m_remainingWork = remainingWork;
    }
 
-   private Integer m_resourceID;
    private Number m_units;
    private Duration m_work;
    private Duration m_plannedWork;

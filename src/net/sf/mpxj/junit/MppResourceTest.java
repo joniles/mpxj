@@ -341,7 +341,7 @@ public class MppResourceTest extends MPXJTestCase
 
         ResourceAssignment ra = listResourceAssignments.get(0);
         // id
-        assertEquals(intOne, ra.getResourceID());
+        assertEquals(intOne, ra.getResource().getID());
         assertEquals(intOne, ra.getResourceUniqueID());
         // start and finish
         assertEquals("25/08/2006", df.format(ra.getStart()));

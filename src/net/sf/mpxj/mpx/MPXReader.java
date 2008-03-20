@@ -1237,7 +1237,6 @@ public final class MPXReader extends AbstractProjectReader
    private void populateResourceAssignment (Record record, ResourceAssignment assignment)
       throws MPXJException
    {
-      assignment.setResourceID(record.getInteger(0));
       assignment.setUnits(record.getUnits(1));
       assignment.setWork(record.getDuration(2));
       assignment.setPlannedWork(record.getDuration(3));

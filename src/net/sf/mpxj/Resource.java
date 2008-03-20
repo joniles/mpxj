@@ -1371,14 +1371,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       parent.mapResourceID(val, this);
 
       set (ResourceField.ID, val);
-
-      if (m_assignments.isEmpty() == false)
-      {
-         for (ResourceAssignment assignment : m_assignments)
-         {
-            assignment.setResourceID(val);
-         }
-      }
    }
 
    /**
