@@ -176,7 +176,7 @@ public class MpxjQuery
    {
       for (Resource resource: file.getAllResources())
       {
-         System.out.println ("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID()+")");
+         System.out.println ("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID()+") Start=" + resource.getStart() + " Finish=" + resource.getFinish());
       }
       System.out.println ();
    }

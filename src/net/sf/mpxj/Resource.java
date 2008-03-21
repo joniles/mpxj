@@ -30,6 +30,7 @@ import java.util.List;
 
 import net.sf.mpxj.listener.FieldListener;
 import net.sf.mpxj.utility.BooleanUtility;
+import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 
@@ -448,33 +449,21 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Sets the earliest start date for all assigned tasks.
-    * 
-    * @param start start date
-    */
-   public void setStart (Date start)
-   {
-      set(ResourceField.START, start);
-   }
-
-   /**
     * Retrieves the earliest start date for all assigned tasks.
     * 
     * @return start date
     */
    public Date getStart ()
    {
-      return ((Date)getCachedValue(ResourceField.START));
-   }
-
-   /**
-    * Sets the latest finish date for all assigned tasks.
-    * 
-    * @param finish finish date
-    */
-   public void setFinish (Date finish)
-   {
-      set(ResourceField.FINISH, finish);
+      Date result = null;
+      for (ResourceAssignment assignment : m_assignments)
+      {
+         if (result == null || DateUtility.compare(result, assignment.getStart()) > 0)
+         {
+            result = assignment.getStart();
+         }
+      }
+      return (result);
    }
 
    /**
@@ -484,7 +473,15 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getFinish ()
    {
-      return ((Date)getCachedValue(ResourceField.FINISH));
+      Date result = null;
+      for (ResourceAssignment assignment : m_assignments)
+      {
+         if (result == null || DateUtility.compare(result, assignment.getFinish()) < 0)
+         {
+            result = assignment.getFinish();
+         }
+      }
+      return (result);
    }
 
    /**

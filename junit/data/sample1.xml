@@ -5984,6 +5984,8 @@
             <MaxUnits>1</MaxUnits>
             <PeakUnits>1.5</PeakUnits>
             <OverAllocated>0</OverAllocated>
+            <Start>2003-01-07T08:00:00</Start>
+            <Finish>2003-03-17T17:00:00</Finish>
             <CanLevel>0</CanLevel>
             <AccrueAt>3</AccrueAt>
             <Work>PT240H0M0S</Work>
@@ -6102,6 +6104,8 @@ formatting.
             <MaxUnits>1</MaxUnits>
             <PeakUnits>1.75</PeakUnits>
             <OverAllocated>0</OverAllocated>
+            <Start>2003-01-07T23:00:00</Start>
+            <Finish>2003-03-18T08:00:00</Finish>
             <CanLevel>0</CanLevel>
             <AccrueAt>3</AccrueAt>
             <Work>PT340H0M0S</Work>

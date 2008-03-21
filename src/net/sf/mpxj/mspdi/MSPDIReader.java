@@ -533,7 +533,6 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setCreationDate(DatatypeConverter.parseDate(xml.getCreationDate()));
       mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
       mpx.setEmailAddress(xml.getEmailAddress());
-      mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
       mpx.setGroup(xml.getGroup());
       mpx.setHyperlink(xml.getHyperlink());
       mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
@@ -568,7 +567,6 @@ public final class MSPDIReader extends AbstractProjectReader
       mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile,null,xml.getRemainingOvertimeWork()));
       mpx.setStandardRate(DatatypeConverter.parseRate(xml.getStandardRate()));
       mpx.setStandardRateFormat(DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
-      mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
       mpx.setSV(DatatypeConverter.parseCurrency(xml.getSV()));
       mpx.setType(xml.getType());
       mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
