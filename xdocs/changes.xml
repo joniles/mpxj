@@ -16,7 +16,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1826791: Import from Project2007 ignores some tasks.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1881769: Crash on priority not set in MSPDI-file.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1881769: Crash on priority not set in MSPDI-file.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1863742: Resource start/finish dates with MSP 2007.</action>								
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1863742: Resource start/finish dates with MSP 2007.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1907993: MS Project 2007: Calendar exceptions dates are wrong.</action>
 		<action dev="joniles" type="add">Added support for Enterprise task and resource fields.</action>
 		<action dev="joniles" type="add">Added support for Baseline task and resource fields.</action>
 		<action dev="joniles" type="add">Added support for extracting non-English (i.e. character set encoded) text from note fields.</action>

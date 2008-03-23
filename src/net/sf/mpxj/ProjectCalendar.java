@@ -332,24 +332,24 @@ public final class ProjectCalendar extends ProjectEntity
       ProjectCalendarHours hours = addCalendarHours (Day.SUNDAY);
 
       hours = addCalendarHours (Day.MONDAY);
-      hours.addDateRange(new DateRange (FROM1, TO1));
-      hours.addDateRange(new DateRange (FROM2, TO2));
+      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.TUESDAY);
-      hours.addDateRange(new DateRange (FROM1, TO1));
-      hours.addDateRange(new DateRange (FROM2, TO2));
+      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.WEDNESDAY);
-      hours.addDateRange(new DateRange (FROM1, TO1));
-      hours.addDateRange(new DateRange (FROM2, TO2));
+      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.THURSDAY);
-      hours.addDateRange(new DateRange (FROM1, TO1));
-      hours.addDateRange(new DateRange (FROM2, TO2));
+      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.FRIDAY);
-      hours.addDateRange(new DateRange (FROM1, TO1));
-      hours.addDateRange(new DateRange (FROM2, TO2));
+      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.SATURDAY);
    }
@@ -1196,8 +1196,8 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public static final int DEFAULT = 2;
    
-   private static final Date FROM1 = DateUtility.getTime(8, 0);
-   private static final Date TO1 = DateUtility.getTime(12, 0);
-   private static final Date FROM2 = DateUtility.getTime(13, 0);
-   private static final Date TO2 = DateUtility.getTime(17, 0);      
+   public static final Date DEFAULT_START1 = DateUtility.getTime(8, 0);
+   public static final Date DEFAULT_END1 = DateUtility.getTime(12, 0);
+   public static final Date DEFAULT_START2 = DateUtility.getTime(13, 0);
+   public static final Date DEFAULT_END2 = DateUtility.getTime(17, 0);      
 }

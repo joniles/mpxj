@@ -25,8 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -937,11 +935,9 @@ final class MPP12Reader implements MPPVariantReader
     * by 7x 60 byte blocks, one for each day of the week. Optionally
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
-    *
-    * @throws java.io.IOException
     */
    private void processCalendarData ()
-      throws MPXJException, IOException
+      throws IOException
    {
       DirectoryEntry calDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCal");
 
@@ -1051,10 +1047,8 @@ final class MPP12Reader implements MPPVariantReader
     * @param data calendar data block
     * @param cal calendar instance
     * @param isBaseCalendar true if this is a base calendar
-    * @throws net.sf.mpxj.MPXJException
     */
    private void processCalendarHours (byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
-      throws MPXJException
    {
 	  // Dump out the calendar related data and fields.
 	  //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
@@ -1070,28 +1064,6 @@ final class MPP12Reader implements MPPVariantReader
       Day day;
       List<DateRange> dateRanges = new ArrayList<DateRange>(5);
       
-      //
-      // Configure default time ranges
-      //
-      SimpleDateFormat df = new SimpleDateFormat ("HH:mm");
-      Date defaultStart1;
-      Date defaultEnd1;
-      Date defaultStart2;
-      Date defaultEnd2;
-
-      try
-      {
-         defaultStart1 = df.parse ("08:00");
-         defaultEnd1 = df.parse ("12:00");
-         defaultStart2 = df.parse ("13:00");
-         defaultEnd2 = df.parse ("17:00");
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException (MPXJException.INVALID_FORMAT, ex);
-      }
-
       for (index=0; index < 7; index++)
       {
          offset = (60 * index);
@@ -1107,8 +1079,8 @@ final class MPP12Reader implements MPPVariantReader
                if (cal.isWorkingDay(day) == true)
                {
                   hours = cal.addCalendarHours(Day.getInstance(index+1));
-                  hours.addDateRange(new DateRange(defaultStart1, defaultEnd1));
-                  hours.addDateRange(new DateRange(defaultStart2, defaultEnd2));
+                  hours.addDateRange(new DateRange(ProjectCalendar.DEFAULT_START1, ProjectCalendar.DEFAULT_END1));
+                  hours.addDateRange(new DateRange(ProjectCalendar.DEFAULT_START2, ProjectCalendar.DEFAULT_END2));
                }
             }
             else
@@ -1159,8 +1131,6 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processCalendarExceptions (byte[] data, ProjectCalendar cal)
    {
-	  // Dump out the calendar related data and fields.
-      // MPPUtility.dataDump(data, true, false, false, false, true, true, true);
       //
       // Handle any exceptions
       //	   	
@@ -1178,9 +1148,17 @@ final class MPP12Reader implements MPPVariantReader
             int periodCount;
             Date start;
    
+            //
+            // Move to the start of the first exception            
+            //
+            offset+=4;
+            
+            //
+            // Each exception is an 92 byte block, followed by a 
+            // variable length text block
+            //
             for (index=0; index < exceptionCount; index++)
             {
-               offset = 420 + 4 + (index * 92);
                exception = cal.addCalendarException();
                exception.setFromDate(MPPUtility.getDate (data, offset));
                exception.setToDate(MPPUtility.getDate (data, offset+2));
@@ -1212,12 +1190,37 @@ final class MPP12Reader implements MPPVariantReader
                         duration = MPPUtility.getDuration (data, offset+40);
                         exception.setFromTime3(start);
                         exception.setToTime3(new Date (start.getTime() + duration));
+                        
+                        if (periodCount > 3)
+                        {
+                           start = MPPUtility.getTime (data, offset+26);
+                           duration = MPPUtility.getDuration (data, offset+44);
+                           exception.setFromTime4(start);
+                           exception.setToTime4(new Date (start.getTime() + duration));
+                           
+                           if (periodCount > 4)
+                           {
+                              start = MPPUtility.getTime (data, offset+28);
+                              duration = MPPUtility.getDuration (data, offset+48);
+                              exception.setFromTime5(start);
+                              exception.setToTime5(new Date (start.getTime() + duration));
+                           }                           
+                        }                        
                      }
                   }
-                  //
-                  // Note that MPP defines 5 time ranges rather than 3
-                  //
                }
+               
+               //
+               // Extract the name length - ensure that it is aligned to a 4 byte boundary
+               //
+               int exceptionNameLength = MPPUtility.getInt(data, offset+88);
+               if (exceptionNameLength % 4 != 0)
+               {
+                  exceptionNameLength = ((exceptionNameLength / 4)+1)*4;
+               }
+               
+               //String exceptionName = MPPUtility.getUnicodeString(data, offset+92);
+               offset += (92+exceptionNameLength);               
             }
          }
       }
