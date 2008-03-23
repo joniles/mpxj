@@ -41,7 +41,7 @@ storing project data. Microsoft Project 2002 and Microsoft Project
 2003 can read and write MSPDI files. MPXJ allows MSPDI files to be 
 created, read, and written. Documentation on the Project 2003 MSPDI file format
 can be 
-<a href="http://www.microsoft.com/downloads/details.aspx?familyid=FE118952-3547-420A-A412-00A2662442D9&displaylang=en" target="_blank">
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=FE118952-3547-420A-A412-00A2662442D9" target="_blank">
 downloaded from the MSDN web site</a> as part of the Office 2003 
 XML Reference Schemas package. The equivalent documentation for Project 2007
 can also be 
