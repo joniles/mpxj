@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="2.2.0" date="CVS HEAD">
+		<action dev="joniles" type="update">Updated to the Project 2007 MSPDI schema.</action>
 	</release>
 	
 	<release version="2.1.0" date="23/03/2008">

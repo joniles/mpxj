@@ -15,7 +15,7 @@
    	than setting a full path here and in the binding.xjb file 
     -->
    <property name="jaxb.dir" value="c:\java\jaxb-ri-2.1.4" />
-   <property name="mspdi.xsd" value="Project2003-MSPDI-correct.XSD"/>
+   <property name="mspdi.xsd" value="mspdi_pj12-correct.xsd"/>
 
    <property name="lib.dir" value="${basedir}/lib" />
    <property name="doc.dir" value="${basedir}/doc/api" />

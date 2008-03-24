@@ -580,7 +580,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             attrib = factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
             attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
@@ -810,7 +809,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             attrib = factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
-            attrib.setUID(BigInteger.valueOf(loop+1));
             attrib.setFieldID(xmlFieldID.toString());
             attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
