@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,9 @@ final class SummaryInformation
          m_keywords = (String)map.get(KEYWORDS);
          m_comments = (String)map.get(COMMENTS);
          m_revision = NumberUtility.parseInteger((String)map.get(REVISION_NUMBER));
-
+         m_creationDate = (Date)map.get(CREATION_DATE);
+         m_lastSaved = (Date)map.get(LAST_SAVED);
+         
          ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005DocumentSummaryInformation"))));
          map = getPropertyMap(ps);
          m_category = (String)map.get(CATEGORY);
@@ -201,6 +204,26 @@ final class SummaryInformation
    }
 
    /**
+    * Retrieve the created date.
+    * 
+    * @return created date
+    */
+   public Date getCreationDate ()
+   {
+      return (m_creationDate);
+   }
+   
+   /**
+    * Retrieve the last saved date.
+    * 
+    * @return last saved date
+    */
+   public Date getLastSaved ()
+   {
+      return (m_lastSaved);
+   }
+   
+   /**
     * Retrieve the Document Summary Information. This
     * allows the caller to examine custom document summary information
     * which may be defined in the project file.
@@ -223,6 +246,9 @@ final class SummaryInformation
    private String m_manager;
    private String m_company;
 
+   private Date m_creationDate;
+   private Date m_lastSaved;
+   
    private HashMap<Integer, Object> m_documentSummaryInformation;
 
    /**
@@ -234,6 +260,8 @@ final class SummaryInformation
    private static final Integer KEYWORDS = new Integer (105);
    private static final Integer COMMENTS = new Integer (106);
    private static final Integer REVISION_NUMBER = new Integer (109);
+   private static final Integer CREATION_DATE = new Integer (112);
+   private static final Integer LAST_SAVED = new Integer (113);
 
    /**
     * Constants representing Document Summary Information properties.

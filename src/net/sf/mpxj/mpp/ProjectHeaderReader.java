@@ -84,6 +84,8 @@ public final class ProjectHeaderReader
       ph.setManager(summary.getManager());
       ph.setCategory(summary.getCategory());
       ph.setRevision(summary.getRevision());
+      ph.setCreationDate(summary.getCreationDate());
+      ph.setLastSaved(summary.getLastSaved());
       ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
 
       ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));      
