@@ -1154,7 +1154,7 @@ final class MPP12Reader implements MPPVariantReader
             offset+=4;
             
             //
-            // Each exception is an 92 byte block, followed by a 
+            // Each exception is a 92 byte block, followed by a 
             // variable length text block
             //
             for (index=0; index < exceptionCount; index++)
