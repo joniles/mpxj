@@ -68,6 +68,7 @@ public final class ProjectHeaderReader
 
       ph.setCurrencyDigits(new Integer(props.getShort(Props.CURRENCY_DIGITS)));
       ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
+      ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE)); 
       //ph.setDecimalSeparator();
       ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //ph.setThousandsSeparator();

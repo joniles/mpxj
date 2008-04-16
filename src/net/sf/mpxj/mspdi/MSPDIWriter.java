@@ -132,6 +132,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setCompany(header.getCompany());
       project.setCreationDate(DatatypeConverter.printDate(header.getCreationDate()));
       project.setCriticalSlackLimit(NumberUtility.getBigInteger(header.getCriticalSlackLimit()));
+      project.setCurrencyCode(header.getCurrencyCode());
       project.setCurrencyDigits(BigInteger.valueOf (header.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(header.getCurrencySymbol());
       project.setCurrencySymbolPosition(header.getSymbolPosition());

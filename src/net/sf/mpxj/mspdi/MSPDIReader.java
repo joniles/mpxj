@@ -189,6 +189,7 @@ public final class MSPDIReader extends AbstractProjectReader
       header.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
       header.setCriticalSlackLimit(NumberUtility.getInteger(project.getCriticalSlackLimit()));
       header.setCurrencyDigits (NumberUtility.getInteger(project.getCurrencyDigits()));
+      header.setCurrencyCode(project.getCurrencyCode());
       header.setCurrencySymbol (project.getCurrencySymbol());
       header.setCurrentDate(DatatypeConverter.parseDate (project.getCurrentDate()));
       header.setDaysPerMonth(NumberUtility.getInteger(project.getDaysPerMonth()));

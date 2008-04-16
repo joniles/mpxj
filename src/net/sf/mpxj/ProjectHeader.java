@@ -2071,6 +2071,26 @@ public final class ProjectHeader extends ProjectEntity
    }
 
    /**
+    * Retrieve the currency code for this project.
+    * 
+    * @return currency code
+    */
+   public String getCurrencyCode ()
+   {
+      return (m_currencyCode);
+   }
+   
+   /**
+    * Set the currency code for this project.
+    * 
+    * @param currencyCode currency code
+    */
+   public void setCurrencyCode (String currencyCode)
+   {
+      m_currencyCode = currencyCode;
+   }
+   
+   /**
     * Set the Document Summary Information.
     *
     * @param documentSummaryInformation The Document Summary Information Map
@@ -2206,7 +2226,8 @@ public final class ProjectHeader extends ProjectEntity
    private Day m_weekStartDay;
    private boolean m_calculateMultipleCriticalPaths;
    private Map<Integer, Object> m_documentSummaryInformation;
-
+   private String m_currencyCode;
+   
    /*
     * Missing MSPDI attributes
     *

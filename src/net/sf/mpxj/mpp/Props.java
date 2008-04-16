@@ -281,6 +281,8 @@ class Props extends MPPComponent
    public static final Integer OVERTIME_RATE = new Integer (37748768);
    public static final Integer END_TIME = new Integer (37748769);
 
+   public static final Integer CURRENCY_CODE = new Integer (37753787);
+   
    public static final Integer CALCULATE_MULTIPLE_CRITICAL_PATHS = new Integer (37748793);
 
    public static final Integer TASK_FIELD_NAME_ALIASES = new Integer (1048577);
