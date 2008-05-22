@@ -542,153 +542,150 @@ final class MPP12Reader implements MPPVariantReader
     */
    private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
-      SubProject sp = new SubProject ();
-
+      SubProject sp = new SubProject ();     
+      int type = SUBPROJECT_TASKUNIQUEID0;
+      
       if (uniqueIDOffset != -1)
       {
-    	 int prev = 0;
-         int value = MPPUtility.getInt(data, uniqueIDOffset);         
-         while (value != SUBPROJECT_LISTEND)
+         int value = MPPUtility.getInt(data, uniqueIDOffset);
+         type = MPPUtility.getInt(data, uniqueIDOffset+4);
+         switch (type)
          {
-        	 switch (value)
-        	 {
-        	 case SUBPROJECT_TASKUNIQUEID0:
-             case SUBPROJECT_TASKUNIQUEID1:
-        	 case SUBPROJECT_TASKUNIQUEID2:
-        	 case SUBPROJECT_TASKUNIQUEID3:
-        		 // The previous value was for the subproject unique task id
-        		 sp.setTaskUniqueID(new Integer(prev));
-        		 m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-        		 prev = 0;
-        		 break;
-        		 
-        	 default:
-        		 if (prev != 0)
-        		 {
-        			 // The previous value was for an external task unique task id
-        			 sp.addExternalTaskUniqueID(new Integer(prev));
-        			 m_taskSubProjects.put(new Integer(prev), sp);
-        		 }
-        	 	 prev = value;
-        		 break;
-        	 }
-        	 // Read the next value
-        	 uniqueIDOffset += 4;
-        	 value = MPPUtility.getInt(data, uniqueIDOffset);
+            case SUBPROJECT_TASKUNIQUEID0:
+            case SUBPROJECT_TASKUNIQUEID1:
+            case SUBPROJECT_TASKUNIQUEID2:
+            case SUBPROJECT_TASKUNIQUEID3:
+            case SUBPROJECT_TASKUNIQUEID4:
+            {
+                sp.setTaskUniqueID(new Integer(value));
+                m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                break;
+            }
+            
+            default:
+            {
+                if (value != 0)
+                {
+                    sp.addExternalTaskUniqueID(new Integer(value));
+                    m_taskSubProjects.put(new Integer(value), sp);                   
+                }
+                break;
+            }
          }
-         if (prev != 0)
-         {
-			 // The previous value was for an external task unique task id
-        	 sp.addExternalTaskUniqueID(new Integer(prev));
-        	 m_taskSubProjects.put(new Integer(prev), sp);
-         }
-         
+
          // Now get the unique id offset for this subproject
          value = 0x00800000 + ((subprojectIndex-1) * 0x00400000);
-         sp.setUniqueIDOffset(new Integer(value));        
+         sp.setUniqueIDOffset(new Integer(value));         
       }
 
-      //
-      // First block header
-      //
-      filePathOffset += 18;
-
-      //
-      // String size as a 4 byte int
-      //
-      filePathOffset += 4;
-
-      //
-      // Full DOS path
-      //
-      sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
-      filePathOffset += (sp.getDosFullPath().length()+1);
-
-      //
-      // 24 byte block
-      //
-      filePathOffset += 24;
-
-      //
-      // 4 byte block size
-      //
-      int size = MPPUtility.getInt(data, filePathOffset);
-      filePathOffset +=4;
-      if (size == 0)
+      if (type == SUBPROJECT_TASKUNIQUEID4)
       {
-         sp.setFullPath(sp.getDosFullPath());
+         sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset));         
       }
       else
       {
          //
-         // 4 byte unicode string size in bytes
+         // First block header
          //
-         size = MPPUtility.getInt(data, filePathOffset);
+         filePathOffset += 18;
+   
+         //
+         // String size as a 4 byte int
+         //
          filePathOffset += 4;
-
+   
          //
-         // 2 byte data
+         // Full DOS path
          //
-         filePathOffset += 2;
-
+         sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
+         filePathOffset += (sp.getDosFullPath().length()+1);
+   
          //
-         // Unicode string
+         // 24 byte block
          //
-         sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
-         filePathOffset += size;
-      }
-
-      //
-      // Second block header
-      //
-      fileNameOffset += 18;
-
-      //
-      // String size as a 4 byte int
-      //
-      fileNameOffset += 4;
-
-      //
-      // DOS file name
-      //
-      sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
-      fileNameOffset += (sp.getDosFileName().length()+1);
-
-      //
-      // 24 byte block
-      //
-      fileNameOffset += 24;
-
-      //
-      // 4 byte block size
-      //
-      size = MPPUtility.getInt(data, fileNameOffset);
-      fileNameOffset +=4;
-
-      if (size == 0)
-      {
-         sp.setFileName(sp.getDosFileName());
-      }
-      else
-      {
+         filePathOffset += 24;
+   
          //
-         // 4 byte unicode string size in bytes
+         // 4 byte block size
+         //
+         int size = MPPUtility.getInt(data, filePathOffset);
+         filePathOffset +=4;
+         if (size == 0)
+         {
+            sp.setFullPath(sp.getDosFullPath());
+         }
+         else
+         {
+            //
+            // 4 byte unicode string size in bytes
+            //
+            size = MPPUtility.getInt(data, filePathOffset);
+            filePathOffset += 4;
+   
+            //
+            // 2 byte data
+            //
+            filePathOffset += 2;
+   
+            //
+            // Unicode string
+            //
+            sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
+            filePathOffset += size;
+         }
+   
+         //
+         // Second block header
+         //
+         fileNameOffset += 18;
+   
+         //
+         // String size as a 4 byte int
+         //
+         fileNameOffset += 4;
+   
+         //
+         // DOS file name
+         //
+         sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
+         fileNameOffset += (sp.getDosFileName().length()+1);
+   
+         //
+         // 24 byte block
+         //
+         fileNameOffset += 24;
+   
+         //
+         // 4 byte block size
          //
          size = MPPUtility.getInt(data, fileNameOffset);
-         fileNameOffset += 4;
-
-         //
-         // 2 byte data
-         //
-         fileNameOffset += 2;
-
-         //
-         // Unicode string
-         //
-         sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
-         fileNameOffset += size;
+         fileNameOffset +=4;
+   
+         if (size == 0)
+         {
+            sp.setFileName(sp.getDosFileName());
+         }
+         else
+         {
+            //
+            // 4 byte unicode string size in bytes
+            //
+            size = MPPUtility.getInt(data, fileNameOffset);
+            fileNameOffset += 4;
+   
+            //
+            // 2 byte data
+            //
+            fileNameOffset += 2;
+   
+            //
+            // Unicode string
+            //
+            sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
+            fileNameOffset += size;
+         }
       }
-
+      
       //System.out.println(sp.toString());
 
       // Add to the list of subprojects
@@ -3390,7 +3387,7 @@ final class MPP12Reader implements MPPVariantReader
 
    
    // Signals the end of the list of subproject task unique ids
-   private static final int SUBPROJECT_LISTEND = 0x00000303;
+   //private static final int SUBPROJECT_LISTEND = 0x00000303;
    
    // Signals that the previous value was for the subproject task unique id
    // TODO: figure out why the different value exist.
@@ -3398,6 +3395,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID1 = 0x0B340000;
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
+   private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
    
    /**
     * Calendar data types.
