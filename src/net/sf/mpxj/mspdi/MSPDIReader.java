@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mspdi;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Date;
@@ -37,9 +36,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.sax.SAXSource;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -68,10 +68,9 @@ import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 
 /**
@@ -89,19 +88,12 @@ public final class MSPDIReader extends AbstractProjectReader
       {
          m_projectFile = new ProjectFile ();
 
-         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-         dbf.setNamespaceAware(true);
-         DocumentBuilder db = dbf.newDocumentBuilder();
-         Document doc = db.parse(stream);
+         SAXParserFactory factory = SAXParserFactory.newInstance();
+         factory.setNamespaceAware(true);
+         SAXParser saxParser = factory.newSAXParser();
+         XMLReader xmlReader = saxParser.getXMLReader();
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
 
-         //
-         // If we are matching the behaviour of MS project, then we need to
-         // remove empty element nodes to avoid schema validation problems.
-         //
-         if (m_compatibleInput == true)
-         {
-            removeEmptyElementNodes(doc, doc);
-         }
 
          JAXBContext context = JAXBContext.newInstance ("net.sf.mpxj.mspdi.schema");
          Unmarshaller unmarshaller = context.createUnmarshaller ();
@@ -154,11 +146,6 @@ public final class MSPDIReader extends AbstractProjectReader
       }
 
       catch (SAXException ex)
-      {
-         throw new MPXJException ("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
       {
          throw new MPXJException ("Failed to parse file", ex);
       }
@@ -1057,32 +1044,6 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile,TimeUnit.HOURS,assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
             //assignment.getWorkVariance()
-         }
-      }
-   }
-
-   /**
-    * This method is used to recursively remove any empty element nodes
-    * found in the XML document.
-    *
-    * @param parent parent node
-    * @param node child node
-    */
-   private void removeEmptyElementNodes (Node parent, Node node)
-   {
-      if (node.hasChildNodes() == true)
-      {
-         NodeList list = node.getChildNodes();
-         for (int loop=0; loop < list.getLength(); loop++)
-         {
-            removeEmptyElementNodes(node, list.item(loop));
-         }
-      }
-      else
-      {
-         if (node.getNodeType() == Node.ELEMENT_NODE)
-         {
-            parent.removeChild(node);
          }
       }
    }
