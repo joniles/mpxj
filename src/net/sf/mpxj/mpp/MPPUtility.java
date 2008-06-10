@@ -712,6 +712,7 @@ final class MPPUtility
 
          default:
          case 7:
+         case 21: // duration in days of a recurring task
          {
             units = TimeUnit.DAYS;
             break;

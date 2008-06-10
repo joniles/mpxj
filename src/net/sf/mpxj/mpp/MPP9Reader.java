@@ -1868,8 +1868,8 @@ final class MPP9Reader implements MPPVariantReader
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 120)));
-         //task.setProject(); // Calculated value
-         //task.setRecurring(); // Calculated value
+         //task.setProject(); // Calculated value         
+         task.setRecurring(MPPUtility.getShort (data, 64)==21);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 224)/100));
          task.setRemainingDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
@@ -2086,7 +2086,7 @@ final class MPP9Reader implements MPPVariantReader
       m_file.setAutoWBS(autoWBS);
       
       //
-      // We have now read all of the task, so we are in a position
+      // We have now read all of the tasks, so we are in a position
       // to perform post-processing to set up the relevant details
       // for each external task.
       //
