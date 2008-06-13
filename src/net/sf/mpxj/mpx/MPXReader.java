@@ -1201,13 +1201,13 @@ public final class MPXReader extends AbstractProjectReader
    private void populateRecurringTask (Record record, RecurringTask task)
       throws MPXJException
    {
+      //System.out.println(record);      
       task.setTaskUniqueID(record.getInteger(0));
       task.setStartDate(record.getDateTime(1));
       task.setFinishDate(record.getDateTime(2));
-      task.setDuration(record.getInteger(3));
-      task.setDurationType(record.getString(4));
+      task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectHeader(), record.getInteger(3), record.getInteger(4)));
       task.setNumberOfOccurances(record.getInteger(5));
-      task.setRecurranceType(record.getInteger(6));
+      task.setRecurrenceType(record.getInteger(6));
       task.setNotSureIndex(record.getInteger(7));
       task.setLengthRadioIndex(record.getInteger(8));
       task.setDailyBoxRadioIndex(record.getInteger(9));
@@ -1225,6 +1225,7 @@ public final class MPXReader extends AbstractProjectReader
       task.setYearlyBoxDayComboIndex(record.getInteger(21));
       task.setYearlyBoxMonthComboIndex(record.getInteger(22));
       task.setYearlyBoxDate(record.getDateTime(23));
+      //System.out.println(task);
    }
 
    /**
@@ -1327,7 +1328,7 @@ public final class MPXReader extends AbstractProjectReader
     * This method sets the flag indicating that the text version of the
     * Task and Resource Table Definition records should be ignored. Ignoring
     * these records gets around the problem where MPX files have been generated
-    * with incorrect taks or resource field names, but correct task or resource
+    * with incorrect task or resource field names, but correct task or resource
     * field numbers in the numeric version of the record.
     *
     * @param flag Boolean flag

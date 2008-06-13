@@ -728,7 +728,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Write a recurring task.
-    *
+    * 
     * @param record recurring task instance
     * @throws IOException
     */
@@ -745,13 +745,13 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getFinishDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDuration()));
+      m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectHeader(), record.getDuration())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDurationType()));
+      m_buffer.append(format(RecurrenceUtility.getDurationUnits(record)));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getNumberOfOccurances()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getRecurranceType()));
+      m_buffer.append(format(record.getRecurrenceType()));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getNotSureIndex()));
       m_buffer.append(m_delimiter);

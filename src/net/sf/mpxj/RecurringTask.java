@@ -24,6 +24,8 @@
 
 package net.sf.mpxj;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -50,7 +52,7 @@ public final class RecurringTask
    {
       m_taskUniqueID = id;
    }
-
+   
    /**
     * Gets the start date of this recurring task.
     *
@@ -92,43 +94,23 @@ public final class RecurringTask
    }
 
    /**
-    * Duration in minutes.
+    * Retrieve the duration of the recurring task.
     *
-    * @return int value of duration, in minutes
+    * @return duration of recurring task
     */
-   public Integer getDuration ()
+   public Duration getDuration ()
    {
       return (m_duration);
    }
 
    /**
-    * Duration in minutes.
+    * Set the duration of the recurring task.
     *
-    * @param val Integer value of duration in minutes
+    * @param duration duration of the recurring task
     */
-   public void setDuration (Integer val)
+   public void setDuration (Duration duration)
    {
-      m_duration = val;
-   }
-
-   /**
-    * Duration type.
-    *
-    * @return String type
-    */
-   public String getDurationType ()
-   {
-      return (m_durationType);
-   }
-
-   /**
-    * Duration type.
-    *
-    * @param val int type
-    */
-   public void setDurationType (String val)
-   {
-      m_durationType = val;
+      m_duration = duration;
    }
 
    /**
@@ -157,20 +139,20 @@ public final class RecurringTask
     *
     * @return - int representing type
     */
-   public Integer getRecurranceType ()
+   public Integer getRecurrenceType ()
    {
-      return (m_recurranceType);
+      return (m_recurrenceType);
    }
 
    /**
     * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
     * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
-    *
+    * 
     * @param val - int representing type
     */
-   public void setRecurranceType (Integer val)
+   public void setRecurrenceType (Integer val)
    {
-      m_recurranceType = val;
+      m_recurrenceType = val;
    }
 
    /**
@@ -579,13 +561,29 @@ public final class RecurringTask
       m_notSureIndex = val;
    }
 
-   private Integer m_taskUniqueID;
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public String toString()
+   {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      PrintWriter pw = new PrintWriter (os);
+      pw.println("[RecurringTask");
+      pw.println(" StartDate=" + m_startDate);
+      pw.println(" FinishDate=" + m_finishDate);
+      pw.println(" Duration=" + m_duration);
+      pw.println("]");
+      pw.flush();
+      return (os.toString());           
+   }
+   
+   private Integer m_taskUniqueID; // not sure what this is - NOT task unique ID though - always 1?
    private Date m_startDate;
    private Date m_finishDate;
-   private Integer m_duration;
-   private String m_durationType;
+   private Duration m_duration;
    private Integer m_numberOfOccurances;
-   private Integer m_recurranceType;
+   private Integer m_recurrenceType;
    private Integer m_lengthRadioIndex;
    private Integer m_dailyBoxRadioIndex;
    private String m_weeklyBoxDayOfWeekIndex;
