@@ -25,6 +25,7 @@ package net.sf.mpxj.mpx;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -35,9 +36,9 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.Rate;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.MPXJFormats;
@@ -726,6 +727,15 @@ final class Record
       return (m_fields.length);
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public String toString ()
+   {
+      return (Arrays.toString(m_fields));
+   }
+   
    /**
     * Target locale.
     */
