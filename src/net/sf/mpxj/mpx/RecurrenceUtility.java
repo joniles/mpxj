@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
 
@@ -148,6 +149,42 @@ final class RecurrenceUtility
    }
 
    /**
+    * Converts the MPX file integer representation of a recurrence type 
+    * into a RecurrenceType instance.
+    * 
+    * @param value MPX file integer recurrence type
+    * @return RecurrenceType instance
+    */
+   public static RecurrenceType getRecurrenceType (Integer value)
+   {
+      return (RECURRENCE_TYPE_MAP.get(value));
+   }
+   
+   /**
+    * Converts a RecurrenceType instance into the integer representation
+    * used in an MPX file.
+    * 
+    * @param value RecurrenceType instance
+    * @return integer representation
+    */
+   public static Integer getRecurrenceValue (RecurrenceType value)
+   {
+      return (RECURRENCE_VALUE_MAP.get(value));
+   }
+   
+   /**
+    * Converts the daily workday flag into an integer value for 
+    * an MPX file.
+    * 
+    * @param flag boolean flag
+    * @return integer value
+    */
+   public static Integer getDailyWorkday (boolean flag)
+   {
+      return (flag?WORKDAY:DAY);
+   }
+   
+   /**
     * Array to map from the integer representation of a
     * duration's units in the recurring task record to 
     * a TimeUnit instance.
@@ -171,4 +208,31 @@ final class RecurrenceUtility
          UNITS_MAP.put(DURATION_UNITS[loop], new Integer(loop));
       }
    }
+   
+   /**
+    * Map of integer values to RecurrenceType instances.
+    */
+   private static final Map<Integer, RecurrenceType> RECURRENCE_TYPE_MAP = new HashMap<Integer, RecurrenceType>();
+   static
+   {
+      RECURRENCE_TYPE_MAP.put(new Integer(1), RecurrenceType.DAILY);
+      RECURRENCE_TYPE_MAP.put(new Integer(4), RecurrenceType.WEEKLY);
+      RECURRENCE_TYPE_MAP.put(new Integer(8), RecurrenceType.MONTHLY);
+      RECURRENCE_TYPE_MAP.put(new Integer(16), RecurrenceType.YEARLY);
+   }
+   
+   /**
+    * Map of  RecurrenceType instances to integer values.
+    */
+   private static final Map<RecurrenceType, Integer> RECURRENCE_VALUE_MAP = new HashMap<RecurrenceType, Integer>();
+   static
+   {
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.DAILY, new Integer(1));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.WEEKLY, new Integer(4));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.MONTHLY, new Integer(8));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.YEARLY, new Integer(16));
+   }
+   
+   private static final Integer WORKDAY = new Integer (1);   
+   private static final Integer DAY = new Integer (0);
 }

@@ -32,19 +32,21 @@ import net.sf.mpxj.utility.MpxjEnum;
  */
 public enum RecurrenceType implements MpxjEnum
 {
-   DAILY (1),
-   WEEKLY (2),
-   MONTHLY (3),
-   YEARLY (4);   
+   DAILY (1, "Daily"),
+   WEEKLY (2, "Weekly"),
+   MONTHLY (3, "Monthly"),
+   YEARLY (4, "Yearly");   
    
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
+    * @param name English name used for debugging
     */
-   private RecurrenceType (int type)
+   private RecurrenceType (int type, String name)
    {
       m_value = type;
+      m_name = name;
    }
 
 
@@ -56,7 +58,7 @@ public enum RecurrenceType implements MpxjEnum
     */
    public static RecurrenceType getInstance (int type)
    {      
-      if (type < 0 || type >= TYPE_VALUES.length)
+      if (type < 1 || type >= TYPE_VALUES.length)
       {
          type = DAILY.getValue();
       }
@@ -76,9 +78,18 @@ public enum RecurrenceType implements MpxjEnum
 
 
    /**
+    * {@inheritDoc}
+    */
+   @Override
+   public String toString ()
+   {
+      return (m_name);
+   }
+   
+   /**
     * Array mapping int types to enums.
     */
-   private static final RecurrenceType[] TYPE_VALUES = new RecurrenceType[4];
+   private static final RecurrenceType[] TYPE_VALUES = new RecurrenceType[5];
    static
    {      
       for (RecurrenceType e : EnumSet.range(RecurrenceType.DAILY, RecurrenceType.YEARLY))
@@ -92,4 +103,5 @@ public enum RecurrenceType implements MpxjEnum
     * Internal representation of the enum int type.
     */
    private int m_value;
+   private String m_name;
 }

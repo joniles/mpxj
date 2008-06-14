@@ -740,54 +740,58 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(MPXConstants.RECURRING_TASK_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getTaskUniqueID()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getStartDate())));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getFinishDate())));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectHeader(), record.getDuration())));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(RecurrenceUtility.getDurationUnits(record)));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getNumberOfOccurances()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getRecurrenceType()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getNotSureIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getLengthRadioIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDailyBoxRadioIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getWeeklyBoxDayOfWeekIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getMonthlyBoxRadioIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getYearlyBoxRadioIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getDailyBoxComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getWeeklyBoxComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getMonthlyBoxFirstLastComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getMonthlyBoxDayComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getMonthlyBoxBottomRadioFrequencyComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getMonthlyBoxDayIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getMonthlyBoxTopRadioFrequencyComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getYearlyBoxFirstLastComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getYearlyBoxDayComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getYearlyBoxMonthComboIndex()));
-      m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getYearlyBoxDate())));
-
-      stripTrailingDelimiters(m_buffer);
+      
+      if (record.getRecurrenceType() != null)
+      {
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(formatDateTime(record.getStartDate())));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(formatDateTime(record.getFinishDate())));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectHeader(), record.getDuration())));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(RecurrenceUtility.getDurationUnits(record)));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getOccurrences()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(RecurrenceUtility.getRecurrenceValue(record.getRecurrenceType())));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getNotSureIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getLengthRadioIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(RecurrenceUtility.getDailyWorkday(record.getDailyWorkday())));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getWeeklyBoxDayOfWeekIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getMonthlyBoxRadioIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getYearlyBoxRadioIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getDailyFrequency()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getWeeklyBoxComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getMonthlyBoxFirstLastComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getMonthlyBoxDayComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getMonthlyBoxBottomRadioFrequencyComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getMonthlyBoxDayIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getMonthlyBoxTopRadioFrequencyComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getYearlyBoxFirstLastComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getYearlyBoxDayComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(record.getYearlyBoxMonthComboIndex()));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(formatDateTime(record.getYearlyBoxDate())));
+   
+         stripTrailingDelimiters(m_buffer);
+      }
       m_buffer.append (MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
@@ -1434,6 +1438,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_locale = locale;
    }
    
+      
    private ProjectFile m_projectFile;
    private OutputStreamWriter m_writer;
    private ResourceModel m_resourceModel;

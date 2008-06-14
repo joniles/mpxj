@@ -1,8 +1,8 @@
 /*
  * file:       RecurringTask.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2003
+ * author:     Jon Iles             
+ *             Scott Melville
+ * copyright:  (c) Packwood Software Limited 2002-2008
  * date:       15/08/2002
  */
 
@@ -118,9 +118,9 @@ public final class RecurringTask
     *
     * @return number of occurances
     */
-   public Integer getNumberOfOccurances ()
+   public Integer getOccurrences ()
    {
-      return (m_numberOfOccurances);
+      return (m_occurrences);
    }
 
    /**
@@ -128,31 +128,29 @@ public final class RecurringTask
     *
     * @param val number of occurances
     */
-   public void setNumberOfOccurances (Integer val)
+   public void setOccurrences (Integer val)
    {
-      m_numberOfOccurances = val;
+      m_occurrences = val;
    }
 
    /**
-    * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
-    * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
+    * Retrieves the recurrence type.
     *
-    * @return - int representing type
+    * @return RecurrenceType instance
     */
-   public Integer getRecurrenceType ()
+   public RecurrenceType getRecurrenceType ()
    {
       return (m_recurrenceType);
    }
 
    /**
-    * Refers to the 'This Occurs..' box of the MSP Recurring Task infobox.
-    * The options are :- 1 - DAILY, 4-WEEKLY , 8-MONTHLY , 16 - YEARLY
+    * Sets the recurrence type.
     * 
-    * @param val - int representing type
+    * @param type recurrence type
     */
-   public void setRecurrenceType (Integer val)
+   public void setRecurrenceType (RecurrenceType type)
    {
-      m_recurrenceType = val;
+      m_recurrenceType = type;
    }
 
    /**
@@ -180,29 +178,23 @@ public final class RecurringTask
    }
 
    /**
-    * Referring to the 2 radio buttons in the 'Daily' option box
-    * of the MSP Recurring Task infobox.
-    * The top option (Day) = 0 .
-    * The bottom option (Workday) = 1
+    * Retrieve the daily workday flag.
     *
-    * @return - int, values as above
+    * @return boolean flag
     */
-   public Integer getDailyBoxRadioIndex ()
+   public boolean getDailyWorkday ()
    {
-      return (m_dailyBoxRadioIndex);
+      return (m_dailyWorkday);
    }
 
    /**
-    * Referring to the 2 radio buttons in the 'Daily' option box of the
-    * MSP Recurring Task infobox.
-    * The top option (Day) = 0 .
-    * The bottom option (Workday) = 1
+    * Set the daily workday flag.
     *
-    * @param val - int, values as above
+    * @param workday workday flag
     */
-   public void setDailyBoxRadioIndex (Integer val)
+   public void setDailyWorkday (boolean workday)
    {
-      m_dailyBoxRadioIndex = val;
+      m_dailyWorkday = workday;
    }
 
    /**
@@ -278,25 +270,23 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
+    * Retrieves the recurring task frequency.
     *
-    * @return - int index - eg 7=7th,1=every
+    * @return recurring task frequency
     */
-   public Integer getDailyBoxComboIndex ()
+   public Integer getDailyFrequency ()
    {
-      return (m_dailyBoxComboIndex);
+      return (m_dailyFrequency);
    }
 
    /**
-    * Refers to the 'Daily' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
+    * Set the recurring task frequency.
     *
-    * @param val - int index - eg 7=7th,1=every
+    * @param frequency recurring task frequency
     */
-   public void setDailyBoxComboIndex (Integer val)
+   public void setDailyFrequency (Integer frequency)
    {
-      m_dailyBoxComboIndex = val;
+      m_dailyFrequency = frequency;
    }
 
    /**
@@ -569,236 +559,111 @@ public final class RecurringTask
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);
-      pw.println("[RecurringTask");
-      pw.println(" StartDate=" + m_startDate);
-      pw.println(" FinishDate=" + m_finishDate);
-      pw.println(" Duration=" + m_duration);
+      pw.print("[RecurringTask");
+      
+      if (m_duration != null)
+      {
+         pw.print(" Duration " + m_duration);
+         pw.print(" This Occurs " + m_recurrenceType); 
+         
+         switch (m_recurrenceType)
+         {
+            case DAILY:
+            {
+               pw.print(" " + ORDINAL[m_dailyFrequency.intValue()]);
+               pw.print(m_dailyWorkday?" Workday":" Day");
+               break;
+            }
+   
+            case WEEKLY:
+            {
+             
+               break;
+            }
+   
+            case MONTHLY:
+            {
+             
+               break;
+            }
+   
+            case YEARLY:
+            {
+             
+               break;
+            }
+         }
+         
+         pw.print(" From " + m_startDate);
+         pw.print(" For " + m_occurrences + " occurrences");
+         pw.print(" To " + m_finishDate);
+      }
       pw.println("]");
       pw.flush();
       return (os.toString());           
    }
    
-   private Integer m_taskUniqueID; // not sure what this is - NOT task unique ID though - always 1?
+   /**
+    * List of ordinal names used to generate debugging output.
+    */
+   private static final String[] ORDINAL =
+   {
+      null,
+      "every",
+      "every other",
+      "every 3rd",
+      "every 4th",
+      "every 5th",
+      "every 6th",
+      "every 7th",
+      "every 8th",
+      "every 9th",
+      "every 10th",
+      "every 11th",
+      "every 12th"
+   };
+   
+   //
+   // Common attributes
+   //
    private Date m_startDate;
    private Date m_finishDate;
    private Duration m_duration;
-   private Integer m_numberOfOccurances;
-   private Integer m_recurrenceType;
-   private Integer m_lengthRadioIndex;
-   private Integer m_dailyBoxRadioIndex;
-   private String m_weeklyBoxDayOfWeekIndex;
-   private Integer m_monthlyBoxRadioIndex;
-   private Integer m_yearlyBoxRadioIndex;
-   private Integer m_dailyBoxComboIndex;
+   private Integer m_occurrences;
+   private RecurrenceType m_recurrenceType;
+
+   //
+   // Daily recurrence attributes
+   //
+   private Integer m_dailyFrequency;
+   private boolean m_dailyWorkday;
+   
+   //
+   // Weekly recurrence attributes
+   //
    private Integer m_weeklyBoxComboIndex;
+   private String m_weeklyBoxDayOfWeekIndex;
+   
+   //
+   // Monthly recurrence attributes
+   //
+   private Integer m_monthlyBoxRadioIndex;
    private Integer m_monthlyBoxFirstLastComboIndex;
    private Integer m_monthlyBoxDayComboIndex;
    private Integer m_monthlyBoxBottomRadioFrequencyComboIndex;
    private Integer m_monthlyBoxDayIndex;
    private Integer m_monthlyBoxTopRadioFrequencyComboIndex;
+   
+   //
+   // Yearly recurrence attributes
+   //   
+   private Integer m_yearlyBoxRadioIndex;
    private Integer m_yearlyBoxFirstLastComboIndex;
    private Integer m_yearlyBoxDayComboIndex;
    private Integer m_yearlyBoxMonthComboIndex;
    private Date m_yearlyBoxDate;
+   
+   private Integer m_lengthRadioIndex;   
    private Integer m_notSureIndex;
-
-   /**
-    * Constant representing frequency - Daily.
-    */
-   public static final Integer PERIOD_DAILY = new Integer(1);
-
-   /**
-    * Constant representing frequency - Weekly.
-    */
-   public static final Integer PERIOD_WEEKLY = new Integer(4);
-
-   /**
-    * Constant representing frequency - Monthly.
-    */
-   public static final Integer PERIOD_MONTHLY = new Integer(8);
-
-   /**
-    * Constant representing frequency - Annually.
-    */
-   public static final Integer PERIOD_YEARLY = new Integer(16);
-
-   /**
-    * Constant representing day of week - Sunday.
-    */
-   public static final Integer SUNDAY = new Integer(0);
-
-   /**
-    * Constant representing day of week - Monday.
-    */
-   public static final Integer MONDAY = new Integer(1);
-
-   /**
-    * Constant representing day of week - Tuesday.
-    */
-   public static final Integer TUESDAY = new Integer(2);
-
-   /**
-    * Constant representing day of week - Wednesday.
-    */
-   public static final Integer WEDNESDAY = new Integer(3);
-
-   /**
-    * Constant representing day of week - Thursday.
-    */
-   public static final Integer THURSDAY = new Integer(4);
-
-   /**
-    * Constant representing day of week - Friday.
-    */
-   public static final Integer FRIDAY = new Integer(5);
-
-   /**
-    * Constant representing day of week - Saturday.
-    */
-   public static final Integer SATURDAY = new Integer(6);
-
-   /**
-    * Constant representing month of year - January.
-    */
-   public static final Integer JANUARY = new Integer(1);
-
-   /**
-    * Constant representing month of year - February.
-    */
-   public static final Integer FEBUARY = new Integer(2);
-
-   /**
-    * Constant representing month of year - March.
-    */
-   public static final Integer MARCH = new Integer(3);
-
-   /**
-    * Constant representing month of year - April.
-    */
-   public static final Integer APRIL = new Integer(4);
-
-   /**
-    * Constant representing month of year - May.
-    */
-   public static final Integer MAY = new Integer(5);
-
-   /**
-    * Constant representing month of year - June.
-    */
-   public static final Integer JUNE = new Integer(6);
-
-   /**
-    * Constant representing month of year - July.
-    */
-   public static final Integer JULY = new Integer(7);
-
-   /**
-    * Constant representing month of year - August.
-    */
-   public static final Integer AUGUST = new Integer(8);
-
-   /**
-    * Constant representing month of year - September.
-    */
-   public static final Integer SEPTEMBER = new Integer(9);
-
-   /**
-    * Constant representing month of year - Obtober.
-    */
-   public static final Integer OCTOBER = new Integer(10);
-
-   /**
-    * Constant representing month of year - November.
-    */
-   public static final Integer NOVEMBER = new Integer(11);
-
-   /**
-    * Constant representing month of year - December.
-    */
-   public static final Integer DECEMBER = new Integer(12);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_TYPE_EVERY = new Integer(1);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_OTHER = new Integer(2);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_3RD = new Integer(3);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_4TH = new Integer(4);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_5TH = new Integer(5);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_6TH = new Integer(6);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_7TH = new Integer(7);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_8TH = new Integer(8);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_9TH = new Integer(9);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_10TH = new Integer(10);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_11TH = new Integer(11);
-
-   /**
-    * Constant representing frequency of occurances.
-    */
-   public static final Integer INDEX_EVERY_12TH = new Integer(12);
-
-   /**
-    * Constant typically representing which Xday of the month.
-    */
-   public static final Integer FIRST = new Integer(1);
-
-   /**
-    * Constant typically representing which Xday of the month.
-    */
-   public static final Integer SECOND = new Integer(2);
-
-   /**
-    * Constant typically representing which Xday of the month.
-    */
-   public static final Integer THIRD = new Integer(3);
-
-   /**
-    * Constant typically representing which Xday of the month.
-    */
-   public static final Integer FOURTH = new Integer(4);
-
-   /**
-    * Constant typically representing which Xday of the month.
-    */
-   public static final Integer LAST = new Integer(5);
+   private Integer m_taskUniqueID; // not sure what this is - NOT task unique ID though - always 1?   
 }
