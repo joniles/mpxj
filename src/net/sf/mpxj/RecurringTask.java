@@ -114,9 +114,9 @@ public final class RecurringTask
    }
 
    /**
-    * Sets the number of occurance of the task.
+    * Sets the number of occurrences.
     *
-    * @return number of occurances
+    * @return number of occurrences
     */
    public Integer getOccurrences ()
    {
@@ -124,13 +124,13 @@ public final class RecurringTask
    }
 
    /**
-    * Gets the number of occurance of the task.
+    * Retrieves the number of occurrences.
     *
-    * @param val number of occurances
+    * @param occurrences number of occurrences
     */
-   public void setOccurrences (Integer val)
+   public void setOccurrences (Integer occurrences)
    {
-      m_occurrences = val;
+      m_occurrences = occurrences;
    }
 
    /**
@@ -220,26 +220,23 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Day x of...) = 0 .
-    * The bottom option (The Xth day of...) = 1
-    * @return - 0 or 1
+    * Retrieves the monthly relative flag.
+    * 
+    * @return boolean flag
     */
-   public Integer getMonthlyBoxRadioIndex ()
+   public boolean getMonthlyRelative ()
    {
-      return (m_monthlyBoxRadioIndex);
+      return (m_monthlyRelative);
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Day x of...) = 0 .
-    * The bottom option (The Xth day of...) = 1
+    * Sets the monthly relative flag.
     *
-    * @param val 0 or 1
+    * @param relative boolean flag
     */
-   public void setMonthlyBoxRadioIndex (Integer val)
+   public void setMonthlyRelative (boolean relative)
    {
-      m_monthlyBoxRadioIndex = val;
+      m_monthlyRelative = relative;
    }
 
    /**
@@ -306,127 +303,103 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'The' (eg Second) 'Monthly' option boxes of the MSP
-    * Recurring Task infobox.
-    * eg first tueday.
-    * Values for first,second,third,fourth and last.
+    * Retrieves the monthly relative ordinal value.
     *
-    * @return - int value  of constant
+    * @return monthly relative ordinal value
     */
-   public Integer getMonthlyBoxFirstLastComboIndex ()
+   public Integer getMonthlyRelativeOrdinal ()
    {
-      return (m_monthlyBoxFirstLastComboIndex);
+      return (m_monthlyRelativeOrdinal);
    }
 
    /**
-    * Refers to the 'The' (eg Second) 'Monthly' option boxes of the
-    * MSP Recurring Task infobox.
-    * eg first tueday.
-    * Values for first,second,third,fourth and last.
+    * Sets the monthly relative ordinal value.
     *
-    * @param val - int value  of constant
+    * @param ordinal monthly relative ordinal value
     */
-   public void setMonthlyBoxFirstLastComboIndex (Integer val)
+   public void setMonthlyRelativeOrdinal (Integer ordinal)
    {
-      m_monthlyBoxFirstLastComboIndex = val;
+      m_monthlyRelativeOrdinal = ordinal;
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * eg Wednesday.
-    * Values for day of the week
+    * Retrieves the monthly relative day.
     *
-    * @return - int value of day
+    * @return monthly relative day
     */
-   public Integer getMonthlyBoxDayComboIndex ()
+   public Day getMonthlyRelativeDay ()
    {
-      return (m_monthlyBoxDayComboIndex);
+      return (m_monthlyRelativeDay);
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * eg Wednesday.
-    * Values for day of the week
+    * Sets the monthly relative day.
     *
-    * @param val - int value of day
+    * @param day monthly relative day
     */
-   public void setMonthlyBoxDayComboIndex (Integer val)
+   public void setMonthlyRelativeDay (Day day)
    {
-      m_monthlyBoxDayComboIndex = val;
+      m_monthlyRelativeDay = day;
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the bottom radio button is selected (eg. The 3rd Tuesday),
-    * this value is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
-    *
-    * @return - int value of constant
+    * Sets the monthly relative frequency.
+    * 
+    * @return monthly relative frequency
     */
-   public Integer getMonthlyBoxBottomRadioFrequencyComboIndex ()
+   public Integer getMonthlyRelativeFrequency ()
    {
-      return (m_monthlyBoxBottomRadioFrequencyComboIndex);
+      return (m_monthlyRelativeFrequency);
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the bottom radio button is selected (eg. The 3rd Tuesday), this value
-    * is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
+    * Retrieves the monthly relative frequency.
     *
-    * @param val - int value of constant
+    * @param frequency monthly relative frequency
     */
-   public void setMonthlyBoxBottomRadioFrequencyComboIndex (Integer val)
+   public void setMonthlyRelativeFrequency (Integer frequency)
    {
-      m_monthlyBoxBottomRadioFrequencyComboIndex = val;
+      m_monthlyRelativeFrequency = frequency;
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * This refers to the box Day X, (where X is 1-31) of the month.
+    * Retrieves the monthly absolute day.
     *
-    * @return - int value of day 1-31
+    * @return monthly absolute day.
     */
-   public Integer getMonthlyBoxDayIndex ()
+   public Integer getMonthlyAbsoluteDay ()
    {
-      return (m_monthlyBoxDayIndex);
+      return (m_monthlyAbsoluteDay);
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * This refers to the box Day X, (where X is 1-31) of the month.
+    * Sets the monthly absolute day.
     *
-    * @param val - int value of day 1-31
+    * @param day monthly absolute day
     */
-   public void setMonthlyBoxDayIndex (Integer val)
+   public void setMonthlyAbsoluteDay (Integer day)
    {
-      m_monthlyBoxDayIndex = val;
+      m_monthlyAbsoluteDay = day;
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the top radio button is selected (eg. The Xth(day) of..),
-    * this value is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
+    * Retrieves the monthly absolute frequency.
     *
-    * @return - int value of index constant
+    * @return monthly absolute frequency
     */
-   public Integer getMonthlyBoxTopRadioFrequencyComboIndex ()
+   public Integer getMonthlyAbsoluteFrequency ()
    {
-      return (m_monthlyBoxTopRadioFrequencyComboIndex);
+      return (m_monthlyAbsoluteFrequency);
    }
 
    /**
-    * Refers to the 'Monthly' option boxes of the MSP Recurring Task infobox.
-    * If the top radio button is selected (eg. The Xth(day) of..), this value
-    * is the content of the
-    * 'Every...' combo box. eg 'Every 5th Month'
+    * Sets the monthly absolute frequency.
     *
-    * @param val - int value of index constant
+    * @param frequency monthly absolute frequency
     */
-   public void setMonthlyBoxTopRadioFrequencyComboIndex (Integer val)
+   public void setMonthlyAbsoluteFrequency (Integer frequency)
    {
-      m_monthlyBoxTopRadioFrequencyComboIndex = val;
+      m_monthlyAbsoluteFrequency = frequency;
    }
 
    /**
@@ -613,8 +586,24 @@ public final class RecurringTask
    
             case MONTHLY:
             {
-             
-               break;
+               if (m_monthlyRelative)
+               {
+                  pw.print(" on The ");
+                  pw.print(DAY_ORDINAL[m_monthlyRelativeOrdinal.intValue()]);
+                  pw.print(" ");
+                  pw.print(DAY[m_monthlyRelativeDay.getValue()]);
+                  pw.print(" of ");
+                  pw.print(ORDINAL[m_monthlyRelativeFrequency.intValue()]);
+               }
+               else
+               {
+                  pw.print(" on Day ");
+                  pw.print(m_monthlyAbsoluteDay); 
+                  pw.print(" of ");
+                  pw.print(ORDINAL[m_monthlyAbsoluteFrequency.intValue()]);
+               }
+               pw.print(" month");
+               break;               
             }
    
             case YEARLY:
@@ -652,6 +641,34 @@ public final class RecurringTask
       "every 11th",
       "every 12th"
    };
+
+   /**
+    * List of ordinal names used to generate debugging output.
+    */   
+   private static final String[] DAY_ORDINAL =
+   {
+      null,
+      "First",
+      "Second",
+      "Third",
+      "Fourth",
+      "Last"     
+   };
+   
+   /**
+    * List of day names used to generate debugging output.
+    */
+   private static final String[] DAY = 
+   {
+      null,
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+   };
    
    //
    // Common attributes
@@ -677,12 +694,12 @@ public final class RecurringTask
    //
    // Monthly recurrence attributes
    //
-   private Integer m_monthlyBoxRadioIndex;
-   private Integer m_monthlyBoxFirstLastComboIndex;
-   private Integer m_monthlyBoxDayComboIndex;
-   private Integer m_monthlyBoxBottomRadioFrequencyComboIndex;
-   private Integer m_monthlyBoxDayIndex;
-   private Integer m_monthlyBoxTopRadioFrequencyComboIndex;
+   private boolean m_monthlyRelative;
+   private Integer m_monthlyRelativeOrdinal;
+   private Day m_monthlyRelativeDay;
+   private Integer m_monthlyRelativeFrequency;
+   private Integer m_monthlyAbsoluteDay;
+   private Integer m_monthlyAbsoluteFrequency;
    
    //
    // Yearly recurrence attributes

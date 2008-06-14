@@ -26,6 +26,7 @@ package net.sf.mpxj.mpx;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RecurrenceType;
@@ -171,19 +172,7 @@ final class RecurrenceUtility
    {
       return (RECURRENCE_VALUE_MAP.get(value));
    }
-   
-   /**
-    * Converts the daily workday flag into an integer value for 
-    * an MPX file.
-    * 
-    * @param flag boolean flag
-    * @return integer value
-    */
-   public static Integer getDailyWorkday (boolean flag)
-   {
-      return (flag?WORKDAY:DAY);
-   }
-   
+      
    /**
     * Converts the string representation of the days bit field into an integer.
     * 
@@ -214,6 +203,38 @@ final class RecurrenceUtility
          StringBuffer sb = new StringBuffer("0000000");        
          sb.append(Integer.toBinaryString(days.intValue()));
          result = sb.toString().substring(sb.length()-7);
+      }
+      return (result);
+   }
+   
+   /**
+    * Convert MPX day index to Day instance.
+    * 
+    * @param day day index
+    * @return Day instance
+    */
+   public static Day getDay (Integer day)
+   {
+      Day result = null;
+      if (day != null)
+      {
+         result = DAY_ARRAY[day.intValue()];
+      }
+      return (result);
+   }
+   
+   /**
+    * Convert Day instance to MPX day index.
+    * 
+    * @param day Day instance
+    * @return day index
+    */
+   public static Integer getDay (Day day)
+   {
+      Integer result = null;
+      if (day != null)
+      {
+         result = DAY_MAP.get(day);
       }
       return (result);
    }
@@ -266,7 +287,34 @@ final class RecurrenceUtility
       RECURRENCE_VALUE_MAP.put(RecurrenceType.MONTHLY, new Integer(8));
       RECURRENCE_VALUE_MAP.put(RecurrenceType.YEARLY, new Integer(16));
    }
+
+   /**
+    * Array mapping from MPX day index to Day instances.
+    */
+   private static final Day[] DAY_ARRAY = 
+   {
+      null,
+      Day.MONDAY,
+      Day.TUESDAY,
+      Day.WEDNESDAY,
+      Day.THURSDAY,
+      Day.FRIDAY,
+      Day.SATURDAY,
+      Day.SUNDAY
+   };
    
-   private static final Integer WORKDAY = new Integer (1);   
-   private static final Integer DAY = new Integer (0);
+   /**
+    * Map from Day instance to MPX day index.
+    */
+   private static final Map<Day, Integer> DAY_MAP = new HashMap<Day, Integer>();
+   static
+   {
+      DAY_MAP.put(Day.MONDAY, new Integer(1));
+      DAY_MAP.put(Day.TUESDAY, new Integer(2));
+      DAY_MAP.put(Day.WEDNESDAY, new Integer(3));
+      DAY_MAP.put(Day.THURSDAY, new Integer(4));
+      DAY_MAP.put(Day.FRIDAY, new Integer(5));
+      DAY_MAP.put(Day.SATURDAY, new Integer(6));
+      DAY_MAP.put(Day.SUNDAY, new Integer(7));
+   }
 }
