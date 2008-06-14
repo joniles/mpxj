@@ -185,6 +185,40 @@ final class RecurrenceUtility
    }
    
    /**
+    * Converts the string representation of the days bit field into an integer.
+    * 
+    * @param days string bit field
+    * @return integer bit field
+    */
+   public static Integer getDays (String days)
+   {
+      Integer result = null;
+      if (days != null)
+      {
+         result = new Integer(Integer.parseInt(days, 2));
+      }
+      return (result);
+   }
+   
+   /**
+    * Converts an integer bit field into a string representation.
+    * 
+    * @param days integer bit field
+    * @return string representation
+    */
+   public static String getDays (Integer days)
+   {
+      String result = null;
+      if (days != null)
+      {
+         StringBuffer sb = new StringBuffer("0000000");        
+         sb.append(Integer.toBinaryString(days.intValue()));
+         result = sb.toString().substring(sb.length()-7);
+      }
+      return (result);
+   }
+   
+   /**
     * Array to map from the integer representation of a
     * duration's units in the recurring task record to 
     * a TimeUnit instance.

@@ -1211,11 +1211,11 @@ public final class MPXReader extends AbstractProjectReader
       task.setNotSureIndex(record.getInteger(7));
       task.setLengthRadioIndex(record.getInteger(8));
       task.setDailyWorkday(NumberUtility.getInt(record.getInteger(9))==1);
-      task.setWeeklyBoxDayOfWeekIndex(record.getString(10));
+      task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
       task.setMonthlyBoxRadioIndex(record.getInteger(11));
       task.setYearlyBoxRadioIndex(record.getInteger(12));
       task.setDailyFrequency(record.getInteger(13));
-      task.setWeeklyBoxComboIndex(record.getInteger(14));
+      task.setWeeklyFrequency(record.getInteger(14));
       task.setMonthlyBoxFirstLastComboIndex(record.getInteger(15));
       task.setMonthlyBoxDayComboIndex(record.getInteger(16));
       task.setMonthlyBoxBottomRadioFrequencyComboIndex(record.getInteger(17));

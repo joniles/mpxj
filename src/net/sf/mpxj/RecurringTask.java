@@ -198,29 +198,25 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * This is an index of days of the week and is represented as a 7 digit
-    * string of 0/1 values.
-    * The string is eg '0010010' if 'Tue' and 'Fri' are selected
+    * Retrieves a bit field representing days of the week.
+    * MSB=Sunday, LSB=Saturday.
     *
-    * @return - String
+    * @return integer bit field
     */
-   public String getWeeklyBoxDayOfWeekIndex ()
+   public Integer getWeeklyDays ()
    {
-      return (m_weeklyBoxDayOfWeekIndex);
+      return (m_weeklyDays);
    }
 
    /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * This is an index of days of the week and is represented as a
-    * 7 digit string of 0/1 values.
-    * The string is eg '0010010' if 'Tue' and 'Fri' are selected
-
-    * @param val - String list of day values
+    * Sets a bit field representing days of the week.
+    * MSB=Sunday, LSB=Saturday.
+    * 
+    * @param days integer bit field
     */
-   public void setWeeklyBoxDayOfWeekIndex (String val)
+   public void setWeeklyDays (Integer days)
    {
-      m_weeklyBoxDayOfWeekIndex = val;
+      m_weeklyDays = days;
    }
 
    /**
@@ -290,25 +286,23 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
+    * Retrieves the recurring task frequency.
     *
-    * @return -  int index - eg 7=7th,1=every
+    * @return recurring task frequency
     */
-   public Integer getWeeklyBoxComboIndex ()
+   public Integer getWeeklyFrequency ()
    {
-      return (m_weeklyBoxComboIndex);
+      return (m_weeklyFrequency);
    }
 
    /**
-    * Refers to the 'Weekly' option boxes of the MSP Recurring Task infobox.
-    * 'Every...' eg 'Every 7th'
+    * Set the recurring task frequency.
     *
-    * @param val - int index - eg 7=7th,1=every
+    * @param frequency recurring task frequency
     */
-   public void setWeeklyBoxComboIndex (Integer val)
+   public void setWeeklyFrequency (Integer frequency)
    {
-      m_weeklyBoxComboIndex = val;
+      m_weeklyFrequency = frequency;
    }
 
    /**
@@ -577,7 +571,43 @@ public final class RecurringTask
    
             case WEEKLY:
             {
-             
+               pw.print(" " + ORDINAL[m_weeklyFrequency.intValue()]);
+               pw.print(" week on ");
+               if ((m_weeklyDays.intValue() & 0x40) != 0)
+               {
+                  pw.print("Sunday");
+               }
+
+               if ((m_weeklyDays.intValue() & 0x20) != 0)
+               {
+                  pw.print("Monday");
+               }
+
+               if ((m_weeklyDays.intValue() & 0x10) != 0)
+               {
+                  pw.print("Tuesday");
+               }
+               
+               if ((m_weeklyDays.intValue() & 0x08) != 0)
+               {
+                  pw.print("Wednesday");
+               }
+               
+               if ((m_weeklyDays.intValue() & 0x04) != 0)
+               {
+                  pw.print("Thursday");
+               }
+               
+               if ((m_weeklyDays.intValue() & 0x02) != 0)
+               {
+                  pw.print("Friday");
+               }
+
+               if ((m_weeklyDays.intValue() & 0x01) != 0)
+               {
+                  pw.print("Saturday");
+               }
+
                break;
             }
    
@@ -641,8 +671,8 @@ public final class RecurringTask
    //
    // Weekly recurrence attributes
    //
-   private Integer m_weeklyBoxComboIndex;
-   private String m_weeklyBoxDayOfWeekIndex;
+   private Integer m_weeklyFrequency;
+   private Integer m_weeklyDays;
    
    //
    // Monthly recurrence attributes

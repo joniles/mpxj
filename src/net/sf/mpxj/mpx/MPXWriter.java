@@ -762,7 +762,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDailyWorkday(record.getDailyWorkday())));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getWeeklyBoxDayOfWeekIndex()));
+         m_buffer.append(format(RecurrenceUtility.getDays(record.getWeeklyDays())));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getMonthlyBoxRadioIndex()));
          m_buffer.append(m_delimiter);
@@ -770,7 +770,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getDailyFrequency()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getWeeklyBoxComboIndex()));
+         m_buffer.append(format(record.getWeeklyFrequency()));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getMonthlyBoxFirstLastComboIndex()));
          m_buffer.append(m_delimiter);
