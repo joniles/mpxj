@@ -418,11 +418,9 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first tuesday of MARCH.
-    * Values for month of the year
+    * Retrieves the yearly relative month.
     *
-    * @return - int value of index
+    * @return yearly relative month
     */
    public Integer getYearlyRelativeMonth ()
    {
@@ -430,23 +428,19 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first tuesday of MARCH.
-    * Values for month of the year
+    * Sets the yearly relative month.
     *
-    * @param val - int value of index
+    * @param month yearly relative month
     */
-   public void setYearlyRelativeMonth (Integer val)
+   public void setYearlyRelativeMonth (Integer month)
    {
-      m_yearlyRelativeMonth = val;
+      m_yearlyRelativeMonth = month;
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * This is the date shown when the top radio button is selected. eg 11 December.
-    * This represents the first scheduled occurance of this <tt>RecurringTask</tt>
+    * Retrieves the yearly absolute date.
     *
-    * @return - Date in box
+    * @return yearly absolute date
     */
    public Date getYearlyAbsoluteDate ()
    {
@@ -454,15 +448,13 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * This is the date shown when the top radio button is selected. eg 11 December.
-    * This represents the first scheduled occurance of this <tt>RecurringTask</tt>
+    * Sets the yearly absolute date.
     *
-    * @param val - Date in box
+    * @param date yearly absolute date
     */
-   public void setYearlyAbsoluteDate (Date val)
+   public void setYearlyAbsoluteDate (Date date)
    {
-      m_yearlyAbsoluteDate = val;
+      m_yearlyAbsoluteDate = date;
    }
 
    /**
