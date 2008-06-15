@@ -1202,14 +1202,12 @@ public final class MPXReader extends AbstractProjectReader
       throws MPXJException
    {
       //System.out.println(record);      
-      task.setTaskUniqueID(record.getInteger(0));
       task.setStartDate(record.getDateTime(1));
       task.setFinishDate(record.getDateTime(2));
       task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectHeader(), record.getInteger(3), record.getInteger(4)));
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
-      task.setNotSureIndex(record.getInteger(7));
-      task.setUseOccurrences(record.getInteger(8));
+      task.setUseEndDate(NumberUtility.getInt(record.getInteger(8))==1);
       task.setDailyWorkday(NumberUtility.getInt(record.getInteger(9))==1);
       task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
       task.setMonthlyRelative(NumberUtility.getInt(record.getInteger(11))==1);

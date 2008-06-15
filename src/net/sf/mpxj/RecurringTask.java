@@ -36,26 +36,6 @@ import java.util.Date;
 public final class RecurringTask
 {
    /**
-    * ID, Unique ID of task to which this refers.
-    *
-    * @return - String ID
-    */
-   public Integer getTaskUniqueID ()
-   {
-      return (m_taskUniqueID);
-   }
-
-   /**
-    * ID, Unique ID of task to which this refers.
-    *
-    * @param id - String ID
-    */
-   public void setTaskUniqueID (Integer id)
-   {
-      m_taskUniqueID = id;
-   }
-   
-   /**
     * Gets the start date of this recurring task.
     *
     * @return date to start recurring task
@@ -156,27 +136,23 @@ public final class RecurringTask
    }
 
    /**
-    * Gets the selection in Length Options box.
-    * Top option - to a specific date.  Value 1
-    * Bottom option - no of occurances.  value 0
+    * Retrieves the use end date flag.
     *
-    * @return  value of this option set
+    * @return use end date flag
     */
-   public Integer getUseOccurrences ()
+   public boolean getUseEndDate ()
    {
-      return (m_useOccurrences);
+      return (m_useEndDate);
    }
 
    /**
-    * Sets the selection in Length Options box.
-    * Top option - to a specific date.  Value 1
-    * Bottom option - no of occurances.  value 0
+    * Sets the use end date flag.
     *
-    * @param val   value of this option set
+    * @param useEndDate use end date flag
     */
-   public void setUseOccurrences (Integer val)
+   public void setUseEndDate (boolean useEndDate)
    {
-      m_useOccurrences = val;
+      m_useEndDate = useEndDate;
    }
 
    /**
@@ -490,26 +466,6 @@ public final class RecurringTask
    }
 
    /**
-    * Not sure index?
-    *
-    * @return - Integer
-    */
-   public Integer getNotSureIndex ()
-   {
-      return (m_notSureIndex);
-   }
-
-   /**
-    * Not sure index?
-    *
-    * @param val - Integer
-    */
-   public void setNotSureIndex (Integer val)
-   {
-      m_notSureIndex = val;
-   }
-
-   /**
     * {@inheritDoc}
     */
    @Override
@@ -668,7 +624,8 @@ public final class RecurringTask
    private Duration m_duration;
    private Integer m_occurrences;
    private RecurrenceType m_recurrenceType;
-
+   private boolean m_useEndDate;
+   
    //
    // Daily recurrence attributes
    //
@@ -699,8 +656,4 @@ public final class RecurringTask
    private Integer m_yearlyRelativeOrdinal;
    private Day m_yearlyRelativeDay;
    private Integer m_yearlyRelativeMonth;   
-   
-   private Integer m_useOccurrences;  // <-- make boolean 
-   private Integer m_notSureIndex;
-   private Integer m_taskUniqueID; // not sure what this is - NOT task unique ID though - always 1?   
 }

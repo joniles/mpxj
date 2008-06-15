@@ -739,7 +739,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       m_buffer.append(MPXConstants.RECURRING_TASK_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getTaskUniqueID()));
+      m_buffer.append("1");
       
       if (record.getRecurrenceType() != null)
       {
@@ -756,9 +756,9 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getRecurrenceValue(record.getRecurrenceType())));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getNotSureIndex()));
+         m_buffer.append("0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getUseOccurrences()));
+         m_buffer.append(record.getUseEndDate()?"1":"0");
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getDailyWorkday()?"1":"0");
          m_buffer.append(m_delimiter);
