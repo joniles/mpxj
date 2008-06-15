@@ -1209,11 +1209,11 @@ public final class MPXReader extends AbstractProjectReader
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
       task.setNotSureIndex(record.getInteger(7));
-      task.setLengthRadioIndex(record.getInteger(8));
+      task.setUseOccurrences(record.getInteger(8));
       task.setDailyWorkday(NumberUtility.getInt(record.getInteger(9))==1);
       task.setWeeklyDays(RecurrenceUtility.getDays(record.getString(10)));
       task.setMonthlyRelative(NumberUtility.getInt(record.getInteger(11))==1);
-      task.setYearlyBoxRadioIndex(record.getInteger(12));
+      task.setYearlyAbsolute(NumberUtility.getInt(record.getInteger(12))==1);
       task.setDailyFrequency(record.getInteger(13));
       task.setWeeklyFrequency(record.getInteger(14));
       task.setMonthlyRelativeOrdinal(record.getInteger(15));
@@ -1221,10 +1221,10 @@ public final class MPXReader extends AbstractProjectReader
       task.setMonthlyRelativeFrequency(record.getInteger(17));
       task.setMonthlyAbsoluteDay(record.getInteger(18));
       task.setMonthlyAbsoluteFrequency(record.getInteger(19));
-      task.setYearlyBoxFirstLastComboIndex(record.getInteger(20));
-      task.setYearlyBoxDayComboIndex(record.getInteger(21));
-      task.setYearlyBoxMonthComboIndex(record.getInteger(22));
-      task.setYearlyBoxDate(record.getDateTime(23));
+      task.setYearlyRelativeOrdinal(record.getInteger(20));
+      task.setYearlyRelativeDay(RecurrenceUtility.getDay(record.getInteger(21)));
+      task.setYearlyRelativeMonth(record.getInteger(22));
+      task.setYearlyAbsoluteDate(record.getDateTime(23));
       //System.out.println(task);
    }
 

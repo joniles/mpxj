@@ -26,6 +26,8 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -160,9 +162,9 @@ public final class RecurringTask
     *
     * @return  value of this option set
     */
-   public Integer getLengthRadioIndex ()
+   public Integer getUseOccurrences ()
    {
-      return (m_lengthRadioIndex);
+      return (m_useOccurrences);
    }
 
    /**
@@ -172,9 +174,9 @@ public final class RecurringTask
     *
     * @param val   value of this option set
     */
-   public void setLengthRadioIndex (Integer val)
+   public void setUseOccurrences (Integer val)
    {
-      m_lengthRadioIndex = val;
+      m_useOccurrences = val;
    }
 
    /**
@@ -240,26 +242,23 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Date) = 1 .
-    * The bottom option (The Xth day of...) = 0
-    * @return - 1 or 0, int value
+    * Retrieve the yearly relative flag.
+    * 
+    * @return boolean flag
     */
-   public Integer getYearlyBoxRadioIndex ()
+   public boolean getYearlyAbsolute ()
    {
-      return (m_yearlyBoxRadioIndex);
+      return (m_yearlyAbsolute);
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * The top option (Date) = 1 .
-    * The bottom option (The Xth day of...) = 0
+    * Set the yearly relative flag.
     *
-    * @param val - 1 or 0, int value
+    * @param relative boolean flag
     */
-   public void setYearlyBoxRadioIndex (Integer val)
+   public void setYearlyAbsolute (boolean relative)
    {
-      m_yearlyBoxRadioIndex = val;
+      m_yearlyAbsolute = relative;
    }
 
    /**
@@ -403,51 +402,43 @@ public final class RecurringTask
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg FIRST tueday of December.
-    * Values for first,second,third,fourth and last.
+    * Retrieves the yearly relative ordinal.
     *
-    * @return - int value of index
+    * @return yearly relative ordinal
     */
-   public Integer getYearlyBoxFirstLastComboIndex ()
+   public Integer getYearlyRelativeOrdinal ()
    {
-      return (m_yearlyBoxFirstLastComboIndex);
+      return (m_yearlyRelativeOrdinal);
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg FIRST tueday of December.
-    * Values for first,second,third,fourth and last.
+    * Sets the yearly relative ordinal.
     *
-    * @param val - int value of index
+    * @param ordinal yearly relative ordinal
     */
-   public void setYearlyBoxFirstLastComboIndex (Integer val)
+   public void setYearlyRelativeOrdinal (Integer ordinal)
    {
-      m_yearlyBoxFirstLastComboIndex = val;
+      m_yearlyRelativeOrdinal = ordinal;
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first TUESDAY of December.
-    * Values for day of the week
+    * Retrieve the yearly relative day.
     *
-    * @return - int value of constant
+    * @return yearly relative day
     */
-   public Integer getYearlyBoxDayComboIndex ()
+   public Day getYearlyRelativeDay ()
    {
-      return (m_yearlyBoxDayComboIndex);
+      return (m_yearlyRelativeDay);
    }
 
    /**
-    * Refers to the 'Yearly' option boxes of the MSP Recurring Task infobox.
-    * eg first TUESDAY of December.
-    * Values for day of the week
+    * Sets the yearly relative day.
     *
-    * @param val - int value of constant
+    * @param day yearly relative day
     */
-   public void setYearlyBoxDayComboIndex (Integer val)
+   public void setYearlyRelativeDay (Day day)
    {
-      m_yearlyBoxDayComboIndex = val;
+      m_yearlyRelativeDay = day;
    }
 
    /**
@@ -457,9 +448,9 @@ public final class RecurringTask
     *
     * @return - int value of index
     */
-   public Integer getYearlyBoxMonthComboIndex ()
+   public Integer getYearlyRelativeMonth ()
    {
-      return (m_yearlyBoxMonthComboIndex);
+      return (m_yearlyRelativeMonth);
    }
 
    /**
@@ -469,9 +460,9 @@ public final class RecurringTask
     *
     * @param val - int value of index
     */
-   public void setYearlyBoxMonthComboIndex (Integer val)
+   public void setYearlyRelativeMonth (Integer val)
    {
-      m_yearlyBoxMonthComboIndex = val;
+      m_yearlyRelativeMonth = val;
    }
 
    /**
@@ -481,9 +472,9 @@ public final class RecurringTask
     *
     * @return - Date in box
     */
-   public Date getYearlyBoxDate ()
+   public Date getYearlyAbsoluteDate ()
    {
-      return (m_yearlyBoxDate);
+      return (m_yearlyAbsoluteDate);
    }
 
    /**
@@ -493,9 +484,9 @@ public final class RecurringTask
     *
     * @param val - Date in box
     */
-   public void setYearlyBoxDate (Date val)
+   public void setYearlyAbsoluteDate (Date val)
    {
-      m_yearlyBoxDate = val;
+      m_yearlyAbsoluteDate = val;
    }
 
    /**
@@ -524,6 +515,8 @@ public final class RecurringTask
    @Override
    public String toString()
    {
+      DateFormatSymbols dfs = new DateFormatSymbols();
+      SimpleDateFormat df = new SimpleDateFormat("d MMM");
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter (os);
       pw.print("[RecurringTask");
@@ -591,7 +584,7 @@ public final class RecurringTask
                   pw.print(" on The ");
                   pw.print(DAY_ORDINAL[m_monthlyRelativeOrdinal.intValue()]);
                   pw.print(" ");
-                  pw.print(DAY[m_monthlyRelativeDay.getValue()]);
+                  pw.print(dfs.getWeekdays()[m_monthlyRelativeDay.getValue()]);
                   pw.print(" of ");
                   pw.print(ORDINAL[m_monthlyRelativeFrequency.intValue()]);
                }
@@ -608,7 +601,19 @@ public final class RecurringTask
    
             case YEARLY:
             {
-             
+               pw.print(" on the ");
+               if (m_yearlyAbsolute)
+               {
+                  pw.print(df.format(m_yearlyAbsoluteDate));                  
+               }
+               else
+               {                  
+                  pw.print(DAY_ORDINAL[m_yearlyRelativeOrdinal.intValue()]);                  
+                  pw.print(" ");
+                  pw.print(dfs.getWeekdays()[m_yearlyRelativeDay.getValue()]);
+                  pw.print(" of ");
+                  pw.print(dfs.getMonths()[m_yearlyRelativeMonth.intValue()-1]);
+               }
                break;
             }
          }
@@ -655,21 +660,6 @@ public final class RecurringTask
       "Last"     
    };
    
-   /**
-    * List of day names used to generate debugging output.
-    */
-   private static final String[] DAY = 
-   {
-      null,
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-   };
-   
    //
    // Common attributes
    //
@@ -704,13 +694,13 @@ public final class RecurringTask
    //
    // Yearly recurrence attributes
    //   
-   private Integer m_yearlyBoxRadioIndex;
-   private Integer m_yearlyBoxFirstLastComboIndex;
-   private Integer m_yearlyBoxDayComboIndex;
-   private Integer m_yearlyBoxMonthComboIndex;
-   private Date m_yearlyBoxDate;
+   private boolean m_yearlyAbsolute;
+   private Date m_yearlyAbsoluteDate;
+   private Integer m_yearlyRelativeOrdinal;
+   private Day m_yearlyRelativeDay;
+   private Integer m_yearlyRelativeMonth;   
    
-   private Integer m_lengthRadioIndex;   
+   private Integer m_useOccurrences;  // <-- make boolean 
    private Integer m_notSureIndex;
    private Integer m_taskUniqueID; // not sure what this is - NOT task unique ID though - always 1?   
 }

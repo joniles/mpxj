@@ -758,7 +758,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getNotSureIndex()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getLengthRadioIndex()));
+         m_buffer.append(format(record.getUseOccurrences()));
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getDailyWorkday()?"1":"0");
          m_buffer.append(m_delimiter);
@@ -766,7 +766,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getMonthlyRelative()?"1":"0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyBoxRadioIndex()));
+         m_buffer.append(record.getYearlyAbsolute()?"1":"0");
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getDailyFrequency()));
          m_buffer.append(m_delimiter);
@@ -782,13 +782,13 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getMonthlyAbsoluteFrequency()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyBoxFirstLastComboIndex()));
+         m_buffer.append(format(record.getYearlyRelativeOrdinal()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyBoxDayComboIndex()));
+         m_buffer.append(format(RecurrenceUtility.getDay(record.getYearlyRelativeDay())));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(record.getYearlyBoxMonthComboIndex()));
+         m_buffer.append(format(record.getYearlyRelativeMonth()));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(record.getYearlyBoxDate())));
+         m_buffer.append(format(formatDateTime(record.getYearlyAbsoluteDate())));
    
          stripTrailingDelimiters(m_buffer);
       }
