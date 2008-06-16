@@ -410,8 +410,9 @@ public final class MPXReader extends AbstractProjectReader
          {
             if (m_lastTask != null)
             {
+               m_lastTask.setRecurring(true);
                RecurringTask task = m_lastTask.addRecurringTask();
-               populateRecurringTask(record, task);
+               populateRecurringTask(record, task);               
             }
 
             break;
