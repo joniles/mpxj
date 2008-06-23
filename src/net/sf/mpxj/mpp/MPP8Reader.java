@@ -46,6 +46,8 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -440,8 +442,9 @@ final class MPP8Reader implements MPPVariantReader
             continue;
          }
 
-         taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));
-
+         taskExtData = new ExtendedData (taskVarData, getOffset(data, 312));         
+         byte[] recurringData = taskExtData.getByteArray(TASK_RECURRING_DATA);
+         
          id = MPPUtility.getInt (data, 4);
          flags[0] = (byte)(data[268] & data[303]);
          flags[1] = (byte)(data[269] & data[304]);
@@ -595,7 +598,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setPreleveledStart (MPPUtility.getTimestamp(data, 144));
          task.setPriority(Priority.getInstance((MPPUtility.getShort (data, 128)+1)*100));
          //task.setProject(); // Calculated value
-         task.setRecurring(MPPUtility.getShort (data, 64)==21);
+         task.setRecurring(recurringData != null);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble (((double)MPPUtility.getLong6(data, 240)) / 100));
          task.setRemainingDuration (MPPUtility.getDuration (MPPUtility.getInt (data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 72))));
@@ -670,6 +673,14 @@ final class MPP8Reader implements MPPVariantReader
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
+         //
+         // Retrieve task recurring data
+         //
+         if (recurringData != null)
+         {
+            processRecurringTask(task, recurringData);
+         }
+         
          //
          // Retrieve the task notes.
          //
@@ -1310,6 +1321,47 @@ final class MPP8Reader implements MPPVariantReader
    }
 
    /**
+    * Reads recurring task data.
+    * 
+    * @param task Task instance
+    * @param data recurring task data
+    */
+   private void processRecurringTask (Task task, byte[] data)
+   {
+      RecurringTask rt = task.addRecurringTask();
+      rt.setStartDate(MPPUtility.getDate(data, 6));
+      rt.setFinishDate(MPPUtility.getDate(data, 10));      
+      rt.setDuration(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 16))));
+      rt.setOccurrences(new Integer(MPPUtility.getShort(data, 18)));
+      rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20))); 
+      rt.setUseEndDate(MPPUtility.getShort(data, 24)==1);
+      rt.setDailyWorkday(MPPUtility.getShort(data, 26)==1);      
+      int days = 0;
+      days += (MPPUtility.getShort(data, 28)==1?0x40:0x00);
+      days += (MPPUtility.getShort(data, 30)==1?0x20:0x00);
+      days += (MPPUtility.getShort(data, 32)==1?0x10:0x00);
+      days += (MPPUtility.getShort(data, 34)==1?0x08:0x00);
+      days += (MPPUtility.getShort(data, 36)==1?0x04:0x00);
+      days += (MPPUtility.getShort(data, 38)==1?0x02:0x00);
+      days += (MPPUtility.getShort(data, 40)==1?0x01:0x00);
+      rt.setWeeklyDays(new Integer(days));
+      rt.setMonthlyRelative(MPPUtility.getShort(data, 42)==1);
+      rt.setYearlyAbsolute(MPPUtility.getShort(data, 44)==1);
+      rt.setDailyFrequency(new Integer(MPPUtility.getShort(data, 46)));
+      rt.setWeeklyFrequency(new Integer(MPPUtility.getShort(data, 48)));
+      rt.setMonthlyRelativeOrdinal(new Integer(MPPUtility.getShort(data, 50)));      
+      rt.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 52)+1));
+      rt.setMonthlyAbsoluteFrequency(new Integer(MPPUtility.getShort(data, 54)));           
+      rt.setMonthlyAbsoluteDay(new Integer(MPPUtility.getShort(data, 56)));       
+      rt.setMonthlyRelativeFrequency(new Integer(MPPUtility.getShort(data, 58)));      
+      rt.setYearlyRelativeOrdinal(new Integer(MPPUtility.getShort(data, 60)));
+      rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62)+1));
+      rt.setYearlyRelativeMonth(new Integer(MPPUtility.getShort(data, 64)));
+      rt.setYearlyAbsoluteDate(MPPUtility.getDate(data, 70));    
+   }
+   
+   
+   /**
     * This method is used to extract a value from a fixed data block,
     * which represents an offset into a variable data block.
     *
@@ -1445,6 +1497,8 @@ final class MPP8Reader implements MPPVariantReader
    private static final Integer TASK_DURATION10 = new Integer (165);
    private static final Integer TASK_DURATION10_UNITS = new Integer (166);
 
+   private static final Integer TASK_RECURRING_DATA = new Integer (168);
+   
    private static final Integer TASK_DATE1 = new Integer (174);
    private static final Integer TASK_DATE2 = new Integer (175);
    private static final Integer TASK_DATE3 = new Integer (176);

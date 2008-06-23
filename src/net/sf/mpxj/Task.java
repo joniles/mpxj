@@ -279,17 +279,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * current task.
     *
     * @return RecurringTask object
-    * @throws MPXJException thrown if more than one one recurring task is added
     */
    public RecurringTask addRecurringTask ()
-      throws MPXJException
    {
-      if (m_recurringTask != null)
+      if (m_recurringTask == null)
       {
-         throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
+         m_recurringTask = new RecurringTask();
       }
-
-      m_recurringTask = new RecurringTask();
 
       return (m_recurringTask);
    }

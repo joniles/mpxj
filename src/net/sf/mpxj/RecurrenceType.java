@@ -33,9 +33,9 @@ import net.sf.mpxj.utility.MpxjEnum;
 public enum RecurrenceType implements MpxjEnum
 {
    DAILY (1, "Daily"),
-   WEEKLY (2, "Weekly"),
-   MONTHLY (3, "Monthly"),
-   YEARLY (4, "Yearly");   
+   WEEKLY (4, "Weekly"),
+   MONTHLY (8, "Monthly"),
+   YEARLY (16, "Yearly");   
    
    /**
     * Private constructor.
@@ -89,7 +89,7 @@ public enum RecurrenceType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final RecurrenceType[] TYPE_VALUES = new RecurrenceType[5];
+   private static final RecurrenceType[] TYPE_VALUES = new RecurrenceType[17];
    static
    {      
       for (RecurrenceType e : EnumSet.range(RecurrenceType.DAILY, RecurrenceType.YEARLY))

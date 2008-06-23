@@ -230,11 +230,11 @@ public final class RecurringTask
    /**
     * Set the yearly relative flag.
     *
-    * @param relative boolean flag
+    * @param absolute boolean flag
     */
-   public void setYearlyAbsolute (boolean relative)
+   public void setYearlyAbsolute (boolean absolute)
    {
-      m_yearlyAbsolute = relative;
+      m_yearlyAbsolute = absolute;
    }
 
    /**

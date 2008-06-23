@@ -201,6 +201,17 @@ final class ExtendedData
    }
 
    /**
+    * Retrieve the raw byte array.
+    * 
+    * @param type data type
+    * @return byte array
+    */
+   public byte[] getByteArray (Integer type)
+   {
+      return (m_map.get(type));
+   }
+   
+   /**
     * Convert an integer into an offset.
     *
     * @param data four byte integer value

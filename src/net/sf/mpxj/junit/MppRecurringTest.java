@@ -32,6 +32,7 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 
 /**
@@ -51,7 +52,19 @@ public class MppRecurringTest extends MPXJTestCase
         ProjectFile mpp = new MPXReader().read (m_basedir + "/mpxrecurring.mpx");        
         testRecurringTasks(mpp);
     }
-           
+
+    /**
+     * Test recurring task data read from an MPP8 file.
+     * 
+     * @throws Exception
+     */   
+     public void testMpp8RecurringTasks() 
+        throws Exception 
+     {
+         ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp8recurring.mpp");        
+         testRecurringTasks(mpp);
+     }
+
     /**
      * Tests recurring tasks.
      * 
