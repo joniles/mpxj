@@ -1301,7 +1301,7 @@ final class MPP12Reader implements MPPVariantReader
       Task task;
       boolean autoWBS = true;
       LinkedList<Task> externalTasks = new LinkedList<Task>();
-      
+      RecurringTaskReader recurringTaskReader = null;
       RTFUtility rtf = new RTFUtility ();
       String notes;
 
@@ -1339,6 +1339,7 @@ final class MPP12Reader implements MPPVariantReader
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
+         byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
          
          Task temp = m_file.getTaskByID(new Integer(MPPUtility.getInt(data, 4))); 
          if (temp != null && !taskVarMeta.getUniqueIdentifierSet().contains(id))
@@ -1599,7 +1600,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 120)));
          //task.setProject(); // Calculated value
-         task.setRecurring(MPPUtility.getShort (data, 64)==21);
+         task.setRecurring(recurringData != null);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 224)/100));
          task.setRemainingDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
@@ -1739,6 +1740,18 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          //
+         // Retrieve task recurring data
+         //
+         if (recurringData != null)
+         {
+            if (recurringTaskReader == null)
+            {
+               recurringTaskReader = new RecurringTaskReader(m_file);
+            }
+            recurringTaskReader.processRecurringTask(task, recurringData);
+         }
+         
+         //
          // Retrieve the task notes.
          //
          notes = taskVarData.getString (id, TASK_NOTES);
@@ -1832,7 +1845,7 @@ final class MPP12Reader implements MPPVariantReader
       //
       validateStructure();
    }
- 
+    
    /**
     * This method is called to validate the task hierarchy.
     * Some MPP12 files contain duplicate task ID values which
@@ -3423,6 +3436,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_COST3 = new Integer (108);   
    
    private static final Integer TASK_CONTACT = new Integer (112);
+   
+   private static final Integer TASK_RECURRING_DATA = new Integer (203);
    
    private static final Integer TASK_COST4 = new Integer (258);
    private static final Integer TASK_COST5 = new Integer (259);

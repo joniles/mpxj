@@ -1615,7 +1615,7 @@ final class MPP9Reader implements MPPVariantReader
       Task task;
       boolean autoWBS = true;
       LinkedList<Task> externalTasks = new LinkedList<Task>();
-      
+      RecurringTaskReader recurringTaskReader = null;
       RTFUtility rtf = new RTFUtility ();
       String notes;
 
@@ -1651,6 +1651,7 @@ final class MPP9Reader implements MPPVariantReader
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
+         byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
          
          Task temp = m_file.getTaskByID(new Integer(MPPUtility.getInt(data, 4))); 
          if (temp != null)
@@ -1869,7 +1870,7 @@ final class MPP9Reader implements MPPVariantReader
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 120)));
          //task.setProject(); // Calculated value         
-         task.setRecurring(MPPUtility.getShort (data, 64)==21);
+         task.setRecurring(recurringData!=null);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 224)/100));
          task.setRemainingDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
@@ -2007,6 +2008,18 @@ final class MPP9Reader implements MPPVariantReader
          }
          
          //
+         // Retrieve task recurring data
+         //
+         if (recurringData != null)
+         {
+            if (recurringTaskReader == null)
+            {
+               recurringTaskReader = new RecurringTaskReader(m_file);
+            }
+            recurringTaskReader.processRecurringTask(task, recurringData);
+         }
+         
+         //
          // Retrieve the task notes.
          //
          notes = taskVarData.getString (id, TASK_NOTES);
@@ -2095,7 +2108,7 @@ final class MPP9Reader implements MPPVariantReader
          processExternalTasks (externalTasks);
       }
    }
-
+   
    /**
     * Extracts task enterprise column values. 
     * 
@@ -3254,6 +3267,8 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer TASK_DURATION10 = new Integer (73);
    private static final Integer TASK_DURATION10_UNITS = new Integer (74);
 
+   private static final Integer TASK_RECURRING_DATA = new Integer (76);
+   
    private static final Integer TASK_EXTERNAL_TASK_ID = new Integer (79);
    
    private static final Integer TASK_DATE1 = new Integer (80);
