@@ -12,7 +12,7 @@
 		<action dev="joniles" type="update">Updated to the Project 2007 MSPDI schema.</action>
 		<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>
 		<action dev="joniles" type="add">Added support CurrencyCode, CreationDate and LastSaved project header fields.</action>
-		<action dev="joniles" type="add">Added support for reading the the recurring flag from MPP files.</action>
+		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
 	</release>
 	
 	<release version="2.1.0" date="23/03/2008">
