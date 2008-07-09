@@ -91,7 +91,7 @@ final class Record
    /**
     * Retrieves the record number associated with this record.
     *
-    * @return the record number asscoiated with this record
+    * @return the record number associated with this record
     */
    public String getRecordNumber ()
    {
@@ -653,20 +653,22 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an Integer object representing the
-    * contents of an individual field. If the field does not exist in the
-    * record, null is returned.
+    * Retrieves a CodePage instance. Defaults to ANSI.
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
    public CodePage getCodePage (int field)
    {
-      CodePage result = null;
+      CodePage result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
          result = CodePage.getInstance(m_fields[field]);
+      }
+      else
+      {
+    	  result = CodePage.getInstance(null);
       }
 
       return (result);
