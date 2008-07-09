@@ -741,7 +741,11 @@ final class MPPUtility
          case DAYS:
          {
             double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
-            double totalDays = duration / unitsPerDay;
+            double totalDays = 0;
+            if (unitsPerDay != 0)
+            {
+            	totalDays = duration / unitsPerDay;
+            }
             result = Duration.getInstance(totalDays, timeUnit);
             break;
          }
@@ -1350,13 +1354,28 @@ final class MPPUtility
 	       }
 	   }
    }
-
+   
+   /**
+    * Get the epoch date.
+    * 
+    * @return epoch date.
+    */
+   public static Date getEpochDate()
+   {
+      return EPOCH_DATE;   
+   }
+         
    /**
     * Epoch date for MPP date calculation is 31/12/1983. This constant
     * is that date expressed in milliseconds using the Java date epoch.
     */
    private static final long EPOCH = 441676800000L;
 
+   /**
+    * Epoch Date as a Date instance.
+    */
+   private static Date EPOCH_DATE = DateUtility.getTimestampFromLong(EPOCH);
+   
    /**
     * Number of milliseconds per day.
     */
