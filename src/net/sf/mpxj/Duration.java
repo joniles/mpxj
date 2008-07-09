@@ -204,7 +204,14 @@ public final class Duration implements Comparable<Duration>
 
             case DAYS:
             {
-               duration /= minutesPerDay;
+               if (minutesPerDay != 0)
+               {
+                  duration /= minutesPerDay;
+               }
+               else
+               {
+                  duration = 0;
+               }
                break;
             }
 
@@ -216,7 +223,14 @@ public final class Duration implements Comparable<Duration>
 
             case WEEKS:
             {
-               duration /= minutesPerWeek;
+               if (minutesPerWeek != 0)
+               {
+                  duration /= minutesPerWeek;
+               }
+               else
+               {
+                  duration = 0;
+               }
                break;
             }
 
@@ -228,7 +242,14 @@ public final class Duration implements Comparable<Duration>
 
             case MONTHS:
             {
-               duration /= (minutesPerWeek * 4);
+               if (minutesPerWeek != 0)
+               {
+                  duration /= (minutesPerWeek * 4);
+               }
+               else
+               {
+                  duration = 0;
+               }
                break;
             }
 
@@ -240,7 +261,14 @@ public final class Duration implements Comparable<Duration>
 
             case YEARS:
             {
-               duration /= (minutesPerWeek * 52);
+               if (minutesPerWeek != 0)
+               {
+                  duration /= (minutesPerWeek * 52);
+               }
+               else
+               {
+                  duration = 0;
+               }
                break;
             }
 

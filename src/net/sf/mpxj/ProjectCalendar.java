@@ -780,6 +780,9 @@ public final class ProjectCalendar extends ProjectEntity
       }
       
       double duration = 0;
+      double minutesPerDay = getParentFile().getProjectHeader().getMinutesPerDay().doubleValue();
+      double minutesPerWeek = getParentFile().getProjectHeader().getMinutesPerWeek().doubleValue();
+      double daysPerMonth = getParentFile().getProjectHeader().getDaysPerMonth().doubleValue();
       switch (format)
       {
          case MINUTES:
@@ -799,22 +802,42 @@ public final class ProjectCalendar extends ProjectEntity
          case DAYS:
          {
             duration = totalTime;
-            duration /= (getParentFile().getProjectHeader().getMinutesPerDay().doubleValue() * 60 * 1000);
+            if (minutesPerDay != 0)
+            {
+               duration /= (minutesPerDay * 60 * 1000);
+            }
+            else
+            {
+               duration = 0;
+            }
             break;            
          }
          
          case WEEKS:
          {
             duration = totalTime;
-            duration /= (getParentFile().getProjectHeader().getMinutesPerWeek().doubleValue() * 60 * 1000);
+            if (minutesPerWeek != 0)
+            {
+               duration /= (minutesPerWeek * 60 * 1000);
+            }
+            else
+            {
+               duration = 0;
+            }
             break;            
          }
          
          case MONTHS:
          {
-            ProjectHeader header = getParentFile().getProjectHeader();
             duration = totalTime;
-            duration /= (header.getDaysPerMonth().doubleValue() * header.getMinutesPerDay().doubleValue() * 60 * 1000);
+            if (daysPerMonth != 0 && minutesPerDay != 0)
+            {
+               duration /= (daysPerMonth * minutesPerDay * 60 * 1000);
+            }
+            else
+            {
+               duration = 0;
+            }
             break;            
          }
         
