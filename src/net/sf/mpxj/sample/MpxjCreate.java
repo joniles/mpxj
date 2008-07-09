@@ -262,7 +262,7 @@ public class MpxjCreate
 
       //
       // This final task has a percent complete value, but no
-      // resource assignments. This is an intersting case it it requires
+      // resource assignments. This is an interesting case it it requires
       // special processing to generate the MSPDI file correctly.
       //
       Task task4 = file.addTask();
