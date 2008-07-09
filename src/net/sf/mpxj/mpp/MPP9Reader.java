@@ -117,16 +117,17 @@ final class MPP9Reader implements MPPVariantReader
         	 // File is password protected for reading, let's read the password
         	 // and see if the correct read password was given to us.
         	 String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), file.getEncryptionCode());
-        	 // See if the correct read password was given
-        	 if (readPassword == null)
+        	 // It looks like it is possible for a project file to have the password protection flag on without a password. In
+        	 // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
+        	 // correct the problem if the file is re-saved (at least it did for me).
+        	 if (readPassword != null && readPassword.length() > 0)
         	 {
-        		 // Couldn't read password, so no chance to ask the user
-        		 throw new MPXJException (MPXJException.PASSWORD_PROTECTED);
-        	 }
-        	 if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
-        	 {    	      	
-        		 // Passwords don't match
-        		 throw new MPXJException (MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
+            	 // See if the correct read password was given
+        		 if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
+        		 {    	      	
+        			 // Passwords don't match
+        			 throw new MPXJException (MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
+        		 }
         	 }
         	 // Passwords matched so let's allow the reading to continue.
          }
