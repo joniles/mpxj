@@ -55,6 +55,7 @@ public final class ProjectHeaderReader
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
       ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));
+      ph.setHyperlinkBase(props.getUnicodeString(Props.HYPERLINK_BASE));
       
       //ph.setDefaultDurationIsFixed();
       ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));

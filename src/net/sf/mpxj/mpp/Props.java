@@ -312,5 +312,7 @@ class Props extends MPPComponent
    
    public static final Integer PROJECT_FILE_PATH = new Integer (893386760);
    
+   public static final Integer HYPERLINK_BASE = new Integer (37748810);
+   
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
 }

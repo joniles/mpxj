@@ -2111,6 +2111,26 @@ public final class ProjectHeader extends ProjectEntity
    {
      return (m_documentSummaryInformation);
    }
+   
+   /**
+    * Sets the hyperlink base for this Project.
+    *
+    * @param hyperlinkBase Hyperlink base
+    */
+   public void setHyperlinkBase (String hyperlinkBase)
+   {
+      m_hyperlinkBase = hyperlinkBase;
+   }
+
+   /**
+    * Gets the hyperlink base for this Project. If any.
+    *
+    * @return Hyperlink base
+    */
+   public String getHyperlinkBase ()
+   {
+      return (m_hyperlinkBase);
+   }
 
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
@@ -2174,6 +2194,7 @@ public final class ProjectHeader extends ProjectEntity
    private String m_subject;
    private String m_author;
    private String m_keywords;
+   private String m_hyperlinkBase;
 
    /**
     * The following member variables are extended attributes. They are
