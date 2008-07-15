@@ -155,11 +155,6 @@ public final class MPXReader extends AbstractProjectReader
          }
 
          //
-         // Ensure that all tasks and resources have valid Unique IDs
-         //
-         m_projectFile.updateUniqueIdentifiers();
-
-         //
          // Ensure that the structure is consistent
          //
          m_projectFile.updateStructure();
@@ -796,6 +791,14 @@ public final class MPXReader extends AbstractProjectReader
       {
          resource.setID (new Integer(m_projectFile.getResourceID ()));
       }
+    
+      //
+      // Handle malformed MPX files - ensure we have a unique ID
+      //
+      if (resource.getUniqueID() == null)
+      {
+         resource.setUniqueID(resource.getID());
+      }
    }
 
    /**
@@ -875,7 +878,7 @@ public final class MPXReader extends AbstractProjectReader
       //
       Task task = m_projectFile.getTaskByID(taskID);
       if (task != null)
-      {
+      {         
          relation.setTaskUniqueID(task.getUniqueID());
       }
 
@@ -1189,7 +1192,13 @@ public final class MPXReader extends AbstractProjectReader
          task.setID(new Integer(m_projectFile.getTaskID()));
       }
 
-      
+      //
+      // Handle malformed MPX files - ensure we have a unique ID
+      //
+      if (task.getUniqueID() == null)
+      {
+         task.setUniqueID(task.getID());
+      }      
    }
 
    /**
@@ -1237,6 +1246,16 @@ public final class MPXReader extends AbstractProjectReader
    private void populateResourceAssignment (Record record, ResourceAssignment assignment)
       throws MPXJException
    {
+      //
+      // Handle malformed MPX files - ensure that we can locate the resource
+      // using either the Unique ID attribute or the ID attribute.
+      //
+      Resource resource = m_projectFile.getResourceByUniqueID(record.getInteger(12));
+      if (resource == null)
+      {
+         resource = m_projectFile.getResourceByID(record.getInteger(0));
+      }      
+      
       assignment.setUnits(record.getUnits(1));
       assignment.setWork(record.getDuration(2));
       assignment.setPlannedWork(record.getDuration(3));
@@ -1247,8 +1266,7 @@ public final class MPXReader extends AbstractProjectReader
       assignment.setActualCost(record.getCurrency(8));
       assignment.setStart(record.getDateTime(9));
       assignment.setFinish(record.getDateTime(10));
-      assignment.setDelay(record.getDuration(11));
-      assignment.setResourceUniqueID(record.getInteger(12));
+      assignment.setDelay(record.getDuration(11));      
 
       //
       // Calculate the remaining work
@@ -1265,9 +1283,9 @@ public final class MPXReader extends AbstractProjectReader
          assignment.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
       }
 
-      Resource resource = assignment.getResource();
       if (resource != null)
       {
+         assignment.setResourceUniqueID(resource.getUniqueID());
          resource.addResourceAssignment(assignment);
       }
    }

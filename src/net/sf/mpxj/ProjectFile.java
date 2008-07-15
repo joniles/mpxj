@@ -63,32 +63,6 @@ public final class ProjectFile
       m_delimiter = delimiter;
    }
 
-
-   /**
-    * This method post-processes tasks and resources read from an MPX
-    * file to ensure that they all have valid unique ID fields. This is
-    * designed to cope with poorly formed MPX files where tasks and resources
-    * have ID values, but not unique ID values.
-    */
-   public void updateUniqueIdentifiers ()
-   {
-      for(Task task : m_allTasks)
-      {
-         if (task.getUniqueID() == null)
-         {
-            task.setUniqueID(task.getID());
-         }
-      }
-
-      for (Resource resource : m_allResources)
-      {
-         if (resource.getUniqueID() == null)
-         {
-            resource.setUniqueID(resource.getID());
-         }
-      }
-   }
-
    /**
     * This method is provided to allow child tasks that have been created
     * programmatically to be added as a record to the main file.

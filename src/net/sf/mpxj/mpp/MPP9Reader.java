@@ -436,7 +436,11 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
-                  m_file.setResourceSubProject(sp);
+                  // 0x02 looks to be the link FROM the resource pool to a project that uses it 
+                  if (subProjectType == 0x04)
+                  {
+                     m_file.setResourceSubProject(sp);
+                  }
                   break;
                }
 
@@ -2079,6 +2083,24 @@ final class MPP9Reader implements MPPVariantReader
          if ((metaData[9]&0x80) == 0)
          {
             task.setSplits(new LinkedList<Duration>());
+         }
+
+         //
+         // Unfortunately it looks like 'null' tasks sometimes make it through, 
+         // so let's check for to see if we need to mark this task as a null 
+         // task after all.
+         //
+         if (task.getName() == null &&        
+            ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) ||
+             (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) ||
+             (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
+         {
+             m_file.removeTask(task);
+             task = m_file.addTask();
+             task.setNull(true);
+             task.setUniqueID(id);
+             task.setID (new Integer(MPPUtility.getInt (data, 4)));
+             continue;
          }
          
          //
