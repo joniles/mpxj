@@ -542,156 +542,171 @@ final class MPP12Reader implements MPPVariantReader
     */
    private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
-      SubProject sp = new SubProject ();     
-      int type = SUBPROJECT_TASKUNIQUEID0;
+      try
+      {
+         SubProject sp = new SubProject ();     
+         int type = SUBPROJECT_TASKUNIQUEID0;
+         
+         if (uniqueIDOffset != -1)
+         {
+            int value = MPPUtility.getInt(data, uniqueIDOffset);
+            type = MPPUtility.getInt(data, uniqueIDOffset+4);
+            switch (type)
+            {
+               case SUBPROJECT_TASKUNIQUEID0:
+               case SUBPROJECT_TASKUNIQUEID1:
+               case SUBPROJECT_TASKUNIQUEID2:
+               case SUBPROJECT_TASKUNIQUEID3:
+               case SUBPROJECT_TASKUNIQUEID4:
+               {
+                   sp.setTaskUniqueID(new Integer(value));
+                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                   break;
+               }
+               
+               default:
+               {
+                   if (value != 0)
+                   {
+                       sp.addExternalTaskUniqueID(new Integer(value));
+                       m_taskSubProjects.put(new Integer(value), sp);                   
+                   }
+                   break;
+               }
+            }
+   
+            // Now get the unique id offset for this subproject
+            value = 0x00800000 + ((subprojectIndex-1) * 0x00400000);
+            sp.setUniqueIDOffset(new Integer(value));         
+         }
+   
+         if (type == SUBPROJECT_TASKUNIQUEID4)
+         {
+            sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset));         
+         }
+         else
+         {
+            //
+            // First block header
+            //
+            filePathOffset += 18;
       
-      if (uniqueIDOffset != -1)
-      {
-         int value = MPPUtility.getInt(data, uniqueIDOffset);
-         type = MPPUtility.getInt(data, uniqueIDOffset+4);
-         switch (type)
-         {
-            case SUBPROJECT_TASKUNIQUEID0:
-            case SUBPROJECT_TASKUNIQUEID1:
-            case SUBPROJECT_TASKUNIQUEID2:
-            case SUBPROJECT_TASKUNIQUEID3:
-            case SUBPROJECT_TASKUNIQUEID4:
-            {
-                sp.setTaskUniqueID(new Integer(value));
-                m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-                break;
-            }
-            
-            default:
-            {
-                if (value != 0)
-                {
-                    sp.addExternalTaskUniqueID(new Integer(value));
-                    m_taskSubProjects.put(new Integer(value), sp);                   
-                }
-                break;
-            }
-         }
-
-         // Now get the unique id offset for this subproject
-         value = 0x00800000 + ((subprojectIndex-1) * 0x00400000);
-         sp.setUniqueIDOffset(new Integer(value));         
-      }
-
-      if (type == SUBPROJECT_TASKUNIQUEID4)
-      {
-         sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset));         
-      }
-      else
-      {
-         //
-         // First block header
-         //
-         filePathOffset += 18;
-   
-         //
-         // String size as a 4 byte int
-         //
-         filePathOffset += 4;
-   
-         //
-         // Full DOS path
-         //
-         sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
-         filePathOffset += (sp.getDosFullPath().length()+1);
-   
-         //
-         // 24 byte block
-         //
-         filePathOffset += 24;
-   
-         //
-         // 4 byte block size
-         //
-         int size = MPPUtility.getInt(data, filePathOffset);
-         filePathOffset +=4;
-         if (size == 0)
-         {
-            sp.setFullPath(sp.getDosFullPath());
-         }
-         else
-         {
             //
-            // 4 byte unicode string size in bytes
+            // String size as a 4 byte int
             //
-            size = MPPUtility.getInt(data, filePathOffset);
             filePathOffset += 4;
-   
+      
             //
-            // 2 byte data
+            // Full DOS path
             //
-            filePathOffset += 2;
-   
+            sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
+            filePathOffset += (sp.getDosFullPath().length()+1);
+      
             //
-            // Unicode string
+            // 24 byte block
             //
-            sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
-            filePathOffset += size;
-         }
-   
-         //
-         // Second block header
-         //
-         fileNameOffset += 18;
-   
-         //
-         // String size as a 4 byte int
-         //
-         fileNameOffset += 4;
-   
-         //
-         // DOS file name
-         //
-         sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
-         fileNameOffset += (sp.getDosFileName().length()+1);
-   
-         //
-         // 24 byte block
-         //
-         fileNameOffset += 24;
-   
-         //
-         // 4 byte block size
-         //
-         size = MPPUtility.getInt(data, fileNameOffset);
-         fileNameOffset +=4;
-   
-         if (size == 0)
-         {
-            sp.setFileName(sp.getDosFileName());
-         }
-         else
-         {
+            filePathOffset += 24;
+      
             //
-            // 4 byte unicode string size in bytes
+            // 4 byte block size
+            //
+            int size = MPPUtility.getInt(data, filePathOffset);
+            filePathOffset +=4;
+            if (size == 0)
+            {
+               sp.setFullPath(sp.getDosFullPath());
+            }
+            else
+            {
+               //
+               // 4 byte unicode string size in bytes
+               //
+               size = MPPUtility.getInt(data, filePathOffset);
+               filePathOffset += 4;
+      
+               //
+               // 2 byte data
+               //
+               filePathOffset += 2;
+      
+               //
+               // Unicode string
+               //
+               sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
+               filePathOffset += size;
+            }
+      
+            //
+            // Second block header
+            //
+            fileNameOffset += 18;
+      
+            //
+            // String size as a 4 byte int
+            //
+            fileNameOffset += 4;
+      
+            //
+            // DOS file name
+            //
+            sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
+            fileNameOffset += (sp.getDosFileName().length()+1);
+      
+            //
+            // 24 byte block
+            //
+            fileNameOffset += 24;
+      
+            //
+            // 4 byte block size
             //
             size = MPPUtility.getInt(data, fileNameOffset);
-            fileNameOffset += 4;
-   
-            //
-            // 2 byte data
-            //
-            fileNameOffset += 2;
-   
-            //
-            // Unicode string
-            //
-            sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
-            fileNameOffset += size;
+            fileNameOffset +=4;
+      
+            if (size == 0)
+            {
+               sp.setFileName(sp.getDosFileName());
+            }
+            else
+            {
+               //
+               // 4 byte unicode string size in bytes
+               //
+               size = MPPUtility.getInt(data, fileNameOffset);
+               fileNameOffset += 4;
+      
+               //
+               // 2 byte data
+               //
+               fileNameOffset += 2;
+      
+               //
+               // Unicode string
+               //
+               sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
+               fileNameOffset += size;
+            }
          }
+         
+         //System.out.println(sp.toString());
+   
+         // Add to the list of subprojects
+         m_file.addSubProject(sp);
+   
+         return (sp);
       }
       
-      //System.out.println(sp.toString());
-
-      // Add to the list of subprojects
-      m_file.addSubProject(sp);
-
-      return (sp);
+      //
+      // Admit defeat at this point - we have probably stumbled
+      // upon a data format we don't understand, so we'll fail
+      // gracefully here. This will now be reported as a missing
+      // sub project error by end users of the library, rather
+      // than as an exception being thrown.
+      //
+      catch (ArrayIndexOutOfBoundsException ex)
+      {
+         return (null);
+      }
    }
 
 
