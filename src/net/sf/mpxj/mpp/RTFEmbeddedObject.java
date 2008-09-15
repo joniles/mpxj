@@ -273,7 +273,7 @@ public final class RTFEmbeddedObject
    }
 
    /**
-    * This method skips the end-of-line markers in the RTTF document.
+    * This method skips the end-of-line markers in the RTF document.
     * It also indicates if the end of the embedded object has been reached.
     *
     * @param text RTF document test
@@ -290,6 +290,7 @@ public final class RTFEmbeddedObject
          c = text.charAt(offset);
          switch (c)
          {
+            case ' ': // found that OBJDATA could be followed by a space the EOL
             case '\r':
             case '\n':
             {
