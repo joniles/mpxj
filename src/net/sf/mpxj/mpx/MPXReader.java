@@ -1342,6 +1342,16 @@ public final class MPXReader extends AbstractProjectReader
    }
 
    /**
+    * Retrieves an array of locales supported by this class.
+    * 
+    * @return array of supported locales
+    */
+   public Locale[] getSupportedLocales ()
+   {
+      return (LocaleUtility.getSupportedLocales());
+   }
+
+   /**
     * This method sets the flag indicating that the text version of the
     * Task and Resource Table Definition records should be ignored. Ignoring
     * these records gets around the problem where MPX files have been generated

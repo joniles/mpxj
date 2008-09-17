@@ -35,8 +35,8 @@ import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.ProjectTimeFormat;
 
 /**
- * This class contains methd used to configure the locale of an MPX file.
- *
+ * This class contains methods used to configure the locale of an MPX file,
+ * along with other common locale related methods.
  */
 final class LocaleUtility
 {
@@ -102,5 +102,29 @@ final class LocaleUtility
       header.setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
       header.setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
    }
-
+   
+   /**
+    * Retrieves an array containing the locales supported by MPXJ's 
+    * MPX functionality.
+    * 
+    * @return array of supported locales
+    */
+   public static Locale[] getSupportedLocales ()
+   {
+      return (SUPPORTED_LOCALES);
+   }
+   
+   /**
+    * Array of locales supported by MPXJ's MPX functionality.
+    */
+   private static final Locale[] SUPPORTED_LOCALES =
+   {
+      new Locale("EN"),
+      new Locale("DE"),
+      new Locale("FR"),
+      new Locale("IT"),
+      new Locale("PT"),
+      new Locale("SV"),
+      new Locale("ZH")
+   };
 }

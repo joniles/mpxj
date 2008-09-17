@@ -1438,7 +1438,16 @@ public final class MPXWriter extends AbstractProjectWriter
       m_locale = locale;
    }
    
-      
+   /**
+    * Retrieves an array of locales supported by this class.
+    * 
+    * @return array of supported locales
+    */
+   public Locale[] getSupportedLocales ()
+   {
+      return (LocaleUtility.getSupportedLocales());
+   }
+   
    private ProjectFile m_projectFile;
    private OutputStreamWriter m_writer;
    private ResourceModel m_resourceModel;

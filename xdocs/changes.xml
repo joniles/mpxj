@@ -13,6 +13,7 @@
 		<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>
 		<action dev="joniles" type="add">Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</action>
 		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
+		<action dev="joniles" type="add">Added methods to MPXReader and MPXWriter to allow the caller to determine the supported locales.</action>
 	</release>
 	
 	<release version="2.1.0" date="23/03/2008">
