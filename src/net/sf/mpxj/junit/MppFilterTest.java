@@ -165,8 +165,8 @@ public class MppFilterTest extends MPXJTestCase
      */
     private void testFilterEvaluation (ProjectFile mpp)
     {
-       Task task1 = mpp.getTaskByID(new Integer(1));
-       Task task2 = mpp.getTaskByID(new Integer(2));
+       Task task1 = mpp.getTaskByID(Integer.valueOf(1));
+       Task task2 = mpp.getTaskByID(Integer.valueOf(2));
        
        //
        // Test different data types
@@ -202,11 +202,11 @@ public class MppFilterTest extends MPXJTestCase
        //       
        // Test different operator types
        //
-       Task task3 = mpp.getTaskByID(new Integer(3));
-       Task task4 = mpp.getTaskByID(new Integer(4));
-       Task task5 = mpp.getTaskByID(new Integer(5));
-       Task task6 = mpp.getTaskByID(new Integer(6));
-       Task task7 = mpp.getTaskByID(new Integer(7));
+       Task task3 = mpp.getTaskByID(Integer.valueOf(3));
+       Task task4 = mpp.getTaskByID(Integer.valueOf(4));
+       Task task5 = mpp.getTaskByID(Integer.valueOf(5));
+       Task task6 = mpp.getTaskByID(Integer.valueOf(6));
+       Task task7 = mpp.getTaskByID(Integer.valueOf(7));
        
        // Number1 != 10
        filter = mpp.getFilterByName("Filter 9");
@@ -304,8 +304,8 @@ public class MppFilterTest extends MPXJTestCase
      */
     private void testLogicalOperatorEvaluation (ProjectFile mpp)
     {
-       Task task6 = mpp.getTaskByID(new Integer(6));
-       Task task7 = mpp.getTaskByID(new Integer(7));
+       Task task6 = mpp.getTaskByID(Integer.valueOf(6));
+       Task task7 = mpp.getTaskByID(Integer.valueOf(7));
        
        // Number1==13 && Number2==7
        Filter filter = mpp.getFilterByName("Filter 19");
@@ -442,29 +442,29 @@ public class MppFilterTest extends MPXJTestCase
        assertFalse(operator.evaluate(null, "")); 
        
        Object[] allNull = new Object[]{null, null};
-       Object[] lhsNull = new Object[]{null, new Integer(10)};
-       Object[] rhsNull = new Object[]{new Integer(1), null};
+       Object[] lhsNull = new Object[]{null, Integer.valueOf(10)};
+       Object[] rhsNull = new Object[]{Integer.valueOf(1), null};
        
        operator = TestOperator.IS_NOT_WITHIN;
        assertTrue(operator.evaluate(null, allNull));
        assertTrue(operator.evaluate(null, lhsNull));
        assertTrue(operator.evaluate(null, rhsNull));       
-       assertTrue(operator.evaluate(new Integer(5), allNull));
-       assertTrue(operator.evaluate(new Integer(5), lhsNull));
-       assertTrue(operator.evaluate(new Integer(5), rhsNull));       
-       assertTrue(operator.evaluate(allNull, new Integer(5))); 
-       assertTrue(operator.evaluate(lhsNull, new Integer(5))); 
-       assertTrue(operator.evaluate(rhsNull, new Integer(5))); 
+       assertTrue(operator.evaluate(Integer.valueOf(5), allNull));
+       assertTrue(operator.evaluate(Integer.valueOf(5), lhsNull));
+       assertTrue(operator.evaluate(Integer.valueOf(5), rhsNull));       
+       assertTrue(operator.evaluate(allNull, Integer.valueOf(5))); 
+       assertTrue(operator.evaluate(lhsNull, Integer.valueOf(5))); 
+       assertTrue(operator.evaluate(rhsNull, Integer.valueOf(5))); 
        
        operator = TestOperator.IS_WITHIN;
        assertFalse(operator.evaluate(null, allNull));
        assertFalse(operator.evaluate(null, lhsNull));
        assertFalse(operator.evaluate(null, rhsNull));       
-       assertFalse(operator.evaluate(new Integer(5), allNull));
-       assertFalse(operator.evaluate(new Integer(5), lhsNull));
-       assertFalse(operator.evaluate(new Integer(5), rhsNull));       
-       assertFalse(operator.evaluate(allNull, new Integer(5))); 
-       assertFalse(operator.evaluate(lhsNull, new Integer(5))); 
-       assertFalse(operator.evaluate(rhsNull, new Integer(5)));               
+       assertFalse(operator.evaluate(Integer.valueOf(5), allNull));
+       assertFalse(operator.evaluate(Integer.valueOf(5), lhsNull));
+       assertFalse(operator.evaluate(Integer.valueOf(5), rhsNull));       
+       assertFalse(operator.evaluate(allNull, Integer.valueOf(5))); 
+       assertFalse(operator.evaluate(lhsNull, Integer.valueOf(5))); 
+       assertFalse(operator.evaluate(rhsNull, Integer.valueOf(5)));               
     }
 }

@@ -189,7 +189,7 @@ final class FixDeferFix extends MPPComponent
             fileOffset = temp.intValue();
          }
 
-         temp = new Integer (fileOffset);
+         temp = Integer.valueOf(fileOffset);
          if (read.add(temp) == false)
          {
             fileOffset = available;
@@ -225,11 +225,11 @@ final class FixDeferFix extends MPPComponent
 
             if (fileOffset != nextBlockOffset)
             {
-               skipped.add(new Integer (fileOffset));
+               skipped.add(Integer.valueOf(fileOffset));
                fileOffset = nextBlockOffset;
             }
 
-            temp = new Integer (fileOffset);
+            temp = Integer.valueOf(fileOffset);
             if (read.add(temp) == false)
             {
                fileOffset = available;

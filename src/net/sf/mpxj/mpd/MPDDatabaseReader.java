@@ -64,7 +64,7 @@ public final class MPDDatabaseReader
     */
    public void setProjectID (int projectID)
    {
-      m_projectID = new Integer(projectID);
+      m_projectID = Integer.valueOf(projectID);
    }
  
    /**
@@ -118,7 +118,7 @@ public final class MPDDatabaseReader
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
          m_connection = DriverManager.getConnection(url);            
-         m_projectID = new Integer(1);
+         m_projectID = Integer.valueOf(1);
          return (read());      
       }
       

@@ -59,15 +59,15 @@ public final class ProjectHeaderReader
       
       //ph.setDefaultDurationIsFixed();
       ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
-      ph.setMinutesPerDay(new Integer(props.getInt(Props.MINUTES_PER_DAY)));
-      ph.setMinutesPerWeek(new Integer(props.getInt(Props.MINUTES_PER_WEEK)));
+      ph.setMinutesPerDay(Integer.valueOf(props.getInt(Props.MINUTES_PER_DAY)));
+      ph.setMinutesPerWeek(Integer.valueOf(props.getInt(Props.MINUTES_PER_WEEK)));
       ph.setDefaultOvertimeRate(new Rate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
       ph.setDefaultStandardRate(new Rate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
       ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
       ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
       ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
-      ph.setCurrencyDigits(new Integer(props.getShort(Props.CURRENCY_DIGITS)));
+      ph.setCurrencyDigits(Integer.valueOf(props.getShort(Props.CURRENCY_DIGITS)));
       ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
       ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE)); 
       //ph.setDecimalSeparator();

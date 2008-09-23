@@ -588,12 +588,12 @@ public final class PlannerReader extends AbstractProjectReader
       if (parentTask == null)
       {
          mpxjTask = m_projectFile.addTask ();
-         mpxjTask.setOutlineLevel(new Integer(1));
+         mpxjTask.setOutlineLevel(Integer.valueOf(1));
       }
       else
       {
          mpxjTask = parentTask.addTask();
-         mpxjTask.setOutlineLevel(new Integer(parentTask.getOutlineLevel().intValue()+1));
+         mpxjTask.setOutlineLevel(Integer.valueOf(parentTask.getOutlineLevel().intValue()+1));
       }
       
       //

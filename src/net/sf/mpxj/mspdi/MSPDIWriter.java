@@ -214,7 +214,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
          TaskField key = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
-         Integer fieldID = new Integer (MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
+         Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
    
@@ -239,7 +239,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
          ResourceField key = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
-         Integer fieldID = new Integer (MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
+         Integer fieldID = Integer.valueOf(MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
    
@@ -577,7 +577,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (value != null)
          {
-            xmlFieldID = new Integer(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
+            xmlFieldID = Integer.valueOf(MPPResourceField.getID(mpxFieldID) | MPPResourceField.RESOURCE_FIELD_BASE);
 
             attrib = factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
@@ -806,7 +806,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (value != null)
          {
-            xmlFieldID = new Integer (MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
+            xmlFieldID = Integer.valueOf(MPPTaskField.getID(mpxFieldID) | MPPTaskField.TASK_FIELD_BASE);
 
             attrib = factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
@@ -1029,5 +1029,5 @@ public final class MSPDIWriter extends AbstractProjectWriter
    
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
    
-   private static final Integer NULL_RESOURCE_ID = new Integer (-65535);   
+   private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);   
 }

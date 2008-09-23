@@ -103,7 +103,7 @@ final class ResultSetRow extends MapRow
             case Types.INTEGER:
             case Types.SMALLINT:
             {
-               value = new Integer(rs.getInt(name));
+               value = Integer.valueOf(rs.getInt(name));
                break;             
             }
                    

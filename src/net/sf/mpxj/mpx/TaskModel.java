@@ -73,7 +73,7 @@ final class TaskModel
 
          if (name != null)
          {
-            m_taskNumbers.put(name, new Integer(loop));
+            m_taskNumbers.put(name, Integer.valueOf(loop));
          }
       }
    }

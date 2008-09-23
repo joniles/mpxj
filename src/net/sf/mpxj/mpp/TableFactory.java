@@ -68,7 +68,7 @@ final class TableFactory
       table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
      
       byte[] columnData = null;
-      Integer tableID = new Integer(table.getID());
+      Integer tableID = Integer.valueOf(table.getID());
       if (m_tableColumnDataBaseline != null)
       {
          columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataBaseline));

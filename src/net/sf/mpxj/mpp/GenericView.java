@@ -44,7 +44,7 @@ public class GenericView extends AbstractMppView
     */
    public GenericView (byte[] data)
    {
-      m_id = new Integer (MPPUtility.getInt(data, 0));
+      m_id = Integer.valueOf(MPPUtility.getInt(data, 0));
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
       m_type = ViewType.getInstance(MPPUtility.getShort(data, 112));
    }

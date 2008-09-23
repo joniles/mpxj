@@ -60,5 +60,5 @@ public final class GanttChartView12 extends GanttChartView
       super (parent, fixedMeta, fixedData, varData, fontBases);
    }
    
-   private static final Integer PROPERTIES = new Integer (6);
+   private static final Integer PROPERTIES = Integer.valueOf(6);
 }

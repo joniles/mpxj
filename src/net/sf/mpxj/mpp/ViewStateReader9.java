@@ -47,6 +47,6 @@ public final class ViewStateReader9 extends ViewStateReader
    }
    
    
-   private static final Integer PROPS_ID = new Integer (1);
-   private static final Integer PROPS_TYPE = new Integer (1);
+   private static final Integer PROPS_ID = Integer.valueOf(1);
+   private static final Integer PROPS_TYPE = Integer.valueOf(1);
 }

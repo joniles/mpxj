@@ -39,5 +39,5 @@ public final class GroupReader9 extends GroupReader
       return(GROUP_DATA);
    }
       
-   private static final Integer GROUP_DATA = new Integer (1);
+   private static final Integer GROUP_DATA = Integer.valueOf(1);
 }

@@ -114,7 +114,7 @@ public class MppCalendarTest extends MPXJTestCase
        List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
        assertEquals(5, baseCalendars.size());
 
-       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(new Integer(1));
+       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
        assertNotNull(cal);
        assertEquals("Standard", cal.getName());
        assertNull(cal.getBaseCalendar());
@@ -157,7 +157,7 @@ public class MppCalendarTest extends MPXJTestCase
        List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
        assertEquals(1, baseCalendars.size());
 
-       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(new Integer(1));
+       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
        assertNotNull(cal);
        assertEquals("Standard", cal.getName());
        assertNull(cal.getBaseCalendar());

@@ -249,11 +249,11 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       m_buffer.append (MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER);
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(new Integer(record.getDefaultDurationUnits().getValue())));
+      m_buffer.append(format(Integer.valueOf(record.getDefaultDurationUnits().getValue())));
       m_buffer.append (m_delimiter);
       m_buffer.append(record.getDefaultDurationIsFixed()?"1":"0");
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(new Integer(record.getDefaultWorkUnits().getValue())));
+      m_buffer.append(format(Integer.valueOf(record.getDefaultWorkUnits().getValue())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerDay())/60)));
       m_buffer.append (m_delimiter);
@@ -908,7 +908,7 @@ public final class MPXWriter extends AbstractProjectWriter
          cal.setTime(date);
          int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
          time += cal.get(Calendar.MINUTE);
-         result = new Integer (time);
+         result = Integer.valueOf(time);
       }
       return (result);
    }

@@ -44,7 +44,7 @@ public class SlackTest extends MPXJTestCase
       throws Exception
    {
       ProjectFile mpp = new MPPReader().read (m_basedir + "/slack9.mpp");
-      Task task = mpp.getTaskByID(new Integer(1));
+      Task task = mpp.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task.getName());
       assertEquals(Duration.getInstance(8, TimeUnit.HOURS), task.getDuration());
       assertEquals(Duration.getInstance(40, TimeUnit.HOURS), task.getStartSlack());
@@ -52,7 +52,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.HOURS), task.getFreeSlack());
       assertEquals(Duration.getInstance(40, TimeUnit.HOURS), task.getTotalSlack());
       
-      task = mpp.getTaskByID(new Integer(2));
+      task = mpp.getTaskByID(Integer.valueOf(2));
       assertEquals("Task 2", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getStartSlack());
@@ -60,7 +60,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getTotalSlack());
 
-      task = mpp.getTaskByID(new Integer(3));
+      task = mpp.getTaskByID(Integer.valueOf(3));
       assertEquals("Task 3", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(10, TimeUnit.DAYS), task.getStartSlack());
@@ -68,7 +68,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(10, TimeUnit.DAYS), task.getTotalSlack());
 
-      task = mpp.getTaskByID(new Integer(4));
+      task = mpp.getTaskByID(Integer.valueOf(4));
       assertEquals("Task 4", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getStartSlack());
@@ -76,7 +76,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getTotalSlack());
 
-      task = mpp.getTaskByID(new Integer(5));
+      task = mpp.getTaskByID(Integer.valueOf(5));
       assertEquals("Milestone 1", task.getName());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getStartSlack());
@@ -84,7 +84,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getTotalSlack());
 
-      task = mpp.getTaskByID(new Integer(6));
+      task = mpp.getTaskByID(Integer.valueOf(6));
       assertEquals("Task 5", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getStartSlack());
@@ -92,7 +92,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getTotalSlack());
 
-      task = mpp.getTaskByID(new Integer(7));
+      task = mpp.getTaskByID(Integer.valueOf(7));
       assertEquals("Task 6", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getStartSlack());
@@ -100,7 +100,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getTotalSlack());
       
-      task = mpp.getTaskByID(new Integer(8));
+      task = mpp.getTaskByID(Integer.valueOf(8));
       assertEquals("Task 7", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getStartSlack());
@@ -108,7 +108,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getTotalSlack());
       
-      task = mpp.getTaskByID(new Integer(9));
+      task = mpp.getTaskByID(Integer.valueOf(9));
       assertEquals("Task 8", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(4, TimeUnit.DAYS), task.getStartSlack());
@@ -116,7 +116,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(4, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(4, TimeUnit.DAYS), task.getTotalSlack());      
       
-      task = mpp.getTaskByID(new Integer(10));
+      task = mpp.getTaskByID(Integer.valueOf(10));
       assertEquals("Milestone 2", task.getName());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getStartSlack());
@@ -124,7 +124,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(-1, TimeUnit.DAYS), task.getTotalSlack());      
 
-      task = mpp.getTaskByID(new Integer(11));
+      task = mpp.getTaskByID(Integer.valueOf(11));
       assertEquals("Task 9", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getStartSlack());
@@ -132,7 +132,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getTotalSlack());      
 
-      task = mpp.getTaskByID(new Integer(12));
+      task = mpp.getTaskByID(Integer.valueOf(12));
       assertEquals("Task 10", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getStartSlack());
@@ -140,7 +140,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getTotalSlack());      
       
-      task = mpp.getTaskByID(new Integer(13));
+      task = mpp.getTaskByID(Integer.valueOf(13));
       assertEquals("Task 11", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getStartSlack());
@@ -148,7 +148,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getTotalSlack());      
 
-      task = mpp.getTaskByID(new Integer(14));
+      task = mpp.getTaskByID(Integer.valueOf(14));
       assertEquals("Task 12", task.getName());
       assertEquals(Duration.getInstance(5, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(6, TimeUnit.DAYS), task.getStartSlack());
@@ -156,7 +156,7 @@ public class SlackTest extends MPXJTestCase
       assertEquals(Duration.getInstance(6, TimeUnit.DAYS), task.getFreeSlack());
       assertEquals(Duration.getInstance(6, TimeUnit.DAYS), task.getTotalSlack());      
       
-      task = mpp.getTaskByID(new Integer(15));
+      task = mpp.getTaskByID(Integer.valueOf(15));
       assertEquals("Milestone 3", task.getName());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getDuration());
       assertEquals(Duration.getInstance(0, TimeUnit.DAYS), task.getStartSlack());

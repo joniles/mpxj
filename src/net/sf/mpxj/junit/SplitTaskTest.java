@@ -52,22 +52,22 @@ public class SplitTaskTest extends MPXJTestCase
       splits.add(Duration.getInstance(88, TimeUnit.HOURS));
 
       ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9a.mpp");
-      Task task = mpp.getTaskByUniqueID(new Integer(1));
+      Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       assertNull(task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(2));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(2));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(3));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(3));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(4));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(4));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(5));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(5));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(6));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(6));
       assertEquals(splits, task.getSplits());
 
       splits.clear();
@@ -77,25 +77,25 @@ public class SplitTaskTest extends MPXJTestCase
       splits.add(Duration.getInstance(104, TimeUnit.HOURS));
       splits.add(Duration.getInstance(128, TimeUnit.HOURS));
 
-      task = mpp.getTaskByUniqueID(new Integer(7));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(7));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(8));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(8));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(9));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(9));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(10));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(10));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(11));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(11));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(12));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(12));
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(13));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(13));
       assertEquals(splits, task.getSplits());
    }   
    
@@ -111,7 +111,7 @@ public class SplitTaskTest extends MPXJTestCase
 
       ProjectFile mpp = new MPPReader().read (m_basedir + "/splits9b.mpp");
       
-      Task task = mpp.getTaskByUniqueID(new Integer(1));
+      Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       splits.clear();
       splits.add(Duration.getInstance(16, TimeUnit.HOURS));
       splits.add(Duration.getInstance(40, TimeUnit.HOURS));
@@ -120,17 +120,17 @@ public class SplitTaskTest extends MPXJTestCase
       splits.add(Duration.getInstance(128, TimeUnit.HOURS));      
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(3));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(3));
       assertNull(task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(4));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(4));
       splits.clear();
       splits.add(Duration.getInstance(24, TimeUnit.HOURS));
       splits.add(Duration.getInstance(40, TimeUnit.HOURS));
       splits.add(Duration.getInstance(96, TimeUnit.HOURS));            
       assertEquals(splits, task.getSplits());
 
-      task = mpp.getTaskByUniqueID(new Integer(5));
+      task = mpp.getTaskByUniqueID(Integer.valueOf(5));
       splits.clear();
       splits.add(Duration.getInstance(72, TimeUnit.HOURS));
       splits.add(Duration.getInstance(88, TimeUnit.HOURS));

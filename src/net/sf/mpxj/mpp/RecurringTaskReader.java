@@ -57,7 +57,7 @@ final class RecurringTaskReader
       rt.setStartDate(MPPUtility.getDate(data, 6));
       rt.setFinishDate(MPPUtility.getDate(data, 10));      
       rt.setDuration(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 16))));
-      rt.setOccurrences(new Integer(MPPUtility.getShort(data, 18)));
+      rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20))); 
       rt.setUseEndDate(MPPUtility.getShort(data, 24)==1);
       rt.setDailyWorkday(MPPUtility.getShort(data, 26)==1);      
@@ -69,19 +69,19 @@ final class RecurringTaskReader
       days += (MPPUtility.getShort(data, 36)==1?0x04:0x00);
       days += (MPPUtility.getShort(data, 38)==1?0x02:0x00);
       days += (MPPUtility.getShort(data, 40)==1?0x01:0x00);
-      rt.setWeeklyDays(new Integer(days));
+      rt.setWeeklyDays(Integer.valueOf(days));
       rt.setMonthlyRelative(MPPUtility.getShort(data, 42)==1);
       rt.setYearlyAbsolute(MPPUtility.getShort(data, 44)==1);
-      rt.setDailyFrequency(new Integer(MPPUtility.getShort(data, 46)));
-      rt.setWeeklyFrequency(new Integer(MPPUtility.getShort(data, 48)));
-      rt.setMonthlyRelativeOrdinal(new Integer(MPPUtility.getShort(data, 50)));      
+      rt.setDailyFrequency(Integer.valueOf(MPPUtility.getShort(data, 46)));
+      rt.setWeeklyFrequency(Integer.valueOf(MPPUtility.getShort(data, 48)));
+      rt.setMonthlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 50)));      
       rt.setMonthlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 52)+1));
-      rt.setMonthlyAbsoluteFrequency(new Integer(MPPUtility.getShort(data, 54)));           
-      rt.setMonthlyAbsoluteDay(new Integer(MPPUtility.getShort(data, 56)));       
-      rt.setMonthlyRelativeFrequency(new Integer(MPPUtility.getShort(data, 58)));      
-      rt.setYearlyRelativeOrdinal(new Integer(MPPUtility.getShort(data, 60)));
+      rt.setMonthlyAbsoluteFrequency(Integer.valueOf(MPPUtility.getShort(data, 54)));           
+      rt.setMonthlyAbsoluteDay(Integer.valueOf(MPPUtility.getShort(data, 56)));       
+      rt.setMonthlyRelativeFrequency(Integer.valueOf(MPPUtility.getShort(data, 58)));      
+      rt.setYearlyRelativeOrdinal(Integer.valueOf(MPPUtility.getShort(data, 60)));
       rt.setYearlyRelativeDay(Day.getInstance(MPPUtility.getShort(data, 62)+1));
-      rt.setYearlyRelativeMonth(new Integer(MPPUtility.getShort(data, 64)));
+      rt.setYearlyRelativeMonth(Integer.valueOf(MPPUtility.getShort(data, 64)));
       rt.setYearlyAbsoluteDate(MPPUtility.getDate(data, 70));    
    }
    

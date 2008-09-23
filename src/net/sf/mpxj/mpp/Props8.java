@@ -100,7 +100,7 @@ final class Props8 extends Props
                break;
             }
 
-            m_map.put(new Integer (attrib2), data);
+            m_map.put(Integer.valueOf(attrib2), data);
             //pw.println(attrib2 + ": " + MPPUtility.hexdump(data, true));
 
             //

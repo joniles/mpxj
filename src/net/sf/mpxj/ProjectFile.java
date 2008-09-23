@@ -162,7 +162,7 @@ public final class ProjectFile
 
          for (Task task : m_allTasks)
          {
-            task.setID(new Integer(id++));
+            task.setID(Integer.valueOf(id++));
          }
       }
    }
@@ -184,7 +184,7 @@ public final class ProjectFile
 
          for (Resource resource : m_allResources)
          {
-            resource.setID(new Integer(id++));
+            resource.setID(Integer.valueOf(id++));
          }
       }
    }

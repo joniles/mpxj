@@ -261,58 +261,58 @@ class Props extends MPPComponent
    /**
     * Data types.
     */
-   public static final Integer PROJECT_START_DATE = new Integer(37748738);
-   public static final Integer PROJECT_FINISH_DATE = new Integer(37748739);
-   public static final Integer SCHEDULE_FROM = new Integer (37748740);
-   public static final Integer DEFAULT_CALENDAR_NAME = new Integer(37748750);
-   public static final Integer CURRENCY_SYMBOL = new Integer (37748752);
-   public static final Integer CURRENCY_PLACEMENT = new Integer (37748753);
-   public static final Integer CURRENCY_DIGITS = new Integer (37748754);
+   public static final Integer PROJECT_START_DATE = Integer.valueOf(37748738);
+   public static final Integer PROJECT_FINISH_DATE = Integer.valueOf(37748739);
+   public static final Integer SCHEDULE_FROM = Integer.valueOf(37748740);
+   public static final Integer DEFAULT_CALENDAR_NAME = Integer.valueOf(37748750);
+   public static final Integer CURRENCY_SYMBOL = Integer.valueOf(37748752);
+   public static final Integer CURRENCY_PLACEMENT = Integer.valueOf(37748753);
+   public static final Integer CURRENCY_DIGITS = Integer.valueOf(37748754);
   
    
-   public static final Integer DURATION_UNITS = new Integer (37748757);
-   public static final Integer WORK_UNITS = new Integer (37748758);
-   public static final Integer TASK_UPDATES_RESOURCE = new Integer (37748761);
-   public static final Integer SPLIT_TASKS = new Integer (37748762);
-   public static final Integer START_TIME = new Integer (37748764);
-   public static final Integer MINUTES_PER_DAY = new Integer (37748765);
-   public static final Integer MINUTES_PER_WEEK = new Integer (37748766);
-   public static final Integer STANDARD_RATE = new Integer (37748767);
-   public static final Integer OVERTIME_RATE = new Integer (37748768);
-   public static final Integer END_TIME = new Integer (37748769);
+   public static final Integer DURATION_UNITS = Integer.valueOf(37748757);
+   public static final Integer WORK_UNITS = Integer.valueOf(37748758);
+   public static final Integer TASK_UPDATES_RESOURCE = Integer.valueOf(37748761);
+   public static final Integer SPLIT_TASKS = Integer.valueOf(37748762);
+   public static final Integer START_TIME = Integer.valueOf(37748764);
+   public static final Integer MINUTES_PER_DAY = Integer.valueOf(37748765);
+   public static final Integer MINUTES_PER_WEEK = Integer.valueOf(37748766);
+   public static final Integer STANDARD_RATE = Integer.valueOf(37748767);
+   public static final Integer OVERTIME_RATE = Integer.valueOf(37748768);
+   public static final Integer END_TIME = Integer.valueOf(37748769);
 
-   public static final Integer CURRENCY_CODE = new Integer (37753787);
+   public static final Integer CURRENCY_CODE = Integer.valueOf(37753787);
    
-   public static final Integer CALCULATE_MULTIPLE_CRITICAL_PATHS = new Integer (37748793);
+   public static final Integer CALCULATE_MULTIPLE_CRITICAL_PATHS = Integer.valueOf(37748793);
 
-   public static final Integer TASK_FIELD_NAME_ALIASES = new Integer (1048577);
-   public static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer (1048578);
+   public static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(1048577);
+   public static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(1048578);
 
-   public static final Integer TASK_FIELD_CUSTOM_VALUE_LISTS = new Integer (37753744);   
+   public static final Integer TASK_FIELD_CUSTOM_VALUE_LISTS = Integer.valueOf(37753744);   
 
-   public static final Integer PASSWORD_FLAG = new Integer (893386752);
+   public static final Integer PASSWORD_FLAG = Integer.valueOf(893386752);
    
-   public static final Integer PROTECTION_PASSWORD_HASH = new Integer (893386756);
+   public static final Integer PROTECTION_PASSWORD_HASH = Integer.valueOf(893386756);
    
-   public static final Integer WRITE_RESERVATION_PASSWORD_HASH = new Integer (893386757);
+   public static final Integer WRITE_RESERVATION_PASSWORD_HASH = Integer.valueOf(893386757);
    
-   public static final Integer ENCRYPTION_CODE = new Integer (893386759);
+   public static final Integer ENCRYPTION_CODE = Integer.valueOf(893386759);
    
-   public static final Integer STATUS_DATE = new Integer(37748805);
+   public static final Integer STATUS_DATE = Integer.valueOf(37748805);
    
-   public static final Integer SUBPROJECT_COUNT = new Integer(37748868);
-   public static final Integer SUBPROJECT_DATA = new Integer(37748898);
-   public static final Integer SUBPROJECT_TASK_COUNT = new Integer(37748900);
+   public static final Integer SUBPROJECT_COUNT = Integer.valueOf(37748868);
+   public static final Integer SUBPROJECT_DATA = Integer.valueOf(37748898);
+   public static final Integer SUBPROJECT_TASK_COUNT = Integer.valueOf(37748900);
 
-   public static final Integer GRAPHICAL_INDICATOR_DATA = new Integer(37753744);
+   public static final Integer GRAPHICAL_INDICATOR_DATA = Integer.valueOf(37753744);
    
-   public static final Integer FONT_BASES = new Integer (54525952);
+   public static final Integer FONT_BASES = Integer.valueOf(54525952);
 
-   public static final Integer AUTO_FILTER = new Integer (893386767);
+   public static final Integer AUTO_FILTER = Integer.valueOf(893386767);
    
-   public static final Integer PROJECT_FILE_PATH = new Integer (893386760);
+   public static final Integer PROJECT_FILE_PATH = Integer.valueOf(893386760);
    
-   public static final Integer HYPERLINK_BASE = new Integer (37748810);
+   public static final Integer HYPERLINK_BASE = Integer.valueOf(37748810);
    
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
 }

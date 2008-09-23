@@ -82,9 +82,9 @@ public class MppSubprojectTest extends MPXJTestCase
     private void testSubprojects(ProjectFile mpp, boolean isMPP) 
        throws Exception 
     {
-        Task taskNormal = mpp.getTaskByUniqueID(new Integer(1));
-        Task taskSubprojectA = mpp.getTaskByUniqueID(new Integer(2));
-        Task taskSubprojectB = mpp.getTaskByUniqueID(new Integer(3));
+        Task taskNormal = mpp.getTaskByUniqueID(Integer.valueOf(1));
+        Task taskSubprojectA = mpp.getTaskByUniqueID(Integer.valueOf(2));
+        Task taskSubprojectB = mpp.getTaskByUniqueID(Integer.valueOf(3));
 
         assertEquals("Normal Task", taskNormal.getName());
         assertEquals("SubprojectA-9", taskSubprojectA.getName());
@@ -98,16 +98,16 @@ public class MppSubprojectTest extends MPXJTestCase
         assertTrue(expectedFilenameA.indexOf(subprojectA.getFileName()) != -1);
         //subprojectA.getDosFullPath(); don't need to test
         assertTrue(subprojectA.getFullPath().indexOf(expectedFilenameA) != -1);
-        assertEquals(new Integer(2), subprojectA.getTaskUniqueID());        
+        assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());        
 
         //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
         assertEquals(false, taskSubprojectA.getSubprojectReadOnly());
         
         if (isMPP)
         {
-           assertEquals(new Integer(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
-           assertEquals(new Integer(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
-           assertEquals(new Integer(0), taskSubprojectA.getSubprojectTaskUniqueID());  
+           assertEquals(Integer.valueOf(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
+           assertEquals(Integer.valueOf(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
+           assertEquals(Integer.valueOf(0), taskSubprojectA.getSubprojectTaskUniqueID());  
         }
     }
 }

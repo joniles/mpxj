@@ -67,7 +67,7 @@ final class Props12 extends Props
          is.read(data);
          availableBytes -= attrib1;
 
-         m_map.put(new Integer (attrib2), data);
+         m_map.put(Integer.valueOf(attrib2), data);
          //pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;
 

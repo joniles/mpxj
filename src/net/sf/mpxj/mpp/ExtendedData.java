@@ -61,7 +61,7 @@ final class ExtendedData
             type = MPPUtility.getInt(data, index);
             index += 4;
 
-            m_map.put(new Integer (type), MPPUtility.cloneSubArray(data, index, size));
+            m_map.put(Integer.valueOf(type), MPPUtility.cloneSubArray(data, index, size));
             index += size;
          }
       }

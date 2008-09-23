@@ -51,13 +51,13 @@ public final class ProjectHeader extends ProjectEntity
       //
       setCurrencySymbol("$");
       setSymbolPosition(CurrencySymbolPosition.BEFORE);
-      setCurrencyDigits(new Integer (2));
+      setCurrencyDigits(Integer.valueOf(2));
       setThousandsSeparator(',');
       setDecimalSeparator('.');
 
       setDateOrder(DateOrder.DMY);
       setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setIntegerDefaultStartTime (new Integer(480));
+      setIntegerDefaultStartTime (Integer.valueOf(480));
       setDateSeparator('/');
       setTimeSeparator(':');
       setAMText("am");
@@ -71,8 +71,8 @@ public final class ProjectHeader extends ProjectEntity
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
       setDefaultWorkUnits(TimeUnit.HOURS);
-      setMinutesPerDay(new Integer(480));
-      setMinutesPerWeek(new Integer (2400));
+      setMinutesPerDay(Integer.valueOf(480));
+      setMinutesPerWeek(Integer.valueOf(2400));
       setDefaultStandardRate(new Rate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new Rate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
@@ -2272,17 +2272,17 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default critical slack limit.
     */
-   private static final Integer DEFAULT_CRITICAL_SLACK_LIMIT = new Integer (0);
+   private static final Integer DEFAULT_CRITICAL_SLACK_LIMIT = Integer.valueOf(0);
 
    /**
     * Default baseline for earned value.
     */
-   private static final Integer DEFAULT_BASELINE_FOR_EARNED_VALUE = new Integer (0);
+   private static final Integer DEFAULT_BASELINE_FOR_EARNED_VALUE = Integer.valueOf(0);
 
    /**
     * Default fiscal year start month.
     */
-   private static final Integer DEFAULT_FISCAL_YEAR_START_MONTH = new Integer (1);
+   private static final Integer DEFAULT_FISCAL_YEAR_START_MONTH = Integer.valueOf(1);
 
    /**
     * Default week start day.
@@ -2322,15 +2322,15 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default minutes per day.
     */
-   private static final Integer DEFAULT_MINUTES_PER_DAY = new Integer(480);
+   private static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
 
    /**
     * Default days per month.
     */
-   private static final Integer DEFAULT_DAYS_PER_MONTH = new Integer (20);
+   private static final Integer DEFAULT_DAYS_PER_MONTH = Integer.valueOf(20);
 
    /**
     * Default minutes per week.
     */
-   private static final Integer DEFAULT_MINUTES_PER_WEEK = new Integer (2400);
+   private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
 }

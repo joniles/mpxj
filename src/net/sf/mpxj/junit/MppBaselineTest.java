@@ -85,7 +85,7 @@ public class MppBaselineTest extends MPXJTestCase
        throws Exception 
     {
        SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-       Task task = mpp.getTaskByID(new Integer(1));
+       Task task = mpp.getTaskByID(Integer.valueOf(1));
        
        assertEquals(1, task.getBaselineCost(1).intValue());
        assertEquals(2, task.getBaselineCost(2).intValue());
@@ -162,7 +162,7 @@ public class MppBaselineTest extends MPXJTestCase
        assertEquals(10, (int)task.getBaselineWork(10).getDuration());
        assertEquals(TimeUnit.HOURS, task.getBaselineWork(10).getUnits());
 
-       Resource resource = mpp.getResourceByID(new Integer(1));
+       Resource resource = mpp.getResourceByID(Integer.valueOf(1));
        
        assertEquals(1, (int)resource.getBaselineWork(1).getDuration());
        assertEquals(TimeUnit.HOURS, resource.getBaselineWork(1).getUnits());

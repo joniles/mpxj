@@ -71,7 +71,7 @@ final class ResourceModel
          name = m_resourceNames[loop];
          if (name != null)
          {
-            m_resourceNumbers.put(name, new Integer (loop));
+            m_resourceNumbers.put(name, Integer.valueOf(loop));
          }
       }
    }

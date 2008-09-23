@@ -96,7 +96,7 @@ final class RecurrenceUtility
          {
             duration = duration.convertUnits(TimeUnit.MINUTES, header);
          }
-         result = new Integer((int)duration.getDuration());
+         result = Integer.valueOf((int)duration.getDuration());
       }
       return (result);
    }
@@ -184,7 +184,7 @@ final class RecurrenceUtility
       Integer result = null;
       if (days != null)
       {
-         result = new Integer(Integer.parseInt(days, 2));
+         result = Integer.valueOf(Integer.parseInt(days, 2));
       }
       return (result);
    }
@@ -260,7 +260,7 @@ final class RecurrenceUtility
    {
       for (int loop=0; loop < DURATION_UNITS.length; loop++)
       {
-         UNITS_MAP.put(DURATION_UNITS[loop], new Integer(loop));
+         UNITS_MAP.put(DURATION_UNITS[loop], Integer.valueOf(loop));
       }
    }
    
@@ -270,10 +270,10 @@ final class RecurrenceUtility
    private static final Map<Integer, RecurrenceType> RECURRENCE_TYPE_MAP = new HashMap<Integer, RecurrenceType>();
    static
    {
-      RECURRENCE_TYPE_MAP.put(new Integer(1), RecurrenceType.DAILY);
-      RECURRENCE_TYPE_MAP.put(new Integer(4), RecurrenceType.WEEKLY);
-      RECURRENCE_TYPE_MAP.put(new Integer(8), RecurrenceType.MONTHLY);
-      RECURRENCE_TYPE_MAP.put(new Integer(16), RecurrenceType.YEARLY);
+      RECURRENCE_TYPE_MAP.put(Integer.valueOf(1), RecurrenceType.DAILY);
+      RECURRENCE_TYPE_MAP.put(Integer.valueOf(4), RecurrenceType.WEEKLY);
+      RECURRENCE_TYPE_MAP.put(Integer.valueOf(8), RecurrenceType.MONTHLY);
+      RECURRENCE_TYPE_MAP.put(Integer.valueOf(16), RecurrenceType.YEARLY);
    }
    
    /**
@@ -282,10 +282,10 @@ final class RecurrenceUtility
    private static final Map<RecurrenceType, Integer> RECURRENCE_VALUE_MAP = new HashMap<RecurrenceType, Integer>();
    static
    {
-      RECURRENCE_VALUE_MAP.put(RecurrenceType.DAILY, new Integer(1));
-      RECURRENCE_VALUE_MAP.put(RecurrenceType.WEEKLY, new Integer(4));
-      RECURRENCE_VALUE_MAP.put(RecurrenceType.MONTHLY, new Integer(8));
-      RECURRENCE_VALUE_MAP.put(RecurrenceType.YEARLY, new Integer(16));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.DAILY, Integer.valueOf(1));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.WEEKLY, Integer.valueOf(4));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.MONTHLY, Integer.valueOf(8));
+      RECURRENCE_VALUE_MAP.put(RecurrenceType.YEARLY, Integer.valueOf(16));
    }
 
    /**
@@ -309,12 +309,12 @@ final class RecurrenceUtility
    private static final Map<Day, Integer> DAY_MAP = new HashMap<Day, Integer>();
    static
    {
-      DAY_MAP.put(Day.MONDAY, new Integer(1));
-      DAY_MAP.put(Day.TUESDAY, new Integer(2));
-      DAY_MAP.put(Day.WEDNESDAY, new Integer(3));
-      DAY_MAP.put(Day.THURSDAY, new Integer(4));
-      DAY_MAP.put(Day.FRIDAY, new Integer(5));
-      DAY_MAP.put(Day.SATURDAY, new Integer(6));
-      DAY_MAP.put(Day.SUNDAY, new Integer(7));
+      DAY_MAP.put(Day.MONDAY, Integer.valueOf(1));
+      DAY_MAP.put(Day.TUESDAY, Integer.valueOf(2));
+      DAY_MAP.put(Day.WEDNESDAY, Integer.valueOf(3));
+      DAY_MAP.put(Day.THURSDAY, Integer.valueOf(4));
+      DAY_MAP.put(Day.FRIDAY, Integer.valueOf(5));
+      DAY_MAP.put(Day.SATURDAY, Integer.valueOf(6));
+      DAY_MAP.put(Day.SUNDAY, Integer.valueOf(7));
    }
 }

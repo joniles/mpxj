@@ -65,7 +65,7 @@ public abstract class ViewStateReader
          {               
             for (int index=0; index < listData.length; index += 4)
             {
-               Integer uniqueID = new Integer(MPPUtility.getInt(listData, index));
+               Integer uniqueID = Integer.valueOf(MPPUtility.getInt(listData, index));
                if (file.getTaskByUniqueID(uniqueID) == null)
                {
                   break;
@@ -79,6 +79,6 @@ public abstract class ViewStateReader
       }
    }   
       
-   private static final Integer VIEW_NAME = new Integer(641728536);
-   private static final Integer VIEW_CONTENTS = new Integer(641728565);
+   private static final Integer VIEW_NAME = Integer.valueOf(641728536);
+   private static final Integer VIEW_CONTENTS = Integer.valueOf(641728565);
 }

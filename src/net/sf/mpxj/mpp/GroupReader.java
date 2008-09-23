@@ -63,7 +63,7 @@ public abstract class GroupReader
             continue;
          }
          
-         Integer groupID = new Integer(MPPUtility.getInt(groupFixedData, 0));
+         Integer groupID = Integer.valueOf(MPPUtility.getInt(groupFixedData, 0));
                   
          byte[] groupVarData = varData.getByteArray(groupID, getVarDataType());
          if (groupVarData == null)
@@ -78,7 +78,7 @@ public abstract class GroupReader
          // header=4 byte int for unique id
          // short 4 = show summary tasks
          // short int at byte 6 for number of clauses         
-         //Integer groupUniqueID = new Integer(MPPUtility.getInt(groupVarData, 0));
+         //Integer groupUniqueID = Integer.valueOf(MPPUtility.getInt(groupVarData, 0));
          boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
          
          Group group = new Group(groupID, groupName, showSummaryTasks);
@@ -130,7 +130,7 @@ public abstract class GroupReader
             clause.setAscending(ascending);
             
             int fontIndex = MPPUtility.getByte(groupVarData, offset+8);
-            FontBase fontBase = fontBases.get(new Integer(fontIndex));
+            FontBase fontBase = fontBases.get(Integer.valueOf(fontIndex));
             
             
             int style = MPPUtility.getByte(groupVarData, offset+9);
@@ -174,8 +174,8 @@ public abstract class GroupReader
 
                case PERCENTAGE:
                {
-                  startAt = new Integer(MPPUtility.getInt(groupVarData, offset+24));
-                  groupInterval = new Integer(MPPUtility.getInt(groupVarData, offset+40));
+                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset+24));
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset+40));
                   break;
                }
                               
@@ -188,7 +188,7 @@ public abstract class GroupReader
                case DATE:
                {
                   startAt = MPPUtility.getTimestamp(groupVarData, offset+24);
-                  groupInterval = new Integer(MPPUtility.getInt(groupVarData, offset+40));
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset+40));
                   break;
                }
                

@@ -85,7 +85,7 @@ public class MppEnterpriseTest extends MPXJTestCase
        throws Exception 
     {
        SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-       Task task = mpp.getTaskByID(new Integer(1));
+       Task task = mpp.getTaskByID(Integer.valueOf(1));
        
        assertEquals(1, task.getEnterpriseCost(1).intValue());
        assertEquals(10, task.getEnterpriseCost(10).intValue());
@@ -102,7 +102,7 @@ public class MppEnterpriseTest extends MPXJTestCase
        assertEquals(true, task.getEnterpriseFlag(1));
        assertEquals(false, task.getEnterpriseFlag(20));
        
-       Resource resource = mpp.getResourceByID(new Integer(1));
+       Resource resource = mpp.getResourceByID(Integer.valueOf(1));
        assertEquals(1, resource.getEnterpriseCost(1).intValue());
        assertEquals(10, resource.getEnterpriseCost(10).intValue());
        assertEquals("01/01/2008", df.format(resource.getEnterpriseDate(1)));

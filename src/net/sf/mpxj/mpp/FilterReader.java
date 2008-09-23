@@ -66,7 +66,7 @@ public abstract class FilterReader
          }
          
          filter = new Filter();
-         filter.setID(new Integer(MPPUtility.getInt(filterFixedData, 0)));
+         filter.setID(Integer.valueOf(MPPUtility.getInt(filterFixedData, 0)));
          filter.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(filterFixedData, 4)));
          byte[] filterVarData = varData.getByteArray(filter.getID(), getVarDataType());
          if (filterVarData == null)

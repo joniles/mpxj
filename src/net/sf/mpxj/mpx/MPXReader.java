@@ -784,12 +784,12 @@ public final class MPXReader extends AbstractProjectReader
 
       if (m_projectFile.getAutoResourceUniqueID() == true)
       {
-         resource.setUniqueID (new Integer(m_projectFile.getResourceUniqueID ()));
+         resource.setUniqueID (Integer.valueOf(m_projectFile.getResourceUniqueID ()));
       }
 
       if (m_projectFile.getAutoResourceID() == true)
       {
-         resource.setID (new Integer(m_projectFile.getResourceID ()));
+         resource.setID (Integer.valueOf(m_projectFile.getResourceID ()));
       }
     
       //
@@ -865,7 +865,7 @@ public final class MPXReader extends AbstractProjectReader
       Integer taskID;
       try
       {
-         taskID = new Integer(relationship.substring(0, index));
+         taskID = Integer.valueOf(relationship.substring(0, index));
       }
 
       catch (NumberFormatException ex)
@@ -1179,17 +1179,17 @@ public final class MPXReader extends AbstractProjectReader
 
       if (m_projectFile.getAutoOutlineLevel() == true)
       {
-         task.setOutlineLevel(new Integer(1));
+         task.setOutlineLevel(Integer.valueOf(1));
       }
 
       if (m_projectFile.getAutoTaskUniqueID() == true)
       {
-         task.setUniqueID(new Integer(m_projectFile.getTaskUniqueID()));
+         task.setUniqueID(Integer.valueOf(m_projectFile.getTaskUniqueID()));
       }
 
       if (m_projectFile.getAutoTaskID() == true)
       {
-         task.setID(new Integer(m_projectFile.getTaskID()));
+         task.setID(Integer.valueOf(m_projectFile.getTaskID()));
       }
 
       //

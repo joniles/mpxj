@@ -230,7 +230,7 @@ public class ProjectCalendarTest extends MPXJTestCase
    }
    
    /**
-    * Execise various duration variance calculations.
+    * Exercise various duration variance calculations.
     * 
     * @throws Exception
     */
@@ -245,7 +245,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 1
       //
-      task = file.getTaskByID(new Integer (1));
+      task = file.getTaskByID(Integer.valueOf(1));
       
       duration = task.getDurationVariance();
       assertEquals(-59.0, duration.getDuration(), 0.01);
@@ -262,7 +262,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 2
       //
-      task = file.getTaskByID(new Integer (2));
+      task = file.getTaskByID(Integer.valueOf(2));
       
       duration = task.getDurationVariance();
       assertEquals(0.98, duration.getDuration(), 0.01);
@@ -279,7 +279,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 3
       //
-      task = file.getTaskByID(new Integer (3));
+      task = file.getTaskByID(Integer.valueOf(3));
       
       duration = task.getDurationVariance();
       assertEquals(-4, duration.getDuration(), 0.01);
@@ -296,7 +296,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 4
       //
-      task = file.getTaskByID(new Integer (4));
+      task = file.getTaskByID(Integer.valueOf(4));
       
       duration = task.getDurationVariance();
       assertEquals(0.8, duration.getDuration(), 0.01);
@@ -309,7 +309,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 5
       //
-      task = file.getTaskByID(new Integer (5));
+      task = file.getTaskByID(Integer.valueOf(5));
       
       duration = task.getDurationVariance();
       assertEquals(-1.45, duration.getDuration(), 0.01);
@@ -322,7 +322,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 6
       //
-      task = file.getTaskByID(new Integer (6));
+      task = file.getTaskByID(Integer.valueOf(6));
       
       duration = task.getDurationVariance();
       assertEquals(-59, duration.getDuration(), 0.01);
@@ -335,7 +335,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 7
       //
-      task = file.getTaskByID(new Integer (7));
+      task = file.getTaskByID(Integer.valueOf(7));
       
       duration = task.getDurationVariance();
       assertEquals(0.98, duration.getDuration(), 0.01);
@@ -348,7 +348,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 8
       //
-      task = file.getTaskByID(new Integer (8));
+      task = file.getTaskByID(Integer.valueOf(8));
       
       duration = task.getDurationVariance();
       assertEquals(-4, duration.getDuration(), 0.01);
@@ -361,7 +361,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 9
       //
-      task = file.getTaskByID(new Integer (9));
+      task = file.getTaskByID(Integer.valueOf(9));
       
       duration = task.getDurationVariance();
       assertEquals(0.8, duration.getDuration(), 0.01);
@@ -374,7 +374,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 10
       //
-      task = file.getTaskByID(new Integer (10));
+      task = file.getTaskByID(Integer.valueOf(10));
       
       duration = task.getDurationVariance();
       assertEquals(-1.5, duration.getDuration(), 0.01);
@@ -383,7 +383,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 11
       //
-      task = file.getTaskByID(new Integer (11));
+      task = file.getTaskByID(Integer.valueOf(11));
       
       duration = task.getDurationVariance();
       assertEquals(-59, duration.getDuration(), 0.01);
@@ -392,7 +392,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 12
       //
-      task = file.getTaskByID(new Integer (12));
+      task = file.getTaskByID(Integer.valueOf(12));
       
       duration = task.getDurationVariance();
       assertEquals(0.98, duration.getDuration(), 0.01);
@@ -401,7 +401,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 13
       //
-      task = file.getTaskByID(new Integer (13));
+      task = file.getTaskByID(Integer.valueOf(13));
       
       duration = task.getDurationVariance();
       assertEquals(-0.67, duration.getDuration(), 0.01);
@@ -410,7 +410,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 14
       //
-      task = file.getTaskByID(new Integer (14));
+      task = file.getTaskByID(Integer.valueOf(14));
       
       duration = task.getDurationVariance();
       assertEquals(0.95, duration.getDuration(), 0.01);
@@ -419,7 +419,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 15
       //
-      task = file.getTaskByID(new Integer (15));
+      task = file.getTaskByID(Integer.valueOf(15));
       
       duration = task.getDurationVariance();
       assertEquals(0.44, duration.getDuration(), 0.01);
@@ -442,7 +442,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 1
       //
-      task = file.getTaskByID(new Integer (1));
+      task = file.getTaskByID(Integer.valueOf(1));
       
       duration = task.getDurationVariance();
       assertEquals(-59.0, duration.getDuration(), 0.01);
@@ -459,7 +459,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 2
       //
-      task = file.getTaskByID(new Integer (2));
+      task = file.getTaskByID(Integer.valueOf(2));
       
       duration = task.getDurationVariance();
       assertEquals(0.98, duration.getDuration(), 0.01);
@@ -476,7 +476,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 3
       //
-      task = file.getTaskByID(new Integer (3));
+      task = file.getTaskByID(Integer.valueOf(3));
       
       duration = task.getDurationVariance();
       assertEquals(-4, duration.getDuration(), 0.01);
@@ -493,7 +493,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       //
       // Task 4
       //
-      task = file.getTaskByID(new Integer (4));
+      task = file.getTaskByID(Integer.valueOf(4));
       
       duration = task.getDurationVariance();
       assertEquals(0.8, duration.getDuration(), 0.01);

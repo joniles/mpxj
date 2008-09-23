@@ -145,10 +145,10 @@ public class MppResourceTest extends MPXJTestCase
         // Fails for MPP12 as there is a summary resource
         //assertEquals(4, listAllResources.size());
         
-        Resource resourceWade = mpp.getResourceByID(new Integer(1));
-        Resource resourceJon = mpp.getResourceByID(new Integer(2));
-        Resource resourceBrian = mpp.getResourceByID(new Integer(3));
-        Resource resourceConcrete = mpp.getResourceByID(new Integer(4));
+        Resource resourceWade = mpp.getResourceByID(Integer.valueOf(1));
+        Resource resourceJon = mpp.getResourceByID(Integer.valueOf(2));
+        Resource resourceBrian = mpp.getResourceByID(Integer.valueOf(3));
+        Resource resourceConcrete = mpp.getResourceByID(Integer.valueOf(4));
         // resource names
         assertEquals("Wade Golden", resourceWade.getName());
         assertEquals("Jon Iles", resourceJon.getName());
@@ -334,7 +334,7 @@ public class MppResourceTest extends MPXJTestCase
      */
     private void testResourceAssignments(ProjectFile mpp) 
     {
-        Integer intOne = new Integer(1);
+        Integer intOne = Integer.valueOf(1);
         DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 
         List<ResourceAssignment> listResourceAssignments = mpp.getAllResourceAssignments();
@@ -349,7 +349,7 @@ public class MppResourceTest extends MPXJTestCase
         // task
         Task task = ra.getTask();
         assertEquals(intOne, task.getID());
-        assertEquals(new Integer(2), task.getUniqueID());
+        assertEquals(Integer.valueOf(2), task.getUniqueID());
         // units
         assertEquals(new Double(100), ra.getUnits());
         // work and remaining work

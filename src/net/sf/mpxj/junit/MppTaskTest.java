@@ -505,7 +505,7 @@ public class MppTaskTest extends MPXJTestCase
          assertEquals(new Double(19), task.getNumber19());
          assertEquals(new Double(20), task.getNumber20());
          // outline level
-         assertEquals(new Integer(1), task.getOutlineLevel());
+         assertEquals(Integer.valueOf(1), task.getOutlineLevel());
          // outline codes
          assertEquals("1", task.getOutlineNumber());
          assertEquals("1", task.getOutlineCode1());
@@ -573,7 +573,7 @@ public class MppTaskTest extends MPXJTestCase
          assertEquals("29", task.getText29());
          assertEquals("30", task.getText30());
          // unique id
-         assertEquals(new Integer(1), task.getUniqueID());
+         assertEquals(Integer.valueOf(1), task.getUniqueID());
          // wbs
          assertEquals("1", task.getWBS());
          // work variance
@@ -741,8 +741,8 @@ public class MppTaskTest extends MPXJTestCase
      */
     private void testSplitTasks(ProjectFile mpp) 
     {
-        Task task1  = mpp.getTaskByID(new Integer(1));
-        Task task2  = mpp.getTaskByID(new Integer(2));
+        Task task1  = mpp.getTaskByID(Integer.valueOf(1));
+        Task task2  = mpp.getTaskByID(Integer.valueOf(2));
 
         List<Duration> listSplits1 = task1.getSplits();
         List<Duration> listSplits2 = task2.getSplits();
@@ -787,11 +787,11 @@ public class MppTaskTest extends MPXJTestCase
         List<Task> listAllTasks = mpp.getAllTasks();
         assertNotNull(listAllTasks);
 
-        Task task1 = mpp.getTaskByID(new Integer(1));
-        Task task2 = mpp.getTaskByID(new Integer(2));
-        Task task3 = mpp.getTaskByID(new Integer(3));
-        Task task4 = mpp.getTaskByID(new Integer(4));
-        Task task5 = mpp.getTaskByID(new Integer(5));
+        Task task1 = mpp.getTaskByID(Integer.valueOf(1));
+        Task task2 = mpp.getTaskByID(Integer.valueOf(2));
+        Task task3 = mpp.getTaskByID(Integer.valueOf(3));
+        Task task4 = mpp.getTaskByID(Integer.valueOf(4));
+        Task task5 = mpp.getTaskByID(Integer.valueOf(5));
 
         List<Relation> listPreds = task2.getPredecessors();
         Relation relation = listPreds.get(0);

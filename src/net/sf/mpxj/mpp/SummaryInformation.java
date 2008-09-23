@@ -105,7 +105,7 @@ final class SummaryInformation
            property = properties[loop];
            // the following causes an "unnecessary cast" warning in JDK1.4
            // this is in place to ensure compatibility with JDK1.5
-           map.put(new Integer(index+(int)property.getID()), property.getValue());
+           map.put(Integer.valueOf(index+(int)property.getID()), property.getValue());
            //System.out.println ("id="+(index+property.getID())+" value="+property.getValue());
          }
          index += 100;
@@ -254,20 +254,20 @@ final class SummaryInformation
    /**
     * Constants representing Summary Information properties.
     */
-   private static final Integer PROJECT_TITLE = new Integer (102);
-   private static final Integer SUBJECT = new Integer (103);
-   private static final Integer AUTHOR = new Integer (104);
-   private static final Integer KEYWORDS = new Integer (105);
-   private static final Integer COMMENTS = new Integer (106);
-   private static final Integer REVISION_NUMBER = new Integer (109);
-   private static final Integer CREATION_DATE = new Integer (112);
-   private static final Integer LAST_SAVED = new Integer (113);
+   private static final Integer PROJECT_TITLE = Integer.valueOf(102);
+   private static final Integer SUBJECT = Integer.valueOf(103);
+   private static final Integer AUTHOR = Integer.valueOf(104);
+   private static final Integer KEYWORDS = Integer.valueOf(105);
+   private static final Integer COMMENTS = Integer.valueOf(106);
+   private static final Integer REVISION_NUMBER = Integer.valueOf(109);
+   private static final Integer CREATION_DATE = Integer.valueOf(112);
+   private static final Integer LAST_SAVED = Integer.valueOf(113);
 
    /**
     * Constants representing Document Summary Information properties.
     */
-   private static final Integer CATEGORY = new Integer (102);
-   private static final Integer MANAGER = new Integer (114);
-   private static final Integer COMPANY = new Integer (115);
-   //private static final Integer CODEPAGE = new Integer (201);
+   private static final Integer CATEGORY = Integer.valueOf(102);
+   private static final Integer MANAGER = Integer.valueOf(114);
+   private static final Integer COMPANY = Integer.valueOf(115);
+   //private static final Integer CODEPAGE = Integer.valueOf(201);
 }

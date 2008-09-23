@@ -99,7 +99,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 1
       //
-      Task task = mpp.getTaskByID(new Integer(1));
+      Task task = mpp.getTaskByID(Integer.valueOf(1));
       assertEquals("Daily Every Day", task.getName());
       assertTrue(task.getRecurring());
       RecurringTask rt = task.getRecurringTask();
@@ -116,7 +116,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 4
       //
-      task = mpp.getTaskByID(new Integer(4));
+      task = mpp.getTaskByID(Integer.valueOf(4));
       assertEquals("Daily Every Other Workday", task.getName());
       assertTrue(task.getRecurring());
       rt = task.getRecurringTask();
@@ -133,7 +133,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 8
       //
-      task = mpp.getTaskByID(new Integer(8));
+      task = mpp.getTaskByID(Integer.valueOf(8));
       assertEquals("Weekly Every Week", task.getName());
       assertTrue(task.getRecurring());
       rt = task.getRecurringTask();
@@ -150,7 +150,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 12
       //
-      task = mpp.getTaskByID(new Integer(12));
+      task = mpp.getTaskByID(Integer.valueOf(12));
       assertEquals("Monthly 15th of Every Month", task.getName());
       assertTrue(task.getRecurring());
       rt = task.getRecurringTask();
@@ -168,7 +168,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 16
       //
-      task = mpp.getTaskByID(new Integer(16));
+      task = mpp.getTaskByID(Integer.valueOf(16));
       assertEquals("Monthly Third Monday of Every Month", task.getName());
       assertTrue(task.getRecurring());
       rt = task.getRecurringTask();
@@ -187,7 +187,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 20
       //
-      task = mpp.getTaskByID(new Integer(20));
+      task = mpp.getTaskByID(Integer.valueOf(20));
       assertEquals("Yearly 15th June", task.getName());
       assertTrue(task.getRecurring());
       rt = task.getRecurringTask();
@@ -204,7 +204,7 @@ public class MppRecurringTest extends MPXJTestCase
       //
       // Task 24
       //
-      task = mpp.getTaskByID(new Integer(24));
+      task = mpp.getTaskByID(Integer.valueOf(24));
       assertEquals("Yearly Third Monday of June", task.getName());
       assertTrue(task.getRecurring());
       rt = task.getRecurringTask();

@@ -72,7 +72,7 @@ public final class NumberUtility
          }
          else
          {
-            result = new Integer(value.intValue());
+            result = Integer.valueOf(value.intValue());
          }
       }
       return (result);
@@ -91,7 +91,7 @@ public final class NumberUtility
 
       try
       {
-         result = new Integer (value);
+         result = Integer.valueOf(Integer.parseInt(value));
       }
 
       catch (Exception ex)
@@ -101,22 +101,6 @@ public final class NumberUtility
 
       return (result);
    }
-
-   
-   /**
-    * Utility method used to convert an int into an Integer.
-    * This has been implemented to allow a singleton to be
-    * used to represent zero. This makes a considerable saving
-    * in memory utilisation.
-    *
-    * @param value int value
-    * @return Integer instance
-    */
-   public static final Integer getInteger(int value)
-   {
-      return (value==0?INTEGER_ZERO:new Integer(value));
-   }
-
    
    /**
     * Utility method used to convert a Number into a BigInteger.
@@ -178,7 +162,7 @@ public final class NumberUtility
     */
    public static final Integer parseInteger (String value)
    {
-      return (value==null||value.length()==0?null:new Integer(value));
+      return (value==null||value.length()==0?null:Integer.valueOf(Integer.parseInt(value)));
    }
 
    /**
@@ -215,5 +199,4 @@ public final class NumberUtility
 
 
    public static final Double DOUBLE_ZERO = new Double(0);
-   public static final Integer INTEGER_ZERO = new Integer(0);
 }

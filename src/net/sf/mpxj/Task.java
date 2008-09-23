@@ -57,12 +57,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (file.getAutoTaskUniqueID() == true)
       {
-         setUniqueID(new Integer(file.getTaskUniqueID()));
+         setUniqueID(Integer.valueOf(file.getTaskUniqueID()));
       }
 
       if (file.getAutoTaskID() == true)
       {
-         setID(new Integer(file.getTaskID()));
+         setID(Integer.valueOf(file.getTaskID()));
       }
       
       if (file.getAutoWBS() == true)
@@ -79,11 +79,11 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          if (parent == null)
          {
-            setOutlineLevel(new Integer(1));
+            setOutlineLevel(Integer.valueOf(1));
          }
          else
          {
-            setOutlineLevel(new Integer(NumberUtility.getInt(parent.getOutlineLevel()) + 1));
+            setOutlineLevel(Integer.valueOf(NumberUtility.getInt(parent.getOutlineLevel()) + 1));
          }
       }
    }

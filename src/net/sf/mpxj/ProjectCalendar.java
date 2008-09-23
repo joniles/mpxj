@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.utility.DateUtility;
-import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class represents the a Calendar Definition record. Both base calendars
@@ -53,7 +52,7 @@ public final class ProjectCalendar extends ProjectEntity
 
       if (file.getAutoCalendarUniqueID() == true)
       {
-         setUniqueID (new Integer(file.getCalendarUniqueID()));
+         setUniqueID (Integer.valueOf(file.getCalendarUniqueID()));
       }
    }
 
@@ -1159,7 +1158,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * Unique identifier of this calendar.
     */
-   private Integer m_uniqueID = NumberUtility.INTEGER_ZERO;
+   private Integer m_uniqueID = Integer.valueOf(0);
 
    /**
     * Calendar name.

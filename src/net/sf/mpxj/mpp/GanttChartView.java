@@ -1244,7 +1244,7 @@ public abstract class GanttChartView extends GenericView
     */
    private FontStyle getFontStyle (byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
-      Integer index = new Integer(MPPUtility.getByte(data, offset));
+      Integer index = Integer.valueOf(MPPUtility.getByte(data, offset));
       FontBase fontBase = fontBases.get(index);
       int style = MPPUtility.getByte(data, offset+1);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+2));
@@ -1268,7 +1268,7 @@ public abstract class GanttChartView extends GenericView
    {
       int uniqueID = MPPUtility.getInt(data, offset);
       FieldType fieldType = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+4));
-      Integer index = new Integer(MPPUtility.getByte(data, offset+8));
+      Integer index = Integer.valueOf(MPPUtility.getByte(data, offset+8));
       int style = MPPUtility.getByte(data, offset+9);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
       int change = MPPUtility.getByte(data, offset+12);
@@ -1761,14 +1761,14 @@ public abstract class GanttChartView extends GenericView
    private List<Filter> m_autoFilters = new LinkedList<Filter>();
    private Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter> ();
       
-   private static final Integer VIEW_PROPERTIES = new Integer (574619656);
-   private static final Integer TOP_TIER_PROPERTIES = new Integer (574619678);
-   private static final Integer BAR_PROPERTIES = new Integer (574619661);
-   private static final Integer TABLE_PROPERTIES = new Integer (574619655);
-   private static final Integer TABLE_NAME = new Integer (574619658);
-   private static final Integer FILTER_NAME = new Integer (574619659);
-   private static final Integer GROUP_NAME = new Integer (574619672);
-   private static final Integer COLUMN_PROPERTIES = new Integer (574619660);
-   private static final Integer PROGRESS_LINE_PROPERTIES = new Integer (574619671);
-   private static final Integer AUTO_FILTER_PROPERTIES = new Integer (574619669);
+   private static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
+   private static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
+   private static final Integer BAR_PROPERTIES = Integer.valueOf(574619661);
+   private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
+   private static final Integer TABLE_NAME = Integer.valueOf(574619658);
+   private static final Integer FILTER_NAME = Integer.valueOf(574619659);
+   private static final Integer GROUP_NAME = Integer.valueOf(574619672);
+   private static final Integer COLUMN_PROPERTIES = Integer.valueOf(574619660);
+   private static final Integer PROGRESS_LINE_PROPERTIES = Integer.valueOf(574619671);
+   private static final Integer AUTO_FILTER_PROPERTIES = Integer.valueOf(574619669);
 }

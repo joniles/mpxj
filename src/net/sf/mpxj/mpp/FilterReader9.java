@@ -39,5 +39,5 @@ public final class FilterReader9 extends FilterReader
       return(FILTER_DATA);
    }
       
-   private static final Integer FILTER_DATA = new Integer (1);
+   private static final Integer FILTER_DATA = Integer.valueOf(1);
 }

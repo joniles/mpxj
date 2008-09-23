@@ -51,7 +51,7 @@ final class PropsBlock extends Props
          int itemOffset =MPPUtility.getInt(data, offset);
          offset += 4;
          
-         offsetMap.put(new Integer(itemOffset), new Integer(itemKey));
+         offsetMap.put(Integer.valueOf(itemOffset), Integer.valueOf(itemKey));
       }
       
       Integer previousItemOffset = null;
@@ -66,7 +66,7 @@ final class PropsBlock extends Props
       
       if (previousItemOffset != null)
       {
-         Integer itemOffset = new Integer(dataSize);
+         Integer itemOffset = Integer.valueOf(dataSize);
          populateMap (data, previousItemOffset, previousItemKey, itemOffset);
       }
    }

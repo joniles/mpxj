@@ -890,7 +890,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger calendarID = task.getCalendarUID();
       if (calendarID != null)
       {
-         calendar = m_projectFile.getBaseCalendarByUniqueID(new Integer(calendarID.intValue()));
+         calendar = m_projectFile.getBaseCalendarByUniqueID(Integer.valueOf(calendarID.intValue()));
       }
 
       return (calendar);
@@ -929,7 +929,7 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger uid = link.getPredecessorUID();
       if (uid != null)
       {
-         Task prevTask = m_projectFile.getTaskByUniqueID(new Integer(uid.intValue()));
+         Task prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
          if (prevTask != null)
          {
             RelationType type;
@@ -989,8 +989,8 @@ public final class MSPDIReader extends AbstractProjectReader
       BigInteger resourceUID = assignment.getResourceUID();
       if (taskUID != null && resourceUID != null)
       {
-         Task task = m_projectFile.getTaskByUniqueID(new Integer(taskUID.intValue()));
-         Resource resource = m_projectFile.getResourceByUniqueID(new Integer(resourceUID.intValue()));
+         Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
+         Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
 
          if (task != null && resource != null)
          {

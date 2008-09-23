@@ -73,10 +73,10 @@ final class VarMeta9 extends AbstractVarMeta
       for (int loop=0; loop < m_itemCount; loop++)
       {
          is.read(uniqueIDArray, 0, 3);
-         uniqueID = new Integer (MPPUtility.getInt(uniqueIDArray));
+         uniqueID = Integer.valueOf(MPPUtility.getInt(uniqueIDArray));
 
-         type = new Integer (readByte (is));
-         offset = new Integer (readInt (is));
+         type = Integer.valueOf(readByte (is));
+         offset = Integer.valueOf(readInt (is));
 
          map = m_table.get (uniqueID);
          if (map == null)

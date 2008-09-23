@@ -95,7 +95,7 @@ public class SplitView9 extends GenericView
    private String m_upperViewName;
    private String m_lowerViewName;
    
-   private static final Integer PROPERTIES = new Integer (1);      
-   private static final Integer UPPER_VIEW_NAME = new Integer (574619658);
-   private static final Integer LOWER_VIEW_NAME = new Integer (574619659);
+   private static final Integer PROPERTIES = Integer.valueOf(1);      
+   private static final Integer UPPER_VIEW_NAME = Integer.valueOf(574619658);
+   private static final Integer LOWER_VIEW_NAME = Integer.valueOf(574619659);
 }

@@ -53,7 +53,7 @@ public final class LocaleData_de extends ListResourceBundle
    {
       for (int loop=0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
-         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], new Integer(loop));
+         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
       }
    }
 

@@ -559,7 +559,7 @@ final class MPP12Reader implements MPPVariantReader
                case SUBPROJECT_TASKUNIQUEID3:
                case SUBPROJECT_TASKUNIQUEID4:
                {
-                   sp.setTaskUniqueID(new Integer(value));
+                   sp.setTaskUniqueID(Integer.valueOf(value));
                    m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
                    break;
                }
@@ -568,8 +568,8 @@ final class MPP12Reader implements MPPVariantReader
                {
                    if (value != 0)
                    {
-                       sp.addExternalTaskUniqueID(new Integer(value));
-                       m_taskSubProjects.put(new Integer(value), sp);                   
+                       sp.addExternalTaskUniqueID(Integer.valueOf(value));
+                       m_taskSubProjects.put(Integer.valueOf(value), sp);                   
                    }
                    break;
                }
@@ -577,7 +577,7 @@ final class MPP12Reader implements MPPVariantReader
    
             // Now get the unique id offset for this subproject
             value = 0x00800000 + ((subprojectIndex-1) * 0x00400000);
-            sp.setUniqueIDOffset(new Integer(value));         
+            sp.setUniqueIDOffset(Integer.valueOf(value));         
          }
    
          if (type == SUBPROJECT_TASKUNIQUEID4)
@@ -753,7 +753,7 @@ final class MPP12Reader implements MPPVariantReader
 
          if (name.length() != 0)
          {
-            FontBase fontBase = new FontBase(new Integer(loop), name, size);
+            FontBase fontBase = new FontBase(Integer.valueOf(loop), name, size);
             m_fontBases.put(fontBase.getIndex(), fontBase);
          }
       }
@@ -889,7 +889,7 @@ final class MPP12Reader implements MPPVariantReader
                // So let's add the unique id for the deleted task into the map so we don't
                // accidentally include the task later.
                  uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
-                 key = new Integer(uniqueID);
+                 key = Integer.valueOf(uniqueID);
                  if (taskMap.containsKey(key) == false)
                  {
                     taskMap.put(key, null); // use null so we can easily ignore this later
@@ -900,10 +900,10 @@ final class MPP12Reader implements MPPVariantReader
                if (data.length==16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
                {
                   uniqueID = MPPUtility.getInt(data, 0);
-                  key = new Integer(uniqueID);                                   
+                  key = Integer.valueOf(uniqueID);                                   
                   if (taskMap.containsKey(key) == false)
                   {
-                     taskMap.put(key, new Integer (loop));
+                     taskMap.put(key, Integer.valueOf(loop));
                   }
                }               
             }
@@ -935,7 +935,7 @@ final class MPP12Reader implements MPPVariantReader
          if (data != null && data.length > 4)
          {
             uniqueID = MPPUtility.getShort (data, 0);
-            resourceMap.put(new Integer (uniqueID), new Integer (loop));
+            resourceMap.put(Integer.valueOf(uniqueID), Integer.valueOf(loop));
          }
       }
 
@@ -991,7 +991,7 @@ final class MPP12Reader implements MPPVariantReader
             //
             while (offset+12 <= fixedData.length)
             {
-               calendarID = new Integer (MPPUtility.getInt (fixedData, offset+0));
+               calendarID = Integer.valueOf(MPPUtility.getInt (fixedData, offset+0));
                baseCalendarID = MPPUtility.getInt(fixedData, offset+4);
 
                if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 &&
@@ -1023,8 +1023,8 @@ final class MPP12Reader implements MPPVariantReader
                         cal = m_file.getDefaultResourceCalendar();
                      }
 
-                     baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, new Integer(baseCalendarID)));
-                     resourceID = new Integer (MPPUtility.getInt(fixedData, offset+8));
+                     baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
+                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset+8));
                      m_resourceMap.put (resourceID, cal);
                   }
 
@@ -1336,7 +1336,7 @@ final class MPP12Reader implements MPPVariantReader
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(id);
-            task.setID (new Integer(MPPUtility.getInt (data, 4)));
+            task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
             //System.out.println(task);
             continue;
          }
@@ -1356,7 +1356,7 @@ final class MPP12Reader implements MPPVariantReader
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
          
-         Task temp = m_file.getTaskByID(new Integer(MPPUtility.getInt(data, 4))); 
+         Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4))); 
          if (temp != null && !taskVarMeta.getUniqueIdentifierSet().contains(id))
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
@@ -1510,7 +1510,7 @@ final class MPP12Reader implements MPPVariantReader
          int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
          if (externalTaskID != 0)
          {
-            task.setExternalTaskID(new Integer(externalTaskID));
+            task.setExternalTaskID(Integer.valueOf(externalTaskID));
             task.setExternalTask(true);
             externalTasks.add(task);
          }         
@@ -1556,7 +1556,7 @@ final class MPP12Reader implements MPPVariantReader
 //         task.setGroupBySummary();
          task.setHideBar((metaData[10] & 0x80) != 0);
          processHyperlinkData (task, taskVarData.getByteArray(id, TASK_HYPERLINK));
-         task.setID (new Integer(MPPUtility.getInt (data, 4)));
+         task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
 //       From MS Project 2003
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
          //task.setIndicators(); // Calculated value
@@ -1601,7 +1601,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setOutlineCode8(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE8));
          task.setOutlineCode9(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE9));
          task.setOutlineCode10(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE10));
-         task.setOutlineLevel (new Integer(MPPUtility.getShort (data, 40)));
+         task.setOutlineLevel (Integer.valueOf(MPPUtility.getShort (data, 40)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
          task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST) / 100));
@@ -1654,9 +1654,9 @@ final class MPP12Reader implements MPPVariantReader
          task.setStop(MPPUtility.getTimestamp (data, 16));
          //task.setSubprojectFile();
          //task.setSubprojectReadOnly();
-         task.setSubprojectTasksUniqueIDOffset(new Integer (taskVarData.getInt(id, TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET)));
-         task.setSubprojectTaskUniqueID(new Integer (taskVarData.getInt(id, TASK_SUBPROJECTUNIQUETASKID)));
-         task.setSubprojectTaskID(new Integer (taskVarData.getInt(id, TASK_SUBPROJECTTASKID)));
+         task.setSubprojectTasksUniqueIDOffset(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET)));
+         task.setSubprojectTaskUniqueID(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECTUNIQUETASKID)));
+         task.setSubprojectTaskID(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECTTASKID)));
          //task.setSuccessors(); // Calculated value
          //task.setSummary(); // Automatically generated by MPXJ
          //task.setSV(); // Calculated value
@@ -1696,7 +1696,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setText30(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
-         task.setUniqueID(new Integer(MPPUtility.getInt(data, 0)));
+         task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
@@ -1709,7 +1709,7 @@ final class MPP12Reader implements MPPVariantReader
          
          task.setFinishSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
          
-         m_parentTasks.put(task.getUniqueID(), new Integer(MPPUtility.getInt(data, 36)));
+         m_parentTasks.put(task.getUniqueID(), Integer.valueOf(MPPUtility.getInt(data, 36)));
          
          switch (task.getConstraintType())
          {
@@ -1786,7 +1786,7 @@ final class MPP12Reader implements MPPVariantReader
          int calendarID = MPPUtility.getInt(data, 160);
          if (calendarID != -1)
          {
-            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(new Integer(calendarID));
+            ProjectCalendar calendar = m_file.getBaseCalendarByUniqueID(Integer.valueOf(calendarID));
             if (calendar != null)
             {
                task.setCalendar(calendar);
@@ -1979,10 +1979,10 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void renumberTasks ()
    {
-      int nextID = (m_file.getTaskByID(NumberUtility.INTEGER_ZERO)==null?1:0);      
+      int nextID = (m_file.getTaskByID(Integer.valueOf(0))==null?1:0);      
       for (Task task: m_file.getChildTasks())
       {
-         task.setID(new Integer(nextID++));
+         task.setID(Integer.valueOf(nextID++));
          nextID = renumberChildren(nextID, task);
       }        
    }
@@ -1998,7 +1998,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       for (Task task: parent.getChildTasks())
       {
-         task.setID(new Integer(nextID++));
+         task.setID(Integer.valueOf(nextID++));
          nextID = renumberChildren(nextID, task);
       }      
       return (nextID);
@@ -2500,8 +2500,8 @@ final class MPP12Reader implements MPPVariantReader
 
                   if (taskID1 != taskID2)
                   {
-                     task1 = m_file.getTaskByUniqueID (new Integer(taskID1));
-                     task2 = m_file.getTaskByUniqueID (new Integer(taskID2));
+                     task1 = m_file.getTaskByUniqueID (Integer.valueOf(taskID1));
+                     task2 = m_file.getTaskByUniqueID (Integer.valueOf(taskID2));
 
                      if (task1 != null && task2 != null)
                      {
@@ -2668,7 +2668,7 @@ final class MPP12Reader implements MPPVariantReader
          
          resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
          processHyperlinkData (resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
-         resource.setID (new Integer(MPPUtility.getInt (data, 4)));
+         resource.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
          resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value        
          resource.setMaterialLabel(rscVarData.getUnicodeString(id, RESOURCE_MATERIAL_LABEL));
@@ -2697,16 +2697,16 @@ final class MPP12Reader implements MPPVariantReader
          resource.setNumber20(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER20)));
          
          //resource.setObjects(); // Calculated value
-         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
-         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
-         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
-         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
-         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
-         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
-         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
-         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
-         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
-         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(new Integer(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
+         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
+         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
+         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
+         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
+         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
+         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
+         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
+         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
+         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
+         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164)/100));
          resource.setOvertimeRate(new Rate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
@@ -2730,7 +2730,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setStart9(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START9));
          resource.setStart10(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START10));
          
-         resource.setSubprojectResourceUniqueID(new Integer (rscVarData.getInt(id, RESOURCE_SUBPROJECTRESOURCEID)));
+         resource.setSubprojectResourceUniqueID(Integer.valueOf(rscVarData.getInt(id, RESOURCE_SUBPROJECTRESOURCEID)));
          
          resource.setText1(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT1));
          resource.setText2(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT2));
@@ -2854,13 +2854,13 @@ final class MPP12Reader implements MPPVariantReader
          
          
          int id = MPPUtility.getInt(data, 0);
-         final Integer varDataId = new Integer(id);
+         final Integer varDataId = Integer.valueOf(id);
          if (set.contains(varDataId) == false)
          {
             continue;
          }
 
-         Integer taskID = new Integer(MPPUtility.getInt (data, 4));
+         Integer taskID = Integer.valueOf(MPPUtility.getInt (data, 4));
          Task task = m_file.getTaskByUniqueID (taskID);
 
          if (task != null)
@@ -2872,7 +2872,7 @@ final class MPP12Reader implements MPPVariantReader
                processSplitData(task, completeWork, incompleteWork);
             }
 
-            Integer resourceID = new Integer(MPPUtility.getInt (data, 8));
+            Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
             Resource resource = m_file.getResourceByUniqueID (resourceID);
 
             if (resource != null)
@@ -3184,12 +3184,12 @@ final class MPP12Reader implements MPPVariantReader
       
        if (varData.getShort(id, type) != VALUE_LIST_MASK)
        {
-           result = outlineCodeVarData.getUnicodeString(new Integer(varData.getInt (id, 2, type)), OUTLINECODE_DATA);
+           result = outlineCodeVarData.getUnicodeString(Integer.valueOf(varData.getInt (id, 2, type)), OUTLINECODE_DATA);
        }
        else
        {
            int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(new Integer(uniqueId));
+           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
            if (item != null)
            {
                result = MPPUtility.getUnicodeString(item.getValue());
@@ -3217,7 +3217,7 @@ final class MPP12Reader implements MPPVariantReader
        else
        {
            int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(new Integer(uniqueId));
+           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
            if (item != null)
            {
                result = MPPUtility.getTimestamp(item.getValue());
@@ -3246,7 +3246,7 @@ final class MPP12Reader implements MPPVariantReader
        else
        {
            int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(new Integer(uniqueId));
+           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
            if (item != null)
            {
                result = MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));           
@@ -3274,7 +3274,7 @@ final class MPP12Reader implements MPPVariantReader
        else
        {
            int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(new Integer(uniqueId));
+           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
            if (item != null)
            {
                result = MPPUtility.getDouble(item.getValue());
@@ -3302,7 +3302,7 @@ final class MPP12Reader implements MPPVariantReader
        else
        {
            int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(new Integer(uniqueId));
+           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
            if (item != null)
            {
                result = MPPUtility.getUnicodeString(item.getValue());
@@ -3428,8 +3428,8 @@ final class MPP12Reader implements MPPVariantReader
    /**
     * Calendar data types.
     */
-   private static final Integer CALENDAR_NAME = new Integer (1);
-   private static final Integer CALENDAR_DATA = new Integer (8);
+   private static final Integer CALENDAR_NAME = Integer.valueOf(1);
+   private static final Integer CALENDAR_DATA = Integer.valueOf(8);
 
    /**
     * Task data types.
@@ -3438,381 +3438,381 @@ final class MPP12Reader implements MPPVariantReader
    //
    // MPP12 verified
    //
-   private static final Integer TASK_NAME = new Integer (14);
+   private static final Integer TASK_NAME = Integer.valueOf(14);
 
-   private static final Integer TASK_NUMBER1 = new Integer (87);
-   private static final Integer TASK_NUMBER2 = new Integer (88);
-   private static final Integer TASK_NUMBER3 = new Integer (89);
-   private static final Integer TASK_NUMBER4 = new Integer (90);
-   private static final Integer TASK_NUMBER5 = new Integer (91);
+   private static final Integer TASK_NUMBER1 = Integer.valueOf(87);
+   private static final Integer TASK_NUMBER2 = Integer.valueOf(88);
+   private static final Integer TASK_NUMBER3 = Integer.valueOf(89);
+   private static final Integer TASK_NUMBER4 = Integer.valueOf(90);
+   private static final Integer TASK_NUMBER5 = Integer.valueOf(91);
    
-   private static final Integer TASK_COST1 = new Integer (106);
-   private static final Integer TASK_COST2 = new Integer (107);
-   private static final Integer TASK_COST3 = new Integer (108);   
+   private static final Integer TASK_COST1 = Integer.valueOf(106);
+   private static final Integer TASK_COST2 = Integer.valueOf(107);
+   private static final Integer TASK_COST3 = Integer.valueOf(108);   
    
-   private static final Integer TASK_CONTACT = new Integer (112);
+   private static final Integer TASK_CONTACT = Integer.valueOf(112);
    
-   private static final Integer TASK_RECURRING_DATA = new Integer (203);
+   private static final Integer TASK_RECURRING_DATA = Integer.valueOf(203);
    
-   private static final Integer TASK_COST4 = new Integer (258);
-   private static final Integer TASK_COST5 = new Integer (259);
-   private static final Integer TASK_COST6 = new Integer (260);
-   private static final Integer TASK_COST7 = new Integer (261);
-   private static final Integer TASK_COST8 = new Integer (262);
-   private static final Integer TASK_COST9 = new Integer (263);
-   private static final Integer TASK_COST10 = new Integer (264);
+   private static final Integer TASK_COST4 = Integer.valueOf(258);
+   private static final Integer TASK_COST5 = Integer.valueOf(259);
+   private static final Integer TASK_COST6 = Integer.valueOf(260);
+   private static final Integer TASK_COST7 = Integer.valueOf(261);
+   private static final Integer TASK_COST8 = Integer.valueOf(262);
+   private static final Integer TASK_COST9 = Integer.valueOf(263);
+   private static final Integer TASK_COST10 = Integer.valueOf(264);
 
-   private static final Integer TASK_DATE1 = new Integer (265);
-   private static final Integer TASK_DATE2 = new Integer (266);
-   private static final Integer TASK_DATE3 = new Integer (267);
-   private static final Integer TASK_DATE4 = new Integer (268);
-   private static final Integer TASK_DATE5 = new Integer (269);
-   private static final Integer TASK_DATE6 = new Integer (270);
-   private static final Integer TASK_DATE7 = new Integer (271);
-   private static final Integer TASK_DATE8 = new Integer (272);
-   private static final Integer TASK_DATE9 = new Integer (273);
-   private static final Integer TASK_DATE10 = new Integer (274);
+   private static final Integer TASK_DATE1 = Integer.valueOf(265);
+   private static final Integer TASK_DATE2 = Integer.valueOf(266);
+   private static final Integer TASK_DATE3 = Integer.valueOf(267);
+   private static final Integer TASK_DATE4 = Integer.valueOf(268);
+   private static final Integer TASK_DATE5 = Integer.valueOf(269);
+   private static final Integer TASK_DATE6 = Integer.valueOf(270);
+   private static final Integer TASK_DATE7 = Integer.valueOf(271);
+   private static final Integer TASK_DATE8 = Integer.valueOf(272);
+   private static final Integer TASK_DATE9 = Integer.valueOf(273);
+   private static final Integer TASK_DATE10 = Integer.valueOf(274);
 
-   private static final Integer TASK_NUMBER6 = new Integer (302);
-   private static final Integer TASK_NUMBER7 = new Integer (303);
-   private static final Integer TASK_NUMBER8 = new Integer (304);
-   private static final Integer TASK_NUMBER9 = new Integer (305);
-   private static final Integer TASK_NUMBER10 = new Integer (306);
+   private static final Integer TASK_NUMBER6 = Integer.valueOf(302);
+   private static final Integer TASK_NUMBER7 = Integer.valueOf(303);
+   private static final Integer TASK_NUMBER8 = Integer.valueOf(304);
+   private static final Integer TASK_NUMBER9 = Integer.valueOf(305);
+   private static final Integer TASK_NUMBER10 = Integer.valueOf(306);
    
    
-   private static final Integer TASK_DURATION1 = new Integer (103);
-   private static final Integer TASK_DURATION1_UNITS = new Integer (183);
-   private static final Integer TASK_DURATION2 = new Integer (104);
-   private static final Integer TASK_DURATION2_UNITS = new Integer (184);
-   private static final Integer TASK_DURATION3 = new Integer (105);
-   private static final Integer TASK_DURATION3_UNITS = new Integer (185);
-   private static final Integer TASK_DURATION4 = new Integer (275);
-   private static final Integer TASK_DURATION4_UNITS = new Integer (337);
-   private static final Integer TASK_DURATION5 = new Integer (276);
-   private static final Integer TASK_DURATION5_UNITS = new Integer (187);
-   private static final Integer TASK_DURATION6 = new Integer (277);
-   private static final Integer TASK_DURATION6_UNITS = new Integer (188);
-   private static final Integer TASK_DURATION7 = new Integer (278);
-   private static final Integer TASK_DURATION7_UNITS = new Integer (189);
-   private static final Integer TASK_DURATION8 = new Integer (279);
-   private static final Integer TASK_DURATION8_UNITS = new Integer (190);
-   private static final Integer TASK_DURATION9 = new Integer (280);
-   private static final Integer TASK_DURATION9_UNITS = new Integer (191);
-   private static final Integer TASK_DURATION10 = new Integer (281);
-   private static final Integer TASK_DURATION10_UNITS = new Integer (192);
+   private static final Integer TASK_DURATION1 = Integer.valueOf(103);
+   private static final Integer TASK_DURATION1_UNITS = Integer.valueOf(183);
+   private static final Integer TASK_DURATION2 = Integer.valueOf(104);
+   private static final Integer TASK_DURATION2_UNITS = Integer.valueOf(184);
+   private static final Integer TASK_DURATION3 = Integer.valueOf(105);
+   private static final Integer TASK_DURATION3_UNITS = Integer.valueOf(185);
+   private static final Integer TASK_DURATION4 = Integer.valueOf(275);
+   private static final Integer TASK_DURATION4_UNITS = Integer.valueOf(337);
+   private static final Integer TASK_DURATION5 = Integer.valueOf(276);
+   private static final Integer TASK_DURATION5_UNITS = Integer.valueOf(187);
+   private static final Integer TASK_DURATION6 = Integer.valueOf(277);
+   private static final Integer TASK_DURATION6_UNITS = Integer.valueOf(188);
+   private static final Integer TASK_DURATION7 = Integer.valueOf(278);
+   private static final Integer TASK_DURATION7_UNITS = Integer.valueOf(189);
+   private static final Integer TASK_DURATION8 = Integer.valueOf(279);
+   private static final Integer TASK_DURATION8_UNITS = Integer.valueOf(190);
+   private static final Integer TASK_DURATION9 = Integer.valueOf(280);
+   private static final Integer TASK_DURATION9_UNITS = Integer.valueOf(191);
+   private static final Integer TASK_DURATION10 = Integer.valueOf(281);
+   private static final Integer TASK_DURATION10_UNITS = Integer.valueOf(192);
 
 
-   private static final Integer TASK_START1 = new Integer (52);
-   private static final Integer TASK_FINISH1 = new Integer (53);
-   private static final Integer TASK_START2 = new Integer (55);
-   private static final Integer TASK_FINISH2 = new Integer (56);
-   private static final Integer TASK_START3 = new Integer (58);
-   private static final Integer TASK_FINISH3 = new Integer (59);
-   private static final Integer TASK_START4 = new Integer (61);
-   private static final Integer TASK_FINISH4 = new Integer (62);
-   private static final Integer TASK_START5 = new Integer (64);
-   private static final Integer TASK_FINISH5 = new Integer (65);
-   private static final Integer TASK_START6 = new Integer (282);
-   private static final Integer TASK_FINISH6 = new Integer (283);
-   private static final Integer TASK_START7 = new Integer (284);
-   private static final Integer TASK_FINISH7 = new Integer (285);
-   private static final Integer TASK_START8 = new Integer (286);
-   private static final Integer TASK_FINISH8 = new Integer (287);
-   private static final Integer TASK_START9 = new Integer (288);
-   private static final Integer TASK_FINISH9 = new Integer (289);
-   private static final Integer TASK_START10 = new Integer (290);
-   private static final Integer TASK_FINISH10 = new Integer (291);
+   private static final Integer TASK_START1 = Integer.valueOf(52);
+   private static final Integer TASK_FINISH1 = Integer.valueOf(53);
+   private static final Integer TASK_START2 = Integer.valueOf(55);
+   private static final Integer TASK_FINISH2 = Integer.valueOf(56);
+   private static final Integer TASK_START3 = Integer.valueOf(58);
+   private static final Integer TASK_FINISH3 = Integer.valueOf(59);
+   private static final Integer TASK_START4 = Integer.valueOf(61);
+   private static final Integer TASK_FINISH4 = Integer.valueOf(62);
+   private static final Integer TASK_START5 = Integer.valueOf(64);
+   private static final Integer TASK_FINISH5 = Integer.valueOf(65);
+   private static final Integer TASK_START6 = Integer.valueOf(282);
+   private static final Integer TASK_FINISH6 = Integer.valueOf(283);
+   private static final Integer TASK_START7 = Integer.valueOf(284);
+   private static final Integer TASK_FINISH7 = Integer.valueOf(285);
+   private static final Integer TASK_START8 = Integer.valueOf(286);
+   private static final Integer TASK_FINISH8 = Integer.valueOf(287);
+   private static final Integer TASK_START9 = Integer.valueOf(288);
+   private static final Integer TASK_FINISH9 = Integer.valueOf(289);
+   private static final Integer TASK_START10 = Integer.valueOf(290);
+   private static final Integer TASK_FINISH10 = Integer.valueOf(291);
 
-   private static final Integer TASK_HYPERLINK = new Integer (215);
+   private static final Integer TASK_HYPERLINK = Integer.valueOf(215);
    
-   private static final Integer TASK_NOTES = new Integer (15);
+   private static final Integer TASK_NOTES = Integer.valueOf(15);
 
-   private static final Integer TASK_NUMBER11 = new Integer (307);
-   private static final Integer TASK_NUMBER12 = new Integer (308);
-   private static final Integer TASK_NUMBER13 = new Integer (309);
-   private static final Integer TASK_NUMBER14 = new Integer (310);
-   private static final Integer TASK_NUMBER15 = new Integer (311);
-   private static final Integer TASK_NUMBER16 = new Integer (312);
-   private static final Integer TASK_NUMBER17 = new Integer (313);
-   private static final Integer TASK_NUMBER18 = new Integer (314);
-   private static final Integer TASK_NUMBER19 = new Integer (315);
-   private static final Integer TASK_NUMBER20 = new Integer (316);
+   private static final Integer TASK_NUMBER11 = Integer.valueOf(307);
+   private static final Integer TASK_NUMBER12 = Integer.valueOf(308);
+   private static final Integer TASK_NUMBER13 = Integer.valueOf(309);
+   private static final Integer TASK_NUMBER14 = Integer.valueOf(310);
+   private static final Integer TASK_NUMBER15 = Integer.valueOf(311);
+   private static final Integer TASK_NUMBER16 = Integer.valueOf(312);
+   private static final Integer TASK_NUMBER17 = Integer.valueOf(313);
+   private static final Integer TASK_NUMBER18 = Integer.valueOf(314);
+   private static final Integer TASK_NUMBER19 = Integer.valueOf(315);
+   private static final Integer TASK_NUMBER20 = Integer.valueOf(316);
 
-   private static final Integer TASK_TEXT1 = new Integer (51);
-   private static final Integer TASK_TEXT2 = new Integer (54);
-   private static final Integer TASK_TEXT3 = new Integer (57);
-   private static final Integer TASK_TEXT4 = new Integer (60);
-   private static final Integer TASK_TEXT5 = new Integer (63);
-   private static final Integer TASK_TEXT6 = new Integer (66);
-   private static final Integer TASK_TEXT7 = new Integer (67);
-   private static final Integer TASK_TEXT8 = new Integer (68);
-   private static final Integer TASK_TEXT9 = new Integer (69);
-   private static final Integer TASK_TEXT10 = new Integer (70);
+   private static final Integer TASK_TEXT1 = Integer.valueOf(51);
+   private static final Integer TASK_TEXT2 = Integer.valueOf(54);
+   private static final Integer TASK_TEXT3 = Integer.valueOf(57);
+   private static final Integer TASK_TEXT4 = Integer.valueOf(60);
+   private static final Integer TASK_TEXT5 = Integer.valueOf(63);
+   private static final Integer TASK_TEXT6 = Integer.valueOf(66);
+   private static final Integer TASK_TEXT7 = Integer.valueOf(67);
+   private static final Integer TASK_TEXT8 = Integer.valueOf(68);
+   private static final Integer TASK_TEXT9 = Integer.valueOf(69);
+   private static final Integer TASK_TEXT10 = Integer.valueOf(70);
 
-   private static final Integer TASK_TEXT11 = new Integer (317);
-   private static final Integer TASK_TEXT12 = new Integer (318);
-   private static final Integer TASK_TEXT13 = new Integer (319);
-   private static final Integer TASK_TEXT14 = new Integer (320);
-   private static final Integer TASK_TEXT15 = new Integer (321);
-   private static final Integer TASK_TEXT16 = new Integer (322);
-   private static final Integer TASK_TEXT17 = new Integer (323);
-   private static final Integer TASK_TEXT18 = new Integer (324);
-   private static final Integer TASK_TEXT19 = new Integer (325);
-   private static final Integer TASK_TEXT20 = new Integer (326);
-   private static final Integer TASK_TEXT21 = new Integer (327);
-   private static final Integer TASK_TEXT22 = new Integer (328);
-   private static final Integer TASK_TEXT23 = new Integer (329);
-   private static final Integer TASK_TEXT24 = new Integer (330);
-   private static final Integer TASK_TEXT25 = new Integer (331);
-   private static final Integer TASK_TEXT26 = new Integer (332);
-   private static final Integer TASK_TEXT27 = new Integer (333);
-   private static final Integer TASK_TEXT28 = new Integer (334);
-   private static final Integer TASK_TEXT29 = new Integer (335);
-   private static final Integer TASK_TEXT30 = new Integer (336);
+   private static final Integer TASK_TEXT11 = Integer.valueOf(317);
+   private static final Integer TASK_TEXT12 = Integer.valueOf(318);
+   private static final Integer TASK_TEXT13 = Integer.valueOf(319);
+   private static final Integer TASK_TEXT14 = Integer.valueOf(320);
+   private static final Integer TASK_TEXT15 = Integer.valueOf(321);
+   private static final Integer TASK_TEXT16 = Integer.valueOf(322);
+   private static final Integer TASK_TEXT17 = Integer.valueOf(323);
+   private static final Integer TASK_TEXT18 = Integer.valueOf(324);
+   private static final Integer TASK_TEXT19 = Integer.valueOf(325);
+   private static final Integer TASK_TEXT20 = Integer.valueOf(326);
+   private static final Integer TASK_TEXT21 = Integer.valueOf(327);
+   private static final Integer TASK_TEXT22 = Integer.valueOf(328);
+   private static final Integer TASK_TEXT23 = Integer.valueOf(329);
+   private static final Integer TASK_TEXT24 = Integer.valueOf(330);
+   private static final Integer TASK_TEXT25 = Integer.valueOf(331);
+   private static final Integer TASK_TEXT26 = Integer.valueOf(332);
+   private static final Integer TASK_TEXT27 = Integer.valueOf(333);
+   private static final Integer TASK_TEXT28 = Integer.valueOf(334);
+   private static final Integer TASK_TEXT29 = Integer.valueOf(335);
+   private static final Integer TASK_TEXT30 = Integer.valueOf(336);
 
-   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = new Integer (458);
+   private static final Integer TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET = Integer.valueOf(458);
 
-   private static final Integer TASK_OUTLINECODE1 = new Integer (417);
-   private static final Integer TASK_OUTLINECODE2 = new Integer (419);
-   private static final Integer TASK_OUTLINECODE3 = new Integer (421);
-   private static final Integer TASK_OUTLINECODE4 = new Integer (423);
-   private static final Integer TASK_OUTLINECODE5 = new Integer (425);
-   private static final Integer TASK_OUTLINECODE6 = new Integer (427);
-   private static final Integer TASK_OUTLINECODE7 = new Integer (429);
-   private static final Integer TASK_OUTLINECODE8 = new Integer (431);
-   private static final Integer TASK_OUTLINECODE9 = new Integer (433);
-   private static final Integer TASK_OUTLINECODE10 = new Integer (435);
+   private static final Integer TASK_OUTLINECODE1 = Integer.valueOf(417);
+   private static final Integer TASK_OUTLINECODE2 = Integer.valueOf(419);
+   private static final Integer TASK_OUTLINECODE3 = Integer.valueOf(421);
+   private static final Integer TASK_OUTLINECODE4 = Integer.valueOf(423);
+   private static final Integer TASK_OUTLINECODE5 = Integer.valueOf(425);
+   private static final Integer TASK_OUTLINECODE6 = Integer.valueOf(427);
+   private static final Integer TASK_OUTLINECODE7 = Integer.valueOf(429);
+   private static final Integer TASK_OUTLINECODE8 = Integer.valueOf(431);
+   private static final Integer TASK_OUTLINECODE9 = Integer.valueOf(433);
+   private static final Integer TASK_OUTLINECODE10 = Integer.valueOf(435);
    
-   private static final Integer TASK_ENTERPRISE_COST1 = new Integer(599);
-   private static final Integer TASK_ENTERPRISE_COST2 = new Integer(600);
-   private static final Integer TASK_ENTERPRISE_COST3 = new Integer(601);
-   private static final Integer TASK_ENTERPRISE_COST4 = new Integer(602);
-   private static final Integer TASK_ENTERPRISE_COST5 = new Integer(603);
-   private static final Integer TASK_ENTERPRISE_COST6 = new Integer(604);
-   private static final Integer TASK_ENTERPRISE_COST7 = new Integer(605);
-   private static final Integer TASK_ENTERPRISE_COST8 = new Integer(606);
-   private static final Integer TASK_ENTERPRISE_COST9 = new Integer(607);
-   private static final Integer TASK_ENTERPRISE_COST10 = new Integer(608);
+   private static final Integer TASK_ENTERPRISE_COST1 = Integer.valueOf(599);
+   private static final Integer TASK_ENTERPRISE_COST2 = Integer.valueOf(600);
+   private static final Integer TASK_ENTERPRISE_COST3 = Integer.valueOf(601);
+   private static final Integer TASK_ENTERPRISE_COST4 = Integer.valueOf(602);
+   private static final Integer TASK_ENTERPRISE_COST5 = Integer.valueOf(603);
+   private static final Integer TASK_ENTERPRISE_COST6 = Integer.valueOf(604);
+   private static final Integer TASK_ENTERPRISE_COST7 = Integer.valueOf(605);
+   private static final Integer TASK_ENTERPRISE_COST8 = Integer.valueOf(606);
+   private static final Integer TASK_ENTERPRISE_COST9 = Integer.valueOf(607);
+   private static final Integer TASK_ENTERPRISE_COST10 = Integer.valueOf(608);
    
-   private static final Integer TASK_ENTERPRISE_DATE1 = new Integer(609);
-   private static final Integer TASK_ENTERPRISE_DATE2 = new Integer(610);
-   private static final Integer TASK_ENTERPRISE_DATE3 = new Integer(611);
-   private static final Integer TASK_ENTERPRISE_DATE4 = new Integer(612);
-   private static final Integer TASK_ENTERPRISE_DATE5 = new Integer(613);
-   private static final Integer TASK_ENTERPRISE_DATE6 = new Integer(614);
-   private static final Integer TASK_ENTERPRISE_DATE7 = new Integer(615);
-   private static final Integer TASK_ENTERPRISE_DATE8 = new Integer(616);
-   private static final Integer TASK_ENTERPRISE_DATE9 = new Integer(617);
-   private static final Integer TASK_ENTERPRISE_DATE10 = new Integer(618);
-   private static final Integer TASK_ENTERPRISE_DATE11 = new Integer(619);
-   private static final Integer TASK_ENTERPRISE_DATE12 = new Integer(620);
-   private static final Integer TASK_ENTERPRISE_DATE13 = new Integer(621);
-   private static final Integer TASK_ENTERPRISE_DATE14 = new Integer(622);
-   private static final Integer TASK_ENTERPRISE_DATE15 = new Integer(623);
-   private static final Integer TASK_ENTERPRISE_DATE16 = new Integer(624);
-   private static final Integer TASK_ENTERPRISE_DATE17 = new Integer(625);
-   private static final Integer TASK_ENTERPRISE_DATE18 = new Integer(626);
-   private static final Integer TASK_ENTERPRISE_DATE19 = new Integer(627);
-   private static final Integer TASK_ENTERPRISE_DATE20 = new Integer(628);
-   private static final Integer TASK_ENTERPRISE_DATE21 = new Integer(629);
-   private static final Integer TASK_ENTERPRISE_DATE22 = new Integer(630);
-   private static final Integer TASK_ENTERPRISE_DATE23 = new Integer(631);
-   private static final Integer TASK_ENTERPRISE_DATE24 = new Integer(632);
-   private static final Integer TASK_ENTERPRISE_DATE25 = new Integer(633);
-   private static final Integer TASK_ENTERPRISE_DATE26 = new Integer(634);
-   private static final Integer TASK_ENTERPRISE_DATE27 = new Integer(635);
-   private static final Integer TASK_ENTERPRISE_DATE28 = new Integer(636);
-   private static final Integer TASK_ENTERPRISE_DATE29 = new Integer(637);
-   private static final Integer TASK_ENTERPRISE_DATE30 = new Integer(638);
+   private static final Integer TASK_ENTERPRISE_DATE1 = Integer.valueOf(609);
+   private static final Integer TASK_ENTERPRISE_DATE2 = Integer.valueOf(610);
+   private static final Integer TASK_ENTERPRISE_DATE3 = Integer.valueOf(611);
+   private static final Integer TASK_ENTERPRISE_DATE4 = Integer.valueOf(612);
+   private static final Integer TASK_ENTERPRISE_DATE5 = Integer.valueOf(613);
+   private static final Integer TASK_ENTERPRISE_DATE6 = Integer.valueOf(614);
+   private static final Integer TASK_ENTERPRISE_DATE7 = Integer.valueOf(615);
+   private static final Integer TASK_ENTERPRISE_DATE8 = Integer.valueOf(616);
+   private static final Integer TASK_ENTERPRISE_DATE9 = Integer.valueOf(617);
+   private static final Integer TASK_ENTERPRISE_DATE10 = Integer.valueOf(618);
+   private static final Integer TASK_ENTERPRISE_DATE11 = Integer.valueOf(619);
+   private static final Integer TASK_ENTERPRISE_DATE12 = Integer.valueOf(620);
+   private static final Integer TASK_ENTERPRISE_DATE13 = Integer.valueOf(621);
+   private static final Integer TASK_ENTERPRISE_DATE14 = Integer.valueOf(622);
+   private static final Integer TASK_ENTERPRISE_DATE15 = Integer.valueOf(623);
+   private static final Integer TASK_ENTERPRISE_DATE16 = Integer.valueOf(624);
+   private static final Integer TASK_ENTERPRISE_DATE17 = Integer.valueOf(625);
+   private static final Integer TASK_ENTERPRISE_DATE18 = Integer.valueOf(626);
+   private static final Integer TASK_ENTERPRISE_DATE19 = Integer.valueOf(627);
+   private static final Integer TASK_ENTERPRISE_DATE20 = Integer.valueOf(628);
+   private static final Integer TASK_ENTERPRISE_DATE21 = Integer.valueOf(629);
+   private static final Integer TASK_ENTERPRISE_DATE22 = Integer.valueOf(630);
+   private static final Integer TASK_ENTERPRISE_DATE23 = Integer.valueOf(631);
+   private static final Integer TASK_ENTERPRISE_DATE24 = Integer.valueOf(632);
+   private static final Integer TASK_ENTERPRISE_DATE25 = Integer.valueOf(633);
+   private static final Integer TASK_ENTERPRISE_DATE26 = Integer.valueOf(634);
+   private static final Integer TASK_ENTERPRISE_DATE27 = Integer.valueOf(635);
+   private static final Integer TASK_ENTERPRISE_DATE28 = Integer.valueOf(636);
+   private static final Integer TASK_ENTERPRISE_DATE29 = Integer.valueOf(637);
+   private static final Integer TASK_ENTERPRISE_DATE30 = Integer.valueOf(638);
    
-   private static final Integer TASK_ENTERPRISE_DURATION1 = new Integer(639);
-   private static final Integer TASK_ENTERPRISE_DURATION2 = new Integer(640);
-   private static final Integer TASK_ENTERPRISE_DURATION3 = new Integer(641);
-   private static final Integer TASK_ENTERPRISE_DURATION4 = new Integer(642);
-   private static final Integer TASK_ENTERPRISE_DURATION5 = new Integer(643);
-   private static final Integer TASK_ENTERPRISE_DURATION6 = new Integer(644);
-   private static final Integer TASK_ENTERPRISE_DURATION7 = new Integer(645);
-   private static final Integer TASK_ENTERPRISE_DURATION8 = new Integer(646);
-   private static final Integer TASK_ENTERPRISE_DURATION9 = new Integer(647);
-   private static final Integer TASK_ENTERPRISE_DURATION10 = new Integer(648);
+   private static final Integer TASK_ENTERPRISE_DURATION1 = Integer.valueOf(639);
+   private static final Integer TASK_ENTERPRISE_DURATION2 = Integer.valueOf(640);
+   private static final Integer TASK_ENTERPRISE_DURATION3 = Integer.valueOf(641);
+   private static final Integer TASK_ENTERPRISE_DURATION4 = Integer.valueOf(642);
+   private static final Integer TASK_ENTERPRISE_DURATION5 = Integer.valueOf(643);
+   private static final Integer TASK_ENTERPRISE_DURATION6 = Integer.valueOf(644);
+   private static final Integer TASK_ENTERPRISE_DURATION7 = Integer.valueOf(645);
+   private static final Integer TASK_ENTERPRISE_DURATION8 = Integer.valueOf(646);
+   private static final Integer TASK_ENTERPRISE_DURATION9 = Integer.valueOf(647);
+   private static final Integer TASK_ENTERPRISE_DURATION10 = Integer.valueOf(648);
    
-   private static final Integer TASK_ENTERPRISE_DURATION1_UNITS = new Integer(649);
-   private static final Integer TASK_ENTERPRISE_DURATION2_UNITS = new Integer(650);
-   private static final Integer TASK_ENTERPRISE_DURATION3_UNITS = new Integer(651);
-   private static final Integer TASK_ENTERPRISE_DURATION4_UNITS = new Integer(652);
-   private static final Integer TASK_ENTERPRISE_DURATION5_UNITS = new Integer(653);
-   private static final Integer TASK_ENTERPRISE_DURATION6_UNITS = new Integer(654);
-   private static final Integer TASK_ENTERPRISE_DURATION7_UNITS = new Integer(655);
-   private static final Integer TASK_ENTERPRISE_DURATION8_UNITS = new Integer(656);
-   private static final Integer TASK_ENTERPRISE_DURATION9_UNITS = new Integer(657);
-   private static final Integer TASK_ENTERPRISE_DURATION10_UNITS = new Integer(658);
+   private static final Integer TASK_ENTERPRISE_DURATION1_UNITS = Integer.valueOf(649);
+   private static final Integer TASK_ENTERPRISE_DURATION2_UNITS = Integer.valueOf(650);
+   private static final Integer TASK_ENTERPRISE_DURATION3_UNITS = Integer.valueOf(651);
+   private static final Integer TASK_ENTERPRISE_DURATION4_UNITS = Integer.valueOf(652);
+   private static final Integer TASK_ENTERPRISE_DURATION5_UNITS = Integer.valueOf(653);
+   private static final Integer TASK_ENTERPRISE_DURATION6_UNITS = Integer.valueOf(654);
+   private static final Integer TASK_ENTERPRISE_DURATION7_UNITS = Integer.valueOf(655);
+   private static final Integer TASK_ENTERPRISE_DURATION8_UNITS = Integer.valueOf(656);
+   private static final Integer TASK_ENTERPRISE_DURATION9_UNITS = Integer.valueOf(657);
+   private static final Integer TASK_ENTERPRISE_DURATION10_UNITS = Integer.valueOf(658);
    
-   private static final Integer TASK_ENTERPRISE_NUMBER1 = new Integer(699);
-   private static final Integer TASK_ENTERPRISE_NUMBER2 = new Integer(700);
-   private static final Integer TASK_ENTERPRISE_NUMBER3 = new Integer(701);
-   private static final Integer TASK_ENTERPRISE_NUMBER4 = new Integer(702);
-   private static final Integer TASK_ENTERPRISE_NUMBER5 = new Integer(703);
-   private static final Integer TASK_ENTERPRISE_NUMBER6 = new Integer(704);
-   private static final Integer TASK_ENTERPRISE_NUMBER7 = new Integer(705);
-   private static final Integer TASK_ENTERPRISE_NUMBER8 = new Integer(706);
-   private static final Integer TASK_ENTERPRISE_NUMBER9 = new Integer(707);
-   private static final Integer TASK_ENTERPRISE_NUMBER10 = new Integer(708);
-   private static final Integer TASK_ENTERPRISE_NUMBER11 = new Integer(709);
-   private static final Integer TASK_ENTERPRISE_NUMBER12 = new Integer(710);
-   private static final Integer TASK_ENTERPRISE_NUMBER13 = new Integer(711);
-   private static final Integer TASK_ENTERPRISE_NUMBER14 = new Integer(712);
-   private static final Integer TASK_ENTERPRISE_NUMBER15 = new Integer(713);
-   private static final Integer TASK_ENTERPRISE_NUMBER16 = new Integer(714);
-   private static final Integer TASK_ENTERPRISE_NUMBER17 = new Integer(715);
-   private static final Integer TASK_ENTERPRISE_NUMBER18 = new Integer(716);
-   private static final Integer TASK_ENTERPRISE_NUMBER19 = new Integer(717);
-   private static final Integer TASK_ENTERPRISE_NUMBER20 = new Integer(718);
-   private static final Integer TASK_ENTERPRISE_NUMBER21 = new Integer(719);
-   private static final Integer TASK_ENTERPRISE_NUMBER22 = new Integer(720);
-   private static final Integer TASK_ENTERPRISE_NUMBER23 = new Integer(721);
-   private static final Integer TASK_ENTERPRISE_NUMBER24 = new Integer(722);
-   private static final Integer TASK_ENTERPRISE_NUMBER25 = new Integer(723);
-   private static final Integer TASK_ENTERPRISE_NUMBER26 = new Integer(724);
-   private static final Integer TASK_ENTERPRISE_NUMBER27 = new Integer(725);
-   private static final Integer TASK_ENTERPRISE_NUMBER28 = new Integer(726);
-   private static final Integer TASK_ENTERPRISE_NUMBER29 = new Integer(727);
-   private static final Integer TASK_ENTERPRISE_NUMBER30 = new Integer(728);
-   private static final Integer TASK_ENTERPRISE_NUMBER31 = new Integer(729);
-   private static final Integer TASK_ENTERPRISE_NUMBER32 = new Integer(730);
-   private static final Integer TASK_ENTERPRISE_NUMBER33 = new Integer(731);
-   private static final Integer TASK_ENTERPRISE_NUMBER34 = new Integer(732);
-   private static final Integer TASK_ENTERPRISE_NUMBER35 = new Integer(733);
-   private static final Integer TASK_ENTERPRISE_NUMBER36 = new Integer(734);
-   private static final Integer TASK_ENTERPRISE_NUMBER37 = new Integer(735);
-   private static final Integer TASK_ENTERPRISE_NUMBER38 = new Integer(736);
-   private static final Integer TASK_ENTERPRISE_NUMBER39 = new Integer(737);
-   private static final Integer TASK_ENTERPRISE_NUMBER40 = new Integer(738);
+   private static final Integer TASK_ENTERPRISE_NUMBER1 = Integer.valueOf(699);
+   private static final Integer TASK_ENTERPRISE_NUMBER2 = Integer.valueOf(700);
+   private static final Integer TASK_ENTERPRISE_NUMBER3 = Integer.valueOf(701);
+   private static final Integer TASK_ENTERPRISE_NUMBER4 = Integer.valueOf(702);
+   private static final Integer TASK_ENTERPRISE_NUMBER5 = Integer.valueOf(703);
+   private static final Integer TASK_ENTERPRISE_NUMBER6 = Integer.valueOf(704);
+   private static final Integer TASK_ENTERPRISE_NUMBER7 = Integer.valueOf(705);
+   private static final Integer TASK_ENTERPRISE_NUMBER8 = Integer.valueOf(706);
+   private static final Integer TASK_ENTERPRISE_NUMBER9 = Integer.valueOf(707);
+   private static final Integer TASK_ENTERPRISE_NUMBER10 = Integer.valueOf(708);
+   private static final Integer TASK_ENTERPRISE_NUMBER11 = Integer.valueOf(709);
+   private static final Integer TASK_ENTERPRISE_NUMBER12 = Integer.valueOf(710);
+   private static final Integer TASK_ENTERPRISE_NUMBER13 = Integer.valueOf(711);
+   private static final Integer TASK_ENTERPRISE_NUMBER14 = Integer.valueOf(712);
+   private static final Integer TASK_ENTERPRISE_NUMBER15 = Integer.valueOf(713);
+   private static final Integer TASK_ENTERPRISE_NUMBER16 = Integer.valueOf(714);
+   private static final Integer TASK_ENTERPRISE_NUMBER17 = Integer.valueOf(715);
+   private static final Integer TASK_ENTERPRISE_NUMBER18 = Integer.valueOf(716);
+   private static final Integer TASK_ENTERPRISE_NUMBER19 = Integer.valueOf(717);
+   private static final Integer TASK_ENTERPRISE_NUMBER20 = Integer.valueOf(718);
+   private static final Integer TASK_ENTERPRISE_NUMBER21 = Integer.valueOf(719);
+   private static final Integer TASK_ENTERPRISE_NUMBER22 = Integer.valueOf(720);
+   private static final Integer TASK_ENTERPRISE_NUMBER23 = Integer.valueOf(721);
+   private static final Integer TASK_ENTERPRISE_NUMBER24 = Integer.valueOf(722);
+   private static final Integer TASK_ENTERPRISE_NUMBER25 = Integer.valueOf(723);
+   private static final Integer TASK_ENTERPRISE_NUMBER26 = Integer.valueOf(724);
+   private static final Integer TASK_ENTERPRISE_NUMBER27 = Integer.valueOf(725);
+   private static final Integer TASK_ENTERPRISE_NUMBER28 = Integer.valueOf(726);
+   private static final Integer TASK_ENTERPRISE_NUMBER29 = Integer.valueOf(727);
+   private static final Integer TASK_ENTERPRISE_NUMBER30 = Integer.valueOf(728);
+   private static final Integer TASK_ENTERPRISE_NUMBER31 = Integer.valueOf(729);
+   private static final Integer TASK_ENTERPRISE_NUMBER32 = Integer.valueOf(730);
+   private static final Integer TASK_ENTERPRISE_NUMBER33 = Integer.valueOf(731);
+   private static final Integer TASK_ENTERPRISE_NUMBER34 = Integer.valueOf(732);
+   private static final Integer TASK_ENTERPRISE_NUMBER35 = Integer.valueOf(733);
+   private static final Integer TASK_ENTERPRISE_NUMBER36 = Integer.valueOf(734);
+   private static final Integer TASK_ENTERPRISE_NUMBER37 = Integer.valueOf(735);
+   private static final Integer TASK_ENTERPRISE_NUMBER38 = Integer.valueOf(736);
+   private static final Integer TASK_ENTERPRISE_NUMBER39 = Integer.valueOf(737);
+   private static final Integer TASK_ENTERPRISE_NUMBER40 = Integer.valueOf(738);
    
-   private static final Integer TASK_ENTERPRISE_TEXT1 = new Integer(799);
-   private static final Integer TASK_ENTERPRISE_TEXT2 = new Integer(800);
-   private static final Integer TASK_ENTERPRISE_TEXT3 = new Integer(801);
-   private static final Integer TASK_ENTERPRISE_TEXT4 = new Integer(802);
-   private static final Integer TASK_ENTERPRISE_TEXT5 = new Integer(803);
-   private static final Integer TASK_ENTERPRISE_TEXT6 = new Integer(804);
-   private static final Integer TASK_ENTERPRISE_TEXT7 = new Integer(805);
-   private static final Integer TASK_ENTERPRISE_TEXT8 = new Integer(806);
-   private static final Integer TASK_ENTERPRISE_TEXT9 = new Integer(807);
-   private static final Integer TASK_ENTERPRISE_TEXT10 = new Integer(808);
-   private static final Integer TASK_ENTERPRISE_TEXT11 = new Integer(809);
-   private static final Integer TASK_ENTERPRISE_TEXT12 = new Integer(810);
-   private static final Integer TASK_ENTERPRISE_TEXT13 = new Integer(811);
-   private static final Integer TASK_ENTERPRISE_TEXT14 = new Integer(812);
-   private static final Integer TASK_ENTERPRISE_TEXT15 = new Integer(813);
-   private static final Integer TASK_ENTERPRISE_TEXT16 = new Integer(814);
-   private static final Integer TASK_ENTERPRISE_TEXT17 = new Integer(815);
-   private static final Integer TASK_ENTERPRISE_TEXT18 = new Integer(816);
-   private static final Integer TASK_ENTERPRISE_TEXT19 = new Integer(817);
-   private static final Integer TASK_ENTERPRISE_TEXT20 = new Integer(818);
-   private static final Integer TASK_ENTERPRISE_TEXT21 = new Integer(819);
-   private static final Integer TASK_ENTERPRISE_TEXT22 = new Integer(820);
-   private static final Integer TASK_ENTERPRISE_TEXT23 = new Integer(821);
-   private static final Integer TASK_ENTERPRISE_TEXT24 = new Integer(822);
-   private static final Integer TASK_ENTERPRISE_TEXT25 = new Integer(823);
-   private static final Integer TASK_ENTERPRISE_TEXT26 = new Integer(824);
-   private static final Integer TASK_ENTERPRISE_TEXT27 = new Integer(825);
-   private static final Integer TASK_ENTERPRISE_TEXT28 = new Integer(826);
-   private static final Integer TASK_ENTERPRISE_TEXT29 = new Integer(827);
-   private static final Integer TASK_ENTERPRISE_TEXT30 = new Integer(828);
-   private static final Integer TASK_ENTERPRISE_TEXT31 = new Integer(829);
-   private static final Integer TASK_ENTERPRISE_TEXT32 = new Integer(830);
-   private static final Integer TASK_ENTERPRISE_TEXT33 = new Integer(831);
-   private static final Integer TASK_ENTERPRISE_TEXT34 = new Integer(832);
-   private static final Integer TASK_ENTERPRISE_TEXT35 = new Integer(833);
-   private static final Integer TASK_ENTERPRISE_TEXT36 = new Integer(834);
-   private static final Integer TASK_ENTERPRISE_TEXT37 = new Integer(835);
-   private static final Integer TASK_ENTERPRISE_TEXT38 = new Integer(836);
-   private static final Integer TASK_ENTERPRISE_TEXT39 = new Integer(837);
-   private static final Integer TASK_ENTERPRISE_TEXT40 = new Integer(838);
+   private static final Integer TASK_ENTERPRISE_TEXT1 = Integer.valueOf(799);
+   private static final Integer TASK_ENTERPRISE_TEXT2 = Integer.valueOf(800);
+   private static final Integer TASK_ENTERPRISE_TEXT3 = Integer.valueOf(801);
+   private static final Integer TASK_ENTERPRISE_TEXT4 = Integer.valueOf(802);
+   private static final Integer TASK_ENTERPRISE_TEXT5 = Integer.valueOf(803);
+   private static final Integer TASK_ENTERPRISE_TEXT6 = Integer.valueOf(804);
+   private static final Integer TASK_ENTERPRISE_TEXT7 = Integer.valueOf(805);
+   private static final Integer TASK_ENTERPRISE_TEXT8 = Integer.valueOf(806);
+   private static final Integer TASK_ENTERPRISE_TEXT9 = Integer.valueOf(807);
+   private static final Integer TASK_ENTERPRISE_TEXT10 = Integer.valueOf(808);
+   private static final Integer TASK_ENTERPRISE_TEXT11 = Integer.valueOf(809);
+   private static final Integer TASK_ENTERPRISE_TEXT12 = Integer.valueOf(810);
+   private static final Integer TASK_ENTERPRISE_TEXT13 = Integer.valueOf(811);
+   private static final Integer TASK_ENTERPRISE_TEXT14 = Integer.valueOf(812);
+   private static final Integer TASK_ENTERPRISE_TEXT15 = Integer.valueOf(813);
+   private static final Integer TASK_ENTERPRISE_TEXT16 = Integer.valueOf(814);
+   private static final Integer TASK_ENTERPRISE_TEXT17 = Integer.valueOf(815);
+   private static final Integer TASK_ENTERPRISE_TEXT18 = Integer.valueOf(816);
+   private static final Integer TASK_ENTERPRISE_TEXT19 = Integer.valueOf(817);
+   private static final Integer TASK_ENTERPRISE_TEXT20 = Integer.valueOf(818);
+   private static final Integer TASK_ENTERPRISE_TEXT21 = Integer.valueOf(819);
+   private static final Integer TASK_ENTERPRISE_TEXT22 = Integer.valueOf(820);
+   private static final Integer TASK_ENTERPRISE_TEXT23 = Integer.valueOf(821);
+   private static final Integer TASK_ENTERPRISE_TEXT24 = Integer.valueOf(822);
+   private static final Integer TASK_ENTERPRISE_TEXT25 = Integer.valueOf(823);
+   private static final Integer TASK_ENTERPRISE_TEXT26 = Integer.valueOf(824);
+   private static final Integer TASK_ENTERPRISE_TEXT27 = Integer.valueOf(825);
+   private static final Integer TASK_ENTERPRISE_TEXT28 = Integer.valueOf(826);
+   private static final Integer TASK_ENTERPRISE_TEXT29 = Integer.valueOf(827);
+   private static final Integer TASK_ENTERPRISE_TEXT30 = Integer.valueOf(828);
+   private static final Integer TASK_ENTERPRISE_TEXT31 = Integer.valueOf(829);
+   private static final Integer TASK_ENTERPRISE_TEXT32 = Integer.valueOf(830);
+   private static final Integer TASK_ENTERPRISE_TEXT33 = Integer.valueOf(831);
+   private static final Integer TASK_ENTERPRISE_TEXT34 = Integer.valueOf(832);
+   private static final Integer TASK_ENTERPRISE_TEXT35 = Integer.valueOf(833);
+   private static final Integer TASK_ENTERPRISE_TEXT36 = Integer.valueOf(834);
+   private static final Integer TASK_ENTERPRISE_TEXT37 = Integer.valueOf(835);
+   private static final Integer TASK_ENTERPRISE_TEXT38 = Integer.valueOf(836);
+   private static final Integer TASK_ENTERPRISE_TEXT39 = Integer.valueOf(837);
+   private static final Integer TASK_ENTERPRISE_TEXT40 = Integer.valueOf(838);
 
-   private static final Integer TASK_EXTERNAL_TASK_ID = new Integer (255);
+   private static final Integer TASK_EXTERNAL_TASK_ID = Integer.valueOf(255);
    
-   private static final Integer TASK_BASELINE1_START = new Integer(482);
-   private static final Integer TASK_BASELINE1_FINISH = new Integer(483);
-   private static final Integer TASK_BASELINE1_COST = new Integer(484);
-   private static final Integer TASK_BASELINE1_WORK = new Integer(485);
-   private static final Integer TASK_BASELINE1_DURATION = new Integer(487); 
-   private static final Integer TASK_BASELINE1_DURATION_UNITS = new Integer(488);
+   private static final Integer TASK_BASELINE1_START = Integer.valueOf(482);
+   private static final Integer TASK_BASELINE1_FINISH = Integer.valueOf(483);
+   private static final Integer TASK_BASELINE1_COST = Integer.valueOf(484);
+   private static final Integer TASK_BASELINE1_WORK = Integer.valueOf(485);
+   private static final Integer TASK_BASELINE1_DURATION = Integer.valueOf(487); 
+   private static final Integer TASK_BASELINE1_DURATION_UNITS = Integer.valueOf(488);
    
-   private static final Integer TASK_BASELINE2_START = new Integer(493);
-   private static final Integer TASK_BASELINE2_FINISH = new Integer(494);
-   private static final Integer TASK_BASELINE2_COST = new Integer(495);
-   private static final Integer TASK_BASELINE2_WORK = new Integer(496);
-   private static final Integer TASK_BASELINE2_DURATION = new Integer(498); 
-   private static final Integer TASK_BASELINE2_DURATION_UNITS = new Integer(499);
+   private static final Integer TASK_BASELINE2_START = Integer.valueOf(493);
+   private static final Integer TASK_BASELINE2_FINISH = Integer.valueOf(494);
+   private static final Integer TASK_BASELINE2_COST = Integer.valueOf(495);
+   private static final Integer TASK_BASELINE2_WORK = Integer.valueOf(496);
+   private static final Integer TASK_BASELINE2_DURATION = Integer.valueOf(498); 
+   private static final Integer TASK_BASELINE2_DURATION_UNITS = Integer.valueOf(499);
    
-   private static final Integer TASK_BASELINE3_START = new Integer(504);
-   private static final Integer TASK_BASELINE3_FINISH = new Integer(505);
-   private static final Integer TASK_BASELINE3_COST = new Integer(506);
-   private static final Integer TASK_BASELINE3_WORK = new Integer(507);
-   private static final Integer TASK_BASELINE3_DURATION = new Integer(509); 
-   private static final Integer TASK_BASELINE3_DURATION_UNITS = new Integer(510);
+   private static final Integer TASK_BASELINE3_START = Integer.valueOf(504);
+   private static final Integer TASK_BASELINE3_FINISH = Integer.valueOf(505);
+   private static final Integer TASK_BASELINE3_COST = Integer.valueOf(506);
+   private static final Integer TASK_BASELINE3_WORK = Integer.valueOf(507);
+   private static final Integer TASK_BASELINE3_DURATION = Integer.valueOf(509); 
+   private static final Integer TASK_BASELINE3_DURATION_UNITS = Integer.valueOf(510);
    
-   private static final Integer TASK_BASELINE4_START = new Integer(515);
-   private static final Integer TASK_BASELINE4_FINISH = new Integer(516);
-   private static final Integer TASK_BASELINE4_COST = new Integer(517);
-   private static final Integer TASK_BASELINE4_WORK = new Integer(518);
-   private static final Integer TASK_BASELINE4_DURATION = new Integer(520);
-   private static final Integer TASK_BASELINE4_DURATION_UNITS = new Integer(521);
+   private static final Integer TASK_BASELINE4_START = Integer.valueOf(515);
+   private static final Integer TASK_BASELINE4_FINISH = Integer.valueOf(516);
+   private static final Integer TASK_BASELINE4_COST = Integer.valueOf(517);
+   private static final Integer TASK_BASELINE4_WORK = Integer.valueOf(518);
+   private static final Integer TASK_BASELINE4_DURATION = Integer.valueOf(520);
+   private static final Integer TASK_BASELINE4_DURATION_UNITS = Integer.valueOf(521);
    
-   private static final Integer TASK_BASELINE5_START = new Integer(526);
-   private static final Integer TASK_BASELINE5_FINISH = new Integer(527);
-   private static final Integer TASK_BASELINE5_COST = new Integer(528);
-   private static final Integer TASK_BASELINE5_WORK = new Integer(529);
-   private static final Integer TASK_BASELINE5_DURATION = new Integer(531); 
-   private static final Integer TASK_BASELINE5_DURATION_UNITS = new Integer(532);
+   private static final Integer TASK_BASELINE5_START = Integer.valueOf(526);
+   private static final Integer TASK_BASELINE5_FINISH = Integer.valueOf(527);
+   private static final Integer TASK_BASELINE5_COST = Integer.valueOf(528);
+   private static final Integer TASK_BASELINE5_WORK = Integer.valueOf(529);
+   private static final Integer TASK_BASELINE5_DURATION = Integer.valueOf(531); 
+   private static final Integer TASK_BASELINE5_DURATION_UNITS = Integer.valueOf(532);
    
-   private static final Integer TASK_BASELINE6_START = new Integer(544);
-   private static final Integer TASK_BASELINE6_FINISH = new Integer(545);
-   private static final Integer TASK_BASELINE6_COST = new Integer(546);
-   private static final Integer TASK_BASELINE6_WORK = new Integer(547);
-   private static final Integer TASK_BASELINE6_DURATION = new Integer(549);  
-   private static final Integer TASK_BASELINE6_DURATION_UNITS = new Integer(550);
+   private static final Integer TASK_BASELINE6_START = Integer.valueOf(544);
+   private static final Integer TASK_BASELINE6_FINISH = Integer.valueOf(545);
+   private static final Integer TASK_BASELINE6_COST = Integer.valueOf(546);
+   private static final Integer TASK_BASELINE6_WORK = Integer.valueOf(547);
+   private static final Integer TASK_BASELINE6_DURATION = Integer.valueOf(549);  
+   private static final Integer TASK_BASELINE6_DURATION_UNITS = Integer.valueOf(550);
    
-   private static final Integer TASK_BASELINE7_START = new Integer(555);
-   private static final Integer TASK_BASELINE7_FINISH = new Integer(556);
-   private static final Integer TASK_BASELINE7_COST = new Integer(557);
-   private static final Integer TASK_BASELINE7_WORK = new Integer(558);
-   private static final Integer TASK_BASELINE7_DURATION = new Integer(560); 
-   private static final Integer TASK_BASELINE7_DURATION_UNITS = new Integer(561);
+   private static final Integer TASK_BASELINE7_START = Integer.valueOf(555);
+   private static final Integer TASK_BASELINE7_FINISH = Integer.valueOf(556);
+   private static final Integer TASK_BASELINE7_COST = Integer.valueOf(557);
+   private static final Integer TASK_BASELINE7_WORK = Integer.valueOf(558);
+   private static final Integer TASK_BASELINE7_DURATION = Integer.valueOf(560); 
+   private static final Integer TASK_BASELINE7_DURATION_UNITS = Integer.valueOf(561);
    
-   private static final Integer TASK_BASELINE8_START = new Integer(566);
-   private static final Integer TASK_BASELINE8_FINISH = new Integer(567);
-   private static final Integer TASK_BASELINE8_COST = new Integer(568);
-   private static final Integer TASK_BASELINE8_WORK = new Integer(569);
-   private static final Integer TASK_BASELINE8_DURATION = new Integer(571);
-   private static final Integer TASK_BASELINE8_DURATION_UNITS = new Integer(572);
+   private static final Integer TASK_BASELINE8_START = Integer.valueOf(566);
+   private static final Integer TASK_BASELINE8_FINISH = Integer.valueOf(567);
+   private static final Integer TASK_BASELINE8_COST = Integer.valueOf(568);
+   private static final Integer TASK_BASELINE8_WORK = Integer.valueOf(569);
+   private static final Integer TASK_BASELINE8_DURATION = Integer.valueOf(571);
+   private static final Integer TASK_BASELINE8_DURATION_UNITS = Integer.valueOf(572);
    
-   private static final Integer TASK_BASELINE9_START = new Integer(577);
-   private static final Integer TASK_BASELINE9_FINISH = new Integer(578);
-   private static final Integer TASK_BASELINE9_COST = new Integer(579);
-   private static final Integer TASK_BASELINE9_WORK = new Integer(580);
-   private static final Integer TASK_BASELINE9_DURATION = new Integer(582); 
-   private static final Integer TASK_BASELINE9_DURATION_UNITS = new Integer(583);
+   private static final Integer TASK_BASELINE9_START = Integer.valueOf(577);
+   private static final Integer TASK_BASELINE9_FINISH = Integer.valueOf(578);
+   private static final Integer TASK_BASELINE9_COST = Integer.valueOf(579);
+   private static final Integer TASK_BASELINE9_WORK = Integer.valueOf(580);
+   private static final Integer TASK_BASELINE9_DURATION = Integer.valueOf(582); 
+   private static final Integer TASK_BASELINE9_DURATION_UNITS = Integer.valueOf(583);
    
-   private static final Integer TASK_BASELINE10_START = new Integer(588);
-   private static final Integer TASK_BASELINE10_FINISH = new Integer(589);
-   private static final Integer TASK_BASELINE10_COST = new Integer(590);
-   private static final Integer TASK_BASELINE10_WORK = new Integer(591);
-   private static final Integer TASK_BASELINE10_DURATION = new Integer(593);   
-   private static final Integer TASK_BASELINE10_DURATION_UNITS = new Integer(594);
+   private static final Integer TASK_BASELINE10_START = Integer.valueOf(588);
+   private static final Integer TASK_BASELINE10_FINISH = Integer.valueOf(589);
+   private static final Integer TASK_BASELINE10_COST = Integer.valueOf(590);
+   private static final Integer TASK_BASELINE10_WORK = Integer.valueOf(591);
+   private static final Integer TASK_BASELINE10_DURATION = Integer.valueOf(593);   
+   private static final Integer TASK_BASELINE10_DURATION_UNITS = Integer.valueOf(594);
    
-   private static final Integer TASK_OVERTIME_COST = new Integer (168);
-   private static final Integer TASK_ACTUAL_OVERTIME_COST = new Integer (169);
+   private static final Integer TASK_OVERTIME_COST = Integer.valueOf(168);
+   private static final Integer TASK_ACTUAL_OVERTIME_COST = Integer.valueOf(169);
 
    //
    // Unverified
    //
-   private static final Integer TASK_ACTUAL_OVERTIME_WORK = new Integer (3);
-   private static final Integer TASK_REMAINING_OVERTIME_WORK = new Integer (4);
-   private static final Integer TASK_REMAINING_OVERTIME_COST = new Integer (7);   
-   private static final Integer TASK_SUBPROJECTUNIQUETASKID = new Integer (242);
-   private static final Integer TASK_SUBPROJECTTASKID = new Integer (255);
-   private static final Integer TASK_WBS = new Integer (10);
+   private static final Integer TASK_ACTUAL_OVERTIME_WORK = Integer.valueOf(3);
+   private static final Integer TASK_REMAINING_OVERTIME_WORK = Integer.valueOf(4);
+   private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);   
+   private static final Integer TASK_SUBPROJECTUNIQUETASKID = Integer.valueOf(242);
+   private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);
+   private static final Integer TASK_WBS = Integer.valueOf(10);
    
    
 
@@ -3823,329 +3823,329 @@ final class MPP12Reader implements MPPVariantReader
    //
    // MPP12 verified
    //
-   private static final Integer RESOURCE_NAME = new Integer (1);
-   private static final Integer RESOURCE_INITIALS = new Integer (2);
-   private static final Integer RESOURCE_GROUP = new Integer (3);   
-   private static final Integer RESOURCE_CODE = new Integer (10);
-   private static final Integer RESOURCE_MATERIAL_LABEL = new Integer (299);
+   private static final Integer RESOURCE_NAME = Integer.valueOf(1);
+   private static final Integer RESOURCE_INITIALS = Integer.valueOf(2);
+   private static final Integer RESOURCE_GROUP = Integer.valueOf(3);   
+   private static final Integer RESOURCE_CODE = Integer.valueOf(10);
+   private static final Integer RESOURCE_MATERIAL_LABEL = Integer.valueOf(299);
    
-   private static final Integer RESOURCE_HYPERLINK = new Integer (136);
+   private static final Integer RESOURCE_HYPERLINK = Integer.valueOf(136);
 
-   private static final Integer RESOURCE_COST1 = new Integer (123);
-   private static final Integer RESOURCE_COST2 = new Integer (124);
-   private static final Integer RESOURCE_COST3 = new Integer (125);
-   private static final Integer RESOURCE_COST4 = new Integer (166);
-   private static final Integer RESOURCE_COST5 = new Integer (167);
-   private static final Integer RESOURCE_COST6 = new Integer (168);
-   private static final Integer RESOURCE_COST7 = new Integer (169);
-   private static final Integer RESOURCE_COST8 = new Integer (170);
-   private static final Integer RESOURCE_COST9 = new Integer (171);
-   private static final Integer RESOURCE_COST10 = new Integer (172);
+   private static final Integer RESOURCE_COST1 = Integer.valueOf(123);
+   private static final Integer RESOURCE_COST2 = Integer.valueOf(124);
+   private static final Integer RESOURCE_COST3 = Integer.valueOf(125);
+   private static final Integer RESOURCE_COST4 = Integer.valueOf(166);
+   private static final Integer RESOURCE_COST5 = Integer.valueOf(167);
+   private static final Integer RESOURCE_COST6 = Integer.valueOf(168);
+   private static final Integer RESOURCE_COST7 = Integer.valueOf(169);
+   private static final Integer RESOURCE_COST8 = Integer.valueOf(170);
+   private static final Integer RESOURCE_COST9 = Integer.valueOf(171);
+   private static final Integer RESOURCE_COST10 = Integer.valueOf(172);
 
-   private static final Integer RESOURCE_EMAIL = new Integer (35);
+   private static final Integer RESOURCE_EMAIL = Integer.valueOf(35);
 
-   private static final Integer RESOURCE_DATE1 = new Integer (173);
-   private static final Integer RESOURCE_DATE2 = new Integer (174);
-   private static final Integer RESOURCE_DATE3 = new Integer (175);
-   private static final Integer RESOURCE_DATE4 = new Integer (176);
-   private static final Integer RESOURCE_DATE5 = new Integer (177);
-   private static final Integer RESOURCE_DATE6 = new Integer (178);
-   private static final Integer RESOURCE_DATE7 = new Integer (179);
-   private static final Integer RESOURCE_DATE8 = new Integer (180);
-   private static final Integer RESOURCE_DATE9 = new Integer (181);
-   private static final Integer RESOURCE_DATE10 = new Integer (182);
+   private static final Integer RESOURCE_DATE1 = Integer.valueOf(173);
+   private static final Integer RESOURCE_DATE2 = Integer.valueOf(174);
+   private static final Integer RESOURCE_DATE3 = Integer.valueOf(175);
+   private static final Integer RESOURCE_DATE4 = Integer.valueOf(176);
+   private static final Integer RESOURCE_DATE5 = Integer.valueOf(177);
+   private static final Integer RESOURCE_DATE6 = Integer.valueOf(178);
+   private static final Integer RESOURCE_DATE7 = Integer.valueOf(179);
+   private static final Integer RESOURCE_DATE8 = Integer.valueOf(180);
+   private static final Integer RESOURCE_DATE9 = Integer.valueOf(181);
+   private static final Integer RESOURCE_DATE10 = Integer.valueOf(182);
 
-   private static final Integer RESOURCE_START1 = new Integer (102);
-   private static final Integer RESOURCE_START2 = new Integer (103);
-   private static final Integer RESOURCE_START3 = new Integer (104);
-   private static final Integer RESOURCE_START4 = new Integer (105);
-   private static final Integer RESOURCE_START5 = new Integer (106);
-   private static final Integer RESOURCE_START6 = new Integer (220);
-   private static final Integer RESOURCE_START7 = new Integer (221);
-   private static final Integer RESOURCE_START8 = new Integer (222);
-   private static final Integer RESOURCE_START9 = new Integer (223);
-   private static final Integer RESOURCE_START10 = new Integer (224);
+   private static final Integer RESOURCE_START1 = Integer.valueOf(102);
+   private static final Integer RESOURCE_START2 = Integer.valueOf(103);
+   private static final Integer RESOURCE_START3 = Integer.valueOf(104);
+   private static final Integer RESOURCE_START4 = Integer.valueOf(105);
+   private static final Integer RESOURCE_START5 = Integer.valueOf(106);
+   private static final Integer RESOURCE_START6 = Integer.valueOf(220);
+   private static final Integer RESOURCE_START7 = Integer.valueOf(221);
+   private static final Integer RESOURCE_START8 = Integer.valueOf(222);
+   private static final Integer RESOURCE_START9 = Integer.valueOf(223);
+   private static final Integer RESOURCE_START10 = Integer.valueOf(224);
 
-   private static final Integer RESOURCE_FINISH1 = new Integer (107);
-   private static final Integer RESOURCE_FINISH2 = new Integer (108);
-   private static final Integer RESOURCE_FINISH3 = new Integer (109);
-   private static final Integer RESOURCE_FINISH4 = new Integer (110);
-   private static final Integer RESOURCE_FINISH5 = new Integer (111);
-   private static final Integer RESOURCE_FINISH6 = new Integer (190);
-   private static final Integer RESOURCE_FINISH7 = new Integer (191);
-   private static final Integer RESOURCE_FINISH8 = new Integer (192);
-   private static final Integer RESOURCE_FINISH9 = new Integer (193);
-   private static final Integer RESOURCE_FINISH10 = new Integer (194);
+   private static final Integer RESOURCE_FINISH1 = Integer.valueOf(107);
+   private static final Integer RESOURCE_FINISH2 = Integer.valueOf(108);
+   private static final Integer RESOURCE_FINISH3 = Integer.valueOf(109);
+   private static final Integer RESOURCE_FINISH4 = Integer.valueOf(110);
+   private static final Integer RESOURCE_FINISH5 = Integer.valueOf(111);
+   private static final Integer RESOURCE_FINISH6 = Integer.valueOf(190);
+   private static final Integer RESOURCE_FINISH7 = Integer.valueOf(191);
+   private static final Integer RESOURCE_FINISH8 = Integer.valueOf(192);
+   private static final Integer RESOURCE_FINISH9 = Integer.valueOf(193);
+   private static final Integer RESOURCE_FINISH10 = Integer.valueOf(194);
 
-   private static final Integer RESOURCE_OUTLINECODE1 = new Integer (279);
-   private static final Integer RESOURCE_OUTLINECODE2 = new Integer (281);
-   private static final Integer RESOURCE_OUTLINECODE3 = new Integer (283);
-   private static final Integer RESOURCE_OUTLINECODE4 = new Integer (285);
-   private static final Integer RESOURCE_OUTLINECODE5 = new Integer (287);
-   private static final Integer RESOURCE_OUTLINECODE6 = new Integer (289);
-   private static final Integer RESOURCE_OUTLINECODE7 = new Integer (291);
-   private static final Integer RESOURCE_OUTLINECODE8 = new Integer (293);
-   private static final Integer RESOURCE_OUTLINECODE9 = new Integer (295);
-   private static final Integer RESOURCE_OUTLINECODE10 = new Integer (297);
+   private static final Integer RESOURCE_OUTLINECODE1 = Integer.valueOf(279);
+   private static final Integer RESOURCE_OUTLINECODE2 = Integer.valueOf(281);
+   private static final Integer RESOURCE_OUTLINECODE3 = Integer.valueOf(283);
+   private static final Integer RESOURCE_OUTLINECODE4 = Integer.valueOf(285);
+   private static final Integer RESOURCE_OUTLINECODE5 = Integer.valueOf(287);
+   private static final Integer RESOURCE_OUTLINECODE6 = Integer.valueOf(289);
+   private static final Integer RESOURCE_OUTLINECODE7 = Integer.valueOf(291);
+   private static final Integer RESOURCE_OUTLINECODE8 = Integer.valueOf(293);
+   private static final Integer RESOURCE_OUTLINECODE9 = Integer.valueOf(295);
+   private static final Integer RESOURCE_OUTLINECODE10 = Integer.valueOf(297);
 
-   private static final Integer RESOURCE_DURATION1 = new Integer (117);
-   private static final Integer RESOURCE_DURATION2 = new Integer (118);
-   private static final Integer RESOURCE_DURATION3 = new Integer (119);
-   private static final Integer RESOURCE_DURATION4 = new Integer (183);
-   private static final Integer RESOURCE_DURATION5 = new Integer (184);
-   private static final Integer RESOURCE_DURATION6 = new Integer (185);
-   private static final Integer RESOURCE_DURATION7 = new Integer (186);
-   private static final Integer RESOURCE_DURATION8 = new Integer (187);
-   private static final Integer RESOURCE_DURATION9 = new Integer (188);
-   private static final Integer RESOURCE_DURATION10 = new Integer (189);
+   private static final Integer RESOURCE_DURATION1 = Integer.valueOf(117);
+   private static final Integer RESOURCE_DURATION2 = Integer.valueOf(118);
+   private static final Integer RESOURCE_DURATION3 = Integer.valueOf(119);
+   private static final Integer RESOURCE_DURATION4 = Integer.valueOf(183);
+   private static final Integer RESOURCE_DURATION5 = Integer.valueOf(184);
+   private static final Integer RESOURCE_DURATION6 = Integer.valueOf(185);
+   private static final Integer RESOURCE_DURATION7 = Integer.valueOf(186);
+   private static final Integer RESOURCE_DURATION8 = Integer.valueOf(187);
+   private static final Integer RESOURCE_DURATION9 = Integer.valueOf(188);
+   private static final Integer RESOURCE_DURATION10 = Integer.valueOf(189);
 
-   private static final Integer RESOURCE_DURATION1_UNITS = new Integer (120);
-   private static final Integer RESOURCE_DURATION2_UNITS = new Integer (121);
-   private static final Integer RESOURCE_DURATION3_UNITS = new Integer (122);
-   private static final Integer RESOURCE_DURATION4_UNITS = new Integer (245);
-   private static final Integer RESOURCE_DURATION5_UNITS = new Integer (246);
-   private static final Integer RESOURCE_DURATION6_UNITS = new Integer (247);
-   private static final Integer RESOURCE_DURATION7_UNITS = new Integer (248);
-   private static final Integer RESOURCE_DURATION8_UNITS = new Integer (249);
-   private static final Integer RESOURCE_DURATION9_UNITS = new Integer (250);
-   private static final Integer RESOURCE_DURATION10_UNITS = new Integer (251);
+   private static final Integer RESOURCE_DURATION1_UNITS = Integer.valueOf(120);
+   private static final Integer RESOURCE_DURATION2_UNITS = Integer.valueOf(121);
+   private static final Integer RESOURCE_DURATION3_UNITS = Integer.valueOf(122);
+   private static final Integer RESOURCE_DURATION4_UNITS = Integer.valueOf(245);
+   private static final Integer RESOURCE_DURATION5_UNITS = Integer.valueOf(246);
+   private static final Integer RESOURCE_DURATION6_UNITS = Integer.valueOf(247);
+   private static final Integer RESOURCE_DURATION7_UNITS = Integer.valueOf(248);
+   private static final Integer RESOURCE_DURATION8_UNITS = Integer.valueOf(249);
+   private static final Integer RESOURCE_DURATION9_UNITS = Integer.valueOf(250);
+   private static final Integer RESOURCE_DURATION10_UNITS = Integer.valueOf(251);
 
-   private static final Integer RESOURCE_NUMBER1 = new Integer (112);
-   private static final Integer RESOURCE_NUMBER2 = new Integer (113);
-   private static final Integer RESOURCE_NUMBER3 = new Integer (114);
-   private static final Integer RESOURCE_NUMBER4 = new Integer (115);
-   private static final Integer RESOURCE_NUMBER5 = new Integer (116);
-   private static final Integer RESOURCE_NUMBER6 = new Integer (205);
-   private static final Integer RESOURCE_NUMBER7 = new Integer (206);
-   private static final Integer RESOURCE_NUMBER8 = new Integer (207);
-   private static final Integer RESOURCE_NUMBER9 = new Integer (208);
-   private static final Integer RESOURCE_NUMBER10 = new Integer (209);
-   private static final Integer RESOURCE_NUMBER11 = new Integer (210);
-   private static final Integer RESOURCE_NUMBER12 = new Integer (211);
-   private static final Integer RESOURCE_NUMBER13 = new Integer (212);
-   private static final Integer RESOURCE_NUMBER14 = new Integer (213);
-   private static final Integer RESOURCE_NUMBER15 = new Integer (214);
-   private static final Integer RESOURCE_NUMBER16 = new Integer (215);
-   private static final Integer RESOURCE_NUMBER17 = new Integer (216);
-   private static final Integer RESOURCE_NUMBER18 = new Integer (217);
-   private static final Integer RESOURCE_NUMBER19 = new Integer (218);
-   private static final Integer RESOURCE_NUMBER20 = new Integer (219);
+   private static final Integer RESOURCE_NUMBER1 = Integer.valueOf(112);
+   private static final Integer RESOURCE_NUMBER2 = Integer.valueOf(113);
+   private static final Integer RESOURCE_NUMBER3 = Integer.valueOf(114);
+   private static final Integer RESOURCE_NUMBER4 = Integer.valueOf(115);
+   private static final Integer RESOURCE_NUMBER5 = Integer.valueOf(116);
+   private static final Integer RESOURCE_NUMBER6 = Integer.valueOf(205);
+   private static final Integer RESOURCE_NUMBER7 = Integer.valueOf(206);
+   private static final Integer RESOURCE_NUMBER8 = Integer.valueOf(207);
+   private static final Integer RESOURCE_NUMBER9 = Integer.valueOf(208);
+   private static final Integer RESOURCE_NUMBER10 = Integer.valueOf(209);
+   private static final Integer RESOURCE_NUMBER11 = Integer.valueOf(210);
+   private static final Integer RESOURCE_NUMBER12 = Integer.valueOf(211);
+   private static final Integer RESOURCE_NUMBER13 = Integer.valueOf(212);
+   private static final Integer RESOURCE_NUMBER14 = Integer.valueOf(213);
+   private static final Integer RESOURCE_NUMBER15 = Integer.valueOf(214);
+   private static final Integer RESOURCE_NUMBER16 = Integer.valueOf(215);
+   private static final Integer RESOURCE_NUMBER17 = Integer.valueOf(216);
+   private static final Integer RESOURCE_NUMBER18 = Integer.valueOf(217);
+   private static final Integer RESOURCE_NUMBER19 = Integer.valueOf(218);
+   private static final Integer RESOURCE_NUMBER20 = Integer.valueOf(219);
 
-   private static final Integer RESOURCE_TEXT1 = new Integer (8);
-   private static final Integer RESOURCE_TEXT2 = new Integer (9);
-   private static final Integer RESOURCE_TEXT3 = new Integer (30);
-   private static final Integer RESOURCE_TEXT4 = new Integer (31);
-   private static final Integer RESOURCE_TEXT5 = new Integer (32);
-   private static final Integer RESOURCE_TEXT6 = new Integer (97);
-   private static final Integer RESOURCE_TEXT7 = new Integer (98);
-   private static final Integer RESOURCE_TEXT8 = new Integer (99);
-   private static final Integer RESOURCE_TEXT9 = new Integer (100);
-   private static final Integer RESOURCE_TEXT10 = new Integer (101);
-   private static final Integer RESOURCE_TEXT11 = new Integer (225);
-   private static final Integer RESOURCE_TEXT12 = new Integer (226);
-   private static final Integer RESOURCE_TEXT13 = new Integer (227);
-   private static final Integer RESOURCE_TEXT14 = new Integer (228);
-   private static final Integer RESOURCE_TEXT15 = new Integer (229);
-   private static final Integer RESOURCE_TEXT16 = new Integer (230);
-   private static final Integer RESOURCE_TEXT17 = new Integer (231);
-   private static final Integer RESOURCE_TEXT18 = new Integer (232);
-   private static final Integer RESOURCE_TEXT19 = new Integer (233);
-   private static final Integer RESOURCE_TEXT20 = new Integer (234);
-   private static final Integer RESOURCE_TEXT21 = new Integer (235);
-   private static final Integer RESOURCE_TEXT22 = new Integer (236);
-   private static final Integer RESOURCE_TEXT23 = new Integer (237);
-   private static final Integer RESOURCE_TEXT24 = new Integer (238);
-   private static final Integer RESOURCE_TEXT25 = new Integer (239);
-   private static final Integer RESOURCE_TEXT26 = new Integer (240);
-   private static final Integer RESOURCE_TEXT27 = new Integer (241);
-   private static final Integer RESOURCE_TEXT28 = new Integer (242);
-   private static final Integer RESOURCE_TEXT29 = new Integer (243);
-   private static final Integer RESOURCE_TEXT30 = new Integer (244);
+   private static final Integer RESOURCE_TEXT1 = Integer.valueOf(8);
+   private static final Integer RESOURCE_TEXT2 = Integer.valueOf(9);
+   private static final Integer RESOURCE_TEXT3 = Integer.valueOf(30);
+   private static final Integer RESOURCE_TEXT4 = Integer.valueOf(31);
+   private static final Integer RESOURCE_TEXT5 = Integer.valueOf(32);
+   private static final Integer RESOURCE_TEXT6 = Integer.valueOf(97);
+   private static final Integer RESOURCE_TEXT7 = Integer.valueOf(98);
+   private static final Integer RESOURCE_TEXT8 = Integer.valueOf(99);
+   private static final Integer RESOURCE_TEXT9 = Integer.valueOf(100);
+   private static final Integer RESOURCE_TEXT10 = Integer.valueOf(101);
+   private static final Integer RESOURCE_TEXT11 = Integer.valueOf(225);
+   private static final Integer RESOURCE_TEXT12 = Integer.valueOf(226);
+   private static final Integer RESOURCE_TEXT13 = Integer.valueOf(227);
+   private static final Integer RESOURCE_TEXT14 = Integer.valueOf(228);
+   private static final Integer RESOURCE_TEXT15 = Integer.valueOf(229);
+   private static final Integer RESOURCE_TEXT16 = Integer.valueOf(230);
+   private static final Integer RESOURCE_TEXT17 = Integer.valueOf(231);
+   private static final Integer RESOURCE_TEXT18 = Integer.valueOf(232);
+   private static final Integer RESOURCE_TEXT19 = Integer.valueOf(233);
+   private static final Integer RESOURCE_TEXT20 = Integer.valueOf(234);
+   private static final Integer RESOURCE_TEXT21 = Integer.valueOf(235);
+   private static final Integer RESOURCE_TEXT22 = Integer.valueOf(236);
+   private static final Integer RESOURCE_TEXT23 = Integer.valueOf(237);
+   private static final Integer RESOURCE_TEXT24 = Integer.valueOf(238);
+   private static final Integer RESOURCE_TEXT25 = Integer.valueOf(239);
+   private static final Integer RESOURCE_TEXT26 = Integer.valueOf(240);
+   private static final Integer RESOURCE_TEXT27 = Integer.valueOf(241);
+   private static final Integer RESOURCE_TEXT28 = Integer.valueOf(242);
+   private static final Integer RESOURCE_TEXT29 = Integer.valueOf(243);
+   private static final Integer RESOURCE_TEXT30 = Integer.valueOf(244);
 
-   private static final Integer RESOURCE_ENTERPRISE_COST1 = new Integer(446);
-   private static final Integer RESOURCE_ENTERPRISE_COST2 = new Integer(447);
-   private static final Integer RESOURCE_ENTERPRISE_COST3 = new Integer(448);
-   private static final Integer RESOURCE_ENTERPRISE_COST4 = new Integer(449);
-   private static final Integer RESOURCE_ENTERPRISE_COST5 = new Integer(450);
-   private static final Integer RESOURCE_ENTERPRISE_COST6 = new Integer(451);
-   private static final Integer RESOURCE_ENTERPRISE_COST7 = new Integer(452);
-   private static final Integer RESOURCE_ENTERPRISE_COST8 = new Integer(453);
-   private static final Integer RESOURCE_ENTERPRISE_COST9 = new Integer(454);
-   private static final Integer RESOURCE_ENTERPRISE_COST10 = new Integer(455);
+   private static final Integer RESOURCE_ENTERPRISE_COST1 = Integer.valueOf(446);
+   private static final Integer RESOURCE_ENTERPRISE_COST2 = Integer.valueOf(447);
+   private static final Integer RESOURCE_ENTERPRISE_COST3 = Integer.valueOf(448);
+   private static final Integer RESOURCE_ENTERPRISE_COST4 = Integer.valueOf(449);
+   private static final Integer RESOURCE_ENTERPRISE_COST5 = Integer.valueOf(450);
+   private static final Integer RESOURCE_ENTERPRISE_COST6 = Integer.valueOf(451);
+   private static final Integer RESOURCE_ENTERPRISE_COST7 = Integer.valueOf(452);
+   private static final Integer RESOURCE_ENTERPRISE_COST8 = Integer.valueOf(453);
+   private static final Integer RESOURCE_ENTERPRISE_COST9 = Integer.valueOf(454);
+   private static final Integer RESOURCE_ENTERPRISE_COST10 = Integer.valueOf(455);
    
-   private static final Integer RESOURCE_ENTERPRISE_DATE1 = new Integer(456);
-   private static final Integer RESOURCE_ENTERPRISE_DATE2 = new Integer(457);
-   private static final Integer RESOURCE_ENTERPRISE_DATE3 = new Integer(458);
-   private static final Integer RESOURCE_ENTERPRISE_DATE4 = new Integer(459);
-   private static final Integer RESOURCE_ENTERPRISE_DATE5 = new Integer(460);
-   private static final Integer RESOURCE_ENTERPRISE_DATE6 = new Integer(461);
-   private static final Integer RESOURCE_ENTERPRISE_DATE7 = new Integer(462);
-   private static final Integer RESOURCE_ENTERPRISE_DATE8 = new Integer(463);
-   private static final Integer RESOURCE_ENTERPRISE_DATE9 = new Integer(464);
-   private static final Integer RESOURCE_ENTERPRISE_DATE10 = new Integer(465);
-   private static final Integer RESOURCE_ENTERPRISE_DATE11 = new Integer(466);
-   private static final Integer RESOURCE_ENTERPRISE_DATE12 = new Integer(467);
-   private static final Integer RESOURCE_ENTERPRISE_DATE13 = new Integer(468);
-   private static final Integer RESOURCE_ENTERPRISE_DATE14 = new Integer(469);
-   private static final Integer RESOURCE_ENTERPRISE_DATE15 = new Integer(470);
-   private static final Integer RESOURCE_ENTERPRISE_DATE16 = new Integer(471);
-   private static final Integer RESOURCE_ENTERPRISE_DATE17 = new Integer(472);
-   private static final Integer RESOURCE_ENTERPRISE_DATE18 = new Integer(473);
-   private static final Integer RESOURCE_ENTERPRISE_DATE19 = new Integer(474);
-   private static final Integer RESOURCE_ENTERPRISE_DATE20 = new Integer(475);
-   private static final Integer RESOURCE_ENTERPRISE_DATE21 = new Integer(476);
-   private static final Integer RESOURCE_ENTERPRISE_DATE22 = new Integer(477);
-   private static final Integer RESOURCE_ENTERPRISE_DATE23 = new Integer(478);
-   private static final Integer RESOURCE_ENTERPRISE_DATE24 = new Integer(479);
-   private static final Integer RESOURCE_ENTERPRISE_DATE25 = new Integer(480);
-   private static final Integer RESOURCE_ENTERPRISE_DATE26 = new Integer(481);
-   private static final Integer RESOURCE_ENTERPRISE_DATE27 = new Integer(482);
-   private static final Integer RESOURCE_ENTERPRISE_DATE28 = new Integer(483);
-   private static final Integer RESOURCE_ENTERPRISE_DATE29 = new Integer(484);
-   private static final Integer RESOURCE_ENTERPRISE_DATE30 = new Integer(485);
+   private static final Integer RESOURCE_ENTERPRISE_DATE1 = Integer.valueOf(456);
+   private static final Integer RESOURCE_ENTERPRISE_DATE2 = Integer.valueOf(457);
+   private static final Integer RESOURCE_ENTERPRISE_DATE3 = Integer.valueOf(458);
+   private static final Integer RESOURCE_ENTERPRISE_DATE4 = Integer.valueOf(459);
+   private static final Integer RESOURCE_ENTERPRISE_DATE5 = Integer.valueOf(460);
+   private static final Integer RESOURCE_ENTERPRISE_DATE6 = Integer.valueOf(461);
+   private static final Integer RESOURCE_ENTERPRISE_DATE7 = Integer.valueOf(462);
+   private static final Integer RESOURCE_ENTERPRISE_DATE8 = Integer.valueOf(463);
+   private static final Integer RESOURCE_ENTERPRISE_DATE9 = Integer.valueOf(464);
+   private static final Integer RESOURCE_ENTERPRISE_DATE10 = Integer.valueOf(465);
+   private static final Integer RESOURCE_ENTERPRISE_DATE11 = Integer.valueOf(466);
+   private static final Integer RESOURCE_ENTERPRISE_DATE12 = Integer.valueOf(467);
+   private static final Integer RESOURCE_ENTERPRISE_DATE13 = Integer.valueOf(468);
+   private static final Integer RESOURCE_ENTERPRISE_DATE14 = Integer.valueOf(469);
+   private static final Integer RESOURCE_ENTERPRISE_DATE15 = Integer.valueOf(470);
+   private static final Integer RESOURCE_ENTERPRISE_DATE16 = Integer.valueOf(471);
+   private static final Integer RESOURCE_ENTERPRISE_DATE17 = Integer.valueOf(472);
+   private static final Integer RESOURCE_ENTERPRISE_DATE18 = Integer.valueOf(473);
+   private static final Integer RESOURCE_ENTERPRISE_DATE19 = Integer.valueOf(474);
+   private static final Integer RESOURCE_ENTERPRISE_DATE20 = Integer.valueOf(475);
+   private static final Integer RESOURCE_ENTERPRISE_DATE21 = Integer.valueOf(476);
+   private static final Integer RESOURCE_ENTERPRISE_DATE22 = Integer.valueOf(477);
+   private static final Integer RESOURCE_ENTERPRISE_DATE23 = Integer.valueOf(478);
+   private static final Integer RESOURCE_ENTERPRISE_DATE24 = Integer.valueOf(479);
+   private static final Integer RESOURCE_ENTERPRISE_DATE25 = Integer.valueOf(480);
+   private static final Integer RESOURCE_ENTERPRISE_DATE26 = Integer.valueOf(481);
+   private static final Integer RESOURCE_ENTERPRISE_DATE27 = Integer.valueOf(482);
+   private static final Integer RESOURCE_ENTERPRISE_DATE28 = Integer.valueOf(483);
+   private static final Integer RESOURCE_ENTERPRISE_DATE29 = Integer.valueOf(484);
+   private static final Integer RESOURCE_ENTERPRISE_DATE30 = Integer.valueOf(485);
    
-   private static final Integer RESOURCE_ENTERPRISE_DURATION1 = new Integer(486);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION2 = new Integer(487);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION3 = new Integer(488);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION4 = new Integer(489);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION5 = new Integer(490);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION6 = new Integer(491);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION7 = new Integer(492);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION8 = new Integer(493);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION9 = new Integer(494);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION10 = new Integer(495);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION1 = Integer.valueOf(486);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION2 = Integer.valueOf(487);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION3 = Integer.valueOf(488);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION4 = Integer.valueOf(489);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION5 = Integer.valueOf(490);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION6 = Integer.valueOf(491);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION7 = Integer.valueOf(492);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION8 = Integer.valueOf(493);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION9 = Integer.valueOf(494);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION10 = Integer.valueOf(495);
    
-   private static final Integer RESOURCE_ENTERPRISE_DURATION1_UNITS = new Integer(496);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION2_UNITS = new Integer(497);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION3_UNITS = new Integer(498);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION4_UNITS = new Integer(499);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION5_UNITS = new Integer(500);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION6_UNITS = new Integer(501);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION7_UNITS = new Integer(502);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION8_UNITS = new Integer(503);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION9_UNITS = new Integer(504);
-   private static final Integer RESOURCE_ENTERPRISE_DURATION10_UNITS = new Integer(505);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION1_UNITS = Integer.valueOf(496);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION2_UNITS = Integer.valueOf(497);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION3_UNITS = Integer.valueOf(498);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION4_UNITS = Integer.valueOf(499);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION5_UNITS = Integer.valueOf(500);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION6_UNITS = Integer.valueOf(501);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION7_UNITS = Integer.valueOf(502);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION8_UNITS = Integer.valueOf(503);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION9_UNITS = Integer.valueOf(504);
+   private static final Integer RESOURCE_ENTERPRISE_DURATION10_UNITS = Integer.valueOf(505);
    
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER1 = new Integer(546);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER2 = new Integer(547);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER3 = new Integer(548);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER4 = new Integer(549);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER5 = new Integer(550);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER6 = new Integer(551);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER7 = new Integer(552);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER8 = new Integer(553);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER9 = new Integer(554);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER10 = new Integer(555);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER11 = new Integer(556);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER12 = new Integer(557);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER13 = new Integer(558);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER14 = new Integer(559);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER15 = new Integer(560);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER16 = new Integer(561);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER17 = new Integer(562);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER18 = new Integer(563);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER19 = new Integer(564);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER20 = new Integer(565);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER21 = new Integer(566);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER22 = new Integer(567);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER23 = new Integer(568);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER24 = new Integer(569);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER25 = new Integer(570);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER26 = new Integer(571);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER27 = new Integer(572);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER28 = new Integer(573);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER29 = new Integer(574);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER30 = new Integer(575);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER31 = new Integer(576);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER32 = new Integer(577);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER33 = new Integer(578);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER34 = new Integer(579);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER35 = new Integer(580);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER36 = new Integer(581);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER37 = new Integer(582);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER38 = new Integer(583);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER39 = new Integer(584);
-   private static final Integer RESOURCE_ENTERPRISE_NUMBER40 = new Integer(585);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER1 = Integer.valueOf(546);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER2 = Integer.valueOf(547);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER3 = Integer.valueOf(548);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER4 = Integer.valueOf(549);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER5 = Integer.valueOf(550);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER6 = Integer.valueOf(551);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER7 = Integer.valueOf(552);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER8 = Integer.valueOf(553);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER9 = Integer.valueOf(554);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER10 = Integer.valueOf(555);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER11 = Integer.valueOf(556);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER12 = Integer.valueOf(557);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER13 = Integer.valueOf(558);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER14 = Integer.valueOf(559);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER15 = Integer.valueOf(560);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER16 = Integer.valueOf(561);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER17 = Integer.valueOf(562);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER18 = Integer.valueOf(563);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER19 = Integer.valueOf(564);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER20 = Integer.valueOf(565);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER21 = Integer.valueOf(566);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER22 = Integer.valueOf(567);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER23 = Integer.valueOf(568);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER24 = Integer.valueOf(569);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER25 = Integer.valueOf(570);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER26 = Integer.valueOf(571);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER27 = Integer.valueOf(572);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER28 = Integer.valueOf(573);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER29 = Integer.valueOf(574);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER30 = Integer.valueOf(575);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER31 = Integer.valueOf(576);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER32 = Integer.valueOf(577);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER33 = Integer.valueOf(578);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER34 = Integer.valueOf(579);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER35 = Integer.valueOf(580);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER36 = Integer.valueOf(581);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER37 = Integer.valueOf(582);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER38 = Integer.valueOf(583);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER39 = Integer.valueOf(584);
+   private static final Integer RESOURCE_ENTERPRISE_NUMBER40 = Integer.valueOf(585);
    
-   private static final Integer RESOURCE_ENTERPRISE_TEXT1 = new Integer(646);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT2 = new Integer(647);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT3 = new Integer(648);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT4 = new Integer(649);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT5 = new Integer(650);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT6 = new Integer(651);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT7 = new Integer(652);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT8 = new Integer(653);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT9 = new Integer(654);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT10 = new Integer(655);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT11 = new Integer(656);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT12 = new Integer(657);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT13 = new Integer(658);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT14 = new Integer(659);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT15 = new Integer(660);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT16 = new Integer(661);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT17 = new Integer(662);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT18 = new Integer(663);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT19 = new Integer(664);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT20 = new Integer(665);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT21 = new Integer(666);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT22 = new Integer(667);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT23 = new Integer(668);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT24 = new Integer(669);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT25 = new Integer(670);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT26 = new Integer(671);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT27 = new Integer(672);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT28 = new Integer(673);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT29 = new Integer(674);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT30 = new Integer(675);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT31 = new Integer(676);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT32 = new Integer(677);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT33 = new Integer(678);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT34 = new Integer(679);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT35 = new Integer(680);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT36 = new Integer(681);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT37 = new Integer(682);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT38 = new Integer(683);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT39 = new Integer(684);
-   private static final Integer RESOURCE_ENTERPRISE_TEXT40 = new Integer(685);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT1 = Integer.valueOf(646);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT2 = Integer.valueOf(647);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT3 = Integer.valueOf(648);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT4 = Integer.valueOf(649);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT5 = Integer.valueOf(650);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT6 = Integer.valueOf(651);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT7 = Integer.valueOf(652);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT8 = Integer.valueOf(653);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT9 = Integer.valueOf(654);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT10 = Integer.valueOf(655);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT11 = Integer.valueOf(656);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT12 = Integer.valueOf(657);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT13 = Integer.valueOf(658);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT14 = Integer.valueOf(659);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT15 = Integer.valueOf(660);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT16 = Integer.valueOf(661);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT17 = Integer.valueOf(662);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT18 = Integer.valueOf(663);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT19 = Integer.valueOf(664);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT20 = Integer.valueOf(665);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT21 = Integer.valueOf(666);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT22 = Integer.valueOf(667);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT23 = Integer.valueOf(668);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT24 = Integer.valueOf(669);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT25 = Integer.valueOf(670);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT26 = Integer.valueOf(671);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT27 = Integer.valueOf(672);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT28 = Integer.valueOf(673);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT29 = Integer.valueOf(674);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT30 = Integer.valueOf(675);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT31 = Integer.valueOf(676);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT32 = Integer.valueOf(677);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT33 = Integer.valueOf(678);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT34 = Integer.valueOf(679);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT35 = Integer.valueOf(680);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT36 = Integer.valueOf(681);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT37 = Integer.valueOf(682);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT38 = Integer.valueOf(683);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT39 = Integer.valueOf(684);
+   private static final Integer RESOURCE_ENTERPRISE_TEXT40 = Integer.valueOf(685);
    
-   public static final Integer RESOURCE_BASELINE1_WORK = new Integer(342);
-   public static final Integer RESOURCE_BASELINE1_COST = new Integer(343);
-   public static final Integer RESOURCE_BASELINE2_WORK = new Integer(352);
-   public static final Integer RESOURCE_BASELINE2_COST = new Integer(353);
-   public static final Integer RESOURCE_BASELINE3_WORK = new Integer(362);
-   public static final Integer RESOURCE_BASELINE3_COST = new Integer(363);
-   public static final Integer RESOURCE_BASELINE4_WORK = new Integer(372);
-   public static final Integer RESOURCE_BASELINE4_COST = new Integer(373);
-   public static final Integer RESOURCE_BASELINE5_WORK = new Integer(382);
-   public static final Integer RESOURCE_BASELINE5_COST = new Integer(383);
-   public static final Integer RESOURCE_BASELINE6_WORK = new Integer(392);
-   public static final Integer RESOURCE_BASELINE6_COST = new Integer(393);
-   public static final Integer RESOURCE_BASELINE7_WORK = new Integer(402);
-   public static final Integer RESOURCE_BASELINE7_COST = new Integer(403);
-   public static final Integer RESOURCE_BASELINE8_WORK = new Integer(412);
-   public static final Integer RESOURCE_BASELINE8_COST = new Integer(413);
-   public static final Integer RESOURCE_BASELINE9_WORK = new Integer(422);
-   public static final Integer RESOURCE_BASELINE9_COST = new Integer(423);
-   public static final Integer RESOURCE_BASELINE10_WORK = new Integer(432);
-   public static final Integer RESOURCE_BASELINE10_COST = new Integer(433);
+   public static final Integer RESOURCE_BASELINE1_WORK = Integer.valueOf(342);
+   public static final Integer RESOURCE_BASELINE1_COST = Integer.valueOf(343);
+   public static final Integer RESOURCE_BASELINE2_WORK = Integer.valueOf(352);
+   public static final Integer RESOURCE_BASELINE2_COST = Integer.valueOf(353);
+   public static final Integer RESOURCE_BASELINE3_WORK = Integer.valueOf(362);
+   public static final Integer RESOURCE_BASELINE3_COST = Integer.valueOf(363);
+   public static final Integer RESOURCE_BASELINE4_WORK = Integer.valueOf(372);
+   public static final Integer RESOURCE_BASELINE4_COST = Integer.valueOf(373);
+   public static final Integer RESOURCE_BASELINE5_WORK = Integer.valueOf(382);
+   public static final Integer RESOURCE_BASELINE5_COST = Integer.valueOf(383);
+   public static final Integer RESOURCE_BASELINE6_WORK = Integer.valueOf(392);
+   public static final Integer RESOURCE_BASELINE6_COST = Integer.valueOf(393);
+   public static final Integer RESOURCE_BASELINE7_WORK = Integer.valueOf(402);
+   public static final Integer RESOURCE_BASELINE7_COST = Integer.valueOf(403);
+   public static final Integer RESOURCE_BASELINE8_WORK = Integer.valueOf(412);
+   public static final Integer RESOURCE_BASELINE8_COST = Integer.valueOf(413);
+   public static final Integer RESOURCE_BASELINE9_WORK = Integer.valueOf(422);
+   public static final Integer RESOURCE_BASELINE9_COST = Integer.valueOf(423);
+   public static final Integer RESOURCE_BASELINE10_WORK = Integer.valueOf(432);
+   public static final Integer RESOURCE_BASELINE10_COST = Integer.valueOf(433);
    
    //
    // Unverified
    //
-   private static final Integer RESOURCE_SUBPROJECTRESOURCEID = new Integer (102);
-   private static final Integer RESOURCE_NOTES = new Integer (124);
+   private static final Integer RESOURCE_SUBPROJECTRESOURCEID = Integer.valueOf(102);
+   private static final Integer RESOURCE_NOTES = Integer.valueOf(124);
 
-   private static final Integer TABLE_COLUMN_DATA_STANDARD = new Integer (6);
-   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = new Integer (7);
-   private static final Integer TABLE_COLUMN_DATA_BASELINE = new Integer (8);
-   private static final Integer OUTLINECODE_DATA = new Integer (22);
-   private static final Integer INCOMPLETE_WORK = new Integer(49);
-   private static final Integer COMPLETE_WORK = new Integer(50);
+   private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(6);
+   private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(7);
+   private static final Integer TABLE_COLUMN_DATA_BASELINE = Integer.valueOf(8);
+   private static final Integer OUTLINECODE_DATA = Integer.valueOf(22);
+   private static final Integer INCOMPLETE_WORK = Integer.valueOf(49);
+   private static final Integer COMPLETE_WORK = Integer.valueOf(50);
    
    // Custom value list types
-   private static final Integer VALUE_LIST_VALUE = new Integer(22);
-   private static final Integer VALUE_LIST_DESCRIPTION = new Integer(8);
-   private static final Integer VALUE_LIST_UNKNOWN = new Integer(23);
+   private static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
+   private static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
+   private static final Integer VALUE_LIST_UNKNOWN = Integer.valueOf(23);
    
    private static final int VALUE_LIST_MASK = 0x0701;
    
@@ -4154,8 +4154,8 @@ final class MPP12Reader implements MPPVariantReader
     */
    private static final int DURATION_CONFIRMED_MASK = 0x20;
    
-   private static final Integer RESOURCE_FIELD_NAME_ALIASES = new Integer(71303169);
-   private static final Integer TASK_FIELD_NAME_ALIASES = new Integer(71303169);
+   private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
+   private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 
    /**
     * Default working week.

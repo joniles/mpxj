@@ -258,7 +258,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
             SubProject sp = new SubProject();
             sp.setFileName(fileName);
             sp.setFullPath(subProjectFileName);
-            sp.setUniqueIDOffset(new Integer(offset));
+            sp.setUniqueIDOffset(Integer.valueOf(offset));
             sp.setTaskUniqueID(task.getUniqueID());
             task.setSubProject(sp);
             
@@ -510,7 +510,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       for (int loop=1; loop < columnCount; loop++)
       {
          String name = meta.getColumnName(loop);
-         Integer type = new Integer(meta.getColumnType(loop));
+         Integer type = Integer.valueOf(meta.getColumnType(loop));
          m_meta.put(name, type);
       }      
    }

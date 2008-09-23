@@ -53,7 +53,7 @@ public final class LocaleData_it extends ListResourceBundle
    {
       for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
-         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], new Integer(loop));
+         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
       }
    }
 
@@ -321,7 +321,7 @@ public final class LocaleData_it extends ListResourceBundle
 
       {LocaleData.CURRENCY_SYMBOL, ""},
       {LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},
-      {LocaleData.CURRENCY_DIGITS, new Integer(2)},
+      {LocaleData.CURRENCY_DIGITS, Integer.valueOf(2)},
       {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
       {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
 
@@ -333,7 +333,7 @@ public final class LocaleData_it extends ListResourceBundle
       {LocaleData.AM_TEXT, ""},
       {LocaleData.PM_TEXT, ""},
       {LocaleData.DATE_FORMAT, ProjectDateFormat.DD_MM_YYYY},
-      {LocaleData.BAR_TEXT_DATE_FORMAT, new Integer(0)},
+      {LocaleData.BAR_TEXT_DATE_FORMAT, Integer.valueOf(0)},
       {LocaleData.NA, "NA"},
 
 

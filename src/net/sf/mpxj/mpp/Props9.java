@@ -67,7 +67,7 @@ final class Props9 extends Props
          is.read(data);
          availableBytes -= itemSize;
 
-         m_map.put(new Integer (itemKey), data);
+         m_map.put(Integer.valueOf(itemKey), data);
          //pw.println(foundCount + " "+ attrib2 + ": " + MPPUtility.hexdump(data, true));
          ++foundCount;
 

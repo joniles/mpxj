@@ -1274,7 +1274,7 @@ final class MPPUtility
 		   {
 	    	   try
 	    	   {
-	    		   int sh = data.getShort(id, new Integer(i));
+	    		   int sh = data.getShort(id, Integer.valueOf(i));
 	    		   System.out.println(i + ":" + sh);
 	    	   }
 	    	   catch (Exception ex)
@@ -1286,7 +1286,7 @@ final class MPPUtility
 	       {
 	    	   try
 	    	   {
-	    		   int sh = data.getInt(id, new Integer(i));
+	    		   int sh = data.getInt(id, Integer.valueOf(i));
 	    		   System.out.println(i + ":" + sh);
 	    	   }
 	    	   catch (Exception ex)
@@ -1298,7 +1298,7 @@ final class MPPUtility
 	       {
 	    	   try
 	    	   {
-	    		   double d = data.getDouble(id, new Integer(i));
+	    		   double d = data.getDouble(id, Integer.valueOf(i));
 	    		   System.out.println(i + ":" + d);
 	    		   System.out.println(i + ":" + d/60000);
 	    	   }
@@ -1311,7 +1311,7 @@ final class MPPUtility
 	       {
 	    	   try
 	    	   {
-	    		   Date d = data.getTimestamp(id, new Integer(i));
+	    		   Date d = data.getTimestamp(id, Integer.valueOf(i));
 	    		   if (d != null)
 	    		   {
 	    			   System.out.println(i + ":" + d.toString());
@@ -1326,7 +1326,7 @@ final class MPPUtility
 	       {
 	    	   try
 	    	   {
-	    		   String s = data.getUnicodeString(id, new Integer(i));
+	    		   String s = data.getUnicodeString(id, Integer.valueOf(i));
 	    		   if (s != null)
 	    		   {
 	    			   System.out.println(i + ":" + s);
@@ -1341,7 +1341,7 @@ final class MPPUtility
 	       {
 	    	   try
 	    	   {
-	    		   String s = data.getString(id, new Integer(i));
+	    		   String s = data.getString(id, Integer.valueOf(i));
 	    		   if (s != null)
 	    		   {
 	    			   System.out.println(i + ":" + s);

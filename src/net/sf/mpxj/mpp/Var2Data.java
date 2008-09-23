@@ -67,7 +67,7 @@ final class Var2Data extends MPPComponent
 
          data = readByteArray (is, size);
 
-         m_map.put (new Integer (itemOffset), data);
+         m_map.put (Integer.valueOf(itemOffset), data);
       }
 
    }
