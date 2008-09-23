@@ -36,6 +36,7 @@ public class MPXJTest extends TestSuite
    public MPXJTest ()
    {
       addTestSuite (BasicTest.class);
+      addTestSuite (LocaleTest.class);
       addTestSuite (ProjectCalendarTest.class);
       addTestSuite (SplitTaskTest.class);      
       addTestSuite (GraphicalIndicatorTest.class);

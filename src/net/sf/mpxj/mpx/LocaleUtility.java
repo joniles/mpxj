@@ -125,6 +125,7 @@ final class LocaleUtility
       new Locale("IT"),
       new Locale("PT"),
       new Locale("SV"),
-      new Locale("ZH")
+      new Locale("ZH"),
+      new Locale("ES")
    };
 }
