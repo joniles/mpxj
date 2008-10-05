@@ -388,6 +388,14 @@ public final class ResourceAssignment extends ProjectEntity
       m_remainingWork = remainingWork;
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString ()
+   {
+      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + getResource().getName() + " start=" + m_start + " finish=" + m_finish +" duration=" + m_work + " workContour=" + m_workContour + "]");
+   }
+   
    private Number m_units;
    private Duration m_work;
    private Duration m_plannedWork;
