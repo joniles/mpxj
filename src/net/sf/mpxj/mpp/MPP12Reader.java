@@ -3136,13 +3136,17 @@ final class MPP12Reader implements MPPVariantReader
    {           
       DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CEdl");
       VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-   
+      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));   
       //System.out.println(varMeta);
       //System.out.println(varData);
-      
+
+      InputStream is = new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData")));
+      byte[] fixedData = new byte[is.available()];
+      is.read(fixedData);
+      //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
+
       ViewStateReader reader = new ViewStateReader12();
-      reader.process(m_file, varData);
+      reader.process(m_file, varData, fixedData);
    }
  
    /**

@@ -49,13 +49,15 @@ public abstract class ViewStateReader
     * Entry point for processing saved view state.
     * 
     * @param file project file
-    * @param varData filter var data
+    * @param varData view state var data
+    * @param fixedData view state fixed data
     * @throws IOException
     */
-   public void process (ProjectFile file, Var2Data varData)
+   public void process (ProjectFile file, Var2Data varData, byte[] fixedData)
       throws IOException
    {   
       Props props = getProps(varData);
+      //System.out.println(props);
       if (props != null)
       {
          String viewName = MPPUtility.removeAmpersands(props.getUnicodeString(VIEW_NAME));
@@ -73,8 +75,10 @@ public abstract class ViewStateReader
                uniqueIdList.add(uniqueID);                      
             }
          }
-         ViewState state = new ViewState(viewName, uniqueIdList);
          
+         int filterID = MPPUtility.getShort(fixedData, 128);
+         
+         ViewState state = new ViewState(file, viewName, uniqueIdList, filterID);
          file.setViewState(state);
       }
    }   

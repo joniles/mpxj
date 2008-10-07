@@ -3133,12 +3133,16 @@ final class MPP9Reader implements MPPVariantReader
       DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CEdl");
       VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-   
       //System.out.println(varMeta);
       //System.out.println(varData);
       
+      InputStream is = getEncryptableInputStream(dir, "FixedData");
+      byte[] fixedData = new byte[is.available()];
+      is.read(fixedData);
+      //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
+      
       ViewStateReader reader = new ViewStateReader9();
-      reader.process(m_file, varData);
+      reader.process(m_file, varData, fixedData);
    }
 
    /**

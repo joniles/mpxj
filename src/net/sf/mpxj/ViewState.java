@@ -34,13 +34,17 @@ public final class ViewState
    /**
     * Constructor.
     * 
+    * @param file parent project file
     * @param viewName view name
     * @param uniqueIdList unique ID list
+    * @param filterID filter ID
     */
-   public ViewState (String viewName, List<Integer> uniqueIdList)
+   public ViewState (ProjectFile file, String viewName, List<Integer> uniqueIdList, int filterID)
    {
+      m_file = file;
       m_viewName = viewName;
       m_uniqueIdList = uniqueIdList;
+      m_filterID = Integer.valueOf(filterID);
    }
    
    /**
@@ -63,6 +67,18 @@ public final class ViewState
       return m_uniqueIdList;
    }
 
+   /**
+    * Retrieve the currently applied filter. 
+    * 
+    * @return filter instance
+    */
+   public Filter getFilter ()
+   {
+     return m_file.getFilterByID(m_filterID); 
+   }
+   
+   private ProjectFile m_file;
    private String m_viewName;
    private List<Integer> m_uniqueIdList;
+   private Integer m_filterID;
 }

@@ -1506,6 +1506,7 @@ public final class ProjectFile
       }
       
       m_filtersByName.put(filter.getName(), filter);
+      m_filtersByID.put(filter.getID(), filter);
    }
    
    /**
@@ -1528,6 +1529,7 @@ public final class ProjectFile
             m_resourceFilters.remove(filter);
          }
          m_filtersByName.remove(filterName);
+         m_filtersByID.remove(filter.getID());
       }
    }
    
@@ -1561,7 +1563,18 @@ public final class ProjectFile
    {
       return (m_filtersByName.get(name));
    }
-   
+
+   /**
+    * Retrieve a given filter by ID.
+    * 
+    * @param id filter ID
+    * @return filter instance
+    */
+   public Filter getFilterByID (Integer id)
+   {
+      return (m_filtersByID.get(id));
+   }
+
    /**
     * Retrieves a list of all groups.
     * 
@@ -2048,7 +2061,12 @@ public final class ProjectFile
     * Index of filters by name.
     */
    private Map<String, Filter> m_filtersByName = new HashMap<String, Filter>();
-   
+
+   /**
+    * Index of filters by ID.
+    */
+   private Map<Integer, Filter> m_filtersByID = new HashMap<Integer, Filter>();
+
    /**
     * List of all groups.
     */

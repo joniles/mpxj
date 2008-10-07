@@ -100,7 +100,7 @@ public abstract class GanttChartView extends GenericView
          byte[] filterName = props.getByteArray(FILTER_NAME);
          if (filterName != null)
          {
-            m_filterName = MPPUtility.getUnicodeString(filterName);
+            m_defaultFilterName = MPPUtility.getUnicodeString(filterName);
          }
          
          byte[] groupName = props.getByteArray(GROUP_NAME);
@@ -645,20 +645,20 @@ public abstract class GanttChartView extends GenericView
     * 
     * @return filter name
     */
-   public String getFilterName ()
+   public String getDefaultFilterName ()
    {
-      return (m_filterName);
+      return (m_defaultFilterName);
    }
    
    /**
-    * Convenience method used to retrieve the filter instance
+    * Convenience method used to retrieve the default filter instance
     * associated with this view.
     * 
     * @return filter instance, null if no filter associated with view
     */
-   public Filter getFilter ()
+   public Filter getDefaultFilter ()
    {
-      return (m_parent.getFilterByName(m_filterName));
+      return (m_parent.getFilterByName(m_defaultFilterName));
    }
    
    /**
@@ -1620,7 +1620,7 @@ public abstract class GanttChartView extends GenericView
 
       pw.println ("   TableWidth=" + m_tableWidth);
       pw.println ("   TableName=" + m_tableName);
-      pw.println ("   FilterName=" + m_filterName);
+      pw.println ("   DefaultFilterName=" + m_defaultFilterName);
       pw.println ("   GroupName=" + m_groupName);
       pw.println ("   HighlightFilter=" + m_highlightFilter);
       pw.println ("   ShowInMenu=" + m_showInMenu);
@@ -1704,7 +1704,7 @@ public abstract class GanttChartView extends GenericView
 
    private int m_tableWidth;
    private String m_tableName;
-   private String m_filterName;
+   private String m_defaultFilterName;
    private String m_groupName;
    private boolean m_highlightFilter;
    private boolean m_showInMenu;
