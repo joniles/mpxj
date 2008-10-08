@@ -738,6 +738,16 @@ public final class MPXJFormats
       return (m_timeFormat);
    }
 
+   /**
+    * Retrieve the text representing a null value.
+    * 
+    * @return null text
+    */
+   public String getNullText()
+   {
+      return (m_nullText);
+   }
+   
    private Locale m_locale;
    private String m_nullText;
    private ProjectFile m_projectFile;

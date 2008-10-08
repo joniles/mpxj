@@ -125,7 +125,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * Writes the contents of the project as an MPX file. This method allows the
     * caller to control whether the locale defaults are used to replace
     * the settings held in the project file, or whether the settings in the
-    * project file are used. This affects things lik currency symbol, date
+    * project file are used. This affects things like currency symbol, date
     * formats, file delimiters and so on.
     *
     * @param projectFile project file instance
@@ -499,7 +499,7 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a celandar exception.
+    * Write a calendar exception.
     *
     * @param parentCalendar parent calendar instance
     * @param record calendar exception instance
@@ -839,10 +839,12 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
-      if (record.getWorkgroupAssignment() != null)
+      ResourceAssignmentWorkgroupFields workgroup = record.getWorkgroupAssignment();
+      if (workgroup == null)
       {
-         writeResourceAssignmentWorkgroupFields(record.getWorkgroupAssignment());
-      }
+         workgroup = ResourceAssignmentWorkgroupFields.EMPTY;
+      }      
+      writeResourceAssignmentWorkgroupFields(workgroup);
    }
 
    /**
@@ -864,9 +866,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getResponsePending()?"1":"0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getUpdateStart())));
+      m_buffer.append(format(formatDateTimeNull(record.getUpdateStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTime(record.getUpdateFinish())));
+      m_buffer.append(format(formatDateTimeNull(record.getUpdateFinish())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getScheduleID()));
 
@@ -1106,6 +1108,18 @@ public final class MPXWriter extends AbstractProjectWriter
    private String formatDateTime (Date value)
    {
       return (value==null?null:m_formats.getDateTimeFormat().format(value));
+   }
+
+   /**
+    * This method is called to format a date. It will return the null text
+    * if a null value is supplied.
+    *
+    * @param value date value
+    * @return formatted date value
+    */
+   private String formatDateTimeNull (Date value)
+   {
+      return (value==null?m_formats.getNullText():m_formats.getDateTimeFormat().format(value));
    }
 
    /**

@@ -28,7 +28,7 @@ import java.util.Date;
 
 
 /**
- * This class represents a resorce assignment workgrouo fields record
+ * This class represents a resource assignment workgroup fields record
  * from an MPX file.
  */
 public final class ResourceAssignmentWorkgroupFields
@@ -153,6 +153,8 @@ public final class ResourceAssignmentWorkgroupFields
       return (m_scheduleID);
    }
 
+   public static final ResourceAssignmentWorkgroupFields EMPTY = new ResourceAssignmentWorkgroupFields();
+   
    private String m_messageUniqueID;
    private boolean m_confirmed;
    private boolean m_responsePending;

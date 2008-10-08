@@ -33,9 +33,9 @@ MPX,Microsoft Project for Windows,4.0,ANSI
 71,Test Task Notes
 70,Second Task,1.1,2,500h,0h,0h,£3526.25,£0.00,£0.00,£3526.25,£0.00,£0.00,£0.00,£0.00,100d,0d,0%,0d,0d,0d,Tue 07/01/03,Tue 18/03/03,Tue 07/01/03,Tue 18/03/03,Tue 07/01/03,Tue 18/03/03,,,No,No,No,No,2,As Soon As Possible,0ed,0d,0d,Medium,2,No,No,No,No,No,No,No,No,No,No,No,Tue 07/01/03,0,0,0,0,0
 75,1,0.5,200h,0h,0h,0h,£2015.00,£0.00,£0.00,Tue 07/01/03,Mon 17/03/03,0d,1
-76,0,0,0
+76,0,0,0,NA,NA
 75,2,0.75,300h,0h,0h,0h,£1511.25,£0.00,£0.00,Tue 07/01/03,Tue 18/03/03,0d,2
-76,0,0,0
+76,0,0,0,NA,NA
 70,Third task,1.2,2,0h,0h,0h,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,0d,0d,0%,0d,0d,0d,Tue 07/01/03,Tue 07/01/03,Tue 07/01/03,Tue 07/01/03,Tue 18/03/03,Tue 18/03/03,,,No,Yes,No,No,3,As Soon As Possible,0ed,50d,50d,Medium,3,No,No,No,No,No,No,No,No,No,No,No,Tue 07/01/03,0,0,0,0,0
 70,Recurring Task,1.3,1,0h,0h,0h,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,£0.00,21d,0d,0%,0d,0d,0d,Mon 03/02/03,Mon 03/03/03,Mon 03/02/03,Mon 03/03/03,Mon 17/03/03,Mon 17/03/03,,,No,No,No,Yes,4,As Soon As Possible,0ed,10d,10d,Medium,6,No,No,No,No,No,No,No,No,No,No,Yes,Tue 07/01/03,0,0,0,0,0
 72,1,Tue 07/01/03,Tue 18/03/03,480,0,2,8,0,1,0,0000000,0,1,1,1,2,2,1,1,1,2,2,1,Tue 07/01/03
