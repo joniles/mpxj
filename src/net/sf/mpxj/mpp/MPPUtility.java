@@ -710,6 +710,12 @@ final class MPPUtility
             break;
          }
 
+         case 19:
+         {
+            units = TimeUnit.PERCENT;
+            break;
+         }
+         
          default:
          case 7:
          case 21: // duration in days of a recurring task
@@ -869,7 +875,7 @@ final class MPPUtility
    }
 
    /**
-    * Utility methdo to remove ampersands embedded in names.
+    * Utility method to remove ampersands embedded in names.
     *
     * @param name name text
     * @return name text without embedded ampersands
