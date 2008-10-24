@@ -68,8 +68,22 @@ public class MppSubprojectTest extends MPXJTestCase
     public void testMpd9Subproject() 
        throws Exception 
     {
-       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9subproject.mpd");        
-       testSubprojects(mpp, false);
+       try
+       {
+          ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9subproject.mpd");        
+          testSubprojects(mpp, false);
+       }
+       
+       catch (Exception ex)
+       {
+          //
+          // JDBC not supported in IKVM
+          //
+          if (!m_ikvm)
+          {
+             throw ex;
+          }
+       }       
     }
     
     /**

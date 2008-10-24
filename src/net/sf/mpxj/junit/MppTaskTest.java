@@ -81,8 +81,22 @@ public class MppTaskTest extends MPXJTestCase
     public void testMpd9Task ()
        throws Exception
     {
-       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9task.mpd");
-       testBasicTask(mpp);       
+       try
+       {
+          ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9task.mpd");
+          testBasicTask(mpp);
+       }
+       
+       catch (Exception ex)
+       {
+          //
+          // JDBC not supported in IKVM
+          //
+          if (!m_ikvm)
+          {
+             throw ex;
+          }
+       }       
     }
     
     /**
@@ -117,8 +131,22 @@ public class MppTaskTest extends MPXJTestCase
    public void testMpd9Baseline ()
       throws Exception
    {
-      ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9baseline.mpd");
-      testBaselineTasks(mpp);       
+      try
+      {
+         ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9baseline.mpd");
+         testBaselineTasks(mpp);
+      }
+      
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }      
    }
 
     /**
@@ -179,8 +207,22 @@ public class MppTaskTest extends MPXJTestCase
     public void testMpd9Relations()
        throws Exception 
     {
-       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9relations.mpd");
-       testRelations(mpp);
+       try
+       {
+          ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9relations.mpd");
+          testRelations(mpp);
+       }
+       
+       catch (Exception ex)
+       {
+          //
+          // JDBC not supported in IKVM
+          //
+          if (!m_ikvm)
+          {
+             throw ex;
+          }
+       }       
     }
 
     /**
@@ -400,7 +442,7 @@ public class MppTaskTest extends MPXJTestCase
          assertEquals(expectedStart, df.format(task.getEarlyStart()));
          assertEquals(expectedFinish, df.format(task.getEarlyFinish()));
          // effort driven
-         assertTrue("Effort Driven does not match", task.getEffortDriven()); // shold return true
+         assertTrue("Effort Driven does not match", task.getEffortDriven()); // should return true
          // custom start columns
          assertEquals("25/08/2006", df.format(task.getStart1()));
          assertEquals("26/08/2006", df.format(task.getStart2()));

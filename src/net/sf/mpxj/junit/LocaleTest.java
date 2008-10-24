@@ -25,6 +25,7 @@
 package net.sf.mpxj.junit;
 
 import java.io.File;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Locale;
 
 import net.sf.mpxj.ProjectFile;
@@ -48,7 +49,23 @@ public class LocaleTest extends MPXJTestCase
       Locale[] locales = new MPXReader().getSupportedLocales();
       for (Locale locale: locales)
       {
-         testLocale(locale);
+         try
+         {
+            testLocale(locale);
+         }
+         
+         catch (UnsupportedCharsetException ex)
+         {
+            //
+            // If we are running under IKVM, we don't
+            // have a full range of character sets available
+            // so we'll ignore this.
+            //
+            if (!m_ikvm)
+            {
+               throw ex;
+            }
+         }
       }
    }
 

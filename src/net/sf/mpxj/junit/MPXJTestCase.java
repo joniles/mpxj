@@ -43,8 +43,12 @@ public abstract class MPXJTestCase extends TestCase
       {
          assertTrue("missing datadir property", false);
       }
+      
+      String runtime = System.getProperty("java.runtime.name");
+      m_ikvm = (runtime != null && runtime.indexOf("IKVM") != -1);
    }
 
    protected String m_basedir;
+   protected boolean m_ikvm;
 }
 

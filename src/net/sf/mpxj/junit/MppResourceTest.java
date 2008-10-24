@@ -79,8 +79,22 @@ public class MppResourceTest extends MPXJTestCase
     public void testMpd9Resource() 
        throws Exception 
     {
-       ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9resource.mpd");        
-       testResources(mpp);
+       try
+       {
+          ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9resource.mpd");        
+          testResources(mpp);
+       }
+       
+       catch (Exception ex)
+       {
+          //
+          // JDBC not supported in IKVM
+          //
+          if (!m_ikvm)
+          {
+             throw ex;
+          }
+       }
     }
 
 
@@ -116,8 +130,22 @@ public class MppResourceTest extends MPXJTestCase
       public void testMpd9Assignment() 
          throws Exception 
       {
-         ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9resource.mpd");        
-         testResourceAssignments(mpp);
+         try
+         {
+            ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9resource.mpd");        
+            testResourceAssignments(mpp);
+         }
+         
+         catch (Exception ex)
+         {
+            //
+            // JDBC not supported in IKVM
+            //
+            if (!m_ikvm)
+            {
+               throw ex;
+            }
+         }
       }
 
     /**

@@ -71,8 +71,22 @@ public class MppProjectHeaderTest extends MPXJTestCase
    public void testMpd9() 
       throws Exception 
    {
-      ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9header.mpd");        
-      testHeader(mpp, false);
+      try
+      {
+         ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9header.mpd");                 
+         testHeader(mpp, false);
+      }
+      
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
    }
 
    /**
