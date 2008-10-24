@@ -24,6 +24,7 @@
    <property name="distribution" value="${basedir}/../mpxj.zip" />
    <property name="mspdi-schema.dir" value="/net/sf/mpxj/mspdi/schema" />
 	<property name="planner-schema.dir" value="/net/sf/mpxj/planner/schema" />
+	<property name="ikvm.dir" value="C:\java\ikvm-0.36.0.11" />
 	
 	<path id="jaxb.path">
 		<pathelement location="${lib.dir}/jaxb-api.jar"/>
@@ -32,8 +33,10 @@
 		<pathelement location="${lib.dir}/activation.jar"/>
 	</path>
 
+	<property name="poi.jar" value="poi-3.0.2-FINAL-20080204" />
+	
 	<path id="poi.path">
-		<pathelement location="${lib.dir}/poi-3.0.2-FINAL-20080204.jar"/>
+		<pathelement location="${lib.dir}/${poi.jar}.jar"/>
 	</path>
 
 	<path id="junit.path">
@@ -120,6 +123,20 @@
 	
    <exec executable="java" dir="${basedir}">
 		<arg line="-Xms64m -Xmx512m -Dmpxj.junit.datadir=${basedir}/junit/data -cp ${emma.dir}/lib/emma.jar emmarun -cp ${emmarun.classpath} -r html -sp ${basedir}/src -ix ${filter} junit.textui.TestRunner net.sf.mpxj.junit.MPXJTest" />
+   </exec>	
+</target>
+	
+<target name="ivkm" depends="init" description="Build .net DLLs">
+   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
+	<arg line="-out:${basedir}\lib.net\${poi.jar}.dll -target:library ${basedir}\lib\${poi.jar}.jar" />
+   </exec>	
+	
+   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
+	<arg line="-out:${basedir}\lib.net\junit.dll -target:library ${basedir}\junit\junit.jar" />
+   </exec>	
+
+   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
+	<arg line="-out:${basedir}\lib.net\mpxj.dll -target:library -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
    </exec>	
 </target>
 	
