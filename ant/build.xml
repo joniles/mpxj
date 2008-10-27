@@ -81,8 +81,26 @@
    </javadoc>
 </target>
 
-<target name="archive" depends="compile" description="Create JAR files">
+<target name="jar" depends="compile" description="Create JAR files">
    <jar jarfile="${basedir}/mpxj.jar" basedir="${classes.dir}"/>
+</target>
+
+<target name="dll" depends="compile" description="Build .net DLLs">
+   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
+	<arg line="-nowarn:0100 -nowarn:0003 -out:${basedir}\lib.net\${poi.jar}.dll -target:library ${basedir}\lib\${poi.jar}.jar" />
+   </exec>	
+	
+   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
+	<arg line="-nowarn:0003 -out:${basedir}\lib.net\junit.dll -target:library ${basedir}\junit\junit.jar" />
+   </exec>	
+
+   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
+	<arg line="-nowarn:0003 -out:${basedir}\lib.net\mpxj.dll -target:library -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
+   </exec>	
+</target>
+
+<target name="archive" depends="jar,dll" description="Create library files">
+   
 </target>
 
 <target name="distribute" depends="compile,archive,clean-classes" description="Create distribution">
@@ -126,18 +144,5 @@
    </exec>	
 </target>
 	
-<target name="ivkm" depends="init" description="Build .net DLLs">
-   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
-	<arg line="-out:${basedir}\lib.net\${poi.jar}.dll -target:library ${basedir}\lib\${poi.jar}.jar" />
-   </exec>	
-	
-   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
-	<arg line="-out:${basedir}\lib.net\junit.dll -target:library ${basedir}\junit\junit.jar" />
-   </exec>	
-
-   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
-	<arg line="-out:${basedir}\lib.net\mpxj.dll -target:library -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
-   </exec>	
-</target>
 	
 </project>
