@@ -61,6 +61,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.utility.NumberUtility;
@@ -2829,13 +2830,10 @@ final class MPP12Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData (142, getEncryptableInputStream (assnDir, "FixedData"));
-      
-      //System.out.println(assnVarMeta);
-      //System.out.println(assnVarData);
-      
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
-
+      TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
+      
       for (int loop=0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
@@ -2865,11 +2863,16 @@ final class MPP12Reader implements MPPVariantReader
 
          if (task != null)
          {
-            byte[] incompleteWork = assnVarData.getByteArray(varDataId, INCOMPLETE_WORK);
+            byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
+            byte[] plannedWork = assnVarData.getByteArray(varDataId, PLANNED_WORK);
+            //List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(completeWork);
+            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(plannedWork);
+            //System.out.println(timephasedComplete);
+            //System.out.println(timephasedPlanned);
+            
             if (task.getSplits() != null && task.getSplits().isEmpty())
-            {
-               byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
-               processSplitData(task, completeWork, incompleteWork);
+            {               
+               processSplitData(task, completeWork, plannedWork);
             }
 
             Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
@@ -2897,9 +2900,17 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
                
-               if (incompleteWork != null)
+               if (plannedWork != null)
                {
-                  assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(incompleteWork, 28)));
+                  if (timephasedFactory.getWorkModified(timephasedPlanned))
+                  {
+                     assignment.setWorkContour(WorkContour.CONTOURED);                     
+                  }
+                  else
+                  {                  
+                     assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
+                  }
+                  //System.out.println(assignment.getWorkContour());
                }
             }
          }
@@ -4143,7 +4154,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(7);
    private static final Integer TABLE_COLUMN_DATA_BASELINE = Integer.valueOf(8);
    private static final Integer OUTLINECODE_DATA = Integer.valueOf(22);
-   private static final Integer INCOMPLETE_WORK = Integer.valueOf(49);
+   private static final Integer PLANNED_WORK = Integer.valueOf(49);
    private static final Integer COMPLETE_WORK = Integer.valueOf(50);
    
    // Custom value list types
