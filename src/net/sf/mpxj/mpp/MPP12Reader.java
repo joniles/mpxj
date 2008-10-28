@@ -2865,14 +2865,14 @@ final class MPP12Reader implements MPPVariantReader
          {
             byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
             byte[] plannedWork = assnVarData.getByteArray(varDataId, PLANNED_WORK);
-            //List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(completeWork);
-            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(plannedWork);
+            List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(completeWork);
+            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
             //System.out.println(timephasedPlanned);
             
             if (task.getSplits() != null && task.getSplits().isEmpty())
             {               
-               processSplitData(task, completeWork, plannedWork);
+               processSplitData(task, timephasedComplete, timephasedPlanned);
             }
 
             Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
@@ -2916,110 +2916,51 @@ final class MPP12Reader implements MPPVariantReader
          }
       }
    }
-
+   
    /**
-    * The task split data is represented in two blocks of data, one representing
-    * the completed time, and the other representing the incomplete time.
-    *
-    * The completed task split data is stored in a block with a 32 byte header,
-    * followed by 20 byte blocks, each representing one split. The first two
-    * bytes of the header contains a count of the number of 20 byte blocks.
-    *
-    * The incomplete task split data is represented as a 44 byte header
-    * (which also contains unrelated assignment information, such as the
-    * work contour) followed by a list of 28 byte blocks, each block representing
-    * one split. The first two bytes of the header contains a count of the
-    * number of 28 byte blocks.
-    *
+    * Process the timephased resource assignment data to work out the 
+    * split structure of the task.
+    * 
     * @param task parent task
-    * @param completeHours completed split data
-    * @param incompleteHours incomplete split data
+    * @param timephasedComplete completed resource assignment work
+    * @param timephasedPlanned planned resource assignment work
     */
-   private void processSplitData (Task task, byte[] completeHours, byte[] incompleteHours)
-   {            
-	  //System.out.println (MPPUtility.hexdump(completeHours, false, 16, ""));
-	  //MPPUtility.dataDump(completeHours, false, true, false, false, false, false, false);
-	  //System.out.println (MPPUtility.hexdump(incompleteHours, false, 16, ""));
-	  //MPPUtility.dataDump(incompleteHours, false, true, false, false, false, false, false);
-
-      LinkedList<Duration> splits = new LinkedList<Duration> ();
+   private void processSplitData (Task task, List<TimephasedResourceAssignment> timephasedComplete, List<TimephasedResourceAssignment> timephasedPlanned)
+   {   
       Duration splitsComplete = null;
-
-      if (completeHours != null)
+      TimephasedResourceAssignment lastComplete = null;
+      TimephasedResourceAssignment firstPlanned = null;
+      if (!timephasedComplete.isEmpty())
       {
-         int splitCount = MPPUtility.getShort(completeHours, 0);
-         if (splitCount != 0)
-         {
-            int offset = 32;
-            for (int loop=0; loop < splitCount; loop++)
-            {
-               double splitTime = MPPUtility.getInt(completeHours, offset);
-               if (splitTime != 0)
-               {
-                  splitTime /= 4800;
-                  Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
-                  splits.add(splitDuration);
-               }
-               offset += 20;
-            }
-
-            double splitTime = MPPUtility.getInt(completeHours, 24);
-            splitTime /= 4800;
-            Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
-            splits.add(splitDuration);
-         }
+         lastComplete = timephasedComplete.get(timephasedComplete.size()-1);
+         splitsComplete = lastComplete.getFinishWork();  
       }
-
-      if (incompleteHours != null)
+      
+      if (!timephasedPlanned.isEmpty())
       {
-         int splitCount = MPPUtility.getShort(incompleteHours, 0);
-         
-         //
-         // Deal with the case where the final task split is partially complete
-         //
-         if (splitCount == 0)
-         {
-            double splitTime = MPPUtility.getInt(incompleteHours, 24);
-            splitTime /= 4800;
-            double timeOffset = 0;
-            if (splits.isEmpty() == false)
-            {
-               timeOffset = splits.removeLast().getDuration();
-            }
-            splitTime += timeOffset;
-            Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
-            splits.add(splitDuration);            
-         }
-         else
-         {
-            double timeOffset = 0;
-            if (splits.isEmpty() == false)
-            {
-               if (splitCount % 2 != 0 || splits.size() %2 == 0)
-               {
-                  timeOffset = splits.removeLast().getDuration();
-               }
-               else
-               {
-                  timeOffset = splits.getLast().getDuration();
-               }
-            }
-            // Store the time up to which the splits are completed.
-            splitsComplete = Duration.getInstance(timeOffset, TimeUnit.HOURS);
-            
-            int offset = 44;
-            for (int loop=0; loop < splitCount; loop++)
-            {
-               double splitTime = MPPUtility.getInt(incompleteHours, offset+24);
-               splitTime /= 4800;
-               splitTime += timeOffset;
-               Duration splitDuration = Duration.getInstance(splitTime, TimeUnit.HOURS);
-               splits.add(splitDuration);
-               offset += 28;
-            }
-         }
+         firstPlanned = timephasedPlanned.get(0);
       }
-
+      
+      LinkedList<Duration> splits = new LinkedList<Duration> ();
+      for (TimephasedResourceAssignment assignment : timephasedComplete)
+      {         
+         splits.add(assignment.getFinishWork());
+      }         
+      
+      //
+      // We may not have a split, we may just have a partially
+      // complete split.
+      //
+      if (lastComplete != null && firstPlanned != null && lastComplete.getWorkPerDay().getDuration() != 0 && firstPlanned.getWorkPerDay().getDuration() != 0)
+      {
+         splits.removeLast();
+      }
+      
+      for (TimephasedResourceAssignment assignment : timephasedPlanned)
+      {         
+         splits.add(assignment.getFinishWork());
+      }
+      
       //
       // We must have a minimum of 3 entries for this to be a valid split task
       //
@@ -3034,7 +2975,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setSplitCompleteDuration(null);
       }
    }
-
+   
    /**
     * This method is used to determine if a duration is estimated.
     *

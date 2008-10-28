@@ -52,27 +52,7 @@ public final class TimephasedResourceAssignment
    {
       m_startWork = startWork;
    }
-   
-   /**
-    * Retrieve the cumulative work duration.
-    * 
-    * @return cumulative work duration
-    */
-   public Duration getCumulativeWork()
-   {
-      return m_cumulativeWork;
-   }
-   
-   /**
-    * Set the cumulative work duration.
-    * 
-    * @param cumulativeWork cumulative work duration
-    */
-   public void setCumulativeWork(Duration cumulativeWork)
-   {
-      m_cumulativeWork = cumulativeWork;
-   }
-   
+      
    /**
     * Retrieve the duration of work allocated per day.
     * 
@@ -114,16 +94,57 @@ public final class TimephasedResourceAssignment
    }
    
    /**
+    * Retrieve the total work duration.
+    * 
+    * @return total work duration
+    */
+   public Duration getTotalWork()
+   {
+      return m_totalWork;
+   }
+   
+   /**
+    * Set the total work duration.
+    * 
+    * @param totalWork cumulative work duration
+    */
+   public void setTotalWork(Duration totalWork)
+   {
+      m_totalWork = totalWork;
+   }   
+
+   /**
+    * Retrieve the point at which work finishes.
+    * 
+    * @return finish work duration
+    */
+   public Duration getFinishWork()
+   {
+      return m_finishWork;
+   }
+   
+   /**
+    * Set the point at which work finishes.
+    * 
+    * @param finishWork finish work duration
+    */
+   public void setFinishWork(Duration finishWork)
+   {
+      m_finishWork = finishWork;
+   }
+   
+   /**
     * {@inheritDoc}
     */
    @Override
    public String toString ()
    {
-      return "[TimephasedResourceAssignment startWork="+m_startWork+" cumulativeWork="+m_cumulativeWork+" workPerDay="+m_workPerDay+" modified="+m_modified+"]";
+      return "[TimephasedResourceAssignment startWork="+m_startWork+" totalWork="+ m_totalWork + " finishWork="+m_finishWork+" workPerDay="+m_workPerDay+" modified="+m_modified+"]";
    }
    
    private Duration m_startWork;
-   private Duration m_cumulativeWork;
+   private Duration m_totalWork;
+   private Duration m_finishWork;
    private Duration m_workPerDay;
    private boolean m_modified;
 }

@@ -52,7 +52,9 @@ final class TimephasedResourceAssignmentFactory
       if (data != null)
       {
          int blockCount = MPPUtility.getShort(data, 0);
-
+         double previousCumulativeWork = 0;                  
+         TimephasedResourceAssignment previousAssignment = null;
+         
          int index = 32;
          int currentBlock = 0;
          while (currentBlock < blockCount && index + 20 <= data.length)
@@ -61,22 +63,38 @@ final class TimephasedResourceAssignmentFactory
             time /= 4800;
             Duration startWork = Duration.getInstance(time, TimeUnit.HOURS);
 
-            time = (long) MPPUtility.getDouble(data, index + 4);
-            time /= 60000;
-            Duration cumulativeWork = Duration.getInstance(time, TimeUnit.HOURS);
-
+            double currentCumulativeWork = (long) MPPUtility.getDouble(data, index + 4);
+            double assignmentDuration = currentCumulativeWork - previousCumulativeWork; 
+            assignmentDuration /= 60000;
+            Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.HOURS);
+            previousCumulativeWork = currentCumulativeWork;            
+                           
             time = (long) MPPUtility.getDouble(data, index + 12);
             time /= 1250;
             Duration workPerDay = Duration.getInstance(time, TimeUnit.HOURS);
 
             TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
             assignment.setStartWork(startWork);
-            assignment.setCumulativeWork(cumulativeWork);
             assignment.setWorkPerDay(workPerDay);
+            assignment.setTotalWork(totalWork);
             list.add(assignment);
 
+            if (previousAssignment != null)
+            {
+               previousAssignment.setFinishWork(startWork);   
+            }
+            previousAssignment = assignment;
+            
             index += 20;
             ++currentBlock;
+         }
+         
+         if (previousAssignment != null)
+         {
+            double time = MPPUtility.getInt(data, 24);
+            time /= 4800;
+            Duration finishWork = Duration.getInstance(time, TimeUnit.HOURS);
+            previousAssignment.setFinishWork(finishWork);
          }
       }
 
@@ -89,47 +107,98 @@ final class TimephasedResourceAssignmentFactory
     * the day by day work planned for a specific resource assignment.
     * 
     * @param data planned work data block
-    * @return list of TimephasedResourceAssignment instances
+    * @param timephasedComplete list of complete work 
+    * @return list of TimephasedResourceAssignment instances 
     */
-   public List<TimephasedResourceAssignment> getPlannedWork(byte[] data)
+   public List<TimephasedResourceAssignment> getPlannedWork(byte[] data, List<TimephasedResourceAssignment> timephasedComplete)
    {
       LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
 
       if (data != null)
-      {
-         int index = 40;
+      {     
          int blockCount = MPPUtility.getShort(data, 0);
-         int currentBlock = 0;
-         
-         while (currentBlock < blockCount && index + 28 <= data.length)
+         if (blockCount == 0)
          {
-            double time = MPPUtility.getInt(data, index);
-            time /= 4800;
-            Duration startWork = Duration.getInstance(time, TimeUnit.HOURS);
-
-            time = MPPUtility.getDouble(data, index + 4);
-            time /= 60000;
-            Duration cumulativeWork = Duration.getInstance(time, TimeUnit.HOURS);
-
-            time = MPPUtility.getDouble(data, index + 12);
-            time /= 20000;
-            Duration workPerDay = Duration.getInstance(time, TimeUnit.HOURS);
-
-            int modifiedFlag = MPPUtility.getShort(data, index + 22);
-            boolean modified = (modifiedFlag == 0 && currentBlock != 0) || ((modifiedFlag & 0x3000) != 0);
+            if (!timephasedComplete.isEmpty())
+            {
+               TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size()-1);
+               
+               Duration startWork = lastComplete.getFinishWork();
+               double time = MPPUtility.getInt(data, 24);
+               time /= 4800;
+               Duration totalWork = Duration.getInstance(time, TimeUnit.HOURS);
+               Duration finishWork = Duration.getInstance(time + startWork.getDuration(), TimeUnit.HOURS);           
+               
+               TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
+               assignment.setStartWork(startWork);
+               assignment.setWorkPerDay(lastComplete.getWorkPerDay());
+               assignment.setModified(false);
+               assignment.setFinishWork(finishWork);
+               assignment.setTotalWork(totalWork);
+               list.add(assignment);
+            }
+         }
+         else
+         {
+            double offset = 0;
             
-            TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
-            assignment.setStartWork(startWork);
-            assignment.setCumulativeWork(cumulativeWork);
-            assignment.setWorkPerDay(workPerDay);
-            assignment.setModified(modified);
-            list.add(assignment);
-
-            index += 28;
-            ++currentBlock;
+            if (!timephasedComplete.isEmpty())
+            {
+               TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size()-1);
+               offset = lastComplete.getFinishWork().getDuration();
+            }
+            
+            int index = 40;
+            double previousCumulativeWork = 0;
+            TimephasedResourceAssignment previousAssignment = null;
+            int currentBlock = 0;
+            
+            while (currentBlock < blockCount && index + 28 <= data.length)
+            {
+               double time = MPPUtility.getInt(data, index);
+               time /= 4800;
+               Duration startWork = Duration.getInstance(time+offset, TimeUnit.HOURS);
+   
+               double currentCumulativeWork = MPPUtility.getDouble(data, index + 4);
+               double assignmentDuration = currentCumulativeWork - previousCumulativeWork; 
+               assignmentDuration /= 60000;
+               Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.HOURS);
+               previousCumulativeWork = currentCumulativeWork;            
+                  
+               time = MPPUtility.getDouble(data, index + 12);
+               time /= 20000;
+               Duration workPerDay = Duration.getInstance(time, TimeUnit.HOURS);
+   
+               int modifiedFlag = MPPUtility.getShort(data, index + 22);
+               boolean modified = (modifiedFlag == 0 && currentBlock != 0) || ((modifiedFlag & 0x3000) != 0);
+               
+               TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
+               assignment.setStartWork(startWork);
+               assignment.setWorkPerDay(workPerDay);
+               assignment.setModified(modified);
+               assignment.setTotalWork(totalWork);
+               list.add(assignment);
+   
+               if (previousAssignment != null)
+               {
+                  previousAssignment.setFinishWork(startWork);   
+               }
+               previousAssignment = assignment;
+               
+               index += 28;
+               ++currentBlock;
+            }
+            
+            if (previousAssignment != null)
+            {
+               double time = MPPUtility.getInt(data, 24);
+               time /= 4800;
+               Duration finishWork = Duration.getInstance(time+offset, TimeUnit.HOURS);
+               previousAssignment.setFinishWork(finishWork);
+            }
          }
       }
-
+      
       return list;
    }
    
