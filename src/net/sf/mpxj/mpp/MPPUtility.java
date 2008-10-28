@@ -53,8 +53,9 @@ final class MPPUtility
    }
    
    /**
-    * This method decodes a byte array with the given encryption code.
-    *
+    * This method decodes a byte array with the given encryption code
+    * using XOR encryption.
+    * 
     * @param data Source data
     * @param encryptionCode Encryption code
     */
@@ -62,7 +63,6 @@ final class MPPUtility
    {
 	  for (int i = 0; i < data.length; i++)
 	  {
-		  // Just a simple XOR encryption
 		  data[i] = (byte)(data[i] ^ encryptionCode);
 	  }
    }
@@ -71,11 +71,11 @@ final class MPPUtility
     * The mask used by Project to hide the password. The data must first
     * be decoded using the XOR key and then the password can be read by reading
     * the characters in given order starting with 1 and going up to 16.
+    * 
     * 00000: 00 00 04 00 00 00 05 00 07 00 12 00 10 00 06 00
     * 00016: 14 00 00 00 00 00 08 00 16 00 00 00 00 00 02 00
     * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
-    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00
-    * 
+    * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00 
     */   
    private static final int[] PASSWORD_MASK =
    {
@@ -137,10 +137,7 @@ final class MPPUtility
     */
    public static final void getByteArray (byte[] data, int offset, int size, byte[] buffer, int bufferOffset)
    {
-      for (int loop = 0; loop < size; loop++)
-      {
-         buffer[bufferOffset + loop] = data[offset + loop];
-      }
+      System.arraycopy(data, offset, buffer, bufferOffset, size);
    }
 
    /**
@@ -152,9 +149,8 @@ final class MPPUtility
     */
    public static final int getByte (byte[] data, int offset)
    {
-      int result = data[offset] & 0x0F;
-      result += (((data[offset] >> 4) & 0x0F) * 16);
-      return (result);
+      int result = (data[offset] & 0xFF);
+      return result;
    }
 
    /**
@@ -178,11 +174,14 @@ final class MPPUtility
     */
    public static final int getShort (byte[] data, int offset)
    {
-      int result = (data[offset] & 0x0F);
-      result += (((data[offset] >> 4) & 0x0F) * 16);
-      result += ((data[offset + 1] & 0x0F) * 256);
-      result += (((data[offset + 1] >> 4) & 0x0F) * 4096);
-      return (result);
+      int result = 0;
+      int i = offset;
+      for ( int shiftBy = 0; shiftBy < 16; shiftBy += 8 ) 
+      {
+         result |= ( ( data[i] & 0xff ) ) << shiftBy;
+         ++i;
+      }
+      return result;
    }
 
    /**
@@ -206,15 +205,14 @@ final class MPPUtility
     */
    public static final int getInt (byte[] data, int offset)
    {
-      int result = (data[offset] & 0x0F);
-      result += (((data[offset] >> 4) & 0x0F) * 16);
-      result += ((data[offset + 1] & 0x0F) * 256);
-      result += (((data[offset + 1] >> 4) & 0x0F) * 4096);
-      result += ((data[offset + 2] & 0x0F) * 65536);
-      result += (((data[offset + 2] >> 4) & 0x0F) * 1048576);
-      result += ((data[offset + 3] & 0x0F) * 16777216);
-      result += (((data[offset + 3] >> 4) & 0x0F) * 268435456);
-      return (result);
+      int result = 0;
+      int i = offset;
+      for ( int shiftBy = 0; shiftBy < 32; shiftBy += 8 ) 
+      {
+         result |= ( ( data[i] & 0xff ) ) << shiftBy;
+         ++i;
+      }
+      return result;
    }
 
    /**
@@ -238,23 +236,14 @@ final class MPPUtility
     */
    public static final long getLong (byte[] data, int offset)
    {
-      long result = (data[offset] & 0x0F); // 0
-      result += (((data[offset] >> 4) & 0x0F) * 16); // 1
-      result += ((data[offset + 1] & 0x0F) * 256); // 2
-      result += (((data[offset + 1] >> 4) & 0x0F) * 4096); // 3
-      result += ((data[offset + 2] & 0x0F) * 65536); // 4
-      result += (((data[offset + 2] >> 4) & 0x0F) * 1048576); // 5
-      result += ((data[offset + 3] & 0x0F) * 16777216); // 6
-      result += (((data[offset + 3] >> 4) & 0x0F) * 268435456); // 7
-      result += ((data[offset + 4] & 0x0F) * 4294967296L); // 8
-      result += (((data[offset + 4] >> 4) & 0x0F) * 68719476736L); // 9
-      result += ((data[offset + 5] & 0x0F) * 1099511627776L); // 10
-      result += (((data[offset + 5] >> 4) & 0x0F) * 17592186044416L); // 11
-      result += ((data[offset + 6] & 0x0F) * 281474976710656L); // 12
-      result += (((data[offset + 6] >> 4) & 0x0F) * 4503599627370496L); // 13
-      result += ((data[offset + 7] & 0x0F) * 72057594037927936L); // 14
-      result += (((data[offset + 7] >> 4) & 0x0F) * 1152921504606846976L); // 15
-      return (result);
+      long result = 0;
+      int i = offset;
+      for ( int shiftBy = 0; shiftBy < 64; shiftBy += 8 ) 
+      {
+         result |= ( (long)( data[i] & 0xff ) ) << shiftBy;
+         ++i;
+      }
+      return result;
    }
 
    /**
@@ -266,20 +255,14 @@ final class MPPUtility
     */
    public static final long getLong6 (byte[] data, int offset)
    {
-      long result = (data[offset] & 0x0F); // 0
-      result += (((data[offset] >> 4) & 0x0F) * 16); // 1
-      result += ((data[offset + 1] & 0x0F) * 256); // 2
-      result += (((data[offset + 1] >> 4) & 0x0F) * 4096); // 3
-      result += ((data[offset + 2] & 0x0F) * 65536); // 4
-      result += (((data[offset + 2] >> 4) & 0x0F) * 1048576); // 5
-      result += ((data[offset + 3] & 0x0F) * 16777216); // 6
-      result += (((data[offset + 3] >> 4) & 0x0F) * 268435456); // 7
-      result += ((data[offset + 4] & 0x0F) * 4294967296L); // 8
-      result += (((data[offset + 4] >> 4) & 0x0F) * 68719476736L); // 9
-      result += ((data[offset + 5] & 0x0F) * 1099511627776L); // 10
-      result += (((data[offset + 5] >> 4) & 0x0F) * 17592186044416L); // 11
-
-      return (result);
+      long result = 0;
+      int i = offset;
+      for ( int shiftBy = 0; shiftBy < 48; shiftBy += 8 ) 
+      {
+         result |= ( (long)( data[i] & 0xff ) ) << shiftBy;
+         ++i;
+      }
+      return result;
    }
 
    /**
@@ -544,7 +527,7 @@ final class MPPUtility
     * Reads a string of single byte characters from the input array.
     * This method assumes that the string finishes either at the
     * end of the array, or when char zero is encountered.
-    * Redaing begins at the supplied offset into the array.
+    * Reading begins at the supplied offset into the array.
     *
     * @param data byte array of data
     * @param offset offset into the array

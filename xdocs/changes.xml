@@ -13,6 +13,7 @@
 		<action dev="joniles" type="update">Updated to POI 3.2.</action>
 		<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>		
 		<action dev="joniles" type="update">Updated MPX output to prevent Project 2007 complaining.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2201088: Task getNumber*() methods return inaccurate large values.</action>		
 		<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>				
 		<action dev="joniles" type="add">Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</action>
 		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
