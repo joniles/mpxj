@@ -13,7 +13,8 @@
 		<action dev="joniles" type="update">Updated to POI 3.2.</action>
 		<action dev="joniles" type="update">Updated to use the SAX parser with JAXB rather than DOM to reduce memory consumption.</action>		
 		<action dev="joniles" type="update">Updated MPX output to prevent Project 2007 complaining.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2201088: Task getNumber*() methods return inaccurate large values.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2201088: Task getNumber*() methods return inaccurate large values.</action>	
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1925264: Duplicate task in file.getChildTasks() when opening MPX.</action>
 		<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>				
 		<action dev="joniles" type="add">Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</action>
 		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
@@ -28,7 +29,6 @@
 		<action dev="joniles" type="fix">Updated to fix a problem caused by duplicate ID values in MPP12 files.</action>		
 		<action dev="joniles" type="fix">Updated to fix a problem with the subproject unique ID calculation (Contributed by Jari Niskala).</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1826791: Import from Project2007 ignores some tasks.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1881769: Crash on priority not set in MSPDI-file.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1881769: Crash on priority not set in MSPDI-file.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1863742: Resource start/finish dates with MSP 2007.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 1907993: MS Project 2007: Calendar exceptions dates are wrong.</action>

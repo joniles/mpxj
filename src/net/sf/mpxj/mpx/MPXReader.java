@@ -371,19 +371,14 @@ public final class MPXReader extends AbstractProjectReader
             {
                m_baseOutlineLevel = outlineLevel;
             }
-
-            List<Task> childTasks = m_projectFile.getChildTasks();
-            if (outlineLevel == m_baseOutlineLevel)
+            
+            if (outlineLevel != m_baseOutlineLevel)               
             {
-               childTasks.add(m_lastTask);
-            }
-            else
-            {
+               List<Task> childTasks = m_projectFile.getChildTasks();
                if (childTasks.isEmpty() == true)
                {
                   throw new MPXJException(MPXJException.INVALID_OUTLINE);
                }
-
                childTasks.get(childTasks.size()-1).addChildTask(m_lastTask, outlineLevel);
             }
 
