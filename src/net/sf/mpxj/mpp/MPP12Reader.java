@@ -3395,7 +3395,8 @@ final class MPP12Reader implements MPPVariantReader
    // MPP12 verified
    //
    private static final Integer TASK_NAME = Integer.valueOf(14);
-
+   private static final Integer TASK_WBS = Integer.valueOf(16);
+   
    private static final Integer TASK_NUMBER1 = Integer.valueOf(87);
    private static final Integer TASK_NUMBER2 = Integer.valueOf(88);
    private static final Integer TASK_NUMBER3 = Integer.valueOf(89);
@@ -3767,8 +3768,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_REMAINING_OVERTIME_WORK = Integer.valueOf(4);
    private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);   
    private static final Integer TASK_SUBPROJECTUNIQUETASKID = Integer.valueOf(242);
-   private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);
-   private static final Integer TASK_WBS = Integer.valueOf(10);
+   private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);   
    
    
 
