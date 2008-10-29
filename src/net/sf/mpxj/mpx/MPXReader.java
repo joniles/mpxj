@@ -106,6 +106,7 @@ public final class MPXReader extends AbstractProjectReader
          m_baseOutlineLevel = -1;
          m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
          m_projectFile.setAutoCalendarUniqueID(true);
+         m_deferredRelationships = new LinkedList<DeferredRelationship>();
          
          bis.reset();
 
@@ -154,6 +155,8 @@ public final class MPXReader extends AbstractProjectReader
             ++line;
          }
 
+         processDeferredRelationships();
+         
          //
          // Ensure that the structure is consistent
          //
@@ -187,6 +190,7 @@ public final class MPXReader extends AbstractProjectReader
          m_taskModel = null;
          m_resourceModel = null;
          m_formats = null;
+         m_deferredRelationships = null;
       }
    }
 
@@ -800,40 +804,71 @@ public final class MPXReader extends AbstractProjectReader
     * Populates a relation list.
     *
     * @param task parent task
+    * @param field target task field
     * @param data MPX relation list data
-    * @return relation list
+    */
+   private void populateRelationList (Task task, TaskField field, String data)
+   {
+      DeferredRelationship dr = new DeferredRelationship ();
+      dr.setTask(task);
+      dr.setField(field);
+      dr.setData(data);
+      m_deferredRelationships.add(dr);
+   }
+
+   /**
+    * This method iterates through the deferred relationships,
+    * parsing the data and setting up relationships between tasks.
+    * 
     * @throws MPXJException
     */
-   private List<Relation> populateRelationList (Task task, String data)
+   private void processDeferredRelationships ()
+      throws MPXJException
+   {
+      for (DeferredRelationship dr : m_deferredRelationships)
+      {
+         processDeferredRelationship(dr);
+      }
+   }
+   
+   /**
+    * This method processes a single deferred relationship list.
+    * 
+    * @param dr deferred relationship list data
+    * @throws MPXJException
+    */
+   private void processDeferredRelationship (DeferredRelationship dr)
       throws MPXJException
    {
       List<Relation> list = new LinkedList<Relation> ();
-
+      String data = dr.getData();
+      Task task = dr.getTask();
+      
       int length = data.length();
-
+   
       if (length != 0)
       {
          int start = 0;
          int end = 0;
-
+   
          while (end != length)
          {
             end = data.indexOf(m_delimiter, start);
-
+   
             if (end == -1)
             {
                end = length;
             }
-
+   
             Relation relation = new Relation (m_projectFile, task);
             populateRelation(data.substring(start, end).trim(), relation);
             list.add(relation);
-
+   
             start = end + 1;
          }
       }
-
-      return (list);
+   
+      task.set(dr.getField(), list);
    }
 
    /**
@@ -967,7 +1002,7 @@ public final class MPXReader extends AbstractProjectReader
             case TaskField.UNIQUE_ID_PREDECESSORS_VALUE:
             case TaskField.UNIQUE_ID_SUCCESSORS_VALUE:
             {
-               task.set(taskField, populateRelationList(task, field));
+               populateRelationList(task, taskField, field);
                break;
             }
 
@@ -1377,6 +1412,79 @@ public final class MPXReader extends AbstractProjectReader
    /**
     * Transient working data.
     */
+
+   /**
+    * This class is used to collect relationship data awaiting
+    * deferred processing. We do this to allow forward references
+    * between tasks.
+    */
+   protected class DeferredRelationship
+   {
+      /**
+       * Retrieve the parent task.
+       * 
+       * @return parent Task instance
+       */
+      public Task getTask()
+      {
+         return m_task;
+      }
+      
+      /**
+       * Set the parent task instance.
+       * 
+       * @param task parent Task instance
+       */
+      public void setTask(Task task)
+      {
+         m_task = task;
+      }
+      
+      /**
+       * Retrieve the target task field.
+       * 
+       * @return TaskField instance
+       */
+      public TaskField getField()
+      {
+         return m_field;
+      }
+      
+      /**
+       * Set the target task field.
+       * 
+       * @param field TaskField instance
+       */
+      public void setField(TaskField field)
+      {
+         m_field = field;
+      }
+      
+      /**
+       * Retrieve the relationship data.
+       * 
+       * @return relationship data
+       */
+      public String getData()
+      {
+         return m_data;
+      }
+      
+      /**
+       * Set the relationship data.
+       * 
+       * @param data relationship data
+       */
+      public void setData(String data)
+      {
+         m_data = data;
+      }
+      
+      private Task m_task;
+      private TaskField m_field;
+      private String m_data;
+   }
+   
    private ProjectFile m_projectFile;
    private Task m_lastTask;
    private Resource m_lastResource;
@@ -1389,7 +1497,8 @@ public final class MPXReader extends AbstractProjectReader
    private ResourceModel m_resourceModel;
    private char m_delimiter;
    private MPXJFormats m_formats;
-
+   private List<DeferredRelationship> m_deferredRelationships;
+   
    /**
     * This member data is used to hold the outline level number of the
     * first outline level used in the MPX file. When data from
