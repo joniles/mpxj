@@ -363,16 +363,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
          }
       }
-
-      //
-      // Do not add a weekdays tag to the calendar unless it
-      // has valid entries.
-      // Fixes SourceForge bug 1854747: MPXJ and MSP 2007 XML formats
-      //
-      if (!dayList.isEmpty())
-      {
-         calendar.setWeekDays (days);   
-      }
       
       //
       // Create a list of exceptions
@@ -420,9 +410,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             time.setFromTime(DatatypeConverter.printTime(exception.getFromTime3()));
             time.setToTime(DatatypeConverter.printTime(exception.getToTime3()));
-         }
+         }                 
       }
 
+      //
+      // Do not add a weekdays tag to the calendar unless it
+      // has valid entries.
+      // Fixes SourceForge bug 1854747: MPXJ and MSP 2007 XML formats
+      //
+      if (!dayList.isEmpty())
+      {
+         calendar.setWeekDays (days);   
+      }
+      
       return (calendar);
    }
 

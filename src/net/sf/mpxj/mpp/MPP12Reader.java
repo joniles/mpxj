@@ -2486,7 +2486,11 @@ final class MPP12Reader implements MPPVariantReader
       {
          metaData = consFixedMeta.getByteArrayValue(loop);
 
-         if (MPPUtility.getInt(metaData, 0) == 0)
+         //
+         // SourceForge bug 2209477: we were reading an int here, but
+         // it looks like the deleted flag is just a short.
+         //
+         if (MPPUtility.getShort(metaData, 0) == 0)
          {
             index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
             if (index != -1)

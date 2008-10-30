@@ -132,6 +132,15 @@ public final class MSPDIReader extends AbstractProjectReader
          //
          m_projectFile.updateUniqueCounters();
 
+         //
+         // Ensure that the default calendar name is set in the project header
+         //
+         ProjectCalendar defaultCalendar = calendarMap.get(project.getCalendarUID());
+         if (defaultCalendar != null) 
+         {
+            m_projectFile.getProjectHeader().setCalendarName(defaultCalendar.getName());
+         }
+         
          return (m_projectFile);
       }
 
