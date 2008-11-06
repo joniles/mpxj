@@ -252,7 +252,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
-    * from ths isWorkingDay method as it retrieves the actual flag value.
+    * from the isWorkingDay method as it retrieves the actual flag value.
     * The isWorkingDay method will always refer back to the base calendar
     * to get a boolean value if the underlying flag value is DEFAULT. If
     * isWorkingDay were the only method available to access this flag,
@@ -395,7 +395,7 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * This method generates an end date given a start date and a duration.
     * The underlying implementation of this method uses an <i>approximation</i>
-    * in order to conver the supplied duration to a number of days. This number
+    * in order to convert the supplied duration to a number of days. This number
     * of days is treated as the required offset in <i>working</i> days from
     * the startDate parameter. The method then steps through that number of
     * working days (as defined by this calendar), and returns the end date
@@ -722,7 +722,7 @@ public final class ProjectCalendar extends ProjectEntity
             }
             
             //
-            // Process each workng day until we reach the last day
+            // Process each working day until we reach the last day
             //
             while (true)
             {
