@@ -63,7 +63,7 @@
 </target>
 
 <target name="compile" depends="init" description="Compile Everything">
-   <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}" debug="on">
+   <javac srcdir="${basedir}/src" destdir="${classes.dir}" classpath="${classpath}:${poi.classpath}:${jaxb.classpath}:${junit.classpath}" debug="on">
       <!-- <compilerarg value="-Xlint"/> -->
    </javac>
 </target>
