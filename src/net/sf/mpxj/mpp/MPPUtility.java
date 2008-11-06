@@ -722,7 +722,7 @@ final class MPPUtility
     * @param timeUnit duration units
     * @return Duration instance
     */
-   public static Duration getAdjustedDuration (ProjectFile file, int duration, TimeUnit timeUnit)
+   public static Duration getAdjustedDuration(ProjectFile file, int duration, TimeUnit timeUnit)
    {
       Duration result;
       switch (timeUnit)
@@ -733,7 +733,7 @@ final class MPPUtility
             double totalDays = 0;
             if (unitsPerDay != 0)
             {
-            	totalDays = duration / unitsPerDay;
+               totalDays = duration / unitsPerDay;
             }
             result = Duration.getInstance(totalDays, timeUnit);
             break;
@@ -747,11 +747,35 @@ final class MPPUtility
             break;
          }
 
+         case WEEKS:
+         {
+            double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
+            double totalWeeks = 0;
+            if (unitsPerWeek != 0)
+            {
+               totalWeeks = duration / unitsPerWeek;
+            }
+            result = Duration.getInstance(totalWeeks, timeUnit);
+            break;
+         }
+
          case ELAPSED_WEEKS:
          {
             double unitsPerWeek = (60 * 24 * 7 * 10);
             double totalWeeks = duration / unitsPerWeek;
             result = Duration.getInstance(totalWeeks, timeUnit);
+            break;
+         }
+         
+         case MONTHS:
+         {
+            double unitsPerMonth = file.getProjectHeader().getMinutesPerDay().doubleValue() * file.getProjectHeader().getDaysPerMonth().doubleValue() * 10d;
+            double totalMonths = 0;
+            if (unitsPerMonth != 0)
+            {
+               totalMonths = duration / unitsPerMonth;
+            }
+            result = Duration.getInstance(totalMonths, timeUnit);
             break;
          }
 
@@ -762,14 +786,13 @@ final class MPPUtility
             result = Duration.getInstance(totalMonths, timeUnit);
             break;
          }
-         
+
          default:
          {
             result = getDuration(duration, timeUnit);
             break;
          }
       }
-
       return (result);
    }
 
