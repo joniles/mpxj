@@ -832,53 +832,57 @@ public final class ProjectFile
          for (Task task : m_allTasks)
          {
             task.clearChildTasks();
-            int level = NumberUtility.getInt(task.getOutlineLevel());
             Task parent = null;
-
-            if (lastTask != null)
+            if (!task.getNull())
             {
-               if (level == lastLevel || task.getNull())
+               int level = NumberUtility.getInt(task.getOutlineLevel());
+               
+   
+               if (lastTask != null)
                {
-                  parent = lastTask.getParentTask();
-                  level = lastLevel;
-               }
-               else
-               {
-                  if (level > lastLevel)
+                  if (level == lastLevel || task.getNull())
                   {
-                     parent = lastTask;
+                     parent = lastTask.getParentTask();
+                     level = lastLevel;
                   }
                   else
                   {
-                     while (level <= lastLevel)
+                     if (level > lastLevel)
                      {
-                        parent = lastTask.getParentTask();
-
-                        if (parent == null)
+                        parent = lastTask;
+                     }
+                     else
+                     {
+                        while (level <= lastLevel)
                         {
-                           break;
+                           parent = lastTask.getParentTask();
+   
+                           if (parent == null)
+                           {
+                              break;
+                           }
+   
+                           lastLevel = NumberUtility.getInt(parent.getOutlineLevel());
+                           lastTask = parent;
                         }
-
-                        lastLevel = NumberUtility.getInt(parent.getOutlineLevel());
-                        lastTask = parent;
                      }
                   }
                }
+   
+               lastTask = task;
+               lastLevel = level;
+   
+               if (getAutoWBS() == true)
+               {
+                  task.generateWBS(parent);
+               }
+   
+               if (getAutoOutlineNumber() == true)
+               {
+                  task.generateOutlineNumber(parent);
+               }
             }
-
-            lastTask = task;
-            lastLevel = level;
-
-            if (getAutoWBS() == true)
-            {
-               task.generateWBS(parent);
-            }
-
-            if (getAutoOutlineNumber() == true)
-            {
-               task.generateOutlineNumber(parent);
-            }
-
+            
             if (parent == null)
             {
                m_childTasks.add(task);

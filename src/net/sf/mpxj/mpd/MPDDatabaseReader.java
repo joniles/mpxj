@@ -2,7 +2,7 @@
  * file:       MPDDatabaseReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2007
- * date:       02-Feb-2006
+ * date:       02/02/2006
  */
  
 /*
@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpd;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,12 +33,13 @@ import javax.sql.DataSource;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.ProjectReader;
 
 /**
- * This class provdies a generic front end to read project data from
+ * This class provides a generic front end to read project data from
  * a database.
  */
-public final class MPDDatabaseReader
+public final class MPDDatabaseReader implements ProjectReader
 {
    /**
     * Read project data from a database.
@@ -147,6 +150,23 @@ public final class MPDDatabaseReader
             }
          }
       }
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public ProjectFile read(File file)
+      throws MPXJException
+   {
+      return (read(file.getAbsolutePath()));
+   }
+   
+   /**
+    * {@inheritDoc}
+    */
+   public ProjectFile read (InputStream inputStream)
+   {
+      throw new UnsupportedOperationException();      
    }
    
    private Integer m_projectID;

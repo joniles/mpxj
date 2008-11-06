@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +12,16 @@ namespace MpxjSample
     {
         static void Main(string[] args)
         {
-            java.lang.System.setProperty("mpxj.junit.datadir", "c:\\java\\mpxj\\junit\\data");
-            Test suite = new MPXJTest();
-            TestRunner.runAndWait(suite);
+            if (args.Length != 2)
+            {
+                Console.Out.WriteLine("Usage: MpxjTest <test data directory>");
+            }
+            else
+            {
+                java.lang.System.setProperty("mpxj.junit.datadir", args[0]);
+                Test suite = new MPXJTest();
+                TestRunner.runAndWait(suite);
+            }
         }
     }
 }

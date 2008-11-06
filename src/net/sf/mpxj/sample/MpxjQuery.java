@@ -35,9 +35,8 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.mpp.MPPReader;
-import net.sf.mpxj.mpx.MPXReader;
-import net.sf.mpxj.mspdi.MSPDIReader;
+import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.ProjectReaderUtility;
 
 
 /**
@@ -81,48 +80,8 @@ public class MpxjQuery
    private static void query (String filename)
       throws Exception
    {
-      ProjectFile mpx = null;
-
-      try
-      {
-         mpx = new MPXReader().read (filename);
-      }
-
-      catch (Exception ex)
-      {
-         mpx = null;
-      }
-
-      if (mpx == null)
-      {
-         try
-         {
-            mpx = new MPPReader().read (filename);
-         }
-
-         catch (Exception ex)
-         {
-            mpx = null;
-         }
-      }
-
-      if (mpx == null)
-      {
-         try
-         {
-            mpx = new MSPDIReader().read (filename);
-         }
-
-         catch (Exception ex)
-         {
-            mpx = null;
-         }
-      }
-
-      if (mpx == null)
-      {
-         throw new Exception ("Failed to read file");
-      }
+      ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
+      ProjectFile mpx = reader.read(filename);
 
       listProjectHeader (mpx);
 
@@ -464,7 +423,7 @@ public class MpxjQuery
          
          System.out.println();
       }    
-*/
+*/      
    }
    
    /**

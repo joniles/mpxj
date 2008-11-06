@@ -660,170 +660,174 @@ public final class MSPDIReader extends AbstractProjectReader
    private void readTask (Project.Tasks.Task xml)
    {
       Task mpx = m_projectFile.addTask ();
-
-      mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
-      mpx.setActualCost(DatatypeConverter.parseCurrency (xml.getActualCost()));
-      mpx.setActualDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualDuration()));
-      mpx.setActualFinish(DatatypeConverter.parseDate (xml.getActualFinish()));
-      mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
-      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualOvertimeWork()));
-      mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getActualOvertimeWorkProtected()));
-      mpx.setActualStart(DatatypeConverter.parseDate (xml.getActualStart()));
-      mpx.setActualWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualWork()));
-      mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getActualWorkProtected()));
-      mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
-      //mpx.setBaselineCost();
-      //mpx.setBaselineDuration();
-      //mpx.setBaselineFinish();
-      //mpx.setBaselineStart();
-      //mpx.setBaselineWork();
-      //mpx.setBCWP();
-      //mpx.setBCWS();
-      mpx.setCalendar(getTaskCalendar(xml));
-      //mpx.setConfirmed();
-      mpx.setConstraintDate(DatatypeConverter.parseDate(xml.getConstraintDate()));
-      mpx.setConstraintType(DatatypeConverter.parseConstraintType(xml.getConstraintType()));
-      mpx.setContact(xml.getContact());
-      mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
-      //mpx.setCost1();
-      //mpx.setCost2();
-      //mpx.setCost3();
-      //mpx.setCostVariance();
-      mpx.setCreateDate(DatatypeConverter.parseDate(xml.getCreateDate()));
-      mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
-      mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
-      //mpx.setDelay();
-      mpx.setDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getDuration()));
-      //mpx.setDuration1();
-      //mpx.setDuration2();
-      //mpx.setDuration3();
-      //mpx.setDurationVariance();
-      mpx.setEarlyFinish(DatatypeConverter.parseDate(xml.getEarlyFinish()));
-      mpx.setEarlyStart(DatatypeConverter.parseDate(xml.getEarlyStart()));
-      mpx.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(xml.getEarnedValueMethod()));
-      mpx.setEffortDriven(BooleanUtility.getBoolean(xml.isEffortDriven()));
-      mpx.setEstimated(BooleanUtility.getBoolean(xml.isEstimated()));
-      mpx.setExternalTask(BooleanUtility.getBoolean(xml.isExternalTask()));
-      mpx.setProject(xml.getExternalTaskProject());
-      mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
-      //mpx.setFinish1();
-      //mpx.setFinish2();
-      //mpx.setFinish3();
-      //mpx.setFinish4();
-      //mpx.setFinish5();
-      mpx.setFinishVariance(DatatypeConverter.parseDurationInMinutes(xml.getFinishVariance()));
-      //mpx.setFixed();
-      mpx.setFixedCost(DatatypeConverter.parseCurrency(xml.getFixedCost()));
-      mpx.setFixedCostAccrual(xml.getFixedCostAccrual());
-      //mpx.setFlag1();
-      //mpx.setFlag2();
-      //mpx.setFlag3();
-      //mpx.setFlag4();
-      //mpx.setFlag5();
-      //mpx.setFlag6();
-      //mpx.setFlag7();
-      //mpx.setFlag8();
-      //mpx.setFlag9();
-      //mpx.setFlag10();
-      // This is not correct?
-      mpx.setFreeSlack(DatatypeConverter.parseDurationInMinutes(xml.getFreeSlack()));
-      mpx.setHideBar(BooleanUtility.getBoolean(xml.isHideBar()));
-      mpx.setHyperlink(xml.getHyperlink());
-      mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
-      mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
-      mpx.setID(NumberUtility.getInteger(xml.getID()));
-      mpx.setIgnoreResourceCalendar(BooleanUtility.getBoolean(xml.isIgnoreResourceCalendar()));
-      mpx.setLateFinish(DatatypeConverter.parseDate(xml.getLateFinish()));
-      mpx.setLateStart(DatatypeConverter.parseDate(xml.getLateStart()));
-      mpx.setLevelAssignments(BooleanUtility.getBoolean(xml.isLevelAssignments()));
-      mpx.setLevelingCanSplit(BooleanUtility.getBoolean(xml.isLevelingCanSplit()));
-      mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
-      if (xml.getLevelingDelay() != null && mpx.getLevelingDelayFormat() != null)
-      {
-         mpx.setLevelingDelay(Duration.getInstance (xml.getLevelingDelay().doubleValue(), mpx.getLevelingDelayFormat()));
-      }
-
-
-      //mpx.setLinkedFields();
-      //mpx.setMarked();
-      mpx.setMilestone(BooleanUtility.getBoolean(xml.isMilestone()));
-      mpx.setName(xml.getName());
-      if (xml.getNotes() != null && xml.getNotes().length() != 0)
-      {
-         mpx.setNotes(xml.getNotes());
-      }
-      //mpx.setNumber1();
-      //mpx.setNumber2();
-      //mpx.setNumber3();
-      //mpx.setNumber4();
-      //mpx.setNumber5();
-      //mpx.setObjects();
       mpx.setNull(BooleanUtility.getBoolean(xml.isIsNull()));
-      mpx.setOutlineLevel(NumberUtility.getInteger(xml.getOutlineLevel()));
-      mpx.setOutlineNumber(xml.getOutlineNumber());
-      mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
-      mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
-      mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getOvertimeWork()));
-      mpx.setPercentageComplete(xml.getPercentComplete());
-      mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
-      mpx.setPhysicalPercentComplete(NumberUtility.getInteger(xml.getPhysicalPercentComplete()));
-      mpx.setPreleveledFinish(DatatypeConverter.parseDate(xml.getPreLeveledFinish()));
-      mpx.setPreleveledStart(DatatypeConverter.parseDate(xml.getPreLeveledStart()));
-      mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
-      //mpx.setProject();
-      mpx.setRecurring(BooleanUtility.getBoolean(xml.isRecurring()));
-      mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getRegularWork()));
-      mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
-      mpx.setRemainingDuration(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getRemainingDuration()));
-      mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
-      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getRemainingOvertimeWork()));
-      mpx.setRemainingWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getRemainingWork()));
-      //mpx.setResourceGroup();
-      //mpx.setResourceInitials();
-      //mpx.setResourceNames();
-      mpx.setResume(DatatypeConverter.parseDate(xml.getResume()));
-      mpx.setResumeValid(BooleanUtility.getBoolean(xml.isResumeValid()));
-      //mpx.setResumeNoEarlierThan();
-      mpx.setRollup(BooleanUtility.getBoolean(xml.isRollup()));
-      mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
-      //mpx.setStart1();
-      //mpx.setStart2();
-      //mpx.setStart3();
-      //mpx.setStart4();
-      //mpx.setStart5();
-      mpx.setStartVariance(DatatypeConverter.parseDurationInMinutes(xml.getStartVariance()));
-      mpx.setStop(DatatypeConverter.parseDate(xml.getStop()));
-      mpx.setSubProject(BooleanUtility.getBoolean(xml.isIsSubproject())?new SubProject():null);
-      mpx.setSubprojectName(xml.getSubprojectName());
-      mpx.setSubprojectReadOnly(BooleanUtility.getBoolean(xml.isIsSubprojectReadOnly()));
-      //mpx.setSuccessors();
-      mpx.setSummary(BooleanUtility.getBoolean(xml.isSummary()));
-      //mpx.setSV();
-      //mpx.setText1();
-      //mpx.setText2();
-      //mpx.setText3();
-      //mpx.setText4();
-      //mpx.setText5();
-      //mpx.setText6();
-      //mpx.setText7();
-      //mpx.setText8();
-      //mpx.setText9();
-      //mpx.setText10();      
-      mpx.setType(xml.getType());
+      mpx.setID(NumberUtility.getInteger(xml.getID()));
       mpx.setUniqueID(NumberUtility.getInteger(xml.getUID()));
-      //mpx.setUpdateNeeded();
-      mpx.setWBS(xml.getWBS());
-      mpx.setWBSLevel (xml.getWBSLevel());
-      mpx.setWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getWork()));
-      mpx.setWorkVariance(Duration.getInstance (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
-
-      // read last to ensure correct caching
-      mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
-      mpx.setCritical(BooleanUtility.getBoolean(xml.isCritical()));
       
-      readTaskExtendedAttributes(xml, mpx);
-
-      readTaskBaselines (xml, mpx);
+      if (!mpx.getNull())
+      {
+         mpx.setDurationFormat(DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat()));
+         mpx.setActualCost(DatatypeConverter.parseCurrency (xml.getActualCost()));
+         mpx.setActualDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualDuration()));
+         mpx.setActualFinish(DatatypeConverter.parseDate (xml.getActualFinish()));
+         mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
+         mpx.setActualOvertimeWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualOvertimeWork()));
+         mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getActualOvertimeWorkProtected()));
+         mpx.setActualStart(DatatypeConverter.parseDate (xml.getActualStart()));
+         mpx.setActualWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getActualWork()));
+         mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getActualWorkProtected()));
+         mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
+         //mpx.setBaselineCost();
+         //mpx.setBaselineDuration();
+         //mpx.setBaselineFinish();
+         //mpx.setBaselineStart();
+         //mpx.setBaselineWork();
+         //mpx.setBCWP();
+         //mpx.setBCWS();
+         mpx.setCalendar(getTaskCalendar(xml));
+         //mpx.setConfirmed();
+         mpx.setConstraintDate(DatatypeConverter.parseDate(xml.getConstraintDate()));
+         mpx.setConstraintType(DatatypeConverter.parseConstraintType(xml.getConstraintType()));
+         mpx.setContact(xml.getContact());
+         mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));
+         //mpx.setCost1();
+         //mpx.setCost2();
+         //mpx.setCost3();
+         //mpx.setCostVariance();
+         mpx.setCreateDate(DatatypeConverter.parseDate(xml.getCreateDate()));
+         mpx.setCV(DatatypeConverter.parseCurrency(xml.getCV()));
+         mpx.setDeadline(DatatypeConverter.parseDate(xml.getDeadline()));
+         //mpx.setDelay();
+         mpx.setDuration(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getDuration()));
+         //mpx.setDuration1();
+         //mpx.setDuration2();
+         //mpx.setDuration3();
+         //mpx.setDurationVariance();
+         mpx.setEarlyFinish(DatatypeConverter.parseDate(xml.getEarlyFinish()));
+         mpx.setEarlyStart(DatatypeConverter.parseDate(xml.getEarlyStart()));
+         mpx.setEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(xml.getEarnedValueMethod()));
+         mpx.setEffortDriven(BooleanUtility.getBoolean(xml.isEffortDriven()));
+         mpx.setEstimated(BooleanUtility.getBoolean(xml.isEstimated()));
+         mpx.setExternalTask(BooleanUtility.getBoolean(xml.isExternalTask()));
+         mpx.setProject(xml.getExternalTaskProject());
+         mpx.setFinish(DatatypeConverter.parseDate(xml.getFinish()));
+         //mpx.setFinish1();
+         //mpx.setFinish2();
+         //mpx.setFinish3();
+         //mpx.setFinish4();
+         //mpx.setFinish5();
+         mpx.setFinishVariance(DatatypeConverter.parseDurationInMinutes(xml.getFinishVariance()));
+         //mpx.setFixed();
+         mpx.setFixedCost(DatatypeConverter.parseCurrency(xml.getFixedCost()));
+         mpx.setFixedCostAccrual(xml.getFixedCostAccrual());
+         //mpx.setFlag1();
+         //mpx.setFlag2();
+         //mpx.setFlag3();
+         //mpx.setFlag4();
+         //mpx.setFlag5();
+         //mpx.setFlag6();
+         //mpx.setFlag7();
+         //mpx.setFlag8();
+         //mpx.setFlag9();
+         //mpx.setFlag10();
+         // This is not correct?
+         mpx.setFreeSlack(DatatypeConverter.parseDurationInMinutes(xml.getFreeSlack()));
+         mpx.setHideBar(BooleanUtility.getBoolean(xml.isHideBar()));
+         mpx.setHyperlink(xml.getHyperlink());
+         mpx.setHyperlinkAddress(xml.getHyperlinkAddress());
+         mpx.setHyperlinkSubAddress(xml.getHyperlinkSubAddress());
+         
+         mpx.setIgnoreResourceCalendar(BooleanUtility.getBoolean(xml.isIgnoreResourceCalendar()));
+         mpx.setLateFinish(DatatypeConverter.parseDate(xml.getLateFinish()));
+         mpx.setLateStart(DatatypeConverter.parseDate(xml.getLateStart()));
+         mpx.setLevelAssignments(BooleanUtility.getBoolean(xml.isLevelAssignments()));
+         mpx.setLevelingCanSplit(BooleanUtility.getBoolean(xml.isLevelingCanSplit()));
+         mpx.setLevelingDelayFormat(DatatypeConverter.parseDurationTimeUnits(xml.getLevelingDelayFormat()));
+         if (xml.getLevelingDelay() != null && mpx.getLevelingDelayFormat() != null)
+         {
+            mpx.setLevelingDelay(Duration.getInstance (xml.getLevelingDelay().doubleValue(), mpx.getLevelingDelayFormat()));
+         }
+   
+   
+         //mpx.setLinkedFields();
+         //mpx.setMarked();
+         mpx.setMilestone(BooleanUtility.getBoolean(xml.isMilestone()));
+         mpx.setName(xml.getName());
+         if (xml.getNotes() != null && xml.getNotes().length() != 0)
+         {
+            mpx.setNotes(xml.getNotes());
+         }
+         //mpx.setNumber1();
+         //mpx.setNumber2();
+         //mpx.setNumber3();
+         //mpx.setNumber4();
+         //mpx.setNumber5();
+         //mpx.setObjects();      
+         mpx.setOutlineLevel(NumberUtility.getInteger(xml.getOutlineLevel()));
+         mpx.setOutlineNumber(xml.getOutlineNumber());
+         mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
+         mpx.setOvertimeCost(DatatypeConverter.parseCurrency(xml.getOvertimeCost()));
+         mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getOvertimeWork()));
+         mpx.setPercentageComplete(xml.getPercentComplete());
+         mpx.setPercentageWorkComplete(xml.getPercentWorkComplete());
+         mpx.setPhysicalPercentComplete(NumberUtility.getInteger(xml.getPhysicalPercentComplete()));
+         mpx.setPreleveledFinish(DatatypeConverter.parseDate(xml.getPreLeveledFinish()));
+         mpx.setPreleveledStart(DatatypeConverter.parseDate(xml.getPreLeveledStart()));
+         mpx.setPriority(DatatypeConverter.parsePriority(xml.getPriority()));
+         //mpx.setProject();
+         mpx.setRecurring(BooleanUtility.getBoolean(xml.isRecurring()));
+         mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getRegularWork()));
+         mpx.setRemainingCost(DatatypeConverter.parseCurrency(xml.getRemainingCost()));
+         mpx.setRemainingDuration(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getRemainingDuration()));
+         mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(xml.getRemainingOvertimeCost()));
+         mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getRemainingOvertimeWork()));
+         mpx.setRemainingWork(DatatypeConverter.parseDuration (m_projectFile,mpx.getDurationFormat(),xml.getRemainingWork()));
+         //mpx.setResourceGroup();
+         //mpx.setResourceInitials();
+         //mpx.setResourceNames();
+         mpx.setResume(DatatypeConverter.parseDate(xml.getResume()));
+         mpx.setResumeValid(BooleanUtility.getBoolean(xml.isResumeValid()));
+         //mpx.setResumeNoEarlierThan();
+         mpx.setRollup(BooleanUtility.getBoolean(xml.isRollup()));
+         mpx.setStart(DatatypeConverter.parseDate(xml.getStart()));
+         //mpx.setStart1();
+         //mpx.setStart2();
+         //mpx.setStart3();
+         //mpx.setStart4();
+         //mpx.setStart5();
+         mpx.setStartVariance(DatatypeConverter.parseDurationInMinutes(xml.getStartVariance()));
+         mpx.setStop(DatatypeConverter.parseDate(xml.getStop()));
+         mpx.setSubProject(BooleanUtility.getBoolean(xml.isIsSubproject())?new SubProject():null);
+         mpx.setSubprojectName(xml.getSubprojectName());
+         mpx.setSubprojectReadOnly(BooleanUtility.getBoolean(xml.isIsSubprojectReadOnly()));
+         //mpx.setSuccessors();
+         mpx.setSummary(BooleanUtility.getBoolean(xml.isSummary()));
+         //mpx.setSV();
+         //mpx.setText1();
+         //mpx.setText2();
+         //mpx.setText3();
+         //mpx.setText4();
+         //mpx.setText5();
+         //mpx.setText6();
+         //mpx.setText7();
+         //mpx.setText8();
+         //mpx.setText9();
+         //mpx.setText10();      
+         mpx.setType(xml.getType());      
+         //mpx.setUpdateNeeded();
+         mpx.setWBS(xml.getWBS());
+         mpx.setWBSLevel (xml.getWBSLevel());
+         mpx.setWork(DatatypeConverter.parseDuration(m_projectFile,mpx.getDurationFormat(),xml.getWork()));
+         mpx.setWorkVariance(Duration.getInstance (NumberUtility.getDouble(xml.getWorkVariance())/1000, TimeUnit.MINUTES));
+   
+         // read last to ensure correct caching
+         mpx.setTotalSlack(DatatypeConverter.parseDurationInMinutes(xml.getTotalSlack()));
+         mpx.setCritical(BooleanUtility.getBoolean(xml.isCritical()));
+         
+         readTaskExtendedAttributes(xml, mpx);
+   
+         readTaskBaselines (xml, mpx);
+      }
       
       m_projectFile.fireTaskReadEvent(mpx);
    }

@@ -103,7 +103,7 @@
    
 </target>
 
-<target name="distribute" depends="compile,archive,clean-classes" description="Create distribution">
+<target name="distribute" depends="compile,archive,clean-classes,clean-dot-net" description="Create distribution">
    <zip zipfile="${distribution}">
       <zipfileset dir="${basedir}" prefix="mpxj" excludes="**/CVSROOT/*,**/CVS/*"/>
    </zip>
@@ -120,7 +120,13 @@
    <delete dir="${classes.dir}"/>
 </target>
 
-<target name="clean" depends="init-props, clean-temp, clean-classes" description="Clean up all files">
+<target name="clean-dot-net" depends="init-props" description="Clean up .net build files">
+	<delete dir="${basedir}/src.net/bin"/>
+	<delete dir="${basedir}/src.net/obj"/>
+	<delete file="${basedir}/src.net/MpxjSample.suo"/>
+</target>
+	
+<target name="clean" depends="init-props, clean-temp, clean-classes, clean-dot-net" description="Clean up all files">
    <delete file="${basedir}/mpxj.jar"/>
    <delete dir="${doc.dir}"/>
 </target>

@@ -2,7 +2,7 @@
  * file:       MPD9AbstractReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2007
- * date:       02-Feb-2006
+ * date:       02/02/2006
  */
  
 /*
@@ -1020,6 +1020,13 @@ abstract class MPD9AbstractReader
             m_autoWBS = false;
          }
 
+         //
+         // Attempt to identify null tasks
+         //
+         if (task.getName() == null && task.getStart() == null && task.getFinish() == null)
+         {
+            task.setNull(true);
+         }
       }
    }
    
