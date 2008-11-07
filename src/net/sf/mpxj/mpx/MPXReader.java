@@ -1418,7 +1418,7 @@ public final class MPXReader extends AbstractProjectReader
     * deferred processing. We do this to allow forward references
     * between tasks.
     */
-   protected class DeferredRelationship
+   protected static class DeferredRelationship
    {
       /**
        * Retrieve the parent task.
