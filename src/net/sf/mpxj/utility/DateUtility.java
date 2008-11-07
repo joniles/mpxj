@@ -191,7 +191,7 @@ public final class DateUtility
    {
       Duration variance = null;
       
-      if (date1 != null & date2 != null)
+      if (date1 != null && date2 != null)
       {
          ProjectCalendar calendar = task.getCalendar();
          if (calendar == null)
