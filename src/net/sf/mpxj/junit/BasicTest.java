@@ -2105,7 +2105,7 @@ public class BasicTest extends MPXJTestCase
     * As part of the bug reports that are submitted for MPXJ I am passed a
     * number of confidential project files, which for obvious reasons cannot
     * be redistributed as test cases. These files reside in a directory on
-    * my development machine, and asuming that this directory exists, this
+    * my development machine, and assuming that this directory exists, this
     * test will attempt of read each of the files in turn.
     *
     * @throws Exception

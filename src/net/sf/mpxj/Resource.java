@@ -181,7 +181,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Set the units label for a metarial resource.
+    * Set the units label for a material resource.
     * 
     * @param materialLabel material resource units label
     */
