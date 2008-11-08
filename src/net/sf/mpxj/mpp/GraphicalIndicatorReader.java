@@ -228,7 +228,7 @@ public final class GraphicalIndicatorReader
             
             case NUMERIC: // 0x05
             {
-               Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset));
+               Double value = Double.valueOf(MPPUtility.getDouble(m_data, m_dataOffset));
                m_dataOffset += 8;
                criteria.setValue(index, value);
                break;
@@ -236,7 +236,7 @@ public final class GraphicalIndicatorReader
 
             case CURRENCY: // 0x06
             {
-               Double value = new Double(MPPUtility.getDouble(m_data, m_dataOffset)/100);
+               Double value = Double.valueOf(MPPUtility.getDouble(m_data, m_dataOffset)/100);
                m_dataOffset += 8;
                criteria.setValue(index, value);
                break;

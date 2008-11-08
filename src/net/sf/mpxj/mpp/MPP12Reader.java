@@ -301,7 +301,11 @@ final class MPP12Reader implements MPPVariantReader
                // Subproject that is no longer inserted. This is a placeholder in order to be
                // able to always guarantee unique unique ids.
                //
-               case 0x00:
+               case 0x00:                  
+               //   
+               // deleted entry?
+               //
+               case 0x10:                   
                {
                   offset += 8;
                   break;
@@ -486,23 +490,7 @@ final class MPP12Reader implements MPPVariantReader
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
-
-               //
-               // Appears when a subproject is collapsed
-               //
-               case (byte)0x80:
-               {
-                  offset += 12;
-                  break;
-               }
-
-               // deleted entry?
-               case 0x10:               
-               {
-                  offset += 8;
-                  break;
-               }
-               
+                              
                // new resource pool entry
                case (byte)0x44:                                                                        
                {
@@ -518,6 +506,10 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
+               //
+               // Appears when a subproject is collapsed
+               //
+               case (byte)0x80:               
                //
                // Any other value, assume 12 bytes to handle old/deleted data?
                //
@@ -1571,26 +1563,26 @@ final class MPP12Reader implements MPPVariantReader
          task.setMilestone((metaData[8] & 0x20) != 0);
          task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
          
-    	 task.setNumber1(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER1)));
-         task.setNumber2(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER2)));
-         task.setNumber3(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER3)));
-         task.setNumber4(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER4)));
-         task.setNumber5(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER5)));
-         task.setNumber6(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER6)));
-         task.setNumber7(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER7)));
-         task.setNumber8(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER8)));
-         task.setNumber9(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER9)));
-         task.setNumber10(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER10)));
-         task.setNumber11(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER11)));
-         task.setNumber12(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER12)));
-         task.setNumber13(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER13)));
-         task.setNumber14(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER14)));
-         task.setNumber15(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER15)));
-         task.setNumber16(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER16)));
-         task.setNumber17(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER17)));
-         task.setNumber18(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER18)));
-         task.setNumber19(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER19)));
-         task.setNumber20(new Double(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER20)));
+    	 task.setNumber1(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER1)));
+         task.setNumber2(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER2)));
+         task.setNumber3(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER3)));
+         task.setNumber4(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER4)));
+         task.setNumber5(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER5)));
+         task.setNumber6(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER6)));
+         task.setNumber7(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER7)));
+         task.setNumber8(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER8)));
+         task.setNumber9(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER9)));
+         task.setNumber10(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER10)));
+         task.setNumber11(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER11)));
+         task.setNumber12(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER12)));
+         task.setNumber13(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER13)));
+         task.setNumber14(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER14)));
+         task.setNumber15(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER15)));
+         task.setNumber16(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER16)));
+         task.setNumber17(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER17)));
+         task.setNumber18(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER18)));
+         task.setNumber19(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER19)));
+         task.setNumber20(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
          task.setOutlineCode1(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE1));
          task.setOutlineCode2(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE2));
@@ -1732,6 +1724,7 @@ final class MPP12Reader implements MPPVariantReader
             }
             
             case START_NO_LATER_THAN:
+            case FINISH_NO_LATER_THAN:
             {
                if (task.getFinish().getTime() < task.getStart().getTime())
                {
@@ -1740,15 +1733,7 @@ final class MPP12Reader implements MPPVariantReader
                break;
             }
             
-            case FINISH_NO_LATER_THAN:
-            {
-               if (task.getFinish().getTime() < task.getStart().getTime())
-               {
-                  task.setFinish(task.getLateFinish());                  
-               }     
-               break;
-            }
-
+            
             default:
             {
                break;
@@ -2153,26 +2138,26 @@ final class MPP12Reader implements MPPVariantReader
       if (metaData2 != null)
       {
          int bits = MPPUtility.getInt(metaData2, 59);                  
-         task.set(TaskField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00001) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00002) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00004) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00008) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00010) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00020) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00040) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00080) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG9, new Boolean((bits & 0x00100) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG10, new Boolean((bits & 0x00200) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG11, new Boolean((bits & 0x00400) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG12, new Boolean((bits & 0x00800) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG13, new Boolean((bits & 0x01000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG14, new Boolean((bits & 0x02000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG15, new Boolean((bits & 0x04000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG16, new Boolean((bits & 0x08000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG17, new Boolean((bits & 0x10000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG18, new Boolean((bits & 0x20000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG19, new Boolean((bits & 0x40000) != 0));
-         task.set(TaskField.ENTERPRISE_FLAG20, new Boolean((bits & 0x80000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00001) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00002) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00004) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00008) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00010) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00020) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00040) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00080) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00100) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00200) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00400) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x00800) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x01000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x02000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x04000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x08000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x10000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x20000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x40000) != 0));
+         task.set(TaskField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x80000) != 0));
       }
    }
 
@@ -2324,26 +2309,26 @@ final class MPP12Reader implements MPPVariantReader
       if (metaData2 != null)
       {
          int bits = MPPUtility.getInt(metaData2, 16);                  
-         resource.set(ResourceField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00010) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00020) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00040) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00080) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00100) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00200) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00400) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00800) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG9, new Boolean((bits & 0x01000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG10, new Boolean((bits & 0x02000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG11, new Boolean((bits & 0x04000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG12, new Boolean((bits & 0x08000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG13, new Boolean((bits & 0x10000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG14, new Boolean((bits & 0x20000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG15, new Boolean((bits & 0x40000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG16, new Boolean((bits & 0x80000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG17, new Boolean((bits & 0x100000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG18, new Boolean((bits & 0x200000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG19, new Boolean((bits & 0x400000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG20, new Boolean((bits & 0x800000) != 0));         
+         resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00010) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00020) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00040) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00080) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00100) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00200) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00400) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00800) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x01000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x02000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x04000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x08000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x10000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x20000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x40000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x80000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x100000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x200000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x400000) != 0));
+         resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));         
       }      
    }
    
@@ -2624,16 +2609,16 @@ final class MPP12Reader implements MPPVariantReader
          resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
          resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140)/100));
          
-         resource.setCost1(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST1) / 100));
-         resource.setCost2(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST2) / 100));
-         resource.setCost3(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST3) / 100));
-         resource.setCost4(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST4) / 100));
-         resource.setCost5(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST5) / 100));
-         resource.setCost6(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST6) / 100));
-         resource.setCost7(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST7) / 100));
-         resource.setCost8(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST8) / 100));
-         resource.setCost9(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST9) / 100));
-         resource.setCost10(new Double(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST10) / 100));
+         resource.setCost1(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST1) / 100));
+         resource.setCost2(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST2) / 100));
+         resource.setCost3(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST3) / 100));
+         resource.setCost4(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST4) / 100));
+         resource.setCost5(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST5) / 100));
+         resource.setCost6(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST6) / 100));
+         resource.setCost7(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST7) / 100));
+         resource.setCost8(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST8) / 100));
+         resource.setCost9(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST9) / 100));
+         resource.setCost10(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST10) / 100));
 
          resource.setCostPerUse(NumberUtility.getDouble(MPPUtility.getDouble(data, 84)/100));
          resource.setDate1(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE1));
@@ -2680,26 +2665,26 @@ final class MPP12Reader implements MPPVariantReader
          resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44)/100));
          resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));
          
-         resource.setNumber1(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER1)));
-         resource.setNumber2(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER2)));
-         resource.setNumber3(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER3)));
-         resource.setNumber4(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER4)));
-         resource.setNumber5(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER5)));
-         resource.setNumber6(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER6)));
-         resource.setNumber7(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER7)));
-         resource.setNumber8(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER8)));
-         resource.setNumber9(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER9)));
-         resource.setNumber10(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER10)));
-         resource.setNumber11(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER11)));
-         resource.setNumber12(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER12)));
-         resource.setNumber13(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER13)));
-         resource.setNumber14(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER14)));
-         resource.setNumber15(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER15)));
-         resource.setNumber16(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER16)));
-         resource.setNumber17(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER17)));
-         resource.setNumber18(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER18)));
-         resource.setNumber19(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER19)));
-         resource.setNumber20(new Double(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER20)));
+         resource.setNumber1(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER1)));
+         resource.setNumber2(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER2)));
+         resource.setNumber3(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER3)));
+         resource.setNumber4(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER4)));
+         resource.setNumber5(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER5)));
+         resource.setNumber6(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER6)));
+         resource.setNumber7(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER7)));
+         resource.setNumber8(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER8)));
+         resource.setNumber9(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER9)));
+         resource.setNumber10(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER10)));
+         resource.setNumber11(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER11)));
+         resource.setNumber12(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER12)));
+         resource.setNumber13(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER13)));
+         resource.setNumber14(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER14)));
+         resource.setNumber15(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER15)));
+         resource.setNumber16(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER16)));
+         resource.setNumber17(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER17)));
+         resource.setNumber18(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER18)));
+         resource.setNumber19(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER19)));
+         resource.setNumber20(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER20)));
          
          //resource.setObjects(); // Calculated value
          resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
@@ -2901,7 +2886,7 @@ final class MPP12Reader implements MPPVariantReader
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
                assignment.setStart(MPPUtility.getTimestamp(data, 12));
-               assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
+               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
                
                if (plannedWork != null)

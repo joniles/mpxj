@@ -2005,6 +2005,7 @@ final class MPP9Reader implements MPPVariantReader
             }
             
             case START_NO_LATER_THAN:
+            case FINISH_NO_LATER_THAN:
             {
                if (task.getFinish().getTime() < task.getStart().getTime())
                {
@@ -2012,16 +2013,7 @@ final class MPP9Reader implements MPPVariantReader
                }
                break;
             }
-            
-            case FINISH_NO_LATER_THAN:
-            {
-               if (task.getFinish().getTime() < task.getStart().getTime())
-               {
-                  task.setFinish(task.getLateFinish());                  
-               }     
-               break;
-            }
-            
+                        
             default:
             {
                break;
@@ -2175,7 +2167,7 @@ final class MPP9Reader implements MPPVariantReader
                {
                   case CURRENCY:
                   {
-                     value = new Double (props.getDouble(key) / 100);
+                     value = Double.valueOf (props.getDouble(key) / 100);
                      break;
                   }
                
@@ -2223,32 +2215,32 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      field = null;                  
                      int bits = props.getInt(key);                  
-                     task.set(TaskField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00002) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00004) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00008) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00010) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00020) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00040) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00080) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00100) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG9, new Boolean((bits & 0x00200) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG10, new Boolean((bits & 0x00400) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG11, new Boolean((bits & 0x00800) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG12, new Boolean((bits & 0x01000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG13, new Boolean((bits & 0x02000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG14, new Boolean((bits & 0x04000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG15, new Boolean((bits & 0x08000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG16, new Boolean((bits & 0x10000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG17, new Boolean((bits & 0x20000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG18, new Boolean((bits & 0x40000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG19, new Boolean((bits & 0x80000) != 0));
-                     task.set(TaskField.ENTERPRISE_FLAG20, new Boolean((bits & 0x100000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00010) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00020) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00040) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00080) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00100) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00200) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00400) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00800) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x01000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x02000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x04000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x08000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x10000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x20000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x40000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x80000) != 0));
+                     task.set(TaskField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
                      break;
                   }
                   
                   case NUMERIC:
                   {
-                     value = new Double(props.getDouble(key));
+                     value = Double.valueOf(props.getDouble(key));
                      break;
                   }
                   
@@ -2299,7 +2291,7 @@ final class MPP9Reader implements MPPVariantReader
                {
                   case CURRENCY:
                   {
-                     value = new Double (props.getDouble(key) / 100);
+                     value = Double.valueOf (props.getDouble(key) / 100);
                      break;
                   }
                
@@ -2323,32 +2315,32 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      field = null;                  
                      int bits = props.getInt(key);                  
-                     resource.set(ResourceField.ENTERPRISE_FLAG1, new Boolean((bits & 0x00002) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG2, new Boolean((bits & 0x00004) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG3, new Boolean((bits & 0x00008) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG4, new Boolean((bits & 0x00010) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG5, new Boolean((bits & 0x00020) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG6, new Boolean((bits & 0x00040) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG7, new Boolean((bits & 0x00080) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG8, new Boolean((bits & 0x00100) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG9, new Boolean((bits & 0x00200) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG10, new Boolean((bits & 0x00400) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG11, new Boolean((bits & 0x00800) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG12, new Boolean((bits & 0x01000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG13, new Boolean((bits & 0x02000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG14, new Boolean((bits & 0x04000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG15, new Boolean((bits & 0x08000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG16, new Boolean((bits & 0x10000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG17, new Boolean((bits & 0x20000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG18, new Boolean((bits & 0x40000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG19, new Boolean((bits & 0x80000) != 0));
-                     resource.set(ResourceField.ENTERPRISE_FLAG20, new Boolean((bits & 0x100000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG4, Boolean.valueOf((bits & 0x00010) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG5, Boolean.valueOf((bits & 0x00020) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG6, Boolean.valueOf((bits & 0x00040) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG7, Boolean.valueOf((bits & 0x00080) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG8, Boolean.valueOf((bits & 0x00100) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG9, Boolean.valueOf((bits & 0x00200) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG10, Boolean.valueOf((bits & 0x00400) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG11, Boolean.valueOf((bits & 0x00800) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG12, Boolean.valueOf((bits & 0x01000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG13, Boolean.valueOf((bits & 0x02000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG14, Boolean.valueOf((bits & 0x04000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG15, Boolean.valueOf((bits & 0x08000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG16, Boolean.valueOf((bits & 0x10000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x20000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x40000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x80000) != 0));
+                     resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
                      break;
                   }
                   
                   case NUMERIC:
                   {
-                     value = new Double(props.getDouble(key));
+                     value = Double.valueOf(props.getDouble(key));
                      break;
                   }
                   
@@ -2887,7 +2879,7 @@ final class MPP9Reader implements MPPVariantReader
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
                assignment.setStart(MPPUtility.getTimestamp(data, 12));
-               assignment.setUnits(new Double((MPPUtility.getDouble(data, 54))/100));
+               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
 
                if (plannedWork != null)

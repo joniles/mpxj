@@ -2267,7 +2267,7 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default cost value.
     */
-   private static final Double DEFAULT_COST = new Double (0);
+   private static final Double DEFAULT_COST = Double.valueOf (0);
 
    /**
     * Default critical slack limit.
@@ -2297,7 +2297,7 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default work 2 value.
     */
-   private static final Double DEFAULT_WORK2 = new Double (0);
+   private static final Double DEFAULT_WORK2 = Double.valueOf (0);
 
    /**
     * Default duration value.
@@ -2312,7 +2312,7 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default percent complete value.
     */
-   private static final Double DEFAULT_PERCENT_COMPLETE = new Double (0);
+   private static final Double DEFAULT_PERCENT_COMPLETE = Double.valueOf (0);
 
    /**
     * Default calendar name.

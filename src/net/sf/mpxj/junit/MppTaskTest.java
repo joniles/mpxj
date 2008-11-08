@@ -347,22 +347,22 @@ public class MppTaskTest extends MPXJTestCase
          expectedDuration = Duration.getInstance(40, TimeUnit.HOURS);
          assertEquals(expectedDuration, task.getWork());
          // percent complete
-         Number expectedPctComp = new Double(45);
+         Number expectedPctComp = Double.valueOf(45);
          assertEquals(expectedPctComp,  task.getPercentageComplete());
          // percent work complete
-         expectedPctComp = new Double(45);
+         expectedPctComp = Double.valueOf(45);
          assertEquals(expectedPctComp, task.getPercentageWorkComplete());
          // cost
-         Number expectedCost = new Double(5000);
+         Number expectedCost = Double.valueOf(5000);
          assertEquals(expectedCost, task.getCost());
          // actual cost
-         expectedCost = new Double(2800);
+         expectedCost = Double.valueOf(2800);
          assertEquals(expectedCost, task.getActualCost());
          // fixed cost
-         expectedCost = new Double(1000);
+         expectedCost = Double.valueOf(1000);
          assertEquals(expectedCost, task.getFixedCost());
          // remaining cost
-         expectedCost = new Double(2200);
+         expectedCost = Double.valueOf(2200);
          assertEquals(expectedCost, task.getRemainingCost());
          // actual work
          expectedDuration = Duration.getInstance(18, TimeUnit.HOURS);
@@ -375,28 +375,28 @@ public class MppTaskTest extends MPXJTestCase
          // constraint type
          assertEquals(ConstraintType.MUST_START_ON, task.getConstraintType());
          // custom cost columns
-         expectedCost = new Double(1);
+         expectedCost = Double.valueOf(1);
          assertEquals(expectedCost, task.getCost1());
-         expectedCost = new Double(2);
+         expectedCost = Double.valueOf(2);
          assertEquals(expectedCost, task.getCost2());
-         expectedCost = new Double(3);
+         expectedCost = Double.valueOf(3);
          assertEquals(expectedCost, task.getCost3());
-         expectedCost = new Double(4);
+         expectedCost = Double.valueOf(4);
          assertEquals(expectedCost, task.getCost4());
-         expectedCost = new Double(5);
+         expectedCost = Double.valueOf(5);
          assertEquals(expectedCost, task.getCost5());
-         expectedCost = new Double(6);
+         expectedCost = Double.valueOf(6);
          assertEquals(expectedCost, task.getCost6());
-         expectedCost = new Double(7);
+         expectedCost = Double.valueOf(7);
          assertEquals(expectedCost, task.getCost7());
-         expectedCost = new Double(8);
+         expectedCost = Double.valueOf(8);
          assertEquals(expectedCost, task.getCost8());
-         expectedCost = new Double(9);
+         expectedCost = Double.valueOf(9);
          assertEquals(expectedCost, task.getCost9());
-         expectedCost = new Double(10);
+         expectedCost = Double.valueOf(10);
          assertEquals(expectedCost, task.getCost10());
          // cost variance
-         expectedCost = new Double(5000);
+         expectedCost = Double.valueOf(5000);
          assertEquals(expectedCost, task.getCostVariance());
          // created
          //Date dateExpected = new Date(1156360320000L);
@@ -526,26 +526,26 @@ public class MppTaskTest extends MPXJTestCase
          // Notes
          assertEquals("Notes Example\n", task.getNotes());
          // custom number columns
-         assertEquals(new Double(1), task.getNumber1());
-         assertEquals(new Double(2), task.getNumber2());
-         assertEquals(new Double(3), task.getNumber3());
-         assertEquals(new Double(4), task.getNumber4());
-         assertEquals(new Double(5), task.getNumber5());
-         assertEquals(new Double(6), task.getNumber6());
-         assertEquals(new Double(7), task.getNumber7());
-         assertEquals(new Double(8), task.getNumber8());
-         assertEquals(new Double(9), task.getNumber9());
-         assertEquals(new Double(10), task.getNumber10());
-         assertEquals(new Double(11), task.getNumber11());
-         assertEquals(new Double(12), task.getNumber12());
-         assertEquals(new Double(13), task.getNumber13());
-         assertEquals(new Double(14), task.getNumber14());
-         assertEquals(new Double(15), task.getNumber15());
-         assertEquals(new Double(16), task.getNumber16());
-         assertEquals(new Double(17), task.getNumber17());
-         assertEquals(new Double(18), task.getNumber18());
-         assertEquals(new Double(19), task.getNumber19());
-         assertEquals(new Double(20), task.getNumber20());
+         assertEquals(Double.valueOf(1), task.getNumber1());
+         assertEquals(Double.valueOf(2), task.getNumber2());
+         assertEquals(Double.valueOf(3), task.getNumber3());
+         assertEquals(Double.valueOf(4), task.getNumber4());
+         assertEquals(Double.valueOf(5), task.getNumber5());
+         assertEquals(Double.valueOf(6), task.getNumber6());
+         assertEquals(Double.valueOf(7), task.getNumber7());
+         assertEquals(Double.valueOf(8), task.getNumber8());
+         assertEquals(Double.valueOf(9), task.getNumber9());
+         assertEquals(Double.valueOf(10), task.getNumber10());
+         assertEquals(Double.valueOf(11), task.getNumber11());
+         assertEquals(Double.valueOf(12), task.getNumber12());
+         assertEquals(Double.valueOf(13), task.getNumber13());
+         assertEquals(Double.valueOf(14), task.getNumber14());
+         assertEquals(Double.valueOf(15), task.getNumber15());
+         assertEquals(Double.valueOf(16), task.getNumber16());
+         assertEquals(Double.valueOf(17), task.getNumber17());
+         assertEquals(Double.valueOf(18), task.getNumber18());
+         assertEquals(Double.valueOf(19), task.getNumber19());
+         assertEquals(Double.valueOf(20), task.getNumber20());
          // outline level
          assertEquals(Integer.valueOf(1), task.getOutlineLevel());
          // outline codes
@@ -718,7 +718,7 @@ public class MppTaskTest extends MPXJTestCase
           assertEquals(null, baseTask.getActualFinish());
 
           // % Complete
-          assertEquals(new Double(57), baseTask.getPercentageComplete());
+          assertEquals(Double.valueOf(57), baseTask.getPercentageComplete());
           // Type for 'Base Task'
           assertEquals(TaskType.FIXED_DURATION, baseTask.getType());
 

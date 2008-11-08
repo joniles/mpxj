@@ -1433,19 +1433,19 @@ public abstract class GanttChartView extends GenericView
             
             case NUMERIC:
             {
-               value = new Double(MPPUtility.getDouble(filterData, offset+224));
+               value = Double.valueOf(MPPUtility.getDouble(filterData, offset+224));
                break;
             }
 
             case PERCENTAGE:
             {
-               value = new Double(MPPUtility.getInt(filterData, offset+224));
+               value = Double.valueOf(MPPUtility.getInt(filterData, offset+224));
                break;
             }
 
             case CURRENCY:
             {
-               value = new Double(MPPUtility.getDouble(filterData, offset+224)/100);
+               value = Double.valueOf(MPPUtility.getDouble(filterData, offset+224)/100);
                break;
             }
             

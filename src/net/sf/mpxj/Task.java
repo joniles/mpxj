@@ -2263,7 +2263,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       Number variance = (Number)getCachedValue(TaskField.CV);
       if (variance == null)
       {
-         variance = new Double (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         variance = Double.valueOf (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
          set(TaskField.CV, variance);
       }
       return (variance);
@@ -6636,7 +6636,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          case TaskField.FINISH_VALUE:
          case TaskField.BASELINE_FINISH_VALUE:
          {
-            m_array[TaskField.START_VARIANCE_VALUE] = null;
+            m_array[TaskField.FINISH_VARIANCE_VALUE] = null;
             break;
          }   
          

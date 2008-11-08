@@ -167,8 +167,8 @@ public abstract class GroupReader
                case NUMERIC:
                case CURRENCY:
                {
-                  startAt = new Double(MPPUtility.getDouble(groupVarData, offset+24));
-                  groupInterval = new Double(MPPUtility.getDouble(groupVarData, offset+40));
+                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset+24));
+                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset+40));
                   break;
                }
 

@@ -195,7 +195,7 @@ public class MppResourceTest extends MPXJTestCase
         assertEquals("Steelray", resourceBrian.getGroup());
         assertEquals("Mat", resourceConcrete.getGroup());
         // max units
-        assertEquals(new Double(100), resourceWade.getMaxUnits());
+        assertEquals(Double.valueOf(100), resourceWade.getMaxUnits());
         // std rate
         Rate rate = new Rate(50, TimeUnit.HOURS);
         assertEquals(rate, resourceWade.getStandardRate());
@@ -211,7 +211,7 @@ public class MppResourceTest extends MPXJTestCase
         rate = new Rate(200, TimeUnit.HOURS);
         assertEquals(rate, resourceBrian.getOvertimeRate());
         // cost per use
-        assertEquals(new Double(500), resourceConcrete.getCostPerUse());
+        assertEquals(Double.valueOf(500), resourceConcrete.getCostPerUse());
         // accrue type
         assertEquals(AccrueType.END, resourceWade.getAccrueAt());
         assertEquals(AccrueType.PRORATED, resourceJon.getAccrueAt());
@@ -379,7 +379,7 @@ public class MppResourceTest extends MPXJTestCase
         assertEquals(intOne, task.getID());
         assertEquals(Integer.valueOf(2), task.getUniqueID());
         // units
-        assertEquals(new Double(100), ra.getUnits());
+        assertEquals(Double.valueOf(100), ra.getUnits());
         // work and remaining work
         Duration dur24Hours = Duration.getInstance(24, TimeUnit.HOURS);
         assertEquals(dur24Hours, ra.getWork());

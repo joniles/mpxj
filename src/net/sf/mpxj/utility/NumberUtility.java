@@ -144,13 +144,18 @@ public final class NumberUtility
     * This has been implemented to allow a singleton to be
     * used to represent zero. This makes a considerable saving
     * in memory utilisation.
+    * 
+    * NOTE: as of Java 1.5 the Double.valueOf method is 
+    * supposed to implement caching. The current JDK 1.5 implementation
+    * doesn't appear to do this, so we'll leave this method alone for
+    * now. We can look at replacing this when we move to 1.6.
     *
     * @param value Number instance
     * @return double value
     */
    public static final Double getDouble(double value)
    {
-      return (value==0?DOUBLE_ZERO:new Double(value));
+      return (value==0?DOUBLE_ZERO:Double.valueOf(value));
    }
 
    /**
@@ -198,5 +203,5 @@ public final class NumberUtility
    }
 
 
-   public static final Double DOUBLE_ZERO = new Double(0);
+   public static final Double DOUBLE_ZERO = Double.valueOf(0);
 }

@@ -233,19 +233,19 @@ public abstract class FilterReader
             
             case NUMERIC:
             {
-               value = new Double(MPPUtility.getDouble(filterVarData, offset+192));
+               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset+192));
                break;
             }
 
             case PERCENTAGE:
             {
-               value = new Double(MPPUtility.getInt(filterVarData, offset+192));
+               value = Double.valueOf(MPPUtility.getInt(filterVarData, offset+192));
                break;
             }
 
             case CURRENCY:
             {
-               value = new Double(MPPUtility.getDouble(filterVarData, offset+192)/100);
+               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset+192)/100);
                break;
             }
             

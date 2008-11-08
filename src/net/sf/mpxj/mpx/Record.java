@@ -141,7 +141,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = new Character(m_fields[field].charAt(0));
+         result = Character.valueOf(m_fields[field].charAt(0));
       }
       else
       {
@@ -492,7 +492,7 @@ final class Record
       {
          try
          {
-            result = new Double(m_formats.getUnitsDecimalFormat().parse(m_fields[field]).doubleValue() * 100);
+            result = Double.valueOf(m_formats.getUnitsDecimalFormat().parse(m_fields[field]).doubleValue() * 100);
          }
 
          catch (ParseException ex)

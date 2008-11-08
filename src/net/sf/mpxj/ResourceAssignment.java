@@ -437,5 +437,5 @@ public final class ResourceAssignment extends ProjectEntity
    /**
     * Default units value: 100%.
     */
-   public static final Double DEFAULT_UNITS = new Double (100);
+   public static final Double DEFAULT_UNITS = Double.valueOf (100);
 }

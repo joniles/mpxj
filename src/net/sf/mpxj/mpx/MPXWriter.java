@@ -238,9 +238,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getCurrencyDigits()));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(new Character(record.getThousandsSeparator())));
+      m_buffer.append(format(Character.valueOf(record.getThousandsSeparator())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(new Character(record.getDecimalSeparator())));
+      m_buffer.append(format(Character.valueOf(record.getDecimalSeparator())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append (MPXConstants.EOL);
 
@@ -280,9 +280,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(getIntegerTimeInMinutes(record.getDefaultStartTime())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(new Character(record.getDateSeparator())));
+      m_buffer.append(format(Character.valueOf(record.getDateSeparator())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(new Character(record.getTimeSeparator())));
+      m_buffer.append(format(Character.valueOf(record.getTimeSeparator())));
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getAMText()));
       m_buffer.append (m_delimiter);

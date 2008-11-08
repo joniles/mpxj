@@ -469,7 +469,7 @@ abstract class MPD9AbstractReader
          //resource.setIsNull();
          //resource.setLinkedFields();RES_HAS_LINKED_FIELDS = false ( java.lang.Boolean)
          resource.setMaterialLabel(row.getString("RES_MATERIAL_LABEL"));
-         resource.setMaxUnits(new Double(NumberUtility.getDouble(row.getDouble("RES_MAX_UNITS"))*100));
+         resource.setMaxUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_MAX_UNITS"))*100));
          resource.setName(row.getString("RES_NAME"));
          //resource.setNtAccount();
          //resource.setNumber1();
@@ -508,7 +508,7 @@ abstract class MPD9AbstractReader
          resource.setOvertimeRate(new Rate(row.getDouble("RES_OVT_RATE"), TimeUnit.HOURS));
          resource.setOvertimeRateFormat(TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT")-1));
          resource.setOvertimeWork(row.getDuration("RES_OVT_WORK"));
-         resource.setPeakUnits(new Double(NumberUtility.getDouble(row.getDouble("RES_PEAK"))*100));
+         resource.setPeakUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_PEAK"))*100));
          //resource.setPercentWorkComplete();
          resource.setPhonetics(row.getString("RES_PHONETICS"));
          resource.setRegularWork(row.getDuration("RES_REG_WORK"));
@@ -707,7 +707,7 @@ abstract class MPD9AbstractReader
             {
                if (COST_FIELDS.contains(field))
                {
-                  value = new Double(((Double)value).doubleValue()/100);
+                  value = Double.valueOf(((Double)value).doubleValue()/100);
                }
                task.set(field, value);
             }
@@ -723,7 +723,7 @@ abstract class MPD9AbstractReader
             {
                if (COST_FIELDS.contains(field))
                {
-                  value = new Double(((Double)value).doubleValue()/100);
+                  value = Double.valueOf(((Double)value).doubleValue()/100);
                }               
                resource.set(field, value);
             }
@@ -1073,7 +1073,7 @@ abstract class MPD9AbstractReader
          //assignment.setPlannedWork();
          assignment.setRemainingWork(row.getDuration("ASSN_REM_WORK"));
          assignment.setStart(row.getDate("ASSN_START_DATE"));
-         assignment.setUnits(new Double(row.getDouble("ASSN_UNITS").doubleValue()*100.0d));
+         assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue()*100.0d));
          assignment.setWork(row.getDuration("ASSN_WORK"));
          assignment.setWorkContour(WorkContour.getInstance(row.getInt("ASSN_WORK_CONTOUR")));
       }

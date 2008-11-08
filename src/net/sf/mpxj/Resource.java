@@ -1027,7 +1027,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       Number variance = (Number)getCachedValue(ResourceField.CV);
       if (variance == null)
       {
-         variance = new Double (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
+         variance = Double.valueOf (NumberUtility.getDouble(getBCWP()) - NumberUtility.getDouble(getACWP()));
          set(ResourceField.CV, variance);
       }
       return (variance);

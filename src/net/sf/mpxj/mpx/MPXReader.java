@@ -206,6 +206,8 @@ public final class MPXReader extends AbstractProjectReader
    {
       switch (Integer.parseInt(recordNumber))
       {
+         case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
+         case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
          case MPXConstants.COMMENTS_RECORD_NUMBER:
          {
             // silently ignored
@@ -434,18 +436,6 @@ public final class MPXReader extends AbstractProjectReader
             break;
          }
 
-         case MPXConstants.PROJECT_NAMES_RECORD_NUMBER:
-         {
-            // silently ignored
-            break;
-         }
-
-         case MPXConstants.DDE_OLE_CLIENT_LINKS_RECORD_NUMBER:
-         {
-            // silently ignored
-            break;
-         }
-
          case MPXConstants.FILE_CREATION_RECORD_NUMBER:
          {
             populateFileCreationRecord(record, m_projectFile.getFileCreationRecord());
@@ -497,8 +487,8 @@ public final class MPXReader extends AbstractProjectReader
       projectHeader.setDefaultDurationUnits(record.getTimeUnit(0));
       projectHeader.setDefaultDurationIsFixed(record.getNumericBoolean(1));
       projectHeader.setDefaultWorkUnits(record.getTimeUnit(2));
-      projectHeader.setMinutesPerDay(new Double(NumberUtility.getDouble(record.getFloat(3)) * 60));
-      projectHeader.setMinutesPerWeek(new Double(NumberUtility.getDouble(record.getFloat(4)) * 60));
+      projectHeader.setMinutesPerDay(Double.valueOf(NumberUtility.getDouble(record.getFloat(3)) * 60));
+      projectHeader.setMinutesPerWeek(Double.valueOf(NumberUtility.getDouble(record.getFloat(4)) * 60));
       projectHeader.setDefaultStandardRate(record.getRate(5));
       projectHeader.setDefaultOvertimeRate(record.getRate(6));
       projectHeader.setUpdatingTaskStatusUpdatesResourceStatus(record.getNumericBoolean(7));

@@ -90,7 +90,7 @@ class MapRow implements Row
       {
          if (result instanceof Double == false)
          {
-            result = new Double (((Number)result).doubleValue());
+            result = Double.valueOf (((Number)result).doubleValue());
          }
       }
       return ((Double)result);
@@ -104,7 +104,7 @@ class MapRow implements Row
       Double value = getDouble(name);
       if (value != null)
       {
-         value = new Double(value.doubleValue()/100);
+         value = Double.valueOf(value.doubleValue()/100);
       }
       return (value);
    }
