@@ -362,7 +362,7 @@ public class MppClean
     */
    private byte[] getBytes(String value, boolean unicode)
    {
-      byte[] result = null;
+      byte[] result;
       if (unicode)
       {
          int start = 0;

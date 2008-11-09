@@ -350,7 +350,7 @@ public final class ProjectCalendar extends ProjectEntity
       hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
       hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
-      hours = addCalendarHours (Day.SATURDAY);
+      addCalendarHours (Day.SATURDAY);
    }
 
    /**

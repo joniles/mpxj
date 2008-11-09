@@ -626,7 +626,7 @@ final class MPP12Reader implements MPPVariantReader
                // Unicode string
                //
                sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
-               filePathOffset += size;
+               //filePathOffset += size;
             }
       
             //
@@ -677,7 +677,7 @@ final class MPP12Reader implements MPPVariantReader
                // Unicode string
                //
                sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
-               fileNameOffset += size;
+               //fileNameOffset += size;
             }
          }
          
@@ -2556,7 +2556,7 @@ final class MPP12Reader implements MPPVariantReader
             continue;
          }
          
-         metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
+         //metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
          
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
@@ -3084,6 +3084,7 @@ final class MPP12Reader implements MPPVariantReader
       InputStream is = new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData")));
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
+      is.close();
       //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
 
       ViewStateReader reader = new ViewStateReader12();

@@ -4758,6 +4758,27 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
    }
 
+   /**
+    * {@inheritDoc}
+    */
+   @Override public boolean equals (Object o)
+   {
+      boolean result = false;
+      if (o instanceof Resource)
+      {
+         result = (compareTo((Resource)o) == 0);
+      }
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public int hashCode ()
+   {
+      return (NumberUtility.getInt(getID()));
+   }
+   
    private static final ResourceField[] ENTERPRISE_COST_FIELDS =
    {
       ResourceField.ENTERPRISE_COST1,

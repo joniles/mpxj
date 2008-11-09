@@ -1084,9 +1084,9 @@ final class MPP8Reader implements MPPVariantReader
          if (task != null && resource != null)
          {
             assignment = task.addResourceAssignment (resource);
-            assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getLong6(data, 138)/100));
+            assignment.setActualCost(NumberUtility.getDouble (((double)MPPUtility.getLong6(data, 138))/100));
             assignment.setActualWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 96))/100, TimeUnit.HOURS));
-            assignment.setCost(NumberUtility.getDouble (MPPUtility.getLong6(data, 132)/100));
+            assignment.setCost(NumberUtility.getDouble (((double)MPPUtility.getLong6(data, 132))/100));
             //assignment.setDelay(); // Not sure what this field maps on to in MSP
             assignment.setFinish(MPPUtility.getTimestamp(data, 28));
             assignment.setOvertimeWork(MPPUtility.getDuration(((double)MPPUtility.getLong6(data, 90))/100, TimeUnit.HOURS));

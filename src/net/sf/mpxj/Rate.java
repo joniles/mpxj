@@ -91,8 +91,13 @@ public final class Rate
     */
    @Override public boolean equals (Object obj)
    {
-      Rate rhs = (Rate)obj;
-      return (m_amount == rhs.m_amount && m_units == rhs.m_units);
+      boolean result = false;
+      if (obj instanceof Rate)
+      {
+         Rate rhs = (Rate)obj;
+         result = m_amount == rhs.m_amount && m_units == rhs.m_units;
+      }
+      return result;
    }
 
    /**

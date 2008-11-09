@@ -633,7 +633,7 @@ final class MPP9Reader implements MPPVariantReader
             // Unicode string
             //
             sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
-            filePathOffset += size;
+           // filePathOffset += size;
          }
    
          //
@@ -684,7 +684,7 @@ final class MPP9Reader implements MPPVariantReader
             // Unicode string
             //
             sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
-            fileNameOffset += size;
+            //fileNameOffset += size;
          }
    
          //System.out.println(sp.toString());

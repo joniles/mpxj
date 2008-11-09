@@ -337,8 +337,13 @@ public final class Duration implements Comparable<Duration>
     */
    @Override public boolean equals (Object o)
    {
-      Duration rhs = (Duration)o;
-      return (m_duration == rhs.m_duration && m_units == rhs.m_units);
+      boolean result = false;
+      if (o instanceof Duration)
+      {
+         Duration rhs = (Duration)o;
+         result = m_duration == rhs.m_duration && m_units == rhs.m_units;
+      }
+      return result;
    }
 
    /**

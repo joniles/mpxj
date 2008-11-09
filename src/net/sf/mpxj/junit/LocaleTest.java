@@ -93,7 +93,7 @@ public class LocaleTest extends MPXJTestCase
          writer.write (mpx, out);
 
          reader.setLocale(locale);
-         mpx = reader.read(out);
+         reader.read(out);
       }
 
       finally
