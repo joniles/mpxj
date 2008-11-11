@@ -41,7 +41,7 @@ public final class DateRange
       m_startDate = startDate;
       m_endDate = endDate;
    }
-
+ 
    /**
     * Retrieve the date at the start of the range.
     *
@@ -52,15 +52,6 @@ public final class DateRange
       return (m_startDate);
    }
 
-   /**
-    * Set the date at the start of the range.
-    *
-    * @param startDate start date
-    */
-   public void setStartDate (Date startDate)
-   {
-      m_startDate = startDate;
-   }
 
    /**
     * Retrieve the date at the end of the range.
@@ -70,16 +61,6 @@ public final class DateRange
    public Date getEndDate ()
    {
       return (m_endDate);
-   }
-
-   /**
-    * Set the date at the end of the date range.
-    *
-    * @param endDate end date
-    */
-   public void setEndDate (Date endDate)
-   {
-      m_endDate = endDate;
    }
 
    /**

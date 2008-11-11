@@ -447,39 +447,10 @@ public final class PlannerReader extends AbstractProjectReader
                   
                   if (exception.getWorking())
                   {
-                     if (m_defaultWorkingHours.size() > 0)
+                     for (int hoursIndex=0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
                      {
-                        DateRange range = m_defaultWorkingHours.get(0);
-                        exception.setFromTime1(range.getStartDate());
-                        exception.setToTime1(range.getEndDate());
-                     }
-                     
-                     if (m_defaultWorkingHours.size() > 1)
-                     {
-                        DateRange range = m_defaultWorkingHours.get(1);
-                        exception.setFromTime2(range.getStartDate());
-                        exception.setToTime2(range.getEndDate());
-                     }
-                     
-                     if (m_defaultWorkingHours.size() > 2)
-                     {
-                        DateRange range = m_defaultWorkingHours.get(2);
-                        exception.setFromTime3(range.getStartDate());
-                        exception.setToTime3(range.getEndDate());
-                     }
-                     
-                     if (m_defaultWorkingHours.size() > 3)
-                     {
-                        DateRange range = m_defaultWorkingHours.get(3);
-                        exception.setFromTime4(range.getStartDate());
-                        exception.setToTime4(range.getEndDate());
-                     }
-                     
-                     if (m_defaultWorkingHours.size() > 4)
-                     {
-                        DateRange range = m_defaultWorkingHours.get(4);
-                        exception.setFromTime5(range.getStartDate());
-                        exception.setToTime5(range.getEndDate());
+                        DateRange range = m_defaultWorkingHours.get(hoursIndex);  
+                        exception.addDateRange(range);                        
                      }                     
                   }
                }

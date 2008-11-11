@@ -623,12 +623,9 @@ public final class MPXReader extends AbstractProjectReader
       exception.setFromDate(record.getDate(0));
       exception.setToDate(record.getDate(1));
       exception.setWorking(record.getNumericBoolean(2));
-      exception.setFromTime1(record.getTime(3));
-      exception.setToTime1(record.getTime(4));
-      exception.setFromTime2(record.getTime(5));
-      exception.setToTime2(record.getTime(6));
-      exception.setFromTime3(record.getTime(7));
-      exception.setToTime3(record.getTime(8));
+      exception.addDateRange(new DateRange(record.getTime(3), record.getTime(4)));
+      exception.addDateRange(new DateRange(record.getTime(5), record.getTime(6)));
+      exception.addDateRange(new DateRange(record.getTime(7), record.getTime(8)));
    }
 
    /**

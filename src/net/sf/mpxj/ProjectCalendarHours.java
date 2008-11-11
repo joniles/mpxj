@@ -23,14 +23,12 @@
 
 package net.sf.mpxj;
 
-import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
  */
-public final class ProjectCalendarHours implements Iterable<DateRange>
+public final class ProjectCalendarHours extends ProjectCalendarDateRanges
 {
    /**
     * Default constructor.
@@ -78,56 +76,6 @@ public final class ProjectCalendarHours implements Iterable<DateRange>
 
       m_parentCalendar.attachHoursToDay(this);
    }
-
-   /**
-    * Add a date range to the list of date ranges.
-    *
-    * @param range date range
-    */
-   public void addDateRange (DateRange range)
-   {
-      m_dateRanges.add(range);
-   }
-
-   /**
-    * Retrieve the date range at the specified index.
-    * The index is zero based, and this method will return
-    * null if the requested date range does not exist.
-    *
-    * @param index range index
-    * @return date range instance
-    */
-   public DateRange getDateRange (int index)
-   {
-      DateRange result = null;
-
-      if (index >= 0 && index < m_dateRanges.size())
-      {
-         result = m_dateRanges.get(index);
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieve an iterator to allow the list of date ranges to be traversed.
-    *
-    * @return iterator.
-    */
-   public Iterator<DateRange> iterator ()
-   {
-      return (m_dateRanges.iterator());
-   }
-
-   /**
-    * Returns the number of date ranges associated with this instance.
-    * 
-    * @return number of date ranges
-    */
-   public int getDateRangeCount ()
-   {
-      return (m_dateRanges.size());
-   }
    
    /**
     * {@inheritDoc}
@@ -136,7 +84,7 @@ public final class ProjectCalendarHours implements Iterable<DateRange>
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[ProjectCalendarHours ");
-      for (DateRange range : m_dateRanges)
+      for (DateRange range : this)
       {
          sb.append(range.toString());
       }
@@ -146,5 +94,4 @@ public final class ProjectCalendarHours implements Iterable<DateRange>
    
    private ProjectCalendar m_parentCalendar;
    private Day m_day;
-   private LinkedList<DateRange> m_dateRanges = new LinkedList<DateRange> ();
 }

@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -392,30 +391,11 @@ public final class MSPDIReader extends AbstractProjectReader
 
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = day.getWorkingTimes();
       if (times != null)
-      {
-         Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period;
+      {         
          List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> time = times.getWorkingTime();
-         Iterator<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> iter = time.iterator();
-
-         if (iter.hasNext() == true)
+         for(Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : time)
          {
-            period = iter.next();
-            exception.setFromTime1(DatatypeConverter.parseTime(period.getFromTime()));
-            exception.setToTime1(DatatypeConverter.parseTime(period.getToTime()));
-         }
-
-         if (iter.hasNext() == true)
-         {
-            period = iter.next();
-            exception.setFromTime2(DatatypeConverter.parseTime(period.getFromTime()));
-            exception.setToTime2(DatatypeConverter.parseTime(period.getToTime()));
-         }
-
-         if (iter.hasNext() == true)
-         {
-            period = iter.next();
-            exception.setFromTime3(DatatypeConverter.parseTime(period.getFromTime()));
-            exception.setToTime3(DatatypeConverter.parseTime(period.getToTime()));
+            exception.addDateRange(new DateRange(DatatypeConverter.parseTime(period.getFromTime()), DatatypeConverter.parseTime(period.getToTime())));
          }
       }
    }

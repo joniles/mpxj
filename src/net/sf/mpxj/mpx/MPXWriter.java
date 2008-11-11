@@ -525,17 +525,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking()?"1":"0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getFromTime1())));
+      m_buffer.append(format(formatTime(record.getDateRange(0).getStartDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getToTime1())));
+      m_buffer.append(format(formatTime(record.getDateRange(0).getEndDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getFromTime2())));
+      m_buffer.append(format(formatTime(record.getDateRange(1).getStartDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getToTime2())));
+      m_buffer.append(format(formatTime(record.getDateRange(1).getEndDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getFromTime3())));
+      m_buffer.append(format(formatTime(record.getDateRange(2).getStartDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getToTime3())));
+      m_buffer.append(format(formatTime(record.getDateRange(2).getEndDate())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append (MPXConstants.EOL);
 

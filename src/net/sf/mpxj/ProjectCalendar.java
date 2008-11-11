@@ -866,11 +866,11 @@ public final class ProjectCalendar extends ProjectEntity
    private long getTotalTime (ProjectCalendarException exception, Date date, boolean after)
    {
       long currentTime = DateUtility.getCanonicalTime(date).getTime();
-      long total = getTime(exception.getFromTime1(), exception.getToTime1(), currentTime, after);
-      total += getTime(exception.getFromTime2(), exception.getToTime2(), currentTime, after);
-      total += getTime(exception.getFromTime3(), exception.getToTime3(), currentTime, after);
-      total += getTime(exception.getFromTime4(), exception.getToTime4(), currentTime, after);
-      total += getTime(exception.getFromTime5(), exception.getToTime5(), currentTime, after);
+      long total = 0;      
+      for (DateRange range : exception)
+      {
+         total += getTime(range.getStartDate(), range.getEndDate(), currentTime, after);
+      }
       return (total);
    }
 
@@ -883,11 +883,11 @@ public final class ProjectCalendar extends ProjectEntity
     */
    private long getTotalTime (ProjectCalendarException exception)
    {
-      long total = getTime(exception.getFromTime1(), exception.getToTime1());
-      total += getTime(exception.getFromTime2(), exception.getToTime2());
-      total += getTime(exception.getFromTime3(), exception.getToTime3());
-      total += getTime(exception.getFromTime4(), exception.getToTime4());
-      total += getTime(exception.getFromTime5(), exception.getToTime5());
+      long total = 0;
+      for (DateRange range : exception)
+      {
+         total += getTime(range.getStartDate(), range.getEndDate());
+      }
       return (total);
    }
    
@@ -903,13 +903,12 @@ public final class ProjectCalendar extends ProjectEntity
    private long getTotalTime (ProjectCalendarException exception, Date startDate, Date endDate)
    {
       Date start = DateUtility.getCanonicalTime(startDate);
-      Date end = DateUtility.getCanonicalTime(endDate);
-      
-      long total = getTime(DateUtility.getCanonicalTime(exception.getFromTime1()), DateUtility.getCanonicalTime(exception.getToTime1()), start, end);
-      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime2()), DateUtility.getCanonicalTime(exception.getToTime2()), start, end);
-      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime3()), DateUtility.getCanonicalTime(exception.getToTime3()), start, end);
-      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime4()), DateUtility.getCanonicalTime(exception.getToTime4()), start, end);
-      total += getTime(DateUtility.getCanonicalTime(exception.getFromTime5()), DateUtility.getCanonicalTime(exception.getToTime5()), start, end);
+      Date end = DateUtility.getCanonicalTime(endDate);      
+      long total = 0;      
+      for (DateRange range : exception)
+      {
+         total += getTime(DateUtility.getCanonicalTime(range.getStartDate()), DateUtility.getCanonicalTime(range.getEndDate()), start, end);
+      }
       return (total);
    }
    

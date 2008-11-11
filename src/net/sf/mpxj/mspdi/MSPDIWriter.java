@@ -393,23 +393,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
             day.setWorkingTimes(times);
             List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-            time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
-            timesList.add (time);
+            for (DateRange range : exception)
+            {
+               time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
+               timesList.add (time);
 
-            time.setFromTime(DatatypeConverter.printTime(exception.getFromTime1()));
-            time.setToTime(DatatypeConverter.printTime(exception.getToTime1()));
-
-            time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
-            timesList.add (time);
-
-            time.setFromTime(DatatypeConverter.printTime(exception.getFromTime2()));
-            time.setToTime(DatatypeConverter.printTime(exception.getToTime2()));
-
-            time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
-            timesList.add (time);
-
-            time.setFromTime(DatatypeConverter.printTime(exception.getFromTime3()));
-            time.setToTime(DatatypeConverter.printTime(exception.getToTime3()));
+               time.setFromTime(DatatypeConverter.printTime(range.getStartDate()));
+               time.setToTime(DatatypeConverter.printTime(range.getEndDate()));
+            }            
          }                 
       }
 

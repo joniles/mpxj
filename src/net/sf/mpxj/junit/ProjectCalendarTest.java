@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -219,9 +220,8 @@ public class ProjectCalendarTest extends MPXJTestCase
       exception = projectCalendar.addCalendarException();
       exception.setFromDate(df.parse("18/03/2006 00:00"));
       exception.setToDate(df.parse("18/03/2006 23:59"));
-      exception.setWorking(true);      
-      exception.setFromTime1(df.parse("18/03/2006 08:00"));
-      exception.setToTime1(df.parse("18/03/2006 12:00"));
+      exception.setWorking(true);  
+      exception.addDateRange(new DateRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
       
       startDate = df.parse("18/03/2006 08:00");
       endDate = df.parse("18/03/2006 16:00");      
