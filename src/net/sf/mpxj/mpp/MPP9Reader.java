@@ -1526,38 +1526,12 @@ final class MPP9Reader implements MPPVariantReader
             else
             {
                exception.setWorking (true);
-
-               start = MPPUtility.getTime (data, offset+12);
-               duration = MPPUtility.getDuration (data, offset+24);
-               exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-
-               if (periodCount > 1)
+               for (int exceptionPeriodIndex=0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                {
-                  start = MPPUtility.getTime (data, offset+14);
-                  duration = MPPUtility.getDuration (data, offset+28);
-                  exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                  
-
-                  if (periodCount > 2)
-                  {
-                     start = MPPUtility.getTime (data, offset+16);
-                     duration = MPPUtility.getDuration (data, offset+32);
-                     exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                     
-                     
-                     if (periodCount > 3)
-                     {
-                        start = MPPUtility.getTime (data, offset+18);
-                        duration = MPPUtility.getDuration (data, offset+36);
-                        exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                        
-                        
-                        if (periodCount > 4)
-                        {
-                           start = MPPUtility.getTime (data, offset+20);
-                           duration = MPPUtility.getDuration (data, offset+40);
-                           exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                           
-                        }                        
-                     }
-                  }
-               }
+                  start = MPPUtility.getTime (data, offset+12+(exceptionPeriodIndex*2));
+                  duration = MPPUtility.getDuration (data, offset+24+(exceptionPeriodIndex*4));
+                  exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
+               }                     
             }
          }
       }

@@ -311,24 +311,12 @@ final class MPP8Reader implements MPPVariantReader
                   else
                   {
                      exception.setWorking (true);
-
-                     start = MPPUtility.getTime (extData, offset+12);
-                     duration = MPPUtility.getDuration (extData, offset+20);
-                     exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-
-                     if (periodCount > 1)
+                     for (int exceptionPeriodIndex=0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                      {
-                        start = MPPUtility.getTime (extData, offset+14);
-                        duration = MPPUtility.getDuration (extData, offset+24);
+                        start = MPPUtility.getTime (extData, offset+12+(exceptionPeriodIndex*2));
+                        duration = MPPUtility.getDuration (extData, offset+20+(exceptionPeriodIndex*4));
                         exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                        
-                        if (periodCount > 2)
-                        {
-                           start = MPPUtility.getTime (extData, offset+16);
-                           duration = MPPUtility.getDuration (extData, offset+28);
-                           exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                        
-                        }
-                     }
+                     }                     
                   }
                }
             }

@@ -1176,38 +1176,12 @@ final class MPP12Reader implements MPPVariantReader
                else
                {
                   exception.setWorking (true);
-   
-                  start = MPPUtility.getTime (data, offset+20);
-                  duration = MPPUtility.getDuration (data, offset+32);
-                  exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                  
-                  if (periodCount > 1)
+                  for (int exceptionPeriodIndex=0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                   {
-                     start = MPPUtility.getTime (data, offset+22);
-                     duration = MPPUtility.getDuration (data, offset+36);
+                     start = MPPUtility.getTime (data, offset+20+(exceptionPeriodIndex*2));
+                     duration = MPPUtility.getDuration (data, offset+32+(exceptionPeriodIndex*4));
                      exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                     
-                     if (periodCount > 2)
-                     {
-                        start = MPPUtility.getTime (data, offset+24);
-                        duration = MPPUtility.getDuration (data, offset+40);
-                        exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                        
-                        if (periodCount > 3)
-                        {
-                           start = MPPUtility.getTime (data, offset+26);
-                           duration = MPPUtility.getDuration (data, offset+44);
-                           exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                           
-                           if (periodCount > 4)
-                           {
-                              start = MPPUtility.getTime (data, offset+28);
-                              duration = MPPUtility.getDuration (data, offset+48);
-                              exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                           }                           
-                        }                        
-                     }
-                  }
+                  }                     
                }
                
                //
