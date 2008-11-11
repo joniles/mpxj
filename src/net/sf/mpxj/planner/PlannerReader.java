@@ -381,37 +381,37 @@ public final class PlannerReader extends AbstractProjectReader
                      
                      if (mondayHours != null)
                      {
-                        mondayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        mondayHours.addRange(new DateRange(startTime, endTime));                 
                      }
                      
                      if (tuesdayHours != null)
                      {
-                        tuesdayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        tuesdayHours.addRange(new DateRange(startTime, endTime));                 
                      }
                      
                      if (wednesdayHours != null)
                      {
-                        wednesdayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        wednesdayHours.addRange(new DateRange(startTime, endTime));                 
                      }
                      
                      if (thursdayHours != null)
                      {
-                        thursdayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        thursdayHours.addRange(new DateRange(startTime, endTime));                 
                      }
                      
                      if (fridayHours != null)
                      {
-                        fridayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        fridayHours.addRange(new DateRange(startTime, endTime));                 
                      }
                      
                      if (saturdayHours != null)
                      {
-                        saturdayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        saturdayHours.addRange(new DateRange(startTime, endTime));                 
                      }
                      
                      if (sundayHours != null)
                      {
-                        sundayHours.addDateRange(new DateRange(startTime, endTime));                 
+                        sundayHours.addRange(new DateRange(startTime, endTime));                 
                      }                     
                   }                  
                }
@@ -450,7 +450,7 @@ public final class PlannerReader extends AbstractProjectReader
                      for (int hoursIndex=0; hoursIndex < m_defaultWorkingHours.size(); hoursIndex++)
                      {
                         DateRange range = m_defaultWorkingHours.get(hoursIndex);  
-                        exception.addDateRange(range);                        
+                        exception.addRange(range);                        
                      }                     
                   }
                }

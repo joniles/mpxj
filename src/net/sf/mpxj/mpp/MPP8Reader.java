@@ -264,8 +264,8 @@ final class MPP8Reader implements MPPVariantReader
                   if (cal.isWorkingDay(day) == true)
                   {
                      hours = cal.addCalendarHours(net.sf.mpxj.Day.getInstance(index+1));
-                     hours.addDateRange(new DateRange (defaultStart1, defaultEnd1));
-                     hours.addDateRange(new DateRange (defaultStart2, defaultEnd2));
+                     hours.addRange(new DateRange (defaultStart1, defaultEnd1));
+                     hours.addRange(new DateRange (defaultStart2, defaultEnd2));
                   }
                }
                else
@@ -284,7 +284,7 @@ final class MPP8Reader implements MPPVariantReader
                      {
                         start = MPPUtility.getTime (extData, offset + 8 + (periodIndex * 2));
                         duration = MPPUtility.getDuration (extData, offset + 16 + (periodIndex * 4));
-                        hours.addDateRange(new DateRange (start, new Date (start.getTime()+duration)));
+                        hours.addRange(new DateRange (start, new Date (start.getTime()+duration)));
                      }
                   }
                }
@@ -314,19 +314,19 @@ final class MPP8Reader implements MPPVariantReader
 
                      start = MPPUtility.getTime (extData, offset+12);
                      duration = MPPUtility.getDuration (extData, offset+20);
-                     exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));
+                     exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
 
                      if (periodCount > 1)
                      {
                         start = MPPUtility.getTime (extData, offset+14);
                         duration = MPPUtility.getDuration (extData, offset+24);
-                        exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));
+                        exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
                         
                         if (periodCount > 2)
                         {
                            start = MPPUtility.getTime (extData, offset+16);
                            duration = MPPUtility.getDuration (extData, offset+28);
-                           exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));                        
+                           exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                        
                         }
                      }
                   }

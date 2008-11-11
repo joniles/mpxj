@@ -306,8 +306,8 @@ public final class PlannerWriter extends AbstractProjectWriter
             {
                Interval interval = m_factory.createInterval();
                intervalList.add(interval);
-               interval.setStart(getTimeString(mpxjRange.getStartDate()));
-               interval.setEnd(getTimeString(mpxjRange.getEndDate()));
+               interval.setStart(getTimeString(mpxjRange.getStart()));
+               interval.setEnd(getTimeString(mpxjRange.getEnd()));
             }         
          }
       }

@@ -38,8 +38,8 @@ public final class DateRange
     */
    public DateRange (Date startDate, Date endDate)
    {
-      m_startDate = startDate;
-      m_endDate = endDate;
+      m_start = startDate;
+      m_end = endDate;
    }
  
    /**
@@ -47,9 +47,9 @@ public final class DateRange
     *
     * @return start date
     */
-   public Date getStartDate ()
+   public Date getStart ()
    {
-      return (m_startDate);
+      return (m_start);
    }
 
 
@@ -58,9 +58,9 @@ public final class DateRange
     *
     * @return end date
     */
-   public Date getEndDate ()
+   public Date getEnd ()
    {
-      return (m_endDate);
+      return (m_end);
    }
 
    /**
@@ -68,12 +68,12 @@ public final class DateRange
     */
    @Override public String toString ()
    {
-      return("[DateRange start=" + m_startDate + " end=" + m_endDate + "]");
+      return("[DateRange start=" + m_start + " end=" + m_end + "]");
    }
    
    public static final DateRange EMPTY_RANGE = new DateRange (null, null);
 
-   private Date m_startDate;
-   private Date m_endDate;
+   private Date m_start;
+   private Date m_end;
 }
 

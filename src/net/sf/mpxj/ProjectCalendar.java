@@ -331,24 +331,24 @@ public final class ProjectCalendar extends ProjectEntity
       ProjectCalendarHours hours = addCalendarHours (Day.SUNDAY);
 
       hours = addCalendarHours (Day.MONDAY);
-      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
-      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
+      hours.addRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.TUESDAY);
-      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
-      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
+      hours.addRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.WEDNESDAY);
-      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
-      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
+      hours.addRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.THURSDAY);
-      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
-      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
+      hours.addRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       hours = addCalendarHours (Day.FRIDAY);
-      hours.addDateRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
-      hours.addDateRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
+      hours.addRange(new DateRange (DEFAULT_START1, DEFAULT_END1));
+      hours.addRange(new DateRange (DEFAULT_START2, DEFAULT_END2));
 
       addCalendarHours (Day.SATURDAY);
    }
@@ -869,7 +869,7 @@ public final class ProjectCalendar extends ProjectEntity
       long total = 0;      
       for (DateRange range : exception)
       {
-         total += getTime(range.getStartDate(), range.getEndDate(), currentTime, after);
+         total += getTime(range.getStart(), range.getEnd(), currentTime, after);
       }
       return (total);
    }
@@ -886,7 +886,7 @@ public final class ProjectCalendar extends ProjectEntity
       long total = 0;
       for (DateRange range : exception)
       {
-         total += getTime(range.getStartDate(), range.getEndDate());
+         total += getTime(range.getStart(), range.getEnd());
       }
       return (total);
    }
@@ -907,7 +907,7 @@ public final class ProjectCalendar extends ProjectEntity
       long total = 0;      
       for (DateRange range : exception)
       {
-         total += getTime(DateUtility.getCanonicalTime(range.getStartDate()), DateUtility.getCanonicalTime(range.getEndDate()), start, end);
+         total += getTime(DateUtility.getCanonicalTime(range.getStart()), DateUtility.getCanonicalTime(range.getEnd()), start, end);
       }
       return (total);
    }
@@ -928,7 +928,7 @@ public final class ProjectCalendar extends ProjectEntity
             
       for (DateRange range : hours)
       {
-         total += getTime(range.getStartDate(), range.getEndDate(), currentTime, after);
+         total += getTime(range.getStart(), range.getEnd(), currentTime, after);
       }
    
       return (total);
@@ -951,7 +951,7 @@ public final class ProjectCalendar extends ProjectEntity
             
       for (DateRange range: hours)
       {
-         total += getTime(start, end, DateUtility.getCanonicalTime(range.getStartDate()), DateUtility.getCanonicalTime(range.getEndDate()));
+         total += getTime(start, end, DateUtility.getCanonicalTime(range.getStart()), DateUtility.getCanonicalTime(range.getEnd()));
       }
    
       return (total);
@@ -970,7 +970,7 @@ public final class ProjectCalendar extends ProjectEntity
             
       for (DateRange range: hours)
       {         
-         total += getTime(range.getStartDate(), range.getEndDate());
+         total += getTime(range.getStart(), range.getEnd());
       }
    
       return (total);

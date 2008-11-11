@@ -605,9 +605,9 @@ public final class MPXReader extends AbstractProjectReader
       throws MPXJException
    {
       hours.setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
-      hours.addDateRange(new DateRange(record.getTime(1), record.getTime(2)));
-      hours.addDateRange(new DateRange(record.getTime(3), record.getTime(4)));
-      hours.addDateRange(new DateRange(record.getTime(5), record.getTime(6)));
+      hours.addRange(new DateRange(record.getTime(1), record.getTime(2)));
+      hours.addRange(new DateRange(record.getTime(3), record.getTime(4)));
+      hours.addRange(new DateRange(record.getTime(5), record.getTime(6)));
    }
 
    /**
@@ -623,9 +623,9 @@ public final class MPXReader extends AbstractProjectReader
       exception.setFromDate(record.getDate(0));
       exception.setToDate(record.getDate(1));
       exception.setWorking(record.getNumericBoolean(2));
-      exception.addDateRange(new DateRange(record.getTime(3), record.getTime(4)));
-      exception.addDateRange(new DateRange(record.getTime(5), record.getTime(6)));
-      exception.addDateRange(new DateRange(record.getTime(7), record.getTime(8)));
+      exception.addRange(new DateRange(record.getTime(3), record.getTime(4)));
+      exception.addRange(new DateRange(record.getTime(5), record.getTime(6)));
+      exception.addRange(new DateRange(record.getTime(7), record.getTime(8)));
    }
 
    /**

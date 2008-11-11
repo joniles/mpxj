@@ -273,11 +273,11 @@ abstract class MPD9AbstractReader
       exception.setWorking(row.getInt("CD_WORKING") != 0);
       exception.setFromDate(row.getDate("CD_FROM_DATE"));
       exception.setToDate(row.getDate("CD_TO_DATE"));      
-      exception.addDateRange(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
-      exception.addDateRange(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
-      exception.addDateRange(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
-      exception.addDateRange(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
-      exception.addDateRange(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));      
+      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
+      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
+      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
+      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
+      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));      
    }
    
    
@@ -301,35 +301,35 @@ abstract class MPD9AbstractReader
          Date end = row.getDate("CD_TO_TIME1");                 
          if (start != null && end != null)
          {
-            hours.addDateRange(new DateRange(start, end));
+            hours.addRange(new DateRange(start, end));
          }
    
          start = row.getDate("CD_FROM_TIME2");
          end = row.getDate("CD_TO_TIME2");        
          if (start != null && end != null)
          {
-            hours.addDateRange(new DateRange(start, end));
+            hours.addRange(new DateRange(start, end));
          }
    
          start = row.getDate("CD_FROM_TIME3");
          end = row.getDate("CD_TO_TIME3");
          if (start != null && end != null)
          {
-            hours.addDateRange(new DateRange(start, end));
+            hours.addRange(new DateRange(start, end));
          }
          
          start = row.getDate("CD_FROM_TIME4");
          end = row.getDate("CD_TO_TIME4");
          if (start != null && end != null)
          {
-            hours.addDateRange(new DateRange(start, end));
+            hours.addRange(new DateRange(start, end));
          }
          
          start = row.getDate("CD_FROM_TIME5");
          end = row.getDate("CD_TO_TIME5");
          if (start != null && end != null)
          {
-            hours.addDateRange(new DateRange(start, end));
+            hours.addRange(new DateRange(start, end));
          }      
       }
    }

@@ -368,7 +368,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
             if (startTime != null && endTime != null)
             {
-               hours.addDateRange(new DateRange(startTime, endTime));
+               hours.addRange(new DateRange(startTime, endTime));
             }
          }
       }
@@ -395,7 +395,7 @@ public final class MSPDIReader extends AbstractProjectReader
          List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> time = times.getWorkingTime();
          for(Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : time)
          {
-            exception.addDateRange(new DateRange(DatatypeConverter.parseTime(period.getFromTime()), DatatypeConverter.parseTime(period.getToTime())));
+            exception.addRange(new DateRange(DatatypeConverter.parseTime(period.getFromTime()), DatatypeConverter.parseTime(period.getToTime())));
          }
       }
    }

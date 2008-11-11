@@ -459,19 +459,19 @@ public final class MPXWriter extends AbstractProjectWriter
       }
 
 
-      DateRange range1 = record.getDateRange(0);
+      DateRange range1 = record.getRange(0);
       if (range1 == null)
       {
          range1 = DateRange.EMPTY_RANGE;
       }
 
-      DateRange range2 = record.getDateRange(1);
+      DateRange range2 = record.getRange(1);
       if (range2 == null)
       {
          range2 = DateRange.EMPTY_RANGE;
       }
 
-      DateRange range3 = record.getDateRange(2);
+      DateRange range3 = record.getRange(2);
       if (range3 == null)
       {
          range3 = DateRange.EMPTY_RANGE;
@@ -481,17 +481,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append (m_delimiter);
       m_buffer.append(format(record.getDay()));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatTime(range1.getStartDate())));
+      m_buffer.append(format(formatTime(range1.getStart())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatTime(range1.getEndDate())));
+      m_buffer.append(format(formatTime(range1.getEnd())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatTime(range2.getStartDate())));
+      m_buffer.append(format(formatTime(range2.getStart())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatTime(range2.getEndDate())));
+      m_buffer.append(format(formatTime(range2.getEnd())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatTime(range3.getStartDate())));
+      m_buffer.append(format(formatTime(range3.getStart())));
       m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatTime(range3.getEndDate())));
+      m_buffer.append(format(formatTime(range3.getEnd())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append (MPXConstants.EOL);
 
@@ -525,17 +525,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking()?"1":"0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getDateRange(0).getStartDate())));
+      m_buffer.append(format(formatTime(record.getRange(0).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getDateRange(0).getEndDate())));
+      m_buffer.append(format(formatTime(record.getRange(0).getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getDateRange(1).getStartDate())));
+      m_buffer.append(format(formatTime(record.getRange(1).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getDateRange(1).getEndDate())));
+      m_buffer.append(format(formatTime(record.getRange(1).getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getDateRange(2).getStartDate())));
+      m_buffer.append(format(formatTime(record.getRange(2).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.getDateRange(2).getEndDate())));
+      m_buffer.append(format(formatTime(record.getRange(2).getEnd())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append (MPXConstants.EOL);
 

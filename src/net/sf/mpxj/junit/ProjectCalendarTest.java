@@ -221,7 +221,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       exception.setFromDate(df.parse("18/03/2006 00:00"));
       exception.setToDate(df.parse("18/03/2006 23:59"));
       exception.setWorking(true);  
-      exception.addDateRange(new DateRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
+      exception.addRange(new DateRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
       
       startDate = df.parse("18/03/2006 08:00");
       endDate = df.parse("18/03/2006 16:00");      

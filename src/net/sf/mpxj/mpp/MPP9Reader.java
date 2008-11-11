@@ -1456,8 +1456,8 @@ final class MPP9Reader implements MPPVariantReader
                if (cal.isWorkingDay(day) == true)
                {
                   hours = cal.addCalendarHours(Day.getInstance(index+1));
-                  hours.addDateRange(new DateRange(ProjectCalendar.DEFAULT_START1, ProjectCalendar.DEFAULT_END1));
-                  hours.addDateRange(new DateRange(ProjectCalendar.DEFAULT_START2, ProjectCalendar.DEFAULT_END2));
+                  hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START1, ProjectCalendar.DEFAULT_END1));
+                  hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START2, ProjectCalendar.DEFAULT_END2));
                }
             }
             else
@@ -1481,7 +1481,7 @@ final class MPP9Reader implements MPPVariantReader
                {
                   start = MPPUtility.getTime (data, offset + 8 + (periodIndex * 2));
                   duration = MPPUtility.getDuration (data, offset + 20 + (periodIndex * 4));
-                  hours.addDateRange(new DateRange (start, new Date (start.getTime()+duration)));
+                  hours.addRange(new DateRange (start, new Date (start.getTime()+duration)));
                }
             }
          }
@@ -1529,31 +1529,31 @@ final class MPP9Reader implements MPPVariantReader
 
                start = MPPUtility.getTime (data, offset+12);
                duration = MPPUtility.getDuration (data, offset+24);
-               exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));
+               exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
 
                if (periodCount > 1)
                {
                   start = MPPUtility.getTime (data, offset+14);
                   duration = MPPUtility.getDuration (data, offset+28);
-                  exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));                  
+                  exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                  
 
                   if (periodCount > 2)
                   {
                      start = MPPUtility.getTime (data, offset+16);
                      duration = MPPUtility.getDuration (data, offset+32);
-                     exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));                     
+                     exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                     
                      
                      if (periodCount > 3)
                      {
                         start = MPPUtility.getTime (data, offset+18);
                         duration = MPPUtility.getDuration (data, offset+36);
-                        exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));                        
+                        exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                        
                         
                         if (periodCount > 4)
                         {
                            start = MPPUtility.getTime (data, offset+20);
                            duration = MPPUtility.getDuration (data, offset+40);
-                           exception.addDateRange(new DateRange(start, new Date (start.getTime() + duration)));                           
+                           exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));                           
                         }                        
                      }
                   }

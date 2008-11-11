@@ -37,9 +37,9 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     *
     * @param range date range
     */
-   public void addDateRange (DateRange range)
+   public void addRange (DateRange range)
    {
-      m_dateRanges.add(range);
+      m_ranges.add(range);
    }
 
    /**
@@ -50,13 +50,13 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     * @param index range index
     * @return date range instance
     */
-   public DateRange getDateRange (int index)
+   public DateRange getRange (int index)
    {
       DateRange result;
 
-      if (index >= 0 && index < m_dateRanges.size())
+      if (index >= 0 && index < m_ranges.size())
       {
-         result = m_dateRanges.get(index);
+         result = m_ranges.get(index);
       }
       else
       {
@@ -72,9 +72,9 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     * @param index range index
     * @param value DateRange instance
     */
-   public void setDateRange (int index, DateRange value)
+   public void setRange (int index, DateRange value)
    {
-      m_dateRanges.set(index, value);
+      m_ranges.set(index, value);
    }
    
    /**
@@ -84,7 +84,7 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     */
    public Iterator<DateRange> iterator ()
    {
-      return (m_dateRanges.iterator());
+      return (m_ranges.iterator());
    }
 
    /**
@@ -92,10 +92,10 @@ public abstract class ProjectCalendarDateRanges implements Iterable<DateRange>
     * 
     * @return number of date ranges
     */
-   public int getDateRangeCount ()
+   public int getRangeCount ()
    {
-      return (m_dateRanges.size());
+      return (m_ranges.size());
    }
    
-   private LinkedList<DateRange> m_dateRanges = new LinkedList<DateRange> ();
+   private LinkedList<DateRange> m_ranges = new LinkedList<DateRange> ();
 }

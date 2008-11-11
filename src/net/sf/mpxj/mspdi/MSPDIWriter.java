@@ -355,8 +355,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                         time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
                         timesList.add (time);
 
-                        time.setFromTime(DatatypeConverter.printTime(range.getStartDate()));
-                        time.setToTime(DatatypeConverter.printTime(range.getEndDate()));
+                        time.setFromTime(DatatypeConverter.printTime(range.getStart()));
+                        time.setToTime(DatatypeConverter.printTime(range.getEnd()));
                      }
                   }
                }
@@ -398,8 +398,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
                timesList.add (time);
 
-               time.setFromTime(DatatypeConverter.printTime(range.getStartDate()));
-               time.setToTime(DatatypeConverter.printTime(range.getEndDate()));
+               time.setFromTime(DatatypeConverter.printTime(range.getStart()));
+               time.setToTime(DatatypeConverter.printTime(range.getEnd()));
             }            
          }                 
       }

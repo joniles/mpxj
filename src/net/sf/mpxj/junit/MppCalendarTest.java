@@ -146,14 +146,14 @@ public class MppCalendarTest extends MPXJTestCase
        assertEquals(0, cal.getCalendarExceptions().size());
 
        ProjectCalendarHours hours = cal.getCalendarHours(Day.MONDAY);
-       assertEquals(2, hours.getDateRangeCount());
+       assertEquals(2, hours.getRangeCount());
 
-       DateRange range = hours.getDateRange(0);
-       assertEquals("08:00", tf.format(range.getStartDate()));
-       assertEquals("12:00", tf.format(range.getEndDate()));
-       range = cal.getCalendarHours(Day.MONDAY).getDateRange(1);
-       assertEquals("13:00", tf.format(range.getStartDate()));
-       assertEquals("17:00", tf.format(range.getEndDate()));
+       DateRange range = hours.getRange(0);
+       assertEquals("08:00", tf.format(range.getStart()));
+       assertEquals("12:00", tf.format(range.getEnd()));
+       range = cal.getCalendarHours(Day.MONDAY).getRange(1);
+       assertEquals("13:00", tf.format(range.getStart()));
+       assertEquals("17:00", tf.format(range.getEnd()));
 
        List<ProjectCalendar> resourceCalendars = mpp.getResourceCalendars();
        assertEquals(2, resourceCalendars.size());
@@ -192,45 +192,45 @@ public class MppCalendarTest extends MPXJTestCase
        assertFalse(exception.getWorking());
        assertEquals("05/03/2008 00:00", df.format(exception.getFromDate()));
        assertEquals("05/03/2008 23:59", df.format(exception.getToDate()));
-       assertNull(exception.getDateRange(0).getStartDate());
-       assertNull(exception.getDateRange(0).getEndDate());
-       assertNull(exception.getDateRange(1).getStartDate());
-       assertNull(exception.getDateRange(1).getEndDate());
-       assertNull(exception.getDateRange(2).getStartDate());
-       assertNull(exception.getDateRange(2).getEndDate());
-       assertNull(exception.getDateRange(3).getStartDate());
-       assertNull(exception.getDateRange(3).getEndDate());
-       assertNull(exception.getDateRange(4).getStartDate());
-       assertNull(exception.getDateRange(4).getEndDate());
+       assertNull(exception.getRange(0).getStart());
+       assertNull(exception.getRange(0).getEnd());
+       assertNull(exception.getRange(1).getStart());
+       assertNull(exception.getRange(1).getEnd());
+       assertNull(exception.getRange(2).getStart());
+       assertNull(exception.getRange(2).getEnd());
+       assertNull(exception.getRange(3).getStart());
+       assertNull(exception.getRange(3).getEnd());
+       assertNull(exception.getRange(4).getStart());
+       assertNull(exception.getRange(4).getEnd());
 
        exception = exceptions.get(1);
        assertTrue(exception.getWorking());
        assertEquals("09/03/2008 00:00", df.format(exception.getFromDate()));
        assertEquals("09/03/2008 23:59", df.format(exception.getToDate()));
-       assertEquals("08:00", tf.format(exception.getDateRange(0).getStartDate()));
-       assertEquals("12:00", tf.format(exception.getDateRange(0).getEndDate()));
-       assertEquals("13:00", tf.format(exception.getDateRange(1).getStartDate()));
-       assertEquals("17:00", tf.format(exception.getDateRange(1).getEndDate()));
-       assertNull(exception.getDateRange(2).getStartDate());
-       assertNull(exception.getDateRange(2).getEndDate());
-       assertNull(exception.getDateRange(3).getStartDate());
-       assertNull(exception.getDateRange(3).getEndDate());
-       assertNull(exception.getDateRange(4).getStartDate());
-       assertNull(exception.getDateRange(4).getEndDate());
+       assertEquals("08:00", tf.format(exception.getRange(0).getStart()));
+       assertEquals("12:00", tf.format(exception.getRange(0).getEnd()));
+       assertEquals("13:00", tf.format(exception.getRange(1).getStart()));
+       assertEquals("17:00", tf.format(exception.getRange(1).getEnd()));
+       assertNull(exception.getRange(2).getStart());
+       assertNull(exception.getRange(2).getEnd());
+       assertNull(exception.getRange(3).getStart());
+       assertNull(exception.getRange(3).getEnd());
+       assertNull(exception.getRange(4).getStart());
+       assertNull(exception.getRange(4).getEnd());
 
        exception = exceptions.get(2);
        assertTrue(exception.getWorking());
        assertEquals("16/03/2008 00:00", df.format(exception.getFromDate()));
        assertEquals("16/03/2008 23:59", df.format(exception.getToDate()));
-       assertEquals("08:00", tf.format(exception.getDateRange(0).getStartDate()));
-       assertEquals("09:00", tf.format(exception.getDateRange(0).getEndDate()));
-       assertEquals("11:00", tf.format(exception.getDateRange(1).getStartDate()));
-       assertEquals("12:00", tf.format(exception.getDateRange(1).getEndDate()));
-       assertEquals("14:00", tf.format(exception.getDateRange(2).getStartDate()));
-       assertEquals("15:00", tf.format(exception.getDateRange(2).getEndDate()));
-       assertEquals("16:00", tf.format(exception.getDateRange(3).getStartDate()));
-       assertEquals("17:00", tf.format(exception.getDateRange(3).getEndDate()));
-       assertEquals("18:00", tf.format(exception.getDateRange(4).getStartDate()));
-       assertEquals("19:00", tf.format(exception.getDateRange(4).getEndDate()));
+       assertEquals("08:00", tf.format(exception.getRange(0).getStart()));
+       assertEquals("09:00", tf.format(exception.getRange(0).getEnd()));
+       assertEquals("11:00", tf.format(exception.getRange(1).getStart()));
+       assertEquals("12:00", tf.format(exception.getRange(1).getEnd()));
+       assertEquals("14:00", tf.format(exception.getRange(2).getStart()));
+       assertEquals("15:00", tf.format(exception.getRange(2).getEnd()));
+       assertEquals("16:00", tf.format(exception.getRange(3).getStart()));
+       assertEquals("17:00", tf.format(exception.getRange(3).getEnd()));
+       assertEquals("18:00", tf.format(exception.getRange(4).getStart()));
+       assertEquals("19:00", tf.format(exception.getRange(4).getEnd()));
     }
 }
