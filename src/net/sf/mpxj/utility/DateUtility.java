@@ -106,6 +106,7 @@ public final class DateUtility
          cal.setTime(date);
          cal.set(Calendar.DAY_OF_YEAR, 1);
          cal.set(Calendar.YEAR, 1);
+         cal.set(Calendar.MILLISECOND, 0);
          date = cal.getTime();
       }
       return (date);
