@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This abstract class implements functionality common to all views.
  */
@@ -32,7 +31,7 @@ public abstract class AbstractView implements View
    /**
     * {@inheritDoc}
     */
-   public Integer getID ()
+   public Integer getID()
    {
       return (m_id);
    }
@@ -40,28 +39,28 @@ public abstract class AbstractView implements View
    /**
     * {@inheritDoc}
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
 
    /**
     * {@inheritDoc}
-    */   
-   public ViewType getType ()
+    */
+   public ViewType getType()
    {
       return (m_type);
    }
-   
+
    /**
     * This method dumps the contents of this View as a String.
     * Note that this facility is provided as a debugging aid.
     *    
     * @return formatted contents of this view
-    */   
-   @Override public String toString ()
+    */
+   @Override public String toString()
    {
-      return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name +"]");
+      return ("[View id=" + m_id + " type=" + m_type + " name=" + m_name + "]");
    }
 
    protected Integer m_id;

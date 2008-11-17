@@ -36,7 +36,7 @@ public final class CodePage
     * @param value MPX code page name
     * @param charset Java character set name
     */
-   private CodePage (String value, String charset)
+   private CodePage(String value, String charset)
    {
       m_value = value;
       m_charset = charset;
@@ -48,7 +48,7 @@ public final class CodePage
     * @param value MPX code page name
     * @return CodePage instance
     */
-   public static CodePage getInstance (String value)
+   public static CodePage getInstance(String value)
    {
       CodePage result;
 
@@ -95,9 +95,9 @@ public final class CodePage
    /**
     * Retrieve the Java character set represented by the codepage.
     *
-    * @return Java charset
+    * @return Java Charset instance
     */
-   public Charset getCharset ()
+   public Charset getCharset()
    {
       return (Charset.forName(m_charset));
    }
@@ -107,8 +107,7 @@ public final class CodePage
     *
     * @return codepage
     */
-   @Override
-   public String toString ()
+   @Override public String toString()
    {
       return (m_value);
    }

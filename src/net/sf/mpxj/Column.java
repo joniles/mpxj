@@ -27,7 +27,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Locale;
 
-
 /**
  * This class represents a column in an MS Project table. The attributes held
  * here describe the layout of the column, along with the title text that has
@@ -41,11 +40,11 @@ public final class Column
     * 
     * @param project reference to the parent project
     */
-   public Column (ProjectFile project)
+   public Column(ProjectFile project)
    {
       m_project = project;
    }
-   
+
    /**
     * Retrieves a value representing the alignment of data displayed in
     * the column.
@@ -95,7 +94,7 @@ public final class Column
     * @param locale required locale for the default column title
     * @return column title
     */
-   public String getTitle (Locale locale)
+   public String getTitle(Locale locale)
    {
       String result = null;
 
@@ -104,16 +103,16 @@ public final class Column
          result = m_title;
       }
       else
-      {     
+      {
          if (m_fieldType instanceof TaskField)
          {
-            result = m_project.getTaskFieldAlias((TaskField)m_fieldType);
+            result = m_project.getTaskFieldAlias((TaskField) m_fieldType);
          }
          else
          {
-            result = m_project.getResourceFieldAlias((ResourceField)m_fieldType);
+            result = m_project.getResourceFieldAlias((ResourceField) m_fieldType);
          }
-         
+
          if (result == null && m_fieldType != null)
          {
             result = m_fieldType.getName(locale);
@@ -192,54 +191,54 @@ public final class Column
     *
     * @return formatted contents of this column
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.print ("[Column type=");
-      pw.print (m_fieldType);
+      pw.print("[Column type=");
+      pw.print(m_fieldType);
 
-      pw.print (" width=");
-      pw.print (m_width);
+      pw.print(" width=");
+      pw.print(m_width);
 
-      pw.print (" titleAlignment=");
+      pw.print(" titleAlignment=");
       if (m_alignTitle == ALIGN_LEFT)
       {
-         pw.print ("LEFT");
+         pw.print("LEFT");
       }
       else
       {
          if (m_alignTitle == ALIGN_CENTER)
          {
-            pw.print ("CENTER");
+            pw.print("CENTER");
          }
          else
          {
-            pw.print ("RIGHT");
+            pw.print("RIGHT");
          }
       }
 
-      pw.print (" dataAlignment=");
+      pw.print(" dataAlignment=");
       if (m_alignData == ALIGN_LEFT)
       {
-         pw.print ("LEFT");
+         pw.print("LEFT");
       }
       else
       {
          if (m_alignData == ALIGN_CENTER)
          {
-            pw.print ("CENTER");
+            pw.print("CENTER");
          }
          else
          {
-            pw.print ("RIGHT");
+            pw.print("RIGHT");
          }
       }
 
-      pw.print (" title=");
-      pw.print (getTitle());
-      pw.println ("]");
+      pw.print(" title=");
+      pw.print(getTitle());
+      pw.println("]");
       pw.close();
 
       return (sw.toString());
@@ -251,7 +250,6 @@ public final class Column
    public static final int ALIGN_LEFT = 1;
    public static final int ALIGN_CENTER = 2;
    public static final int ALIGN_RIGHT = 3;
-
 
    private FieldType m_fieldType;
    private int m_width;

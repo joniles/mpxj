@@ -32,19 +32,18 @@ import net.sf.mpxj.utility.MpxjEnum;
  */
 public enum BookingType implements MpxjEnum
 {
-   COMMITTED (0),
-   PROPOSED (1);
-   
+   COMMITTED(0), 
+   PROPOSED(1);
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private BookingType (int type)
+   private BookingType(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -52,8 +51,8 @@ public enum BookingType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static BookingType getInstance (int type)
-   {      
+   public static BookingType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = PROPOSED.getValue();
@@ -61,34 +60,30 @@ public enum BookingType implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final BookingType[] TYPE_VALUES = new BookingType[2];
    static
-   {      
+   {
       for (BookingType e : EnumSet.range(BookingType.COMMITTED, BookingType.PROPOSED))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
 
-
    /**
     * Internal representation of the enum int type.
     */
    private int m_value;
 }
-

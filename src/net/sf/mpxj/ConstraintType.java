@@ -51,11 +51,10 @@ public enum ConstraintType implements MpxjEnum
     * 
     * @param type int version of the enum
     */
-   private ConstraintType (int type)
+   private ConstraintType(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -63,8 +62,8 @@ public enum ConstraintType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ConstraintType getInstance (int type)
-   {      
+   public static ConstraintType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = AS_SOON_AS_POSSIBLE.getValue();
@@ -78,7 +77,7 @@ public enum ConstraintType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ConstraintType getInstance (Number type)
+   public static ConstraintType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -97,24 +96,22 @@ public enum ConstraintType implements MpxjEnum
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final ConstraintType[] TYPE_VALUES = new ConstraintType[8];
    static
-   {      
+   {
       for (ConstraintType e : EnumSet.range(ConstraintType.AS_SOON_AS_POSSIBLE, ConstraintType.FINISH_NO_LATER_THAN))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.
