@@ -28,8 +28,14 @@ import java.nio.charset.Charset;
 /**
  * Instances of this class represent enumerated code page values.
  */
-public final class CodePage
+public enum CodePage
 {
+   ANSI("ANSI", "Cp1252"),
+   MAC("MAC", "MacRoman"),
+   LATIN("850", "Cp850"),
+   US("437", "Cp437"),
+   ZH("ZH", "GB2312");
+
    /**
     * Private constructor.
     *
@@ -115,9 +121,4 @@ public final class CodePage
    private String m_value;
    private String m_charset;
 
-   public static final CodePage ANSI = new CodePage("ANSI", "Cp1252");
-   public static final CodePage MAC = new CodePage("MAC", "MacRoman");
-   public static final CodePage LATIN = new CodePage("850", "Cp850");
-   public static final CodePage US = new CodePage("437", "Cp437");
-   public static final CodePage ZH = new CodePage("ZH", "GB2312");
 }
