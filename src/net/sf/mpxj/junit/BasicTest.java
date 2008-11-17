@@ -778,36 +778,6 @@ public class BasicTest extends MPXJTestCase
       return (level-1);
    }
 
-   /**
-    * Simple tests to exercise the BaseCalendar.getDate method.
-    *
-    * @throws Exception
-    */
-   public void testBaseCalendarGetDate ()
-      throws Exception
-   {
-      ProjectFile file = new ProjectFile ();
-      Duration duration;
-      ProjectCalendar cal = file.addDefaultBaseCalendar();
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-      Date startDate = df.parse("09/10/2003");
-
-      duration = Duration.getInstance (1, TimeUnit.DAYS);
-      Date endDate = cal.getDate(startDate, duration);
-      assertEquals(df.parse("10/10/2003").getTime(), endDate.getTime());
-
-      duration = Duration.getInstance (7, TimeUnit.DAYS);
-      endDate = cal.getDate(startDate, duration);
-      assertEquals(df.parse("18/10/2003").getTime(), endDate.getTime());
-
-      duration = Duration.getInstance (1, TimeUnit.WEEKS);
-      endDate = cal.getDate(startDate, duration);
-      assertEquals(df.parse("16/10/2003").getTime(), endDate.getTime());
-
-      duration = Duration.getInstance (-1, TimeUnit.DAYS);
-      endDate = cal.getDate(startDate, duration);
-      assertEquals(df.parse("08/10/2003").getTime(), endDate.getTime());
-   }
 
    /**
     * Ensure that we are reading MPP8 flags correctly. This test reads a

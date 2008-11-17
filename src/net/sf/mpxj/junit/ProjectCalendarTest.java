@@ -504,4 +504,190 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals(TimeUnit.DAYS, duration.getUnits());                  
    }
    
+   
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method.
+    *
+    * @throws Exception
+    */
+   public void testGetDate ()
+      throws Exception
+   {
+      ProjectFile file = new ProjectFile ();
+      Duration duration;
+      ProjectCalendar cal = file.addDefaultBaseCalendar();
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm");
+      Date startDate = df.parse("09/10/2003 08:00");
+   
+      //
+      // Add one 8 hour day
+      //
+      duration = Duration.getInstance (8, TimeUnit.HOURS);
+      Date endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 17:00", df.format(endDate));
+
+      //
+      // Add two 8 hour days
+      //
+      duration = Duration.getInstance (16, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("10/10/2003 17:00", df.format(endDate));
+
+      //
+      // Add three 8 hour days which span a weekend
+      //
+      duration = Duration.getInstance (24, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("13/10/2003 17:00", df.format(endDate));
+
+      //
+      // Add 9 hours from the start of a day
+      //
+      duration = Duration.getInstance (9, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("10/10/2003 09:00", df.format(endDate));
+
+      //
+      // Add 1 hour from the start of a day
+      //
+      duration = Duration.getInstance (1, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 09:00", df.format(endDate));
+
+      //
+      // Add 1 hour offset by 1 hour from the start of a day
+      //
+      startDate = df.parse("09/10/2003 09:00");
+      duration = Duration.getInstance (1, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 10:00", df.format(endDate));
+
+      //
+      // Add 1 hour which crosses a date ranges
+      //
+      startDate = df.parse("09/10/2003 11:30");
+      duration = Duration.getInstance (1, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 13:30", df.format(endDate));
+
+      //
+      // Add 1 hour at the start of the second range
+      //     
+      startDate = df.parse("09/10/2003 13:00");
+      duration = Duration.getInstance (1, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 14:00", df.format(endDate));
+      
+      //
+      // Add 1 hour offset by 1 hour from the start of the second range
+      //     
+      startDate = df.parse("09/10/2003 14:00");
+      duration = Duration.getInstance (1, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 15:00", df.format(endDate));      
+
+      //
+      // Full first range
+      //
+      startDate = df.parse("09/10/2003 08:00");
+      duration = Duration.getInstance (4, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 12:00", df.format(endDate));      
+
+      //
+      // Full second range
+      //
+      startDate = df.parse("09/10/2003 13:00");
+      duration = Duration.getInstance (4, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 17:00", df.format(endDate));      
+
+      //
+      // Offset full first range
+      //
+      startDate = df.parse("09/10/2003 09:00");
+      duration = Duration.getInstance (3, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 12:00", df.format(endDate));      
+
+      //
+      // Offset full second range
+      //
+      startDate = df.parse("09/10/2003 14:00");
+      duration = Duration.getInstance (3, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("09/10/2003 17:00", df.format(endDate));
+      
+      //
+      // Cross weekend
+      //
+      startDate = df.parse("09/10/2003 8:00");
+      duration = Duration.getInstance (24, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("13/10/2003 17:00", df.format(endDate));   
+      
+      //
+      // Make Friday 10th a non-working day
+      //
+      ProjectCalendarException ex = cal.addCalendarException();
+      ex.setFromDate(df.parse("10/10/2003 00:00"));
+      ex.setToDate(df.parse("10/10/2003 23:59"));
+      ex.setWorking(false);
+
+      //
+      // Cross weekend with a non-working day exception
+      //
+      startDate = df.parse("09/10/2003 8:00");
+      duration = Duration.getInstance (24, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("14/10/2003 17:00", df.format(endDate));   
+
+      //
+      // Make Saturday 11th a working day
+      //
+      ex = cal.addCalendarException();
+      ex.setFromDate(df.parse("11/10/2003 00:00"));
+      ex.setToDate(df.parse("11/10/2003 23:59"));
+      ex.setWorking(true);
+      ex.addRange(new DateRange(df.parse("11/10/2003 09:00"), df.parse("11/10/2003 13:00")));
+      
+      //
+      // Cross weekend with a non-working day exception and a working day exception
+      //
+      startDate = df.parse("09/10/2003 8:00");
+      duration = Duration.getInstance (24, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("14/10/2003 12:00", df.format(endDate));
+      
+      //
+      // Make the start date a non-working day
+      //
+      startDate = df.parse("12/10/2003 8:00");
+      duration = Duration.getInstance (8, TimeUnit.HOURS);
+      endDate = cal.getDate(startDate, duration);
+      assertEquals("13/10/2003 17:00", df.format(endDate));   
+   }
+   
+   /**
+    * Simple tests to exercise the ProjectCalendar.getStartTime method. 
+    * 
+    * @throws Exception
+    */
+   public void testStartTime ()
+      throws Exception
+   {
+      ProjectFile file = new ProjectFile ();
+      ProjectCalendar cal = file.addDefaultBaseCalendar();
+      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm");
+      
+      //
+      // Working day
+      //
+      assertEquals("01/01/0001 08:00", df.format(cal.getStartTime(df.parse("09/10/2003 00:00"))));
+      
+      //
+      // Non-working day
+      //
+      assertNull(cal.getStartTime(df.parse("11/10/2003 00:00")));
+   }   
 }
