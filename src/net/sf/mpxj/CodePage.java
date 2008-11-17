@@ -24,6 +24,9 @@
 package net.sf.mpxj;
 
 import java.nio.charset.Charset;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Instances of this class represent enumerated code page values.
@@ -56,45 +59,11 @@ public enum CodePage
     */
    public static CodePage getInstance(String value)
    {
-      CodePage result;
-
-      if (value == null || value.equalsIgnoreCase(ANSI.toString()) == true)
+      CodePage result = NAME_MAP.get(value);
+      if (result == null)
       {
          result = ANSI;
       }
-      else
-      {
-         if (value.equalsIgnoreCase(MAC.toString()) == true)
-         {
-            result = MAC;
-         }
-         else
-         {
-            if (value.equalsIgnoreCase(LATIN.toString()) == true)
-            {
-               result = LATIN;
-            }
-            else
-            {
-               if (value.equalsIgnoreCase(US.toString()) == true)
-               {
-                  result = US;
-               }
-               else
-               {
-                  if (value.equalsIgnoreCase(ZH.toString()) == true)
-                  {
-                     result = ZH;
-                  }
-                  else
-                  {
-                     result = ANSI;
-                  }
-               }
-            }
-         }
-      }
-
       return (result);
    }
 
@@ -121,4 +90,12 @@ public enum CodePage
    private String m_value;
    private String m_charset;
 
+   private static final Map<String, CodePage> NAME_MAP = new HashMap<String, CodePage>();
+   static
+   {
+      for (CodePage e : EnumSet.range(CodePage.ANSI, CodePage.ZH))
+      {
+         NAME_MAP.put(e.m_value, e);
+      }
+   }
 }
