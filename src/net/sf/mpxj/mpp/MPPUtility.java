@@ -36,8 +36,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.DateUtility;
 
-
-
 /**
  * This class provides common functionality used by each of the classes
  * that read the different sections of the MPP file.
@@ -47,11 +45,11 @@ final class MPPUtility
    /**
     * Private constructor to prevent instantiation.
     */
-   private MPPUtility ()
+   private MPPUtility()
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * This method decodes a byte array with the given encryption code
     * using XOR encryption.
@@ -61,12 +59,12 @@ final class MPPUtility
     */
    public static final void decodeBuffer(byte[] data, byte encryptionCode)
    {
-	  for (int i = 0; i < data.length; i++)
-	  {
-		  data[i] = (byte)(data[i] ^ encryptionCode);
-	  }
+      for (int i = 0; i < data.length; i++)
+      {
+         data[i] = (byte) (data[i] ^ encryptionCode);
+      }
    }
-   
+
    /**
     * The mask used by Project to hide the password. The data must first
     * be decoded using the XOR key and then the password can be read by reading
@@ -76,12 +74,9 @@ final class MPPUtility
     * 00016: 14 00 00 00 00 00 08 00 16 00 00 00 00 00 02 00
     * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
     * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00 
-    */   
-   private static final int[] PASSWORD_MASK =
-   {
-	   60, 30, 48, 2, 6, 14, 8, 22, 44, 12, 38, 10, 62, 16, 34, 24
-   };
-   
+    */
+   private static final int[] PASSWORD_MASK = {60, 30, 48, 2, 6, 14, 8, 22, 44, 12, 38, 10, 62, 16, 34, 24};
+
    private static final int MINIMUM_PASSWORD_DATA_LENGTH = 64;
 
    /**
@@ -95,34 +90,34 @@ final class MPPUtility
    public static final String decodePassword(byte[] data, byte encryptionCode)
    {
       String result;
-      
-	   if (data.length < MINIMUM_PASSWORD_DATA_LENGTH)
-	   {
-		   result = null;
-	   }
-	   else
-	   {
-      	   MPPUtility.decodeBuffer(data, encryptionCode);
-      
-      	   StringBuffer buffer = new StringBuffer();	 
-      	   char c;
-      	
-      	   for (int i = 0; i < PASSWORD_MASK.length; i++)
-      	   {
-      		   int index = PASSWORD_MASK[i];
-      		   c = (char)data[index];
-      	
-      		   if (c == 0)
-      		   {
-      			   break;
-      		   }	
-      		   buffer.append(c);
-      	   }
-      
-      	   result = buffer.toString();
-	   }
-	   
-	   return (result);
+
+      if (data.length < MINIMUM_PASSWORD_DATA_LENGTH)
+      {
+         result = null;
+      }
+      else
+      {
+         MPPUtility.decodeBuffer(data, encryptionCode);
+
+         StringBuffer buffer = new StringBuffer();
+         char c;
+
+         for (int i = 0; i < PASSWORD_MASK.length; i++)
+         {
+            int index = PASSWORD_MASK[i];
+            c = (char) data[index];
+
+            if (c == 0)
+            {
+               break;
+            }
+            buffer.append(c);
+         }
+
+         result = buffer.toString();
+      }
+
+      return (result);
    }
 
    /**
@@ -135,7 +130,7 @@ final class MPPUtility
     * @param buffer Destination buffer
     * @param bufferOffset Offset into destination buffer
     */
-   public static final void getByteArray (byte[] data, int offset, int size, byte[] buffer, int bufferOffset)
+   public static final void getByteArray(byte[] data, int offset, int size, byte[] buffer, int bufferOffset)
    {
       System.arraycopy(data, offset, buffer, bufferOffset, size);
    }
@@ -147,7 +142,7 @@ final class MPPUtility
     * @param offset offset of byte data in the array
     * @return byte value
     */
-   public static final int getByte (byte[] data, int offset)
+   public static final int getByte(byte[] data, int offset)
    {
       int result = (data[offset] & 0xFF);
       return result;
@@ -160,7 +155,7 @@ final class MPPUtility
     * @param data byte array of data
     * @return byte value
     */
-   public static final int getByte (byte[] data)
+   public static final int getByte(byte[] data)
    {
       return (getByte(data, 0));
    }
@@ -172,13 +167,13 @@ final class MPPUtility
     * @param offset offset of integer data in the array
     * @return integer value
     */
-   public static final int getShort (byte[] data, int offset)
+   public static final int getShort(byte[] data, int offset)
    {
       int result = 0;
       int i = offset;
-      for ( int shiftBy = 0; shiftBy < 16; shiftBy += 8 ) 
+      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
       {
-         result |= ( ( data[i] & 0xff ) ) << shiftBy;
+         result |= ((data[i] & 0xff)) << shiftBy;
          ++i;
       }
       return result;
@@ -191,7 +186,7 @@ final class MPPUtility
     * @param data the input array
     * @return integer value
     */
-   public static final int getShort (byte[] data)
+   public static final int getShort(byte[] data)
    {
       return (getShort(data, 0));
    }
@@ -203,13 +198,13 @@ final class MPPUtility
     * @param offset offset of integer data in the array
     * @return integer value
     */
-   public static final int getInt (byte[] data, int offset)
+   public static final int getInt(byte[] data, int offset)
    {
       int result = 0;
       int i = offset;
-      for ( int shiftBy = 0; shiftBy < 32; shiftBy += 8 ) 
+      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
       {
-         result |= ( ( data[i] & 0xff ) ) << shiftBy;
+         result |= ((data[i] & 0xff)) << shiftBy;
          ++i;
       }
       return result;
@@ -222,7 +217,7 @@ final class MPPUtility
     * @param data the input array
     * @return integer value
     */
-   public static final int getInt (byte[] data)
+   public static final int getInt(byte[] data)
    {
       return (getInt(data, 0));
    }
@@ -234,13 +229,13 @@ final class MPPUtility
     * @param offset offset of integer data in the array
     * @return integer value
     */
-   public static final long getLong (byte[] data, int offset)
+   public static final long getLong(byte[] data, int offset)
    {
       long result = 0;
       int i = offset;
-      for ( int shiftBy = 0; shiftBy < 64; shiftBy += 8 ) 
+      for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
       {
-         result |= ( (long)( data[i] & 0xff ) ) << shiftBy;
+         result |= ((long) (data[i] & 0xff)) << shiftBy;
          ++i;
       }
       return result;
@@ -253,13 +248,13 @@ final class MPPUtility
     * @param offset offset of integer data in the array
     * @return integer value
     */
-   public static final long getLong6 (byte[] data, int offset)
+   public static final long getLong6(byte[] data, int offset)
    {
       long result = 0;
       int i = offset;
-      for ( int shiftBy = 0; shiftBy < 48; shiftBy += 8 ) 
+      for (int shiftBy = 0; shiftBy < 48; shiftBy += 8)
       {
-         result |= ( (long)( data[i] & 0xff ) ) << shiftBy;
+         result |= ((long) (data[i] & 0xff)) << shiftBy;
          ++i;
       }
       return result;
@@ -272,7 +267,7 @@ final class MPPUtility
     * @param data the input array
     * @return integer value
     */
-   public static final long getLong6 (byte[] data)
+   public static final long getLong6(byte[] data)
    {
       return (getLong6(data, 0));
    }
@@ -284,7 +279,7 @@ final class MPPUtility
     * @param data the input array
     * @return integer value
     */
-   public static final long getLong (byte[] data)
+   public static final long getLong(byte[] data)
    {
       return (getLong(data, 0));
    }
@@ -296,7 +291,7 @@ final class MPPUtility
     * @param offset offset of double data in the array
     * @return double value
     */
-   public static final double getDouble (byte[] data, int offset)
+   public static final double getDouble(byte[] data, int offset)
    {
       return (Double.longBitsToDouble(getLong(data, offset)));
    }
@@ -308,7 +303,7 @@ final class MPPUtility
     * @param data the input array
     * @return double value
     */
-   public static final double getDouble (byte[] data)
+   public static final double getDouble(byte[] data)
    {
       return (Double.longBitsToDouble(getLong(data, 0)));
    }
@@ -322,7 +317,7 @@ final class MPPUtility
     * @param offset location of data as offset into the array
     * @return date value
     */
-   public static final Date getDate (byte[] data, int offset)
+   public static final Date getDate(byte[] data, int offset)
    {
       Date result;
       long days = getShort(data, offset);
@@ -347,7 +342,7 @@ final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTime (byte[] data, int offset)
+   public static final Date getTime(byte[] data, int offset)
    {
       int time = getShort(data, offset) / 10;
       Calendar cal = Calendar.getInstance();
@@ -365,7 +360,7 @@ final class MPPUtility
     * @param data byte array of data
     * @return time value
     */
-   public static final Date getTime (byte[] data)
+   public static final Date getTime(byte[] data)
    {
       return (getTime(data, 0));
    }
@@ -378,7 +373,7 @@ final class MPPUtility
     * @param offset location of data as offset into the array
     * @return duration value
     */
-   public static final long getDuration (byte[] data, int offset)
+   public static final long getDuration(byte[] data, int offset)
    {
       return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
    }
@@ -390,7 +385,7 @@ final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTimestamp (byte[] data, int offset)
+   public static final Date getTimestamp(byte[] data, int offset)
    {
       Date result;
 
@@ -420,7 +415,7 @@ final class MPPUtility
     * @param data byte array of data
     * @return time value
     */
-   public static final Date getTimestamp (byte[] data)
+   public static final Date getTimestamp(byte[] data)
    {
       return (getTimestamp(data, 0));
    }
@@ -434,7 +429,7 @@ final class MPPUtility
     * @param data byte array of data
     * @return string value
     */
-   public static final String getUnicodeString (byte[] data)
+   public static final String getUnicodeString(byte[] data)
    {
       return (getUnicodeString(data, 0));
    }
@@ -450,14 +445,14 @@ final class MPPUtility
     * @param offset start point of unicode string
     * @return string value
     */
-   public static final String getUnicodeString (byte[] data, int offset)
+   public static final String getUnicodeString(byte[] data, int offset)
    {
       StringBuffer buffer = new StringBuffer();
       char c;
 
       for (int loop = offset; loop < (data.length - 1); loop += 2)
       {
-         c = (char)getShort(data, loop);
+         c = (char) getShort(data, loop);
 
          if (c == 0)
          {
@@ -469,7 +464,6 @@ final class MPPUtility
 
       return (buffer.toString());
    }
-
 
    /**
     * Reads a string of two byte characters from the input array.
@@ -484,7 +478,7 @@ final class MPPUtility
     * @param length length in bytes of the string
     * @return string value
     */
-   public static final String getUnicodeString (byte[] data, int offset, int length)
+   public static final String getUnicodeString(byte[] data, int offset, int length)
    {
       StringBuffer buffer = new StringBuffer();
       char c;
@@ -493,7 +487,7 @@ final class MPPUtility
 
       while (loop < (data.length - 1) && byteLength < length)
       {
-         c = (char)getShort(data, loop);
+         c = (char) getShort(data, loop);
 
          if (c == 0)
          {
@@ -518,7 +512,7 @@ final class MPPUtility
     * @param data byte array of data
     * @return string value
     */
-   public static final String getString (byte[] data)
+   public static final String getString(byte[] data)
    {
       return (getString(data, 0));
    }
@@ -533,14 +527,14 @@ final class MPPUtility
     * @param offset offset into the array
     * @return string value
     */
-   public static final String getString (byte[] data, int offset)
+   public static final String getString(byte[] data, int offset)
    {
       StringBuffer buffer = new StringBuffer();
       char c;
 
-      for (int loop = 0; offset+loop < data.length; loop++)
+      for (int loop = 0; offset + loop < data.length; loop++)
       {
-         c = (char)data[offset+loop];
+         c = (char) data[offset + loop];
 
          if (c == 0)
          {
@@ -561,9 +555,9 @@ final class MPPUtility
     * @param type type of units of the duration
     * @return Duration instance
     */
-   public static final Duration getDuration (int value, TimeUnit type)
+   public static final Duration getDuration(int value, TimeUnit type)
    {
-      return (getDuration((double)value, type));
+      return (getDuration((double) value, type));
    }
 
    /**
@@ -574,48 +568,48 @@ final class MPPUtility
     * @param type type of units of the duration
     * @return Duration instance
     */
-   public static final Duration getDuration (double value, TimeUnit type)
+   public static final Duration getDuration(double value, TimeUnit type)
    {
       double duration;
 
       switch (type)
       {
-         case MINUTES:
-         case ELAPSED_MINUTES:
+         case MINUTES :
+         case ELAPSED_MINUTES :
          {
             duration = value / 10;
             break;
          }
 
-         case HOURS:
-         case ELAPSED_HOURS:
+         case HOURS :
+         case ELAPSED_HOURS :
          {
             duration = value / 600;
             break;
          }
 
-         case DAYS:
-         case ELAPSED_DAYS:
+         case DAYS :
+         case ELAPSED_DAYS :
          {
             duration = value / 4800;
             break;
          }
 
-         case WEEKS:
-         case ELAPSED_WEEKS:
+         case WEEKS :
+         case ELAPSED_WEEKS :
          {
             duration = value / 24000;
             break;
          }
 
-         case MONTHS:
-         case ELAPSED_MONTHS:
+         case MONTHS :
+         case ELAPSED_MONTHS :
          {
             duration = value / 96000;
             break;
          }
 
-         default:
+         default :
          {
             duration = value;
             break;
@@ -633,75 +627,75 @@ final class MPPUtility
     * @param type MPP units
     * @return MPX units
     */
-   public static final TimeUnit getDurationTimeUnits (int type)
+   public static final TimeUnit getDurationTimeUnits(int type)
    {
       TimeUnit units;
 
       switch (type & DURATION_UNITS_MASK)
       {
-         case 3:
+         case 3 :
          {
             units = TimeUnit.MINUTES;
             break;
          }
 
-         case 4:
+         case 4 :
          {
             units = TimeUnit.ELAPSED_MINUTES;
             break;
          }
 
-         case 5:
+         case 5 :
          {
             units = TimeUnit.HOURS;
             break;
          }
 
-         case 6:
+         case 6 :
          {
             units = TimeUnit.ELAPSED_HOURS;
             break;
          }
 
-         case 8:
+         case 8 :
          {
             units = TimeUnit.ELAPSED_DAYS;
             break;
          }
 
-         case 9:
+         case 9 :
          {
             units = TimeUnit.WEEKS;
             break;
          }
 
-         case 10:
+         case 10 :
          {
             units = TimeUnit.ELAPSED_WEEKS;
             break;
          }
 
-         case 11:
+         case 11 :
          {
             units = TimeUnit.MONTHS;
             break;
          }
 
-         case 12:
+         case 12 :
          {
             units = TimeUnit.ELAPSED_MONTHS;
             break;
          }
 
-         case 19:
+         case 19 :
          {
             units = TimeUnit.PERCENT;
             break;
          }
-         
-         default:
-         case 7:
-         case 21: // duration in days of a recurring task
+
+         default :
+         case 7 :
+         case 21 : // duration in days of a recurring task
          {
             units = TimeUnit.DAYS;
             break;
@@ -727,7 +721,7 @@ final class MPPUtility
       Duration result;
       switch (timeUnit)
       {
-         case DAYS:
+         case DAYS :
          {
             double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
             double totalDays = 0;
@@ -739,7 +733,7 @@ final class MPPUtility
             break;
          }
 
-         case ELAPSED_DAYS:
+         case ELAPSED_DAYS :
          {
             double unitsPerDay = 24d * 600d;
             double totalDays = duration / unitsPerDay;
@@ -747,7 +741,7 @@ final class MPPUtility
             break;
          }
 
-         case WEEKS:
+         case WEEKS :
          {
             double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
             double totalWeeks = 0;
@@ -759,15 +753,15 @@ final class MPPUtility
             break;
          }
 
-         case ELAPSED_WEEKS:
+         case ELAPSED_WEEKS :
          {
             double unitsPerWeek = (60 * 24 * 7 * 10);
             double totalWeeks = duration / unitsPerWeek;
             result = Duration.getInstance(totalWeeks, timeUnit);
             break;
          }
-         
-         case MONTHS:
+
+         case MONTHS :
          {
             double unitsPerMonth = file.getProjectHeader().getMinutesPerDay().doubleValue() * file.getProjectHeader().getDaysPerMonth().doubleValue() * 10d;
             double totalMonths = 0;
@@ -779,7 +773,7 @@ final class MPPUtility
             break;
          }
 
-         case ELAPSED_MONTHS:
+         case ELAPSED_MONTHS :
          {
             double unitsPerMonth = (60 * 24 * 29 * 10);
             double totalMonths = duration / unitsPerMonth;
@@ -787,7 +781,7 @@ final class MPPUtility
             break;
          }
 
-         default:
+         default :
          {
             result = getDuration(duration, timeUnit);
             break;
@@ -796,7 +790,6 @@ final class MPPUtility
       return (result);
    }
 
-
    /**
     * This method maps from the value used to specify default work units in the
     * MPP file to a standard TimeUnit.
@@ -804,31 +797,32 @@ final class MPPUtility
     * @param value Default work units
     * @return TimeUnit value
     */
-   public static TimeUnit getWorkTimeUnits (int value)
+   public static TimeUnit getWorkTimeUnits(int value)
    {
       TimeUnit result;
 
       switch (value)
       {
-         case 1:
+         case 1 :
          {
             result = TimeUnit.MINUTES;
             break;
          }
 
-         case 3:
+         case 3 :
          {
             result = TimeUnit.DAYS;
             break;
          }
 
-         case 4:
+         case 4 :
          {
             result = TimeUnit.WEEKS;
             break;
          }
 
-         case 2:default:
+         case 2 :
+         default :
          {
             result = TimeUnit.HOURS;
             break;
@@ -846,31 +840,32 @@ final class MPPUtility
     * @param value MPP symbol position
     * @return MPX symbol position
     */
-   public static CurrencySymbolPosition getSymbolPosition (int value)
+   public static CurrencySymbolPosition getSymbolPosition(int value)
    {
       CurrencySymbolPosition result;
 
       switch (value)
       {
-         case 1:
+         case 1 :
          {
             result = CurrencySymbolPosition.AFTER;
             break;
          }
 
-         case 2:
+         case 2 :
          {
             result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
             break;
          }
 
-         case 3:
+         case 3 :
          {
             result = CurrencySymbolPosition.AFTER_WITH_SPACE;
             break;
          }
 
-         case 0:default:
+         case 0 :
+         default :
          {
             result = CurrencySymbolPosition.BEFORE;
             break;
@@ -886,7 +881,7 @@ final class MPPUtility
     * @param name name text
     * @return name text without embedded ampersands
     */
-   public static final String removeAmpersands (String name)
+   public static final String removeAmpersands(String name)
    {
       if (name != null)
       {
@@ -921,7 +916,7 @@ final class MPPUtility
     * @param size length of the source data to copy
     * @return new byte array containing copied data
     */
-   public static final byte[] cloneSubArray (byte[] data, int offset, int size)
+   public static final byte[] cloneSubArray(byte[] data, int offset, int size)
    {
       byte[] newData = new byte[size];
       System.arraycopy(data, offset, newData, 0, size);
@@ -939,7 +934,7 @@ final class MPPUtility
     * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii)
+   public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
    {
       StringBuffer sb = new StringBuffer();
 
@@ -962,7 +957,7 @@ final class MPPUtility
 
             for (loop = offset; loop < count; loop++)
             {
-               c = (char)buffer[loop];
+               c = (char) buffer[loop];
 
                if ((c > 200) || (c < 27))
                {
@@ -986,7 +981,7 @@ final class MPPUtility
     * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, boolean ascii)
+   public static final String hexdump(byte[] buffer, boolean ascii)
    {
       int length = 0;
 
@@ -1009,7 +1004,7 @@ final class MPPUtility
     * @param prefix prefix to be added before the start of the data
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, boolean ascii, int columns, String prefix)
+   public static final String hexdump(byte[] buffer, boolean ascii, int columns, String prefix)
    {
       StringBuffer sb = new StringBuffer();
       if (buffer != null)
@@ -1024,11 +1019,11 @@ final class MPPUtility
                columns = buffer.length - index;
             }
 
-            sb.append (prefix);
-            sb.append (df.format(index));
-            sb.append (":");
-            sb.append (hexdump(buffer, index, columns, ascii));
-            sb.append ('\n');
+            sb.append(prefix);
+            sb.append(df.format(index));
+            sb.append(":");
+            sb.append(hexdump(buffer, index, columns, ascii));
+            sb.append('\n');
 
             index += columns;
          }
@@ -1050,7 +1045,7 @@ final class MPPUtility
     * @param prefix prefix to be added before the start of the data
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
+   public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
    {
       StringBuffer sb = new StringBuffer();
       if (buffer != null)
@@ -1058,18 +1053,18 @@ final class MPPUtility
          int index = offset;
          DecimalFormat df = new DecimalFormat("00000");
 
-         while (index < (offset+length))
+         while (index < (offset + length))
          {
-            if (index + columns > (offset+length))
+            if (index + columns > (offset + length))
             {
-               columns = (offset+length) - index;
+               columns = (offset + length) - index;
             }
 
-            sb.append (prefix);
-            sb.append (df.format(index));
-            sb.append (":");
-            sb.append (hexdump(buffer, index, columns, ascii));
-            sb.append ('\n');
+            sb.append(prefix);
+            sb.append(df.format(index));
+            sb.append(":");
+            sb.append(hexdump(buffer, index, columns, ascii));
+            sb.append('\n');
 
             index += columns;
          }
@@ -1077,14 +1072,14 @@ final class MPPUtility
 
       return (sb.toString());
    }
-   
+
    /**
     * Writes a hex dump to a file for a large byte array.
     *
     * @param fileName output file name
     * @param data target data
     */
-   public static final void fileHexDump (String fileName, byte[] data)
+   public static final void fileHexDump(String fileName, byte[] data)
    {
       try
       {
@@ -1107,7 +1102,7 @@ final class MPPUtility
     * @param fileName output file name
     * @param is input stream
     */
-   public static final void fileHexDump (String fileName, InputStream is)
+   public static final void fileHexDump(String fileName, InputStream is)
    {
       try
       {
@@ -1128,7 +1123,7 @@ final class MPPUtility
     * @param fileName output file name
     * @param data target data
     */
-   public static final void fileDump (String fileName, byte[] data)
+   public static final void fileDump(String fileName, byte[] data)
    {
       try
       {
@@ -1142,7 +1137,7 @@ final class MPPUtility
          ex.printStackTrace();
       }
    }
-   
+
    /**
     * Dump out all the possible variables within the given data block.
     *
@@ -1155,113 +1150,111 @@ final class MPPUtility
     * @param dumpDate true to dump all the data as Dates
     * @param dumpTime true to dump all the data as Dates (time)
     */
-   public static final void dataDump(byte[] data, boolean dumpShort, boolean dumpInt, 
-		   boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate,
-		   boolean dumpTime)
+   public static final void dataDump(byte[] data, boolean dumpShort, boolean dumpInt, boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate, boolean dumpTime)
    {
-	   System.out.println("DATA");
-	   
-	   if (data != null)
-	   {	   
-      	   System.out.println (MPPUtility.hexdump(data, false, 16, ""));
-      	   
-      	   for (int i = 0; i < data.length; i++)
-      	   {
-      	       if (dumpShort)
-      		   {
-      	    	   try
-      	    	   {
-      	    		   int sh = MPPUtility.getShort(data, i);
-      	    		   System.out.println(i + ":" + sh);
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-      	    	      // Silently ignore exceptions
-      	    	   }
-      		   }
-      	       if (dumpInt)
-      	       {
-      	    	   try
-      	    	   {
-      	    		   int sh = MPPUtility.getInt(data, i);
-      	    		   System.out.println(i + ":" + sh);
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-                      // Silently ignore exceptions      	    	      
-      	    	   }
-      	       }
-      	       if (dumpDouble)
-      	       {
-      	    	   try
-      	    	   {
-      	    		   double d = MPPUtility.getDouble(data, i);
-      	    		   System.out.println(i + ":" + d);
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-                      // Silently ignore exceptions      	    	      
-      		  	   }
-      	       }
-      	       if (dumpTimeStamp)
-      	       {
-      	    	   try
-      	    	   {
-      	    		   Date d = MPPUtility.getTimestamp(data, i);
-      	    		   if (d != null)
-      	    		   {
-      	    			   System.out.println(i + ":" + d.toString());
-      	    		   }
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-                      // Silently ignore exceptions      	    	      
-      	    	   }
-      	       }
-      	       if (dumpDuration)
-      	       {
-      	    	   try
-      	    	   {
-      	    		   long d = MPPUtility.getDuration(data, i);
-          			   System.out.println(i + ":" + d);
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-                      // Silently ignore exceptions      	    	      
-      	    	   }
-      	       }
-      	       if (dumpDate)
-      	       {
-      	    	   try
-      	    	   {
-      	    		   Date d = MPPUtility.getDate(data, i);
-      	    		   if (d != null)
-      	    		   {
-      	    			   System.out.println(i + ":" + d.toString());
-      	    		   }
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-                      // Silently ignore exceptions      	    	      
-      	    	   }
-      	       }
-      	       if (dumpTime)
-      	       {
-      	    	   try
-      	    	   {
-      	    		   Date d = MPPUtility.getTime(data, i);
-      	    		   if (d != null)
-      	    		   {
-      	    			   System.out.println(i + ":" + d.toString());
-      	    		   }
-      	    	   }
-      	    	   catch (Exception ex)
-      	    	   {
-                      // Silently ignore exceptions      	    	      
-      	    	   }
-      	       }
-      	   }
-	   }
+      System.out.println("DATA");
+
+      if (data != null)
+      {
+         System.out.println(MPPUtility.hexdump(data, false, 16, ""));
+
+         for (int i = 0; i < data.length; i++)
+         {
+            if (dumpShort)
+            {
+               try
+               {
+                  int sh = MPPUtility.getShort(data, i);
+                  System.out.println(i + ":" + sh);
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions
+               }
+            }
+            if (dumpInt)
+            {
+               try
+               {
+                  int sh = MPPUtility.getInt(data, i);
+                  System.out.println(i + ":" + sh);
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions      	    	      
+               }
+            }
+            if (dumpDouble)
+            {
+               try
+               {
+                  double d = MPPUtility.getDouble(data, i);
+                  System.out.println(i + ":" + d);
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions      	    	      
+               }
+            }
+            if (dumpTimeStamp)
+            {
+               try
+               {
+                  Date d = MPPUtility.getTimestamp(data, i);
+                  if (d != null)
+                  {
+                     System.out.println(i + ":" + d.toString());
+                  }
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions      	    	      
+               }
+            }
+            if (dumpDuration)
+            {
+               try
+               {
+                  long d = MPPUtility.getDuration(data, i);
+                  System.out.println(i + ":" + d);
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions      	    	      
+               }
+            }
+            if (dumpDate)
+            {
+               try
+               {
+                  Date d = MPPUtility.getDate(data, i);
+                  if (d != null)
+                  {
+                     System.out.println(i + ":" + d.toString());
+                  }
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions      	    	      
+               }
+            }
+            if (dumpTime)
+            {
+               try
+               {
+                  Date d = MPPUtility.getTime(data, i);
+                  if (d != null)
+                  {
+                     System.out.println(i + ":" + d.toString());
+                  }
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions      	    	      
+               }
+            }
+         }
+      }
    }
 
    /**
@@ -1276,97 +1269,96 @@ final class MPPUtility
     * @param dumpUnicodeString true to dump all the data as Unicode strings
     * @param dumpString true to dump all the data as strings
     */
-   public static final void varDataDump(Var2Data data, Integer id, boolean dumpShort, boolean dumpInt, 
-		   boolean dumpDouble, boolean dumpTimeStamp, boolean dumpUnicodeString, boolean dumpString)
+   public static final void varDataDump(Var2Data data, Integer id, boolean dumpShort, boolean dumpInt, boolean dumpDouble, boolean dumpTimeStamp, boolean dumpUnicodeString, boolean dumpString)
    {
-	   System.out.println("VARDATA");
-	   for (int i = 0; i < 500; i++)
-	   {
-	       if (dumpShort)
-		   {
-	    	   try
-	    	   {
-	    		   int sh = data.getShort(id, Integer.valueOf(i));
-	    		   System.out.println(i + ":" + sh);
-	    	   }
-	    	   catch (Exception ex)
-	    	   {
-                  // Silently ignore exceptions
-	    	   }
-		   }
-	       if (dumpInt)
-	       {
-	    	   try
-	    	   {
-	    		   int sh = data.getInt(id, Integer.valueOf(i));
-	    		   System.out.println(i + ":" + sh);
-	    	   }
-	    	   catch (Exception ex)
-	    	   {
-                  // Silently ignore exceptions
-	    	   }
-	       }
-	       if (dumpDouble)
-	       {
-	    	   try
-	    	   {
-	    		   double d = data.getDouble(id, Integer.valueOf(i));
-	    		   System.out.println(i + ":" + d);
-	    		   System.out.println(i + ":" + d/60000);
-	    	   }
-	    	   catch (Exception ex)
-	    	   {
-                  // Silently ignore exceptions
-		  	   }
-	       }
-	       if (dumpTimeStamp)
-	       {
-	    	   try
-	    	   {
-	    		   Date d = data.getTimestamp(id, Integer.valueOf(i));
-	    		   if (d != null)
-	    		   {
-	    			   System.out.println(i + ":" + d.toString());
-	    		   }
-	    	   }
-	    	   catch (Exception ex)
-	    	   {
-                  // Silently ignore exceptions
-	    	   }
-	       }
-	       if (dumpUnicodeString)
-	       {
-	    	   try
-	    	   {
-	    		   String s = data.getUnicodeString(id, Integer.valueOf(i));
-	    		   if (s != null)
-	    		   {
-	    			   System.out.println(i + ":" + s);
-	    		   }
-	    	   }
-	    	   catch (Exception ex)
-	    	   {
-                  // Silently ignore exceptions
-	    	   }
-	       }
-	       if (dumpString)
-	       {
-	    	   try
-	    	   {
-	    		   String s = data.getString(id, Integer.valueOf(i));
-	    		   if (s != null)
-	    		   {
-	    			   System.out.println(i + ":" + s);
-	    		   }
-	    	   }
-	    	   catch (Exception ex)
-	    	   {
-                  // Silently ignore exceptions
-	    	   }
-	       }
-	   }
+      System.out.println("VARDATA");
+      for (int i = 0; i < 500; i++)
+      {
+         if (dumpShort)
+         {
+            try
+            {
+               int sh = data.getShort(id, Integer.valueOf(i));
+               System.out.println(i + ":" + sh);
+            }
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions
+            }
+         }
+         if (dumpInt)
+         {
+            try
+            {
+               int sh = data.getInt(id, Integer.valueOf(i));
+               System.out.println(i + ":" + sh);
+            }
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions
+            }
+         }
+         if (dumpDouble)
+         {
+            try
+            {
+               double d = data.getDouble(id, Integer.valueOf(i));
+               System.out.println(i + ":" + d);
+               System.out.println(i + ":" + d / 60000);
+            }
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions
+            }
+         }
+         if (dumpTimeStamp)
+         {
+            try
+            {
+               Date d = data.getTimestamp(id, Integer.valueOf(i));
+               if (d != null)
+               {
+                  System.out.println(i + ":" + d.toString());
+               }
+            }
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions
+            }
+         }
+         if (dumpUnicodeString)
+         {
+            try
+            {
+               String s = data.getUnicodeString(id, Integer.valueOf(i));
+               if (s != null)
+               {
+                  System.out.println(i + ":" + s);
+               }
+            }
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions
+            }
+         }
+         if (dumpString)
+         {
+            try
+            {
+               String s = data.getString(id, Integer.valueOf(i));
+               if (s != null)
+               {
+                  System.out.println(i + ":" + s);
+               }
+            }
+            catch (Exception ex)
+            {
+               // Silently ignore exceptions
+            }
+         }
+      }
    }
-   
+
    /**
     * Get the epoch date.
     * 
@@ -1374,9 +1366,9 @@ final class MPPUtility
     */
    public static Date getEpochDate()
    {
-      return EPOCH_DATE;   
+      return EPOCH_DATE;
    }
-         
+
    /**
     * Epoch date for MPP date calculation is 31/12/1983. This constant
     * is that date expressed in milliseconds using the Java date epoch.
@@ -1387,7 +1379,7 @@ final class MPPUtility
     * Epoch Date as a Date instance.
     */
    private static Date EPOCH_DATE = DateUtility.getTimestampFromLong(EPOCH);
-   
+
    /**
     * Number of milliseconds per day.
     */

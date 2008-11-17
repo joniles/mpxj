@@ -48,18 +48,16 @@ public enum DataType implements MpxjEnum
    RELATION_LIST (13),
    TASK_TYPE (14),
    RESOURCE_TYPE (15);
-
    
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private DataType (int type)
+   private DataType(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -67,8 +65,8 @@ public enum DataType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static DataType getInstance (int type)
-   {      
+   public static DataType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = STRING.getValue();
@@ -76,14 +74,13 @@ public enum DataType implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static DataType getInstance (Number type)
+   public static DataType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -97,30 +94,27 @@ public enum DataType implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final DataType[] TYPE_VALUES = new DataType[16];
    static
-   {      
+   {
       for (DataType e : EnumSet.range(DataType.STRING, DataType.RESOURCE_TYPE))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

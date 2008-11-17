@@ -27,7 +27,6 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
@@ -84,27 +83,27 @@ public final class MPXJFormats
       String suffix = "";
       String currencySymbol = quoteFormatCharacters (header.getCurrencySymbol());
 
-      switch (header.getSymbolPosition().getValue())
+      switch (header.getSymbolPosition())
       {
-         case CurrencySymbolPosition.AFTER_VALUE:
+         case AFTER:
          {
             suffix = currencySymbol;
             break;
          }
 
-         case CurrencySymbolPosition.BEFORE_VALUE:
+         case BEFORE:
          {
             prefix = currencySymbol;
             break;
          }
 
-         case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
+         case AFTER_WITH_SPACE:
          {
             suffix = " " + currencySymbol;
             break;
          }
 
-         case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
+         case BEFORE_WITH_SPACE:
          {
             prefix = currencySymbol + " ";
             break;

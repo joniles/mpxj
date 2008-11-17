@@ -270,7 +270,7 @@ public final class DatatypeConverter
    }
 
    /**
-    * Printy a currency symbol psoition value.
+    * Prints a currency symbol position value.
     *
     * @param value CurrencySymbolPosition instance
     * @return currency symbol position
@@ -279,28 +279,28 @@ public final class DatatypeConverter
    {
       String result;
 
-      switch (value.getValue())
+      switch (value)
       {
          default:
-         case CurrencySymbolPosition.BEFORE_VALUE:
+         case BEFORE:
          {
             result = "0";
             break;
          }
 
-         case CurrencySymbolPosition.AFTER_VALUE:
+         case AFTER:
          {
             result = "1";
             break;
          }
 
-         case CurrencySymbolPosition.BEFORE_WITH_SPACE_VALUE:
+         case BEFORE_WITH_SPACE:
          {
             result = "2";
             break;
          }
 
-         case CurrencySymbolPosition.AFTER_WITH_SPACE_VALUE:
+         case AFTER_WITH_SPACE:
          {
             result = "3";
             break;

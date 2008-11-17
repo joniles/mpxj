@@ -23,17 +23,26 @@
 
 package net.sf.mpxj;
 
+import java.util.EnumSet;
+
+import net.sf.mpxj.utility.MpxjEnum;
+
 /**
  * Instances of this class represent enumerated currency symbol position values.
  */
-public final class CurrencySymbolPosition
+public enum CurrencySymbolPosition implements MpxjEnum
 {
+   AFTER(0),
+   BEFORE(1),
+   AFTER_WITH_SPACE(2),
+   BEFORE_WITH_SPACE(3);
+   
    /**
     * Private constructor.
     *
     * @param value currency symbol position value
     */
-   private CurrencySymbolPosition (int value)
+   private CurrencySymbolPosition(int value)
    {
       m_value = value;
    }
@@ -43,7 +52,7 @@ public final class CurrencySymbolPosition
     *
     * @return currency symbol position value
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -54,39 +63,13 @@ public final class CurrencySymbolPosition
     * @param value currency symbol position value
     * @return CurrencySymbolPosition instance
     */
-   public static CurrencySymbolPosition getInstance (int value)
+   public static CurrencySymbolPosition getInstance(int value)
    {
-      CurrencySymbolPosition result;
-
-      switch (value)
+      if (value < 0 || value >= TYPE_VALUES.length)
       {
-         case AFTER_VALUE:
-         {
-            result = AFTER;
-            break;
-         }
-
-         case AFTER_WITH_SPACE_VALUE:
-         {
-            result = AFTER_WITH_SPACE;
-            break;
-         }
-
-         case BEFORE_WITH_SPACE_VALUE:
-         {
-            result = BEFORE_WITH_SPACE;
-            break;
-         }
-
-         default:
-         case BEFORE_VALUE:
-         {
-            result = BEFORE;
-            break;
-         }
+         value = BEFORE.getValue();
       }
-
-      return (result);
+      return (TYPE_VALUES[value]);
    }
 
    /**
@@ -95,50 +78,19 @@ public final class CurrencySymbolPosition
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (Integer.toString(m_value));
    }
 
+   private static final CurrencySymbolPosition[] TYPE_VALUES = new CurrencySymbolPosition[4];
+   static
+   {
+      for (CurrencySymbolPosition e : EnumSet.range(CurrencySymbolPosition.AFTER, CurrencySymbolPosition.BEFORE_WITH_SPACE))
+      {
+         TYPE_VALUES[e.getValue()] = e;
+      }
+   }
+
    private int m_value;
-
-   /**
-    * Constant representing symbol position after.
-    */
-   public static final int AFTER_VALUE = 0;
-
-   /**
-    * Constant representing symbol position before.
-    */
-   public static final int BEFORE_VALUE = 1;
-
-   /**
-    * Constant representing symbol position after with space.
-    */
-   public static final int AFTER_WITH_SPACE_VALUE = 2;
-
-   /**
-    * Constant representing symbol position before with space.
-    */
-   public static final int BEFORE_WITH_SPACE_VALUE = 3;
-
-   /**
-    * Constant representing symbol position after.
-    */
-   public static final CurrencySymbolPosition AFTER = new CurrencySymbolPosition(AFTER_VALUE);
-
-   /**
-    * Constant representing symbol position before.
-    */
-   public static final CurrencySymbolPosition BEFORE = new CurrencySymbolPosition(BEFORE_VALUE);
-
-   /**
-    * Constant representing symbol position after with space.
-    */
-   public static final CurrencySymbolPosition AFTER_WITH_SPACE = new CurrencySymbolPosition(AFTER_WITH_SPACE_VALUE);
-
-   /**
-    * Constant representing symbol position before with space.
-    */
-   public static final CurrencySymbolPosition BEFORE_WITH_SPACE = new CurrencySymbolPosition(BEFORE_WITH_SPACE_VALUE);
 }
