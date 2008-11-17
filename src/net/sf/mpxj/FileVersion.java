@@ -55,41 +55,6 @@ public final class FileVersion
     * @param value file version value
     * @return FileVersion instance
     */
-   public static FileVersion getInstance (int value)
-   {
-      FileVersion result;
-
-      switch (value)
-      {
-         case 1:
-         {
-            result = VERSION_1_0;
-            break;
-         }
-
-         case 3:
-         {
-            result = VERSION_3_0;
-            break;
-         }
-
-         default:
-         case 4:
-         {
-            result = VERSION_4_0;
-            break;
-         }
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieve a FileVersion instance representing the supplied value.
-    *
-    * @param value file version value
-    * @return FileVersion instance
-    */
    public static FileVersion getInstance (String value)
    {
       FileVersion result = VERSION_4_0;
