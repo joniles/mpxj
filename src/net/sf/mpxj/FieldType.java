@@ -2,7 +2,7 @@
  * file:       FieldType.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2005
- * date:       Apr 16, 2005
+ * date:       16/04/2005
  */
 
 /*
@@ -46,12 +46,12 @@ public interface FieldType extends MpxjEnum
     * @param locale target locale
     * @return field name
     */
-   public String getName (Locale locale);
-   
+   public String getName(Locale locale);
+
    /**
     * Retrieve the data type of this field.
     * 
     * @return data type
     */
-   public DataType getDataType ();   
+   public DataType getDataType();
 }

@@ -43,12 +43,11 @@ public enum RecurrenceType implements MpxjEnum
     * @param type int version of the enum
     * @param name English name used for debugging
     */
-   private RecurrenceType (int type, String name)
+   private RecurrenceType(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -56,8 +55,8 @@ public enum RecurrenceType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static RecurrenceType getInstance (int type)
-   {      
+   public static RecurrenceType getInstance(int type)
+   {
       if (type < 1 || type >= TYPE_VALUES.length)
       {
          type = DAILY.getValue();
@@ -65,39 +64,35 @@ public enum RecurrenceType implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
 
-
    /**
     * {@inheritDoc}
     */
-   @Override
-   public String toString ()
+   @Override public String toString()
    {
       return (m_name);
    }
-   
+
    /**
     * Array mapping int types to enums.
     */
    private static final RecurrenceType[] TYPE_VALUES = new RecurrenceType[17];
    static
-   {      
+   {
       for (RecurrenceType e : EnumSet.range(RecurrenceType.DAILY, RecurrenceType.YEARLY))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

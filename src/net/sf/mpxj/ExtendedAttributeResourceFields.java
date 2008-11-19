@@ -33,7 +33,7 @@ public final class ExtendedAttributeResourceFields
    /**
     * Constructor.
     */
-   private ExtendedAttributeResourceFields ()
+   private ExtendedAttributeResourceFields()
    {
       // private constructor to prevent instantiation
    }

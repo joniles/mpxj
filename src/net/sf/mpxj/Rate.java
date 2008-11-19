@@ -24,7 +24,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This class represents a currency rate per period of time (for example $10/h)
  * as found in an MPX file.
@@ -38,7 +37,7 @@ public final class Rate
     * @param amount currency amount
     * @param time time units
     */
-   public Rate (Number amount, TimeUnit time)
+   public Rate(Number amount, TimeUnit time)
    {
       if (amount == null)
       {
@@ -59,19 +58,18 @@ public final class Rate
     * @param amount currency amount
     * @param time time units
     */
-   public Rate (double amount, TimeUnit time)
+   public Rate(double amount, TimeUnit time)
    {
       m_amount = amount;
       m_units = time;
    }
-
 
    /**
     * Accessor method to retrieve the currency amount.
     *
     * @return amount component of the rate
     */
-   public double getAmount ()
+   public double getAmount()
    {
       return (m_amount);
    }
@@ -81,7 +79,7 @@ public final class Rate
     *
     * @return time component of the rate
     */
-   public TimeUnit getUnits ()
+   public TimeUnit getUnits()
    {
       return (m_units);
    }
@@ -89,12 +87,12 @@ public final class Rate
    /**
     * {@inheritDoc}
     */
-   @Override public boolean equals (Object obj)
+   @Override public boolean equals(Object obj)
    {
       boolean result = false;
       if (obj instanceof Rate)
       {
-         Rate rhs = (Rate)obj;
+         Rate rhs = (Rate) obj;
          result = m_amount == rhs.m_amount && m_units == rhs.m_units;
       }
       return result;
@@ -105,7 +103,7 @@ public final class Rate
     */
    @Override public int hashCode()
    {
-      return ((int)m_amount + m_units.hashCode());
+      return ((int) m_amount + m_units.hashCode());
    }
 
    /**

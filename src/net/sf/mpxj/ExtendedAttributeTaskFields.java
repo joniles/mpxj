@@ -31,7 +31,7 @@ public final class ExtendedAttributeTaskFields
    /**
     * Constructor.
     */
-   private ExtendedAttributeTaskFields ()
+   private ExtendedAttributeTaskFields()
    {
       // Private constructor to prevent instantiation.
    }

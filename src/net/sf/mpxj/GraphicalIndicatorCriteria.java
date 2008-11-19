@@ -2,9 +2,9 @@
  * file:       GraphicalIndicatorCriteria.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2006
- * date:       15-Feb-2006
+ * date:       15/02/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This class represents the criteria used to determine if a graphical
  * indicator is displayed in place of an attribute value.
@@ -35,11 +34,11 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
     * 
     * @param projectFile parent project file
     */
-   public GraphicalIndicatorCriteria (ProjectFile projectFile)
+   public GraphicalIndicatorCriteria(ProjectFile projectFile)
    {
-      super (projectFile);
+      super(projectFile);
    }
-   
+
    /**
     * Retrieve the number of the indicator to be displayed.
     * 
@@ -49,7 +48,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
    {
       return m_indicator;
    }
-   
+
    /**
     * Set the number of the indicator to be displayed.
     * 
@@ -59,7 +58,6 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
    {
       m_indicator = indicator;
    }
-   
 
    /**
     * Evaluate this criteria to determine if a graphical indicator should
@@ -70,16 +68,15 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
     * @param container field container
     * @return boolean flag
     */
-   public int evaluate (FieldContainer container)
+   public int evaluate(FieldContainer container)
    {
-      return (evaluateCriteria(container)?m_indicator:-1);
+      return (evaluateCriteria(container) ? m_indicator : -1);
    }
-   
-      
+
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[GraphicalIndicatorCriteria indicator=");
@@ -89,7 +86,6 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
       sb.append("]");
       return (sb.toString());
    }
-   
 
    private int m_indicator;
 }

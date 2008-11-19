@@ -2820,10 +2820,31 @@ final class MPP9Reader implements MPPVariantReader
 
          if (task != null)
          {
+            Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
+            Resource resource = m_file.getResourceByUniqueID (resourceID);
+
+            ProjectCalendar calendar = null;
+            if (resource != null)
+            {
+               calendar = resource.getResourceCalendar();
+            }
+            
+            if (calendar == null)
+            {
+               task.getCalendar();
+            }
+            
+            if (calendar == null)
+            {
+               String calendarName = m_file.getProjectHeader().getCalendarName();
+               calendar = m_file.getBaseCalendar(calendarName);
+            }
+
+            Date assignmentStart = MPPUtility.getTimestamp(data, 12);
             byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
             byte[] plannedWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, PLANNED_WORK));
-            List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(completeWork);
-            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(plannedWork, timephasedComplete);
+            List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignmentStart, completeWork);
+            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
             //System.out.println(timephasedPlanned);
 
@@ -2832,9 +2853,6 @@ final class MPP9Reader implements MPPVariantReader
                processSplitData(task, timephasedComplete, timephasedPlanned);
             }
             
-            Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
-            Resource resource = m_file.getResourceByUniqueID (resourceID);
-
             if (resource != null)
             {
                ResourceAssignment assignment = task.addResourceAssignment (resource);
@@ -2847,7 +2865,7 @@ final class MPP9Reader implements MPPVariantReader
                //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
-               assignment.setStart(MPPUtility.getTimestamp(data, 12));
+               assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
 

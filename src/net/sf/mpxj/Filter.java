@@ -2,7 +2,7 @@
  * file:       Filter.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2006
- * date:       Oct 30, 2006
+ * date:       30/10/2006
  */
 
 /*
@@ -37,51 +37,51 @@ public class Filter
     * 
     * @param id unique ID
     */
-   public void setID (Integer id)
+   public void setID(Integer id)
    {
       m_id = id;
    }
-   
+
    /**
     * Retrieves the filter's unique ID.
     * 
     * @return unique ID
     */
-   public Integer getID ()
+   public Integer getID()
    {
       return (m_id);
    }
-   
+
    /**
     * Sets the filter's name.
     * 
     * @param name filter name
     */
-   public void setName (String name)
+   public void setName(String name)
    {
       m_name = name;
    }
-   
+
    /**
     * Retrieves the filter's name.
     * 
     * @return filter name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
-   
+
    /**
     * Sets the "show related summary rows" flag.
     * 
     * @param showRelatedSummaryRows boolean flag
     */
-   public void setShowRelatedSummaryRows (boolean showRelatedSummaryRows)
+   public void setShowRelatedSummaryRows(boolean showRelatedSummaryRows)
    {
       m_showRelatedSummaryRows = showRelatedSummaryRows;
    }
-   
+
    /**
     * Retrieves the "show related summary rows" flag.
     * 
@@ -91,13 +91,13 @@ public class Filter
    {
       return (m_showRelatedSummaryRows);
    }
-   
+
    /**
     * Adds a criteria expression to the filter.
     * 
     * @param criteria criteria expression
     */
-   public void addCriteria (FilterCriteria criteria)
+   public void addCriteria(FilterCriteria criteria)
    {
       m_criteria.add(criteria);
       if (criteria.getPromptTextSet())
@@ -105,47 +105,47 @@ public class Filter
          m_promptTextSet = true;
       }
    }
-   
+
    /**
     * Retrieve the criteria used to define this filter.
     * 
     * @return list of filter criteria
     */
-   public List<FilterCriteria> getCriteria ()
+   public List<FilterCriteria> getCriteria()
    {
       return (m_criteria);
    }
-   
+
    /**
     * Retrieves a flag indicating if this is a task filter.
     * 
     * @return boolean flag
     */
-   public boolean isTaskFilter ()
+   public boolean isTaskFilter()
    {
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         result = m_criteria.get(0).getField() instanceof TaskField;            
+         result = m_criteria.get(0).getField() instanceof TaskField;
       }
       return (result);
    }
-   
+
    /**
     * Retrieves a flag indicating if this is a resource filter.
     * 
     * @return boolean flag
     */
-   public boolean isResourceFilter ()
+   public boolean isResourceFilter()
    {
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         result = m_criteria.get(0).getField() instanceof ResourceField;            
-      }      
+         result = m_criteria.get(0).getField() instanceof ResourceField;
+      }
       return (result);
    }
-   
+
    /**
     * Evaluates the filter, returns true if the supplied Task or Resource
     * instance matches the filter criteria.
@@ -153,18 +153,18 @@ public class Filter
     * @param container Task or Resource instance
     * @return boolean flag
     */
-   public boolean evaluate (FieldContainer container)
+   public boolean evaluate(FieldContainer container)
    {
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
          boolean logicalAnd = true;
-         for(FilterCriteria criteria: m_criteria)
+         for (FilterCriteria criteria : m_criteria)
          {
             boolean criteriaResult = criteria.evaluate(container);
             if (logicalAnd)
             {
-               result = result && criteriaResult;               
+               result = result && criteriaResult;
             }
             else
             {
@@ -175,7 +175,7 @@ public class Filter
       }
       return (result);
    }
-   
+
    /**
     * Retrieves a flag indicating if prompt text has been set for 
     * any of the criteria associated with the filter. 
@@ -184,15 +184,15 @@ public class Filter
     * 
     * @return boolean flag
     */
-   public boolean getPromptTextSet ()
+   public boolean getPromptTextSet()
    {
       return (m_promptTextSet);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[Filter id=");
@@ -202,18 +202,18 @@ public class Filter
       sb.append(" showRelatedSummaryRows=");
       sb.append(m_showRelatedSummaryRows);
       sb.append(" criteria=[");
-      
+
       for (FilterCriteria fc : m_criteria)
       {
          sb.append(fc.toString());
       }
-      
+
       sb.append("]");
       sb.append("]");
-      
+
       return (sb.toString());
    }
-   
+
    private Integer m_id;
    private String m_name;
    private boolean m_showRelatedSummaryRows;

@@ -23,8 +23,6 @@
 
 package net.sf.mpxj;
 
-
-
 /**
  * This class represents the relationship between two tasks. These
  * relationships normally found in the lists of predecessors and
@@ -38,7 +36,7 @@ public final class Relation
     * @param parentProject parent project file
     * @param parentTask parent task instance
     */
-   public Relation (ProjectFile parentProject, Task parentTask)
+   public Relation(ProjectFile parentProject, Task parentTask)
    {
       m_parentProject = parentProject;
       m_parentTask = parentTask;
@@ -52,7 +50,7 @@ public final class Relation
     *
     * @return task unique ID
     */
-   public Integer getTaskUniqueID ()
+   public Integer getTaskUniqueID()
    {
       return (m_taskUniqueID);
    }
@@ -63,7 +61,7 @@ public final class Relation
     *
     * @param id task identifier
     */
-   public void setTaskUniqueID (Integer id)
+   public void setTaskUniqueID(Integer id)
    {
       m_taskUniqueID = id;
    }
@@ -74,7 +72,7 @@ public final class Relation
     *
     * @return relationship type
     */
-   public RelationType getType ()
+   public RelationType getType()
    {
       return (m_type);
    }
@@ -85,7 +83,7 @@ public final class Relation
     *
     * @param type relationship type
     */
-   public void setType (RelationType type)
+   public void setType(RelationType type)
    {
       m_type = type;
    }
@@ -96,7 +94,7 @@ public final class Relation
     *
     * @return lag duration
     */
-   public Duration getDuration ()
+   public Duration getDuration()
    {
       return (m_duration);
    }
@@ -107,7 +105,7 @@ public final class Relation
     *
     * @param duration the lag duration
     */
-   public void setDuration (Duration duration)
+   public void setDuration(Duration duration)
    {
       m_duration = duration;
    }
@@ -117,7 +115,7 @@ public final class Relation
     *
     * @return task instance
     */
-   public Task getTask ()
+   public Task getTask()
    {
       return (m_parentProject.getTaskByUniqueID(m_taskUniqueID));
    }
@@ -125,12 +123,11 @@ public final class Relation
    /**
     * {@inheritDoc}
     */
-   @Override
-   public String toString ()
+   @Override public String toString()
    {
       return ("[Relation " + m_parentTask + " -> " + m_parentProject.getTaskByUniqueID(m_taskUniqueID) + "]");
    }
-   
+
    /**
     * Parent project file.
     */
@@ -140,7 +137,7 @@ public final class Relation
     * Parent task file.
     */
    private Task m_parentTask;
-   
+
    /**
     * Identifier of task with which this relationship is held.
     */

@@ -38,7 +38,7 @@ public final class Duration implements Comparable<Duration>
     * @param duration amount of duration
     * @param type time unit of duration
     */
-   private Duration (double duration, TimeUnit type)
+   private Duration(double duration, TimeUnit type)
    {
       m_duration = duration;
       m_units = type;
@@ -51,7 +51,7 @@ public final class Duration implements Comparable<Duration>
     * @param duration amount of duration
     * @param type time unit of duration
     */
-   private Duration (int duration, TimeUnit type)
+   private Duration(int duration, TimeUnit type)
    {
       m_duration = duration;
       m_units = type;
@@ -62,7 +62,7 @@ public final class Duration implements Comparable<Duration>
     *
     * @return size of the duration
     */
-   public double getDuration ()
+   public double getDuration()
    {
       return (m_duration);
    }
@@ -74,7 +74,7 @@ public final class Duration implements Comparable<Duration>
     *
     * @return type of units
     */
-   public TimeUnit getUnits ()
+   public TimeUnit getUnits()
    {
       return (m_units);
    }
@@ -89,7 +89,7 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project header containing default values
     * @return new Duration instance
     */
-   public Duration convertUnits (TimeUnit type, ProjectHeader defaults)
+   public Duration convertUnits(TimeUnit type, ProjectHeader defaults)
    {
       return (convertUnits(m_duration, m_units, type, defaults));
    }
@@ -106,11 +106,11 @@ public final class Duration implements Comparable<Duration>
     * @param defaults project header containing default values
     * @return new Duration instance
     */
-   public static Duration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
+   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, ProjectHeader defaults)
    {
       return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue()));
    }
-   
+
    /**
     * This method provides an <i>approximate</i> conversion between duration
     * units. It does take into account the project defaults for number of hours
@@ -124,85 +124,83 @@ public final class Duration implements Comparable<Duration>
     * @param minutesPerWeek number of minutes per week
     * @return new Duration instance
     */
-   public static Duration convertUnits (double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek)
+   public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek)
    {
       switch (fromUnits)
       {
-         case YEARS:
+         case YEARS :
          {
             duration *= (minutesPerWeek * 52);
             break;
          }
 
-         case ELAPSED_YEARS:
+         case ELAPSED_YEARS :
          {
             duration *= (60 * 24 * 7 * 52);
             break;
          }
 
-         case MONTHS:
+         case MONTHS :
          {
             duration *= (minutesPerWeek * 4);
             break;
          }
 
-         case ELAPSED_MONTHS:
+         case ELAPSED_MONTHS :
          {
             duration *= (60 * 24 * 7 * 4);
             break;
          }
 
-         case WEEKS:
+         case WEEKS :
          {
             duration *= minutesPerWeek;
             break;
          }
 
-         case ELAPSED_WEEKS:
+         case ELAPSED_WEEKS :
          {
             duration *= (60 * 24 * 7);
             break;
          }
 
-         case DAYS:
+         case DAYS :
          {
             duration *= minutesPerDay;
             break;
          }
 
-         case ELAPSED_DAYS:
+         case ELAPSED_DAYS :
          {
             duration *= (60 * 24);
             break;
          }
 
-
-         case HOURS:
-         case ELAPSED_HOURS:
+         case HOURS :
+         case ELAPSED_HOURS :
          {
             duration *= 60;
             break;
          }
-         
-         default:
+
+         default :
          {
             break;
          }
       }
 
-
       if (toUnits != TimeUnit.MINUTES && toUnits != TimeUnit.ELAPSED_MINUTES)
       {
          switch (toUnits)
          {
-            case HOURS:
-            case ELAPSED_HOURS:
+            case HOURS :
+            case ELAPSED_HOURS :
             {
                duration /= 60;
                break;
             }
 
-            case DAYS:
+            case DAYS :
             {
                if (minutesPerDay != 0)
                {
@@ -215,13 +213,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_DAYS:
+            case ELAPSED_DAYS :
             {
                duration /= (60 * 24);
                break;
             }
 
-            case WEEKS:
+            case WEEKS :
             {
                if (minutesPerWeek != 0)
                {
@@ -234,13 +232,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_WEEKS:
+            case ELAPSED_WEEKS :
             {
                duration /= (60 * 24 * 7);
                break;
             }
 
-            case MONTHS:
+            case MONTHS :
             {
                if (minutesPerWeek != 0)
                {
@@ -253,13 +251,13 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_MONTHS:
+            case ELAPSED_MONTHS :
             {
                duration /= (60 * 24 * 7 * 4);
                break;
             }
 
-            case YEARS:
+            case YEARS :
             {
                if (minutesPerWeek != 0)
                {
@@ -272,20 +270,20 @@ public final class Duration implements Comparable<Duration>
                break;
             }
 
-            case ELAPSED_YEARS:
+            case ELAPSED_YEARS :
             {
                duration /= (60 * 24 * 7 * 52);
                break;
             }
-            
-            default:
+
+            default :
             {
                break;
-            }            
+            }
          }
       }
 
-      return (Duration.getInstance (duration, toUnits));
+      return (Duration.getInstance(duration, toUnits));
    }
 
    /**
@@ -296,7 +294,7 @@ public final class Duration implements Comparable<Duration>
     * @param type duration type
     * @return Duration instance
     */
-   public static Duration getInstance (double duration, TimeUnit type)
+   public static Duration getInstance(double duration, TimeUnit type)
    {
       Duration result;
       if (duration == 0)
@@ -307,7 +305,7 @@ public final class Duration implements Comparable<Duration>
       {
          result = new Duration(duration, type);
       }
-      return(result);
+      return (result);
    }
 
    /**
@@ -318,7 +316,7 @@ public final class Duration implements Comparable<Duration>
     * @param type duration type
     * @return Duration instance
     */
-   public static Duration getInstance (int duration, TimeUnit type)
+   public static Duration getInstance(int duration, TimeUnit type)
    {
       Duration result;
       if (duration == 0)
@@ -329,18 +327,18 @@ public final class Duration implements Comparable<Duration>
       {
          result = new Duration(duration, type);
       }
-      return(result);
+      return (result);
    }
 
    /**
     * {@inheritDoc}
     */
-   @Override public boolean equals (Object o)
+   @Override public boolean equals(Object o)
    {
       boolean result = false;
       if (o instanceof Duration)
       {
-         Duration rhs = (Duration)o;
+         Duration rhs = (Duration) o;
          result = m_duration == rhs.m_duration && m_units == rhs.m_units;
       }
       return result;
@@ -349,32 +347,32 @@ public final class Duration implements Comparable<Duration>
    /**
     * {@inheritDoc}
     */
-   @Override public int hashCode ()
+   @Override public int hashCode()
    {
-      return (m_units.getValue() + (int)m_duration);
+      return (m_units.getValue() + (int) m_duration);
    }
 
    /**
     * {@inheritDoc}
     */
-   public int compareTo (Duration rhs)
+   public int compareTo(Duration rhs)
    {
       if (m_units != rhs.m_units)
       {
-         rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8*60), (5*8*60));
+         rhs = convertUnits(rhs.m_duration, rhs.m_units, m_units, (8 * 60), (5 * 8 * 60));
       }
-      
-      return (m_duration < rhs.m_duration ? -1 : (m_duration==rhs.m_duration ? 0 : 1));
+
+      return (m_duration < rhs.m_duration ? -1 : (m_duration == rhs.m_duration ? 0 : 1));
    }
 
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (m_duration + m_units.toString());
    }
-   
+
    /**
     * Duration amount.
     */
@@ -387,20 +385,20 @@ public final class Duration implements Comparable<Duration>
 
 
    private static final Duration[] ZERO_DURATIONS =
-   {
-      new Duration(0, TimeUnit.MINUTES),
-      new Duration(0, TimeUnit.HOURS),
-      new Duration(0, TimeUnit.DAYS),
-      new Duration(0, TimeUnit.WEEKS),
-      new Duration(0, TimeUnit.MONTHS),
-      new Duration(0, TimeUnit.YEARS),
-      new Duration(0, TimeUnit.PERCENT),
+   {  
+      new Duration(0, TimeUnit.MINUTES),        
+      new Duration(0, TimeUnit.HOURS),          
+      new Duration(0, TimeUnit.DAYS),           
+      new Duration(0, TimeUnit.WEEKS),          
+      new Duration(0, TimeUnit.MONTHS),         
+      new Duration(0, TimeUnit.YEARS),          
+      new Duration(0, TimeUnit.PERCENT),        
       new Duration(0, TimeUnit.ELAPSED_MINUTES),
-      new Duration(0, TimeUnit.ELAPSED_HOURS),
-      new Duration(0, TimeUnit.ELAPSED_DAYS),
-      new Duration(0, TimeUnit.ELAPSED_WEEKS),
-      new Duration(0, TimeUnit.ELAPSED_MONTHS),
-      new Duration(0, TimeUnit.ELAPSED_YEARS),
-      new Duration(0, TimeUnit.ELAPSED_PERCENT)
+      new Duration(0, TimeUnit.ELAPSED_HOURS),  
+      new Duration(0, TimeUnit.ELAPSED_DAYS),   
+      new Duration(0, TimeUnit.ELAPSED_WEEKS),  
+      new Duration(0, TimeUnit.ELAPSED_MONTHS), 
+      new Duration(0, TimeUnit.ELAPSED_YEARS),  
+      new Duration(0, TimeUnit.ELAPSED_PERCENT) 
    };
 }

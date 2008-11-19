@@ -36,29 +36,28 @@ public final class DateRange
     * @param startDate start date
     * @param endDate end date
     */
-   public DateRange (Date startDate, Date endDate)
+   public DateRange(Date startDate, Date endDate)
    {
       m_start = startDate;
       m_end = endDate;
    }
- 
+
    /**
     * Retrieve the date at the start of the range.
     *
     * @return start date
     */
-   public Date getStart ()
+   public Date getStart()
    {
       return (m_start);
    }
-
 
    /**
     * Retrieve the date at the end of the range.
     *
     * @return end date
     */
-   public Date getEnd ()
+   public Date getEnd()
    {
       return (m_end);
    }
@@ -66,14 +65,13 @@ public final class DateRange
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return("[DateRange start=" + m_start + " end=" + m_end + "]");
+      return ("[DateRange start=" + m_start + " end=" + m_end + "]");
    }
-   
-   public static final DateRange EMPTY_RANGE = new DateRange (null, null);
+
+   public static final DateRange EMPTY_RANGE = new DateRange(null, null);
 
    private Date m_start;
    private Date m_end;
 }
-

@@ -42,11 +42,10 @@ public enum ProjectTimeFormat implements MpxjEnum
     * 
     * @param type int version of the enum
     */
-   private ProjectTimeFormat (int type)
+   private ProjectTimeFormat(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -54,8 +53,8 @@ public enum ProjectTimeFormat implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ProjectTimeFormat getInstance (int type)
-   {      
+   public static ProjectTimeFormat getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = TWELVE_HOUR.getValue();
@@ -63,14 +62,13 @@ public enum ProjectTimeFormat implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static ProjectTimeFormat getInstance (Number type)
+   public static ProjectTimeFormat getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -84,13 +82,12 @@ public enum ProjectTimeFormat implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -101,7 +98,7 @@ public enum ProjectTimeFormat implements MpxjEnum
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (Integer.toString(m_value));
    }
@@ -111,13 +108,12 @@ public enum ProjectTimeFormat implements MpxjEnum
     */
    private static final ProjectTimeFormat[] TYPE_VALUES = new ProjectTimeFormat[2];
    static
-   {      
+   {
       for (ProjectTimeFormat e : EnumSet.range(ProjectTimeFormat.TWELVE_HOUR, ProjectTimeFormat.TWENTY_FOUR_HOUR))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

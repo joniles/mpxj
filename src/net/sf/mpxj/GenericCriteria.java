@@ -2,9 +2,9 @@
  * file:       GenericCriteria.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2006
- * date:       30-Oct-2006
+ * date:       30/10/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -37,31 +37,31 @@ public abstract class GenericCriteria
     * 
     * @param projectFile parent project file
     */
-   public GenericCriteria (ProjectFile projectFile)
+   public GenericCriteria(ProjectFile projectFile)
    {
       m_projectFile = projectFile;
    }
-         
+
    /**
     * Sets the field used as the LHS of the expression.
     * 
     * @param field field type
     */
-   public void setField (FieldType field)
+   public void setField(FieldType field)
    {
       m_field = field;
    }
-   
+
    /**
     * Retrieves the field used as the RHS of the expression.
     * 
     * @return field type
     */
-   public FieldType getField ()
+   public FieldType getField()
    {
       return (m_field);
    }
-   
+
    /**
     * Retrieve the operator used in the test.
     * 
@@ -71,7 +71,7 @@ public abstract class GenericCriteria
    {
       return m_operator;
    }
-   
+
    /**
     * Set the operator used in the test.
     * 
@@ -81,7 +81,7 @@ public abstract class GenericCriteria
    {
       m_operator = operator;
    }
-   
+
    /**
     * Add the value to list of values to be used as part of the
     * evaluation of this indicator.
@@ -89,26 +89,26 @@ public abstract class GenericCriteria
     * @param index position in the list
     * @param value evaluation value
     */
-   public void setValue (int index, Object value)
+   public void setValue(int index, Object value)
    {
       m_definedValues[index] = value;
-      
+
       if (value instanceof FieldType)
       {
-         m_symbolicValues = true;                  
+         m_symbolicValues = true;
       }
       else
       {
          if (value instanceof Duration)
          {
-            if (((Duration)value).getUnits() != TimeUnit.HOURS)
+            if (((Duration) value).getUnits() != TimeUnit.HOURS)
             {
-               value = ((Duration)value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+               value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
             }
          }
       }
-      
-      m_workingValues[index] = value;      
+
+      m_workingValues[index] = value;
    }
 
    /**
@@ -117,11 +117,10 @@ public abstract class GenericCriteria
     * @param index position in the list
     * @return first value
     */
-   public Object getValue (int index)
+   public Object getValue(int index)
    {
       return (m_definedValues[index]);
    }
-
 
    /**
     * Evaluate the criteria and return a boolean result.
@@ -129,7 +128,7 @@ public abstract class GenericCriteria
     * @param container field container
     * @return boolean flag
     */
-   protected boolean evaluateCriteria (FieldContainer container)
+   protected boolean evaluateCriteria(FieldContainer container)
    {
       //
       // Retrieve the LHS value
@@ -137,56 +136,56 @@ public abstract class GenericCriteria
       Object lhs = container.getCurrentValue(m_field);
       switch (m_field.getDataType())
       {
-         case DATE:
+         case DATE :
          {
             if (lhs != null)
             {
-               lhs = DateUtility.getDayStartDate((Date)lhs);
+               lhs = DateUtility.getDayStartDate((Date) lhs);
             }
             break;
          }
-         
-         case DURATION:
+
+         case DURATION :
          {
             if (lhs != null)
             {
-               Duration dur = (Duration)lhs;
+               Duration dur = (Duration) lhs;
                lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
             }
             break;
          }
-         
-         case STRING:
+
+         case STRING :
          {
-            lhs = lhs==null?"":lhs;
+            lhs = lhs == null ? "" : lhs;
             break;
          }
-         
-         default:
+
+         default :
          {
             break;
          }
       }
-      
+
       //
       // Retrieve the RHS values
       //
-      Object[] rhs;      
+      Object[] rhs;
       if (m_symbolicValues == true)
       {
-         rhs = processSymbolicValues (m_workingValues, container);
+         rhs = processSymbolicValues(m_workingValues, container);
       }
       else
       {
          rhs = m_workingValues;
       }
-      
+
       //
       // Evaluate
       //
       return (m_operator.evaluate(lhs, rhs));
    }
-   
+
    /**
     * This method is called to create a new list of values, converting from
     * any symbolic values (represented by FieldType instances) to actual
@@ -196,64 +195,64 @@ public abstract class GenericCriteria
     * @param container Task or Resource instance
     * @return new list of actual values
     */
-   private Object[] processSymbolicValues (Object[] oldValues, FieldContainer container)
+   private Object[] processSymbolicValues(Object[] oldValues, FieldContainer container)
    {
       Object[] newValues = new Object[2];
-      
-      for (int loop=0; loop < oldValues.length; loop++)
+
+      for (int loop = 0; loop < oldValues.length; loop++)
       {
          Object value = oldValues[loop];
          if (value == null)
          {
             continue;
          }
-         
+
          if (value instanceof FieldType)
          {
-            FieldType type = (FieldType)value;
+            FieldType type = (FieldType) value;
             value = container.getCachedValue(type);
-            
+
             switch (type.getDataType())
             {
-               case DATE:
+               case DATE :
                {
                   if (value != null)
                   {
-                     value = DateUtility.getDayStartDate((Date)value);
+                     value = DateUtility.getDayStartDate((Date) value);
                   }
                   break;
                }
 
-               case DURATION:
+               case DURATION :
                {
-                  if (value != null && ((Duration)value).getUnits() != TimeUnit.HOURS)
+                  if (value != null && ((Duration) value).getUnits() != TimeUnit.HOURS)
                   {
-                     value = ((Duration)value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+                     value = ((Duration) value).convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
                   }
                   break;
                }
-               
-               case STRING:
+
+               case STRING :
                {
-                  value = value==null?"":value;
+                  value = value == null ? "" : value;
                   break;
                }
-               
-               default:
+
+               default :
                {
                   break;
                }
             }
          }
-         newValues[loop]=value;
-      }      
+         newValues[loop] = value;
+      }
       return (newValues);
    }
-      
+
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[GenericCriteria");
@@ -269,7 +268,6 @@ public abstract class GenericCriteria
       sb.append("]");
       return (sb.toString());
    }
-   
 
    private ProjectFile m_projectFile;
    private FieldType m_field;

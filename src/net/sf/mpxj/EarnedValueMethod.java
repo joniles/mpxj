@@ -41,11 +41,10 @@ public enum EarnedValueMethod implements MpxjEnum
     * 
     * @param type int version of the enum
     */
-   private EarnedValueMethod (int type)
+   private EarnedValueMethod(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -53,8 +52,8 @@ public enum EarnedValueMethod implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static EarnedValueMethod getInstance (int type)
-   {      
+   public static EarnedValueMethod getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = PHYSICAL_PERCENT_COMPLETE.getValue();
@@ -62,14 +61,13 @@ public enum EarnedValueMethod implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static EarnedValueMethod getInstance (Number type)
+   public static EarnedValueMethod getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -83,30 +81,27 @@ public enum EarnedValueMethod implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final EarnedValueMethod[] TYPE_VALUES = new EarnedValueMethod[2];
    static
-   {      
+   {
       for (EarnedValueMethod e : EnumSet.range(EarnedValueMethod.PERCENT_COMPLETE, EarnedValueMethod.PHYSICAL_PERCENT_COMPLETE))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

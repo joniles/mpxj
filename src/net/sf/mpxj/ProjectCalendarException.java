@@ -39,7 +39,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     *
     * @return Date
     */
-   public Date getFromDate ()
+   public Date getFromDate()
    {
       return (m_fromDate);
    }
@@ -49,7 +49,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     *
     * @param from date
     */
-   public void setFromDate (Date from)
+   public void setFromDate(Date from)
    {
       m_fromDate = DateUtility.getDayStartDate(from);
    }
@@ -59,7 +59,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     *
     * @return Date
     */
-   public Date getToDate ()
+   public Date getToDate()
    {
       return (m_toDate);
    }
@@ -69,7 +69,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     *
     * @param to Date
     */
-   public void setToDate (Date to)
+   public void setToDate(Date to)
    {
       m_toDate = DateUtility.getDayEndDate(to);
    }
@@ -79,9 +79,9 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     *
     * @return boolean value
     */
-   public boolean getWorking ()
+   public boolean getWorking()
    {
-      return  (m_working);
+      return (m_working);
    }
 
    /**
@@ -89,11 +89,10 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     *
     * @param flag Boolean flag
     */
-   public void setWorking (boolean flag)
+   public void setWorking(boolean flag)
    {
       m_working = flag;
    }
-
 
    /**
     * This method determines whether the given date falls in the range of
@@ -103,7 +102,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
     * @param date Date to be tested
     * @return Boolean value
     */
-   public boolean contains (Date date)
+   public boolean contains(Date date)
    {
       boolean result = false;
 
@@ -114,11 +113,11 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
 
       return (result);
    }
-  
+
    /**
     * {@inheritDoc}
     */
-   public int compareTo (ProjectCalendarException o)
+   public int compareTo(ProjectCalendarException o)
    {
       long fromTime1 = m_fromDate.getTime();
       long fromTime2 = o.m_fromDate.getTime();
@@ -135,7 +134,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       sb.append(" working=" + m_working);
       sb.append(" fromDate=" + m_fromDate);
       sb.append(" toDate=" + m_toDate);
-      
+
       for (DateRange range : this)
       {
          sb.append(range.toString());
@@ -144,7 +143,7 @@ public final class ProjectCalendarException extends ProjectCalendarDateRanges im
       sb.append("]");
       return (sb.toString());
    }
-   
+
    private Date m_fromDate;
    private Date m_toDate;
    private boolean m_working;

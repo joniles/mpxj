@@ -24,10 +24,9 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This is the base class from which all classes representing records found
- * in an MPX file are derived. It contains common funciotnality and
+ * in an MPX file are derived. It contains common functionality and
  * attribute storage used by all of the derived classes.
  */
 class ProjectEntity
@@ -37,7 +36,7 @@ class ProjectEntity
     *
     * @param mpx Parent MPX file
     */
-   protected ProjectEntity (ProjectFile mpx)
+   protected ProjectEntity(ProjectFile mpx)
    {
       m_mpx = mpx;
    }
@@ -47,7 +46,7 @@ class ProjectEntity
     *
     * @return reference to this the parent ProjectFile instance
     */
-   public final ProjectFile getParentFile ()
+   public final ProjectFile getParentFile()
    {
       return (m_mpx);
    }

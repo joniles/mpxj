@@ -2,9 +2,9 @@
  * file:       GraphicalIndicator.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2005
- * date:       16-Feb-2006
+ * date:       16/02/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -45,15 +45,15 @@ public class GraphicalIndicator
     * @param container Task or Resource instance
     * @return indicator index
     */
-   public int evaluate (FieldContainer container)
+   public int evaluate(FieldContainer container)
    {
       //
       // First step - determine the list of criteria we are should use
       //
-      List<GraphicalIndicatorCriteria> criteria;      
+      List<GraphicalIndicatorCriteria> criteria;
       if (container instanceof Task)
       {
-         Task task = (Task)container;
+         Task task = (Task) container;
          if (NumberUtility.getInt(task.getUniqueID()) == 0)
          {
             if (m_projectSummaryInheritsFromSummaryRows == false)
@@ -97,7 +97,7 @@ public class GraphicalIndicator
          // I can't see how you can determine this.
          criteria = m_nonSummaryRowCriteria;
       }
-      
+
       //
       // Now we have the criteria, evaluate each one until we get a result
       //
@@ -110,7 +110,7 @@ public class GraphicalIndicator
             break;
          }
       }
-      
+
       //
       // If we still don't have a result at the end, return the
       // default value, which is 0
@@ -119,20 +119,20 @@ public class GraphicalIndicator
       {
          result = 0;
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Sets the field type to which this indicator applies.
     * 
     * @param fieldType field type
     */
-   public void setFieldType (FieldType fieldType)
+   public void setFieldType(FieldType fieldType)
    {
       m_fieldType = fieldType;
    }
-   
+
    /**
     * Retrieves the field type to which this indicator applies.
     * 
@@ -142,7 +142,7 @@ public class GraphicalIndicator
    {
       return (m_fieldType);
    }
-   
+
    /**
     * Retrieves a flag indicating if graphical indicators should be displayed
     * for this column, rather than the actual values.
@@ -164,7 +164,7 @@ public class GraphicalIndicator
    {
       m_displayGraphicalIndicators = displayGraphicalIndicators;
    }
-   
+
    /**
     * Retrieve the criteria to be applied to non-summary rows.
     * 
@@ -194,7 +194,7 @@ public class GraphicalIndicator
    {
       return m_summaryRowCriteria;
    }
-   
+
    /**
     * Retrieves a flag which indicates if the project summary row inherits
     * criteria from the summary row.
@@ -205,7 +205,7 @@ public class GraphicalIndicator
    {
       return (m_projectSummaryInheritsFromSummaryRows);
    }
-   
+
    /**
     * Sets a flag which indicates if the project summary row inherits
     * criteria from the summary row.
@@ -216,13 +216,13 @@ public class GraphicalIndicator
    {
       m_projectSummaryInheritsFromSummaryRows = projectSummaryInheritsFromSummaryRows;
    }
-   
+
    /**
     * Retrieves a flag which indicates if summary rows inherit
     * criteria from non-summary rows.
     * 
     * @return boolean flag
-    */   
+    */
    public boolean getSummaryRowsInheritFromNonSummaryRows()
    {
       return (m_summaryRowsInheritFromNonSummaryRows);
@@ -260,13 +260,13 @@ public class GraphicalIndicator
    {
       m_showDataValuesInToolTips = showDataValuesInToolTips;
    }
-   
+
    /**
     * Add criteria relating to non summary rows.
     * 
     * @param criteria indicator criteria
     */
-   public void addNonSummaryRowCriteria (GraphicalIndicatorCriteria criteria)
+   public void addNonSummaryRowCriteria(GraphicalIndicatorCriteria criteria)
    {
       m_nonSummaryRowCriteria.add(criteria);
    }
@@ -275,8 +275,8 @@ public class GraphicalIndicator
     * Add criteria relating to summary rows.
     * 
     * @param criteria indicator criteria
-    */   
-   public void addSummaryRowCriteria (GraphicalIndicatorCriteria criteria)
+    */
+   public void addSummaryRowCriteria(GraphicalIndicatorCriteria criteria)
    {
       m_summaryRowCriteria.add(criteria);
    }
@@ -285,19 +285,19 @@ public class GraphicalIndicator
     * Add criteria relating to project summary.
     * 
     * @param criteria indicator criteria
-    */   
-   public void addProjectSummaryCriteria (GraphicalIndicatorCriteria criteria)
+    */
+   public void addProjectSummaryCriteria(GraphicalIndicatorCriteria criteria)
    {
       m_projectSummaryCriteria.add(criteria);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
+      PrintWriter pw = new PrintWriter(os);
       pw.println("[GraphicalIndicator");
       pw.println(" FieldType=" + m_fieldType);
       pw.println(" DisplayGraphicalIndicators=" + m_displayGraphicalIndicators);
@@ -309,21 +309,21 @@ public class GraphicalIndicator
       {
          pw.println("  " + gi);
       }
-      pw.println(" SummaryRowCriteria=");      
-      for (GraphicalIndicatorCriteria gi :m_summaryRowCriteria)
+      pw.println(" SummaryRowCriteria=");
+      for (GraphicalIndicatorCriteria gi : m_summaryRowCriteria)
       {
          pw.println("  " + gi);
       }
-      pw.println(" ProjectSummaryCriteria=");      
-      for (GraphicalIndicatorCriteria gi :m_projectSummaryCriteria)
+      pw.println(" ProjectSummaryCriteria=");
+      for (GraphicalIndicatorCriteria gi : m_projectSummaryCriteria)
       {
          pw.println("  " + gi);
-      }      
+      }
       pw.println("]");
       pw.flush();
-      return (os.toString());     
+      return (os.toString());
    }
-      
+
    private FieldType m_fieldType;
    private boolean m_displayGraphicalIndicators;
    private boolean m_summaryRowsInheritFromNonSummaryRows;

@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
@@ -35,7 +34,7 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
     *
     * @param parentCalendar the parent calendar for this instance
     */
-   ProjectCalendarHours (ProjectCalendar parentCalendar)
+   ProjectCalendarHours(ProjectCalendar parentCalendar)
    {
       m_parentCalendar = parentCalendar;
    }
@@ -45,7 +44,7 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
     *
     * @return parent calendar
     */
-   public ProjectCalendar getParentCalendar ()
+   public ProjectCalendar getParentCalendar()
    {
       return (m_parentCalendar);
    }
@@ -55,7 +54,7 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
     *
     * @return day instance
     */
-   public Day getDay ()
+   public Day getDay()
    {
       return (m_day);
    }
@@ -65,7 +64,7 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
     *
     * @param d day instance
     */
-   public void setDay (Day d)
+   public void setDay(Day d)
    {
       if (m_day != null)
       {
@@ -76,11 +75,11 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
 
       m_parentCalendar.attachHoursToDay(this);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[ProjectCalendarHours ");
@@ -89,9 +88,9 @@ public final class ProjectCalendarHours extends ProjectCalendarDateRanges
          sb.append(range.toString());
       }
       sb.append("]");
-      return (sb.toString());               
+      return (sb.toString());
    }
-   
+
    private ProjectCalendar m_parentCalendar;
    private Day m_day;
 }

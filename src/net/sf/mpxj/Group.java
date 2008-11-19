@@ -2,7 +2,7 @@
  * file:       Group.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2007
- * date:       17 January, 2007
+ * date:       17/01/2007
  */
 
 /*
@@ -28,7 +28,6 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * This class represents the definition of the grouping used
  * to organise data in a view.
@@ -42,7 +41,7 @@ public final class Group
     * @param name group name
     * @param showSummaryTasks show summary tasks
     */
-   public Group (Integer id, String name, boolean showSummaryTasks)
+   public Group(Integer id, String name, boolean showSummaryTasks)
    {
       m_id = id;
       m_name = name;
@@ -58,7 +57,7 @@ public final class Group
    {
       return m_id;
    }
-   
+
    /**
     * Retrieve the group name.
     * 
@@ -68,7 +67,7 @@ public final class Group
    {
       return m_name;
    }
-   
+
    /**
     * Retrieve the show summary tasks flag.
     * 
@@ -84,28 +83,28 @@ public final class Group
     * 
     * @param clause group clause
     */
-   public void addGroupClause (GroupClause clause)
+   public void addGroupClause(GroupClause clause)
    {
       m_clauses.add(clause);
    }
-   
+
    /**
     * Retrieve a list of all clauses which define this group.
     * 
     * @return list of clauses
     */
-   public List<GroupClause> getGroupClauses ()
+   public List<GroupClause> getGroupClauses()
    {
       return (m_clauses);
    }
-   
+
    /**
     * {@inheritDoc}
     */
    @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
+      PrintWriter pw = new PrintWriter(os);
       pw.println("[Group ");
       pw.println(" id=" + m_id);
       pw.println(" name=" + m_name);
@@ -121,7 +120,7 @@ public final class Group
       return (os.toString());
 
    }
-   
+
    private Integer m_id;
    private String m_name;
    private boolean m_showSummaryTasks;

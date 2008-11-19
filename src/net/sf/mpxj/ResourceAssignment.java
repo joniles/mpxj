@@ -37,7 +37,7 @@ public final class ResourceAssignment extends ProjectEntity
     * @param file The parent file to which this record belongs.
     * @param task The task to which this assignment is being made
     */
-   ResourceAssignment (ProjectFile file, Task task)
+   ResourceAssignment(ProjectFile file, Task task)
    {
       super(file);
 
@@ -52,15 +52,14 @@ public final class ResourceAssignment extends ProjectEntity
     * @return ResourceAssignmentWorkgroupFields object
     * @throws MPXJException if MSP defined limit of 1 is exceeded
     */
-   public ResourceAssignmentWorkgroupFields addWorkgroupAssignment ()
-      throws MPXJException
+   public ResourceAssignmentWorkgroupFields addWorkgroupAssignment() throws MPXJException
    {
       if (m_workgroup != null)
       {
-         throw new MPXJException (MPXJException.MAXIMUM_RECORDS);
+         throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
       }
 
-      m_workgroup = new ResourceAssignmentWorkgroupFields ();
+      m_workgroup = new ResourceAssignmentWorkgroupFields();
 
       return (m_workgroup);
    }
@@ -70,7 +69,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return units
     */
-   public Number getUnits ()
+   public Number getUnits()
    {
       return (m_units);
    }
@@ -80,7 +79,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val units
     */
-   public void setUnits (Number val)
+   public void setUnits(Number val)
    {
       m_units = val;
    }
@@ -90,7 +89,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return work
     */
-   public Duration getWork ()
+   public Duration getWork()
    {
       return (m_work);
    }
@@ -100,7 +99,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param dur work
     */
-   public void setWork (Duration dur)
+   public void setWork(Duration dur)
    {
       m_work = dur;
    }
@@ -110,7 +109,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return planned work
     */
-   public Duration getPlannedWork ()
+   public Duration getPlannedWork()
    {
       return (m_plannedWork);
    }
@@ -120,7 +119,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param dur planned work
     */
-   public void setPlannedWork (Duration dur)
+   public void setPlannedWork(Duration dur)
    {
       m_plannedWork = dur;
    }
@@ -130,7 +129,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return completed work
     */
-   public Duration getActualWork ()
+   public Duration getActualWork()
    {
       return (m_actualWork);
    }
@@ -140,7 +139,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param dur actual completed work
     */
-   public void setActualWork (Duration dur)
+   public void setActualWork(Duration dur)
    {
       m_actualWork = dur;
    }
@@ -150,7 +149,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return overtime work
     */
-   public Duration getOvertimeWork ()
+   public Duration getOvertimeWork()
    {
       return (m_overtimeWork);
    }
@@ -160,7 +159,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param dur overtime work
     */
-   public void setOvertimeWork (Duration dur)
+   public void setOvertimeWork(Duration dur)
    {
       m_overtimeWork = dur;
    }
@@ -170,7 +169,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return cost
     */
-   public Number getCost ()
+   public Number getCost()
    {
       return (m_cost);
    }
@@ -180,7 +179,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val cost
     */
-   public void setCost (Number val)
+   public void setCost(Number val)
    {
       m_cost = val;
    }
@@ -190,7 +189,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return planned cost
     */
-   public Number getPlannedCost ()
+   public Number getPlannedCost()
    {
       return (m_plannedCost);
    }
@@ -200,7 +199,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val planned cost
     */
-   public void setPlannedCost (Number val)
+   public void setPlannedCost(Number val)
    {
       m_plannedCost = val;
    }
@@ -210,7 +209,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return actual cost
     */
-   public Number getActualCost ()
+   public Number getActualCost()
    {
       return (m_actualCost);
    }
@@ -220,7 +219,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val actual cost
     */
-   public void setActualCost (Number val)
+   public void setActualCost(Number val)
    {
       m_actualCost = val;
    }
@@ -230,7 +229,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return start date
     */
-   public Date getStart ()
+   public Date getStart()
    {
       return (m_start);
    }
@@ -240,7 +239,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val start date
     */
-   public void setStart (Date val)
+   public void setStart(Date val)
    {
       m_start = val;
    }
@@ -250,7 +249,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return finish date
     */
-   public Date getFinish ()
+   public Date getFinish()
    {
       return (m_finish);
    }
@@ -260,7 +259,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val finish date
     */
-   public void setFinish (Date val)
+   public void setFinish(Date val)
    {
       m_finish = val;
    }
@@ -270,7 +269,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return delay
     */
-   public Duration getDelay ()
+   public Duration getDelay()
    {
       return (m_delay);
    }
@@ -280,7 +279,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param dur delay
     */
-   public void setDelay (Duration dur)
+   public void setDelay(Duration dur)
    {
       m_delay = dur;
    }
@@ -290,7 +289,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return resources unique id
     */
-   public Integer getResourceUniqueID ()
+   public Integer getResourceUniqueID()
    {
       return (m_resourceUniqueID);
    }
@@ -300,7 +299,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val resources unique id
     */
-   public void setResourceUniqueID (Integer val)
+   public void setResourceUniqueID(Integer val)
    {
       if (val != null)
       {
@@ -313,7 +312,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return workgroup assignment object
     */
-   public ResourceAssignmentWorkgroupFields getWorkgroupAssignment ()
+   public ResourceAssignmentWorkgroupFields getWorkgroupAssignment()
    {
       return (m_workgroup);
    }
@@ -324,7 +323,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return task
     */
-   public Task getTask ()
+   public Task getTask()
    {
       return (m_task);
    }
@@ -335,7 +334,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return resource
     */
-   public Resource getResource ()
+   public Resource getResource()
    {
       return (getParentFile().getResourceByUniqueID(getResourceUniqueID()));
    }
@@ -363,7 +362,7 @@ public final class ResourceAssignment extends ProjectEntity
    /**
     * Removes this resource assignment from the project.
     */
-   public void remove ()
+   public void remove()
    {
       getParentFile().removeResourceAssignment(this);
    }
@@ -373,7 +372,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return remaining work
     */
-   public Duration getRemainingWork ()
+   public Duration getRemainingWork()
    {
       return (m_remainingWork);
    }
@@ -383,7 +382,7 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param remainingWork remaining work
     */
-   public void setRemainingWork (Duration remainingWork)
+   public void setRemainingWork(Duration remainingWork)
    {
       m_remainingWork = remainingWork;
    }
@@ -391,11 +390,11 @@ public final class ResourceAssignment extends ProjectEntity
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + getResource().getName() + " start=" + m_start + " finish=" + m_finish +" duration=" + m_work + " workContour=" + m_workContour + "]");
+      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + getResource().getName() + " start=" + m_start + " finish=" + m_finish + " duration=" + m_work + " workContour=" + m_workContour + "]");
    }
-   
+
    private Number m_units;
    private Duration m_work;
    private Duration m_plannedWork;
@@ -437,5 +436,5 @@ public final class ResourceAssignment extends ProjectEntity
    /**
     * Default units value: 100%.
     */
-   public static final Double DEFAULT_UNITS = Double.valueOf (100);
+   public static final Double DEFAULT_UNITS = Double.valueOf(100);
 }

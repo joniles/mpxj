@@ -24,7 +24,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * Standard exception type thrown by the MPXJ library.
  */
@@ -35,9 +34,9 @@ public final class MPXJException extends Exception
     *
     * @param message message
     */
-   public MPXJException (String message)
+   public MPXJException(String message)
    {
-      super (message);
+      super(message);
    }
 
    /**
@@ -47,9 +46,9 @@ public final class MPXJException extends Exception
     * @param message message
     * @param exception original exception
     */
-   public MPXJException (String message, Exception exception)
+   public MPXJException(String message, Exception exception)
    {
-      super (message, exception);
+      super(message, exception);
    }
 
    /**

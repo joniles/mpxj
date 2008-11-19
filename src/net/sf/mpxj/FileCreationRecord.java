@@ -24,8 +24,6 @@
 
 package net.sf.mpxj;
 
-
-
 /**
  * This class represents the first record to appear in an MPX file. This record
  * identifies the file type, version number, originating software and the
@@ -38,13 +36,13 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @param file the parent file to which this record belongs.
     */
-   FileCreationRecord (ProjectFile file)
+   FileCreationRecord(ProjectFile file)
    {
       super(file);
 
-      setDelimiter (',');
-      setProgramName ("Microsoft Project for Windows");
-      setCodePage (CodePage.ANSI);
+      setDelimiter(',');
+      setProgramName("Microsoft Project for Windows");
+      setCodePage(CodePage.ANSI);
       setFileVersion(FileVersion.VERSION_4_0);
    }
 
@@ -53,7 +51,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @param delimiter delimiter character
     */
-   public void setDelimiter (char delimiter)
+   public void setDelimiter(char delimiter)
    {
       m_delimiter = delimiter;
       getParentFile().setDelimiter(m_delimiter);
@@ -64,7 +62,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @return delimiter character
     */
-   public char getDelimiter ()
+   public char getDelimiter()
    {
       return (m_delimiter);
    }
@@ -74,7 +72,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @param programName system name
     */
-   public void setProgramName (String programName)
+   public void setProgramName(String programName)
    {
       m_programName = programName;
    }
@@ -84,7 +82,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @return program name
     */
-   public String getProgramName ()
+   public String getProgramName()
    {
       return (m_programName);
    }
@@ -94,7 +92,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @param version MPX file version
     */
-   public void setFileVersion (FileVersion version)
+   public void setFileVersion(FileVersion version)
    {
       m_fileVersion = version;
    }
@@ -104,7 +102,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @return MPX file version
     */
-   public FileVersion getFileVersion ()
+   public FileVersion getFileVersion()
    {
       return (m_fileVersion);
    }
@@ -114,7 +112,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @param codePage code page type
     */
-   public void setCodePage (CodePage codePage)
+   public void setCodePage(CodePage codePage)
    {
       m_codePage = codePage;
    }
@@ -124,7 +122,7 @@ public final class FileCreationRecord extends ProjectEntity
     *
     * @return code page type
     */
-   public CodePage getCodePage ()
+   public CodePage getCodePage()
    {
       return (m_codePage);
    }

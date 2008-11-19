@@ -25,7 +25,6 @@ package net.sf.mpxj;
 
 import net.sf.mpxj.listener.FieldListener;
 
-
 /**
  * This interface is implemented by the Task and Resource classes. It
  * defines the common methods used to set and retrieve field values
@@ -40,7 +39,7 @@ public interface FieldContainer
     * @param value field value
     */
    public void set(FieldType field, Object value);
-   
+
    /**
     * Retrieve a field value. Use the cached value. Do not attempt to
     * calculate a value if the cached value is null.
@@ -64,12 +63,12 @@ public interface FieldContainer
     * 
     * @param listener target listener
     */
-   public void addFieldListener (FieldListener listener);
-   
+   public void addFieldListener(FieldListener listener);
+
    /**
     * Remove a listener.
     * 
     * @param listener target listener
     */
-   public void removeFieldListener (FieldListener listener);
+   public void removeFieldListener(FieldListener listener);
 }

@@ -48,12 +48,11 @@ public enum RelationType implements MpxjEnum
     * @param type int version of the enum
     * @param name enum name
     */
-   private RelationType (int type, String name)
-   {   
+   private RelationType(int type, String name)
+   {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -61,8 +60,8 @@ public enum RelationType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static RelationType getInstance (int type)
-   {      
+   public static RelationType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = FINISH_START.getValue();
@@ -70,14 +69,13 @@ public enum RelationType implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static RelationType getInstance (Number type)
+   public static RelationType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -91,13 +89,12 @@ public enum RelationType implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -105,7 +102,7 @@ public enum RelationType implements MpxjEnum
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (m_name);
    }
@@ -115,13 +112,12 @@ public enum RelationType implements MpxjEnum
     */
    private static final RelationType[] TYPE_VALUES = new RelationType[4];
    static
-   {      
+   {
       for (RelationType e : EnumSet.range(RelationType.FINISH_FINISH, RelationType.START_START))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

@@ -2,7 +2,7 @@
  * file:       GroupClause.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2007
- * date:       17 January, 2007
+ * date:       17/01/2007
  */
 
 /*
@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import net.sf.mpxj.mpp.ColorType;
 import net.sf.mpxj.mpp.FontStyle;
 
-
 /**
  * This class represents a clause from a definition of a group.
  */
@@ -42,7 +41,7 @@ public final class GroupClause
    {
       return m_ascending;
    }
-   
+
    /**
     * Sets a flag indicating that values are grouped
     * in ascending order.
@@ -53,9 +52,9 @@ public final class GroupClause
    {
       m_ascending = ascending;
    }
-   
+
    /**
-    * Retrives the background color.
+    * Retrieves the background color.
     * 
     * @return background color
     */
@@ -63,7 +62,7 @@ public final class GroupClause
    {
       return m_cellBackgroundColor;
    }
-   
+
    /**
     * Sets the background color.
     * 
@@ -73,7 +72,7 @@ public final class GroupClause
    {
       m_cellBackgroundColor = color;
    }
-   
+
    /**
     * Retrieve the grouping field.
     * 
@@ -83,7 +82,7 @@ public final class GroupClause
    {
       return m_field;
    }
-   
+
    /**
     * Set the grouping field.
     * 
@@ -93,7 +92,7 @@ public final class GroupClause
    {
       m_field = field;
    }
-   
+
    /**
     * Retrieve the font.
     * 
@@ -103,7 +102,7 @@ public final class GroupClause
    {
       return m_font;
    }
-   
+
    /**
     * Retrieve the font.
     * 
@@ -113,7 +112,7 @@ public final class GroupClause
    {
       m_font = font;
    }
-   
+
    /**
     * Retrieve the group interval.
     * 
@@ -123,7 +122,7 @@ public final class GroupClause
    {
       return m_groupInterval;
    }
-   
+
    /**
     * Sets the group interval.
     * 
@@ -133,7 +132,7 @@ public final class GroupClause
    {
       m_groupInterval = groupInterval;
    }
-   
+
    /**
     * Retrieves the group on value.
     * 
@@ -143,7 +142,7 @@ public final class GroupClause
    {
       return m_groupOn;
    }
-   
+
    /**
     * Sets the group on value.
     * 
@@ -153,7 +152,7 @@ public final class GroupClause
    {
       m_groupOn = groupOn;
    }
-   
+
    /**
     * Retrieves the pattern.
     * 
@@ -163,7 +162,7 @@ public final class GroupClause
    {
       return m_pattern;
    }
-   
+
    /**
     * Sets the pattern.
     * 
@@ -173,7 +172,7 @@ public final class GroupClause
    {
       m_pattern = pattern;
    }
-   
+
    /**
     * Retrieves the "start at" value.
     * 
@@ -183,7 +182,7 @@ public final class GroupClause
    {
       return m_startAt;
    }
-   
+
    /**
     * Sets the "start at" value.
     * 
@@ -197,7 +196,7 @@ public final class GroupClause
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[GroupClause field=");
@@ -218,13 +217,13 @@ public final class GroupClause
       sb.append(m_groupInterval);
       return (sb.toString());
    }
-   
+
    private FieldType m_field;
    private boolean m_ascending;
    private FontStyle m_font;
    private ColorType m_cellBackgroundColor;
    private int m_pattern;
-   private int m_groupOn; // can we do this as an enumeration?
+   private int m_groupOn; // TODO can we do this as an enumeration?
    private Object m_startAt;
    private Object m_groupInterval;
 }

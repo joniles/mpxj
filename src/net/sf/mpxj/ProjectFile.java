@@ -36,8 +36,6 @@ import net.sf.mpxj.listener.ProjectListener;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
-
-
 /**
  * This class represents a project plan.
  */
@@ -48,7 +46,7 @@ public final class ProjectFile
     *
     * @return delimiter character
     */
-   public char getDelimiter ()
+   public char getDelimiter()
    {
       return (m_delimiter);
    }
@@ -58,7 +56,7 @@ public final class ProjectFile
     *
     * @param delimiter delimiter character
     */
-   public void setDelimiter (char delimiter)
+   public void setDelimiter(char delimiter)
    {
       m_delimiter = delimiter;
    }
@@ -69,7 +67,7 @@ public final class ProjectFile
     *
     * @param task task created as a child of another task
     */
-   void addTask (Task task)
+   void addTask(Task task)
    {
       m_allTasks.add(task);
    }
@@ -79,9 +77,9 @@ public final class ProjectFile
     *
     * @return new task object
     */
-   public Task addTask ()
+   public Task addTask()
    {
-      Task task = new Task(this, (Task)null);
+      Task task = new Task(this, (Task) null);
       m_allTasks.add(task);
       m_childTasks.add(task);
       return (task);
@@ -92,7 +90,7 @@ public final class ProjectFile
     *
     * @param task task to be removed
     */
-   public void removeTask (Task task)
+   public void removeTask(Task task)
    {
       //
       // Remove the task from the file and its parent task
@@ -104,7 +102,7 @@ public final class ProjectFile
       Task parentTask = task.getParentTask();
       if (parentTask != null)
       {
-         parentTask.removeChildTask (task);
+         parentTask.removeChildTask(task);
       }
       else
       {
@@ -148,7 +146,7 @@ public final class ProjectFile
     * project, if the ID values have gaps in the sequence, there will
     * be blank task rows shown.
     */
-   public void synchronizeTaskIDs ()
+   public void synchronizeTaskIDs()
    {
       if (m_allTasks.isEmpty() == false)
       {
@@ -175,7 +173,7 @@ public final class ProjectFile
     * project, if the ID values have gaps in the sequence, there will
     * be blank resource rows shown.
     */
-   public void synchronizeResourceIDs ()
+   public void synchronizeResourceIDs()
    {
       if (m_allResources.isEmpty() == false)
       {
@@ -195,7 +193,7 @@ public final class ProjectFile
     *
     * @return list of tasks
     */
-   public List<Task> getChildTasks ()
+   public List<Task> getChildTasks()
    {
       return (m_childTasks);
    }
@@ -206,7 +204,7 @@ public final class ProjectFile
     *
     * @return list of all tasks
     */
-   public List<Task> getAllTasks ()
+   public List<Task> getAllTasks()
    {
       return (m_allTasks);
    }
@@ -216,7 +214,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic WBS required.
     */
-   public void setAutoWBS (boolean flag)
+   public void setAutoWBS(boolean flag)
    {
       m_autoWBS = flag;
    }
@@ -226,7 +224,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic outline level required.
     */
-   public void setAutoOutlineLevel (boolean flag)
+   public void setAutoOutlineLevel(boolean flag)
    {
       m_autoOutlineLevel = flag;
    }
@@ -236,7 +234,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic outline number required.
     */
-   public void setAutoOutlineNumber (boolean flag)
+   public void setAutoOutlineNumber(boolean flag)
    {
       m_autoOutlineNumber = flag;
    }
@@ -246,7 +244,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic unique ID required.
     */
-   public void setAutoTaskUniqueID (boolean flag)
+   public void setAutoTaskUniqueID(boolean flag)
    {
       m_autoTaskUniqueID = flag;
    }
@@ -256,7 +254,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic unique ID required.
     */
-   public void setAutoCalendarUniqueID (boolean flag)
+   public void setAutoCalendarUniqueID(boolean flag)
    {
       m_autoCalendarUniqueID = flag;
    }
@@ -266,7 +264,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic ID required.
     */
-   public void setAutoTaskID (boolean flag)
+   public void setAutoTaskID(boolean flag)
    {
       m_autoTaskID = flag;
    }
@@ -277,7 +275,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoWBS ()
+   public boolean getAutoWBS()
    {
       return (m_autoWBS);
    }
@@ -288,7 +286,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoOutlineLevel ()
+   public boolean getAutoOutlineLevel()
    {
       return (m_autoOutlineLevel);
    }
@@ -299,7 +297,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoOutlineNumber ()
+   public boolean getAutoOutlineNumber()
    {
       return (m_autoOutlineNumber);
    }
@@ -310,7 +308,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoTaskUniqueID ()
+   public boolean getAutoTaskUniqueID()
    {
       return (m_autoTaskUniqueID);
    }
@@ -321,7 +319,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoCalendarUniqueID ()
+   public boolean getAutoCalendarUniqueID()
    {
       return (m_autoCalendarUniqueID);
    }
@@ -332,7 +330,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoTaskID ()
+   public boolean getAutoTaskID()
    {
       return (m_autoTaskID);
    }
@@ -342,7 +340,7 @@ public final class ProjectFile
     *
     * @return next unique ID
     */
-   public int getTaskUniqueID ()
+   public int getTaskUniqueID()
    {
       return (++m_taskUniqueID);
    }
@@ -352,7 +350,7 @@ public final class ProjectFile
     *
     * @return next unique ID
     */
-   int getCalendarUniqueID ()
+   int getCalendarUniqueID()
    {
       return (++m_calendarUniqueID);
    }
@@ -362,7 +360,7 @@ public final class ProjectFile
     *
     * @return next ID
     */
-   public int getTaskID ()
+   public int getTaskID()
    {
       return (++m_taskID);
    }
@@ -372,7 +370,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic unique ID required.
     */
-   public void setAutoResourceUniqueID (boolean flag)
+   public void setAutoResourceUniqueID(boolean flag)
    {
       m_autoResourceUniqueID = flag;
    }
@@ -382,7 +380,7 @@ public final class ProjectFile
     *
     * @param flag true if automatic ID required.
     */
-   public void setAutoResourceID (boolean flag)
+   public void setAutoResourceID(boolean flag)
    {
       m_autoResourceID = flag;
    }
@@ -393,7 +391,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoResourceUniqueID ()
+   public boolean getAutoResourceUniqueID()
    {
       return (m_autoResourceUniqueID);
    }
@@ -404,7 +402,7 @@ public final class ProjectFile
     *
     * @return boolean, default is false.
     */
-   public boolean getAutoResourceID ()
+   public boolean getAutoResourceID()
    {
       return (m_autoResourceID);
    }
@@ -414,7 +412,7 @@ public final class ProjectFile
     *
     * @return next unique ID
     */
-   public int getResourceUniqueID ()
+   public int getResourceUniqueID()
    {
       return (++m_resourceUniqueID);
    }
@@ -424,7 +422,7 @@ public final class ProjectFile
     *
     * @return next ID
     */
-   public int getResourceID ()
+   public int getResourceID()
    {
       return (++m_resourceID);
    }
@@ -434,7 +432,7 @@ public final class ProjectFile
     *
     * @return file creation record.
     */
-   public FileCreationRecord getFileCreationRecord ()
+   public FileCreationRecord getFileCreationRecord()
    {
       return (m_fileCreationRecord);
    }
@@ -445,7 +443,7 @@ public final class ProjectFile
     *
     * @return new ProjectCalendar instance
     */
-   public ProjectCalendar addResourceCalendar ()
+   public ProjectCalendar addResourceCalendar()
    {
       ProjectCalendar calendar = new ProjectCalendar(this);
       m_resourceCalendars.add(calendar);
@@ -457,7 +455,7 @@ public final class ProjectFile
     *
     * @return new base calendar object
     */
-   public ProjectCalendar addBaseCalendar ()
+   public ProjectCalendar addBaseCalendar()
    {
       ProjectCalendar calendar = new ProjectCalendar(this);
       m_baseCalendars.add(calendar);
@@ -469,21 +467,22 @@ public final class ProjectFile
     *
     * @param calendar calendar to be removed
     */
-   public void removeCalendar (ProjectCalendar calendar)
+   public void removeCalendar(ProjectCalendar calendar)
    {
       if (m_baseCalendars.contains(calendar))
       {
          m_baseCalendars.remove(calendar);
       }
-      else if (m_resourceCalendars.contains(calendar))
-      {
-         m_resourceCalendars.remove(calendar);
-         Resource resource = calendar.getResource();
-         if (resource != null)
+      else
+         if (m_resourceCalendars.contains(calendar))
          {
-        	 resource.setResourceCalendar(null);
+            m_resourceCalendars.remove(calendar);
+            Resource resource = calendar.getResource();
+            if (resource != null)
+            {
+               resource.setResourceCalendar(null);
+            }
          }
-      }      
       calendar.setBaseCalendar(null);
    }
 
@@ -494,10 +493,10 @@ public final class ProjectFile
     *
     * @return a new default base calendar
     */
-   public ProjectCalendar addDefaultBaseCalendar ()
+   public ProjectCalendar addDefaultBaseCalendar()
    {
       ProjectCalendar calendar = addBaseCalendar();
-      
+
       calendar.setName(ProjectCalendar.DEFAULT_BASE_CALENDAR_NAME);
 
       calendar.setWorkingDay(Day.SUNDAY, false);
@@ -521,7 +520,7 @@ public final class ProjectFile
     *
     * @return new ProjectCalendar instance
     */
-   public ProjectCalendar getDefaultResourceCalendar ()
+   public ProjectCalendar getDefaultResourceCalendar()
    {
       ProjectCalendar calendar = new ProjectCalendar(this);
 
@@ -542,7 +541,7 @@ public final class ProjectFile
     *
     * @return list of base calendars
     */
-   public List<ProjectCalendar> getBaseCalendars ()
+   public List<ProjectCalendar> getBaseCalendars()
    {
       return (m_baseCalendars);
    }
@@ -553,7 +552,7 @@ public final class ProjectFile
     *
     * @return list of resource calendars
     */
-   public List<ProjectCalendar> getResourceCalendars ()
+   public List<ProjectCalendar> getResourceCalendars()
    {
       return (m_resourceCalendars);
    }
@@ -563,7 +562,7 @@ public final class ProjectFile
     *
     * @return project header object
     */
-   public ProjectHeader getProjectHeader ()
+   public ProjectHeader getProjectHeader()
    {
       return (m_projectHeader);
    }
@@ -573,7 +572,7 @@ public final class ProjectFile
     *
     * @return new resource object
     */
-   public Resource addResource ()
+   public Resource addResource()
    {
       Resource resource = new Resource(this);
       m_allResources.add(resource);
@@ -585,7 +584,7 @@ public final class ProjectFile
     *
     * @param resource resource to be removed
     */
-   public void removeResource (Resource resource)
+   public void removeResource(Resource resource)
    {
       m_allResources.remove(resource);
       m_resourceUniqueIDMap.remove(resource.getUniqueID());
@@ -616,7 +615,7 @@ public final class ProjectFile
     *
     * @return list of all resources
     */
-   public List<Resource> getAllResources ()
+   public List<Resource> getAllResources()
    {
       return (m_allResources);
    }
@@ -627,7 +626,7 @@ public final class ProjectFile
     *
     * @return list of all resources
     */
-   public List<ResourceAssignment> getAllResourceAssignments ()
+   public List<ResourceAssignment> getAllResourceAssignments()
    {
       return (m_allResourceAssignments);
    }
@@ -638,7 +637,7 @@ public final class ProjectFile
     *
     * @param assignment Resource assignment created as part of a task
     */
-   void addResourceAssignment (ResourceAssignment assignment)
+   void addResourceAssignment(ResourceAssignment assignment)
    {
       m_allResourceAssignments.add(assignment);
    }
@@ -649,7 +648,7 @@ public final class ProjectFile
     *
     * @param assignment resource assignment to remove
     */
-   void removeResourceAssignment (ResourceAssignment assignment)
+   void removeResourceAssignment(ResourceAssignment assignment)
    {
       m_allResourceAssignments.remove(assignment);
       assignment.getTask().removeResourceAssignment(assignment);
@@ -663,7 +662,7 @@ public final class ProjectFile
     * @param task parent task
     * @return new resource assignment instance
     */
-   public ResourceAssignment newResourceAssignment (Task task)
+   public ResourceAssignment newResourceAssignment(Task task)
    {
       return (new ResourceAssignment(this, task));
    }
@@ -675,7 +674,7 @@ public final class ProjectFile
     * @param calendarName name of the required base calendar
     * @return base calendar object
     */
-   public ProjectCalendar getBaseCalendar (String calendarName)
+   public ProjectCalendar getBaseCalendar(String calendarName)
    {
       ProjectCalendar calendar = null;
 
@@ -707,7 +706,7 @@ public final class ProjectFile
     * @param calendarID calendar unique ID
     * @return ProjectCalendar instance
     */
-   public ProjectCalendar getBaseCalendarByUniqueID (Integer calendarID)
+   public ProjectCalendar getBaseCalendarByUniqueID(Integer calendarID)
    {
       return (m_calendarUniqueIDMap.get(calendarID));
    }
@@ -719,7 +718,7 @@ public final class ProjectFile
     *
     * @return Number of child tasks
     */
-   int getChildTaskCount ()
+   int getChildTaskCount()
    {
       return (m_childTasks.size());
    }
@@ -735,8 +734,7 @@ public final class ProjectFile
     * @return new Duration object
     * @throws MPXJException normally when no Standard calendar is available
     */
-   public Duration getDuration (Date startDate, Date endDate)
-      throws MPXJException
+   public Duration getDuration(Date startDate, Date endDate) throws MPXJException
    {
       return (getDuration("Standard", startDate, endDate));
    }
@@ -752,8 +750,7 @@ public final class ProjectFile
     * @return new Duration object
     * @throws MPXJException normally when no Standard calendar is available
     */
-   public Duration getDuration (String calendarName, Date startDate, Date endDate)
-      throws MPXJException
+   public Duration getDuration(String calendarName, Date startDate, Date endDate) throws MPXJException
    {
       ProjectCalendar calendar = getBaseCalendar(calendarName);
 
@@ -772,7 +769,7 @@ public final class ProjectFile
     * @param id task identified
     * @return the requested task, or null if not found
     */
-   public Task getTaskByID (Integer id)
+   public Task getTaskByID(Integer id)
    {
       return (m_taskIDMap.get(id));
    }
@@ -784,7 +781,7 @@ public final class ProjectFile
     * @param id task identified
     * @return the requested task, or null if not found
     */
-   public Task getTaskByUniqueID (Integer id)
+   public Task getTaskByUniqueID(Integer id)
    {
       return (m_taskUniqueIDMap.get(id));
    }
@@ -796,7 +793,7 @@ public final class ProjectFile
     * @param id resource identified
     * @return the requested resource, or null if not found
     */
-   public Resource getResourceByID (Integer id)
+   public Resource getResourceByID(Integer id)
    {
       return (m_resourceIDMap.get(id));
    }
@@ -808,7 +805,7 @@ public final class ProjectFile
     * @param id resource identified
     * @return the requested resource, or null if not found
     */
-   public Resource getResourceByUniqueID (Integer id)
+   public Resource getResourceByUniqueID(Integer id)
    {
       return (m_resourceUniqueIDMap.get(id));
    }
@@ -819,7 +816,7 @@ public final class ProjectFile
     * then iterates through it creating the parent-child structure defined
     * by the outline level field.
     */
-   public void updateStructure ()
+   public void updateStructure()
    {
       if (m_allTasks.size() > 1)
       {
@@ -836,8 +833,7 @@ public final class ProjectFile
             if (!task.getNull())
             {
                int level = NumberUtility.getInt(task.getOutlineLevel());
-               
-   
+
                if (lastTask != null)
                {
                   if (level == lastLevel || task.getNull())
@@ -856,33 +852,33 @@ public final class ProjectFile
                         while (level <= lastLevel)
                         {
                            parent = lastTask.getParentTask();
-   
+
                            if (parent == null)
                            {
                               break;
                            }
-   
+
                            lastLevel = NumberUtility.getInt(parent.getOutlineLevel());
                            lastTask = parent;
                         }
                      }
                   }
                }
-   
+
                lastTask = task;
                lastLevel = level;
-   
+
                if (getAutoWBS() == true)
                {
                   task.generateWBS(parent);
                }
-   
+
                if (getAutoOutlineNumber() == true)
                {
                   task.generateOutlineNumber(parent);
                }
             }
-            
+
             if (parent == null)
             {
                m_childTasks.add(task);
@@ -900,12 +896,12 @@ public final class ProjectFile
     * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
     */
-   public void updateUniqueCounters ()
+   public void updateUniqueCounters()
    {
       //
       // Update task unique IDs
       //
-      for(Task task : m_allTasks)
+      for (Task task : m_allTasks)
       {
          int uniqueID = NumberUtility.getInt(task.getUniqueID());
          if (uniqueID > m_taskUniqueID)
@@ -917,7 +913,7 @@ public final class ProjectFile
       //
       // Update resource unique IDs
       //
-      for(Resource resource : m_allResources)
+      for (Resource resource : m_allResources)
       {
          int uniqueID = NumberUtility.getInt(resource.getUniqueID());
          if (uniqueID > m_resourceUniqueID)
@@ -929,7 +925,7 @@ public final class ProjectFile
       //
       // Update base calendar unique IDs
       //
-      for(ProjectCalendar calendar : m_baseCalendars)
+      for (ProjectCalendar calendar : m_baseCalendars)
       {
          int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
@@ -941,7 +937,7 @@ public final class ProjectFile
       //
       // Update resource calendar unique IDs
       //
-      for(ProjectCalendar calendar : m_resourceCalendars)
+      for (ProjectCalendar calendar : m_resourceCalendars)
       {
          int uniqueID = NumberUtility.getInt(calendar.getUniqueID());
          if (uniqueID > m_calendarUniqueID)
@@ -957,9 +953,9 @@ public final class ProjectFile
     *
     * @return start date
     */
-   public Date getStartDate ()
+   public Date getStartDate()
    {
-      Date startDate = null;     
+      Date startDate = null;
 
       for (Task task : m_allTasks)
       {
@@ -1020,7 +1016,7 @@ public final class ProjectFile
     *
     * @return finish date
     */
-   public Date getFinishDate ()
+   public Date getFinishDate()
    {
       Date finishDate = null;
 
@@ -1069,7 +1065,7 @@ public final class ProjectFile
     *
     * @param task task instance
     */
-   public void fireTaskReadEvent (Task task)
+   public void fireTaskReadEvent(Task task)
    {
       if (m_projectListeners != null)
       {
@@ -1086,7 +1082,7 @@ public final class ProjectFile
     *
     * @param task task instance
     */
-   public void fireTaskWrittenEvent (Task task)
+   public void fireTaskWrittenEvent(Task task)
    {
       if (m_projectListeners != null)
       {
@@ -1103,7 +1099,7 @@ public final class ProjectFile
     *
     * @param resource resource instance
     */
-   public void fireResourceReadEvent (Resource resource)
+   public void fireResourceReadEvent(Resource resource)
    {
       if (m_projectListeners != null)
       {
@@ -1120,7 +1116,7 @@ public final class ProjectFile
     *
     * @param resource resource instance
     */
-   public void fireResourceWrittenEvent (Resource resource)
+   public void fireResourceWrittenEvent(Resource resource)
    {
       if (m_projectListeners != null)
       {
@@ -1136,7 +1132,7 @@ public final class ProjectFile
     *
     * @param listener listener instance
     */
-   public void addProjectListener (ProjectListener listener)
+   public void addProjectListener(ProjectListener listener)
    {
       if (m_projectListeners == null)
       {
@@ -1150,7 +1146,7 @@ public final class ProjectFile
     *
     * @param listener listener instance
     */
-   public void removeProjectListener (ProjectListener listener)
+   public void removeProjectListener(ProjectListener listener)
    {
       if (m_projectListeners != null)
       {
@@ -1164,7 +1160,7 @@ public final class ProjectFile
     * @param field custom field number
     * @param alias alias text
     */
-   public void setTaskFieldAlias (TaskField field, String alias)
+   public void setTaskFieldAlias(TaskField field, String alias)
    {
       if ((alias != null) && (alias.length() != 0))
       {
@@ -1181,7 +1177,7 @@ public final class ProjectFile
     * @param field task field instance
     * @return alias text
     */
-   public String getTaskFieldAlias (TaskField field)
+   public String getTaskFieldAlias(TaskField field)
    {
       return (m_taskFieldAlias.get(field));
    }
@@ -1193,7 +1189,7 @@ public final class ProjectFile
     * @param alias alias text
     * @return task field instance
     */
-   public TaskField getAliasTaskField (String alias)
+   public TaskField getAliasTaskField(String alias)
    {
       return (m_aliasTaskField.get(alias));
    }
@@ -1204,11 +1200,11 @@ public final class ProjectFile
     * @param field custom field number
     * @param values values for the value list
     */
-   public void setTaskFieldValueList (TaskField field, List<Object> values)
+   public void setTaskFieldValueList(TaskField field, List<Object> values)
    {
       if ((values != null) && (values.size() != 0))
       {
-    	 m_taskFieldValueList.put(field, values);
+         m_taskFieldValueList.put(field, values);
       }
    }
 
@@ -1220,7 +1216,7 @@ public final class ProjectFile
     * @param field task field instance
     * @return alias text
     */
-   public List<Object> getTaskFieldValueList (TaskField field)
+   public List<Object> getTaskFieldValueList(TaskField field)
    {
       return m_taskFieldValueList.get(field);
    }
@@ -1231,11 +1227,11 @@ public final class ProjectFile
     * @param field custom field number
     * @param descriptions descriptions for the value list
     */
-   public void setTaskFieldDescriptionList (TaskField field, List<String> descriptions)
+   public void setTaskFieldDescriptionList(TaskField field, List<String> descriptions)
    {
       if ((descriptions != null) && (descriptions.size() != 0))
       {
-    	  m_taskFieldDescriptionList.put(field, descriptions);
+         m_taskFieldDescriptionList.put(field, descriptions);
       }
    }
 
@@ -1247,7 +1243,7 @@ public final class ProjectFile
     * @param field task field instance
     * @return alias text
     */
-   public List<String> getTaskFieldDescriptionList (TaskField field)
+   public List<String> getTaskFieldDescriptionList(TaskField field)
    {
       return m_taskFieldDescriptionList.get(field);
    }
@@ -1258,7 +1254,7 @@ public final class ProjectFile
     * @param field custom field number
     * @param alias alias text
     */
-   public void setResourceFieldAlias (ResourceField field, String alias)
+   public void setResourceFieldAlias(ResourceField field, String alias)
    {
       if ((alias != null) && (alias.length() != 0))
       {
@@ -1275,7 +1271,7 @@ public final class ProjectFile
     * @param field field number
     * @return alias text
     */
-   public String getResourceFieldAlias (ResourceField field)
+   public String getResourceFieldAlias(ResourceField field)
    {
       return (m_resourceFieldAlias.get(field));
    }
@@ -1287,7 +1283,7 @@ public final class ProjectFile
     * @param alias alias text
     * @return resource field instance
     */
-   public ResourceField getAliasResourceField (String alias)
+   public ResourceField getAliasResourceField(String alias)
    {
       return (m_aliasResourceField.get(alias));
    }
@@ -1298,7 +1294,7 @@ public final class ProjectFile
     *
     * @return task field to alias map
     */
-   public Map<TaskField, String> getTaskFieldAliasMap ()
+   public Map<TaskField, String> getTaskFieldAliasMap()
    {
       return (m_taskFieldAlias);
    }
@@ -1309,7 +1305,7 @@ public final class ProjectFile
     *
     * @return resource field to alias map
     */
-   public Map<ResourceField, String> getResourceFieldAliasMap ()
+   public Map<ResourceField, String> getResourceFieldAliasMap()
    {
       return (m_resourceFieldAlias);
    }
@@ -1319,7 +1315,7 @@ public final class ProjectFile
     *
     * @param id task unique ID
     */
-   void unmapTaskUniqueID (Integer id)
+   void unmapTaskUniqueID(Integer id)
    {
       m_taskUniqueIDMap.remove(id);
    }
@@ -1330,7 +1326,7 @@ public final class ProjectFile
     * @param id task unique ID
     * @param task task instance
     */
-   void mapTaskUniqueID (Integer id, Task task)
+   void mapTaskUniqueID(Integer id, Task task)
    {
       m_taskUniqueIDMap.put(id, task);
    }
@@ -1340,7 +1336,7 @@ public final class ProjectFile
     *
     * @param id task ID
     */
-   void unmapTaskID (Integer id)
+   void unmapTaskID(Integer id)
    {
       m_taskIDMap.remove(id);
    }
@@ -1351,7 +1347,7 @@ public final class ProjectFile
     * @param id task ID
     * @param task task instance
     */
-   void mapTaskID (Integer id, Task task)
+   void mapTaskID(Integer id, Task task)
    {
       m_taskIDMap.put(id, task);
    }
@@ -1361,7 +1357,7 @@ public final class ProjectFile
     *
     * @param id resource unique ID
     */
-   void unmapResourceUniqueID (Integer id)
+   void unmapResourceUniqueID(Integer id)
    {
       m_resourceUniqueIDMap.remove(id);
    }
@@ -1372,7 +1368,7 @@ public final class ProjectFile
     * @param id resource unique ID
     * @param resource resource instance
     */
-   void mapResourceUniqueID (Integer id, Resource resource)
+   void mapResourceUniqueID(Integer id, Resource resource)
    {
       m_resourceUniqueIDMap.put(id, resource);
    }
@@ -1382,7 +1378,7 @@ public final class ProjectFile
     *
     * @param id resource ID
     */
-   void unmapResourceID (Integer id)
+   void unmapResourceID(Integer id)
    {
       m_resourceIDMap.remove(id);
    }
@@ -1393,18 +1389,17 @@ public final class ProjectFile
     * @param id resource ID
     * @param resource resource instance
     */
-   void mapResourceID (Integer id, Resource resource)
+   void mapResourceID(Integer id, Resource resource)
    {
       m_resourceIDMap.put(id, resource);
    }
 
-   
    /**
     * Removes an id-to-calendar mapping.
     *
     * @param id calendar unique ID
     */
-   void unmapCalendarUniqueID (Integer id)
+   void unmapCalendarUniqueID(Integer id)
    {
       m_calendarUniqueIDMap.remove(id);
    }
@@ -1415,12 +1410,11 @@ public final class ProjectFile
     * @param id calendar unique ID
     * @param calendar calendar instance
     */
-   void mapCalendarUniqueID (Integer id, ProjectCalendar calendar)
+   void mapCalendarUniqueID(Integer id, ProjectCalendar calendar)
    {
       m_calendarUniqueIDMap.put(id, calendar);
    }
 
-   
    /**
     * This method retrieves a value representing the type of MPP file
     * that has been read. Currently this method will return the value 8 for
@@ -1439,7 +1433,7 @@ public final class ProjectFile
     *
     * @param fileType file type
     */
-   public void setMppFileType (int fileType)
+   public void setMppFileType(int fileType)
    {
       m_mppFileType = fileType;
    }
@@ -1449,7 +1443,7 @@ public final class ProjectFile
     *
     * @param view view data
     */
-   public void addView (View view)
+   public void addView(View view)
    {
       m_views.add(view);
    }
@@ -1459,7 +1453,7 @@ public final class ProjectFile
     *
     * @return list of views
     */
-   public List<View> getViews ()
+   public List<View> getViews()
    {
       return (m_views);
    }
@@ -1469,7 +1463,7 @@ public final class ProjectFile
     *
     * @param table table data
     */
-   public void addTable (Table table)
+   public void addTable(Table table)
    {
       m_tables.add(table);
       if (table.getResourceFlag() == false)
@@ -1487,7 +1481,7 @@ public final class ProjectFile
     *
     * @return list of tables
     */
-   public List<Table> getTables ()
+   public List<Table> getTables()
    {
       return (m_tables);
    }
@@ -1497,31 +1491,31 @@ public final class ProjectFile
     * 
     * @param filter filter definition
     */
-   public void addFilter (Filter filter)
+   public void addFilter(Filter filter)
    {
       if (filter.isTaskFilter())
       {
          m_taskFilters.add(filter);
       }
-      
+
       if (filter.isResourceFilter())
       {
          m_resourceFilters.add(filter);
       }
-      
+
       m_filtersByName.put(filter.getName(), filter);
       m_filtersByID.put(filter.getID(), filter);
    }
-   
+
    /**
     * Removes a filter from this project file.
     *
     * @param filterName The name of the filter
     */
-   public void removeFilter (String filterName)
+   public void removeFilter(String filterName)
    {
       Filter filter = getFilterByName(filterName);
-      if (filter != null) 
+      if (filter != null)
       {
          if (filter.isTaskFilter())
          {
@@ -1536,34 +1530,34 @@ public final class ProjectFile
          m_filtersByID.remove(filter.getID());
       }
    }
-   
+
    /**
     * Retrieves a list of all resource filters.
     * 
     * @return list of all resource filters
     */
-   public List<Filter> getAllResourceFilters ()
+   public List<Filter> getAllResourceFilters()
    {
       return (m_resourceFilters);
    }
-   
+
    /**
     * Retrieves a list of all task filters.
     * 
     * @return list of all task filters
     */
-   public List<Filter> getAllTaskFilters ()
+   public List<Filter> getAllTaskFilters()
    {
       return (m_taskFilters);
    }
-   
+
    /**
     * Retrieve a given filter by name.
     * 
     * @param name filter name
     * @return filter instance
     */
-   public Filter getFilterByName (String name)
+   public Filter getFilterByName(String name)
    {
       return (m_filtersByName.get(name));
    }
@@ -1574,7 +1568,7 @@ public final class ProjectFile
     * @param id filter ID
     * @return filter instance
     */
-   public Filter getFilterByID (Integer id)
+   public Filter getFilterByID(Integer id)
    {
       return (m_filtersByID.get(id));
    }
@@ -1584,18 +1578,18 @@ public final class ProjectFile
     * 
     * @return list of all groups
     */
-   public List<Group> getAllGroups ()
+   public List<Group> getAllGroups()
    {
       return (m_groups);
    }
-      
+
    /**
     * Retrieve a given group by name.
     * 
     * @param name group name
     * @return Group instance
     */
-   public Group getGroupByName (String name)
+   public Group getGroupByName(String name)
    {
       return (m_groupsByName.get(name));
    }
@@ -1605,12 +1599,12 @@ public final class ProjectFile
     * 
     * @param group group definition
     */
-   public void addGroup (Group group)
+   public void addGroup(Group group)
    {
       m_groups.add(group);
       m_groupsByName.put(group.getName(), group);
    }
-   
+
    /**
     * Adds the definition of a graphical indicator for a field type.
     * 
@@ -1621,7 +1615,7 @@ public final class ProjectFile
    {
       m_graphicalIndicators.put(field, indicator);
    }
-   
+
    /**
     * Retrieves the definition of any graphical indicators used for the
     * given field type.
@@ -1629,11 +1623,11 @@ public final class ProjectFile
     * @param field field type
     * @return graphical indicator definition
     */
-   public GraphicalIndicator getGraphicalIndicator (FieldType field)
+   public GraphicalIndicator getGraphicalIndicator(FieldType field)
    {
       return (m_graphicalIndicators.get(field));
    }
-   
+
    /**
     * Utility method to retrieve the definition of a task table by name.
     * This method will return null if the table name is not recognised.
@@ -1641,7 +1635,7 @@ public final class ProjectFile
     * @param name table name
     * @return table instance
     */
-   public Table getTaskTableByName (String name)
+   public Table getTaskTableByName(String name)
    {
       return (m_taskTablesByName.get(name));
    }
@@ -1653,7 +1647,7 @@ public final class ProjectFile
     * @param name table name
     * @return table instance
     */
-   public Table getResourceTableByName (String name)
+   public Table getResourceTableByName(String name)
    {
       return (m_resourceTablesByName.get(name));
    }
@@ -1663,7 +1657,7 @@ public final class ProjectFile
     *
     * @param project sub project
     */
-   public void setResourceSubProject (SubProject project)
+   public void setResourceSubProject(SubProject project)
    {
       m_resourceSubProject = project;
    }
@@ -1673,7 +1667,7 @@ public final class ProjectFile
     *
     * @return sub project details
     */
-   public SubProject getResourceSubProject ()
+   public SubProject getResourceSubProject()
    {
       return (m_resourceSubProject);
    }
@@ -1683,7 +1677,7 @@ public final class ProjectFile
     *
     * @param project sub project
     */
-   public void addSubProject (SubProject project)
+   public void addSubProject(SubProject project)
    {
       m_allSubProjects.add(project);
    }
@@ -1693,7 +1687,7 @@ public final class ProjectFile
     *
     * @return all sub project details
     */
-   public List<SubProject> getAllSubProjects ()
+   public List<SubProject> getAllSubProjects()
    {
       return (m_allSubProjects);
    }
@@ -1703,96 +1697,96 @@ public final class ProjectFile
     * 
     * @return auto filter flag
     */
-   public boolean getAutoFilter ()
+   public boolean getAutoFilter()
    {
       return (m_autoFilter);
    }
-   
+
    /**
     * Sets a flag indicating if auto filter is enabled.
     * 
     * @param autoFilter boolean flag
     */
-   public void setAutoFilter (boolean autoFilter)
+   public void setAutoFilter(boolean autoFilter)
    {
       m_autoFilter = autoFilter;
    }
-   
+
    /**
     * Set the saved view state associated with this file.
     * 
     * @param viewState view state
     */
-   public void setViewState (ViewState viewState)
+   public void setViewState(ViewState viewState)
    {
       m_viewState = viewState;
    }
-   
+
    /**
     * Retrieve the saved view state associated with this file.
     * 
     * @return view state
     */
-   public ViewState getViewState ()
+   public ViewState getViewState()
    {
       return (m_viewState);
    }
-   
+
    /**
     * Set whether the data in this file is encoded.
     * 
     * @param encoded True if the data is encoded in the file
     */
-   public void setEncoded (boolean encoded)
+   public void setEncoded(boolean encoded)
    {
       m_encoded = encoded;
    }
-   
+
    /**
     * Get whether the data in this file is encoded.
     * 
     * @return encoded
     */
-   public boolean getEncoded ()
+   public boolean getEncoded()
    {
       return (m_encoded);
    }
-   
+
    /**
     * Set the key with which this data is encrypted (can be decrypted) with.
     * 
     * @param encryptionKey Encryption key
     */
-   public void setEncryptionCode (byte encryptionKey)
+   public void setEncryptionCode(byte encryptionKey)
    {
-	   if (encryptionKey != 0x00)
-	   {
-		   m_encryptionKey = (byte)(0xFF - encryptionKey);
-	   }
-	   else
-	   {
-		   m_encryptionKey = (byte)0x00;
-	   }
+      if (encryptionKey != 0x00)
+      {
+         m_encryptionKey = (byte) (0xFF - encryptionKey);
+      }
+      else
+      {
+         m_encryptionKey = (byte) 0x00;
+      }
    }
-   
+
    /**
     * Get the key with which this data is encrypted (can be decrypted) with.
     * 
     * @return m_encryptionKey
     */
-   public byte getEncryptionCode ()
+   public byte getEncryptionCode()
    {
       return (m_encryptionKey);
    }
-   
+
    /**
     * Sets the project file path.
     *
     * @param projectFilePath project file path
     */
-   public void setProjectFilePath (String projectFilePath)
+   public void setProjectFilePath(String projectFilePath)
    {
-	   m_projectFilePath = projectFilePath;
+      m_projectFilePath = projectFilePath;
    }
 
    /**
@@ -1800,11 +1794,11 @@ public final class ProjectFile
     *
     * @return project file path
     */
-   public String getProjectFilePath ()
+   public String getProjectFilePath()
    {
       return (m_projectFilePath);
    }
-   
+
    /**
     * Add a custom field value list item.
     * 
@@ -1812,9 +1806,9 @@ public final class ProjectFile
     */
    public void addCustomFieldValueItem(CustomFieldValueItem item)
    {
-	   m_customFieldValueItems.put(item.getUniqueID(), item);
+      m_customFieldValueItems.put(item.getUniqueID(), item);
    }
-   
+
    /**
     * Get the custom field value list item with the given unique ID.
     * 
@@ -1823,11 +1817,11 @@ public final class ProjectFile
     */
    public CustomFieldValueItem getCustomFieldValueItem(Integer uniqueID)
    {
-	   return m_customFieldValueItems.get(uniqueID);
+      return m_customFieldValueItems.get(uniqueID);
    }
-   
+
    private String m_projectFilePath;
-   
+
    /**
     * Counter used to populate the unique ID field of a task.
     */
@@ -1906,7 +1900,7 @@ public final class ProjectFile
     * Key with which this data is encrypted (can be decrypted) with.
     */
    private byte m_encryptionKey;
-   
+
    /**
     * Indicating whether the project data is encoded due to password protection.
     */
@@ -2014,7 +2008,7 @@ public final class ProjectFile
     * Maps from a calendar unique ID to a calendar instance.
     */
    private Map<Integer, ProjectCalendar> m_calendarUniqueIDMap = new HashMap<Integer, ProjectCalendar>();
-   
+
    /**
     * List of project event listeners.
     */
@@ -2040,7 +2034,7 @@ public final class ProjectFile
     * Map of graphical indicator data.
     */
    private Map<FieldType, GraphicalIndicator> m_graphicalIndicators = new HashMap<FieldType, GraphicalIndicator>();
-   
+
    /**
     * Index of task tables by name.
     */
@@ -2075,33 +2069,33 @@ public final class ProjectFile
     * List of all groups.
     */
    private List<Group> m_groups = new ArrayList<Group>();
-   
+
    /**
     * Index of groups by name.
     */
    private Map<String, Group> m_groupsByName = new HashMap<String, Group>();
-   
+
    /**
     * Resource sub project.
     */
    private SubProject m_resourceSubProject;
-   
+
    /**
     * This list holds a reference to all subprojects defined in the
     * MPX file.
     */
    private List<SubProject> m_allSubProjects = new LinkedList<SubProject>();
-   
+
    /**
     * Flag indicating if auto filter is enabled.
     */
    private boolean m_autoFilter;
-   
+
    /**
     * Saved view state.
     */
    private ViewState m_viewState;
-   
+
    /***
     * Custom field value list items.
     */

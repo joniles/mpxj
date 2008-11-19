@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedResourceAssignment;
 
@@ -41,11 +43,13 @@ final class TimephasedResourceAssignmentFactory
     * Given a block of data representing completed work, this method will
     * retrieve a set of TimephasedResourceAssignment instances which represent
     * the day by day work carried out for a specific resource assignment.
-    * 
+    *
+    * @param calendar calendar on which date calculations are based
+    * @param startDate assignment start date 
     * @param data completed work data block
     * @return list of TimephasedResourceAssignment instances
     */
-   public List<TimephasedResourceAssignment> getCompleteWork(byte[] data)
+   public List<TimephasedResourceAssignment> getCompleteWork(ProjectCalendar calendar, Date startDate, byte[] data)
    {
       LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
 
@@ -105,12 +109,14 @@ final class TimephasedResourceAssignmentFactory
     * Given a block of data representing planned work, this method will
     * retrieve a set of TimephasedResourceAssignment instances which represent
     * the day by day work planned for a specific resource assignment.
-    * 
+    *
+    * @param calendar calendar on which date calculations are based
+    * @param startDate assignment start date 
     * @param data planned work data block
     * @param timephasedComplete list of complete work 
     * @return list of TimephasedResourceAssignment instances 
     */
-   public List<TimephasedResourceAssignment> getPlannedWork(byte[] data, List<TimephasedResourceAssignment> timephasedComplete)
+   public List<TimephasedResourceAssignment> getPlannedWork(ProjectCalendar calendar, Date startDate, byte[] data, List<TimephasedResourceAssignment> timephasedComplete)
    {
       LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
 
@@ -135,7 +141,7 @@ final class TimephasedResourceAssignmentFactory
                assignment.setModified(false);
                assignment.setFinishWork(finishWork);
                assignment.setTotalWork(totalWork);
-               list.add(assignment);
+               list.add(assignment);               
             }
          }
          else
@@ -178,7 +184,7 @@ final class TimephasedResourceAssignmentFactory
                assignment.setModified(modified);
                assignment.setTotalWork(totalWork);
                list.add(assignment);
-   
+
                if (previousAssignment != null)
                {
                   previousAssignment.setFinishWork(startWork);   

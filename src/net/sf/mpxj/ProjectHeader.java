@@ -28,7 +28,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-
 /**
  * This class represents the ProjectHeader record as found in an MPX
  * file. This record contains details of global settings relevant to the
@@ -42,9 +41,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param file the parent file to which this record belongs.
     */
-   ProjectHeader (ProjectFile file)
+   ProjectHeader(ProjectFile file)
    {
-      super (file);
+      super(file);
 
       //
       // Configure Date Time Settings and Currency Settings Records
@@ -57,7 +56,7 @@ public final class ProjectHeader extends ProjectEntity
 
       setDateOrder(DateOrder.DMY);
       setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setIntegerDefaultStartTime (Integer.valueOf(480));
+      setIntegerDefaultStartTime(Integer.valueOf(480));
       setDateSeparator('/');
       setTimeSeparator(':');
       setAMText("am");
@@ -140,7 +139,7 @@ public final class ProjectHeader extends ProjectEntity
     * @return int constant
     * @see TimeUnit
     */
-   public TimeUnit getDefaultDurationUnits ()
+   public TimeUnit getDefaultDurationUnits()
    {
       return (m_defaultDurationUnits);
    }
@@ -152,7 +151,7 @@ public final class ProjectHeader extends ProjectEntity
     * @param units default time units
     * @see TimeUnit
     */
-   public void setDefaultDurationUnits (TimeUnit units)
+   public void setDefaultDurationUnits(TimeUnit units)
    {
       m_defaultDurationUnits = units;
    }
@@ -162,7 +161,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return boolean flag
     */
-   public boolean getDefaultDurationIsFixed ()
+   public boolean getDefaultDurationIsFixed()
    {
       return (m_defaultDurationIsFixed);
    }
@@ -172,7 +171,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param fixed boolean flag
     */
-   public void setDefaultDurationIsFixed (boolean fixed)
+   public void setDefaultDurationIsFixed(boolean fixed)
    {
       m_defaultDurationIsFixed = fixed;
    }
@@ -184,7 +183,7 @@ public final class ProjectHeader extends ProjectEntity
     * @return int representing default
     * @see TimeUnit
     */
-   public TimeUnit getDefaultWorkUnits ()
+   public TimeUnit getDefaultWorkUnits()
    {
       return (m_defaultWorkUnits);
    }
@@ -196,7 +195,7 @@ public final class ProjectHeader extends ProjectEntity
     * @param units  int representing default
     * @see TimeUnit
     */
-   public void setDefaultWorkUnits (TimeUnit units)
+   public void setDefaultWorkUnits(TimeUnit units)
    {
       m_defaultWorkUnits = units;
    }
@@ -206,7 +205,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return default standard rate
     */
-   public Rate getDefaultStandardRate ()
+   public Rate getDefaultStandardRate()
    {
       return (m_defaultStandardRate);
    }
@@ -216,7 +215,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param rate default standard rate
     */
-   public void setDefaultStandardRate (Rate rate)
+   public void setDefaultStandardRate(Rate rate)
    {
       m_defaultStandardRate = rate;
    }
@@ -226,7 +225,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return rate
     */
-   public Rate getDefaultOvertimeRate ()
+   public Rate getDefaultOvertimeRate()
    {
       return (m_defaultOvertimeRate);
    }
@@ -236,7 +235,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param rate default overtime rate
     */
-   public void setDefaultOvertimeRate (Rate rate)
+   public void setDefaultOvertimeRate(Rate rate)
    {
       m_defaultOvertimeRate = rate;
    }
@@ -246,7 +245,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return boolean flag
     */
-   public boolean getUpdatingTaskStatusUpdatesResourceStatus ()
+   public boolean getUpdatingTaskStatusUpdatesResourceStatus()
    {
       return (m_updatingTaskStatusUpdatesResourceStatus);
    }
@@ -256,7 +255,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param flag boolean flag
     */
-   public void setUpdatingTaskStatusUpdatesResourceStatus (boolean flag)
+   public void setUpdatingTaskStatusUpdatesResourceStatus(boolean flag)
    {
       m_updatingTaskStatusUpdatesResourceStatus = flag;
    }
@@ -266,7 +265,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Boolean value
     */
-   public boolean getSplitInProgressTasks ()
+   public boolean getSplitInProgressTasks()
    {
       return (m_splitInProgressTasks);
    }
@@ -276,7 +275,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param flag boolean value
     */
-   public void setSplitInProgressTasks (boolean flag)
+   public void setSplitInProgressTasks(boolean flag)
    {
       m_splitInProgressTasks = flag;
    }
@@ -286,7 +285,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return constant value for date order
     */
-   public DateOrder getDateOrder ()
+   public DateOrder getDateOrder()
    {
       return (m_dateOrder);
    }
@@ -296,7 +295,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param dateOrder date order value
     */
-   public void setDateOrder (DateOrder dateOrder)
+   public void setDateOrder(DateOrder dateOrder)
    {
       m_dateOrder = dateOrder;
    }
@@ -306,7 +305,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return time format constant
     */
-   public ProjectTimeFormat getTimeFormat ()
+   public ProjectTimeFormat getTimeFormat()
    {
       return (m_timeFormat);
    }
@@ -316,7 +315,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param timeFormat constant value
     */
-   public void setTimeFormat (ProjectTimeFormat timeFormat)
+   public void setTimeFormat(ProjectTimeFormat timeFormat)
    {
       m_timeFormat = timeFormat;
    }
@@ -328,7 +327,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param time integer representing the start time in minutes past midnight
     */
-   public void setIntegerDefaultStartTime (Integer time)
+   public void setIntegerDefaultStartTime(Integer time)
    {
       if (time != null)
       {
@@ -355,7 +354,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return default start time
     */
-   public Date getDefaultStartTime ()
+   public Date getDefaultStartTime()
    {
       return (m_defaultStartTime);
    }
@@ -368,7 +367,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param defaultStartTime default time
     */
-   public void setDefaultStartTime (Date defaultStartTime)
+   public void setDefaultStartTime(Date defaultStartTime)
    {
       m_defaultStartTime = defaultStartTime;
    }
@@ -378,7 +377,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return date separator as set.
     */
-   public char getDateSeparator ()
+   public char getDateSeparator()
    {
       return (m_dateSeparator);
    }
@@ -388,7 +387,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param dateSeparator date separator as set.
     */
-   public void setDateSeparator (char dateSeparator)
+   public void setDateSeparator(char dateSeparator)
    {
       m_dateSeparator = dateSeparator;
    }
@@ -398,7 +397,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return time separator as set.
     */
-   public char getTimeSeparator ()
+   public char getTimeSeparator()
    {
       return (m_timeSeparator);
    }
@@ -408,7 +407,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param timeSeparator time separator
     */
-   public void setTimeSeparator (char timeSeparator)
+   public void setTimeSeparator(char timeSeparator)
    {
       m_timeSeparator = timeSeparator;
    }
@@ -418,9 +417,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param timeSeparator time separator
     */
-   public void setTimeSeparator (Character timeSeparator)
+   public void setTimeSeparator(Character timeSeparator)
    {
-      setTimeSeparator ((timeSeparator==null?DEFAULT_TIME_SEPARATOR:timeSeparator.charValue()));
+      setTimeSeparator((timeSeparator == null ? DEFAULT_TIME_SEPARATOR : timeSeparator.charValue()));
    }
 
    /**
@@ -428,7 +427,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return AM Text as set.
     */
-   public String getAMText ()
+   public String getAMText()
    {
       return (m_amText);
    }
@@ -438,7 +437,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param amText AM Text as set.
     */
-   public void setAMText (String amText)
+   public void setAMText(String amText)
    {
       m_amText = amText;
    }
@@ -448,7 +447,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return PM Text as set.
     */
-   public String getPMText ()
+   public String getPMText()
    {
       return (m_pmText);
    }
@@ -458,7 +457,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param pmText PM Text as set.
     */
-   public void setPMText (String pmText)
+   public void setPMText(String pmText)
    {
       m_pmText = pmText;
    }
@@ -468,7 +467,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return int representing Date Format
     */
-   public ProjectDateFormat getDateFormat ()
+   public ProjectDateFormat getDateFormat()
    {
       return (m_dateFormat);
    }
@@ -478,7 +477,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param dateFormat int representing Date Format
     */
-   public void setDateFormat (ProjectDateFormat dateFormat)
+   public void setDateFormat(ProjectDateFormat dateFormat)
    {
       m_dateFormat = dateFormat;
    }
@@ -488,7 +487,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return int value
     */
-   public ProjectDateFormat getBarTextDateFormat ()
+   public ProjectDateFormat getBarTextDateFormat()
    {
       return (m_barTextDateFormat);
    }
@@ -498,7 +497,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param dateFormat value to be set
     */
-   public void setBarTextDateFormat (ProjectDateFormat dateFormat)
+   public void setBarTextDateFormat(ProjectDateFormat dateFormat)
    {
       m_barTextDateFormat = dateFormat;
    }
@@ -508,7 +507,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return End time
     */
-   public Date getDefaultEndTime ()
+   public Date getDefaultEndTime()
    {
       return (m_defaultEndTime);
    }
@@ -518,7 +517,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param date End time
     */
-   public void setDefaultEndTime (Date date)
+   public void setDefaultEndTime(Date date)
    {
       m_defaultEndTime = date;
    }
@@ -528,7 +527,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param projectTitle project title
     */
-   public void setProjectTitle (String projectTitle)
+   public void setProjectTitle(String projectTitle)
    {
       m_projectTitle = projectTitle;
    }
@@ -538,7 +537,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project title
     */
-   public String getProjectTitle ()
+   public String getProjectTitle()
    {
       return (m_projectTitle);
    }
@@ -548,7 +547,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param company company name
     */
-   public void setCompany (String company)
+   public void setCompany(String company)
    {
       m_company = company;
    }
@@ -558,7 +557,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return company name
     */
-   public String getCompany ()
+   public String getCompany()
    {
       return (m_company);
    }
@@ -568,7 +567,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param manager manager name
     */
-   public void setManager (String manager)
+   public void setManager(String manager)
    {
       m_manager = manager;
    }
@@ -578,7 +577,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return manager name
     */
-   public String getManager ()
+   public String getManager()
    {
       return (m_manager);
    }
@@ -588,7 +587,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param calendarName Calendar name
     */
-   public void setCalendarName (String calendarName)
+   public void setCalendarName(String calendarName)
    {
       if (calendarName == null || calendarName.length() == 0)
       {
@@ -603,7 +602,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Calendar name
     */
-   public String getCalendarName ()
+   public String getCalendarName()
    {
       return (m_calendarName);
    }
@@ -613,7 +612,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param startDate project start date
     */
-   public void setStartDate (Date startDate)
+   public void setStartDate(Date startDate)
    {
       m_startDate = startDate;
    }
@@ -625,7 +624,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project start date
     */
-   public Date getStartDate ()
+   public Date getStartDate()
    {
       Date result = m_startDate;
       if (result == null)
@@ -642,7 +641,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Finish Date
     */
-   public Date getFinishDate ()
+   public Date getFinishDate()
    {
       Date result = m_finishDate;
       if (result == null)
@@ -657,7 +656,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param finishDate project finish date
     */
-   public void setFinishDate (Date finishDate)
+   public void setFinishDate(Date finishDate)
    {
       m_finishDate = finishDate;
    }
@@ -668,7 +667,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return schedule from flag
     */
-   public ScheduleFrom getScheduleFrom ()
+   public ScheduleFrom getScheduleFrom()
    {
       return (m_scheduleFrom);
    }
@@ -679,7 +678,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param scheduleFrom schedule from value
     */
-   public void setScheduleFrom (ScheduleFrom scheduleFrom)
+   public void setScheduleFrom(ScheduleFrom scheduleFrom)
    {
       m_scheduleFrom = scheduleFrom;
    }
@@ -699,7 +698,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param currentDate current date
     */
-   public void setCurrentDate (Date currentDate)
+   public void setCurrentDate(Date currentDate)
    {
       m_currentDate = currentDate;
    }
@@ -709,7 +708,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return comments attached to the Project Header
     */
-   public String getComments ()
+   public String getComments()
    {
       return (m_comments);
    }
@@ -719,7 +718,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param comments comment text
     */
-   public void setComments (String comments)
+   public void setComments(String comments)
    {
       m_comments = comments;
    }
@@ -729,7 +728,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project cost
     */
-   public Number getCost ()
+   public Number getCost()
    {
       return (m_cost);
    }
@@ -739,7 +738,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param cost project cost
     */
-   public void setCost (Number cost)
+   public void setCost(Number cost)
    {
       m_cost = cost;
    }
@@ -749,7 +748,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param baselineCost baseline project cost
     */
-   public void setBaselineCost (Number baselineCost)
+   public void setBaselineCost(Number baselineCost)
    {
       m_baselineCost = baselineCost;
    }
@@ -759,7 +758,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return baseline project cost
     */
-   public Number getBaselineCost ()
+   public Number getBaselineCost()
    {
       return (m_baselineCost);
    }
@@ -769,7 +768,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param actualCost actual project cost
     */
-   public void setActualCost (Number actualCost)
+   public void setActualCost(Number actualCost)
    {
       m_actualCost = actualCost;
    }
@@ -779,7 +778,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return actual project cost
     */
-   public Number getActualCost ()
+   public Number getActualCost()
    {
       return (m_actualCost);
    }
@@ -789,7 +788,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param work project work duration
     */
-   public void setWork (Duration work)
+   public void setWork(Duration work)
    {
       m_work = work;
    }
@@ -799,7 +798,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project work duration
     */
-   public Duration getWork ()
+   public Duration getWork()
    {
       return (m_work);
    }
@@ -809,7 +808,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param baselineWork baseline project work duration
     */
-   public void setBaselineWork (Duration baselineWork)
+   public void setBaselineWork(Duration baselineWork)
    {
       m_baselineWork = baselineWork;
    }
@@ -819,7 +818,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return baseline project work duration
     */
-   public Duration getBaselineWork ()
+   public Duration getBaselineWork()
    {
       return (m_baselineWork);
    }
@@ -829,7 +828,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param actualWork actual project work duration
     */
-   public void setActualWork (Duration actualWork)
+   public void setActualWork(Duration actualWork)
    {
       m_actualWork = actualWork;
    }
@@ -839,7 +838,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return actual project work duration
     */
-   public Duration getActualWork ()
+   public Duration getActualWork()
    {
       return (m_actualWork);
    }
@@ -849,7 +848,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Work 2 attribute
     */
-   public Number getWork2 ()
+   public Number getWork2()
    {
       return (m_work2);
    }
@@ -859,7 +858,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param work2 work2 percentage value
     */
-   public void setWork2 (Number work2)
+   public void setWork2(Number work2)
    {
       m_work2 = work2;
    }
@@ -869,7 +868,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project duration
     */
-   public Duration getDuration ()
+   public Duration getDuration()
    {
       return (m_duration);
    }
@@ -879,7 +878,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param duration project duration
     */
-   public void setDuration (Duration duration)
+   public void setDuration(Duration duration)
    {
       m_duration = duration;
    }
@@ -889,7 +888,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return baseline project duration value
     */
-   public Duration getBaselineDuration ()
+   public Duration getBaselineDuration()
    {
       return (m_baselineDuration);
    }
@@ -899,7 +898,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param baselineDuration baseline project duration
     */
-   public void setBaselineDuration (Duration baselineDuration)
+   public void setBaselineDuration(Duration baselineDuration)
    {
       m_baselineDuration = baselineDuration;
    }
@@ -909,7 +908,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return actual project duration
     */
-   public Duration getActualDuration ()
+   public Duration getActualDuration()
    {
       return (m_actualDuration);
    }
@@ -919,7 +918,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param actualDuration actual project duration
     */
-   public void setActualDuration (Duration actualDuration)
+   public void setActualDuration(Duration actualDuration)
    {
       m_actualDuration = actualDuration;
    }
@@ -929,7 +928,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return percentage value
     */
-   public Number getPercentageComplete ()
+   public Number getPercentageComplete()
    {
       return (m_percentageComplete);
    }
@@ -939,7 +938,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param percentComplete project percent complete
     */
-   public void setPercentageComplete (Number percentComplete)
+   public void setPercentageComplete(Number percentComplete)
    {
       m_percentageComplete = percentComplete;
    }
@@ -949,7 +948,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param baselineStartDate baseline project start date
     */
-   public void setBaselineStart (Date baselineStartDate)
+   public void setBaselineStart(Date baselineStartDate)
    {
       m_baselineStart = baselineStartDate;
    }
@@ -959,7 +958,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return baseline project start date
     */
-   public Date getBaselineStart ()
+   public Date getBaselineStart()
    {
       return (m_baselineStart);
    }
@@ -969,7 +968,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param baselineFinishDate baseline project finish date
     */
-   public void setBaselineFinish (Date baselineFinishDate)
+   public void setBaselineFinish(Date baselineFinishDate)
    {
       m_baselineFinish = baselineFinishDate;
    }
@@ -989,7 +988,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param actualStartDate actual project start date
     */
-   public void setActualStart (Date actualStartDate)
+   public void setActualStart(Date actualStartDate)
    {
       m_actualStart = actualStartDate;
    }
@@ -999,7 +998,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return actual project start date
     */
-   public Date getActualStart ()
+   public Date getActualStart()
    {
       return (m_actualStart);
    }
@@ -1009,7 +1008,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param actualFinishDate actual project finish date
     */
-   public void setActualFinish (Date actualFinishDate)
+   public void setActualFinish(Date actualFinishDate)
    {
       m_actualFinish = actualFinishDate;
    }
@@ -1019,7 +1018,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return actual project finish date
     */
-   public Date getActualFinish ()
+   public Date getActualFinish()
    {
       return (m_actualFinish);
    }
@@ -1039,7 +1038,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param startVariance the start date variance
     */
-   public void setStartVariance (Duration startVariance)
+   public void setStartVariance(Duration startVariance)
    {
       m_startVariance = startVariance;
    }
@@ -1049,7 +1048,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project finish variance duration
     */
-   public Duration getFinishVariance ()
+   public Duration getFinishVariance()
    {
       return (m_finishVariance);
    }
@@ -1059,7 +1058,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param finishVariance project finish variance duration
     */
-   public void setFinishVariance (Duration finishVariance)
+   public void setFinishVariance(Duration finishVariance)
    {
       m_finishVariance = finishVariance;
    }
@@ -1069,7 +1068,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return subject text
     */
-   public String getSubject ()
+   public String getSubject()
    {
       return (m_subject);
    }
@@ -1079,7 +1078,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param subject subject text
     */
-   public void setSubject (String subject)
+   public void setSubject(String subject)
    {
       m_subject = subject;
    }
@@ -1089,7 +1088,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return author text
     */
-   public String getAuthor ()
+   public String getAuthor()
    {
       return (m_author);
    }
@@ -1099,7 +1098,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param author project author text
     */
-   public void setAuthor (String author)
+   public void setAuthor(String author)
    {
       m_author = author;
    }
@@ -1109,7 +1108,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project keyword text
     */
-   public String getKeywords ()
+   public String getKeywords()
    {
       return (m_keywords);
    }
@@ -1119,7 +1118,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param keywords project keyword text
     */
-   public void setKeywords (String keywords)
+   public void setKeywords(String keywords)
    {
       m_keywords = keywords;
    }
@@ -1129,7 +1128,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param symbol ie $, £, DM
     */
-   public void setCurrencySymbol (String symbol)
+   public void setCurrencySymbol(String symbol)
    {
       if (symbol == null)
       {
@@ -1144,7 +1143,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return ie $, £, DM
     */
-   public String getCurrencySymbol ()
+   public String getCurrencySymbol()
    {
       return (m_currencySymbol);
    }
@@ -1154,7 +1153,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param posn currency symbol position.
     */
-   public void setSymbolPosition (CurrencySymbolPosition posn)
+   public void setSymbolPosition(CurrencySymbolPosition posn)
    {
       m_symbolPosition = posn;
    }
@@ -1164,7 +1163,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return position
     */
-   public CurrencySymbolPosition getSymbolPosition ()
+   public CurrencySymbolPosition getSymbolPosition()
    {
       return (m_symbolPosition);
    }
@@ -1174,7 +1173,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param currDigs Available values, 0,1,2
     */
-   public void setCurrencyDigits (Number currDigs)
+   public void setCurrencyDigits(Number currDigs)
    {
       m_currencyDigits = currDigs;
    }
@@ -1184,7 +1183,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Available values, 0,1,2
     */
-   public Number getCurrencyDigits ()
+   public Number getCurrencyDigits()
    {
       return (m_currencyDigits);
    }
@@ -1196,7 +1195,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param sep character
     */
-   public void setThousandsSeparator (char sep)
+   public void setThousandsSeparator(char sep)
    {
       m_thousandsSeparator = sep;
    }
@@ -1208,7 +1207,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return character
     */
-   public char getThousandsSeparator ()
+   public char getThousandsSeparator()
    {
       return (m_thousandsSeparator);
    }
@@ -1220,7 +1219,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param decSep character
     */
-   public void setDecimalSeparator (char decSep)
+   public void setDecimalSeparator(char decSep)
    {
       m_decimalSeparator = decSep;
    }
@@ -1232,7 +1231,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return character
     */
-   public char getDecimalSeparator ()
+   public char getDecimalSeparator()
    {
       return (m_decimalSeparator);
    }
@@ -1262,7 +1261,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return category text
     */
-   public String getCategory ()
+   public String getCategory()
    {
       return (m_category);
    }
@@ -1272,7 +1271,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param category category text
     */
-   public void setCategory (String category)
+   public void setCategory(String category)
    {
       m_category = category;
    }
@@ -1391,7 +1390,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return remove file properties flag
     */
-   public boolean getRemoveFileProperties ()
+   public boolean getRemoveFileProperties()
    {
       return (m_removeFileProperties);
    }
@@ -1401,7 +1400,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param removeFileProperties remove file properties flag
     */
-   public void setRemoveFileProperties (boolean removeFileProperties)
+   public void setRemoveFileProperties(boolean removeFileProperties)
    {
       m_removeFileProperties = removeFileProperties;
    }
@@ -1411,7 +1410,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return move completed ends back flag
     */
-   public boolean getMoveCompletedEndsBack ()
+   public boolean getMoveCompletedEndsBack()
    {
       return (m_moveCompletedEndsBack);
    }
@@ -1421,7 +1420,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param moveCompletedEndsBack move completed ends back flag
     */
-   public void setMoveCompletedEndsBack (boolean moveCompletedEndsBack)
+   public void setMoveCompletedEndsBack(boolean moveCompletedEndsBack)
    {
       m_moveCompletedEndsBack = moveCompletedEndsBack;
    }
@@ -1431,7 +1430,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return new tasks estimated flag
     */
-   public boolean getNewTasksEstimated ()
+   public boolean getNewTasksEstimated()
    {
       return (m_newTasksEstimated);
    }
@@ -1441,7 +1440,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param newTasksEstimated new tasks estimated flag
     */
-   public void setNewTasksEstimated (boolean newTasksEstimated)
+   public void setNewTasksEstimated(boolean newTasksEstimated)
    {
       m_newTasksEstimated = newTasksEstimated;
    }
@@ -1451,7 +1450,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return spread actual cost flag
     */
-   public boolean getSpreadActualCost ()
+   public boolean getSpreadActualCost()
    {
       return (m_spreadActualCost);
    }
@@ -1461,7 +1460,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param spreadActualCost spread actual cost flag
     */
-   public void setSpreadActualCost (boolean spreadActualCost)
+   public void setSpreadActualCost(boolean spreadActualCost)
    {
       m_spreadActualCost = spreadActualCost;
    }
@@ -1471,9 +1470,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return multiple critical paths flag
     */
-   public boolean getMultipleCriticalPaths ()
+   public boolean getMultipleCriticalPaths()
    {
-      return(m_multipleCriticalPaths);
+      return (m_multipleCriticalPaths);
    }
 
    /**
@@ -1481,7 +1480,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param multipleCriticalPaths multiple critical paths flag
     */
-   public void setMultipleCriticalPaths (boolean multipleCriticalPaths)
+   public void setMultipleCriticalPaths(boolean multipleCriticalPaths)
    {
       m_multipleCriticalPaths = multipleCriticalPaths;
    }
@@ -1491,7 +1490,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return auto add new resources and tasks flag
     */
-   public boolean getAutoAddNewResourcesAndTasks ()
+   public boolean getAutoAddNewResourcesAndTasks()
    {
       return (m_autoAddNewResourcesAndTasks);
    }
@@ -1501,7 +1500,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param autoAddNewResourcesAndTasks auto add new resources and tasks flag
     */
-   public void setAutoAddNewResourcesAndTasks (boolean autoAddNewResourcesAndTasks)
+   public void setAutoAddNewResourcesAndTasks(boolean autoAddNewResourcesAndTasks)
    {
       m_autoAddNewResourcesAndTasks = autoAddNewResourcesAndTasks;
    }
@@ -1511,7 +1510,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return last saved date
     */
-   public Date getLastSaved ()
+   public Date getLastSaved()
    {
       return (m_lastSaved);
    }
@@ -1521,7 +1520,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param lastSaved last saved date
     */
-   public void setLastSaved (Date lastSaved)
+   public void setLastSaved(Date lastSaved)
    {
       m_lastSaved = lastSaved;
    }
@@ -1531,7 +1530,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return status date
     */
-   public Date getStatusDate ()
+   public Date getStatusDate()
    {
       return (m_statusDate);
    }
@@ -1541,7 +1540,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param statusDate status date
     */
-   public void setStatusDate (Date statusDate)
+   public void setStatusDate(Date statusDate)
    {
       m_statusDate = statusDate;
    }
@@ -1551,7 +1550,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return move remaining starts back flag
     */
-   public boolean getMoveRemainingStartsBack ()
+   public boolean getMoveRemainingStartsBack()
    {
       return (m_moveRemainingStartsBack);
    }
@@ -1561,7 +1560,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param moveRemainingStartsBack remaining starts back flag
     */
-   public void setMoveRemainingStartsBack (boolean moveRemainingStartsBack)
+   public void setMoveRemainingStartsBack(boolean moveRemainingStartsBack)
    {
       m_moveRemainingStartsBack = moveRemainingStartsBack;
    }
@@ -1571,7 +1570,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return autolink flag
     */
-   public boolean getAutolink ()
+   public boolean getAutolink()
    {
       return (m_autolink);
    }
@@ -1581,7 +1580,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param autolink autolink flag
     */
-   public void setAutolink (boolean autolink)
+   public void setAutolink(boolean autolink)
    {
       m_autolink = autolink;
    }
@@ -1591,7 +1590,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Microsoft Project Server URL flag
     */
-   public boolean getMicrosoftProjectServerURL ()
+   public boolean getMicrosoftProjectServerURL()
    {
       return (m_microsoftProjectServerURL);
    }
@@ -1601,7 +1600,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param microsoftProjectServerURL Microsoft Project Server URL flag
     */
-   public void setMicrosoftProjectServerURL (boolean microsoftProjectServerURL)
+   public void setMicrosoftProjectServerURL(boolean microsoftProjectServerURL)
    {
       m_microsoftProjectServerURL = microsoftProjectServerURL;
    }
@@ -1611,9 +1610,9 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return honor constraints flag
     */
-   public boolean getHonorConstraints ()
+   public boolean getHonorConstraints()
    {
-      return(m_honorConstraints);
+      return (m_honorConstraints);
    }
 
    /**
@@ -1621,7 +1620,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param honorConstraints honor constraints flag
     */
-   public void setHonorConstraints (boolean honorConstraints)
+   public void setHonorConstraints(boolean honorConstraints)
    {
       m_honorConstraints = honorConstraints;
    }
@@ -1631,7 +1630,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return admin project flag
     */
-   public boolean getAdminProject ()
+   public boolean getAdminProject()
    {
       return (m_adminProject);
    }
@@ -1641,7 +1640,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param adminProject admin project flag
     */
-   public void setAdminProject (boolean adminProject)
+   public void setAdminProject(boolean adminProject)
    {
       m_adminProject = adminProject;
    }
@@ -1651,7 +1650,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return inserted projects like summary flag
     */
-   public boolean getInsertedProjectsLikeSummary ()
+   public boolean getInsertedProjectsLikeSummary()
    {
       return (m_insertedProjectsLikeSummary);
    }
@@ -1661,7 +1660,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param insertedProjectsLikeSummary inserted projects like summary flag
     */
-   public void setInsertedProjectsLikeSummary (boolean insertedProjectsLikeSummary)
+   public void setInsertedProjectsLikeSummary(boolean insertedProjectsLikeSummary)
    {
       m_insertedProjectsLikeSummary = insertedProjectsLikeSummary;
    }
@@ -1671,7 +1670,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -1681,7 +1680,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param name project name
     */
-   public void setName (String name)
+   public void setName(String name)
    {
       m_name = name;
    }
@@ -1691,7 +1690,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return spread percent complete flag
     */
-   public boolean getSpreadPercentComplete ()
+   public boolean getSpreadPercentComplete()
    {
       return (m_spreadPercentComplete);
    }
@@ -1701,7 +1700,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param spreadPercentComplete spread percent complete flag
     */
-   public void setSpreadPercentComplete (boolean spreadPercentComplete)
+   public void setSpreadPercentComplete(boolean spreadPercentComplete)
    {
       m_spreadPercentComplete = spreadPercentComplete;
    }
@@ -1711,7 +1710,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return move completed ends forward flag
     */
-   public boolean getMoveCompletedEndsForward ()
+   public boolean getMoveCompletedEndsForward()
    {
       return (m_moveCompletedEndsForward);
    }
@@ -1721,7 +1720,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param moveCompletedEndsForward move completed ends forward flag
     */
-   public void setMoveCompletedEndsForward (boolean moveCompletedEndsForward)
+   public void setMoveCompletedEndsForward(boolean moveCompletedEndsForward)
    {
       m_moveCompletedEndsForward = moveCompletedEndsForward;
    }
@@ -1731,7 +1730,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return editable actual costs flag
     */
-   public boolean getEditableActualCosts ()
+   public boolean getEditableActualCosts()
    {
       return (m_editableActualCosts);
    }
@@ -1741,7 +1740,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param editableActualCosts editable actual costs flag
     */
-   public void setEditableActualCosts (boolean editableActualCosts)
+   public void setEditableActualCosts(boolean editableActualCosts)
    {
       m_editableActualCosts = editableActualCosts;
    }
@@ -1751,7 +1750,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return unique ID
     */
-   public String getUniqueID ()
+   public String getUniqueID()
    {
       return (m_uniqueID);
    }
@@ -1761,7 +1760,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param uniqueID unique ID
     */
-   public void setUniqueID (String uniqueID)
+   public void setUniqueID(String uniqueID)
    {
       m_uniqueID = uniqueID;
    }
@@ -1771,7 +1770,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return revision number
     */
-   public Integer getRevision ()
+   public Integer getRevision()
    {
       return (m_revision);
    }
@@ -1781,7 +1780,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return new tasks effort driven flag
     */
-   public boolean getNewTasksEffortDriven ()
+   public boolean getNewTasksEffortDriven()
    {
       return (m_newTasksEffortDriven);
    }
@@ -1791,7 +1790,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param newTasksEffortDriven new tasks effort driven flag
     */
-   public void setNewTasksEffortDriven (boolean newTasksEffortDriven)
+   public void setNewTasksEffortDriven(boolean newTasksEffortDriven)
    {
       m_newTasksEffortDriven = newTasksEffortDriven;
    }
@@ -1801,7 +1800,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param revision revision number
     */
-   public void setRevision (Integer revision)
+   public void setRevision(Integer revision)
    {
       m_revision = revision;
    }
@@ -1811,7 +1810,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return move remaining starts forward flag
     */
-   public boolean getMoveRemainingStartsForward ()
+   public boolean getMoveRemainingStartsForward()
    {
       return (m_moveRemainingStartsForward);
    }
@@ -1821,7 +1820,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param moveRemainingStartsForward move remaining starts forward flag
     */
-   public void setMoveRemainingStartsForward (boolean moveRemainingStartsForward)
+   public void setMoveRemainingStartsForward(boolean moveRemainingStartsForward)
    {
       m_moveRemainingStartsForward = moveRemainingStartsForward;
    }
@@ -1831,7 +1830,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return actuals in sync flag
     */
-   public boolean getActualsInSync ()
+   public boolean getActualsInSync()
    {
       return (m_actualsInSync);
    }
@@ -1841,7 +1840,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param actualsInSync actuals in sync flag
     */
-   public void setActualsInSync (boolean actualsInSync)
+   public void setActualsInSync(boolean actualsInSync)
    {
       m_actualsInSync = actualsInSync;
    }
@@ -1851,7 +1850,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return default task type
     */
-   public TaskType getDefaultTaskType ()
+   public TaskType getDefaultTaskType()
    {
       return (m_defaultTaskType);
    }
@@ -1861,7 +1860,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param defaultTaskType default task type
     */
-   public void setDefaultTaskType (TaskType defaultTaskType)
+   public void setDefaultTaskType(TaskType defaultTaskType)
    {
       m_defaultTaskType = defaultTaskType;
    }
@@ -1871,7 +1870,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return earned value method
     */
-   public EarnedValueMethod getEarnedValueMethod ()
+   public EarnedValueMethod getEarnedValueMethod()
    {
       return (m_earnedValueMethod);
    }
@@ -1881,7 +1880,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param earnedValueMethod earned value method
     */
-   public void setEarnedValueMethod (EarnedValueMethod earnedValueMethod)
+   public void setEarnedValueMethod(EarnedValueMethod earnedValueMethod)
    {
       m_earnedValueMethod = earnedValueMethod;
    }
@@ -1891,7 +1890,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return project creation date
     */
-   public Date getCreationDate ()
+   public Date getCreationDate()
    {
       return (m_creationDate);
    }
@@ -1901,7 +1900,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param creationDate project creation date
     */
-   public void setCreationDate (Date creationDate)
+   public void setCreationDate(Date creationDate)
    {
       m_creationDate = creationDate;
    }
@@ -1911,7 +1910,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return extended creation date
     */
-   public Date getExtendedCreationDate ()
+   public Date getExtendedCreationDate()
    {
       return (m_extendedCreationDate);
    }
@@ -1921,7 +1920,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return default fixed cost accrual type
     */
-   public AccrueType getDefaultFixedCostAccrual ()
+   public AccrueType getDefaultFixedCostAccrual()
    {
       return (m_defaultFixedCostAccrual);
    }
@@ -1931,7 +1930,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param defaultFixedCostAccrual default fixed cost accrual type
     */
-   public void setDefaultFixedCostAccrual (AccrueType defaultFixedCostAccrual)
+   public void setDefaultFixedCostAccrual(AccrueType defaultFixedCostAccrual)
    {
       m_defaultFixedCostAccrual = defaultFixedCostAccrual;
    }
@@ -1941,7 +1940,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param creationDate extended creation date
     */
-   public void setExtendedCreationDate (Date creationDate)
+   public void setExtendedCreationDate(Date creationDate)
    {
       m_extendedCreationDate = creationDate;
    }
@@ -1951,7 +1950,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return critical slack limit
     */
-   public Integer getCriticalSlackLimit ()
+   public Integer getCriticalSlackLimit()
    {
       return (m_criticalSlackLimit);
    }
@@ -1961,7 +1960,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param criticalSlackLimit critical slack limit
     */
-   public void setCriticalSlackLimit (Integer criticalSlackLimit)
+   public void setCriticalSlackLimit(Integer criticalSlackLimit)
    {
       m_criticalSlackLimit = criticalSlackLimit;
    }
@@ -1972,7 +1971,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return baseline for earned value
     */
-   public Integer getBaselineForEarnedValue ()
+   public Integer getBaselineForEarnedValue()
    {
       return (m_baselineForEarnedValue);
    }
@@ -1983,7 +1982,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param baselineForEarnedValue baseline for earned value
     */
-   public void setBaselineForEarnedValue (Integer baselineForEarnedValue)
+   public void setBaselineForEarnedValue(Integer baselineForEarnedValue)
    {
       m_baselineForEarnedValue = baselineForEarnedValue;
    }
@@ -1993,7 +1992,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return fiscal year start month
     */
-   public Integer getFiscalYearStartMonth ()
+   public Integer getFiscalYearStartMonth()
    {
       return (m_fiscalYearStartMonth);
    }
@@ -2003,7 +2002,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param fiscalYearStartMonth fiscal year start month
     */
-   public void setFiscalYearStartMonth (Integer fiscalYearStartMonth)
+   public void setFiscalYearStartMonth(Integer fiscalYearStartMonth)
    {
       m_fiscalYearStartMonth = fiscalYearStartMonth;
    }
@@ -2014,7 +2013,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return new task start is project start
     */
-   public boolean getNewTaskStartIsProjectStart ()
+   public boolean getNewTaskStartIsProjectStart()
    {
       return (m_newTaskStartIsProjectStart);
    }
@@ -2025,7 +2024,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param newTaskStartIsProjectStart new task start is project start
     */
-   public void setNewTaskStartIsProjectStart (boolean newTaskStartIsProjectStart)
+   public void setNewTaskStartIsProjectStart(boolean newTaskStartIsProjectStart)
    {
       m_newTaskStartIsProjectStart = newTaskStartIsProjectStart;
    }
@@ -2035,7 +2034,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return week start day
     */
-   public Day getWeekStartDay ()
+   public Day getWeekStartDay()
    {
       return (m_weekStartDay);
    }
@@ -2045,7 +2044,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param weekStartDay week start day
     */
-   public void setWeekStartDay (Day weekStartDay)
+   public void setWeekStartDay(Day weekStartDay)
    {
       m_weekStartDay = weekStartDay;
    }
@@ -2055,7 +2054,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @param flag boolean flag
     */
-   public void setCalculateMultipleCriticalPaths (boolean flag)
+   public void setCalculateMultipleCriticalPaths(boolean flag)
    {
       m_calculateMultipleCriticalPaths = flag;
    }
@@ -2065,7 +2064,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return boolean flag
     */
-   public boolean getCalculateMultipleCriticalPaths ()
+   public boolean getCalculateMultipleCriticalPaths()
    {
       return (m_calculateMultipleCriticalPaths);
    }
@@ -2075,21 +2074,21 @@ public final class ProjectHeader extends ProjectEntity
     * 
     * @return currency code
     */
-   public String getCurrencyCode ()
+   public String getCurrencyCode()
    {
       return (m_currencyCode);
    }
-   
+
    /**
     * Set the currency code for this project.
     * 
     * @param currencyCode currency code
     */
-   public void setCurrencyCode (String currencyCode)
+   public void setCurrencyCode(String currencyCode)
    {
       m_currencyCode = currencyCode;
    }
-   
+
    /**
     * Set the Document Summary Information.
     *
@@ -2109,15 +2108,15 @@ public final class ProjectHeader extends ProjectEntity
     */
    public Map<Integer, Object> getDocumentSummaryInformation()
    {
-     return (m_documentSummaryInformation);
+      return (m_documentSummaryInformation);
    }
-   
+
    /**
     * Sets the hyperlink base for this Project.
     *
     * @param hyperlinkBase Hyperlink base
     */
-   public void setHyperlinkBase (String hyperlinkBase)
+   public void setHyperlinkBase(String hyperlinkBase)
    {
       m_hyperlinkBase = hyperlinkBase;
    }
@@ -2127,7 +2126,7 @@ public final class ProjectHeader extends ProjectEntity
     *
     * @return Hyperlink base
     */
-   public String getHyperlinkBase ()
+   public String getHyperlinkBase()
    {
       return (m_hyperlinkBase);
    }
@@ -2248,7 +2247,7 @@ public final class ProjectHeader extends ProjectEntity
    private boolean m_calculateMultipleCriticalPaths;
    private Map<Integer, Object> m_documentSummaryInformation;
    private String m_currencyCode;
-   
+
    /*
     * Missing MSPDI attributes
     *
@@ -2258,7 +2257,6 @@ public final class ProjectHeader extends ProjectEntity
        void setScheduleFromStart(boolean value);
     */
 
-
    /**
     * Default time separator character.
     */
@@ -2267,7 +2265,7 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default cost value.
     */
-   private static final Double DEFAULT_COST = Double.valueOf (0);
+   private static final Double DEFAULT_COST = Double.valueOf(0);
 
    /**
     * Default critical slack limit.
@@ -2292,17 +2290,17 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default work value.
     */
-   private static final Duration DEFAULT_WORK = Duration.getInstance (0, TimeUnit.HOURS);
+   private static final Duration DEFAULT_WORK = Duration.getInstance(0, TimeUnit.HOURS);
 
    /**
     * Default work 2 value.
     */
-   private static final Double DEFAULT_WORK2 = Double.valueOf (0);
+   private static final Double DEFAULT_WORK2 = Double.valueOf(0);
 
    /**
     * Default duration value.
     */
-   private static final Duration DEFAULT_DURATION = Duration.getInstance (0, TimeUnit.DAYS);
+   private static final Duration DEFAULT_DURATION = Duration.getInstance(0, TimeUnit.DAYS);
 
    /**
     * Default schedule from value.
@@ -2312,7 +2310,7 @@ public final class ProjectHeader extends ProjectEntity
    /**
     * Default percent complete value.
     */
-   private static final Double DEFAULT_PERCENT_COMPLETE = Double.valueOf (0);
+   private static final Double DEFAULT_PERCENT_COMPLETE = Double.valueOf(0);
 
    /**
     * Default calendar name.

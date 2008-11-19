@@ -138,6 +138,9 @@ public final class ProjectCalendar extends ProjectEntity
 
    /**
     * This method retrieves the calendar hours for the specified day.
+    * Note that this method only returns the hours specification for the
+    * current calendar.If this is a derived calendar, it does not refer to 
+    * the base calendar. 
     *
     * @param day Day instance
     * @return calendar hours
@@ -147,6 +150,25 @@ public final class ProjectCalendar extends ProjectEntity
       return (m_hours[day.getValue()-1]);
    }
 
+   /**
+    * This method retrieves the calendar hours for the specified day.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    * 
+    * @param day Day instance
+    * @return calendar hours
+    */
+   public ProjectCalendarHours getHours (Day day)
+   {
+      ProjectCalendarHours result = getCalendarHours(day);
+      if (result == null)
+      {
+         result = m_baseCalendar.getHours(day);
+      }
+      return result;
+   }
+   
    /**
     * Retrieve an array representing all of the calendar hours defined
     * by this calendar.
@@ -407,7 +429,7 @@ public final class ProjectCalendar extends ProjectEntity
          Calendar cal = Calendar.getInstance();
          cal.setTime(date);
          Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         ranges = getCalendarHours(day);
+         ranges = getHours(day);
       }
       Date result = ranges.getRange(0).getStart();
       return DateUtility.getCanonicalTime(result);
@@ -416,13 +438,16 @@ public final class ProjectCalendar extends ProjectEntity
    /**
     * Given a start date and a duration, this method calculates the
     * end date. It takes account of working hours in each day, non working
-    * days and calendar exceptions.
+    * days and calendar exceptions. If the returnNextWorkStart parameter is
+    * set to true, the method will return the start date and time of the next
+    * working period if the end date is at the end of a working period.
     * 
     * @param startDate start date
     * @param duration duration
+    * @param returnNextWorkStart if set to true will return start of next working period 
     * @return end date
     */
-   public Date getDate (Date startDate, Duration duration)
+   public Date getDate (Date startDate, Duration duration, boolean returnNextWorkStart)
    {
       ProjectHeader header = getParentFile().getProjectHeader();
       double remainingHours = duration.convertUnits(TimeUnit.HOURS, header).getDuration();
@@ -486,7 +511,7 @@ public final class ProjectCalendar extends ProjectEntity
             if (ranges == null)
             {
                Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-               ranges = getCalendarHours(day);
+               ranges = getHours(day);
             }
 
             //
@@ -533,6 +558,7 @@ public final class ProjectCalendar extends ProjectEntity
                   else
                   {
                      endTime = new Date ((long)(rangeStart.getTime() + remainingHours * (60*60*1000)));
+                     returnNextWorkStart = false;
                   }
                   remainingHours = 0;
                   break;
@@ -548,7 +574,76 @@ public final class ProjectCalendar extends ProjectEntity
          }
       }
       
+      if (returnNextWorkStart)
+      {
+         updateToNextWorkStart(cal);
+      }
+      
       return cal.getTime();
+   }
+
+   /**
+    * This method finds the start of the next working period.
+    * 
+    * @param cal current Calendar instance
+    */
+   private void updateToNextWorkStart (Calendar cal)
+   {
+      //
+      // Find the date ranges for the current day
+      //
+      ProjectCalendarDateRanges ranges = getException(cal.getTime());
+      if (ranges == null)
+      {
+         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         ranges = getHours(day);
+      }
+
+      //
+      // Do we have a start time today?
+      // 
+      Date calTime = DateUtility.getCanonicalTime(cal.getTime());
+      Date startTime = null;
+      for (DateRange range : ranges)
+      {
+         Date rangeEnd = DateUtility.getCanonicalTime(range.getEnd());
+         if (calTime.getTime() < rangeEnd.getTime())
+         {
+            Date rangeStart = DateUtility.getCanonicalTime(range.getStart());
+            if (calTime.getTime() > rangeStart.getTime())
+            {
+               startTime = calTime;
+            }
+            else
+            {
+               startTime = rangeStart;
+            }
+            break;
+         }         
+      }
+      
+      //
+      // If we don't have a start time today - find the next working day
+      // then retrieve the start time.
+      //
+      if (startTime == null)
+      {
+         Day day;
+         do
+         {
+            cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
+            day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         }
+         while (!isWorkingDate (cal.getTime(), day));
+         
+         startTime = getStartTime(cal.getTime());
+      }
+      
+      Calendar startCalendar = Calendar.getInstance();
+      startCalendar.setTime(startTime);
+      
+      cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
+      cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));           
    }
    
    /**
@@ -713,7 +808,7 @@ public final class ProjectCalendar extends ProjectEntity
 
    /**
     * Retrieve a calendar calendar exception which applies to this date.
-    * 
+    *
     * @param date target date
     * @return calendar exception, or null if none match this date
     */
@@ -775,7 +870,7 @@ public final class ProjectCalendar extends ProjectEntity
             ProjectCalendarDateRanges ranges = getException(startDate);
             if (ranges == null)
             {
-               ranges = getCalendarHours(day);
+               ranges = getHours(day);
             }
             
             totalTime = getTotalTime(ranges, startDate, endDate);
