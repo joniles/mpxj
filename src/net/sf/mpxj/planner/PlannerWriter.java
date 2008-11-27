@@ -304,10 +304,16 @@ public final class PlannerWriter extends AbstractProjectWriter
             List<Interval> intervalList = odt.getInterval();
             for (DateRange mpxjRange : mpxjHours)
             {
-               Interval interval = m_factory.createInterval();
-               intervalList.add(interval);
-               interval.setStart(getTimeString(mpxjRange.getStart()));
-               interval.setEnd(getTimeString(mpxjRange.getEnd()));
+               Date rangeStart = mpxjRange.getStart();
+               Date rangeEnd = mpxjRange.getEnd();
+               
+               if (rangeStart != null && rangeEnd != null)
+               {
+                  Interval interval = m_factory.createInterval();
+                  intervalList.add(interval);
+                  interval.setStart(getTimeString(rangeStart));
+                  interval.setEnd(getTimeString(rangeEnd));
+               }
             }         
          }
       }

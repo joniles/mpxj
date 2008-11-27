@@ -21,7 +21,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package net.sf.mpxj.junit;
 
 import java.io.File;
@@ -29,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
@@ -51,8 +49,8 @@ import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.mspdi.MSPDIWriter;
+import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.utility.NumberUtility;
-
 
 /**
  * This class contains a small set of tests to exercise the MPXJ library.
@@ -65,20 +63,19 @@ public class BasicTest extends MPXJTestCase
     * at least one example of each type of record, this test will be able
     * to exercise a large part of the MPX library.
     */
-   public void testRewrite1 ()
-      throws Exception
+   public void testRewrite1() throws Exception
    {
       File out = null;
       boolean success = true;
 
       try
       {
-         File in = new File (m_basedir + "/sample.mpx");
-         ProjectFile mpx = new MPXReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
+         File in = new File(m_basedir + "/sample.mpx");
+         ProjectFile mpx = new MPXReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = FileUtility.equals (in, out);
-         assertTrue ("Files are not identical", success);
+         success = FileUtility.equals(in, out);
+         assertTrue("Files are not identical", success);
       }
 
       finally
@@ -96,20 +93,19 @@ public class BasicTest extends MPXJTestCase
     * at least one example of each type of record, this test will be able
     * to exercise a large part of the MPX library.
     */
-   public void testRewrite2 ()
-      throws Exception
+   public void testRewrite2() throws Exception
    {
       File out = null;
       boolean success = true;
 
       try
       {
-         File in = new File (m_basedir + "/sample1.xml");
+         File in = new File(m_basedir + "/sample1.xml");
          ProjectFile xml = new MSPDIReader().read(in);
-         out = File.createTempFile ("junit", ".xml");
+         out = File.createTempFile("junit", ".xml");
          new MSPDIWriter().write(xml, out);
-         success = FileUtility.equals (in, out);
-         assertTrue ("Files are not identical", success);
+         success = FileUtility.equals(in, out);
+         assertTrue("Files are not identical", success);
       }
 
       finally
@@ -127,20 +123,19 @@ public class BasicTest extends MPXJTestCase
     * and testRewrite1 is that the sample MPX file uses alternative
     * field separators, decimal separators and thousands separators.
     */
-   public void testRewrite3 ()
-      throws Exception
+   public void testRewrite3() throws Exception
    {
       File out = null;
       boolean success = true;
 
       try
       {
-         File in = new File (m_basedir + "/sample1.mpx");
-         ProjectFile mpx = new MPXReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
+         File in = new File(m_basedir + "/sample1.mpx");
+         ProjectFile mpx = new MPXReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = FileUtility.equals (in, out);
-         assertTrue ("Files are not identical", success);
+         success = FileUtility.equals(in, out);
+         assertTrue("Files are not identical", success);
       }
 
       finally
@@ -151,7 +146,6 @@ public class BasicTest extends MPXJTestCase
          }
       }
    }
-
 
    /**
     * Test to ensure that files without tasks or resources generate
@@ -159,23 +153,22 @@ public class BasicTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testRewrite9 ()
-      throws Exception
+   public void testRewrite4() throws Exception
    {
       File out = null;
       boolean success = true;
-   
+
       try
       {
-         File in = new File (m_basedir + "/empty.mpp");
-         ProjectFile mpx = new MPPReader().read (in);
-         mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat ("dd/MM/yyyy").parse("01/03/2006"));
-         out = File.createTempFile ("junit", ".mpx");
+         File in = new File(m_basedir + "/empty.mpp");
+         ProjectFile mpx = new MPPReader().read(in);
+         mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
+         out = File.createTempFile("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = FileUtility.equals (new File(m_basedir + "/empty.mpx"), out);
-         assertTrue ("Files are not identical", success);
+         success = FileUtility.equals(new File(m_basedir + "/empty.mpx"), out);
+         assertTrue("Files are not identical", success);
       }
-   
+
       finally
       {
          if (out != null && success == true)
@@ -184,13 +177,40 @@ public class BasicTest extends MPXJTestCase
          }
       }
    }
-   
-      
+
+   /**
+    * Exercise PlannerWriter.
+    * 
+    * @throws Exception
+    */
+   public void testRewrite5() throws Exception
+   {
+      File out = null;
+      boolean success = true;
+
+      try
+      {
+         File in = new File(m_basedir + "/sample.mpx");
+         ProjectFile mpx = new MPXReader().read(in);
+         out = File.createTempFile("junit", ".planner");
+         new PlannerWriter().write(mpx, out);
+         //success = FileUtility.equals (in, out);
+         //assertTrue ("Files are not identical", success);
+      }
+
+      finally
+      {
+         if (out != null && success == true)
+         {
+            out.delete();
+         }
+      }
+   }
+
    /**
     * This test exercises the automatic generation of WBS and outline levels.
     */
-   public void testAutomaticGeneration ()
-      throws Exception
+   public void testAutomaticGeneration() throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -204,82 +224,82 @@ public class BasicTest extends MPXJTestCase
 
       Resource resource1 = file.addResource();
       resource1.setName("R1");
-      assertEquals (1, resource1.getUniqueID().intValue());
-      assertEquals (1, resource1.getID().intValue());
+      assertEquals(1, resource1.getUniqueID().intValue());
+      assertEquals(1, resource1.getID().intValue());
 
       Resource resource2 = file.addResource();
       resource2.setName("R2");
-      assertEquals (2, resource2.getUniqueID().intValue());
-      assertEquals (2, resource2.getID().intValue());
+      assertEquals(2, resource2.getUniqueID().intValue());
+      assertEquals(2, resource2.getID().intValue());
 
       Task task1 = file.addTask();
       task1.setName("1.0");
-      assertEquals ("1.0", task1.getWBS());
-      assertEquals (1, task1.getOutlineLevel().intValue());
-      assertEquals ("1.0", task1.getOutlineNumber());
-      assertEquals (1, task1.getID().intValue());
-      assertEquals (1, task1.getUniqueID().intValue());
-      assertEquals (false, task1.getSummary());
+      assertEquals("1.0", task1.getWBS());
+      assertEquals(1, task1.getOutlineLevel().intValue());
+      assertEquals("1.0", task1.getOutlineNumber());
+      assertEquals(1, task1.getID().intValue());
+      assertEquals(1, task1.getUniqueID().intValue());
+      assertEquals(false, task1.getSummary());
 
       task1 = file.addTask();
       task1.setName("2.0");
-      assertEquals ("2.0", task1.getWBS());
-      assertEquals (1, task1.getOutlineLevel().intValue());
-      assertEquals ("2.0", task1.getOutlineNumber());
-      assertEquals (2, task1.getID().intValue());
-      assertEquals (2, task1.getUniqueID().intValue());
-      assertEquals (false, task1.getSummary());
+      assertEquals("2.0", task1.getWBS());
+      assertEquals(1, task1.getOutlineLevel().intValue());
+      assertEquals("2.0", task1.getOutlineNumber());
+      assertEquals(2, task1.getID().intValue());
+      assertEquals(2, task1.getUniqueID().intValue());
+      assertEquals(false, task1.getSummary());
 
       task1 = file.addTask();
       task1.setName("3.0");
-      assertEquals ("3.0", task1.getWBS());
-      assertEquals (1, task1.getOutlineLevel().intValue());
-      assertEquals ("3.0", task1.getOutlineNumber());
-      assertEquals (3, task1.getID().intValue());
-      assertEquals (3, task1.getUniqueID().intValue());
-      assertEquals (false, task1.getSummary());
+      assertEquals("3.0", task1.getWBS());
+      assertEquals(1, task1.getOutlineLevel().intValue());
+      assertEquals("3.0", task1.getOutlineNumber());
+      assertEquals(3, task1.getID().intValue());
+      assertEquals(3, task1.getUniqueID().intValue());
+      assertEquals(false, task1.getSummary());
 
       Task task2 = task1.addTask();
       task2.setName("3.1");
-      assertEquals ("3.1", task2.getWBS());
-      assertEquals (2, task2.getOutlineLevel().intValue());
-      assertEquals ("3.1", task2.getOutlineNumber());
-      assertEquals (4, task2.getID().intValue());
-      assertEquals (4, task2.getUniqueID().intValue());
-      assertEquals (true, task1.getSummary());
-      assertEquals (false, task2.getSummary());
+      assertEquals("3.1", task2.getWBS());
+      assertEquals(2, task2.getOutlineLevel().intValue());
+      assertEquals("3.1", task2.getOutlineNumber());
+      assertEquals(4, task2.getID().intValue());
+      assertEquals(4, task2.getUniqueID().intValue());
+      assertEquals(true, task1.getSummary());
+      assertEquals(false, task2.getSummary());
 
       task2 = task1.addTask();
       task2.setName("3.2");
-      assertEquals ("3.2", task2.getWBS());
-      assertEquals (2, task2.getOutlineLevel().intValue());
-      assertEquals ("3.2", task2.getOutlineNumber());
-      assertEquals (5, task2.getID().intValue());
-      assertEquals (5, task2.getUniqueID().intValue());
-      assertEquals (true, task1.getSummary());
-      assertEquals (false, task2.getSummary());
+      assertEquals("3.2", task2.getWBS());
+      assertEquals(2, task2.getOutlineLevel().intValue());
+      assertEquals("3.2", task2.getOutlineNumber());
+      assertEquals(5, task2.getID().intValue());
+      assertEquals(5, task2.getUniqueID().intValue());
+      assertEquals(true, task1.getSummary());
+      assertEquals(false, task2.getSummary());
 
       Task task3 = task2.addTask();
       task3.setName("3.2.1");
-      assertEquals ("3.2.1", task3.getWBS());
-      assertEquals (3, task3.getOutlineLevel().intValue());
-      assertEquals ("3.2.1", task3.getOutlineNumber());
-      assertEquals (6, task3.getID().intValue());
-      assertEquals (6, task3.getUniqueID().intValue());
-      assertEquals (true, task1.getSummary());
-      assertEquals (true, task2.getSummary());
-      assertEquals (false, task3.getSummary());
+      assertEquals("3.2.1", task3.getWBS());
+      assertEquals(3, task3.getOutlineLevel().intValue());
+      assertEquals("3.2.1", task3.getOutlineNumber());
+      assertEquals(6, task3.getID().intValue());
+      assertEquals(6, task3.getUniqueID().intValue());
+      assertEquals(true, task1.getSummary());
+      assertEquals(true, task2.getSummary());
+      assertEquals(false, task3.getSummary());
 
       task3 = task2.addTask();
       task3.setName("3.2.2");
-      assertEquals ("3.2.2", task3.getWBS());
-      assertEquals (3, task3.getOutlineLevel().intValue());
-      assertEquals ("3.2.2", task3.getOutlineNumber());
-      assertEquals (7, task3.getID().intValue());
-      assertEquals (7, task3.getUniqueID().intValue());
-      assertEquals (true, task1.getSummary());
-      assertEquals (true, task2.getSummary());
-      assertEquals (false, task3.getSummary());
+      assertEquals("3.2.2", task3.getWBS());
+      assertEquals(3, task3.getOutlineLevel().intValue());
+      assertEquals("3.2.2", task3.getOutlineNumber());
+      assertEquals(7, task3.getID().intValue());
+      assertEquals(7, task3.getUniqueID().intValue());
+      assertEquals(true, task1.getSummary());
+      assertEquals(true, task2.getSummary());
+      assertEquals(false, task3.getSummary());
    }
 
    /**
@@ -288,8 +308,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testStructure ()
-      throws Exception
+   public void testStructure() throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -299,33 +318,32 @@ public class BasicTest extends MPXJTestCase
       file.setAutoTaskUniqueID(true);
 
       Task task1 = file.addTask();
-      assertNull (task1.getParentTask());
+      assertNull(task1.getParentTask());
 
       Task task2 = task1.addTask();
-      assertEquals (task2.getParentTask(), task1);
+      assertEquals(task2.getParentTask(), task1);
 
       task1.addTask();
       List<Task> children = task1.getChildTasks();
-      assertEquals (children.size(), 2);
+      assertEquals(children.size(), 2);
 
       List<Task> toplevel = file.getChildTasks();
-      assertEquals (toplevel.size(), 1);
+      assertEquals(toplevel.size(), 1);
    }
 
    /**
     * Exercise the MPP8 import code.
     */
-   public void testConversion1 ()
-      throws Exception
+   public void testConversion1() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/sample98.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         File in = new File(m_basedir + "/sample98.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out);
          commonTests(mpp);
       }
 
@@ -341,17 +359,16 @@ public class BasicTest extends MPXJTestCase
    /**
     * Exercise the MPP9 import code.
     */
-   public void testConversion2 ()
-      throws Exception
+   public void testConversion2() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/sample.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         File in = new File(m_basedir + "/sample.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out);
          commonTests(mpp);
       }
 
@@ -367,17 +384,16 @@ public class BasicTest extends MPXJTestCase
    /**
     * Exercise the XML import code.
     */
-   public void testConversion3 ()
-      throws Exception
+   public void testConversion3() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/sample.xml");
-         ProjectFile xml = new MSPDIReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (xml, out);
+         File in = new File(m_basedir + "/sample.xml");
+         ProjectFile xml = new MSPDIReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(xml, out);
          commonTests(xml);
       }
 
@@ -398,7 +414,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @param file ProjectFile instance
     */
-   private void commonTests (ProjectFile file)
+   private void commonTests(ProjectFile file)
    {
       //
       // Test the remaining work attribute
@@ -406,26 +422,26 @@ public class BasicTest extends MPXJTestCase
       Task task = file.getTaskByUniqueID(Integer.valueOf(2));
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(2, assignments.size());
-      
-      for (ResourceAssignment assignment: assignments)
+
+      for (ResourceAssignment assignment : assignments)
       {
          switch (NumberUtility.getInt(assignment.getResource().getID()))
          {
-            case 1:
+            case 1 :
             {
-               assertEquals(200, (int)assignment.getRemainingWork().getDuration());
+               assertEquals(200, (int) assignment.getRemainingWork().getDuration());
                assertEquals(TimeUnit.HOURS, assignment.getRemainingWork().getUnits());
                break;
             }
 
-            case 2:
+            case 2 :
             {
-               assertEquals(300, (int)assignment.getRemainingWork().getDuration());
+               assertEquals(300, (int) assignment.getRemainingWork().getDuration());
                assertEquals(TimeUnit.HOURS, assignment.getRemainingWork().getUnits());
                break;
             }
 
-            default:
+            default :
             {
                assertTrue("Unexpected resource", false);
                break;
@@ -442,21 +458,20 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testConversion4 ()
-      throws Exception
+   public void testConversion4() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/sample.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         File in = new File(m_basedir + "/sample.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out);
 
-         ProjectFile mpx = new MPXReader().read (out);
+         ProjectFile mpx = new MPXReader().read(out);
          out.delete();
-         out = File.createTempFile ("junit", ".xml");
+         out = File.createTempFile("junit", ".xml");
          new MSPDIWriter().write(mpx, out);
       }
 
@@ -474,11 +489,10 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testRelationList ()
-      throws Exception
+   public void testRelationList() throws Exception
    {
-      File in = new File (m_basedir + "/sample.mpx");
-      ProjectFile mpx = new MPXReader().read (in);
+      File in = new File(m_basedir + "/sample.mpx");
+      ProjectFile mpx = new MPXReader().read(in);
 
       for (Task task : mpx.getAllTasks())
       {
@@ -493,15 +507,13 @@ public class BasicTest extends MPXJTestCase
       }
    }
 
-
    /**
     * This method exercises task notes, ensuring that
     * embedded commas and quotes are handled correctly.
     *
     * @throws Exception
     */
-   public void testTaskNotes ()
-      throws Exception
+   public void testTaskNotes() throws Exception
    {
       File out = null;
 
@@ -522,58 +534,58 @@ public class BasicTest extends MPXJTestCase
 
          Task task1 = file1.addTask();
          task1.setName("Test Task 1");
-         task1.setDuration(Duration.getInstance (10, TimeUnit.DAYS));
+         task1.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
          task1.setStart(new Date());
          task1.setNotes(notes1);
 
          Task task2 = file1.addTask();
          task2.setName("Test Task 2");
-         task2.setDuration(Duration.getInstance (10, TimeUnit.DAYS));
+         task2.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
          task2.setStart(new Date());
          task2.setNotes(notes2);
 
          Task task3 = file1.addTask();
          task3.setName("Test Task 3");
-         task3.setDuration(Duration.getInstance (10, TimeUnit.DAYS));
+         task3.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
          task3.setStart(new Date());
          task3.setNotes(notes3);
 
          Task task4 = file1.addTask();
          task4.setName("Test Task 4");
-         task4.setDuration(Duration.getInstance (10, TimeUnit.DAYS));
+         task4.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
          task4.setStart(new Date());
          task4.setNotes(notes4);
 
          Task task5 = file1.addTask();
          task5.setName("Test Task 5");
-         task5.setDuration(Duration.getInstance (10, TimeUnit.DAYS));
+         task5.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
          task5.setStart(new Date());
          task5.setNotes(notes5);
 
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (file1, out);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(file1, out);
 
          ProjectFile file2 = new MPXReader().read(out);
          String notes;
          Task task1a = file2.getTaskByUniqueID(task1.getUniqueID());
          notes = task1a.getNotes();
-         assertEquals (notes1, notes);
+         assertEquals(notes1, notes);
 
          Task task2a = file2.getTaskByUniqueID(task2.getUniqueID());
          notes = task2a.getNotes();
-         assertEquals (notes2, notes);
+         assertEquals(notes2, notes);
 
          Task task3a = file2.getTaskByUniqueID(task3.getUniqueID());
          notes = task3a.getNotes();
-         assertEquals (notes3, notes);
+         assertEquals(notes3, notes);
 
          Task task4a = file2.getTaskByUniqueID(task4.getUniqueID());
          notes = task4a.getNotes();
-         assertEquals (notes4, notes);
+         assertEquals(notes4, notes);
 
          Task task5a = file2.getTaskByUniqueID(task5.getUniqueID());
          notes = task5a.getNotes();
-         assertEquals (notes5, notes);
+         assertEquals(notes5, notes);
       }
 
       finally
@@ -591,8 +603,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testResourceNotes ()
-      throws Exception
+   public void testResourceNotes() throws Exception
    {
       File out = null;
 
@@ -631,30 +642,30 @@ public class BasicTest extends MPXJTestCase
          resource5.setName("Test Resource 5");
          resource5.setNotes(notes5);
 
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (file1, out);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(file1, out);
 
-         ProjectFile file2 = new MPXReader().read (out);
+         ProjectFile file2 = new MPXReader().read(out);
          String notes;
          Resource resource1a = file2.getResourceByUniqueID(resource1.getUniqueID());
          notes = resource1a.getNotes();
-         assertEquals (notes1, notes);
+         assertEquals(notes1, notes);
 
          Resource resource2a = file2.getResourceByUniqueID(resource2.getUniqueID());
          notes = resource2a.getNotes();
-         assertEquals (notes2, notes);
+         assertEquals(notes2, notes);
 
          Resource resource3a = file2.getResourceByUniqueID(resource3.getUniqueID());
          notes = resource3a.getNotes();
-         assertEquals (notes3, notes);
+         assertEquals(notes3, notes);
 
          Resource resource4a = file2.getResourceByUniqueID(resource4.getUniqueID());
          notes = resource4a.getNotes();
-         assertEquals (notes4, notes);
+         assertEquals(notes4, notes);
 
          Resource resource5a = file2.getResourceByUniqueID(resource5.getUniqueID());
          notes = resource5a.getNotes();
-         assertEquals (notes5, notes);
+         assertEquals(notes5, notes);
       }
 
       finally
@@ -669,17 +680,16 @@ public class BasicTest extends MPXJTestCase
    /**
     * Read an MPP file that caused problems.
     */
-   public void testBug1 ()
-      throws Exception
+   public void testBug1() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/bug1.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         File in = new File(m_basedir + "/bug1.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out);
       }
 
       finally
@@ -694,17 +704,16 @@ public class BasicTest extends MPXJTestCase
    /**
     * Read an MPP file that caused problems.
     */
-   public void testBug2 ()
-      throws Exception
+   public void testBug2() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/bug2.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         File in = new File(m_basedir + "/bug2.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out);
       }
 
       finally
@@ -720,11 +729,10 @@ public class BasicTest extends MPXJTestCase
     * Read an MPP file where the structure was not being correctly
     * set up to reflect the outline level.
     */
-   public void testBug3 ()
-      throws Exception
+   public void testBug3() throws Exception
    {
-      File in = new File (m_basedir + "/bug3.mpp");
-      ProjectFile mpp = new MPPReader().read (in);
+      File in = new File(m_basedir + "/bug3.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
 
       for (Task task : mpp.getAllTasks())
       {
@@ -735,17 +743,16 @@ public class BasicTest extends MPXJTestCase
    /**
     * Read an MPP8 file with a non-standard task fixed data block size.
     */
-   public void testBug4 ()
-      throws Exception
+   public void testBug4() throws Exception
    {
       File out = null;
 
       try
       {
-         File in = new File (m_basedir + "/bug4.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         File in = new File(m_basedir + "/bug4.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out.getAbsolutePath());
       }
 
       finally
@@ -765,7 +772,7 @@ public class BasicTest extends MPXJTestCase
     * @param task task object
     * @return outline level
     */
-   private int calculateOutlineLevel (Task task)
+   private int calculateOutlineLevel(Task task)
    {
       int level = 0;
 
@@ -775,9 +782,8 @@ public class BasicTest extends MPXJTestCase
          ++level;
       }
 
-      return (level-1);
+      return (level - 1);
    }
-
 
    /**
     * Ensure that we are reading MPP8 flags correctly. This test reads a
@@ -786,14 +792,13 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMPP8Flags1 ()
-      throws Exception
+   public void testMPP8Flags1() throws Exception
    {
-      File in = new File (m_basedir + "/mpp8flags1.mpp");
-      ProjectFile mpp = new MPPReader().read (in);
+      File in = new File(m_basedir + "/mpp8flags1.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
       List<Task> tasks = mpp.getAllTasks();
-      assertTrue ("Not enough tasks", (tasks.size() > 0));
-      assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
+      assertTrue("Not enough tasks", (tasks.size() > 0));
+      assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
 
       Iterator<Task> iter = tasks.iterator();
       Task task;
@@ -852,11 +857,10 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMPP8Flags2 ()
-      throws Exception
+   public void testMPP8Flags2() throws Exception
    {
-      File in = new File (m_basedir + "/mpp8flags2.mpp");
-      ProjectFile mpp = new MPPReader().read (in);
+      File in = new File(m_basedir + "/mpp8flags2.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
       int index = 0;
       boolean[] flags;
 
@@ -865,7 +869,7 @@ public class BasicTest extends MPXJTestCase
          if (task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
-            assertTrue ("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
+            assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
             ++index;
             if (index == 20)
             {
@@ -882,16 +886,15 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMPP9Flags1 ()
-      throws Exception
+   public void testMPP9Flags1() throws Exception
    {
-      File in = new File (m_basedir + "/mpp9flags1.mpp");
-      ProjectFile mpp = new MPPReader().read (in);
+      File in = new File(m_basedir + "/mpp9flags1.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
       Task parentTask = mpp.getTaskByID(Integer.valueOf(0));
       assertNotNull("Parent task missing", parentTask);
       List<Task> tasks = parentTask.getChildTasks();
-      assertTrue ("Not enough tasks", (tasks.size() > 0));
-      assertTrue ("Not an even number of tasks", (tasks.size()%2 == 0));
+      assertTrue("Not enough tasks", (tasks.size() > 0));
+      assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
 
       Iterator<Task> iter = tasks.iterator();
       Task task;
@@ -950,11 +953,10 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMPP9Flags2 ()
-      throws Exception
+   public void testMPP9Flags2() throws Exception
    {
-      File in = new File (m_basedir + "/mpp8flags2.mpp");
-      ProjectFile mpp = new MPPReader().read (in);
+      File in = new File(m_basedir + "/mpp8flags2.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
       int index = 0;
       boolean[] flags;
 
@@ -963,7 +965,7 @@ public class BasicTest extends MPXJTestCase
          if (task.getName().startsWith("Parent") == false)
          {
             flags = getFlagArray(task);
-            assertTrue ("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
+            assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
             ++index;
             if (index == 20)
             {
@@ -980,7 +982,7 @@ public class BasicTest extends MPXJTestCase
     * @param task task object
     * @return boolean array of flags
     */
-   private boolean[] getFlagArray (Task task)
+   private boolean[] getFlagArray(Task task)
    {
       boolean[] flags = new boolean[20];
 
@@ -1016,11 +1018,11 @@ public class BasicTest extends MPXJTestCase
     * @param index array index of flag which should be true
     * @return boolean flag indicating success or failure
     */
-   private boolean testSingleFlagTrue (boolean[] flags, int index)
+   private boolean testSingleFlagTrue(boolean[] flags, int index)
    {
       boolean result = true;
 
-      for (int loop=0; loop < flags.length; loop++)
+      for (int loop = 0; loop < flags.length; loop++)
       {
          if (flags[loop] == true && loop != index)
          {
@@ -1038,14 +1040,13 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testViews ()
-      throws Exception
+   public void testViews() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/sample98.mpp");
       List<View> views = mpp.getViews();
       assertEquals("Incorrect number of views", 1, views.size());
 
-      mpp = new MPPReader().read (m_basedir + "/sample.mpp");
+      mpp = new MPPReader().read(m_basedir + "/sample.mpp");
       views = mpp.getViews();
       assertEquals("Incorrect number of views", 3, views.size());
    }
@@ -1055,26 +1056,25 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testTables ()
-      throws Exception
+   public void testTables() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/sample98.mpp");
       List<Table> tables = mpp.getTables();
-//      Iterator iter = tables.iterator();
-//      while (iter.hasNext() == true)
-//      {
-//         System.out.println(iter.next());
-//      }
+      //      Iterator iter = tables.iterator();
+      //      while (iter.hasNext() == true)
+      //      {
+      //         System.out.println(iter.next());
+      //      }
 
       assertEquals("Incorrect number of tables", 1, tables.size());
 
-      mpp = new MPPReader().read (m_basedir + "/sample.mpp");
+      mpp = new MPPReader().read(m_basedir + "/sample.mpp");
       tables = mpp.getTables();
-//      iter = tables.iterator();
-//      while (iter.hasNext() == true)
-//      {
-//         System.out.println(iter.next());
-//      }
+      //      iter = tables.iterator();
+      //      while (iter.hasNext() == true)
+      //      {
+      //         System.out.println(iter.next());
+      //      }
 
       assertEquals("Incorrect number of tables", 2, tables.size());
    }
@@ -1084,8 +1084,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testTaskCalendars ()
-      throws Exception
+   public void testTaskCalendars() throws Exception
    {
       File out = null;
 
@@ -1095,8 +1094,8 @@ public class BasicTest extends MPXJTestCase
          // Read in the MPP file. The task names should
          // match the calendar names.
          //
-         File in = new File (m_basedir + "/sample1.mpp");
-         ProjectFile mpp = new MPPReader().read (in);
+         File in = new File(m_basedir + "/sample1.mpp");
+         ProjectFile mpp = new MPPReader().read(in);
          ProjectCalendar cal;
 
          for (Task task : mpp.getAllTasks())
@@ -1111,14 +1110,14 @@ public class BasicTest extends MPXJTestCase
          //
          // Write this out as an MSPDI file
          //
-         out = File.createTempFile ("junit", ".xml");
+         out = File.createTempFile("junit", ".xml");
          new MSPDIWriter().write(mpp, out);
 
          //
          // Read the MSPDI file in again, and check the
          // calendar names to ensure consistency
          //
-         ProjectFile mspdi = new MSPDIReader().read (out.getCanonicalPath());
+         ProjectFile mspdi = new MSPDIReader().read(out.getCanonicalPath());
          for (Task task : mspdi.getAllTasks())
          {
             cal = task.getCalendar();
@@ -1143,8 +1142,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMSPDIAliases ()
-      throws Exception
+   public void testMSPDIAliases() throws Exception
    {
       File out = null;
       boolean success = true;
@@ -1154,17 +1152,17 @@ public class BasicTest extends MPXJTestCase
          MSPDIReader reader = new MSPDIReader();
          MSPDIWriter writer = new MSPDIWriter();
 
-         File in = new File (m_basedir + "/alias.xml");
-         ProjectFile xml = reader.read (in);
+         File in = new File(m_basedir + "/alias.xml");
+         ProjectFile xml = reader.read(in);
          validateAliases(xml);
 
-         out = File.createTempFile ("junit", ".xml");
-         writer.write (xml, out);
+         out = File.createTempFile("junit", ".xml");
+         writer.write(xml, out);
 
-         xml = reader.read (out);
+         xml = reader.read(out);
          validateAliases(xml);
 
-         success=true;
+         success = true;
       }
 
       finally
@@ -1181,11 +1179,10 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMPP9Aliases ()
-      throws Exception
+   public void testMPP9Aliases() throws Exception
    {
-      File in = new File (m_basedir + "/alias.mpp");
-      ProjectFile mpp = new MPPReader().read (in);
+      File in = new File(m_basedir + "/alias.mpp");
+      ProjectFile mpp = new MPPReader().read(in);
       validateAliases(mpp);
    }
 
@@ -1195,269 +1192,269 @@ public class BasicTest extends MPXJTestCase
     *
     * @param mpx MPX file
     */
-   private void validateAliases (ProjectFile mpx)
+   private void validateAliases(ProjectFile mpx)
    {
-      assertEquals ("Text1t", mpx.getTaskFieldAlias(TaskField.TEXT1));
-      assertEquals ("Text2t", mpx.getTaskFieldAlias(TaskField.TEXT2));
-      assertEquals ("Text3t", mpx.getTaskFieldAlias(TaskField.TEXT3));
-      assertEquals ("Text4t", mpx.getTaskFieldAlias(TaskField.TEXT4));
-      assertEquals ("Text5t", mpx.getTaskFieldAlias(TaskField.TEXT5));
-      assertEquals ("Text6t", mpx.getTaskFieldAlias(TaskField.TEXT6));
-      assertEquals ("Text7t", mpx.getTaskFieldAlias(TaskField.TEXT7));
-      assertEquals ("Text8t", mpx.getTaskFieldAlias(TaskField.TEXT8));
-      assertEquals ("Text9t", mpx.getTaskFieldAlias(TaskField.TEXT9));
-      assertEquals ("Text10t", mpx.getTaskFieldAlias(TaskField.TEXT10));
-      assertEquals ("Text11t", mpx.getTaskFieldAlias(TaskField.TEXT11));
-      assertEquals ("Text12t", mpx.getTaskFieldAlias(TaskField.TEXT12));
-      assertEquals ("Text13t", mpx.getTaskFieldAlias(TaskField.TEXT13));
-      assertEquals ("Text14t", mpx.getTaskFieldAlias(TaskField.TEXT14));
-      assertEquals ("Text15t", mpx.getTaskFieldAlias(TaskField.TEXT15));
-      assertEquals ("Text16t", mpx.getTaskFieldAlias(TaskField.TEXT16));
-      assertEquals ("Text17t", mpx.getTaskFieldAlias(TaskField.TEXT17));
-      assertEquals ("Text18t", mpx.getTaskFieldAlias(TaskField.TEXT18));
-      assertEquals ("Text19t", mpx.getTaskFieldAlias(TaskField.TEXT19));
-      assertEquals ("Text20t", mpx.getTaskFieldAlias(TaskField.TEXT20));
-      assertEquals ("Text21t", mpx.getTaskFieldAlias(TaskField.TEXT21));
-      assertEquals ("Text22t", mpx.getTaskFieldAlias(TaskField.TEXT22));
-      assertEquals ("Text23t", mpx.getTaskFieldAlias(TaskField.TEXT23));
-      assertEquals ("Text24t", mpx.getTaskFieldAlias(TaskField.TEXT24));
-      assertEquals ("Text25t", mpx.getTaskFieldAlias(TaskField.TEXT25));
-      assertEquals ("Text26t", mpx.getTaskFieldAlias(TaskField.TEXT26));
-      assertEquals ("Text27t", mpx.getTaskFieldAlias(TaskField.TEXT27));
-      assertEquals ("Text28t", mpx.getTaskFieldAlias(TaskField.TEXT28));
-      assertEquals ("Text29t", mpx.getTaskFieldAlias(TaskField.TEXT29));
-      assertEquals ("Text30t", mpx.getTaskFieldAlias(TaskField.TEXT30));
-      assertEquals ("Start1t", mpx.getTaskFieldAlias(TaskField.START1));
-      assertEquals ("Start2t", mpx.getTaskFieldAlias(TaskField.START2));
-      assertEquals ("Start3t", mpx.getTaskFieldAlias(TaskField.START3));
-      assertEquals ("Start4t", mpx.getTaskFieldAlias(TaskField.START4));
-      assertEquals ("Start5t", mpx.getTaskFieldAlias(TaskField.START5));
-      assertEquals ("Start6t", mpx.getTaskFieldAlias(TaskField.START6));
-      assertEquals ("Start7t", mpx.getTaskFieldAlias(TaskField.START7));
-      assertEquals ("Start8t", mpx.getTaskFieldAlias(TaskField.START8));
-      assertEquals ("Start9t", mpx.getTaskFieldAlias(TaskField.START9));
-      assertEquals ("Start10t", mpx.getTaskFieldAlias(TaskField.START10));
-      assertEquals ("Finish1t", mpx.getTaskFieldAlias(TaskField.FINISH1));
-      assertEquals ("Finish2t", mpx.getTaskFieldAlias(TaskField.FINISH2));
-      assertEquals ("Finish3t", mpx.getTaskFieldAlias(TaskField.FINISH3));
-      assertEquals ("Finish4t", mpx.getTaskFieldAlias(TaskField.FINISH4));
-      assertEquals ("Finish5t", mpx.getTaskFieldAlias(TaskField.FINISH5));
-      assertEquals ("Finish6t", mpx.getTaskFieldAlias(TaskField.FINISH6));
-      assertEquals ("Finish7t", mpx.getTaskFieldAlias(TaskField.FINISH7));
-      assertEquals ("Finish8t", mpx.getTaskFieldAlias(TaskField.FINISH8));
-      assertEquals ("Finish9t", mpx.getTaskFieldAlias(TaskField.FINISH9));
-      assertEquals ("Finish10t", mpx.getTaskFieldAlias(TaskField.FINISH10));
-      assertEquals ("Cost1t", mpx.getTaskFieldAlias(TaskField.COST1));
-      assertEquals ("Cost2t", mpx.getTaskFieldAlias(TaskField.COST2));
-      assertEquals ("Cost3t", mpx.getTaskFieldAlias(TaskField.COST3));
-      assertEquals ("Cost4t", mpx.getTaskFieldAlias(TaskField.COST4));
-      assertEquals ("Cost5t", mpx.getTaskFieldAlias(TaskField.COST5));
-      assertEquals ("Cost6t", mpx.getTaskFieldAlias(TaskField.COST6));
-      assertEquals ("Cost7t", mpx.getTaskFieldAlias(TaskField.COST7));
-      assertEquals ("Cost8t", mpx.getTaskFieldAlias(TaskField.COST8));
-      assertEquals ("Cost9t", mpx.getTaskFieldAlias(TaskField.COST9));
-      assertEquals ("Cost10t", mpx.getTaskFieldAlias(TaskField.COST10));
-      assertEquals ("Date1t", mpx.getTaskFieldAlias(TaskField.DATE1));
-      assertEquals ("Date2t", mpx.getTaskFieldAlias(TaskField.DATE2));
-      assertEquals ("Date3t", mpx.getTaskFieldAlias(TaskField.DATE3));
-      assertEquals ("Date4t", mpx.getTaskFieldAlias(TaskField.DATE4));
-      assertEquals ("Date5t", mpx.getTaskFieldAlias(TaskField.DATE5));
-      assertEquals ("Date6t", mpx.getTaskFieldAlias(TaskField.DATE6));
-      assertEquals ("Date7t", mpx.getTaskFieldAlias(TaskField.DATE7));
-      assertEquals ("Date8t", mpx.getTaskFieldAlias(TaskField.DATE8));
-      assertEquals ("Date9t", mpx.getTaskFieldAlias(TaskField.DATE9));
-      assertEquals ("Date10t", mpx.getTaskFieldAlias(TaskField.DATE10));
-      assertEquals ("Flag1t", mpx.getTaskFieldAlias(TaskField.FLAG1));
-      assertEquals ("Flag2t", mpx.getTaskFieldAlias(TaskField.FLAG2));
-      assertEquals ("Flag3t", mpx.getTaskFieldAlias(TaskField.FLAG3));
-      assertEquals ("Flag4t", mpx.getTaskFieldAlias(TaskField.FLAG4));
-      assertEquals ("Flag5t", mpx.getTaskFieldAlias(TaskField.FLAG5));
-      assertEquals ("Flag6t", mpx.getTaskFieldAlias(TaskField.FLAG6));
-      assertEquals ("Flag7t", mpx.getTaskFieldAlias(TaskField.FLAG7));
-      assertEquals ("Flag8t", mpx.getTaskFieldAlias(TaskField.FLAG8));
-      assertEquals ("Flag9t", mpx.getTaskFieldAlias(TaskField.FLAG9));
-      assertEquals ("Flag10t", mpx.getTaskFieldAlias(TaskField.FLAG10));
-      assertEquals ("Flag11t", mpx.getTaskFieldAlias(TaskField.FLAG11));
-      assertEquals ("Flag12t", mpx.getTaskFieldAlias(TaskField.FLAG12));
-      assertEquals ("Flag13t", mpx.getTaskFieldAlias(TaskField.FLAG13));
-      assertEquals ("Flag14t", mpx.getTaskFieldAlias(TaskField.FLAG14));
-      assertEquals ("Flag15t", mpx.getTaskFieldAlias(TaskField.FLAG15));
-      assertEquals ("Flag16t", mpx.getTaskFieldAlias(TaskField.FLAG16));
-      assertEquals ("Flag17t", mpx.getTaskFieldAlias(TaskField.FLAG17));
-      assertEquals ("Flag18t", mpx.getTaskFieldAlias(TaskField.FLAG18));
-      assertEquals ("Flag19t", mpx.getTaskFieldAlias(TaskField.FLAG19));
-      assertEquals ("Flag20t", mpx.getTaskFieldAlias(TaskField.FLAG20));
-      assertEquals ("Number1t", mpx.getTaskFieldAlias(TaskField.NUMBER1));
-      assertEquals ("Number2t", mpx.getTaskFieldAlias(TaskField.NUMBER2));
-      assertEquals ("Number3t", mpx.getTaskFieldAlias(TaskField.NUMBER3));
-      assertEquals ("Number4t", mpx.getTaskFieldAlias(TaskField.NUMBER4));
-      assertEquals ("Number5t", mpx.getTaskFieldAlias(TaskField.NUMBER5));
-      assertEquals ("Number6t", mpx.getTaskFieldAlias(TaskField.NUMBER6));
-      assertEquals ("Number7t", mpx.getTaskFieldAlias(TaskField.NUMBER7));
-      assertEquals ("Number8t", mpx.getTaskFieldAlias(TaskField.NUMBER8));
-      assertEquals ("Number9t", mpx.getTaskFieldAlias(TaskField.NUMBER9));
-      assertEquals ("Number10t", mpx.getTaskFieldAlias(TaskField.NUMBER10));
-      assertEquals ("Number11t", mpx.getTaskFieldAlias(TaskField.NUMBER11));
-      assertEquals ("Number12t", mpx.getTaskFieldAlias(TaskField.NUMBER12));
-      assertEquals ("Number13t", mpx.getTaskFieldAlias(TaskField.NUMBER13));
-      assertEquals ("Number14t", mpx.getTaskFieldAlias(TaskField.NUMBER14));
-      assertEquals ("Number15t", mpx.getTaskFieldAlias(TaskField.NUMBER15));
-      assertEquals ("Number16t", mpx.getTaskFieldAlias(TaskField.NUMBER16));
-      assertEquals ("Number17t", mpx.getTaskFieldAlias(TaskField.NUMBER17));
-      assertEquals ("Number18t", mpx.getTaskFieldAlias(TaskField.NUMBER18));
-      assertEquals ("Number19t", mpx.getTaskFieldAlias(TaskField.NUMBER19));
-      assertEquals ("Number20t", mpx.getTaskFieldAlias(TaskField.NUMBER20));
-      assertEquals ("Duration1t", mpx.getTaskFieldAlias(TaskField.DURATION1));
-      assertEquals ("Duration2t", mpx.getTaskFieldAlias(TaskField.DURATION2));
-      assertEquals ("Duration3t", mpx.getTaskFieldAlias(TaskField.DURATION3));
-      assertEquals ("Duration4t", mpx.getTaskFieldAlias(TaskField.DURATION4));
-      assertEquals ("Duration5t", mpx.getTaskFieldAlias(TaskField.DURATION5));
-      assertEquals ("Duration6t", mpx.getTaskFieldAlias(TaskField.DURATION6));
-      assertEquals ("Duration7t", mpx.getTaskFieldAlias(TaskField.DURATION7));
-      assertEquals ("Duration8t", mpx.getTaskFieldAlias(TaskField.DURATION8));
-      assertEquals ("Duration9t", mpx.getTaskFieldAlias(TaskField.DURATION9));
-      assertEquals ("Duration10t", mpx.getTaskFieldAlias(TaskField.DURATION10));
-      assertEquals ("Outline Code1t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE1));
-      assertEquals ("Outline Code2t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE2));
-      assertEquals ("Outline Code3t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE3));
-      assertEquals ("Outline Code4t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE4));
-      assertEquals ("Outline Code5t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE5));
-      assertEquals ("Outline Code6t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE6));
-      assertEquals ("Outline Code7t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE7));
-      assertEquals ("Outline Code8t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE8));
-      assertEquals ("Outline Code9t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE9));
-      assertEquals ("Outline Code10t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE10));
+      assertEquals("Text1t", mpx.getTaskFieldAlias(TaskField.TEXT1));
+      assertEquals("Text2t", mpx.getTaskFieldAlias(TaskField.TEXT2));
+      assertEquals("Text3t", mpx.getTaskFieldAlias(TaskField.TEXT3));
+      assertEquals("Text4t", mpx.getTaskFieldAlias(TaskField.TEXT4));
+      assertEquals("Text5t", mpx.getTaskFieldAlias(TaskField.TEXT5));
+      assertEquals("Text6t", mpx.getTaskFieldAlias(TaskField.TEXT6));
+      assertEquals("Text7t", mpx.getTaskFieldAlias(TaskField.TEXT7));
+      assertEquals("Text8t", mpx.getTaskFieldAlias(TaskField.TEXT8));
+      assertEquals("Text9t", mpx.getTaskFieldAlias(TaskField.TEXT9));
+      assertEquals("Text10t", mpx.getTaskFieldAlias(TaskField.TEXT10));
+      assertEquals("Text11t", mpx.getTaskFieldAlias(TaskField.TEXT11));
+      assertEquals("Text12t", mpx.getTaskFieldAlias(TaskField.TEXT12));
+      assertEquals("Text13t", mpx.getTaskFieldAlias(TaskField.TEXT13));
+      assertEquals("Text14t", mpx.getTaskFieldAlias(TaskField.TEXT14));
+      assertEquals("Text15t", mpx.getTaskFieldAlias(TaskField.TEXT15));
+      assertEquals("Text16t", mpx.getTaskFieldAlias(TaskField.TEXT16));
+      assertEquals("Text17t", mpx.getTaskFieldAlias(TaskField.TEXT17));
+      assertEquals("Text18t", mpx.getTaskFieldAlias(TaskField.TEXT18));
+      assertEquals("Text19t", mpx.getTaskFieldAlias(TaskField.TEXT19));
+      assertEquals("Text20t", mpx.getTaskFieldAlias(TaskField.TEXT20));
+      assertEquals("Text21t", mpx.getTaskFieldAlias(TaskField.TEXT21));
+      assertEquals("Text22t", mpx.getTaskFieldAlias(TaskField.TEXT22));
+      assertEquals("Text23t", mpx.getTaskFieldAlias(TaskField.TEXT23));
+      assertEquals("Text24t", mpx.getTaskFieldAlias(TaskField.TEXT24));
+      assertEquals("Text25t", mpx.getTaskFieldAlias(TaskField.TEXT25));
+      assertEquals("Text26t", mpx.getTaskFieldAlias(TaskField.TEXT26));
+      assertEquals("Text27t", mpx.getTaskFieldAlias(TaskField.TEXT27));
+      assertEquals("Text28t", mpx.getTaskFieldAlias(TaskField.TEXT28));
+      assertEquals("Text29t", mpx.getTaskFieldAlias(TaskField.TEXT29));
+      assertEquals("Text30t", mpx.getTaskFieldAlias(TaskField.TEXT30));
+      assertEquals("Start1t", mpx.getTaskFieldAlias(TaskField.START1));
+      assertEquals("Start2t", mpx.getTaskFieldAlias(TaskField.START2));
+      assertEquals("Start3t", mpx.getTaskFieldAlias(TaskField.START3));
+      assertEquals("Start4t", mpx.getTaskFieldAlias(TaskField.START4));
+      assertEquals("Start5t", mpx.getTaskFieldAlias(TaskField.START5));
+      assertEquals("Start6t", mpx.getTaskFieldAlias(TaskField.START6));
+      assertEquals("Start7t", mpx.getTaskFieldAlias(TaskField.START7));
+      assertEquals("Start8t", mpx.getTaskFieldAlias(TaskField.START8));
+      assertEquals("Start9t", mpx.getTaskFieldAlias(TaskField.START9));
+      assertEquals("Start10t", mpx.getTaskFieldAlias(TaskField.START10));
+      assertEquals("Finish1t", mpx.getTaskFieldAlias(TaskField.FINISH1));
+      assertEquals("Finish2t", mpx.getTaskFieldAlias(TaskField.FINISH2));
+      assertEquals("Finish3t", mpx.getTaskFieldAlias(TaskField.FINISH3));
+      assertEquals("Finish4t", mpx.getTaskFieldAlias(TaskField.FINISH4));
+      assertEquals("Finish5t", mpx.getTaskFieldAlias(TaskField.FINISH5));
+      assertEquals("Finish6t", mpx.getTaskFieldAlias(TaskField.FINISH6));
+      assertEquals("Finish7t", mpx.getTaskFieldAlias(TaskField.FINISH7));
+      assertEquals("Finish8t", mpx.getTaskFieldAlias(TaskField.FINISH8));
+      assertEquals("Finish9t", mpx.getTaskFieldAlias(TaskField.FINISH9));
+      assertEquals("Finish10t", mpx.getTaskFieldAlias(TaskField.FINISH10));
+      assertEquals("Cost1t", mpx.getTaskFieldAlias(TaskField.COST1));
+      assertEquals("Cost2t", mpx.getTaskFieldAlias(TaskField.COST2));
+      assertEquals("Cost3t", mpx.getTaskFieldAlias(TaskField.COST3));
+      assertEquals("Cost4t", mpx.getTaskFieldAlias(TaskField.COST4));
+      assertEquals("Cost5t", mpx.getTaskFieldAlias(TaskField.COST5));
+      assertEquals("Cost6t", mpx.getTaskFieldAlias(TaskField.COST6));
+      assertEquals("Cost7t", mpx.getTaskFieldAlias(TaskField.COST7));
+      assertEquals("Cost8t", mpx.getTaskFieldAlias(TaskField.COST8));
+      assertEquals("Cost9t", mpx.getTaskFieldAlias(TaskField.COST9));
+      assertEquals("Cost10t", mpx.getTaskFieldAlias(TaskField.COST10));
+      assertEquals("Date1t", mpx.getTaskFieldAlias(TaskField.DATE1));
+      assertEquals("Date2t", mpx.getTaskFieldAlias(TaskField.DATE2));
+      assertEquals("Date3t", mpx.getTaskFieldAlias(TaskField.DATE3));
+      assertEquals("Date4t", mpx.getTaskFieldAlias(TaskField.DATE4));
+      assertEquals("Date5t", mpx.getTaskFieldAlias(TaskField.DATE5));
+      assertEquals("Date6t", mpx.getTaskFieldAlias(TaskField.DATE6));
+      assertEquals("Date7t", mpx.getTaskFieldAlias(TaskField.DATE7));
+      assertEquals("Date8t", mpx.getTaskFieldAlias(TaskField.DATE8));
+      assertEquals("Date9t", mpx.getTaskFieldAlias(TaskField.DATE9));
+      assertEquals("Date10t", mpx.getTaskFieldAlias(TaskField.DATE10));
+      assertEquals("Flag1t", mpx.getTaskFieldAlias(TaskField.FLAG1));
+      assertEquals("Flag2t", mpx.getTaskFieldAlias(TaskField.FLAG2));
+      assertEquals("Flag3t", mpx.getTaskFieldAlias(TaskField.FLAG3));
+      assertEquals("Flag4t", mpx.getTaskFieldAlias(TaskField.FLAG4));
+      assertEquals("Flag5t", mpx.getTaskFieldAlias(TaskField.FLAG5));
+      assertEquals("Flag6t", mpx.getTaskFieldAlias(TaskField.FLAG6));
+      assertEquals("Flag7t", mpx.getTaskFieldAlias(TaskField.FLAG7));
+      assertEquals("Flag8t", mpx.getTaskFieldAlias(TaskField.FLAG8));
+      assertEquals("Flag9t", mpx.getTaskFieldAlias(TaskField.FLAG9));
+      assertEquals("Flag10t", mpx.getTaskFieldAlias(TaskField.FLAG10));
+      assertEquals("Flag11t", mpx.getTaskFieldAlias(TaskField.FLAG11));
+      assertEquals("Flag12t", mpx.getTaskFieldAlias(TaskField.FLAG12));
+      assertEquals("Flag13t", mpx.getTaskFieldAlias(TaskField.FLAG13));
+      assertEquals("Flag14t", mpx.getTaskFieldAlias(TaskField.FLAG14));
+      assertEquals("Flag15t", mpx.getTaskFieldAlias(TaskField.FLAG15));
+      assertEquals("Flag16t", mpx.getTaskFieldAlias(TaskField.FLAG16));
+      assertEquals("Flag17t", mpx.getTaskFieldAlias(TaskField.FLAG17));
+      assertEquals("Flag18t", mpx.getTaskFieldAlias(TaskField.FLAG18));
+      assertEquals("Flag19t", mpx.getTaskFieldAlias(TaskField.FLAG19));
+      assertEquals("Flag20t", mpx.getTaskFieldAlias(TaskField.FLAG20));
+      assertEquals("Number1t", mpx.getTaskFieldAlias(TaskField.NUMBER1));
+      assertEquals("Number2t", mpx.getTaskFieldAlias(TaskField.NUMBER2));
+      assertEquals("Number3t", mpx.getTaskFieldAlias(TaskField.NUMBER3));
+      assertEquals("Number4t", mpx.getTaskFieldAlias(TaskField.NUMBER4));
+      assertEquals("Number5t", mpx.getTaskFieldAlias(TaskField.NUMBER5));
+      assertEquals("Number6t", mpx.getTaskFieldAlias(TaskField.NUMBER6));
+      assertEquals("Number7t", mpx.getTaskFieldAlias(TaskField.NUMBER7));
+      assertEquals("Number8t", mpx.getTaskFieldAlias(TaskField.NUMBER8));
+      assertEquals("Number9t", mpx.getTaskFieldAlias(TaskField.NUMBER9));
+      assertEquals("Number10t", mpx.getTaskFieldAlias(TaskField.NUMBER10));
+      assertEquals("Number11t", mpx.getTaskFieldAlias(TaskField.NUMBER11));
+      assertEquals("Number12t", mpx.getTaskFieldAlias(TaskField.NUMBER12));
+      assertEquals("Number13t", mpx.getTaskFieldAlias(TaskField.NUMBER13));
+      assertEquals("Number14t", mpx.getTaskFieldAlias(TaskField.NUMBER14));
+      assertEquals("Number15t", mpx.getTaskFieldAlias(TaskField.NUMBER15));
+      assertEquals("Number16t", mpx.getTaskFieldAlias(TaskField.NUMBER16));
+      assertEquals("Number17t", mpx.getTaskFieldAlias(TaskField.NUMBER17));
+      assertEquals("Number18t", mpx.getTaskFieldAlias(TaskField.NUMBER18));
+      assertEquals("Number19t", mpx.getTaskFieldAlias(TaskField.NUMBER19));
+      assertEquals("Number20t", mpx.getTaskFieldAlias(TaskField.NUMBER20));
+      assertEquals("Duration1t", mpx.getTaskFieldAlias(TaskField.DURATION1));
+      assertEquals("Duration2t", mpx.getTaskFieldAlias(TaskField.DURATION2));
+      assertEquals("Duration3t", mpx.getTaskFieldAlias(TaskField.DURATION3));
+      assertEquals("Duration4t", mpx.getTaskFieldAlias(TaskField.DURATION4));
+      assertEquals("Duration5t", mpx.getTaskFieldAlias(TaskField.DURATION5));
+      assertEquals("Duration6t", mpx.getTaskFieldAlias(TaskField.DURATION6));
+      assertEquals("Duration7t", mpx.getTaskFieldAlias(TaskField.DURATION7));
+      assertEquals("Duration8t", mpx.getTaskFieldAlias(TaskField.DURATION8));
+      assertEquals("Duration9t", mpx.getTaskFieldAlias(TaskField.DURATION9));
+      assertEquals("Duration10t", mpx.getTaskFieldAlias(TaskField.DURATION10));
+      assertEquals("Outline Code1t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE1));
+      assertEquals("Outline Code2t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE2));
+      assertEquals("Outline Code3t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE3));
+      assertEquals("Outline Code4t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE4));
+      assertEquals("Outline Code5t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE5));
+      assertEquals("Outline Code6t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE6));
+      assertEquals("Outline Code7t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE7));
+      assertEquals("Outline Code8t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE8));
+      assertEquals("Outline Code9t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE9));
+      assertEquals("Outline Code10t", mpx.getTaskFieldAlias(TaskField.OUTLINE_CODE10));
 
-      assertEquals ("Text1r", mpx.getResourceFieldAlias(ResourceField.TEXT1));
-      assertEquals ("Text2r", mpx.getResourceFieldAlias(ResourceField.TEXT2));
-      assertEquals ("Text3r", mpx.getResourceFieldAlias(ResourceField.TEXT3));
-      assertEquals ("Text4r", mpx.getResourceFieldAlias(ResourceField.TEXT4));
-      assertEquals ("Text5r", mpx.getResourceFieldAlias(ResourceField.TEXT5));
-      assertEquals ("Text6r", mpx.getResourceFieldAlias(ResourceField.TEXT6));
-      assertEquals ("Text7r", mpx.getResourceFieldAlias(ResourceField.TEXT7));
-      assertEquals ("Text8r", mpx.getResourceFieldAlias(ResourceField.TEXT8));
-      assertEquals ("Text9r", mpx.getResourceFieldAlias(ResourceField.TEXT9));
-      assertEquals ("Text10r", mpx.getResourceFieldAlias(ResourceField.TEXT10));
-      assertEquals ("Text11r", mpx.getResourceFieldAlias(ResourceField.TEXT11));
-      assertEquals ("Text12r", mpx.getResourceFieldAlias(ResourceField.TEXT12));
-      assertEquals ("Text13r", mpx.getResourceFieldAlias(ResourceField.TEXT13));
-      assertEquals ("Text14r", mpx.getResourceFieldAlias(ResourceField.TEXT14));
-      assertEquals ("Text15r", mpx.getResourceFieldAlias(ResourceField.TEXT15));
-      assertEquals ("Text16r", mpx.getResourceFieldAlias(ResourceField.TEXT16));
-      assertEquals ("Text17r", mpx.getResourceFieldAlias(ResourceField.TEXT17));
-      assertEquals ("Text18r", mpx.getResourceFieldAlias(ResourceField.TEXT18));
-      assertEquals ("Text19r", mpx.getResourceFieldAlias(ResourceField.TEXT19));
-      assertEquals ("Text20r", mpx.getResourceFieldAlias(ResourceField.TEXT20));
-      assertEquals ("Text21r", mpx.getResourceFieldAlias(ResourceField.TEXT21));
-      assertEquals ("Text22r", mpx.getResourceFieldAlias(ResourceField.TEXT22));
-      assertEquals ("Text23r", mpx.getResourceFieldAlias(ResourceField.TEXT23));
-      assertEquals ("Text24r", mpx.getResourceFieldAlias(ResourceField.TEXT24));
-      assertEquals ("Text25r", mpx.getResourceFieldAlias(ResourceField.TEXT25));
-      assertEquals ("Text26r", mpx.getResourceFieldAlias(ResourceField.TEXT26));
-      assertEquals ("Text27r", mpx.getResourceFieldAlias(ResourceField.TEXT27));
-      assertEquals ("Text28r", mpx.getResourceFieldAlias(ResourceField.TEXT28));
-      assertEquals ("Text29r", mpx.getResourceFieldAlias(ResourceField.TEXT29));
-      assertEquals ("Text30r", mpx.getResourceFieldAlias(ResourceField.TEXT30));
-      assertEquals ("Start1r", mpx.getResourceFieldAlias(ResourceField.START1));
-      assertEquals ("Start2r", mpx.getResourceFieldAlias(ResourceField.START2));
-      assertEquals ("Start3r", mpx.getResourceFieldAlias(ResourceField.START3));
-      assertEquals ("Start4r", mpx.getResourceFieldAlias(ResourceField.START4));
-      assertEquals ("Start5r", mpx.getResourceFieldAlias(ResourceField.START5));
-      assertEquals ("Start6r", mpx.getResourceFieldAlias(ResourceField.START6));
-      assertEquals ("Start7r", mpx.getResourceFieldAlias(ResourceField.START7));
-      assertEquals ("Start8r", mpx.getResourceFieldAlias(ResourceField.START8));
-      assertEquals ("Start9r", mpx.getResourceFieldAlias(ResourceField.START9));
-      assertEquals ("Start10r", mpx.getResourceFieldAlias(ResourceField.START10));
-      assertEquals ("Finish1r", mpx.getResourceFieldAlias(ResourceField.FINISH1));
-      assertEquals ("Finish2r", mpx.getResourceFieldAlias(ResourceField.FINISH2));
-      assertEquals ("Finish3r", mpx.getResourceFieldAlias(ResourceField.FINISH3));
-      assertEquals ("Finish4r", mpx.getResourceFieldAlias(ResourceField.FINISH4));
-      assertEquals ("Finish5r", mpx.getResourceFieldAlias(ResourceField.FINISH5));
-      assertEquals ("Finish6r", mpx.getResourceFieldAlias(ResourceField.FINISH6));
-      assertEquals ("Finish7r", mpx.getResourceFieldAlias(ResourceField.FINISH7));
-      assertEquals ("Finish8r", mpx.getResourceFieldAlias(ResourceField.FINISH8));
-      assertEquals ("Finish9r", mpx.getResourceFieldAlias(ResourceField.FINISH9));
-      assertEquals ("Finish10r", mpx.getResourceFieldAlias(ResourceField.FINISH10));
-      assertEquals ("Cost1r", mpx.getResourceFieldAlias(ResourceField.COST1));
-      assertEquals ("Cost2r", mpx.getResourceFieldAlias(ResourceField.COST2));
-      assertEquals ("Cost3r", mpx.getResourceFieldAlias(ResourceField.COST3));
-      assertEquals ("Cost4r", mpx.getResourceFieldAlias(ResourceField.COST4));
-      assertEquals ("Cost5r", mpx.getResourceFieldAlias(ResourceField.COST5));
-      assertEquals ("Cost6r", mpx.getResourceFieldAlias(ResourceField.COST6));
-      assertEquals ("Cost7r", mpx.getResourceFieldAlias(ResourceField.COST7));
-      assertEquals ("Cost8r", mpx.getResourceFieldAlias(ResourceField.COST8));
-      assertEquals ("Cost9r", mpx.getResourceFieldAlias(ResourceField.COST9));
-      assertEquals ("Cost10r", mpx.getResourceFieldAlias(ResourceField.COST10));
-      assertEquals ("Date1r", mpx.getResourceFieldAlias(ResourceField.DATE1));
-      assertEquals ("Date2r", mpx.getResourceFieldAlias(ResourceField.DATE2));
-      assertEquals ("Date3r", mpx.getResourceFieldAlias(ResourceField.DATE3));
-      assertEquals ("Date4r", mpx.getResourceFieldAlias(ResourceField.DATE4));
-      assertEquals ("Date5r", mpx.getResourceFieldAlias(ResourceField.DATE5));
-      assertEquals ("Date6r", mpx.getResourceFieldAlias(ResourceField.DATE6));
-      assertEquals ("Date7r", mpx.getResourceFieldAlias(ResourceField.DATE7));
-      assertEquals ("Date8r", mpx.getResourceFieldAlias(ResourceField.DATE8));
-      assertEquals ("Date9r", mpx.getResourceFieldAlias(ResourceField.DATE9));
-      assertEquals ("Date10r", mpx.getResourceFieldAlias(ResourceField.DATE10));
-      assertEquals ("Flag1r", mpx.getResourceFieldAlias(ResourceField.FLAG1));
-      assertEquals ("Flag2r", mpx.getResourceFieldAlias(ResourceField.FLAG2));
-      assertEquals ("Flag3r", mpx.getResourceFieldAlias(ResourceField.FLAG3));
-      assertEquals ("Flag4r", mpx.getResourceFieldAlias(ResourceField.FLAG4));
-      assertEquals ("Flag5r", mpx.getResourceFieldAlias(ResourceField.FLAG5));
-      assertEquals ("Flag6r", mpx.getResourceFieldAlias(ResourceField.FLAG6));
-      assertEquals ("Flag7r", mpx.getResourceFieldAlias(ResourceField.FLAG7));
-      assertEquals ("Flag8r", mpx.getResourceFieldAlias(ResourceField.FLAG8));
-      assertEquals ("Flag9r", mpx.getResourceFieldAlias(ResourceField.FLAG9));
-      assertEquals ("Flag10r", mpx.getResourceFieldAlias(ResourceField.FLAG10));
-      assertEquals ("Flag11r", mpx.getResourceFieldAlias(ResourceField.FLAG11));
-      assertEquals ("Flag12r", mpx.getResourceFieldAlias(ResourceField.FLAG12));
-      assertEquals ("Flag13r", mpx.getResourceFieldAlias(ResourceField.FLAG13));
-      assertEquals ("Flag14r", mpx.getResourceFieldAlias(ResourceField.FLAG14));
-      assertEquals ("Flag15r", mpx.getResourceFieldAlias(ResourceField.FLAG15));
-      assertEquals ("Flag16r", mpx.getResourceFieldAlias(ResourceField.FLAG16));
-      assertEquals ("Flag17r", mpx.getResourceFieldAlias(ResourceField.FLAG17));
-      assertEquals ("Flag18r", mpx.getResourceFieldAlias(ResourceField.FLAG18));
-      assertEquals ("Flag19r", mpx.getResourceFieldAlias(ResourceField.FLAG19));
-      assertEquals ("Flag20r", mpx.getResourceFieldAlias(ResourceField.FLAG20));
-      assertEquals ("Number1r", mpx.getResourceFieldAlias(ResourceField.NUMBER1));
-      assertEquals ("Number2r", mpx.getResourceFieldAlias(ResourceField.NUMBER2));
-      assertEquals ("Number3r", mpx.getResourceFieldAlias(ResourceField.NUMBER3));
-      assertEquals ("Number4r", mpx.getResourceFieldAlias(ResourceField.NUMBER4));
-      assertEquals ("Number5r", mpx.getResourceFieldAlias(ResourceField.NUMBER5));
-      assertEquals ("Number6r", mpx.getResourceFieldAlias(ResourceField.NUMBER6));
-      assertEquals ("Number7r", mpx.getResourceFieldAlias(ResourceField.NUMBER7));
-      assertEquals ("Number8r", mpx.getResourceFieldAlias(ResourceField.NUMBER8));
-      assertEquals ("Number9r", mpx.getResourceFieldAlias(ResourceField.NUMBER9));
-      assertEquals ("Number10r", mpx.getResourceFieldAlias(ResourceField.NUMBER10));
-      assertEquals ("Number11r", mpx.getResourceFieldAlias(ResourceField.NUMBER11));
-      assertEquals ("Number12r", mpx.getResourceFieldAlias(ResourceField.NUMBER12));
-      assertEquals ("Number13r", mpx.getResourceFieldAlias(ResourceField.NUMBER13));
-      assertEquals ("Number14r", mpx.getResourceFieldAlias(ResourceField.NUMBER14));
-      assertEquals ("Number15r", mpx.getResourceFieldAlias(ResourceField.NUMBER15));
-      assertEquals ("Number16r", mpx.getResourceFieldAlias(ResourceField.NUMBER16));
-      assertEquals ("Number17r", mpx.getResourceFieldAlias(ResourceField.NUMBER17));
-      assertEquals ("Number18r", mpx.getResourceFieldAlias(ResourceField.NUMBER18));
-      assertEquals ("Number19r", mpx.getResourceFieldAlias(ResourceField.NUMBER19));
-      assertEquals ("Number20r", mpx.getResourceFieldAlias(ResourceField.NUMBER20));
-      assertEquals ("Duration1r", mpx.getResourceFieldAlias(ResourceField.DURATION1));
-      assertEquals ("Duration2r", mpx.getResourceFieldAlias(ResourceField.DURATION2));
-      assertEquals ("Duration3r", mpx.getResourceFieldAlias(ResourceField.DURATION3));
-      assertEquals ("Duration4r", mpx.getResourceFieldAlias(ResourceField.DURATION4));
-      assertEquals ("Duration5r", mpx.getResourceFieldAlias(ResourceField.DURATION5));
-      assertEquals ("Duration6r", mpx.getResourceFieldAlias(ResourceField.DURATION6));
-      assertEquals ("Duration7r", mpx.getResourceFieldAlias(ResourceField.DURATION7));
-      assertEquals ("Duration8r", mpx.getResourceFieldAlias(ResourceField.DURATION8));
-      assertEquals ("Duration9r", mpx.getResourceFieldAlias(ResourceField.DURATION9));
-      assertEquals ("Duration10r", mpx.getResourceFieldAlias(ResourceField.DURATION10));
-      assertEquals ("Outline Code1r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE1));
-      assertEquals ("Outline Code2r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE2));
-      assertEquals ("Outline Code3r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE3));
-      assertEquals ("Outline Code4r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE4));
-      assertEquals ("Outline Code5r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE5));
-      assertEquals ("Outline Code6r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE6));
-      assertEquals ("Outline Code7r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE7));
-      assertEquals ("Outline Code8r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE8));
-      assertEquals ("Outline Code9r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE9));
-      assertEquals ("Outline Code10r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE10));
+      assertEquals("Text1r", mpx.getResourceFieldAlias(ResourceField.TEXT1));
+      assertEquals("Text2r", mpx.getResourceFieldAlias(ResourceField.TEXT2));
+      assertEquals("Text3r", mpx.getResourceFieldAlias(ResourceField.TEXT3));
+      assertEquals("Text4r", mpx.getResourceFieldAlias(ResourceField.TEXT4));
+      assertEquals("Text5r", mpx.getResourceFieldAlias(ResourceField.TEXT5));
+      assertEquals("Text6r", mpx.getResourceFieldAlias(ResourceField.TEXT6));
+      assertEquals("Text7r", mpx.getResourceFieldAlias(ResourceField.TEXT7));
+      assertEquals("Text8r", mpx.getResourceFieldAlias(ResourceField.TEXT8));
+      assertEquals("Text9r", mpx.getResourceFieldAlias(ResourceField.TEXT9));
+      assertEquals("Text10r", mpx.getResourceFieldAlias(ResourceField.TEXT10));
+      assertEquals("Text11r", mpx.getResourceFieldAlias(ResourceField.TEXT11));
+      assertEquals("Text12r", mpx.getResourceFieldAlias(ResourceField.TEXT12));
+      assertEquals("Text13r", mpx.getResourceFieldAlias(ResourceField.TEXT13));
+      assertEquals("Text14r", mpx.getResourceFieldAlias(ResourceField.TEXT14));
+      assertEquals("Text15r", mpx.getResourceFieldAlias(ResourceField.TEXT15));
+      assertEquals("Text16r", mpx.getResourceFieldAlias(ResourceField.TEXT16));
+      assertEquals("Text17r", mpx.getResourceFieldAlias(ResourceField.TEXT17));
+      assertEquals("Text18r", mpx.getResourceFieldAlias(ResourceField.TEXT18));
+      assertEquals("Text19r", mpx.getResourceFieldAlias(ResourceField.TEXT19));
+      assertEquals("Text20r", mpx.getResourceFieldAlias(ResourceField.TEXT20));
+      assertEquals("Text21r", mpx.getResourceFieldAlias(ResourceField.TEXT21));
+      assertEquals("Text22r", mpx.getResourceFieldAlias(ResourceField.TEXT22));
+      assertEquals("Text23r", mpx.getResourceFieldAlias(ResourceField.TEXT23));
+      assertEquals("Text24r", mpx.getResourceFieldAlias(ResourceField.TEXT24));
+      assertEquals("Text25r", mpx.getResourceFieldAlias(ResourceField.TEXT25));
+      assertEquals("Text26r", mpx.getResourceFieldAlias(ResourceField.TEXT26));
+      assertEquals("Text27r", mpx.getResourceFieldAlias(ResourceField.TEXT27));
+      assertEquals("Text28r", mpx.getResourceFieldAlias(ResourceField.TEXT28));
+      assertEquals("Text29r", mpx.getResourceFieldAlias(ResourceField.TEXT29));
+      assertEquals("Text30r", mpx.getResourceFieldAlias(ResourceField.TEXT30));
+      assertEquals("Start1r", mpx.getResourceFieldAlias(ResourceField.START1));
+      assertEquals("Start2r", mpx.getResourceFieldAlias(ResourceField.START2));
+      assertEquals("Start3r", mpx.getResourceFieldAlias(ResourceField.START3));
+      assertEquals("Start4r", mpx.getResourceFieldAlias(ResourceField.START4));
+      assertEquals("Start5r", mpx.getResourceFieldAlias(ResourceField.START5));
+      assertEquals("Start6r", mpx.getResourceFieldAlias(ResourceField.START6));
+      assertEquals("Start7r", mpx.getResourceFieldAlias(ResourceField.START7));
+      assertEquals("Start8r", mpx.getResourceFieldAlias(ResourceField.START8));
+      assertEquals("Start9r", mpx.getResourceFieldAlias(ResourceField.START9));
+      assertEquals("Start10r", mpx.getResourceFieldAlias(ResourceField.START10));
+      assertEquals("Finish1r", mpx.getResourceFieldAlias(ResourceField.FINISH1));
+      assertEquals("Finish2r", mpx.getResourceFieldAlias(ResourceField.FINISH2));
+      assertEquals("Finish3r", mpx.getResourceFieldAlias(ResourceField.FINISH3));
+      assertEquals("Finish4r", mpx.getResourceFieldAlias(ResourceField.FINISH4));
+      assertEquals("Finish5r", mpx.getResourceFieldAlias(ResourceField.FINISH5));
+      assertEquals("Finish6r", mpx.getResourceFieldAlias(ResourceField.FINISH6));
+      assertEquals("Finish7r", mpx.getResourceFieldAlias(ResourceField.FINISH7));
+      assertEquals("Finish8r", mpx.getResourceFieldAlias(ResourceField.FINISH8));
+      assertEquals("Finish9r", mpx.getResourceFieldAlias(ResourceField.FINISH9));
+      assertEquals("Finish10r", mpx.getResourceFieldAlias(ResourceField.FINISH10));
+      assertEquals("Cost1r", mpx.getResourceFieldAlias(ResourceField.COST1));
+      assertEquals("Cost2r", mpx.getResourceFieldAlias(ResourceField.COST2));
+      assertEquals("Cost3r", mpx.getResourceFieldAlias(ResourceField.COST3));
+      assertEquals("Cost4r", mpx.getResourceFieldAlias(ResourceField.COST4));
+      assertEquals("Cost5r", mpx.getResourceFieldAlias(ResourceField.COST5));
+      assertEquals("Cost6r", mpx.getResourceFieldAlias(ResourceField.COST6));
+      assertEquals("Cost7r", mpx.getResourceFieldAlias(ResourceField.COST7));
+      assertEquals("Cost8r", mpx.getResourceFieldAlias(ResourceField.COST8));
+      assertEquals("Cost9r", mpx.getResourceFieldAlias(ResourceField.COST9));
+      assertEquals("Cost10r", mpx.getResourceFieldAlias(ResourceField.COST10));
+      assertEquals("Date1r", mpx.getResourceFieldAlias(ResourceField.DATE1));
+      assertEquals("Date2r", mpx.getResourceFieldAlias(ResourceField.DATE2));
+      assertEquals("Date3r", mpx.getResourceFieldAlias(ResourceField.DATE3));
+      assertEquals("Date4r", mpx.getResourceFieldAlias(ResourceField.DATE4));
+      assertEquals("Date5r", mpx.getResourceFieldAlias(ResourceField.DATE5));
+      assertEquals("Date6r", mpx.getResourceFieldAlias(ResourceField.DATE6));
+      assertEquals("Date7r", mpx.getResourceFieldAlias(ResourceField.DATE7));
+      assertEquals("Date8r", mpx.getResourceFieldAlias(ResourceField.DATE8));
+      assertEquals("Date9r", mpx.getResourceFieldAlias(ResourceField.DATE9));
+      assertEquals("Date10r", mpx.getResourceFieldAlias(ResourceField.DATE10));
+      assertEquals("Flag1r", mpx.getResourceFieldAlias(ResourceField.FLAG1));
+      assertEquals("Flag2r", mpx.getResourceFieldAlias(ResourceField.FLAG2));
+      assertEquals("Flag3r", mpx.getResourceFieldAlias(ResourceField.FLAG3));
+      assertEquals("Flag4r", mpx.getResourceFieldAlias(ResourceField.FLAG4));
+      assertEquals("Flag5r", mpx.getResourceFieldAlias(ResourceField.FLAG5));
+      assertEquals("Flag6r", mpx.getResourceFieldAlias(ResourceField.FLAG6));
+      assertEquals("Flag7r", mpx.getResourceFieldAlias(ResourceField.FLAG7));
+      assertEquals("Flag8r", mpx.getResourceFieldAlias(ResourceField.FLAG8));
+      assertEquals("Flag9r", mpx.getResourceFieldAlias(ResourceField.FLAG9));
+      assertEquals("Flag10r", mpx.getResourceFieldAlias(ResourceField.FLAG10));
+      assertEquals("Flag11r", mpx.getResourceFieldAlias(ResourceField.FLAG11));
+      assertEquals("Flag12r", mpx.getResourceFieldAlias(ResourceField.FLAG12));
+      assertEquals("Flag13r", mpx.getResourceFieldAlias(ResourceField.FLAG13));
+      assertEquals("Flag14r", mpx.getResourceFieldAlias(ResourceField.FLAG14));
+      assertEquals("Flag15r", mpx.getResourceFieldAlias(ResourceField.FLAG15));
+      assertEquals("Flag16r", mpx.getResourceFieldAlias(ResourceField.FLAG16));
+      assertEquals("Flag17r", mpx.getResourceFieldAlias(ResourceField.FLAG17));
+      assertEquals("Flag18r", mpx.getResourceFieldAlias(ResourceField.FLAG18));
+      assertEquals("Flag19r", mpx.getResourceFieldAlias(ResourceField.FLAG19));
+      assertEquals("Flag20r", mpx.getResourceFieldAlias(ResourceField.FLAG20));
+      assertEquals("Number1r", mpx.getResourceFieldAlias(ResourceField.NUMBER1));
+      assertEquals("Number2r", mpx.getResourceFieldAlias(ResourceField.NUMBER2));
+      assertEquals("Number3r", mpx.getResourceFieldAlias(ResourceField.NUMBER3));
+      assertEquals("Number4r", mpx.getResourceFieldAlias(ResourceField.NUMBER4));
+      assertEquals("Number5r", mpx.getResourceFieldAlias(ResourceField.NUMBER5));
+      assertEquals("Number6r", mpx.getResourceFieldAlias(ResourceField.NUMBER6));
+      assertEquals("Number7r", mpx.getResourceFieldAlias(ResourceField.NUMBER7));
+      assertEquals("Number8r", mpx.getResourceFieldAlias(ResourceField.NUMBER8));
+      assertEquals("Number9r", mpx.getResourceFieldAlias(ResourceField.NUMBER9));
+      assertEquals("Number10r", mpx.getResourceFieldAlias(ResourceField.NUMBER10));
+      assertEquals("Number11r", mpx.getResourceFieldAlias(ResourceField.NUMBER11));
+      assertEquals("Number12r", mpx.getResourceFieldAlias(ResourceField.NUMBER12));
+      assertEquals("Number13r", mpx.getResourceFieldAlias(ResourceField.NUMBER13));
+      assertEquals("Number14r", mpx.getResourceFieldAlias(ResourceField.NUMBER14));
+      assertEquals("Number15r", mpx.getResourceFieldAlias(ResourceField.NUMBER15));
+      assertEquals("Number16r", mpx.getResourceFieldAlias(ResourceField.NUMBER16));
+      assertEquals("Number17r", mpx.getResourceFieldAlias(ResourceField.NUMBER17));
+      assertEquals("Number18r", mpx.getResourceFieldAlias(ResourceField.NUMBER18));
+      assertEquals("Number19r", mpx.getResourceFieldAlias(ResourceField.NUMBER19));
+      assertEquals("Number20r", mpx.getResourceFieldAlias(ResourceField.NUMBER20));
+      assertEquals("Duration1r", mpx.getResourceFieldAlias(ResourceField.DURATION1));
+      assertEquals("Duration2r", mpx.getResourceFieldAlias(ResourceField.DURATION2));
+      assertEquals("Duration3r", mpx.getResourceFieldAlias(ResourceField.DURATION3));
+      assertEquals("Duration4r", mpx.getResourceFieldAlias(ResourceField.DURATION4));
+      assertEquals("Duration5r", mpx.getResourceFieldAlias(ResourceField.DURATION5));
+      assertEquals("Duration6r", mpx.getResourceFieldAlias(ResourceField.DURATION6));
+      assertEquals("Duration7r", mpx.getResourceFieldAlias(ResourceField.DURATION7));
+      assertEquals("Duration8r", mpx.getResourceFieldAlias(ResourceField.DURATION8));
+      assertEquals("Duration9r", mpx.getResourceFieldAlias(ResourceField.DURATION9));
+      assertEquals("Duration10r", mpx.getResourceFieldAlias(ResourceField.DURATION10));
+      assertEquals("Outline Code1r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE1));
+      assertEquals("Outline Code2r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE2));
+      assertEquals("Outline Code3r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE3));
+      assertEquals("Outline Code4r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE4));
+      assertEquals("Outline Code5r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE5));
+      assertEquals("Outline Code6r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE6));
+      assertEquals("Outline Code7r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE7));
+      assertEquals("Outline Code8r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE8));
+      assertEquals("Outline Code9r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE9));
+      assertEquals("Outline Code10r", mpx.getResourceFieldAlias(ResourceField.OUTLINE_CODE10));
    }
 
    /**
@@ -1467,8 +1464,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testEmbeddedLineBreaks ()
-      throws Exception
+   public void testEmbeddedLineBreaks() throws Exception
    {
       File out = null;
       boolean success = false;
@@ -1478,8 +1474,8 @@ public class BasicTest extends MPXJTestCase
          //
          // Create a simple MPX file
          //
-         SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-         ProjectFile file = new ProjectFile ();
+         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+         ProjectFile file = new ProjectFile();
          file.setAutoTaskID(true);
          file.setAutoTaskUniqueID(true);
          file.setAutoResourceID(true);
@@ -1499,13 +1495,13 @@ public class BasicTest extends MPXJTestCase
          resource1.setNotes("Resource1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
 
          Task task1 = file.addTask();
-         task1.setName ("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
+         task1.setName("Task1: Some\rExample\nText\r\nWith\n\rBreaks");
          task1.setNotes("Task1 Notes: Some\rExample\nText\r\nWith\n\rBreaks");
 
          //
          // Write the file
          //
-         out = File.createTempFile ("junit", ".mpx");
+         out = File.createTempFile("junit", ".mpx");
          new MPXWriter().write(file, out);
 
          //
@@ -1542,8 +1538,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testPasswordProtection ()
-      throws Exception
+   public void testPasswordProtection() throws Exception
    {
       File in;
 
@@ -1552,8 +1547,8 @@ public class BasicTest extends MPXJTestCase
       //
       try
       {
-         in = new File (m_basedir + "/readpassword9.mpp");
-         new MPPReader().read (in);
+         in = new File(m_basedir + "/readpassword9.mpp");
+         new MPPReader().read(in);
          assertTrue(false);
       }
 
@@ -1565,16 +1560,16 @@ public class BasicTest extends MPXJTestCase
       //
       // Write password (password2)
       //
-      in = new File (m_basedir + "/writepassword9.mpp");
-      new MPPReader().read (in);
+      in = new File(m_basedir + "/writepassword9.mpp");
+      new MPPReader().read(in);
 
       //
       // Read password
       //
       try
       {
-         in = new File (m_basedir + "/bothpassword9.mpp");
-         new MPPReader().read (in);
+         in = new File(m_basedir + "/bothpassword9.mpp");
+         new MPPReader().read(in);
          assertTrue(false);
       }
 
@@ -1590,20 +1585,19 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testMspdiExtendedAttributes ()
-      throws Exception
+   public void testMspdiExtendedAttributes() throws Exception
    {
       MSPDIReader reader = new MSPDIReader();
       MSPDIWriter writer = new MSPDIWriter();
 
-      ProjectFile xml = reader.read (m_basedir + "/mspextattr.xml");
-      commonMspdiExtendedAttributeTests (xml);
+      ProjectFile xml = reader.read(m_basedir + "/mspextattr.xml");
+      commonMspdiExtendedAttributeTests(xml);
 
-      File out = File.createTempFile ("junit", ".xml");
+      File out = File.createTempFile("junit", ".xml");
       writer.write(xml, out);
 
-      xml = reader.read (out);
-      commonMspdiExtendedAttributeTests (xml);
+      xml = reader.read(out);
+      commonMspdiExtendedAttributeTests(xml);
 
       out.delete();
    }
@@ -1613,11 +1607,11 @@ public class BasicTest extends MPXJTestCase
     *
     * @param xml MSPDI file
     */
-   private void commonMspdiExtendedAttributeTests (ProjectFile xml)
+   private void commonMspdiExtendedAttributeTests(ProjectFile xml)
    {
       List<Task> tasks = xml.getAllTasks();
-      assertEquals (2, tasks.size());
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+      assertEquals(2, tasks.size());
+      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       Task task = tasks.get(1);
       assertEquals("Task Text One", task.getText1());
@@ -1651,8 +1645,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testProjectHeader ()
-      throws Exception
+   public void testProjectHeader() throws Exception
    {
       File out = null;
 
@@ -1665,15 +1658,15 @@ public class BasicTest extends MPXJTestCase
          // Read the MPX file and ensure that the project header fields
          // have the expected values.
          //
-         ProjectFile mpx = reader.read (m_basedir + "/headertest.mpx");
+         ProjectFile mpx = reader.read(m_basedir + "/headertest.mpx");
          testHeaderFields(mpx);
 
          //
          // Write the file, re-read it and test to ensure that
          // the project header fields have the expected values
          //
-         out = File.createTempFile ("junit", ".mpx");
-         writer.write (mpx,out);
+         out = File.createTempFile("junit", ".mpx");
+         writer.write(mpx, out);
          mpx = reader.read(out);
          testHeaderFields(mpx);
          out.delete();
@@ -1683,28 +1676,28 @@ public class BasicTest extends MPXJTestCase
          // Read the MPP8 file and ensure that the project header fields
          // have the expected values.
          //
-         mpx = new MPPReader().read (m_basedir + "/headertest8.mpp");
+         mpx = new MPPReader().read(m_basedir + "/headertest8.mpp");
          testHeaderFields(mpx);
 
          //
          // Read the MPP9 file and ensure that the project header fields
          // have the expected values.
          //
-         mpx = new MPPReader().read (m_basedir + "/headertest9.mpp");
+         mpx = new MPPReader().read(m_basedir + "/headertest9.mpp");
          testHeaderFields(mpx);
 
          //
          // Read the MSPDI file and ensure that the project header fields
          // have the expected values.
          //
-         mpx = new MSPDIReader().read (m_basedir + "/headertest.xml");
+         mpx = new MSPDIReader().read(m_basedir + "/headertest.xml");
          testHeaderFields(mpx);
 
          //
          // Write the file, re-read it and test to ensure that
          // the project header fields have the expected values
          //
-         out = File.createTempFile ("junit", ".xml");
+         out = File.createTempFile("junit", ".xml");
          new MSPDIWriter().write(mpx, out);
 
          mpx = new MSPDIReader().read(out);
@@ -1727,16 +1720,16 @@ public class BasicTest extends MPXJTestCase
     *
     * @param file target project file
     */
-   private void testHeaderFields (ProjectFile file)
+   private void testHeaderFields(ProjectFile file)
    {
       ProjectHeader header = file.getProjectHeader();
-      assertEquals ("Project Title Text", header.getProjectTitle());
-      assertEquals ("Author Text", header.getAuthor());
-      assertEquals ("Comments Text", header.getComments());
-      assertEquals ("Company Text", header.getCompany());
-      assertEquals ("Keywords Text", header.getKeywords());
-      assertEquals ("Manager Text", header.getManager());
-      assertEquals ("Subject Text", header.getSubject());
+      assertEquals("Project Title Text", header.getProjectTitle());
+      assertEquals("Author Text", header.getAuthor());
+      assertEquals("Comments Text", header.getComments());
+      assertEquals("Company Text", header.getCompany());
+      assertEquals("Keywords Text", header.getKeywords());
+      assertEquals("Manager Text", header.getManager());
+      assertEquals("Subject Text", header.getSubject());
    }
 
    /**
@@ -1744,15 +1737,14 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testWBS ()
-      throws Exception
+   public void testWBS() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/sample98.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/sample98.mpp");
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(2));
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
 
-      mpp = new MPPReader().read (m_basedir + "/sample.mpp");
+      mpp = new MPPReader().read(m_basedir + "/sample.mpp");
       task = mpp.getTaskByUniqueID(Integer.valueOf(2));
       assertEquals("Second Task", task.getName());
       assertEquals("1.1", task.getWBS());
@@ -1763,27 +1755,26 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testPriority ()
-      throws Exception
+   public void testPriority() throws Exception
    {
-      ProjectFile mpx = new MPXReader().read (m_basedir + "/mpxpriority.mpx");
+      ProjectFile mpx = new MPXReader().read(m_basedir + "/mpxpriority.mpx");
       validatePriority(mpx);
 
-      ProjectFile mpp8 = new MPPReader().read (m_basedir + "/mpp8priority.mpp");
+      ProjectFile mpp8 = new MPPReader().read(m_basedir + "/mpp8priority.mpp");
       validatePriority(mpp8);
 
-      ProjectFile mpp9 = new MPPReader().read (m_basedir + "/mpp9priority.mpp");
+      ProjectFile mpp9 = new MPPReader().read(m_basedir + "/mpp9priority.mpp");
       validatePriority(mpp9);
 
-      ProjectFile xml = new MSPDIReader().read (m_basedir + "/mspdipriority.xml");
+      ProjectFile xml = new MSPDIReader().read(m_basedir + "/mspdipriority.xml");
       validatePriority(xml);
 
       File out = null;
       boolean success = false;
       try
       {
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpx, out);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpx, out);
          ProjectFile mpx2 = new MPXReader().read(out);
          validatePriority(mpx2);
          success = true;
@@ -1801,7 +1792,7 @@ public class BasicTest extends MPXJTestCase
       success = false;
       try
       {
-         out = File.createTempFile ("junit", ".xml");
+         out = File.createTempFile("junit", ".xml");
          new MSPDIWriter().write(mpx, out);
 
          ProjectFile xml3 = new MSPDIReader().read(out);
@@ -1823,7 +1814,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @param file project file
     */
-   private void validatePriority (ProjectFile file)
+   private void validatePriority(ProjectFile file)
    {
       assertEquals(Priority.DO_NOT_LEVEL, file.getTaskByUniqueID(Integer.valueOf(1)).getPriority().getValue());
       assertEquals(Priority.HIGHEST, file.getTaskByUniqueID(Integer.valueOf(2)).getPriority().getValue());
@@ -1842,10 +1833,9 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testCalendars ()
-      throws Exception
+   public void testCalendars() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/caltest98.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/caltest98.mpp");
       validateResourceCalendars(mpp);
 
       ProjectFile mpx = new MPXReader().read(m_basedir + "/caltest98.mpx");
@@ -1865,7 +1855,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @param mpx project file
     */
-   private void validateResourceCalendars (ProjectFile mpx)
+   private void validateResourceCalendars(ProjectFile mpx)
    {
       //
       // Resource calendar based on standard calendar
@@ -1903,7 +1893,7 @@ public class BasicTest extends MPXJTestCase
     *
     * @param mpx project file
     */
-   private void validateTaskCalendars (ProjectFile mpx)
+   private void validateTaskCalendars(ProjectFile mpx)
    {
       Task task = mpx.getTaskByUniqueID(Integer.valueOf(2));
       ProjectCalendar calendar = task.getCalendar();
@@ -1925,14 +1915,13 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testRemoval ()
-      throws Exception
+   public void testRemoval() throws Exception
    {
       //
       // Load the file and validate the number of
       // tasks, resources, and assignments.
       //
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/remove.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/remove.mpp");
       assertEquals(10, mpp.getAllTasks().size());
       assertEquals(8, mpp.getAllResources().size());
       assertEquals(6, mpp.getAllResourceAssignments().size());
@@ -2023,8 +2012,8 @@ public class BasicTest extends MPXJTestCase
 
       try
       {
-         out = File.createTempFile ("junit", ".mpx");
-         new MPXWriter().write (mpp, out);
+         out = File.createTempFile("junit", ".mpx");
+         new MPXWriter().write(mpp, out);
 
          ProjectFile mpx = new MPXReader().read(out);
          assertEquals(6, mpx.getAllTasks().size());
@@ -2046,20 +2035,19 @@ public class BasicTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testProjectCalendarExceptions ()
-      throws Exception
+   public void testProjectCalendarExceptions() throws Exception
    {
       File out = null;
       boolean success = true;
 
       try
       {
-         File in = new File (m_basedir + "/calendarExceptions.mpx");
-         ProjectFile mpx = new MPXReader().read (in);
-         out = File.createTempFile ("junit", ".mpx");
+         File in = new File(m_basedir + "/calendarExceptions.mpx");
+         ProjectFile mpx = new MPXReader().read(in);
+         out = File.createTempFile("junit", ".mpx");
          new MPXWriter().write(mpx, out, false);
-         success = FileUtility.equals (in, out);
-         assertTrue ("Files are not identical", success);
+         success = FileUtility.equals(in, out);
+         assertTrue("Files are not identical", success);
       }
 
       finally
@@ -2070,104 +2058,4 @@ public class BasicTest extends MPXJTestCase
          }
       }
    }
-
-   /**
-    * As part of the bug reports that are submitted for MPXJ I am passed a
-    * number of confidential project files, which for obvious reasons cannot
-    * be redistributed as test cases. These files reside in a directory on
-    * my development machine, and assuming that this directory exists, this
-    * test will attempt of read each of the files in turn.
-    *
-    * @throws Exception
-    */
-   public void testCustomerData ()
-      throws Exception
-   {
-      MPPReader mppReader = new MPPReader();
-      MPXReader mpxReader = new MPXReader();
-      MSPDIReader mspdiReader = new MSPDIReader();
-
-      File dir = new File ("c:\\tapsterrock\\mpxj\\data");
-      if (dir.exists() == true && dir.isDirectory() == true)
-      {
-         ProjectFile mpxj;
-         int failures = 0;
-         File[] files = dir.listFiles();
-         File file;
-         String name;
-         for (int loop=0; loop < files.length; loop++)
-         {
-            file = files[loop];
-            name = file.getName().toUpperCase();
-            
-            try
-            {
-               if (name.endsWith(".MPP") == true)
-               {
-                  mpxj = mppReader.read(file);
-                  validateMpp (file.getCanonicalPath(), mpxj);
-               }
-               else
-               {
-                  if (name.endsWith(".MPX") == true)
-                  {
-                     mpxReader.setLocale(Locale.ENGLISH);
-
-                     if (name.indexOf(".DE.") != -1)
-                     {
-                        mpxReader.setLocale(Locale.GERMAN);
-                     }
-
-                     if (name.indexOf(".SV.") != -1)
-                     {
-                        mpxReader.setLocale(new Locale ("sv"));
-                     }
-
-                     mpxj = mpxReader.read(file);
-                  }
-                  else
-                  {
-                     if (name.endsWith(".XML") == true &&
-                         name.indexOf(".MPP.") == -1)
-                     {
-                        mpxj = mspdiReader.read(file);
-                     }
-                  }
-               }
-            }
-
-            catch (Exception ex)
-            {
-               System.out.println ("Failed to read " + name);
-               ex.printStackTrace();
-               ++failures;
-            }
-         }
-
-         assertEquals("Failed to read " + failures + " files", 0, failures);
-      }
-   }
-
-   /**
-    * As part of the regression test process, I save customer's MPP files
-    * as MSPDI files using a version of MS Project. This method allows these
-    * two versions to be compared in order to ensure that MPXJ is
-    * correctly reading the data from both file formats.
-    *
-    * @param name file name
-    * @param mpp MPP file data structure
-    * @throws Exception
-    */
-   private void validateMpp (String name, ProjectFile mpp)
-      throws Exception
-   {
-      File xmlFile = new File (name + ".xml");
-      if (xmlFile.exists() == true)
-      {
-         ProjectFile xml = new MSPDIReader().read(xmlFile);
-         MppXmlCompare compare = new MppXmlCompare();
-         compare.process(xml, mpp);
-      }
-   }
 }
-
