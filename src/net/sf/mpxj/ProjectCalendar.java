@@ -1176,28 +1176,6 @@ public final class ProjectCalendar extends ProjectEntity
    }
 
    /**
-    * Retrieves the amount of working time represented by a calendar exception
-    * which intersects with the supplied time range.
-    * 
-    * @param exception calendar exception
-    * @param startDate time range start
-    * @param endDate time range end
-    * @return length of time in milliseconds
-    */
-   /*   
-      private long getTotalTime (ProjectCalendarException exception, Date startDate, Date endDate)
-      {
-         Date start = DateUtility.getCanonicalTime(startDate);
-         Date end = DateUtility.getCanonicalTime(endDate);      
-         long total = 0;      
-         for (DateRange range : exception)
-         {
-            total += getTime(DateUtility.getCanonicalTime(range.getStart()), DateUtility.getCanonicalTime(range.getEnd()), start, end);
-         }
-         return (total);
-      }
-   */
-   /**
     * This method calculates the total amount of working time represented by
     * a single day of work.
     * 
