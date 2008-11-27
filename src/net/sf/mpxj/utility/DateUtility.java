@@ -290,7 +290,24 @@ public final class DateUtility
       cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
       cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));           
    }
-   
+
+   /**
+    * Given a date represented by a Date instance, set the time
+    * component of the date based on the hours and minutes of the
+    * time supplied by the Date instance.
+    * 
+    * @param date Date instance representing the date
+    * @param time Date instance representing the time of day
+    * @return new Date instance with the required time set
+    */   
+   public static Date setTime (Date date, Date time)
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(date);
+      setTime(cal, time);
+      return cal.getTime();
+   }
+
    /**
     * Default value to use for DST savings if we are using a version
     * of Java < 1.4.
