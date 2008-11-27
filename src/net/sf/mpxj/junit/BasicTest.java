@@ -2099,7 +2099,7 @@ public class BasicTest extends MPXJTestCase
          {
             file = files[loop];
             name = file.getName().toUpperCase();
-
+            
             try
             {
                if (name.endsWith(".MPP") == true)

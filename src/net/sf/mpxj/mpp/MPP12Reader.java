@@ -1779,7 +1779,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          if ((metaData[9]&0x80) == 0)
          {
-            task.setSplits(new LinkedList<Duration>());
+            task.setSplits(new LinkedList<DateRange>());
          }
                   
          //
@@ -2791,6 +2791,7 @@ final class MPP12Reader implements MPPVariantReader
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
+      SplitTaskFactory splitFactory = new SplitTaskFactory();
       
       for (int loop=0; loop < count; loop++)
       {
@@ -2851,7 +2852,7 @@ final class MPP12Reader implements MPPVariantReader
             
             if (task.getSplits() != null && task.getSplits().isEmpty())
             {               
-               processSplitData(task, timephasedComplete, timephasedPlanned);
+               splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
 
 
@@ -2876,6 +2877,8 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54))/100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+               assignment.setTimephasedPlanned(timephasedPlanned);
+               assignment.setTimephasedComplete(timephasedComplete);
                
                if (plannedWork != null)
                {
@@ -2893,66 +2896,7 @@ final class MPP12Reader implements MPPVariantReader
          }
       }
    }
-   
-   /**
-    * Process the timephased resource assignment data to work out the 
-    * split structure of the task.
-    * 
-    * @param task parent task
-    * @param timephasedComplete completed resource assignment work
-    * @param timephasedPlanned planned resource assignment work
-    */
-   private void processSplitData (Task task, List<TimephasedResourceAssignment> timephasedComplete, List<TimephasedResourceAssignment> timephasedPlanned)
-   {   
-      Duration splitsComplete = null;
-      TimephasedResourceAssignment lastComplete = null;
-      TimephasedResourceAssignment firstPlanned = null;
-      if (!timephasedComplete.isEmpty())
-      {
-         lastComplete = timephasedComplete.get(timephasedComplete.size()-1);
-         splitsComplete = lastComplete.getFinishWork();  
-      }
       
-      if (!timephasedPlanned.isEmpty())
-      {
-         firstPlanned = timephasedPlanned.get(0);
-      }
-      
-      LinkedList<Duration> splits = new LinkedList<Duration> ();
-      for (TimephasedResourceAssignment assignment : timephasedComplete)
-      {         
-         splits.add(assignment.getFinishWork());
-      }         
-      
-      //
-      // We may not have a split, we may just have a partially
-      // complete split.
-      //
-      if (lastComplete != null && firstPlanned != null && lastComplete.getWorkPerDay().getDuration() != 0 && firstPlanned.getWorkPerDay().getDuration() != 0)
-      {
-         splits.removeLast();
-      }
-      
-      for (TimephasedResourceAssignment assignment : timephasedPlanned)
-      {         
-         splits.add(assignment.getFinishWork());
-      }
-      
-      //
-      // We must have a minimum of 3 entries for this to be a valid split task
-      //
-      if (splits.size() > 2)
-      {
-         task.getSplits().addAll(splits);
-         task.setSplitCompleteDuration(splitsComplete);
-      }
-      else
-      {
-         task.setSplits(null);
-         task.setSplitCompleteDuration(null);
-      }
-   }
-   
    /**
     * This method is used to determine if a duration is estimated.
     *

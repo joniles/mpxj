@@ -68,25 +68,32 @@ final class TimephasedResourceAssignmentFactory
             Duration startWork = Duration.getInstance(time, TimeUnit.HOURS);
 
             double currentCumulativeWork = (long) MPPUtility.getDouble(data, index + 4);
-            double assignmentDuration = currentCumulativeWork - previousCumulativeWork; 
+            double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
+            previousCumulativeWork = currentCumulativeWork;
             assignmentDuration /= 60000;
-            Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.HOURS);
-            previousCumulativeWork = currentCumulativeWork;            
-                           
+            Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.HOURS);                                                  
             time = (long) MPPUtility.getDouble(data, index + 12);
             time /= 1250;
             Duration workPerDay = Duration.getInstance(time, TimeUnit.HOURS);
 
+            Date start = calendar.getDate(startDate, startWork, true);
+ 
             TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
-            assignment.setStartWork(startWork);
+            assignment.setStart(start);
             assignment.setWorkPerDay(workPerDay);
             assignment.setTotalWork(totalWork);
-            list.add(assignment);
-
+            
             if (previousAssignment != null)
             {
-               previousAssignment.setFinishWork(startWork);   
+               Date finish = calendar.getDate(startDate, startWork, false);
+               previousAssignment.setFinish(finish);
+               if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+               {
+                  list.removeLast();
+               }
             }
+            
+            list.add(assignment);
             previousAssignment = assignment;
             
             index += 20;
@@ -98,7 +105,12 @@ final class TimephasedResourceAssignmentFactory
             double time = MPPUtility.getInt(data, 24);
             time /= 4800;
             Duration finishWork = Duration.getInstance(time, TimeUnit.HOURS);
-            previousAssignment.setFinishWork(finishWork);
+            Date finish = calendar.getDate(startDate, finishWork, false);
+            previousAssignment.setFinish(finish);
+            if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+            {
+               list.removeLast();
+            }
          }
       }
 
@@ -129,29 +141,33 @@ final class TimephasedResourceAssignmentFactory
             {
                TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size()-1);
                
-               Duration startWork = lastComplete.getFinishWork();
+               Date startWork = lastComplete.getFinish();
                double time = MPPUtility.getInt(data, 24);
                time /= 4800;
                Duration totalWork = Duration.getInstance(time, TimeUnit.HOURS);
-               Duration finishWork = Duration.getInstance(time + startWork.getDuration(), TimeUnit.HOURS);           
+               Date finish = calendar.getDate(startWork, totalWork, false);                          
                
                TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
-               assignment.setStartWork(startWork);
+               assignment.setStart(startWork);
                assignment.setWorkPerDay(lastComplete.getWorkPerDay());
                assignment.setModified(false);
-               assignment.setFinishWork(finishWork);
+               assignment.setFinish(finish);
                assignment.setTotalWork(totalWork);
-               list.add(assignment);               
+               
+               if (assignment.getStart().getTime() != assignment.getFinish().getTime())
+               {
+                  list.add(assignment);   
+               }                             
             }
          }
          else
          {
-            double offset = 0;
+            Date offset = startDate;
             
             if (!timephasedComplete.isEmpty())
             {
                TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size()-1);
-               offset = lastComplete.getFinishWork().getDuration();
+               offset = lastComplete.getFinish();
             }
             
             int index = 40;
@@ -160,10 +176,11 @@ final class TimephasedResourceAssignmentFactory
             int currentBlock = 0;
             
             while (currentBlock < blockCount && index + 28 <= data.length)
-            {
+            {               
                double time = MPPUtility.getInt(data, index);
                time /= 4800;
-               Duration startWork = Duration.getInstance(time+offset, TimeUnit.HOURS);
+               Duration blockDuration = Duration.getInstance(time, TimeUnit.HOURS);
+               Date start = calendar.getDate(offset, blockDuration, true);               
    
                double currentCumulativeWork = MPPUtility.getDouble(data, index + 4);
                double assignmentDuration = currentCumulativeWork - previousCumulativeWork; 
@@ -179,16 +196,22 @@ final class TimephasedResourceAssignmentFactory
                boolean modified = (modifiedFlag == 0 && currentBlock != 0) || ((modifiedFlag & 0x3000) != 0);
                
                TimephasedResourceAssignment assignment = new TimephasedResourceAssignment();
-               assignment.setStartWork(startWork);
+               assignment.setStart(start);
                assignment.setWorkPerDay(workPerDay);
                assignment.setModified(modified);
                assignment.setTotalWork(totalWork);
-               list.add(assignment);
-
+               
                if (previousAssignment != null)
                {
-                  previousAssignment.setFinishWork(startWork);   
+                  Date finish = calendar.getDate(offset, blockDuration, false);
+                  previousAssignment.setFinish(finish);                 
+                  if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+                  {
+                     list.removeLast();
+                  }                  
                }
+               
+               list.add(assignment);
                previousAssignment = assignment;
                
                index += 28;
@@ -199,8 +222,13 @@ final class TimephasedResourceAssignmentFactory
             {
                double time = MPPUtility.getInt(data, 24);
                time /= 4800;
-               Duration finishWork = Duration.getInstance(time+offset, TimeUnit.HOURS);
-               previousAssignment.setFinishWork(finishWork);
+               Duration blockDuration = Duration.getInstance(time, TimeUnit.HOURS);
+               Date finish = calendar.getDate(offset, blockDuration, false);               
+               previousAssignment.setFinish(finish);
+               if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+               {
+                  list.removeLast();
+               }               
             }
          }
       }
@@ -228,4 +256,38 @@ final class TimephasedResourceAssignmentFactory
       }
       return result;
    }
+/*   
+   private void coalesceAssignments (ProjectCalendar calendar, List<TimephasedResourceAssignment> list)
+   {
+      TimephasedResourceAssignment previousAssignment = null;
+      for (TimephasedResourceAssignment assignment : list)
+      {
+         Date startDate = DateUtility.getDayStartDate(assignment.getStart());
+         Date endDate = DateUtility.getDayStartDate(assignment.getFinish());
+         
+         if (previousAssignment == null)
+         {
+            //
+            // This is the first item in the list, the range is not
+            // on one day, and the range does not start at the working
+            // start of the day - then we need to split this off.
+            //
+            if (DateUtility.compare(startDate, endDate) !=0)
+            {
+               Date startTime = DateUtility.getCanonicalTime(assignment.getStart());
+               Date workStartTime = calendar.getStartTime(startDate);
+               if (DateUtility.compare(startTime, workStartTime) != 0)
+               {
+                  Date workFinishTime = calendar.getFinishTime(assignment.getStart());
+               }
+            }
+         }
+         else
+         {
+         }
+         
+         previousAssignment = assignment;
+      }
+   }
+*/   
 }

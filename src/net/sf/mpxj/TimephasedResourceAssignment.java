@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.util.Date;
+
 
 
 /**
@@ -34,23 +36,23 @@ package net.sf.mpxj;
 public final class TimephasedResourceAssignment
 {
    /**
-    * Retrieve the point at which work starts.
+    * Retrieve the start date.
     * 
-    * @return start work duration
+    * @return start date
     */
-   public Duration getStartWork()
+   public Date getStart()
    {
-      return m_startWork;
+      return m_start;
    }
    
    /**
     * Set the point at which work starts.
     * 
-    * @param startWork start work duration
+    * @param start start date
     */
-   public void setStartWork(Duration startWork)
+   public void setStart(Date start)
    {
-      m_startWork = startWork;
+      m_start = start;
    }
       
    /**
@@ -114,23 +116,23 @@ public final class TimephasedResourceAssignment
    }   
 
    /**
-    * Retrieve the point at which work finishes.
+    * Retrieve the finish date.
     * 
-    * @return finish work duration
+    * @return finish date
     */
-   public Duration getFinishWork()
+   public Date getFinish()
    {
-      return m_finishWork;
+      return m_finish;
    }
    
    /**
-    * Set the point at which work finishes.
+    * Set the finish date.
     * 
-    * @param finishWork finish work duration
+    * @param finish finish date
     */
-   public void setFinishWork(Duration finishWork)
+   public void setFinish(Date finish)
    {
-      m_finishWork = finishWork;
+      m_finish = finish;
    }
    
    /**
@@ -139,12 +141,12 @@ public final class TimephasedResourceAssignment
    @Override
    public String toString ()
    {
-      return "[TimephasedResourceAssignment startWork="+m_startWork+" totalWork="+ m_totalWork + " finishWork="+m_finishWork+" workPerDay="+m_workPerDay+" modified="+m_modified+"]";
+      return "[TimephasedResourceAssignment startWork="+m_start+" totalWork="+ m_totalWork + " finishWork="+m_finish+" workPerDay="+m_workPerDay+" modified="+m_modified+"]";
    }
    
-   private Duration m_startWork;
+   private Date m_start;
    private Duration m_totalWork;
-   private Duration m_finishWork;
+   private Date m_finish;
    private Duration m_workPerDay;
    private boolean m_modified;
 }

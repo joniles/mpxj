@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.Duration;
+import net.sf.mpxj.DateRange;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -91,7 +91,7 @@ public final class MPPReader extends AbstractProjectReader
          for (Task task :  projectFile.getAllTasks())
          {
             task.setSummary(task.getChildTasks().size() != 0);
-            List<Duration> splits = task.getSplits();
+            List<DateRange> splits = task.getSplits();
             if (splits != null && splits.isEmpty())
             {
                task.setSplits(null);

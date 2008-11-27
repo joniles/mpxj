@@ -231,7 +231,7 @@ public final class DateUtility
    
    /**
     * Creates a timestamp from the equivalent long value. This conversion
-    * takes account fo the time zone and any daylight savings time.
+    * takes account of the time zone and any daylight savings time.
     * 
     * @param timestamp timestamp expressed as a long integer
     * @return new Date instance
@@ -274,6 +274,22 @@ public final class DateUtility
       cal.set(Calendar.SECOND, 0);
       return(cal.getTime());
    }   
+   
+   /**
+    * Given a date represented by a Calendar instance, set the time
+    * component of the date based on the hours and minutes of the
+    * time supplied by the Date instance.
+    * 
+    * @param cal Calendar instance representing the date
+    * @param time Date instance representing the time of day
+    */
+   public static void setTime (Calendar cal, Date time)
+   {
+      Calendar startCalendar = Calendar.getInstance();
+      startCalendar.setTime(time);
+      cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
+      cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));           
+   }
    
    /**
     * Default value to use for DST savings if we are using a version

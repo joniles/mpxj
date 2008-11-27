@@ -25,6 +25,7 @@
 package net.sf.mpxj;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class represents a resource assignment record from an MPX file.
@@ -388,6 +389,50 @@ public final class ResourceAssignment extends ProjectEntity
    }
 
    /**
+    * Retrieves the timephased breakdown of the completed work for this
+    * resource assignment. 
+    * 
+    * @return timephased completed work
+    */
+   public List<TimephasedResourceAssignment> getTimephasedComplete()
+   {
+      return m_timephasedComplete;
+   }
+
+   /**
+    * Sets the timephased breakdown of the completed work for this
+    * resource assignment.
+    * 
+    * @param timephasedComplete timephased completed work
+    */
+   public void setTimephasedComplete(List<TimephasedResourceAssignment> timephasedComplete)
+   {
+      m_timephasedComplete = timephasedComplete;
+   }
+
+   /**
+    * Retrieves the timephased breakdown of the planned work for this
+    * resource assignment. 
+    * 
+    * @return timephased planned work
+    */
+   public List<TimephasedResourceAssignment> getTimephasedPlanned()
+   {
+      return m_timephasedPlanned;
+   }
+
+   /**
+    * Sets the timephased breakdown of the planned work for this
+    * resource assignment.
+    * 
+    * @param timephasedPlanned timephased planned work
+    */
+   public void setTimephasedPlanned(List<TimephasedResourceAssignment> timephasedPlanned)
+   {
+      m_timephasedPlanned = timephasedPlanned;
+   }
+
+   /**
     * {@inheritDoc}
     */
    @Override public String toString()
@@ -407,6 +452,8 @@ public final class ResourceAssignment extends ProjectEntity
    private Date m_finish;
    private Duration m_delay;
    private Integer m_resourceUniqueID;
+   private List<TimephasedResourceAssignment> m_timephasedComplete;
+   private List<TimephasedResourceAssignment> m_timephasedPlanned;
 
    /**
     * The following member variables are extended attributes. They are

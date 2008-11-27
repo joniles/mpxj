@@ -6157,21 +6157,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
    /**
     * This method retrieves a list of task splits. Each split is represented
-    * by a number of working hours since the start of the task to the end of
-    * the current split. The list will always follow the pattern
-    * task time, split time, task time and so on. For example, if we have a
-    * 5 day task which is represented as 2 days work, a one day, then three
-    * days work, the splits list will contain 16h, 24h, 48h. Assuming an 8 hour
-    * working day, this equates to the end of the first working segment beging
-    * 2 working days from the task start date (16h), the end of the first split
-    * being 3 working days from the task start date (24h) and finally, the end
-    * of the entire task being 6 working days from the task start date (48h).
+    * by a DateRange instance. The list will always follow the pattern
+    * task range, split range, task range and so on.
     *
     * Note that this method will return null if the task is not split.
     *
     * @return list of split times
     */
-   public List<Duration> getSplits ()
+   public List<DateRange> getSplits ()
    {
       return (m_splits);
    }
@@ -6181,7 +6174,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param splits list of split times
     */
-   public void setSplits (List<Duration> splits)
+   public void setSplits (List<DateRange> splits)
    {
       m_splits = splits;
    }
@@ -6191,7 +6184,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @return Duration of completed time for the splits.
     */
-   public Duration getSplitCompleteDuration()
+   public Date getSplitCompleteDuration()
    {
 	   return m_splitsComplete;
    }
@@ -6201,7 +6194,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param splitsComplete Duration of completed time for the splits.
     */
-   public void setSplitCompleteDuration(Duration splitsComplete)
+   public void setSplitCompleteDuration(Date splitsComplete)
    {
 	   m_splitsComplete = splitsComplete;
    }
@@ -7048,8 +7041,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    private boolean m_expanded = true;
    private Integer m_externalTaskID;
    
-   private List<Duration> m_splits;
-   private Duration m_splitsComplete;
+   private List<DateRange> m_splits;
+   private Date m_splitsComplete;
    private SubProject m_subProject;   
    private List<FieldListener> m_listeners;
 }

@@ -425,7 +425,7 @@ public class ProjectCalendarTest extends MPXJTestCase
    }
 
    /**
-    * Execise various duration variance calculations.
+    * Exercise various duration variance calculations.
     * 
     * @throws Exception
     */
