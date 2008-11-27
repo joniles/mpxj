@@ -22,8 +22,10 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2100803: MSPDIReader is not setting calendarName in projectHeader.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2105778: Write resource calendar with exceptions only.</action>			
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2209477: File loses predecessors.</action>
-		<action dev="joniles" type="fix">Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</action>													
+		<action dev="joniles" type="fix">Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</action>
+		<action dev="joniles" type="fix">Updated split task implementation to represent splits as DateRange instances rather than as hours.</action>													
 		<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>				
+		<action dev="joniles" type="add">Added support for timephased resource assignment data.</action>
 		<action dev="joniles" type="add">Added support CurrencyCode, CreationDate, LastSaved and HyperlinkBase project header fields.</action>
 		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
 		<action dev="joniles" type="add">Added methods to MPXReader and MPXWriter to allow the caller to determine the supported locales.</action>		
