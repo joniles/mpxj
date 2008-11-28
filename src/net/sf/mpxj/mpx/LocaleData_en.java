@@ -39,7 +39,5 @@ public final class LocaleData_en extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final Object[][] RESOURCE_DATA =
-   {
-   };
+   private static final Object[][] RESOURCE_DATA = {};
 }

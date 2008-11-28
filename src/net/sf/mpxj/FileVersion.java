@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * Instances of this class represent enumerated file version values.
  */
@@ -34,7 +33,7 @@ public final class FileVersion
     *
     * @param value file version value
     */
-   private FileVersion (int value)
+   private FileVersion(int value)
    {
       m_value = value;
    }
@@ -44,7 +43,7 @@ public final class FileVersion
     *
     * @return file version value
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -55,7 +54,7 @@ public final class FileVersion
     * @param value file version value
     * @return FileVersion instance
     */
-   public static FileVersion getInstance (String value)
+   public static FileVersion getInstance(String value)
    {
       FileVersion result = VERSION_4_0;
 
@@ -85,26 +84,26 @@ public final class FileVersion
     *
     * @return string representation of the file type
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       String result;
 
       switch (m_value)
       {
-         case 1:
+         case 1 :
          {
             result = "1.0";
             break;
          }
 
-         case 3:
+         case 3 :
          {
             result = "3.0";
             break;
          }
 
-         default:
-         case 4:
+         default :
+         case 4 :
          {
             result = "4.0";
             break;

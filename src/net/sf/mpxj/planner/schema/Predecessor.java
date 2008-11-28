@@ -5,7 +5,6 @@
 // Generated on: 2007.09.11 at 10:06:48 PM BST 
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,127 +16,126 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "predecessor")
-@SuppressWarnings("all")
-public class Predecessor {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "predecessor") @SuppressWarnings("all") public class Predecessor
+{
 
-    @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String id;
-    @XmlAttribute(name = "predecessor-id", required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String predecessorId;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String type;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String lag;
+   @XmlAttribute(required = true) @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String id;
+   @XmlAttribute(name = "predecessor-id", required = true) @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String predecessorId;
+   @XmlAttribute @XmlJavaTypeAdapter(CollapsedStringAdapter.class) protected String type;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String lag;
 
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the predecessorId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPredecessorId() {
-        return predecessorId;
-    }
+   /**
+    * Gets the value of the predecessorId property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getPredecessorId()
+   {
+      return predecessorId;
+   }
 
-    /**
-     * Sets the value of the predecessorId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPredecessorId(String value) {
-        this.predecessorId = value;
-    }
+   /**
+    * Sets the value of the predecessorId property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setPredecessorId(String value)
+   {
+      this.predecessorId = value;
+   }
 
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getType() {
-        if (type == null) {
-            return "FS";
-        } else {
-            return type;
-        }
-    }
+   /**
+    * Gets the value of the type property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getType()
+   {
+      if (type == null)
+      {
+         return "FS";
+      }
+      else
+      {
+         return type;
+      }
+   }
 
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+   /**
+    * Sets the value of the type property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setType(String value)
+   {
+      this.type = value;
+   }
 
-    /**
-     * Gets the value of the lag property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLag() {
-        return lag;
-    }
+   /**
+    * Gets the value of the lag property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getLag()
+   {
+      return lag;
+   }
 
-    /**
-     * Sets the value of the lag property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLag(String value) {
-        this.lag = value;
-    }
+   /**
+    * Sets the value of the lag property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setLag(String value)
+   {
+      this.lag = value;
+   }
 
 }

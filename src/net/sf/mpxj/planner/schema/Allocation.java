@@ -5,7 +5,6 @@
 // Generated on: 2007.09.11 at 10:06:48 PM BST 
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,95 +15,92 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "allocation")
-public class Allocation {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "allocation") public class Allocation
+{
 
-    @XmlAttribute(name = "task-id", required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String taskId;
-    @XmlAttribute(name = "resource-id", required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String resourceId;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String units;
+   @XmlAttribute(name = "task-id", required = true) @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String taskId;
+   @XmlAttribute(name = "resource-id", required = true) @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String resourceId;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String units;
 
-    /**
-     * Gets the value of the taskId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTaskId() {
-        return taskId;
-    }
+   /**
+    * Gets the value of the taskId property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getTaskId()
+   {
+      return taskId;
+   }
 
-    /**
-     * Sets the value of the taskId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTaskId(String value) {
-        this.taskId = value;
-    }
+   /**
+    * Sets the value of the taskId property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setTaskId(String value)
+   {
+      this.taskId = value;
+   }
 
-    /**
-     * Gets the value of the resourceId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getResourceId() {
-        return resourceId;
-    }
+   /**
+    * Gets the value of the resourceId property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getResourceId()
+   {
+      return resourceId;
+   }
 
-    /**
-     * Sets the value of the resourceId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setResourceId(String value) {
-        this.resourceId = value;
-    }
+   /**
+    * Sets the value of the resourceId property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setResourceId(String value)
+   {
+      this.resourceId = value;
+   }
 
-    /**
-     * Gets the value of the units property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUnits() {
-        return units;
-    }
+   /**
+    * Gets the value of the units property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getUnits()
+   {
+      return units;
+   }
 
-    /**
-     * Sets the value of the units property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUnits(String value) {
-        this.units = value;
-    }
+   /**
+    * Sets the value of the units property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setUnits(String value)
+   {
+      this.units = value;
+   }
 
 }

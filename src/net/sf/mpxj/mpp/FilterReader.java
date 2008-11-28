@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       2006-10-31
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -42,8 +42,8 @@ public abstract class FilterReader
     * 
     * @return VarData type
     */
-   protected abstract Integer getVarDataType ();
-   
+   protected abstract Integer getVarDataType();
+
    /**
     * Entry point for processing filter definitions.
     * 
@@ -51,11 +51,11 @@ public abstract class FilterReader
     * @param fixedData filter fixed data
     * @param varData filter var data
     */
-   public void process (ProjectFile file, FixedData fixedData, Var2Data varData)      
-   {      
+   public void process(ProjectFile file, FixedData fixedData, Var2Data varData)
+   {
       Filter filter;
       boolean lastLogicalAnd = true;
-      
+
       int filterCount = fixedData.getItemCount();
       for (int filterLoop = 0; filterLoop < filterCount; filterLoop++)
       {
@@ -64,7 +64,7 @@ public abstract class FilterReader
          {
             continue;
          }
-         
+
          filter = new Filter();
          filter.setID(Integer.valueOf(MPPUtility.getInt(filterFixedData, 0)));
          filter.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(filterFixedData, 4)));
@@ -76,43 +76,43 @@ public abstract class FilterReader
 
          //System.out.println(filter.getName());
          //System.out.println(MPPUtility.hexdump(filterVarData, true, 16, ""));
-         
+
          int varDataOffset = MPPUtility.getInt(filterVarData, 16);
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
-         
+
          // 20 byte header, ignore first 2 80 byte blocks
          int offset = 20 + (2 * 80);
          while (offset + (3 * 80) <= varDataOffset)
-         {            
+         {
             FilterCriteria criteria = new FilterCriteria(file);
             filter.addCriteria(criteria);
-            
+
             int operatorValue = MPPUtility.getInt(filterVarData, offset);
-            criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
-            
-            int fieldType = MPPUtility.getShort(filterVarData, offset+120);
-            int entityType = MPPUtility.getByte(filterVarData, offset+123);
-            
+            criteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
+
+            int fieldType = MPPUtility.getShort(filterVarData, offset + 120);
+            int entityType = MPPUtility.getByte(filterVarData, offset + 123);
+
             FieldType type = null;
             switch (entityType)
             {
-               case 0x0B:               
+               case 0x0B :
                {
                   type = MPPTaskField.getInstance(fieldType);
                   break;
                }
-               
-               case 0x0C:               
+
+               case 0x0C :
                {
                   type = MPPResourceField.getInstance(fieldType);
                   break;
-               }            
+               }
             }
             criteria.setField(type);
-            
-            if (MPPUtility.getByte(filterVarData, offset+224) == 0)
+
+            if (MPPUtility.getByte(filterVarData, offset + 224) == 0)
             {
-               Object value = getValue(file, type, filterVarData, offset, varDataOffset);               
+               Object value = getValue(file, type, filterVarData, offset, varDataOffset);
                criteria.setValue(0, value);
                //System.out.println("Value=" + value);
             }
@@ -122,18 +122,18 @@ public abstract class FilterReader
                criteria.setPromptText(0, prompt);
                //System.out.println("Prompt=" + prompt);
             }
-                       
+
             if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
-            {                              
-               if (MPPUtility.getByte(filterVarData, offset+224+80) == 0)
+            {
+               if (MPPUtility.getByte(filterVarData, offset + 224 + 80) == 0)
                {
-                  Object value = getValue(file, type, filterVarData, offset+80, varDataOffset);               
-                  criteria.setValue(1, value);               
+                  Object value = getValue(file, type, filterVarData, offset + 80, varDataOffset);
+                  criteria.setValue(1, value);
                   //System.out.println("Value=" + value);
                }
                else
                {
-                  String prompt = getPrompt(filterVarData, offset+80, varDataOffset);
+                  String prompt = getPrompt(filterVarData, offset + 80, varDataOffset);
                   criteria.setPromptText(1, prompt);
                   //System.out.println("Prompt=" + prompt);
                }
@@ -144,53 +144,50 @@ public abstract class FilterReader
             {
                offset += (3 * 80);
             }
-            
+
             //System.out.println(MPPUtility.hexdump(filterVarData, startOffset, offset-startOffset, true, 16, ""));
             //System.out.println(criteria);
-            
+
             // have we got enough data left for the logical operator
             if (offset + 80 > varDataOffset)
             {
                continue;
             }
-            
+
             // extract the logical operator here
             int logicalOperator = MPPUtility.getShort(filterVarData, offset);
             //System.out.println("LogicalOperator=" + Integer.toHexString(logicalOperator));
             switch (logicalOperator)
             {
-               case 0x19:
-               case 0x1B:
+               case 0x19 :
+               case 0x1B :
                {
                   criteria.setLogicalAnd(true);
                   lastLogicalAnd = true;
                   offset += 80;
                   break;
                }
-               
-               case 0x1A:
-               case 0x1C:
+
+               case 0x1A :
+               case 0x1C :
                {
                   criteria.setLogicalAnd(false);
                   lastLogicalAnd = false;
                   offset += 80;
-                  break;                  
-               }               
-               
-               default:
+                  break;
+               }
+
+               default :
                {
                   criteria.setLogicalAnd(lastLogicalAnd);
                   break;
                }
-            }                                                           
-            
-            
+            }
+
          }
-         
-         
-         
-        file.addFilter(filter);
-        //System.out.println(filter);
+
+         file.addFilter(filter);
+         //System.out.println(filter);
       }
    }
 
@@ -204,14 +201,14 @@ public abstract class FilterReader
     * @param varDataOffset offset to variable data at end of block
     * @return value object
     */
-   private Object getValue (ProjectFile file, FieldType type, byte[] filterVarData, int offset, int varDataOffset)
+   private Object getValue(ProjectFile file, FieldType type, byte[] filterVarData, int offset, int varDataOffset)
    {
       Object value = null;
-      
-      boolean valueFlag = (MPPUtility.getInt(filterVarData, offset+160) == 1);
+
+      boolean valueFlag = (MPPUtility.getInt(filterVarData, offset + 160) == 1);
       if (valueFlag == false)
       {
-         int field = MPPUtility.getShort(filterVarData, offset+200);               
+         int field = MPPUtility.getShort(filterVarData, offset + 200);
          if (type instanceof TaskField)
          {
             value = MPPTaskField.getInstance(field);
@@ -219,66 +216,66 @@ public abstract class FilterReader
          else
          {
             value = MPPResourceField.getInstance(field);
-         }         
+         }
       }
       else
-      {                  
+      {
          switch (type.getDataType())
          {
-            case DURATION:
+            case DURATION :
             {
-               value = MPPUtility.getAdjustedDuration (file, MPPUtility.getInt (filterVarData, offset+192), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (filterVarData, offset+192)));
-               break;
-            }
-            
-            case NUMERIC:
-            {
-               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset+192));
+               value = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(filterVarData, offset + 192), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(filterVarData, offset + 192)));
                break;
             }
 
-            case PERCENTAGE:
+            case NUMERIC :
             {
-               value = Double.valueOf(MPPUtility.getInt(filterVarData, offset+192));
+               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset + 192));
                break;
             }
 
-            case CURRENCY:
+            case PERCENTAGE :
             {
-               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset+192)/100);
+               value = Double.valueOf(MPPUtility.getInt(filterVarData, offset + 192));
                break;
             }
-            
-            case STRING:
+
+            case CURRENCY :
             {
-               int textOffset = MPPUtility.getShort(filterVarData, offset + 228);                                          
+               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset + 192) / 100);
+               break;
+            }
+
+            case STRING :
+            {
+               int textOffset = MPPUtility.getShort(filterVarData, offset + 228);
                value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);
                break;
             }
-            
-            case BOOLEAN:
+
+            case BOOLEAN :
             {
-               int intValue = MPPUtility.getShort(filterVarData, offset+192);
-               value = (intValue==1?Boolean.TRUE:Boolean.FALSE);
+               int intValue = MPPUtility.getShort(filterVarData, offset + 192);
+               value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
                break;
             }
-            
-            case DATE:
+
+            case DATE :
             {
-               value = MPPUtility.getTimestamp(filterVarData, offset+192);
+               value = MPPUtility.getTimestamp(filterVarData, offset + 192);
                break;
             }
-            
-            default:
+
+            default :
             {
                break;
             }
-         }                              
-      }       
-      
+         }
+      }
+
       return (value);
-   }   
-   
+   }
+
    /**
     * Retrieve prompt text.
     * 
@@ -287,10 +284,10 @@ public abstract class FilterReader
     * @param varDataOffset variable data offset
     * @return prompt text
     */
-   private String getPrompt (byte[] filterVarData, int offset, int varDataOffset)
+   private String getPrompt(byte[] filterVarData, int offset, int varDataOffset)
    {
-      int textOffset = MPPUtility.getShort(filterVarData, offset + 232);                                          
-      String value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);      
+      int textOffset = MPPUtility.getShort(filterVarData, offset + 232);
+      String value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);
       return (value);
-   }      
+   }
 }

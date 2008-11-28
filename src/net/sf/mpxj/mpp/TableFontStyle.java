@@ -47,9 +47,9 @@ public class TableFontStyle extends FontStyle
     * @param colorChanged color changed flag
     * @param fontChanged font changed flag
     */
-   public TableFontStyle (int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
+   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
    {
-      super (fontBase, italic, bold, underline, color);
+      super(fontBase, italic, bold, underline, color);
 
       m_rowUniqueID = rowUniqueID;
       m_fieldType = fieldType;
@@ -68,9 +68,9 @@ public class TableFontStyle extends FontStyle
     *
     * @return row unique ID
     */
-   public int getRowUniqueID ()
+   public int getRowUniqueID()
    {
-      return  (m_rowUniqueID);
+      return (m_rowUniqueID);
    }
 
    /**
@@ -78,7 +78,7 @@ public class TableFontStyle extends FontStyle
     *
     * @return field type
     */
-   public FieldType getFieldType ()
+   public FieldType getFieldType()
    {
       return (m_fieldType);
    }
@@ -136,9 +136,9 @@ public class TableFontStyle extends FontStyle
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged?" italic="+getItalic():"") + (m_boldChanged?" bold="+getBold():"") + (m_underlineChanged?" underline="+getUnderline():"") + (m_fontChanged?" font="+getFontBase():"") + (m_colorChanged?" color="+getColor():"") + "]");
+      return ("[ColumnFontStyle rowUniqueID=" + m_rowUniqueID + " fieldType=" + m_fieldType + (m_italicChanged ? " italic=" + getItalic() : "") + (m_boldChanged ? " bold=" + getBold() : "") + (m_underlineChanged ? " underline=" + getUnderline() : "") + (m_fontChanged ? " font=" + getFontBase() : "") + (m_colorChanged ? " color=" + getColor() : "") + "]");
    }
 
    private int m_rowUniqueID;

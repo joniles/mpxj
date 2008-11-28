@@ -33,21 +33,20 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum ResourceType implements MpxjEnum
 {
-   MATERIAL (0, "Material"),
-   WORK (1, "Work");
-   
+   MATERIAL(0, "Material"),
+   WORK(1, "Work");
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name enum name
     */
-   private ResourceType (int type, String name)
+   private ResourceType(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -55,8 +54,8 @@ public enum ResourceType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ResourceType getInstance (int type)
-   {      
+   public static ResourceType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = WORK.getValue();
@@ -64,14 +63,13 @@ public enum ResourceType implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static ResourceType getInstance (Number type)
+   public static ResourceType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -85,13 +83,12 @@ public enum ResourceType implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -99,23 +96,22 @@ public enum ResourceType implements MpxjEnum
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (m_name);
    }
-   
+
    /**
     * Array mapping int types to enums.
     */
    private static final ResourceType[] TYPE_VALUES = new ResourceType[2];
    static
-   {      
+   {
       for (ResourceType e : EnumSet.range(ResourceType.MATERIAL, ResourceType.WORK))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

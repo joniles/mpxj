@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.mpx;
 
 import java.util.HashMap;
@@ -31,8 +32,6 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
 
-
-
 /**
  * This class defines the Italian translation of resource required by MPX files.
  */
@@ -41,12 +40,28 @@ public final class LocaleData_it extends ListResourceBundle
    /**
     * {@inheritDoc}
     */
-   @Override public Object[][] getContents ()
+   @Override public Object[][] getContents()
    {
       return (RESOURCE_DATA);
    }
 
-   private static final String[] TIME_UNITS_ARRAY_DATA = {"r", "o", "g", "s", "m", "a", "%", "tr", "to", "tg", "ts", "tm", "ta", "t%"};
+   private static final String[] TIME_UNITS_ARRAY_DATA =
+   {
+      "r",
+      "o",
+      "g",
+      "s",
+      "m",
+      "a",
+      "%",
+      "tr",
+      "to",
+      "tg",
+      "ts",
+      "tm",
+      "ta",
+      "t%"
+   };
    private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
    static
@@ -59,8 +74,8 @@ public final class LocaleData_it extends ListResourceBundle
 
    private static final String[] ACCRUE_TYPES_DATA =
    {
-      "Inizio",     // "Start",
-      "Fine",       // "End",
+      "Inizio", // "Start",
+      "Fine", // "End",
       "Proporzione" // "Prorated"
    };
 
@@ -69,7 +84,7 @@ public final class LocaleData_it extends ListResourceBundle
       "FF", //   "FF",
       "FS", //   "FS",
       "SF", //   "SF",
-      "SS"  //   "SS"
+      "SS" //   "SS"
    };
 
    private static final String[] PRIORITY_TYPES_DATA =
@@ -313,45 +328,123 @@ public final class LocaleData_it extends ListResourceBundle
 
    private static final Object[][] RESOURCE_DATA =
    {
-      {LocaleData.FILE_DELIMITER, ";"},
-      {LocaleData.PROGRAM_NAME, "Microsoft Project for Windows"},
-      {LocaleData.FILE_VERSION, "4.0"},
-      {LocaleData.CODE_PAGE, CodePage.ANSI},
+      {
+         LocaleData.FILE_DELIMITER,
+         ";"
+      },
+      {
+         LocaleData.PROGRAM_NAME,
+         "Microsoft Project for Windows"
+      },
+      {
+         LocaleData.FILE_VERSION,
+         "4.0"
+      },
+      {
+         LocaleData.CODE_PAGE,
+         CodePage.ANSI
+      },
 
+      {
+         LocaleData.CURRENCY_SYMBOL,
+         ""
+      },
+      {
+         LocaleData.CURRENCY_SYMBOL_POSITION,
+         CurrencySymbolPosition.BEFORE
+      },
+      {
+         LocaleData.CURRENCY_DIGITS,
+         Integer.valueOf(2)
+      },
+      {
+         LocaleData.CURRENCY_THOUSANDS_SEPARATOR,
+         "."
+      },
+      {
+         LocaleData.CURRENCY_DECIMAL_SEPARATOR,
+         ","
+      },
 
-      {LocaleData.CURRENCY_SYMBOL, ""},
-      {LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},
-      {LocaleData.CURRENCY_DIGITS, Integer.valueOf(2)},
-      {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
-      {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
+      {
+         LocaleData.DATE_ORDER,
+         DateOrder.DMY
+      },
+      {
+         LocaleData.TIME_FORMAT,
+         ProjectTimeFormat.TWENTY_FOUR_HOUR
+      },
+      {
+         LocaleData.DATE_SEPARATOR,
+         "/"
+      },
+      {
+         LocaleData.TIME_SEPARATOR,
+         ":"
+      },
+      {
+         LocaleData.AM_TEXT,
+         ""
+      },
+      {
+         LocaleData.PM_TEXT,
+         ""
+      },
+      {
+         LocaleData.DATE_FORMAT,
+         ProjectDateFormat.DD_MM_YYYY
+      },
+      {
+         LocaleData.BAR_TEXT_DATE_FORMAT,
+         Integer.valueOf(0)
+      },
+      {
+         LocaleData.NA,
+         "NA"
+      },
 
+      {
+         LocaleData.YES,
+         "Si"
+      },
+      {
+         LocaleData.NO,
+         "No"
+      },
 
-      {LocaleData.DATE_ORDER, DateOrder.DMY},
-      {LocaleData.TIME_FORMAT, ProjectTimeFormat.TWENTY_FOUR_HOUR},
-      {LocaleData.DATE_SEPARATOR, "/"},
-      {LocaleData.TIME_SEPARATOR, ":"},
-      {LocaleData.AM_TEXT, ""},
-      {LocaleData.PM_TEXT, ""},
-      {LocaleData.DATE_FORMAT, ProjectDateFormat.DD_MM_YYYY},
-      {LocaleData.BAR_TEXT_DATE_FORMAT, Integer.valueOf(0)},
-      {LocaleData.NA, "NA"},
+      {
+         LocaleData.TIME_UNITS_ARRAY,
+         TIME_UNITS_ARRAY_DATA
+      },
+      {
+         LocaleData.TIME_UNITS_MAP,
+         TIME_UNITS_MAP_DATA
+      },
 
+      {
+         LocaleData.ACCRUE_TYPES,
+         ACCRUE_TYPES_DATA
+      },
+      {
+         LocaleData.RELATION_TYPES,
+         RELATION_TYPES_DATA
+      },
+      {
+         LocaleData.PRIORITY_TYPES,
+         PRIORITY_TYPES_DATA
+      },
+      {
+         LocaleData.CONSTRAINT_TYPES,
+         CONSTRAINT_TYPES_DATA
+      },
 
-      {LocaleData.YES, "Si"},
-      {LocaleData.NO, "No"},
-
-
-      {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
-      {LocaleData.TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
-
-
-      {LocaleData.ACCRUE_TYPES, ACCRUE_TYPES_DATA},
-      {LocaleData.RELATION_TYPES, RELATION_TYPES_DATA},
-      {LocaleData.PRIORITY_TYPES, PRIORITY_TYPES_DATA},
-      {LocaleData.CONSTRAINT_TYPES, CONSTRAINT_TYPES_DATA},
-
-
-      {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
-      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
+      {
+         LocaleData.TASK_NAMES,
+         TASK_NAMES_DATA
+      },
+      {
+         LocaleData.RESOURCE_NAMES,
+         RESOURCE_NAMES_DATA
+      }
    };
 }

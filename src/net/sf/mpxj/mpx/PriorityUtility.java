@@ -36,7 +36,7 @@ final class PriorityUtility
    /**
     * Constructor.
     */
-   private PriorityUtility ()
+   private PriorityUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -50,14 +50,14 @@ final class PriorityUtility
     * @param priority text version of the priority
     * @return Priority class instance
     */
-   public static Priority getInstance (Locale locale, String priority)
+   public static Priority getInstance(Locale locale, String priority)
    {
       int index = DEFAULT_PRIORITY_INDEX;
 
       if (priority != null)
       {
          String[] priorityTypes = LocaleData.getStringArray(locale, LocaleData.PRIORITY_TYPES);
-         for (int loop=0; loop < priorityTypes.length; loop++)
+         for (int loop = 0; loop < priorityTypes.length; loop++)
          {
             if (priorityTypes[loop].equalsIgnoreCase(priority) == true)
             {
@@ -67,7 +67,7 @@ final class PriorityUtility
          }
       }
 
-      return (Priority.getInstance((index+1)*100));
+      return (Priority.getInstance((index + 1) * 100));
    }
 
    /**

@@ -40,12 +40,11 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9Embedded() 
-      throws Exception
+   public void testMpp9Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read (m_basedir + "/mpp9embedded.mpp");
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9embedded.mpp");
       testEmbeddedObjects(mpp);
    }
 
@@ -54,12 +53,11 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp12Embedded() 
-      throws Exception
+   public void testMpp12Embedded() throws Exception
    {
       MPPReader reader = new MPPReader();
       reader.setPreserveNoteFormatting(true);
-      ProjectFile mpp = reader.read (m_basedir + "/mpp12embedded.mpp");
+      ProjectFile mpp = reader.read(m_basedir + "/mpp12embedded.mpp");
       testEmbeddedObjects(mpp);
    }
 
@@ -68,15 +66,15 @@ public class MppEmbeddedTest extends MPXJTestCase
     * 
     * @param file project file
     */
-   private void testEmbeddedObjects (ProjectFile file)
+   private void testEmbeddedObjects(ProjectFile file)
    {
       Task task = file.getTaskByID(Integer.valueOf(1));
       assertEquals("Task 1", task.getName());
       String notes = task.getNotes();
       assertNotNull(notes);
       List<List<RTFEmbeddedObject>> list = RTFEmbeddedObject.getEmbeddedObjects(notes);
-      assertNull(list);      
-      
+      assertNull(list);
+
       task = file.getTaskByID(Integer.valueOf(2));
       assertEquals("Task 2", task.getName());
       notes = task.getNotes();
@@ -88,7 +86,7 @@ public class MppEmbeddedTest extends MPXJTestCase
       assertEquals(4, objectList.size());
       assertEquals("Package", new String(objectList.get(0).getData(), 0, 7));
       assertEquals("METAFILEPICT", new String(objectList.get(2).getData(), 0, 12));
-      
+
       task = file.getTaskByID(Integer.valueOf(3));
       assertEquals("Task 3", task.getName());
       notes = task.getNotes();
@@ -100,7 +98,7 @@ public class MppEmbeddedTest extends MPXJTestCase
       assertEquals(4, objectList.size());
       assertEquals("Package", new String(objectList.get(0).getData(), 0, 7));
       assertEquals("METAFILEPICT", new String(objectList.get(2).getData(), 0, 12));
-      
+
       task = file.getTaskByID(Integer.valueOf(4));
       assertEquals("Task 4", task.getName());
       notes = task.getNotes();
@@ -112,7 +110,7 @@ public class MppEmbeddedTest extends MPXJTestCase
       assertEquals(4, objectList.size());
       assertEquals("Package", new String(objectList.get(0).getData(), 0, 7));
       assertEquals("METAFILEPICT", new String(objectList.get(2).getData(), 0, 12));
- 
+
       task = file.getTaskByID(Integer.valueOf(5));
       assertEquals("Task 5", task.getName());
       notes = task.getNotes();
@@ -124,7 +122,7 @@ public class MppEmbeddedTest extends MPXJTestCase
       assertEquals(4, objectList.size());
       assertEquals("Package", new String(objectList.get(0).getData(), 0, 7));
       assertEquals("METAFILEPICT", new String(objectList.get(2).getData(), 0, 12));
-      
+
       task = file.getTaskByID(Integer.valueOf(6));
       assertEquals("Task 6", task.getName());
       notes = task.getNotes();

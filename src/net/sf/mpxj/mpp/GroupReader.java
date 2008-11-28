@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       Oct 31, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -42,8 +42,8 @@ public abstract class GroupReader
     * 
     * @return VarData type
     */
-   protected abstract Integer getVarDataType ();
-   
+   protected abstract Integer getVarDataType();
+
    /**
     * Entry point for processing filter definitions.
     * 
@@ -52,8 +52,8 @@ public abstract class GroupReader
     * @param varData filter var data
     * @param fontBases map of font bases
     */
-   public void process (ProjectFile file, FixedData fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
-   {      
+   public void process(ProjectFile file, FixedData fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
+   {
       int groupCount = fixedData.getItemCount();
       for (int groupLoop = 0; groupLoop < groupCount; groupLoop++)
       {
@@ -62,17 +62,17 @@ public abstract class GroupReader
          {
             continue;
          }
-         
+
          Integer groupID = Integer.valueOf(MPPUtility.getInt(groupFixedData, 0));
-                  
+
          byte[] groupVarData = varData.getByteArray(groupID, getVarDataType());
          if (groupVarData == null)
          {
             continue;
          }
-         
-         String groupName = MPPUtility.getUnicodeString(groupFixedData, 4);         
-         
+
+         String groupName = MPPUtility.getUnicodeString(groupFixedData, 4);
+
          // 8 byte header, 48 byte blocks for each clause
 
          // header=4 byte int for unique id
@@ -80,130 +80,127 @@ public abstract class GroupReader
          // short int at byte 6 for number of clauses         
          //Integer groupUniqueID = Integer.valueOf(MPPUtility.getInt(groupVarData, 0));
          boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
-         
+
          Group group = new Group(groupID, groupName, showSummaryTasks);
          file.addGroup(group);
-         
+
          int clauseCount = MPPUtility.getShort(groupVarData, 6);
          int offset = 8;
-         
-         for (int clauseIndex=0; clauseIndex < clauseCount; clauseIndex++)
-         {            
-            if (offset+47 > groupVarData.length)
+
+         for (int clauseIndex = 0; clauseIndex < clauseCount; clauseIndex++)
+         {
+            if (offset + 47 > groupVarData.length)
             {
                break;
             }
-            
+
             GroupClause clause = new GroupClause();
             group.addGroupClause(clause);
-            
+
             int fieldType = MPPUtility.getShort(groupVarData, offset);
-            int entityType = MPPUtility.getByte(groupVarData, offset+3);
-            
+            int entityType = MPPUtility.getByte(groupVarData, offset + 3);
+
             FieldType type = null;
             switch (entityType)
-            {               
-               case 0x0C:               
+            {
+               case 0x0C :
                {
                   type = MPPResourceField.getInstance(fieldType);
                   break;
                }
-               
-               default:
-               case 0x0B:               
+
+               default :
+               case 0x0B :
                {
                   type = MPPTaskField.getInstance(fieldType);
                   break;
-               }               
+               }
             }
 
             clause.setField(type);
-            
+
             // from byte 0 2 byte short int - field type
             // byte 3 - entity type 0b/0c
             // 4th byte in clause is 1=asc 0=desc
             // offset+8=font index, from font bases
             // offset+12=color, byte
             // offset+13=pattern, byte            
-            
-            boolean ascending = (MPPUtility.getByte(groupVarData, offset+4) != 0);
+
+            boolean ascending = (MPPUtility.getByte(groupVarData, offset + 4) != 0);
             clause.setAscending(ascending);
-            
-            int fontIndex = MPPUtility.getByte(groupVarData, offset+8);
+
+            int fontIndex = MPPUtility.getByte(groupVarData, offset + 8);
             FontBase fontBase = fontBases.get(Integer.valueOf(fontIndex));
-            
-            
-            int style = MPPUtility.getByte(groupVarData, offset+9);
+
+            int style = MPPUtility.getByte(groupVarData, offset + 9);
             boolean bold = ((style & 0x01) != 0);
             boolean italic = ((style & 0x02) != 0);
             boolean underline = ((style & 0x04) != 0);
-            
-            
-            int fontColorIndex = MPPUtility.getByte(groupVarData, offset+10);
+
+            int fontColorIndex = MPPUtility.getByte(groupVarData, offset + 10);
             ColorType fontColor = ColorType.getInstance(fontColorIndex);
 
             FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor);
             clause.setFont(fontStyle);
-            
-            int colorIndex = MPPUtility.getByte(groupVarData, offset+12);
+
+            int colorIndex = MPPUtility.getByte(groupVarData, offset + 12);
             ColorType color = ColorType.getInstance(colorIndex);
             clause.setCellBackgroundColor(color);
-            
-            int patternIndex = MPPUtility.getByte(groupVarData, offset+13);
+
+            int patternIndex = MPPUtility.getByte(groupVarData, offset + 13);
             clause.setPattern(patternIndex);
-            
+
             // offset+14=group on
-            int groupOn = MPPUtility.getShort(groupVarData, offset+14);
+            int groupOn = MPPUtility.getShort(groupVarData, offset + 14);
             clause.setGroupOn(groupOn);
             // offset+24=start at
             // offset+40=group interval
-            
+
             Object startAt = null;
             Object groupInterval = null;
-            
+
             switch (type.getDataType())
             {
-               case DURATION:
-               case NUMERIC:
-               case CURRENCY:
+               case DURATION :
+               case NUMERIC :
+               case CURRENCY :
                {
-                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset+24));
-                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset+40));
+                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 24));
+                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 40));
                   break;
                }
 
-               case PERCENTAGE:
+               case PERCENTAGE :
                {
-                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset+24));
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset+40));
+                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 24));
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
                   break;
                }
-                              
-               case BOOLEAN:
-               {
-                  startAt = (MPPUtility.getShort(groupVarData, offset+24)==1?Boolean.TRUE:Boolean.FALSE);
-                  break;
-               }
-               
-               case DATE:
-               {
-                  startAt = MPPUtility.getTimestamp(groupVarData, offset+24);
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset+40));
-                  break;
-               }
-               
-               default:
-               {
-                  break;
-               }
-            }                                          
 
+               case BOOLEAN :
+               {
+                  startAt = (MPPUtility.getShort(groupVarData, offset + 24) == 1 ? Boolean.TRUE : Boolean.FALSE);
+                  break;
+               }
+
+               case DATE :
+               {
+                  startAt = MPPUtility.getTimestamp(groupVarData, offset + 24);
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  break;
+               }
+
+               default :
+               {
+                  break;
+               }
+            }
 
             clause.setStartAt(startAt);
             clause.setGroupInterval(groupInterval);
 
             offset += 48;
          }
-      }      
-   }   
+      }
+   }
 }

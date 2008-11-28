@@ -5,24 +5,22 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TaskType;
 
-@SuppressWarnings("all")
-public class Adapter16
-    extends XmlAdapter<String, TaskType>
+@SuppressWarnings("all") public class Adapter16 extends XmlAdapter<String, TaskType>
 {
 
+   public TaskType unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
+   }
 
-    public TaskType unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
-    }
-
-    public String marshal(TaskType value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
-    }
+   public String marshal(TaskType value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
+   }
 
 }

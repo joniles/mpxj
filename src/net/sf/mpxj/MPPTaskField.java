@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2005
  * date:       20-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * Utility class used to map between the integer values held in MS Project
  * to represent a task field, and the enumerated type used to represent
@@ -38,29 +37,29 @@ public final class MPPTaskField
     * @param value value from an MS Project file
     * @return TaskField instance
     */
-   public static TaskField getInstance (int value)
+   public static TaskField getInstance(int value)
    {
       TaskField result = null;
 
-      if (value >=0 && value < FIELD_ARRAY.length)
+      if (value >= 0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
       }
 
       return (result);
    }
-   
+
    /**
     * Retrieve the ID of a field, as used by MS Project.
     * 
     * @param value field instance
     * @return field ID
     */
-   public static int getID (TaskField value)
+   public static int getID(TaskField value)
    {
       return (ID_ARRAY[value.getValue()]);
    }
-   
+
    private static final int WORK_VALUE = 0;
    private static final int BASELINE_WORK_VALUE = 1;
    private static final int ACTUAL_WORK_VALUE = 2;
@@ -303,67 +302,67 @@ public final class MPPTaskField
    private static final int GROUP_BY_SUMMARY_VALUE = 446;
    private static final int WBS_PREDECESSORS_VALUE = 449;
    private static final int WBS_SUCCESSORS_VALUE = 450;
-   private static final int RESOURCE_TYPE_VALUE = 451;     
+   private static final int RESOURCE_TYPE_VALUE = 451;
    private static final int BASELINE1_START_VALUE = 482;
    private static final int BASELINE1_FINISH_VALUE = 483;
    private static final int BASELINE1_COST_VALUE = 484;
    private static final int BASELINE1_WORK_VALUE = 485;
-   private static final int BASELINE1_DURATION_VALUE = 487;   
+   private static final int BASELINE1_DURATION_VALUE = 487;
    private static final int BASELINE2_START_VALUE = 493;
    private static final int BASELINE2_FINISH_VALUE = 494;
    private static final int BASELINE2_COST_VALUE = 495;
    private static final int BASELINE2_WORK_VALUE = 496;
-   private static final int BASELINE2_DURATION_VALUE = 498;   
+   private static final int BASELINE2_DURATION_VALUE = 498;
    private static final int BASELINE3_START_VALUE = 504;
    private static final int BASELINE3_FINISH_VALUE = 505;
    private static final int BASELINE3_COST_VALUE = 506;
    private static final int BASELINE3_WORK_VALUE = 507;
-   private static final int BASELINE3_DURATION_VALUE = 509;   
+   private static final int BASELINE3_DURATION_VALUE = 509;
    private static final int BASELINE4_START_VALUE = 515;
    private static final int BASELINE4_FINISH_VALUE = 516;
    private static final int BASELINE4_COST_VALUE = 517;
    private static final int BASELINE4_WORK_VALUE = 518;
-   private static final int BASELINE4_DURATION_VALUE = 520;   
+   private static final int BASELINE4_DURATION_VALUE = 520;
    private static final int BASELINE5_START_VALUE = 526;
    private static final int BASELINE5_FINISH_VALUE = 527;
    private static final int BASELINE5_COST_VALUE = 528;
    private static final int BASELINE5_WORK_VALUE = 529;
-   private static final int BASELINE5_DURATION_VALUE = 531;   
+   private static final int BASELINE5_DURATION_VALUE = 531;
    private static final int BASELINE6_START_VALUE = 544;
    private static final int BASELINE6_FINISH_VALUE = 545;
    private static final int BASELINE6_COST_VALUE = 546;
    private static final int BASELINE6_WORK_VALUE = 547;
-   private static final int BASELINE6_DURATION_VALUE = 549;   
+   private static final int BASELINE6_DURATION_VALUE = 549;
    private static final int BASELINE7_START_VALUE = 555;
    private static final int BASELINE7_FINISH_VALUE = 556;
    private static final int BASELINE7_COST_VALUE = 557;
    private static final int BASELINE7_WORK_VALUE = 558;
-   private static final int BASELINE7_DURATION_VALUE = 560;   
+   private static final int BASELINE7_DURATION_VALUE = 560;
    private static final int BASELINE8_START_VALUE = 566;
    private static final int BASELINE8_FINISH_VALUE = 567;
    private static final int BASELINE8_COST_VALUE = 568;
    private static final int BASELINE8_WORK_VALUE = 569;
-   private static final int BASELINE8_DURATION_VALUE = 571;   
+   private static final int BASELINE8_DURATION_VALUE = 571;
    private static final int BASELINE9_START_VALUE = 577;
    private static final int BASELINE9_FINISH_VALUE = 578;
    private static final int BASELINE9_COST_VALUE = 579;
    private static final int BASELINE9_WORK_VALUE = 580;
-   private static final int BASELINE9_DURATION_VALUE = 582;   
+   private static final int BASELINE9_DURATION_VALUE = 582;
    private static final int BASELINE10_START_VALUE = 588;
    private static final int BASELINE10_FINISH_VALUE = 589;
    private static final int BASELINE10_COST_VALUE = 590;
    private static final int BASELINE10_WORK_VALUE = 591;
-   private static final int BASELINE10_DURATION_VALUE = 593;   
-   private static final int ENTERPRISE_COST1_VALUE = 599; 
-   private static final int ENTERPRISE_COST2_VALUE = 600; 
-   private static final int ENTERPRISE_COST3_VALUE = 601; 
-   private static final int ENTERPRISE_COST4_VALUE = 602; 
-   private static final int ENTERPRISE_COST5_VALUE = 603; 
-   private static final int ENTERPRISE_COST6_VALUE = 604; 
-   private static final int ENTERPRISE_COST7_VALUE = 605;       
-   private static final int ENTERPRISE_COST8_VALUE = 606; 
-   private static final int ENTERPRISE_COST9_VALUE = 607; 
-   private static final int ENTERPRISE_COST10_VALUE = 608; 
+   private static final int BASELINE10_DURATION_VALUE = 593;
+   private static final int ENTERPRISE_COST1_VALUE = 599;
+   private static final int ENTERPRISE_COST2_VALUE = 600;
+   private static final int ENTERPRISE_COST3_VALUE = 601;
+   private static final int ENTERPRISE_COST4_VALUE = 602;
+   private static final int ENTERPRISE_COST5_VALUE = 603;
+   private static final int ENTERPRISE_COST6_VALUE = 604;
+   private static final int ENTERPRISE_COST7_VALUE = 605;
+   private static final int ENTERPRISE_COST8_VALUE = 606;
+   private static final int ENTERPRISE_COST9_VALUE = 607;
+   private static final int ENTERPRISE_COST10_VALUE = 608;
    private static final int ENTERPRISE_DATE1_VALUE = 609;
    private static final int ENTERPRISE_DATE2_VALUE = 610;
    private static final int ENTERPRISE_DATE3_VALUE = 611;
@@ -393,7 +392,7 @@ public final class MPPTaskField
    private static final int ENTERPRISE_DATE27_VALUE = 635;
    private static final int ENTERPRISE_DATE28_VALUE = 636;
    private static final int ENTERPRISE_DATE29_VALUE = 637;
-   private static final int ENTERPRISE_DATE30_VALUE = 638;   
+   private static final int ENTERPRISE_DATE30_VALUE = 638;
    private static final int ENTERPRISE_DURATION1_VALUE = 639;
    private static final int ENTERPRISE_DURATION2_VALUE = 640;
    private static final int ENTERPRISE_DURATION3_VALUE = 641;
@@ -403,7 +402,7 @@ public final class MPPTaskField
    private static final int ENTERPRISE_DURATION7_VALUE = 645;
    private static final int ENTERPRISE_DURATION8_VALUE = 646;
    private static final int ENTERPRISE_DURATION9_VALUE = 647;
-   private static final int ENTERPRISE_DURATION10_VALUE = 648;   
+   private static final int ENTERPRISE_DURATION10_VALUE = 648;
    private static final int ENTERPRISE_FLAG1_VALUE = 659;
    private static final int ENTERPRISE_FLAG2_VALUE = 660;
    private static final int ENTERPRISE_FLAG3_VALUE = 661;
@@ -423,7 +422,7 @@ public final class MPPTaskField
    private static final int ENTERPRISE_FLAG17_VALUE = 675;
    private static final int ENTERPRISE_FLAG18_VALUE = 676;
    private static final int ENTERPRISE_FLAG19_VALUE = 677;
-   private static final int ENTERPRISE_FLAG20_VALUE = 678;   
+   private static final int ENTERPRISE_FLAG20_VALUE = 678;
    private static final int ENTERPRISE_NUMBER1_VALUE = 699;
    private static final int ENTERPRISE_NUMBER2_VALUE = 700;
    private static final int ENTERPRISE_NUMBER3_VALUE = 701;
@@ -462,7 +461,7 @@ public final class MPPTaskField
    private static final int ENTERPRISE_NUMBER36_VALUE = 734;
    private static final int ENTERPRISE_NUMBER37_VALUE = 735;
    private static final int ENTERPRISE_NUMBER38_VALUE = 736;
-   private static final int ENTERPRISE_NUMBER39_VALUE = 737;  
+   private static final int ENTERPRISE_NUMBER39_VALUE = 737;
    private static final int ENTERPRISE_NUMBER40_VALUE = 738;
    private static final int ENTERPRISE_TEXT1_VALUE = 799;
    private static final int ENTERPRISE_TEXT2_VALUE = 800;
@@ -504,9 +503,9 @@ public final class MPPTaskField
    private static final int ENTERPRISE_TEXT38_VALUE = 836;
    private static final int ENTERPRISE_TEXT39_VALUE = 837;
    private static final int ENTERPRISE_TEXT40_VALUE = 838;
-   
+
    private static final int MAX_VALUE = 839;
-   
+
    private static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
 
    static
@@ -754,58 +753,58 @@ public final class MPPTaskField
       FIELD_ARRAY[WBS_PREDECESSORS_VALUE] = TaskField.WBS_PREDECESSORS;
       FIELD_ARRAY[WBS_SUCCESSORS_VALUE] = TaskField.WBS_SUCCESSORS;
       FIELD_ARRAY[RESOURCE_TYPE_VALUE] = TaskField.RESOURCE_TYPE;
-      
+
       FIELD_ARRAY[BASELINE1_START_VALUE] = TaskField.BASELINE1_START;
       FIELD_ARRAY[BASELINE1_FINISH_VALUE] = TaskField.BASELINE1_FINISH;
       FIELD_ARRAY[BASELINE1_COST_VALUE] = TaskField.BASELINE1_COST;
       FIELD_ARRAY[BASELINE1_WORK_VALUE] = TaskField.BASELINE1_WORK;
-      FIELD_ARRAY[BASELINE1_DURATION_VALUE] = TaskField.BASELINE1_DURATION;   
+      FIELD_ARRAY[BASELINE1_DURATION_VALUE] = TaskField.BASELINE1_DURATION;
       FIELD_ARRAY[BASELINE2_START_VALUE] = TaskField.BASELINE2_START;
       FIELD_ARRAY[BASELINE2_FINISH_VALUE] = TaskField.BASELINE2_FINISH;
       FIELD_ARRAY[BASELINE2_COST_VALUE] = TaskField.BASELINE2_COST;
       FIELD_ARRAY[BASELINE2_WORK_VALUE] = TaskField.BASELINE2_WORK;
-      FIELD_ARRAY[BASELINE2_DURATION_VALUE] = TaskField.BASELINE2_DURATION;   
+      FIELD_ARRAY[BASELINE2_DURATION_VALUE] = TaskField.BASELINE2_DURATION;
       FIELD_ARRAY[BASELINE3_START_VALUE] = TaskField.BASELINE3_START;
       FIELD_ARRAY[BASELINE3_FINISH_VALUE] = TaskField.BASELINE3_FINISH;
       FIELD_ARRAY[BASELINE3_COST_VALUE] = TaskField.BASELINE3_COST;
       FIELD_ARRAY[BASELINE3_WORK_VALUE] = TaskField.BASELINE3_WORK;
-      FIELD_ARRAY[BASELINE3_DURATION_VALUE] = TaskField.BASELINE3_DURATION;   
+      FIELD_ARRAY[BASELINE3_DURATION_VALUE] = TaskField.BASELINE3_DURATION;
       FIELD_ARRAY[BASELINE4_START_VALUE] = TaskField.BASELINE4_START;
       FIELD_ARRAY[BASELINE4_FINISH_VALUE] = TaskField.BASELINE4_FINISH;
       FIELD_ARRAY[BASELINE4_COST_VALUE] = TaskField.BASELINE4_COST;
       FIELD_ARRAY[BASELINE4_WORK_VALUE] = TaskField.BASELINE4_WORK;
-      FIELD_ARRAY[BASELINE4_DURATION_VALUE] = TaskField.BASELINE4_DURATION;   
+      FIELD_ARRAY[BASELINE4_DURATION_VALUE] = TaskField.BASELINE4_DURATION;
       FIELD_ARRAY[BASELINE5_START_VALUE] = TaskField.BASELINE5_START;
       FIELD_ARRAY[BASELINE5_FINISH_VALUE] = TaskField.BASELINE5_FINISH;
       FIELD_ARRAY[BASELINE5_COST_VALUE] = TaskField.BASELINE5_COST;
       FIELD_ARRAY[BASELINE5_WORK_VALUE] = TaskField.BASELINE5_WORK;
-      FIELD_ARRAY[BASELINE5_DURATION_VALUE] = TaskField.BASELINE5_DURATION;   
+      FIELD_ARRAY[BASELINE5_DURATION_VALUE] = TaskField.BASELINE5_DURATION;
       FIELD_ARRAY[BASELINE6_START_VALUE] = TaskField.BASELINE6_START;
       FIELD_ARRAY[BASELINE6_FINISH_VALUE] = TaskField.BASELINE6_FINISH;
       FIELD_ARRAY[BASELINE6_COST_VALUE] = TaskField.BASELINE6_COST;
       FIELD_ARRAY[BASELINE6_WORK_VALUE] = TaskField.BASELINE6_WORK;
-      FIELD_ARRAY[BASELINE6_DURATION_VALUE] = TaskField.BASELINE6_DURATION;   
+      FIELD_ARRAY[BASELINE6_DURATION_VALUE] = TaskField.BASELINE6_DURATION;
       FIELD_ARRAY[BASELINE7_START_VALUE] = TaskField.BASELINE7_START;
       FIELD_ARRAY[BASELINE7_FINISH_VALUE] = TaskField.BASELINE7_FINISH;
       FIELD_ARRAY[BASELINE7_COST_VALUE] = TaskField.BASELINE7_COST;
       FIELD_ARRAY[BASELINE7_WORK_VALUE] = TaskField.BASELINE7_WORK;
-      FIELD_ARRAY[BASELINE7_DURATION_VALUE] = TaskField.BASELINE7_DURATION;   
+      FIELD_ARRAY[BASELINE7_DURATION_VALUE] = TaskField.BASELINE7_DURATION;
       FIELD_ARRAY[BASELINE8_START_VALUE] = TaskField.BASELINE8_START;
       FIELD_ARRAY[BASELINE8_FINISH_VALUE] = TaskField.BASELINE8_FINISH;
       FIELD_ARRAY[BASELINE8_COST_VALUE] = TaskField.BASELINE8_COST;
       FIELD_ARRAY[BASELINE8_WORK_VALUE] = TaskField.BASELINE8_WORK;
-      FIELD_ARRAY[BASELINE8_DURATION_VALUE] = TaskField.BASELINE8_DURATION;   
+      FIELD_ARRAY[BASELINE8_DURATION_VALUE] = TaskField.BASELINE8_DURATION;
       FIELD_ARRAY[BASELINE9_START_VALUE] = TaskField.BASELINE9_START;
       FIELD_ARRAY[BASELINE9_FINISH_VALUE] = TaskField.BASELINE9_FINISH;
       FIELD_ARRAY[BASELINE9_COST_VALUE] = TaskField.BASELINE9_COST;
       FIELD_ARRAY[BASELINE9_WORK_VALUE] = TaskField.BASELINE9_WORK;
-      FIELD_ARRAY[BASELINE9_DURATION_VALUE] = TaskField.BASELINE9_DURATION;   
+      FIELD_ARRAY[BASELINE9_DURATION_VALUE] = TaskField.BASELINE9_DURATION;
       FIELD_ARRAY[BASELINE10_START_VALUE] = TaskField.BASELINE10_START;
       FIELD_ARRAY[BASELINE10_FINISH_VALUE] = TaskField.BASELINE10_FINISH;
       FIELD_ARRAY[BASELINE10_COST_VALUE] = TaskField.BASELINE10_COST;
       FIELD_ARRAY[BASELINE10_WORK_VALUE] = TaskField.BASELINE10_WORK;
-      FIELD_ARRAY[BASELINE10_DURATION_VALUE] = TaskField.BASELINE10_DURATION;   
-            
+      FIELD_ARRAY[BASELINE10_DURATION_VALUE] = TaskField.BASELINE10_DURATION;
+
       FIELD_ARRAY[ENTERPRISE_COST1_VALUE] = TaskField.ENTERPRISE_COST1;
       FIELD_ARRAY[ENTERPRISE_COST2_VALUE] = TaskField.ENTERPRISE_COST2;
       FIELD_ARRAY[ENTERPRISE_COST3_VALUE] = TaskField.ENTERPRISE_COST3;
@@ -955,7 +954,7 @@ public final class MPPTaskField
       FIELD_ARRAY[ENTERPRISE_TEXT37_VALUE] = TaskField.ENTERPRISE_TEXT37;
       FIELD_ARRAY[ENTERPRISE_TEXT38_VALUE] = TaskField.ENTERPRISE_TEXT38;
       FIELD_ARRAY[ENTERPRISE_TEXT39_VALUE] = TaskField.ENTERPRISE_TEXT39;
-      FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = TaskField.ENTERPRISE_TEXT40;      
+      FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = TaskField.ENTERPRISE_TEXT40;
    }
 
    private static final int[] ID_ARRAY = new int[TaskField.MAX_VALUE];
@@ -1209,52 +1208,52 @@ public final class MPPTaskField
       ID_ARRAY[TaskField.BASELINE1_FINISH_VALUE] = BASELINE1_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE1_COST_VALUE] = BASELINE1_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE1_WORK_VALUE] = BASELINE1_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE1_DURATION_VALUE] = BASELINE1_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE1_DURATION_VALUE] = BASELINE1_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE2_START_VALUE] = BASELINE2_START_VALUE;
       ID_ARRAY[TaskField.BASELINE2_FINISH_VALUE] = BASELINE2_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE2_COST_VALUE] = BASELINE2_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE2_WORK_VALUE] = BASELINE2_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE2_DURATION_VALUE] = BASELINE2_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE2_DURATION_VALUE] = BASELINE2_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE3_START_VALUE] = BASELINE3_START_VALUE;
       ID_ARRAY[TaskField.BASELINE3_FINISH_VALUE] = BASELINE3_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE3_COST_VALUE] = BASELINE3_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE3_WORK_VALUE] = BASELINE3_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE3_DURATION_VALUE] = BASELINE3_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE3_DURATION_VALUE] = BASELINE3_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE4_START_VALUE] = BASELINE4_START_VALUE;
       ID_ARRAY[TaskField.BASELINE4_FINISH_VALUE] = BASELINE4_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE4_COST_VALUE] = BASELINE4_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE4_WORK_VALUE] = BASELINE4_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE4_DURATION_VALUE] = BASELINE4_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE4_DURATION_VALUE] = BASELINE4_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE5_START_VALUE] = BASELINE5_START_VALUE;
       ID_ARRAY[TaskField.BASELINE5_FINISH_VALUE] = BASELINE5_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE5_COST_VALUE] = BASELINE5_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE5_WORK_VALUE] = BASELINE5_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE5_DURATION_VALUE] = BASELINE5_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE5_DURATION_VALUE] = BASELINE5_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE6_START_VALUE] = BASELINE6_START_VALUE;
       ID_ARRAY[TaskField.BASELINE6_FINISH_VALUE] = BASELINE6_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE6_COST_VALUE] = BASELINE6_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE6_WORK_VALUE] = BASELINE6_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE6_DURATION_VALUE] = BASELINE6_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE6_DURATION_VALUE] = BASELINE6_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE7_START_VALUE] = BASELINE7_START_VALUE;
       ID_ARRAY[TaskField.BASELINE7_FINISH_VALUE] = BASELINE7_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE7_COST_VALUE] = BASELINE7_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE7_WORK_VALUE] = BASELINE7_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE7_DURATION_VALUE] = BASELINE7_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE7_DURATION_VALUE] = BASELINE7_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE8_START_VALUE] = BASELINE8_START_VALUE;
       ID_ARRAY[TaskField.BASELINE8_FINISH_VALUE] = BASELINE8_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE8_COST_VALUE] = BASELINE8_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE8_WORK_VALUE] = BASELINE8_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE8_DURATION_VALUE] = BASELINE8_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE8_DURATION_VALUE] = BASELINE8_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE9_START_VALUE] = BASELINE9_START_VALUE;
       ID_ARRAY[TaskField.BASELINE9_FINISH_VALUE] = BASELINE9_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE9_COST_VALUE] = BASELINE9_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE9_WORK_VALUE] = BASELINE9_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE9_DURATION_VALUE] = BASELINE9_DURATION_VALUE;   
+      ID_ARRAY[TaskField.BASELINE9_DURATION_VALUE] = BASELINE9_DURATION_VALUE;
       ID_ARRAY[TaskField.BASELINE10_START_VALUE] = BASELINE10_START_VALUE;
       ID_ARRAY[TaskField.BASELINE10_FINISH_VALUE] = BASELINE10_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE10_COST_VALUE] = BASELINE10_COST_VALUE;
       ID_ARRAY[TaskField.BASELINE10_WORK_VALUE] = BASELINE10_WORK_VALUE;
-      ID_ARRAY[TaskField.BASELINE10_DURATION_VALUE] = BASELINE10_DURATION_VALUE;         
+      ID_ARRAY[TaskField.BASELINE10_DURATION_VALUE] = BASELINE10_DURATION_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_COST1_VALUE] = ENTERPRISE_COST1_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_COST2_VALUE] = ENTERPRISE_COST2_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_COST3_VALUE] = ENTERPRISE_COST3_VALUE;
@@ -1404,8 +1403,8 @@ public final class MPPTaskField
       ID_ARRAY[TaskField.ENTERPRISE_TEXT37_VALUE] = ENTERPRISE_TEXT37_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39_VALUE;
-      ID_ARRAY[TaskField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;      
+      ID_ARRAY[TaskField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;
    }
-   
-   public static final int TASK_FIELD_BASE = 0x0B400000;   
+
+   public static final int TASK_FIELD_BASE = 0x0B400000;
 }

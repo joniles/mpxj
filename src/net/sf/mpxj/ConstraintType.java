@@ -28,7 +28,6 @@ import java.util.EnumSet;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
-
 /**
  * This class is used to represent a constraint type. It provides a mapping
  * between the textual description of a constraint type found in an MPX
@@ -37,15 +36,15 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum ConstraintType implements MpxjEnum
 {
-   AS_SOON_AS_POSSIBLE (0),
-   AS_LATE_AS_POSSIBLE (1),
-   MUST_START_ON (2),
-   MUST_FINISH_ON (3),
-   START_NO_EARLIER_THAN (4),
-   START_NO_LATER_THAN (5),
-   FINISH_NO_EARLIER_THAN (6),
-   FINISH_NO_LATER_THAN (7);
-   
+   AS_SOON_AS_POSSIBLE(0),
+   AS_LATE_AS_POSSIBLE(1),
+   MUST_START_ON(2),
+   MUST_FINISH_ON(3),
+   START_NO_EARLIER_THAN(4),
+   START_NO_LATER_THAN(5),
+   FINISH_NO_EARLIER_THAN(6),
+   FINISH_NO_LATER_THAN(7);
+
    /**
     * Private constructor.
     * 

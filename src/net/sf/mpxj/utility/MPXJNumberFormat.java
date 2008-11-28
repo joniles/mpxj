@@ -43,13 +43,13 @@ public final class MPXJNumberFormat extends DecimalFormat
     * @param decimalSeparator Locale specific decimal separator to replace placeholder
     * @param groupingSeparator Locale specific grouping separator to replace placeholder
     */
-   public void applyPattern (String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
+   public void applyPattern(String primaryPattern, String[] alternativePatterns, char decimalSeparator, char groupingSeparator)
    {
       m_symbols.setDecimalSeparator(decimalSeparator);
       m_symbols.setGroupingSeparator(groupingSeparator);
 
       setDecimalFormatSymbols(m_symbols);
-      applyPattern (primaryPattern);
+      applyPattern(primaryPattern);
 
       if (alternativePatterns != null && alternativePatterns.length != 0)
       {
@@ -57,13 +57,13 @@ public final class MPXJNumberFormat extends DecimalFormat
          if (m_alternativeFormats == null || m_alternativeFormats.length != alternativePatterns.length)
          {
             m_alternativeFormats = new DecimalFormat[alternativePatterns.length];
-            for (loop=0; loop < alternativePatterns.length; loop++)
+            for (loop = 0; loop < alternativePatterns.length; loop++)
             {
                m_alternativeFormats[loop] = new DecimalFormat();
             }
          }
 
-         for (loop=0; loop < alternativePatterns.length; loop++)
+         for (loop = 0; loop < alternativePatterns.length; loop++)
          {
             m_alternativeFormats[loop].setDecimalFormatSymbols(m_symbols);
             m_alternativeFormats[loop].applyPattern(alternativePatterns[loop]);
@@ -74,7 +74,7 @@ public final class MPXJNumberFormat extends DecimalFormat
    /**
     * {@inheritDoc}
     */
-   @Override public Number parse (String str, ParsePosition parsePosition)
+   @Override public Number parse(String str, ParsePosition parsePosition)
    {
       Number result = null;
 
@@ -99,7 +99,7 @@ public final class MPXJNumberFormat extends DecimalFormat
 
                if (m_alternativeFormats != null)
                {
-                  for (int loop=0; loop < m_alternativeFormats.length; loop++)
+                  for (int loop = 0; loop < m_alternativeFormats.length; loop++)
                   {
                      result = m_alternativeFormats[loop].parse(str, parsePosition);
                      if (parsePosition.getIndex() != 0)
@@ -123,6 +123,6 @@ public final class MPXJNumberFormat extends DecimalFormat
    /**
     * Number formatter.
     */
-   private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols ();
+   private DecimalFormatSymbols m_symbols = new DecimalFormatSymbols();
    private DecimalFormat[] m_alternativeFormats;
 }

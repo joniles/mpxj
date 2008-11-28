@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       Jan 07, 2007
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -42,9 +42,8 @@ public abstract class ViewStateReader
     * @return props data
     * @throws IOException
     */
-   protected abstract Props getProps (Var2Data varData)
-      throws IOException;
-   
+   protected abstract Props getProps(Var2Data varData) throws IOException;
+
    /**
     * Entry point for processing saved view state.
     * 
@@ -53,9 +52,8 @@ public abstract class ViewStateReader
     * @param fixedData view state fixed data
     * @throws IOException
     */
-   public void process (ProjectFile file, Var2Data varData, byte[] fixedData)
-      throws IOException
-   {   
+   public void process(ProjectFile file, Var2Data varData, byte[] fixedData) throws IOException
+   {
       Props props = getProps(varData);
       //System.out.println(props);
       if (props != null)
@@ -64,25 +62,25 @@ public abstract class ViewStateReader
          byte[] listData = props.getByteArray(VIEW_CONTENTS);
          List<Integer> uniqueIdList = new LinkedList<Integer>();
          if (listData != null)
-         {               
-            for (int index=0; index < listData.length; index += 4)
+         {
+            for (int index = 0; index < listData.length; index += 4)
             {
                Integer uniqueID = Integer.valueOf(MPPUtility.getInt(listData, index));
                if (file.getTaskByUniqueID(uniqueID) == null)
                {
                   break;
                }
-               uniqueIdList.add(uniqueID);                      
+               uniqueIdList.add(uniqueID);
             }
          }
-         
+
          int filterID = MPPUtility.getShort(fixedData, 128);
-         
+
          ViewState state = new ViewState(file, viewName, uniqueIdList, filterID);
          file.setViewState(state);
       }
-   }   
-      
+   }
+
    private static final Integer VIEW_NAME = Integer.valueOf(641728536);
    private static final Integer VIEW_CONTENTS = Integer.valueOf(641728565);
 }

@@ -117,28 +117,28 @@ public class MppClean
 
       switch (m_project.getMppFileType())
       {
-         case 8:           
+         case 8 :
          {
             projectDirName = "   1";
             varDataFileName = "FixDeferFix   0";
             break;
          }
-      
-         case 9:
-         {         
+
+         case 9 :
+         {
             projectDirName = "   19";
             varDataFileName = "Var2Data";
             break;
          }
 
-         case 12:
-         {         
+         case 12 :
+         {
             projectDirName = "   112";
             varDataFileName = "Var2Data";
             break;
          }
-         
-         default:
+
+         default :
          {
             throw new IllegalArgumentException("Unsupported file type " + m_project.getMppFileType());
          }

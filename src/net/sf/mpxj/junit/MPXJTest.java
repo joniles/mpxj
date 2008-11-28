@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       28-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -33,41 +33,41 @@ public class MPXJTest extends TestSuite
    /**
     * Constructor.
     */
-   public MPXJTest ()
+   public MPXJTest()
    {
-      addTestSuite (BasicTest.class);
-      addTestSuite (LocaleTest.class);
-      addTestSuite (ProjectCalendarTest.class);
-      addTestSuite (SplitTaskTest.class);      
-      addTestSuite (GraphicalIndicatorTest.class);
-      addTestSuite (SlackTest.class);
-      addTestSuite (MppProjectHeaderTest.class);
-      addTestSuite (MppTaskTest.class);
-      addTestSuite (MppResourceTest.class);
-      addTestSuite (MppSubprojectTest.class);
-      addTestSuite (MppViewTest.class);
-      addTestSuite (MppFilterTest.class);
-      addTestSuite (MppAutoFilterTest.class);
-      addTestSuite (MppViewStateTest.class);
-      addTestSuite (MppGroupTest.class);
-      addTestSuite (MppCalendarTest.class);
-      addTestSuite (MppEnterpriseTest.class);
-      addTestSuite (MppBaselineTest.class);
-      addTestSuite (MppEmbeddedTest.class);
-      addTestSuite (MppRecurringTest.class);
-      addTestSuite (MppNullTaskTest.class);
-      addTestSuite (ProjectWriterUtilityTest.class);
-      addTestSuite (PlannerCalendarTest.class);
-      addTestSuite (PlannerResourceTest.class);
-      addTestSuite (CustomerDataTest.class);
+      addTestSuite(BasicTest.class);
+      addTestSuite(LocaleTest.class);
+      addTestSuite(ProjectCalendarTest.class);
+      addTestSuite(SplitTaskTest.class);
+      addTestSuite(GraphicalIndicatorTest.class);
+      addTestSuite(SlackTest.class);
+      addTestSuite(MppProjectHeaderTest.class);
+      addTestSuite(MppTaskTest.class);
+      addTestSuite(MppResourceTest.class);
+      addTestSuite(MppSubprojectTest.class);
+      addTestSuite(MppViewTest.class);
+      addTestSuite(MppFilterTest.class);
+      addTestSuite(MppAutoFilterTest.class);
+      addTestSuite(MppViewStateTest.class);
+      addTestSuite(MppGroupTest.class);
+      addTestSuite(MppCalendarTest.class);
+      addTestSuite(MppEnterpriseTest.class);
+      addTestSuite(MppBaselineTest.class);
+      addTestSuite(MppEmbeddedTest.class);
+      addTestSuite(MppRecurringTest.class);
+      addTestSuite(MppNullTaskTest.class);
+      addTestSuite(ProjectWriterUtilityTest.class);
+      addTestSuite(PlannerCalendarTest.class);
+      addTestSuite(PlannerResourceTest.class);
+      addTestSuite(CustomerDataTest.class);
    }
 
    /**
     * Dummy test used to ensure the test suites added in the constructor
     * are run.
     */
-   public void testAll ()
+   public void testAll()
    {
       // dummy test
-   }   
+   }
 }

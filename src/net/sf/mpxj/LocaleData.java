@@ -27,7 +27,6 @@ import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
 /**
  * Locale data for MPXJ.
  */
@@ -48,7 +47,7 @@ public class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   public static final String[] getStringArray (Locale locale, String key)
+   public static final String[] getStringArray(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getStringArray(key));
@@ -354,7 +353,7 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.BASELINE10_FINISH_VALUE] = "Baseline10 Finish";
       TASK_COLUMNS_ARRAY[TaskField.BASELINE10_COST_VALUE] = "Baseline10 Cost";
       TASK_COLUMNS_ARRAY[TaskField.BASELINE10_WORK_VALUE] = "Baseline10 Work";
-      TASK_COLUMNS_ARRAY[TaskField.BASELINE10_DURATION_VALUE] = "Baseline10 Duration";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE10_DURATION_VALUE] = "Baseline10 Duration";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_COST1_VALUE] = "Enterprise Cost1";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_COST2_VALUE] = "Enterprise Cost2";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_COST3_VALUE] = "Enterprise Cost3";
@@ -879,7 +878,7 @@ public class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT37_VALUE] = "Enterprise Text37";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT38_VALUE] = "Enterprise Text38";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT39_VALUE] = "Enterprise Text39";
-      RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = "Enterprise Text40";  
+      RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = "Enterprise Text40";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ENTERPRISE_VALUE] = "Enterprise";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ERRORS_VALUE] = "Errors";
       RESOURCE_COLUMNS_ARRAY[ResourceField.IMPORT_VALUE] = "Import";
@@ -887,7 +886,13 @@ public class LocaleData extends ListResourceBundle
 
    private static final Object[][] RESOURCES =
    {
-      {"TASK_COLUMNS", TASK_COLUMNS_ARRAY},
-      {"RESOURCE_COLUMNS", RESOURCE_COLUMNS_ARRAY}
+      {
+         "TASK_COLUMNS",
+         TASK_COLUMNS_ARRAY
+      },
+      {
+         "RESOURCE_COLUMNS",
+         RESOURCE_COLUMNS_ARRAY
+      }
    };
 }

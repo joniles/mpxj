@@ -51,11 +51,11 @@ public interface View
     * @return view name
     */
    public String getName();
-   
+
    /**
     * Retrieves the view type.
     * 
     * @return view type
     */
-   public ViewType getType ();
+   public ViewType getType();
 }

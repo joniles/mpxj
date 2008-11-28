@@ -29,7 +29,6 @@ import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
 
-
 /**
  * This interface is implemented by classes which can create Table classes
  * from the data extracted from an MS Project file.
@@ -43,13 +42,13 @@ final class TableFactory
     * @param tableColumnDataEnterprise enterprise columns data key
     * @param tableColumnDataBaseline baseline columns data key
     */
-   public TableFactory (Integer tableColumnDataStandard, Integer tableColumnDataEnterprise, Integer tableColumnDataBaseline)
+   public TableFactory(Integer tableColumnDataStandard, Integer tableColumnDataEnterprise, Integer tableColumnDataBaseline)
    {
       m_tableColumnDataStandard = tableColumnDataStandard;
-      m_tableColumnDataEnterprise = tableColumnDataEnterprise; 
+      m_tableColumnDataEnterprise = tableColumnDataEnterprise;
       m_tableColumnDataBaseline = tableColumnDataBaseline;
    }
-   
+
    /**
     * Creates a new Table instance from data extracted from an MPP file.
     * 
@@ -59,21 +58,21 @@ final class TableFactory
     * @param varData var data
     * @return Table instance
     */
-   public Table createTable (ProjectFile file, byte[] data, VarMeta varMeta, Var2Data varData)
+   public Table createTable(ProjectFile file, byte[] data, VarMeta varMeta, Var2Data varData)
    {
-      Table table = new Table ();
+      Table table = new Table();
 
       table.setID(MPPUtility.getInt(data, 0));
       table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
       table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
-     
+
       byte[] columnData = null;
       Integer tableID = Integer.valueOf(table.getID());
       if (m_tableColumnDataBaseline != null)
       {
          columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataBaseline));
       }
-      
+
       if (columnData == null)
       {
          columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataEnterprise));
@@ -82,12 +81,12 @@ final class TableFactory
             columnData = varData.getByteArray(varMeta.getOffset(tableID, m_tableColumnDataStandard));
          }
       }
-      
-      processColumnData (file, table, columnData);
-     
+
+      processColumnData(file, table, columnData);
+
       return (table);
    }
-   
+
    /**
     * Adds columns to a Table instance.
     * 
@@ -95,49 +94,49 @@ final class TableFactory
     * @param table parent table instance
     * @param data column data
     */
-   private void processColumnData (ProjectFile file, Table table, byte[] data)
+   private void processColumnData(ProjectFile file, Table table, byte[] data)
    {
       //System.out.println("Table=" + table.getName());
       //System.out.println(MPPUtility.hexdump(data, 8, data.length-8, false, 12, ""));
       if (data != null)
       {
-         int columnCount = MPPUtility.getShort(data, 4)+1;
+         int columnCount = MPPUtility.getShort(data, 4) + 1;
          int index = 8;
          int columnTitleOffset;
-         Column  column;
+         Column column;
          int alignment;
 
-         for (int loop=0; loop < columnCount; loop++)
+         for (int loop = 0; loop < columnCount; loop++)
          {
-            column = new Column (file);
+            column = new Column(file);
 
             if (table.getResourceFlag() == false)
             {
-               column.setFieldType (MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType(MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
             }
             else
             {
-               column.setFieldType (MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType(MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
             }
-            
-//            if (column.getFieldType() == null)
-//            {               
-//               System.out.println(loop + ": Unknown column type " + MPPUtility.getShort(data, index));
-//            }
-//            else
-//            {
-//               System.out.println(loop + ": " + column.getFieldType());
-//            }
-            
-            column.setWidth (MPPUtility.getByte(data, index+4));
-            
-            columnTitleOffset = MPPUtility.getShort(data, index+6);
+
+            //            if (column.getFieldType() == null)
+            //            {               
+            //               System.out.println(loop + ": Unknown column type " + MPPUtility.getShort(data, index));
+            //            }
+            //            else
+            //            {
+            //               System.out.println(loop + ": " + column.getFieldType());
+            //            }
+
+            column.setWidth(MPPUtility.getByte(data, index + 4));
+
+            columnTitleOffset = MPPUtility.getShort(data, index + 6);
             if (columnTitleOffset != 0)
             {
                column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
             }
 
-            alignment = MPPUtility.getByte(data, index+8);
+            alignment = MPPUtility.getByte(data, index + 8);
             if (alignment == 32)
             {
                column.setAlignTitle(Column.ALIGN_LEFT);
@@ -154,7 +153,7 @@ final class TableFactory
                }
             }
 
-            alignment = MPPUtility.getByte(data, index+10);
+            alignment = MPPUtility.getByte(data, index + 10);
             if (alignment == 32)
             {
                column.setAlignData(Column.ALIGN_LEFT);
@@ -176,8 +175,8 @@ final class TableFactory
          }
       }
    }
-   
+
    private Integer m_tableColumnDataStandard;
-   private Integer m_tableColumnDataEnterprise; 
+   private Integer m_tableColumnDataEnterprise;
    private Integer m_tableColumnDataBaseline;
 }

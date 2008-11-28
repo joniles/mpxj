@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
@@ -42,19 +43,19 @@ final class VarMeta9 extends AbstractVarMeta
     * @param is Input stream from whic data is read
     * @throws IOException on file read error
     */
-   VarMeta9 (InputStream is)
+   VarMeta9(InputStream is)
       throws IOException
    {
-      if (readInt (is) != MAGIC)
+      if (readInt(is) != MAGIC)
       {
-         throw new IOException ("Bad magic number");
+         throw new IOException("Bad magic number");
       }
 
-      m_unknown1 = readInt (is);
-      m_itemCount = readInt (is);
-      m_unknown2 = readInt (is);
-      m_unknown3 = readInt (is);
-      m_dataSize = readInt (is);
+      m_unknown1 = readInt(is);
+      m_itemCount = readInt(is);
+      m_unknown2 = readInt(is);
+      m_unknown3 = readInt(is);
+      m_dataSize = readInt(is);
 
       Integer uniqueID;
       Integer type;
@@ -70,21 +71,21 @@ final class VarMeta9 extends AbstractVarMeta
       //
       byte[] uniqueIDArray = new byte[4];
 
-      for (int loop=0; loop < m_itemCount; loop++)
+      for (int loop = 0; loop < m_itemCount; loop++)
       {
          is.read(uniqueIDArray, 0, 3);
          uniqueID = Integer.valueOf(MPPUtility.getInt(uniqueIDArray));
 
-         type = Integer.valueOf(readByte (is));
-         offset = Integer.valueOf(readInt (is));
+         type = Integer.valueOf(readByte(is));
+         offset = Integer.valueOf(readInt(is));
 
-         map = m_table.get (uniqueID);
+         map = m_table.get(uniqueID);
          if (map == null)
          {
-            map = new TreeMap<Integer, Integer> ();
-            m_table.put (uniqueID, map);
+            map = new TreeMap<Integer, Integer>();
+            m_table.put(uniqueID, map);
          }
-         map.put (type, offset);
+         map.put(type, offset);
          m_offsets[loop] = offset.intValue();
       }
    }

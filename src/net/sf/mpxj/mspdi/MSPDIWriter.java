@@ -66,7 +66,6 @@ import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
-
 /**
  * This class creates a new MSPDI file from the contents of an ProjectFile instance.
  */
@@ -75,34 +74,33 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * {@inheritDoc}
     */
-   public void write (ProjectFile projectFile, OutputStream stream)
-      throws IOException
+   public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try
       {
          m_projectFile = projectFile;
 
-         JAXBContext context = JAXBContext.newInstance ("net.sf.mpxj.mspdi.schema");
+         JAXBContext context = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema");
          Marshaller marshaller = context.createMarshaller();
-         marshaller.setProperty (Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-         ObjectFactory factory = new ObjectFactory ();
+         ObjectFactory factory = new ObjectFactory();
          Project project = factory.createProject();
 
-         writeProjectHeader (project);
-         writeProjectExtendedAttributes (factory, project);
-         writeCalendars (factory, project);
-         writeResources (factory, project);
-         writeTasks (factory, project);
-         writeAssignments (factory, project);
+         writeProjectHeader(project);
+         writeProjectExtendedAttributes(factory, project);
+         writeCalendars(factory, project);
+         writeResources(factory, project);
+         writeTasks(factory, project);
+         writeAssignments(factory, project);
 
          DatatypeConverter.setParentFile(m_projectFile);
-         marshaller.marshal (project, stream);
+         marshaller.marshal(project, stream);
       }
 
       catch (JAXBException ex)
       {
-         throw new IOException (ex.toString());
+         throw new IOException(ex.toString());
       }
 
       finally
@@ -111,15 +109,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
    }
 
-
    /**
     * This method writes project header data to an MSPDI file.
     *
     * @param project Root node of the MSPDI file
     */
-   private void writeProjectHeader (Project project)
+   private void writeProjectHeader(Project project)
    {
-      ProjectHeader header = m_projectFile.getProjectHeader ();
+      ProjectHeader header = m_projectFile.getProjectHeader();
 
       project.setActualsInSync(Boolean.valueOf(header.getActualsInSync()));
       project.setAdminProject(Boolean.valueOf(header.getAdminProject()));
@@ -133,16 +130,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setCreationDate(DatatypeConverter.printDate(header.getCreationDate()));
       project.setCriticalSlackLimit(NumberUtility.getBigInteger(header.getCriticalSlackLimit()));
       project.setCurrencyCode(header.getCurrencyCode());
-      project.setCurrencyDigits(BigInteger.valueOf (header.getCurrencyDigits().intValue()));
+      project.setCurrencyDigits(BigInteger.valueOf(header.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(header.getCurrencySymbol());
       project.setCurrencySymbolPosition(header.getSymbolPosition());
       project.setCurrentDate(DatatypeConverter.printDate(header.getCurrentDate()));
       project.setDaysPerMonth(NumberUtility.getBigInteger(header.getDaysPerMonth()));
-      project.setDefaultFinishTime(DatatypeConverter.printTime (header.getDefaultEndTime()));
+      project.setDefaultFinishTime(DatatypeConverter.printTime(header.getDefaultEndTime()));
       project.setDefaultFixedCostAccrual(header.getDefaultFixedCostAccrual());
       project.setDefaultOvertimeRate(DatatypeConverter.printRate(header.getDefaultOvertimeRate()));
       project.setDefaultStandardRate(DatatypeConverter.printRate(header.getDefaultStandardRate()));
-      project.setDefaultStartTime(DatatypeConverter.printTime (header.getDefaultStartTime()));
+      project.setDefaultStartTime(DatatypeConverter.printTime(header.getDefaultStartTime()));
       project.setDefaultTaskEVMethod(DatatypeConverter.printEarnedValueMethod(header.getDefaultTaskEarnedValueMethod()));
       project.setDefaultTaskType(header.getDefaultTaskType());
       project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(header.getDefaultDurationUnits()));
@@ -167,7 +164,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setName(header.getName());
       project.setNewTasksEffortDriven(Boolean.valueOf(header.getNewTasksEffortDriven()));
       project.setNewTasksEstimated(Boolean.valueOf(header.getNewTasksEstimated()));
-      project.setNewTaskStartDate(header.getNewTaskStartIsProjectStart()==true?BigInteger.ZERO:BigInteger.ONE);
+      project.setNewTaskStartDate(header.getNewTaskStartIsProjectStart() == true ? BigInteger.ZERO : BigInteger.ONE);
       project.setProjectExternallyEdited(Boolean.valueOf(header.getProjectExternallyEdited()));
       project.setRemoveFileProperties(Boolean.valueOf(header.getRemoveFileProperties()));
       project.setRevision(NumberUtility.getBigInteger(header.getRevision()));
@@ -191,14 +188,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory object factory
     * @param project Root node of the MSPDI file
     */
-   private void writeProjectExtendedAttributes (ObjectFactory factory, Project project)
+   private void writeProjectExtendedAttributes(ObjectFactory factory, Project project)
    {
       Project.ExtendedAttributes attributes = factory.createProjectExtendedAttributes();
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
       writeTaskFieldAliases(factory, list);
-      writeResourceFieldAliases(factory, list);      
+      writeResourceFieldAliases(factory, list);
    }
 
    /**
@@ -207,17 +204,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory object factory
     * @param list field alias list
     */
-   private void writeTaskFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributes.ExtendedAttribute> list)
+   private void writeTaskFieldAliases(ObjectFactory factory, List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
       Map<TaskField, String> fieldAliasMap = m_projectFile.getTaskFieldAliasMap();
-      
-      for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
+
+      for (int loop = 0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
          TaskField key = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
          Integer fieldID = Integer.valueOf(MPPTaskField.getID(key) | MPPTaskField.TASK_FIELD_BASE);
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
-   
+
          Project.ExtendedAttributes.ExtendedAttribute attribute = factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(fieldID.toString());
@@ -231,18 +228,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * 
     * @param factory object factory
     * @param list field alias list
-    */   
-   private void writeResourceFieldAliases (ObjectFactory factory, List<Project.ExtendedAttributes.ExtendedAttribute> list)
+    */
+   private void writeResourceFieldAliases(ObjectFactory factory, List<Project.ExtendedAttributes.ExtendedAttribute> list)
    {
       Map<ResourceField, String> fieldAliasMap = m_projectFile.getResourceFieldAliasMap();
-      
-      for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
+
+      for (int loop = 0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
          ResourceField key = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
          Integer fieldID = Integer.valueOf(MPPResourceField.getID(key) | MPPResourceField.RESOURCE_FIELD_BASE);
          String name = key.getName();
          String alias = fieldAliasMap.get(key);
-   
+
          Project.ExtendedAttributes.ExtendedAttribute attribute = factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(fieldID.toString());
@@ -250,21 +247,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
          attribute.setAlias(alias);
       }
    }
-   
+
    /**
     * This method writes calendar data to an MSPDI file.
     *
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
     */
-   private void writeCalendars (ObjectFactory factory, Project project)
+   private void writeCalendars(ObjectFactory factory, Project project)
    {
       //
       // First step, find all of the base calendars and resource calendars,
       // add them to a list ready for processing, and create a map between
       // names and unique IDs
       //
-      LinkedList<ProjectCalendar> calendarList = new LinkedList<ProjectCalendar>(m_projectFile.getBaseCalendars ());
+      LinkedList<ProjectCalendar> calendarList = new LinkedList<ProjectCalendar>(m_projectFile.getBaseCalendars());
 
       for (Resource resource : m_projectFile.getAllResources())
       {
@@ -279,7 +276,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Create the new MSPDI calendar list
       //
       Project.Calendars calendars = factory.createProjectCalendars();
-      project.setCalendars (calendars);
+      project.setCalendars(calendars);
       List<Project.Calendars.Calendar> calendar = calendars.getCalendar();
 
       //
@@ -288,7 +285,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       factory.createProjectCalendarsCalendar();
       for (ProjectCalendar cal : calendarList)
       {
-         calendar.add (writeCalendar (factory, cal));
+         calendar.add(writeCalendar(factory, cal));
       }
    }
 
@@ -299,7 +296,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param bc Base calendar data
     * @return New MSPDI calendar instance
     */
-   private Project.Calendars.Calendar writeCalendar (ObjectFactory factory, ProjectCalendar bc)
+   private Project.Calendars.Calendar writeCalendar(ObjectFactory factory, ProjectCalendar bc)
    {
       //
       // Create a calendar
@@ -328,7 +325,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
 
-      for (int loop=1; loop < 8; loop++)
+      for (int loop = 1; loop < 8; loop++)
       {
          int workingFlag = bc.getWorkingDay(Day.getInstance(loop));
 
@@ -338,22 +335,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
             dayList.add(day);
             day.setDayType(BigInteger.valueOf(loop));
             day.setDayWorking(Boolean.valueOf(workingFlag == ProjectCalendar.WORKING));
-            
+
             if (workingFlag == ProjectCalendar.WORKING)
             {
-               Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes ();
+               Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
                day.setWorkingTimes(times);
                List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-               bch = bc.getCalendarHours (Day.getInstance(loop));
+               bch = bc.getCalendarHours(Day.getInstance(loop));
                if (bch != null)
                {
                   for (DateRange range : bch)
                   {
                      if (range != null)
                      {
-                        time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
-                        timesList.add (time);
+                        time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
+                        timesList.add(time);
 
                         time.setFromTime(DatatypeConverter.printTime(range.getStart()));
                         time.setToTime(DatatypeConverter.printTime(range.getEnd()));
@@ -363,7 +360,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
          }
       }
-      
+
       //
       // Create a list of exceptions
       //
@@ -385,23 +382,23 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
          period.setFromDate(DatatypeConverter.printDate(exception.getFromDate()));
-         period.setToDate(DatatypeConverter.printDate (exception.getToDate()));
+         period.setToDate(DatatypeConverter.printDate(exception.getToDate()));
 
          if (working == true)
          {
-            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes ();
+            Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes();
             day.setWorkingTimes(times);
             List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
             for (DateRange range : exception)
             {
-               time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime ();
-               timesList.add (time);
+               time = factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
+               timesList.add(time);
 
                time.setFromTime(DatatypeConverter.printTime(range.getStart()));
                time.setToTime(DatatypeConverter.printTime(range.getEnd()));
-            }            
-         }                 
+            }
+         }
       }
 
       //
@@ -411,9 +408,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       if (!dayList.isEmpty())
       {
-         calendar.setWeekDays (days);   
+         calendar.setWeekDays(days);
       }
-      
+
       return (calendar);
    }
 
@@ -423,7 +420,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
     */
-   private void writeResources (ObjectFactory factory, Project project)
+   private void writeResources(ObjectFactory factory, Project project)
    {
       Project.Resources resources = factory.createProjectResources();
       project.setResources(resources);
@@ -431,7 +428,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (Resource resource : m_projectFile.getAllResources())
       {
-         list.add (writeResource (factory, resource));
+         list.add(writeResource(factory, resource));
       }
    }
 
@@ -442,7 +439,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx Resource data
     * @return New MSPDI resource instance
     */
-   private Project.Resources.Resource writeResource (ObjectFactory factory, Resource mpx)
+   private Project.Resources.Resource writeResource(ObjectFactory factory, Resource mpx)
    {
       Project.Resources.Resource xml = factory.createProjectResourcesResource();
       ProjectCalendar cal = mpx.getResourceCalendar();
@@ -453,11 +450,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setAccrueAt(mpx.getAccrueAt());
       xml.setActiveDirectoryGUID(mpx.getActiveDirectoryGUID());
-      xml.setActualCost(DatatypeConverter.printCurrency (mpx.getActualCost()));
+      xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
       xml.setActualOvertimeCost(DatatypeConverter.printCurrency(mpx.getActualOvertimeCost()));
       xml.setActualOvertimeWork(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWork()));
       xml.setActualOvertimeWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWorkProtected()));
-      xml.setActualWork(DatatypeConverter.printDuration (this, mpx.getActualWork()));
+      xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
       xml.setActualWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualWorkProtected()));
       xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
       xml.setAvailableFrom(DatatypeConverter.printDate(mpx.getAvailableFrom()));
@@ -491,9 +488,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setNTAccount(mpx.getNtAccount());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
-      xml.setOvertimeRate(DatatypeConverter.printRate (mpx.getOvertimeRate()));
+      xml.setOvertimeRate(DatatypeConverter.printRate(mpx.getOvertimeRate()));
       xml.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(mpx.getOvertimeRateFormat()));
-      xml.setOvertimeWork(DatatypeConverter.printDuration (this, mpx.getOvertimeWork()));
+      xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setPeakUnits(DatatypeConverter.printUnits(mpx.getPeakUnits()));
       xml.setPercentWorkComplete(NumberUtility.getBigInteger(mpx.getPercentWorkComplete()));
       xml.setPhonetics(mpx.getPhonetics());
@@ -502,7 +499,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
-      xml.setStandardRate(DatatypeConverter.printRate (mpx.getStandardRate()));
+      xml.setStandardRate(DatatypeConverter.printRate(mpx.getStandardRate()));
       xml.setStandardRateFormat(DatatypeConverter.printTimeUnit(mpx.getStandardRateFormat()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
@@ -510,12 +507,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setUID(mpx.getUniqueID());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkGroup(mpx.getWorkGroup());
-      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance())*1000));
+      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance()) * 1000));
 
-      writeResourceExtendedAttributes (factory, xml, mpx);
+      writeResourceExtendedAttributes(factory, xml, mpx);
 
       writeResourceBaselines(factory, xml, mpx);
-      
+
       return (xml);
    }
 
@@ -526,23 +523,23 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param xmlResource MSPDI resource
     * @param mpxjResource MPXJ resource
     */
-   private void writeResourceBaselines (ObjectFactory factory, Project.Resources.Resource xmlResource, Resource mpxjResource)
+   private void writeResourceBaselines(ObjectFactory factory, Project.Resources.Resource xmlResource, Resource mpxjResource)
    {
       Project.Resources.Resource.Baseline baseline = factory.createProjectResourcesResourceBaseline();
       xmlResource.getBaseline().add(baseline);
-      
+
       baseline.setNumber(BigInteger.ZERO);
       baseline.setCost(DatatypeConverter.printCurrency(mpxjResource.getBaselineCost()));
       baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork()));
-      
-      for (int loop=1; loop <=10; loop++)
+
+      for (int loop = 1; loop <= 10; loop++)
       {
          baseline = factory.createProjectResourcesResourceBaseline();
          xmlResource.getBaseline().add(baseline);
-         
+
          baseline.setNumber(BigInteger.valueOf(loop));
          baseline.setCost(DatatypeConverter.printCurrency(mpxjResource.getBaselineCost(loop)));
-         baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork(loop)));         
+         baseline.setWork(DatatypeConverter.printDuration(this, mpxjResource.getBaselineWork(loop)));
       }
    }
 
@@ -553,7 +550,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param xml MSPDI resource
     * @param mpx MPXJ resource
     */
-   private void writeResourceExtendedAttributes (ObjectFactory factory, Project.Resources.Resource xml, Resource mpx)
+   private void writeResourceExtendedAttributes(ObjectFactory factory, Project.Resources.Resource xml, Resource mpx)
    {
       Project.Resources.Resource.ExtendedAttribute attrib;
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
@@ -561,7 +558,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ResourceField mpxFieldID;
       Integer xmlFieldID;
 
-      for (int loop=0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
+      for (int loop = 0; loop < ExtendedAttributeResourceFields.FIELD_ARRAY.length; loop++)
       {
          mpxFieldID = ExtendedAttributeResourceFields.FIELD_ARRAY[loop];
          value = mpx.getCachedValue(mpxFieldID);
@@ -585,18 +582,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
     */
-   private void writeTasks (ObjectFactory factory, Project project)
+   private void writeTasks(ObjectFactory factory, Project project)
    {
       Project.Tasks tasks = factory.createProjectTasks();
-      project.setTasks (tasks);
+      project.setTasks(tasks);
       List<Project.Tasks.Task> list = tasks.getTask();
 
       for (Task task : m_projectFile.getAllTasks())
       {
-         list.add (writeTask (factory, task));
+         list.add(writeTask(factory, task));
       }
    }
-
 
    /**
     * This method writes data for a single task to an MSPDI file.
@@ -605,7 +601,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx Task data
     * @return new task instance
     */
-   private Project.Tasks.Task writeTask (ObjectFactory factory, Task mpx)
+   private Project.Tasks.Task writeTask(ObjectFactory factory, Task mpx)
    {
       Project.Tasks.Task xml = factory.createProjectTasksTask();
 
@@ -647,7 +643,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setFinish(DatatypeConverter.printDate(finishDate));
       }
 
-      xml.setFinishVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getFinishVariance())*1000));
+      xml.setFinishVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getFinishVariance()) * 1000));
       xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
 
       AccrueType fixedCostAccrual = mpx.getFixedCostAccrual();
@@ -662,7 +658,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setFreeSlack(BIGINTEGER_ZERO);
       xml.setHideBar(Boolean.valueOf(mpx.getHideBar()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
-      xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject()!=null));
+      xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject() != null));
       xml.setIsSubprojectReadOnly(Boolean.valueOf(mpx.getSubprojectReadOnly()));
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
@@ -676,7 +672,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (mpx.getLevelingDelay() != null)
       {
-         xml.setLevelingDelay(BigInteger.valueOf((long)mpx.getLevelingDelay().getDuration()));
+         xml.setLevelingDelay(BigInteger.valueOf((long) mpx.getLevelingDelay().getDuration()));
          xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelayFormat()));
       }
 
@@ -703,8 +699,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (duration != null)
          {
             double amount = duration.getDuration();
-            amount -= ((amount * NumberUtility.getDouble(mpx.getPercentageComplete()))/100);
-            xml.setRemainingDuration(DatatypeConverter.printDuration(this, Duration.getInstance (amount, duration.getUnits())));
+            amount -= ((amount * NumberUtility.getDouble(mpx.getPercentageComplete())) / 100);
+            xml.setRemainingDuration(DatatypeConverter.printDuration(this, Duration.getInstance(amount, duration.getUnits())));
          }
       }
       else
@@ -719,24 +715,24 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setResumeValid(Boolean.valueOf(mpx.getResumeValid()));
       xml.setRollup(Boolean.valueOf(mpx.getRollup()));
       xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
-      xml.setStartVariance(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getStartVariance())*1000));
-      xml.setStop(DatatypeConverter.printDate (mpx.getStop()));
+      xml.setStartVariance(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getStartVariance()) * 1000));
+      xml.setStop(DatatypeConverter.printDate(mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectName());
       xml.setSummary(Boolean.valueOf(mpx.getSummary()));
-      xml.setTotalSlack(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack())*1000));
+      xml.setTotalSlack(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getTotalSlack()) * 1000));
       xml.setType(mpx.getType());
       xml.setUID(mpx.getUniqueID());
       xml.setWBS(mpx.getWBS());
       xml.setWBSLevel(mpx.getWBSLevel());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
-      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance())*1000));
+      xml.setWorkVariance(new BigDecimal(DatatypeConverter.printDurationInMinutes(mpx.getWorkVariance()) * 1000));
 
-      writePredecessors (factory, xml, mpx);
+      writePredecessors(factory, xml, mpx);
 
-      writeTaskExtendedAttributes (factory, xml, mpx);
+      writeTaskExtendedAttributes(factory, xml, mpx);
 
-      writeTaskBaselines (factory, xml, mpx);
-      
+      writeTaskBaselines(factory, xml, mpx);
+
       return (xml);
    }
 
@@ -747,11 +743,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param xmlTask MSPDI task
     * @param mpxjTask MPXJ task
     */
-   private void writeTaskBaselines (ObjectFactory factory, Project.Tasks.Task xmlTask, Task mpxjTask)
+   private void writeTaskBaselines(ObjectFactory factory, Project.Tasks.Task xmlTask, Task mpxjTask)
    {
       Project.Tasks.Task.Baseline baseline = factory.createProjectTasksTaskBaseline();
       xmlTask.getBaseline().add(baseline);
-      
+
       baseline.setNumber(BigInteger.ZERO);
       baseline.setCost(DatatypeConverter.printCurrency(mpxjTask.getBaselineCost()));
       baseline.setDuration(DatatypeConverter.printDuration(this, mpxjTask.getBaselineDuration()));
@@ -759,22 +755,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
       baseline.setFinish(DatatypeConverter.printDate(mpxjTask.getBaselineFinish()));
       baseline.setStart(DatatypeConverter.printDate(mpxjTask.getBaselineStart()));
       baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork()));
-      
-      for (int loop=1; loop <=10; loop++)
+
+      for (int loop = 1; loop <= 10; loop++)
       {
          baseline = factory.createProjectTasksTaskBaseline();
          xmlTask.getBaseline().add(baseline);
-         
+
          baseline.setNumber(BigInteger.valueOf(loop));
          baseline.setCost(DatatypeConverter.printCurrency(mpxjTask.getBaselineCost(loop)));
          baseline.setDuration(DatatypeConverter.printDuration(this, mpxjTask.getBaselineDuration(loop)));
          baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpxjTask.getBaselineDuration(loop)));
          baseline.setFinish(DatatypeConverter.printDate(mpxjTask.getBaselineFinish(loop)));
          baseline.setStart(DatatypeConverter.printDate(mpxjTask.getBaselineStart(loop)));
-         baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork(loop)));         
+         baseline.setWork(DatatypeConverter.printDuration(this, mpxjTask.getBaselineWork(loop)));
       }
    }
-   
+
    /**
     * This method writes extended attribute data for a task.
     *
@@ -782,7 +778,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param xml MSPDI task
     * @param mpx MPXJ task
     */
-   private void writeTaskExtendedAttributes (ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
+   private void writeTaskExtendedAttributes(ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
    {
       Project.Tasks.Task.ExtendedAttribute attrib;
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
@@ -790,7 +786,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       TaskField mpxFieldID;
       Integer xmlFieldID;
 
-      for (int loop=0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
+      for (int loop = 0; loop < ExtendedAttributeTaskFields.FIELD_ARRAY.length; loop++)
       {
          mpxFieldID = ExtendedAttributeTaskFields.FIELD_ARRAY[loop];
          value = mpx.getCachedValue(mpxFieldID);
@@ -814,12 +810,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param value duration value
     * @return duration time units
     */
-   private BigInteger printExtendedAttributeDurationFormat (Object value)
+   private BigInteger printExtendedAttributeDurationFormat(Object value)
    {
       BigInteger result = null;
       if (value instanceof Duration)
       {
-         result = DatatypeConverter.printDurationTimeUnits(((Duration)value).getUnits());
+         result = DatatypeConverter.printDurationTimeUnits(((Duration) value).getUnits());
       }
       return (result);
    }
@@ -830,7 +826,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx MPX Task instance
     * @return calendar UID
     */
-   private BigInteger getTaskCalendarID (Task mpx)
+   private BigInteger getTaskCalendarID(Task mpx)
    {
       BigInteger result = null;
       ProjectCalendar cal = mpx.getCalendar();
@@ -859,9 +855,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param xml MSPDI task data
     * @param mpx MPX task data
     */
-   private void writePredecessors (ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
+   private void writePredecessors(ObjectFactory factory, Project.Tasks.Task xml, Task mpx)
    {
-      TreeSet<Integer> set = new TreeSet<Integer> ();
+      TreeSet<Integer> set = new TreeSet<Integer>();
       List<Project.Tasks.Task.PredecessorLink> list = xml.getPredecessorLink();
 
       //
@@ -874,7 +870,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             Integer taskUniqueID = rel.getTaskUniqueID();
             set.add(taskUniqueID);
-            list.add (writePredecessor (factory, taskUniqueID, rel.getType(), rel.getDuration()));
+            list.add(writePredecessor(factory, taskUniqueID, rel.getType(), rel.getDuration()));
          }
       }
 
@@ -891,7 +887,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             Integer taskUniqueID = rel.getTaskUniqueID();
             if (set.contains(taskUniqueID) == false)
             {
-               list.add (writePredecessor (factory, taskUniqueID, rel.getType(), rel.getDuration()));
+               list.add(writePredecessor(factory, taskUniqueID, rel.getType(), rel.getDuration()));
             }
          }
       }
@@ -906,22 +902,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param lag The lag duration
     * @return A new link to be added to the MSPDI file
     */
-   private Project.Tasks.Task.PredecessorLink writePredecessor (ObjectFactory factory, Integer taskID, RelationType type, Duration lag)
+   private Project.Tasks.Task.PredecessorLink writePredecessor(ObjectFactory factory, Integer taskID, RelationType type, Duration lag)
    {
       Project.Tasks.Task.PredecessorLink link = factory.createProjectTasksTaskPredecessorLink();
 
-      link.setPredecessorUID (NumberUtility.getBigInteger(taskID));
-      link.setType (BigInteger.valueOf(type.getValue()));
+      link.setPredecessorUID(NumberUtility.getBigInteger(taskID));
+      link.setType(BigInteger.valueOf(type.getValue()));
 
       if (lag != null && lag.getDuration() != 0)
       {
-         link.setLinkLag(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(lag)*10));
-         link.setLagFormat(DatatypeConverter.printDurationTimeUnits (lag.getUnits()));
+         link.setLinkLag(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(lag) * 10));
+         link.setLagFormat(DatatypeConverter.printDurationTimeUnits(lag.getUnits()));
       }
 
       return (link);
    }
-
 
    /**
     * This method writes assignment data to an MSPDI file.
@@ -929,16 +924,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param factory ObjectFactory instance
     * @param project Root node of the MSPDI file
     */
-   private void writeAssignments (ObjectFactory factory, Project project)
+   private void writeAssignments(ObjectFactory factory, Project project)
    {
       int uid = 0;
       Project.Assignments assignments = factory.createProjectAssignments();
       project.setAssignments(assignments);
       List<Project.Assignments.Assignment> list = assignments.getAssignment();
-      
+
       for (ResourceAssignment assignment : m_projectFile.getAllResourceAssignments())
       {
-         list.add(writeAssignment (factory, assignment, uid));
+         list.add(writeAssignment(factory, assignment, uid));
          ++uid;
       }
 
@@ -953,7 +948,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          double percentComplete = NumberUtility.getDouble(task.getPercentageComplete());
          if (percentComplete != 0 && task.getResourceAssignments().isEmpty() == true)
          {
-            ResourceAssignment dummy = m_projectFile.newResourceAssignment (task);
+            ResourceAssignment dummy = m_projectFile.newResourceAssignment(task);
             Duration duration = task.getDuration();
             if (duration == null)
             {
@@ -969,12 +964,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
             dummy.setRemainingWork(Duration.getInstance(remainingWork, durationUnits));
 
-            list.add(writeAssignment (factory, dummy, uid));
+            list.add(writeAssignment(factory, dummy, uid));
             ++uid;
          }
       }
    }
-
 
    /**
     * This method writes data for a single assignment to an MSPDI file.
@@ -984,23 +978,23 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param uid Unique ID for the new assignment
     * @return New MSPDI assignment instance
     */
-   private Project.Assignments.Assignment writeAssignment (ObjectFactory factory, ResourceAssignment mpx, int uid)
+   private Project.Assignments.Assignment writeAssignment(ObjectFactory factory, ResourceAssignment mpx, int uid)
    {
       Project.Assignments.Assignment xml = factory.createProjectAssignmentsAssignment();
 
-      xml.setActualCost(DatatypeConverter.printCurrency (mpx.getActualCost()));
-      xml.setActualWork(DatatypeConverter.printDuration (this, mpx.getActualWork()));
-      xml.setCost(DatatypeConverter.printCurrency (mpx.getCost()));
-      xml.setDelay(BigInteger.valueOf((long)DatatypeConverter.printDurationInMinutes(mpx.getDelay())*1000));
+      xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
+      xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
+      xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
+      xml.setDelay(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getDelay()) * 1000));
       xml.setFinish(DatatypeConverter.printDate(mpx.getFinish()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
-      xml.setRemainingWork(DatatypeConverter.printDuration (this, mpx.getRemainingWork()));
+      xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResourceUID(BigInteger.valueOf(NumberUtility.getInt(mpx.getResourceUniqueID())));
-      xml.setStart(DatatypeConverter.printDate (mpx.getStart()));
+      xml.setStart(DatatypeConverter.printDate(mpx.getStart()));
       xml.setTaskUID(NumberUtility.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(BigInteger.valueOf(uid));
       xml.setUnits(DatatypeConverter.printUnits(mpx.getUnits()));
-      xml.setWork(DatatypeConverter.printDuration (this, mpx.getWork()));
+      xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkContour(mpx.getWorkContour());
       return (xml);
    }
@@ -1011,14 +1005,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @return project file instance
     */
-   ProjectFile getProjectFile ()
+   ProjectFile getProjectFile()
    {
       return (m_projectFile);
    }
 
    private ProjectFile m_projectFile;
-   
+
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
-   
-   private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);   
+
+   private static final Integer NULL_RESOURCE_ID = Integer.valueOf(-65535);
 }

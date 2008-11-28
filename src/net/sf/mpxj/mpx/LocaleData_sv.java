@@ -31,8 +31,6 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
 
-
-
 /**
  * This class defines the Swedish translation of resource required by MPX files.
  */
@@ -46,12 +44,28 @@ public final class LocaleData_sv extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "t", "d", "w", "mon", "y", "%", "em", "eh", "ed", "ew", "emon", "ey", "e%"};
-   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer> ();
+   private static final String[] TIME_UNITS_ARRAY_DATA =
+   {
+      "m",
+      "t",
+      "d",
+      "w",
+      "mon",
+      "y",
+      "%",
+      "em",
+      "eh",
+      "ed",
+      "ew",
+      "emon",
+      "ey",
+      "e%"
+   };
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
    static
    {
-      for (int loop=0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
+      for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
          TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
       }
@@ -242,7 +256,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Remaining Work", // translate
       "Övertidsarbete",
       "Work Variance", // translate
-      "% Work Complete",  // translate
+      "% Work Complete", // translate
       null,
       null,
       null,
@@ -272,30 +286,87 @@ public final class LocaleData_sv extends ListResourceBundle
 
    private static final Object[][] RESOURCE_DATA =
    {
-      {LocaleData.FILE_DELIMITER, ";"},
-      {LocaleData.FILE_VERSION, "4,0"},
+      {
+         LocaleData.FILE_DELIMITER,
+         ";"
+      },
+      {
+         LocaleData.FILE_VERSION,
+         "4,0"
+      },
 
-      {LocaleData.YES, "Ja"},
-      {LocaleData.NO, "Nej"},
+      {
+         LocaleData.YES,
+         "Ja"
+      },
+      {
+         LocaleData.NO,
+         "Nej"
+      },
 
-      {LocaleData.CURRENCY_SYMBOL, "kr"},
-      {LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.AFTER_WITH_SPACE},
-      {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, " "},
-      {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
+      {
+         LocaleData.CURRENCY_SYMBOL,
+         "kr"
+      },
+      {
+         LocaleData.CURRENCY_SYMBOL_POSITION,
+         CurrencySymbolPosition.AFTER_WITH_SPACE
+      },
+      {
+         LocaleData.CURRENCY_THOUSANDS_SEPARATOR,
+         " "
+      },
+      {
+         LocaleData.CURRENCY_DECIMAL_SEPARATOR,
+         ","
+      },
 
-      {LocaleData.DATE_ORDER, DateOrder.YMD},
-      {LocaleData.TIME_FORMAT, ProjectTimeFormat.TWENTY_FOUR_HOUR},
+      {
+         LocaleData.DATE_ORDER,
+         DateOrder.YMD
+      },
+      {
+         LocaleData.TIME_FORMAT,
+         ProjectTimeFormat.TWENTY_FOUR_HOUR
+      },
 
-      {LocaleData.DATE_SEPARATOR, "-"},
-      {LocaleData.TIME_SEPARATOR, ":"},
-      {LocaleData.AM_TEXT, ""},
-      {LocaleData.PM_TEXT, ""},
-      {LocaleData.DATE_FORMAT, ProjectDateFormat.EEE_DD_MM_YY},
+      {
+         LocaleData.DATE_SEPARATOR,
+         "-"
+      },
+      {
+         LocaleData.TIME_SEPARATOR,
+         ":"
+      },
+      {
+         LocaleData.AM_TEXT,
+         ""
+      },
+      {
+         LocaleData.PM_TEXT,
+         ""
+      },
+      {
+         LocaleData.DATE_FORMAT,
+         ProjectDateFormat.EEE_DD_MM_YY
+      },
 
-      {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
-      {LocaleData.TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
+      {
+         LocaleData.TIME_UNITS_ARRAY,
+         TIME_UNITS_ARRAY_DATA
+      },
+      {
+         LocaleData.TIME_UNITS_MAP,
+         TIME_UNITS_MAP_DATA
+      },
 
-      {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
-      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
+      {
+         LocaleData.TASK_NAMES,
+         TASK_NAMES_DATA
+      },
+      {
+         LocaleData.RESOURCE_NAMES,
+         RESOURCE_NAMES_DATA
+      }
    };
 }

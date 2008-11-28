@@ -39,7 +39,7 @@ final class CompObj extends MPPComponent
     * @param is input stream
     * @throws IOException on read failure
     */
-   CompObj (InputStream is)
+   CompObj(InputStream is)
       throws IOException
    {
       int length;
@@ -47,7 +47,7 @@ final class CompObj extends MPPComponent
       is.skip(28);
 
       length = readInt(is);
-      m_applicationName = new String (readByteArray(is, length), 0, length-1);
+      m_applicationName = new String(readByteArray(is, length), 0, length - 1);
 
       if (m_applicationName != null && m_applicationName.equals("Microsoft Project 4.0") == true)
       {
@@ -57,11 +57,11 @@ final class CompObj extends MPPComponent
       else
       {
          length = readInt(is);
-         m_fileFormat = new String (readByteArray(is, length), 0, length-1);
+         m_fileFormat = new String(readByteArray(is, length), 0, length - 1);
          length = readInt(is);
          if (length > 0)
          {
-            m_applicationID = new String (readByteArray(is, length), 0, length-1);
+            m_applicationID = new String(readByteArray(is, length), 0, length - 1);
          }
       }
    }
@@ -71,7 +71,7 @@ final class CompObj extends MPPComponent
     *
     * @return Name of the application
     */
-   public String getApplicationName ()
+   public String getApplicationName()
    {
       return (m_applicationName);
    }
@@ -81,7 +81,7 @@ final class CompObj extends MPPComponent
     *
     * @return Application ID
     */
-   public String getApplicationID ()
+   public String getApplicationID()
    {
       return (m_applicationID);
    }
@@ -91,7 +91,7 @@ final class CompObj extends MPPComponent
     *
     * @return File format
     */
-   public String getFileFormat ()
+   public String getFileFormat()
    {
       return (m_fileFormat);
    }

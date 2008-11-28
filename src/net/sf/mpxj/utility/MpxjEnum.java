@@ -4,9 +4,8 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       2007-11-09
  */
- 
-package net.sf.mpxj.utility;
 
+package net.sf.mpxj.utility;
 
 /**
  * This interface defines the common features of enums used by MPXJ.
@@ -19,6 +18,6 @@ public interface MpxjEnum
     * 
     * @return enum value
     */
-   public int getValue();   
-      
+   public int getValue();
+
 }

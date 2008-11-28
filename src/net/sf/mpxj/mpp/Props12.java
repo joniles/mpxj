@@ -37,7 +37,7 @@ final class Props12 extends Props
     *
     * @param is input stream for reading props data
     */
-   Props12 (InputStream is)
+   Props12(InputStream is)
       throws IOException
    {
       //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props12." + System.currentTimeMillis() + ".txt");
@@ -82,5 +82,5 @@ final class Props12 extends Props
 
       //pw.flush();
       //pw.close();
-   } 
+   }
 }

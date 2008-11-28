@@ -36,7 +36,7 @@ final class ConstraintTypeUtility
    /**
     * Constructor.
     */
-   private ConstraintTypeUtility ()
+   private ConstraintTypeUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -50,12 +50,12 @@ final class ConstraintTypeUtility
     * @param type text version of the constraint type
     * @return ConstraintType instance
     */
-   public static ConstraintType getInstance (Locale locale, String type)
+   public static ConstraintType getInstance(Locale locale, String type)
    {
       int index = 0;
 
       String[] constraintTypes = LocaleData.getStringArray(locale, LocaleData.CONSTRAINT_TYPES);
-      for (int loop=0; loop < constraintTypes.length; loop++)
+      for (int loop = 0; loop < constraintTypes.length; loop++)
       {
          if (constraintTypes[loop].equalsIgnoreCase(type) == true)
          {

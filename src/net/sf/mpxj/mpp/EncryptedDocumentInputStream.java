@@ -41,18 +41,16 @@ final class EncryptedDocumentInputStream extends DocumentInputStream
     * @param entry file entry
     * @throws IOException
     */
-   public EncryptedDocumentInputStream (DocumentEntry entry)
+   public EncryptedDocumentInputStream(DocumentEntry entry)
       throws IOException
    {
-      super (entry);
+      super(entry);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override
-   public int read() 
-      throws IOException
+   @Override public int read() throws IOException
    {
       int value = super.read();
       value ^= m_mask;
@@ -62,27 +60,25 @@ final class EncryptedDocumentInputStream extends DocumentInputStream
    /**
     * {@inheritDoc}
     */
-   @Override
-   public int read(byte[] b, int off, int len)
-      throws IOException 
+   @Override public int read(byte[] b, int off, int len) throws IOException
    {
       int result = super.read(b, off, len);
-      for (int loop=0; loop < len; loop++)
+      for (int loop = 0; loop < len; loop++)
       {
-         b[loop+off] ^= m_mask;
+         b[loop + off] ^= m_mask;
       }
-      return(result);
+      return (result);
    }
-    
+
    /**
     * Set the mask used to decrypt the stream.
     * 
     * @param mask decryption mask
     */
-   public void setMask (int mask)
+   public void setMask(int mask)
    {
       m_mask = mask;
    }
-   
+
    private int m_mask;
 }

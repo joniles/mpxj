@@ -1,0 +1,91 @@
+
+<project project-start="20060823T080000Z" manager="" company="Steelray Software" name="" mrproject-version="2">
+    <calendars>
+        <day-types>
+            <day-type description="A default working day" name="Working" id="0"/>
+            <day-type description="A default non working day" name="Nonworking" id="1"/>
+            <day-type description="Use day from base calendar" name="Use base" id="2"/>
+        </day-types>
+        <calendar id="1" name="Standard">
+            <default-week sun="1" sat="1" fri="0" thu="0" wed="0" tue="0" mon="0"/>
+            <overridden-day-types>
+                <overridden-day-type id="0">
+                    <interval end="1200" start="0800"/>
+                    <interval end="1700" start="1300"/>
+                </overridden-day-type>
+            </overridden-day-types>
+            <days/>
+            <calendar id="2" name="Unnamed Resource">
+                <default-week sun="2" sat="2" fri="2" thu="2" wed="2" tue="2" mon="2"/>
+                <overridden-day-types/>
+                <days/>
+            </calendar>
+            <calendar id="4" name="Test Resource 1">
+                <default-week sun="2" sat="2" fri="2" thu="2" wed="2" tue="2" mon="2"/>
+                <overridden-day-types/>
+                <days>
+                    <day id="1" type="day-type" date="20061030"/>
+                </days>
+            </calendar>
+            <calendar id="8" name="Test Resource 2">
+                <default-week sun="2" sat="2" fri="2" thu="2" wed="2" tue="2" mon="2"/>
+                <overridden-day-types/>
+                <days>
+                    <day id="1" type="day-type" date="20061031"/>
+                </days>
+            </calendar>
+        </calendar>
+        <calendar id="5" name="Test Calendar">
+            <default-week sun="1" sat="1" fri="0" thu="0" wed="0" tue="0" mon="0"/>
+            <overridden-day-types>
+                <overridden-day-type id="0">
+                    <interval end="1200" start="0800"/>
+                    <interval end="1700" start="1300"/>
+                </overridden-day-type>
+            </overridden-day-types>
+            <days/>
+        </calendar>
+        <calendar id="6" name="24 Hours">
+            <default-week sun="0" sat="0" fri="0" thu="0" wed="0" tue="0" mon="0"/>
+            <overridden-day-types>
+                <overridden-day-type id="0">
+                    <interval end="0000" start="0000"/>
+                </overridden-day-type>
+            </overridden-day-types>
+            <days/>
+        </calendar>
+        <calendar id="7" name="Night Shift">
+            <default-week sun="1" sat="0" fri="0" thu="0" wed="0" tue="0" mon="0"/>
+            <overridden-day-types>
+                <overridden-day-type id="0">
+                    <interval end="0000" start="2300"/>
+                </overridden-day-type>
+            </overridden-day-types>
+            <days/>
+        </calendar>
+        <calendar id="9" name="Test Calendar 2">
+            <default-week sun="1" sat="1" fri="0" thu="0" wed="0" tue="0" mon="0"/>
+            <overridden-day-types>
+                <overridden-day-type id="0">
+                    <interval end="1200" start="0900"/>
+                    <interval end="1700" start="1300"/>
+                </overridden-day-type>
+            </overridden-day-types>
+            <days/>
+        </calendar>
+    </calendars>
+    <tasks>
+        <task scheduling="fixed-duration" type="normal" priority="5000" percent-complete="0" work="0" work-start="20060823T080000Z" end="20060823T170000Z" start="20060823T000000Z" note="" name="MPP12 Test" id="0">
+            <predecessors/>
+            <task scheduling="fixed-work" type="normal" priority="5000" percent-complete="0" work="0" work-start="20060823T080000Z" end="20060823T170000Z" start="20060823T000000Z" note="" name="Test Task" id="2">
+                <predecessors/>
+            </task>
+        </task>
+    </tasks>
+    <resources>
+        <resource calendar="2" note="" units="0" type="1" id="0"/>
+        <resource calendar="4" note="" units="0" type="1" short-name="T" name="Test Resource 1" id="2"/>
+        <resource calendar="8" note="" units="0" type="1" short-name="T" name="Test Resource 2" id="3"/>
+    </resources>
+    <allocations/>
+</project>

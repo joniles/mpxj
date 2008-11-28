@@ -44,7 +44,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return number of items
     */
-   public int getItemCount ()
+   public int getItemCount()
    {
       return (m_itemCount);
    }
@@ -54,7 +54,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return data size
     */
-   public int getDataSize ()
+   public int getDataSize()
    {
       return (m_dataSize);
    }
@@ -65,11 +65,11 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return array of unique identifiers
     */
-   public Integer[] getUniqueIdentifierArray ()
+   public Integer[] getUniqueIdentifierArray()
    {
-      Integer[] result = new Integer [m_table.size()];
+      Integer[] result = new Integer[m_table.size()];
       int index = 0;
-      for (Integer value: m_table.keySet())
+      for (Integer value : m_table.keySet())
       {
          result[index] = value;
          ++index;
@@ -83,7 +83,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     *
     * @return set of unique identifiers
     */
-   public Set<Integer> getUniqueIdentifierSet ()
+   public Set<Integer> getUniqueIdentifierSet()
    {
       return (m_table.keySet());
    }
@@ -97,7 +97,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     * @param type data type identifier
     * @return offset of requested item
     */
-   public Integer getOffset (Integer id, Integer type)
+   public Integer getOffset(Integer id, Integer type)
    {
       Integer result = null;
 
@@ -117,7 +117,7 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
     * @param index index of item in the block
     * @return offset of the item in the block
     */
-   public int getOffset (int index)
+   public int getOffset(int index)
    {
       return (m_offsets[index]);
    }
@@ -125,10 +125,10 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    /**
     * {@inheritDoc}
     */
-   public Set<Integer> getTypes (Integer id)
+   public Set<Integer> getTypes(Integer id)
    {
       Set<Integer> result;
-      
+
       Map<Integer, Integer> map = m_table.get(id);
       if (map != null)
       {
@@ -138,41 +138,41 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
       {
          result = new HashSet<Integer>();
       }
-      
+
       return (result);
    }
-   
+
    /**
     * This method dumps the contents of this VarMeta block as a String.
     * Note that this facility is provided as a debugging aid.
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN: VarMeta");
-      pw.println ("   Item count: " + m_itemCount);
-      pw.println ("   Data size: " + m_dataSize);
+      pw.println("BEGIN: VarMeta");
+      pw.println("   Item count: " + m_itemCount);
+      pw.println("   Data size: " + m_dataSize);
 
       for (Integer uniqueID : m_table.keySet())
       {
-         pw.println ("   Entries for Unique ID: " + uniqueID);
+         pw.println("   Entries for Unique ID: " + uniqueID);
          Map<Integer, Integer> map = m_table.get(uniqueID);
          for (Integer type : map.keySet())
          {
             Integer offset = map.get(type);
-            pw.println ("      Type=" + type + " Offset=" + offset);
+            pw.println("      Type=" + type + " Offset=" + offset);
          }
       }
 
-      pw.println ("END: VarMeta");
-      pw.println ();
+      pw.println("END: VarMeta");
+      pw.println();
 
-      pw.close ();
-      return (sw.toString ());
+      pw.close();
+      return (sw.toString());
    }
 
    protected int m_unknown1;
@@ -181,5 +181,5 @@ abstract class AbstractVarMeta extends MPPComponent implements VarMeta
    protected int m_unknown3;
    protected int m_dataSize;
    protected int[] m_offsets;
-   protected Map<Integer, Map<Integer, Integer>> m_table = new TreeMap<Integer, Map<Integer, Integer>> ();
+   protected Map<Integer, Map<Integer, Integer>> m_table = new TreeMap<Integer, Map<Integer, Integer>>();
 }

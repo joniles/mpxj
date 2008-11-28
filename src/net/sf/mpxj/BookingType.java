@@ -32,7 +32,7 @@ import net.sf.mpxj.utility.MpxjEnum;
  */
 public enum BookingType implements MpxjEnum
 {
-   COMMITTED(0), 
+   COMMITTED(0),
    PROPOSED(1);
 
    /**

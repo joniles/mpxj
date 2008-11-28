@@ -573,7 +573,7 @@ public final class RecurringTask
       pw.flush();
       return (os.toString());
    }
-   
+
    /**
     * List of ordinal names used to generate debugging output.
     */
@@ -596,7 +596,7 @@ public final class RecurringTask
 
    /**
     * List of ordinal names used to generate debugging output.
-    */   
+    */
    private static final String[] DAY_ORDINAL =
    {
       null,
@@ -604,9 +604,9 @@ public final class RecurringTask
       "Second",
       "Third",
       "Fourth",
-      "Last"     
+      "Last"
    };
-   
+
    //
    // Common attributes
    //
@@ -616,19 +616,19 @@ public final class RecurringTask
    private Integer m_occurrences;
    private RecurrenceType m_recurrenceType;
    private boolean m_useEndDate;
-   
+
    //
    // Daily recurrence attributes
    //
    private Integer m_dailyFrequency;
    private boolean m_dailyWorkday;
-   
+
    //
    // Weekly recurrence attributes
    //
    private Integer m_weeklyFrequency;
    private Integer m_weeklyDays;
-   
+
    //
    // Monthly recurrence attributes
    //
@@ -638,7 +638,7 @@ public final class RecurringTask
    private Integer m_monthlyRelativeFrequency;
    private Integer m_monthlyAbsoluteDay;
    private Integer m_monthlyAbsoluteFrequency;
-   
+
    //
    // Yearly recurrence attributes
    //   
@@ -646,5 +646,5 @@ public final class RecurringTask
    private Date m_yearlyAbsoluteDate;
    private Integer m_yearlyRelativeOrdinal;
    private Day m_yearlyRelativeDay;
-   private Integer m_yearlyRelativeMonth;   
+   private Integer m_yearlyRelativeMonth;
 }

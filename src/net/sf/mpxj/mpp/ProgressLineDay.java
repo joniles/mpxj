@@ -36,7 +36,7 @@ public final class ProgressLineDay extends Day
     *
     * @param value day value
     */
-   protected ProgressLineDay (int value)
+   protected ProgressLineDay(int value)
    {
       super(value);
    }
@@ -47,7 +47,7 @@ public final class ProgressLineDay extends Day
     * @param value task type value
     * @return Day instance
     */
-   public static Day getInstance (int value)
+   public static Day getInstance(int value)
    {
       Day result = null;
 

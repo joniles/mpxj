@@ -1,5 +1,5 @@
 /*
- * file:       TimephasedResourceAssignment
+ * file:       TimephasedResourceAssignment.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2008
  * date:       25/10/2008
@@ -25,8 +25,6 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-
-
 /**
  * This class represents a span of a number of days of work. 
  * The duration of work carried out on each day is represented by the
@@ -44,7 +42,7 @@ public final class TimephasedResourceAssignment
    {
       return m_start;
    }
-   
+
    /**
     * Set the point at which work starts.
     * 
@@ -54,7 +52,7 @@ public final class TimephasedResourceAssignment
    {
       m_start = start;
    }
-      
+
    /**
     * Retrieve the duration of work allocated per day.
     * 
@@ -64,7 +62,7 @@ public final class TimephasedResourceAssignment
    {
       return m_workPerDay;
    }
-   
+
    /**
     * Set the duration of work allocated per day.
     * 
@@ -74,27 +72,27 @@ public final class TimephasedResourceAssignment
    {
       m_workPerDay = workPerDay;
    }
-   
+
    /**
     * Retrieve the modified flag.
     * 
     * @return modified flag
     */
-   public boolean getModified ()
+   public boolean getModified()
    {
       return m_modified;
    }
-   
+
    /**
     * Set the modified flag. 
     * 
     * @param modified modified flag
     */
-   public void setModified (boolean modified)
+   public void setModified(boolean modified)
    {
       m_modified = modified;
    }
-   
+
    /**
     * Retrieve the total work duration.
     * 
@@ -104,7 +102,7 @@ public final class TimephasedResourceAssignment
    {
       return m_totalWork;
    }
-   
+
    /**
     * Set the total work duration.
     * 
@@ -113,7 +111,7 @@ public final class TimephasedResourceAssignment
    public void setTotalWork(Duration totalWork)
    {
       m_totalWork = totalWork;
-   }   
+   }
 
    /**
     * Retrieve the finish date.
@@ -124,7 +122,7 @@ public final class TimephasedResourceAssignment
    {
       return m_finish;
    }
-   
+
    /**
     * Set the finish date.
     * 
@@ -134,16 +132,15 @@ public final class TimephasedResourceAssignment
    {
       m_finish = finish;
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override
-   public String toString ()
+   @Override public String toString()
    {
-      return "[TimephasedResourceAssignment startWork="+m_start+" totalWork="+ m_totalWork + " finishWork="+m_finish+" workPerDay="+m_workPerDay+" modified="+m_modified+"]";
+      return "[TimephasedResourceAssignment startWork=" + m_start + " totalWork=" + m_totalWork + " finishWork=" + m_finish + " workPerDay=" + m_workPerDay + " modified=" + m_modified + "]";
    }
-   
+
    private Date m_start;
    private Duration m_totalWork;
    private Date m_finish;

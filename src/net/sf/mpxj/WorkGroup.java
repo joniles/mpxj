@@ -33,22 +33,20 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum WorkGroup implements MpxjEnum
 {
-   DEFAULT (0),
-   NONE (1),
-   EMAIL (2),
-   WEB (3);
+   DEFAULT(0),
+   NONE(1),
+   EMAIL(2),
+   WEB(3);
 
-   
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private WorkGroup (int type)
+   private WorkGroup(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -56,8 +54,8 @@ public enum WorkGroup implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static WorkGroup getInstance (int type)
-   {      
+   public static WorkGroup getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = NONE.getValue();
@@ -65,14 +63,13 @@ public enum WorkGroup implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static WorkGroup getInstance (Number type)
+   public static WorkGroup getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -86,30 +83,27 @@ public enum WorkGroup implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final WorkGroup[] TYPE_VALUES = new WorkGroup[4];
    static
-   {      
+   {
       for (WorkGroup e : EnumSet.range(WorkGroup.DEFAULT, WorkGroup.WEB))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

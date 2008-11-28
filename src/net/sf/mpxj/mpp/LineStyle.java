@@ -33,24 +33,23 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum LineStyle implements MpxjEnum
 {
-   NONE (0, "None"),
-   SOLID (1, "Solid"),
-   DOTTED1 (2, "Dotted1"),
-   DOTTED2 (3, "Dotted2"),
-   DASHED (4, "Dashed");
-   
+   NONE(0, "None"),
+   SOLID(1, "Solid"),
+   DOTTED1(2, "Dotted1"),
+   DOTTED2(3, "Dotted2"),
+   DASHED(4, "Dashed");
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private LineStyle (int type, String name)
+   private LineStyle(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -58,8 +57,8 @@ public enum LineStyle implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static LineStyle getInstance (int type)
-   {      
+   public static LineStyle getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = NONE.getValue();
@@ -67,14 +66,13 @@ public enum LineStyle implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static LineStyle getInstance (Number type)
+   public static LineStyle getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -88,13 +86,12 @@ public enum LineStyle implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -104,7 +101,7 @@ public enum LineStyle implements MpxjEnum
     *
     * @return style name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -114,7 +111,7 @@ public enum LineStyle implements MpxjEnum
     *
     * @return String representation of this line style
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -124,13 +121,12 @@ public enum LineStyle implements MpxjEnum
     */
    private static final LineStyle[] TYPE_VALUES = new LineStyle[5];
    static
-   {      
+   {
       for (LineStyle e : EnumSet.range(LineStyle.NONE, LineStyle.DASHED))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

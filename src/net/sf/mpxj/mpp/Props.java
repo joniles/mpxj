@@ -44,9 +44,9 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return  byte array of data
     */
-   public byte[] getByteArray (Integer type)
+   public byte[] getByteArray(Integer type)
    {
-      return (m_map.get (type));
+      return (m_map.get(type));
    }
 
    /**
@@ -55,11 +55,11 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return byte value
     */
-   public byte getByte (Integer type)
+   public byte getByte(Integer type)
    {
       byte result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = item[0];
@@ -74,11 +74,11 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return short int value
     */
-   public int getShort (Integer type)
+   public int getShort(Integer type)
    {
       int result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getShort(item);
@@ -93,11 +93,11 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return integer value
     */
-   public int getInt (Integer type)
+   public int getInt(Integer type)
    {
       int result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getInt(item);
@@ -112,11 +112,11 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return double value
     */
-   public double getDouble (Integer type)
+   public double getDouble(Integer type)
    {
       double result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getDouble(item);
@@ -131,11 +131,11 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTime (Integer type)
+   public Date getTime(Integer type)
    {
       Date result = null;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getTime(item);
@@ -149,12 +149,12 @@ class Props extends MPPComponent
     *
     * @param type Type identifier
     * @return timestamp
-    */   
-   public Date getTimestamp (Integer type)
+    */
+   public Date getTimestamp(Integer type)
    {
       Date result = null;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getTimestamp(item);
@@ -162,18 +162,18 @@ class Props extends MPPComponent
 
       return (result);
    }
-   
+
    /**
     * Retrieves a boolean value from the property data.
     *
     * @param type Type identifier
     * @return boolean value
     */
-   public boolean getBoolean (Integer type)
+   public boolean getBoolean(Integer type)
    {
       boolean result = false;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = !(MPPUtility.getShort(item) == 0);
@@ -188,11 +188,11 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return string value
     */
-   public String getUnicodeString (Integer type)
+   public String getUnicodeString(Integer type)
    {
       String result = null;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getUnicodeString(item);
@@ -206,12 +206,12 @@ class Props extends MPPComponent
     *
     * @param type Type identifier
     * @return string value
-    */   
-   public Date getDate (Integer type)
+    */
+   public Date getDate(Integer type)
    {
       Date result = null;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getDate(item, 0);
@@ -229,7 +229,6 @@ class Props extends MPPComponent
    {
       return (m_map.keySet());
    }
-   
 
    /**
     * This method dumps the contents of this properties block as a String.
@@ -237,27 +236,26 @@ class Props extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN Props");
+      pw.println("BEGIN Props");
 
       for (Integer key : m_map.keySet())
       {
-         pw.println ("   Key: " + key + " Value: ");
-         pw.println (MPPUtility.hexdump(m_map.get(key), true, 16, "      "));
+         pw.println("   Key: " + key + " Value: ");
+         pw.println(MPPUtility.hexdump(m_map.get(key), true, 16, "      "));
       }
 
-      pw.println ("END Props");
+      pw.println("END Props");
 
-      pw.println ();
+      pw.println();
       pw.close();
       return (sw.toString());
    }
-   
-   
+
    /**
     * Data types.
     */
@@ -268,8 +266,7 @@ class Props extends MPPComponent
    public static final Integer CURRENCY_SYMBOL = Integer.valueOf(37748752);
    public static final Integer CURRENCY_PLACEMENT = Integer.valueOf(37748753);
    public static final Integer CURRENCY_DIGITS = Integer.valueOf(37748754);
-  
-   
+
    public static final Integer DURATION_UNITS = Integer.valueOf(37748757);
    public static final Integer WORK_UNITS = Integer.valueOf(37748758);
    public static final Integer TASK_UPDATES_RESOURCE = Integer.valueOf(37748761);
@@ -282,37 +279,37 @@ class Props extends MPPComponent
    public static final Integer END_TIME = Integer.valueOf(37748769);
 
    public static final Integer CURRENCY_CODE = Integer.valueOf(37753787);
-   
+
    public static final Integer CALCULATE_MULTIPLE_CRITICAL_PATHS = Integer.valueOf(37748793);
 
    public static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(1048577);
    public static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(1048578);
 
-   public static final Integer TASK_FIELD_CUSTOM_VALUE_LISTS = Integer.valueOf(37753744);   
+   public static final Integer TASK_FIELD_CUSTOM_VALUE_LISTS = Integer.valueOf(37753744);
 
    public static final Integer PASSWORD_FLAG = Integer.valueOf(893386752);
-   
+
    public static final Integer PROTECTION_PASSWORD_HASH = Integer.valueOf(893386756);
-   
+
    public static final Integer WRITE_RESERVATION_PASSWORD_HASH = Integer.valueOf(893386757);
-   
+
    public static final Integer ENCRYPTION_CODE = Integer.valueOf(893386759);
-   
+
    public static final Integer STATUS_DATE = Integer.valueOf(37748805);
-   
+
    public static final Integer SUBPROJECT_COUNT = Integer.valueOf(37748868);
    public static final Integer SUBPROJECT_DATA = Integer.valueOf(37748898);
    public static final Integer SUBPROJECT_TASK_COUNT = Integer.valueOf(37748900);
 
    public static final Integer GRAPHICAL_INDICATOR_DATA = Integer.valueOf(37753744);
-   
+
    public static final Integer FONT_BASES = Integer.valueOf(54525952);
 
    public static final Integer AUTO_FILTER = Integer.valueOf(893386767);
-   
+
    public static final Integer PROJECT_FILE_PATH = Integer.valueOf(893386760);
-   
+
    public static final Integer HYPERLINK_BASE = Integer.valueOf(37748810);
-   
-   protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
+
+   protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
 }

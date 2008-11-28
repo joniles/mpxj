@@ -5,7 +5,6 @@
 // Generated on: 2007.09.11 at 10:06:48 PM BST 
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import java.util.ArrayList;
@@ -16,47 +15,46 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "dayType"
-})
-@XmlRootElement(name = "day-types")
-public class DayTypes {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "dayType"
+}) @XmlRootElement(name = "day-types") public class DayTypes
+{
 
-    @XmlElement(name = "day-type")
-    protected List<DayType> dayType;
+   @XmlElement(name = "day-type") protected List<DayType> dayType;
 
-    /**
-     * Gets the value of the dayType property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the dayType property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDayType().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DayType }
-     * 
-     * 
-     */
-    public List<DayType> getDayType() {
-        if (dayType == null) {
-            dayType = new ArrayList<DayType>();
-        }
-        return this.dayType;
-    }
+   /**
+    * Gets the value of the dayType property.
+    * 
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the JAXB object.
+    * This is why there is not a <CODE>set</CODE> method for the dayType property.
+    * 
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getDayType().add(newItem);
+    * </pre>
+    * 
+    * 
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link DayType }
+    * 
+    * 
+    */
+   public List<DayType> getDayType()
+   {
+      if (dayType == null)
+      {
+         dayType = new ArrayList<DayType>();
+      }
+      return this.dayType;
+   }
 
 }

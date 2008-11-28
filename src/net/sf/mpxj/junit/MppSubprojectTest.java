@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       19-September-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -33,95 +33,91 @@ import net.sf.mpxj.mpp.MPPReader;
  * Testsb to exercise MPP file read functionality for various versions of
  * MPP file.
  */
-public class MppSubprojectTest extends MPXJTestCase 
+public class MppSubprojectTest extends MPXJTestCase
 {
-   
+
    /**
     * Test subproject data read from an MPP9 file.
     * 
     * @throws Exception
-    */   
-    public void testMpp9Subproject() 
-       throws Exception 
-    {
-        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9subproject.mpp");        
-        testSubprojects(mpp, true);
-    }
+    */
+   public void testMpp9Subproject() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9subproject.mpp");
+      testSubprojects(mpp, true);
+   }
 
-    /**
-     * Test subproject data read from an MPP12 file.
-     * 
-     * @throws Exception
-     */       
-    public void testMpp12Subproject() 
-       throws Exception 
-    {
-       ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12subproject.mpp");
-       testSubprojects(mpp, true);
-    }
+   /**
+    * Test subproject data read from an MPP12 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12Subproject() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12subproject.mpp");
+      testSubprojects(mpp, true);
+   }
 
-    /**
-     * Test subproject data read from an MPD9 file.
-     * 
-     * @throws Exception
-     */       
-    public void testMpd9Subproject() 
-       throws Exception 
-    {
-       try
-       {
-          ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9subproject.mpd");        
-          testSubprojects(mpp, false);
-       }
-       
-       catch (Exception ex)
-       {
-          //
-          // JDBC not supported in IKVM
-          //
-          if (!m_ikvm)
-          {
-             throw ex;
-          }
-       }       
-    }
-    
-    /**
-     * Tests the various fields needed to read in subprojects.
-     * 
-     * @param mpp The ProjectFile being tested.
-     * @param isMPP is the source an MPP file
-     * @throws Exception
-     */
-    private void testSubprojects(ProjectFile mpp, boolean isMPP) 
-       throws Exception 
-    {
-        Task taskNormal = mpp.getTaskByUniqueID(Integer.valueOf(1));
-        Task taskSubprojectA = mpp.getTaskByUniqueID(Integer.valueOf(2));
-        Task taskSubprojectB = mpp.getTaskByUniqueID(Integer.valueOf(3));
+   /**
+    * Test subproject data read from an MPD9 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpd9Subproject() throws Exception
+   {
+      try
+      {
+         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9subproject.mpd");
+         testSubprojects(mpp, false);
+      }
 
-        assertEquals("Normal Task", taskNormal.getName());
-        assertEquals("SubprojectA-9", taskSubprojectA.getName());
-        assertEquals("SubprojectB-9", taskSubprojectB.getName());
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
+   }
 
-        // Subproject A
-        SubProject subprojectA = taskSubprojectA.getSubProject();
-        assertNotNull(subprojectA);
-        final String expectedFilenameA = "\\SubprojectA-9.mpp";
-        //assertEquals(expectedFilenameA, subprojectA.getDosFileName());
-        assertTrue(expectedFilenameA.indexOf(subprojectA.getFileName()) != -1);
-        //subprojectA.getDosFullPath(); don't need to test
-        assertTrue(subprojectA.getFullPath().indexOf(expectedFilenameA) != -1);
-        assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());        
+   /**
+    * Tests the various fields needed to read in subprojects.
+    * 
+    * @param mpp The ProjectFile being tested.
+    * @param isMPP is the source an MPP file
+    * @throws Exception
+    */
+   private void testSubprojects(ProjectFile mpp, boolean isMPP) throws Exception
+   {
+      Task taskNormal = mpp.getTaskByUniqueID(Integer.valueOf(1));
+      Task taskSubprojectA = mpp.getTaskByUniqueID(Integer.valueOf(2));
+      Task taskSubprojectB = mpp.getTaskByUniqueID(Integer.valueOf(3));
 
-        //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
-        assertEquals(false, taskSubprojectA.getSubprojectReadOnly());
-        
-        if (isMPP)
-        {
-           assertEquals(Integer.valueOf(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
-           assertEquals(Integer.valueOf(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
-           assertEquals(Integer.valueOf(0), taskSubprojectA.getSubprojectTaskUniqueID());  
-        }
-    }
+      assertEquals("Normal Task", taskNormal.getName());
+      assertEquals("SubprojectA-9", taskSubprojectA.getName());
+      assertEquals("SubprojectB-9", taskSubprojectB.getName());
+
+      // Subproject A
+      SubProject subprojectA = taskSubprojectA.getSubProject();
+      assertNotNull(subprojectA);
+      final String expectedFilenameA = "\\SubprojectA-9.mpp";
+      //assertEquals(expectedFilenameA, subprojectA.getDosFileName());
+      assertTrue(expectedFilenameA.indexOf(subprojectA.getFileName()) != -1);
+      //subprojectA.getDosFullPath(); don't need to test
+      assertTrue(subprojectA.getFullPath().indexOf(expectedFilenameA) != -1);
+      assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());
+
+      //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
+      assertEquals(false, taskSubprojectA.getSubprojectReadOnly());
+
+      if (isMPP)
+      {
+         assertEquals(Integer.valueOf(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
+         assertEquals(Integer.valueOf(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
+         assertEquals(Integer.valueOf(0), taskSubprojectA.getSubprojectTaskUniqueID());
+      }
+   }
 }

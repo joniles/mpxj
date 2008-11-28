@@ -33,7 +33,7 @@ public class Day
     *
     * @param value day value
     */
-   protected Day (int value)
+   protected Day(int value)
    {
       m_value = value;
    }
@@ -43,7 +43,7 @@ public class Day
     *
     * @return task type value
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -55,7 +55,7 @@ public class Day
     * 
     * @return Day instance
     */
-   public Day getNextDay ()
+   public Day getNextDay()
    {
       int value = m_value + 1;
       if (value > 7)
@@ -64,14 +64,14 @@ public class Day
       }
       return (getInstance(value));
    }
-   
+
    /**
     * Retrieve a Day instance representing the supplied value.
     *
     * @param value task type value
     * @return Day instance
     */
-   public static Day getInstance (int value)
+   public static Day getInstance(int value)
    {
       Day result = null;
 
@@ -88,7 +88,7 @@ public class Day
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (Integer.toString(m_value));
    }

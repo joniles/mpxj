@@ -5,27 +5,26 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-@SuppressWarnings("all")
-public class Adapter4
-    extends XmlAdapter<String, BigDecimal>
+@SuppressWarnings("all") public class Adapter4 extends XmlAdapter<String, BigDecimal>
 {
 
+   public BigDecimal unmarshal(String value)
+   {
+      return (javax.xml.bind.DatatypeConverter.parseDecimal(value));
+   }
 
-    public BigDecimal unmarshal(String value) {
-        return (javax.xml.bind.DatatypeConverter.parseDecimal(value));
-    }
-
-    public String marshal(BigDecimal value) {
-        if (value == null) {
-            return null;
-        }
-        return (javax.xml.bind.DatatypeConverter.printDecimal(value));
-    }
+   public String marshal(BigDecimal value)
+   {
+      if (value == null)
+      {
+         return null;
+      }
+      return (javax.xml.bind.DatatypeConverter.printDecimal(value));
+   }
 
 }

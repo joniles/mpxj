@@ -41,21 +41,21 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     * @param data data from MS project
     * @param offset offset into data
     */
-   public GanttBarStyle (String name, byte[] data, int offset)
+   public GanttBarStyle(String name, byte[] data, int offset)
    {
       m_name = name;
       m_middleShape = data[offset];
-      m_middlePattern = data[offset+1];
-      m_middleColor = ColorType.getInstance(data[offset+2]);
-      m_startShapeAndStyle = data[offset+4];
-      m_startColor = ColorType.getInstance(data[offset+5]);
-      m_endShapeAndStyle = data[offset+6];
-      m_endColor = ColorType.getInstance(data[offset+7]);
+      m_middlePattern = data[offset + 1];
+      m_middleColor = ColorType.getInstance(data[offset + 2]);
+      m_startShapeAndStyle = data[offset + 4];
+      m_startColor = ColorType.getInstance(data[offset + 5]);
+      m_endShapeAndStyle = data[offset + 6];
+      m_endColor = ColorType.getInstance(data[offset + 7]);
 
-      m_fromField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+8));
-      m_toField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+12));
+      m_fromField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 8));
+      m_toField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 12));
 
-      int flags = MPPUtility.getShort(data, offset+16);
+      int flags = MPPUtility.getShort(data, offset + 16);
 
       m_showForNormalTasks = (flags & 0x0001) != 0;
       m_showForMilestoneTasks = (flags & 0x0002) != 0;
@@ -68,13 +68,13 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       m_showForNotFinishedTasks = (flags & 0x0100) != 0;
       m_showForNotStartedTasks = (flags & 0x0200) != 0;
 
-      m_row = data[offset+32]+1;
+      m_row = data[offset + 32] + 1;
 
-      m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+34));
-      m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+38));
-      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+42));
-      m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+46));
-      m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+50));
+      m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 34));
+      m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 38));
+      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 42));
+      m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 46));
+      m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 50));
    }
 
    /**
@@ -222,27 +222,27 @@ public final class GanttBarStyle extends GanttBarCommonStyle
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
-      pw.println ("   [GanttBarStyle");
-      pw.println ("      Name=" + m_name);
-      pw.println ("      FromField=" + m_fromField);
-      pw.println ("      ToField=" + m_toField);
-      pw.println ("      ShowForNormalTasks=" + m_showForNormalTasks);
-      pw.println ("      ShowForMilestoneTasks=" + m_showForMilestoneTasks);
-      pw.println ("      ShowForSummaryTasks=" + m_showForSummaryTasks);
-      pw.println ("      ShowForCriticalTasks=" + m_showForCriticalTasks);
-      pw.println ("      ShowForNonCriticalTasks=" + m_showForNonCriticalTasks);
-      pw.println ("      ShowForMarkedTasks=" + m_showForMarkedTasks);
-      pw.println ("      ShowForFinishedTasks=" + m_showForFinishedTasks);
-      pw.println ("      ShowForInProgressTasks=" + m_showForInProgressTasks);
-      pw.println ("      ShowForNotFinishedTasks=" + m_showForNotFinishedTasks);
-      pw.println ("      ShowForNotStartedTasks=" + m_showForNotStartedTasks);
-      pw.println ("      Row=" + m_row);
-      pw.println (super.toString());
-      pw.println ("   ]");
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("   [GanttBarStyle");
+      pw.println("      Name=" + m_name);
+      pw.println("      FromField=" + m_fromField);
+      pw.println("      ToField=" + m_toField);
+      pw.println("      ShowForNormalTasks=" + m_showForNormalTasks);
+      pw.println("      ShowForMilestoneTasks=" + m_showForMilestoneTasks);
+      pw.println("      ShowForSummaryTasks=" + m_showForSummaryTasks);
+      pw.println("      ShowForCriticalTasks=" + m_showForCriticalTasks);
+      pw.println("      ShowForNonCriticalTasks=" + m_showForNonCriticalTasks);
+      pw.println("      ShowForMarkedTasks=" + m_showForMarkedTasks);
+      pw.println("      ShowForFinishedTasks=" + m_showForFinishedTasks);
+      pw.println("      ShowForInProgressTasks=" + m_showForInProgressTasks);
+      pw.println("      ShowForNotFinishedTasks=" + m_showForNotFinishedTasks);
+      pw.println("      ShowForNotStartedTasks=" + m_showForNotStartedTasks);
+      pw.println("      Row=" + m_row);
+      pw.println(super.toString());
+      pw.println("   ]");
       pw.flush();
       return (os.toString());
    }

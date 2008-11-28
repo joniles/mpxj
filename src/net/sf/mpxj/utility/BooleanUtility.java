@@ -35,8 +35,8 @@ public final class BooleanUtility
     * @param value Boolean instance
     * @return boolean value
     */
-   public static final boolean getBoolean (Boolean value)
+   public static final boolean getBoolean(Boolean value)
    {
-      return ((value==null?false:value.booleanValue()));
+      return ((value == null ? false : value.booleanValue()));
    }
 }

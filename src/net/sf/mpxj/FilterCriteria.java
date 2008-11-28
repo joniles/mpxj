@@ -73,7 +73,7 @@ public final class FilterCriteria extends GenericCriteria
    }
 
    /**
-    * This methos retrieves the given item of prompt text.
+    * This method retrieves the given item of prompt text.
     * 
     * @param index text index, either 0 or 1
     * @return prompt text

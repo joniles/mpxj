@@ -166,13 +166,16 @@ final class MPXConstants
     * Placeholder character used in MPX files to represent
     * carriage returns embedded in note text.
     */
-   static final char EOL_PLACEHOLDER = (char)0x7F;
-   static final String EOL_PLACEHOLDER_STRING = new String(new byte[]{EOL_PLACEHOLDER});
+   static final char EOL_PLACEHOLDER = (char) 0x7F;
+   static final String EOL_PLACEHOLDER_STRING = new String(new byte[]
+   {
+      EOL_PLACEHOLDER
+   });
 
    /**
     * Constructor.
     */
-   private MPXConstants ()
+   private MPXConstants()
    {
       // private constructor to prevent instantiation
    }

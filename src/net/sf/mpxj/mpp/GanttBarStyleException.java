@@ -39,23 +39,23 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
     * @param data data from MS project
     * @param offset offset into data
     */
-   public GanttBarStyleException (byte[] data, int offset)
+   public GanttBarStyleException(byte[] data, int offset)
    {
       m_taskID = MPPUtility.getInt(data, offset);
-      m_barStyleIndex = MPPUtility.getShort(data, offset+4) - 1;
-      m_middleShape = data[offset+6];
-      m_middlePattern = data[offset+7];
-      m_middleColor = ColorType.getInstance(data[offset+8]);
-      m_startShapeAndStyle = data[offset+9];
-      m_startColor = ColorType.getInstance(data[offset+10]);
-      m_endShapeAndStyle = data[offset+11];
-      m_endColor = ColorType.getInstance(data[offset+12]);
+      m_barStyleIndex = MPPUtility.getShort(data, offset + 4) - 1;
+      m_middleShape = data[offset + 6];
+      m_middlePattern = data[offset + 7];
+      m_middleColor = ColorType.getInstance(data[offset + 8]);
+      m_startShapeAndStyle = data[offset + 9];
+      m_startColor = ColorType.getInstance(data[offset + 10]);
+      m_endShapeAndStyle = data[offset + 11];
+      m_endColor = ColorType.getInstance(data[offset + 12]);
 
-      m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+16));
-      m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+20));
-      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+24));
-      m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+28));
-      m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+32));
+      m_leftText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 16));
+      m_rightText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 20));
+      m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 24));
+      m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 28));
+      m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 32));
    }
 
    /**
@@ -81,7 +81,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
     *
     * @return bar style index
     */
-   public int getBarStyleIndex ()
+   public int getBarStyleIndex()
    {
       return (m_barStyleIndex);
    }
@@ -91,15 +91,15 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
-      pw.println ("   [GanttBarStyleException");
-      pw.println ("      TaskID=" + m_taskID);
-      pw.println ("      BarStyleIndex=" + m_barStyleIndex);
-      pw.println (super.toString());
-      pw.println ("   ]");
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("   [GanttBarStyleException");
+      pw.println("      TaskID=" + m_taskID);
+      pw.println("      BarStyleIndex=" + m_barStyleIndex);
+      pw.println(super.toString());
+      pw.println("   ]");
       pw.flush();
       return (os.toString());
    }

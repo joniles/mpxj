@@ -34,9 +34,9 @@ import net.sf.mpxj.utility.NumberUtility;
 
 public enum ProjectTimeFormat implements MpxjEnum
 {
-   TWELVE_HOUR (0),
-   TWENTY_FOUR_HOUR (1);
-   
+   TWELVE_HOUR(0),
+   TWENTY_FOUR_HOUR(1);
+
    /**
     * Private constructor.
     * 

@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 
-
 /**
  * This class represents the set of properties used to define the appearance
  * of a Gantt chart view in MS Project.
@@ -42,7 +41,7 @@ public final class GanttChartView9 extends GanttChartView
    {
       return (PROPERTIES);
    }
-   
+
    /**
     * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.
@@ -54,11 +53,11 @@ public final class GanttChartView9 extends GanttChartView
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView9 (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
+   GanttChartView9(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
-      super (parent, fixedMeta, fixedData, varData, fontBases);
+      super(parent, fixedMeta, fixedData, varData, fontBases);
    }
-   
+
    private static final Integer PROPERTIES = Integer.valueOf(1);
 }

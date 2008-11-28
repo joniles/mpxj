@@ -25,8 +25,6 @@ package net.sf.mpxj;
 
 import java.util.Locale;
 
-
-
 /**
  * Instances of this type represent Task fields.
  */
@@ -38,7 +36,7 @@ public final class TaskField implements FieldType
     * @param value task field value
     * @param dataType data type
     */
-   private TaskField (int value, DataType dataType)
+   private TaskField(int value, DataType dataType)
    {
       m_value = value;
       m_dataType = dataType;
@@ -55,7 +53,7 @@ public final class TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public String getName (Locale locale)
+   public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.TASK_COLUMNS);
       String result = null;
@@ -71,7 +69,7 @@ public final class TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -79,17 +77,17 @@ public final class TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public DataType getDataType ()
+   public DataType getDataType()
    {
       return (m_dataType);
    }
-   
+
    /**
     * Retrieves the string representation of this instance.
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -97,42 +95,42 @@ public final class TaskField implements FieldType
    /**
     * {@inheritDoc}
     */
-   @Override public boolean equals (Object obj)
+   @Override public boolean equals(Object obj)
    {
       boolean result = false;
       if (obj instanceof TaskField)
       {
-         result = (m_value == ((TaskField)obj).m_value);
+         result = (m_value == ((TaskField) obj).m_value);
       }
       return (result);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override public int hashCode ()
+   @Override public int hashCode()
    {
       return (m_value);
    }
-   
+
    /**
     * This method takes the integer enumeration of a task field
     * and returns an appropriate class instance.
     *
     * @param type integer task field enumeration
     * @return TaskField instance
-    */   
-   public static TaskField getInstance (int type) 
+    */
+   public static TaskField getInstance(int type)
    {
       TaskField result = null;
-      
+
       if (type >= 0 && type < MAX_VALUE)
       {
          result = TYPE_VALUES[type];
       }
-      
+
       return (result);
-  }
+   }
 
    public static final int WORK_VALUE = 0;
    public static final int BASELINE_WORK_VALUE = 1;
@@ -376,67 +374,67 @@ public final class TaskField implements FieldType
    public static final int GROUP_BY_SUMMARY_VALUE = 239;
    public static final int WBS_PREDECESSORS_VALUE = 240;
    public static final int WBS_SUCCESSORS_VALUE = 241;
-   public static final int RESOURCE_TYPE_VALUE = 242;     
+   public static final int RESOURCE_TYPE_VALUE = 242;
    public static final int BASELINE1_START_VALUE = 243;
    public static final int BASELINE1_FINISH_VALUE = 244;
    public static final int BASELINE1_COST_VALUE = 245;
    public static final int BASELINE1_WORK_VALUE = 246;
-   public static final int BASELINE1_DURATION_VALUE = 247;   
+   public static final int BASELINE1_DURATION_VALUE = 247;
    public static final int BASELINE2_START_VALUE = 248;
    public static final int BASELINE2_FINISH_VALUE = 249;
    public static final int BASELINE2_COST_VALUE = 250;
    public static final int BASELINE2_WORK_VALUE = 251;
-   public static final int BASELINE2_DURATION_VALUE = 252;   
+   public static final int BASELINE2_DURATION_VALUE = 252;
    public static final int BASELINE3_START_VALUE = 253;
    public static final int BASELINE3_FINISH_VALUE = 254;
    public static final int BASELINE3_COST_VALUE = 255;
    public static final int BASELINE3_WORK_VALUE = 256;
-   public static final int BASELINE3_DURATION_VALUE = 257;   
+   public static final int BASELINE3_DURATION_VALUE = 257;
    public static final int BASELINE4_START_VALUE = 258;
    public static final int BASELINE4_FINISH_VALUE = 259;
    public static final int BASELINE4_COST_VALUE = 260;
    public static final int BASELINE4_WORK_VALUE = 261;
-   public static final int BASELINE4_DURATION_VALUE = 262;   
+   public static final int BASELINE4_DURATION_VALUE = 262;
    public static final int BASELINE5_START_VALUE = 263;
    public static final int BASELINE5_FINISH_VALUE = 264;
    public static final int BASELINE5_COST_VALUE = 265;
    public static final int BASELINE5_WORK_VALUE = 266;
-   public static final int BASELINE5_DURATION_VALUE = 267;   
+   public static final int BASELINE5_DURATION_VALUE = 267;
    public static final int BASELINE6_START_VALUE = 268;
    public static final int BASELINE6_FINISH_VALUE = 269;
    public static final int BASELINE6_COST_VALUE = 270;
    public static final int BASELINE6_WORK_VALUE = 271;
-   public static final int BASELINE6_DURATION_VALUE = 272;   
+   public static final int BASELINE6_DURATION_VALUE = 272;
    public static final int BASELINE7_START_VALUE = 273;
    public static final int BASELINE7_FINISH_VALUE = 274;
    public static final int BASELINE7_COST_VALUE = 275;
    public static final int BASELINE7_WORK_VALUE = 276;
-   public static final int BASELINE7_DURATION_VALUE = 277;   
+   public static final int BASELINE7_DURATION_VALUE = 277;
    public static final int BASELINE8_START_VALUE = 278;
    public static final int BASELINE8_FINISH_VALUE = 279;
    public static final int BASELINE8_COST_VALUE = 280;
    public static final int BASELINE8_WORK_VALUE = 281;
-   public static final int BASELINE8_DURATION_VALUE = 282;   
+   public static final int BASELINE8_DURATION_VALUE = 282;
    public static final int BASELINE9_START_VALUE = 283;
-   public static final int BASELINE9_FINISH_VALUE =284;
+   public static final int BASELINE9_FINISH_VALUE = 284;
    public static final int BASELINE9_COST_VALUE = 285;
    public static final int BASELINE9_WORK_VALUE = 286;
-   public static final int BASELINE9_DURATION_VALUE = 287;   
+   public static final int BASELINE9_DURATION_VALUE = 287;
    public static final int BASELINE10_START_VALUE = 288;
    public static final int BASELINE10_FINISH_VALUE = 289;
    public static final int BASELINE10_COST_VALUE = 290;
    public static final int BASELINE10_WORK_VALUE = 291;
    public static final int BASELINE10_DURATION_VALUE = 292;
-   public static final int ENTERPRISE_COST1_VALUE = 293; 
-   public static final int ENTERPRISE_COST2_VALUE = 294; 
-   public static final int ENTERPRISE_COST3_VALUE = 295; 
-   public static final int ENTERPRISE_COST4_VALUE = 296; 
-   public static final int ENTERPRISE_COST5_VALUE = 297; 
-   public static final int ENTERPRISE_COST6_VALUE = 298; 
-   public static final int ENTERPRISE_COST7_VALUE = 299;       
-   public static final int ENTERPRISE_COST8_VALUE = 300; 
-   public static final int ENTERPRISE_COST9_VALUE = 301; 
-   public static final int ENTERPRISE_COST10_VALUE = 302; 
+   public static final int ENTERPRISE_COST1_VALUE = 293;
+   public static final int ENTERPRISE_COST2_VALUE = 294;
+   public static final int ENTERPRISE_COST3_VALUE = 295;
+   public static final int ENTERPRISE_COST4_VALUE = 296;
+   public static final int ENTERPRISE_COST5_VALUE = 297;
+   public static final int ENTERPRISE_COST6_VALUE = 298;
+   public static final int ENTERPRISE_COST7_VALUE = 299;
+   public static final int ENTERPRISE_COST8_VALUE = 300;
+   public static final int ENTERPRISE_COST9_VALUE = 301;
+   public static final int ENTERPRISE_COST10_VALUE = 302;
    public static final int ENTERPRISE_DATE1_VALUE = 303;
    public static final int ENTERPRISE_DATE2_VALUE = 304;
    public static final int ENTERPRISE_DATE3_VALUE = 305;
@@ -466,7 +464,7 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_DATE27_VALUE = 329;
    public static final int ENTERPRISE_DATE28_VALUE = 330;
    public static final int ENTERPRISE_DATE29_VALUE = 331;
-   public static final int ENTERPRISE_DATE30_VALUE = 332;   
+   public static final int ENTERPRISE_DATE30_VALUE = 332;
    public static final int ENTERPRISE_DURATION1_VALUE = 333;
    public static final int ENTERPRISE_DURATION2_VALUE = 334;
    public static final int ENTERPRISE_DURATION3_VALUE = 335;
@@ -476,7 +474,7 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_DURATION7_VALUE = 339;
    public static final int ENTERPRISE_DURATION8_VALUE = 340;
    public static final int ENTERPRISE_DURATION9_VALUE = 341;
-   public static final int ENTERPRISE_DURATION10_VALUE = 342;   
+   public static final int ENTERPRISE_DURATION10_VALUE = 342;
    public static final int ENTERPRISE_FLAG1_VALUE = 343;
    public static final int ENTERPRISE_FLAG2_VALUE = 344;
    public static final int ENTERPRISE_FLAG3_VALUE = 345;
@@ -496,7 +494,7 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_FLAG17_VALUE = 359;
    public static final int ENTERPRISE_FLAG18_VALUE = 360;
    public static final int ENTERPRISE_FLAG19_VALUE = 361;
-   public static final int ENTERPRISE_FLAG20_VALUE = 362;   
+   public static final int ENTERPRISE_FLAG20_VALUE = 362;
    public static final int ENTERPRISE_NUMBER1_VALUE = 363;
    public static final int ENTERPRISE_NUMBER2_VALUE = 364;
    public static final int ENTERPRISE_NUMBER3_VALUE = 365;
@@ -535,7 +533,7 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_NUMBER36_VALUE = 398;
    public static final int ENTERPRISE_NUMBER37_VALUE = 399;
    public static final int ENTERPRISE_NUMBER38_VALUE = 400;
-   public static final int ENTERPRISE_NUMBER39_VALUE = 401;  
+   public static final int ENTERPRISE_NUMBER39_VALUE = 401;
    public static final int ENTERPRISE_NUMBER40_VALUE = 402;
    public static final int ENTERPRISE_TEXT1_VALUE = 403;
    public static final int ENTERPRISE_TEXT2_VALUE = 404;
@@ -545,7 +543,7 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_TEXT6_VALUE = 408;
    public static final int ENTERPRISE_TEXT7_VALUE = 409;
    public static final int ENTERPRISE_TEXT8_VALUE = 410;
-   public static final int ENTERPRISE_TEXT9_VALUE = 411;   
+   public static final int ENTERPRISE_TEXT9_VALUE = 411;
    public static final int ENTERPRISE_TEXT10_VALUE = 412;
    public static final int ENTERPRISE_TEXT11_VALUE = 413;
    public static final int ENTERPRISE_TEXT12_VALUE = 414;
@@ -555,7 +553,7 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_TEXT16_VALUE = 418;
    public static final int ENTERPRISE_TEXT17_VALUE = 419;
    public static final int ENTERPRISE_TEXT18_VALUE = 420;
-   public static final int ENTERPRISE_TEXT19_VALUE = 421;   
+   public static final int ENTERPRISE_TEXT19_VALUE = 421;
    public static final int ENTERPRISE_TEXT20_VALUE = 422;
    public static final int ENTERPRISE_TEXT21_VALUE = 423;
    public static final int ENTERPRISE_TEXT22_VALUE = 424;
@@ -577,9 +575,9 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_TEXT38_VALUE = 440;
    public static final int ENTERPRISE_TEXT39_VALUE = 441;
    public static final int ENTERPRISE_TEXT40_VALUE = 442;
-   
+
    public static final int MAX_VALUE = 443;
-   
+
    public static final TaskField WORK = new TaskField(WORK_VALUE, DataType.DURATION);
    public static final TaskField BASELINE_WORK = new TaskField(BASELINE_WORK_VALUE, DataType.DURATION);
    public static final TaskField ACTUAL_WORK = new TaskField(ACTUAL_WORK_VALUE, DataType.DURATION);
@@ -822,57 +820,57 @@ public final class TaskField implements FieldType
    public static final TaskField GROUP_BY_SUMMARY = new TaskField(GROUP_BY_SUMMARY_VALUE, DataType.STRING);
    public static final TaskField WBS_PREDECESSORS = new TaskField(WBS_PREDECESSORS_VALUE, DataType.RELATION_LIST);
    public static final TaskField WBS_SUCCESSORS = new TaskField(WBS_SUCCESSORS_VALUE, DataType.RELATION_LIST);
-   public static final TaskField RESOURCE_TYPE = new TaskField(RESOURCE_TYPE_VALUE, DataType.STRING);   
+   public static final TaskField RESOURCE_TYPE = new TaskField(RESOURCE_TYPE_VALUE, DataType.STRING);
    public static final TaskField BASELINE1_START = new TaskField(BASELINE1_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE1_FINISH = new TaskField(BASELINE1_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE1_COST = new TaskField(BASELINE1_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE1_WORK = new TaskField(BASELINE1_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE1_DURATION = new TaskField(BASELINE1_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE1_DURATION = new TaskField(BASELINE1_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE2_START = new TaskField(BASELINE2_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE2_FINISH = new TaskField(BASELINE2_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE2_COST = new TaskField(BASELINE2_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE2_WORK = new TaskField(BASELINE2_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE2_DURATION = new TaskField(BASELINE2_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE2_DURATION = new TaskField(BASELINE2_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE3_START = new TaskField(BASELINE3_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE3_FINISH = new TaskField(BASELINE3_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE3_COST = new TaskField(BASELINE3_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE3_WORK = new TaskField(BASELINE3_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE3_DURATION = new TaskField(BASELINE3_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE3_DURATION = new TaskField(BASELINE3_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE4_START = new TaskField(BASELINE4_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE4_FINISH = new TaskField(BASELINE4_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE4_COST = new TaskField(BASELINE4_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE4_WORK = new TaskField(BASELINE4_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE4_DURATION = new TaskField(BASELINE4_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE4_DURATION = new TaskField(BASELINE4_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE5_START = new TaskField(BASELINE5_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE5_FINISH = new TaskField(BASELINE5_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE5_COST = new TaskField(BASELINE5_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE5_WORK = new TaskField(BASELINE5_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE5_DURATION = new TaskField(BASELINE5_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE5_DURATION = new TaskField(BASELINE5_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE6_START = new TaskField(BASELINE6_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE6_FINISH = new TaskField(BASELINE6_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE6_COST = new TaskField(BASELINE6_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE6_WORK = new TaskField(BASELINE6_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE6_DURATION = new TaskField(BASELINE6_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE6_DURATION = new TaskField(BASELINE6_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE7_START = new TaskField(BASELINE7_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE7_FINISH = new TaskField(BASELINE7_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE7_COST = new TaskField(BASELINE7_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE7_WORK = new TaskField(BASELINE7_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE7_DURATION = new TaskField(BASELINE7_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE7_DURATION = new TaskField(BASELINE7_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE8_START = new TaskField(BASELINE8_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE8_FINISH = new TaskField(BASELINE8_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE8_COST = new TaskField(BASELINE8_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE8_WORK = new TaskField(BASELINE8_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE8_DURATION = new TaskField(BASELINE8_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE8_DURATION = new TaskField(BASELINE8_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE9_START = new TaskField(BASELINE9_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE9_FINISH = new TaskField(BASELINE9_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE9_COST = new TaskField(BASELINE9_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE9_WORK = new TaskField(BASELINE9_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE9_DURATION = new TaskField(BASELINE9_DURATION_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE9_DURATION = new TaskField(BASELINE9_DURATION_VALUE, DataType.DURATION);
    public static final TaskField BASELINE10_START = new TaskField(BASELINE10_START_VALUE, DataType.DATE);
    public static final TaskField BASELINE10_FINISH = new TaskField(BASELINE10_FINISH_VALUE, DataType.DATE);
    public static final TaskField BASELINE10_COST = new TaskField(BASELINE10_COST_VALUE, DataType.CURRENCY);
    public static final TaskField BASELINE10_WORK = new TaskField(BASELINE10_WORK_VALUE, DataType.DURATION);
-   public static final TaskField BASELINE10_DURATION = new TaskField(BASELINE10_DURATION_VALUE, DataType.DURATION);      
+   public static final TaskField BASELINE10_DURATION = new TaskField(BASELINE10_DURATION_VALUE, DataType.DURATION);
    public static final TaskField ENTERPRISE_COST1 = new TaskField(ENTERPRISE_COST1_VALUE, DataType.CURRENCY);
    public static final TaskField ENTERPRISE_COST2 = new TaskField(ENTERPRISE_COST2_VALUE, DataType.CURRENCY);
    public static final TaskField ENTERPRISE_COST3 = new TaskField(ENTERPRISE_COST3_VALUE, DataType.CURRENCY);
@@ -1024,9 +1022,8 @@ public final class TaskField implements FieldType
    public static final TaskField ENTERPRISE_TEXT39 = new TaskField(ENTERPRISE_TEXT39_VALUE, DataType.STRING);
    public static final TaskField ENTERPRISE_TEXT40 = new TaskField(ENTERPRISE_TEXT40_VALUE, DataType.STRING);
 
-   
    private static final TaskField[] TYPE_VALUES = new TaskField[MAX_VALUE];
-   
+
    static
    {
       TYPE_VALUES[WORK_VALUE] = WORK;
@@ -1276,52 +1273,52 @@ public final class TaskField implements FieldType
       TYPE_VALUES[BASELINE1_FINISH_VALUE] = BASELINE1_FINISH;
       TYPE_VALUES[BASELINE1_COST_VALUE] = BASELINE1_COST;
       TYPE_VALUES[BASELINE1_WORK_VALUE] = BASELINE1_WORK;
-      TYPE_VALUES[BASELINE1_DURATION_VALUE] = BASELINE1_DURATION;   
+      TYPE_VALUES[BASELINE1_DURATION_VALUE] = BASELINE1_DURATION;
       TYPE_VALUES[BASELINE2_START_VALUE] = BASELINE2_START;
       TYPE_VALUES[BASELINE2_FINISH_VALUE] = BASELINE2_FINISH;
       TYPE_VALUES[BASELINE2_COST_VALUE] = BASELINE2_COST;
       TYPE_VALUES[BASELINE2_WORK_VALUE] = BASELINE2_WORK;
-      TYPE_VALUES[BASELINE2_DURATION_VALUE] = BASELINE2_DURATION;   
+      TYPE_VALUES[BASELINE2_DURATION_VALUE] = BASELINE2_DURATION;
       TYPE_VALUES[BASELINE3_START_VALUE] = BASELINE3_START;
       TYPE_VALUES[BASELINE3_FINISH_VALUE] = BASELINE3_FINISH;
       TYPE_VALUES[BASELINE3_COST_VALUE] = BASELINE3_COST;
       TYPE_VALUES[BASELINE3_WORK_VALUE] = BASELINE3_WORK;
-      TYPE_VALUES[BASELINE3_DURATION_VALUE] = BASELINE3_DURATION;   
+      TYPE_VALUES[BASELINE3_DURATION_VALUE] = BASELINE3_DURATION;
       TYPE_VALUES[BASELINE4_START_VALUE] = BASELINE4_START;
       TYPE_VALUES[BASELINE4_FINISH_VALUE] = BASELINE4_FINISH;
       TYPE_VALUES[BASELINE4_COST_VALUE] = BASELINE4_COST;
       TYPE_VALUES[BASELINE4_WORK_VALUE] = BASELINE4_WORK;
-      TYPE_VALUES[BASELINE4_DURATION_VALUE] = BASELINE4_DURATION;   
+      TYPE_VALUES[BASELINE4_DURATION_VALUE] = BASELINE4_DURATION;
       TYPE_VALUES[BASELINE5_START_VALUE] = BASELINE5_START;
       TYPE_VALUES[BASELINE5_FINISH_VALUE] = BASELINE5_FINISH;
       TYPE_VALUES[BASELINE5_COST_VALUE] = BASELINE5_COST;
       TYPE_VALUES[BASELINE5_WORK_VALUE] = BASELINE5_WORK;
-      TYPE_VALUES[BASELINE5_DURATION_VALUE] = BASELINE5_DURATION;   
+      TYPE_VALUES[BASELINE5_DURATION_VALUE] = BASELINE5_DURATION;
       TYPE_VALUES[BASELINE6_START_VALUE] = BASELINE6_START;
       TYPE_VALUES[BASELINE6_FINISH_VALUE] = BASELINE6_FINISH;
       TYPE_VALUES[BASELINE6_COST_VALUE] = BASELINE6_COST;
       TYPE_VALUES[BASELINE6_WORK_VALUE] = BASELINE6_WORK;
-      TYPE_VALUES[BASELINE6_DURATION_VALUE] = BASELINE6_DURATION;   
+      TYPE_VALUES[BASELINE6_DURATION_VALUE] = BASELINE6_DURATION;
       TYPE_VALUES[BASELINE7_START_VALUE] = BASELINE7_START;
       TYPE_VALUES[BASELINE7_FINISH_VALUE] = BASELINE7_FINISH;
       TYPE_VALUES[BASELINE7_COST_VALUE] = BASELINE7_COST;
       TYPE_VALUES[BASELINE7_WORK_VALUE] = BASELINE7_WORK;
-      TYPE_VALUES[BASELINE7_DURATION_VALUE] = BASELINE7_DURATION;   
+      TYPE_VALUES[BASELINE7_DURATION_VALUE] = BASELINE7_DURATION;
       TYPE_VALUES[BASELINE8_START_VALUE] = BASELINE8_START;
       TYPE_VALUES[BASELINE8_FINISH_VALUE] = BASELINE8_FINISH;
       TYPE_VALUES[BASELINE8_COST_VALUE] = BASELINE8_COST;
       TYPE_VALUES[BASELINE8_WORK_VALUE] = BASELINE8_WORK;
-      TYPE_VALUES[BASELINE8_DURATION_VALUE] = BASELINE8_DURATION;   
+      TYPE_VALUES[BASELINE8_DURATION_VALUE] = BASELINE8_DURATION;
       TYPE_VALUES[BASELINE9_START_VALUE] = BASELINE9_START;
       TYPE_VALUES[BASELINE9_FINISH_VALUE] = BASELINE9_FINISH;
       TYPE_VALUES[BASELINE9_COST_VALUE] = BASELINE9_COST;
       TYPE_VALUES[BASELINE9_WORK_VALUE] = BASELINE9_WORK;
-      TYPE_VALUES[BASELINE9_DURATION_VALUE] = BASELINE9_DURATION;   
+      TYPE_VALUES[BASELINE9_DURATION_VALUE] = BASELINE9_DURATION;
       TYPE_VALUES[BASELINE10_START_VALUE] = BASELINE10_START;
       TYPE_VALUES[BASELINE10_FINISH_VALUE] = BASELINE10_FINISH;
       TYPE_VALUES[BASELINE10_COST_VALUE] = BASELINE10_COST;
       TYPE_VALUES[BASELINE10_WORK_VALUE] = BASELINE10_WORK;
-      TYPE_VALUES[BASELINE10_DURATION_VALUE] = BASELINE10_DURATION;       
+      TYPE_VALUES[BASELINE10_DURATION_VALUE] = BASELINE10_DURATION;
       TYPE_VALUES[ENTERPRISE_COST1_VALUE] = ENTERPRISE_COST1;
       TYPE_VALUES[ENTERPRISE_COST2_VALUE] = ENTERPRISE_COST2;
       TYPE_VALUES[ENTERPRISE_COST3_VALUE] = ENTERPRISE_COST3;
@@ -1471,9 +1468,9 @@ public final class TaskField implements FieldType
       TYPE_VALUES[ENTERPRISE_TEXT37_VALUE] = ENTERPRISE_TEXT37;
       TYPE_VALUES[ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38;
       TYPE_VALUES[ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39;
-      TYPE_VALUES[ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40;      
+      TYPE_VALUES[ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40;
    }
-   
+
    private int m_value;
    private DataType m_dataType;
 }

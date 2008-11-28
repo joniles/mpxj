@@ -5,24 +5,22 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.ResourceType;
 
-@SuppressWarnings("all")
-public class Adapter11
-    extends XmlAdapter<String, ResourceType>
+@SuppressWarnings("all") public class Adapter11 extends XmlAdapter<String, ResourceType>
 {
 
+   public ResourceType unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseResourceType(value));
+   }
 
-    public ResourceType unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseResourceType(value));
-    }
-
-    public String marshal(ResourceType value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printResourceType(value));
-    }
+   public String marshal(ResourceType value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printResourceType(value));
+   }
 
 }

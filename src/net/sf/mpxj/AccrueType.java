@@ -36,8 +36,8 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum AccrueType implements MpxjEnum
 {
-   START(1), 
-   END(2), 
+   START(1),
+   END(2),
    PRORATED(3);
 
    /**

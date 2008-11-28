@@ -27,90 +27,90 @@ package net.sf.mpxj.mpp;
  * Instances of this type represent a possible value for a custom field that is
  * using value lists.
  */
-public final class CustomFieldValueItem 
+public final class CustomFieldValueItem
 {
-	/**
-	 * Constructor.
-	 * 
-	 * @param uniqueID item unique ID
-	 */
-	public CustomFieldValueItem(Integer uniqueID)
-	{		
-		m_uniqueID = uniqueID;
-	}
-	
-	/**
-	 * Get the unique id for this item.
-	 * 
-	 * @return item unique ID
-	 */
-	public Integer getUniqueID()
-	{
-		return m_uniqueID;
-	}
-	
-	/**
-	 * Set the value of this item.
-	 * 
-	 * @param value item value
-	 */
-	public void setValue(byte[] value)
-	{
-		m_value = value;
-	}
-	
-	/**
-	 * Get the value of this item.
-	 * 
-	 * @return item value
-	 */
-	public byte[] getValue()
-	{
-		return m_value;
-	}
-	
-	/**
-	 * Set the description for this item.
-	 * 
-	 * @param description item description
-	 */
-	public void setDescription(String description)
-	{
-		m_description = description;
-	}
-	
-	/**
-	 * Get the description for this item.
-	 * 
-	 * @return item description
-	 */
-	public String getDescription()
-	{
-		return m_description;
-	}
-	
-	/**
-	 * Set an Unknown property for this item.
-	 * 
-	 * @param unknown unknown data block
-	 */
-	public void setUnknown(byte[] unknown)
-	{
-		m_unknown = unknown;
-	}
-	
-	/**
-	 * Get an unknown property for this item.
-	 * 
-	 * @return unknown data block
-	 */
-	public byte[] getUnknown()
-	{
-		return m_unknown;
-	}
-	
-	private Integer m_uniqueID;
-	private byte[] m_value;	
-	private String m_description;
-	private byte[] m_unknown;
+   /**
+    * Constructor.
+    * 
+    * @param uniqueID item unique ID
+    */
+   public CustomFieldValueItem(Integer uniqueID)
+   {
+      m_uniqueID = uniqueID;
+   }
+
+   /**
+    * Get the unique id for this item.
+    * 
+    * @return item unique ID
+    */
+   public Integer getUniqueID()
+   {
+      return m_uniqueID;
+   }
+
+   /**
+    * Set the value of this item.
+    * 
+    * @param value item value
+    */
+   public void setValue(byte[] value)
+   {
+      m_value = value;
+   }
+
+   /**
+    * Get the value of this item.
+    * 
+    * @return item value
+    */
+   public byte[] getValue()
+   {
+      return m_value;
+   }
+
+   /**
+    * Set the description for this item.
+    * 
+    * @param description item description
+    */
+   public void setDescription(String description)
+   {
+      m_description = description;
+   }
+
+   /**
+    * Get the description for this item.
+    * 
+    * @return item description
+    */
+   public String getDescription()
+   {
+      return m_description;
+   }
+
+   /**
+    * Set an Unknown property for this item.
+    * 
+    * @param unknown unknown data block
+    */
+   public void setUnknown(byte[] unknown)
+   {
+      m_unknown = unknown;
+   }
+
+   /**
+    * Get an unknown property for this item.
+    * 
+    * @return unknown data block
+    */
+   public byte[] getUnknown()
+   {
+      return m_unknown;
+   }
+
+   private Integer m_uniqueID;
+   private byte[] m_value;
+   private String m_description;
+   private byte[] m_unknown;
 }

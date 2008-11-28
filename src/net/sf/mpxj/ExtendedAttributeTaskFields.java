@@ -35,7 +35,7 @@ public final class ExtendedAttributeTaskFields
    {
       // Private constructor to prevent instantiation.
    }
-   
+
    /**
     * Array of extended attribute fields.
     */
@@ -280,7 +280,7 @@ public final class ExtendedAttributeTaskFields
       TaskField.ENTERPRISE_NUMBER37,
       TaskField.ENTERPRISE_NUMBER38,
       TaskField.ENTERPRISE_NUMBER39,
-      TaskField.ENTERPRISE_NUMBER40,     
+      TaskField.ENTERPRISE_NUMBER40,
       TaskField.ENTERPRISE_TEXT1,
       TaskField.ENTERPRISE_TEXT2,
       TaskField.ENTERPRISE_TEXT3,
@@ -320,7 +320,6 @@ public final class ExtendedAttributeTaskFields
       TaskField.ENTERPRISE_TEXT37,
       TaskField.ENTERPRISE_TEXT38,
       TaskField.ENTERPRISE_TEXT39,
-      TaskField.ENTERPRISE_TEXT40            
+      TaskField.ENTERPRISE_TEXT40
    };
 }
-

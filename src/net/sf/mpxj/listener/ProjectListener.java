@@ -28,7 +28,7 @@ import net.sf.mpxj.Task;
 
 /**
  * Classes implementing this interface can be used to receive notification
- * of events occuring within the project file.
+ * of events occurring within the project file.
  */
 public interface ProjectListener
 {
@@ -37,26 +37,26 @@ public interface ProjectListener
     *
     * @param task task instance
     */
-   public void taskRead (Task task);
+   public void taskRead(Task task);
 
    /**
     * This method is called when a task is written to a file.
     *
     * @param task task instance
     */
-   public void taskWritten (Task task);
+   public void taskWritten(Task task);
 
    /**
     * This method is called when a resource is read from a file.
     *
     * @param resource resource instance
     */
-   public void resourceRead (Resource resource);
+   public void resourceRead(Resource resource);
 
    /**
     * This method is called when a resource is written to a file.
     *
     * @param resource resource instance
     */
-   public void resourceWritten (Resource resource);
+   public void resourceWritten(Resource resource);
 }

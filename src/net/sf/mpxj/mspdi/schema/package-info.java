@@ -5,5 +5,4 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://schemas.microsoft.com/project", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package net.sf.mpxj.mspdi.schema;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://schemas.microsoft.com/project", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED) package net.sf.mpxj.mspdi.schema;

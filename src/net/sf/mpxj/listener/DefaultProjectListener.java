@@ -37,7 +37,7 @@ public class DefaultProjectListener implements ProjectListener
    /**
     * {@inheritDoc}
     */
-   public void taskRead (Task task)
+   public void taskRead(Task task)
    {
       // default implementation
    }
@@ -45,7 +45,7 @@ public class DefaultProjectListener implements ProjectListener
    /**
     * {@inheritDoc}
     */
-   public void taskWritten (Task task)
+   public void taskWritten(Task task)
    {
       // default implementation
    }
@@ -53,7 +53,7 @@ public class DefaultProjectListener implements ProjectListener
    /**
     * {@inheritDoc}
     */
-   public void resourceRead (Resource resource)
+   public void resourceRead(Resource resource)
    {
       // default implementation
    }
@@ -61,7 +61,7 @@ public class DefaultProjectListener implements ProjectListener
    /**
     * {@inheritDoc}
     */
-   public void resourceWritten (Resource resource)
+   public void resourceWritten(Resource resource)
    {
       // default implementation
    }

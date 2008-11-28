@@ -87,5 +87,5 @@ interface VarMeta
     * @param id unique ID
     * @return set of types
     */
-   public Set<Integer> getTypes (Integer id);
+   public Set<Integer> getTypes(Integer id);
 }

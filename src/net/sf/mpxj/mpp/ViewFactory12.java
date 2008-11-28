@@ -30,7 +30,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
 import net.sf.mpxj.ViewType;
 
-
 /**
  * Default implementation of a view factory for MPP12 files.
  */
@@ -39,34 +38,33 @@ class ViewFactory12 implements ViewFactory
    /**
     * {@inheritDoc}
     */
-   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
-      throws IOException
+   public View createView(ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases) throws IOException
    {
       View view;
-      int splitViewFlag  = MPPUtility.getShort(fixedData, 110);
+      int splitViewFlag = MPPUtility.getShort(fixedData, 110);
       if (splitViewFlag == 1)
       {
-         view = new SplitView9 (fixedData, varData);
+         view = new SplitView9(fixedData, varData);
       }
       else
       {
          ViewType type = ViewType.getInstance(MPPUtility.getShort(fixedData, 112));
          switch (type)
          {
-            case GANTT_CHART:
+            case GANTT_CHART :
             {
-               view = new GanttChartView12 (file, fixedMeta, fixedData, varData, fontBases);               
+               view = new GanttChartView12(file, fixedMeta, fixedData, varData, fontBases);
                break;
             }
-   
-            default:
+
+            default :
             {
-               view = new GenericView (fixedData);            
+               view = new GenericView(fixedData);
                break;
             }
          }
       }
-            
+
       return (view);
    }
 }

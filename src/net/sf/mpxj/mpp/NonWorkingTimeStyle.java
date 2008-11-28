@@ -33,22 +33,21 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum NonWorkingTimeStyle implements MpxjEnum
 {
-   BEHIND (0, "Behind"),
-   IN_FRONT (1, "In Front"),
-   DO_NOT_DRAW (2, "Do Not Draw");
-   
+   BEHIND(0, "Behind"),
+   IN_FRONT(1, "In Front"),
+   DO_NOT_DRAW(2, "Do Not Draw");
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name enum name
     */
-   private NonWorkingTimeStyle (int type, String name)
+   private NonWorkingTimeStyle(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -56,8 +55,8 @@ public enum NonWorkingTimeStyle implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static NonWorkingTimeStyle getInstance (int type)
-   {      
+   public static NonWorkingTimeStyle getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = IN_FRONT.getValue();
@@ -65,14 +64,13 @@ public enum NonWorkingTimeStyle implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static NonWorkingTimeStyle getInstance (Number type)
+   public static NonWorkingTimeStyle getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -86,13 +84,12 @@ public enum NonWorkingTimeStyle implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -103,7 +100,7 @@ public enum NonWorkingTimeStyle implements MpxjEnum
     *
     * @return name of this alignment type
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -113,7 +110,7 @@ public enum NonWorkingTimeStyle implements MpxjEnum
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -123,13 +120,12 @@ public enum NonWorkingTimeStyle implements MpxjEnum
     */
    private static final NonWorkingTimeStyle[] TYPE_VALUES = new NonWorkingTimeStyle[3];
    static
-   {      
+   {
       for (NonWorkingTimeStyle e : EnumSet.range(NonWorkingTimeStyle.BEHIND, NonWorkingTimeStyle.DO_NOT_DRAW))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

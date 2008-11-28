@@ -38,7 +38,7 @@ final class TimeUnitUtility
    /**
     * Constructor.
     */
-   private TimeUnitUtility ()
+   private TimeUnitUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -52,15 +52,13 @@ final class TimeUnitUtility
     * @return numeric constant
     * @throws MPXJException normally thrown when parsing fails
     */
-   @SuppressWarnings("unchecked")
-   public static TimeUnit getInstance (String units, Locale locale)
-      throws MPXJException
+   @SuppressWarnings("unchecked") public static TimeUnit getInstance(String units, Locale locale) throws MPXJException
    {
       Map<String, Integer> map = LocaleData.getMap(locale, LocaleData.TIME_UNITS_MAP);
       Integer result = map.get(units);
       if (result == null)
       {
-         throw new MPXJException (MPXJException.INVALID_TIME_UNIT + " " +units);
+         throw new MPXJException(MPXJException.INVALID_TIME_UNIT + " " + units);
       }
       return (TimeUnit.getInstance(result.intValue()));
    }

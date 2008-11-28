@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.AbstractView;
 
-
 /**
  * This abstract class implements functionality common to all MPP views.
  */
@@ -37,7 +36,7 @@ public abstract class AbstractMppView extends AbstractView
     * @param name view name
     * @return view name without the ampersand
     */
-   protected String removeAmpersand (String name)
+   protected String removeAmpersand(String name)
    {
       if (name != null)
       {

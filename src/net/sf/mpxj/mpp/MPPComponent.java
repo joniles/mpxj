@@ -36,7 +36,7 @@ class MPPComponent
    /**
     * Constructor.
     */
-   protected MPPComponent ()
+   protected MPPComponent()
    {
       // protected constructor to prevent instantiation
    }
@@ -48,13 +48,12 @@ class MPPComponent
     * @return byte value
     * @throws IOException on file read error or EOF
     */
-   protected int readByte (InputStream is)
-      throws IOException
+   protected int readByte(InputStream is) throws IOException
    {
       byte[] data = new byte[1];
       if (is.read(data) != data.length)
       {
-         throw new EOFException ();
+         throw new EOFException();
       }
 
       return (MPPUtility.getByte(data));
@@ -67,13 +66,12 @@ class MPPComponent
     * @return integer value
     * @throws IOException on file read error or EOF
     */
-   protected int readShort (InputStream is)
-      throws IOException
+   protected int readShort(InputStream is) throws IOException
    {
       byte[] data = new byte[2];
       if (is.read(data) != data.length)
       {
-         throw new EOFException ();
+         throw new EOFException();
       }
 
       return (MPPUtility.getShort(data));
@@ -86,13 +84,12 @@ class MPPComponent
     * @return byte value
     * @throws IOException on file read error or EOF
     */
-   protected int readInt (InputStream is)
-      throws IOException
+   protected int readInt(InputStream is) throws IOException
    {
       byte[] data = new byte[4];
       if (is.read(data) != data.length)
       {
-         throw new EOFException ();
+         throw new EOFException();
       }
 
       return (MPPUtility.getInt(data));
@@ -106,15 +103,13 @@ class MPPComponent
     * @return byte array
     * @throws IOException on file read error or EOF
     */
-   protected byte[] readByteArray (InputStream is, int size)
-      throws IOException
+   protected byte[] readByteArray(InputStream is, int size) throws IOException
    {
       byte[] buffer = new byte[size];
       if (is.read(buffer) != buffer.length)
       {
-         throw new EOFException ();
+         throw new EOFException();
       }
       return (buffer);
    }
 }
-

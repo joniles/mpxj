@@ -72,7 +72,6 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-
 /**
  * This class is used to represent a Microsoft Project MPP9 file. This
  * implementation allows the file to be read, and the data it contains
@@ -89,21 +88,19 @@ final class MPP9Reader implements MPPVariantReader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     */
-   public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
-      throws MPXJException, IOException
+   public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
    {
       try
       {
-    	  //
-    	  // Retrieve the high level document properties (never encoded)
-    	  //
-         Props9 props9 = new Props9 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props9"))));
+         //
+         // Retrieve the high level document properties (never encoded)
+         //
+         Props9 props9 = new Props9(new DocumentInputStream(((DocumentEntry) root.getEntry("Props9"))));
          //System.out.println(props9);
 
          file.setProjectFilePath(props9.getUnicodeString(Props.PROJECT_FILE_PATH));
          file.setEncoded(props9.getByte(Props.PASSWORD_FLAG) != 0);
          file.setEncryptionCode(props9.getByte(Props.ENCRYPTION_CODE));
-
 
          //
          // Test for password protection. In the single byte retrieved here:
@@ -115,53 +112,53 @@ final class MPP9Reader implements MPPVariantReader
          //  
          if ((props9.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
          {
-        	 // File is password protected for reading, let's read the password
-        	 // and see if the correct read password was given to us.
-        	 String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), file.getEncryptionCode());
-        	 // It looks like it is possible for a project file to have the password protection flag on without a password. In
-        	 // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
-        	 // correct the problem if the file is re-saved (at least it did for me).
-        	 if (readPassword != null && readPassword.length() > 0)
-        	 {
-            	 // See if the correct read password was given
-        		 if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
-        		 {    	      	
-        			 // Passwords don't match
-        			 throw new MPXJException (MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
-        		 }
-        	 }
-        	 // Passwords matched so let's allow the reading to continue.
+            // File is password protected for reading, let's read the password
+            // and see if the correct read password was given to us.
+            String readPassword = MPPUtility.decodePassword(props9.getByteArray(Props.PROTECTION_PASSWORD_HASH), file.getEncryptionCode());
+            // It looks like it is possible for a project file to have the password protection flag on without a password. In
+            // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
+            // correct the problem if the file is re-saved (at least it did for me).
+            if (readPassword != null && readPassword.length() > 0)
+            {
+               // See if the correct read password was given
+               if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
+               {
+                  // Passwords don't match
+                  throw new MPXJException(MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
+               }
+            }
+            // Passwords matched so let's allow the reading to continue.
          }
          m_reader = reader;
          m_file = file;
          m_root = root;
-         m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
-         m_projectDir = (DirectoryEntry)root.getEntry ("   19");
-         m_viewDir = (DirectoryEntry)root.getEntry ("   29");
-         DirectoryEntry outlineCodeDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndOutlCode");
-         VarMeta outlineCodeVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
-         m_outlineCodeVarData = new Var2Data (outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
+         m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+         m_projectDir = (DirectoryEntry) root.getEntry("   19");
+         m_viewDir = (DirectoryEntry) root.getEntry("   29");
+         DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
+         VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
+         m_outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
          m_fontBases = new HashMap<Integer, FontBase>();
-         m_taskSubProjects = new HashMap<Integer, SubProject> ();
-         
+         m_taskSubProjects = new HashMap<Integer, SubProject>();
+
          m_file.setMppFileType(9);
          m_file.setAutoFilter(props9.getBoolean(Props.AUTO_FILTER));
-         
-         processPropertyData ();
-         processCalendarData ();
-         processResourceData ();
-         processTaskData ();
-         processConstraintData ();
-         processAssignmentData ();
-         
+
+         processPropertyData();
+         processCalendarData();
+         processResourceData();
+         processTaskData();
+         processConstraintData();
+         processAssignmentData();
+
          processViewPropertyData();
-         processTableData ();
-         processViewData ();
+         processTableData();
+         processViewData();
          processFilterData();
          processGroupData();
          processSavedViewState();
       }
-      
+
       finally
       {
          m_reader = null;
@@ -181,12 +178,11 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @throws IOException
     */
-   private void processPropertyData ()
-      throws IOException, MPXJException
+   private void processPropertyData() throws IOException, MPXJException
    {
-      Props9 props = new Props9 (getEncryptableInputStream(m_projectDir, "Props"));
+      Props9 props = new Props9(getEncryptableInputStream(m_projectDir, "Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-      
+
       //
       // Process the project header
       //
@@ -206,7 +202,7 @@ final class MPP9Reader implements MPPVariantReader
       // Process subproject data
       //
       processSubProjectData(props);
-      
+
       //
       // Process graphical indicators
       //
@@ -224,7 +220,7 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @param props file properties
     */
-   private void processSubProjectData (Props9 props)
+   private void processSubProjectData(Props9 props)
    {
       byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
 
@@ -233,7 +229,7 @@ final class MPP9Reader implements MPPVariantReader
 
       if (subProjData != null)
       {
-    	 int index = 0;
+         int index = 0;
          int offset = 0;
          int itemHeaderOffset;
          int uniqueIDOffset;
@@ -254,39 +250,38 @@ final class MPP9Reader implements MPPVariantReader
 
          while (offset < itemCountOffset)
          {
-        	index++;
+            index++;
             itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
             offset += 4;
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
-//            System.out.println ();
-//            System.out.println ();            
-//            System.out.println ("offset=" + offset);
-//            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
-//            System.out.println ("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
-//            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));            
-            
-            
-            byte subProjectType = itemHeader[16];            
+            //            System.out.println ();
+            //            System.out.println ();            
+            //            System.out.println ("offset=" + offset);
+            //            System.out.println ("ItemHeaderOffset=" + itemHeaderOffset);
+            //            System.out.println ("type=" + MPPUtility.hexdump(itemHeader, 16, 1, false));
+            //            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));            
+
+            byte subProjectType = itemHeader[16];
             switch (subProjectType)
             {
                //
                // Subproject that is no longer inserted. This is a placeholder in order to be
                // able to always guarantee unique unique ids.
                //
-               case 0x00:
+               case 0x00 :
                {
                   offset += 8;
                   break;
                }
 
-               //
-               // task unique ID, 8 bytes, path, file name
-               //
-               case (byte)0x99:               
-               case 0x09:
-               case 0x0D:
+                  //
+                  // task unique ID, 8 bytes, path, file name
+                  //
+               case (byte) 0x99 :
+               case 0x09 :
+               case 0x0D :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -304,10 +299,10 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, 8 bytes, path, file name
-               //
-               case (byte)0x91:              
+                  //
+                  // task unique ID, 8 bytes, path, file name
+                  //
+               case (byte) 0x91 :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -320,13 +315,13 @@ final class MPP9Reader implements MPPVariantReader
 
                   // Unknown offset
                   offset += 4;
-                  
+
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
-               case 0x11:
-               case 0x03:                  
+               case 0x11 :
+               case 0x03 :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -339,16 +334,16 @@ final class MPP9Reader implements MPPVariantReader
 
                   // Unknown offset
                   //offset += 4;
-                  
+
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
-               //
-               // task unique ID, path, unknown, file name
-               //
-               case (byte)0x81:
-               case 0x41:
+                  //
+                  // task unique ID, path, unknown, file name
+                  //
+               case (byte) 0x81 :
+               case 0x41 :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -366,11 +361,11 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, path, file name
-               //
-               case 0x01:
-               case 0x08:               
+                  //
+                  // task unique ID, path, file name
+                  //
+               case 0x01 :
+               case 0x08 :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -385,10 +380,10 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, path, file name
-               //
-               case (byte)0xC0:
+                  //
+                  // task unique ID, path, file name
+                  //
+               case (byte) 0xC0 :
                {
                   uniqueIDOffset = itemHeaderOffset;
 
@@ -400,15 +395,15 @@ final class MPP9Reader implements MPPVariantReader
 
                   // unknown offset
                   offset += 4;
-                  
+
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
-               
-               //
-               // resource, task unique ID, path, file name
-               //
-               case 0x05:
+
+                  //
+                  // resource, task unique ID, path, file name
+                  //
+               case 0x05 :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -424,11 +419,11 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // path, file name
-               //
-               case 0x02:
-               case 0x04:
+                  //
+                  // path, file name
+                  //
+               case 0x02 :
+               case 0x04 :
                {
                   filePathOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -445,10 +440,10 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, 4 bytes, path, 4 bytes, file name
-               //
-               case (byte)0x8D:                 
+                  //
+                  // task unique ID, 4 bytes, path, 4 bytes, file name
+                  //
+               case (byte) 0x8D :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 8;
@@ -463,10 +458,10 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, path, file name
-               //
-               case 0x0A:                 
+                  //
+                  // task unique ID, path, file name
+                  //
+               case 0x0A :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -481,42 +476,42 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // Appears when a subproject is collapsed
-               //
-               case (byte)0x80:
+                  //
+                  // Appears when a subproject is collapsed
+                  //
+               case (byte) 0x80 :
                {
                   offset += 12;
                   break;
                }
 
-               // deleted entry?
-               case 0x10:
+                  // deleted entry?
+               case 0x10 :
                {
                   offset += 8;
                   break;
                }
-               
-               // new resource pool entry
-               case (byte)0x44:                                                                        
+
+                  // new resource pool entry
+               case (byte) 0x44 :
                {
                   filePathOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
                   offset += 4;
-                  
+
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
-                  
+
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
                   m_file.setResourceSubProject(sp);
                   break;
                }
-                              
-               //
-               // Any other value, assume 12 bytes to handle old/deleted data?
-               //
-               default:
+
+                  //
+                  // Any other value, assume 12 bytes to handle old/deleted data?
+                  //
+               default :
                {
                   offset += 12;
                   break;
@@ -536,82 +531,82 @@ final class MPP9Reader implements MPPVariantReader
     * @param subprojectIndex index of the subproject, used to calculate unique id offset
     * @return new SubProject instance
     */
-   private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
+   private SubProject readSubProject(byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
       try
       {
-         SubProject sp = new SubProject ();
-   
+         SubProject sp = new SubProject();
+
          if (uniqueIDOffset != -1)
          {
-       	 int prev = 0;
-            int value = MPPUtility.getInt(data, uniqueIDOffset);         
+            int prev = 0;
+            int value = MPPUtility.getInt(data, uniqueIDOffset);
             while (value != SUBPROJECT_LISTEND)
             {
-           	 switch (value)
-           	 {
-           	 case SUBPROJECT_TASKUNIQUEID0:
-           	 case SUBPROJECT_TASKUNIQUEID1:
-           	 case SUBPROJECT_TASKUNIQUEID2:
-           	 case SUBPROJECT_TASKUNIQUEID3:
-           		 // The previous value was for the subproject unique task id
-           		 sp.setTaskUniqueID(Integer.valueOf(prev));
-           		 m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-           		 prev = 0;
-           		 break;
-           		 
-           	 default:
-           		 if (prev != 0)
-           		 {
-           			 // The previous value was for an external task unique task id
-           			 sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-           			 m_taskSubProjects.put(Integer.valueOf(prev), sp);
-           		 }
-           	 	 prev = value;
-           		 break;
-           	 }
-           	 // Read the next value
-           	 uniqueIDOffset += 4;
-           	 value = MPPUtility.getInt(data, uniqueIDOffset);
+               switch (value)
+               {
+                  case SUBPROJECT_TASKUNIQUEID0 :
+                  case SUBPROJECT_TASKUNIQUEID1 :
+                  case SUBPROJECT_TASKUNIQUEID2 :
+                  case SUBPROJECT_TASKUNIQUEID3 :
+                     // The previous value was for the subproject unique task id
+                     sp.setTaskUniqueID(Integer.valueOf(prev));
+                     m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                     prev = 0;
+                     break;
+
+                  default :
+                     if (prev != 0)
+                     {
+                        // The previous value was for an external task unique task id
+                        sp.addExternalTaskUniqueID(Integer.valueOf(prev));
+                        m_taskSubProjects.put(Integer.valueOf(prev), sp);
+                     }
+                     prev = value;
+                     break;
+               }
+               // Read the next value
+               uniqueIDOffset += 4;
+               value = MPPUtility.getInt(data, uniqueIDOffset);
             }
             if (prev != 0)
             {
-   			 // The previous value was for an external task unique task id
-           	 sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-           	 m_taskSubProjects.put(Integer.valueOf(prev), sp);
+               // The previous value was for an external task unique task id
+               sp.addExternalTaskUniqueID(Integer.valueOf(prev));
+               m_taskSubProjects.put(Integer.valueOf(prev), sp);
             }
-            
+
             // Now get the unique id offset for this subproject
-            value = 0x00800000 + ((subprojectIndex-1) * 0x00400000);
-            sp.setUniqueIDOffset(Integer.valueOf(value));        
+            value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+            sp.setUniqueIDOffset(Integer.valueOf(value));
          }
-   
+
          //
          // First block header
          //
          filePathOffset += 18;
-   
+
          //
          // String size as a 4 byte int
          //
          filePathOffset += 4;
-   
+
          //
          // Full DOS path
          //
          sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
-         filePathOffset += (sp.getDosFullPath().length()+1);
-   
+         filePathOffset += (sp.getDosFullPath().length() + 1);
+
          //
          // 24 byte block
          //
          filePathOffset += 24;
-   
+
          //
          // 4 byte block size
          //
          int size = MPPUtility.getInt(data, filePathOffset);
-         filePathOffset +=4;
+         filePathOffset += 4;
          if (size == 0)
          {
             sp.setFullPath(sp.getDosFullPath());
@@ -623,46 +618,46 @@ final class MPP9Reader implements MPPVariantReader
             //
             size = MPPUtility.getInt(data, filePathOffset);
             filePathOffset += 4;
-   
+
             //
             // 2 byte data
             //
             filePathOffset += 2;
-   
+
             //
             // Unicode string
             //
             sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
-           // filePathOffset += size;
+            // filePathOffset += size;
          }
-   
+
          //
          // Second block header
          //
          fileNameOffset += 18;
-   
+
          //
          // String size as a 4 byte int
          //
          fileNameOffset += 4;
-   
+
          //
          // DOS file name
          //
          sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
-         fileNameOffset += (sp.getDosFileName().length()+1);
-   
+         fileNameOffset += (sp.getDosFileName().length() + 1);
+
          //
          // 24 byte block
          //
          fileNameOffset += 24;
-   
+
          //
          // 4 byte block size
          //
          size = MPPUtility.getInt(data, fileNameOffset);
-         fileNameOffset +=4;
-   
+         fileNameOffset += 4;
+
          if (size == 0)
          {
             sp.setFileName(sp.getDosFileName());
@@ -674,27 +669,27 @@ final class MPP9Reader implements MPPVariantReader
             //
             size = MPPUtility.getInt(data, fileNameOffset);
             fileNameOffset += 4;
-   
+
             //
             // 2 byte data
             //
             fileNameOffset += 2;
-   
+
             //
             // Unicode string
             //
             sp.setFileName(MPPUtility.getUnicodeString(data, fileNameOffset, size));
             //fileNameOffset += size;
          }
-   
+
          //System.out.println(sp.toString());
-   
+
          // Add to the list of subprojects
          m_file.addSubProject(sp);
-   
+
          return (sp);
       }
-      
+
       //
       // Admit defeat at this point - we have probably stumbled
       // upon a data format we don't understand, so we'll fail
@@ -705,22 +700,21 @@ final class MPP9Reader implements MPPVariantReader
       catch (ArrayIndexOutOfBoundsException ex)
       {
          return (null);
-      }      
+      }
    }
 
    /**
     * This method process the data held in the props file specific to the
     * visual appearance of the project data.
     */
-   private void processViewPropertyData ()
-      throws IOException
+   private void processViewPropertyData() throws IOException
    {
-      Props9 props = new Props9 (getEncryptableInputStream(m_viewDir, "Props"));
+      Props9 props = new Props9(getEncryptableInputStream(m_viewDir, "Props"));
       //System.out.println(props);
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
-         processBaseFonts (data);
+         processBaseFonts(data);
       }
    }
 
@@ -729,17 +723,17 @@ final class MPP9Reader implements MPPVariantReader
     * font instances.
     * @param data property data
     */
-   private void processBaseFonts (byte[] data)
+   private void processBaseFonts(byte[] data)
    {
       int offset = 0;
 
       int blockCount = MPPUtility.getShort(data, 0);
-      offset +=2;
+      offset += 2;
 
       int size;
       String name;
 
-      for (int loop=0; loop < blockCount; loop++)
+      for (int loop = 0; loop < blockCount; loop++)
       {
          /*unknownAttribute = MPPUtility.getShort(data, offset);*/
          offset += 2;
@@ -763,7 +757,7 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @param data task field name alias data
     */
-   private void processTaskFieldNameAliases (byte[] data)
+   private void processTaskFieldNameAliases(byte[] data)
    {
       if (data != null)
       {
@@ -774,7 +768,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             String alias = MPPUtility.getUnicodeString(data, offset);
             aliases.add(alias);
-            offset += (alias.length()+1)*2;
+            offset += (alias.length() + 1) * 2;
          }
 
          m_file.setTaskFieldAlias(TaskField.TEXT1, aliases.get(118));
@@ -786,7 +780,7 @@ final class MPP9Reader implements MPPVariantReader
          m_file.setTaskFieldAlias(TaskField.TEXT7, aliases.get(124));
          m_file.setTaskFieldAlias(TaskField.TEXT8, aliases.get(125));
          m_file.setTaskFieldAlias(TaskField.TEXT9, aliases.get(126));
-         m_file.setTaskFieldAlias(TaskField.TEXT10, aliases.get(127 ));
+         m_file.setTaskFieldAlias(TaskField.TEXT10, aliases.get(127));
          m_file.setTaskFieldAlias(TaskField.START1, aliases.get(128));
          m_file.setTaskFieldAlias(TaskField.FINISH1, aliases.get(129));
          m_file.setTaskFieldAlias(TaskField.START2, aliases.get(130));
@@ -909,185 +903,184 @@ final class MPP9Reader implements MPPVariantReader
          m_file.setTaskFieldAlias(TaskField.COST10, aliases.get(287));
       }
    }
-   
+
    /**
     * Retrieve any task field value lists defined in the MPP file.
     *
     * @param file Parent MPX file
     * @param data task field name alias data
     */
-   private void processTaskFieldCustomValueLists (ProjectFile file, byte[] data)
+   private void processTaskFieldCustomValueLists(ProjectFile file, byte[] data)
    {
       if (data != null)
       {
-    	 int index = 0;
+         int index = 0;
          int offset = 0;
          // First the length
          int length = MPPUtility.getInt(data, offset);
          offset += 4;
          // Then the number of custom value lists
-    	 int numberOfValueLists = MPPUtility.getInt(data, offset); 
-    	 offset += 4;
-    	 
-    	 // Then the value lists themselves
+         int numberOfValueLists = MPPUtility.getInt(data, offset);
+         offset += 4;
+
+         // Then the value lists themselves
          TaskField field;
          int valueListOffset = 0;
          while (index < numberOfValueLists && offset < length)
-         {        	
-        	// Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-        	// offset to the value list (4 bytes)
-        	
-        	// Get the Field
-        	field = MPPTaskField.getInstance(MPPUtility.getShort(data, offset));
-        	offset += 2;
-        	// Go past 40 0B marker
-        	offset += 2;
-        	// Get the value list offset
-        	valueListOffset = MPPUtility.getInt(data, offset);
-        	offset += 4;
-        	// Read the value list itself 
-        	if (valueListOffset < data.length)
-        	{
-        		int tempOffset = valueListOffset;
-        		tempOffset += 8;
-        		// Get the data offset
-        		int dataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
-        		tempOffset += 4;
-        		// Get the end of the data offset
-        		int endDataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
-        		tempOffset += 4;
-        		// Get the end of the description
-        		int endDescriptionOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
-        		
-        		// Get the values themselves
-        		int valuesLength = endDataOffset - dataOffset;
-        		byte[] values = new byte[valuesLength];
-        		MPPUtility.getByteArray(data, dataOffset, valuesLength, values, 0);
-        		file.setTaskFieldValueList(field, getTaskFieldValues(file, field, values));
-        		//System.out.println(MPPUtility.hexdump(values, true));
+         {
+            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
+            // offset to the value list (4 bytes)
 
-        		// Get the descriptions
-        		int descriptionsLength = endDescriptionOffset - endDataOffset;
-        		byte[] descriptions = new byte[descriptionsLength];
-        		MPPUtility.getByteArray(data, endDataOffset, descriptionsLength, descriptions, 0);
-        		file.setTaskFieldDescriptionList(field, getTaskFieldDescriptions(descriptions));
-        		//System.out.println(MPPUtility.hexdump(descriptions, true));        		
-        	}
+            // Get the Field
+            field = MPPTaskField.getInstance(MPPUtility.getShort(data, offset));
+            offset += 2;
+            // Go past 40 0B marker
+            offset += 2;
+            // Get the value list offset
+            valueListOffset = MPPUtility.getInt(data, offset);
+            offset += 4;
+            // Read the value list itself 
+            if (valueListOffset < data.length)
+            {
+               int tempOffset = valueListOffset;
+               tempOffset += 8;
+               // Get the data offset
+               int dataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
+               tempOffset += 4;
+               // Get the end of the data offset
+               int endDataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
+               tempOffset += 4;
+               // Get the end of the description
+               int endDescriptionOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
+
+               // Get the values themselves
+               int valuesLength = endDataOffset - dataOffset;
+               byte[] values = new byte[valuesLength];
+               MPPUtility.getByteArray(data, dataOffset, valuesLength, values, 0);
+               file.setTaskFieldValueList(field, getTaskFieldValues(file, field, values));
+               //System.out.println(MPPUtility.hexdump(values, true));
+
+               // Get the descriptions
+               int descriptionsLength = endDescriptionOffset - endDataOffset;
+               byte[] descriptions = new byte[descriptionsLength];
+               MPPUtility.getByteArray(data, endDataOffset, descriptionsLength, descriptions, 0);
+               file.setTaskFieldDescriptionList(field, getTaskFieldDescriptions(descriptions));
+               //System.out.println(MPPUtility.hexdump(descriptions, true));        		
+            }
             index++;
          }
       }
       //System.out.println(file.getTaskFieldAliasMap().toString());
    }
-   
-	/**
-	 * Retrieves the description value list associated with a custom task field.
-	 * This method will return null if no descriptions for the value list has 
-	 * been defined for this field.
-	 *
-	 * @param data data block
-	 * @return list of descriptions
-	 */
-	public List<String> getTaskFieldDescriptions (byte[] data)
-	{
-		if (data == null || data.length == 0)
-		{
-			return null;      
-		}
-		List<String> descriptions = new LinkedList<String>();
-		int offset = 0;
-		while (offset < data.length)
-		{
-			String description = MPPUtility.getUnicodeString(data, offset);
-			descriptions.add(description);
-			offset += description.length() * 2 + 2;
-		}
-		return descriptions;
-	}
 
-	/**
-	 * Retrieves the description value list associated with a custom task field.
-	 * This method will return null if no descriptions for the value list has 
-	 * been defined for this field.
-	 *
-	 * @param file parent project file
-	 * @param field task field
-	 * @param data data block
-	 * @return list of task field values
-	 */
-	public List<Object> getTaskFieldValues (ProjectFile file, TaskField field, byte[] data)
-	{
-		if (field == null || data == null || data.length == 0)
-		{
-			return null;      
-		}
-		
-		List<Object> list = new LinkedList<Object>();
-		int offset = 0;
-		
-			switch (field.getDataType())
-			{
-			case DATE:
-				while (offset+4 <= data.length)
-				{
-					Date date = MPPUtility.getTimestamp(data, offset);
-					list.add(date);
-					offset += 4;
-				}
-				break;
-			case CURRENCY:
-				while (offset+8 <= data.length)
-				{
-					Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
-					list.add(number);
-					offset += 8;
-				}
-				break;
-			case NUMERIC:
-				while (offset+8 <= data.length)
-				{
-					Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset));
-					list.add(number);
-					offset += 8;
-				}
-				break;
-			case DURATION:
-				while (offset+6 <= data.length)
-				{
-					Duration duration = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
-					list.add(duration);
-					offset += 6;
-				}
-				break;
-			case STRING:
-				while (offset < data.length)
-				{
-					String s = MPPUtility.getUnicodeString(data, offset);
-					list.add(s);
-					offset += s.length() * 2 + 2;
-				}
-				break;
-			case BOOLEAN:
-				while (offset+2 <= data.length)
-				{
-					boolean b = (MPPUtility.getShort(data, offset) == 0x01);
-					list.add(Boolean.valueOf(b));
-					offset += 2;
-				}
-				break;
-			default:				
-				return null;
-			}
+   /**
+    * Retrieves the description value list associated with a custom task field.
+    * This method will return null if no descriptions for the value list has 
+    * been defined for this field.
+    *
+    * @param data data block
+    * @return list of descriptions
+    */
+   public List<String> getTaskFieldDescriptions(byte[] data)
+   {
+      if (data == null || data.length == 0)
+      {
+         return null;
+      }
+      List<String> descriptions = new LinkedList<String>();
+      int offset = 0;
+      while (offset < data.length)
+      {
+         String description = MPPUtility.getUnicodeString(data, offset);
+         descriptions.add(description);
+         offset += description.length() * 2 + 2;
+      }
+      return descriptions;
+   }
 
-		return list;
-	}
+   /**
+    * Retrieves the description value list associated with a custom task field.
+    * This method will return null if no descriptions for the value list has 
+    * been defined for this field.
+    *
+    * @param file parent project file
+    * @param field task field
+    * @param data data block
+    * @return list of task field values
+    */
+   public List<Object> getTaskFieldValues(ProjectFile file, TaskField field, byte[] data)
+   {
+      if (field == null || data == null || data.length == 0)
+      {
+         return null;
+      }
 
+      List<Object> list = new LinkedList<Object>();
+      int offset = 0;
+
+      switch (field.getDataType())
+      {
+         case DATE :
+            while (offset + 4 <= data.length)
+            {
+               Date date = MPPUtility.getTimestamp(data, offset);
+               list.add(date);
+               offset += 4;
+            }
+            break;
+         case CURRENCY :
+            while (offset + 8 <= data.length)
+            {
+               Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset) / 100.0);
+               list.add(number);
+               offset += 8;
+            }
+            break;
+         case NUMERIC :
+            while (offset + 8 <= data.length)
+            {
+               Double number = NumberUtility.getDouble(MPPUtility.getDouble(data, offset));
+               list.add(number);
+               offset += 8;
+            }
+            break;
+         case DURATION :
+            while (offset + 6 <= data.length)
+            {
+               Duration duration = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, offset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, offset + 4)));
+               list.add(duration);
+               offset += 6;
+            }
+            break;
+         case STRING :
+            while (offset < data.length)
+            {
+               String s = MPPUtility.getUnicodeString(data, offset);
+               list.add(s);
+               offset += s.length() * 2 + 2;
+            }
+            break;
+         case BOOLEAN :
+            while (offset + 2 <= data.length)
+            {
+               boolean b = (MPPUtility.getShort(data, offset) == 0x01);
+               list.add(Boolean.valueOf(b));
+               offset += 2;
+            }
+            break;
+         default :
+            return null;
+      }
+
+      return list;
+   }
 
    /**
     * Retrieve any resource field aliases defined in the MPP file.
     *
     * @param data resource field name alias data
     */
-   private void processResourceFieldNameAliases (byte[] data)
+   private void processResourceFieldNameAliases(byte[] data)
    {
       if (data != null)
       {
@@ -1098,7 +1091,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             String alias = MPPUtility.getUnicodeString(data, offset);
             aliases.add(alias);
-            offset += (alias.length()+1)*2;
+            offset += (alias.length() + 1) * 2;
          }
 
          m_file.setResourceFieldAlias(ResourceField.TEXT1, aliases.get(52));
@@ -1242,23 +1235,23 @@ final class MPP9Reader implements MPPVariantReader
     * @param taskFixedData Fixed data for this task
     * @return Mapping between task identifiers and block position
     */
-   private TreeMap<Integer, Integer> createTaskMap (FixedMeta taskFixedMeta, FixedData taskFixedData)
+   private TreeMap<Integer, Integer> createTaskMap(FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer> ();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
       Integer key;
-      
+
       // First three items are not tasks, so let's skip them
-      for (int loop=3; loop < itemCount; loop++)
+      for (int loop = 3; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null)
          {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
             int metaDataItemSize = MPPUtility.getInt(metaData, 0);
-            
+
             if (metaDataItemSize == 2 || metaDataItemSize == 6)
             {
                // Project stores the deleted tasks unique id's into the fixed data as well
@@ -1285,14 +1278,13 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      taskMap.put(key, Integer.valueOf(loop));
                   }
-               }               
-            }            
+               }
+            }
          }
       }
 
       return (taskMap);
    }
-
 
    /**
     * This method maps the resource unique identifiers to their index number
@@ -1302,19 +1294,19 @@ final class MPP9Reader implements MPPVariantReader
     * @param rscFixedData resource fixed data
     * @return map of resource IDs to resource data
     */
-   private TreeMap<Integer, Integer> createResourceMap (FixedMeta rscFixedMeta, FixedData rscFixedData)
+   private TreeMap<Integer, Integer> createResourceMap(FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer> ();
+      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
       int itemCount = rscFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
 
-      for (int loop=0; loop < itemCount; loop++)
+      for (int loop = 0; loop < itemCount; loop++)
       {
          data = rscFixedData.getByteArrayValue(loop);
          if (data != null && data.length > 4)
          {
-            uniqueID = MPPUtility.getShort (data, 0);
+            uniqueID = MPPUtility.getShort(data, 0);
             resourceMap.put(Integer.valueOf(uniqueID), Integer.valueOf(loop));
          }
       }
@@ -1328,16 +1320,15 @@ final class MPP9Reader implements MPPVariantReader
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
     */
-   private void processCalendarData ()
-      throws IOException
+   private void processCalendarData() throws IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCal");
-      VarMeta calVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream (((DocumentEntry)calDir.getEntry("Var2Data"))));
-      FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
+      DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
+      VarMeta calVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
+      Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream(((DocumentEntry) calDir.getEntry("Var2Data"))));
+      FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
+      FixedData calFixedData = new FixedData(calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
 
-      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
+      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
       byte[] fixedData;
       byte[] varData;
@@ -1348,7 +1339,7 @@ final class MPP9Reader implements MPPVariantReader
       ProjectCalendar cal;
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
 
-      for (int loop=0; loop < items; loop++)
+      for (int loop = 0; loop < items; loop++)
       {
          fixedData = calFixedData.getByteArrayValue(loop);
          if (fixedData.length >= 8)
@@ -1359,17 +1350,16 @@ final class MPP9Reader implements MPPVariantReader
             // Bug 890909, here we ensure that we have a complete 12 byte
             // block before attempting to process the data.
             //
-            while (offset+12 <= fixedData.length)
+            while (offset + 12 <= fixedData.length)
             {
-               calendarID = Integer.valueOf(MPPUtility.getInt (fixedData, offset+0));
-               baseCalendarID = MPPUtility.getInt(fixedData, offset+4);
+               calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
+               baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
 
                // Ignore invalid and duplicate IDs.
-               if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 &&
-            	   calendarMap.containsKey(calendarID) == false)
+               if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 && calendarMap.containsKey(calendarID) == false)
                {
-                  varData = calVarData.getByteArray (calendarID, CALENDAR_DATA);
-                 
+                  varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
+
                   if (baseCalendarID == -1)
                   {
                      if (varData != null)
@@ -1381,7 +1371,7 @@ final class MPP9Reader implements MPPVariantReader
                         cal = m_file.addDefaultBaseCalendar();
                      }
 
-                     cal.setName(calVarData.getUnicodeString (calendarID, CALENDAR_NAME));
+                     cal.setName(calVarData.getUnicodeString(calendarID, CALENDAR_NAME));
                   }
                   else
                   {
@@ -1395,19 +1385,19 @@ final class MPP9Reader implements MPPVariantReader
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset+8));
-                     m_resourceMap.put (resourceID, cal);
+                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
+                     m_resourceMap.put(resourceID, cal);
                   }
 
                   cal.setUniqueID(calendarID);
 
                   if (varData != null)
                   {
-                     processCalendarHours (varData, cal, baseCalendarID == -1);
-                     processCalendarExceptions (varData, cal);
+                     processCalendarHours(varData, cal, baseCalendarID == -1);
+                     processCalendarExceptions(varData, cal);
                   }
 
-                  calendarMap.put (calendarID, cal);
+                  calendarMap.put(calendarID, cal);
                }
 
                offset += 12;
@@ -1415,7 +1405,7 @@ final class MPP9Reader implements MPPVariantReader
          }
       }
 
-      updateBaseCalendarNames (baseCalendars, calendarMap);
+      updateBaseCalendarNames(baseCalendars, calendarMap);
    }
 
    /**
@@ -1427,12 +1417,12 @@ final class MPP9Reader implements MPPVariantReader
     * @param cal calendar instance
     * @param isBaseCalendar true if this is a base calendar
     */
-   private void processCalendarHours (byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
+   private void processCalendarHours(byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
    {
-	  // Dump out the calendar related data and fields.
+      // Dump out the calendar related data and fields.
       //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
 
-	  int offset;
+      int offset;
       ProjectCalendarHours hours;
       int periodCount;
       int periodIndex;
@@ -1442,11 +1432,11 @@ final class MPP9Reader implements MPPVariantReader
       long duration;
       Day day;
 
-      for (index=0; index < 7; index++)
+      for (index = 0; index < 7; index++)
       {
          offset = 4 + (60 * index);
-         defaultFlag = MPPUtility.getShort (data, offset);
-         day = Day.getInstance(index+1);
+         defaultFlag = MPPUtility.getShort(data, offset);
+         day = Day.getInstance(index + 1);
 
          if (defaultFlag == 1)
          {
@@ -1455,7 +1445,7 @@ final class MPP9Reader implements MPPVariantReader
                cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                if (cal.isWorkingDay(day) == true)
                {
-                  hours = cal.addCalendarHours(Day.getInstance(index+1));
+                  hours = cal.addCalendarHours(Day.getInstance(index + 1));
                   hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START1, ProjectCalendar.DEFAULT_END1));
                   hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START2, ProjectCalendar.DEFAULT_END2));
                }
@@ -1467,7 +1457,7 @@ final class MPP9Reader implements MPPVariantReader
          }
          else
          {
-            periodCount = MPPUtility.getShort (data, offset+2);
+            periodCount = MPPUtility.getShort(data, offset + 2);
             if (periodCount == 0)
             {
                cal.setWorkingDay(day, false);
@@ -1475,19 +1465,18 @@ final class MPP9Reader implements MPPVariantReader
             else
             {
                cal.setWorkingDay(day, true);
-               hours = cal.addCalendarHours(Day.getInstance(index+1));
+               hours = cal.addCalendarHours(Day.getInstance(index + 1));
 
-               for (periodIndex=0; periodIndex < periodCount; periodIndex++)
+               for (periodIndex = 0; periodIndex < periodCount; periodIndex++)
                {
-                  start = MPPUtility.getTime (data, offset + 8 + (periodIndex * 2));
-                  duration = MPPUtility.getDuration (data, offset + 20 + (periodIndex * 4));
-                  hours.addRange(new DateRange (start, new Date (start.getTime()+duration)));
+                  start = MPPUtility.getTime(data, offset + 8 + (periodIndex * 2));
+                  duration = MPPUtility.getDuration(data, offset + 20 + (periodIndex * 4));
+                  hours.addRange(new DateRange(start, new Date(start.getTime() + duration)));
                }
             }
          }
       }
    }
-
 
    /**
     * This method extracts any exceptions associated with a calendar.
@@ -1495,12 +1484,12 @@ final class MPP9Reader implements MPPVariantReader
     * @param data calendar data block
     * @param cal calendar instance
     */
-   private void processCalendarExceptions (byte[] data, ProjectCalendar cal)
+   private void processCalendarExceptions(byte[] data, ProjectCalendar cal)
    {
       //
       // Handle any exceptions
       //
-      int exceptionCount = MPPUtility.getShort (data, 0);
+      int exceptionCount = MPPUtility.getShort(data, 0);
 
       if (exceptionCount != 0)
       {
@@ -1511,32 +1500,31 @@ final class MPP9Reader implements MPPVariantReader
          int periodCount;
          Date start;
 
-         for (index=0; index < exceptionCount; index++)
+         for (index = 0; index < exceptionCount; index++)
          {
             offset = 4 + (60 * 7) + (index * 64);
             exception = cal.addCalendarException();
-            exception.setFromDate(MPPUtility.getDate (data, offset));
-            exception.setToDate(MPPUtility.getDate (data, offset+2));
+            exception.setFromDate(MPPUtility.getDate(data, offset));
+            exception.setToDate(MPPUtility.getDate(data, offset + 2));
 
-            periodCount = MPPUtility.getShort (data, offset+6);
+            periodCount = MPPUtility.getShort(data, offset + 6);
             if (periodCount == 0)
             {
-               exception.setWorking (false);
+               exception.setWorking(false);
             }
             else
             {
-               exception.setWorking (true);
-               for (int exceptionPeriodIndex=0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
+               exception.setWorking(true);
+               for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                {
-                  start = MPPUtility.getTime (data, offset+12+(exceptionPeriodIndex*2));
-                  duration = MPPUtility.getDuration (data, offset+24+(exceptionPeriodIndex*4));
-                  exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-               }                     
+                  start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
+                  duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
+                  exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+               }
             }
          }
       }
    }
-
 
    /**
     * The way calendars are stored in an MPP9 file means that there
@@ -1549,9 +1537,9 @@ final class MPP9Reader implements MPPVariantReader
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
+   private void updateBaseCalendarNames(List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
    {
-      for (Pair<ProjectCalendar, Integer> pair : baseCalendars) 
+      for (Pair<ProjectCalendar, Integer> pair : baseCalendars)
       {
          ProjectCalendar cal = pair.getFirst();
          Integer baseCalendarID = pair.getSecond();
@@ -1562,8 +1550,8 @@ final class MPP9Reader implements MPPVariantReader
          }
          else
          {
-        	 // Remove invalid calendar to avoid serious problems later.
-        	 m_file.removeCalendar(cal);
+            // Remove invalid calendar to avoid serious problems later.
+            m_file.removeCalendar(cal);
          }
       }
    }
@@ -1580,20 +1568,19 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @throws IOException
     */
-   private void processTaskData ()
-      throws IOException
+   private void processTaskData() throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndTask");
-      VarMeta taskVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
-      Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
-      FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData (taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768, MINIMUM_EXPECTED_TASK_SIZE);
+      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
+      VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
+      Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
+      FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
+      FixedData taskFixedData = new FixedData(taskFixedMeta, getEncryptableInputStream(taskDir, "FixedData"), 768, MINIMUM_EXPECTED_TASK_SIZE);
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
       //System.out.println(taskVarData);
-      
-      TreeMap<Integer, Integer> taskMap = createTaskMap (taskFixedMeta, taskFixedData);
+
+      TreeMap<Integer, Integer> taskMap = createTaskMap(taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
@@ -1606,12 +1593,12 @@ final class MPP9Reader implements MPPVariantReader
       boolean autoWBS = true;
       LinkedList<Task> externalTasks = new LinkedList<Task>();
       RecurringTaskReader recurringTaskReader = null;
-      RTFUtility rtf = new RTFUtility ();
+      RTFUtility rtf = new RTFUtility();
       String notes;
 
-      for (int loop=0; loop < uniqueid.length; loop++)
+      for (int loop = 0; loop < uniqueid.length; loop++)
       {
-         id = (Integer)uniqueid[loop];
+         id = (Integer) uniqueid[loop];
 
          offset = taskMap.get(id);
          if (taskFixedData.isValidOffset(offset) == false)
@@ -1625,11 +1612,11 @@ final class MPP9Reader implements MPPVariantReader
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(id);
-            task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
             //System.out.println(task);
             continue;
          }
-               
+
          if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
          {
             continue;
@@ -1642,118 +1629,117 @@ final class MPP9Reader implements MPPVariantReader
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
-         
-         Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4))); 
+
+         Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          if (temp != null)
          {
-        	 // Task with this id already exists... determine if this is the 'real' task by seeing
-        	 // if this task has some var data. This is sort of hokey, but it's the best method i have
-        	 // been able to see.
-        	 if (taskVarMeta.getUniqueIdentifierSet().contains(id))
-        	 {
-        		 // Since this new task contains var data, we are going to assume the first one is
-        		 // a deleted task and this is the real one.
-        		 m_file.removeTask(temp);
-        	 }
-        	 else
-        	 {
-	        	 // Sometimes Project contains phantom tasks that co-exist on the same id as a valid
-	        	 // task. In this case don't want to include the phantom task. Seems to be a very rare case.        	
-	        	 continue;
-        	 }
+            // Task with this id already exists... determine if this is the 'real' task by seeing
+            // if this task has some var data. This is sort of hokey, but it's the best method i have
+            // been able to see.
+            if (taskVarMeta.getUniqueIdentifierSet().contains(id))
+            {
+               // Since this new task contains var data, we are going to assume the first one is
+               // a deleted task and this is the real one.
+               m_file.removeTask(temp);
+            }
+            else
+            {
+               // Sometimes Project contains phantom tasks that co-exist on the same id as a valid
+               // task. In this case don't want to include the phantom task. Seems to be a very rare case.        	
+               continue;
+            }
          }
-              
+
          task = m_file.addTask();
-         task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
-         task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
-         task.setActualFinish(MPPUtility.getTimestamp (data, 100));
-         task.setActualOvertimeCost (NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
-         task.setActualOvertimeWork(Duration.getInstance (taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK)/60000, TimeUnit.HOURS));
-         task.setActualStart(MPPUtility.getTimestamp (data, 96));
-         task.setActualWork(Duration.getInstance (MPPUtility.getDouble (data, 184)/60000, TimeUnit.HOURS));
+         task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 216) / 100));
+         task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+         task.setActualFinish(MPPUtility.getTimestamp(data, 100));
+         task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
+         task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
+         task.setActualStart(MPPUtility.getTimestamp(data, 96));
+         task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 184) / 60000, TimeUnit.HOURS));
          //task.setACWP(); // Calculated value
          //task.setAssignment(); // Calculated value
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
-         task.setBaselineCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
-         task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
-         task.setBaselineFinish(MPPUtility.getTimestamp (data, 108));
-         task.setBaselineStart(MPPUtility.getTimestamp (data, 104));
-         task.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 232) / 100));
+         task.setBaselineDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 78))));
+         task.setBaselineFinish(MPPUtility.getTimestamp(data, 108));
+         task.setBaselineStart(MPPUtility.getTimestamp(data, 104));
+         task.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 176) / 60000, TimeUnit.HOURS));
 
-// From MS Project 2003
-//         task.setBaseline1Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
-//         task.setBaseline1Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
-//         task.setBaseline1Finish(MPPUtility.getTimestamp (data, 108));
-//         task.setBaseline1Start(MPPUtility.getTimestamp (data, 104));
-//         task.setBaseline1Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
-// to...
-//         task.setBaseline10Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
-//         task.setBaseline10Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
-//         task.setBaseline10Finish(MPPUtility.getTimestamp (data, 108));
-//         task.setBaseline10Start(MPPUtility.getTimestamp (data, 104));
-//         task.setBaseline10Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
-
+         // From MS Project 2003
+         //         task.setBaseline1Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
+         //         task.setBaseline1Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
+         //         task.setBaseline1Finish(MPPUtility.getTimestamp (data, 108));
+         //         task.setBaseline1Start(MPPUtility.getTimestamp (data, 104));
+         //         task.setBaseline1Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+         // to...
+         //         task.setBaseline10Cost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
+         //         task.setBaseline10Duration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
+         //         task.setBaseline10Finish(MPPUtility.getTimestamp (data, 108));
+         //         task.setBaseline10Start(MPPUtility.getTimestamp (data, 104));
+         //         task.setBaseline10Work(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
 
          //task.setBCWP(); // Calculated value
          //task.setBCWS(); // Calculated value
          //task.setConfirmed(); // Calculated value
-         task.setConstraintDate (MPPUtility.getTimestamp (data, 112));
-         task.setConstraintType (ConstraintType.getInstance (MPPUtility.getShort (data, 80)));
-         task.setContact(taskVarData.getUnicodeString (id, TASK_CONTACT));
-         task.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 200) / 100));
+         task.setConstraintDate(MPPUtility.getTimestamp(data, 112));
+         task.setConstraintType(ConstraintType.getInstance(MPPUtility.getShort(data, 80)));
+         task.setContact(taskVarData.getUnicodeString(id, TASK_CONTACT));
+         task.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 200) / 100));
          //task.setCostRateTable(); // Calculated value
          //task.setCostVariance(); // Populated below
-         task.setCost1(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST1) / 100));
-         task.setCost2(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST2) / 100));
-         task.setCost3(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST3) / 100));
-         task.setCost4(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST4) / 100));
-         task.setCost5(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST5) / 100));
-         task.setCost6(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST6) / 100));
-         task.setCost7(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST7) / 100));
-         task.setCost8(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST8) / 100));
-         task.setCost9(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST9) / 100));
-         task.setCost10(NumberUtility.getDouble (taskVarData.getDouble (id, TASK_COST10) / 100));
+         task.setCost1(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST1) / 100));
+         task.setCost2(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST2) / 100));
+         task.setCost3(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST3) / 100));
+         task.setCost4(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST4) / 100));
+         task.setCost5(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST5) / 100));
+         task.setCost6(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST6) / 100));
+         task.setCost7(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST7) / 100));
+         task.setCost8(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST8) / 100));
+         task.setCost9(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST9) / 100));
+         task.setCost10(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_COST10) / 100));
 
-// From MS Project 2003
-//         task.setCPI();
+         // From MS Project 2003
+         //         task.setCPI();
 
-         task.setCreateDate(MPPUtility.getTimestamp (data, 130));
+         task.setCreateDate(MPPUtility.getTimestamp(data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
          //task.setCVPercent(); // Calculate value
-         task.setDate1(taskVarData.getTimestamp (id, TASK_DATE1));
-         task.setDate2(taskVarData.getTimestamp (id, TASK_DATE2));
-         task.setDate3(taskVarData.getTimestamp (id, TASK_DATE3));
-         task.setDate4(taskVarData.getTimestamp (id, TASK_DATE4));
-         task.setDate5(taskVarData.getTimestamp (id, TASK_DATE5));
-         task.setDate6(taskVarData.getTimestamp (id, TASK_DATE6));
-         task.setDate7(taskVarData.getTimestamp (id, TASK_DATE7));
-         task.setDate8(taskVarData.getTimestamp (id, TASK_DATE8));
-         task.setDate9(taskVarData.getTimestamp (id, TASK_DATE9));
-         task.setDate10(taskVarData.getTimestamp (id, TASK_DATE10));
-         task.setDeadline (MPPUtility.getTimestamp (data, 164));
+         task.setDate1(taskVarData.getTimestamp(id, TASK_DATE1));
+         task.setDate2(taskVarData.getTimestamp(id, TASK_DATE2));
+         task.setDate3(taskVarData.getTimestamp(id, TASK_DATE3));
+         task.setDate4(taskVarData.getTimestamp(id, TASK_DATE4));
+         task.setDate5(taskVarData.getTimestamp(id, TASK_DATE5));
+         task.setDate6(taskVarData.getTimestamp(id, TASK_DATE6));
+         task.setDate7(taskVarData.getTimestamp(id, TASK_DATE7));
+         task.setDate8(taskVarData.getTimestamp(id, TASK_DATE8));
+         task.setDate9(taskVarData.getTimestamp(id, TASK_DATE9));
+         task.setDate10(taskVarData.getTimestamp(id, TASK_DATE10));
+         task.setDeadline(MPPUtility.getTimestamp(data, 164));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration (MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (data, 60), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         task.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 60), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          //task.setDurationVariance(); // Calculated value
-         task.setDuration1(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
-         task.setDuration2(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
-         task.setDuration3(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
-         task.setDuration4(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
-         task.setDuration5(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
-         task.setDuration6(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
-         task.setDuration7(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
-         task.setDuration8(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
-         task.setDuration9(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
-         task.setDuration10(MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
-//       From MS Project 2003
-//         task.setEAC();
-         task.setEarlyFinish (MPPUtility.getTimestamp (data, 8));
-         task.setEarlyStart (MPPUtility.getTimestamp (data, 88));
-//       From MS Project 2003
-//         task.setEarnedValueMethod();
+         task.setDuration1(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION1_UNITS))));
+         task.setDuration2(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION2_UNITS))));
+         task.setDuration3(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION3_UNITS))));
+         task.setDuration4(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION4_UNITS))));
+         task.setDuration5(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION5_UNITS))));
+         task.setDuration6(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION6_UNITS))));
+         task.setDuration7(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION7_UNITS))));
+         task.setDuration8(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION8_UNITS))));
+         task.setDuration9(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION9_UNITS))));
+         task.setDuration10(MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_DURATION10_UNITS))));
+         //       From MS Project 2003
+         //         task.setEAC();
+         task.setEarlyFinish(MPPUtility.getTimestamp(data, 8));
+         task.setEarlyStart(MPPUtility.getTimestamp(data, 88));
+         //       From MS Project 2003
+         //         task.setEarnedValueMethod();
          task.setEffortDriven((metaData[11] & 0x10) != 0);
-         task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
+         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, 64)));
          task.setExpanded(((metaData[12] & 0x02) == 0));
          int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
          if (externalTaskID != 0)
@@ -1761,21 +1747,21 @@ final class MPP9Reader implements MPPVariantReader
             task.setExternalTaskID(Integer.valueOf(externalTaskID));
             task.setExternalTask(true);
             externalTasks.add(task);
-         }         
-         task.setFinish (MPPUtility.getTimestamp (data, 8));
-//       From MS Project 2003
+         }
+         task.setFinish(MPPUtility.getTimestamp(data, 8));
+         //       From MS Project 2003
          //task.setFinishVariance(); // Calculated value
-         task.setFinish1(taskVarData.getTimestamp (id, TASK_FINISH1));
-         task.setFinish2(taskVarData.getTimestamp (id, TASK_FINISH2));
-         task.setFinish3(taskVarData.getTimestamp (id, TASK_FINISH3));
-         task.setFinish4(taskVarData.getTimestamp (id, TASK_FINISH4));
-         task.setFinish5(taskVarData.getTimestamp (id, TASK_FINISH5));
-         task.setFinish6(taskVarData.getTimestamp (id, TASK_FINISH6));
-         task.setFinish7(taskVarData.getTimestamp (id, TASK_FINISH7));
-         task.setFinish8(taskVarData.getTimestamp (id, TASK_FINISH8));
-         task.setFinish9(taskVarData.getTimestamp (id, TASK_FINISH9));
-         task.setFinish10(taskVarData.getTimestamp (id, TASK_FINISH10));
-         task.setFixedCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 208) / 100));
+         task.setFinish1(taskVarData.getTimestamp(id, TASK_FINISH1));
+         task.setFinish2(taskVarData.getTimestamp(id, TASK_FINISH2));
+         task.setFinish3(taskVarData.getTimestamp(id, TASK_FINISH3));
+         task.setFinish4(taskVarData.getTimestamp(id, TASK_FINISH4));
+         task.setFinish5(taskVarData.getTimestamp(id, TASK_FINISH5));
+         task.setFinish6(taskVarData.getTimestamp(id, TASK_FINISH6));
+         task.setFinish7(taskVarData.getTimestamp(id, TASK_FINISH7));
+         task.setFinish8(taskVarData.getTimestamp(id, TASK_FINISH8));
+         task.setFinish9(taskVarData.getTimestamp(id, TASK_FINISH9));
+         task.setFinish10(taskVarData.getTimestamp(id, TASK_FINISH10));
+         task.setFixedCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 208) / 100));
          task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 128)));
          task.setFlag1((metaData[37] & 0x20) != 0);
          task.setFlag2((metaData[37] & 0x40) != 0);
@@ -1797,56 +1783,56 @@ final class MPP9Reader implements MPPVariantReader
          task.setFlag18((metaData[39] & 0x40) != 0);
          task.setFlag19((metaData[39] & 0x80) != 0);
          task.setFlag20((metaData[40] & 0x01) != 0);
-         task.setFreeSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
-//       From MS Project 2003
-//         task.setGroupBySummary();
+         task.setFreeSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+         //       From MS Project 2003
+         //         task.setGroupBySummary();
          task.setHideBar((metaData[10] & 0x80) != 0);
-         processHyperlinkData (task, taskVarData.getByteArray(id, TASK_HYPERLINK));
-         task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
-//       From MS Project 2003
+         processHyperlinkData(task, taskVarData.getByteArray(id, TASK_HYPERLINK));
+         task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         //       From MS Project 2003
          task.setIgnoreResourceCalendar(((metaData[10] & 0x02) != 0));
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 152));
          task.setLateStart(MPPUtility.getTimestamp(data, 12));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
-         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));
+         task.setLevelingDelay(MPPUtility.getDuration(((double) MPPUtility.getInt(data, 82)) / 3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 86))));
          //task.setLinkedFields();  // Calculated value
          task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
-         task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
-         task.setNumber1(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER1)));
-         task.setNumber2(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER2)));
-         task.setNumber3(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER3)));
-         task.setNumber4(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER4)));
-         task.setNumber5(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER5)));
-         task.setNumber6(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER6)));
-         task.setNumber7(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER7)));
-         task.setNumber8(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER8)));
-         task.setNumber9(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER9)));
-         task.setNumber10(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER10)));
-         task.setNumber11(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER11)));
-         task.setNumber12(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER12)));
-         task.setNumber13(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER13)));
-         task.setNumber14(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER14)));
-         task.setNumber15(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER15)));
-         task.setNumber16(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER16)));
-         task.setNumber17(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER17)));
-         task.setNumber18(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER18)));
-         task.setNumber19(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER19)));
-         task.setNumber20(NumberUtility.getDouble (taskVarData.getDouble(id, TASK_NUMBER20)));
+         task.setName(taskVarData.getUnicodeString(id, TASK_NAME));
+         task.setNumber1(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER1)));
+         task.setNumber2(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER2)));
+         task.setNumber3(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER3)));
+         task.setNumber4(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER4)));
+         task.setNumber5(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER5)));
+         task.setNumber6(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER6)));
+         task.setNumber7(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER7)));
+         task.setNumber8(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER8)));
+         task.setNumber9(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER9)));
+         task.setNumber10(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER10)));
+         task.setNumber11(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER11)));
+         task.setNumber12(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER12)));
+         task.setNumber13(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER13)));
+         task.setNumber14(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER14)));
+         task.setNumber15(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER15)));
+         task.setNumber16(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER16)));
+         task.setNumber17(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER17)));
+         task.setNumber18(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER18)));
+         task.setNumber19(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER19)));
+         task.setNumber20(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
-         task.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
-         task.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
-         task.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
-         task.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
-         task.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
-         task.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
-         task.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
-         task.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
-         task.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
-         task.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt (id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
-         task.setOutlineLevel (Integer.valueOf(MPPUtility.getShort (data, 40)));
+         task.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE1)), OUTLINECODE_DATA));
+         task.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE2)), OUTLINECODE_DATA));
+         task.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE3)), OUTLINECODE_DATA));
+         task.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE4)), OUTLINECODE_DATA));
+         task.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE5)), OUTLINECODE_DATA));
+         task.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE6)), OUTLINECODE_DATA));
+         task.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE7)), OUTLINECODE_DATA));
+         task.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE8)), OUTLINECODE_DATA));
+         task.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE9)), OUTLINECODE_DATA));
+         task.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(taskVarData.getInt(id, TASK_OUTLINECODE10)), OUTLINECODE_DATA));
+         task.setOutlineLevel(Integer.valueOf(MPPUtility.getShort(data, 40)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
          task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST) / 100));
@@ -1854,49 +1840,49 @@ final class MPP9Reader implements MPPVariantReader
          //task.getPredecessors(); // Calculated value
          task.setPercentageComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 122)));
          task.setPercentageWorkComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 124)));
-//       From MS Project 2003
-//       task.setPhysicalPercentComplete();
+         //       From MS Project 2003
+         //       task.setPhysicalPercentComplete();
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
-         task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 120)));
+         task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 120)));
          //task.setProject(); // Calculated value         
-         task.setRecurring(recurringData!=null);
+         task.setRecurring(recurringData != null);
          //task.setRegularWork(); // Calculated value
-         task.setRemainingCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 224)/100));
-         task.setRemainingDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 224) / 100));
+         task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setRemainingOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_COST) / 100));
-         task.setRemainingOvertimeWork(Duration.getInstance (taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK)/60000, TimeUnit.HOURS));
-         task.setRemainingWork(Duration.getInstance (MPPUtility.getDouble (data, 192)/60000, TimeUnit.HOURS));
+         task.setRemainingOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
+         task.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 192) / 60000, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
          //task.setResourceInitials(); // Calculated value from resource
          //task.setResourceNames(); // Calculated value from resource
          //task.setResourcePhonetics(); // Calculated value from resource
-//       From MS Project 2003
-//         task.setResourceType();
+         //       From MS Project 2003
+         //         task.setResourceType();
          //task.setResponsePending(); // Calculated value
          task.setResume(MPPUtility.getTimestamp(data, 20));
          //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
          task.setRollup((metaData[10] & 0x08) != 0);
-//       From MS Project 2003
-//         task.setSPI();
-         task.setStart (MPPUtility.getTimestamp (data, 88));
-//       From MS Project 2003
-         task.setStartSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         //       From MS Project 2003
+         //         task.setSPI();
+         task.setStart(MPPUtility.getTimestamp(data, 88));
+         //       From MS Project 2003
+         task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          //task.setStartVariance(); // Calculated value
-         task.setStart1(taskVarData.getTimestamp (id, TASK_START1));
-         task.setStart2(taskVarData.getTimestamp (id, TASK_START2));
-         task.setStart3(taskVarData.getTimestamp (id, TASK_START3));
-         task.setStart4(taskVarData.getTimestamp (id, TASK_START4));
-         task.setStart5(taskVarData.getTimestamp (id, TASK_START5));
-         task.setStart6(taskVarData.getTimestamp (id, TASK_START6));
-         task.setStart7(taskVarData.getTimestamp (id, TASK_START7));
-         task.setStart8(taskVarData.getTimestamp (id, TASK_START8));
-         task.setStart9(taskVarData.getTimestamp (id, TASK_START9));
-         task.setStart10(taskVarData.getTimestamp (id, TASK_START10));
-//       From MS Project 2003
-//         task.setStatus();
-//         task.setStatusIndicator();
-         task.setStop(MPPUtility.getTimestamp (data, 16));
+         task.setStart1(taskVarData.getTimestamp(id, TASK_START1));
+         task.setStart2(taskVarData.getTimestamp(id, TASK_START2));
+         task.setStart3(taskVarData.getTimestamp(id, TASK_START3));
+         task.setStart4(taskVarData.getTimestamp(id, TASK_START4));
+         task.setStart5(taskVarData.getTimestamp(id, TASK_START5));
+         task.setStart6(taskVarData.getTimestamp(id, TASK_START6));
+         task.setStart7(taskVarData.getTimestamp(id, TASK_START7));
+         task.setStart8(taskVarData.getTimestamp(id, TASK_START8));
+         task.setStart9(taskVarData.getTimestamp(id, TASK_START9));
+         task.setStart10(taskVarData.getTimestamp(id, TASK_START10));
+         //       From MS Project 2003
+         //         task.setStatus();
+         //         task.setStatusIndicator();
+         task.setStop(MPPUtility.getTimestamp(data, 16));
          //task.setSubprojectFile();
          //task.setSubprojectReadOnly();
          task.setSubprojectTasksUniqueIDOffset(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET)));
@@ -1905,62 +1891,62 @@ final class MPP9Reader implements MPPVariantReader
          //task.setSuccessors(); // Calculated value
          //task.setSummary(); // Automatically generated by MPXJ
          //task.setSV(); // Calculated value
-//       From MS Project 2003
-//         task.setSVPercent();
-//         task.setTCPI();
+         //       From MS Project 2003
+         //         task.setSVPercent();
+         //         task.setTCPI();
          //task.setTeamStatusPending(); // Calculated value
-         task.setText1(taskVarData.getUnicodeString (id, TASK_TEXT1));
-         task.setText2(taskVarData.getUnicodeString (id, TASK_TEXT2));
-         task.setText3(taskVarData.getUnicodeString (id, TASK_TEXT3));
-         task.setText4(taskVarData.getUnicodeString (id, TASK_TEXT4));
-         task.setText5(taskVarData.getUnicodeString (id, TASK_TEXT5));
-         task.setText6(taskVarData.getUnicodeString (id, TASK_TEXT6));
-         task.setText7(taskVarData.getUnicodeString (id, TASK_TEXT7));
-         task.setText8(taskVarData.getUnicodeString (id, TASK_TEXT8));
-         task.setText9(taskVarData.getUnicodeString (id, TASK_TEXT9));
-         task.setText10(taskVarData.getUnicodeString (id, TASK_TEXT10));
-         task.setText11(taskVarData.getUnicodeString (id, TASK_TEXT11));
-         task.setText12(taskVarData.getUnicodeString (id, TASK_TEXT12));
-         task.setText13(taskVarData.getUnicodeString (id, TASK_TEXT13));
-         task.setText14(taskVarData.getUnicodeString (id, TASK_TEXT14));
-         task.setText15(taskVarData.getUnicodeString (id, TASK_TEXT15));
-         task.setText16(taskVarData.getUnicodeString (id, TASK_TEXT16));
-         task.setText17(taskVarData.getUnicodeString (id, TASK_TEXT17));
-         task.setText18(taskVarData.getUnicodeString (id, TASK_TEXT18));
-         task.setText19(taskVarData.getUnicodeString (id, TASK_TEXT19));
-         task.setText20(taskVarData.getUnicodeString (id, TASK_TEXT20));
-         task.setText21(taskVarData.getUnicodeString (id, TASK_TEXT21));
-         task.setText22(taskVarData.getUnicodeString (id, TASK_TEXT22));
-         task.setText23(taskVarData.getUnicodeString (id, TASK_TEXT23));
-         task.setText24(taskVarData.getUnicodeString (id, TASK_TEXT24));
-         task.setText25(taskVarData.getUnicodeString (id, TASK_TEXT25));
-         task.setText26(taskVarData.getUnicodeString (id, TASK_TEXT26));
-         task.setText27(taskVarData.getUnicodeString (id, TASK_TEXT27));
-         task.setText28(taskVarData.getUnicodeString (id, TASK_TEXT28));
-         task.setText29(taskVarData.getUnicodeString (id, TASK_TEXT29));
-         task.setText30(taskVarData.getUnicodeString (id, TASK_TEXT30));
+         task.setText1(taskVarData.getUnicodeString(id, TASK_TEXT1));
+         task.setText2(taskVarData.getUnicodeString(id, TASK_TEXT2));
+         task.setText3(taskVarData.getUnicodeString(id, TASK_TEXT3));
+         task.setText4(taskVarData.getUnicodeString(id, TASK_TEXT4));
+         task.setText5(taskVarData.getUnicodeString(id, TASK_TEXT5));
+         task.setText6(taskVarData.getUnicodeString(id, TASK_TEXT6));
+         task.setText7(taskVarData.getUnicodeString(id, TASK_TEXT7));
+         task.setText8(taskVarData.getUnicodeString(id, TASK_TEXT8));
+         task.setText9(taskVarData.getUnicodeString(id, TASK_TEXT9));
+         task.setText10(taskVarData.getUnicodeString(id, TASK_TEXT10));
+         task.setText11(taskVarData.getUnicodeString(id, TASK_TEXT11));
+         task.setText12(taskVarData.getUnicodeString(id, TASK_TEXT12));
+         task.setText13(taskVarData.getUnicodeString(id, TASK_TEXT13));
+         task.setText14(taskVarData.getUnicodeString(id, TASK_TEXT14));
+         task.setText15(taskVarData.getUnicodeString(id, TASK_TEXT15));
+         task.setText16(taskVarData.getUnicodeString(id, TASK_TEXT16));
+         task.setText17(taskVarData.getUnicodeString(id, TASK_TEXT17));
+         task.setText18(taskVarData.getUnicodeString(id, TASK_TEXT18));
+         task.setText19(taskVarData.getUnicodeString(id, TASK_TEXT19));
+         task.setText20(taskVarData.getUnicodeString(id, TASK_TEXT20));
+         task.setText21(taskVarData.getUnicodeString(id, TASK_TEXT21));
+         task.setText22(taskVarData.getUnicodeString(id, TASK_TEXT22));
+         task.setText23(taskVarData.getUnicodeString(id, TASK_TEXT23));
+         task.setText24(taskVarData.getUnicodeString(id, TASK_TEXT24));
+         task.setText25(taskVarData.getUnicodeString(id, TASK_TEXT25));
+         task.setText26(taskVarData.getUnicodeString(id, TASK_TEXT26));
+         task.setText27(taskVarData.getUnicodeString(id, TASK_TEXT27));
+         task.setText28(taskVarData.getUnicodeString(id, TASK_TEXT28));
+         task.setText29(taskVarData.getUnicodeString(id, TASK_TEXT29));
+         task.setText30(taskVarData.getUnicodeString(id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
          task.setUniqueID(id);
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
-         task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
+         task.setWBS(taskVarData.getUnicodeString(id, TASK_WBS));
          //task.setWBSPredecessors(); // Calculated value
          //task.setWBSSuccessors(); // Calculated value
-         task.setWork(Duration.getInstance (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
+         task.setWork(Duration.getInstance(MPPUtility.getDouble(data, 168) / 60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
 
-         task.setFinishSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
-         
+         task.setFinishSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+
          switch (task.getConstraintType())
          {
             //
             // Adjust the start and finish dates if the task
             // is constrained to start as late as possible.
             //            
-            case AS_LATE_AS_POSSIBLE:
+            case AS_LATE_AS_POSSIBLE :
             {
                if (task.getStart().getTime() < task.getLateStart().getTime())
                {
@@ -1972,23 +1958,23 @@ final class MPP9Reader implements MPPVariantReader
                }
                break;
             }
-            
-            case START_NO_LATER_THAN:
-            case FINISH_NO_LATER_THAN:
+
+            case START_NO_LATER_THAN :
+            case FINISH_NO_LATER_THAN :
             {
                if (task.getFinish().getTime() < task.getStart().getTime())
                {
-                  task.setFinish(task.getLateFinish());                  
+                  task.setFinish(task.getLateFinish());
                }
                break;
             }
-                        
-            default:
+
+            default :
             {
                break;
             }
          }
-         
+
          //
          // Retrieve task recurring data
          //
@@ -2000,11 +1986,11 @@ final class MPP9Reader implements MPPVariantReader
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
          }
-         
+
          //
          // Retrieve the task notes.
          //
-         notes = taskVarData.getString (id, TASK_NOTES);
+         notes = taskVarData.getString(id, TASK_NOTES);
          if (notes != null)
          {
             if (m_reader.getPreserveNoteFormatting() == false)
@@ -2027,7 +2013,7 @@ final class MPP9Reader implements MPPVariantReader
                task.setCalendar(calendar);
             }
          }
-                  
+
          //
          // Set the sub project flag
          //
@@ -2039,13 +2025,13 @@ final class MPP9Reader implements MPPVariantReader
          //
          if (sp != null)
          {
-        	 task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
-        	 if (task.getExternalTask())
-        	 {
-        		 task.setExternalTaskProject(sp.getFullPath());
-        	 }
+            task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
+            if (task.getExternalTask())
+            {
+               task.setExternalTaskProject(sp.getFullPath());
+            }
          }
-         
+
          //
          // If we have a WBS value from the MPP file, don't autogenerate
          //
@@ -2053,11 +2039,11 @@ final class MPP9Reader implements MPPVariantReader
          {
             autoWBS = false;
          }
-         
+
          //
          // If this is a split task, allocate space for the split durations
          //
-         if ((metaData[9]&0x80) == 0)
+         if ((metaData[9] & 0x80) == 0)
          {
             task.setSplits(new LinkedList<DateRange>());
          }
@@ -2067,24 +2053,21 @@ final class MPP9Reader implements MPPVariantReader
          // so let's check for to see if we need to mark this task as a null 
          // task after all.
          //
-         if (task.getName() == null &&        
-            ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) ||
-             (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) ||
-             (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
+         if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
          {
-             m_file.removeTask(task);
-             task = m_file.addTask();
-             task.setNull(true);
-             task.setUniqueID(id);
-             task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
-             continue;
+            m_file.removeTask(task);
+            task = m_file.addTask();
+            task.setNull(true);
+            task.setUniqueID(id);
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+            continue;
          }
-         
+
          //
          // Process any enterprise columns
          //
          processTaskEnterpriseColumns(task, taskVarData);
-         
+
          //
          // Fire the task read event
          //
@@ -2092,12 +2075,12 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(task);
          //dumpUnknownData (task.getName(), UNKNOWN_TASK_DATA, data);         
       }
-      
+
       //
       // Enable auto WBS if necessary
       //
       m_file.setAutoWBS(autoWBS);
-      
+
       //
       // We have now read all of the tasks, so we are in a position
       // to perform post-processing to set up the relevant details
@@ -2105,85 +2088,85 @@ final class MPP9Reader implements MPPVariantReader
       //
       if (!externalTasks.isEmpty())
       {
-         processExternalTasks (externalTasks);
+         processExternalTasks(externalTasks);
       }
    }
-   
+
    /**
     * Extracts task enterprise column values. 
     * 
     * @param task task instance
     * @param taskVarData task var data
     */
-   private void processTaskEnterpriseColumns (Task task, Var2Data taskVarData)
+   private void processTaskEnterpriseColumns(Task task, Var2Data taskVarData)
    {
       byte[] data = taskVarData.getByteArray(task.getUniqueID(), TASK_ENTERPRISE_COLUMNS);
       if (data != null)
       {
-         PropsBlock props = new PropsBlock (data);
+         PropsBlock props = new PropsBlock(data);
          //System.out.println(props);
-         
+
          for (Integer key : props.keySet())
          {
             int keyValue = key.intValue() - MPPTaskField.TASK_FIELD_BASE;
-            TaskField field = MPPTaskField.getInstance(keyValue);        
-            
+            TaskField field = MPPTaskField.getInstance(keyValue);
+
             if (field != null)
             {
                Object value = null;
-               
+
                switch (field.getDataType())
                {
-                  case CURRENCY:
+                  case CURRENCY :
                   {
-                     value = Double.valueOf (props.getDouble(key) / 100);
+                     value = Double.valueOf(props.getDouble(key) / 100);
                      break;
                   }
-               
-                  case DATE:
+
+                  case DATE :
                   {
                      value = props.getTimestamp(key);
                      break;
                   }
-                  
-                  case DURATION:
+
+                  case DURATION :
                   {
                      byte[] durationData = props.getByteArray(key);
-                	  
+
                      switch (field.getValue())
                      {
-                     	case TaskField.BASELINE1_WORK_VALUE:
-                     	case TaskField.BASELINE2_WORK_VALUE:
-                     	case TaskField.BASELINE3_WORK_VALUE:
-                     	case TaskField.BASELINE4_WORK_VALUE:
-                     	case TaskField.BASELINE5_WORK_VALUE:
-                     	case TaskField.BASELINE6_WORK_VALUE:
-                     	case TaskField.BASELINE7_WORK_VALUE:
-                     	case TaskField.BASELINE8_WORK_VALUE:
-                     	case TaskField.BASELINE9_WORK_VALUE:
-                     	case TaskField.BASELINE10_WORK_VALUE:
-                     	{
-                     		double durationValueInHours = MPPUtility.getDouble(durationData)/60000;
-                     		value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-                     		break;
-                     	}
-                     
-                     	default:
-                     	{
-		                     double durationValueInHours = ((double)MPPUtility.getInt(durationData, 0)) / 600; 
-		                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
-		                     Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
-		                     value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
-		                     break;
-                     	}
+                        case TaskField.BASELINE1_WORK_VALUE :
+                        case TaskField.BASELINE2_WORK_VALUE :
+                        case TaskField.BASELINE3_WORK_VALUE :
+                        case TaskField.BASELINE4_WORK_VALUE :
+                        case TaskField.BASELINE5_WORK_VALUE :
+                        case TaskField.BASELINE6_WORK_VALUE :
+                        case TaskField.BASELINE7_WORK_VALUE :
+                        case TaskField.BASELINE8_WORK_VALUE :
+                        case TaskField.BASELINE9_WORK_VALUE :
+                        case TaskField.BASELINE10_WORK_VALUE :
+                        {
+                           double durationValueInHours = MPPUtility.getDouble(durationData) / 60000;
+                           value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                           break;
+                        }
+
+                        default :
+                        {
+                           double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
+                           TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
+                           Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
+                           value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
+                           break;
+                        }
                      }
                      break;
                   }
-                  
-                  case BOOLEAN:               
+
+                  case BOOLEAN :
                   {
-                     field = null;                  
-                     int bits = props.getInt(key);                  
+                     field = null;
+                     int bits = props.getInt(key);
                      task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
                      task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
                      task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
@@ -2206,25 +2189,25 @@ final class MPP9Reader implements MPPVariantReader
                      task.set(TaskField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
                      break;
                   }
-                  
-                  case NUMERIC:
+
+                  case NUMERIC :
                   {
                      value = Double.valueOf(props.getDouble(key));
                      break;
                   }
-                  
-                  case STRING:
+
+                  case STRING :
                   {
                      value = props.getUnicodeString(key);
                      break;
                   }
-                  
-                  default:
+
+                  default :
                   {
                      break;
                   }
                }
-               
+
                task.set(field, value);
             }
          }
@@ -2237,53 +2220,53 @@ final class MPP9Reader implements MPPVariantReader
     * @param resource resource instance
     * @param resourceVarData resource var data
     */
-   private void processResourceEnterpriseColumns (Resource resource, Var2Data resourceVarData)
+   private void processResourceEnterpriseColumns(Resource resource, Var2Data resourceVarData)
    {
       byte[] data = resourceVarData.getByteArray(resource.getUniqueID(), RESOURCE_ENTERPRISE_COLUMNS);
       if (data != null)
       {
-         PropsBlock props = new PropsBlock (data);
+         PropsBlock props = new PropsBlock(data);
          //System.out.println(props);
-         
+
          for (Integer key : props.keySet())
          {
             int keyValue = key.intValue() - MPPResourceField.RESOURCE_FIELD_BASE;
             //System.out.println("Key=" + keyValue);
-            
-            ResourceField field = MPPResourceField.getInstance(keyValue);        
-            
+
+            ResourceField field = MPPResourceField.getInstance(keyValue);
+
             if (field != null)
             {
                Object value = null;
-               
+
                switch (field.getDataType())
                {
-                  case CURRENCY:
+                  case CURRENCY :
                   {
-                     value = Double.valueOf (props.getDouble(key) / 100);
+                     value = Double.valueOf(props.getDouble(key) / 100);
                      break;
                   }
-               
-                  case DATE:
+
+                  case DATE :
                   {
                      value = props.getTimestamp(key);
                      break;
                   }
-                  
-                  case DURATION:
+
+                  case DURATION :
                   {
                      byte[] durationData = props.getByteArray(key);
-                     double durationValueInHours = ((double)MPPUtility.getInt(durationData, 0)) / 600; 
+                     double durationValueInHours = ((double) MPPUtility.getInt(durationData, 0)) / 600;
                      TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getInt(durationData, 4));
                      Duration duration = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
                      value = duration.convertUnits(durationUnits, m_file.getProjectHeader());
                      break;
                   }
-                  
-                  case BOOLEAN:               
+
+                  case BOOLEAN :
                   {
-                     field = null;                  
-                     int bits = props.getInt(key);                  
+                     field = null;
+                     int bits = props.getInt(key);
                      resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00002) != 0));
                      resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00004) != 0));
                      resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00008) != 0));
@@ -2306,32 +2289,31 @@ final class MPP9Reader implements MPPVariantReader
                      resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x100000) != 0));
                      break;
                   }
-                  
-                  case NUMERIC:
+
+                  case NUMERIC :
                   {
                      value = Double.valueOf(props.getDouble(key));
                      break;
                   }
-                  
-                  case STRING:
+
+                  case STRING :
                   {
                      value = props.getUnicodeString(key);
                      break;
                   }
-                  
-                  default:
+
+                  default :
                   {
                      break;
                   }
                }
-               
+
                resource.set(field, value);
             }
          }
-      }      
+      }
    }
 
-   
    /**
     * The project files to which external tasks relate appear not to be
     * held against each task, instead there appears to be the concept
@@ -2342,21 +2324,21 @@ final class MPP9Reader implements MPPVariantReader
     * 
     * @param externalTasks list of tasks marked as external
     */
-   private void processExternalTasks (List<Task> externalTasks)
+   private void processExternalTasks(List<Task> externalTasks)
    {
       //
       // Sort the list of tasks into ID order
       //
       Collections.sort(externalTasks);
-      
+
       //
       // Find any external tasks which don't have a sub project
       // object, and set this attribute using the most recent 
       // value.
       //
       SubProject currentSubProject = null;
-      
-      for(Task currentTask : externalTasks)
+
+      for (Task currentTask : externalTasks)
       {
          SubProject sp = currentTask.getSubProject();
          if (sp == null)
@@ -2367,7 +2349,7 @@ final class MPP9Reader implements MPPVariantReader
          {
             currentSubProject = sp;
          }
-         
+
          if (currentSubProject != null)
          {
             //System.out.println ("Task: " +currentTask.getUniqueID() + " " + currentTask.getName() + " File=" + currentSubProject.getFullPath() + " ID=" + currentTask.getExternalTaskID());
@@ -2375,7 +2357,7 @@ final class MPP9Reader implements MPPVariantReader
          }
       }
    }
-   
+
    /**
     * This method is used to extract the task hyperlink attributes
     * from a block of data and call the appropriate modifier methods
@@ -2384,7 +2366,7 @@ final class MPP9Reader implements MPPVariantReader
     * @param task task instance
     * @param data hyperlink data block
     */
-   private void processHyperlinkData (Task task, byte[] data)
+   private void processHyperlinkData(Task task, byte[] data)
    {
       if (data != null)
       {
@@ -2395,11 +2377,11 @@ final class MPP9Reader implements MPPVariantReader
 
          offset += 12;
          hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length()+1) * 2);
+         offset += ((hyperlink.length() + 1) * 2);
 
          offset += 12;
          address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length()+1) * 2);
+         offset += ((address.length() + 1) * 2);
 
          offset += 12;
          subaddress = MPPUtility.getUnicodeString(data, offset);
@@ -2418,7 +2400,7 @@ final class MPP9Reader implements MPPVariantReader
     * @param resource resource instance
     * @param data hyperlink data block
     */
-   private void processHyperlinkData (Resource resource, byte[] data)
+   private void processHyperlinkData(Resource resource, byte[] data)
    {
       if (data != null)
       {
@@ -2429,11 +2411,11 @@ final class MPP9Reader implements MPPVariantReader
 
          offset += 12;
          hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length()+1) * 2);
+         offset += ((hyperlink.length() + 1) * 2);
 
          offset += 12;
          address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length()+1) * 2);
+         offset += ((address.length() + 1) * 2);
 
          offset += 12;
          subaddress = MPPUtility.getUnicodeString(data, offset);
@@ -2449,13 +2431,12 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @throws IOException
     */
-   private void processConstraintData ()
-      throws IOException
+   private void processConstraintData() throws IOException
    {
-      DirectoryEntry consDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCons");
-      FixedMeta consFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedMeta"))), 10);
-      FixedData consFixedData = new FixedData (consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
-      
+      DirectoryEntry consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
+      FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
+      FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
+
       int count = consFixedMeta.getItemCount();
       int index;
       byte[] data;
@@ -2467,7 +2448,7 @@ final class MPP9Reader implements MPPVariantReader
       int lastConstraintID = -1;
       byte[] metaData;
 
-      for (int loop=0; loop < count; loop++)
+      for (int loop = 0; loop < count; loop++)
       {
          metaData = consFixedMeta.getByteArrayValue(loop);
 
@@ -2481,24 +2462,24 @@ final class MPP9Reader implements MPPVariantReader
             if (index != -1)
             {
                data = consFixedData.getByteArrayValue(index);
-               constraintID = MPPUtility.getInt (data, 0);
+               constraintID = MPPUtility.getInt(data, 0);
                if (constraintID > lastConstraintID)
                {
                   lastConstraintID = constraintID;
-                  int taskID1 = MPPUtility.getInt (data, 4);
-                  int taskID2 = MPPUtility.getInt (data, 8);
+                  int taskID1 = MPPUtility.getInt(data, 4);
+                  int taskID2 = MPPUtility.getInt(data, 8);
 
                   if (taskID1 != taskID2)
                   {
-                     task1 = m_file.getTaskByUniqueID (Integer.valueOf(taskID1));
-                     task2 = m_file.getTaskByUniqueID (Integer.valueOf(taskID2));
+                     task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+                     task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
 
                      if (task1 != null && task2 != null)
                      {
                         rel = task2.addPredecessor(task1);
-                        rel.setType (RelationType.getInstance(MPPUtility.getShort(data, 12)));
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
-                        rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt (data, 16), durationUnits));
+                        rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
+                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
+                        rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
                      }
                   }
                }
@@ -2507,26 +2488,24 @@ final class MPP9Reader implements MPPVariantReader
       }
    }
 
-
    /**
     * This method extracts and collates resource data.
     *
     * @throws IOException
     */
-   private void processResourceData ()
-      throws IOException
+   private void processResourceData() throws IOException
    {
-      DirectoryEntry rscDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndRsc");
-      VarMeta rscVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
-      Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
-      FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData (rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
+      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
+      VarMeta rscVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
+      Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
+      FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
+      FixedData rscFixedData = new FixedData(rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
-      
-      TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
+
+      TreeMap<Integer, Integer> resourceMap = createResourceMap(rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer offset;
@@ -2534,10 +2513,10 @@ final class MPP9Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
 
-      RTFUtility rtf = new RTFUtility ();
+      RTFUtility rtf = new RTFUtility();
       String notes;
-      
-      for (int loop=0; loop < uniqueid.length; loop++)
+
+      for (int loop = 0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
          offset = resourceMap.get(id);
@@ -2551,182 +2530,181 @@ final class MPP9Reader implements MPPVariantReader
          {
             continue;
          }
-         
 
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(rscVarData, id, true, true, true, true, true, true);
-         
+
          resource = m_file.addResource();
 
-         resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
-         resource.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 132)/100));
-         resource.setActualOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 172)/100));
-         resource.setActualOvertimeWork(Duration.getInstance (MPPUtility.getDouble (data, 108)/60000, TimeUnit.HOURS));
-         resource.setActualWork(Duration.getInstance (MPPUtility.getDouble (data, 60)/60000, TimeUnit.HOURS));
+         resource.setAccrueAt(AccrueType.getInstance(MPPUtility.getShort(data, 12)));
+         resource.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 132) / 100));
+         resource.setActualOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 172) / 100));
+         resource.setActualOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 108) / 60000, TimeUnit.HOURS));
+         resource.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 60) / 60000, TimeUnit.HOURS));
          resource.setAvailableFrom(MPPUtility.getTimestamp(data, 20));
          resource.setAvailableTo(MPPUtility.getTimestamp(data, 24));
          //resource.setBaseCalendar();         
-         resource.setBaselineCost(1, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE1_COST) / 100));
-         resource.setBaselineCost(2, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE2_COST) / 100));
-         resource.setBaselineCost(3, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE3_COST) / 100));
-         resource.setBaselineCost(4, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE4_COST) / 100));
-         resource.setBaselineCost(5, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE5_COST) / 100));
-         resource.setBaselineCost(6, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE6_COST) / 100));
-         resource.setBaselineCost(7, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE7_COST) / 100));
-         resource.setBaselineCost(8, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE8_COST) / 100));
-         resource.setBaselineCost(9, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE9_COST) / 100));
-         resource.setBaselineCost(10, NumberUtility.getDouble(rscVarData.getDouble (id, RESOURCE_BASELINE10_COST) / 100));         
-         resource.setBaselineWork(1, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE1_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(2, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE2_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(3, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE3_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(4, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE4_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(5, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE5_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(6, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE6_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(7, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE7_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(8, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE8_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(9, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE9_WORK)/60000, TimeUnit.HOURS));
-         resource.setBaselineWork(10, Duration.getInstance (rscVarData.getDouble (id, RESOURCE_BASELINE10_WORK)/60000, TimeUnit.HOURS));         
-         resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148)/100));
-         resource.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));
-         resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
-         resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140)/100));
-         resource.setCost1(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST1) / 100));
-         resource.setCost2(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST2) / 100));
-         resource.setCost3(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST3) / 100));
-         resource.setCost4(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST4) / 100));
-         resource.setCost5(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST5) / 100));
-         resource.setCost6(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST6) / 100));
-         resource.setCost7(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST7) / 100));
-         resource.setCost8(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST8) / 100));
-         resource.setCost9(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST9) / 100));
-         resource.setCost10(NumberUtility.getDouble (rscVarData.getDouble (id, RESOURCE_COST10) / 100));
-         resource.setCostPerUse(NumberUtility.getDouble(MPPUtility.getDouble(data, 84)/100));
-         resource.setDate1(rscVarData.getTimestamp (id, RESOURCE_DATE1));
-         resource.setDate2(rscVarData.getTimestamp (id, RESOURCE_DATE2));
-         resource.setDate3(rscVarData.getTimestamp (id, RESOURCE_DATE3));
-         resource.setDate4(rscVarData.getTimestamp (id, RESOURCE_DATE4));
-         resource.setDate5(rscVarData.getTimestamp (id, RESOURCE_DATE5));
-         resource.setDate6(rscVarData.getTimestamp (id, RESOURCE_DATE6));
-         resource.setDate7(rscVarData.getTimestamp (id, RESOURCE_DATE7));
-         resource.setDate8(rscVarData.getTimestamp (id, RESOURCE_DATE8));
-         resource.setDate9(rscVarData.getTimestamp (id, RESOURCE_DATE9));
-         resource.setDate10(rscVarData.getTimestamp (id, RESOURCE_DATE10));
-         resource.setDuration1(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION1), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION1_UNITS))));
-         resource.setDuration2(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION2), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION2_UNITS))));
-         resource.setDuration3(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION3), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION3_UNITS))));
-         resource.setDuration4(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION4), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION4_UNITS))));
-         resource.setDuration5(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION5), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION5_UNITS))));
-         resource.setDuration6(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION6), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION6_UNITS))));
-         resource.setDuration7(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION7), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION7_UNITS))));
-         resource.setDuration8(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION8), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION8_UNITS))));
-         resource.setDuration9(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION9), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION9_UNITS))));
-         resource.setDuration10(MPPUtility.getDuration (rscVarData.getInt(id, RESOURCE_DURATION10), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION10_UNITS))));
-         resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
-         resource.setFinish1(rscVarData.getTimestamp (id, RESOURCE_FINISH1));
-         resource.setFinish2(rscVarData.getTimestamp (id, RESOURCE_FINISH2));
-         resource.setFinish3(rscVarData.getTimestamp (id, RESOURCE_FINISH3));
-         resource.setFinish4(rscVarData.getTimestamp (id, RESOURCE_FINISH4));
-         resource.setFinish5(rscVarData.getTimestamp (id, RESOURCE_FINISH5));
-         resource.setFinish6(rscVarData.getTimestamp (id, RESOURCE_FINISH6));
-         resource.setFinish7(rscVarData.getTimestamp (id, RESOURCE_FINISH7));
-         resource.setFinish8(rscVarData.getTimestamp (id, RESOURCE_FINISH8));
-         resource.setFinish9(rscVarData.getTimestamp (id, RESOURCE_FINISH9));
-         resource.setFinish10(rscVarData.getTimestamp (id, RESOURCE_FINISH10));
-         resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
-         processHyperlinkData (resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
-         resource.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
-         resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
+         resource.setBaselineCost(1, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE1_COST) / 100));
+         resource.setBaselineCost(2, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE2_COST) / 100));
+         resource.setBaselineCost(3, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE3_COST) / 100));
+         resource.setBaselineCost(4, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE4_COST) / 100));
+         resource.setBaselineCost(5, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE5_COST) / 100));
+         resource.setBaselineCost(6, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE6_COST) / 100));
+         resource.setBaselineCost(7, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE7_COST) / 100));
+         resource.setBaselineCost(8, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE8_COST) / 100));
+         resource.setBaselineCost(9, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE9_COST) / 100));
+         resource.setBaselineCost(10, NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_BASELINE10_COST) / 100));
+         resource.setBaselineWork(1, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE1_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(2, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE2_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(3, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE3_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(4, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE4_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(5, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE5_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(6, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE6_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(7, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE7_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(8, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE8_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(9, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE9_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineWork(10, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE10_WORK) / 60000, TimeUnit.HOURS));
+         resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148) / 100));
+         resource.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 68) / 60000, TimeUnit.HOURS));
+         resource.setCode(rscVarData.getUnicodeString(id, RESOURCE_CODE));
+         resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140) / 100));
+         resource.setCost1(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST1) / 100));
+         resource.setCost2(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST2) / 100));
+         resource.setCost3(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST3) / 100));
+         resource.setCost4(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST4) / 100));
+         resource.setCost5(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST5) / 100));
+         resource.setCost6(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST6) / 100));
+         resource.setCost7(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST7) / 100));
+         resource.setCost8(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST8) / 100));
+         resource.setCost9(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST9) / 100));
+         resource.setCost10(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_COST10) / 100));
+         resource.setCostPerUse(NumberUtility.getDouble(MPPUtility.getDouble(data, 84) / 100));
+         resource.setDate1(rscVarData.getTimestamp(id, RESOURCE_DATE1));
+         resource.setDate2(rscVarData.getTimestamp(id, RESOURCE_DATE2));
+         resource.setDate3(rscVarData.getTimestamp(id, RESOURCE_DATE3));
+         resource.setDate4(rscVarData.getTimestamp(id, RESOURCE_DATE4));
+         resource.setDate5(rscVarData.getTimestamp(id, RESOURCE_DATE5));
+         resource.setDate6(rscVarData.getTimestamp(id, RESOURCE_DATE6));
+         resource.setDate7(rscVarData.getTimestamp(id, RESOURCE_DATE7));
+         resource.setDate8(rscVarData.getTimestamp(id, RESOURCE_DATE8));
+         resource.setDate9(rscVarData.getTimestamp(id, RESOURCE_DATE9));
+         resource.setDate10(rscVarData.getTimestamp(id, RESOURCE_DATE10));
+         resource.setDuration1(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION1), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION1_UNITS))));
+         resource.setDuration2(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION2), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION2_UNITS))));
+         resource.setDuration3(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION3), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION3_UNITS))));
+         resource.setDuration4(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION4), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION4_UNITS))));
+         resource.setDuration5(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION5), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION5_UNITS))));
+         resource.setDuration6(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION6), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION6_UNITS))));
+         resource.setDuration7(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION7), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION7_UNITS))));
+         resource.setDuration8(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION8), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION8_UNITS))));
+         resource.setDuration9(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION9), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION9_UNITS))));
+         resource.setDuration10(MPPUtility.getDuration(rscVarData.getInt(id, RESOURCE_DURATION10), MPPUtility.getDurationTimeUnits(rscVarData.getShort(id, RESOURCE_DURATION10_UNITS))));
+         resource.setEmailAddress(rscVarData.getUnicodeString(id, RESOURCE_EMAIL));
+         resource.setFinish1(rscVarData.getTimestamp(id, RESOURCE_FINISH1));
+         resource.setFinish2(rscVarData.getTimestamp(id, RESOURCE_FINISH2));
+         resource.setFinish3(rscVarData.getTimestamp(id, RESOURCE_FINISH3));
+         resource.setFinish4(rscVarData.getTimestamp(id, RESOURCE_FINISH4));
+         resource.setFinish5(rscVarData.getTimestamp(id, RESOURCE_FINISH5));
+         resource.setFinish6(rscVarData.getTimestamp(id, RESOURCE_FINISH6));
+         resource.setFinish7(rscVarData.getTimestamp(id, RESOURCE_FINISH7));
+         resource.setFinish8(rscVarData.getTimestamp(id, RESOURCE_FINISH8));
+         resource.setFinish9(rscVarData.getTimestamp(id, RESOURCE_FINISH9));
+         resource.setFinish10(rscVarData.getTimestamp(id, RESOURCE_FINISH10));
+         resource.setGroup(rscVarData.getUnicodeString(id, RESOURCE_GROUP));
+         processHyperlinkData(resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
+         resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         resource.setInitials(rscVarData.getUnicodeString(id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value
          resource.setMaterialLabel(rscVarData.getUnicodeString(id, RESOURCE_MATERIAL_LABEL));
-         resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44)/100));
-         resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));
-         resource.setNtAccount(rscVarData.getUnicodeString (id, RESOURCE_NT_ACCOUNT));
-         resource.setNumber1(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER1)));
-         resource.setNumber2(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER2)));
-         resource.setNumber3(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER3)));
-         resource.setNumber4(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER4)));
-         resource.setNumber5(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER5)));
-         resource.setNumber6(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER6)));
-         resource.setNumber7(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER7)));
-         resource.setNumber8(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER8)));
-         resource.setNumber9(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER9)));
-         resource.setNumber10(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER10)));
-         resource.setNumber11(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER11)));
-         resource.setNumber12(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER12)));
-         resource.setNumber13(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER13)));
-         resource.setNumber14(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER14)));
-         resource.setNumber15(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER15)));
-         resource.setNumber16(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER16)));
-         resource.setNumber17(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER17)));
-         resource.setNumber18(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER18)));
-         resource.setNumber19(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER19)));
-         resource.setNumber20(NumberUtility.getDouble (rscVarData.getDouble(id, RESOURCE_NUMBER20)));
+         resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44) / 100));
+         resource.setName(rscVarData.getUnicodeString(id, RESOURCE_NAME));
+         resource.setNtAccount(rscVarData.getUnicodeString(id, RESOURCE_NT_ACCOUNT));
+         resource.setNumber1(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER1)));
+         resource.setNumber2(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER2)));
+         resource.setNumber3(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER3)));
+         resource.setNumber4(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER4)));
+         resource.setNumber5(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER5)));
+         resource.setNumber6(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER6)));
+         resource.setNumber7(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER7)));
+         resource.setNumber8(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER8)));
+         resource.setNumber9(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER9)));
+         resource.setNumber10(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER10)));
+         resource.setNumber11(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER11)));
+         resource.setNumber12(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER12)));
+         resource.setNumber13(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER13)));
+         resource.setNumber14(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER14)));
+         resource.setNumber15(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER15)));
+         resource.setNumber16(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER16)));
+         resource.setNumber17(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER17)));
+         resource.setNumber18(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER18)));
+         resource.setNumber19(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER19)));
+         resource.setNumber20(NumberUtility.getDouble(rscVarData.getDouble(id, RESOURCE_NUMBER20)));
          //resource.setObjects(); // Calculated value
-         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
-         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
-         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
-         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
-         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
-         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
-         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
-         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
-         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
-         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
+         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
+         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
+         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
+         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
+         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
+         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
+         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
+         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
+         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
+         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
-         resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164)/100));
-         resource.setOvertimeRate(new Rate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
-         resource.setOvertimeWork(Duration.getInstance (MPPUtility.getDouble (data, 76)/60000, TimeUnit.HOURS));
-         resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124)/100));
+         resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164) / 100));
+         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
+         resource.setOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 76) / 60000, TimeUnit.HOURS));
+         resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
-         resource.setRegularWork(Duration.getInstance (MPPUtility.getDouble (data, 100)/60000, TimeUnit.HOURS));
-         resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156)/100));
-         resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180)/100));
-         resource.setRemainingWork(Duration.getInstance (MPPUtility.getDouble (data, 92)/60000, TimeUnit.HOURS));
-         resource.setStandardRate(new Rate (MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
-         resource.setStart1(rscVarData.getTimestamp (id, RESOURCE_START1));
-         resource.setStart2(rscVarData.getTimestamp (id, RESOURCE_START2));
-         resource.setStart3(rscVarData.getTimestamp (id, RESOURCE_START3));
-         resource.setStart4(rscVarData.getTimestamp (id, RESOURCE_START4));
-         resource.setStart5(rscVarData.getTimestamp (id, RESOURCE_START5));
-         resource.setStart6(rscVarData.getTimestamp (id, RESOURCE_START6));
-         resource.setStart7(rscVarData.getTimestamp (id, RESOURCE_START7));
-         resource.setStart8(rscVarData.getTimestamp (id, RESOURCE_START8));
-         resource.setStart9(rscVarData.getTimestamp (id, RESOURCE_START9));
-         resource.setStart10(rscVarData.getTimestamp (id, RESOURCE_START10));
+         resource.setRegularWork(Duration.getInstance(MPPUtility.getDouble(data, 100) / 60000, TimeUnit.HOURS));
+         resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156) / 100));
+         resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180) / 100));
+         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));
+         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
+         resource.setStart1(rscVarData.getTimestamp(id, RESOURCE_START1));
+         resource.setStart2(rscVarData.getTimestamp(id, RESOURCE_START2));
+         resource.setStart3(rscVarData.getTimestamp(id, RESOURCE_START3));
+         resource.setStart4(rscVarData.getTimestamp(id, RESOURCE_START4));
+         resource.setStart5(rscVarData.getTimestamp(id, RESOURCE_START5));
+         resource.setStart6(rscVarData.getTimestamp(id, RESOURCE_START6));
+         resource.setStart7(rscVarData.getTimestamp(id, RESOURCE_START7));
+         resource.setStart8(rscVarData.getTimestamp(id, RESOURCE_START8));
+         resource.setStart9(rscVarData.getTimestamp(id, RESOURCE_START9));
+         resource.setStart10(rscVarData.getTimestamp(id, RESOURCE_START10));
          resource.setSubprojectResourceUniqueID(Integer.valueOf(rscVarData.getInt(id, RESOURCE_SUBPROJECTRESOURCEID)));
-         resource.setText1(rscVarData.getUnicodeString (id, RESOURCE_TEXT1));
-         resource.setText2(rscVarData.getUnicodeString (id, RESOURCE_TEXT2));
-         resource.setText3(rscVarData.getUnicodeString (id, RESOURCE_TEXT3));
-         resource.setText4(rscVarData.getUnicodeString (id, RESOURCE_TEXT4));
-         resource.setText5(rscVarData.getUnicodeString (id, RESOURCE_TEXT5));
-         resource.setText6(rscVarData.getUnicodeString (id, RESOURCE_TEXT6));
-         resource.setText7(rscVarData.getUnicodeString (id, RESOURCE_TEXT7));
-         resource.setText8(rscVarData.getUnicodeString (id, RESOURCE_TEXT8));
-         resource.setText9(rscVarData.getUnicodeString (id, RESOURCE_TEXT9));
-         resource.setText10(rscVarData.getUnicodeString (id, RESOURCE_TEXT10));
-         resource.setText11(rscVarData.getUnicodeString (id, RESOURCE_TEXT11));
-         resource.setText12(rscVarData.getUnicodeString (id, RESOURCE_TEXT12));
-         resource.setText13(rscVarData.getUnicodeString (id, RESOURCE_TEXT13));
-         resource.setText14(rscVarData.getUnicodeString (id, RESOURCE_TEXT14));
-         resource.setText15(rscVarData.getUnicodeString (id, RESOURCE_TEXT15));
-         resource.setText16(rscVarData.getUnicodeString (id, RESOURCE_TEXT16));
-         resource.setText17(rscVarData.getUnicodeString (id, RESOURCE_TEXT17));
-         resource.setText18(rscVarData.getUnicodeString (id, RESOURCE_TEXT18));
-         resource.setText19(rscVarData.getUnicodeString (id, RESOURCE_TEXT19));
-         resource.setText20(rscVarData.getUnicodeString (id, RESOURCE_TEXT20));
-         resource.setText21(rscVarData.getUnicodeString (id, RESOURCE_TEXT21));
-         resource.setText22(rscVarData.getUnicodeString (id, RESOURCE_TEXT22));
-         resource.setText23(rscVarData.getUnicodeString (id, RESOURCE_TEXT23));
-         resource.setText24(rscVarData.getUnicodeString (id, RESOURCE_TEXT24));
-         resource.setText25(rscVarData.getUnicodeString (id, RESOURCE_TEXT25));
-         resource.setText26(rscVarData.getUnicodeString (id, RESOURCE_TEXT26));
-         resource.setText27(rscVarData.getUnicodeString (id, RESOURCE_TEXT27));
-         resource.setText28(rscVarData.getUnicodeString (id, RESOURCE_TEXT28));
-         resource.setText29(rscVarData.getUnicodeString (id, RESOURCE_TEXT29));
-         resource.setText30(rscVarData.getUnicodeString (id, RESOURCE_TEXT30));
-         resource.setType((MPPUtility.getShort(data, 14)==0?ResourceType.WORK:ResourceType.MATERIAL));
+         resource.setText1(rscVarData.getUnicodeString(id, RESOURCE_TEXT1));
+         resource.setText2(rscVarData.getUnicodeString(id, RESOURCE_TEXT2));
+         resource.setText3(rscVarData.getUnicodeString(id, RESOURCE_TEXT3));
+         resource.setText4(rscVarData.getUnicodeString(id, RESOURCE_TEXT4));
+         resource.setText5(rscVarData.getUnicodeString(id, RESOURCE_TEXT5));
+         resource.setText6(rscVarData.getUnicodeString(id, RESOURCE_TEXT6));
+         resource.setText7(rscVarData.getUnicodeString(id, RESOURCE_TEXT7));
+         resource.setText8(rscVarData.getUnicodeString(id, RESOURCE_TEXT8));
+         resource.setText9(rscVarData.getUnicodeString(id, RESOURCE_TEXT9));
+         resource.setText10(rscVarData.getUnicodeString(id, RESOURCE_TEXT10));
+         resource.setText11(rscVarData.getUnicodeString(id, RESOURCE_TEXT11));
+         resource.setText12(rscVarData.getUnicodeString(id, RESOURCE_TEXT12));
+         resource.setText13(rscVarData.getUnicodeString(id, RESOURCE_TEXT13));
+         resource.setText14(rscVarData.getUnicodeString(id, RESOURCE_TEXT14));
+         resource.setText15(rscVarData.getUnicodeString(id, RESOURCE_TEXT15));
+         resource.setText16(rscVarData.getUnicodeString(id, RESOURCE_TEXT16));
+         resource.setText17(rscVarData.getUnicodeString(id, RESOURCE_TEXT17));
+         resource.setText18(rscVarData.getUnicodeString(id, RESOURCE_TEXT18));
+         resource.setText19(rscVarData.getUnicodeString(id, RESOURCE_TEXT19));
+         resource.setText20(rscVarData.getUnicodeString(id, RESOURCE_TEXT20));
+         resource.setText21(rscVarData.getUnicodeString(id, RESOURCE_TEXT21));
+         resource.setText22(rscVarData.getUnicodeString(id, RESOURCE_TEXT22));
+         resource.setText23(rscVarData.getUnicodeString(id, RESOURCE_TEXT23));
+         resource.setText24(rscVarData.getUnicodeString(id, RESOURCE_TEXT24));
+         resource.setText25(rscVarData.getUnicodeString(id, RESOURCE_TEXT25));
+         resource.setText26(rscVarData.getUnicodeString(id, RESOURCE_TEXT26));
+         resource.setText27(rscVarData.getUnicodeString(id, RESOURCE_TEXT27));
+         resource.setText28(rscVarData.getUnicodeString(id, RESOURCE_TEXT28));
+         resource.setText29(rscVarData.getUnicodeString(id, RESOURCE_TEXT29));
+         resource.setText30(rscVarData.getUnicodeString(id, RESOURCE_TEXT30));
+         resource.setType((MPPUtility.getShort(data, 14) == 0 ? ResourceType.WORK : ResourceType.MATERIAL));
          resource.setUniqueID(id);
-         resource.setWork(Duration.getInstance (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
+         resource.setWork(Duration.getInstance(MPPUtility.getDouble(data, 52) / 60000, TimeUnit.HOURS));
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
          resource.setFlag1((metaData[28] & 0x40) != 0);
@@ -2750,7 +2728,7 @@ final class MPP9Reader implements MPPVariantReader
          resource.setFlag19((metaData[30] & 0x80) != 0);
          resource.setFlag20((metaData[31] & 0x01) != 0);
 
-         notes = rscVarData.getString (id, RESOURCE_NOTES);
+         notes = rscVarData.getString(id, RESOURCE_NOTES);
          if (notes != null)
          {
             if (m_reader.getPreserveNoteFormatting() == false)
@@ -2770,31 +2748,29 @@ final class MPP9Reader implements MPPVariantReader
          // Process any enterprise columns
          //
          processResourceEnterpriseColumns(resource, rscVarData);
-         
+
          m_file.fireResourceReadEvent(resource);
       }
    }
-
 
    /**
     * This method extracts and collates resource assignment data.
     *
     * @throws IOException
     */
-   private void processAssignmentData ()
-      throws IOException
+   private void processAssignmentData() throws IOException
    {
-      DirectoryEntry assnDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndAssn");
-      VarMeta assnVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
-      Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
-      FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData (142, getEncryptableInputStream(assnDir, "FixedData"));
+      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
+      VarMeta assnVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
+      Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
+      FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
+      FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
-      
-      for (int loop=0; loop < count; loop++)
+
+      for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
          if (meta[0] != 0)
@@ -2816,25 +2792,25 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
-         Integer taskID = Integer.valueOf(MPPUtility.getInt (data, 4));
-         Task task = m_file.getTaskByUniqueID (taskID);
+         Integer taskID = Integer.valueOf(MPPUtility.getInt(data, 4));
+         Task task = m_file.getTaskByUniqueID(taskID);
 
          if (task != null)
          {
-            Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
-            Resource resource = m_file.getResourceByUniqueID (resourceID);
+            Integer resourceID = Integer.valueOf(MPPUtility.getInt(data, 8));
+            Resource resource = m_file.getResourceByUniqueID(resourceID);
 
             ProjectCalendar calendar = null;
             if (resource != null)
             {
                calendar = resource.getResourceCalendar();
             }
-            
+
             if (calendar == null)
             {
                task.getCalendar();
             }
-            
+
             if (calendar == null)
             {
                String calendarName = m_file.getProjectHeader().getCalendarName();
@@ -2850,25 +2826,25 @@ final class MPP9Reader implements MPPVariantReader
             //System.out.println(timephasedPlanned);
 
             if (task.getSplits() != null && task.getSplits().isEmpty())
-            {              
+            {
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
-            
+
             if (resource != null)
             {
-               ResourceAssignment assignment = task.addResourceAssignment (resource);
-               assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 110)/100));
-               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
-               assignment.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 102)/100));
+               ResourceAssignment assignment = task.addResourceAssignment(resource);
+               assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
+               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
+               assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
                assignment.setFinish(MPPUtility.getTimestamp(data, 16));
                //assignment.setOvertimeWork(); // Can't find in data block
                //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
+               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86)) / 100, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
-               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54))/100));
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54)) / 100));
+               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
                assignment.setTimephasedPlanned(timephasedPlanned);
                assignment.setTimephasedComplete(timephasedComplete);
 
@@ -2895,7 +2871,7 @@ final class MPP9Reader implements MPPVariantReader
     * @param type Duration units value
     * @return boolean Estimated flag
     */
-   private boolean getDurationEstimated (int type)
+   private boolean getDurationEstimated(int type)
    {
       return ((type & DURATION_CONFIRMED_MASK) != 0);
    }
@@ -2905,22 +2881,21 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @throws IOException
     */
-   private void processViewData ()
-      throws IOException
+   private void processViewData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CV_iew");
-      VarMeta viewVarMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData (122, getEncryptableInputStream(dir, "FixedData"));
-      
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
+      VarMeta viewVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData(122, getEncryptableInputStream(dir, "FixedData"));
+
       int items = fixedMeta.getItemCount();
       View view;
-      ViewFactory factory = new ViewFactory9 ();
+      ViewFactory factory = new ViewFactory9();
 
       int lastOffset = -1;
-      for (int loop=0; loop < items; loop++)
-      {        
+      for (int loop = 0; loop < items; loop++)
+      {
          byte[] fm = fixedMeta.getByteArrayValue(loop);
          int offset = MPPUtility.getShort(fm, 4);
          if (offset > lastOffset)
@@ -2934,7 +2909,7 @@ final class MPP9Reader implements MPPVariantReader
             }
             lastOffset = offset;
          }
-      }      
+      }
    }
 
    /**
@@ -2942,20 +2917,19 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @throws IOException
     */
-   private void processTableData ()
-      throws IOException
+   private void processTableData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CTable");
-      FixedData fixedData = new FixedData (110, getEncryptableInputStream(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
+      FixedData fixedData = new FixedData(110, getEncryptableInputStream(dir, "FixedData"));
+      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
       TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
       int items = fixedData.getItemCount();
-      for (int loop=0; loop < items; loop++)
+      for (int loop = 0; loop < items; loop++)
       {
          byte[] data = fixedData.getByteArrayValue(loop);
-         Table table = factory.createTable(m_file, data, varMeta, varData);         
+         Table table = factory.createTable(m_file, data, varMeta, varData);
          m_file.addTable(table);
          //System.out.println(table);
       }
@@ -2966,13 +2940,12 @@ final class MPP9Reader implements MPPVariantReader
     * 
     * @throws IOException
     */
-   private void processFilterData ()
-      throws IOException
-   {           
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CFilter");
-      FixedData fixedData = new FixedData (110, getEncryptableInputStream(dir, "FixedData"), true);
-      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+   private void processFilterData() throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
+      FixedData fixedData = new FixedData(110, getEncryptableInputStream(dir, "FixedData"), true);
+      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
       //System.out.println(fixedMeta);
       //System.out.println(fixedData);
@@ -2988,21 +2961,20 @@ final class MPP9Reader implements MPPVariantReader
     * 
     * @throws IOException
     */
-   private void processGroupData ()
-      throws IOException
+   private void processGroupData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CGrouping");
-      FixedData fixedData = new FixedData (110, getEncryptableInputStream(dir, "FixedData"));
-      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-   
-//      System.out.println(fixedMeta);
-//      System.out.println(fixedData);
-//      System.out.println(varMeta);
-//      System.out.println(varData);  
-      
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
+      FixedData fixedData = new FixedData(110, getEncryptableInputStream(dir, "FixedData"));
+      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+      //      System.out.println(fixedMeta);
+      //      System.out.println(fixedData);
+      //      System.out.println(varMeta);
+      //      System.out.println(varData);  
+
       GroupReader reader = new GroupReader9();
-      reader.process(m_file, fixedData, varData, m_fontBases);      
+      reader.process(m_file, fixedData, varData, m_fontBases);
    }
 
    /**
@@ -3010,20 +2982,19 @@ final class MPP9Reader implements MPPVariantReader
     * 
     * @throws IOException
     */
-   private void processSavedViewState ()
-      throws IOException
-   {           
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CEdl");
-      VarMeta varMeta = new VarMeta9 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+   private void processSavedViewState() throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+      VarMeta varMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       //System.out.println(varMeta);
       //System.out.println(varData);
-      
+
       InputStream is = getEncryptableInputStream(dir, "FixedData");
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
       //System.out.println(MPPUtility.hexdump(fixedData, false, 16, ""));
-      
+
       ViewStateReader reader = new ViewStateReader9();
       reader.process(m_file, varData, fixedData);
    }
@@ -3037,55 +3008,54 @@ final class MPP9Reader implements MPPVariantReader
     * @return new input stream
     * @throws IOException
     */
-   private InputStream getEncryptableInputStream (DirectoryEntry directory, String name)
-      throws IOException
+   private InputStream getEncryptableInputStream(DirectoryEntry directory, String name) throws IOException
    {
-      DocumentEntry entry = (DocumentEntry)directory.getEntry(name);
+      DocumentEntry entry = (DocumentEntry) directory.getEntry(name);
       InputStream stream;
       if (m_file.getEncoded())
       {
          stream = new EncryptedDocumentInputStream(entry);
          // Set the encryption mask
-         ((EncryptedDocumentInputStream)stream).setMask(m_file.getEncryptionCode());
+         ((EncryptedDocumentInputStream) stream).setMask(m_file.getEncryptionCode());
       }
       else
       {
-         stream = new DocumentInputStream (entry);
+         stream = new DocumentInputStream(entry);
       }
-      
+
       return (stream);
    }
-   
-//   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
-//   {
-//      System.out.println (name);
-//      for (int loop=0; loop < spec.length; loop++)
-//      {
-//         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));
-//      }
-//      System.out.println ();
-//   }
 
-//   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
-//   {
-//      {36, 4},
-//      {42, 18},
-//      {116, 4},      
-//      {134, 14},
-//      {144, 4},   
-//      {148, 4},   
-//      {152, 4},   
-//      {156, 4},
-//      {248, 8},
-//   };
+   //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
+   //   {
+   //      System.out.println (name);
+   //      for (int loop=0; loop < spec.length; loop++)
+   //      {
+   //         System.out.println (spec[loop][0] + ": "+ MPPUtility.hexdump(data, spec[loop][0], spec[loop][1], false));
+   //      }
+   //      System.out.println ();
+   //   }
 
-//   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
-//   {
-//      {14, 6},
-//      {108, 16},
-//   };
+   //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
+   //   {
+   //      {36, 4},
+   //      {42, 18},
+   //      {116, 4},      
+   //      {134, 14},
+   //      {144, 4},   
+   //      {148, 4},   
+   //      {152, 4},   
+   //      {156, 4},
+   //      {248, 8},
+   //   };
 
-   private MPPReader m_reader;   
+   //   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
+   //   {
+   //      {14, 6},
+   //      {108, 16},
+   //   };
+
+   private MPPReader m_reader;
    private ProjectFile m_file;
    private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
@@ -3094,17 +3064,17 @@ final class MPP9Reader implements MPPVariantReader
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
-   
+
    // Signals the end of the list of subproject task unique ids
    private static final int SUBPROJECT_LISTEND = 0x00000303;
-   
+
    // Signals that the previous value was for the subproject task unique id
    // TODO: figure out why the different value exist.
    private static final int SUBPROJECT_TASKUNIQUEID0 = 0x00000000;
    private static final int SUBPROJECT_TASKUNIQUEID1 = 0x0B340000;
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
-   
+
    /**
     * Calendar data types.
     */
@@ -3193,9 +3163,9 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer TASK_DURATION10_UNITS = Integer.valueOf(74);
 
    private static final Integer TASK_RECURRING_DATA = Integer.valueOf(76);
-   
+
    private static final Integer TASK_EXTERNAL_TASK_ID = Integer.valueOf(79);
-   
+
    private static final Integer TASK_DATE1 = Integer.valueOf(80);
    private static final Integer TASK_DATE2 = Integer.valueOf(81);
    private static final Integer TASK_DATE3 = Integer.valueOf(82);
@@ -3266,7 +3236,6 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer TASK_NOTES = Integer.valueOf(144);
 
    private static final Integer TASK_ENTERPRISE_COLUMNS = Integer.valueOf(163);
-   
 
    /**
     * Resource data types.
@@ -3398,7 +3367,7 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_OUTLINECODE8 = Integer.valueOf(120);
    private static final Integer RESOURCE_OUTLINECODE9 = Integer.valueOf(121);
    private static final Integer RESOURCE_OUTLINECODE10 = Integer.valueOf(122);
-   
+
    private static final Integer RESOURCE_HYPERLINK = Integer.valueOf(123);
 
    private static final Integer RESOURCE_NOTES = Integer.valueOf(124);
@@ -3413,9 +3382,9 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST8 = Integer.valueOf(132);
    private static final Integer RESOURCE_COST9 = Integer.valueOf(133);
    private static final Integer RESOURCE_COST10 = Integer.valueOf(134);
-   
+
    private static final Integer RESOURCE_ENTERPRISE_COLUMNS = Integer.valueOf(143);
-   
+
    private static final Integer RESOURCE_BASELINE1_WORK = Integer.valueOf(144);
    private static final Integer RESOURCE_BASELINE2_WORK = Integer.valueOf(148);
    private static final Integer RESOURCE_BASELINE3_WORK = Integer.valueOf(152);
@@ -3437,7 +3406,7 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_BASELINE8_COST = Integer.valueOf(173);
    private static final Integer RESOURCE_BASELINE9_COST = Integer.valueOf(177);
    private static final Integer RESOURCE_BASELINE10_COST = Integer.valueOf(181);
-  
+
    private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(1);
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(2);
    private static final Integer TABLE_COLUMN_DATA_BASELINE = null;

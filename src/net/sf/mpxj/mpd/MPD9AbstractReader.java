@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       02/02/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -69,16 +69,16 @@ import net.sf.mpxj.utility.RTFUtility;
  * or from a JDBC database connection.
  */
 abstract class MPD9AbstractReader
-{   
+{
    /**
     * Reads the project header.
     * 
     * @param row project header data
     */
-   protected void processProjectHeader (Row row)
+   protected void processProjectHeader(Row row)
    {
       ProjectHeader header = m_project.getProjectHeader();
-            
+
       header.setCurrencySymbol(row.getString("PROJ_OPT_CURRENCY_SYMBOL"));
       header.setSymbolPosition(MPDUtility.getSymbolPosition(row.getInt("PROJ_OPT_CURRENCY_POSITION")));
       header.setCurrencyDigits(row.getInteger("PROJ_OPT_CURRENCY_DIGITS"));
@@ -108,7 +108,7 @@ abstract class MPD9AbstractReader
       header.setCalendarName(row.getString("PROJ_INFO_CAL_NAME"));
       header.setStartDate(row.getDate("PROJ_INFO_START_DATE"));
       header.setFinishDate(row.getDate("PROJ_INFO_FINISH_DATE"));
-      header.setScheduleFrom(ScheduleFrom.getInstance(1-row.getInt("PROJ_INFO_SCHED_FROM")));
+      header.setScheduleFrom(ScheduleFrom.getInstance(1 - row.getInt("PROJ_INFO_SCHED_FROM")));
       header.setCurrentDate(row.getDate("PROJ_INFO_CURRENT_DATE"));
       //header.setComments();
       //header.setCost();
@@ -169,14 +169,14 @@ abstract class MPD9AbstractReader
       //header.setBaselineForEarnedValue;
       header.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
       //header.setNewTaskStartIsProjectStart();     
-      header.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY")+1));
+      header.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
       //header.setCalculateMultipleCriticalPaths();
       header.setMultipleCriticalPaths(row.getBoolean("PROJ_OPT_MULT_CRITICAL_PATHS"));
-      
+
       //
       // Unused attributes
       //
-      
+
       //    PROJ_OPT_CALC_ACT_COSTS
       //    PROJ_POOL_ATTACHED_TO
       //    PROJ_IS_RES_POOL
@@ -211,7 +211,7 @@ abstract class MPD9AbstractReader
     * 
     * @param row calendar data
     */
-   protected void processCalendar (Row row)
+   protected void processCalendar(Row row)
    {
       Integer uniqueID = row.getInteger("CAL_UID");
       if (NumberUtility.getInt(uniqueID) > 0)
@@ -230,10 +230,10 @@ abstract class MPD9AbstractReader
             {
                cal = m_project.addResourceCalendar();
                m_baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, row.getInteger("CAL_BASE_UID")));
-               m_resourceMap.put (resourceID, cal);            
+               m_resourceMap.put(resourceID, cal);
             }
          }
-         
+
          if (cal != null)
          {
             cal.setUniqueID(uniqueID);
@@ -241,46 +241,45 @@ abstract class MPD9AbstractReader
          }
       }
    }
-      
+
    /**
     * Read calendar hours and exception data.
     * 
     * @param calendar parent calendar
     * @param row calendar hours and exception data
     */
-   protected void processCalendarData (ProjectCalendar calendar, Row row)
+   protected void processCalendarData(ProjectCalendar calendar, Row row)
    {
       int dayIndex = row.getInt("CD_DAY_OR_EXCEPTION");
       if (dayIndex == 0)
       {
-         processCalendarException (calendar, row);
+         processCalendarException(calendar, row);
       }
       else
       {
-         processCalendarHours (calendar, row, dayIndex);
+         processCalendarHours(calendar, row, dayIndex);
       }
    }
-   
+
    /**
     * Process a calendar exception.
     * 
     * @param calendar parent calendar
     * @param row calendar exception data
     */
-   private void processCalendarException (ProjectCalendar calendar, Row row)
+   private void processCalendarException(ProjectCalendar calendar, Row row)
    {
       ProjectCalendarException exception = calendar.addCalendarException();
       exception.setWorking(row.getInt("CD_WORKING") != 0);
       exception.setFromDate(row.getDate("CD_FROM_DATE"));
-      exception.setToDate(row.getDate("CD_TO_DATE"));      
+      exception.setToDate(row.getDate("CD_TO_DATE"));
       exception.addRange(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
       exception.addRange(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
       exception.addRange(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
       exception.addRange(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
-      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));      
+      exception.addRange(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
    }
-   
-   
+
    /**
     * Process calendar hours.
     * 
@@ -288,7 +287,7 @@ abstract class MPD9AbstractReader
     * @param row calendar hours data
     * @param dayIndex day index
     */
-   private void processCalendarHours (ProjectCalendar calendar, Row row, int dayIndex)
+   private void processCalendarHours(ProjectCalendar calendar, Row row, int dayIndex)
    {
       Day day = Day.getInstance(dayIndex);
       boolean working = row.getInt("CD_WORKING") != 0;
@@ -296,44 +295,44 @@ abstract class MPD9AbstractReader
       if (working == true)
       {
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
-         
+
          Date start = row.getDate("CD_FROM_TIME1");
-         Date end = row.getDate("CD_TO_TIME1");                 
+         Date end = row.getDate("CD_TO_TIME1");
          if (start != null && end != null)
          {
             hours.addRange(new DateRange(start, end));
          }
-   
+
          start = row.getDate("CD_FROM_TIME2");
-         end = row.getDate("CD_TO_TIME2");        
+         end = row.getDate("CD_TO_TIME2");
          if (start != null && end != null)
          {
             hours.addRange(new DateRange(start, end));
          }
-   
+
          start = row.getDate("CD_FROM_TIME3");
          end = row.getDate("CD_TO_TIME3");
          if (start != null && end != null)
          {
             hours.addRange(new DateRange(start, end));
          }
-         
+
          start = row.getDate("CD_FROM_TIME4");
          end = row.getDate("CD_TO_TIME4");
          if (start != null && end != null)
          {
             hours.addRange(new DateRange(start, end));
          }
-         
+
          start = row.getDate("CD_FROM_TIME5");
          end = row.getDate("CD_TO_TIME5");
          if (start != null && end != null)
          {
             hours.addRange(new DateRange(start, end));
-         }      
+         }
       }
    }
-   
+
    /**
     * The way calendars are stored in an MPP9 file means that there
     * can be forward references between the base calendar unique ID for a
@@ -342,7 +341,7 @@ abstract class MPD9AbstractReader
     * base calendar unique ID, and now in this method we can convert those
     * ID values into the correct names.
     */
-   protected void updateBaseCalendarNames ()
+   protected void updateBaseCalendarNames()
    {
       for (Pair<ProjectCalendar, Integer> pair : m_baseCalendars)
       {
@@ -355,13 +354,13 @@ abstract class MPD9AbstractReader
          }
       }
    }
-   
+
    /**
     * Process a resource.
     * 
     * @param row resource data
     */
-   protected void processResource (Row row)
+   protected void processResource(Row row)
    {
       Integer uniqueID = row.getInteger("RES_UID");
       if (uniqueID != null && uniqueID.intValue() >= 0)
@@ -464,7 +463,7 @@ abstract class MPD9AbstractReader
          //resource.setIsNull();
          //resource.setLinkedFields();RES_HAS_LINKED_FIELDS = false ( java.lang.Boolean)
          resource.setMaterialLabel(row.getString("RES_MATERIAL_LABEL"));
-         resource.setMaxUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_MAX_UNITS"))*100));
+         resource.setMaxUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_MAX_UNITS")) * 100));
          resource.setName(row.getString("RES_NAME"));
          //resource.setNtAccount();
          //resource.setNumber1();
@@ -501,9 +500,9 @@ abstract class MPD9AbstractReader
          resource.setOverAllocated(row.getBoolean("RES_IS_OVERALLOCATED"));
          resource.setOvertimeCost(row.getCurrency("RES_OVT_COST"));
          resource.setOvertimeRate(new Rate(row.getDouble("RES_OVT_RATE"), TimeUnit.HOURS));
-         resource.setOvertimeRateFormat(TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT")-1));
+         resource.setOvertimeRateFormat(TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
          resource.setOvertimeWork(row.getDuration("RES_OVT_WORK"));
-         resource.setPeakUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_PEAK"))*100));
+         resource.setPeakUnits(Double.valueOf(NumberUtility.getDouble(row.getDouble("RES_PEAK")) * 100));
          //resource.setPercentWorkComplete();
          resource.setPhonetics(row.getString("RES_PHONETICS"));
          resource.setRegularWork(row.getDuration("RES_REG_WORK"));
@@ -513,7 +512,7 @@ abstract class MPD9AbstractReader
          resource.setRemainingWork(row.getDuration("RES_REM_WORK"));
          //resource.setResourceCalendar();RES_CAL_UID = null ( ) // CHECK THIS
          resource.setStandardRate(new Rate(row.getDouble("RES_STD_RATE"), TimeUnit.HOURS));
-         resource.setStandardRateFormat(TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT")-1));
+         resource.setStandardRateFormat(TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
          //resource.setStart();
          //resource.setStart1();
          //resource.setStart2();
@@ -555,11 +554,11 @@ abstract class MPD9AbstractReader
          //resource.setText28();
          //resource.setText29();
          //resource.setText30();
-         resource.setType(row.getBoolean("RES_TYPE")?ResourceType.WORK:ResourceType.MATERIAL);
+         resource.setType(row.getBoolean("RES_TYPE") ? ResourceType.WORK : ResourceType.MATERIAL);
          resource.setUniqueID(uniqueID);
          resource.setWork(row.getDuration("RES_WORK"));
          resource.setWorkGroup(WorkGroup.getInstance(row.getInt("RES_WORKGROUP_MESSAGING")));
-         
+
          String notes = row.getString("RES_RTF_NOTES");
          if (notes != null)
          {
@@ -568,10 +567,10 @@ abstract class MPD9AbstractReader
                notes = m_rtf.strip(notes);
             }
             resource.setNotes(notes);
-         }      
-         
+         }
+
          resource.setResourceCalendar(m_project.getBaseCalendarByUniqueID(row.getInteger("RES_CAL_UID")));
-         
+
          //
          // Calculate the cost variance
          //
@@ -579,22 +578,22 @@ abstract class MPD9AbstractReader
          {
             resource.setCostVariance(NumberUtility.getDouble(resource.getCost().doubleValue() - resource.getBaselineCost().doubleValue()));
          }
-   
+
          //
          // Calculate the work variance
          //
          if (resource.getWork() != null && resource.getBaselineWork() != null)
          {
-            resource.setWorkVariance(Duration.getInstance (resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
+            resource.setWorkVariance(Duration.getInstance(resource.getWork().getDuration() - resource.getBaselineWork().getDuration(), TimeUnit.HOURS));
          }
-         
+
          //
          // Set the overallocated flag
          //
          resource.setOverAllocated(NumberUtility.getDouble(resource.getPeakUnits()) > NumberUtility.getDouble(resource.getMaxUnits()));
-         
+
          m_project.fireResourceReadEvent(resource);
-         
+
          //
          // Unused attributes
          //         
@@ -602,13 +601,13 @@ abstract class MPD9AbstractReader
          //RESERVED_DATA = null ( )             
       }
    }
-   
+
    /**
     * Read a single text field extended attribute.
     * 
     * @param row field data
     */
-   protected void processTextField (Row row)
+   protected void processTextField(Row row)
    {
       processField(row, "TEXT_FIELD_ID", "TEXT_REF_UID", row.getString("TEXT_VALUE"));
    }
@@ -617,8 +616,8 @@ abstract class MPD9AbstractReader
     * Read a single number field extended attribute.
     * 
     * @param row field data
-    */   
-   protected void processNumberField (Row row)
+    */
+   protected void processNumberField(Row row)
    {
       processField(row, "NUM_FIELD_ID", "NUM_REF_UID", row.getDouble("NUM_VALUE"));
    }
@@ -627,8 +626,8 @@ abstract class MPD9AbstractReader
     * Read a single flag field extended attribute.
     * 
     * @param row field data
-    */   
-   protected void processFlagField (Row row)
+    */
+   protected void processFlagField(Row row)
    {
       processField(row, "FLAG_FIELD_ID", "FLAG_REF_UID", Boolean.valueOf(row.getBoolean("FLAG_VALUE")));
    }
@@ -637,8 +636,8 @@ abstract class MPD9AbstractReader
     * Read a single duration field extended attribute.
     * 
     * @param row field data
-    */   
-   protected void processDurationField (Row row)
+    */
+   protected void processDurationField(Row row)
    {
       processField(row, "DUR_FIELD_ID", "DUR_REF_UID", MPDUtility.getAdjustedDuration(m_project, row.getInt("DUR_VALUE"), MPDUtility.getDurationTimeUnits(row.getInt("DUR_FMT"))));
    }
@@ -647,19 +646,19 @@ abstract class MPD9AbstractReader
     * Read a single date field extended attribute.
     * 
     * @param row field data
-    */   
-   protected void processDateField (Row row)
+    */
+   protected void processDateField(Row row)
    {
       processField(row, "DATE_FIELD_ID", "DATE_REF_UID", row.getDate("DATE_VALUE"));
    }
-   
+
    /**
     * Read a single outline code field extended attribute.
     * 
     * @param entityID parent entity
     * @param row field data
     */
-   protected void processOutlineCodeField (Integer entityID, Row row)
+   protected void processOutlineCodeField(Integer entityID, Row row)
    {
       processField(row, "OC_FIELD_ID", entityID, row.getString("OC_NAME"));
    }
@@ -672,11 +671,11 @@ abstract class MPD9AbstractReader
     * @param entityIDColumn column containing the entity ID
     * @param value field value
     */
-   protected void processField (Row row, String fieldIDColumn, String entityIDColumn, Object value)
+   protected void processField(Row row, String fieldIDColumn, String entityIDColumn, Object value)
    {
       processField(row, fieldIDColumn, row.getInteger(entityIDColumn), value);
    }
-   
+
    /**
     * Generic method to process an extended attribute field.
     * 
@@ -685,13 +684,13 @@ abstract class MPD9AbstractReader
     * @param entityID parent entity ID
     * @param value field value
     */
-   protected void processField (Row row, String fieldIDColumn, Integer entityID, Object value)
+   protected void processField(Row row, String fieldIDColumn, Integer entityID, Object value)
    {
       int fieldID = row.getInt(fieldIDColumn);
-      
+
       int prefix = fieldID & 0xFFFF0000;
-      int index = fieldID &0x0000FFFF;
-      
+      int index = fieldID & 0x0000FFFF;
+
       if (prefix == MPPTaskField.TASK_FIELD_BASE)
       {
          TaskField field = MPPTaskField.getInstance(index);
@@ -702,7 +701,7 @@ abstract class MPD9AbstractReader
             {
                if (COST_FIELDS.contains(field))
                {
-                  value = Double.valueOf(((Double)value).doubleValue()/100);
+                  value = Double.valueOf(((Double) value).doubleValue() / 100);
                }
                task.set(field, value);
             }
@@ -718,27 +717,27 @@ abstract class MPD9AbstractReader
             {
                if (COST_FIELDS.contains(field))
                {
-                  value = Double.valueOf(((Double)value).doubleValue()/100);
-               }               
+                  value = Double.valueOf(((Double) value).doubleValue() / 100);
+               }
                resource.set(field, value);
             }
          }
       }
    }
-   
+
    /**
     * Process a task.
     * 
     * @param row task data
     */
-   protected void processTask (Row row)
+   protected void processTask(Row row)
    {
       Integer uniqueID = row.getInteger("TASK_UID");
       if (uniqueID != null && uniqueID.intValue() >= 0)
-      {      
+      {
          Task task = m_project.addTask();
          TimeUnit durationFormat = MPDUtility.getDurationTimeUnits(row.getInt("TASK_DUR_FMT"));
-        
+
          task.setActualCost(row.getCurrency("TASK_ACT_COST"));
          task.setActualDuration(MPDUtility.getAdjustedDuration(m_project, row.getInt("TASK_ACT_DUR"), durationFormat));
          task.setActualFinish(row.getDate("TASK_ACT_FINISH"));
@@ -790,7 +789,7 @@ abstract class MPD9AbstractReader
          //task.setDelay();
          task.setDurationFormat(durationFormat);
          task.setDuration(MPDUtility.getAdjustedDuration(m_project, row.getInt("TASK_DUR"), durationFormat));
-         
+
          //task.setDuration1();
          //task.setDuration2();
          //task.setDuration3();
@@ -801,7 +800,7 @@ abstract class MPD9AbstractReader
          //task.setDuration8();
          //task.setDuration9();
          //task.setDuration10();
-         
+
          task.setDurationVariance(MPDUtility.getAdjustedDuration(m_project, row.getInt("TASK_DUR_VAR"), durationFormat));
          task.setEarlyFinish(row.getDate("TASK_EARLY_FINISH"));
          task.setEarlyStart(row.getDate("TASK_EARLY_START"));
@@ -858,7 +857,7 @@ abstract class MPD9AbstractReader
          task.setLevelAssignments(row.getBoolean("TASK_LEVELING_ADJUSTS_ASSN"));
          task.setLevelingCanSplit(row.getBoolean("TASK_LEVELING_CAN_SPLIT"));
          task.setLevelingDelayFormat(MPDUtility.getDurationTimeUnits(row.getInt("TASK_LEVELING_DELAY_FMT")));
-         task.setLevelingDelay(MPDUtility.getAdjustedDuration(m_project, row.getInt("TASK_LEVELING_DELAY"), task.getLevelingDelayFormat()));         
+         task.setLevelingDelay(MPDUtility.getAdjustedDuration(m_project, row.getInt("TASK_LEVELING_DELAY"), task.getLevelingDelayFormat()));
          //task.setLinkedFields(row.getBoolean("TASK_HAS_LINKED_FIELDS")); @todo FIXME
          task.setMarked(row.getBoolean("TASK_IS_MARKED"));
          task.setMilestone(row.getBoolean("TASK_IS_MILESTONE"));
@@ -972,7 +971,7 @@ abstract class MPD9AbstractReader
          //task.setWBSLevel();
          task.setWork(row.getDuration("TASK_WORK"));
          //task.setWorkVariance();
-   
+
          //TASK_HAS_NOTES = false ( java.lang.Boolean)
          //TASK_RTF_NOTES = null ( )     
          String notes = row.getString("TASK_RTF_NOTES");
@@ -983,16 +982,16 @@ abstract class MPD9AbstractReader
                notes = m_rtf.strip(notes);
             }
             task.setNotes(notes);
-         }    
-         
+         }
+
          //
          // Calculate the cost variance
          //
          if (task.getCost() != null && task.getBaselineCost() != null)
          {
             task.setCostVariance(NumberUtility.getDouble(task.getCost().doubleValue() - task.getBaselineCost().doubleValue()));
-         }         
-         
+         }
+
          //
          // Set default flag values
          //
@@ -1006,7 +1005,7 @@ abstract class MPD9AbstractReader
          task.setFlag8(false);
          task.setFlag9(false);
          task.setFlag10(false);
-         
+
          //
          // If we have a WBS value from the MPD file, don't autogenerate
          //
@@ -1024,13 +1023,13 @@ abstract class MPD9AbstractReader
          }
       }
    }
-   
+
    /**
     * Process a relationship between two tasks.
     * 
     * @param row relationship data
     */
-   protected void processLink (Row row)
+   protected void processLink(Row row)
    {
       Task predecessorTask = m_project.getTaskByUniqueID(row.getInteger("LINK_PRED_UID"));
       Task successorTask = m_project.getTaskByUniqueID(row.getInteger("LINK_SUCC_UID"));
@@ -1044,17 +1043,17 @@ abstract class MPD9AbstractReader
          rel.setDuration(duration);
       }
    }
-   
+
    /**
     * Proces a resource assignment.
     * 
     * @param row resource assignment data
     */
-   protected void processAssignment (Row row)
+   protected void processAssignment(Row row)
    {
       Resource resource = m_project.getResourceByUniqueID(row.getInteger("RES_UID"));
       Task task = m_project.getTaskByUniqueID(row.getInteger("TASK_UID"));
-      
+
       if (task != null && resource != null)
       {
          ResourceAssignment assignment = task.addResourceAssignment(resource);
@@ -1068,17 +1067,17 @@ abstract class MPD9AbstractReader
          //assignment.setPlannedWork();
          assignment.setRemainingWork(row.getDuration("ASSN_REM_WORK"));
          assignment.setStart(row.getDate("ASSN_START_DATE"));
-         assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue()*100.0d));
+         assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue() * 100.0d));
          assignment.setWork(row.getDuration("ASSN_WORK"));
          assignment.setWorkContour(WorkContour.getInstance(row.getInt("ASSN_WORK_CONTOUR")));
       }
    }
-   
+
    /**
     * Carry out any post-processing required to tidy up
     * the data read from the database.
     */
-   protected void postProcessing ()
+   protected void postProcessing()
    {
       //
       // Update the internal structure. We'll take this opportunity to
@@ -1087,13 +1086,13 @@ abstract class MPD9AbstractReader
       //
       m_project.setAutoWBS(m_autoWBS);
       m_project.setAutoOutlineNumber(true);
-      m_project.updateStructure ();
+      m_project.updateStructure();
       m_project.setAutoOutlineNumber(false);
 
       //
       // Perform post-processing to set the summary flag
       //
-      for (Task task: m_project.getAllTasks())
+      for (Task task : m_project.getAllTasks())
       {
          task.setSummary(task.getChildTasks().size() != 0);
       }
@@ -1101,9 +1100,9 @@ abstract class MPD9AbstractReader
       //
       // Ensure that the unique ID counters are correct
       //
-      m_project.updateUniqueCounters();      
+      m_project.updateUniqueCounters();
    }
-   
+
    /**
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.
@@ -1112,11 +1111,10 @@ abstract class MPD9AbstractReader
     * @param nullValue return null if value under test matches this value
     * @return value or null
     */
-//   private Duration getNullOnValue (Duration value, Duration nullValue)
-//   {      
-//      return (value.equals(nullValue)?null:value);
-//   }
-   
+   //   private Duration getNullOnValue (Duration value, Duration nullValue)
+   //   {      
+   //      return (value.equals(nullValue)?null:value);
+   //   }
    /**
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.
@@ -1125,9 +1123,9 @@ abstract class MPD9AbstractReader
     * @param nullValue return null if value under test matches this value
     * @return value or null
     */
-   private Integer getNullOnValue (Integer value, int nullValue)
+   private Integer getNullOnValue(Integer value, int nullValue)
    {
-      return (NumberUtility.getInt(value)==nullValue?null:value);
+      return (NumberUtility.getInt(value) == nullValue ? null : value);
    }
 
    /**
@@ -1137,9 +1135,9 @@ abstract class MPD9AbstractReader
     * @param defaultValue default if value is null
     * @return value
     */
-   public Double getDefaultOnNull (Double value, Double defaultValue)
+   public Double getDefaultOnNull(Double value, Double defaultValue)
    {
-      return (value==null?defaultValue:value);
+      return (value == null ? defaultValue : value);
    }
 
    /**
@@ -1148,22 +1146,22 @@ abstract class MPD9AbstractReader
     * @param value value under test
     * @param defaultValue default if value is null
     * @return value
-    */   
-   public Integer getDefaultOnNull (Integer value, Integer defaultValue)
+    */
+   public Integer getDefaultOnNull(Integer value, Integer defaultValue)
    {
-      return (value==null?defaultValue:value);
+      return (value == null ? defaultValue : value);
    }
-   
+
    /**
     * Sets the ID of the project to be read.
     * 
     * @param projectID project ID
     */
-   public void setProjectID (Integer projectID)
+   public void setProjectID(Integer projectID)
    {
       m_projectID = projectID;
    }
-   
+
    /**
     * This method sets a flag to indicate whether the RTF formatting associated
     * with notes should be preserved or removed. By default the formatting
@@ -1171,22 +1169,22 @@ abstract class MPD9AbstractReader
     *
     * @param preserveNoteFormatting boolean flag
     */
-   public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
+   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
    {
       m_preserveNoteFormatting = preserveNoteFormatting;
    }
-   
+
    protected Integer m_projectID;
-   private boolean m_preserveNoteFormatting;         
+   private boolean m_preserveNoteFormatting;
    protected ProjectFile m_project;
    private Map<Integer, ProjectCalendar> m_calendarMap = new HashMap<Integer, ProjectCalendar>();
    private List<Pair<ProjectCalendar, Integer>> m_baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
-   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
-   private RTFUtility m_rtf = new RTFUtility ();      
+   private Map<Integer, ProjectCalendar> m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+   private RTFUtility m_rtf = new RTFUtility();
    private boolean m_autoWBS = true;
-   
+
    //private static final Duration ZERO_DURATION = Duration.getInstance(0, TimeUnit.HOURS);
-   
+
    private static final Set<FieldType> COST_FIELDS = new HashSet<FieldType>();
    static
    {
@@ -1213,7 +1211,6 @@ abstract class MPD9AbstractReader
    }
 }
 
-
 /*
 TASK_VAC = 0.0 ( java.lang.Double)
 EXT_EDIT_REF_DATA = null ( )
@@ -1223,5 +1220,5 @@ TASK_IS_RECURRING_SUMMARY = false ( java.lang.Boolean)
 TASK_IS_READONLY_SUBPROJ = false ( java.lang.Boolean)
 TASK_BASE_DUR_FMT = 39 ( java.lang.Short)
 TASK_WBS_RIGHTMOST_LEVEL = null ( )
-*/   
+*/
 

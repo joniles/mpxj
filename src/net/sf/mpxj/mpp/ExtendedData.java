@@ -42,9 +42,9 @@ final class ExtendedData
     * @param varData Var data block
     * @param offset Offset of extended data within the var data block
     */
-   ExtendedData (FixDeferFix varData, int offset)
+   ExtendedData(FixDeferFix varData, int offset)
    {
-      m_data= varData;
+      m_data = varData;
       byte[] data = varData.getByteArray(offset);
 
       if (data != null)
@@ -73,7 +73,7 @@ final class ExtendedData
     * @param type Type identifier
     * @return string value
     */
-   public String getString (Integer type)
+   public String getString(Integer type)
    {
       String result = null;
 
@@ -92,11 +92,11 @@ final class ExtendedData
     * @param type Type identifier
     * @return string value
     */
-   public String getUnicodeString (Integer type)
+   public String getUnicodeString(Integer type)
    {
       String result = null;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = m_data.getUnicodeString(getOffset(item));
@@ -111,11 +111,11 @@ final class ExtendedData
     * @param type Type identifier
     * @return short int value
     */
-   public int getShort (Integer type)
+   public int getShort(Integer type)
    {
       int result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getShort(item);
@@ -130,11 +130,11 @@ final class ExtendedData
     * @param type Type identifier
     * @return integer value
     */
-   public int getInt (Integer type)
+   public int getInt(Integer type)
    {
       int result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getInt(item);
@@ -149,11 +149,11 @@ final class ExtendedData
     * @param type Type identifier
     * @return long value
     */
-   public long getLong (Integer type)
+   public long getLong(Integer type)
    {
       long result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getLong6(item);
@@ -168,11 +168,11 @@ final class ExtendedData
     * @param type Type identifier
     * @return double value
     */
-   public double getDouble (Integer type)
+   public double getDouble(Integer type)
    {
       double result = 0;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getDouble(item);
@@ -187,11 +187,11 @@ final class ExtendedData
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTimestamp (Integer type)
+   public Date getTimestamp(Integer type)
    {
       Date result = null;
 
-      byte[] item = m_map.get (type);
+      byte[] item = m_map.get(type);
       if (item != null)
       {
          result = MPPUtility.getTimestamp(item);
@@ -206,18 +206,18 @@ final class ExtendedData
     * @param type data type
     * @return byte array
     */
-   public byte[] getByteArray (Integer type)
+   public byte[] getByteArray(Integer type)
    {
       return (m_map.get(type));
    }
-   
+
    /**
     * Convert an integer into an offset.
     *
     * @param data four byte integer value
     * @return offset value
     */
-   private int getOffset (byte[] data)
+   private int getOffset(byte[] data)
    {
       return (-1 - MPPUtility.getInt(data));
    }
@@ -228,26 +228,26 @@ final class ExtendedData
     *
     * @return string representation of extended data block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN ExtendedData");
+      pw.println("BEGIN ExtendedData");
 
-      for (Integer type: m_map.keySet())
+      for (Integer type : m_map.keySet())
       {
          byte[] item = m_map.get(type);
-         pw.println ("Type: " + type + " Data:" + MPPUtility.hexdump(item, false));
+         pw.println("Type: " + type + " Data:" + MPPUtility.hexdump(item, false));
       }
 
-      pw.println ("END ExtendedData");
-      pw.println ();
+      pw.println("END ExtendedData");
+      pw.println();
       pw.close();
 
       return (sw.toString());
    }
 
    private FixDeferFix m_data;
-   private HashMap<Integer, byte[]> m_map = new HashMap<Integer, byte[]> ();
+   private HashMap<Integer, byte[]> m_map = new HashMap<Integer, byte[]>();
 }

@@ -29,7 +29,6 @@ import java.io.InputStream;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 
-
 /**
  * This interface is implemented by all classes which can read project
  * files of any type and generate an ProjectFile instance from the contents
@@ -44,8 +43,7 @@ public interface ProjectReader
     * @return ProjectFile instance
     * @throws MPXJException
     */
-   public ProjectFile read (String fileName)
-      throws MPXJException;
+   public ProjectFile read(String fileName) throws MPXJException;
 
    /**
     * Read a file where a File instance is supplied.
@@ -54,8 +52,7 @@ public interface ProjectReader
     * @return ProjectFile instance
     * @throws MPXJException
     */
-   public ProjectFile read (File file)
-      throws MPXJException;
+   public ProjectFile read(File file) throws MPXJException;
 
    /**
     * Read a file where the contents of the project file
@@ -65,6 +62,5 @@ public interface ProjectReader
     * @return ProjectFile instance
     * @throws MPXJException
     */
-   public ProjectFile read (InputStream inputStream)
-      throws MPXJException;
+   public ProjectFile read(InputStream inputStream) throws MPXJException;
 }

@@ -36,119 +36,117 @@ public enum ProjectDateFormat implements MpxjEnum
    /**
     * This format represents dates in the form 25/12/98 12:56.
     */
-   DD_MM_YY_HH_MM (0),
+   DD_MM_YY_HH_MM(0),
 
    /**
     * This format represents dates in the form 25/05/98.
     */
-   DD_MM_YY (1),
+   DD_MM_YY(1),
 
    /**
     * This format represents dates in the form 13 December 2002 12:56.
     */
-   DD_MMMMM_YYYY_HH_MM (2),
+   DD_MMMMM_YYYY_HH_MM(2),
 
    /**
     * This format represents dates in the form 13 December 2002.
     */
-   DD_MMMMM_YYYY (3),
+   DD_MMMMM_YYYY(3),
 
    /**
     * This format represents dates in the form 24 Nov 12:56.
     */
-   DD_MMM_HH_MM (4),
+   DD_MMM_HH_MM(4),
 
    /**
     * This format represents dates in the form 25 Aug '98.
     */
-   DD_MMM_YY (5),
+   DD_MMM_YY(5),
 
    /**
     * This format represents dates in the form 25 September.
     */
-   DD_MMMMM (6),
+   DD_MMMMM(6),
 
    /**
     * This format represents dates in the form 25 Aug.
     */
-   DD_MMM (7),
+   DD_MMM(7),
 
    /**
     * This format represents dates in the form Thu 25/05/98 12:56.
     */
-   EEE_DD_MM_YY_HH_MM (8),
+   EEE_DD_MM_YY_HH_MM(8),
 
    /**
     * This format represents dates in the form Wed 25/05/98.
     */
-   EEE_DD_MM_YY (9),
+   EEE_DD_MM_YY(9),
 
    /**
     * This format represents dates in the form Wed 25 Mar '98.
     */
-   EEE_DD_MMM_YY (10),
+   EEE_DD_MMM_YY(10),
 
    /**
     * This format represents dates in the form Wed 12:56.
     */
-   EEE_HH_MM (11),
+   EEE_HH_MM(11),
 
    /**
     * This format represents dates in the form 25/5.
     */
-   DD_MM (12),
+   DD_MM(12),
 
    /**
     * This format represents dates in the form 23.
     */
-   DD (13),
+   DD(13),
 
    /**
     * This format represents dates in the form 12:56.
     */
-   HH_MM (14),
+   HH_MM(14),
 
    /**
     * This format represents dates in the form Wed 23 Mar..
     */
-   EEE_DD_MMM (15),
+   EEE_DD_MMM(15),
 
    /**
     * This format represents dates in the form Wed 25/5.
     */
-   EEE_DD_MM (16),
+   EEE_DD_MM(16),
 
    /**
     * This format represents dates in the form Wed 05.
     */
-   EEE_DD (17),
+   EEE_DD(17),
 
    /**
     * This format represents dates in the form 5/W25.
     */
-   DD_WWW (18),
+   DD_WWW(18),
 
    /**
     * This format represents dates in the form 5/W25/98 12:56.
     */
-   DD_WWW_YY_HH_MM (19),
+   DD_WWW_YY_HH_MM(19),
 
    /**
     * This format represents dates in the form 25/05/1998.
     */
-   DD_MM_YYYY (20);
+   DD_MM_YYYY(20);
 
-   
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private ProjectDateFormat (int type)
+   private ProjectDateFormat(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -156,8 +154,8 @@ public enum ProjectDateFormat implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ProjectDateFormat getInstance (int type)
-   {      
+   public static ProjectDateFormat getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = DD_MM_YYYY.getValue();
@@ -165,14 +163,13 @@ public enum ProjectDateFormat implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static ProjectDateFormat getInstance (Number type)
+   public static ProjectDateFormat getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -186,13 +183,12 @@ public enum ProjectDateFormat implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -203,7 +199,7 @@ public enum ProjectDateFormat implements MpxjEnum
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (Integer.toString(m_value));
    }
@@ -213,7 +209,7 @@ public enum ProjectDateFormat implements MpxjEnum
     */
    private static final ProjectDateFormat[] TYPE_VALUES = new ProjectDateFormat[21];
    static
-   {      
+   {
       for (ProjectDateFormat e : EnumSet.range(ProjectDateFormat.DD_MM_YY_HH_MM, ProjectDateFormat.DD_MM_YYYY))
       {
          TYPE_VALUES[e.getValue()] = e;

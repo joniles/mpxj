@@ -160,22 +160,22 @@ public class GanttBarCommonStyle
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
-      pw.println ("      MiddleShape=" + m_middleShape);
-      pw.println ("      MiddlePattern=" + m_middlePattern);
-      pw.println ("      MiddleColor=" + m_middleColor);
-      pw.println ("      StartShapeAndStyle=" + m_startShapeAndStyle);
-      pw.println ("      StartColor=" + m_startColor);
-      pw.println ("      EndShapeAndStyle=" + m_endShapeAndStyle);
-      pw.println ("      EndColor=" + m_endColor);
-      pw.println ("      LeftText=" + m_leftText);
-      pw.println ("      RightText=" + m_rightText);
-      pw.println ("      TopText=" + m_topText);
-      pw.println ("      BottomText=" + m_bottomText);
-      pw.println ("      InsideText=" + m_insideText);
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("      MiddleShape=" + m_middleShape);
+      pw.println("      MiddlePattern=" + m_middlePattern);
+      pw.println("      MiddleColor=" + m_middleColor);
+      pw.println("      StartShapeAndStyle=" + m_startShapeAndStyle);
+      pw.println("      StartColor=" + m_startColor);
+      pw.println("      EndShapeAndStyle=" + m_endShapeAndStyle);
+      pw.println("      EndColor=" + m_endColor);
+      pw.println("      LeftText=" + m_leftText);
+      pw.println("      RightText=" + m_rightText);
+      pw.println("      TopText=" + m_topText);
+      pw.println("      BottomText=" + m_bottomText);
+      pw.println("      InsideText=" + m_insideText);
       pw.flush();
       return (os.toString());
    }

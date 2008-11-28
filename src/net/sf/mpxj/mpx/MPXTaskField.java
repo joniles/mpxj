@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2005
  * date:       20-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -31,7 +31,7 @@ import net.sf.mpxj.TaskField;
  * task fields in MPXJ.
  */
 final class MPXTaskField
-{   
+{
    /**
     * Retrieve an instance of the TaskField class based on the data read from an
     * MPX file.
@@ -39,18 +39,18 @@ final class MPXTaskField
     * @param value value from an MS Project file
     * @return TaskField instance
     */
-   public static TaskField getMpxjField (int value)
+   public static TaskField getMpxjField(int value)
    {
       TaskField result = null;
 
-      if (value >=0 && value < MPX_MPXJ_ARRAY.length)
+      if (value >= 0 && value < MPX_MPXJ_ARRAY.length)
       {
          result = MPX_MPXJ_ARRAY[value];
       }
 
       return (result);
    }
-   
+
    /**
     * Retrieve the integer value used to represent a task field in an 
     * MPX file.
@@ -58,19 +58,19 @@ final class MPXTaskField
     * @param value MPXJ task field value
     * @return MPX field value
     */
-   public static int getMpxField (int value)
+   public static int getMpxField(int value)
    {
       int result = 0;
-   
-      if (value >=0 && value < MPXJ_MPX_ARRAY.length)
+
+      if (value >= 0 && value < MPXJ_MPX_ARRAY.length)
       {
          result = MPXJ_MPX_ARRAY[value];
       }
-   
+
       return (result);
 
    }
-   
+
    private static final int PERCENTAGE_COMPLETE = 44;
    private static final int PERCENTAGE_WORK_COMPLETE = 25;
    private static final int ACTUAL_COST = 32;
@@ -184,11 +184,11 @@ final class MPXTaskField
    private static final int WBS = 2;
    private static final int WORK = 20;
    private static final int WORK_VARIANCE = 24;
-   
+
    public static final int MAX_FIELDS = 153;
 
    private static final TaskField[] MPX_MPXJ_ARRAY = new TaskField[MAX_FIELDS];
-   
+
    static
    {
       MPX_MPXJ_ARRAY[PERCENTAGE_COMPLETE] = TaskField.PERCENT_COMPLETE;
@@ -303,11 +303,11 @@ final class MPXTaskField
       MPX_MPXJ_ARRAY[UPDATE_NEEDED] = TaskField.UPDATE_NEEDED;
       MPX_MPXJ_ARRAY[WBS] = TaskField.WBS;
       MPX_MPXJ_ARRAY[WORK] = TaskField.WORK;
-      MPX_MPXJ_ARRAY[WORK_VARIANCE] = TaskField.WORK_VARIANCE;      
+      MPX_MPXJ_ARRAY[WORK_VARIANCE] = TaskField.WORK_VARIANCE;
    }
-   
+
    private static final int[] MPXJ_MPX_ARRAY = new int[TaskField.MAX_VALUE];
-   
+
    static
    {
       MPXJ_MPX_ARRAY[TaskField.PERCENT_COMPLETE_VALUE] = PERCENTAGE_COMPLETE;
@@ -422,8 +422,7 @@ final class MPXTaskField
       MPXJ_MPX_ARRAY[TaskField.UPDATE_NEEDED_VALUE] = UPDATE_NEEDED;
       MPXJ_MPX_ARRAY[TaskField.WBS_VALUE] = WBS;
       MPXJ_MPX_ARRAY[TaskField.WORK_VALUE] = WORK;
-      MPXJ_MPX_ARRAY[TaskField.WORK_VARIANCE_VALUE] = WORK_VARIANCE;          
+      MPXJ_MPX_ARRAY[TaskField.WORK_VARIANCE_VALUE] = WORK_VARIANCE;
    }
-   
-   
+
 }

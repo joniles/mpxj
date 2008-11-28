@@ -32,11 +32,11 @@ import net.sf.mpxj.utility.MpxjEnum;
  */
 public enum RecurrenceType implements MpxjEnum
 {
-   DAILY (1, "Daily"),
-   WEEKLY (4, "Weekly"),
-   MONTHLY (8, "Monthly"),
-   YEARLY (16, "Yearly");   
-   
+   DAILY(1, "Daily"),
+   WEEKLY(4, "Weekly"),
+   MONTHLY(8, "Monthly"),
+   YEARLY(16, "Yearly");
+
    /**
     * Private constructor.
     * 

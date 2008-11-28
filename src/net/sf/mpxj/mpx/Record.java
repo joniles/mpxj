@@ -43,8 +43,6 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.MPXJFormats;
 
-
-
 /**
  * This class is used to represent a record in an MPX file.
  */
@@ -59,7 +57,7 @@ final class Record
     * @param formats formats used when parsing data
     * @throws MPXJException normally thrown when parsing fails
     */
-   Record (Locale locale, Tokenizer tk, MPXJFormats formats)
+   Record(Locale locale, Tokenizer tk, MPXJFormats formats)
       throws MPXJException
    {
       try
@@ -93,7 +91,7 @@ final class Record
     *
     * @return the record number associated with this record
     */
-   public String getRecordNumber ()
+   public String getRecordNumber()
    {
       return (m_recordNumber);
    }
@@ -106,7 +104,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public String getString (int field)
+   public String getString(int field)
    {
       String result;
 
@@ -135,7 +133,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public Character getCharacter (int field)
+   public Character getCharacter(int field)
    {
       Character result;
 
@@ -159,8 +157,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public Number getFloat (int field)
-      throws MPXJException
+   public Number getFloat(int field) throws MPXJException
    {
       try
       {
@@ -180,7 +177,7 @@ final class Record
 
       catch (ParseException ex)
       {
-         throw new MPXJException ("Failed to parse float", ex);
+         throw new MPXJException("Failed to parse float", ex);
       }
    }
 
@@ -192,7 +189,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public Integer getInteger (int field)
+   public Integer getInteger(int field)
    {
       Integer result;
 
@@ -217,8 +214,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDateTime (int field)
-      throws MPXJException
+   public Date getDateTime(int field) throws MPXJException
    {
       try
       {
@@ -238,7 +234,7 @@ final class Record
 
       catch (ParseException ex)
       {
-         throw new MPXJException ("Failed to parse date time", ex);
+         throw new MPXJException("Failed to parse date time", ex);
       }
    }
 
@@ -251,8 +247,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDate (int field)
-      throws MPXJException
+   public Date getDate(int field) throws MPXJException
    {
       try
       {
@@ -272,7 +267,7 @@ final class Record
 
       catch (ParseException ex)
       {
-         throw new MPXJException ("Failed to parse date", ex);
+         throw new MPXJException("Failed to parse date", ex);
       }
    }
 
@@ -285,8 +280,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getTime (int field)
-      throws MPXJException
+   public Date getTime(int field) throws MPXJException
    {
       try
       {
@@ -306,7 +300,7 @@ final class Record
 
       catch (ParseException ex)
       {
-         throw new MPXJException ("Failed to parse time", ex);
+         throw new MPXJException("Failed to parse time", ex);
       }
    }
 
@@ -318,13 +312,13 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public boolean getNumericBoolean (int field)
+   public boolean getNumericBoolean(int field)
    {
       boolean result = false;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = Integer.parseInt(m_fields[field])==1?true:false;
+         result = Integer.parseInt(m_fields[field]) == 1 ? true : false;
       }
 
       return (result);
@@ -339,8 +333,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Rate getRate (int field)
-      throws MPXJException
+   public Rate getRate(int field) throws MPXJException
    {
       Rate result;
 
@@ -360,8 +353,8 @@ final class Record
             }
             else
             {
-               amount = m_formats.getCurrencyFormat().parse( rate.substring (0, index)).doubleValue();
-               units = TimeUnitUtility.getInstance(rate.substring (index+1), m_locale);
+               amount = m_formats.getCurrencyFormat().parse(rate.substring(0, index)).doubleValue();
+               units = TimeUnitUtility.getInstance(rate.substring(index + 1), m_locale);
             }
 
             result = new Rate(amount, units);
@@ -369,7 +362,7 @@ final class Record
 
          catch (ParseException ex)
          {
-            throw new MPXJException ("Failed to parse rate", ex);
+            throw new MPXJException("Failed to parse rate", ex);
          }
       }
       else
@@ -389,8 +382,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Number getCurrency (int field)
-      throws MPXJException
+   public Number getCurrency(int field) throws MPXJException
    {
       Number result;
 
@@ -403,7 +395,7 @@ final class Record
 
          catch (ParseException ex)
          {
-            throw new MPXJException ("Failed to parse currency", ex);
+            throw new MPXJException("Failed to parse currency", ex);
          }
       }
       else
@@ -423,8 +415,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Number getPercentage (int field)
-      throws MPXJException
+   public Number getPercentage(int field) throws MPXJException
    {
       Number result;
 
@@ -437,7 +428,7 @@ final class Record
 
          catch (ParseException ex)
          {
-            throw new MPXJException ("Failed to parse percentage", ex);
+            throw new MPXJException("Failed to parse percentage", ex);
          }
       }
       else
@@ -457,8 +448,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Duration getDuration (int field)
-      throws MPXJException
+   public Duration getDuration(int field) throws MPXJException
    {
       Duration result;
 
@@ -483,8 +473,7 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Number getUnits (int field)
-      throws MPXJException
+   public Number getUnits(int field) throws MPXJException
    {
       Number result;
 
@@ -497,7 +486,7 @@ final class Record
 
          catch (ParseException ex)
          {
-            throw new MPXJException ("Failed to parse units", ex);
+            throw new MPXJException("Failed to parse units", ex);
          }
       }
       else
@@ -516,7 +505,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public TimeUnit getTimeUnit (int field)
+   public TimeUnit getTimeUnit(int field)
    {
       TimeUnit result;
 
@@ -540,7 +529,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public ProjectTimeFormat getTimeFormat (int field)
+   public ProjectTimeFormat getTimeFormat(int field)
    {
       ProjectTimeFormat result;
 
@@ -564,7 +553,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public ScheduleFrom getScheduleFrom (int field)
+   public ScheduleFrom getScheduleFrom(int field)
    {
       ScheduleFrom result;
 
@@ -588,7 +577,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public DateOrder getDateOrder (int field)
+   public DateOrder getDateOrder(int field)
    {
       DateOrder result;
 
@@ -612,7 +601,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public CurrencySymbolPosition getCurrencySymbolPosition (int field)
+   public CurrencySymbolPosition getCurrencySymbolPosition(int field)
    {
       CurrencySymbolPosition result;
 
@@ -636,7 +625,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public ProjectDateFormat getDateFormat (int field)
+   public ProjectDateFormat getDateFormat(int field)
    {
       ProjectDateFormat result = null;
 
@@ -658,7 +647,7 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public CodePage getCodePage (int field)
+   public CodePage getCodePage(int field)
    {
       CodePage result;
 
@@ -668,7 +657,7 @@ final class Record
       }
       else
       {
-    	  result = CodePage.getInstance(null);
+         result = CodePage.getInstance(null);
       }
 
       return (result);
@@ -680,13 +669,13 @@ final class Record
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
     */
-   public AccrueType  getAccrueType (int field)
+   public AccrueType getAccrueType(int field)
    {
       AccrueType result;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = AccrueTypeUtility.getInstance (m_fields[field], m_locale);
+         result = AccrueTypeUtility.getInstance(m_fields[field], m_locale);
       }
       else
       {
@@ -703,7 +692,7 @@ final class Record
     * @param falseText locale specific text representing false
     * @return the value of the required field
     */
-   public Boolean  getBoolean (int field, String falseText)
+   public Boolean getBoolean(int field, String falseText)
    {
       Boolean result;
 
@@ -724,7 +713,7 @@ final class Record
     *
     * @return number of fields
     */
-   public int getLength ()
+   public int getLength()
    {
       return (m_fields.length);
    }
@@ -732,12 +721,11 @@ final class Record
    /**
     * {@inheritDoc}
     */
-   @Override
-   public String toString ()
+   @Override public String toString()
    {
       return (Arrays.toString(m_fields));
    }
-   
+
    /**
     * Target locale.
     */

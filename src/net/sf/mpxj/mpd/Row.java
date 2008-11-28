@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       08-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -42,16 +42,16 @@ interface Row
     * 
     * @param name attribute name
     * @return attribute value
-    */   
-   public String getString (String name);
-      
+    */
+   public String getString(String name);
+
    /**
     * Retrieve an Integer attribute.
     * 
     * @param name attribute name
     * @return attribute value
     */
-   public Integer getInteger (String name);
+   public Integer getInteger(String name);
 
    /**
     * Retrieve a Double attribute.
@@ -59,45 +59,45 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Double getDouble (String name);
-   
+   public Double getDouble(String name);
+
    /**
     * Retrieve a currency attribute.
     * 
     * @param name attribute name
     * @return attribute value
     */
-   public Double getCurrency (String name);
-   
+   public Double getCurrency(String name);
+
    /**
     * Retrieve a boolean attribute.
     * 
     * @param name attribute name
     * @return attribute value
     */
-   public boolean getBoolean (String name);
-   
+   public boolean getBoolean(String name);
+
    /**
     * Retrieve an in attribute.
     * 
     * @param name attribute name
     * @return attribute value
     */
-   public int getInt (String name);
-   
+   public int getInt(String name);
+
    /**
     * Retrieve a date attribute.
     * 
     * @param name attribute name
     * @return attribute value
     */
-   public Date getDate (String name);
-   
+   public Date getDate(String name);
+
    /**
     * Retrieve a duration attribute.
     * 
     * @param name attribute name
     * @return attribute value
     */
-   public Duration getDuration (String name);
+   public Duration getDuration(String name);
 }

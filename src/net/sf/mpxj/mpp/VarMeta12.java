@@ -43,19 +43,19 @@ final class VarMeta12 extends AbstractVarMeta
     * @param is Input stream from which data is read
     * @throws IOException on file read error
     */
-   VarMeta12 (InputStream is)
+   VarMeta12(InputStream is)
       throws IOException
    {
-      if (readInt (is) != MAGIC)
+      if (readInt(is) != MAGIC)
       {
-         throw new IOException ("Bad magic number");
+         throw new IOException("Bad magic number");
       }
 
-      m_unknown1 = readInt (is);
-      m_itemCount = readInt (is);
-      m_unknown2 = readInt (is);
-      m_unknown3 = readInt (is);
-      m_dataSize = readInt (is);
+      m_unknown1 = readInt(is);
+      m_itemCount = readInt(is);
+      m_unknown2 = readInt(is);
+      m_unknown3 = readInt(is);
+      m_dataSize = readInt(is);
 
       Integer uniqueID;
       Integer type;
@@ -63,21 +63,21 @@ final class VarMeta12 extends AbstractVarMeta
       Map<Integer, Integer> map;
       m_offsets = new int[m_itemCount];
 
-      for (int loop=0; loop < m_itemCount; loop++)
+      for (int loop = 0; loop < m_itemCount; loop++)
       {
          uniqueID = Integer.valueOf(readInt(is));
-         offset = Integer.valueOf(readInt (is));
+         offset = Integer.valueOf(readInt(is));
          type = Integer.valueOf(readShort(is));
          readShort(is); // unknown 2 bytes
 
-         map = m_table.get (uniqueID);
+         map = m_table.get(uniqueID);
          if (map == null)
          {
-            map = new TreeMap<Integer, Integer> ();
-            m_table.put (uniqueID, map);
+            map = new TreeMap<Integer, Integer>();
+            m_table.put(uniqueID, map);
          }
 
-         map.put (type, offset);
+         map.put(type, offset);
          m_offsets[loop] = offset.intValue();
       }
    }

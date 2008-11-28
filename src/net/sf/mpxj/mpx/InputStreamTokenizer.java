@@ -26,7 +26,6 @@ package net.sf.mpxj.mpx;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from an InputStream instance.
@@ -38,7 +37,7 @@ final class InputStreamTokenizer extends Tokenizer
     *
     * @param is InputStream instance
     */
-   public InputStreamTokenizer (InputStream is)
+   public InputStreamTokenizer(InputStream is)
    {
       m_stream = is;
    }
@@ -46,8 +45,7 @@ final class InputStreamTokenizer extends Tokenizer
    /**
     * {@inheritDoc}
     */
-   @Override protected int read ()
-      throws IOException
+   @Override protected int read() throws IOException
    {
       return (m_stream.read());
    }

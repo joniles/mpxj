@@ -40,5 +40,5 @@ public interface FieldListener
     * @param oldValue old value
     * @param newValue new value
     */
-   public void fieldChange (FieldContainer container, FieldType type, Object oldValue, Object newValue);
+   public void fieldChange(FieldContainer container, FieldType type, Object oldValue, Object newValue);
 }

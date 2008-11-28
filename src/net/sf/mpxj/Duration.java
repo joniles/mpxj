@@ -24,8 +24,6 @@
 
 package net.sf.mpxj;
 
-
-
 /**
  * This represents time durations as specified in an MPX file.
  */
@@ -383,22 +381,21 @@ public final class Duration implements Comparable<Duration>
     */
    private TimeUnit m_units;
 
-
    private static final Duration[] ZERO_DURATIONS =
-   {  
-      new Duration(0, TimeUnit.MINUTES),        
-      new Duration(0, TimeUnit.HOURS),          
-      new Duration(0, TimeUnit.DAYS),           
-      new Duration(0, TimeUnit.WEEKS),          
-      new Duration(0, TimeUnit.MONTHS),         
-      new Duration(0, TimeUnit.YEARS),          
-      new Duration(0, TimeUnit.PERCENT),        
+   {
+      new Duration(0, TimeUnit.MINUTES),
+      new Duration(0, TimeUnit.HOURS),
+      new Duration(0, TimeUnit.DAYS),
+      new Duration(0, TimeUnit.WEEKS),
+      new Duration(0, TimeUnit.MONTHS),
+      new Duration(0, TimeUnit.YEARS),
+      new Duration(0, TimeUnit.PERCENT),
       new Duration(0, TimeUnit.ELAPSED_MINUTES),
-      new Duration(0, TimeUnit.ELAPSED_HOURS),  
-      new Duration(0, TimeUnit.ELAPSED_DAYS),   
-      new Duration(0, TimeUnit.ELAPSED_WEEKS),  
-      new Duration(0, TimeUnit.ELAPSED_MONTHS), 
-      new Duration(0, TimeUnit.ELAPSED_YEARS),  
-      new Duration(0, TimeUnit.ELAPSED_PERCENT) 
+      new Duration(0, TimeUnit.ELAPSED_HOURS),
+      new Duration(0, TimeUnit.ELAPSED_DAYS),
+      new Duration(0, TimeUnit.ELAPSED_WEEKS),
+      new Duration(0, TimeUnit.ELAPSED_MONTHS),
+      new Duration(0, TimeUnit.ELAPSED_YEARS),
+      new Duration(0, TimeUnit.ELAPSED_PERCENT)
    };
 }

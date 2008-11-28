@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       Oct 31, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-
 /**
  * This class allows filter definitions to be read from an MPP9 file.
  */
@@ -34,10 +33,10 @@ public final class FilterReader9 extends FilterReader
     * 
     * @return VarData type
     */
-   @Override protected Integer getVarDataType ()
+   @Override protected Integer getVarDataType()
    {
-      return(FILTER_DATA);
+      return (FILTER_DATA);
    }
-      
+
    private static final Integer FILTER_DATA = Integer.valueOf(1);
 }

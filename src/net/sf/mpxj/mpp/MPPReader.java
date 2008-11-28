@@ -40,7 +40,6 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-
 /**
  * This class creates a new ProjectFile instance by reading an MPP file.
  */
@@ -49,8 +48,7 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read (InputStream is)
-      throws MPXJException
+   public ProjectFile read(InputStream is) throws MPXJException
    {
       try
       {
@@ -59,21 +57,21 @@ public final class MPPReader extends AbstractProjectReader
          //
          // Open the file system and retrieve the root directory
          //
-         POIFSFileSystem fs = new POIFSFileSystem (is);
-         DirectoryEntry root = fs.getRoot ();
+         POIFSFileSystem fs = new POIFSFileSystem(is);
+         DirectoryEntry root = fs.getRoot();
 
          //
          // Retrieve the CompObj data, validate the file format and process
          //
-         CompObj compObj = new CompObj (new DocumentInputStream ((DocumentEntry)root.getEntry("\1CompObj")));
+         CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
          String format = compObj.getFileFormat();
          Class<? extends MPPVariantReader> readerClass = FILE_CLASS_MAP.get(format);
          if (readerClass == null)
          {
-            throw new MPXJException (MPXJException.INVALID_FILE + ": " + format);
+            throw new MPXJException(MPXJException.INVALID_FILE + ": " + format);
          }
          MPPVariantReader reader = readerClass.newInstance();
-         reader.process (this, projectFile, root);
+         reader.process(this, projectFile, root);
 
          //
          // Update the internal structure. We'll take this opportunity to
@@ -81,14 +79,14 @@ public final class MPPReader extends AbstractProjectReader
          // be present in the MPP file.
          //
          projectFile.setAutoOutlineNumber(true);
-         projectFile.updateStructure ();
+         projectFile.updateStructure();
          projectFile.setAutoOutlineNumber(false);
 
          //
          // Perform post-processing to set the summary flag and clean
          // up any instances where a task has an empty splits list.
          //
-         for (Task task :  projectFile.getAllTasks())
+         for (Task task : projectFile.getAllTasks())
          {
             task.setSummary(task.getChildTasks().size() != 0);
             List<DateRange> splits = task.getSplits();
@@ -108,17 +106,17 @@ public final class MPPReader extends AbstractProjectReader
 
       catch (IOException ex)
       {
-         throw new MPXJException (MPXJException.READ_ERROR, ex);
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
 
       catch (IllegalAccessException ex)
       {
-         throw new MPXJException (MPXJException.READ_ERROR, ex);
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
 
       catch (InstantiationException ex)
       {
-         throw new MPXJException (MPXJException.READ_ERROR, ex);
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
    }
 
@@ -139,7 +137,7 @@ public final class MPPReader extends AbstractProjectReader
     *
     * @param preserveNoteFormatting boolean flag
     */
-   public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
+   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
    {
       m_preserveNoteFormatting = preserveNoteFormatting;
    }
@@ -153,8 +151,8 @@ public final class MPPReader extends AbstractProjectReader
     * @param password password text
     */
    public void setReadPassword(String password)
-   {  
-	   m_readPassword = password;
+   {
+      m_readPassword = password;
    }
 
    /**
@@ -164,8 +162,8 @@ public final class MPPReader extends AbstractProjectReader
     * @return password password text
     */
    public String getReadPassword()
-   {  
-	   return m_readPassword;
+   {
+      return m_readPassword;
    }
 
    /**
@@ -176,8 +174,8 @@ public final class MPPReader extends AbstractProjectReader
     * @param password password text
     */
    public void setWritePassword(String password)
-   {   
-	   m_writePassword = password;
+   {
+      m_writePassword = password;
    }
 
    /**
@@ -187,8 +185,8 @@ public final class MPPReader extends AbstractProjectReader
     * @return password
     */
    public String getWritePassword()
-   {   
-	   return m_writePassword;
+   {
+      return m_writePassword;
    }
 
    /**
@@ -203,7 +201,7 @@ public final class MPPReader extends AbstractProjectReader
    /**
     * Populate a map of file types and file processing classes.
     */
-   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<String, Class<? extends MPPVariantReader>> ();
+   private static final Map<String, Class<? extends MPPVariantReader>> FILE_CLASS_MAP = new HashMap<String, Class<? extends MPPVariantReader>>();
    static
    {
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);

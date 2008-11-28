@@ -30,7 +30,6 @@ import net.sf.mpxj.ProjectFile;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
-
 /**
  * This interface is implemented by classes which understand how
  * to read one of the MPP file formats.
@@ -44,6 +43,5 @@ interface MPPVariantReader
     * @param file data structure to be populated
     * @param root Root of the POI file system.
     */
-   public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
-      throws MPXJException, IOException;
+   public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException;
 }

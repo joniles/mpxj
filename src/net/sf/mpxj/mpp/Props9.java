@@ -37,7 +37,7 @@ final class Props9 extends Props
     *
     * @param is input stream for reading props data
     */
-   Props9 (InputStream is)
+   Props9(InputStream is)
       throws IOException
    {
       //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props9." + System.currentTimeMillis() + ".txt");

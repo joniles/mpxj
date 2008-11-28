@@ -21,7 +21,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package net.sf.mpxj.junit;
 
 import java.io.File;
@@ -31,7 +30,6 @@ import java.util.Locale;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
-
 
 /**
  * Tests to exercise MPX locales.
@@ -43,17 +41,16 @@ public class LocaleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testLocales ()
-      throws Exception
+   public void testLocales() throws Exception
    {
       Locale[] locales = new MPXReader().getSupportedLocales();
-      for (Locale locale: locales)
+      for (Locale locale : locales)
       {
          try
          {
             testLocale(locale);
          }
-         
+
          catch (UnsupportedCharsetException ex)
          {
             //
@@ -75,22 +72,21 @@ public class LocaleTest extends MPXJTestCase
     * @param locale locale to test
     * @throws Exception
     */
-   private void testLocale (Locale locale)
-      throws Exception
+   private void testLocale(Locale locale) throws Exception
    {
       File out = null;
       boolean success = true;
-           
+
       try
       {
          MPXReader reader = new MPXReader();
-         MPXWriter writer = new MPXWriter ();
+         MPXWriter writer = new MPXWriter();
 
-         File in = new File (m_basedir + "/sample.mpx");
+         File in = new File(m_basedir + "/sample.mpx");
          ProjectFile mpx = reader.read(in);
-         out = File.createTempFile ("junit-" + locale.getLanguage(), ".mpx");
+         out = File.createTempFile("junit-" + locale.getLanguage(), ".mpx");
          writer.setLocale(locale);
-         writer.write (mpx, out);
+         writer.write(mpx, out);
 
          reader.setLocale(locale);
          reader.read(out);
@@ -110,13 +106,11 @@ public class LocaleTest extends MPXJTestCase
     *
     * @throws Exception
     */
-   public void testReadGerman ()
-      throws Exception
+   public void testReadGerman() throws Exception
    {
-      File in = new File (m_basedir + "/sample.de.mpx");
+      File in = new File(m_basedir + "/sample.de.mpx");
       MPXReader reader = new MPXReader();
       reader.setLocale(Locale.GERMAN);
       reader.read(in);
    }
 }
-

@@ -31,8 +31,6 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
 
-
-
 /**
  * This class defines the German translation of resource required by MPX files.
  */
@@ -46,12 +44,28 @@ public final class LocaleData_de extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "h", "t", "w", "mon", "y", "%", "fm", "fh", "ft", "fw", "fmon", "fy", "f%"};
-   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer> ();
+   private static final String[] TIME_UNITS_ARRAY_DATA =
+   {
+      "m",
+      "h",
+      "t",
+      "w",
+      "mon",
+      "y",
+      "%",
+      "fm",
+      "fh",
+      "ft",
+      "fw",
+      "fmon",
+      "fy",
+      "f%"
+   };
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
    static
    {
-      for (int loop=0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
+      for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
          TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
       }
@@ -63,7 +77,6 @@ public final class LocaleData_de extends ListResourceBundle
       "Ende",
       "Anteilig"
    };
-
 
    private static final String[] RELATION_TYPES_DATA =
    {
@@ -314,33 +327,99 @@ public final class LocaleData_de extends ListResourceBundle
 
    private static final Object[][] RESOURCE_DATA =
    {
-      {LocaleData.FILE_DELIMITER, ";"},
-      {LocaleData.FILE_VERSION, "4,0"},
+      {
+         LocaleData.FILE_DELIMITER,
+         ";"
+      },
+      {
+         LocaleData.FILE_VERSION,
+         "4,0"
+      },
 
-      {LocaleData.YES, "Ja"},
-      {LocaleData.NO, "Nein"},
+      {
+         LocaleData.YES,
+         "Ja"
+      },
+      {
+         LocaleData.NO,
+         "Nein"
+      },
 
-      {LocaleData.CURRENCY_SYMBOL, "€"},
-      {LocaleData.CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.AFTER_WITH_SPACE},
-      {LocaleData.CURRENCY_THOUSANDS_SEPARATOR, "."},
-      {LocaleData.CURRENCY_DECIMAL_SEPARATOR, ","},
+      {
+         LocaleData.CURRENCY_SYMBOL,
+         "€"
+      },
+      {
+         LocaleData.CURRENCY_SYMBOL_POSITION,
+         CurrencySymbolPosition.AFTER_WITH_SPACE
+      },
+      {
+         LocaleData.CURRENCY_THOUSANDS_SEPARATOR,
+         "."
+      },
+      {
+         LocaleData.CURRENCY_DECIMAL_SEPARATOR,
+         ","
+      },
 
-      {LocaleData.TIME_FORMAT, ProjectTimeFormat.TWENTY_FOUR_HOUR},
-      {LocaleData.DATE_SEPARATOR, "."},
-      {LocaleData.AM_TEXT, ""},
-      {LocaleData.PM_TEXT, ""},
-      {LocaleData.DATE_FORMAT, ProjectDateFormat.EEE_DD_MM_YY},
-      {LocaleData.NA, "NV"},
+      {
+         LocaleData.TIME_FORMAT,
+         ProjectTimeFormat.TWENTY_FOUR_HOUR
+      },
+      {
+         LocaleData.DATE_SEPARATOR,
+         "."
+      },
+      {
+         LocaleData.AM_TEXT,
+         ""
+      },
+      {
+         LocaleData.PM_TEXT,
+         ""
+      },
+      {
+         LocaleData.DATE_FORMAT,
+         ProjectDateFormat.EEE_DD_MM_YY
+      },
+      {
+         LocaleData.NA,
+         "NV"
+      },
 
-      {LocaleData.TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
-      {LocaleData.TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
+      {
+         LocaleData.TIME_UNITS_ARRAY,
+         TIME_UNITS_ARRAY_DATA
+      },
+      {
+         LocaleData.TIME_UNITS_MAP,
+         TIME_UNITS_MAP_DATA
+      },
 
-      {LocaleData.ACCRUE_TYPES, ACCRUE_TYPES_DATA},
-      {LocaleData.RELATION_TYPES, RELATION_TYPES_DATA},
-      {LocaleData.PRIORITY_TYPES, PRIORITY_TYPES_DATA},
-      {LocaleData.CONSTRAINT_TYPES, CONSTRAINT_TYPES_DATA},
+      {
+         LocaleData.ACCRUE_TYPES,
+         ACCRUE_TYPES_DATA
+      },
+      {
+         LocaleData.RELATION_TYPES,
+         RELATION_TYPES_DATA
+      },
+      {
+         LocaleData.PRIORITY_TYPES,
+         PRIORITY_TYPES_DATA
+      },
+      {
+         LocaleData.CONSTRAINT_TYPES,
+         CONSTRAINT_TYPES_DATA
+      },
 
-      {LocaleData.TASK_NAMES, TASK_NAMES_DATA},
-      {LocaleData.RESOURCE_NAMES, RESOURCE_NAMES_DATA}
+      {
+         LocaleData.TASK_NAMES,
+         TASK_NAMES_DATA
+      },
+      {
+         LocaleData.RESOURCE_NAMES,
+         RESOURCE_NAMES_DATA
+      }
    };
 }

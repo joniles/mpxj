@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       23-August-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -44,39 +44,36 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testMpp9 ()
-      throws Exception
+   public void testMpp9() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9header.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9header.mpp");
       testHeader(mpp, true);
-   }         
+   }
 
    /**
     * Test project header data read from an MPP12 file.
     * 
     * @throws Exception
     */
-   public void testMpp12 ()
-      throws Exception
+   public void testMpp12() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12header.mpp");
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12header.mpp");
       testHeader(mpp, true);
-   }         
+   }
 
    /**
     * Test project header data read from an MPD9 file.
     * 
     * @throws Exception
     */
-   public void testMpd9() 
-      throws Exception 
+   public void testMpd9() throws Exception
    {
       try
       {
-         ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9header.mpd");                 
+         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9header.mpd");
          testHeader(mpp, false);
       }
-      
+
       catch (Exception ex)
       {
          //
@@ -95,14 +92,14 @@ public class MppProjectHeaderTest extends MPXJTestCase
     * @param mpp project file
     * @param isMPP is the source an MPP file
     */
-   private void testHeader (ProjectFile mpp, boolean isMPP)
+   private void testHeader(ProjectFile mpp, boolean isMPP)
    {
       //
       // Create time and date formatters
       //
-      DateFormat tf = new SimpleDateFormat ("HH:mm");
-      DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-      
+      DateFormat tf = new SimpleDateFormat("HH:mm");
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
       //
       // Check the values of project header attributes.
       // The order of these tests should be the same as the order 
@@ -115,10 +112,10 @@ public class MppProjectHeaderTest extends MPXJTestCase
       assertEquals("08:35", tf.format(ph.getDefaultStartTime()));
       assertEquals("17:35", tf.format(ph.getDefaultEndTime()));
       assertEquals("01/08/2006", df.format(ph.getStatusDate()));
-      
+
       assertEquals(TimeUnit.HOURS, ph.getDefaultDurationUnits());
-      assertEquals(7*60, ph.getMinutesPerDay().intValue());
-      assertEquals(41*60, ph.getMinutesPerWeek().intValue());
+      assertEquals(7 * 60, ph.getMinutesPerDay().intValue());
+      assertEquals(41 * 60, ph.getMinutesPerWeek().intValue());
       assertEquals(2.0, ph.getDefaultOvertimeRate().getAmount(), 0);
       assertEquals(TimeUnit.HOURS, ph.getDefaultOvertimeRate().getUnits());
       assertEquals(1.0, ph.getDefaultStandardRate().getAmount(), 0);
@@ -126,19 +123,19 @@ public class MppProjectHeaderTest extends MPXJTestCase
       assertEquals(TimeUnit.WEEKS, ph.getDefaultWorkUnits());
       assertEquals(false, ph.getSplitInProgressTasks());
       assertEquals(false, ph.getUpdatingTaskStatusUpdatesResourceStatus());
-      
+
       assertEquals(1, ph.getCurrencyDigits().intValue());
       assertEquals("X", ph.getCurrencySymbol());
       assertEquals(CurrencySymbolPosition.AFTER, ph.getSymbolPosition());
-      
+
       assertEquals("title", ph.getProjectTitle());
       assertEquals("subject", ph.getSubject());
       assertEquals("author", ph.getAuthor());
-      assertEquals("keywords", ph.getKeywords());      
+      assertEquals("keywords", ph.getKeywords());
       assertEquals("company", ph.getCompany());
       assertEquals("manager", ph.getManager());
       assertEquals("category", ph.getCategory());
-            
+
       // MPP only
       if (isMPP)
       {

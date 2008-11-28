@@ -39,7 +39,7 @@ final class XsdDuration
     *
     * @param duration value formatted as an xsd:duration
     */
-   XsdDuration (String duration)
+   XsdDuration(String duration)
    {
       if (duration != null)
       {
@@ -50,7 +50,7 @@ final class XsdDuration
             {
                if (length < 2 || (duration.charAt(0) != '-' && duration.charAt(1) != 'P'))
                {
-                  throw new IllegalArgumentException (duration);
+                  throw new IllegalArgumentException(duration);
                }
             }
 
@@ -69,7 +69,7 @@ final class XsdDuration
 
             while (index < length)
             {
-               index = readComponent (duration, index, length);
+               index = readComponent(duration, index, length);
             }
 
             if (negative == true)
@@ -91,7 +91,7 @@ final class XsdDuration
     *
     * @param duration An MPX duration.
     */
-   XsdDuration (Duration duration)
+   XsdDuration(Duration duration)
    {
       if (duration != null)
       {
@@ -101,83 +101,83 @@ final class XsdDuration
          {
             switch (duration.getUnits())
             {
-               case MINUTES:
-               case ELAPSED_MINUTES:
+               case MINUTES :
+               case ELAPSED_MINUTES :
                {
-                  m_minutes = (int)amount;
+                  m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case HOURS:
-               case ELAPSED_HOURS:
+               case HOURS :
+               case ELAPSED_HOURS :
                {
-                  m_hours = (int)amount;
+                  m_hours = (int) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int)amount;
+                  m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case DAYS:
-               case ELAPSED_DAYS:
+               case DAYS :
+               case ELAPSED_DAYS :
                {
-                  m_days = (int)amount;
+                  m_days = (int) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int)amount;
+                  m_hours = (int) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int)amount;
+                  m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case WEEKS:
-               case ELAPSED_WEEKS:
+               case WEEKS :
+               case ELAPSED_WEEKS :
                {
                   amount *= 7;
-                  m_days = (int)amount;
+                  m_days = (int) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int)amount;
+                  m_hours = (int) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int)amount;
+                  m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case MONTHS:
-               case ELAPSED_MONTHS:
+               case MONTHS :
+               case ELAPSED_MONTHS :
                {
-                  m_months = (int)amount;
+                  m_months = (int) amount;
                   amount = (amount * 28) - (m_months * 28);
-                  m_days = (int)amount;
+                  m_days = (int) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int)amount;
+                  m_hours = (int) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int)amount;
+                  m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
 
-               case YEARS:
-               case ELAPSED_YEARS:
+               case YEARS :
+               case ELAPSED_YEARS :
                {
-                  m_years = (int)amount;
+                  m_years = (int) amount;
                   amount = (amount * 12) - (m_years * 12);
-                  m_months = (int)amount;
+                  m_months = (int) amount;
                   amount = (amount * 28) - (m_months * 28);
-                  m_days = (int)amount;
+                  m_days = (int) amount;
                   amount = (amount * 24) - (m_days * 24);
-                  m_hours = (int)amount;
+                  m_hours = (int) amount;
                   amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (int)amount;
+                  m_minutes = (int) amount;
                   m_seconds = (amount * 60) - (m_minutes * 60);
                   break;
                }
-               
-               default:
+
+               default :
                {
                   break;
-               }               
+               }
             }
          }
       }
@@ -193,17 +193,17 @@ final class XsdDuration
     * @param length length of string
     * @return current position in the string
     */
-   private int readComponent (String duration, int index, int length)
+   private int readComponent(String duration, int index, int length)
    {
       char c = 0;
-      StringBuffer number = new StringBuffer ();
+      StringBuffer number = new StringBuffer();
 
       while (index < length)
       {
          c = duration.charAt(index);
          if (Character.isDigit(c) == true || c == '.')
          {
-            number.append (c);
+            number.append(c);
          }
          else
          {
@@ -215,13 +215,13 @@ final class XsdDuration
 
       switch (c)
       {
-         case 'Y':
+         case 'Y' :
          {
             m_years = Integer.parseInt(number.toString());
             break;
          }
 
-         case 'M':
+         case 'M' :
          {
             if (m_hasTime == false)
             {
@@ -234,33 +234,33 @@ final class XsdDuration
             break;
          }
 
-         case 'D':
+         case 'D' :
          {
             m_days = Integer.parseInt(number.toString());
             break;
          }
 
-         case 'T':
+         case 'T' :
          {
             m_hasTime = true;
             break;
          }
 
-         case 'H':
+         case 'H' :
          {
             m_hours = Integer.parseInt(number.toString());
             break;
          }
 
-         case 'S':
+         case 'S' :
          {
             m_seconds = Double.parseDouble(number.toString());
             break;
          }
 
-         default:
+         default :
          {
-            throw new IllegalArgumentException (duration);
+            throw new IllegalArgumentException(duration);
          }
       }
 
@@ -268,7 +268,6 @@ final class XsdDuration
 
       return (index);
    }
-
 
    /**
     * Retrieves the number of days.
@@ -335,9 +334,9 @@ final class XsdDuration
     *
     * @return xsd:duration value
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringBuffer buffer = new StringBuffer ("P");
+      StringBuffer buffer = new StringBuffer("P");
       boolean negative = false;
 
       if (m_years != 0 || m_months != 0 || m_days != 0)
@@ -345,71 +344,71 @@ final class XsdDuration
          if (m_years < 0)
          {
             negative = true;
-            buffer.append (-m_years);
+            buffer.append(-m_years);
          }
          else
          {
-            buffer.append (m_years);
+            buffer.append(m_years);
          }
-         buffer.append ("Y");
+         buffer.append("Y");
 
          if (m_months < 0)
          {
             negative = true;
-            buffer.append (-m_months);
+            buffer.append(-m_months);
          }
          else
          {
-            buffer.append (m_months);
+            buffer.append(m_months);
          }
-         buffer.append ("M");
+         buffer.append("M");
 
          if (m_days < 0)
          {
             negative = true;
-            buffer.append (-m_days);
+            buffer.append(-m_days);
          }
          else
          {
-            buffer.append (m_days);
+            buffer.append(m_days);
          }
-         buffer.append ("D");
+         buffer.append("D");
       }
 
-      buffer.append ("T");
+      buffer.append("T");
 
       if (m_hours < 0)
       {
          negative = true;
-         buffer.append (-m_hours);
+         buffer.append(-m_hours);
       }
       else
       {
-         buffer.append (m_hours);
+         buffer.append(m_hours);
       }
-      buffer.append ("H");
+      buffer.append("H");
 
       if (m_minutes < 0)
       {
          negative = true;
-         buffer.append (-m_minutes);
+         buffer.append(-m_minutes);
       }
       else
       {
-         buffer.append (m_minutes);
+         buffer.append(m_minutes);
       }
-      buffer.append ("M");
+      buffer.append("M");
 
       if (m_seconds < 0)
       {
          negative = true;
-         buffer.append (FORMAT.format(-m_seconds));
+         buffer.append(FORMAT.format(-m_seconds));
       }
       else
       {
-         buffer.append (FORMAT.format(m_seconds));
+         buffer.append(FORMAT.format(m_seconds));
       }
-      buffer.append ("S");
+      buffer.append("S");
 
       if (negative == true)
       {
@@ -431,12 +430,11 @@ final class XsdDuration
     * Configure the decimal separator to be independent of the
     * one used by the default locale.
     */
-   private static final DecimalFormatSymbols SYMBOLS = new DecimalFormatSymbols ();
+   private static final DecimalFormatSymbols SYMBOLS = new DecimalFormatSymbols();
    static
    {
       SYMBOLS.setDecimalSeparator('.');
    }
 
-   private static final DecimalFormat FORMAT = new DecimalFormat ("#", SYMBOLS);
+   private static final DecimalFormat FORMAT = new DecimalFormat("#", SYMBOLS);
 }
-

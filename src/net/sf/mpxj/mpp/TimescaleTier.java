@@ -134,7 +134,7 @@ public final class TimescaleTier
     *
     * @return label alignment
     */
-   public TimescaleAlignment getAlignment ()
+   public TimescaleAlignment getAlignment()
    {
       return (m_alignment);
    }
@@ -144,7 +144,7 @@ public final class TimescaleTier
     *
     * @param alignment label alignment
     */
-   public void setAlignment (TimescaleAlignment alignment)
+   public void setAlignment(TimescaleAlignment alignment)
    {
       m_alignment = alignment;
    }
@@ -154,18 +154,9 @@ public final class TimescaleTier
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return
-      (
-         "[TimescaleTier UsesFiscalYear=" + m_usesFiscalYear +
-         " TickLines=" + m_tickLines +
-         " Units=" + m_units +
-         " Count=" + m_count +
-         " Format=" + m_format +
-         " Alignment=" + m_alignment +
-         "]"
-      );
+      return ("[TimescaleTier UsesFiscalYear=" + m_usesFiscalYear + " TickLines=" + m_tickLines + " Units=" + m_units + " Count=" + m_count + " Format=" + m_format + " Alignment=" + m_alignment + "]");
    }
 
    private boolean m_usesFiscalYear;

@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-
 /**
  * This class represents the a block of fixed length data items that appears
  * in the Microsoft Project 98 file format.
@@ -48,7 +47,7 @@ final class FixFix extends MPPComponent
     * @param is Input stream
     * @throws IOException Thrown when reading from the stream fails
     */
-   FixFix (int itemSize, InputStream is)
+   FixFix(int itemSize, InputStream is)
       throws IOException
    {
       m_size = is.available();
@@ -56,7 +55,7 @@ final class FixFix extends MPPComponent
       int itemCount = m_size / itemSize;
       m_array = new Object[itemCount];
 
-      for (int loop=0; loop < itemCount; loop++)
+      for (int loop = 0; loop < itemCount; loop++)
       {
          m_array[loop] = readByteArray(is, itemSize);
       }
@@ -70,7 +69,7 @@ final class FixFix extends MPPComponent
     *
     * @return remainder
     */
-   public int getDiff ()
+   public int getDiff()
    {
       return (m_diff);
    }
@@ -80,7 +79,7 @@ final class FixFix extends MPPComponent
     *
     * @return data block size
     */
-   public int getSize ()
+   public int getSize()
    {
       return (m_size);
    }
@@ -93,13 +92,13 @@ final class FixFix extends MPPComponent
     * @param index index of the data item to be retrieved
     * @return byte array containing the requested data
     */
-   public byte[] getByteArrayValue (int index)
+   public byte[] getByteArrayValue(int index)
    {
       byte[] result = null;
 
       if (m_array[index] != null)
       {
-         result = (byte[])m_array[index];
+         result = (byte[]) m_array[index];
       }
 
       return (result);
@@ -111,7 +110,7 @@ final class FixFix extends MPPComponent
     *
     * @return number of items in the block
     */
-   public int getItemCount ()
+   public int getItemCount()
    {
       return (m_array.length);
    }
@@ -122,20 +121,20 @@ final class FixFix extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN FixFix");
-      for (int loop=0; loop < m_array.length; loop++)
+      pw.println("BEGIN FixFix");
+      for (int loop = 0; loop < m_array.length; loop++)
       {
-         pw.println ("   Data at index: " + loop);
-         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
+         pw.println("   Data at index: " + loop);
+         pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
       }
-      pw.println ("END FixFix");
+      pw.println("END FixFix");
 
-      pw.println ();
+      pw.println();
       pw.close();
       return (sw.toString());
    }

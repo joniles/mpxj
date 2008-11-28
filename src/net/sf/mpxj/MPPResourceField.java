@@ -23,8 +23,6 @@
 
 package net.sf.mpxj;
 
-
-
 /**
  * Utility class used to map between the integer values held in MS Project
  * to represent a resource field, and the enumerated type used to represent
@@ -39,11 +37,11 @@ public final class MPPResourceField
     * @param value value from an MS Project file
     * @return ResourceField instance
     */
-   public static ResourceField getInstance (int value)
+   public static ResourceField getInstance(int value)
    {
       ResourceField result = null;
 
-      if (value >=0 && value < FIELD_ARRAY.length)
+      if (value >= 0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
       }
@@ -56,8 +54,8 @@ public final class MPPResourceField
     * 
     * @param value field instance
     * @return field ID
-    */   
-   public static int getID (ResourceField value)
+    */
+   public static int getID(ResourceField value)
    {
       return (ID_ARRAY[value.getValue()]);
    }
@@ -270,34 +268,34 @@ public final class MPPResourceField
    private static final int BASELINE1_WORK_VALUE = 342;
    private static final int BASELINE1_COST_VALUE = 343;
    private static final int BASELINE2_WORK_VALUE = 352;
-   private static final int BASELINE2_COST_VALUE = 353;   
+   private static final int BASELINE2_COST_VALUE = 353;
    private static final int BASELINE3_WORK_VALUE = 362;
    private static final int BASELINE3_COST_VALUE = 363;
    private static final int BASELINE4_WORK_VALUE = 372;
-   private static final int BASELINE4_COST_VALUE = 373;   
+   private static final int BASELINE4_COST_VALUE = 373;
    private static final int BASELINE5_WORK_VALUE = 382;
    private static final int BASELINE5_COST_VALUE = 383;
    private static final int BASELINE6_WORK_VALUE = 392;
-   private static final int BASELINE6_COST_VALUE = 393;   
+   private static final int BASELINE6_COST_VALUE = 393;
    private static final int BASELINE7_WORK_VALUE = 402;
-   private static final int BASELINE7_COST_VALUE = 403;   
+   private static final int BASELINE7_COST_VALUE = 403;
    private static final int BASELINE8_WORK_VALUE = 412;
-   private static final int BASELINE8_COST_VALUE = 413;   
+   private static final int BASELINE8_COST_VALUE = 413;
    private static final int BASELINE9_WORK_VALUE = 422;
    private static final int BASELINE9_COST_VALUE = 423;
    private static final int BASELINE10_WORK_VALUE = 432;
    private static final int BASELINE10_COST_VALUE = 433;
 
-   private static final int ENTERPRISE_COST1_VALUE = 446; 
-   private static final int ENTERPRISE_COST2_VALUE = 447; 
-   private static final int ENTERPRISE_COST3_VALUE = 448; 
-   private static final int ENTERPRISE_COST4_VALUE = 449; 
-   private static final int ENTERPRISE_COST5_VALUE = 450; 
-   private static final int ENTERPRISE_COST6_VALUE = 451; 
-   private static final int ENTERPRISE_COST7_VALUE = 452;       
-   private static final int ENTERPRISE_COST8_VALUE = 453; 
-   private static final int ENTERPRISE_COST9_VALUE = 454; 
-   private static final int ENTERPRISE_COST10_VALUE = 455; 
+   private static final int ENTERPRISE_COST1_VALUE = 446;
+   private static final int ENTERPRISE_COST2_VALUE = 447;
+   private static final int ENTERPRISE_COST3_VALUE = 448;
+   private static final int ENTERPRISE_COST4_VALUE = 449;
+   private static final int ENTERPRISE_COST5_VALUE = 450;
+   private static final int ENTERPRISE_COST6_VALUE = 451;
+   private static final int ENTERPRISE_COST7_VALUE = 452;
+   private static final int ENTERPRISE_COST8_VALUE = 453;
+   private static final int ENTERPRISE_COST9_VALUE = 454;
+   private static final int ENTERPRISE_COST10_VALUE = 455;
    private static final int ENTERPRISE_DATE1_VALUE = 456;
    private static final int ENTERPRISE_DATE2_VALUE = 457;
    private static final int ENTERPRISE_DATE3_VALUE = 458;
@@ -327,7 +325,7 @@ public final class MPPResourceField
    private static final int ENTERPRISE_DATE27_VALUE = 482;
    private static final int ENTERPRISE_DATE28_VALUE = 483;
    private static final int ENTERPRISE_DATE29_VALUE = 484;
-   private static final int ENTERPRISE_DATE30_VALUE = 485;   
+   private static final int ENTERPRISE_DATE30_VALUE = 485;
    private static final int ENTERPRISE_DURATION1_VALUE = 486;
    private static final int ENTERPRISE_DURATION2_VALUE = 487;
    private static final int ENTERPRISE_DURATION3_VALUE = 488;
@@ -337,9 +335,8 @@ public final class MPPResourceField
    private static final int ENTERPRISE_DURATION7_VALUE = 492;
    private static final int ENTERPRISE_DURATION8_VALUE = 493;
    private static final int ENTERPRISE_DURATION9_VALUE = 494;
-   private static final int ENTERPRISE_DURATION10_VALUE = 495;   
-   
-   
+   private static final int ENTERPRISE_DURATION10_VALUE = 495;
+
    private static final int ENTERPRISE_FLAG1_VALUE = 506;
    private static final int ENTERPRISE_FLAG2_VALUE = 507;
    private static final int ENTERPRISE_FLAG3_VALUE = 508;
@@ -359,9 +356,8 @@ public final class MPPResourceField
    private static final int ENTERPRISE_FLAG17_VALUE = 522;
    private static final int ENTERPRISE_FLAG18_VALUE = 523;
    private static final int ENTERPRISE_FLAG19_VALUE = 524;
-   private static final int ENTERPRISE_FLAG20_VALUE = 525;   
-   
-   
+   private static final int ENTERPRISE_FLAG20_VALUE = 525;
+
    private static final int ENTERPRISE_NUMBER1_VALUE = 546;
    private static final int ENTERPRISE_NUMBER2_VALUE = 547;
    private static final int ENTERPRISE_NUMBER3_VALUE = 548;
@@ -400,9 +396,9 @@ public final class MPPResourceField
    private static final int ENTERPRISE_NUMBER36_VALUE = 581;
    private static final int ENTERPRISE_NUMBER37_VALUE = 582;
    private static final int ENTERPRISE_NUMBER38_VALUE = 583;
-   private static final int ENTERPRISE_NUMBER39_VALUE = 584;  
+   private static final int ENTERPRISE_NUMBER39_VALUE = 584;
    private static final int ENTERPRISE_NUMBER40_VALUE = 585;
-   
+
    private static final int ENTERPRISE_TEXT1_VALUE = 646;
    private static final int ENTERPRISE_TEXT2_VALUE = 647;
    private static final int ENTERPRISE_TEXT3_VALUE = 648;
@@ -443,14 +439,14 @@ public final class MPPResourceField
    private static final int ENTERPRISE_TEXT38_VALUE = 683;
    private static final int ENTERPRISE_TEXT39_VALUE = 684;
    private static final int ENTERPRISE_TEXT40_VALUE = 685;
-  
+
    private static final int ENTERPRISE_VALUE = 691;
-   
+
    private static final int ERRORS_VALUE = 738;
    private static final int IMPORT_VALUE = 755;
-   
+
    public static final int MAX_VALUE = 756;
-   
+
    private static final ResourceField[] FIELD_ARRAY = new ResourceField[MAX_VALUE];
 
    static
@@ -678,7 +674,7 @@ public final class MPPResourceField
       FIELD_ARRAY[BASELINE9_WORK_VALUE] = ResourceField.BASELINE9_WORK;
       FIELD_ARRAY[BASELINE9_COST_VALUE] = ResourceField.BASELINE9_COST;
       FIELD_ARRAY[BASELINE10_WORK_VALUE] = ResourceField.BASELINE10_WORK;
-      FIELD_ARRAY[BASELINE10_COST_VALUE] = ResourceField.BASELINE10_COST;      
+      FIELD_ARRAY[BASELINE10_COST_VALUE] = ResourceField.BASELINE10_COST;
       FIELD_ARRAY[ENTERPRISE_COST1_VALUE] = ResourceField.ENTERPRISE_COST1;
       FIELD_ARRAY[ENTERPRISE_COST2_VALUE] = ResourceField.ENTERPRISE_COST2;
       FIELD_ARRAY[ENTERPRISE_COST3_VALUE] = ResourceField.ENTERPRISE_COST3;
@@ -828,13 +824,12 @@ public final class MPPResourceField
       FIELD_ARRAY[ENTERPRISE_TEXT37_VALUE] = ResourceField.ENTERPRISE_TEXT37;
       FIELD_ARRAY[ENTERPRISE_TEXT38_VALUE] = ResourceField.ENTERPRISE_TEXT38;
       FIELD_ARRAY[ENTERPRISE_TEXT39_VALUE] = ResourceField.ENTERPRISE_TEXT39;
-      FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = ResourceField.ENTERPRISE_TEXT40; 
+      FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = ResourceField.ENTERPRISE_TEXT40;
       FIELD_ARRAY[ENTERPRISE_VALUE] = ResourceField.ENTERPRISE;
       FIELD_ARRAY[ERRORS_VALUE] = ResourceField.ERRORS;
       FIELD_ARRAY[IMPORT_VALUE] = ResourceField.IMPORT;
    }
 
-   
    private static final int[] ID_ARRAY = new int[MAX_VALUE];
 
    static
@@ -1042,7 +1037,7 @@ public final class MPPResourceField
       ID_ARRAY[ResourceField.TYPE_VALUE] = TYPE_VALUE;
       ID_ARRAY[ResourceField.VAC_VALUE] = VAC_VALUE;
       ID_ARRAY[ResourceField.GROUP_BY_SUMMARY_VALUE] = GROUP_BY_SUMMARY_VALUE;
-      ID_ARRAY[ResourceField.WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT_VALUE;            
+      ID_ARRAY[ResourceField.WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT_VALUE;
       ID_ARRAY[ResourceField.BASELINE1_WORK_VALUE] = BASELINE1_WORK_VALUE;
       ID_ARRAY[ResourceField.BASELINE1_COST_VALUE] = BASELINE1_COST_VALUE;
       ID_ARRAY[ResourceField.BASELINE2_WORK_VALUE] = BASELINE2_WORK_VALUE;
@@ -1212,11 +1207,11 @@ public final class MPPResourceField
       ID_ARRAY[ResourceField.ENTERPRISE_TEXT37_VALUE] = ENTERPRISE_TEXT37_VALUE;
       ID_ARRAY[ResourceField.ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38_VALUE;
       ID_ARRAY[ResourceField.ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39_VALUE;
-      ID_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;      
-      ID_ARRAY[ResourceField.ENTERPRISE_VALUE] = ENTERPRISE_VALUE;      
+      ID_ARRAY[ResourceField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;
+      ID_ARRAY[ResourceField.ENTERPRISE_VALUE] = ENTERPRISE_VALUE;
       ID_ARRAY[ResourceField.ERRORS_VALUE] = ERRORS_VALUE;
       ID_ARRAY[ResourceField.IMPORT_VALUE] = IMPORT_VALUE;
    }
-   
-   public static final int RESOURCE_FIELD_BASE = 0x0C400000;      
+
+   public static final int RESOURCE_FIELD_BASE = 0x0C400000;
 }

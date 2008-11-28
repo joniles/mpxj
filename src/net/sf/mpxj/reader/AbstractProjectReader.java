@@ -30,7 +30,6 @@ import java.io.IOException;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 
-
 /**
  * Abstract implementation of the ProjectReader interface
  * which supplies implementations of the trivial read methods.
@@ -40,8 +39,7 @@ public abstract class AbstractProjectReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read (String fileName)
-      throws MPXJException
+   public ProjectFile read(String fileName) throws MPXJException
    {
       try
       {
@@ -60,8 +58,7 @@ public abstract class AbstractProjectReader implements ProjectReader
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read (File file)
-      throws MPXJException
+   public ProjectFile read(File file) throws MPXJException
    {
       try
       {

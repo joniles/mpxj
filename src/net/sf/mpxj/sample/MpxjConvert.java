@@ -29,7 +29,6 @@ import net.sf.mpxj.reader.ProjectReaderUtility;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
-
 /**
  * This is a general utility designed to convert from one project file format
  * to another. It will typically be used as a command line utility. The
@@ -43,13 +42,13 @@ public final class MpxjConvert
     *
     * @param args array of command line arguments
     */
-   public static void main (String[] args)
+   public static void main(String[] args)
    {
       try
       {
          if (args.length != 2)
          {
-            System.out.println ("Usage: MpxjConvert <input file name> <output file name>");
+            System.out.println("Usage: MpxjConvert <input file name> <output file name>");
          }
          else
          {
@@ -71,22 +70,20 @@ public final class MpxjConvert
     * @param outputFile output file
     * @throws Exception
     */
-   public void process (String inputFile, String outputFile)
-      throws Exception
+   public void process(String inputFile, String outputFile) throws Exception
    {
-      System.out.println ("Reading input file started.");
+      System.out.println("Reading input file started.");
       long start = System.currentTimeMillis();
       ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
       ProjectFile projectFile = reader.read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
-      System.out.println ("Reading input file completed in " + elapsed + "ms.");
+      System.out.println("Reading input file completed in " + elapsed + "ms.");
 
-      System.out.println ("Writing output file started.");
+      System.out.println("Writing output file started.");
       start = System.currentTimeMillis();
       ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
       writer.write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
-      System.out.println ("Writing output completed in " + elapsed + "ms.");
+      System.out.println("Writing output completed in " + elapsed + "ms.");
    }
 }
-

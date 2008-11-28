@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       18 January, 2007
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-
 /**
  * This class allows group definitions to be read from an MPP9 file.
  */
@@ -34,10 +33,10 @@ public final class GroupReader9 extends GroupReader
     * 
     * @return VarData type
     */
-   @Override protected Integer getVarDataType ()
+   @Override protected Integer getVarDataType()
    {
-      return(GROUP_DATA);
+      return (GROUP_DATA);
    }
-      
+
    private static final Integer GROUP_DATA = Integer.valueOf(1);
 }

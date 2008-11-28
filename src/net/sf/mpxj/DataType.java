@@ -33,22 +33,22 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum DataType implements MpxjEnum
 {
-   STRING (1),
-   DATE (2),
-   CURRENCY (3),
-   BOOLEAN (4),
-   NUMERIC (5),
-   DURATION (6),      
-   UNITS (7),
-   PERCENTAGE (8),
-   ACCRUE (9),
-   CONSTRAINT (10),   
-   RATE (11),
-   PRIORITY (12),
-   RELATION_LIST (13),
-   TASK_TYPE (14),
-   RESOURCE_TYPE (15);
-   
+   STRING(1),
+   DATE(2),
+   CURRENCY(3),
+   BOOLEAN(4),
+   NUMERIC(5),
+   DURATION(6),
+   UNITS(7),
+   PERCENTAGE(8),
+   ACCRUE(9),
+   CONSTRAINT(10),
+   RATE(11),
+   PRIORITY(12),
+   RELATION_LIST(13),
+   TASK_TYPE(14),
+   RESOURCE_TYPE(15);
+
    /**
     * Private constructor.
     * 
@@ -121,4 +121,3 @@ public enum DataType implements MpxjEnum
     */
    private int m_value;
 }
-

@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2005
  * date:       Jan 27, 2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -40,11 +40,11 @@ public class SplitView9 extends GenericView
     * @param varData var data block
     * @throws IOException
     */
-   SplitView9 (byte[] fixedData, Var2Data varData)
+   SplitView9(byte[] fixedData, Var2Data varData)
       throws IOException
    {
-      super (fixedData);
-      
+      super(fixedData);
+
       byte[] propsData = varData.getByteArray(m_id, PROPERTIES);
       if (propsData != null)
       {
@@ -55,15 +55,15 @@ public class SplitView9 extends GenericView
          {
             m_upperViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(upperViewName));
          }
-         
+
          byte[] lowerViewName = props.getByteArray(LOWER_VIEW_NAME);
          if (lowerViewName != null)
          {
             m_lowerViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(lowerViewName));
-         }         
+         }
       }
    }
-   
+
    /**
     * Retrieves the lower view name.
     * 
@@ -87,15 +87,15 @@ public class SplitView9 extends GenericView
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return ("[SplitView9 upperViewName=" + m_upperViewName + " lowerViewName=" + m_lowerViewName + "]");
    }
-   
+
    private String m_upperViewName;
    private String m_lowerViewName;
-   
-   private static final Integer PROPERTIES = Integer.valueOf(1);      
+
+   private static final Integer PROPERTIES = Integer.valueOf(1);
    private static final Integer UPPER_VIEW_NAME = Integer.valueOf(574619658);
    private static final Integer LOWER_VIEW_NAME = Integer.valueOf(574619659);
 }

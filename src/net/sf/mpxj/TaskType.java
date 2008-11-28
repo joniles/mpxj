@@ -33,20 +33,19 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum TaskType implements MpxjEnum
 {
-   FIXED_UNITS (0),
-   FIXED_DURATION (1),
-   FIXED_WORK (2);
-   
+   FIXED_UNITS(0),
+   FIXED_DURATION(1),
+   FIXED_WORK(2);
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private TaskType (int type)
+   private TaskType(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -54,8 +53,8 @@ public enum TaskType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static TaskType getInstance (int type)
-   {      
+   public static TaskType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = FIXED_WORK.getValue();
@@ -63,14 +62,13 @@ public enum TaskType implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static TaskType getInstance (Number type)
+   public static TaskType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -84,30 +82,27 @@ public enum TaskType implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final TaskType[] TYPE_VALUES = new TaskType[3];
    static
-   {      
+   {
       for (TaskType e : EnumSet.range(TaskType.FIXED_UNITS, TaskType.FIXED_WORK))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

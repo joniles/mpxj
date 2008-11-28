@@ -43,7 +43,7 @@ final class LocaleUtility
    /**
     * Constructor.
     */
-   private LocaleUtility ()
+   private LocaleUtility()
    {
       // Private constructor to prevent instantiation
    }
@@ -54,7 +54,7 @@ final class LocaleUtility
     * @param file project file
     * @param locale locale to be used
     */
-   public static void setLocale (ProjectFile file, Locale locale)
+   public static void setLocale(ProjectFile file, Locale locale)
    {
       file.setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
       setLocale(file.getFileCreationRecord(), locale);
@@ -69,11 +69,11 @@ final class LocaleUtility
     * @param fcr file creation record instance
     * @param locale new locale
     */
-   private static void setLocale (FileCreationRecord fcr, Locale locale)
+   private static void setLocale(FileCreationRecord fcr, Locale locale)
    {
       fcr.setDelimiter(LocaleData.getChar(locale, LocaleData.FILE_DELIMITER));
       fcr.setProgramName(LocaleData.getString(locale, LocaleData.PROGRAM_NAME));
-      fcr.setCodePage((CodePage)LocaleData.getObject(locale, LocaleData.CODE_PAGE));
+      fcr.setCodePage((CodePage) LocaleData.getObject(locale, LocaleData.CODE_PAGE));
    }
 
    /**
@@ -84,36 +84,36 @@ final class LocaleUtility
     * @param header project header instance
     * @param locale new locale
     */
-   private static void setLocale (ProjectHeader header, Locale locale)
+   private static void setLocale(ProjectHeader header, Locale locale)
    {
       header.setCurrencySymbol(LocaleData.getString(locale, LocaleData.CURRENCY_SYMBOL));
-      header.setSymbolPosition((CurrencySymbolPosition)LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
+      header.setSymbolPosition((CurrencySymbolPosition) LocaleData.getObject(locale, LocaleData.CURRENCY_SYMBOL_POSITION));
       header.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       header.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       header.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
 
-      header.setDateOrder((DateOrder)LocaleData.getObject(locale, LocaleData.DATE_ORDER));
-      header.setTimeFormat((ProjectTimeFormat)LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
-      header.setIntegerDefaultStartTime (LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
+      header.setDateOrder((DateOrder) LocaleData.getObject(locale, LocaleData.DATE_ORDER));
+      header.setTimeFormat((ProjectTimeFormat) LocaleData.getObject(locale, LocaleData.TIME_FORMAT));
+      header.setIntegerDefaultStartTime(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME));
       header.setDateSeparator(LocaleData.getChar(locale, LocaleData.DATE_SEPARATOR));
       header.setTimeSeparator(LocaleData.getChar(locale, LocaleData.TIME_SEPARATOR));
       header.setAMText(LocaleData.getString(locale, LocaleData.AM_TEXT));
       header.setPMText(LocaleData.getString(locale, LocaleData.PM_TEXT));
-      header.setDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
-      header.setBarTextDateFormat((ProjectDateFormat)LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      header.setDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
+      header.setBarTextDateFormat((ProjectDateFormat) LocaleData.getObject(locale, LocaleData.DATE_FORMAT));
    }
-   
+
    /**
     * Retrieves an array containing the locales supported by MPXJ's 
     * MPX functionality.
     * 
     * @return array of supported locales
     */
-   public static Locale[] getSupportedLocales ()
+   public static Locale[] getSupportedLocales()
    {
       return (SUPPORTED_LOCALES);
    }
-   
+
    /**
     * Array of locales supported by MPXJ's MPX functionality.
     */

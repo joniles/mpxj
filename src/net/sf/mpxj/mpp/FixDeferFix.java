@@ -41,7 +41,7 @@ final class FixDeferFix extends MPPComponent
     * @param is Input stream
     * @throws IOException Thrown on read errors
     */
-   FixDeferFix (InputStream is)
+   FixDeferFix(InputStream is)
       throws IOException
    {
       m_data = new byte[is.available()];
@@ -56,7 +56,7 @@ final class FixDeferFix extends MPPComponent
     * @param offset Offset into the file
     * @return Byte array containing the requested data
     */
-   public byte[] getByteArray (int offset)
+   public byte[] getByteArray(int offset)
    {
       byte[] result = null;
 
@@ -80,7 +80,7 @@ final class FixDeferFix extends MPPComponent
 
                while (nextBlockOffset != -1)
                {
-                  MPPUtility.getByteArray (m_data, offset, blockRemainingSize, result, resultOffset);
+                  MPPUtility.getByteArray(m_data, offset, blockRemainingSize, result, resultOffset);
                   resultOffset += blockRemainingSize;
                   offset += blockRemainingSize;
                   itemRemainingSize -= blockRemainingSize;
@@ -95,7 +95,7 @@ final class FixDeferFix extends MPPComponent
                   blockRemainingSize = 32;
                }
 
-               MPPUtility.getByteArray (m_data, offset, itemRemainingSize, result, resultOffset);
+               MPPUtility.getByteArray(m_data, offset, itemRemainingSize, result, resultOffset);
             }
          }
       }
@@ -109,13 +109,13 @@ final class FixDeferFix extends MPPComponent
     * @param offset Offset into var data
     * @return String value
     */
-   public String getString (int offset)
+   public String getString(int offset)
    {
       String result = null;
-      byte[] data = getByteArray (offset);
+      byte[] data = getByteArray(offset);
       if (data != null)
       {
-         result = new String (data);
+         result = new String(data);
       }
 
       return (result);
@@ -127,10 +127,10 @@ final class FixDeferFix extends MPPComponent
     * @param offset Offset into var data
     * @return String value
     */
-   public String getUnicodeString (int offset)
+   public String getUnicodeString(int offset)
    {
       String result = null;
-      byte[] data = getByteArray (offset);
+      byte[] data = getByteArray(offset);
       if (data != null)
       {
          result = MPPUtility.getUnicodeString(data);
@@ -145,12 +145,12 @@ final class FixDeferFix extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN FixDeferFix");
+      pw.println("BEGIN FixDeferFix");
 
       //
       // Calculate the block size
@@ -174,8 +174,8 @@ final class FixDeferFix extends MPPComponent
       int nextBlockOffset;
       byte[] buffer;
       int bufferOffset;
-      TreeSet<Integer> skipped = new TreeSet<Integer> ();
-      TreeSet<Integer> read = new TreeSet<Integer> ();
+      TreeSet<Integer> skipped = new TreeSet<Integer>();
+      TreeSet<Integer> read = new TreeSet<Integer>();
       int startOffset;
 
       while (fileOffset < available || skipped.size() != 0)
@@ -218,7 +218,7 @@ final class FixDeferFix extends MPPComponent
 
          while (nextBlockOffset != -1)
          {
-            MPPUtility.getByteArray (m_data, fileOffset, blockRemainingSize, buffer, bufferOffset);
+            MPPUtility.getByteArray(m_data, fileOffset, blockRemainingSize, buffer, bufferOffset);
             bufferOffset += blockRemainingSize;
             fileOffset += blockRemainingSize;
             itemRemainingSize -= blockRemainingSize;
@@ -241,7 +241,7 @@ final class FixDeferFix extends MPPComponent
             blockRemainingSize = 32;
          }
 
-         MPPUtility.getByteArray (m_data, fileOffset, itemRemainingSize, buffer, bufferOffset);
+         MPPUtility.getByteArray(m_data, fileOffset, itemRemainingSize, buffer, bufferOffset);
          fileOffset += itemRemainingSize;
 
          if (itemRemainingSize < blockRemainingSize)
@@ -250,12 +250,12 @@ final class FixDeferFix extends MPPComponent
             fileOffset += skip;
          }
 
-         pw.println ("   Data: offset: " + startOffset + " size: " + buffer.length);
-         pw.println ("  " + MPPUtility.hexdump (buffer, true));
+         pw.println("   Data: offset: " + startOffset + " size: " + buffer.length);
+         pw.println("  " + MPPUtility.hexdump(buffer, true));
       }
 
-      pw.println ("END FixDeferFix");
-      pw.println ();
+      pw.println("END FixDeferFix");
+      pw.println();
       pw.close();
 
       return (sw.toString());

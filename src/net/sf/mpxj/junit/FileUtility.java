@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       07-Mar-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -38,8 +38,7 @@ public final class FileUtility
     * @param file2 File object
     * @return boolean flag
     */
-   public static boolean equals (File file1, File file2)
-      throws Exception
+   public static boolean equals(File file1, File file2) throws Exception
    {
       boolean result;
 
@@ -51,8 +50,8 @@ public final class FileUtility
       {
          result = true;
 
-         FileInputStream input1 = new FileInputStream (file1);
-         FileInputStream input2 = new FileInputStream (file2);
+         FileInputStream input1 = new FileInputStream(file1);
+         FileInputStream input2 = new FileInputStream(file2);
          int c1;
          int c2;
 

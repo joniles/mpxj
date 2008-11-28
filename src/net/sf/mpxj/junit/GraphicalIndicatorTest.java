@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2005
  * date:       24-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -34,7 +34,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.mpp.MPPReader;
 
-
 /**
  * The tests contained in this class exercise the graphical indicator
  * evaluation code.
@@ -46,48 +45,47 @@ public class GraphicalIndicatorTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testGraphicalIndicators ()
-      throws Exception
+   public void testGraphicalIndicators() throws Exception
    {
-      File in = new File (m_basedir + "/GraphicalIndicatorTest.mpp");
+      File in = new File(m_basedir + "/GraphicalIndicatorTest.mpp");
       ProjectFile project = new MPPReader().read(in);
       List<Task> taskList = project.getAllTasks();
       Task[] tasks = taskList.toArray(new Task[taskList.size()]);
-      
-      testIndicator (project, TaskField.COST1, tasks, COST1_RESULTS);
-      testIndicator (project, TaskField.COST2, tasks, COST2_RESULTS);
-      testIndicator (project, TaskField.COST3, tasks, COST3_RESULTS);
-      testIndicator (project, TaskField.COST4, tasks, COST4_RESULTS);
-      
-      testIndicator (project, TaskField.DATE1, tasks, DATE1_RESULTS);
-      testIndicator (project, TaskField.DATE2, tasks, DATE2_RESULTS);
-      testIndicator (project, TaskField.DATE3, tasks, DATE3_RESULTS);
-      testIndicator (project, TaskField.DATE4, tasks, DATE4_RESULTS);
-      testIndicator (project, TaskField.DATE5, tasks, DATE5_RESULTS);
-      
-      testIndicator (project, TaskField.DURATION1, tasks, DURATION1_RESULTS);
-      testIndicator (project, TaskField.DURATION2, tasks, DURATION2_RESULTS);
-      testIndicator (project, TaskField.DURATION3, tasks, DURATION3_RESULTS);
-      testIndicator (project, TaskField.DURATION4, tasks, DURATION4_RESULTS);         
-      
-      testIndicator (project, TaskField.FLAG1, tasks, FLAG_RESULTS);
-      testIndicator (project, TaskField.FLAG2, tasks, FLAG_RESULTS);
-      testIndicator (project, TaskField.FLAG3, tasks, FLAG_RESULTS);         
-      
-      testIndicator (project, TaskField.NUMBER1, tasks, NUMBER1_RESULTS);
-      testIndicator (project, TaskField.NUMBER2, tasks, NUMBER2_RESULTS);
-      testIndicator (project, TaskField.NUMBER3, tasks, NUMBER3_RESULTS);
-      testIndicator (project, TaskField.NUMBER4, tasks, NUMBER4_RESULTS);                  
-      
-      testIndicator (project, TaskField.TEXT1, tasks, TEXT1_RESULTS);
-      testIndicator (project, TaskField.TEXT2, tasks, TEXT2_RESULTS);
-      testIndicator (project, TaskField.TEXT3, tasks, TEXT3_RESULTS);
-      testIndicator (project, TaskField.TEXT4, tasks, TEXT4_RESULTS);                  
-      testIndicator (project, TaskField.TEXT5, tasks, TEXT5_RESULTS);                  
-      testIndicator (project, TaskField.TEXT6, tasks, TEXT6_RESULTS);                  
-      testIndicator (project, TaskField.TEXT7, tasks, TEXT7_RESULTS);                  
-   }   
-     
+
+      testIndicator(project, TaskField.COST1, tasks, COST1_RESULTS);
+      testIndicator(project, TaskField.COST2, tasks, COST2_RESULTS);
+      testIndicator(project, TaskField.COST3, tasks, COST3_RESULTS);
+      testIndicator(project, TaskField.COST4, tasks, COST4_RESULTS);
+
+      testIndicator(project, TaskField.DATE1, tasks, DATE1_RESULTS);
+      testIndicator(project, TaskField.DATE2, tasks, DATE2_RESULTS);
+      testIndicator(project, TaskField.DATE3, tasks, DATE3_RESULTS);
+      testIndicator(project, TaskField.DATE4, tasks, DATE4_RESULTS);
+      testIndicator(project, TaskField.DATE5, tasks, DATE5_RESULTS);
+
+      testIndicator(project, TaskField.DURATION1, tasks, DURATION1_RESULTS);
+      testIndicator(project, TaskField.DURATION2, tasks, DURATION2_RESULTS);
+      testIndicator(project, TaskField.DURATION3, tasks, DURATION3_RESULTS);
+      testIndicator(project, TaskField.DURATION4, tasks, DURATION4_RESULTS);
+
+      testIndicator(project, TaskField.FLAG1, tasks, FLAG_RESULTS);
+      testIndicator(project, TaskField.FLAG2, tasks, FLAG_RESULTS);
+      testIndicator(project, TaskField.FLAG3, tasks, FLAG_RESULTS);
+
+      testIndicator(project, TaskField.NUMBER1, tasks, NUMBER1_RESULTS);
+      testIndicator(project, TaskField.NUMBER2, tasks, NUMBER2_RESULTS);
+      testIndicator(project, TaskField.NUMBER3, tasks, NUMBER3_RESULTS);
+      testIndicator(project, TaskField.NUMBER4, tasks, NUMBER4_RESULTS);
+
+      testIndicator(project, TaskField.TEXT1, tasks, TEXT1_RESULTS);
+      testIndicator(project, TaskField.TEXT2, tasks, TEXT2_RESULTS);
+      testIndicator(project, TaskField.TEXT3, tasks, TEXT3_RESULTS);
+      testIndicator(project, TaskField.TEXT4, tasks, TEXT4_RESULTS);
+      testIndicator(project, TaskField.TEXT5, tasks, TEXT5_RESULTS);
+      testIndicator(project, TaskField.TEXT6, tasks, TEXT6_RESULTS);
+      testIndicator(project, TaskField.TEXT7, tasks, TEXT7_RESULTS);
+   }
+
    /**
     * For a particular field type, ensure that the correct set of graphical
     * indicators are being generated.
@@ -97,24 +95,24 @@ public class GraphicalIndicatorTest extends MPXJTestCase
     * @param rows array of rows containing field data
     * @param expectedResults array of expected results
     */
-   private void testIndicator (ProjectFile project, FieldType fieldType, FieldContainer[] rows, int[] expectedResults)
+   private void testIndicator(ProjectFile project, FieldType fieldType, FieldContainer[] rows, int[] expectedResults)
    {
       GraphicalIndicator indicator = project.getGraphicalIndicator(fieldType);
-      for (int loop=0; loop < expectedResults.length; loop++)
+      for (int loop = 0; loop < expectedResults.length; loop++)
       {
          int value = indicator.evaluate(rows[loop]);
          assertEquals("Testing " + fieldType + " row " + loop, expectedResults[loop], value);
-      }      
+      }
    }
-   
+
    private static final int NONE = 0;
    private static final int GREEN_BALL = 1;
    private static final int AMBER_BALL = 2;
    private static final int RED_BALL = 3;
    private static final int BLACK_BALL = 4;
-   private static final int WHITE_BALL = 5;   
-   
-   private static final int[] COST1_RESULTS = 
+   private static final int WHITE_BALL = 5;
+
+   private static final int[] COST1_RESULTS =
    {
       BLACK_BALL,
       GREEN_BALL,
@@ -131,170 +129,8 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       AMBER_BALL,
       AMBER_BALL
    };
-   
-   private static final int[] COST2_RESULTS = 
-   {
-      WHITE_BALL,
-      AMBER_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      NONE,
-      NONE,
-      BLACK_BALL,
-      WHITE_BALL,
-      WHITE_BALL,
-      WHITE_BALL,
-      WHITE_BALL,
-      WHITE_BALL,
-      WHITE_BALL
-   };
 
-   private static final int[] COST3_RESULTS = 
-   {
-      RED_BALL,
-      RED_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      RED_BALL,
-      RED_BALL,
-      NONE,
-      NONE,
-      NONE,
-      NONE,
-      RED_BALL,
-      RED_BALL
-   };
-
-   private static final int[] COST4_RESULTS = 
-   {
-      GREEN_BALL,
-      AMBER_BALL,
-      GREEN_BALL,
-      RED_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      GREEN_BALL
-   };
-
-   private static final int[] DATE1_RESULTS = 
-   {
-      RED_BALL,
-      RED_BALL,
-      GREEN_BALL,
-      NONE,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL
-   };
-
-   private static final int[] DATE2_RESULTS = 
-   {
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      AMBER_BALL,
-      NONE,
-      NONE,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL
-   };
-
-   private static final int[] DATE3_RESULTS = 
-   {
-      AMBER_BALL,
-      AMBER_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      NONE,
-      NONE,
-      NONE,
-      NONE,
-      AMBER_BALL,
-      AMBER_BALL
-   };
-
-   private static final int[] DATE4_RESULTS = 
-   {
-      GREEN_BALL,
-      RED_BALL,
-      GREEN_BALL,
-      RED_BALL,
-      AMBER_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      RED_BALL,
-      GREEN_BALL
-   };
-   
-   private static final int[] DATE5_RESULTS = 
-   {
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL,
-      GREEN_BALL
-   };
-   
-   private static final int[] DURATION1_RESULTS = 
-   {
-      AMBER_BALL,
-      GREEN_BALL,
-      AMBER_BALL,
-      RED_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL,
-      AMBER_BALL
-   };
-   
-   private static final int[] DURATION2_RESULTS = 
+   private static final int[] COST2_RESULTS =
    {
       WHITE_BALL,
       AMBER_BALL,
@@ -312,7 +148,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       WHITE_BALL
    };
 
-   private static final int[] DURATION3_RESULTS = 
+   private static final int[] COST3_RESULTS =
    {
       RED_BALL,
       RED_BALL,
@@ -330,7 +166,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       RED_BALL
    };
 
-   private static final int[] DURATION4_RESULTS = 
+   private static final int[] COST4_RESULTS =
    {
       GREEN_BALL,
       AMBER_BALL,
@@ -348,12 +184,12 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       GREEN_BALL
    };
 
-   private static final int[] FLAG_RESULTS = 
+   private static final int[] DATE1_RESULTS =
    {
       RED_BALL,
+      RED_BALL,
       GREEN_BALL,
-      RED_BALL,
-      RED_BALL,
+      NONE,
       RED_BALL,
       RED_BALL,
       RED_BALL,
@@ -365,8 +201,80 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       RED_BALL,
       RED_BALL
    };
-   
-   private static final int[] NUMBER1_RESULTS = 
+
+   private static final int[] DATE2_RESULTS =
+   {
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      AMBER_BALL,
+      NONE,
+      NONE,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL
+   };
+
+   private static final int[] DATE3_RESULTS =
+   {
+      AMBER_BALL,
+      AMBER_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      NONE,
+      NONE,
+      NONE,
+      NONE,
+      AMBER_BALL,
+      AMBER_BALL
+   };
+
+   private static final int[] DATE4_RESULTS =
+   {
+      GREEN_BALL,
+      RED_BALL,
+      GREEN_BALL,
+      RED_BALL,
+      AMBER_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      GREEN_BALL
+   };
+
+   private static final int[] DATE5_RESULTS =
+   {
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL
+   };
+
+   private static final int[] DURATION1_RESULTS =
    {
       AMBER_BALL,
       GREEN_BALL,
@@ -383,8 +291,8 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       AMBER_BALL,
       AMBER_BALL
    };
-   
-   private static final int[] NUMBER2_RESULTS = 
+
+   private static final int[] DURATION2_RESULTS =
    {
       WHITE_BALL,
       AMBER_BALL,
@@ -402,7 +310,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       WHITE_BALL
    };
 
-   private static final int[] NUMBER3_RESULTS = 
+   private static final int[] DURATION3_RESULTS =
    {
       RED_BALL,
       RED_BALL,
@@ -420,7 +328,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       RED_BALL
    };
 
-   private static final int[] NUMBER4_RESULTS = 
+   private static final int[] DURATION4_RESULTS =
    {
       GREEN_BALL,
       AMBER_BALL,
@@ -437,8 +345,26 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       AMBER_BALL,
       GREEN_BALL
    };
-   
-   private static final int[] TEXT1_RESULTS = 
+
+   private static final int[] FLAG_RESULTS =
+   {
+      RED_BALL,
+      GREEN_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL
+   };
+
+   private static final int[] NUMBER1_RESULTS =
    {
       AMBER_BALL,
       GREEN_BALL,
@@ -455,8 +381,8 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       AMBER_BALL,
       AMBER_BALL
    };
-   
-   private static final int[] TEXT2_RESULTS = 
+
+   private static final int[] NUMBER2_RESULTS =
    {
       WHITE_BALL,
       AMBER_BALL,
@@ -474,7 +400,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       WHITE_BALL
    };
 
-   private static final int[] TEXT3_RESULTS = 
+   private static final int[] NUMBER3_RESULTS =
    {
       RED_BALL,
       RED_BALL,
@@ -492,7 +418,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       RED_BALL
    };
 
-   private static final int[] TEXT4_RESULTS = 
+   private static final int[] NUMBER4_RESULTS =
    {
       GREEN_BALL,
       AMBER_BALL,
@@ -510,7 +436,79 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       GREEN_BALL
    };
 
-   private static final int[] TEXT5_RESULTS = 
+   private static final int[] TEXT1_RESULTS =
+   {
+      AMBER_BALL,
+      GREEN_BALL,
+      AMBER_BALL,
+      RED_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL
+   };
+
+   private static final int[] TEXT2_RESULTS =
+   {
+      WHITE_BALL,
+      AMBER_BALL,
+      RED_BALL,
+      RED_BALL,
+      RED_BALL,
+      NONE,
+      NONE,
+      BLACK_BALL,
+      WHITE_BALL,
+      WHITE_BALL,
+      WHITE_BALL,
+      WHITE_BALL,
+      WHITE_BALL,
+      WHITE_BALL
+   };
+
+   private static final int[] TEXT3_RESULTS =
+   {
+      RED_BALL,
+      RED_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      GREEN_BALL,
+      RED_BALL,
+      RED_BALL,
+      NONE,
+      NONE,
+      NONE,
+      NONE,
+      RED_BALL,
+      RED_BALL
+   };
+
+   private static final int[] TEXT4_RESULTS =
+   {
+      GREEN_BALL,
+      AMBER_BALL,
+      GREEN_BALL,
+      RED_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      AMBER_BALL,
+      GREEN_BALL
+   };
+
+   private static final int[] TEXT5_RESULTS =
    {
       RED_BALL,
       GREEN_BALL,
@@ -528,7 +526,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       RED_BALL
    };
 
-   private static final int[] TEXT6_RESULTS = 
+   private static final int[] TEXT6_RESULTS =
    {
       NONE,
       GREEN_BALL,
@@ -546,7 +544,7 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       NONE
    };
 
-   private static final int[] TEXT7_RESULTS = 
+   private static final int[] TEXT7_RESULTS =
    {
       GREEN_BALL,
       GREEN_BALL,
@@ -563,5 +561,5 @@ public class GraphicalIndicatorTest extends MPXJTestCase
       GREEN_BALL,
       GREEN_BALL
    };
-   
+
 }

@@ -16,7 +16,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.utility.NumberUtility;
 
-
 /**
  * The purpose of this class is to allow the contents of an MSPDI file
  * to be compared to the contents of an MPP file.
@@ -35,8 +34,7 @@ public final class MppXmlCompare
     * @param xml MSPDI file
     * @param mpp MPP file
     */
-   public void process (ProjectFile xml, ProjectFile mpp)
-      throws Exception
+   public void process(ProjectFile xml, ProjectFile mpp) throws Exception
    {
       m_xml = xml;
       m_mpp = mpp;
@@ -52,8 +50,7 @@ public final class MppXmlCompare
     *
     * @throws Exception
     */
-   private void compareTasks ()
-      throws Exception
+   private void compareTasks() throws Exception
    {
       List<Task> xmlTasks = m_xml.getAllTasks();
 
@@ -61,7 +58,7 @@ public final class MppXmlCompare
       //List mppTasks = m_mpp.getAllTasks();
       //assertEquals(xmlTasks.size(), mppTasks.size());
 
-      for (Task xmlTask: xmlTasks)
+      for (Task xmlTask : xmlTasks)
       {
          // too much variability
          if (NumberUtility.getInt(xmlTask.getUniqueID()) == 0)
@@ -289,14 +286,13 @@ public final class MppXmlCompare
     *
     * @throws Exception
     */
-   private void compareResources ()
-      throws Exception
+   private void compareResources() throws Exception
    {
       List<Resource> xmlResources = m_xml.getAllResources();
       //List mppResources = m_mpp.getAllResources();
       //assertEquals(xmlResources.size(), mppResources.size());
 
-      for (Resource xmlResource: xmlResources)
+      for (Resource xmlResource : xmlResources)
       {
          // too much variability
          if (NumberUtility.getInt(xmlResource.getUniqueID()) == 0)
@@ -312,7 +308,6 @@ public final class MppXmlCompare
 
          Resource mppResource = m_mpp.getResourceByUniqueID(xmlResource.getUniqueID());
          assertNotNull("Missing resource " + xmlResource.getName(), mppResource);
-
 
          assertEquals(xmlResource.getAccrueAt(), mppResource.getAccrueAt());
 
@@ -497,12 +492,11 @@ public final class MppXmlCompare
     * @param object test parameter
     * @throws Exception
     */
-   private void assertNotNull(String message, Object object)
-      throws Exception
+   private void assertNotNull(String message, Object object) throws Exception
    {
       if (object == null)
       {
-         throw new Exception (message);
+         throw new Exception(message);
       }
    }
 
@@ -513,20 +507,19 @@ public final class MppXmlCompare
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(Object expected, Object actual)
-      throws Exception
+   private void assertEquals(Object expected, Object actual) throws Exception
    {
-       if (expected == null && actual == null)
-       {
-           return;
-       }
+      if (expected == null && actual == null)
+      {
+         return;
+      }
 
-       if (expected != null && expected.equals(actual))
-       {
-           return;
-       }
+      if (expected != null && expected.equals(actual))
+      {
+         return;
+      }
 
-       throw new Exception ("Expected: " + expected + " Found: " + actual);
+      throw new Exception("Expected: " + expected + " Found: " + actual);
    }
 
    /**
@@ -537,20 +530,19 @@ public final class MppXmlCompare
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(String expected, String actual)
-      throws Exception
+   private void assertEquals(String expected, String actual) throws Exception
    {
-       if (expected != null && expected.trim().length() == 0)
-       {
-           expected = null;
-       }
+      if (expected != null && expected.trim().length() == 0)
+      {
+         expected = null;
+      }
 
-       if (actual != null && actual.trim().length() == 0)
-       {
-           actual = null;
-       }
+      if (actual != null && actual.trim().length() == 0)
+      {
+         actual = null;
+      }
 
-       assertEquals((Object)expected, (Object)actual);
+      assertEquals((Object) expected, (Object) actual);
    }
 
    /**
@@ -560,12 +552,11 @@ public final class MppXmlCompare
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(boolean expected, boolean actual)
-      throws Exception
+   private void assertEquals(boolean expected, boolean actual) throws Exception
    {
       if (expected != actual)
       {
-         throw new Exception ("Expected: " + expected + " Found: " + actual);
+         throw new Exception("Expected: " + expected + " Found: " + actual);
       }
    }
 
@@ -577,25 +568,23 @@ public final class MppXmlCompare
     * @param delta delta allowance
     * @throws Exception
     */
-   private void assertEquals(double expected, double actual, double delta)
-      throws Exception
+   private void assertEquals(double expected, double actual, double delta) throws Exception
    {
       if (Double.isInfinite(expected))
       {
          if (!(expected == actual))
          {
-            throw new Exception ("Expected: " + expected + " Found: " + actual);
+            throw new Exception("Expected: " + expected + " Found: " + actual);
          }
       }
       else
       {
-         if (!(Math.abs(expected-actual) <= delta))
+         if (!(Math.abs(expected - actual) <= delta))
          {
-            throw new Exception ("Expected: " + expected + " Found: " + actual);
+            throw new Exception("Expected: " + expected + " Found: " + actual);
          }
       }
    }
-
 
    /**
     * Numeric equality assertion, allows null to be equated to zero.
@@ -604,14 +593,13 @@ public final class MppXmlCompare
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(Number expected, Number actual)
-      throws Exception
+   private void assertEquals(Number expected, Number actual) throws Exception
    {
       if (expected != null || actual != null)
       {
          if (expected != null && actual != null)
          {
-            assertEquals (expected.doubleValue(), actual.doubleValue(), 0.05);
+            assertEquals(expected.doubleValue(), actual.doubleValue(), 0.05);
          }
          else
          {
@@ -625,7 +613,7 @@ public final class MppXmlCompare
                expected = null;
             }
 
-            assertEquals((Object)expected, (Object)actual);
+            assertEquals((Object) expected, (Object) actual);
          }
       }
    }
@@ -637,8 +625,7 @@ public final class MppXmlCompare
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(Duration expected, Duration actual)
-      throws Exception
+   private void assertEquals(Duration expected, Duration actual) throws Exception
    {
       if (expected != null || actual != null)
       {
@@ -656,10 +643,9 @@ public final class MppXmlCompare
          }
          else
          {
-            if ((actual == null && expected != null && expected.getDuration() != 0) ||
-                (actual != null && actual.getDuration() != 0 && expected == null))
+            if ((actual == null && expected != null && expected.getDuration() != 0) || (actual != null && actual.getDuration() != 0 && expected == null))
             {
-               assertEquals((Object)expected, (Object)actual);
+               assertEquals((Object) expected, (Object) actual);
             }
          }
       }
@@ -672,8 +658,7 @@ public final class MppXmlCompare
     * @param actual actual value
     * @throws Exception
     */
-   private void assertEquals(Rate expected, Rate actual)
-      throws Exception
+   private void assertEquals(Rate expected, Rate actual) throws Exception
    {
       if (expected != null && actual != null && expected.getUnits() == actual.getUnits())
       {
@@ -691,7 +676,7 @@ public final class MppXmlCompare
             actual = null;
          }
 
-         assertEquals((Object)expected, (Object)actual);
+         assertEquals((Object) expected, (Object) actual);
       }
    }
 

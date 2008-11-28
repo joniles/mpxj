@@ -28,8 +28,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  * This class represents the definition of a table of data from an MPP file.
  * Much of the important information held in MS Project is represented
@@ -47,7 +45,7 @@ public final class Table
     *
     * @return table identifier
     */
-   public int getID ()
+   public int getID()
    {
       return (m_id);
    }
@@ -58,7 +56,7 @@ public final class Table
     *
     * @param id unique table identifier
     */
-   public void setID (int id)
+   public void setID(int id)
    {
       m_id = id;
    }
@@ -71,7 +69,7 @@ public final class Table
     *
     * @return view name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -81,7 +79,7 @@ public final class Table
     *
     * @param name table name
     */
-   public void setName (String name)
+   public void setName(String name)
    {
       m_name = name;
    }
@@ -93,7 +91,7 @@ public final class Table
     *
     * @return boolean flag
     */
-   public boolean getResourceFlag ()
+   public boolean getResourceFlag()
    {
       return (m_resourceFlag);
    }
@@ -105,7 +103,7 @@ public final class Table
     *
     * @param flag boolean flag
     */
-   public void setResourceFlag (boolean flag)
+   public void setResourceFlag(boolean flag)
    {
       m_resourceFlag = flag;
    }
@@ -115,7 +113,7 @@ public final class Table
     *
     * @param column column definition
     */
-   public void addColumn (Column column)
+   public void addColumn(Column column)
    {
       m_columns.add(column);
    }
@@ -125,7 +123,7 @@ public final class Table
     *
     * @return list of columns
     */
-   public List<Column> getColumns ()
+   public List<Column> getColumns()
    {
       return (m_columns);
    }
@@ -136,25 +134,25 @@ public final class Table
     *
     * @return formatted contents of this table
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.print ("[TABLE id=");
-      pw.print (m_id);
-      pw.print (" name=");
-      pw.print (m_name);
-      pw.print (" resourceFlag=");
-      pw.println (m_resourceFlag);
+      pw.print("[TABLE id=");
+      pw.print(m_id);
+      pw.print(" name=");
+      pw.print(m_name);
+      pw.print(" resourceFlag=");
+      pw.println(m_resourceFlag);
 
       for (Column c : m_columns)
       {
-         pw.print ("   ");
-         pw.print (c);
+         pw.print("   ");
+         pw.print(c);
       }
 
-      pw.println ("]");
+      pw.println("]");
       pw.close();
 
       return (sw.toString());
@@ -163,5 +161,5 @@ public final class Table
    private int m_id;
    private String m_name;
    private boolean m_resourceFlag;
-   private ArrayList<Column> m_columns = new ArrayList<Column> ();
+   private ArrayList<Column> m_columns = new ArrayList<Column>();
 }

@@ -29,7 +29,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the time conventions used in MPX files.
@@ -42,7 +41,7 @@ public final class MPXJTimeFormat extends SimpleDateFormat
     * 
     * @param nullText null text value
     */
-   public void setNullText (String nullText)
+   public void setNullText(String nullText)
    {
       m_null = nullText;
    }
@@ -50,8 +49,7 @@ public final class MPXJTimeFormat extends SimpleDateFormat
    /**
     * {@inheritDoc}
     */
-   @Override public Date parse (String str)
-      throws ParseException
+   @Override public Date parse(String str) throws ParseException
    {
       Date result;
 
@@ -80,12 +78,16 @@ public final class MPXJTimeFormat extends SimpleDateFormat
     * @param am AM text
     * @param pm PM text
     */
-   public void setAmPmText (String am, String pm)
+   public void setAmPmText(String am, String pm)
    {
       DateFormatSymbols symbols = getDateFormatSymbols();
-      symbols.setAmPmStrings(new String[]{am,pm});
-      setDateFormatSymbols(symbols);      
+      symbols.setAmPmStrings(new String[]
+      {
+         am,
+         pm
+      });
+      setDateFormatSymbols(symbols);
    }
-   
+
    private String m_null = "NA";
 }

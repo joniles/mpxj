@@ -75,7 +75,25 @@ final class MPPUtility
     * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
     * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00 
     */
-   private static final int[] PASSWORD_MASK = {60, 30, 48, 2, 6, 14, 8, 22, 44, 12, 38, 10, 62, 16, 34, 24};
+   private static final int[] PASSWORD_MASK =
+   {
+      60,
+      30,
+      48,
+      2,
+      6,
+      14,
+      8,
+      22,
+      44,
+      12,
+      38,
+      10,
+      62,
+      16,
+      34,
+      24
+   };
 
    private static final int MINIMUM_PASSWORD_DATA_LENGTH = 64;
 
@@ -1393,7 +1411,25 @@ final class MPPUtility
    /**
     * Constants used to convert bytes to hex digits.
     */
-   private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+   private static final char[] HEX_DIGITS =
+   {
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F'
+   };
 
    /**
     * Mask used to remove flags from the duration units field.

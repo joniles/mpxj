@@ -5,24 +5,22 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import java.util.Calendar;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-@SuppressWarnings("all")
-public class Adapter1
-    extends XmlAdapter<String, Calendar>
+@SuppressWarnings("all") public class Adapter1 extends XmlAdapter<String, Calendar>
 {
 
+   public Calendar unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseTime(value));
+   }
 
-    public Calendar unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseTime(value));
-    }
-
-    public String marshal(Calendar value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printTime(value));
-    }
+   public String marshal(Calendar value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printTime(value));
+   }
 
 }

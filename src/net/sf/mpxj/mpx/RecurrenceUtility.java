@@ -56,7 +56,7 @@ final class RecurrenceUtility
     * @param unitsValue integer units value
     * @return Duration instance
     */
-   public static Duration getDuration (ProjectHeader header, Integer durationValue, Integer unitsValue)
+   public static Duration getDuration(ProjectHeader header, Integer durationValue, Integer unitsValue)
    {
       Duration result;
       if (durationValue == null)
@@ -74,7 +74,7 @@ final class RecurrenceUtility
       }
       return (result);
    }
-   
+
    /**
     * Convert an MPXJ Duration instance into an integer duration in minutes
     * ready to be written to an MPX file.
@@ -83,7 +83,7 @@ final class RecurrenceUtility
     * @param duration Duration instance
     * @return integer duration in minutes
     */
-   public static Integer getDurationValue (ProjectHeader header, Duration duration)
+   public static Integer getDurationValue(ProjectHeader header, Duration duration)
    {
       Integer result;
       if (duration == null)
@@ -96,11 +96,11 @@ final class RecurrenceUtility
          {
             duration = duration.convertUnits(TimeUnit.MINUTES, header);
          }
-         result = Integer.valueOf((int)duration.getDuration());
+         result = Integer.valueOf((int) duration.getDuration());
       }
       return (result);
    }
-   
+
    /**
     * Converts a TimeUnit instance to an integer value suitable for
     * writing to an MPX file.
@@ -108,19 +108,19 @@ final class RecurrenceUtility
     * @param recurrence RecurringTask instance
     * @return integer value
     */
-   public static Integer getDurationUnits (RecurringTask recurrence)
+   public static Integer getDurationUnits(RecurringTask recurrence)
    {
-      Duration duration = recurrence.getDuration();      
+      Duration duration = recurrence.getDuration();
       Integer result = null;
-      
-      if (duration != null)      
+
+      if (duration != null)
       {
          result = UNITS_MAP.get(duration.getUnits());
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Maps a duration unit value from a recurring task record in an MPX file
     * to a TimeUnit instance. Defaults to days if any problems are encountered.
@@ -156,11 +156,11 @@ final class RecurrenceUtility
     * @param value MPX file integer recurrence type
     * @return RecurrenceType instance
     */
-   public static RecurrenceType getRecurrenceType (Integer value)
+   public static RecurrenceType getRecurrenceType(Integer value)
    {
       return (RECURRENCE_TYPE_MAP.get(value));
    }
-   
+
    /**
     * Converts a RecurrenceType instance into the integer representation
     * used in an MPX file.
@@ -168,18 +168,18 @@ final class RecurrenceUtility
     * @param value RecurrenceType instance
     * @return integer representation
     */
-   public static Integer getRecurrenceValue (RecurrenceType value)
+   public static Integer getRecurrenceValue(RecurrenceType value)
    {
       return (RECURRENCE_VALUE_MAP.get(value));
    }
-      
+
    /**
     * Converts the string representation of the days bit field into an integer.
     * 
     * @param days string bit field
     * @return integer bit field
     */
-   public static Integer getDays (String days)
+   public static Integer getDays(String days)
    {
       Integer result = null;
       if (days != null)
@@ -188,32 +188,32 @@ final class RecurrenceUtility
       }
       return (result);
    }
-   
+
    /**
     * Converts an integer bit field into a string representation.
     * 
     * @param days integer bit field
     * @return string representation
     */
-   public static String getDays (Integer days)
+   public static String getDays(Integer days)
    {
       String result = null;
       if (days != null)
       {
-         StringBuffer sb = new StringBuffer("0000000");        
+         StringBuffer sb = new StringBuffer("0000000");
          sb.append(Integer.toBinaryString(days.intValue()));
-         result = sb.toString().substring(sb.length()-7);
+         result = sb.toString().substring(sb.length() - 7);
       }
       return (result);
    }
-   
+
    /**
     * Convert MPX day index to Day instance.
     * 
     * @param day day index
     * @return Day instance
     */
-   public static Day getDay (Integer day)
+   public static Day getDay(Integer day)
    {
       Day result = null;
       if (day != null)
@@ -222,14 +222,14 @@ final class RecurrenceUtility
       }
       return (result);
    }
-   
+
    /**
     * Convert Day instance to MPX day index.
     * 
     * @param day Day instance
     * @return day index
     */
-   public static Integer getDay (Day day)
+   public static Integer getDay(Day day)
    {
       Integer result = null;
       if (day != null)
@@ -238,32 +238,32 @@ final class RecurrenceUtility
       }
       return (result);
    }
-   
+
    /**
     * Array to map from the integer representation of a
     * duration's units in the recurring task record to 
     * a TimeUnit instance.
     */
-   private static final TimeUnit[] DURATION_UNITS = 
+   private static final TimeUnit[] DURATION_UNITS =
    {
-      TimeUnit.DAYS, 
-      TimeUnit.WEEKS, 
-      TimeUnit.HOURS, 
+      TimeUnit.DAYS,
+      TimeUnit.WEEKS,
+      TimeUnit.HOURS,
       TimeUnit.MINUTES
    };
-   
+
    /**
     * Map to allow conversion of a TimeUnit instance back to an integer. 
     */
    private static final Map<TimeUnit, Integer> UNITS_MAP = new HashMap<TimeUnit, Integer>();
    static
    {
-      for (int loop=0; loop < DURATION_UNITS.length; loop++)
+      for (int loop = 0; loop < DURATION_UNITS.length; loop++)
       {
          UNITS_MAP.put(DURATION_UNITS[loop], Integer.valueOf(loop));
       }
    }
-   
+
    /**
     * Map of integer values to RecurrenceType instances.
     */
@@ -275,7 +275,7 @@ final class RecurrenceUtility
       RECURRENCE_TYPE_MAP.put(Integer.valueOf(8), RecurrenceType.MONTHLY);
       RECURRENCE_TYPE_MAP.put(Integer.valueOf(16), RecurrenceType.YEARLY);
    }
-   
+
    /**
     * Map of  RecurrenceType instances to integer values.
     */
@@ -291,7 +291,7 @@ final class RecurrenceUtility
    /**
     * Array mapping from MPX day index to Day instances.
     */
-   private static final Day[] DAY_ARRAY = 
+   private static final Day[] DAY_ARRAY =
    {
       null,
       Day.MONDAY,
@@ -302,7 +302,7 @@ final class RecurrenceUtility
       Day.SATURDAY,
       Day.SUNDAY
    };
-   
+
    /**
     * Map from Day instance to MPX day index.
     */

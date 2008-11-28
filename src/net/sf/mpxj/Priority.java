@@ -23,7 +23,6 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This class is used to represent a priority. It provides a mapping
  * between the textual description of a priority found in an MPX
@@ -39,7 +38,7 @@ public final class Priority
     *
     * @param priority int representation of the priority
     */
-   private Priority (int priority)
+   private Priority(int priority)
    {
       if (priority < 0 || priority > DO_NOT_LEVEL)
       {
@@ -59,13 +58,13 @@ public final class Priority
     * @param priority int version of the priority
     * @return Priority class instance
     */
-   public static Priority getInstance (int priority)
+   public static Priority getInstance(int priority)
    {
       Priority result;
 
       if (priority >= LOWEST && priority <= DO_NOT_LEVEL && (priority % 100 == 0))
       {
-         result = VALUE[(priority/100)-1];
+         result = VALUE[(priority / 100) - 1];
       }
       else
       {
@@ -81,7 +80,7 @@ public final class Priority
     *
     * @return int representation of the priority
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -136,22 +135,21 @@ public final class Priority
     */
    public static final int DO_NOT_LEVEL = 1000;
 
-
    /**
     * Array of type values matching the above constants.
     */
    private static final Priority[] VALUE =
    {
-      new Priority (LOWEST),
-      new Priority (VERY_LOW),
-      new Priority (LOWER),
-      new Priority (LOW),
-      new Priority (MEDIUM),
-      new Priority (HIGH),
-      new Priority (HIGHER),
-      new Priority (VERY_HIGH),
-      new Priority (HIGHEST),
-      new Priority (DO_NOT_LEVEL)
+      new Priority(LOWEST),
+      new Priority(VERY_LOW),
+      new Priority(LOWER),
+      new Priority(LOW),
+      new Priority(MEDIUM),
+      new Priority(HIGH),
+      new Priority(HIGHER),
+      new Priority(VERY_HIGH),
+      new Priority(HIGHEST),
+      new Priority(DO_NOT_LEVEL)
    };
 
    /**

@@ -35,8 +35,6 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectTimeFormat;
 
-
-
 /**
  * This class defines utility routines for handling resources, and also
  * the default set of English resources used in MPX files.
@@ -58,7 +56,7 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   public static final String getString (Locale locale, String key)
+   public static final String getString(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getString(key));
@@ -71,7 +69,7 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   public static final String[] getStringArray (Locale locale, String key)
+   public static final String[] getStringArray(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getStringArray(key));
@@ -84,7 +82,7 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   public static final Object getObject (Locale locale, String key)
+   public static final Object getObject(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getObject(key));
@@ -97,11 +95,10 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   @SuppressWarnings("unchecked")
-   public static final Map getMap (Locale locale, String key)
+   @SuppressWarnings("unchecked") public static final Map getMap(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
-      return ((Map)bundle.getObject(key));
+      return ((Map) bundle.getObject(key));
    }
 
    /**
@@ -111,10 +108,10 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   public static final Integer getInteger (Locale locale, String key)
+   public static final Integer getInteger(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
-      return ((Integer)bundle.getObject(key));
+      return ((Integer) bundle.getObject(key));
    }
 
    /**
@@ -124,7 +121,7 @@ public final class LocaleData extends ListResourceBundle
     * @param key resource key
     * @return resource value
     */
-   public static final char getChar (Locale locale, String key)
+   public static final char getChar(Locale locale, String key)
    {
       ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
       return (bundle.getString(key).charAt(0));
@@ -166,12 +163,28 @@ public final class LocaleData extends ListResourceBundle
    public static final String TASK_NAMES = "TASK_NAMES";
    public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
 
-   private static final String[] TIME_UNITS_ARRAY_DATA = {"m", "h", "d", "w", "mon", "y", "%", "em", "eh", "ed", "ew", "emon", "ey", "e%"};
-   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer> ();
+   private static final String[] TIME_UNITS_ARRAY_DATA =
+   {
+      "m",
+      "h",
+      "d",
+      "w",
+      "mon",
+      "y",
+      "%",
+      "em",
+      "eh",
+      "ed",
+      "ew",
+      "emon",
+      "ey",
+      "e%"
+   };
+   private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
    static
    {
-      for (int loop=0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
+      for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
          TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
       }
@@ -433,40 +446,127 @@ public final class LocaleData extends ListResourceBundle
 
    private static final Object[][] RESOURCE_DATA =
    {
-      {FILE_DELIMITER, ","},
-      {PROGRAM_NAME, "Microsoft Project for Windows"},
-      {FILE_VERSION, "4.0"},
-      {CODE_PAGE, CodePage.ANSI},
+      {
+         FILE_DELIMITER,
+         ","
+      },
+      {
+         PROGRAM_NAME,
+         "Microsoft Project for Windows"
+      },
+      {
+         FILE_VERSION,
+         "4.0"
+      },
+      {
+         CODE_PAGE,
+         CodePage.ANSI
+      },
 
-      {CURRENCY_SYMBOL, "$"},
-      {CURRENCY_SYMBOL_POSITION, CurrencySymbolPosition.BEFORE},
-      {CURRENCY_DIGITS, Integer.valueOf(2)},
-      {CURRENCY_THOUSANDS_SEPARATOR, ","},
-      {CURRENCY_DECIMAL_SEPARATOR, "."},
+      {
+         CURRENCY_SYMBOL,
+         "$"
+      },
+      {
+         CURRENCY_SYMBOL_POSITION,
+         CurrencySymbolPosition.BEFORE
+      },
+      {
+         CURRENCY_DIGITS,
+         Integer.valueOf(2)
+      },
+      {
+         CURRENCY_THOUSANDS_SEPARATOR,
+         ","
+      },
+      {
+         CURRENCY_DECIMAL_SEPARATOR,
+         "."
+      },
 
-      {DATE_ORDER, DateOrder.DMY},
-      {TIME_FORMAT, ProjectTimeFormat.TWELVE_HOUR},
-      {DEFAULT_START_TIME, Integer.valueOf(480)},
-      {DATE_SEPARATOR, "/"},
-      {TIME_SEPARATOR, ":"},
-      {AM_TEXT, "am"},
-      {PM_TEXT, "pm"},
-      {DATE_FORMAT, ProjectDateFormat.DD_MM_YYYY},
-      {BAR_TEXT_DATE_FORMAT, Integer.valueOf(0)},
-      {NA, "NA"},
+      {
+         DATE_ORDER,
+         DateOrder.DMY
+      },
+      {
+         TIME_FORMAT,
+         ProjectTimeFormat.TWELVE_HOUR
+      },
+      {
+         DEFAULT_START_TIME,
+         Integer.valueOf(480)
+      },
+      {
+         DATE_SEPARATOR,
+         "/"
+      },
+      {
+         TIME_SEPARATOR,
+         ":"
+      },
+      {
+         AM_TEXT,
+         "am"
+      },
+      {
+         PM_TEXT,
+         "pm"
+      },
+      {
+         DATE_FORMAT,
+         ProjectDateFormat.DD_MM_YYYY
+      },
+      {
+         BAR_TEXT_DATE_FORMAT,
+         Integer.valueOf(0)
+      },
+      {
+         NA,
+         "NA"
+      },
 
-      {YES, "Yes"},
-      {NO, "No"},
+      {
+         YES,
+         "Yes"
+      },
+      {
+         NO,
+         "No"
+      },
 
-      {TIME_UNITS_ARRAY, TIME_UNITS_ARRAY_DATA},
-      {TIME_UNITS_MAP, TIME_UNITS_MAP_DATA},
+      {
+         TIME_UNITS_ARRAY,
+         TIME_UNITS_ARRAY_DATA
+      },
+      {
+         TIME_UNITS_MAP,
+         TIME_UNITS_MAP_DATA
+      },
 
-      {ACCRUE_TYPES, ACCRUE_TYPES_DATA},
-      {RELATION_TYPES, RELATION_TYPES_DATA},
-      {PRIORITY_TYPES, PRIORITY_TYPES_DATA},
-      {CONSTRAINT_TYPES, CONSTRAINT_TYPES_DATA},
+      {
+         ACCRUE_TYPES,
+         ACCRUE_TYPES_DATA
+      },
+      {
+         RELATION_TYPES,
+         RELATION_TYPES_DATA
+      },
+      {
+         PRIORITY_TYPES,
+         PRIORITY_TYPES_DATA
+      },
+      {
+         CONSTRAINT_TYPES,
+         CONSTRAINT_TYPES_DATA
+      },
 
-      {TASK_NAMES, TASK_NAMES_DATA},
-      {RESOURCE_NAMES, RESOURCE_NAMES_DATA}
+      {
+         TASK_NAMES,
+         TASK_NAMES_DATA
+      },
+      {
+         RESOURCE_NAMES,
+         RESOURCE_NAMES_DATA
+      }
    };
 }

@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-
 /**
  * This class represents the Props files found in Microsoft Project MPP8 files.
  * These files appear to be collections of properties, indexed by an integer
@@ -47,22 +46,22 @@ final class Props8 extends Props
     *
     * @param is input stream fo reading Props data
     */
-   Props8 (InputStream is)
+   Props8(InputStream is)
    {
       try
       {
          //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props8." + System.currentTimeMillis() + ".txt");
          //PrintWriter pw = new PrintWriter (fos);
 
-         readInt (is); // File size
-         readInt (is); // Repeat of file size
+         readInt(is); // File size
+         readInt(is); // Repeat of file size
          readInt(is); // unknown
          int count = readShort(is); // Number of entries
          readShort(is); // unknown
 
          byte[] attrib = new byte[4];
 
-         for (int loop=0; loop < count; loop++)
+         for (int loop = 0; loop < count; loop++)
          {
             int attrib1 = readInt(is);
 
@@ -115,26 +114,25 @@ final class Props8 extends Props
          //
          // What follows next appears to be a string length
          //
-//         int strlen = readInt(is);
-//         byte[] strdata = new byte[strlen];
-//         is.read(strdata);
+         //         int strlen = readInt(is);
+         //         byte[] strdata = new byte[strlen];
+         //         is.read(strdata);
 
+         //
+         // Then we get the string itself
+         //
+         //         int avail = is.available();
+         //         byte[] buffer = new byte[avail];
+         //         is.read(buffer);
 
-          //
-          // Then we get the string itself
-          //
-//         int avail = is.available();
-//         byte[] buffer = new byte[avail];
-//         is.read(buffer);
-
-          //
-          // and finally the remainder of the data block,
-          // which appears to be a 32 byte header, followed by
-          // 24 byte blocks, occasionally interspersed with
-          // larger items of data, but with no apparent clue
-          // as to when they will appear.
-          //
-//         System.out.println (MPPUtility.hexdump(buffer, true));
+         //
+         // and finally the remainder of the data block,
+         // which appears to be a 32 byte header, followed by
+         // 24 byte blocks, occasionally interspersed with
+         // larger items of data, but with no apparent clue
+         // as to when they will appear.
+         //
+         //         System.out.println (MPPUtility.hexdump(buffer, true));
 
          //pw.flush();
          //pw.close();
@@ -152,29 +150,29 @@ final class Props8 extends Props
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN Props");
+      pw.println("BEGIN Props");
       if (m_complete == true)
       {
-         pw.println ("   COMPLETE");
+         pw.println("   COMPLETE");
       }
       else
       {
-         pw.println ("   INCOMPLETE");
+         pw.println("   INCOMPLETE");
       }
 
       for (Integer key : m_map.keySet())
       {
-         pw.println ("   Key: " + key + " Value: " + MPPUtility.hexdump(m_map.get(key), true));
+         pw.println("   Key: " + key + " Value: " + MPPUtility.hexdump(m_map.get(key), true));
       }
 
-      pw.println ("END Props");
+      pw.println("END Props");
 
-      pw.println ();
+      pw.println();
       pw.close();
       return (sw.toString());
    }

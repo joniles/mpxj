@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2005
  * date:       20-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -31,7 +31,7 @@ import net.sf.mpxj.ResourceField;
  * task fields in MPXJ.
  */
 final class MPXResourceField
-{   
+{
    /**
     * Retrieve an instance of the ResourceField class based on the data read from an
     * MPX file.
@@ -39,18 +39,18 @@ final class MPXResourceField
     * @param value value from an MS Project file
     * @return instance of this class
     */
-   public static ResourceField getMpxjField (int value)
+   public static ResourceField getMpxjField(int value)
    {
       ResourceField result = null;
 
-      if (value >=0 && value < MPX_MPXJ_ARRAY.length)
+      if (value >= 0 && value < MPX_MPXJ_ARRAY.length)
       {
          result = MPX_MPXJ_ARRAY[value];
       }
 
       return (result);
    }
-   
+
    /**
     * Retrieve the integer value used to represent a resource field in an 
     * MPX file.
@@ -58,19 +58,19 @@ final class MPXResourceField
     * @param value MPXJ resource field value
     * @return MPX field value
     */
-   public static int getMpxField (int value)
+   public static int getMpxField(int value)
    {
       int result = 0;
-   
-      if (value >=0 && value < MPXJ_MPX_ARRAY.length)
+
+      if (value >= 0 && value < MPXJ_MPX_ARRAY.length)
       {
          result = MPXJ_MPX_ARRAY[value];
       }
-   
+
       return (result);
 
    }
-   
+
    private static final int PERCENT_WORK_COMPLETE = 26;
    private static final int ACCRUE_AT = 45;
    private static final int ACTUAL_COST = 32;
@@ -106,11 +106,11 @@ final class MPXResourceField
    private static final int UNIQUE_ID = 49;
    private static final int WORK = 20;
    private static final int WORK_VARIANCE = 25;
-   
+
    public static final int MAX_FIELDS = 52;
 
    private static final ResourceField[] MPX_MPXJ_ARRAY = new ResourceField[MAX_FIELDS];
-   
+
    static
    {
       MPX_MPXJ_ARRAY[PERCENT_WORK_COMPLETE] = ResourceField.PERCENT_WORK_COMPLETE;
@@ -149,9 +149,9 @@ final class MPXResourceField
       MPX_MPXJ_ARRAY[WORK] = ResourceField.WORK;
       MPX_MPXJ_ARRAY[WORK_VARIANCE] = ResourceField.WORK_VARIANCE;
    }
-   
-   private static final int[] MPXJ_MPX_ARRAY = new int[ResourceField.MAX_VALUE];   
-   
+
+   private static final int[] MPXJ_MPX_ARRAY = new int[ResourceField.MAX_VALUE];
+
    static
    {
       MPXJ_MPX_ARRAY[ResourceField.PERCENT_WORK_COMPLETE_VALUE] = PERCENT_WORK_COMPLETE;

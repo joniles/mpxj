@@ -34,24 +34,24 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum ColorType implements MpxjEnum
 {
-   BLACK (0, "Black", Color.BLACK),
-   RED (1, "Red", Color.RED),
-   YELLOW (2, "Yellow", Color.YELLOW),
-   LIME (3, "Lime", Color.GREEN),
-   AQUA (4, "Aqua", Color.CYAN),
-   BLUE (5, "Blue", Color.BLUE),
-   FUSCHIA (6, "Fuschia", Color.MAGENTA),
-   WHITE (7, "White", Color.WHITE),
-   MAROON (8, "Maroon", new Color(132, 0, 0)),
-   GREEN (9, "Green", new Color(0, 130, 0)),
-   OLIVE (10, "Olive", new Color(132, 130, 0)),
-   NAVY (11, "Navy", new Color(0, 0, 132)),
-   PURPLE (12, "Purple", new Color(132, 0, 132)),
-   TEAL (13, "Teal", new Color(0, 130, 132)),
-   GRAY (14, "Gray", new Color(132, 130, 132)),
-   SILVER (15, "Silver", new Color(198, 195, 198)),
-   AUTOMATIC (16, "Automatic", null);
-  
+   BLACK(0, "Black", Color.BLACK),
+   RED(1, "Red", Color.RED),
+   YELLOW(2, "Yellow", Color.YELLOW),
+   LIME(3, "Lime", Color.GREEN),
+   AQUA(4, "Aqua", Color.CYAN),
+   BLUE(5, "Blue", Color.BLUE),
+   FUSCHIA(6, "Fuschia", Color.MAGENTA),
+   WHITE(7, "White", Color.WHITE),
+   MAROON(8, "Maroon", new Color(132, 0, 0)),
+   GREEN(9, "Green", new Color(0, 130, 0)),
+   OLIVE(10, "Olive", new Color(132, 130, 0)),
+   NAVY(11, "Navy", new Color(0, 0, 132)),
+   PURPLE(12, "Purple", new Color(132, 0, 132)),
+   TEAL(13, "Teal", new Color(0, 130, 132)),
+   GRAY(14, "Gray", new Color(132, 130, 132)),
+   SILVER(15, "Silver", new Color(198, 195, 198)),
+   AUTOMATIC(16, "Automatic", null);
+
    /**
     * Private constructor.
     * 
@@ -59,13 +59,12 @@ public enum ColorType implements MpxjEnum
     * @param name color name
     * @param color Java color instance
     */
-   private ColorType (int type, String name, Color color)
+   private ColorType(int type, String name, Color color)
    {
-      m_value = type;    
+      m_value = type;
       m_name = name;
       m_color = color;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -73,8 +72,8 @@ public enum ColorType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ColorType getInstance (int type)
-   {      
+   public static ColorType getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = AUTOMATIC.getValue();
@@ -88,7 +87,7 @@ public enum ColorType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ColorType getInstance (Number type)
+   public static ColorType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -107,7 +106,7 @@ public enum ColorType implements MpxjEnum
     *
     * @return color name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -118,7 +117,7 @@ public enum ColorType implements MpxjEnum
     *
     * @return Color instance
     */
-   public Color getColor ()
+   public Color getColor()
    {
       return (m_color);
    }
@@ -128,24 +127,22 @@ public enum ColorType implements MpxjEnum
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
-
 
    /**
     * Array mapping int types to enums.
     */
    private static final ColorType[] TYPE_VALUES = new ColorType[17];
    static
-   {      
+   {
       for (ColorType e : EnumSet.range(ColorType.BLACK, ColorType.AUTOMATIC))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

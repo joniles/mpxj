@@ -256,151 +256,159 @@ final class TimephasedResourceAssignmentFactory
       }
       return result;
    }
+   /*
+      private void coalesceAssignments(ProjectCalendar calendar, List<TimephasedResourceAssignment> list)
+      {
+         LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
 
-   /*   
-         private void coalesceAssignments (ProjectCalendar calendar, List<TimephasedResourceAssignment> list)
+         TimephasedResourceAssignment previousAssignment = null;
+         for (TimephasedResourceAssignment assignment : list)
          {
-            LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
-            
-            TimephasedResourceAssignment previousAssignment = null;
-            for (TimephasedResourceAssignment assignment : list)
-            {
-               Date startDate = DateUtility.getDayStartDate(assignment.getStart());
-               Date endDate = DateUtility.getDayStartDate(assignment.getFinish());
-               
-               if (previousAssignment == null)
-               {
-                  //
-                  // If this is the first item in the list, the range is not
-                  // on one day, and the range does not start at the working
-                  // start of the day - then we need to split this off.
-                  //
-                  if (DateUtility.compare(startDate, endDate) == 0)
-                  {
-                     // we don't need to do anything to this... yet
-                     result.add(assignment);
-                  }
-                  else
-                  {
-                     Date startTime = DateUtility.getCanonicalTime(assignment.getStart());
-                     Date workStartTime = calendar.getStartTime(startDate);
-                     if (DateUtility.compare(startTime, workStartTime) != 0)
-                     {
-                        Date workFinishTime = calendar.getFinishTime(assignment.getStart());                                    
-                        Date splitStart = DateUtility.setTime(startDate, workStartTime);
-                        Date splitFinish = DateUtility.setTime(startDate, workFinishTime);                  
-                        Duration work = calendar.getWork(startDate, endDate, TimeUnit.HOURS);
-                        
-                        // split off the first day
-                        TimephasedResourceAssignment split = new TimephasedResourceAssignment();
-                        split.setModified(assignment.getModified());
-                        split.setStart(splitStart);
-                        split.setFinish(splitFinish);
-                        split.setTotalWork(work);
-                        split.setWorkPerDay(work);
-                        result.add(split);
-                        
-                        // now create a second split representing the rest
-                        // of the assignment
-                        Duration remainingWork = Duration.getInstance(assignment.getTotalWork().getDuration()-work.getDuration(), TimeUnit.HOURS);
-                        splitStart = calendar.getNextWorkStart(splitFinish);
-                        
-                        split = new TimephasedResourceAssignment();
-                        split.setModified(assignment.getModified());
-                        split.setStart(splitStart);
-                        split.setFinish(splitFinish);
-                        split.setTotalWork(remainingWork);
-                        split.setWorkPerDay(work);
-                        result.add(split);
+            Date startDate = DateUtility.getDayStartDate(assignment.getStart());
+            Date endDate = DateUtility.getDayStartDate(assignment.getFinish());
 
-                        // this will now become our previous assignment
-                        assignment = split;
-                     }
-                  }
+            if (previousAssignment == null)
+            {
+               //
+               // If this is the first item in the list, the range is not
+               // on one day, and the range does not start at the working
+               // start of the day - then we need to split this off.
+               //
+               if (DateUtility.compare(startDate, endDate) == 0)
+               {
+                  // we don't need to do anything to this... yet
+                  result.add(assignment);
                }
                else
                {
-                  Date previousAssignmentFinish = previousAssignment.getFinish();
-                  Date assignmentStart = assignment.getStart();
-                  Date previousAssignmentFinishDay = DateUtility.getDayStartDate(previousAssignmentFinish);
-                  Date assignmentStartDay = DateUtility.getDayEndDate(assignmentStart);
-                  
-                  if (previousAssignmentFinishDay.getTime() != assignmentStartDay.getTime())
+                  Date startTime = DateUtility.getCanonicalTime(assignment.getStart());
+                  Date workStartTime = calendar.getStartTime(startDate);
+                  if (DateUtility.compare(startTime, workStartTime) != 0)
+                  {                  
+                     // this will now become our previous assignment
+                     assignment = splitFirstDay(calendar, assignment, result);
+                  }
+               }
+            }
+            else
+            {
+               Date previousAssignmentFinish = previousAssignment.getFinish();
+               Date assignmentStart = assignment.getStart();
+               Date previousAssignmentFinishDay = DateUtility.getDayStartDate(previousAssignmentFinish);
+               Date assignmentStartDay = DateUtility.getDayEndDate(assignmentStart);
+
+               if (previousAssignmentFinishDay.getTime() != assignmentStartDay.getTime())
+               {
+                  // the assignments don't overlap - so do nothing
+                  result.add(assignment);
+               }
+               else
+               {
+                  // the assignments overlap, so we need to split the overlapping
+                  // parts off of each end of the two assignments to create
+                  // a new one. The exception here is when the first assignment is only
+                  // one day, then we just add the extra time to it.
+                  Date previousAssignmentStart = previousAssignment.getStart();
+                  Date previousAssignmentStartDay = DateUtility.getDayStartDate(previousAssignmentStart);
+                  TimephasedResourceAssignment merge;
+                  // we need to trim a bit off of the previous assignment.
+                  // first of all, remove it from the result list
+                  result.removeLast();
+
+                  if (previousAssignmentStartDay.getTime() == previousAssignmentFinishDay.getTime())
                   {
-                     // the assignments don't overlap - so do nothing
-                     result.add(assignment);
+                     merge = previousAssignment;
                   }
                   else
                   {
-                     // the assignments overlap, so we need to split the overlapping
-                     // parts off of each end of the two assignments to create
-                     // a new one. The exception here is when the first assignment is only
-                     // one day, then we just add the extra time to it.
-                     Date previousAssignmentStart = previousAssignment.getStart();
-                     Date previousAssignmentStartDay = DateUtility.getDayStartDate(previousAssignmentStart);
-                     TimephasedResourceAssignment merge;
-                     // we need to trim a bit off of the previous assignment.
-                     // first of all, remove it from the result list
-                     result.removeLast();
-                     
-                     if (previousAssignmentStartDay.getTime() == previousAssignmentFinishDay.getTime())
+                     // find the previous working day
+                     Calendar cal = Calendar.getInstance();
+                     Date currentDate = previousAssignmentFinishDay;
+                     cal.setTime(currentDate);
+                     while (calendar.isWorkingDate(currentDate) == false)
                      {
-                        merge = previousAssignment;
+                        cal.add(Calendar.DAY_OF_YEAR, -11);
+                        currentDate = cal.getTime();
                      }
-                     else
-                     {                     
-                        // find the previous working day
-                        Calendar cal = Calendar.getInstance();
-                        Date currentDate = previousAssignmentFinishDay;
-                        cal.setTime(currentDate);                     
-                        while (calendar.isWorkingDate(currentDate) == false )
-                        {
-                           cal.add(Calendar.DAY_OF_YEAR, -11);
-                           currentDate = cal.getTime();
-                        }
-                        Date finishTime = calendar.getFinishTime(currentDate);
-                        currentDate = DateUtility.setTime(currentDate, finishTime);
-                        Duration splitWork = calendar.getWork(currentDate, previousAssignmentFinish, TimeUnit.HOURS);
-                        Duration totalWork = Duration.getInstance(previousAssignment.getTotalWork().getDuration()-splitWork.getDuration(), TimeUnit.HOURS);
-                        
-                        // now we can create the new assignment                     
-                        TimephasedResourceAssignment split = new TimephasedResourceAssignment();
-                        split.setModified(previousAssignment.getModified());
-                        split.setStart(previousAssignment.getStart());
-                        split.setFinish(currentDate);
-                        split.setTotalWork(totalWork);
-                        split.setWorkPerDay(previousAssignment.getWorkPerDay());
-                        result.add(split);
-                        
-                        // now we can create the new assignment we are going to
-                        // merge with the following one
-                        Date mergeStart = calendar.getNextWorkStart(finishTime);
-                        totalWork = calendar.getWork(mergeStart, previousAssignment.getFinish(), TimeUnit.HOURS);
-                        
-                        merge = new TimephasedResourceAssignment();
-                        merge.setModified(previousAssignment.getModified());
-                        merge.setStart(mergeStart);
-                        merge.setFinish(previousAssignment.getFinish());
-                        merge.setTotalWork(totalWork);
-                        merge.setWorkPerDay(totalWork);                     
-                     }
-                     
-                     // at this point, the result list should be correct,
-                     // and we should have an assignment called "merge"
-                     // into which we are going to merge the start of the
-                     // next block. Our next step is therefore that we will
-                     // chop off the overlapping day from the following block.
-                     
-                     // then we do the merge the two blocks and add them to the result
-                     // list
-                     
-                     // finally, we add the truncated block to the end o fthe result list
-                     // job done!
+                     Date finishTime = calendar.getFinishTime(currentDate);
+                     currentDate = DateUtility.setTime(currentDate, finishTime);
+                     Duration splitWork = calendar.getWork(currentDate, previousAssignmentFinish, TimeUnit.HOURS);
+                     Duration totalWork = Duration.getInstance(previousAssignment.getTotalWork().getDuration() - splitWork.getDuration(), TimeUnit.HOURS);
+
+                     // now we can create the new assignment                     
+                     TimephasedResourceAssignment split = new TimephasedResourceAssignment();
+                     split.setModified(previousAssignment.getModified());
+                     split.setStart(previousAssignment.getStart());
+                     split.setFinish(currentDate);
+                     split.setTotalWork(totalWork);
+                     split.setWorkPerDay(previousAssignment.getWorkPerDay());
+                     result.add(split);
+
+                     // now we can create the new assignment we are going to
+                     // merge with the following one
+                     Date mergeStart = calendar.getNextWorkStart(finishTime);
+                     totalWork = calendar.getWork(mergeStart, previousAssignment.getFinish(), TimeUnit.HOURS);
+
+                     merge = new TimephasedResourceAssignment();
+                     merge.setModified(previousAssignment.getModified());
+                     merge.setStart(mergeStart);
+                     merge.setFinish(previousAssignment.getFinish());
+                     merge.setTotalWork(totalWork);
+                     merge.setWorkPerDay(totalWork);
                   }
+
+                  // at this point, the result list should be correct,
+                  // and we should have an assignment called "merge"
+                  // into which we are going to merge the start of the
+                  // next block. Our next step is therefore that we will
+                  // chop off the overlapping day from the following block.
+
+                  // then we do the merge the two blocks and add them to the result
+                  // list
+
+                  // finally, we add the truncated block to the end o fthe result list
+                  // job done!
                }
-               
-               previousAssignment = assignment;
             }
+
+            previousAssignment = assignment;
          }
+      }
+
+      private TimephasedResourceAssignment splitFirstDay (ProjectCalendar calendar, TimephasedResourceAssignment assignment, List<TimephasedResourceAssignment> result)
+      {
+         Date startDate = DateUtility.getDayStartDate(assignment.getStart());
+         Date workStartTime = calendar.getStartTime(startDate);
+         Date endDate = DateUtility.getDayStartDate(assignment.getFinish());
+         
+         Date workFinishTime = calendar.getFinishTime(assignment.getStart());
+         Date splitStart = DateUtility.setTime(startDate, workStartTime);
+         Date splitFinish = DateUtility.setTime(startDate, workFinishTime);
+         Duration work = calendar.getWork(startDate, endDate, TimeUnit.HOURS);
+
+         // split off the first day
+         TimephasedResourceAssignment split = new TimephasedResourceAssignment();
+         split.setModified(assignment.getModified());
+         split.setStart(splitStart);
+         split.setFinish(splitFinish);
+         split.setTotalWork(work);
+         split.setWorkPerDay(work);
+         result.add(split);
+
+         // now create a second split representing the rest
+         // of the assignment
+         Duration remainingWork = Duration.getInstance(assignment.getTotalWork().getDuration() - work.getDuration(), TimeUnit.HOURS);
+         splitStart = calendar.getNextWorkStart(splitFinish);
+
+         split = new TimephasedResourceAssignment();
+         split.setModified(assignment.getModified());
+         split.setStart(splitStart);
+         split.setFinish(splitFinish);
+         split.setTotalWork(remainingWork);
+         split.setWorkPerDay(work);
+         result.add(split);
+         
+         return split;
+      }
    */
 }

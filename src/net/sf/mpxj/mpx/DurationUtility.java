@@ -40,7 +40,7 @@ final class DurationUtility
    /**
     * Constructor.
     */
-   private DurationUtility ()
+   private DurationUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -55,8 +55,7 @@ final class DurationUtility
     * @return Duration instance
     * @throws MPXJException
     */
-   public static Duration getInstance (String dur, NumberFormat format, Locale locale)
-      throws MPXJException
+   public static Duration getInstance(String dur, NumberFormat format, Locale locale) throws MPXJException
    {
       try
       {
@@ -90,7 +89,7 @@ final class DurationUtility
 
       catch (ParseException ex)
       {
-         throw new MPXJException ("Failed to parse duration", ex);
+         throw new MPXJException("Failed to parse duration", ex);
       }
    }
 }

@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       02/02/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -47,29 +47,28 @@ public final class MPDDatabaseReader implements ProjectReader
     * @return ProjectFile instance
     * @throws MPXJException
     */
-   public ProjectFile read ()
-      throws MPXJException
+   public ProjectFile read() throws MPXJException
    {
       // @todo implement a test for MPD8/MPD9 database formats
       MPD9DatabaseReader reader = new MPD9DatabaseReader();
       reader.setProjectID(m_projectID);
-      reader.setPreserveNoteFormatting(m_preserveNoteFormatting);      
+      reader.setPreserveNoteFormatting(m_preserveNoteFormatting);
       reader.setDataSource(m_dataSource);
       reader.setConnection(m_connection);
       ProjectFile project = reader.read();
       return (project);
-   }   
-      
+   }
+
    /**
     * Set the ID of the project to be read.
     * 
     * @param projectID project ID
     */
-   public void setProjectID (int projectID)
+   public void setProjectID(int projectID)
    {
       m_projectID = Integer.valueOf(projectID);
    }
- 
+
    /**
     * This method sets a flag to indicate whether the RTF formatting associated
     * with notes should be preserved or removed. By default the formatting
@@ -77,19 +76,18 @@ public final class MPDDatabaseReader implements ProjectReader
     *
     * @param preserveNoteFormatting boolean flag
     */
-   public void setPreserveNoteFormatting (boolean preserveNoteFormatting)
+   public void setPreserveNoteFormatting(boolean preserveNoteFormatting)
    {
       m_preserveNoteFormatting = preserveNoteFormatting;
    }
 
-   
    /**
     * Set the data source. A DataSource or a Connection can be supplied
     * to this class to allow connection to the database.
     * 
     * @param dataSource data source
     */
-   public void setDataSource (DataSource dataSource)
+   public void setDataSource(DataSource dataSource)
    {
       m_dataSource = dataSource;
    }
@@ -100,11 +98,11 @@ public final class MPDDatabaseReader implements ProjectReader
     * 
     * @param connection database connection
     */
-   public void setConnection (Connection connection)
+   public void setConnection(Connection connection)
    {
       m_connection = connection;
    }
-   
+
    /**
     * This is a convenience method which reads the first project
     * from the named MPD file using the JDBC-ODBC bridge driver.
@@ -113,28 +111,27 @@ public final class MPDDatabaseReader implements ProjectReader
     * @return ProjectFile instance
     * @throws MPXJException
     */
-   public ProjectFile read (String accessDatabaseFileName)
-      throws MPXJException
+   public ProjectFile read(String accessDatabaseFileName) throws MPXJException
    {
       try
       {
          Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
          String url = "jdbc:odbc:DRIVER=Microsoft Access Driver (*.mdb);DBQ=" + accessDatabaseFileName;
-         m_connection = DriverManager.getConnection(url);            
+         m_connection = DriverManager.getConnection(url);
          m_projectID = Integer.valueOf(1);
-         return (read());      
+         return (read());
       }
-      
+
       catch (ClassNotFoundException ex)
       {
-         throw new MPXJException ("Failed to load JDBC driver", ex);
-      }      
-      
+         throw new MPXJException("Failed to load JDBC driver", ex);
+      }
+
       catch (SQLException ex)
       {
          throw new MPXJException("Failed to create connection", ex);
       }
-      
+
       finally
       {
          if (m_connection != null)
@@ -143,7 +140,7 @@ public final class MPDDatabaseReader implements ProjectReader
             {
                m_connection.close();
             }
-            
+
             catch (SQLException ex)
             {
                // silently ignore exceptions when closing connection
@@ -151,26 +148,25 @@ public final class MPDDatabaseReader implements ProjectReader
          }
       }
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read(File file)
-      throws MPXJException
+   public ProjectFile read(File file) throws MPXJException
    {
       return (read(file.getAbsolutePath()));
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   public ProjectFile read (InputStream inputStream)
+   public ProjectFile read(InputStream inputStream)
    {
-      throw new UnsupportedOperationException();      
+      throw new UnsupportedOperationException();
    }
-   
+
    private Integer m_projectID;
    private DataSource m_dataSource;
    private Connection m_connection;
-   private boolean m_preserveNoteFormatting;   
+   private boolean m_preserveNoteFormatting;
 }

@@ -64,7 +64,6 @@ import net.sf.mpxj.utility.MPXJFormats;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
-
 /**
  * This class creates a new MPX file from the contents of an PorjectFile instance.
  */
@@ -73,10 +72,9 @@ public final class MPXWriter extends AbstractProjectWriter
    /**
     * {@inheritDoc}
     */
-   public void write (ProjectFile projectFile, OutputStream out)
-      throws IOException
+   public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
-      write (projectFile, out, true);
+      write(projectFile, out, true);
    }
 
    /**
@@ -91,8 +89,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param useLocaleDefaults boolean flag
     * @throws IOException
     */
-   public void write (ProjectFile projectFile, String fileName, boolean useLocaleDefaults)
-      throws IOException
+   public void write(ProjectFile projectFile, String fileName, boolean useLocaleDefaults) throws IOException
    {
       FileOutputStream fos = new FileOutputStream(fileName);
       write(projectFile, fos, useLocaleDefaults);
@@ -112,8 +109,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param useLocaleDefaults boolean flag
     * @throws IOException
     */
-   public void write (ProjectFile projectFile, File file, boolean useLocaleDefaults)
-      throws IOException
+   public void write(ProjectFile projectFile, File file, boolean useLocaleDefaults) throws IOException
    {
       FileOutputStream fos = new FileOutputStream(file);
       write(projectFile, fos, useLocaleDefaults);
@@ -133,8 +129,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param useLocaleDefaults boolean flag
     * @throws IOException
     */
-   public void write (ProjectFile projectFile, OutputStream out, boolean useLocaleDefaults)
-      throws IOException
+   public void write(ProjectFile projectFile, OutputStream out, boolean useLocaleDefaults) throws IOException
    {
       m_projectFile = projectFile;
       if (useLocaleDefaults == true)
@@ -169,10 +164,9 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @throws IOException
     */
-   private void write ()
-      throws IOException
+   private void write() throws IOException
    {
-      writeFileCreationRecord(m_projectFile.getFileCreationRecord());           
+      writeFileCreationRecord(m_projectFile.getFileCreationRecord());
       writeProjectHeader(m_projectFile.getProjectHeader());
 
       if (m_projectFile.getAllResources().isEmpty() == false)
@@ -181,17 +175,17 @@ public final class MPXWriter extends AbstractProjectWriter
          m_writer.write(m_resourceModel.toString());
          for (Resource resource : m_projectFile.getAllResources())
          {
-            writeResource (resource);
+            writeResource(resource);
          }
       }
-      
+
       if (m_projectFile.getAllTasks().isEmpty() == false)
       {
          m_taskModel = new TaskModel(m_projectFile, m_locale);
          m_writer.write(m_taskModel.toString());
-         writeTasks (m_projectFile.getChildTasks());
+         writeTasks(m_projectFile.getChildTasks());
       }
-      
+
       m_writer.flush();
    }
 
@@ -201,8 +195,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record file creation record
     * @throws IOException
     */
-   private void writeFileCreationRecord (FileCreationRecord record)
-      throws IOException
+   private void writeFileCreationRecord(FileCreationRecord record) throws IOException
    {
       m_buffer.setLength(0);
       m_buffer.append("MPX");
@@ -222,79 +215,78 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record project header
     * @throws IOException
     */
-   private void writeProjectHeader(ProjectHeader record)
-      throws IOException
+   private void writeProjectHeader(ProjectHeader record) throws IOException
    {
       m_buffer.setLength(0);
 
       //
       // Currency Settings Record
       //
-      m_buffer.append (MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER);
-      m_buffer.append (m_delimiter);
+      m_buffer.append(MPXConstants.CURRENCY_SETTINGS_RECORD_NUMBER);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getCurrencySymbol()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getSymbolPosition()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getCurrencyDigits()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(Character.valueOf(record.getThousandsSeparator())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(Character.valueOf(record.getDecimalSeparator())));
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       //
       // Default Settings Record
       //
-      m_buffer.append (MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER);
-      m_buffer.append (m_delimiter);
+      m_buffer.append(MPXConstants.DEFAULT_SETTINGS_RECORD_NUMBER);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(Integer.valueOf(record.getDefaultDurationUnits().getValue())));
-      m_buffer.append (m_delimiter);
-      m_buffer.append(record.getDefaultDurationIsFixed()?"1":"0");
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
+      m_buffer.append(record.getDefaultDurationIsFixed() ? "1" : "0");
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(Integer.valueOf(record.getDefaultWorkUnits().getValue())));
-      m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerDay())/60)));
-      m_buffer.append (m_delimiter);
-      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerWeek())/60)));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
+      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerDay()) / 60)));
+      m_buffer.append(m_delimiter);
+      m_buffer.append(format(formatDecimal(NumberUtility.getDouble(record.getMinutesPerWeek()) / 60)));
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatRate(record.getDefaultStandardRate())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatRate(record.getDefaultOvertimeRate())));
-      m_buffer.append (m_delimiter);
-      m_buffer.append(record.getUpdatingTaskStatusUpdatesResourceStatus()?"1":"0");
-      m_buffer.append (m_delimiter);
-      m_buffer.append(record.getSplitInProgressTasks()?"1":"0");
+      m_buffer.append(m_delimiter);
+      m_buffer.append(record.getUpdatingTaskStatusUpdatesResourceStatus() ? "1" : "0");
+      m_buffer.append(m_delimiter);
+      m_buffer.append(record.getSplitInProgressTasks() ? "1" : "0");
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       //
       // Date Time Settings Record
       //
-      m_buffer.append (MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER);
-      m_buffer.append (m_delimiter);
+      m_buffer.append(MPXConstants.DATE_TIME_SETTINGS_RECORD_NUMBER);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getDateOrder()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getTimeFormat()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(getIntegerTimeInMinutes(record.getDefaultStartTime())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(Character.valueOf(record.getDateSeparator())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(Character.valueOf(record.getTimeSeparator())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getAMText()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getPMText()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getDateFormat()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getBarTextDateFormat()));
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
-      
+
       //
       // Write project calendars
       //
@@ -302,73 +294,73 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          writeCalendar(cal);
       }
-      
+
       //
       // Project Header Record
       //
       m_buffer.setLength(0);
-      m_buffer.append (MPXConstants.PROJECT_HEADER_RECORD_NUMBER);
-      m_buffer.append (m_delimiter);
+      m_buffer.append(MPXConstants.PROJECT_HEADER_RECORD_NUMBER);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getProjectTitle()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getCompany()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getManager()));
-      m_buffer.append (m_delimiter);      
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getCalendarName()));
-      m_buffer.append (m_delimiter);
-      
+      m_buffer.append(m_delimiter);
+
       m_buffer.append(format(formatDateTime(record.getStartDate())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getFinishDate())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getScheduleFrom()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getCurrentDate())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getComments()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatCurrency(record.getCost())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatCurrency(record.getBaselineCost())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatCurrency(record.getActualCost())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getWork())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getBaselineWork())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getActualWork())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatPercentage(record.getWork2())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getDuration())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getBaselineDuration())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getActualDuration())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatPercentage(record.getPercentageComplete())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getBaselineStart())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getBaselineFinish())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getActualStart())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTime(record.getActualFinish())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getStartVariance())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getFinishVariance())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getSubject()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getAuthor()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getKeywords()));
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
    }
@@ -379,39 +371,38 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record calendar instance
     * @throws IOException
     */
-   private void writeCalendar (ProjectCalendar record)
-      throws IOException
+   private void writeCalendar(ProjectCalendar record) throws IOException
    {
       m_buffer.setLength(0);
 
       if (record.getBaseCalendar() == null)
       {
-         m_buffer.append (MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
-         m_buffer.append (m_delimiter);
+         m_buffer.append(MPXConstants.BASE_CALENDAR_RECORD_NUMBER);
+         m_buffer.append(m_delimiter);
          if (record.getName() != null)
          {
-            m_buffer.append (record.getName());
+            m_buffer.append(record.getName());
          }
       }
       else
       {
-         m_buffer.append (MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
-         m_buffer.append (m_delimiter);
-         m_buffer.append (record.getBaseCalendar().getName());
+         m_buffer.append(MPXConstants.RESOURCE_CALENDAR_RECORD_NUMBER);
+         m_buffer.append(m_delimiter);
+         m_buffer.append(record.getBaseCalendar().getName());
       }
 
       int[] days = record.getDays();
-      for (int loop=0; loop < days.length; loop++)
+      for (int loop = 0; loop < days.length; loop++)
       {
-         m_buffer.append (m_delimiter);
-         m_buffer.append (days[loop]);
+         m_buffer.append(m_delimiter);
+         m_buffer.append(days[loop]);
       }
 
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
       ProjectCalendarHours[] hours = record.getHours();
-      for (int loop=0; loop < hours.length; loop++)
+      for (int loop = 0; loop < hours.length; loop++)
       {
          if (hours[loop] != null)
          {
@@ -427,7 +418,7 @@ public final class MPXWriter extends AbstractProjectWriter
          //
          List<ProjectCalendarException> exceptions = new ArrayList<ProjectCalendarException>(record.getCalendarExceptions());
          Collections.sort(exceptions);
-         
+
          for (ProjectCalendarException ex : exceptions)
          {
             writeCalendarException(record, ex);
@@ -442,8 +433,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record calendar hours instance
     * @throws IOException
     */
-   private void writeCalendarHours (ProjectCalendar parentCalendar, ProjectCalendarHours record)
-      throws IOException
+   private void writeCalendarHours(ProjectCalendar parentCalendar, ProjectCalendarHours record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -457,7 +447,6 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          recordNumber = MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
-
 
       DateRange range1 = record.getRange(0);
       if (range1 == null)
@@ -477,23 +466,23 @@ public final class MPXWriter extends AbstractProjectWriter
          range3 = DateRange.EMPTY_RANGE;
       }
 
-      m_buffer.append (recordNumber);
-      m_buffer.append (m_delimiter);
+      m_buffer.append(recordNumber);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getDay()));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range1.getStart())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range1.getEnd())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range2.getStart())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range2.getEnd())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range3.getStart())));
-      m_buffer.append (m_delimiter);
+      m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(range3.getEnd())));
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
    }
@@ -505,8 +494,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record calendar exception instance
     * @throws IOException
     */
-   private void writeCalendarException(ProjectCalendar parentCalendar, ProjectCalendarException record)
-      throws IOException
+   private void writeCalendarException(ProjectCalendar parentCalendar, ProjectCalendarException record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -523,7 +511,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDate(record.getToDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getWorking()?"1":"0");
+      m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(record.getRange(0).getStart())));
       m_buffer.append(m_delimiter);
@@ -537,7 +525,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatTime(record.getRange(2).getEnd())));
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
    }
@@ -548,8 +536,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record resource instance
     * @throws IOException
     */
-   private void writeResource(Resource record)
-      throws IOException
+   private void writeResource(Resource record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -559,7 +546,7 @@ public final class MPXWriter extends AbstractProjectWriter
       int[] fields = m_resourceModel.getModel();
 
       m_buffer.append(MPXConstants.RESOURCE_RECORD_NUMBER);
-      for (int loop=0; loop < fields.length; loop++)
+      for (int loop = 0; loop < fields.length; loop++)
       {
          int mpxFieldType = fields[loop];
          if (mpxFieldType == -1)
@@ -571,12 +558,12 @@ public final class MPXWriter extends AbstractProjectWriter
          Object value = record.getCachedValue(resourceField);
          value = formatType(resourceField.getDataType(), value);
 
-         m_buffer.append (m_delimiter);
-         m_buffer.append (format (value));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(value));
       }
 
-      stripTrailingDelimiters (m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      stripTrailingDelimiters(m_buffer);
+      m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
       //
@@ -606,13 +593,12 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param text note text
     * @throws IOException
     */
-   private void writeNotes(int recordNumber, String text)
-      throws IOException
+   private void writeNotes(int recordNumber, String text) throws IOException
    {
       m_buffer.setLength(0);
 
-      m_buffer.append (recordNumber);
-      m_buffer.append (m_delimiter);
+      m_buffer.append(recordNumber);
+      m_buffer.append(m_delimiter);
 
       if (text != null)
       {
@@ -626,21 +612,21 @@ public final class MPXWriter extends AbstractProjectWriter
             m_buffer.append('"');
          }
 
-         for (int loop=0; loop < length; loop++)
+         for (int loop = 0; loop < length; loop++)
          {
             c = note.charAt(loop);
 
             switch (c)
             {
-               case '"':
+               case '"' :
                {
-                  m_buffer.append ("\"\"");
+                  m_buffer.append("\"\"");
                   break;
                }
 
-               default:
+               default :
                {
-                  m_buffer.append (c);
+                  m_buffer.append(c);
                   break;
                }
             }
@@ -652,7 +638,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
    }
@@ -663,8 +649,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record task instance
     * @throws IOException
     */
-   private void writeTask (Task record)
-      throws IOException
+   private void writeTask(Task record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -675,7 +660,7 @@ public final class MPXWriter extends AbstractProjectWriter
       int field;
 
       m_buffer.append(MPXConstants.TASK_RECORD_NUMBER);
-      for (int loop=0; loop < fields.length; loop++)
+      for (int loop = 0; loop < fields.length; loop++)
       {
          field = fields[loop];
          if (field == -1)
@@ -687,12 +672,12 @@ public final class MPXWriter extends AbstractProjectWriter
          Object value = record.getCachedValue(taskField);
          value = formatType(taskField.getDataType(), value);
 
-         m_buffer.append (m_delimiter);
-         m_buffer.append (format (value));
+         m_buffer.append(m_delimiter);
+         m_buffer.append(format(value));
       }
 
-      stripTrailingDelimiters (m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      stripTrailingDelimiters(m_buffer);
+      m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
       //
@@ -732,15 +717,14 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record recurring task instance
     * @throws IOException
     */
-   private void writeRecurringTask (RecurringTask record)
-      throws IOException
+   private void writeRecurringTask(RecurringTask record) throws IOException
    {
       m_buffer.setLength(0);
 
       m_buffer.append(MPXConstants.RECURRING_TASK_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
       m_buffer.append("1");
-      
+
       if (record.getRecurrenceType() != null)
       {
          m_buffer.append(m_delimiter);
@@ -758,15 +742,15 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append("0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getUseEndDate()?"1":"0");
+         m_buffer.append(record.getUseEndDate() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getDailyWorkday()?"1":"0");
+         m_buffer.append(record.getDailyWorkday() ? "1" : "0");
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDays(record.getWeeklyDays())));
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getMonthlyRelative()?"1":"0");
+         m_buffer.append(record.getMonthlyRelative() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.getYearlyAbsolute()?"1":"0");
+         m_buffer.append(record.getYearlyAbsolute() ? "1" : "0");
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getDailyFrequency()));
          m_buffer.append(m_delimiter);
@@ -789,10 +773,10 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(format(record.getYearlyRelativeMonth()));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(formatDateTime(record.getYearlyAbsoluteDate())));
-   
+
          stripTrailingDelimiters(m_buffer);
       }
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
    }
@@ -803,8 +787,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record resource assignment instance
     * @throws IOException
     */
-   private void writeResourceAssignment(ResourceAssignment record)
-      throws IOException
+   private void writeResourceAssignment(ResourceAssignment record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -836,14 +819,14 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getResourceUniqueID()));
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
       ResourceAssignmentWorkgroupFields workgroup = record.getWorkgroupAssignment();
       if (workgroup == null)
       {
          workgroup = ResourceAssignmentWorkgroupFields.EMPTY;
-      }      
+      }
       writeResourceAssignmentWorkgroupFields(workgroup);
    }
 
@@ -853,8 +836,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param record resource assignment workgroup instance
     * @throws IOException
     */
-   private void writeResourceAssignmentWorkgroupFields(ResourceAssignmentWorkgroupFields record)
-      throws IOException
+   private void writeResourceAssignmentWorkgroupFields(ResourceAssignmentWorkgroupFields record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -862,9 +844,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getMessageUniqueID()));
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getConfirmed()?"1":"0");
+      m_buffer.append(record.getConfirmed() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getResponsePending()?"1":"0");
+      m_buffer.append(record.getResponsePending() ? "1" : "0");
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDateTimeNull(record.getUpdateStart())));
       m_buffer.append(m_delimiter);
@@ -873,7 +855,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(format(record.getScheduleID()));
 
       stripTrailingDelimiters(m_buffer);
-      m_buffer.append (MPXConstants.EOL);
+      m_buffer.append(MPXConstants.EOL);
 
       m_writer.write(m_buffer.toString());
    }
@@ -884,11 +866,10 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param tasks list of tasks
     * @throws IOException
     */
-   private void writeTasks (List<Task> tasks)
-      throws IOException
+   private void writeTasks(List<Task> tasks) throws IOException
    {
       for (Task task : tasks)
-      {         
+      {
          writeTask(task);
          writeTasks(task.getChildTasks());
       }
@@ -901,7 +882,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param date date instance
     * @return minutes past midnight as an integer
     */
-   private Integer getIntegerTimeInMinutes (Date date)
+   private Integer getIntegerTimeInMinutes(Date date)
    {
       Integer result = null;
       if (date != null)
@@ -923,7 +904,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value text containing quote characters
     * @return escaped and quoted text
     */
-   private String escapeQuotes (String value)
+   private String escapeQuotes(String value)
    {
       StringBuffer sb = new StringBuffer();
       int length = value.length();
@@ -953,32 +934,32 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param replacement line break replacement text
     * @return text with line breaks removed.
     */
-   private String stripLineBreaks (String text, String replacement)
+   private String stripLineBreaks(String text, String replacement)
    {
       if (text.indexOf('\r') != -1 || text.indexOf('\n') != -1)
       {
-         StringBuffer sb = new StringBuffer (text);
+         StringBuffer sb = new StringBuffer(text);
 
          int index;
 
          while ((index = sb.indexOf("\r\n")) != -1)
          {
-            sb.replace(index, index+2, replacement);
+            sb.replace(index, index + 2, replacement);
          }
 
          while ((index = sb.indexOf("\n\r")) != -1)
          {
-            sb.replace(index, index+2, replacement);
+            sb.replace(index, index + 2, replacement);
          }
 
          while ((index = sb.indexOf("\r")) != -1)
          {
-            sb.replace(index, index+1, replacement);
+            sb.replace(index, index + 1, replacement);
          }
 
          while ((index = sb.indexOf("\n")) != -1)
          {
-            sb.replace(index, index+1, replacement);
+            sb.replace(index, index + 1, replacement);
          }
 
          text = sb.toString();
@@ -995,7 +976,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param o the object to formatted
     * @return formatted string representing input Object
     */
-   private String format (Object o)
+   private String format(Object o)
    {
       String result;
 
@@ -1007,13 +988,13 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          if (o instanceof Boolean == true)
          {
-            result = LocaleData.getString(m_locale, (((Boolean)o).booleanValue() == true?LocaleData.YES:LocaleData.NO));
+            result = LocaleData.getString(m_locale, (((Boolean) o).booleanValue() == true ? LocaleData.YES : LocaleData.NO));
          }
          else
          {
             if (o instanceof Float == true || o instanceof Double == true)
             {
-               result = (m_formats.getDecimalFormat().format(((Number)o).doubleValue()));
+               result = (m_formats.getDecimalFormat().format(((Number) o).doubleValue()));
             }
             else
             {
@@ -1048,13 +1029,12 @@ public final class MPXWriter extends AbstractProjectWriter
       return (result);
    }
 
-
    /**
     * This method removes trailing delimiter characters.
     *
     * @param buffer input sring buffer
     */
-   private void stripTrailingDelimiters (StringBuffer buffer)
+   private void stripTrailingDelimiters(StringBuffer buffer)
    {
       int index = buffer.length() - 1;
 
@@ -1063,7 +1043,7 @@ public final class MPXWriter extends AbstractProjectWriter
          --index;
       }
 
-      buffer.setLength (index+1);
+      buffer.setLength(index + 1);
    }
 
    /**
@@ -1072,9 +1052,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value time value
     * @return formatted time value
     */
-   private String formatTime (Date value)
+   private String formatTime(Date value)
    {
-      return (value==null?null:m_formats.getTimeFormat().format(value));
+      return (value == null ? null : m_formats.getTimeFormat().format(value));
    }
 
    /**
@@ -1083,9 +1063,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value numeric value
     * @return currency value
     */
-   private String formatCurrency (Number value)
+   private String formatCurrency(Number value)
    {
-      return (value==null?null:m_formats.getCurrencyFormat().format(value));
+      return (value == null ? null : m_formats.getCurrencyFormat().format(value));
    }
 
    /**
@@ -1094,9 +1074,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value numeric value
     * @return currency value
     */
-   private String formatUnits (Number value)
+   private String formatUnits(Number value)
    {
-      return (value==null?null:m_formats.getUnitsDecimalFormat().format(value.doubleValue()/100));
+      return (value == null ? null : m_formats.getUnitsDecimalFormat().format(value.doubleValue() / 100));
    }
 
    /**
@@ -1105,9 +1085,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTime (Date value)
+   private String formatDateTime(Date value)
    {
-      return (value==null?null:m_formats.getDateTimeFormat().format(value));
+      return (value == null ? null : m_formats.getDateTimeFormat().format(value));
    }
 
    /**
@@ -1117,9 +1097,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTimeNull (Date value)
+   private String formatDateTimeNull(Date value)
    {
-      return (value==null?m_formats.getNullText():m_formats.getDateTimeFormat().format(value));
+      return (value == null ? m_formats.getNullText() : m_formats.getDateTimeFormat().format(value));
    }
 
    /**
@@ -1128,9 +1108,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDate (Date value)
+   private String formatDate(Date value)
    {
-      return (value==null?null:m_formats.getDateFormat().format(value));
+      return (value == null ? null : m_formats.getDateFormat().format(value));
    }
 
    /**
@@ -1139,9 +1119,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value numeric value
     * @return percentage value
     */
-   private String formatPercentage (Number value)
+   private String formatPercentage(Number value)
    {
-      return (value==null?null:m_formats.getPercentageDecimalFormat().format(value) + "%");
+      return (value == null ? null : m_formats.getPercentageDecimalFormat().format(value) + "%");
    }
 
    /**
@@ -1150,9 +1130,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param type accrue type
     * @return formatted accrue type
     */
-   private String formatAccrueType (AccrueType type)
-   {      
-      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.ACCRUE_TYPES)[type.getValue()-1]);
+   private String formatAccrueType(AccrueType type)
+   {
+      return (type == null ? null : LocaleData.getStringArray(m_locale, LocaleData.ACCRUE_TYPES)[type.getValue() - 1]);
    }
 
    /**
@@ -1161,9 +1141,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param type constraint type
     * @return formatted constraint type
     */
-   private String formatConstraintType (ConstraintType type)
+   private String formatConstraintType(ConstraintType type)
    {
-      return (type==null?null:LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()]);
+      return (type == null ? null : LocaleData.getStringArray(m_locale, LocaleData.CONSTRAINT_TYPES)[type.getValue()]);
    }
 
    /**
@@ -1172,9 +1152,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value duration value
     * @return formatted duration value
     */
-   private String formatDuration (Duration value)
+   private String formatDuration(Duration value)
    {
-      return (value==null?null:m_formats.getDurationDecimalFormat().format(value.getDuration()) + formatTimeUnit(value.getUnits()));
+      return (value == null ? null : m_formats.getDurationDecimalFormat().format(value.getDuration()) + formatTimeUnit(value.getUnits()));
    }
 
    /**
@@ -1183,14 +1163,14 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value rate value
     * @return formatted rate
     */
-   private String formatRate (Rate value)
+   private String formatRate(Rate value)
    {
       String result = null;
       if (value != null)
       {
-         StringBuffer buffer = new StringBuffer (m_formats.getCurrencyFormat().format(value.getAmount()));
-         buffer.append ("/");
-         buffer.append (formatTimeUnit(value.getUnits()));
+         StringBuffer buffer = new StringBuffer(m_formats.getCurrencyFormat().format(value.getAmount()));
+         buffer.append("/");
+         buffer.append(formatTimeUnit(value.getUnits()));
          result = buffer.toString();
       }
       return (result);
@@ -1202,10 +1182,10 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value priority instance
     * @return formatted priority value
     */
-   private String formatPriority (Priority value)
+   private String formatPriority(Priority value)
    {
       String result = null;
-      
+
       if (value != null)
       {
          String[] priorityTypes = LocaleData.getStringArray(m_locale, LocaleData.PRIORITY_TYPES);
@@ -1221,12 +1201,12 @@ public final class MPXWriter extends AbstractProjectWriter
                priority = Priority.DO_NOT_LEVEL;
             }
          }
-   
+
          priority /= 100;
-         
-         result = priorityTypes[priority-1];
+
+         result = priorityTypes[priority - 1];
       }
-      
+
       return (result);
    }
 
@@ -1236,25 +1216,25 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value task type value
     * @return formatted task type
     */
-   private String formatTaskType (TaskType value)
+   private String formatTaskType(TaskType value)
    {
-      return (LocaleData.getString(m_locale, (value == TaskType.FIXED_DURATION?LocaleData.YES:LocaleData.NO)));         
+      return (LocaleData.getString(m_locale, (value == TaskType.FIXED_DURATION ? LocaleData.YES : LocaleData.NO)));
    }
-   
+
    /**
     * This method is called to format a relation list.
     *
     * @param value relation list instance
     * @return formatted relation list
     */
-   private String formatRelationList (List<Relation> value)
+   private String formatRelationList(List<Relation> value)
    {
       String result = null;
 
       if (value != null)
       {
          StringBuffer sb = new StringBuffer();
-         for (Relation relation: value)
+         for (Relation relation : value)
          {
             if (sb.length() != 0)
             {
@@ -1276,37 +1256,37 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param relation relation instance
     * @return formatted relation instance
     */
-   private String formatRelation (Relation relation)
+   private String formatRelation(Relation relation)
    {
       String result = null;
-      
+
       if (relation != null)
       {
          StringBuffer sb = new StringBuffer(relation.getTask().getID().toString());
-   
+
          Duration duration = relation.getDuration();
          RelationType type = relation.getType();
          double durationValue = duration.getDuration();
-   
+
          if ((durationValue != 0) || (type != RelationType.FINISH_START))
          {
             String[] typeNames = LocaleData.getStringArray(m_locale, LocaleData.RELATION_TYPES);
-            sb.append (typeNames[type.getValue()]);
+            sb.append(typeNames[type.getValue()]);
          }
-   
+
          if (durationValue != 0)
          {
             if (durationValue > 0)
             {
                sb.append('+');
             }
-   
+
             sb.append(formatDuration(duration));
          }
-         
+
          result = sb.toString();
       }
-      
+
       return (result);
    }
 
@@ -1316,7 +1296,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param timeUnit time unit instance
     * @return formatted time unit instance
     */
-   private String formatTimeUnit (TimeUnit timeUnit)
+   private String formatTimeUnit(TimeUnit timeUnit)
    {
       int units = timeUnit.getValue();
       String result;
@@ -1340,11 +1320,11 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value value
     * @return formatted value
     */
-   private String formatDecimal (double value)
+   private String formatDecimal(double value)
    {
       return (m_formats.getDecimalFormat().format(value));
    }
-   
+
    /**
     * Converts a value to the appropriate type.
     *
@@ -1352,78 +1332,77 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value input value
     * @return output value
     */
-   @SuppressWarnings("unchecked")
-   private Object formatType (DataType type, Object value)
+   @SuppressWarnings("unchecked") private Object formatType(DataType type, Object value)
    {
       switch (type)
       {
-         case DATE:
+         case DATE :
          {
-            value = formatDateTime((Date)value);
+            value = formatDateTime((Date) value);
             break;
          }
 
-         case CURRENCY:
+         case CURRENCY :
          {
-            value = formatCurrency((Number)value);
+            value = formatCurrency((Number) value);
             break;
          }
 
-         case UNITS:
+         case UNITS :
          {
-            value = formatUnits((Number)value);
+            value = formatUnits((Number) value);
             break;
          }
 
-         case PERCENTAGE:
+         case PERCENTAGE :
          {
-            value = formatPercentage((Number)value);
+            value = formatPercentage((Number) value);
             break;
          }
 
-         case ACCRUE:
+         case ACCRUE :
          {
-            value = formatAccrueType((AccrueType)value);
+            value = formatAccrueType((AccrueType) value);
             break;
          }
 
-         case CONSTRAINT:
+         case CONSTRAINT :
          {
-            value = formatConstraintType((ConstraintType)value);
+            value = formatConstraintType((ConstraintType) value);
             break;
          }
 
-         case DURATION:
+         case DURATION :
          {
-            value = formatDuration((Duration)value);
+            value = formatDuration((Duration) value);
             break;
          }
 
-         case RATE:
+         case RATE :
          {
-            value = formatRate((Rate)value);
+            value = formatRate((Rate) value);
             break;
          }
 
-         case PRIORITY:
+         case PRIORITY :
          {
-            value = formatPriority((Priority)value);
+            value = formatPriority((Priority) value);
             break;
          }
 
-         case RELATION_LIST:
+         case RELATION_LIST :
          {
-            value = formatRelationList((List<Relation>)value);
+            value = formatRelationList((List<Relation>) value);
             break;
          }
 
-         case TASK_TYPE:
+         case TASK_TYPE :
          {
-            value = formatTaskType ((TaskType)value);
+            value = formatTaskType((TaskType) value);
             break;
          }
-         
-         default:
+
+         default :
          {
             break;
          }
@@ -1437,7 +1416,7 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @return current locale
     */
-   public Locale getLocale ()
+   public Locale getLocale()
    {
       return (m_locale);
    }
@@ -1447,21 +1426,21 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @param locale locale to be used
     */
-   public void setLocale (Locale locale)
+   public void setLocale(Locale locale)
    {
       m_locale = locale;
    }
-   
+
    /**
     * Retrieves an array of locales supported by this class.
     * 
     * @return array of supported locales
     */
-   public Locale[] getSupportedLocales ()
+   public Locale[] getSupportedLocales()
    {
       return (LocaleUtility.getSupportedLocales());
    }
-   
+
    private ProjectFile m_projectFile;
    private OutputStreamWriter m_writer;
    private ResourceModel m_resourceModel;

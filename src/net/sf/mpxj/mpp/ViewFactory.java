@@ -29,7 +29,6 @@ import java.util.Map;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
 
-
 /**
  * This interface is implemented by classes which can create View classes
  * from the data extracted from an MS Project file.
@@ -47,6 +46,5 @@ interface ViewFactory
     * @return View instance
     * @throws IOException
     */
-   public View createView (ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
-      throws IOException;
+   public View createView(ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases) throws IOException;
 }

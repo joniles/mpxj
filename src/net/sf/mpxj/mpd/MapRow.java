@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       08-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -41,106 +41,106 @@ class MapRow implements Row
     * 
     * @param map map to be wrapped by this instance
     */
-   public MapRow (Map<String, Object> map)
+   public MapRow(Map<String, Object> map)
    {
       m_map = map;
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   public final String getString (String name)
+   public final String getString(String name)
    {
       Object value = getObject(name);
       String result;
       if (value instanceof byte[])
       {
-         result = new String((byte[])value);
+         result = new String((byte[]) value);
       }
       else
       {
-         result = (String)value;
+         result = (String) value;
       }
       return (result);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   public final Integer getInteger (String name)
+   public final Integer getInteger(String name)
    {
       Object result = getObject(name);
       if (result != null)
       {
          if (result instanceof Integer == false)
          {
-            result = Integer.valueOf(((Number)result).intValue());
+            result = Integer.valueOf(((Number) result).intValue());
          }
       }
-      return ((Integer)result);
+      return ((Integer) result);
    }
 
    /**
     * {@inheritDoc}
     */
-   public final Double getDouble (String name)
+   public final Double getDouble(String name)
    {
       Object result = getObject(name);
       if (result != null)
       {
          if (result instanceof Double == false)
          {
-            result = Double.valueOf (((Number)result).doubleValue());
+            result = Double.valueOf(((Number) result).doubleValue());
          }
       }
-      return ((Double)result);
-   }
-   
-   /**
-    * {@inheritDoc}
-    */
-   public final Double getCurrency (String name)
-   {
-      Double value = getDouble(name);
-      if (value != null)
-      {
-         value = Double.valueOf(value.doubleValue()/100);
-      }
-      return (value);
-   }
-   
-   /**
-    * {@inheritDoc}
-    */
-   public final boolean getBoolean (String name)
-   {
-      return (BooleanUtility.getBoolean((Boolean)getObject(name)));
+      return ((Double) result);
    }
 
    /**
     * {@inheritDoc}
     */
-   public final int getInt (String name)
+   public final Double getCurrency(String name)
    {
-      return (NumberUtility.getInt((Number)getObject(name)));
+      Double value = getDouble(name);
+      if (value != null)
+      {
+         value = Double.valueOf(value.doubleValue() / 100);
+      }
+      return (value);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   public final Date getDate (String name)
+   public final boolean getBoolean(String name)
    {
-      return ((Date)getObject(name));
+      return (BooleanUtility.getBoolean((Boolean) getObject(name)));
    }
- 
+
    /**
     * {@inheritDoc}
     */
-   public final Duration getDuration (String name)
+   public final int getInt(String name)
    {
-      return (Duration.getInstance(NumberUtility.getDouble(getDouble(name))/60000, TimeUnit.HOURS));
+      return (NumberUtility.getInt((Number) getObject(name)));
    }
-   
+
+   /**
+    * {@inheritDoc}
+    */
+   public final Date getDate(String name)
+   {
+      return ((Date) getObject(name));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public final Duration getDuration(String name)
+   {
+      return (Duration.getInstance(NumberUtility.getDouble(getDouble(name)) / 60000, TimeUnit.HOURS));
+   }
+
    /**
     * Retrieve a value from the map, ensuring that a key exists in the map
     * with the specified name.
@@ -148,17 +148,17 @@ class MapRow implements Row
     * @param name column name
     * @return column value
     */
-   private final Object getObject (String name)
+   private final Object getObject(String name)
    {
       if (m_map.containsKey(name) == false)
       {
          throw new IllegalArgumentException("Invalid column name " + name);
       }
-      
+
       Object result = m_map.get(name);
-      
+
       return (result);
    }
-   
+
    protected Map<String, Object> m_map;
 }

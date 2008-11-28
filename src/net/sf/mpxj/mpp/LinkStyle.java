@@ -33,22 +33,21 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum LinkStyle implements MpxjEnum
 {
-   NONE (0, "None"),
-   END_TOP (1, "End Top"),
-   END_START (2, "End Start");
-   
+   NONE(0, "None"),
+   END_TOP(1, "End Top"),
+   END_START(2, "End Start");
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name enum name
     */
-   private LinkStyle (int type, String name)
+   private LinkStyle(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -56,8 +55,8 @@ public enum LinkStyle implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static LinkStyle getInstance (int type)
-   {      
+   public static LinkStyle getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = END_TOP.getValue();
@@ -65,14 +64,13 @@ public enum LinkStyle implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static LinkStyle getInstance (Number type)
+   public static LinkStyle getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -86,13 +84,12 @@ public enum LinkStyle implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -103,7 +100,7 @@ public enum LinkStyle implements MpxjEnum
     *
     * @return name of this alignment type
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -113,7 +110,7 @@ public enum LinkStyle implements MpxjEnum
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -123,13 +120,12 @@ public enum LinkStyle implements MpxjEnum
     */
    private static final LinkStyle[] TYPE_VALUES = new LinkStyle[3];
    static
-   {      
+   {
       for (LinkStyle e : EnumSet.range(LinkStyle.NONE, LinkStyle.END_START))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

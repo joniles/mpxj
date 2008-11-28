@@ -33,30 +33,28 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum TimescaleUnits implements MpxjEnum
 {
-   NONE (-1, "None"),
-   MINUTES (0, "Minutes"),
-   HOURS (1, "Hours"),
-   DAYS (2, "Days"),
-   WEEKS (3, "Weeks"),
-   THIRDS_OF_MONTHS (4, "Thirds of Months"),
-   MONTHS (5, "Months"),
-   QUARTERS (6, "Quarters"),
-   HALF_YEARS (7, "Half Years"),
-   YEARS (8, "Years");
+   NONE(-1, "None"),
+   MINUTES(0, "Minutes"),
+   HOURS(1, "Hours"),
+   DAYS(2, "Days"),
+   WEEKS(3, "Weeks"),
+   THIRDS_OF_MONTHS(4, "Thirds of Months"),
+   MONTHS(5, "Months"),
+   QUARTERS(6, "Quarters"),
+   HALF_YEARS(7, "Half Years"),
+   YEARS(8, "Years");
 
-   
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name enum name
     */
-   private TimescaleUnits (int type, String name)
+   private TimescaleUnits(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -64,8 +62,8 @@ public enum TimescaleUnits implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static TimescaleUnits getInstance (int type)
-   {     
+   public static TimescaleUnits getInstance(int type)
+   {
       TimescaleUnits result;
       if (type < 0 || type >= TYPE_VALUES.length)
       {
@@ -78,14 +76,13 @@ public enum TimescaleUnits implements MpxjEnum
       return (result);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static TimescaleUnits getInstance (Number type)
+   public static TimescaleUnits getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -99,13 +96,12 @@ public enum TimescaleUnits implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -116,17 +112,17 @@ public enum TimescaleUnits implements MpxjEnum
     *
     * @return name of this timescale unit
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
-   
+
    /**
     * Generate a string representation of this instance.
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -136,13 +132,12 @@ public enum TimescaleUnits implements MpxjEnum
     */
    private static final TimescaleUnits[] TYPE_VALUES = new TimescaleUnits[9];
    static
-   {      
+   {
       for (TimescaleUnits e : EnumSet.range(TimescaleUnits.MINUTES, TimescaleUnits.YEARS))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

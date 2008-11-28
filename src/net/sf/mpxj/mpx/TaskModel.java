@@ -32,9 +32,6 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 
-
-
-
 /**
  * This class represents the task table definition record in an MPX file.
  * This record defines which fields are present in a task record.
@@ -49,7 +46,7 @@ final class TaskModel
     * @param file the parent file to which this record belongs.
     * @param locale target locale
     */
-   TaskModel (ProjectFile file, Locale locale)
+   TaskModel(ProjectFile file, Locale locale)
    {
       m_parentFile = file;
       setLocale(locale);
@@ -60,7 +57,7 @@ final class TaskModel
     *
     * @param locale target locale
     */
-   void setLocale (Locale locale)
+   void setLocale(Locale locale)
    {
       m_taskNames = LocaleData.getStringArray(locale, LocaleData.TASK_NAMES);
 
@@ -84,7 +81,7 @@ final class TaskModel
     *
     * @return list of field names
     */
-   public int[] getModel ()
+   public int[] getModel()
    {
       m_fields[m_count] = -1;
       return (m_fields);
@@ -96,8 +93,7 @@ final class TaskModel
     * @param record data read from an MPX file
     * @param isText flag indicating whether the tetxual or numeric data is being supplied
     */
-   public void update (Record record, boolean isText)
-      throws MPXJException
+   public void update(Record record, boolean isText) throws MPXJException
    {
       int length = record.getLength();
 
@@ -121,7 +117,7 @@ final class TaskModel
     *
     * @param field field identifier
     */
-   private void add (int field)
+   private void add(int field)
    {
       if (field < m_flags.length)
       {
@@ -138,7 +134,7 @@ final class TaskModel
     * This method is called to populate the arrays which are then
     * used to generate the text version of the model.
     */
-   private void populateModel ()
+   private void populateModel()
    {
       if (m_count != 0)
       {
@@ -148,7 +144,7 @@ final class TaskModel
 
       for (Task task : m_parentFile.getAllTasks())
       {
-         for (int loop=0; loop < MPXTaskField.MAX_FIELDS; loop++)
+         for (int loop = 0; loop < MPXTaskField.MAX_FIELDS; loop++)
          {
             if (task.getCachedValue(MPXTaskField.getMpxjField(loop)) != null)
             {
@@ -161,12 +157,12 @@ final class TaskModel
             }
          }
       }
-      
+
       //
       // Ensure the the model fields always appear in the same order
       //
       Arrays.sort(m_fields);
-      System.arraycopy(m_fields, m_fields.length-m_count, m_fields, 0, m_count);      
+      System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
    }
 
    /**
@@ -176,7 +172,7 @@ final class TaskModel
     *
     * @return string containing the data for this record in MPX format.
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       populateModel();
 
@@ -214,7 +210,7 @@ final class TaskModel
     * @param key - the code no of required Task field
     * @return - field name
     */
-   private String getTaskField (int key)
+   private String getTaskField(int key)
    {
       String result = null;
 
@@ -232,8 +228,7 @@ final class TaskModel
     * @param field - name
     * @return - code no
     */
-   private int getTaskCode (String field)
-      throws MPXJException
+   private int getTaskCode(String field) throws MPXJException
    {
       Integer result = m_taskNumbers.get(field.trim());
 

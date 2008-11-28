@@ -38,9 +38,9 @@ public final class NumberUtility
     * @param value Number instance
     * @return int value
     */
-   public static final int getInt (Number value)
+   public static final int getInt(Number value)
    {
-      return (value==null?0:value.intValue());
+      return (value == null ? 0 : value.intValue());
    }
 
    /**
@@ -50,9 +50,9 @@ public final class NumberUtility
     * @param value string representation of an integer
     * @return int value
     */
-   public static final int getInt (String value)
+   public static final int getInt(String value)
    {
-      return (value==null||value.length()==0?0:Integer.parseInt(value));
+      return (value == null || value.length() == 0 ? 0 : Integer.parseInt(value));
    }
 
    /**
@@ -61,14 +61,14 @@ public final class NumberUtility
     * @param value Number instance
     * @return Integer instance
     */
-   public static final Integer getInteger (Number value)
+   public static final Integer getInteger(Number value)
    {
       Integer result = null;
       if (value != null)
       {
          if (value instanceof Integer)
          {
-            result = (Integer)value;
+            result = (Integer) value;
          }
          else
          {
@@ -85,7 +85,7 @@ public final class NumberUtility
     * @param value String representation of an integer
     * @return Integer instance
     */
-   public static final Integer getInteger (String value)
+   public static final Integer getInteger(String value)
    {
       Integer result;
 
@@ -101,21 +101,21 @@ public final class NumberUtility
 
       return (result);
    }
-   
+
    /**
     * Utility method used to convert a Number into a BigInteger.
     *
     * @param value Number instance
     * @return BigInteger instance
     */
-   public static final BigInteger getBigInteger (Number value)
+   public static final BigInteger getBigInteger(Number value)
    {
       BigInteger result = null;
       if (value != null)
       {
          if (value instanceof BigInteger)
          {
-            result = (BigInteger)value;
+            result = (BigInteger) value;
          }
          else
          {
@@ -134,9 +134,9 @@ public final class NumberUtility
     * @param value Number instance
     * @return double value
     */
-   public static final double getDouble (Number value)
+   public static final double getDouble(Number value)
    {
-      return (value==null?0:value.doubleValue());
+      return (value == null ? 0 : value.doubleValue());
    }
 
    /**
@@ -155,7 +155,7 @@ public final class NumberUtility
     */
    public static final Double getDouble(double value)
    {
-      return (value==0?DOUBLE_ZERO:Double.valueOf(value));
+      return (value == 0 ? DOUBLE_ZERO : Double.valueOf(value));
    }
 
    /**
@@ -165,9 +165,9 @@ public final class NumberUtility
     * @param value string representation of an integer
     * @return int value
     */
-   public static final Integer parseInteger (String value)
+   public static final Integer parseInteger(String value)
    {
-      return (value==null||value.length()==0?null:Integer.valueOf(Integer.parseInt(value)));
+      return (value == null || value.length() == 0 ? null : Integer.valueOf(Integer.parseInt(value)));
    }
 
    /**
@@ -183,7 +183,7 @@ public final class NumberUtility
     * @param rhs right hand argument
     * @return result of equality test
     */
-   public static boolean equals (Number lhs, Number rhs)
+   public static boolean equals(Number lhs, Number rhs)
    {
       boolean result = false;
 
@@ -201,7 +201,6 @@ public final class NumberUtility
 
       return (result);
    }
-
 
    public static final Double DOUBLE_ZERO = Double.valueOf(0);
 }

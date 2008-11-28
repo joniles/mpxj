@@ -44,7 +44,6 @@ import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TestOperator;
 
-
 /**
  * This class represents the set of properties used to define the appearance
  * of a Gantt chart view in MS Project.
@@ -57,7 +56,7 @@ public abstract class GanttChartView extends GenericView
     * @return properties data ID
     */
    protected abstract Integer getPropertiesID();
-   
+
    /**
     * Create a GanttChartView from the dixed and var data blocks associated
     * with a view.
@@ -69,21 +68,21 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView (ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
+   GanttChartView(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
-      super (fixedData);
+      super(fixedData);
 
       m_parent = parent;
-      
+
       m_showInMenu = (fixedMeta[8] & 0x08) != 0;
-      
+
       byte[] propsData = varData.getByteArray(m_id, getPropertiesID());
       if (propsData != null)
       {
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
          //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-         
+
          byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
          if (tableData != null)
          {
@@ -102,13 +101,13 @@ public abstract class GanttChartView extends GenericView
          {
             m_defaultFilterName = MPPUtility.getUnicodeString(filterName);
          }
-         
+
          byte[] groupName = props.getByteArray(GROUP_NAME);
          if (groupName != null)
          {
             m_groupName = MPPUtility.getUnicodeString(groupName);
          }
-         
+
          byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
          if (viewPropertyData != null)
          {
@@ -153,21 +152,21 @@ public abstract class GanttChartView extends GenericView
 
             byte flags = viewPropertyData[228];
 
-            m_timescaleMiddleTier = new TimescaleTier ();
+            m_timescaleMiddleTier = new TimescaleTier();
             m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
             m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
             m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
             m_timescaleMiddleTier.setCount(viewPropertyData[246]);
             m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[250]));
-            m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256]-32));
+            m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256] - 32));
 
-            m_timescaleBottomTier = new TimescaleTier ();
+            m_timescaleBottomTier = new TimescaleTier();
             m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
             m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
             m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
             m_timescaleBottomTier.setCount(viewPropertyData[248]);
             m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(viewPropertyData[252]));
-            m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254]-32));
+            m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254] - 32));
 
             m_timescaleSeparator = (flags & 0x04) != 0;
             m_timescaleSize = viewPropertyData[268];
@@ -185,10 +184,10 @@ public abstract class GanttChartView extends GenericView
             int nameOffset = styleOffset + (m_barStyles.length * 58);
             String styleName;
 
-            for (int loop=0; loop < m_barStyles.length; loop++)
+            for (int loop = 0; loop < m_barStyles.length; loop++)
             {
                styleName = MPPUtility.getUnicodeString(viewPropertyData, nameOffset);
-               nameOffset += (styleName.length()+1)*2;
+               nameOffset += (styleName.length() + 1) * 2;
                m_barStyles[loop] = new GanttBarStyle(styleName, viewPropertyData, styleOffset);
                styleOffset += 58;
             }
@@ -197,22 +196,22 @@ public abstract class GanttChartView extends GenericView
          byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);
          if (topTierData != null)
          {
-            m_timescaleTopTier = new TimescaleTier ();
+            m_timescaleTopTier = new TimescaleTier();
 
-            m_timescaleTopTier.setTickLines(topTierData[48]!=0);
-            m_timescaleTopTier.setUsesFiscalYear(topTierData[60]!=0);
+            m_timescaleTopTier.setTickLines(topTierData[48] != 0);
+            m_timescaleTopTier.setUsesFiscalYear(topTierData[60] != 0);
             m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(topTierData[30]));
             m_timescaleTopTier.setCount(topTierData[32]);
             m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(topTierData[34]));
-            m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36]-20));
+            m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36] - 20));
          }
 
          byte[] barData = props.getByteArray(BAR_PROPERTIES);
          if (barData != null)
          {
-            m_barStyleExceptions = new GanttBarStyleException[barData.length/38];
+            m_barStyleExceptions = new GanttBarStyleException[barData.length / 38];
             int offset = 0;
-            for (int loop=0; loop < m_barStyleExceptions.length; loop++)
+            for (int loop = 0; loop < m_barStyleExceptions.length; loop++)
             {
                m_barStyleExceptions[loop] = new GanttBarStyleException(barData, offset);
                offset += 38;
@@ -222,9 +221,9 @@ public abstract class GanttChartView extends GenericView
          byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
          if (columnData != null)
          {
-            m_tableFontStyles = new TableFontStyle[columnData.length/16];
+            m_tableFontStyles = new TableFontStyle[columnData.length / 16];
             int offset = 0;
-            for (int loop=0; loop < m_tableFontStyles.length; loop++)
+            for (int loop = 0; loop < m_tableFontStyles.length; loop++)
             {
                m_tableFontStyles[loop] = getColumnFontStyle(columnData, offset, fontBases);
                offset += 16;
@@ -234,25 +233,25 @@ public abstract class GanttChartView extends GenericView
          byte[] progressLineData = props.getByteArray(PROGRESS_LINE_PROPERTIES);
          if (progressLineData != null)
          {
-            m_progressLinesEnabled = (progressLineData[0]!=0);
-            m_progressLinesAtCurrentDate = (progressLineData[2]!=0);
-            m_progressLinesAtRecurringIntervals = (progressLineData[4]!=0);
+            m_progressLinesEnabled = (progressLineData[0] != 0);
+            m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
+            m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);
             m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
             m_progressLinesDailyDayNumber = progressLineData[8];
-            m_progressLinesDailyWorkday = (progressLineData[10]!=0);
-            m_progressLinesWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14]!=0);
-            m_progressLinesWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16]!=0);
-            m_progressLinesWeeklyDay[Day.TUESDAY.getValue()] = (progressLineData[18]!=0);
-            m_progressLinesWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20]!=0);
-            m_progressLinesWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22]!=0);
-            m_progressLinesWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24]!=0);
-            m_progressLinesWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26]!=0);
+            m_progressLinesDailyWorkday = (progressLineData[10] != 0);
+            m_progressLinesWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14] != 0);
+            m_progressLinesWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16] != 0);
+            m_progressLinesWeeklyDay[Day.TUESDAY.getValue()] = (progressLineData[18] != 0);
+            m_progressLinesWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20] != 0);
+            m_progressLinesWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22] != 0);
+            m_progressLinesWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24] != 0);
+            m_progressLinesWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);
             m_progressLinesWeekleyWeekNumber = progressLineData[30];
-            m_progressLinesMonthlyDayOfMonth = (progressLineData[32]!=0);
+            m_progressLinesMonthlyDayOfMonth = (progressLineData[32] != 0);
             m_progressLinesMonthlyDayNumber = progressLineData[34];
             m_progressLinesMonthlyDay = ProgressLineDay.getInstance(progressLineData[36]);
-            m_progressLinesMonthlyFirst = (progressLineData[40]==1);
-            m_progressLinesBeginAtProjectStart = (progressLineData[44]!=0);
+            m_progressLinesMonthlyFirst = (progressLineData[40] == 1);
+            m_progressLinesBeginAtProjectStart = (progressLineData[44] != 0);
             m_progressLinesBeginAtDate = MPPUtility.getDate(progressLineData, 46);
             m_progressLinesDisplaySelected = (progressLineData[48] != 0);
             m_progressLinesActualPlan = (progressLineData[52] != 0);
@@ -273,7 +272,7 @@ public abstract class GanttChartView extends GenericView
             if (dateCount != 0)
             {
                m_progressLinesDisplaySelectedDates = new Date[dateCount];
-               int offset=72;
+               int offset = 72;
                int count = 0;
                while (count < dateCount && offset < progressLineData.length)
                {
@@ -283,11 +282,11 @@ public abstract class GanttChartView extends GenericView
                }
             }
          }
-         
+
          byte[] autoFilterData = props.getByteArray(AUTO_FILTER_PROPERTIES);
          if (autoFilterData != null)
          {
-            processAutoFilters (autoFilterData);
+            processAutoFilters(autoFilterData);
          }
       }
 
@@ -625,7 +624,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return table width
     */
-   public int getTableWidth ()
+   public int getTableWidth()
    {
       return (m_tableWidth);
    }
@@ -635,7 +634,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return table name
     */
-   public String getTableName ()
+   public String getTableName()
    {
       return (m_tableName);
    }
@@ -645,52 +644,52 @@ public abstract class GanttChartView extends GenericView
     * 
     * @return filter name
     */
-   public String getDefaultFilterName ()
+   public String getDefaultFilterName()
    {
       return (m_defaultFilterName);
    }
-   
+
    /**
     * Convenience method used to retrieve the default filter instance
     * associated with this view.
     * 
     * @return filter instance, null if no filter associated with view
     */
-   public Filter getDefaultFilter ()
+   public Filter getDefaultFilter()
    {
       return (m_parent.getFilterByName(m_defaultFilterName));
    }
-   
+
    /**
     * Retrieve the name of the grouping applied to this view.
     * 
     * @return group name
     */
-   public String getGroupName ()
+   public String getGroupName()
    {
       return (m_groupName);
    }
-   
+
    /**
     * Retrieve the highlight filter flag.
     * 
     * @return highlight filter flag
     */
-   public boolean getHighlightFilter ()
+   public boolean getHighlightFilter()
    {
       return (m_highlightFilter);
    }
-   
+
    /**
     * Retrieve the show in menu flag.
     * 
     * @return show in menu flag
     */
-   public boolean getShowInMenu ()
+   public boolean getShowInMenu()
    {
       return (m_showInMenu);
    }
-   
+
    /**
     * Retrieve a FontStyle instance.
     *
@@ -867,7 +866,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return table instance
     */
-   public Table getTable ()
+   public Table getTable()
    {
       return (m_parent.getTaskTableByName(m_tableName));
    }
@@ -877,7 +876,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return column font styles array
     */
-   public TableFontStyle[] getTableFontStyles ()
+   public TableFontStyle[] getTableFontStyles()
    {
       return (m_tableFontStyles);
    }
@@ -1184,47 +1183,47 @@ public abstract class GanttChartView extends GenericView
     * @param height encoded height
     * @return height in pixels
     */
-   private int mapGanttBarHeight (int height)
+   private int mapGanttBarHeight(int height)
    {
       switch (height)
       {
-         case 0:
+         case 0 :
          {
             height = 6;
             break;
          }
 
-         case 1:
+         case 1 :
          {
             height = 8;
             break;
          }
 
-         case 2:
+         case 2 :
          {
             height = 10;
             break;
          }
 
-         case 3:
+         case 3 :
          {
             height = 12;
             break;
          }
 
-         case 4:
+         case 4 :
          {
             height = 14;
             break;
          }
 
-         case 5:
+         case 5 :
          {
             height = 18;
             break;
          }
 
-         case 6:
+         case 6 :
          {
             height = 24;
             break;
@@ -1242,18 +1241,18 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return FontStyle instance
     */
-   private FontStyle getFontStyle (byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   private FontStyle getFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset));
       FontBase fontBase = fontBases.get(index);
-      int style = MPPUtility.getByte(data, offset+1);
-      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+2));
+      int style = MPPUtility.getByte(data, offset + 1);
+      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset + 2));
 
       boolean bold = ((style & 0x01) != 0);
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
 
-      return (new FontStyle (fontBase, italic, bold, underline, color));
+      return (new FontStyle(fontBase, italic, bold, underline, color));
    }
 
    /**
@@ -1264,14 +1263,14 @@ public abstract class GanttChartView extends GenericView
     * @param fontBases map of font bases
     * @return ColumnFontStyle instance
     */
-   private TableFontStyle getColumnFontStyle (byte[] data, int offset, Map<Integer, FontBase> fontBases)
+   private TableFontStyle getColumnFontStyle(byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
       int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = MPPTaskField.getInstance(MPPUtility.getShort(data, offset+4));
-      Integer index = Integer.valueOf(MPPUtility.getByte(data, offset+8));
-      int style = MPPUtility.getByte(data, offset+9);
-      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset+10));
-      int change = MPPUtility.getByte(data, offset+12);
+      FieldType fieldType = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 4));
+      Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
+      int style = MPPUtility.getByte(data, offset + 9);
+      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset + 10));
+      int change = MPPUtility.getByte(data, offset + 12);
 
       FontBase fontBase = fontBases.get(index);
 
@@ -1285,7 +1284,7 @@ public abstract class GanttChartView extends GenericView
       boolean colorChanged = ((change & 0x08) != 0);
       boolean fontChanged = ((change & 0x10) != 0);
 
-      return (new TableFontStyle (uniqueID, fieldType, fontBase, italic, bold, underline, color, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
+      return (new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
    }
 
    /**
@@ -1293,107 +1292,107 @@ public abstract class GanttChartView extends GenericView
     * 
     * @param data auto filter data
     */
-   private void processAutoFilters (byte[] data)
+   private void processAutoFilters(byte[] data)
    {
       //
       // Offset into the block starting after the 8 byte header
       //
       int offset = 8;
       String[] stringData = new String[2];
-      
+
       //
       // While we still have at least enough data for a single filter clause
       //
       while (offset + 224 < data.length)
       {
-         int blockSize = MPPUtility.getShort(data, offset+8);
-         int varDataOffset= MPPUtility.getInt(data, offset+28) + 12;
+         int blockSize = MPPUtility.getShort(data, offset + 8);
+         int varDataOffset = MPPUtility.getInt(data, offset + 28) + 12;
 
          stringData[0] = null;
          stringData[1] = null;
-         
+
          if (varDataOffset < blockSize)
          {
-            stringData[0]=MPPUtility.getUnicodeString(data, offset+varDataOffset);
-            int nextOffset = varDataOffset + ((stringData[0].length() + 1 ) * 2);
+            stringData[0] = MPPUtility.getUnicodeString(data, offset + varDataOffset);
+            int nextOffset = varDataOffset + ((stringData[0].length() + 1) * 2);
             if (nextOffset < blockSize)
             {
                stringData[1] = MPPUtility.getUnicodeString(data, offset + nextOffset);
             }
          }
-         
-         Filter filter = new Filter ();
+
+         Filter filter = new Filter();
          FilterCriteria criteria = new FilterCriteria(m_parent);
          filter.addCriteria(criteria);
-         
+
          //
          // Process the first criteria
          //
-         int fieldType = MPPUtility.getShort(data, offset+4);
-         int entityType = MPPUtility.getByte(data, offset+7);
-         
+         int fieldType = MPPUtility.getShort(data, offset + 4);
+         int entityType = MPPUtility.getByte(data, offset + 7);
+
          FieldType type = null;
          switch (entityType)
          {
-            case 0x0B:               
+            case 0x0B :
             {
                type = MPPTaskField.getInstance(fieldType);
                break;
             }
-            
-            case 0x0C:               
+
+            case 0x0C :
             {
                type = MPPResourceField.getInstance(fieldType);
                break;
-            }            
+            }
          }
          criteria.setField(type);
-            
-         int operatorValue = MPPUtility.getInt(data, offset+32);
-         criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
 
-         Object value = getValue(type, data, offset, stringData[0]);               
+         int operatorValue = MPPUtility.getInt(data, offset + 32);
+         criteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
+
+         Object value = getValue(type, data, offset, stringData[0]);
          criteria.setValue(0, value);
 
          if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
          {
-            value = getValue(type, data, offset+80, null);               
-            criteria.setValue(1, value);               
+            value = getValue(type, data, offset + 80, null);
+            criteria.setValue(1, value);
          }
 
          //
          // If we have enough data left in the block for 
          // a second criteria then process it
          //         
-         if (varDataOffset-272 >= 272)
+         if (varDataOffset - 272 >= 272)
          {
-            criteria.setLogicalAnd((MPPUtility.getByte(data, offset+272) & 0x01) == 1);
-            
+            criteria.setLogicalAnd((MPPUtility.getByte(data, offset + 272) & 0x01) == 1);
+
             criteria = new FilterCriteria(m_parent);
             filter.addCriteria(criteria);
-            
+
             criteria.setField(type);
 
-            operatorValue = MPPUtility.getInt(data, offset+272+80);
-            criteria.setOperator(TestOperator.getInstance(operatorValue-0x3E7));
+            operatorValue = MPPUtility.getInt(data, offset + 272 + 80);
+            criteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
 
-            value = getValue(type, data, offset+272+48, stringData[1]);               
+            value = getValue(type, data, offset + 272 + 48, stringData[1]);
             criteria.setValue(0, value);
 
             if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
             {
-               value = getValue(type, data, offset+272+128+80, null);               
-               criteria.setValue(1, value);             
+               value = getValue(type, data, offset + 272 + 128 + 80, null);
+               criteria.setValue(1, value);
             }
          }
-         
+
          offset += blockSize;
-         
+
          m_autoFilters.add(filter);
          m_autoFiltersByType.put(type, filter);
       }
    }
-   
+
    /**
     * This is a generic method used to retrieve the RHS value of a filter
     * expression.
@@ -1404,14 +1403,14 @@ public abstract class GanttChartView extends GenericView
     * @param stringData string data associated with this filter clause
     * @return filter expression value
     */
-   private Object getValue (FieldType type, byte[] filterData, int offset, String stringData)
+   private Object getValue(FieldType type, byte[] filterData, int offset, String stringData)
    {
       Object value = null;
-      
-      boolean valueFlag = (MPPUtility.getInt(filterData, offset+192) == 1);
+
+      boolean valueFlag = (MPPUtility.getInt(filterData, offset + 192) == 1);
       if (valueFlag == false)
       {
-         int field = MPPUtility.getShort(filterData, offset+200);               
+         int field = MPPUtility.getShort(filterData, offset + 200);
          if (type instanceof TaskField)
          {
             value = MPPTaskField.getInstance(field);
@@ -1419,75 +1418,75 @@ public abstract class GanttChartView extends GenericView
          else
          {
             value = MPPResourceField.getInstance(field);
-         }         
+         }
       }
       else
-      {                  
+      {
          switch (type.getDataType())
          {
-            case DURATION:
+            case DURATION :
             {
-               value = MPPUtility.getAdjustedDuration (m_parent, MPPUtility.getInt (filterData, offset+224), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (filterData, offset+224)));
-               break;
-            }
-            
-            case NUMERIC:
-            {
-               value = Double.valueOf(MPPUtility.getDouble(filterData, offset+224));
+               value = MPPUtility.getAdjustedDuration(m_parent, MPPUtility.getInt(filterData, offset + 224), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(filterData, offset + 224)));
                break;
             }
 
-            case PERCENTAGE:
+            case NUMERIC :
             {
-               value = Double.valueOf(MPPUtility.getInt(filterData, offset+224));
+               value = Double.valueOf(MPPUtility.getDouble(filterData, offset + 224));
                break;
             }
 
-            case CURRENCY:
+            case PERCENTAGE :
             {
-               value = Double.valueOf(MPPUtility.getDouble(filterData, offset+224)/100);
+               value = Double.valueOf(MPPUtility.getInt(filterData, offset + 224));
                break;
             }
-            
-            case STRING:
+
+            case CURRENCY :
+            {
+               value = Double.valueOf(MPPUtility.getDouble(filterData, offset + 224) / 100);
+               break;
+            }
+
+            case STRING :
             {
                value = stringData;
                break;
             }
-            
-            case BOOLEAN:
+
+            case BOOLEAN :
             {
-               int intValue = MPPUtility.getShort(filterData, offset+224);
-               value = (intValue==1?Boolean.TRUE:Boolean.FALSE);
+               int intValue = MPPUtility.getShort(filterData, offset + 224);
+               value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
                break;
             }
-            
-            case DATE:
+
+            case DATE :
             {
-               value = MPPUtility.getTimestamp(filterData, offset+224);
+               value = MPPUtility.getTimestamp(filterData, offset + 224);
                break;
             }
-            
-            default:
+
+            default :
             {
                break;
             }
-         }                              
-      }       
-      
+         }
+      }
+
       return (value);
-   }   
-   
+   }
+
    /**
     * Retrieves a list of all auto filters associated with this view.
     * 
     * @return list of filter instances
     */
-   public List<Filter> getAutoFilters ()
+   public List<Filter> getAutoFilters()
    {
       return (m_autoFilters);
    }
-   
+
    /**
     * Retrieves the auto filter definition associated with an 
     * individual column. Returns null if there is no filter defined for
@@ -1496,82 +1495,81 @@ public abstract class GanttChartView extends GenericView
     * @param type field type
     * @return filter instance
     */
-   public Filter getAutoFilterByType (FieldType type)
+   public Filter getAutoFilterByType(FieldType type)
    {
       return (m_autoFiltersByType.get(type));
    }
-   
+
    /**
     * Generate a string representation of this instance.
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      PrintWriter pw = new PrintWriter (os);
-      pw.println ("[GanttChartView");
-      pw.println ("   " + super.toString());
+      PrintWriter pw = new PrintWriter(os);
+      pw.println("[GanttChartView");
+      pw.println("   " + super.toString());
 
-      pw.println ("   highlightedTasksFontStyle=" + m_highlightedTasksFontStyle);
-      pw.println ("   rowAndColumnFontStyle=" + m_rowAndColumnFontStyle);
-      pw.println ("   nonCriticalTasksFontStyle=" + m_nonCriticalTasksFontStyle);
-      pw.println ("   criticalTasksFontStyle=" + m_criticalTasksFontStyle);
-      pw.println ("   summaryTasksFontStyle=" + m_summaryTasksFontStyle);
-      pw.println ("   milestoneTasksFontStyle=" + m_milestoneTasksFontStyle);
-      pw.println ("   topTimescaleFontStyle=" + m_topTimescaleFontStyle);
-      pw.println ("   middleTimescaleFontStyle=" + m_middleTimescaleFontStyle);
-      pw.println ("   bottomTimescaleFontStyle=" + m_bottomTimescaleFontStyle);
-      pw.println ("   barTextLeftFontStyle=" + m_barTextLeftFontStyle);
-      pw.println ("   barTextRightFontStyle=" + m_barTextRightFontStyle);
-      pw.println ("   barTextTopFontStyle=" + m_barTextTopFontStyle);
-      pw.println ("   barTextBottomFontStyle=" + m_barTextBottomFontStyle);
-      pw.println ("   barTextInsideFontStyle=" + m_barTextInsideFontStyle);
-      pw.println ("   markedTasksFontStyle=" + m_markedTasksFontStyle);
-      pw.println ("   projectSummaryTasksFontStyle=" + m_projectSummaryTasksFontStyle);
-      pw.println ("   externalTasksFontStyle=" + m_externalTasksFontStyle);
+      pw.println("   highlightedTasksFontStyle=" + m_highlightedTasksFontStyle);
+      pw.println("   rowAndColumnFontStyle=" + m_rowAndColumnFontStyle);
+      pw.println("   nonCriticalTasksFontStyle=" + m_nonCriticalTasksFontStyle);
+      pw.println("   criticalTasksFontStyle=" + m_criticalTasksFontStyle);
+      pw.println("   summaryTasksFontStyle=" + m_summaryTasksFontStyle);
+      pw.println("   milestoneTasksFontStyle=" + m_milestoneTasksFontStyle);
+      pw.println("   topTimescaleFontStyle=" + m_topTimescaleFontStyle);
+      pw.println("   middleTimescaleFontStyle=" + m_middleTimescaleFontStyle);
+      pw.println("   bottomTimescaleFontStyle=" + m_bottomTimescaleFontStyle);
+      pw.println("   barTextLeftFontStyle=" + m_barTextLeftFontStyle);
+      pw.println("   barTextRightFontStyle=" + m_barTextRightFontStyle);
+      pw.println("   barTextTopFontStyle=" + m_barTextTopFontStyle);
+      pw.println("   barTextBottomFontStyle=" + m_barTextBottomFontStyle);
+      pw.println("   barTextInsideFontStyle=" + m_barTextInsideFontStyle);
+      pw.println("   markedTasksFontStyle=" + m_markedTasksFontStyle);
+      pw.println("   projectSummaryTasksFontStyle=" + m_projectSummaryTasksFontStyle);
+      pw.println("   externalTasksFontStyle=" + m_externalTasksFontStyle);
 
-      pw.println ("   SheetRowsGridLines=" + m_sheetRowsGridLines);
-      pw.println ("   SheetColumnsGridLines=" + m_sheetColumnsGridLines);
-      pw.println ("   TitleVerticalGridLines=" + m_titleVerticalGridLines);
-      pw.println ("   TitleHorizontalGridLines=" + m_titleHorizontalGridLines);
-      pw.println ("   MajorColumnsGridLines=" + m_majorColumnsGridLines);
-      pw.println ("   MinorColumnsGridLines=" + m_minorColumnsGridLines);
-      pw.println ("   GanttRowsGridLines=" + m_ganttRowsGridLines);
-      pw.println ("   BarRowsGridLines=" + m_barRowsGridLines);
-      pw.println ("   CurrentDateGridLines=" + m_currentDateGridLines);
-      pw.println ("   PageBreakGridLines=" + m_pageBreakGridLines);
-      pw.println ("   ProjectStartGridLines=" + m_projectStartGridLines);
-      pw.println ("   ProjectFinishGridLines=" + m_projectFinishGridLines);
-      pw.println ("   StatusDateGridLines=" + m_statusDateGridLines);
-      pw.println ("   GanttBarHeight=" + m_ganttBarHeight);
-      pw.println ("   TimescaleTopTier=" + m_timescaleTopTier);
-      pw.println ("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
-      pw.println ("   TimescaleBottomTier=" + m_timescaleBottomTier);
-      pw.println ("   TimescaleSeparator=" + m_timescaleSeparator);
-      pw.println ("   TimescaleSize=" + m_timescaleSize + "%");
-      pw.println ("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);
-      pw.println ("   NonWorkingColor=" + m_nonWorkingColor);
-      pw.println ("   NonWorkingPattern=" + m_nonWorkingPattern);
-      pw.println ("   NonWorkingStyle=" + m_nonWorkingStyle);
-      pw.println ("   ShowDrawings=" + m_showDrawings);
-      pw.println ("   RoundBarsToWholeDays=" + m_roundBarsToWholeDays);
-      pw.println ("   ShowBarSplits=" + m_showBarSplits);
-      pw.println ("   AlwaysRollupGanttBars=" + m_alwaysRollupGanttBars);
-      pw.println ("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);
-      pw.println ("   BarDateFormat=" + m_barDateFormat);
-      pw.println ("   LinkStyle=" + m_linkStyle);
+      pw.println("   SheetRowsGridLines=" + m_sheetRowsGridLines);
+      pw.println("   SheetColumnsGridLines=" + m_sheetColumnsGridLines);
+      pw.println("   TitleVerticalGridLines=" + m_titleVerticalGridLines);
+      pw.println("   TitleHorizontalGridLines=" + m_titleHorizontalGridLines);
+      pw.println("   MajorColumnsGridLines=" + m_majorColumnsGridLines);
+      pw.println("   MinorColumnsGridLines=" + m_minorColumnsGridLines);
+      pw.println("   GanttRowsGridLines=" + m_ganttRowsGridLines);
+      pw.println("   BarRowsGridLines=" + m_barRowsGridLines);
+      pw.println("   CurrentDateGridLines=" + m_currentDateGridLines);
+      pw.println("   PageBreakGridLines=" + m_pageBreakGridLines);
+      pw.println("   ProjectStartGridLines=" + m_projectStartGridLines);
+      pw.println("   ProjectFinishGridLines=" + m_projectFinishGridLines);
+      pw.println("   StatusDateGridLines=" + m_statusDateGridLines);
+      pw.println("   GanttBarHeight=" + m_ganttBarHeight);
+      pw.println("   TimescaleTopTier=" + m_timescaleTopTier);
+      pw.println("   TimescaleMiddleTier=" + m_timescaleMiddleTier);
+      pw.println("   TimescaleBottomTier=" + m_timescaleBottomTier);
+      pw.println("   TimescaleSeparator=" + m_timescaleSeparator);
+      pw.println("   TimescaleSize=" + m_timescaleSize + "%");
+      pw.println("   NonWorkingDaysCalendarName=" + m_nonWorkingDaysCalendarName);
+      pw.println("   NonWorkingColor=" + m_nonWorkingColor);
+      pw.println("   NonWorkingPattern=" + m_nonWorkingPattern);
+      pw.println("   NonWorkingStyle=" + m_nonWorkingStyle);
+      pw.println("   ShowDrawings=" + m_showDrawings);
+      pw.println("   RoundBarsToWholeDays=" + m_roundBarsToWholeDays);
+      pw.println("   ShowBarSplits=" + m_showBarSplits);
+      pw.println("   AlwaysRollupGanttBars=" + m_alwaysRollupGanttBars);
+      pw.println("   HideRollupBarsWhenSummaryExpanded=" + m_hideRollupBarsWhenSummaryExpanded);
+      pw.println("   BarDateFormat=" + m_barDateFormat);
+      pw.println("   LinkStyle=" + m_linkStyle);
 
+      pw.println("   ProgressLinesEnabled=" + m_progressLinesEnabled);
+      pw.println("   ProgressLinesAtCurrentDate=" + m_progressLinesAtCurrentDate);
+      pw.println("   ProgressLinesAtRecurringIntervals=" + m_progressLinesAtRecurringIntervals);
+      pw.println("   ProgressLinesInterval=" + m_progressLinesInterval);
+      pw.println("   ProgressLinesDailyDayNumber=" + m_progressLinesDailyDayNumber);
+      pw.println("   ProgressLinesDailyWorkday=" + m_progressLinesDailyWorkday);
 
-      pw.println ("   ProgressLinesEnabled=" + m_progressLinesEnabled);
-      pw.println ("   ProgressLinesAtCurrentDate=" + m_progressLinesAtCurrentDate);
-      pw.println ("   ProgressLinesAtRecurringIntervals=" + m_progressLinesAtRecurringIntervals);
-      pw.println ("   ProgressLinesInterval=" + m_progressLinesInterval);
-      pw.println ("   ProgressLinesDailyDayNumber=" + m_progressLinesDailyDayNumber);
-      pw.println ("   ProgressLinesDailyWorkday=" + m_progressLinesDailyWorkday);
-
-      pw.print ("   ProgressLinesWeeklyDay=[");
-      for (int loop=0; loop < m_progressLinesWeeklyDay.length; loop++)
+      pw.print("   ProgressLinesWeeklyDay=[");
+      for (int loop = 0; loop < m_progressLinesWeeklyDay.length; loop++)
       {
          if (loop != 0)
          {
@@ -1581,19 +1579,19 @@ public abstract class GanttChartView extends GenericView
       }
       pw.println("]");
 
-      pw.println ("   ProgressLinesWeeklyWeekNumber=" + m_progressLinesWeekleyWeekNumber);
-      pw.println ("   ProgressLinesMonthlyDayOfMonth=" + m_progressLinesMonthlyDayOfMonth);
-      pw.println ("   ProgressLinesMonthDayNumber=" + m_progressLinesMonthlyDayNumber);
-      pw.println ("   ProgressLinesMonthlyDay=" + m_progressLinesMonthlyDay);
-      pw.println ("   ProgressLinesMonthlyFirst=" + m_progressLinesMonthlyFirst);
-      pw.println ("   ProgressLinesBeginAtProjectStart=" + m_progressLinesBeginAtProjectStart);
-      pw.println ("   ProgressLinesBeginAtDate=" + m_progressLinesBeginAtDate);
-      pw.println ("   ProgressLinesDisplaySelected=" + m_progressLinesDisplaySelected);
+      pw.println("   ProgressLinesWeeklyWeekNumber=" + m_progressLinesWeekleyWeekNumber);
+      pw.println("   ProgressLinesMonthlyDayOfMonth=" + m_progressLinesMonthlyDayOfMonth);
+      pw.println("   ProgressLinesMonthDayNumber=" + m_progressLinesMonthlyDayNumber);
+      pw.println("   ProgressLinesMonthlyDay=" + m_progressLinesMonthlyDay);
+      pw.println("   ProgressLinesMonthlyFirst=" + m_progressLinesMonthlyFirst);
+      pw.println("   ProgressLinesBeginAtProjectStart=" + m_progressLinesBeginAtProjectStart);
+      pw.println("   ProgressLinesBeginAtDate=" + m_progressLinesBeginAtDate);
+      pw.println("   ProgressLinesDisplaySelected=" + m_progressLinesDisplaySelected);
 
-      pw.print ("   ProgressLinesDisplaySelectedDates=[");
+      pw.print("   ProgressLinesDisplaySelectedDates=[");
       if (m_progressLinesDisplaySelectedDates != null)
       {
-         for (int loop=0; loop < m_progressLinesDisplaySelectedDates.length; loop++)
+         for (int loop = 0; loop < m_progressLinesDisplaySelectedDates.length; loop++)
          {
             if (loop != 0)
             {
@@ -1604,49 +1602,49 @@ public abstract class GanttChartView extends GenericView
       }
       pw.println("]");
 
-      pw.println ("   ProgressLinesActualPlan=" + m_progressLinesActualPlan);
-      pw.println ("   ProgressLinesDisplayType=" + m_progressLinesDisplayType);
-      pw.println ("   ProgressLinesShowDate=" + m_progressLinesShowDate);
-      pw.println ("   ProgressLinesDateFormat=" + m_progressLinesDateFormat);
-      pw.println ("   ProgressLinesFontStyle=" + m_progressLinesFontStyle);
-      pw.println ("   ProgressLinesCurrentLineColor=" + m_progressLinesCurrentLineColor);
-      pw.println ("   ProgressLinesCurrentLineStyle=" + m_progressLinesCurrentLineStyle);
-      pw.println ("   ProgressLinesCurrentProgressPointColor=" + m_progressLinesCurrentProgressPointColor);
-      pw.println ("   ProgressLinesCurrentProgressPointShape=" + m_progressLinesCurrentProgressPointShape);
-      pw.println ("   ProgressLinesOtherLineColor=" + m_progressLinesOtherLineColor);
-      pw.println ("   ProgressLinesOtherLineStyle=" + m_progressLinesOtherLineStyle);
-      pw.println ("   ProgressLinesOtherProgressPointColor=" + m_progressLinesOtherProgressPointColor);
-      pw.println ("   ProgressLinesOtherProgressPointShape=" + m_progressLinesOtherProgressPointShape);
+      pw.println("   ProgressLinesActualPlan=" + m_progressLinesActualPlan);
+      pw.println("   ProgressLinesDisplayType=" + m_progressLinesDisplayType);
+      pw.println("   ProgressLinesShowDate=" + m_progressLinesShowDate);
+      pw.println("   ProgressLinesDateFormat=" + m_progressLinesDateFormat);
+      pw.println("   ProgressLinesFontStyle=" + m_progressLinesFontStyle);
+      pw.println("   ProgressLinesCurrentLineColor=" + m_progressLinesCurrentLineColor);
+      pw.println("   ProgressLinesCurrentLineStyle=" + m_progressLinesCurrentLineStyle);
+      pw.println("   ProgressLinesCurrentProgressPointColor=" + m_progressLinesCurrentProgressPointColor);
+      pw.println("   ProgressLinesCurrentProgressPointShape=" + m_progressLinesCurrentProgressPointShape);
+      pw.println("   ProgressLinesOtherLineColor=" + m_progressLinesOtherLineColor);
+      pw.println("   ProgressLinesOtherLineStyle=" + m_progressLinesOtherLineStyle);
+      pw.println("   ProgressLinesOtherProgressPointColor=" + m_progressLinesOtherProgressPointColor);
+      pw.println("   ProgressLinesOtherProgressPointShape=" + m_progressLinesOtherProgressPointShape);
 
-      pw.println ("   TableWidth=" + m_tableWidth);
-      pw.println ("   TableName=" + m_tableName);
-      pw.println ("   DefaultFilterName=" + m_defaultFilterName);
-      pw.println ("   GroupName=" + m_groupName);
-      pw.println ("   HighlightFilter=" + m_highlightFilter);
-      pw.println ("   ShowInMenu=" + m_showInMenu);
-      pw.println ("   Table=" + getTable());
+      pw.println("   TableWidth=" + m_tableWidth);
+      pw.println("   TableName=" + m_tableName);
+      pw.println("   DefaultFilterName=" + m_defaultFilterName);
+      pw.println("   GroupName=" + m_groupName);
+      pw.println("   HighlightFilter=" + m_highlightFilter);
+      pw.println("   ShowInMenu=" + m_showInMenu);
+      pw.println("   Table=" + getTable());
 
       if (m_tableFontStyles != null)
       {
-         for (int loop=0; loop < m_tableFontStyles.length; loop++)
+         for (int loop = 0; loop < m_tableFontStyles.length; loop++)
          {
-            pw.println ("   ColumnFontStyle=" + m_tableFontStyles[loop]);
+            pw.println("   ColumnFontStyle=" + m_tableFontStyles[loop]);
          }
       }
 
       if (m_barStyles != null)
       {
-         for (int loop=0; loop < m_barStyles.length; loop++)
+         for (int loop = 0; loop < m_barStyles.length; loop++)
          {
-            pw.println ("   BarStyle=" + m_barStyles[loop]);
+            pw.println("   BarStyle=" + m_barStyles[loop]);
          }
       }
 
       if (m_barStyleExceptions != null)
       {
-         for (int loop=0; loop < m_barStyleExceptions.length; loop++)
+         for (int loop = 0; loop < m_barStyleExceptions.length; loop++)
          {
-            pw.println ("   BarStyleException=" + m_barStyleExceptions[loop]);
+            pw.println("   BarStyleException=" + m_barStyleExceptions[loop]);
          }
       }
 
@@ -1654,11 +1652,11 @@ public abstract class GanttChartView extends GenericView
       {
          for (Filter f : m_autoFilters)
          {
-            pw.println ("   AutoFilter=" + f);            
+            pw.println("   AutoFilter=" + f);
          }
       }
-      
-      pw.println ("]");
+
+      pw.println("]");
       pw.flush();
       return (os.toString());
    }
@@ -1708,7 +1706,7 @@ public abstract class GanttChartView extends GenericView
    private String m_groupName;
    private boolean m_highlightFilter;
    private boolean m_showInMenu;
-   
+
    private FontStyle m_highlightedTasksFontStyle;
    private FontStyle m_rowAndColumnFontStyle;
    private FontStyle m_nonCriticalTasksFontStyle;
@@ -1735,7 +1733,7 @@ public abstract class GanttChartView extends GenericView
    private Interval m_progressLinesInterval;
    private int m_progressLinesDailyDayNumber;
    private boolean m_progressLinesDailyWorkday;
-   private boolean[] m_progressLinesWeeklyDay = new boolean [8];
+   private boolean[] m_progressLinesWeeklyDay = new boolean[8];
    private int m_progressLinesWeekleyWeekNumber;
    private boolean m_progressLinesMonthlyDayOfMonth;
    private int m_progressLinesMonthlyDayNumber;
@@ -1759,8 +1757,8 @@ public abstract class GanttChartView extends GenericView
    private ColorType m_progressLinesOtherProgressPointColor;
    private int m_progressLinesOtherProgressPointShape;
    private List<Filter> m_autoFilters = new LinkedList<Filter>();
-   private Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter> ();
-      
+   private Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
+
    private static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    private static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
    private static final Integer BAR_PROPERTIES = Integer.valueOf(574619661);

@@ -21,11 +21,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package net.sf.mpxj.junit;
 
 import junit.framework.TestCase;
-
 
 /**
  * Base class implementing common test case functionality.
@@ -36,14 +34,14 @@ public abstract class MPXJTestCase extends TestCase
     * Constructor. Note that the system property mpxj.junit.datadir must
     * be defined to allow the test code to find the required sample files.
     */
-   public MPXJTestCase ()
+   public MPXJTestCase()
    {
-      m_basedir = System.getProperty ("mpxj.junit.datadir");
+      m_basedir = System.getProperty("mpxj.junit.datadir");
       if (m_basedir == null || m_basedir.length() == 0)
       {
          assertTrue("missing datadir property", false);
       }
-      
+
       String runtime = System.getProperty("java.runtime.name");
       m_ikvm = (runtime != null && runtime.indexOf("IKVM") != -1);
    }
@@ -51,4 +49,3 @@ public abstract class MPXJTestCase extends TestCase
    protected String m_basedir;
    protected boolean m_ikvm;
 }
-

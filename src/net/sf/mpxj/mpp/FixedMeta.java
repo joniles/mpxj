@@ -49,7 +49,7 @@ final class FixedMeta extends MPPComponent
     * @param itemSize size of each item in the block
     * @throws IOException on file read failure
     */
-   FixedMeta (InputStream is, int itemSize)
+   FixedMeta(InputStream is, int itemSize)
       throws IOException
    {
       //
@@ -60,22 +60,22 @@ final class FixedMeta extends MPPComponent
       //
       // First 4 bytes
       //
-      if (readInt (is) != MAGIC)
+      if (readInt(is) != MAGIC)
       {
-         throw new IOException ("Bad magic number");
+         throw new IOException("Bad magic number");
       }
 
-      readInt (is);
-      m_itemCount = readInt (is);
-      readInt (is);
+      readInt(is);
+      m_itemCount = readInt(is);
+      readInt(is);
 
       m_itemCount = (fileSize - 16) / itemSize;
 
       m_array = new Object[m_itemCount];
 
-      for (int loop=0; loop < m_itemCount; loop++)
+      for (int loop = 0; loop < m_itemCount; loop++)
       {
-         m_array[loop] = readByteArray (is, itemSize);
+         m_array[loop] = readByteArray(is, itemSize);
       }
    }
 
@@ -84,7 +84,7 @@ final class FixedMeta extends MPPComponent
     *
     * @return number of items in the fixed data block
     */
-   public int getItemCount ()
+   public int getItemCount()
    {
       return (m_itemCount);
    }
@@ -97,13 +97,13 @@ final class FixedMeta extends MPPComponent
     * @param index index of the data item to be retrieved
     * @return byte array containing the requested data
     */
-   public byte[] getByteArrayValue (int index)
+   public byte[] getByteArrayValue(int index)
    {
       byte[] result = null;
 
       if (index >= 0 && index < m_array.length && m_array[index] != null)
       {
-         result = (byte[])m_array[index];
+         result = (byte[]) m_array[index];
       }
 
       return (result);
@@ -115,25 +115,25 @@ final class FixedMeta extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN: FixedMeta");
-      pw.println ("   Item count: " + m_itemCount);
+      pw.println("BEGIN: FixedMeta");
+      pw.println("   Item count: " + m_itemCount);
 
-      for (int loop=0; loop < m_itemCount; loop++)
+      for (int loop = 0; loop < m_itemCount; loop++)
       {
-         pw.println ("   Data at index: " + loop);
-         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
+         pw.println("   Data at index: " + loop);
+         pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
       }
 
-      pw.println ("END: FixedMeta");
-      pw.println ();
+      pw.println("END: FixedMeta");
+      pw.println();
 
-      pw.close ();
-      return (sw.toString ());
+      pw.close();
+      return (sw.toString());
    }
 
    /**

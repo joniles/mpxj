@@ -28,89 +28,87 @@ import java.util.EnumSet;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
-
-
 /**
  * This class represents the set of operators used to perform a test
  * between two or more operands.
  */
 public enum TestOperator implements MpxjEnum
 {
-   IS_ANY_VALUE (0)
+   IS_ANY_VALUE(0)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (true);
       }
    },
-   
-   IS_WITHIN (1)
+
+   IS_WITHIN(1)
    {
       /**
        * {@inheritDoc}
-       */      
-      @Override public boolean evaluate (Object lhs, Object rhs)
+       */
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateWithin(lhs, rhs));
       }
    },
 
-   IS_GREATER_THAN (2)
+   IS_GREATER_THAN(2)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) > 0);
       }
    },
 
-   IS_LESS_THAN (3)
+   IS_LESS_THAN(3)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) < 0);
       }
    },
-   
-   IS_GREATER_THAN_OR_EQUAL_TO (4)
+
+   IS_GREATER_THAN_OR_EQUAL_TO(4)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) >= 0);
       }
    },
-   
-   IS_LESS_THAN_OR_EQUAL_TO (5)
+
+   IS_LESS_THAN_OR_EQUAL_TO(5)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateCompareTo(lhs, rhs) <= 0);
       }
    },
-   
-   EQUALS (6)
+
+   EQUALS(6)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          boolean result;
-         
+
          if (lhs == null)
          {
             result = (lhs == getSingleOperand(rhs));
@@ -122,13 +120,13 @@ public enum TestOperator implements MpxjEnum
          return (result);
       }
    },
-   
-   DOES_NOT_EQUAL (7)
+
+   DOES_NOT_EQUAL(7)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          boolean result;
          if (lhs == null)
@@ -137,67 +135,65 @@ public enum TestOperator implements MpxjEnum
          }
          else
          {
-            result = !lhs.equals(getSingleOperand(rhs));  
+            result = !lhs.equals(getSingleOperand(rhs));
          }
-         return(result);
+         return (result);
       }
    },
-   
-   CONTAINS (8)
+
+   CONTAINS(8)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateContains(lhs, rhs));
       }
    },
-   
-   IS_NOT_WITHIN (9)
+
+   IS_NOT_WITHIN(9)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (!evaluateWithin(lhs, rhs));
       }
    },
-   
-   DOES_NOT_CONTAIN (10)
+
+   DOES_NOT_CONTAIN(10)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (!evaluateContains(lhs, rhs));
       }
    },
-   
-   CONTAINS_EXACTLY (11)
+
+   CONTAINS_EXACTLY(11)
    {
       /**
        * {@inheritDoc}
        */
-      @Override public boolean evaluate (Object lhs, Object rhs)
+      @Override public boolean evaluate(Object lhs, Object rhs)
       {
          return (evaluateContainsExactly(lhs, rhs));
       }
    };
-   
-   
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private TestOperator (int type)
+   private TestOperator(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -205,8 +201,8 @@ public enum TestOperator implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static TestOperator getInstance (int type)
-   {      
+   public static TestOperator getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = IS_ANY_VALUE.getValue();
@@ -214,14 +210,13 @@ public enum TestOperator implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static TestOperator getInstance (Number type)
+   public static TestOperator getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -235,13 +230,12 @@ public enum TestOperator implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -255,8 +249,8 @@ public enum TestOperator implements MpxjEnum
     * @param rhs operand
     * @return boolean result
     */
-   public abstract boolean evaluate (Object lhs, Object rhs);
-   
+   public abstract boolean evaluate(Object lhs, Object rhs);
+
    /**
     * This method is used to ensure that if a list of operand values has been
     * supplied, that a single operand is extracted.
@@ -264,17 +258,17 @@ public enum TestOperator implements MpxjEnum
     * @param operand operand value
     * @return single operand value
     */
-   protected Object getSingleOperand (Object operand)
+   protected Object getSingleOperand(Object operand)
    {
       if (operand instanceof Object[])
       {
-         Object[] list = (Object[])operand;
+         Object[] list = (Object[]) operand;
          operand = list[0];
       }
-      
+
       return (operand);
    }
-   
+
    /**
     * Determine if the supplied value falls within the specified range.
     * 
@@ -282,24 +276,23 @@ public enum TestOperator implements MpxjEnum
     * @param rhs range operand
     * @return boolean result
     */
-   @SuppressWarnings("unchecked")
-   protected boolean evaluateWithin (Object lhs, Object rhs)
+   @SuppressWarnings("unchecked") protected boolean evaluateWithin(Object lhs, Object rhs)
    {
       boolean result = false;
-      
+
       if (lhs != null && rhs instanceof Object[])
       {
-         Comparable lhsComparable = (Comparable)lhs;
-         Object[] rhsList = (Object[])rhs;
+         Comparable lhsComparable = (Comparable) lhs;
+         Object[] rhsList = (Object[]) rhs;
          if (rhsList[0] != null && rhsList[1] != null)
          {
-            result = (lhsComparable.compareTo(rhsList[0]) >=0 && lhsComparable.compareTo(rhsList[1]) <= 0);
+            result = (lhsComparable.compareTo(rhsList[0]) >= 0 && lhsComparable.compareTo(rhsList[1]) <= 0);
          }
       }
-               
+
       return (result);
    }
-   
+
    /**
     * Implements a simple compare-to operation. Assumes that the LHS
     * operand implements the Comparable interface.
@@ -308,13 +301,12 @@ public enum TestOperator implements MpxjEnum
     * @param rhs operand
     * @return boolean result
     */
-   @SuppressWarnings("unchecked")
-   protected int evaluateCompareTo (Object lhs, Object rhs)
+   @SuppressWarnings("unchecked") protected int evaluateCompareTo(Object lhs, Object rhs)
    {
       int result;
-      
+
       rhs = getSingleOperand(rhs);
-      
+
       if (lhs == null || rhs == null)
       {
          if (lhs == rhs)
@@ -335,12 +327,12 @@ public enum TestOperator implements MpxjEnum
       }
       else
       {
-         result = ((Comparable)lhs).compareTo(rhs);
+         result = ((Comparable) lhs).compareTo(rhs);
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Assuming the supplied arguments are both Strings, this method
     * determines if rhs is contained within lhs. This test is case insensitive.
@@ -349,17 +341,17 @@ public enum TestOperator implements MpxjEnum
     * @param rhs operand
     * @return boolean result
     */
-   protected boolean evaluateContains (Object lhs, Object rhs)
+   protected boolean evaluateContains(Object lhs, Object rhs)
    {
       boolean result = false;
-      
+
       rhs = getSingleOperand(rhs);
-      
+
       if (lhs instanceof String && rhs instanceof String)
       {
-         result = ((String)lhs).toUpperCase().indexOf(((String)rhs).toUpperCase()) != -1;
+         result = ((String) lhs).toUpperCase().indexOf(((String) rhs).toUpperCase()) != -1;
       }
-      
+
       return (result);
    }
 
@@ -370,33 +362,32 @@ public enum TestOperator implements MpxjEnum
     * @param lhs operand
     * @param rhs operand
     * @return boolean result
-    */   
-   protected boolean evaluateContainsExactly (Object lhs, Object rhs)
+    */
+   protected boolean evaluateContainsExactly(Object lhs, Object rhs)
    {
       boolean result = false;
-      
+
       rhs = getSingleOperand(rhs);
-      
+
       if (lhs instanceof String && rhs instanceof String)
       {
-         result = ((String)lhs).indexOf(((String)rhs)) != -1;
+         result = ((String) lhs).indexOf(((String) rhs)) != -1;
       }
-      
+
       return (result);
    }
-   
+
    /**
     * Array mapping int types to enums.
     */
    private static final TestOperator[] TYPE_VALUES = new TestOperator[12];
    static
-   {      
+   {
       for (TestOperator e : EnumSet.range(TestOperator.IS_ANY_VALUE, TestOperator.CONTAINS_EXACTLY))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

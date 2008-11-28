@@ -39,17 +39,16 @@ public class ProjectWriterUtilityTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-   public void testGetProjectWriter()
-      throws Exception
+   public void testGetProjectWriter() throws Exception
    {
       ProjectWriter writer;
-      
+
       try
       {
          writer = ProjectWriterUtility.getProjectWriter("filename.xxx");
          assertTrue("Failed to throw exception", false);
       }
-      
+
       catch (Exception ex)
       {
          assertEquals("Cannot write files of type: filename.xxx", ex.getMessage());
@@ -60,7 +59,7 @@ public class ProjectWriterUtilityTest extends MPXJTestCase
          writer = ProjectWriterUtility.getProjectWriter("filename");
          assertTrue("Failed to throw exception", false);
       }
-      
+
       catch (Exception ex)
       {
          assertEquals("Filename has no extension: filename", ex.getMessage());
@@ -68,14 +67,14 @@ public class ProjectWriterUtilityTest extends MPXJTestCase
 
       writer = ProjectWriterUtility.getProjectWriter("filename.mpx");
       assertTrue(writer instanceof MPXWriter);
-      
+
       writer = ProjectWriterUtility.getProjectWriter("filename.xml");
       assertTrue(writer instanceof MSPDIWriter);
-      
+
       writer = ProjectWriterUtility.getProjectWriter("filename.planner");
       assertTrue(writer instanceof PlannerWriter);
    }
-   
+
    /**
     * Test to exercise the getSupportedFileExtensions method.
     */

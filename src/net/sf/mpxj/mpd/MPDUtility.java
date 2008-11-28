@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       02-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -49,31 +49,32 @@ public final class MPDUtility
     * @param value MPP symbol position
     * @return MPX symbol position
     */
-   public static CurrencySymbolPosition getSymbolPosition (int value)
+   public static CurrencySymbolPosition getSymbolPosition(int value)
    {
       CurrencySymbolPosition result;
 
       switch (value)
       {
-         case 1:
+         case 1 :
          {
             result = CurrencySymbolPosition.AFTER;
             break;
          }
 
-         case 2:
+         case 2 :
          {
             result = CurrencySymbolPosition.BEFORE_WITH_SPACE;
             break;
          }
 
-         case 3:
+         case 3 :
          {
             result = CurrencySymbolPosition.AFTER_WITH_SPACE;
             break;
          }
 
-         case 0:default:
+         case 0 :
+         default :
          {
             result = CurrencySymbolPosition.BEFORE;
             break;
@@ -82,7 +83,7 @@ public final class MPDUtility
 
       return (result);
    }
-   
+
    /**
     * This method converts between the duration units representation
     * used in the MPP file, and the standard MPX duration units.
@@ -91,68 +92,68 @@ public final class MPDUtility
     * @param type MPP units
     * @return MPX units
     */
-   public static final TimeUnit getDurationTimeUnits (int type)
+   public static final TimeUnit getDurationTimeUnits(int type)
    {
       TimeUnit units;
 
       switch (type & DURATION_UNITS_MASK)
       {
-         case 3:
+         case 3 :
          {
             units = TimeUnit.MINUTES;
             break;
          }
 
-         case 4:
+         case 4 :
          {
             units = TimeUnit.ELAPSED_MINUTES;
             break;
          }
 
-         case 5:
+         case 5 :
          {
             units = TimeUnit.HOURS;
             break;
          }
 
-         case 6:
+         case 6 :
          {
             units = TimeUnit.ELAPSED_HOURS;
             break;
          }
 
-         case 8:
+         case 8 :
          {
             units = TimeUnit.ELAPSED_DAYS;
             break;
          }
 
-         case 9:
+         case 9 :
          {
             units = TimeUnit.WEEKS;
             break;
          }
 
-         case 10:
+         case 10 :
          {
             units = TimeUnit.ELAPSED_WEEKS;
             break;
          }
 
-         case 11:
+         case 11 :
          {
             units = TimeUnit.MONTHS;
             break;
          }
 
-         case 12:
+         case 12 :
          {
             units = TimeUnit.ELAPSED_MONTHS;
             break;
          }
 
-         default:
-         case 7:
+         default :
+         case 7 :
          {
             units = TimeUnit.DAYS;
             break;
@@ -161,7 +162,7 @@ public final class MPDUtility
 
       return (units);
    }
-   
+
    /**
     * Given a duration and the time units for the duration extracted from an MPP
     * file, this method creates a new Duration to represent the given
@@ -173,24 +174,24 @@ public final class MPDUtility
     * @param timeUnit duration units
     * @return Duration instance
     */
-   public static Duration getAdjustedDuration (ProjectFile file, int duration, TimeUnit timeUnit)
+   public static Duration getAdjustedDuration(ProjectFile file, int duration, TimeUnit timeUnit)
    {
       Duration result;
       switch (timeUnit)
       {
-         case DAYS:
+         case DAYS :
          {
             double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
             double totalDays = 0;
             if (unitsPerDay != 0)
             {
-            	totalDays = duration / unitsPerDay;
+               totalDays = duration / unitsPerDay;
             }
             result = Duration.getInstance(totalDays, timeUnit);
             break;
          }
 
-         case ELAPSED_DAYS:
+         case ELAPSED_DAYS :
          {
             double unitsPerDay = 24d * 600d;
             double totalDays = duration / unitsPerDay;
@@ -198,19 +199,19 @@ public final class MPDUtility
             break;
          }
 
-         case WEEKS:
+         case WEEKS :
          {
             double unitsPerWeek = file.getProjectHeader().getMinutesPerWeek().doubleValue() * 10d;
             double totalWeeks = 0;
             if (unitsPerWeek != 0)
             {
-            	totalWeeks = duration / unitsPerWeek;
+               totalWeeks = duration / unitsPerWeek;
             }
             result = Duration.getInstance(totalWeeks, timeUnit);
             break;
          }
-         
-         case ELAPSED_WEEKS:
+
+         case ELAPSED_WEEKS :
          {
             double unitsPerWeek = (60 * 24 * 7 * 10);
             double totalWeeks = duration / unitsPerWeek;
@@ -218,7 +219,7 @@ public final class MPDUtility
             break;
          }
 
-         case ELAPSED_MONTHS:
+         case ELAPSED_MONTHS :
          {
             double unitsPerMonth = (60 * 24 * 29 * 10);
             double totalMonths = duration / unitsPerMonth;
@@ -226,7 +227,7 @@ public final class MPDUtility
             break;
          }
 
-         default:
+         default :
          {
             result = Duration.getInstance(duration, timeUnit);
             break;
@@ -244,48 +245,48 @@ public final class MPDUtility
     * @param type type of units of the duration
     * @return Duration instance
     */
-   public static final Duration getDuration (double value, TimeUnit type)
+   public static final Duration getDuration(double value, TimeUnit type)
    {
       double duration;
 
       switch (type)
       {
-         case MINUTES:
-         case ELAPSED_MINUTES:
+         case MINUTES :
+         case ELAPSED_MINUTES :
          {
             duration = value / 10;
             break;
          }
 
-         case HOURS:
-         case ELAPSED_HOURS:
+         case HOURS :
+         case ELAPSED_HOURS :
          {
             duration = value / 600;
             break;
          }
 
-         case DAYS:
-         case ELAPSED_DAYS:
+         case DAYS :
+         case ELAPSED_DAYS :
          {
             duration = value / 4800;
             break;
          }
 
-         case WEEKS:
-         case ELAPSED_WEEKS:
+         case WEEKS :
+         case ELAPSED_WEEKS :
          {
             duration = value / 24000;
             break;
          }
 
-         case MONTHS:
-         case ELAPSED_MONTHS:
+         case MONTHS :
+         case ELAPSED_MONTHS :
          {
             duration = value / 96000;
             break;
          }
 
-         default:
+         default :
          {
             duration = value;
             break;
@@ -294,22 +295,21 @@ public final class MPDUtility
 
       return (Duration.getInstance(duration, type));
    }
-   
-   
+
    /**
     * Dump the contents of a row from an MPD file.
     * 
     * @param row row data
     */
-   public static void dumpRow (Map<String, Object> row)
+   public static void dumpRow(Map<String, Object> row)
    {
       for (Entry<String, Object> entry : row.entrySet())
       {
          Object value = entry.getValue();
-         System.out.println (entry.getKey() + " = " + value + " ( " + (value==null?"":value.getClass().getName()) + ")");
-      }      
+         System.out.println(entry.getKey() + " = " + value + " ( " + (value == null ? "" : value.getClass().getName()) + ")");
+      }
    }
-   
+
    /**
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
@@ -321,7 +321,7 @@ public final class MPDUtility
     * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, int offset, int length, boolean ascii)
+   public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
    {
       StringBuffer sb = new StringBuffer();
 
@@ -344,7 +344,7 @@ public final class MPDUtility
 
             for (loop = offset; loop < count; loop++)
             {
-               c = (char)buffer[loop];
+               c = (char) buffer[loop];
 
                if ((c > 200) || (c < 27))
                {
@@ -368,7 +368,7 @@ public final class MPDUtility
     * @param ascii flag indicating whether ASCII equivalent chars should also be displayed
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, boolean ascii)
+   public static final String hexdump(byte[] buffer, boolean ascii)
    {
       int length = 0;
 
@@ -391,7 +391,7 @@ public final class MPDUtility
     * @param prefix prefix to be added before the start of the data
     * @return formatted string
     */
-   public static final String hexdump (byte[] buffer, boolean ascii, int columns, String prefix)
+   public static final String hexdump(byte[] buffer, boolean ascii, int columns, String prefix)
    {
       StringBuffer sb = new StringBuffer();
       if (buffer != null)
@@ -406,11 +406,11 @@ public final class MPDUtility
                columns = buffer.length - index;
             }
 
-            sb.append (prefix);
-            sb.append (df.format(index));
-            sb.append (":");
-            sb.append (hexdump(buffer, index, columns, ascii));
-            sb.append ('\n');
+            sb.append(prefix);
+            sb.append(df.format(index));
+            sb.append(":");
+            sb.append(hexdump(buffer, index, columns, ascii));
+            sb.append('\n');
 
             index += columns;
          }
@@ -425,7 +425,7 @@ public final class MPDUtility
     * @param fileName output file name
     * @param data target data
     */
-   public static final void fileHexDump (String fileName, byte[] data)
+   public static final void fileHexDump(String fileName, byte[] data)
    {
       try
       {
@@ -448,7 +448,7 @@ public final class MPDUtility
     * @param fileName output file name
     * @param is input stream
     */
-   public static final void fileHexDump (String fileName, InputStream is)
+   public static final void fileHexDump(String fileName, InputStream is)
    {
       try
       {
@@ -469,7 +469,7 @@ public final class MPDUtility
     * @param fileName output file name
     * @param data target data
     */
-   public static final void fileDump (String fileName, byte[] data)
+   public static final void fileDump(String fileName, byte[] data)
    {
       try
       {
@@ -483,16 +483,33 @@ public final class MPDUtility
          ex.printStackTrace();
       }
    }
-   
-   
+
    /**
     * Constants used to convert bytes to hex digits.
     */
-   private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-   
+   private static final char[] HEX_DIGITS =
+   {
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F'
+   };
+
    /**
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
-   
+
 }

@@ -46,7 +46,7 @@ final class Var2Data extends MPPComponent
     * @param is InputStream from which data is read
     * @throws IOException on file read error
     */
-   Var2Data (VarMeta meta, InputStream is)
+   Var2Data(VarMeta meta, InputStream is)
       throws IOException
    {
       m_meta = meta;
@@ -56,18 +56,17 @@ final class Var2Data extends MPPComponent
 
       int itemOffset;
 
-
-      for (int loop=0; loop < itemCount; loop++)
+      for (int loop = 0; loop < itemCount; loop++)
       {
-         itemOffset = meta.getOffset (loop);
+         itemOffset = meta.getOffset(loop);
          is.reset();
          is.skip(itemOffset);
 
-         int size = readInt (is);
+         int size = readInt(is);
 
-         data = readByteArray (is, size);
+         data = readByteArray(is, size);
 
-         m_map.put (Integer.valueOf(itemOffset), data);
+         m_map.put(Integer.valueOf(itemOffset), data);
       }
 
    }
@@ -80,13 +79,13 @@ final class Var2Data extends MPPComponent
     * @param offset offset of required data
     * @return byte array containing required data
     */
-   public byte[] getByteArray (Integer offset)
+   public byte[] getByteArray(Integer offset)
    {
       byte[] result = null;
 
       if (offset != null)
       {
-         result = m_map.get (offset);
+         result = m_map.get(offset);
       }
 
       return (result);
@@ -100,9 +99,9 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return byte array containing required data
     */
-   public byte[] getByteArray (Integer id, Integer type)
+   public byte[] getByteArray(Integer id, Integer type)
    {
-      return (getByteArray (m_meta.getOffset(id, type)));
+      return (getByteArray(m_meta.getOffset(id, type)));
    }
 
    /**
@@ -113,13 +112,13 @@ final class Var2Data extends MPPComponent
     * @param offset offset of required data
     * @return string containing required data
     */
-   public String getUnicodeString (Integer offset)
+   public String getUnicodeString(Integer offset)
    {
       String result = null;
 
       if (offset != null)
       {
-         byte[] value = m_map.get (offset);
+         byte[] value = m_map.get(offset);
          if (value != null)
          {
             result = MPPUtility.getUnicodeString(value);
@@ -137,11 +136,10 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return string containing required data
     */
-   public String getUnicodeString (Integer id, Integer type)
+   public String getUnicodeString(Integer id, Integer type)
    {
-      return (getUnicodeString (m_meta.getOffset(id, type)));
+      return (getUnicodeString(m_meta.getOffset(id, type)));
    }
-
 
    /**
     * This method retrieves a timestamp of the specified type,
@@ -151,15 +149,15 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required timestamp data
     */
-   public Date getTimestamp (Integer id, Integer type)
+   public Date getTimestamp(Integer id, Integer type)
    {
       Date result = null;
 
-      Integer offset = m_meta.getOffset (id, type);
+      Integer offset = m_meta.getOffset(id, type);
 
       if (offset != null)
       {
-         byte[] value = m_map.get (offset);
+         byte[] value = m_map.get(offset);
          if (value != null)
          {
             result = MPPUtility.getTimestamp(value);
@@ -177,13 +175,13 @@ final class Var2Data extends MPPComponent
     * @param offset offset of required data
     * @return string containing required data
     */
-   public String getString (Integer offset)
+   public String getString(Integer offset)
    {
       String result = null;
 
       if (offset != null)
       {
-         byte[] value = m_map.get (offset);
+         byte[] value = m_map.get(offset);
          if (value != null)
          {
             result = MPPUtility.getString(value);
@@ -201,11 +199,10 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required string data
     */
-   public String getString (Integer id, Integer type)
+   public String getString(Integer id, Integer type)
    {
-      return (getString (m_meta.getOffset(id, type)));
+      return (getString(m_meta.getOffset(id, type)));
    }
-
 
    /**
     * This method retrieves an integer of the specified type,
@@ -215,15 +212,15 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required integer data
     */
-   public int getShort (Integer id, Integer type)
+   public int getShort(Integer id, Integer type)
    {
       int result = 0;
 
-      Integer offset = m_meta.getOffset (id, type);
+      Integer offset = m_meta.getOffset(id, type);
 
       if (offset != null)
       {
-         byte[] value = m_map.get (offset);
+         byte[] value = m_map.get(offset);
 
          if (value != null)
          {
@@ -242,15 +239,15 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required integer data
     */
-   public int getInt (Integer id, Integer type)
+   public int getInt(Integer id, Integer type)
    {
       int result = 0;
 
-      Integer offset = m_meta.getOffset (id, type);
+      Integer offset = m_meta.getOffset(id, type);
 
       if (offset != null)
       {
-         byte[] value = m_map.get (offset);
+         byte[] value = m_map.get(offset);
 
          if (value != null)
          {
@@ -272,15 +269,15 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required integer data
     */
-   public int getInt (Integer id, int offset, Integer type)
+   public int getInt(Integer id, int offset, Integer type)
    {
       int result = 0;
 
-      Integer metaOffset = m_meta.getOffset (id, type);
+      Integer metaOffset = m_meta.getOffset(id, type);
 
       if (metaOffset != null)
       {
-         byte[] value = m_map.get (metaOffset);
+         byte[] value = m_map.get(metaOffset);
 
          if (value != null)
          {
@@ -299,15 +296,15 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required integer data
     */
-   public long getLong (Integer id, Integer type)
+   public long getLong(Integer id, Integer type)
    {
       long result = 0;
 
-      Integer offset = m_meta.getOffset (id, type);
+      Integer offset = m_meta.getOffset(id, type);
 
       if (offset != null)
       {
-         byte[] value = m_map.get (offset);
+         byte[] value = m_map.get(offset);
 
          if (value != null)
          {
@@ -326,9 +323,9 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required double data
     */
-   public double getDouble (Integer id, Integer type)
+   public double getDouble(Integer id, Integer type)
    {
-      return (Double.longBitsToDouble(getLong (id, type)));
+      return (Double.longBitsToDouble(getLong(id, type)));
    }
 
    /**
@@ -337,32 +334,32 @@ final class Var2Data extends MPPComponent
     * 
     * @return VarMeta instance
     */
-   public VarMeta getVarMeta ()
+   public VarMeta getVarMeta()
    {
       return (m_meta);
    }
-   
+
    /**
     * This method dumps the contents of this Var2Data block as a String.
     * Note that this facility is provided as a debugging aid.
     *
     * @return formatted contents of this block
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN Var2Data");
+      pw.println("BEGIN Var2Data");
       for (Integer offset : m_map.keySet())
       {
          byte[] data = m_map.get(offset);
-         pw.println ("   Data at offset: " + offset + " size: " + data.length);
-         pw.println (MPPUtility.hexdump (data, true, 16, "   "));
+         pw.println("   Data at offset: " + offset + " size: " + data.length);
+         pw.println(MPPUtility.hexdump(data, true, 16, "   "));
       }
 
-      pw.println ("END Var2Data");
-      pw.println ();
+      pw.println("END Var2Data");
+      pw.println();
       pw.close();
       return (sw.toString());
    }
@@ -374,30 +371,29 @@ final class Var2Data extends MPPComponent
     * @param id unique ID
     * @return string representation
     */
-   public String toString (Integer id)
+   public String toString(Integer id)
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN Var2Data for " + id);
-      for (Integer type: m_meta.getTypes(id))
+      pw.println("BEGIN Var2Data for " + id);
+      for (Integer type : m_meta.getTypes(id))
       {
          Integer offset = m_meta.getOffset(id, type);
          byte[] data = m_map.get(offset);
-         pw.println ("   Data at offset: " + offset + " size: " + data.length);
-         pw.println (MPPUtility.hexdump (data, true, 16, "   "));
+         pw.println("   Data at offset: " + offset + " size: " + data.length);
+         pw.println(MPPUtility.hexdump(data, true, 16, "   "));
       }
-      pw.println ("END Var2Data for " + id);
-      pw.println ();
+      pw.println("END Var2Data for " + id);
+      pw.println();
       pw.close();
       return (sw.toString());
-   }   
-   
-   
+   }
+
    /**
     * Map containing data items indexed by offset.
     */
-   private TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]> ();
+   private TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
 
    /**
     * Reference to the meta data associated with this block.

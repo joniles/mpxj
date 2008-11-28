@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       08-Feb-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -45,41 +45,41 @@ final class ResultSetRow extends MapRow
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
-   public ResultSetRow (ResultSet rs, Map<String, Integer> meta)
+   public ResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
-      super (new HashMap<String, Object>());
-      
+      super(new HashMap<String, Object>());
+
       for (Entry<String, Integer> entry : meta.entrySet())
       {
          String name = entry.getKey();
          int type = (entry.getValue()).intValue();
          Object value;
-         
+
          switch (type)
          {
-            case Types.BIT:
-            case Types.BOOLEAN:
+            case Types.BIT :
+            case Types.BOOLEAN :
             {
                value = Boolean.valueOf(rs.getBoolean(name));
                break;
             }
-            
-            case Types.CHAR:
-            case Types.VARCHAR:
-            case Types.LONGVARCHAR:
+
+            case Types.CHAR :
+            case Types.VARCHAR :
+            case Types.LONGVARCHAR :
             {
                value = rs.getString(name);
-               break;               
+               break;
             }
-             
-            case Types.DATE:
+
+            case Types.DATE :
             {
                value = rs.getDate(name);
-               break;                              
+               break;
             }
-            
-            case Types.TIMESTAMP:
+
+            case Types.TIMESTAMP :
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
@@ -87,50 +87,50 @@ final class ResultSetRow extends MapRow
                   value = new Date(ts.getTime());
                }
                else
-               {    
+               {
                   value = null;
                }
                break;
             }
-            
-            case Types.DOUBLE:
-            case Types.NUMERIC:
+
+            case Types.DOUBLE :
+            case Types.NUMERIC :
             {
                value = NumberUtility.getDouble(rs.getDouble(name));
                break;
             }
-            
-            case Types.INTEGER:
-            case Types.SMALLINT:
+
+            case Types.INTEGER :
+            case Types.SMALLINT :
             {
                value = Integer.valueOf(rs.getInt(name));
-               break;             
+               break;
             }
-                   
-            case Types.LONGVARBINARY:
+
+            case Types.LONGVARBINARY :
             {
                value = rs.getBytes(name);
                break;
             }
-            
-            case Types.OTHER:
+
+            case Types.OTHER :
             {
                value = rs.getObject(name);
                break;
             }
-            
-            default:
+
+            default :
             {
-               throw new IllegalArgumentException ("Unsupported SQL type: " + type + " for column " + name);
+               throw new IllegalArgumentException("Unsupported SQL type: " + type + " for column " + name);
             }
-         }         
-         
+         }
+
          if (rs.wasNull())
          {
             value = null;
          }
-         
+
          m_map.put(name, value);
       }
-   }   
+   }
 }

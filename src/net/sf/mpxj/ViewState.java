@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       2007-01-08
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -30,7 +30,7 @@ import java.util.List;
  * as part of a project file.
  */
 public final class ViewState
-{   
+{
    /**
     * Constructor.
     * 
@@ -39,14 +39,14 @@ public final class ViewState
     * @param uniqueIdList unique ID list
     * @param filterID filter ID
     */
-   public ViewState (ProjectFile file, String viewName, List<Integer> uniqueIdList, int filterID)
+   public ViewState(ProjectFile file, String viewName, List<Integer> uniqueIdList, int filterID)
    {
       m_file = file;
       m_viewName = viewName;
       m_uniqueIdList = uniqueIdList;
       m_filterID = Integer.valueOf(filterID);
    }
-   
+
    /**
     * Retrieve the name of the view associated with this state.
     * 
@@ -72,11 +72,11 @@ public final class ViewState
     * 
     * @return filter instance
     */
-   public Filter getFilter ()
+   public Filter getFilter()
    {
-     return m_file.getFilterByID(m_filterID); 
+      return m_file.getFilterByID(m_filterID);
    }
-   
+
    private ProjectFile m_file;
    private String m_viewName;
    private List<Integer> m_uniqueIdList;

@@ -26,7 +26,6 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
-
 /**
  * This class represents a resource assignment workgroup fields record
  * from an MPX file.
@@ -38,7 +37,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val ID
     */
-   public void setMessageUniqueID (String val)
+   public void setMessageUniqueID(String val)
    {
       m_messageUniqueID = val;
    }
@@ -48,7 +47,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return ID
     */
-   public String getMessageUniqueID ()
+   public String getMessageUniqueID()
    {
       return (m_messageUniqueID);
    }
@@ -58,7 +57,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return boolean value
     */
-   public boolean getConfirmed ()
+   public boolean getConfirmed()
    {
       return (m_confirmed);
    }
@@ -68,7 +67,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val boolean flag
     */
-   public void setConfirmed (boolean val)
+   public void setConfirmed(boolean val)
    {
       m_confirmed = val;
    }
@@ -78,7 +77,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val boolean flag
     */
-   public void setResponsePending (boolean val)
+   public void setResponsePending(boolean val)
    {
       m_responsePending = val;
    }
@@ -88,7 +87,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return boolean flag
     */
-   public boolean getResponsePending ()
+   public boolean getResponsePending()
    {
       return (m_responsePending);
    }
@@ -98,7 +97,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val date to set
     */
-   public void setUpdateStart (Date val)
+   public void setUpdateStart(Date val)
    {
       m_updateStart = val;
    }
@@ -108,7 +107,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return update Start Date
     */
-   public Date getUpdateStart ()
+   public Date getUpdateStart()
    {
       return (m_updateStart);
    }
@@ -118,7 +117,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val date to set
     */
-   public void setUpdateFinish (Date val)
+   public void setUpdateFinish(Date val)
    {
       m_updateFinish = val;
    }
@@ -128,7 +127,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return update Finish Date
     */
-   public Date getUpdateFinish ()
+   public Date getUpdateFinish()
    {
       return (m_updateFinish);
    }
@@ -138,7 +137,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val schedule ID
     */
-   public void setScheduleID (String val)
+   public void setScheduleID(String val)
    {
       m_scheduleID = val;
    }
@@ -148,13 +147,13 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return schedule ID
     */
-   public String getScheduleID ()
+   public String getScheduleID()
    {
       return (m_scheduleID);
    }
 
    public static final ResourceAssignmentWorkgroupFields EMPTY = new ResourceAssignmentWorkgroupFields();
-   
+
    private String m_messageUniqueID;
    private boolean m_confirmed;
    private boolean m_responsePending;

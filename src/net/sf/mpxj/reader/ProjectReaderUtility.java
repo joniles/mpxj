@@ -33,7 +33,6 @@ import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
 import net.sf.mpxj.planner.PlannerReader;
 
-
 /**
  * This class contains utility methods for working with ProjectReaderss.
  */
@@ -42,11 +41,11 @@ public final class ProjectReaderUtility
    /**
     * Constructor.
     */
-   private ProjectReaderUtility ()
+   private ProjectReaderUtility()
    {
       // Private constructor to prevent instantiation.
    }
-   
+
    /**
     * Retrieves a ProjectReader instance which can read a file of the
     * type specified by the supplied file name.  
@@ -54,21 +53,20 @@ public final class ProjectReaderUtility
     * @param name file name
     * @return ProjectReader instance
     */
-   public static ProjectReader getProjectReader (String name)
-      throws InstantiationException, IllegalAccessException
+   public static ProjectReader getProjectReader(String name) throws InstantiationException, IllegalAccessException
    {
       int index = name.lastIndexOf('.');
       if (index == -1)
       {
-         throw new IllegalArgumentException ("Filename has no extension: " + name);
+         throw new IllegalArgumentException("Filename has no extension: " + name);
       }
 
-      String extension = name.substring(index+1).toUpperCase();
+      String extension = name.substring(index + 1).toUpperCase();
 
       Class<? extends ProjectReader> fileClass = READER_MAP.get(extension);
       if (fileClass == null)
       {
-         throw new IllegalArgumentException ("Cannot read files of type: " + name);
+         throw new IllegalArgumentException("Cannot read files of type: " + name);
       }
 
       ProjectReader file = fileClass.newInstance();
@@ -82,12 +80,12 @@ public final class ProjectReaderUtility
     * 
     * @return set of file extensions
     */
-   public static Set<String> getSupportedFileExtensions ()
+   public static Set<String> getSupportedFileExtensions()
    {
-      return(READER_MAP.keySet());
+      return (READER_MAP.keySet());
    }
-   
-   private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<String, Class<? extends ProjectReader>> ();
+
+   private static final Map<String, Class<? extends ProjectReader>> READER_MAP = new HashMap<String, Class<? extends ProjectReader>>();
    static
    {
       READER_MAP.put("MPP", MPPReader.class);
@@ -96,5 +94,5 @@ public final class ProjectReaderUtility
       READER_MAP.put("XML", MSPDIReader.class);
       READER_MAP.put("MPD", MPDDatabaseReader.class);
       READER_MAP.put("PLANNER", PlannerReader.class);
-   }   
+   }
 }

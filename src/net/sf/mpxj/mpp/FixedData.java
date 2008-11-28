@@ -55,7 +55,7 @@ final class FixedData extends MPPComponent
     * @param is input stream from which the data is read
     * @throws IOException on file read failure
     */
-   FixedData (FixedMeta meta, InputStream is)
+   FixedData(FixedMeta meta, InputStream is)
       throws IOException
    {
       this(meta, is, 0);
@@ -72,12 +72,12 @@ final class FixedData extends MPPComponent
     * @param maxExpectedSize maximum expected block size 
     * @throws IOException on file read failure
     */
-   FixedData (FixedMeta meta, InputStream is, int maxExpectedSize)
+   FixedData(FixedMeta meta, InputStream is, int maxExpectedSize)
       throws IOException
    {
-	   this(meta, is, maxExpectedSize, 0);
+      this(meta, is, maxExpectedSize, 0);
    }
-   
+
    /**
     * This version of the above constructor allows us to limited the
     * size of blocks we copy where we have an idea of the maximum expected
@@ -93,53 +93,53 @@ final class FixedData extends MPPComponent
     * @param is input stream from which the data is read
     * @throws IOException on file read failure 
     */
-   FixedData (FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
+   FixedData(FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
       throws IOException
    {
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
-      
+
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-     
+
       int available;
-   
-      for (int loop=0; loop < itemCount; loop++)
+
+      for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] metaData = meta.getByteArrayValue(loop);
          int itemOffset = MPPUtility.getInt(metaData, 4);
-         
+
          int itemSize;
-         if (loop+1==itemCount)
+         if (loop + 1 == itemCount)
          {
-            itemSize = buffer.length - itemOffset;   
+            itemSize = buffer.length - itemOffset;
          }
          else
          {
-            byte[] nextMetaData = meta.getByteArrayValue(loop+1);
+            byte[] nextMetaData = meta.getByteArrayValue(loop + 1);
             int nextItemOffset = MPPUtility.getInt(nextMetaData, 4);
             itemSize = nextItemOffset - itemOffset;
          }
-         
+
          if (itemSize == 0)
          {
-        	 itemSize = minSize;
+            itemSize = minSize;
          }
-            
+
          if (itemOffset > buffer.length)
          {
             continue;
          }
-   
+
          available = buffer.length - itemOffset;
-   
+
          if (itemSize < 0 || itemSize > available)
          {
             if (maxExpectedSize == 0)
             {
                itemSize = available;
-            }            
+            }
             else
             {
                if (maxExpectedSize < available)
@@ -148,16 +148,16 @@ final class FixedData extends MPPComponent
                }
                else
                {
-                  itemSize = available;                  
+                  itemSize = available;
                }
             }
          }
-   
+
          if (maxExpectedSize != 0 && itemSize > maxExpectedSize)
          {
             itemSize = maxExpectedSize;
          }
-         
+
          m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
          m_offset[loop] = itemOffset;
       }
@@ -173,32 +173,32 @@ final class FixedData extends MPPComponent
     * @param is input stream from which the data is read
     * @throws IOException
     */
-   FixedData (FixedMeta meta, int itemSize, InputStream is)
+   FixedData(FixedMeta meta, int itemSize, InputStream is)
       throws IOException
    {
       byte[] buffer = new byte[is.available()];
       is.read(buffer);
-   
+
       int itemCount = meta.getItemCount();
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
-   
+
       byte[] metaData;
       int itemOffset;
       int available;
-   
-      for (int loop=0; loop < itemCount; loop++)
+
+      for (int loop = 0; loop < itemCount; loop++)
       {
          metaData = meta.getByteArrayValue(loop);
          itemOffset = MPPUtility.getInt(metaData, 4);
-   
+
          if (itemOffset > buffer.length)
          {
             continue;
          }
-   
+
          available = buffer.length - itemOffset;
-   
+
          if (itemSize < 0)
          {
             itemSize = available;
@@ -210,7 +210,7 @@ final class FixedData extends MPPComponent
                itemSize = available;
             }
          }
-   
+
          m_array[loop] = MPPUtility.cloneSubArray(buffer, itemOffset, itemSize);
          m_offset[loop] = itemOffset;
       }
@@ -227,12 +227,12 @@ final class FixedData extends MPPComponent
     * @param is input stream from which the data is read
     * @throws IOException on file read failure
     */
-   FixedData (int itemSize, InputStream is)
+   FixedData(int itemSize, InputStream is)
       throws IOException
    {
-         this(itemSize, is, false);
+      this(itemSize, is, false);
    }
-   
+
    /**
     * This constructor is provided to allow the contents of a fixed data
     * block to be read when the size of the items in the data block is
@@ -245,7 +245,7 @@ final class FixedData extends MPPComponent
     * @param readRemainderBlock read the final block even if it is not full size
     * @throws IOException on file read failure
     */
-   FixedData (int itemSize, InputStream is, boolean readRemainderBlock)
+   FixedData(int itemSize, InputStream is, boolean readRemainderBlock)
       throws IOException
    {
       int offset = 0;
@@ -254,20 +254,20 @@ final class FixedData extends MPPComponent
       {
          ++itemCount;
       }
-      
+
       m_array = new Object[itemCount];
       m_offset = new int[itemCount];
 
-      for (int loop=0; loop < itemCount; loop++)
+      for (int loop = 0; loop < itemCount; loop++)
       {
          m_offset[loop] = offset;
-         
+
          int currentItemSize = itemSize;
          if (readRemainderBlock == true && is.available() < itemSize)
          {
             currentItemSize = is.available();
          }
-         m_array[loop] = readByteArray (is, currentItemSize);
+         m_array[loop] = readByteArray(is, currentItemSize);
          offset += itemSize;
       }
    }
@@ -280,13 +280,13 @@ final class FixedData extends MPPComponent
     * @param index index of the data item to be retrieved
     * @return byte array containing the requested data
     */
-   public byte[] getByteArrayValue (int index)
+   public byte[] getByteArrayValue(int index)
    {
       byte[] result = null;
 
       if (index >= 0 && index < m_array.length && m_array[index] != null)
       {
-         result = (byte[])m_array[index];
+         result = (byte[]) m_array[index];
       }
 
       return (result);
@@ -299,7 +299,7 @@ final class FixedData extends MPPComponent
     *
     * @return number of items in the block
     */
-   public int getItemCount ()
+   public int getItemCount()
    {
       return (m_array.length);
    }
@@ -311,9 +311,9 @@ final class FixedData extends MPPComponent
     * @param offset offset value
     * @return boolean flag
     */
-   public boolean isValidOffset (Integer offset)
+   public boolean isValidOffset(Integer offset)
    {
-      return (offset==null?false:isValidOffset(offset.intValue()));
+      return (offset == null ? false : isValidOffset(offset.intValue()));
    }
 
    /**
@@ -323,7 +323,7 @@ final class FixedData extends MPPComponent
     * @param offset offset value
     * @return boolean flag
     */
-   public boolean isValidOffset (int offset)
+   public boolean isValidOffset(int offset)
    {
       return (offset >= 0 && offset < m_array.length);
    }
@@ -336,11 +336,11 @@ final class FixedData extends MPPComponent
     * @param offset Offset of the data in the fixed block
     * @return Index of data item within the fixed data block
     */
-   public int getIndexFromOffset (int offset)
+   public int getIndexFromOffset(int offset)
    {
       int result = -1;
 
-      for (int loop=0; loop < m_offset.length; loop++)
+      for (int loop = 0; loop < m_offset.length; loop++)
       {
          if (m_offset[loop] == offset)
          {
@@ -358,21 +358,20 @@ final class FixedData extends MPPComponent
     *
     * @return formatted contents of this block
     */
-   @Override 
-   public String toString ()
+   @Override public String toString()
    {
-      StringWriter sw = new StringWriter ();
-      PrintWriter pw = new PrintWriter (sw);
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
 
-      pw.println ("BEGIN FixedData");
-      for (int loop=0; loop < m_array.length; loop++)
+      pw.println("BEGIN FixedData");
+      for (int loop = 0; loop < m_array.length; loop++)
       {
-         pw.println ("   Data at index: " + loop + " offset: " + m_offset[loop]);
-         pw.println ("  " + MPPUtility.hexdump ((byte[])m_array[loop], true));
+         pw.println("   Data at index: " + loop + " offset: " + m_offset[loop]);
+         pw.println("  " + MPPUtility.hexdump((byte[]) m_array[loop], true));
       }
-      pw.println ("END FixedData");
+      pw.println("END FixedData");
 
-      pw.println ();
+      pw.println();
       pw.close();
       return (sw.toString());
    }

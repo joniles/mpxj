@@ -36,41 +36,41 @@ final class PropsBlock extends Props
     * 
     * @param data block of property data
     */
-   PropsBlock (byte[] data)
+   PropsBlock(byte[] data)
    {
       int dataSize = MPPUtility.getInt(data, 0);
       int itemCount = MPPUtility.getInt(data, 4);
-           
+
       int offset = 8;
       Map<Integer, Integer> offsetMap = new TreeMap<Integer, Integer>();
-      for (int loop=0; loop < itemCount; loop++)
+      for (int loop = 0; loop < itemCount; loop++)
       {
          int itemKey = MPPUtility.getInt(data, offset);
          offset += 4;
-         
-         int itemOffset =MPPUtility.getInt(data, offset);
+
+         int itemOffset = MPPUtility.getInt(data, offset);
          offset += 4;
-         
+
          offsetMap.put(Integer.valueOf(itemOffset), Integer.valueOf(itemKey));
       }
-      
+
       Integer previousItemOffset = null;
       Integer previousItemKey = null;
-      
+
       for (Integer itemOffset : offsetMap.keySet())
       {
-         populateMap (data, previousItemOffset, previousItemKey, itemOffset);        
+         populateMap(data, previousItemOffset, previousItemKey, itemOffset);
          previousItemOffset = itemOffset;
          previousItemKey = offsetMap.get(previousItemOffset);
       }
-      
+
       if (previousItemOffset != null)
       {
          Integer itemOffset = Integer.valueOf(dataSize);
-         populateMap (data, previousItemOffset, previousItemKey, itemOffset);
+         populateMap(data, previousItemOffset, previousItemKey, itemOffset);
       }
    }
-   
+
    /**
     * Method used to extract data from the block of properties and
     * insert the key value pair into a map.
@@ -80,7 +80,7 @@ final class PropsBlock extends Props
     * @param previousItemKey item key
     * @param itemOffset current item offset
     */
-   private void populateMap (byte[] data, Integer previousItemOffset, Integer previousItemKey, Integer itemOffset)
+   private void populateMap(byte[] data, Integer previousItemOffset, Integer previousItemKey, Integer itemOffset)
    {
       if (previousItemOffset != null)
       {
@@ -88,7 +88,7 @@ final class PropsBlock extends Props
          byte[] itemData = new byte[itemSize];
          System.arraycopy(data, previousItemOffset.intValue(), itemData, 0, itemSize);
          m_map.put(previousItemKey, itemData);
-      }      
+      }
    }
-   
+
 }

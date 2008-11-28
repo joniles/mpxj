@@ -28,7 +28,6 @@ import java.util.EnumSet;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
-
 /**
  * This class contains utility functions allowing time unit specifications
  * to be parsed and formatted.
@@ -38,86 +37,84 @@ public enum TimeUnit implements MpxjEnum
    /**
     * Constant representing Minutes.
     */
-   MINUTES (0, "m"),
+   MINUTES(0, "m"),
 
    /**
     * Constant representing Hours.
     */
-   HOURS (1, "h"),
+   HOURS(1, "h"),
 
    /**
     * Constant representing Days.
     */
-   DAYS (2, "d"),
+   DAYS(2, "d"),
 
    /**
     * Constant representing Weeks.
     */
-   WEEKS (3, "w"),
+   WEEKS(3, "w"),
 
    /**
     * Constant representing Months.
     */
-   MONTHS (4, "mo"),
+   MONTHS(4, "mo"),
 
    /**
     * Constant representing Years.
     */
-   YEARS (5, "y"),
+   YEARS(5, "y"),
 
    /**
     * Constant representing Percent.
     */
-   PERCENT (6, "%"),
+   PERCENT(6, "%"),
 
    /**
     * Constant representing Elapsed Minutes.
     */
-   ELAPSED_MINUTES (7, "em"),
+   ELAPSED_MINUTES(7, "em"),
 
    /**
     * Constant representing Elapsed Hours.
     */
-   ELAPSED_HOURS (8, "eh"),
+   ELAPSED_HOURS(8, "eh"),
 
    /**
     * Constant representing Elapsed Days.
     */
-   ELAPSED_DAYS (9, "ed"),
+   ELAPSED_DAYS(9, "ed"),
 
    /**
     * Constant representing Elapsed Weeks.
     */
-   ELAPSED_WEEKS (10, "ew"),
+   ELAPSED_WEEKS(10, "ew"),
 
    /**
     * Constant representing Elapsed Months.
     */
-   ELAPSED_MONTHS (11, "emo"),
+   ELAPSED_MONTHS(11, "emo"),
 
    /**
     * Constant representing Elapsed Years.
     */
-   ELAPSED_YEARS (12, "ey"),
+   ELAPSED_YEARS(12, "ey"),
 
    /**
     * Constant representing Elapsed Percent.
     */
-   ELAPSED_PERCENT (13, "e%");
+   ELAPSED_PERCENT(13, "e%");
 
-   
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name enum name
     */
-   private TimeUnit (int type, String name)
+   private TimeUnit(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -125,8 +122,8 @@ public enum TimeUnit implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static TimeUnit getInstance (int type)
-   {      
+   public static TimeUnit getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = DAYS.getValue();
@@ -134,14 +131,13 @@ public enum TimeUnit implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static TimeUnit getInstance (Number type)
+   public static TimeUnit getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -155,13 +151,12 @@ public enum TimeUnit implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -171,31 +166,30 @@ public enum TimeUnit implements MpxjEnum
     * 
     * @return name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
-   
+
    /**
     * Array mapping int types to enums.
     */
    private static final TimeUnit[] TYPE_VALUES = new TimeUnit[14];
    static
-   {      
+   {
       for (TimeUnit e : EnumSet.range(TimeUnit.MINUTES, TimeUnit.ELAPSED_PERCENT))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

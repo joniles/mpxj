@@ -38,7 +38,7 @@ public class FontStyle
     * @param underline underline flag
     * @param color color type
     */
-   public FontStyle (FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color)
+   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color)
    {
       m_fontBase = fontBase;
       m_italic = italic;
@@ -100,7 +100,7 @@ public class FontStyle
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return ("[FontStyle fontBase=" + m_fontBase + " italic=" + m_italic + " bold=" + m_bold + " underline=" + m_underline + " color=" + m_color + "]");
    }

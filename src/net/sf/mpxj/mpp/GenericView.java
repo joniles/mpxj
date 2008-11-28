@@ -25,8 +25,6 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.ViewType;
 
-
-
 /**
  * This class represents a view of a set of project data that has been
  * instantiated within an MS Project file. View data is instantiated when a user
@@ -42,7 +40,7 @@ public class GenericView extends AbstractMppView
     *
     * @param data view data
     */
-   public GenericView (byte[] data)
+   public GenericView(byte[] data)
    {
       m_id = Integer.valueOf(MPPUtility.getInt(data, 0));
       m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));

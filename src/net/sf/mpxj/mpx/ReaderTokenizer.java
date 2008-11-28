@@ -26,7 +26,6 @@ package net.sf.mpxj.mpx;
 import java.io.Reader;
 import java.io.IOException;
 
-
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from a Reader instance.
@@ -38,7 +37,7 @@ final class ReaderTokenizer extends Tokenizer
     *
     * @param r Reader instance
     */
-   public ReaderTokenizer (Reader r)
+   public ReaderTokenizer(Reader r)
    {
       m_reader = r;
    }
@@ -46,8 +45,7 @@ final class ReaderTokenizer extends Tokenizer
    /**
     * {@inheritDoc}
     */
-   @Override protected int read ()
-      throws IOException
+   @Override protected int read() throws IOException
    {
       return (m_reader.read());
    }

@@ -29,7 +29,6 @@ import java.io.IOException;
 
 import net.sf.mpxj.ProjectFile;
 
-
 /**
  * Abstract implementation of the ProjectWriter interface
  * which supplies implementations of the trivial write methods.
@@ -39,8 +38,7 @@ public abstract class AbstractProjectWriter implements ProjectWriter
    /**
     * {@inheritDoc}
     */
-   public void write (ProjectFile projectFile, String fileName)
-      throws IOException
+   public void write(ProjectFile projectFile, String fileName) throws IOException
    {
       FileOutputStream fos = new FileOutputStream(fileName);
       write(projectFile, fos);
@@ -51,8 +49,7 @@ public abstract class AbstractProjectWriter implements ProjectWriter
    /**
     * {@inheritDoc}
     */
-   public void write (ProjectFile projectFile, File file)
-      throws IOException
+   public void write(ProjectFile projectFile, File file) throws IOException
    {
       FileOutputStream fos = new FileOutputStream(file);
       write(projectFile, fos);

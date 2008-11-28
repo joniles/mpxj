@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       May 22, 2007
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -33,20 +33,20 @@ public class Sequence
     * 
     * @param initialValue initial sequence value
     */
-   public Sequence (int initialValue)
+   public Sequence(int initialValue)
    {
       m_sequence = initialValue;
    }
-   
+
    /**
     * Retrieve the next value in the sequence.
     * 
     * @return next sequence value
     */
-   public int next ()
+   public int next()
    {
       return (m_sequence++);
    }
-   
+
    private int m_sequence;
 }

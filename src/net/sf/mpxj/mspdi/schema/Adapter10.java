@@ -5,23 +5,21 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-@SuppressWarnings("all")
-public class Adapter10
-    extends XmlAdapter<String, Integer>
+@SuppressWarnings("all") public class Adapter10 extends XmlAdapter<String, Integer>
 {
 
+   public Integer unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseResourceUID(value));
+   }
 
-    public Integer unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseResourceUID(value));
-    }
-
-    public String marshal(Integer value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printResourceUID(value));
-    }
+   public String marshal(Integer value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printResourceUID(value));
+   }
 
 }

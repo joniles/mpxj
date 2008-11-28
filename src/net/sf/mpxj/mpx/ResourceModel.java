@@ -32,8 +32,6 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 
-
-
 /**
  * This class represents the resource table definition record in an MPX file.
  * This record defines which fields are present in a resource record.
@@ -48,7 +46,7 @@ final class ResourceModel
     * @param file the parent file to which this record belongs.
     * @param locale target locale
     */
-   ResourceModel (ProjectFile file, Locale locale)
+   ResourceModel(ProjectFile file, Locale locale)
    {
       m_parentFile = file;
       setLocale(locale);
@@ -59,14 +57,14 @@ final class ResourceModel
     *
     * @param locale target locale
     */
-   void setLocale (Locale locale)
+   void setLocale(Locale locale)
    {
       m_resourceNames = LocaleData.getStringArray(locale, LocaleData.RESOURCE_NAMES);
 
       String name;
       m_resourceNumbers.clear();
 
-      for (int loop=0; loop < m_resourceNames.length; loop++)
+      for (int loop = 0; loop < m_resourceNames.length; loop++)
       {
          name = m_resourceNames[loop];
          if (name != null)
@@ -82,20 +80,19 @@ final class ResourceModel
     * @param record data read from an MPX file
     * @param isText flag indicating whether the tetxual or numeric data is being supplied
     */
-   public void update (Record record, boolean isText)
-      throws MPXJException
+   public void update(Record record, boolean isText) throws MPXJException
    {
-      int length = record.getLength ();
+      int length = record.getLength();
 
-      for (int i = 0 ; i < length ; i++)
+      for (int i = 0; i < length; i++)
       {
          if (isText == true)
          {
-            add (getResourceCode (record.getString (i)));
+            add(getResourceCode(record.getString(i)));
          }
          else
          {
-            add (record.getInteger(i).intValue());
+            add(record.getInteger(i).intValue());
          }
       }
    }
@@ -107,7 +104,7 @@ final class ResourceModel
     *
     * @return list of field names
     */
-   public int[] getModel ()
+   public int[] getModel()
    {
       m_fields[m_count] = -1;
       return (m_fields);
@@ -117,7 +114,7 @@ final class ResourceModel
     * This method is called to populate the arrays which are then
     * used to generate the text version of the model.
     */
-   private void populateModel ()
+   private void populateModel()
    {
       if (m_count != 0)
       {
@@ -127,7 +124,7 @@ final class ResourceModel
 
       for (Resource resource : m_parentFile.getAllResources())
       {
-         for (int loop=0; loop < MPXResourceField.MAX_FIELDS; loop++)
+         for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
             if (resource.getCachedValue(MPXResourceField.getMpxjField(loop)) != null)
             {
@@ -140,12 +137,12 @@ final class ResourceModel
             }
          }
       }
-      
+
       //
       // Ensure the the model fields always appear in the same order
       //
       Arrays.sort(m_fields);
-      System.arraycopy(m_fields, m_fields.length-m_count, m_fields, 0, m_count);
+      System.arraycopy(m_fields, m_fields.length - m_count, m_fields, 0, m_count);
    }
 
    /**
@@ -165,24 +162,24 @@ final class ResourceModel
       StringBuffer textual = new StringBuffer();
       StringBuffer numeric = new StringBuffer();
 
-      textual.append (MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER);
-      numeric.append (MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER);
+      textual.append(MPXConstants.RESOURCE_MODEL_TEXT_RECORD_NUMBER);
+      numeric.append(MPXConstants.RESOURCE_MODEL_NUMERIC_RECORD_NUMBER);
 
-      for (int loop=0; loop < m_count; loop++)
+      for (int loop = 0; loop < m_count; loop++)
       {
          number = m_fields[loop];
 
-         textual.append (delimiter);
-         numeric.append (delimiter);
+         textual.append(delimiter);
+         numeric.append(delimiter);
 
          textual.append(getResourceField(number));
-         numeric.append (number);
+         numeric.append(number);
       }
 
-      textual.append (MPXConstants.EOL);
-      numeric.append (MPXConstants.EOL);
+      textual.append(MPXConstants.EOL);
+      numeric.append(MPXConstants.EOL);
 
-      textual.append (numeric.toString());
+      textual.append(numeric.toString());
 
       return (textual.toString());
    }
@@ -194,7 +191,7 @@ final class ResourceModel
     *
     * @param field field identifier
     */
-   private void add (int field)
+   private void add(int field)
    {
       if (field < m_flags.length)
       {
@@ -213,7 +210,7 @@ final class ResourceModel
     * @param key resource field number
     * @return resource field name
     */
-   private String getResourceField (int key)
+   private String getResourceField(int key)
    {
       String result = null;
 
@@ -231,14 +228,13 @@ final class ResourceModel
     * @param field resource field name
     * @return resource field number
     */
-   private int getResourceCode (String field)
-      throws MPXJException
+   private int getResourceCode(String field) throws MPXJException
    {
       Integer result = m_resourceNumbers.get(field);
 
       if (result == null)
       {
-         throw new MPXJException (MPXJException.INVALID_RESOURCE_FIELD_NAME + " " + field);
+         throw new MPXJException(MPXJException.INVALID_RESOURCE_FIELD_NAME + " " + field);
       }
 
       return (result.intValue());
@@ -250,12 +246,12 @@ final class ResourceModel
     * Array of flags indicating whether each field has already been
     * added to the model.
     */
-   private boolean[] m_flags = new boolean [MPXResourceField.MAX_FIELDS];
+   private boolean[] m_flags = new boolean[MPXResourceField.MAX_FIELDS];
 
    /**
     * Array of field numbers in order of their appearance.
     */
-   private int[] m_fields = new int [MPXResourceField.MAX_FIELDS+1];
+   private int[] m_fields = new int[MPXResourceField.MAX_FIELDS + 1];
 
    /**
     * Count of the number of fields present.

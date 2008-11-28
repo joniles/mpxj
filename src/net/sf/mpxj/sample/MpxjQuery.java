@@ -38,7 +38,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.ProjectReaderUtility;
 
-
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
  * task and resource data being extracted.
@@ -50,17 +49,17 @@ public class MpxjQuery
     *
     * @param args array of command line arguments
     */
-   public static void main (String[] args)
+   public static void main(String[] args)
    {
       try
       {
          if (args.length != 1)
          {
-            System.out.println ("Usage: MpxQuery <input file name>");
+            System.out.println("Usage: MpxQuery <input file name>");
          }
          else
          {
-            query (args[0]);
+            query(args[0]);
          }
       }
 
@@ -77,35 +76,34 @@ public class MpxjQuery
     * @param filename name of the MPX file
     * @throws Exception on file read error
     */
-   private static void query (String filename)
-      throws Exception
+   private static void query(String filename) throws Exception
    {
       ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
       ProjectFile mpx = reader.read(filename);
 
-      listProjectHeader (mpx);
+      listProjectHeader(mpx);
 
-      listResources (mpx);
+      listResources(mpx);
 
-      listTasks (mpx);
+      listTasks(mpx);
 
-      listAssignments (mpx);
+      listAssignments(mpx);
 
-      listAssignmentsByTask (mpx);
+      listAssignmentsByTask(mpx);
 
-      listAssignmentsByResource (mpx);
+      listAssignmentsByResource(mpx);
 
-      listHierarchy (mpx);
+      listHierarchy(mpx);
 
-      listTaskNotes (mpx);
+      listTaskNotes(mpx);
 
-      listResourceNotes (mpx);
+      listResourceNotes(mpx);
 
-      listPredecessors (mpx);
-      
-      listSlack (mpx);
-      
-      listCalendars (mpx);
+      listPredecessors(mpx);
+
+      listSlack(mpx);
+
+      listCalendars(mpx);
    }
 
    /**
@@ -113,17 +111,17 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listProjectHeader (ProjectFile file)
+   private static void listProjectHeader(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm z");
+      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
       ProjectHeader header = file.getProjectHeader();
       Date startDate = header.getStartDate();
       Date finishDate = header.getFinishDate();
-      String formattedStartDate = startDate==null?"(none)":df.format(startDate);
-      String formattedFinishDate = finishDate==null?"(none)":df.format(finishDate);
+      String formattedStartDate = startDate == null ? "(none)" : df.format(startDate);
+      String formattedFinishDate = finishDate == null ? "(none)" : df.format(finishDate);
 
-      System.out.println ("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
-      System.out.println ();
+      System.out.println("Project Header: StartDate=" + formattedStartDate + " FinishDate=" + formattedFinishDate);
+      System.out.println();
    }
 
    /**
@@ -131,31 +129,30 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listResources (ProjectFile file)
+   private static void listResources(ProjectFile file)
    {
-      for (Resource resource: file.getAllResources())
+      for (Resource resource : file.getAllResources())
       {
-         System.out.println ("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID()+") Start=" + resource.getStart() + " Finish=" + resource.getFinish());
+         System.out.println("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID() + ") Start=" + resource.getStart() + " Finish=" + resource.getFinish());
       }
-      System.out.println ();
+      System.out.println();
    }
-
 
    /**
     * This method lists all tasks defined in the file.
     *
     * @param file MPX file
     */
-   private static void listTasks (ProjectFile file)
+   private static void listTasks(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm z");
+      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
       String startDate;
       String finishDate;
       String duration;
       Date date;
       Duration dur;
 
-      for (Task task: file.getAllTasks())
+      for (Task task : file.getAllTasks())
       {
          date = task.getStart();
          if (date != null)
@@ -187,11 +184,10 @@ public class MpxjQuery
             duration = "(no duration supplied)";
          }
 
-         System.out.println ("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + ")");
+         System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + ")");
       }
-      System.out.println ();
+      System.out.println();
    }
-
 
    /**
     * This method lists all tasks defined in the file in a hierarchical
@@ -199,15 +195,15 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listHierarchy (ProjectFile file)
+   private static void listHierarchy(ProjectFile file)
    {
-      for (Task task: file.getChildTasks())
+      for (Task task : file.getChildTasks())
       {
-         System.out.println ("Task: " + task.getName());
-         listHierarchy (task, " ");
+         System.out.println("Task: " + task.getName());
+         listHierarchy(task, " ");
       }
 
-      System.out.println ();
+      System.out.println();
    }
 
    /**
@@ -216,12 +212,12 @@ public class MpxjQuery
     * @param task task whose children are to be displayed
     * @param indent whitespace used to indent hierarchy levels
     */
-   private static void listHierarchy (Task task, String indent)
+   private static void listHierarchy(Task task, String indent)
    {
-      for (Task child: task.getChildTasks())
+      for (Task child : task.getChildTasks())
       {
-         System.out.println (indent + "Task: " + child.getName());
-         listHierarchy (child, indent + " ");
+         System.out.println(indent + "Task: " + child.getName());
+         listHierarchy(child, indent + " ");
       }
    }
 
@@ -230,16 +226,16 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listAssignments (ProjectFile file)
+   private static void listAssignments(ProjectFile file)
    {
       Task task;
       Resource resource;
       String taskName;
       String resourceName;
 
-      for (ResourceAssignment assignment: file.getAllResourceAssignments())
+      for (ResourceAssignment assignment : file.getAllResourceAssignments())
       {
-         task = assignment.getTask ();
+         task = assignment.getTask();
          if (task == null)
          {
             taskName = "(null task)";
@@ -249,7 +245,7 @@ public class MpxjQuery
             taskName = task.getName();
          }
 
-         resource = assignment.getResource ();
+         resource = assignment.getResource();
          if (resource == null)
          {
             resourceName = "(null resource)";
@@ -259,10 +255,10 @@ public class MpxjQuery
             resourceName = resource.getName();
          }
 
-         System.out.println ("Assignment: Task=" + taskName + " Resource=" + resourceName);
+         System.out.println("Assignment: Task=" + taskName + " Resource=" + resourceName);
       }
 
-      System.out.println ();
+      System.out.println();
    }
 
    /**
@@ -272,17 +268,17 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listAssignmentsByTask (ProjectFile file)
-   {     
+   private static void listAssignmentsByTask(ProjectFile file)
+   {
       for (Task task : file.getAllTasks())
       {
-         System.out.println ("Assignments for task " + task.getName() + ":");
+         System.out.println("Assignments for task " + task.getName() + ":");
 
          for (ResourceAssignment assignment : task.getResourceAssignments())
          {
             Resource resource = assignment.getResource();
             String resourceName;
-            
+
             if (resource == null)
             {
                resourceName = "(null resource)";
@@ -292,13 +288,12 @@ public class MpxjQuery
                resourceName = resource.getName();
             }
 
-            System.out.println ("   " + resourceName);
+            System.out.println("   " + resourceName);
          }
       }
 
-      System.out.println ();
+      System.out.println();
    }
-
 
    /**
     * This method displays the resource assignments for each resource. This time
@@ -307,20 +302,20 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listAssignmentsByResource (ProjectFile file)
+   private static void listAssignmentsByResource(ProjectFile file)
    {
       for (Resource resource : file.getAllResources())
       {
-         System.out.println ("Assignments for resource " + resource.getName() + ":");
+         System.out.println("Assignments for resource " + resource.getName() + ":");
 
-         for (ResourceAssignment assignment: resource.getTaskAssignments())
+         for (ResourceAssignment assignment : resource.getTaskAssignments())
          {
             Task task = assignment.getTask();
-            System.out.println ("   " + task.getName());
+            System.out.println("   " + task.getName());
          }
       }
 
-      System.out.println ();
+      System.out.println();
    }
 
    /**
@@ -328,19 +323,19 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listTaskNotes (ProjectFile file)
+   private static void listTaskNotes(ProjectFile file)
    {
-      for (Task task: file.getAllTasks())
+      for (Task task : file.getAllTasks())
       {
          String notes = task.getNotes();
 
          if (notes != null && notes.length() != 0)
          {
-            System.out.println ("Notes for " + task.getName() + ": " + notes);
+            System.out.println("Notes for " + task.getName() + ": " + notes);
          }
       }
 
-      System.out.println ();
+      System.out.println();
    }
 
    /**
@@ -348,19 +343,19 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listResourceNotes (ProjectFile file)
+   private static void listResourceNotes(ProjectFile file)
    {
-      for (Resource resource: file.getAllResources())
+      for (Resource resource : file.getAllResources())
       {
          String notes = resource.getNotes();
 
          if (notes != null && notes.length() != 0)
          {
-            System.out.println ("Notes for " + resource.getName() + ": " + notes);
+            System.out.println("Notes for " + resource.getName() + ": " + notes);
          }
       }
 
-      System.out.println ();
+      System.out.println();
    }
 
    /**
@@ -369,14 +364,14 @@ public class MpxjQuery
     *
     * @param file MPX file
     */
-   private static void listPredecessors (ProjectFile file)
+   private static void listPredecessors(ProjectFile file)
    {
-      for (Task task: file.getAllTasks())
+      for (Task task : file.getAllTasks())
       {
          List<Relation> predecessors = task.getPredecessors();
          if (predecessors != null && predecessors.isEmpty() == false)
          {
-            System.out.println (task.getName() + " predecessors:");
+            System.out.println(task.getName() + " predecessors:");
             for (Relation relation : predecessors)
             {
                System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskUniqueID()).getName());
@@ -385,76 +380,75 @@ public class MpxjQuery
             }
          }
       }
-      
+
       //
       // The following code is useful to produce output which can be compared
       // directly with tabular data from MS Project.
       //
-/*      
-      for (Task task: file.getAllTasks())
-      {
-         System.out.print(task.getID());
-         System.out.print('\t');
-         System.out.print(task.getName());
-         System.out.print('\t');
-         
-         List<Relation> predecessors = task.getPredecessors();
-         if (predecessors != null && predecessors.isEmpty() == false)
-         {
-            if (predecessors.size() > 1)
+      /*      
+            for (Task task: file.getAllTasks())
             {
-               System.out.print('"');
-            }
-            boolean first = true;
-            for (Relation relation : predecessors)
-            {
-               if (!first)
+               System.out.print(task.getID());
+               System.out.print('\t');
+               System.out.print(task.getName());
+               System.out.print('\t');
+               
+               List<Relation> predecessors = task.getPredecessors();
+               if (predecessors != null && predecessors.isEmpty() == false)
                {
-                  System.out.print(',');
+                  if (predecessors.size() > 1)
+                  {
+                     System.out.print('"');
+                  }
+                  boolean first = true;
+                  for (Relation relation : predecessors)
+                  {
+                     if (!first)
+                     {
+                        System.out.print(',');
+                     }
+                     first = false;
+                     System.out.print(relation.getTaskID());               
+                  }
+                  if (predecessors.size() > 1)
+                  {
+                     System.out.print('"');
+                  }            
                }
-               first = false;
-               System.out.print(relation.getTaskID());               
-            }
-            if (predecessors.size() > 1)
-            {
-               System.out.print('"');
-            }            
-         }
-         
-         System.out.println();
-      }    
-*/      
+               
+               System.out.println();
+            }    
+      */
    }
-   
+
    /**
     * List the slack values for each task.
     * 
     * @param file ProjectFile instance
     */
-   private static void listSlack (ProjectFile file)
+   private static void listSlack(ProjectFile file)
    {
-      for (Task task: file.getAllTasks())
+      for (Task task : file.getAllTasks())
       {
          System.out.println(task.getName() + " Total Slack=" + task.getTotalSlack() + " Start Slack=" + task.getStartSlack() + " Finish Slack=" + task.getFinishSlack());
-      }      
+      }
    }
-   
+
    /**
     * List details of all calendars in the file.
     * 
     * @param file ProjectFile instance
     */
-   private static void listCalendars (ProjectFile file)
+   private static void listCalendars(ProjectFile file)
    {
       for (ProjectCalendar cal : file.getBaseCalendars())
       {
          System.out.println(cal.toString());
       }
-      
+
       for (ProjectCalendar cal : file.getResourceCalendars())
       {
          System.out.println(cal.toString());
-      }      
+      }
    }
 }
-

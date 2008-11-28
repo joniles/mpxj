@@ -29,7 +29,6 @@ import java.io.OutputStream;
 
 import net.sf.mpxj.ProjectFile;
 
-
 /**
  * This interface is implemented by classes which can create project files
  * from the contents of an ProjectFile instance.
@@ -43,8 +42,7 @@ public interface ProjectWriter
     * @param fileName file name
     * @throws IOException
     */
-   public void write (ProjectFile projectFile, String fileName)
-      throws IOException;
+   public void write(ProjectFile projectFile, String fileName) throws IOException;
 
    /**
     * Create a project file using the supplied File instance.
@@ -53,8 +51,7 @@ public interface ProjectWriter
     * @param file File instance
     * @throws IOException
     */
-   public void write (ProjectFile projectFile, File file)
-      throws IOException;
+   public void write(ProjectFile projectFile, File file) throws IOException;
 
    /**
     * Create a project file using the supplied OutputStream instance.
@@ -63,6 +60,5 @@ public interface ProjectWriter
     * @param outputStream OutputStream instance
     * @throws IOException
     */
-   public void write (ProjectFile projectFile, OutputStream outputStream)
-      throws IOException;
+   public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException;
 }

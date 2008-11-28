@@ -25,8 +25,6 @@ package net.sf.mpxj;
 
 import java.util.Locale;
 
-
-
 /**
  * Instances of this type represent Resource fields.
  */
@@ -38,7 +36,7 @@ public final class ResourceField implements FieldType
     * @param value task field value
     * @param dataType data type
     */
-   private ResourceField (int value, DataType dataType)
+   private ResourceField(int value, DataType dataType)
    {
       m_value = value;
       m_dataType = dataType;
@@ -55,7 +53,7 @@ public final class ResourceField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public String getName (Locale locale)
+   public String getName(Locale locale)
    {
       String[] titles = LocaleData.getStringArray(locale, LocaleData.RESOURCE_COLUMNS);
       String result = null;
@@ -71,7 +69,7 @@ public final class ResourceField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -79,17 +77,17 @@ public final class ResourceField implements FieldType
    /**
     * {@inheritDoc}
     */
-   public DataType getDataType ()
+   public DataType getDataType()
    {
       return (m_dataType);
    }
-   
+
    /**
     * Retrieves the string representation of this instance.
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -97,43 +95,43 @@ public final class ResourceField implements FieldType
    /**
     * {@inheritDoc}
     */
-   @Override public boolean equals (Object obj)
+   @Override public boolean equals(Object obj)
    {
       boolean result = false;
       if (obj instanceof ResourceField)
       {
-         result = (m_value == ((ResourceField)obj).m_value);
+         result = (m_value == ((ResourceField) obj).m_value);
       }
       return (result);
    }
-   
+
    /**
     * {@inheritDoc}
     */
-   @Override public int hashCode ()
+   @Override public int hashCode()
    {
       return (m_value);
    }
-   
+
    /**
     * This method takes the integer enumeration of a resource field
     * and returns an appropriate class instance.
     *
     * @param type integer task field enumeration
     * @return ResourceField instance
-    */   
-   public static ResourceField getInstance (int type) 
+    */
+   public static ResourceField getInstance(int type)
    {
       ResourceField result = null;
-      
+
       if (type >= 0 && type < MAX_VALUE)
       {
          result = TYPE_VALUES[type];
       }
-      
+
       return (result);
-  }
-   
+   }
+
    public static final int ID_VALUE = 0;
    public static final int NAME_VALUE = 1;
    public static final int INITIALS_VALUE = 2;
@@ -360,17 +358,16 @@ public final class ResourceField implements FieldType
    public static final int BASELINE10_WORK_VALUE = 222;
    public static final int BASELINE10_COST_VALUE = 223;
 
-
-   public static final int ENTERPRISE_COST1_VALUE = 224; 
-   public static final int ENTERPRISE_COST2_VALUE = 225; 
-   public static final int ENTERPRISE_COST3_VALUE = 226; 
-   public static final int ENTERPRISE_COST4_VALUE = 227; 
-   public static final int ENTERPRISE_COST5_VALUE = 228; 
-   public static final int ENTERPRISE_COST6_VALUE = 229; 
-   public static final int ENTERPRISE_COST7_VALUE = 230;       
-   public static final int ENTERPRISE_COST8_VALUE = 231; 
-   public static final int ENTERPRISE_COST9_VALUE = 232; 
-   public static final int ENTERPRISE_COST10_VALUE = 233; 
+   public static final int ENTERPRISE_COST1_VALUE = 224;
+   public static final int ENTERPRISE_COST2_VALUE = 225;
+   public static final int ENTERPRISE_COST3_VALUE = 226;
+   public static final int ENTERPRISE_COST4_VALUE = 227;
+   public static final int ENTERPRISE_COST5_VALUE = 228;
+   public static final int ENTERPRISE_COST6_VALUE = 229;
+   public static final int ENTERPRISE_COST7_VALUE = 230;
+   public static final int ENTERPRISE_COST8_VALUE = 231;
+   public static final int ENTERPRISE_COST9_VALUE = 232;
+   public static final int ENTERPRISE_COST10_VALUE = 233;
    public static final int ENTERPRISE_DATE1_VALUE = 234;
    public static final int ENTERPRISE_DATE2_VALUE = 235;
    public static final int ENTERPRISE_DATE3_VALUE = 236;
@@ -400,7 +397,7 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_DATE27_VALUE = 260;
    public static final int ENTERPRISE_DATE28_VALUE = 261;
    public static final int ENTERPRISE_DATE29_VALUE = 262;
-   public static final int ENTERPRISE_DATE30_VALUE = 263;   
+   public static final int ENTERPRISE_DATE30_VALUE = 263;
    public static final int ENTERPRISE_DURATION1_VALUE = 264;
    public static final int ENTERPRISE_DURATION2_VALUE = 265;
    public static final int ENTERPRISE_DURATION3_VALUE = 266;
@@ -410,7 +407,7 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_DURATION7_VALUE = 270;
    public static final int ENTERPRISE_DURATION8_VALUE = 271;
    public static final int ENTERPRISE_DURATION9_VALUE = 272;
-   public static final int ENTERPRISE_DURATION10_VALUE = 273;   
+   public static final int ENTERPRISE_DURATION10_VALUE = 273;
    public static final int ENTERPRISE_FLAG1_VALUE = 274;
    public static final int ENTERPRISE_FLAG2_VALUE = 275;
    public static final int ENTERPRISE_FLAG3_VALUE = 276;
@@ -430,7 +427,7 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_FLAG17_VALUE = 290;
    public static final int ENTERPRISE_FLAG18_VALUE = 291;
    public static final int ENTERPRISE_FLAG19_VALUE = 292;
-   public static final int ENTERPRISE_FLAG20_VALUE = 293;   
+   public static final int ENTERPRISE_FLAG20_VALUE = 293;
    public static final int ENTERPRISE_NUMBER1_VALUE = 294;
    public static final int ENTERPRISE_NUMBER2_VALUE = 295;
    public static final int ENTERPRISE_NUMBER3_VALUE = 296;
@@ -469,7 +466,7 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_NUMBER36_VALUE = 329;
    public static final int ENTERPRISE_NUMBER37_VALUE = 330;
    public static final int ENTERPRISE_NUMBER38_VALUE = 331;
-   public static final int ENTERPRISE_NUMBER39_VALUE = 332;  
+   public static final int ENTERPRISE_NUMBER39_VALUE = 332;
    public static final int ENTERPRISE_NUMBER40_VALUE = 333;
    public static final int ENTERPRISE_TEXT1_VALUE = 334;
    public static final int ENTERPRISE_TEXT2_VALUE = 335;
@@ -514,9 +511,9 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_VALUE = 374;
    public static final int ERRORS_VALUE = 375;
    public static final int IMPORT_VALUE = 376;
-   
+
    public static final int MAX_VALUE = 377;
-   
+
    public static final ResourceField ID = new ResourceField(ID_VALUE, DataType.NUMERIC);
    public static final ResourceField NAME = new ResourceField(NAME_VALUE, DataType.STRING);
    public static final ResourceField INITIALS = new ResourceField(INITIALS_VALUE, DataType.STRING);
@@ -894,9 +891,9 @@ public final class ResourceField implements FieldType
    public static final ResourceField ENTERPRISE = new ResourceField(ENTERPRISE_VALUE, DataType.BOOLEAN);
    public static final ResourceField ERRORS = new ResourceField(ERRORS_VALUE, DataType.STRING);
    public static final ResourceField IMPORT = new ResourceField(IMPORT_VALUE, DataType.BOOLEAN);
-   
+
    private static final ResourceField[] TYPE_VALUES = new ResourceField[MAX_VALUE];
-   
+
    static
    {
       TYPE_VALUES[ID_VALUE] = ID;
@@ -1102,7 +1099,7 @@ public final class ResourceField implements FieldType
       TYPE_VALUES[TYPE_VALUE] = TYPE;
       TYPE_VALUES[VAC_VALUE] = VAC;
       TYPE_VALUES[GROUP_BY_SUMMARY_VALUE] = GROUP_BY_SUMMARY;
-      TYPE_VALUES[WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT; 
+      TYPE_VALUES[WINDOWS_USER_ACCOUNT_VALUE] = WINDOWS_USER_ACCOUNT;
       TYPE_VALUES[BASELINE1_WORK_VALUE] = BASELINE1_WORK;
       TYPE_VALUES[BASELINE1_COST_VALUE] = BASELINE1_COST;
       TYPE_VALUES[BASELINE2_WORK_VALUE] = BASELINE2_WORK;
@@ -1277,7 +1274,7 @@ public final class ResourceField implements FieldType
       TYPE_VALUES[ERRORS_VALUE] = ERRORS;
       TYPE_VALUES[IMPORT_VALUE] = IMPORT;
    }
-   
+
    private int m_value;
-   private DataType m_dataType;   
+   private DataType m_dataType;
 }

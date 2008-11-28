@@ -46,7 +46,7 @@ public final class SubProject
     *
     * @param dosFileName DOS file name
     */
-   public void setDosFileName (String dosFileName)
+   public void setDosFileName(String dosFileName)
    {
       m_dosFileName = dosFileName;
    }
@@ -66,7 +66,7 @@ public final class SubProject
     *
     * @param dosFullPath DOS full path
     */
-   public void setDosFullPath (String dosFullPath)
+   public void setDosFullPath(String dosFullPath)
    {
       m_dosFullPath = dosFullPath;
    }
@@ -86,7 +86,7 @@ public final class SubProject
     *
     * @param fileName file name
     */
-   public void setFileName (String fileName)
+   public void setFileName(String fileName)
    {
       m_fileName = fileName;
    }
@@ -106,7 +106,7 @@ public final class SubProject
     *
     * @param fullPath full path
     */
-   public void setFullPath (String fullPath)
+   public void setFullPath(String fullPath)
    {
       m_fullPath = fullPath;
    }
@@ -128,7 +128,7 @@ public final class SubProject
     *
     * @param uniqueIDOffset unique ID offset
     */
-   public void setUniqueIDOffset (Integer uniqueIDOffset)
+   public void setUniqueIDOffset(Integer uniqueIDOffset)
    {
       m_uniqueIDOffset = uniqueIDOffset;
    }
@@ -149,11 +149,11 @@ public final class SubProject
     *
     * @param taskUniqueID task unique ID
     */
-   public void setTaskUniqueID (Integer taskUniqueID)
+   public void setTaskUniqueID(Integer taskUniqueID)
    {
       m_taskUniqueID = taskUniqueID;
    }
-   
+
    /**
     * Check to see if the given task is an external task from this subproject.
     *
@@ -162,17 +162,17 @@ public final class SubProject
     */
    public boolean isExternalTask(Integer taskUniqueID)
    {
-	   return m_externalTaskUniqueIDs.contains(taskUniqueID);
+      return m_externalTaskUniqueIDs.contains(taskUniqueID);
    }
-   
+
    /**
     * This package-private method is used to add external task unique id.
     *
     * @param externalTaskUniqueID external task unique id
     */
-   public void addExternalTaskUniqueID (Integer externalTaskUniqueID)
+   public void addExternalTaskUniqueID(Integer externalTaskUniqueID)
    {
-	   m_externalTaskUniqueIDs.add(externalTaskUniqueID);
+      m_externalTaskUniqueIDs.add(externalTaskUniqueID);
    }
 
    /**
@@ -180,24 +180,22 @@ public final class SubProject
     *
     * @return all sub project details
     */
-   public List<Integer> getAllExternalTaskUniqueIDs ()
+   public List<Integer> getAllExternalTaskUniqueIDs()
    {
       return (m_externalTaskUniqueIDs);
    }
 
-
-   
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path="+m_fullPath+"]");
+      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + "]");
    }
 
    private Integer m_taskUniqueID;
-   private Integer m_uniqueIDOffset;   
-   private List<Integer> m_externalTaskUniqueIDs  = new LinkedList<Integer>();
+   private Integer m_uniqueIDOffset;
+   private List<Integer> m_externalTaskUniqueIDs = new LinkedList<Integer>();
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

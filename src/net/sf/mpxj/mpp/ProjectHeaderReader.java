@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2006
  * date:       24/08/2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -44,38 +44,36 @@ public final class ProjectHeaderReader
     * @param props properties data
     * @param rootDir Root of the POI file system.
     */
-   public void process (ProjectFile file, Props props, DirectoryEntry rootDir)
-      throws MPXJException
+   public void process(ProjectFile file, Props props, DirectoryEntry rootDir) throws MPXJException
    {
       ProjectHeader ph = file.getProjectHeader();
       ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
       ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
-      ph.setScheduleFrom(ScheduleFrom.getInstance(1-props.getShort(Props.SCHEDULE_FROM)));
+      ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));
       ph.setCalendarName(props.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
       ph.setDefaultStartTime(props.getTime(Props.START_TIME));
       ph.setDefaultEndTime(props.getTime(Props.END_TIME));
       ph.setStatusDate(props.getTimestamp(Props.STATUS_DATE));
       ph.setHyperlinkBase(props.getUnicodeString(Props.HYPERLINK_BASE));
-      
+
       //ph.setDefaultDurationIsFixed();
       ph.setDefaultDurationUnits(MPPUtility.getDurationTimeUnits(props.getShort(Props.DURATION_UNITS)));
       ph.setMinutesPerDay(Integer.valueOf(props.getInt(Props.MINUTES_PER_DAY)));
       ph.setMinutesPerWeek(Integer.valueOf(props.getInt(Props.MINUTES_PER_WEEK)));
-      ph.setDefaultOvertimeRate(new Rate (props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
-      ph.setDefaultStandardRate(new Rate (props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
+      ph.setDefaultOvertimeRate(new Rate(props.getDouble(Props.OVERTIME_RATE), TimeUnit.HOURS));
+      ph.setDefaultStandardRate(new Rate(props.getDouble(Props.STANDARD_RATE), TimeUnit.HOURS));
       ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
       ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
       ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
 
       ph.setCurrencyDigits(Integer.valueOf(props.getShort(Props.CURRENCY_DIGITS)));
       ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
-      ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE)); 
+      ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE));
       //ph.setDecimalSeparator();
       ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //ph.setThousandsSeparator();
 
-
-      SummaryInformation summary = new SummaryInformation (rootDir);
+      SummaryInformation summary = new SummaryInformation(rootDir);
       ph.setProjectTitle(summary.getProjectTitle());
       ph.setSubject(summary.getSubject());
       ph.setAuthor(summary.getAuthor());
@@ -89,6 +87,6 @@ public final class ProjectHeaderReader
       ph.setLastSaved(summary.getLastSaved());
       ph.setDocumentSummaryInformation(summary.getDocumentSummaryInformation());
 
-      ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));      
+      ph.setCalculateMultipleCriticalPaths(props.getBoolean(Props.CALCULATE_MULTIPLE_CRITICAL_PATHS));
    }
 }

@@ -47,27 +47,27 @@ public class MppDump
     *
     * @param args array of command line arguments
     */
-   public static void main (String[] args)
+   public static void main(String[] args)
    {
       try
       {
          if (args.length != 2)
          {
-            System.out.println ("Usage: MppDump <input mpp file name> <output text file name>");
+            System.out.println("Usage: MppDump <input mpp file name> <output text file name>");
          }
          else
          {
-            System.out.println ("Dump started.");
+            System.out.println("Dump started.");
             long start = System.currentTimeMillis();
-            process (args[0], args[1]);
+            process(args[0], args[1]);
             long elapsed = System.currentTimeMillis() - start;
-            System.out.println ("Dump completed in " + elapsed + "ms");
+            System.out.println("Dump completed in " + elapsed + "ms");
          }
       }
 
       catch (Exception ex)
       {
-         System.out.println ("Caught " + ex.toString());
+         System.out.println("Caught " + ex.toString());
       }
    }
 
@@ -79,14 +79,13 @@ public class MppDump
     * @param output Name of the output file
     * @throws Exception Thrown on file read errors
     */
-   private static void process (String input, String output)
-      throws Exception
+   private static void process(String input, String output) throws Exception
    {
-      FileInputStream is = new FileInputStream (input);
-      PrintWriter pw = new PrintWriter (new FileWriter (output));
+      FileInputStream is = new FileInputStream(input);
+      PrintWriter pw = new PrintWriter(new FileWriter(output));
 
-      POIFSFileSystem fs = new POIFSFileSystem (is);
-      dumpTree (pw, fs.getRoot(), true, true, null);
+      POIFSFileSystem fs = new POIFSFileSystem(is);
+      dumpTree(pw, fs.getRoot(), true, true, null);
 
       is.close();
       pw.flush();
@@ -104,12 +103,11 @@ public class MppDump
     * @param indent indent used if displaying structure only
     * @throws Exception Thrown on file read errors
     */
-   @SuppressWarnings("unchecked") private static void dumpTree (PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent)
-      throws Exception
+   @SuppressWarnings("unchecked") private static void dumpTree(PrintWriter pw, DirectoryEntry dir, boolean showData, boolean hex, String indent) throws Exception
    {
       long byteCount;
 
-      for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext(); )
+      for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext();)
       {
          Entry entry = iter.next();
          if (entry instanceof DirectoryEntry)
@@ -119,38 +117,39 @@ public class MppDump
             {
                childIndent += " ";
             }
-            pw.println ("start dir: " + entry.getName());
-            dumpTree (pw, (DirectoryEntry)entry, showData, hex, childIndent);
-            pw.println ("end dir: " + entry.getName());
+            pw.println("start dir: " + entry.getName());
+            dumpTree(pw, (DirectoryEntry) entry, showData, hex, childIndent);
+            pw.println("end dir: " + entry.getName());
          }
-         else if (entry instanceof DocumentEntry)
-         {
-            if (showData)
+         else
+            if (entry instanceof DocumentEntry)
             {
-               pw.println ("start doc: " + entry.getName());
-               if (hex == true)
+               if (showData)
                {
-                  byteCount = hexdump (new DocumentInputStream ((DocumentEntry)entry), pw);
+                  pw.println("start doc: " + entry.getName());
+                  if (hex == true)
+                  {
+                     byteCount = hexdump(new DocumentInputStream((DocumentEntry) entry), pw);
+                  }
+                  else
+                  {
+                     byteCount = asciidump(new DocumentInputStream((DocumentEntry) entry), pw);
+                  }
+                  pw.println("end doc: " + entry.getName() + " (" + byteCount + " bytes read)");
                }
                else
                {
-                  byteCount = asciidump (new DocumentInputStream ((DocumentEntry)entry), pw);
+                  if (indent != null)
+                  {
+                     pw.print(indent);
+                  }
+                  pw.println("doc: " + entry.getName());
                }
-               pw.println ("end doc: " + entry.getName() + " (" + byteCount +" bytes read)");               
             }
             else
             {
-               if (indent != null)
-               {
-                  pw.print(indent);
-               }                              
-               pw.println ("doc: " + entry.getName());
+               pw.println("found unknown: " + entry.getName());
             }
-         }
-         else
-         {
-            pw.println ("found unknown: " + entry.getName());
-         }
       }
    }
 
@@ -163,8 +162,7 @@ public class MppDump
     * @return number of bytes read
     * @throws Exception Thrown on file read errors
     */
-   private static long hexdump (InputStream is, PrintWriter pw)
-      throws Exception
+   private static long hexdump(InputStream is, PrintWriter pw) throws Exception
    {
       byte[] buffer = new byte[BUFFER_SIZE];
       long byteCount = 0;
@@ -173,7 +171,7 @@ public class MppDump
       int loop;
       int count;
       long address = 0;
-      StringBuffer sb = new StringBuffer ();
+      StringBuffer sb = new StringBuffer();
 
       while (true)
       {
@@ -187,33 +185,33 @@ public class MppDump
 
          sb.setLength(0);
 
-         for (loop=0; loop < count; loop++)
+         for (loop = 0; loop < count; loop++)
          {
-            sb.append (" ");
-            sb.append (HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
-            sb.append (HEX_DIGITS[buffer[loop] & 0x0F]);
+            sb.append(" ");
+            sb.append(HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
+            sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
          }
 
          while (loop < BUFFER_SIZE)
          {
-            sb.append ("   ");
+            sb.append("   ");
             ++loop;
          }
 
-         sb.append ("   ");
+         sb.append("   ");
 
-         for (loop=0; loop < count; loop++)
+         for (loop = 0; loop < count; loop++)
          {
-            c = (char)buffer[loop];
+            c = (char) buffer[loop];
             if (c > 200 || c < 27)
             {
                c = ' ';
             }
 
-            sb.append (c);
+            sb.append(c);
          }
 
-         pw.println (sb.toString());
+         pw.println(sb.toString());
 
          address += count;
       }
@@ -230,8 +228,7 @@ public class MppDump
     * @return number of bytes read
     * @throws Exception Thrown on file read errors
     */
-   private static long asciidump (InputStream is, PrintWriter pw)
-      throws Exception
+   private static long asciidump(InputStream is, PrintWriter pw) throws Exception
    {
       byte[] buffer = new byte[BUFFER_SIZE];
       long byteCount = 0;
@@ -240,7 +237,7 @@ public class MppDump
       int loop;
       int count;
       long address = 0;
-      StringBuffer sb = new StringBuffer ();
+      StringBuffer sb = new StringBuffer();
 
       while (true)
       {
@@ -253,18 +250,18 @@ public class MppDump
          byteCount += count;
 
          sb.setLength(0);
-         for (loop=0; loop < count; loop++)
+         for (loop = 0; loop < count; loop++)
          {
-            c = (char)buffer[loop];
+            c = (char) buffer[loop];
             if (c > 200 || c < 27)
             {
                c = ' ';
             }
 
-            sb.append (c);
+            sb.append(c);
          }
 
-         pw.print (sb.toString());
+         pw.print(sb.toString());
 
          address += count;
       }
@@ -282,7 +279,21 @@ public class MppDump
     */
    private static final char[] HEX_DIGITS =
    {
-      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-      'A', 'B', 'C', 'D', 'E', 'F'
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F'
    };
 }

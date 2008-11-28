@@ -5,24 +5,22 @@
 // Generated on: 2008.03.24 at 12:10:52 AM GMT 
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.AccrueType;
 
-@SuppressWarnings("all")
-public class Adapter8
-    extends XmlAdapter<String, AccrueType>
+@SuppressWarnings("all") public class Adapter8 extends XmlAdapter<String, AccrueType>
 {
 
+   public AccrueType unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType(value));
+   }
 
-    public AccrueType unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType(value));
-    }
-
-    public String marshal(AccrueType value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printAccrueType(value));
-    }
+   public String marshal(AccrueType value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printAccrueType(value));
+   }
 
 }

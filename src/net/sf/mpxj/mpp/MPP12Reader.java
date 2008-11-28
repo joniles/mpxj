@@ -72,7 +72,6 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-
 /**
  * This class is used to represent a Microsoft Project MPP12 file. This
  * implementation allows the file to be read, and the data it contains
@@ -89,130 +88,129 @@ final class MPP12Reader implements MPPVariantReader
     * @param file parent MPP file
     * @param root Root of the POI file system.
     */
-   public void process (MPPReader reader, ProjectFile file, DirectoryEntry root)
-      throws MPXJException, IOException
+   public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
    {
-	   try
-	   {
-		   //
-		   // Retrieve the high level document properties
-		   //
-		   Props12 props12 = new Props12 (new DocumentInputStream (((DocumentEntry)root.getEntry("Props12"))));
-		   //System.out.println(props12);
+      try
+      {
+         //
+         // Retrieve the high level document properties
+         //
+         Props12 props12 = new Props12(new DocumentInputStream(((DocumentEntry) root.getEntry("Props12"))));
+         //System.out.println(props12);
 
-		   file.setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
-		   file.setEncoded(props12.getByte(Props.PASSWORD_FLAG) != 0);
-		   file.setEncryptionCode(props12.getByte(Props.ENCRYPTION_CODE));
-      	   
-		   //
-		   // Test for password protection. In the single byte retrieved here:
-		   //
-		   // 0x00 = no password
-		   // 0x01 = protection password has been supplied
-		   // 0x02 = write reservation password has been supplied
-		   // 0x03 = both passwords have been supplied
-		   //  
-		   if ((props12.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
-		   {
-	           // Couldn't figure out how to get the password for MPP12 files so for now we just need to block the reading
-	        	 
-			   // File is password protected for reading, let's read the password
-			   // and see if the correct read password was given to us.
-			   //byte[] data = props12.getByteArray(Props.READ_PASSWORD);
-			   //MPPUtility.decodeBuffer(data, file.getEncryptionCode());
-			   //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
-  
-			   //System.out.println();
-			   //data = props12.getByteArray(Props.WRITE_PASSWORD);
-			   //MPPUtility.decodeBuffer(data, file.getEncryptionCode());
-			   //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+         file.setProjectFilePath(props12.getUnicodeString(Props.PROJECT_FILE_PATH));
+         file.setEncoded(props12.getByte(Props.PASSWORD_FLAG) != 0);
+         file.setEncryptionCode(props12.getByte(Props.ENCRYPTION_CODE));
 
-			   //String readPassword = MPPUtility.decodePassword(props12.getByteArray(Props.READ_PASSWORD), file.getEncryptionCode());
-			   //System.out.println(readPassword);
-			   //String writePassword = MPPUtility.decodePassword(props12.getByteArray(Props.WRITE_PASSWORD), file.getEncryptionCode());
-			   //System.out.println(writePassword);
-			   // See if the correct read password was given
-			   //if (readPassword == null)
-			   //{
-			   // Couldn't read password, so no chance to ask the user
-			   throw new MPXJException (MPXJException.PASSWORD_PROTECTED);
-			   //}
-			   //if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
-			   //{    	      	
-			   // Passwords don't match
-			   //	  throw new MPXJException (MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
-			   //}
-			   // Passwords matched so let's allow the reading to continue.
-		   }
-  
-		   m_reader = reader;
-		   m_file = file;
-		   m_root = root;
-		   m_resourceMap = new HashMap<Integer, ProjectCalendar> ();
-		   m_projectDir = (DirectoryEntry)root.getEntry ("   112");
-		   m_viewDir = (DirectoryEntry)root.getEntry ("   212");
-		   DirectoryEntry outlineCodeDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndOutlCode");
-		   m_outlineCodeVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("VarMeta"))));
-		   m_outlineCodeVarData = new Var2Data (m_outlineCodeVarMeta, new DocumentInputStream (((DocumentEntry)outlineCodeDir.getEntry("Var2Data"))));
-		   m_fontBases = new HashMap<Integer, FontBase>();
-		   m_taskSubProjects = new HashMap<Integer, SubProject> ();
-		   m_parentTasks = new HashMap<Integer, Integer> ();
- 
-		   m_file.setMppFileType(12);
-		   m_file.setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
+         //
+         // Test for password protection. In the single byte retrieved here:
+         //
+         // 0x00 = no password
+         // 0x01 = protection password has been supplied
+         // 0x02 = write reservation password has been supplied
+         // 0x03 = both passwords have been supplied
+         //  
+         if ((props12.getByte(Props.PASSWORD_FLAG) & 0x01) != 0)
+         {
+            // Couldn't figure out how to get the password for MPP12 files so for now we just need to block the reading
 
-		   processCustomValueLists();
-		   processPropertyData ();
-		   processCalendarData ();
-		   processResourceData ();
-		   processTaskData ();
-		   processConstraintData ();
-		   processAssignmentData ();
-   
-		   processViewPropertyData();
-		   processTableData ();
-		   processViewData ();
-		   processFilterData();
-		   processGroupData();
-		   processSavedViewState();
-	   }  
-      
-	   finally
-	   {
-		   m_reader = null;
-		   m_file = null;
-		   m_root	= null;
-		   m_resourceMap = null;
-		   m_projectDir = null;
-		   m_viewDir = null;
-		   m_outlineCodeVarData = null;
-		   m_outlineCodeVarMeta = null;
-		   m_fontBases = null;
-		   m_taskSubProjects = null;
-	   }
+            // File is password protected for reading, let's read the password
+            // and see if the correct read password was given to us.
+            //byte[] data = props12.getByteArray(Props.READ_PASSWORD);
+            //MPPUtility.decodeBuffer(data, file.getEncryptionCode());
+            //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+
+            //System.out.println();
+            //data = props12.getByteArray(Props.WRITE_PASSWORD);
+            //MPPUtility.decodeBuffer(data, file.getEncryptionCode());
+            //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+
+            //String readPassword = MPPUtility.decodePassword(props12.getByteArray(Props.READ_PASSWORD), file.getEncryptionCode());
+            //System.out.println(readPassword);
+            //String writePassword = MPPUtility.decodePassword(props12.getByteArray(Props.WRITE_PASSWORD), file.getEncryptionCode());
+            //System.out.println(writePassword);
+            // See if the correct read password was given
+            //if (readPassword == null)
+            //{
+            // Couldn't read password, so no chance to ask the user
+            throw new MPXJException(MPXJException.PASSWORD_PROTECTED);
+            //}
+            //if (reader.getReadPassword() == null || reader.getReadPassword().matches(readPassword) == false)
+            //{    	      	
+            // Passwords don't match
+            //	  throw new MPXJException (MPXJException.PASSWORD_PROTECTED_ENTER_PASSWORD);
+            //}
+            // Passwords matched so let's allow the reading to continue.
+         }
+
+         m_reader = reader;
+         m_file = file;
+         m_root = root;
+         m_resourceMap = new HashMap<Integer, ProjectCalendar>();
+         m_projectDir = (DirectoryEntry) root.getEntry("   112");
+         m_viewDir = (DirectoryEntry) root.getEntry("   212");
+         DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
+         m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
+         m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+         m_fontBases = new HashMap<Integer, FontBase>();
+         m_taskSubProjects = new HashMap<Integer, SubProject>();
+         m_parentTasks = new HashMap<Integer, Integer>();
+
+         m_file.setMppFileType(12);
+         m_file.setAutoFilter(props12.getBoolean(Props.AUTO_FILTER));
+
+         processCustomValueLists();
+         processPropertyData();
+         processCalendarData();
+         processResourceData();
+         processTaskData();
+         processConstraintData();
+         processAssignmentData();
+
+         processViewPropertyData();
+         processTableData();
+         processViewData();
+         processFilterData();
+         processGroupData();
+         processSavedViewState();
+      }
+
+      finally
+      {
+         m_reader = null;
+         m_file = null;
+         m_root = null;
+         m_resourceMap = null;
+         m_projectDir = null;
+         m_viewDir = null;
+         m_outlineCodeVarData = null;
+         m_outlineCodeVarMeta = null;
+         m_fontBases = null;
+         m_taskSubProjects = null;
+      }
    }
-   
+
    /**
     * This method extracts and collates the value list information 
     * for custom column value lists.
     */
-   private void processCustomValueLists ()
+   private void processCustomValueLists()
    {
-	   Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-	   Integer id;
-	   CustomFieldValueItem item;
-	   
-	   for (int loop=0; loop < uniqueid.length; loop++)
-	   {		  
-		   id = uniqueid[loop];
-		
-		   item = new CustomFieldValueItem(id);
-		   item.setValue(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE));		   
-		   item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
-		   item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
-		   
-		   m_file.addCustomFieldValueItem(item);
-	   }
+      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
+      Integer id;
+      CustomFieldValueItem item;
+
+      for (int loop = 0; loop < uniqueid.length; loop++)
+      {
+         id = uniqueid[loop];
+
+         item = new CustomFieldValueItem(id);
+         item.setValue(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE));
+         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
+         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
+
+         m_file.addCustomFieldValueItem(item);
+      }
    }
 
    /**
@@ -220,10 +218,9 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @throws java.io.IOException
     */
-   private void processPropertyData ()
-      throws IOException, MPXJException
+   private void processPropertyData() throws IOException, MPXJException
    {
-      Props12 props = new Props12 (getEncryptableInputStream (m_projectDir, "Props"));
+      Props12 props = new Props12(getEncryptableInputStream(m_projectDir, "Props"));
       //MPPUtility.fileHexDump("c:\\temp\\props.txt", props.toString().getBytes());
 
       //
@@ -236,7 +233,7 @@ final class MPP12Reader implements MPPVariantReader
       // Process subproject data
       //
       processSubProjectData(props);
-      
+
       //
       // Process graphical indicators
       //
@@ -254,8 +251,8 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @param props file properties
     */
-   private void processSubProjectData (Props12 props)
-   {     
+   private void processSubProjectData(Props12 props)
+   {
       byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
 
       //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
@@ -263,7 +260,7 @@ final class MPP12Reader implements MPPVariantReader
 
       if (subProjData != null)
       {
-    	 int index = 0;
+         int index = 0;
          int offset = 0;
          int itemHeaderOffset;
          int uniqueIDOffset;
@@ -284,7 +281,7 @@ final class MPP12Reader implements MPPVariantReader
 
          while (offset < itemCountOffset)
          {
-        	index++;
+            index++;
             itemHeaderOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
             offset += 4;
 
@@ -293,7 +290,7 @@ final class MPP12Reader implements MPPVariantReader
             //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
             //System.out.println ("Offset: " + offset);
             //System.out.println ("Item Header Offset: " + itemHeaderOffset);
-            byte subProjectType = itemHeader[16]; 
+            byte subProjectType = itemHeader[16];
             //System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
@@ -301,22 +298,22 @@ final class MPP12Reader implements MPPVariantReader
                // Subproject that is no longer inserted. This is a placeholder in order to be
                // able to always guarantee unique unique ids.
                //
-               case 0x00:                  
-               //   
-               // deleted entry?
-               //
-               case 0x10:                   
+               case 0x00 :
+                  //   
+                  // deleted entry?
+                  //
+               case 0x10 :
                {
                   offset += 8;
                   break;
                }
 
-               //
-               // task unique ID, 8 bytes, path, file name
-               //
-               case (byte)0x99:
-               case 0x09:
-               case 0x0D:               
+                  //
+                  // task unique ID, 8 bytes, path, file name
+                  //
+               case (byte) 0x99 :
+               case 0x09 :
+               case 0x0D :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -334,13 +331,12 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-
-               //
-               // task unique ID, 8 bytes, path, file name
-               //
-               case 0x03:
-               case 0x11:                 
-               case (byte)0x91:              
+                  //
+                  // task unique ID, 8 bytes, path, file name
+                  //
+               case 0x03 :
+               case 0x11 :
+               case (byte) 0x91 :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -353,16 +349,16 @@ final class MPP12Reader implements MPPVariantReader
 
                   // Unknown offset
                   offset += 4;
-                  
+
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
-               //
-               // task unique ID, path, unknown, file name
-               //
-               case (byte)0x81:
-               case 0x41:
+                  //
+                  // task unique ID, path, unknown, file name
+                  //
+               case (byte) 0x81 :
+               case 0x41 :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -380,11 +376,11 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, path, file name
-               //
-               case 0x01:
-               case 0x08:               
+                  //
+                  // task unique ID, path, file name
+                  //
+               case 0x01 :
+               case 0x08 :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -399,10 +395,10 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, path, file name
-               //
-               case (byte)0xC0:
+                  //
+                  // task unique ID, path, file name
+                  //
+               case (byte) 0xC0 :
                {
                   uniqueIDOffset = itemHeaderOffset;
 
@@ -414,15 +410,15 @@ final class MPP12Reader implements MPPVariantReader
 
                   // unknown offset
                   offset += 4;
-                  
+
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
-               
-               //
-               // resource, task unique ID, path, file name
-               //
-               case 0x05:
+
+                  //
+                  // resource, task unique ID, path, file name
+                  //
+               case 0x05 :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -438,11 +434,11 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // path, file name
-               //
-               case 0x02:
-               case 0x04:
+                  //
+                  // path, file name
+                  //
+               case 0x02 :
+               case 0x04 :
                {
                   filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
@@ -454,11 +450,11 @@ final class MPP12Reader implements MPPVariantReader
                   m_file.setResourceSubProject(sp);
                   break;
                }
-               
-               //
-               // task unique ID, 4 bytes, path, 4 bytes, file name
-               //
-               case (byte)0x8D:                 
+
+                  //
+                  // task unique ID, 4 bytes, path, 4 bytes, file name
+                  //
+               case (byte) 0x8D :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 8;
@@ -473,10 +469,10 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
-               //
-               // task unique ID, path, file name
-               //
-               case 0x0A:                 
+                  //
+                  // task unique ID, path, file name
+                  //
+               case 0x0A :
                {
                   uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
@@ -490,30 +486,30 @@ final class MPP12Reader implements MPPVariantReader
                   sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
-                              
-               // new resource pool entry
-               case (byte)0x44:                                                                        
+
+                  // new resource pool entry
+               case (byte) 0x44 :
                {
                   filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
                   offset += 4;
-                  
+
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
-                  
+
                   sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
                   break;
                }
 
-               //
-               // Appears when a subproject is collapsed
-               //
-               case (byte)0x80:               
-               //
-               // Any other value, assume 12 bytes to handle old/deleted data?
-               //
-               default:
+                  //
+                  // Appears when a subproject is collapsed
+                  //
+               case (byte) 0x80 :
+                  //
+                  // Any other value, assume 12 bytes to handle old/deleted data?
+                  //
+               default :
                {
                   offset += 12;
                   break;
@@ -533,49 +529,49 @@ final class MPP12Reader implements MPPVariantReader
     * @param subprojectIndex index of the subproject, used to calculate unique id offset
     * @return new SubProject instance
     */
-   private SubProject readSubProject (byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
+   private SubProject readSubProject(byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
       try
       {
-         SubProject sp = new SubProject ();     
+         SubProject sp = new SubProject();
          int type = SUBPROJECT_TASKUNIQUEID0;
-         
+
          if (uniqueIDOffset != -1)
          {
             int value = MPPUtility.getInt(data, uniqueIDOffset);
-            type = MPPUtility.getInt(data, uniqueIDOffset+4);
+            type = MPPUtility.getInt(data, uniqueIDOffset + 4);
             switch (type)
             {
-               case SUBPROJECT_TASKUNIQUEID0:
-               case SUBPROJECT_TASKUNIQUEID1:
-               case SUBPROJECT_TASKUNIQUEID2:
-               case SUBPROJECT_TASKUNIQUEID3:
-               case SUBPROJECT_TASKUNIQUEID4:
+               case SUBPROJECT_TASKUNIQUEID0 :
+               case SUBPROJECT_TASKUNIQUEID1 :
+               case SUBPROJECT_TASKUNIQUEID2 :
+               case SUBPROJECT_TASKUNIQUEID3 :
+               case SUBPROJECT_TASKUNIQUEID4 :
                {
-                   sp.setTaskUniqueID(Integer.valueOf(value));
-                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-                   break;
+                  sp.setTaskUniqueID(Integer.valueOf(value));
+                  m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+                  break;
                }
-               
-               default:
+
+               default :
                {
-                   if (value != 0)
-                   {
-                       sp.addExternalTaskUniqueID(Integer.valueOf(value));
-                       m_taskSubProjects.put(Integer.valueOf(value), sp);                   
-                   }
-                   break;
+                  if (value != 0)
+                  {
+                     sp.addExternalTaskUniqueID(Integer.valueOf(value));
+                     m_taskSubProjects.put(Integer.valueOf(value), sp);
+                  }
+                  break;
                }
             }
-   
+
             // Now get the unique id offset for this subproject
-            value = 0x00800000 + ((subprojectIndex-1) * 0x00400000);
-            sp.setUniqueIDOffset(Integer.valueOf(value));         
+            value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+            sp.setUniqueIDOffset(Integer.valueOf(value));
          }
-   
+
          if (type == SUBPROJECT_TASKUNIQUEID4)
          {
-            sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset));         
+            sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset));
          }
          else
          {
@@ -583,28 +579,28 @@ final class MPP12Reader implements MPPVariantReader
             // First block header
             //
             filePathOffset += 18;
-      
+
             //
             // String size as a 4 byte int
             //
             filePathOffset += 4;
-      
+
             //
             // Full DOS path
             //
             sp.setDosFullPath(MPPUtility.getString(data, filePathOffset));
-            filePathOffset += (sp.getDosFullPath().length()+1);
-      
+            filePathOffset += (sp.getDosFullPath().length() + 1);
+
             //
             // 24 byte block
             //
             filePathOffset += 24;
-      
+
             //
             // 4 byte block size
             //
             int size = MPPUtility.getInt(data, filePathOffset);
-            filePathOffset +=4;
+            filePathOffset += 4;
             if (size == 0)
             {
                sp.setFullPath(sp.getDosFullPath());
@@ -616,46 +612,46 @@ final class MPP12Reader implements MPPVariantReader
                //
                size = MPPUtility.getInt(data, filePathOffset);
                filePathOffset += 4;
-      
+
                //
                // 2 byte data
                //
                filePathOffset += 2;
-      
+
                //
                // Unicode string
                //
                sp.setFullPath(MPPUtility.getUnicodeString(data, filePathOffset, size));
                //filePathOffset += size;
             }
-      
+
             //
             // Second block header
             //
             fileNameOffset += 18;
-      
+
             //
             // String size as a 4 byte int
             //
             fileNameOffset += 4;
-      
+
             //
             // DOS file name
             //
             sp.setDosFileName(MPPUtility.getString(data, fileNameOffset));
-            fileNameOffset += (sp.getDosFileName().length()+1);
-      
+            fileNameOffset += (sp.getDosFileName().length() + 1);
+
             //
             // 24 byte block
             //
             fileNameOffset += 24;
-      
+
             //
             // 4 byte block size
             //
             size = MPPUtility.getInt(data, fileNameOffset);
-            fileNameOffset +=4;
-      
+            fileNameOffset += 4;
+
             if (size == 0)
             {
                sp.setFileName(sp.getDosFileName());
@@ -667,12 +663,12 @@ final class MPP12Reader implements MPPVariantReader
                //
                size = MPPUtility.getInt(data, fileNameOffset);
                fileNameOffset += 4;
-      
+
                //
                // 2 byte data
                //
                fileNameOffset += 2;
-      
+
                //
                // Unicode string
                //
@@ -680,15 +676,15 @@ final class MPP12Reader implements MPPVariantReader
                //fileNameOffset += size;
             }
          }
-         
+
          //System.out.println(sp.toString());
-   
+
          // Add to the list of subprojects
          m_file.addSubProject(sp);
-   
+
          return (sp);
       }
-      
+
       //
       // Admit defeat at this point - we have probably stumbled
       // upon a data format we don't understand, so we'll fail
@@ -702,19 +698,17 @@ final class MPP12Reader implements MPPVariantReader
       }
    }
 
-
    /**
     * This method process the data held in the props file specific to the
     * visual appearance of the project data.
     */
-   private void processViewPropertyData ()
-      throws IOException
+   private void processViewPropertyData() throws IOException
    {
-      Props12 props = new Props12 (getEncryptableInputStream (m_viewDir, "Props"));
+      Props12 props = new Props12(getEncryptableInputStream(m_viewDir, "Props"));
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
-         processBaseFonts (data);
+         processBaseFonts(data);
       }
    }
 
@@ -723,17 +717,17 @@ final class MPP12Reader implements MPPVariantReader
     * font instances.
     * @param data property data
     */
-   private void processBaseFonts (byte[] data)
+   private void processBaseFonts(byte[] data)
    {
       int offset = 0;
 
       int blockCount = MPPUtility.getShort(data, 0);
-      offset +=2;
+      offset += 2;
 
       int size;
       String name;
 
-      for (int loop=0; loop < blockCount; loop++)
+      for (int loop = 0; loop < blockCount; loop++)
       {
          /*unknownAttribute = MPPUtility.getShort(data, offset);*/
          offset += 2;
@@ -757,43 +751,43 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @param data task field name alias data
     */
-   private void processTaskFieldNameAliases (byte[] data)
+   private void processTaskFieldNameAliases(byte[] data)
    {
       if (data != null)
       {
-    	 int index = 0;
+         int index = 0;
          int offset = 0;
          // First the length (repeated twice)
          int length = MPPUtility.getInt(data, offset);
          offset += 8;
          // Then the number of custom columns
-    	 int numberOfAliases = MPPUtility.getInt(data, offset); 
-    	 offset += 4;
-    	 
-    	 // Then the aliases themselves
-    	 String alias = "";
+         int numberOfAliases = MPPUtility.getInt(data, offset);
+         offset += 4;
+
+         // Then the aliases themselves
+         String alias = "";
          int field = -1;
          int aliasOffset = 0;
          while (index < numberOfAliases && offset < length)
-         {        	
-        	// Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-        	// offset to the string (4 bytes)
-        	
-        	// Get the Field ID
-        	field = MPPUtility.getShort(data, offset);
-        	offset += 2;
-        	// Go past 40 0B marker
-        	offset += 2;
-        	// Get the alias offset (offset + 4 for some reason).
-        	aliasOffset = MPPUtility.getInt(data, offset) + 4;
-        	offset += 4;
-        	// Read the alias itself 
-        	if (aliasOffset < data.length)
-        	{
-        		alias = MPPUtility.getUnicodeString(data, aliasOffset);
-        		m_file.setTaskFieldAlias(MPPTaskField.getInstance(field), alias);
-        		//System.out.println(field + ": " + alias);
-        	}
+         {
+            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
+            // offset to the string (4 bytes)
+
+            // Get the Field ID
+            field = MPPUtility.getShort(data, offset);
+            offset += 2;
+            // Go past 40 0B marker
+            offset += 2;
+            // Get the alias offset (offset + 4 for some reason).
+            aliasOffset = MPPUtility.getInt(data, offset) + 4;
+            offset += 4;
+            // Read the alias itself 
+            if (aliasOffset < data.length)
+            {
+               alias = MPPUtility.getUnicodeString(data, aliasOffset);
+               m_file.setTaskFieldAlias(MPPTaskField.getInstance(field), alias);
+               //System.out.println(field + ": " + alias);
+            }
             index++;
          }
       }
@@ -805,43 +799,43 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @param data resource field name alias data
     */
-   private void processResourceFieldNameAliases (byte[] data)
+   private void processResourceFieldNameAliases(byte[] data)
    {
       if (data != null)
       {
-     	 int index = 0;
+         int index = 0;
          int offset = 0;
          // First the length (repeated twice)
          int length = MPPUtility.getInt(data, offset);
          offset += 8;
          // Then the number of custom columns
-    	 int numberOfAliases = MPPUtility.getInt(data, offset); 
-    	 offset += 4;
-    	 
-    	 // Then the aliases themselves
+         int numberOfAliases = MPPUtility.getInt(data, offset);
+         offset += 4;
+
+         // Then the aliases themselves
          String alias = "";
          int field = -1;
          int aliasOffset = 0;
          while (index < numberOfAliases && offset < length)
-         {        	
-        	// Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
-        	// offset to the string (4 bytes)
-        	
-        	// Get the Field ID
-        	field = MPPUtility.getShort(data, offset);
-        	offset += 2;
-        	// Go past 40 0B marker
-        	offset += 2;
-        	// Get the alias offset (offset + 4 for some reason).
-        	aliasOffset = MPPUtility.getInt(data, offset) + 4;
-        	offset += 4;
-        	// Read the alias itself
-        	if (aliasOffset < data.length)
-        	{
-        		alias = MPPUtility.getUnicodeString(data, aliasOffset);
-        		m_file.setResourceFieldAlias(MPPResourceField.getInstance(field), alias);
-        		//System.out.println(field + ": " + alias);
-        	}
+         {
+            // Each item consists of the Field ID (2 bytes), 40 0B marker (2 bytes), and the
+            // offset to the string (4 bytes)
+
+            // Get the Field ID
+            field = MPPUtility.getShort(data, offset);
+            offset += 2;
+            // Go past 40 0B marker
+            offset += 2;
+            // Get the alias offset (offset + 4 for some reason).
+            aliasOffset = MPPUtility.getInt(data, offset) + 4;
+            offset += 4;
+            // Read the alias itself
+            if (aliasOffset < data.length)
+            {
+               alias = MPPUtility.getUnicodeString(data, aliasOffset);
+               m_file.setResourceFieldAlias(MPPResourceField.getInstance(field), alias);
+               //System.out.println(field + ": " + alias);
+            }
             index++;
          }
       }
@@ -856,20 +850,20 @@ final class MPP12Reader implements MPPVariantReader
     * @param taskFixedData Fixed data for this task
     * @return Mapping between task identifiers and block position
     */
-   private TreeMap<Integer, Integer> createTaskMap (FixedMeta taskFixedMeta, FixedData taskFixedData)
+   private TreeMap<Integer, Integer> createTaskMap(FixedMeta taskFixedMeta, FixedData taskFixedData)
    {
-      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer> ();
+      TreeMap<Integer, Integer> taskMap = new TreeMap<Integer, Integer>();
       int itemCount = taskFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
       Integer key;
 
       // First three items are not tasks, so let's skip them
-      for (int loop=3; loop < itemCount; loop++)
+      for (int loop = 3; loop < itemCount; loop++)
       {
          data = taskFixedData.getByteArrayValue(loop);
          if (data != null)
-         {     
+         {
             byte[] metaData = taskFixedMeta.getByteArrayValue(loop);
             int metaDataItemSize = MPPUtility.getInt(metaData, 0);
             if (metaDataItemSize < 16)
@@ -881,31 +875,30 @@ final class MPP12Reader implements MPPVariantReader
                //
                // So let's add the unique id for the deleted task into the map so we don't
                // accidentally include the task later.
-                 uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
-                 key = Integer.valueOf(uniqueID);
-                 if (taskMap.containsKey(key) == false)
-                 {
-                    taskMap.put(key, null); // use null so we can easily ignore this later
-                 }               
+               uniqueID = MPPUtility.getShort(data, 0); // Only a short stored for deleted tasks
+               key = Integer.valueOf(uniqueID);
+               if (taskMap.containsKey(key) == false)
+               {
+                  taskMap.put(key, null); // use null so we can easily ignore this later
+               }
             }
             else
-            {                             
-               if (data.length==16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
+            {
+               if (data.length == 16 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
                {
                   uniqueID = MPPUtility.getInt(data, 0);
-                  key = Integer.valueOf(uniqueID);                                   
+                  key = Integer.valueOf(uniqueID);
                   if (taskMap.containsKey(key) == false)
                   {
                      taskMap.put(key, Integer.valueOf(loop));
                   }
-               }               
+               }
             }
          }
       }
 
       return (taskMap);
    }
-
 
    /**
     * This method maps the resource unique identifiers to their index number
@@ -915,19 +908,19 @@ final class MPP12Reader implements MPPVariantReader
     * @param rscFixedData resource fixed data
     * @return map of resource IDs to resource data
     */
-   private TreeMap<Integer, Integer> createResourceMap (FixedMeta rscFixedMeta, FixedData rscFixedData)
+   private TreeMap<Integer, Integer> createResourceMap(FixedMeta rscFixedMeta, FixedData rscFixedData)
    {
-      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer> ();
+      TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
       int itemCount = rscFixedMeta.getItemCount();
       byte[] data;
       int uniqueID;
 
-      for (int loop=0; loop < itemCount; loop++)
+      for (int loop = 0; loop < itemCount; loop++)
       {
          data = rscFixedData.getByteArrayValue(loop);
          if (data != null && data.length > 4)
          {
-            uniqueID = MPPUtility.getShort (data, 0);
+            uniqueID = MPPUtility.getShort(data, 0);
             resourceMap.put(Integer.valueOf(uniqueID), Integer.valueOf(loop));
          }
       }
@@ -941,26 +934,25 @@ final class MPP12Reader implements MPPVariantReader
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
     */
-   private void processCalendarData ()
-      throws IOException
+   private void processCalendarData() throws IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCal");
+      DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
 
       //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
-      VarMeta calVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
-      Var2Data calVarData = new Var2Data (calVarMeta, new DocumentInputStream ((DocumentEntry)calDir.getEntry("Var2Data")));
+      VarMeta calVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
+      Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
 
       //System.out.println(calVarMeta);
       //System.out.println(calVarData);
-      
-      FixedMeta calFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData (calFixedMeta, getEncryptableInputStream (calDir, "FixedData"));
+
+      FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
+      FixedData calFixedData = new FixedData(calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
 
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
-      
-      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar> ();
+
+      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
       byte[] fixedData;
       byte[] varData;
@@ -971,7 +963,7 @@ final class MPP12Reader implements MPPVariantReader
       ProjectCalendar cal;
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
 
-      for (int loop=0; loop < items; loop++)
+      for (int loop = 0; loop < items; loop++)
       {
          fixedData = calFixedData.getByteArrayValue(loop);
          if (fixedData.length >= 8)
@@ -982,15 +974,14 @@ final class MPP12Reader implements MPPVariantReader
             // Bug 890909, here we ensure that we have a complete 12 byte
             // block before attempting to process the data.
             //
-            while (offset+12 <= fixedData.length)
+            while (offset + 12 <= fixedData.length)
             {
-               calendarID = Integer.valueOf(MPPUtility.getInt (fixedData, offset+0));
-               baseCalendarID = MPPUtility.getInt(fixedData, offset+4);
+               calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
+               baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
 
-               if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 &&
-                	   calendarMap.containsKey(calendarID) == false)
+               if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 && calendarMap.containsKey(calendarID) == false)
                {
-                  varData = calVarData.getByteArray (calendarID, CALENDAR_DATA);
+                  varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
 
                   if (baseCalendarID == -1)
                   {
@@ -1003,7 +994,7 @@ final class MPP12Reader implements MPPVariantReader
                         cal = m_file.addDefaultBaseCalendar();
                      }
 
-                     cal.setName(calVarData.getUnicodeString (calendarID, CALENDAR_NAME));
+                     cal.setName(calVarData.getUnicodeString(calendarID, CALENDAR_NAME));
                   }
                   else
                   {
@@ -1017,19 +1008,19 @@ final class MPP12Reader implements MPPVariantReader
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset+8));
-                     m_resourceMap.put (resourceID, cal);
+                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
+                     m_resourceMap.put(resourceID, cal);
                   }
 
                   cal.setUniqueID(calendarID);
 
                   if (varData != null)
                   {
-                     processCalendarHours (varData, cal, baseCalendarID == -1);
-                     processCalendarExceptions (varData, cal);
+                     processCalendarHours(varData, cal, baseCalendarID == -1);
+                     processCalendarExceptions(varData, cal);
                   }
 
-                  calendarMap.put (calendarID, cal);
+                  calendarMap.put(calendarID, cal);
                }
 
                offset += 12;
@@ -1037,7 +1028,7 @@ final class MPP12Reader implements MPPVariantReader
          }
       }
 
-      updateBaseCalendarNames (baseCalendars, calendarMap);
+      updateBaseCalendarNames(baseCalendars, calendarMap);
    }
 
    /**
@@ -1053,12 +1044,12 @@ final class MPP12Reader implements MPPVariantReader
     * @param cal calendar instance
     * @param isBaseCalendar true if this is a base calendar
     */
-   private void processCalendarHours (byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
+   private void processCalendarHours(byte[] data, ProjectCalendar cal, boolean isBaseCalendar)
    {
-	  // Dump out the calendar related data and fields.
-	  //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
-	  
-	  int offset;
+      // Dump out the calendar related data and fields.
+      //MPPUtility.dataDump(data, true, false, false, false, true, false, true);
+
+      int offset;
       ProjectCalendarHours hours;
       int periodIndex;
       int index;
@@ -1068,13 +1059,13 @@ final class MPP12Reader implements MPPVariantReader
       long duration;
       Day day;
       List<DateRange> dateRanges = new ArrayList<DateRange>(5);
-      
-      for (index=0; index < 7; index++)
+
+      for (index = 0; index < 7; index++)
       {
          offset = (60 * index);
          defaultFlag = MPPUtility.getShort(data, offset);
-         periodCount = MPPUtility.getShort (data, offset + 2);
-         day = Day.getInstance(index+1);
+         periodCount = MPPUtility.getShort(data, offset + 2);
+         day = Day.getInstance(index + 1);
 
          if (defaultFlag == 1)
          {
@@ -1083,7 +1074,7 @@ final class MPP12Reader implements MPPVariantReader
                cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                if (cal.isWorkingDay(day) == true)
                {
-                  hours = cal.addCalendarHours(Day.getInstance(index+1));
+                  hours = cal.addCalendarHours(Day.getInstance(index + 1));
                   hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START1, ProjectCalendar.DEFAULT_END1));
                   hours.addRange(new DateRange(ProjectCalendar.DEFAULT_START2, ProjectCalendar.DEFAULT_END2));
                }
@@ -1096,19 +1087,19 @@ final class MPP12Reader implements MPPVariantReader
          else
          {
             dateRanges.clear();
-            
+
             periodIndex = 0;
             while (periodIndex < periodCount)
             {
                int startOffset = offset + 8 + (periodIndex * 2);
-               start = MPPUtility.getTime (data, startOffset);
+               start = MPPUtility.getTime(data, startOffset);
                int durationOffset = offset + 20 + (periodIndex * 4);
-               duration = MPPUtility.getDuration (data, durationOffset);
-               Date end = new Date (start.getTime()+duration);
-               dateRanges.add(new DateRange (start, end));              
+               duration = MPPUtility.getDuration(data, durationOffset);
+               Date end = new Date(start.getTime() + duration);
+               dateRanges.add(new DateRange(start, end));
                ++periodIndex;
             }
-            
+
             if (dateRanges.isEmpty())
             {
                cal.setWorkingDay(day, false);
@@ -1116,7 +1107,7 @@ final class MPP12Reader implements MPPVariantReader
             else
             {
                cal.setWorkingDay(day, true);
-               hours = cal.addCalendarHours(Day.getInstance(index+1));
+               hours = cal.addCalendarHours(Day.getInstance(index + 1));
 
                for (DateRange range : dateRanges)
                {
@@ -1127,14 +1118,13 @@ final class MPP12Reader implements MPPVariantReader
       }
    }
 
-
    /**
     * This method extracts any exceptions associated with a calendar.
     *
     * @param data calendar data block
     * @param cal calendar instance
     */
-   private void processCalendarExceptions (byte[] data, ProjectCalendar cal)
+   private void processCalendarExceptions(byte[] data, ProjectCalendar cal)
    {
       //
       // Handle any exceptions
@@ -1142,9 +1132,9 @@ final class MPP12Reader implements MPPVariantReader
       if (data.length >= 420)
       {
          int offset = 420; // The first 420 is for the working hours data
-         
-         int exceptionCount = MPPUtility.getShort (data, offset);
-   
+
+         int exceptionCount = MPPUtility.getShort(data, offset);
+
          if (exceptionCount != 0)
          {
             int index;
@@ -1152,54 +1142,53 @@ final class MPP12Reader implements MPPVariantReader
             long duration;
             int periodCount;
             Date start;
-   
+
             //
             // Move to the start of the first exception            
             //
-            offset+=4;
-            
+            offset += 4;
+
             //
             // Each exception is a 92 byte block, followed by a 
             // variable length text block
             //
-            for (index=0; index < exceptionCount; index++)
+            for (index = 0; index < exceptionCount; index++)
             {
                exception = cal.addCalendarException();
-               exception.setFromDate(MPPUtility.getDate (data, offset));
-               exception.setToDate(MPPUtility.getDate (data, offset+2));
-   
-               periodCount = MPPUtility.getShort (data, offset+14);
+               exception.setFromDate(MPPUtility.getDate(data, offset));
+               exception.setToDate(MPPUtility.getDate(data, offset + 2));
+
+               periodCount = MPPUtility.getShort(data, offset + 14);
                if (periodCount == 0)
                {
-                  exception.setWorking (false);
+                  exception.setWorking(false);
                }
                else
                {
-                  exception.setWorking (true);
-                  for (int exceptionPeriodIndex=0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
+                  exception.setWorking(true);
+                  for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                   {
-                     start = MPPUtility.getTime (data, offset+20+(exceptionPeriodIndex*2));
-                     duration = MPPUtility.getDuration (data, offset+32+(exceptionPeriodIndex*4));
-                     exception.addRange(new DateRange(start, new Date (start.getTime() + duration)));
-                  }                     
+                     start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
+                     duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
+                     exception.addRange(new DateRange(start, new Date(start.getTime() + duration)));
+                  }
                }
-               
+
                //
                // Extract the name length - ensure that it is aligned to a 4 byte boundary
                //
-               int exceptionNameLength = MPPUtility.getInt(data, offset+88);
+               int exceptionNameLength = MPPUtility.getInt(data, offset + 88);
                if (exceptionNameLength % 4 != 0)
                {
-                  exceptionNameLength = ((exceptionNameLength / 4)+1)*4;
+                  exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
                }
-               
+
                //String exceptionName = MPPUtility.getUnicodeString(data, offset+92);
-               offset += (92+exceptionNameLength);               
+               offset += (92 + exceptionNameLength);
             }
          }
       }
    }
-
 
    /**
     * The way calendars are stored in an MPP12 file means that there
@@ -1212,7 +1201,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private void updateBaseCalendarNames (List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
+   private void updateBaseCalendarNames(List<Pair<ProjectCalendar, Integer>> baseCalendars, HashMap<Integer, ProjectCalendar> map)
    {
       for (Pair<ProjectCalendar, Integer> pair : baseCalendars)
       {
@@ -1225,8 +1214,8 @@ final class MPP12Reader implements MPPVariantReader
          }
          else
          {
-        	 // Remove invalid calendar to avoid serious problems later.
-        	 m_file.removeCalendar(cal);
+            // Remove invalid calendar to avoid serious problems later.
+            m_file.removeCalendar(cal);
          }
       }
    }
@@ -1243,16 +1232,15 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @throws java.io.IOException
     */
-   private void processTaskData ()
-      throws IOException
+   private void processTaskData() throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndTask");
-      VarMeta taskVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("VarMeta"))));
-      Var2Data taskVarData = new Var2Data (taskVarMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Var2Data"))));
-      FixedMeta taskFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData (taskFixedMeta, new DocumentInputStream (((DocumentEntry)taskDir.getEntry("FixedData"))), 768, MINIMUM_EXPECTED_TASK_SIZE);     
-      FixedMeta taskFixed2Meta = new FixedMeta (new DocumentInputStream (((DocumentEntry)taskDir.getEntry("Fixed2Meta"))), 86);
-      Props12 props = new Props12 (getEncryptableInputStream (taskDir, "Props"));
+      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
+      VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
+      Var2Data taskVarData = new Var2Data(taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
+      FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
+      FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), 768, MINIMUM_EXPECTED_TASK_SIZE);
+      FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 86);
+      Props12 props = new Props12(getEncryptableInputStream(taskDir, "Props"));
       //System.out.println(taskFixedMeta);
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
@@ -1261,11 +1249,11 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(m_outlineCodeVarData.getVarMeta());
       //System.out.println(m_outlineCodeVarData);
       //System.out.println(props);
-           
+
       // Process aliases      
       processTaskFieldNameAliases(props.getByteArray(TASK_FIELD_NAME_ALIASES));
 
-      TreeMap<Integer, Integer> taskMap = createTaskMap (taskFixedMeta, taskFixedData);
+      TreeMap<Integer, Integer> taskMap = createTaskMap(taskFixedMeta, taskFixedData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
       // which contains all the tasks.
@@ -1279,12 +1267,12 @@ final class MPP12Reader implements MPPVariantReader
       boolean autoWBS = true;
       LinkedList<Task> externalTasks = new LinkedList<Task>();
       RecurringTaskReader recurringTaskReader = null;
-      RTFUtility rtf = new RTFUtility ();
+      RTFUtility rtf = new RTFUtility();
       String notes;
 
-      for (int loop=0; loop < uniqueid.length; loop++)
+      for (int loop = 0; loop < uniqueid.length; loop++)
       {
-         id = (Integer)uniqueid[loop];
+         id = (Integer) uniqueid[loop];
 
          offset = taskMap.get(id);
          if (taskFixedData.isValidOffset(offset) == false)
@@ -1298,11 +1286,11 @@ final class MPP12Reader implements MPPVariantReader
             task = m_file.addTask();
             task.setNull(true);
             task.setUniqueID(id);
-            task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
+            task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
             //System.out.println(task);
             continue;
          }
-         
+
          if (data.length < MINIMUM_EXPECTED_TASK_SIZE)
          {
             continue;
@@ -1317,157 +1305,157 @@ final class MPP12Reader implements MPPVariantReader
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
-         
-         Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4))); 
+
+         Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          if (temp != null && !taskVarMeta.getUniqueIdentifierSet().contains(id))
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
             // if this task has some var data. This is sort of hokey, but it's the best method i have
             // been able to see.
-            
+
             // Sometimes Project contains phantom tasks that coexist on the same id as a valid
-	        // task. In this case don't want to include the phantom task. Seems to be a very rare case.
-        	continue;
+            // task. In this case don't want to include the phantom task. Seems to be a very rare case.
+            continue;
          }
-         
+
          task = m_file.addTask();
-         task.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 216) / 100));
-         task.setActualDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
-         task.setActualFinish(MPPUtility.getTimestamp (data, 100));
-         task.setActualOvertimeCost (NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
-         task.setActualOvertimeWork(Duration.getInstance (taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK)/60000, TimeUnit.HOURS));
-         task.setActualStart(MPPUtility.getTimestamp (data, 96));
-         task.setActualWork(Duration.getInstance (MPPUtility.getDouble (data, 184)/60000, TimeUnit.HOURS));
+         task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 216) / 100));
+         task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+         task.setActualFinish(MPPUtility.getTimestamp(data, 100));
+         task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
+         task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
+         task.setActualStart(MPPUtility.getTimestamp(data, 96));
+         task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 184) / 60000, TimeUnit.HOURS));
          //task.setACWP(); // Calculated value
          //task.setAssignment(); // Calculated value
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
 
-         task.setBaselineCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 232) / 100));
-         task.setBaselineDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 74), MPPUtility.getDurationTimeUnits (MPPUtility.getShort (data, 78))));
-         task.setBaselineFinish(MPPUtility.getTimestamp (data, 108));
-         task.setBaselineStart(MPPUtility.getTimestamp (data, 104));
-         task.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 176)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 232) / 100));
+         task.setBaselineDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 78))));
+         task.setBaselineFinish(MPPUtility.getTimestamp(data, 108));
+         task.setBaselineStart(MPPUtility.getTimestamp(data, 104));
+         task.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 176) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE1_COST) / 100));
-         task.setBaselineDuration(1, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE1_DURATION, TASK_BASELINE1_DURATION_UNITS));
-         task.setBaselineFinish(1, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE1_FINISH));
-         task.setBaselineStart(1, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE1_START));
-         task.setBaselineWork(1, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE1_WORK)/60000, TimeUnit.HOURS));
-                  
-         task.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE2_COST) / 100));
-         task.setBaselineDuration(2, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE2_DURATION, TASK_BASELINE2_DURATION_UNITS));
-         task.setBaselineFinish(2, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE2_FINISH));
-         task.setBaselineStart(2, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE2_START));
-         task.setBaselineWork(2, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE2_WORK)/60000, TimeUnit.HOURS));
-       
-         task.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE3_COST) / 100));
-         task.setBaselineDuration(3, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE3_DURATION, TASK_BASELINE3_DURATION_UNITS));
-         task.setBaselineFinish(3, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE3_FINISH));
-         task.setBaselineStart(3, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE3_START));
-         task.setBaselineWork(3, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE3_WORK)/60000, TimeUnit.HOURS));
-         
-         task.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE4_COST) / 100));
-         task.setBaselineDuration(4, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE4_DURATION, TASK_BASELINE4_DURATION_UNITS));
-         task.setBaselineFinish(4, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE4_FINISH));
-         task.setBaselineStart(4, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE4_START));
-         task.setBaselineWork(4, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE4_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE1_COST) / 100));
+         task.setBaselineDuration(1, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE1_DURATION, TASK_BASELINE1_DURATION_UNITS));
+         task.setBaselineFinish(1, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE1_FINISH));
+         task.setBaselineStart(1, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE1_START));
+         task.setBaselineWork(1, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE1_WORK) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE5_COST) / 100));
-         task.setBaselineDuration(5, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE5_DURATION, TASK_BASELINE5_DURATION_UNITS));
-         task.setBaselineFinish(5, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE5_FINISH));
-         task.setBaselineStart(5, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE5_START));
-         task.setBaselineWork(5, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE5_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE2_COST) / 100));
+         task.setBaselineDuration(2, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE2_DURATION, TASK_BASELINE2_DURATION_UNITS));
+         task.setBaselineFinish(2, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE2_FINISH));
+         task.setBaselineStart(2, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE2_START));
+         task.setBaselineWork(2, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE2_WORK) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE6_COST) / 100));
-         task.setBaselineDuration(6, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE6_DURATION, TASK_BASELINE6_DURATION_UNITS));
-         task.setBaselineFinish(6, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE6_FINISH));
-         task.setBaselineStart(6, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE6_START));
-         task.setBaselineWork(6, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE6_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE3_COST) / 100));
+         task.setBaselineDuration(3, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE3_DURATION, TASK_BASELINE3_DURATION_UNITS));
+         task.setBaselineFinish(3, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE3_FINISH));
+         task.setBaselineStart(3, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE3_START));
+         task.setBaselineWork(3, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE3_WORK) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE7_COST) / 100));
-         task.setBaselineDuration(7, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE7_DURATION, TASK_BASELINE7_DURATION_UNITS));
-         task.setBaselineFinish(7, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE7_FINISH));
-         task.setBaselineStart(7, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE7_START));
-         task.setBaselineWork(7, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE7_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE4_COST) / 100));
+         task.setBaselineDuration(4, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE4_DURATION, TASK_BASELINE4_DURATION_UNITS));
+         task.setBaselineFinish(4, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE4_FINISH));
+         task.setBaselineStart(4, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE4_START));
+         task.setBaselineWork(4, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE4_WORK) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE8_COST) / 100));
-         task.setBaselineDuration(8, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE8_DURATION, TASK_BASELINE8_DURATION_UNITS));
-         task.setBaselineFinish(8, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE8_FINISH));
-         task.setBaselineStart(8, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE8_START));
-         task.setBaselineWork(8, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE8_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE5_COST) / 100));
+         task.setBaselineDuration(5, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE5_DURATION, TASK_BASELINE5_DURATION_UNITS));
+         task.setBaselineFinish(5, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE5_FINISH));
+         task.setBaselineStart(5, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE5_START));
+         task.setBaselineWork(5, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE5_WORK) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE9_COST) / 100));
-         task.setBaselineDuration(9, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE9_DURATION, TASK_BASELINE9_DURATION_UNITS));
-         task.setBaselineFinish(9, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE9_FINISH));
-         task.setBaselineStart(9, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE9_START));
-         task.setBaselineWork(9, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE9_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE6_COST) / 100));
+         task.setBaselineDuration(6, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE6_DURATION, TASK_BASELINE6_DURATION_UNITS));
+         task.setBaselineFinish(6, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE6_FINISH));
+         task.setBaselineStart(6, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE6_START));
+         task.setBaselineWork(6, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE6_WORK) / 60000, TimeUnit.HOURS));
 
-         task.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue (taskVarData, id, TASK_BASELINE10_COST) / 100));
-         task.setBaselineDuration(10, getCustomFieldDurationValue (taskVarData, id, TASK_BASELINE10_DURATION, TASK_BASELINE10_DURATION_UNITS));
-         task.setBaselineFinish(10, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE10_FINISH));
-         task.setBaselineStart(10, getCustomFieldTimestampValue (taskVarData, id, TASK_BASELINE10_START));
-         task.setBaselineWork(10, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE10_WORK)/60000, TimeUnit.HOURS));
+         task.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE7_COST) / 100));
+         task.setBaselineDuration(7, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE7_DURATION, TASK_BASELINE7_DURATION_UNITS));
+         task.setBaselineFinish(7, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE7_FINISH));
+         task.setBaselineStart(7, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE7_START));
+         task.setBaselineWork(7, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE7_WORK) / 60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE8_COST) / 100));
+         task.setBaselineDuration(8, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE8_DURATION, TASK_BASELINE8_DURATION_UNITS));
+         task.setBaselineFinish(8, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE8_FINISH));
+         task.setBaselineStart(8, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE8_START));
+         task.setBaselineWork(8, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE8_WORK) / 60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE9_COST) / 100));
+         task.setBaselineDuration(9, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE9_DURATION, TASK_BASELINE9_DURATION_UNITS));
+         task.setBaselineFinish(9, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE9_FINISH));
+         task.setBaselineStart(9, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE9_START));
+         task.setBaselineWork(9, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE9_WORK) / 60000, TimeUnit.HOURS));
+
+         task.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_BASELINE10_COST) / 100));
+         task.setBaselineDuration(10, getCustomFieldDurationValue(taskVarData, id, TASK_BASELINE10_DURATION, TASK_BASELINE10_DURATION_UNITS));
+         task.setBaselineFinish(10, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE10_FINISH));
+         task.setBaselineStart(10, getCustomFieldTimestampValue(taskVarData, id, TASK_BASELINE10_START));
+         task.setBaselineWork(10, Duration.getInstance(taskVarData.getDouble(id, TASK_BASELINE10_WORK) / 60000, TimeUnit.HOURS));
 
          //task.setBCWP(); // Calculated value
          //task.setBCWS(); // Calculated value
          //task.setConfirmed(); // Calculated value
-         task.setConstraintDate (MPPUtility.getTimestamp (data, 112));
-         task.setConstraintType (ConstraintType.getInstance (MPPUtility.getShort (data, 80)));
-         task.setContact(taskVarData.getUnicodeString (id, TASK_CONTACT));
-         task.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 200) / 100));
+         task.setConstraintDate(MPPUtility.getTimestamp(data, 112));
+         task.setConstraintType(ConstraintType.getInstance(MPPUtility.getShort(data, 80)));
+         task.setContact(taskVarData.getUnicodeString(id, TASK_CONTACT));
+         task.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 200) / 100));
          //task.setCostRateTable(); // Calculated value
          //task.setCostVariance(); // Populated below
-         task.setCost1(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST1) / 100));
-         task.setCost2(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST2) / 100));
-         task.setCost3(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST3) / 100));
-         task.setCost4(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST4) / 100));
-         task.setCost5(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST5) / 100));
-         task.setCost6(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST6) / 100));
-         task.setCost7(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST7) / 100));
-         task.setCost8(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST8) / 100));
-         task.setCost9(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST9) / 100));
-         task.setCost10(NumberUtility.getDouble(getCustomFieldDoubleValue ( taskVarData, id, TASK_COST10) / 100));
+         task.setCost1(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST1) / 100));
+         task.setCost2(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST2) / 100));
+         task.setCost3(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST3) / 100));
+         task.setCost4(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST4) / 100));
+         task.setCost5(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST5) / 100));
+         task.setCost6(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST6) / 100));
+         task.setCost7(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST7) / 100));
+         task.setCost8(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST8) / 100));
+         task.setCost9(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST9) / 100));
+         task.setCost10(NumberUtility.getDouble(getCustomFieldDoubleValue(taskVarData, id, TASK_COST10) / 100));
 
-// From MS Project 2003
-//         task.setCPI();
+         // From MS Project 2003
+         //         task.setCPI();
 
-         task.setCreateDate(MPPUtility.getTimestamp (data, 130));
+         task.setCreateDate(MPPUtility.getTimestamp(data, 130));
          //task.setCritical(); // Calculated value
          //task.setCV(); // Calculated value
          //task.setCVPercent(); // Calculate value
-         task.setDate1(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE1));
-         task.setDate2(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE2));
-         task.setDate3(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE3));
-         task.setDate4(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE4));
-         task.setDate5(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE5));
-         task.setDate6(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE6));
-         task.setDate7(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE7));
-         task.setDate8(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE8));
-         task.setDate9(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE9));
-         task.setDate10(getCustomFieldTimestampValue ( taskVarData, id, TASK_DATE10));
-         task.setDeadline (MPPUtility.getTimestamp (data, 164));
+         task.setDate1(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE1));
+         task.setDate2(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE2));
+         task.setDate3(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE3));
+         task.setDate4(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE4));
+         task.setDate5(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE5));
+         task.setDate6(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE6));
+         task.setDate7(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE7));
+         task.setDate8(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE8));
+         task.setDate9(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE9));
+         task.setDate10(getCustomFieldTimestampValue(taskVarData, id, TASK_DATE10));
+         task.setDeadline(MPPUtility.getTimestamp(data, 164));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration (MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt (data, 60), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         task.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 60), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          //task.setDurationVariance(); // Calculated value
-         task.setDuration1(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION1, TASK_DURATION1_UNITS));
-         task.setDuration2(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION2, TASK_DURATION2_UNITS));
-         task.setDuration3(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION3, TASK_DURATION3_UNITS));
-         task.setDuration4(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION4, TASK_DURATION4_UNITS));
-         task.setDuration5(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION5, TASK_DURATION5_UNITS));
-         task.setDuration6(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION6, TASK_DURATION6_UNITS));
-         task.setDuration7(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION7, TASK_DURATION7_UNITS));
-         task.setDuration8(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION8, TASK_DURATION8_UNITS));
-         task.setDuration9(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION9, TASK_DURATION9_UNITS));
-         task.setDuration10(getCustomFieldDurationValue ( taskVarData, id, TASK_DURATION10, TASK_DURATION10_UNITS));
-//       From MS Project 2003
-//         task.setEAC();
-         task.setEarlyFinish (MPPUtility.getTimestamp (data, 8));
-         task.setEarlyStart (MPPUtility.getTimestamp (data, 88));
-//       From MS Project 2003
-//         task.setEarnedValueMethod();
+         task.setDuration1(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION1, TASK_DURATION1_UNITS));
+         task.setDuration2(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION2, TASK_DURATION2_UNITS));
+         task.setDuration3(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION3, TASK_DURATION3_UNITS));
+         task.setDuration4(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION4, TASK_DURATION4_UNITS));
+         task.setDuration5(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION5, TASK_DURATION5_UNITS));
+         task.setDuration6(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION6, TASK_DURATION6_UNITS));
+         task.setDuration7(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION7, TASK_DURATION7_UNITS));
+         task.setDuration8(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION8, TASK_DURATION8_UNITS));
+         task.setDuration9(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION9, TASK_DURATION9_UNITS));
+         task.setDuration10(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION10, TASK_DURATION10_UNITS));
+         //       From MS Project 2003
+         //         task.setEAC();
+         task.setEarlyFinish(MPPUtility.getTimestamp(data, 8));
+         task.setEarlyStart(MPPUtility.getTimestamp(data, 88));
+         //       From MS Project 2003
+         //         task.setEarnedValueMethod();
          task.setEffortDriven((metaData[11] & 0x10) != 0);
-         task.setEstimated(getDurationEstimated(MPPUtility.getShort (data, 64)));
+         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, 64)));
          task.setExpanded(((metaData[12] & 0x02) == 0));
          int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
          if (externalTaskID != 0)
@@ -1475,24 +1463,24 @@ final class MPP12Reader implements MPPVariantReader
             task.setExternalTaskID(Integer.valueOf(externalTaskID));
             task.setExternalTask(true);
             externalTasks.add(task);
-         }         
-         task.setFinish (MPPUtility.getTimestamp (data, 8));
-//       From MS Project 2003
+         }
+         task.setFinish(MPPUtility.getTimestamp(data, 8));
+         //       From MS Project 2003
          //task.setFinishVariance(); // Calculated value
-         task.setFinish1(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH1));
-         task.setFinish2(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH2));
-         task.setFinish3(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH3));
-         task.setFinish4(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH4));
-         task.setFinish5(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH5));
-         task.setFinish6(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH6));
-         task.setFinish7(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH7));
-         task.setFinish8(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH8));
-         task.setFinish9(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH9));
-         task.setFinish10(getCustomFieldTimestampValue ( taskVarData, id, TASK_FINISH10));
-         
-         task.setFixedCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 208) / 100));
+         task.setFinish1(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH1));
+         task.setFinish2(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH2));
+         task.setFinish3(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH3));
+         task.setFinish4(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH4));
+         task.setFinish5(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH5));
+         task.setFinish6(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH6));
+         task.setFinish7(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH7));
+         task.setFinish8(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH8));
+         task.setFinish9(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH9));
+         task.setFinish10(getCustomFieldTimestampValue(taskVarData, id, TASK_FINISH10));
+
+         task.setFixedCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 208) / 100));
          task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 128)));
-         
+
          task.setFlag1((metaData[37] & 0x20) != 0);
          task.setFlag2((metaData[37] & 0x40) != 0);
          task.setFlag3((metaData[37] & 0x80) != 0);
@@ -1513,57 +1501,57 @@ final class MPP12Reader implements MPPVariantReader
          task.setFlag18((metaData[39] & 0x40) != 0);
          task.setFlag19((metaData[39] & 0x80) != 0);
          task.setFlag20((metaData[40] & 0x01) != 0);
-         task.setFreeSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
-//       From MS Project 2003
-//         task.setGroupBySummary();
+         task.setFreeSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+         //       From MS Project 2003
+         //         task.setGroupBySummary();
          task.setHideBar((metaData[10] & 0x80) != 0);
-         processHyperlinkData (task, taskVarData.getByteArray(id, TASK_HYPERLINK));
-         task.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
-//       From MS Project 2003
+         processHyperlinkData(task, taskVarData.getByteArray(id, TASK_HYPERLINK));
+         task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         //       From MS Project 2003
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 152));
          task.setLateStart(MPPUtility.getTimestamp(data, 12));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
-         task.setLevelingDelay (MPPUtility.getDuration (((double)MPPUtility.getInt (data, 82))/3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 86))));
+         task.setLevelingDelay(MPPUtility.getDuration(((double) MPPUtility.getInt(data, 82)) / 3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 86))));
          //task.setLinkedFields();  // Calculated value
          task.setMarked((metaData[9] & 0x40) != 0);
          task.setMilestone((metaData[8] & 0x20) != 0);
-         task.setName(taskVarData.getUnicodeString (id, TASK_NAME));
-         
-    	 task.setNumber1(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER1)));
-         task.setNumber2(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER2)));
-         task.setNumber3(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER3)));
-         task.setNumber4(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER4)));
-         task.setNumber5(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER5)));
-         task.setNumber6(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER6)));
-         task.setNumber7(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER7)));
-         task.setNumber8(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER8)));
-         task.setNumber9(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER9)));
-         task.setNumber10(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER10)));
-         task.setNumber11(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER11)));
-         task.setNumber12(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER12)));
-         task.setNumber13(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER13)));
-         task.setNumber14(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER14)));
-         task.setNumber15(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER15)));
-         task.setNumber16(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER16)));
-         task.setNumber17(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER17)));
-         task.setNumber18(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER18)));
-         task.setNumber19(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER19)));
-         task.setNumber20(Double.valueOf(getCustomFieldDoubleValue ( taskVarData, id, TASK_NUMBER20)));
+         task.setName(taskVarData.getUnicodeString(id, TASK_NAME));
+
+         task.setNumber1(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER1)));
+         task.setNumber2(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER2)));
+         task.setNumber3(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER3)));
+         task.setNumber4(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER4)));
+         task.setNumber5(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER5)));
+         task.setNumber6(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER6)));
+         task.setNumber7(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER7)));
+         task.setNumber8(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER8)));
+         task.setNumber9(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER9)));
+         task.setNumber10(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER10)));
+         task.setNumber11(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER11)));
+         task.setNumber12(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER12)));
+         task.setNumber13(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER13)));
+         task.setNumber14(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER14)));
+         task.setNumber15(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER15)));
+         task.setNumber16(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER16)));
+         task.setNumber17(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER17)));
+         task.setNumber18(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER18)));
+         task.setNumber19(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER19)));
+         task.setNumber20(Double.valueOf(getCustomFieldDoubleValue(taskVarData, id, TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
-         task.setOutlineCode1(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE1));
-         task.setOutlineCode2(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE2));
-         task.setOutlineCode3(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE3));
-         task.setOutlineCode4(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE4));
-         task.setOutlineCode5(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE5));
-         task.setOutlineCode6(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE6));
-         task.setOutlineCode7(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE7));
-         task.setOutlineCode8(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE8));
-         task.setOutlineCode9(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE9));
-         task.setOutlineCode10(getCustomFieldOutlineCodeValue( taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE10));
-         task.setOutlineLevel (Integer.valueOf(MPPUtility.getShort (data, 40)));
+         task.setOutlineCode1(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE1));
+         task.setOutlineCode2(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE2));
+         task.setOutlineCode3(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE3));
+         task.setOutlineCode4(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE4));
+         task.setOutlineCode5(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE5));
+         task.setOutlineCode6(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE6));
+         task.setOutlineCode7(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE7));
+         task.setOutlineCode8(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE8));
+         task.setOutlineCode9(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE9));
+         task.setOutlineCode10(getCustomFieldOutlineCodeValue(taskVarData, m_outlineCodeVarData, id, TASK_OUTLINECODE10));
+         task.setOutlineLevel(Integer.valueOf(MPPUtility.getShort(data, 40)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
          task.setOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_OVERTIME_COST) / 100));
@@ -1571,49 +1559,49 @@ final class MPP12Reader implements MPPVariantReader
          //task.getPredecessors(); // Calculated value
          task.setPercentageComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 122)));
          task.setPercentageWorkComplete(NumberUtility.getDouble(MPPUtility.getShort(data, 124)));
-//       From MS Project 2003
-//         task.setPhysicalPercentComplete();
+         //       From MS Project 2003
+         //         task.setPhysicalPercentComplete();
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 140));
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
-         task.setPriority(Priority.getInstance(MPPUtility.getShort (data, 120)));
+         task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 120)));
          //task.setProject(); // Calculated value
          task.setRecurring(recurringData != null);
          //task.setRegularWork(); // Calculated value
-         task.setRemainingCost(NumberUtility.getDouble (MPPUtility.getDouble (data, 224)/100));
-         task.setRemainingDuration(MPPUtility.getDuration (MPPUtility.getInt (data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 224) / 100));
+         task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setRemainingOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_COST) / 100));
-         task.setRemainingOvertimeWork(Duration.getInstance (taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK)/60000, TimeUnit.HOURS));
-         task.setRemainingWork(Duration.getInstance (MPPUtility.getDouble (data, 192)/60000, TimeUnit.HOURS));
+         task.setRemainingOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_REMAINING_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
+         task.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 192) / 60000, TimeUnit.HOURS));
          //task.setResourceGroup(); // Calculated value from resource
          //task.setResourceInitials(); // Calculated value from resource
          //task.setResourceNames(); // Calculated value from resource
          //task.setResourcePhonetics(); // Calculated value from resource
-//       From MS Project 2003
-//         task.setResourceType();
+         //       From MS Project 2003
+         //         task.setResourceType();
          //task.setResponsePending(); // Calculated value
          task.setResume(MPPUtility.getTimestamp(data, 20));
          //task.setResumeNoEarlierThan(); // No mapping in MSP2K?
          task.setRollup((metaData[10] & 0x08) != 0);
-//       From MS Project 2003
-//         task.setSPI();
-         task.setStart (MPPUtility.getTimestamp (data, 88));
-//       From MS Project 2003
-         task.setStartSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
+         //       From MS Project 2003
+         //         task.setSPI();
+         task.setStart(MPPUtility.getTimestamp(data, 88));
+         //       From MS Project 2003
+         task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          //task.setStartVariance(); // Calculated value
-         task.setStart1(getCustomFieldTimestampValue ( taskVarData, id, TASK_START1));
-         task.setStart2(getCustomFieldTimestampValue ( taskVarData, id, TASK_START2));
-         task.setStart3(getCustomFieldTimestampValue ( taskVarData, id, TASK_START3));
-         task.setStart4(getCustomFieldTimestampValue ( taskVarData, id, TASK_START4));
-         task.setStart5(getCustomFieldTimestampValue ( taskVarData, id, TASK_START5));
-         task.setStart6(getCustomFieldTimestampValue ( taskVarData, id, TASK_START6));
-         task.setStart7(getCustomFieldTimestampValue ( taskVarData, id, TASK_START7));
-         task.setStart8(getCustomFieldTimestampValue ( taskVarData, id, TASK_START8));
-         task.setStart9(getCustomFieldTimestampValue ( taskVarData, id, TASK_START9));
-         task.setStart10(getCustomFieldTimestampValue ( taskVarData, id, TASK_START10));
-//       From MS Project 2003
-//         task.setStatus();
-//         task.setStatusIndicator();
-         task.setStop(MPPUtility.getTimestamp (data, 16));
+         task.setStart1(getCustomFieldTimestampValue(taskVarData, id, TASK_START1));
+         task.setStart2(getCustomFieldTimestampValue(taskVarData, id, TASK_START2));
+         task.setStart3(getCustomFieldTimestampValue(taskVarData, id, TASK_START3));
+         task.setStart4(getCustomFieldTimestampValue(taskVarData, id, TASK_START4));
+         task.setStart5(getCustomFieldTimestampValue(taskVarData, id, TASK_START5));
+         task.setStart6(getCustomFieldTimestampValue(taskVarData, id, TASK_START6));
+         task.setStart7(getCustomFieldTimestampValue(taskVarData, id, TASK_START7));
+         task.setStart8(getCustomFieldTimestampValue(taskVarData, id, TASK_START8));
+         task.setStart9(getCustomFieldTimestampValue(taskVarData, id, TASK_START9));
+         task.setStart10(getCustomFieldTimestampValue(taskVarData, id, TASK_START10));
+         //       From MS Project 2003
+         //         task.setStatus();
+         //         task.setStatusIndicator();
+         task.setStop(MPPUtility.getTimestamp(data, 16));
          //task.setSubprojectFile();
          //task.setSubprojectReadOnly();
          task.setSubprojectTasksUniqueIDOffset(Integer.valueOf(taskVarData.getInt(id, TASK_SUBPROJECT_TASKS_UNIQUEID_OFFSET)));
@@ -1622,64 +1610,64 @@ final class MPP12Reader implements MPPVariantReader
          //task.setSuccessors(); // Calculated value
          //task.setSummary(); // Automatically generated by MPXJ
          //task.setSV(); // Calculated value
-//       From MS Project 2003
-//         task.setSVPercent();
-//         task.setTCPI();
+         //       From MS Project 2003
+         //         task.setSVPercent();
+         //         task.setTCPI();
          //task.setTeamStatusPending(); // Calculated value
-         task.setText1(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT1));
-         task.setText2(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT2));
-         task.setText3(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT3));
-         task.setText4(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT4));
-         task.setText5(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT5));
-         task.setText6(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT6));
-         task.setText7(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT7));
-         task.setText8(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT8));
-         task.setText9(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT9));
-         task.setText10(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT10));
-         task.setText11(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT11));
-         task.setText12(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT12));
-         task.setText13(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT13));
-         task.setText14(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT14));
-         task.setText15(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT15));
-         task.setText16(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT16));
-         task.setText17(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT17));
-         task.setText18(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT18));
-         task.setText19(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT19));
-         task.setText20(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT20));
-         task.setText21(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT21));
-         task.setText22(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT22));
-         task.setText23(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT23));
-         task.setText24(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT24));
-         task.setText25(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT25));
-         task.setText26(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT26));
-         task.setText27(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT27));
-         task.setText28(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT28));
-         task.setText29(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT29));
-         task.setText30(getCustomFieldUnicodeStringValue ( taskVarData, id, TASK_TEXT30));
+         task.setText1(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT1));
+         task.setText2(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT2));
+         task.setText3(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT3));
+         task.setText4(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT4));
+         task.setText5(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT5));
+         task.setText6(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT6));
+         task.setText7(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT7));
+         task.setText8(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT8));
+         task.setText9(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT9));
+         task.setText10(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT10));
+         task.setText11(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT11));
+         task.setText12(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT12));
+         task.setText13(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT13));
+         task.setText14(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT14));
+         task.setText15(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT15));
+         task.setText16(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT16));
+         task.setText17(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT17));
+         task.setText18(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT18));
+         task.setText19(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT19));
+         task.setText20(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT20));
+         task.setText21(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT21));
+         task.setText22(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT22));
+         task.setText23(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT23));
+         task.setText24(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT24));
+         task.setText25(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT25));
+         task.setText26(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT26));
+         task.setText27(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT27));
+         task.setText28(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT28));
+         task.setText29(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT29));
+         task.setText30(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
          task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
          task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
          //task.setUpdateNeeded(); // Calculated value
-         task.setWBS(taskVarData.getUnicodeString (id, TASK_WBS));
+         task.setWBS(taskVarData.getUnicodeString(id, TASK_WBS));
          //task.setWBSPredecessors(); // Calculated value
          //task.setWBSSuccessors(); // Calculated value
-         task.setWork(Duration.getInstance (MPPUtility.getDouble (data, 168)/60000, TimeUnit.HOURS));
+         task.setWork(Duration.getInstance(MPPUtility.getDouble(data, 168) / 60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
-         
-         task.setFinishSlack(MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 64))));
-         
+
+         task.setFinishSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
+
          m_parentTasks.put(task.getUniqueID(), Integer.valueOf(MPPUtility.getInt(data, 36)));
-         
+
          switch (task.getConstraintType())
          {
             //
             // Adjust the start and finish dates if the task
             // is constrained to start as late as possible.
             //            
-            case AS_LATE_AS_POSSIBLE:
+            case AS_LATE_AS_POSSIBLE :
             {
                if (task.getStart().getTime() < task.getLateStart().getTime())
                {
@@ -1691,19 +1679,18 @@ final class MPP12Reader implements MPPVariantReader
                }
                break;
             }
-            
-            case START_NO_LATER_THAN:
-            case FINISH_NO_LATER_THAN:
+
+            case START_NO_LATER_THAN :
+            case FINISH_NO_LATER_THAN :
             {
                if (task.getFinish().getTime() < task.getStart().getTime())
                {
-                  task.setFinish(task.getLateFinish());                  
+                  task.setFinish(task.getLateFinish());
                }
                break;
             }
-            
-            
-            default:
+
+            default :
             {
                break;
             }
@@ -1720,11 +1707,11 @@ final class MPP12Reader implements MPPVariantReader
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
          }
-         
+
          //
          // Retrieve the task notes.
          //
-         notes = taskVarData.getString (id, TASK_NOTES);
+         notes = taskVarData.getString(id, TASK_NOTES);
          if (notes != null)
          {
             if (m_reader.getPreserveNoteFormatting() == false)
@@ -1734,7 +1721,7 @@ final class MPP12Reader implements MPPVariantReader
 
             task.setNotes(notes);
          }
-                  
+
          //
          // Set the calendar name
          //
@@ -1747,7 +1734,7 @@ final class MPP12Reader implements MPPVariantReader
                task.setCalendar(calendar);
             }
          }
-         
+
          //
          // Set the sub project flag
          //
@@ -1759,12 +1746,12 @@ final class MPP12Reader implements MPPVariantReader
          //
          if (sp != null)
          {
-        	 task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
-        	 if (task.getExternalTask())
-        	 {
-        		 task.setExternalTaskProject(sp.getFullPath());
-        	 }
-         }         
+            task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
+            if (task.getExternalTask())
+            {
+               task.setExternalTaskProject(sp.getFullPath());
+            }
+         }
 
          //
          // If we have a WBS value from the MPP file, don't autogenerate
@@ -1773,30 +1760,30 @@ final class MPP12Reader implements MPPVariantReader
          {
             autoWBS = false;
          }
-         
+
          //
          // If this is a split task, allocate space for the split durations
          //
-         if ((metaData[9]&0x80) == 0)
+         if ((metaData[9] & 0x80) == 0)
          {
             task.setSplits(new LinkedList<DateRange>());
          }
-                  
+
          //
          // Process any enterprise columns
          //
          processTaskEnterpriseColumns(id, task, taskVarData, metaData2);
-         
+
          m_file.fireTaskReadEvent(task);
          //dumpUnknownData(task.getUniqueID().toString(), UNKNOWN_TASK_DATA, data);
          //System.out.println(task);
       }
-      
+
       //
       // Enable auto WBS if necessary
       //
-      m_file.setAutoWBS(autoWBS);    
-      
+      m_file.setAutoWBS(autoWBS);
+
       //
       // We have now read all of the task, so we are in a position
       // to perform post-processing to set up the relevant details
@@ -1804,9 +1791,9 @@ final class MPP12Reader implements MPPVariantReader
       //
       if (!externalTasks.isEmpty())
       {
-         processExternalTasks (externalTasks);
-      } 
-            
+         processExternalTasks(externalTasks);
+      }
+
       //
       // MPP12 files seem to exhibit some occasional weirdness
       // with duplicate ID values which leads to the task structure
@@ -1815,13 +1802,13 @@ final class MPP12Reader implements MPPVariantReader
       //
       validateStructure();
    }
-    
+
    /**
     * This method is called to validate the task hierarchy.
     * Some MPP12 files contain duplicate task ID values which
     * causes the task hierarchy to be generated incorrectly.
     */
-   private void validateStructure ()
+   private void validateStructure()
    {
       //
       // Retrieve the list of all tasks
@@ -1829,13 +1816,13 @@ final class MPP12Reader implements MPPVariantReader
       //
       List<Task> tasks = m_file.getAllTasks();
       Collections.sort(tasks);
-      
+
       //
       // Look for duplicate ID values
       //
       int lastID = -1;
       int currentID = -2;
-      for(Task task : tasks)
+      for (Task task : tasks)
       {
          Integer taskID = task.getID();
          if (taskID != null)
@@ -1849,7 +1836,7 @@ final class MPP12Reader implements MPPVariantReader
             currentID = -1;
          }
       }
-      
+
       //
       // If we've found a duplicate, ensure
       // that the structure is correct
@@ -1859,89 +1846,87 @@ final class MPP12Reader implements MPPVariantReader
          fixStructure();
       }
    }
-   
+
    /**
     * This method is called to fix the task hierarchy if problems
     * are detected.
     */
-   private void fixStructure ()
+   private void fixStructure()
    {
       //
       // Create the hierarchical structure
       //
       m_file.updateStructure();
-      
+
       //
       // Validate the parent for each task
       //
-      for (Task task: m_file.getAllTasks())
+      for (Task task : m_file.getAllTasks())
       {
          Task parentTask = task.getParentTask();
          Integer parentTaskID = m_parentTasks.get(task.getUniqueID());
-             
+
          if (parentTaskID != null)
          {
-            if ((parentTask == null && parentTaskID.intValue() != -1) ||
-                (parentTask != null && parentTaskID.intValue() == -1) ||
-                (parentTask != null && parentTask.getUniqueID().intValue() != parentTaskID.intValue()))
-            {            
-//               System.out.println("FIXING");
-//               System.out.println("Task: " + task);
-//               System.out.println("Parent Task: " + parentTask);
-//               System.out.println("ParentTask ID: " + parentTaskID);
-               
+            if ((parentTask == null && parentTaskID.intValue() != -1) || (parentTask != null && parentTaskID.intValue() == -1) || (parentTask != null && parentTask.getUniqueID().intValue() != parentTaskID.intValue()))
+            {
+               //               System.out.println("FIXING");
+               //               System.out.println("Task: " + task);
+               //               System.out.println("Parent Task: " + parentTask);
+               //               System.out.println("ParentTask ID: " + parentTaskID);
+
                Task newParent = null;
                if (parentTaskID.intValue() != -1)
                {
-                  newParent = m_file.getTaskByUniqueID(parentTaskID);               
+                  newParent = m_file.getTaskByUniqueID(parentTaskID);
                }
-               
+
                if (parentTask != null && newParent != null)
                {
                   parentTask.removeChildTask(task);
                   newParent.addChildTask(task);
-//                  System.out.println("FIXED");
+                  //                  System.out.println("FIXED");
                }
             }
          }
       }
-      
+
       renumberTasks();
    }
-     
-//   private void fixStructureOrder ()
-//   {
-//      m_file.updateStructure();
-//      fixStructureOrder(m_file.getTaskByID(NumberUtility.INTEGER_ZERO));
-//   }
-//   
-//   private void fixStructureOrder (Task parent)
-//   {     
-//      List<Task> children = parent.getChildTasks();
-//      Comparator<Task> comparator = (parent.getCritical()?START_COMPARATOR:FINISH_COMPARATOR);     
-//      Collections.sort(children, comparator);
-//     
-//      for (Task task: children)
-//      {
-//         fixStructureOrder(task);
-//      }
-//      
-//      renumberTasks();
-//   }
+
+   //   private void fixStructureOrder ()
+   //   {
+   //      m_file.updateStructure();
+   //      fixStructureOrder(m_file.getTaskByID(NumberUtility.INTEGER_ZERO));
+   //   }
+   //   
+   //   private void fixStructureOrder (Task parent)
+   //   {     
+   //      List<Task> children = parent.getChildTasks();
+   //      Comparator<Task> comparator = (parent.getCritical()?START_COMPARATOR:FINISH_COMPARATOR);     
+   //      Collections.sort(children, comparator);
+   //     
+   //      for (Task task: children)
+   //      {
+   //         fixStructureOrder(task);
+   //      }
+   //      
+   //      renumberTasks();
+   //   }
 
    /**
     * Called to renumber task IDs.
     */
-   private void renumberTasks ()
+   private void renumberTasks()
    {
-      int nextID = (m_file.getTaskByID(Integer.valueOf(0))==null?1:0);      
-      for (Task task: m_file.getChildTasks())
+      int nextID = (m_file.getTaskByID(Integer.valueOf(0)) == null ? 1 : 0);
+      for (Task task : m_file.getChildTasks())
       {
          task.setID(Integer.valueOf(nextID++));
          nextID = renumberChildren(nextID, task);
-      }        
+      }
    }
-   
+
    /**
     * Renumbers child task IDs.
     * 
@@ -1951,14 +1936,14 @@ final class MPP12Reader implements MPPVariantReader
     */
    private int renumberChildren(int nextID, Task parent)
    {
-      for (Task task: parent.getChildTasks())
+      for (Task task : parent.getChildTasks())
       {
          task.setID(Integer.valueOf(nextID++));
          nextID = renumberChildren(nextID, task);
-      }      
+      }
       return (nextID);
    }
-   
+
    /**
     * Extracts task enterprise column values. 
     * 
@@ -1967,146 +1952,146 @@ final class MPP12Reader implements MPPVariantReader
     * @param taskVarData task var data
     * @param metaData2 task meta data
     */
-   private void processTaskEnterpriseColumns (Integer id, Task task, Var2Data taskVarData, byte[] metaData2)
+   private void processTaskEnterpriseColumns(Integer id, Task task, Var2Data taskVarData, byte[] metaData2)
    {
-      task.setEnterpriseCost(1, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST1) / 100));
-      task.setEnterpriseCost(2, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST2) / 100));
-      task.setEnterpriseCost(3, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST3) / 100));
-      task.setEnterpriseCost(4, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST4) / 100));
-      task.setEnterpriseCost(5, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST5) / 100));
-      task.setEnterpriseCost(6, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST6) / 100));
-      task.setEnterpriseCost(7, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST7) / 100));
-      task.setEnterpriseCost(8, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST8) / 100));
-      task.setEnterpriseCost(9, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST9) / 100));
-      task.setEnterpriseCost(10, NumberUtility.getDouble (taskVarData.getDouble (id, TASK_ENTERPRISE_COST10) / 100));   
-      
-      task.setEnterpriseDate(1, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE1));
-      task.setEnterpriseDate(2, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE2));
-      task.setEnterpriseDate(3, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE3));
-      task.setEnterpriseDate(4, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE4));
-      task.setEnterpriseDate(5, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE5));
-      task.setEnterpriseDate(6, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE6));
-      task.setEnterpriseDate(7, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE7));
-      task.setEnterpriseDate(8, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE8));
-      task.setEnterpriseDate(9, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE9));
-      task.setEnterpriseDate(10, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE10));
-      task.setEnterpriseDate(11, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE11));
-      task.setEnterpriseDate(12, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE12));
-      task.setEnterpriseDate(13, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE13));
-      task.setEnterpriseDate(14, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE14));
-      task.setEnterpriseDate(15, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE15));
-      task.setEnterpriseDate(16, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE16));
-      task.setEnterpriseDate(17, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE17));
-      task.setEnterpriseDate(18, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE18));
-      task.setEnterpriseDate(19, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE19));
-      task.setEnterpriseDate(20, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE20));
-      task.setEnterpriseDate(21, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE21));
-      task.setEnterpriseDate(22, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE22));
-      task.setEnterpriseDate(23, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE23));
-      task.setEnterpriseDate(24, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE24));
-      task.setEnterpriseDate(25, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE25));
-      task.setEnterpriseDate(26, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE26));
-      task.setEnterpriseDate(27, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE27));
-      task.setEnterpriseDate(28, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE28));
-      task.setEnterpriseDate(29, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE29));
-      task.setEnterpriseDate(30, taskVarData.getTimestamp (id, TASK_ENTERPRISE_DATE30));
-            
-      task.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION1_UNITS))));
-      task.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION2_UNITS))));
-      task.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION3_UNITS))));
-      task.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION4_UNITS))));
-      task.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION5_UNITS))));
-      task.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION6_UNITS))));
-      task.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION7_UNITS))));
-      task.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION8_UNITS))));
-      task.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION9_UNITS))));
-      task.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration (m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION10_UNITS))));
-      
-      task.setEnterpriseNumber(1, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER1)));      
-      task.setEnterpriseNumber(2, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER2)));
-      task.setEnterpriseNumber(3, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER3)));
-      task.setEnterpriseNumber(4, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER4)));
-      task.setEnterpriseNumber(5, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER5)));
-      task.setEnterpriseNumber(6, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER6)));
-      task.setEnterpriseNumber(7, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER7)));
-      task.setEnterpriseNumber(8, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER8)));
-      task.setEnterpriseNumber(9, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER9)));
-      task.setEnterpriseNumber(10, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER10)));      
-      task.setEnterpriseNumber(11, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER11)));      
-      task.setEnterpriseNumber(12, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER12)));
-      task.setEnterpriseNumber(13, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER13)));
-      task.setEnterpriseNumber(14, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER14)));
-      task.setEnterpriseNumber(15, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER15)));
-      task.setEnterpriseNumber(16, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER16)));
-      task.setEnterpriseNumber(17, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER17)));
-      task.setEnterpriseNumber(18, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER18)));
-      task.setEnterpriseNumber(19, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER19)));
-      task.setEnterpriseNumber(20, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER20)));      
-      task.setEnterpriseNumber(21, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER21)));
-      task.setEnterpriseNumber(22, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER22)));
-      task.setEnterpriseNumber(23, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER23)));
-      task.setEnterpriseNumber(24, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER24)));
-      task.setEnterpriseNumber(25, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER25)));
-      task.setEnterpriseNumber(26, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER26)));
-      task.setEnterpriseNumber(27, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER27)));
-      task.setEnterpriseNumber(28, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER28)));
-      task.setEnterpriseNumber(29, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER29)));      
-      task.setEnterpriseNumber(30, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER30)));
-      task.setEnterpriseNumber(31, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER31)));
-      task.setEnterpriseNumber(32, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER32)));
-      task.setEnterpriseNumber(33, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER33)));
-      task.setEnterpriseNumber(34, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER34)));
-      task.setEnterpriseNumber(35, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER35)));
-      task.setEnterpriseNumber(36, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER36)));
-      task.setEnterpriseNumber(37, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER37)));
-      task.setEnterpriseNumber(38, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER38)));
-      task.setEnterpriseNumber(39, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER39)));
-      task.setEnterpriseNumber(40, NumberUtility.getDouble (taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER40)));
-            
-      task.setEnterpriseText(1, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT1));
-      task.setEnterpriseText(2, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT2));
-      task.setEnterpriseText(3, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT3));
-      task.setEnterpriseText(4, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT4));
-      task.setEnterpriseText(5, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT5));
-      task.setEnterpriseText(6, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT6));
-      task.setEnterpriseText(7, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT7));
-      task.setEnterpriseText(8, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT8));
-      task.setEnterpriseText(9, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT9));
-      task.setEnterpriseText(10, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT10));
-      task.setEnterpriseText(11, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT11));
-      task.setEnterpriseText(12, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT12));
-      task.setEnterpriseText(13, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT13));
-      task.setEnterpriseText(14, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT14));
-      task.setEnterpriseText(15, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT15));
-      task.setEnterpriseText(16, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT16));
-      task.setEnterpriseText(17, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT17));
-      task.setEnterpriseText(18, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT18));
-      task.setEnterpriseText(19, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT19));
-      task.setEnterpriseText(20, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT20));
-      task.setEnterpriseText(21, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT21));
-      task.setEnterpriseText(22, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT22));
-      task.setEnterpriseText(23, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT23));
-      task.setEnterpriseText(24, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT24));
-      task.setEnterpriseText(25, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT25));
-      task.setEnterpriseText(26, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT26));
-      task.setEnterpriseText(27, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT27));
-      task.setEnterpriseText(28, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT28));
-      task.setEnterpriseText(29, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT29));      
-      task.setEnterpriseText(30, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT30));
-      task.setEnterpriseText(31, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT31));
-      task.setEnterpriseText(32, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT32));
-      task.setEnterpriseText(33, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT33));
-      task.setEnterpriseText(34, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT34));
-      task.setEnterpriseText(35, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT35));
-      task.setEnterpriseText(36, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT36));
-      task.setEnterpriseText(37, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT37));
-      task.setEnterpriseText(38, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT38));
-      task.setEnterpriseText(39, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT39));
-      task.setEnterpriseText(40, taskVarData.getUnicodeString (id, TASK_ENTERPRISE_TEXT40));
-      
+      task.setEnterpriseCost(1, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST1) / 100));
+      task.setEnterpriseCost(2, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST2) / 100));
+      task.setEnterpriseCost(3, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST3) / 100));
+      task.setEnterpriseCost(4, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST4) / 100));
+      task.setEnterpriseCost(5, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST5) / 100));
+      task.setEnterpriseCost(6, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST6) / 100));
+      task.setEnterpriseCost(7, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST7) / 100));
+      task.setEnterpriseCost(8, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST8) / 100));
+      task.setEnterpriseCost(9, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST9) / 100));
+      task.setEnterpriseCost(10, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_COST10) / 100));
+
+      task.setEnterpriseDate(1, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE1));
+      task.setEnterpriseDate(2, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE2));
+      task.setEnterpriseDate(3, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE3));
+      task.setEnterpriseDate(4, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE4));
+      task.setEnterpriseDate(5, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE5));
+      task.setEnterpriseDate(6, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE6));
+      task.setEnterpriseDate(7, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE7));
+      task.setEnterpriseDate(8, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE8));
+      task.setEnterpriseDate(9, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE9));
+      task.setEnterpriseDate(10, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE10));
+      task.setEnterpriseDate(11, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE11));
+      task.setEnterpriseDate(12, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE12));
+      task.setEnterpriseDate(13, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE13));
+      task.setEnterpriseDate(14, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE14));
+      task.setEnterpriseDate(15, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE15));
+      task.setEnterpriseDate(16, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE16));
+      task.setEnterpriseDate(17, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE17));
+      task.setEnterpriseDate(18, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE18));
+      task.setEnterpriseDate(19, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE19));
+      task.setEnterpriseDate(20, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE20));
+      task.setEnterpriseDate(21, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE21));
+      task.setEnterpriseDate(22, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE22));
+      task.setEnterpriseDate(23, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE23));
+      task.setEnterpriseDate(24, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE24));
+      task.setEnterpriseDate(25, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE25));
+      task.setEnterpriseDate(26, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE26));
+      task.setEnterpriseDate(27, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE27));
+      task.setEnterpriseDate(28, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE28));
+      task.setEnterpriseDate(29, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE29));
+      task.setEnterpriseDate(30, taskVarData.getTimestamp(id, TASK_ENTERPRISE_DATE30));
+
+      task.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION1_UNITS))));
+      task.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION2_UNITS))));
+      task.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION3_UNITS))));
+      task.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION4_UNITS))));
+      task.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION5_UNITS))));
+      task.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION6_UNITS))));
+      task.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION7_UNITS))));
+      task.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION8_UNITS))));
+      task.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION9_UNITS))));
+      task.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration(m_file, taskVarData.getInt(id, TASK_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(taskVarData.getShort(id, TASK_ENTERPRISE_DURATION10_UNITS))));
+
+      task.setEnterpriseNumber(1, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER1)));
+      task.setEnterpriseNumber(2, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER2)));
+      task.setEnterpriseNumber(3, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER3)));
+      task.setEnterpriseNumber(4, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER4)));
+      task.setEnterpriseNumber(5, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER5)));
+      task.setEnterpriseNumber(6, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER6)));
+      task.setEnterpriseNumber(7, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER7)));
+      task.setEnterpriseNumber(8, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER8)));
+      task.setEnterpriseNumber(9, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER9)));
+      task.setEnterpriseNumber(10, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER10)));
+      task.setEnterpriseNumber(11, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER11)));
+      task.setEnterpriseNumber(12, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER12)));
+      task.setEnterpriseNumber(13, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER13)));
+      task.setEnterpriseNumber(14, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER14)));
+      task.setEnterpriseNumber(15, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER15)));
+      task.setEnterpriseNumber(16, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER16)));
+      task.setEnterpriseNumber(17, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER17)));
+      task.setEnterpriseNumber(18, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER18)));
+      task.setEnterpriseNumber(19, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER19)));
+      task.setEnterpriseNumber(20, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER20)));
+      task.setEnterpriseNumber(21, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER21)));
+      task.setEnterpriseNumber(22, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER22)));
+      task.setEnterpriseNumber(23, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER23)));
+      task.setEnterpriseNumber(24, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER24)));
+      task.setEnterpriseNumber(25, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER25)));
+      task.setEnterpriseNumber(26, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER26)));
+      task.setEnterpriseNumber(27, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER27)));
+      task.setEnterpriseNumber(28, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER28)));
+      task.setEnterpriseNumber(29, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER29)));
+      task.setEnterpriseNumber(30, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER30)));
+      task.setEnterpriseNumber(31, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER31)));
+      task.setEnterpriseNumber(32, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER32)));
+      task.setEnterpriseNumber(33, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER33)));
+      task.setEnterpriseNumber(34, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER34)));
+      task.setEnterpriseNumber(35, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER35)));
+      task.setEnterpriseNumber(36, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER36)));
+      task.setEnterpriseNumber(37, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER37)));
+      task.setEnterpriseNumber(38, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER38)));
+      task.setEnterpriseNumber(39, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER39)));
+      task.setEnterpriseNumber(40, NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ENTERPRISE_NUMBER40)));
+
+      task.setEnterpriseText(1, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT1));
+      task.setEnterpriseText(2, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT2));
+      task.setEnterpriseText(3, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT3));
+      task.setEnterpriseText(4, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT4));
+      task.setEnterpriseText(5, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT5));
+      task.setEnterpriseText(6, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT6));
+      task.setEnterpriseText(7, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT7));
+      task.setEnterpriseText(8, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT8));
+      task.setEnterpriseText(9, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT9));
+      task.setEnterpriseText(10, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT10));
+      task.setEnterpriseText(11, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT11));
+      task.setEnterpriseText(12, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT12));
+      task.setEnterpriseText(13, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT13));
+      task.setEnterpriseText(14, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT14));
+      task.setEnterpriseText(15, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT15));
+      task.setEnterpriseText(16, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT16));
+      task.setEnterpriseText(17, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT17));
+      task.setEnterpriseText(18, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT18));
+      task.setEnterpriseText(19, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT19));
+      task.setEnterpriseText(20, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT20));
+      task.setEnterpriseText(21, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT21));
+      task.setEnterpriseText(22, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT22));
+      task.setEnterpriseText(23, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT23));
+      task.setEnterpriseText(24, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT24));
+      task.setEnterpriseText(25, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT25));
+      task.setEnterpriseText(26, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT26));
+      task.setEnterpriseText(27, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT27));
+      task.setEnterpriseText(28, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT28));
+      task.setEnterpriseText(29, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT29));
+      task.setEnterpriseText(30, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT30));
+      task.setEnterpriseText(31, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT31));
+      task.setEnterpriseText(32, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT32));
+      task.setEnterpriseText(33, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT33));
+      task.setEnterpriseText(34, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT34));
+      task.setEnterpriseText(35, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT35));
+      task.setEnterpriseText(36, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT36));
+      task.setEnterpriseText(37, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT37));
+      task.setEnterpriseText(38, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT38));
+      task.setEnterpriseText(39, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT39));
+      task.setEnterpriseText(40, taskVarData.getUnicodeString(id, TASK_ENTERPRISE_TEXT40));
+
       if (metaData2 != null)
       {
-         int bits = MPPUtility.getInt(metaData2, 59);                  
+         int bits = MPPUtility.getInt(metaData2, 59);
          task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00001) != 0));
          task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00002) != 0));
          task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00004) != 0));
@@ -2138,146 +2123,146 @@ final class MPP12Reader implements MPPVariantReader
     * @param resourceVarData resource var data
     * @param metaData2 resource meta data 
     */
-   private void processResourceEnterpriseColumns (Integer id, Resource resource, Var2Data resourceVarData, byte[] metaData2)
+   private void processResourceEnterpriseColumns(Integer id, Resource resource, Var2Data resourceVarData, byte[] metaData2)
    {
-      resource.setEnterpriseCost(1, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST1) / 100));
-      resource.setEnterpriseCost(2, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST2) / 100));
-      resource.setEnterpriseCost(3, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST3) / 100));
-      resource.setEnterpriseCost(4, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST4) / 100));
-      resource.setEnterpriseCost(5, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST5) / 100));
-      resource.setEnterpriseCost(6, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST6) / 100));
-      resource.setEnterpriseCost(7, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST7) / 100));
-      resource.setEnterpriseCost(8, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST8) / 100));
-      resource.setEnterpriseCost(9, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST9) / 100));
-      resource.setEnterpriseCost(10, NumberUtility.getDouble (resourceVarData.getDouble (id, RESOURCE_ENTERPRISE_COST10) / 100));   
-      
-      resource.setEnterpriseDate(1, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE1));
-      resource.setEnterpriseDate(2, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE2));
-      resource.setEnterpriseDate(3, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE3));
-      resource.setEnterpriseDate(4, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE4));
-      resource.setEnterpriseDate(5, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE5));
-      resource.setEnterpriseDate(6, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE6));
-      resource.setEnterpriseDate(7, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE7));
-      resource.setEnterpriseDate(8, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE8));
-      resource.setEnterpriseDate(9, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE9));
-      resource.setEnterpriseDate(10, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE10));
-      resource.setEnterpriseDate(11, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE11));
-      resource.setEnterpriseDate(12, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE12));
-      resource.setEnterpriseDate(13, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE13));
-      resource.setEnterpriseDate(14, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE14));
-      resource.setEnterpriseDate(15, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE15));
-      resource.setEnterpriseDate(16, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE16));
-      resource.setEnterpriseDate(17, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE17));
-      resource.setEnterpriseDate(18, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE18));
-      resource.setEnterpriseDate(19, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE19));
-      resource.setEnterpriseDate(20, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE20));
-      resource.setEnterpriseDate(21, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE21));
-      resource.setEnterpriseDate(22, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE22));
-      resource.setEnterpriseDate(23, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE23));
-      resource.setEnterpriseDate(24, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE24));
-      resource.setEnterpriseDate(25, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE25));
-      resource.setEnterpriseDate(26, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE26));
-      resource.setEnterpriseDate(27, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE27));
-      resource.setEnterpriseDate(28, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE28));
-      resource.setEnterpriseDate(29, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE29));
-      resource.setEnterpriseDate(30, resourceVarData.getTimestamp (id, RESOURCE_ENTERPRISE_DATE30));
-            
-      resource.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION1_UNITS))));
-      resource.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION2_UNITS))));
-      resource.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION3_UNITS))));
-      resource.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION4_UNITS))));
-      resource.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION5_UNITS))));
-      resource.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION6_UNITS))));
-      resource.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION7_UNITS))));
-      resource.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION8_UNITS))));
-      resource.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION9_UNITS))));
-      resource.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration (m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION10_UNITS))));
-      
-      resource.setEnterpriseNumber(1, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER1)));      
-      resource.setEnterpriseNumber(2, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER2)));
-      resource.setEnterpriseNumber(3, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER3)));
-      resource.setEnterpriseNumber(4, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER4)));
-      resource.setEnterpriseNumber(5, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER5)));
-      resource.setEnterpriseNumber(6, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER6)));
-      resource.setEnterpriseNumber(7, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER7)));
-      resource.setEnterpriseNumber(8, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER8)));
-      resource.setEnterpriseNumber(9, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER9)));
-      resource.setEnterpriseNumber(10, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER10)));      
-      resource.setEnterpriseNumber(11, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER11)));      
-      resource.setEnterpriseNumber(12, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER12)));
-      resource.setEnterpriseNumber(13, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER13)));
-      resource.setEnterpriseNumber(14, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER14)));
-      resource.setEnterpriseNumber(15, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER15)));
-      resource.setEnterpriseNumber(16, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER16)));
-      resource.setEnterpriseNumber(17, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER17)));
-      resource.setEnterpriseNumber(18, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER18)));
-      resource.setEnterpriseNumber(19, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER19)));
-      resource.setEnterpriseNumber(20, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER20)));      
-      resource.setEnterpriseNumber(21, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER21)));
-      resource.setEnterpriseNumber(22, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER22)));
-      resource.setEnterpriseNumber(23, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER23)));
-      resource.setEnterpriseNumber(24, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER24)));
-      resource.setEnterpriseNumber(25, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER25)));
-      resource.setEnterpriseNumber(26, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER26)));
-      resource.setEnterpriseNumber(27, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER27)));
-      resource.setEnterpriseNumber(28, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER28)));
-      resource.setEnterpriseNumber(29, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER29)));      
-      resource.setEnterpriseNumber(30, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER30)));
-      resource.setEnterpriseNumber(31, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER31)));
-      resource.setEnterpriseNumber(32, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER32)));
-      resource.setEnterpriseNumber(33, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER33)));
-      resource.setEnterpriseNumber(34, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER34)));
-      resource.setEnterpriseNumber(35, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER35)));
-      resource.setEnterpriseNumber(36, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER36)));
-      resource.setEnterpriseNumber(37, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER37)));
-      resource.setEnterpriseNumber(38, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER38)));
-      resource.setEnterpriseNumber(39, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER39)));
-      resource.setEnterpriseNumber(40, NumberUtility.getDouble (resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER40)));
-            
-      resource.setEnterpriseText(1, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT1));
-      resource.setEnterpriseText(2, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT2));
-      resource.setEnterpriseText(3, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT3));
-      resource.setEnterpriseText(4, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT4));
-      resource.setEnterpriseText(5, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT5));
-      resource.setEnterpriseText(6, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT6));
-      resource.setEnterpriseText(7, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT7));
-      resource.setEnterpriseText(8, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT8));
-      resource.setEnterpriseText(9, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT9));
-      resource.setEnterpriseText(10, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT10));
-      resource.setEnterpriseText(11, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT11));
-      resource.setEnterpriseText(12, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT12));
-      resource.setEnterpriseText(13, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT13));
-      resource.setEnterpriseText(14, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT14));
-      resource.setEnterpriseText(15, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT15));
-      resource.setEnterpriseText(16, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT16));
-      resource.setEnterpriseText(17, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT17));
-      resource.setEnterpriseText(18, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT18));
-      resource.setEnterpriseText(19, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT19));
-      resource.setEnterpriseText(20, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT20));
-      resource.setEnterpriseText(21, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT21));
-      resource.setEnterpriseText(22, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT22));
-      resource.setEnterpriseText(23, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT23));
-      resource.setEnterpriseText(24, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT24));
-      resource.setEnterpriseText(25, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT25));
-      resource.setEnterpriseText(26, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT26));
-      resource.setEnterpriseText(27, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT27));
-      resource.setEnterpriseText(28, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT28));
-      resource.setEnterpriseText(29, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT29));      
-      resource.setEnterpriseText(30, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT30));
-      resource.setEnterpriseText(31, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT31));
-      resource.setEnterpriseText(32, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT32));
-      resource.setEnterpriseText(33, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT33));
-      resource.setEnterpriseText(34, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT34));
-      resource.setEnterpriseText(35, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT35));
-      resource.setEnterpriseText(36, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT36));
-      resource.setEnterpriseText(37, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT37));
-      resource.setEnterpriseText(38, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT38));
-      resource.setEnterpriseText(39, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT39));
-      resource.setEnterpriseText(40, resourceVarData.getUnicodeString (id, RESOURCE_ENTERPRISE_TEXT40));
+      resource.setEnterpriseCost(1, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST1) / 100));
+      resource.setEnterpriseCost(2, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST2) / 100));
+      resource.setEnterpriseCost(3, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST3) / 100));
+      resource.setEnterpriseCost(4, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST4) / 100));
+      resource.setEnterpriseCost(5, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST5) / 100));
+      resource.setEnterpriseCost(6, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST6) / 100));
+      resource.setEnterpriseCost(7, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST7) / 100));
+      resource.setEnterpriseCost(8, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST8) / 100));
+      resource.setEnterpriseCost(9, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST9) / 100));
+      resource.setEnterpriseCost(10, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_COST10) / 100));
+
+      resource.setEnterpriseDate(1, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE1));
+      resource.setEnterpriseDate(2, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE2));
+      resource.setEnterpriseDate(3, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE3));
+      resource.setEnterpriseDate(4, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE4));
+      resource.setEnterpriseDate(5, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE5));
+      resource.setEnterpriseDate(6, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE6));
+      resource.setEnterpriseDate(7, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE7));
+      resource.setEnterpriseDate(8, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE8));
+      resource.setEnterpriseDate(9, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE9));
+      resource.setEnterpriseDate(10, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE10));
+      resource.setEnterpriseDate(11, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE11));
+      resource.setEnterpriseDate(12, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE12));
+      resource.setEnterpriseDate(13, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE13));
+      resource.setEnterpriseDate(14, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE14));
+      resource.setEnterpriseDate(15, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE15));
+      resource.setEnterpriseDate(16, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE16));
+      resource.setEnterpriseDate(17, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE17));
+      resource.setEnterpriseDate(18, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE18));
+      resource.setEnterpriseDate(19, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE19));
+      resource.setEnterpriseDate(20, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE20));
+      resource.setEnterpriseDate(21, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE21));
+      resource.setEnterpriseDate(22, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE22));
+      resource.setEnterpriseDate(23, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE23));
+      resource.setEnterpriseDate(24, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE24));
+      resource.setEnterpriseDate(25, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE25));
+      resource.setEnterpriseDate(26, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE26));
+      resource.setEnterpriseDate(27, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE27));
+      resource.setEnterpriseDate(28, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE28));
+      resource.setEnterpriseDate(29, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE29));
+      resource.setEnterpriseDate(30, resourceVarData.getTimestamp(id, RESOURCE_ENTERPRISE_DATE30));
+
+      resource.setEnterpriseDuration(1, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION1), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION1_UNITS))));
+      resource.setEnterpriseDuration(2, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION2), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION2_UNITS))));
+      resource.setEnterpriseDuration(3, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION3), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION3_UNITS))));
+      resource.setEnterpriseDuration(4, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION4), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION4_UNITS))));
+      resource.setEnterpriseDuration(5, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION5), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION5_UNITS))));
+      resource.setEnterpriseDuration(6, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION6), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION6_UNITS))));
+      resource.setEnterpriseDuration(7, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION7), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION7_UNITS))));
+      resource.setEnterpriseDuration(8, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION8), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION8_UNITS))));
+      resource.setEnterpriseDuration(9, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION9), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION9_UNITS))));
+      resource.setEnterpriseDuration(10, MPPUtility.getAdjustedDuration(m_file, resourceVarData.getInt(id, RESOURCE_ENTERPRISE_DURATION10), MPPUtility.getDurationTimeUnits(resourceVarData.getShort(id, RESOURCE_ENTERPRISE_DURATION10_UNITS))));
+
+      resource.setEnterpriseNumber(1, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER1)));
+      resource.setEnterpriseNumber(2, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER2)));
+      resource.setEnterpriseNumber(3, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER3)));
+      resource.setEnterpriseNumber(4, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER4)));
+      resource.setEnterpriseNumber(5, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER5)));
+      resource.setEnterpriseNumber(6, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER6)));
+      resource.setEnterpriseNumber(7, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER7)));
+      resource.setEnterpriseNumber(8, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER8)));
+      resource.setEnterpriseNumber(9, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER9)));
+      resource.setEnterpriseNumber(10, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER10)));
+      resource.setEnterpriseNumber(11, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER11)));
+      resource.setEnterpriseNumber(12, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER12)));
+      resource.setEnterpriseNumber(13, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER13)));
+      resource.setEnterpriseNumber(14, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER14)));
+      resource.setEnterpriseNumber(15, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER15)));
+      resource.setEnterpriseNumber(16, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER16)));
+      resource.setEnterpriseNumber(17, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER17)));
+      resource.setEnterpriseNumber(18, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER18)));
+      resource.setEnterpriseNumber(19, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER19)));
+      resource.setEnterpriseNumber(20, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER20)));
+      resource.setEnterpriseNumber(21, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER21)));
+      resource.setEnterpriseNumber(22, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER22)));
+      resource.setEnterpriseNumber(23, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER23)));
+      resource.setEnterpriseNumber(24, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER24)));
+      resource.setEnterpriseNumber(25, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER25)));
+      resource.setEnterpriseNumber(26, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER26)));
+      resource.setEnterpriseNumber(27, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER27)));
+      resource.setEnterpriseNumber(28, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER28)));
+      resource.setEnterpriseNumber(29, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER29)));
+      resource.setEnterpriseNumber(30, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER30)));
+      resource.setEnterpriseNumber(31, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER31)));
+      resource.setEnterpriseNumber(32, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER32)));
+      resource.setEnterpriseNumber(33, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER33)));
+      resource.setEnterpriseNumber(34, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER34)));
+      resource.setEnterpriseNumber(35, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER35)));
+      resource.setEnterpriseNumber(36, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER36)));
+      resource.setEnterpriseNumber(37, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER37)));
+      resource.setEnterpriseNumber(38, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER38)));
+      resource.setEnterpriseNumber(39, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER39)));
+      resource.setEnterpriseNumber(40, NumberUtility.getDouble(resourceVarData.getDouble(id, RESOURCE_ENTERPRISE_NUMBER40)));
+
+      resource.setEnterpriseText(1, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT1));
+      resource.setEnterpriseText(2, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT2));
+      resource.setEnterpriseText(3, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT3));
+      resource.setEnterpriseText(4, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT4));
+      resource.setEnterpriseText(5, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT5));
+      resource.setEnterpriseText(6, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT6));
+      resource.setEnterpriseText(7, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT7));
+      resource.setEnterpriseText(8, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT8));
+      resource.setEnterpriseText(9, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT9));
+      resource.setEnterpriseText(10, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT10));
+      resource.setEnterpriseText(11, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT11));
+      resource.setEnterpriseText(12, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT12));
+      resource.setEnterpriseText(13, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT13));
+      resource.setEnterpriseText(14, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT14));
+      resource.setEnterpriseText(15, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT15));
+      resource.setEnterpriseText(16, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT16));
+      resource.setEnterpriseText(17, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT17));
+      resource.setEnterpriseText(18, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT18));
+      resource.setEnterpriseText(19, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT19));
+      resource.setEnterpriseText(20, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT20));
+      resource.setEnterpriseText(21, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT21));
+      resource.setEnterpriseText(22, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT22));
+      resource.setEnterpriseText(23, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT23));
+      resource.setEnterpriseText(24, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT24));
+      resource.setEnterpriseText(25, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT25));
+      resource.setEnterpriseText(26, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT26));
+      resource.setEnterpriseText(27, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT27));
+      resource.setEnterpriseText(28, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT28));
+      resource.setEnterpriseText(29, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT29));
+      resource.setEnterpriseText(30, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT30));
+      resource.setEnterpriseText(31, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT31));
+      resource.setEnterpriseText(32, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT32));
+      resource.setEnterpriseText(33, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT33));
+      resource.setEnterpriseText(34, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT34));
+      resource.setEnterpriseText(35, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT35));
+      resource.setEnterpriseText(36, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT36));
+      resource.setEnterpriseText(37, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT37));
+      resource.setEnterpriseText(38, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT38));
+      resource.setEnterpriseText(39, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT39));
+      resource.setEnterpriseText(40, resourceVarData.getUnicodeString(id, RESOURCE_ENTERPRISE_TEXT40));
 
       if (metaData2 != null)
       {
-         int bits = MPPUtility.getInt(metaData2, 16);                  
+         int bits = MPPUtility.getInt(metaData2, 16);
          resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00010) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00020) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00040) != 0));
@@ -2297,10 +2282,10 @@ final class MPP12Reader implements MPPVariantReader
          resource.set(ResourceField.ENTERPRISE_FLAG17, Boolean.valueOf((bits & 0x100000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG18, Boolean.valueOf((bits & 0x200000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x400000) != 0));
-         resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));         
-      }      
+         resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));
+      }
    }
-   
+
    /**
     * The project files to which external tasks relate appear not to be
     * held against each task, instead there appears to be the concept
@@ -2311,20 +2296,20 @@ final class MPP12Reader implements MPPVariantReader
     * 
     * @param externalTasks list of tasks marked as external
     */
-   private void processExternalTasks (List<Task> externalTasks)
+   private void processExternalTasks(List<Task> externalTasks)
    {
       //
       // Sort the list of tasks into ID order
       //
       Collections.sort(externalTasks);
-      
+
       //
       // Find any external tasks which don't have a sub project
       // object, and set this attribute using the most recent 
       // value.
       //
       SubProject currentSubProject = null;
-      
+
       for (Task currentTask : externalTasks)
       {
          SubProject sp = currentTask.getSubProject();
@@ -2336,7 +2321,7 @@ final class MPP12Reader implements MPPVariantReader
          {
             currentSubProject = sp;
          }
-         
+
          if (currentSubProject != null)
          {
             //System.out.println ("Task: " +currentTask.getUniqueID() + " " + currentTask.getName() + " File=" + currentSubProject.getFullPath() + " ID=" + currentTask.getExternalTaskID());
@@ -2353,7 +2338,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param task task instance
     * @param data hyperlink data block
     */
-   private void processHyperlinkData (Task task, byte[] data)
+   private void processHyperlinkData(Task task, byte[] data)
    {
       if (data != null)
       {
@@ -2364,11 +2349,11 @@ final class MPP12Reader implements MPPVariantReader
 
          offset += 12;
          hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length()+1) * 2);
+         offset += ((hyperlink.length() + 1) * 2);
 
          offset += 12;
          address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length()+1) * 2);
+         offset += ((address.length() + 1) * 2);
 
          offset += 12;
          subaddress = MPPUtility.getUnicodeString(data, offset);
@@ -2387,7 +2372,7 @@ final class MPP12Reader implements MPPVariantReader
     * @param resource resource instance
     * @param data hyperlink data block
     */
-   private void processHyperlinkData (Resource resource, byte[] data)
+   private void processHyperlinkData(Resource resource, byte[] data)
    {
       if (data != null)
       {
@@ -2398,11 +2383,11 @@ final class MPP12Reader implements MPPVariantReader
 
          offset += 12;
          hyperlink = MPPUtility.getUnicodeString(data, offset);
-         offset += ((hyperlink.length()+1) * 2);
+         offset += ((hyperlink.length() + 1) * 2);
 
          offset += 12;
          address = MPPUtility.getUnicodeString(data, offset);
-         offset += ((address.length()+1) * 2);
+         offset += ((address.length() + 1) * 2);
 
          offset += 12;
          subaddress = MPPUtility.getUnicodeString(data, offset);
@@ -2418,12 +2403,11 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @throws java.io.IOException
     */
-   private void processConstraintData ()
-      throws IOException
+   private void processConstraintData() throws IOException
    {
-      DirectoryEntry consDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndCons");
-      FixedMeta consFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)consDir.getEntry("FixedMeta"))), 10);
-      FixedData consFixedData = new FixedData (consFixedMeta, 20, getEncryptableInputStream (consDir, "FixedData"));
+      DirectoryEntry consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
+      FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
+      FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
 
       int count = consFixedMeta.getItemCount();
       int index;
@@ -2436,7 +2420,7 @@ final class MPP12Reader implements MPPVariantReader
       int lastConstraintID = -1;
       byte[] metaData;
 
-      for (int loop=0; loop < count; loop++)
+      for (int loop = 0; loop < count; loop++)
       {
          metaData = consFixedMeta.getByteArrayValue(loop);
 
@@ -2450,24 +2434,24 @@ final class MPP12Reader implements MPPVariantReader
             if (index != -1)
             {
                data = consFixedData.getByteArrayValue(index);
-               constraintID = MPPUtility.getInt (data, 0);
+               constraintID = MPPUtility.getInt(data, 0);
                if (constraintID > lastConstraintID)
                {
                   lastConstraintID = constraintID;
-                  int taskID1 = MPPUtility.getInt (data, 4);
-                  int taskID2 = MPPUtility.getInt (data, 8);
+                  int taskID1 = MPPUtility.getInt(data, 4);
+                  int taskID2 = MPPUtility.getInt(data, 8);
 
                   if (taskID1 != taskID2)
                   {
-                     task1 = m_file.getTaskByUniqueID (Integer.valueOf(taskID1));
-                     task2 = m_file.getTaskByUniqueID (Integer.valueOf(taskID2));
+                     task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+                     task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
 
                      if (task1 != null && task2 != null)
                      {
                         rel = task2.addPredecessor(task1);
-                        rel.setType (RelationType.getInstance(MPPUtility.getShort(data, 12)));
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort (data, 14));
-                        rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt (data, 16), durationUnits));
+                        rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
+                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
+                        rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
                      }
                   }
                }
@@ -2476,30 +2460,28 @@ final class MPP12Reader implements MPPVariantReader
       }
    }
 
-
    /**
     * This method extracts and collates resource data.
     *
     * @throws java.io.IOException
     */
-   private void processResourceData ()
-      throws IOException
+   private void processResourceData() throws IOException
    {
-      DirectoryEntry rscDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndRsc");
-      VarMeta rscVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("VarMeta"))));
-      Var2Data rscVarData = new Var2Data (rscVarMeta, new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Var2Data"))));
-      FixedMeta rscFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData (rscFixedMeta, getEncryptableInputStream (rscDir, "FixedData"));
-      FixedMeta rscFixed2Meta = new FixedMeta (new DocumentInputStream (((DocumentEntry)rscDir.getEntry("Fixed2Meta"))), 49);
-      Props12 props = new Props12 (getEncryptableInputStream (rscDir, "Props"));
+      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
+      VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
+      Var2Data rscVarData = new Var2Data(rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
+      FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
+      FixedData rscFixedData = new FixedData(rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
+      FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
+      Props12 props = new Props12(getEncryptableInputStream(rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(props);
-      
-      // Process aliases      
-      processResourceFieldNameAliases( props.getByteArray(RESOURCE_FIELD_NAME_ALIASES));
 
-      TreeMap<Integer, Integer> resourceMap = createResourceMap (rscFixedMeta, rscFixedData);
+      // Process aliases      
+      processResourceFieldNameAliases(props.getByteArray(RESOURCE_FIELD_NAME_ALIASES));
+
+      TreeMap<Integer, Integer> resourceMap = createResourceMap(rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer id;
       Integer offset;
@@ -2507,10 +2489,10 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
 
-      RTFUtility rtf = new RTFUtility ();
+      RTFUtility rtf = new RTFUtility();
       String notes;
 
-      for (int loop=0; loop < uniqueid.length; loop++)
+      for (int loop = 0; loop < uniqueid.length; loop++)
       {
          id = uniqueid[loop];
          offset = resourceMap.get(id);
@@ -2524,207 +2506,207 @@ final class MPP12Reader implements MPPVariantReader
          {
             continue;
          }
-         
+
          //metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
-         
+
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(rscVarData, id, true, true, true, true, true, true);
-         
+
          resource = m_file.addResource();
 
-         resource.setAccrueAt(AccrueType.getInstance (MPPUtility.getShort (data, 12)));
-         resource.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 132)/100));
-         resource.setActualOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 172)/100));
-         resource.setActualOvertimeWork(Duration.getInstance (MPPUtility.getDouble (data, 108)/60000, TimeUnit.HOURS));
-         resource.setActualWork(Duration.getInstance (MPPUtility.getDouble (data, 60)/60000, TimeUnit.HOURS));
+         resource.setAccrueAt(AccrueType.getInstance(MPPUtility.getShort(data, 12)));
+         resource.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 132) / 100));
+         resource.setActualOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 172) / 100));
+         resource.setActualOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 108) / 60000, TimeUnit.HOURS));
+         resource.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 60) / 60000, TimeUnit.HOURS));
          resource.setAvailableFrom(MPPUtility.getTimestamp(data, 20));
          resource.setAvailableTo(MPPUtility.getTimestamp(data, 24));
          //resource.setBaseCalendar();
-         
-         resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148)/100));
-         resource.setBaselineWork(Duration.getInstance (MPPUtility.getDouble (data, 68)/60000, TimeUnit.HOURS));
-         
-         resource.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE1_COST) / 100));
-         resource.setBaselineWork(1, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE1_WORK)/60000, TimeUnit.HOURS));
-         
-         resource.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE2_COST) / 100));
-         resource.setBaselineWork(2, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE2_WORK)/60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE3_COST) / 100));
-         resource.setBaselineWork(3, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE3_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 148) / 100));
+         resource.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 68) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE4_COST) / 100));
-         resource.setBaselineWork(4, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE4_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(1, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE1_COST) / 100));
+         resource.setBaselineWork(1, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE1_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE5_COST) / 100));
-         resource.setBaselineWork(5, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE5_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(2, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE2_COST) / 100));
+         resource.setBaselineWork(2, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE2_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE6_COST) / 100));
-         resource.setBaselineWork(6, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE6_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(3, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE3_COST) / 100));
+         resource.setBaselineWork(3, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE3_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE7_COST) / 100));
-         resource.setBaselineWork(7, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE7_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(4, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE4_COST) / 100));
+         resource.setBaselineWork(4, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE4_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE8_COST) / 100));
-         resource.setBaselineWork(8, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE8_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(5, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE5_COST) / 100));
+         resource.setBaselineWork(5, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE5_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE9_COST) / 100));
-         resource.setBaselineWork(9, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE9_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(6, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE6_COST) / 100));
+         resource.setBaselineWork(6, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE6_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue (rscVarData, id, RESOURCE_BASELINE10_COST) / 100));
-         resource.setBaselineWork(10, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE10_WORK)/60000, TimeUnit.HOURS));
+         resource.setBaselineCost(7, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE7_COST) / 100));
+         resource.setBaselineWork(7, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE7_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setCode (rscVarData.getUnicodeString (id, RESOURCE_CODE));
-         resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140)/100));
-         
-         resource.setCost1(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST1) / 100));
-         resource.setCost2(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST2) / 100));
-         resource.setCost3(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST3) / 100));
-         resource.setCost4(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST4) / 100));
-         resource.setCost5(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST5) / 100));
-         resource.setCost6(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST6) / 100));
-         resource.setCost7(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST7) / 100));
-         resource.setCost8(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST8) / 100));
-         resource.setCost9(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST9) / 100));
-         resource.setCost10(Double.valueOf(getCustomFieldDoubleValue ( rscVarData, id, RESOURCE_COST10) / 100));
+         resource.setBaselineCost(8, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE8_COST) / 100));
+         resource.setBaselineWork(8, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE8_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setCostPerUse(NumberUtility.getDouble(MPPUtility.getDouble(data, 84)/100));
-         resource.setDate1(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE1));
-         resource.setDate2(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE2));
-         resource.setDate3(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE3));
-         resource.setDate4(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE4));
-         resource.setDate5(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE5));
-         resource.setDate6(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE6));
-         resource.setDate7(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE7));
-         resource.setDate8(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE8));
-         resource.setDate9(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE9));
-         resource.setDate10(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_DATE10));
-         
-         resource.setDuration1(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION1, RESOURCE_DURATION1_UNITS));
-         resource.setDuration2(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION2, RESOURCE_DURATION2_UNITS));
-         resource.setDuration3(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION3, RESOURCE_DURATION3_UNITS));
-         resource.setDuration4(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION4, RESOURCE_DURATION4_UNITS));
-         resource.setDuration5(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION5, RESOURCE_DURATION5_UNITS));
-         resource.setDuration6(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION6, RESOURCE_DURATION6_UNITS));
-         resource.setDuration7(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION7, RESOURCE_DURATION7_UNITS));
-         resource.setDuration8(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION8, RESOURCE_DURATION8_UNITS));
-         resource.setDuration9(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION9, RESOURCE_DURATION9_UNITS));
-         resource.setDuration10(getCustomFieldDurationValue ( rscVarData, id, RESOURCE_DURATION10, RESOURCE_DURATION10_UNITS));
+         resource.setBaselineCost(9, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE9_COST) / 100));
+         resource.setBaselineWork(9, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE9_WORK) / 60000, TimeUnit.HOURS));
 
-         resource.setEmailAddress(rscVarData.getUnicodeString (id, RESOURCE_EMAIL));
-         
-         resource.setFinish1(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH1));
-         resource.setFinish2(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH2));
-         resource.setFinish3(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH3));
-         resource.setFinish4(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH4));
-         resource.setFinish5(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH5));
-         resource.setFinish6(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH6));
-         resource.setFinish7(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH7));
-         resource.setFinish8(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH8));
-         resource.setFinish9(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH9));
-         resource.setFinish10(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_FINISH10));
-         
-         resource.setGroup(rscVarData.getUnicodeString (id, RESOURCE_GROUP));
-         processHyperlinkData (resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
-         resource.setID (Integer.valueOf(MPPUtility.getInt (data, 4)));
-         resource.setInitials (rscVarData.getUnicodeString (id, RESOURCE_INITIALS));
+         resource.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE10_COST) / 100));
+         resource.setBaselineWork(10, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE10_WORK) / 60000, TimeUnit.HOURS));
+
+         resource.setCode(rscVarData.getUnicodeString(id, RESOURCE_CODE));
+         resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140) / 100));
+
+         resource.setCost1(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST1) / 100));
+         resource.setCost2(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST2) / 100));
+         resource.setCost3(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST3) / 100));
+         resource.setCost4(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST4) / 100));
+         resource.setCost5(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST5) / 100));
+         resource.setCost6(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST6) / 100));
+         resource.setCost7(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST7) / 100));
+         resource.setCost8(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST8) / 100));
+         resource.setCost9(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST9) / 100));
+         resource.setCost10(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_COST10) / 100));
+
+         resource.setCostPerUse(NumberUtility.getDouble(MPPUtility.getDouble(data, 84) / 100));
+         resource.setDate1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE1));
+         resource.setDate2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE2));
+         resource.setDate3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE3));
+         resource.setDate4(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE4));
+         resource.setDate5(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE5));
+         resource.setDate6(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE6));
+         resource.setDate7(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE7));
+         resource.setDate8(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE8));
+         resource.setDate9(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE9));
+         resource.setDate10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_DATE10));
+
+         resource.setDuration1(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION1, RESOURCE_DURATION1_UNITS));
+         resource.setDuration2(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION2, RESOURCE_DURATION2_UNITS));
+         resource.setDuration3(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION3, RESOURCE_DURATION3_UNITS));
+         resource.setDuration4(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION4, RESOURCE_DURATION4_UNITS));
+         resource.setDuration5(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION5, RESOURCE_DURATION5_UNITS));
+         resource.setDuration6(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION6, RESOURCE_DURATION6_UNITS));
+         resource.setDuration7(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION7, RESOURCE_DURATION7_UNITS));
+         resource.setDuration8(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION8, RESOURCE_DURATION8_UNITS));
+         resource.setDuration9(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION9, RESOURCE_DURATION9_UNITS));
+         resource.setDuration10(getCustomFieldDurationValue(rscVarData, id, RESOURCE_DURATION10, RESOURCE_DURATION10_UNITS));
+
+         resource.setEmailAddress(rscVarData.getUnicodeString(id, RESOURCE_EMAIL));
+
+         resource.setFinish1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH1));
+         resource.setFinish2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH2));
+         resource.setFinish3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH3));
+         resource.setFinish4(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH4));
+         resource.setFinish5(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH5));
+         resource.setFinish6(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH6));
+         resource.setFinish7(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH7));
+         resource.setFinish8(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH8));
+         resource.setFinish9(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH9));
+         resource.setFinish10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH10));
+
+         resource.setGroup(rscVarData.getUnicodeString(id, RESOURCE_GROUP));
+         processHyperlinkData(resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
+         resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         resource.setInitials(rscVarData.getUnicodeString(id, RESOURCE_INITIALS));
          //resource.setLinkedFields(); // Calculated value        
          resource.setMaterialLabel(rscVarData.getUnicodeString(id, RESOURCE_MATERIAL_LABEL));
-         resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44)/100));
-         resource.setName (rscVarData.getUnicodeString (id, RESOURCE_NAME));
-         
-         resource.setNumber1(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER1)));
-         resource.setNumber2(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER2)));
-         resource.setNumber3(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER3)));
-         resource.setNumber4(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER4)));
-         resource.setNumber5(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER5)));
-         resource.setNumber6(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER6)));
-         resource.setNumber7(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER7)));
-         resource.setNumber8(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER8)));
-         resource.setNumber9(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER9)));
-         resource.setNumber10(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER10)));
-         resource.setNumber11(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER11)));
-         resource.setNumber12(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER12)));
-         resource.setNumber13(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER13)));
-         resource.setNumber14(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER14)));
-         resource.setNumber15(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER15)));
-         resource.setNumber16(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER16)));
-         resource.setNumber17(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER17)));
-         resource.setNumber18(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER18)));
-         resource.setNumber19(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER19)));
-         resource.setNumber20(Double.valueOf(getCustomFieldDoubleValue( rscVarData, id, RESOURCE_NUMBER20)));
-         
+         resource.setMaxUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 44) / 100));
+         resource.setName(rscVarData.getUnicodeString(id, RESOURCE_NAME));
+
+         resource.setNumber1(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER1)));
+         resource.setNumber2(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER2)));
+         resource.setNumber3(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER3)));
+         resource.setNumber4(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER4)));
+         resource.setNumber5(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER5)));
+         resource.setNumber6(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER6)));
+         resource.setNumber7(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER7)));
+         resource.setNumber8(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER8)));
+         resource.setNumber9(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER9)));
+         resource.setNumber10(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER10)));
+         resource.setNumber11(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER11)));
+         resource.setNumber12(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER12)));
+         resource.setNumber13(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER13)));
+         resource.setNumber14(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER14)));
+         resource.setNumber15(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER15)));
+         resource.setNumber16(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER16)));
+         resource.setNumber17(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER17)));
+         resource.setNumber18(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER18)));
+         resource.setNumber19(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER19)));
+         resource.setNumber20(Double.valueOf(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_NUMBER20)));
+
          //resource.setObjects(); // Calculated value
-         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
-         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
-         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
-         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
-         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
-         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
-         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
-         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
-         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
-         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt (id, 2, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
+         resource.setOutlineCode1(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE1)), OUTLINECODE_DATA));
+         resource.setOutlineCode2(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE2)), OUTLINECODE_DATA));
+         resource.setOutlineCode3(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE3)), OUTLINECODE_DATA));
+         resource.setOutlineCode4(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE4)), OUTLINECODE_DATA));
+         resource.setOutlineCode5(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE5)), OUTLINECODE_DATA));
+         resource.setOutlineCode6(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE6)), OUTLINECODE_DATA));
+         resource.setOutlineCode7(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE7)), OUTLINECODE_DATA));
+         resource.setOutlineCode8(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE8)), OUTLINECODE_DATA));
+         resource.setOutlineCode9(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE9)), OUTLINECODE_DATA));
+         resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, 2, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
-         resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164)/100));
-         resource.setOvertimeRate(new Rate (MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
-         resource.setOvertimeWork(Duration.getInstance (MPPUtility.getDouble (data, 76)/60000, TimeUnit.HOURS));
-         resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124)/100));
+         resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164) / 100));
+         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
+         resource.setOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 76) / 60000, TimeUnit.HOURS));
+         resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
-         resource.setRegularWork(Duration.getInstance (MPPUtility.getDouble (data, 100)/60000, TimeUnit.HOURS));
-         resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156)/100));
-         resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180)/100));
-         resource.setRemainingWork(Duration.getInstance (MPPUtility.getDouble (data, 92)/60000, TimeUnit.HOURS));
-         resource.setStandardRate(new Rate (MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
-         
-         resource.setStart1(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START1));
-         resource.setStart2(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START2));
-         resource.setStart3(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START3));
-         resource.setStart4(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START4));
-         resource.setStart5(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START5));
-         resource.setStart6(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START6));
-         resource.setStart7(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START7));
-         resource.setStart8(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START8));
-         resource.setStart9(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START9));
-         resource.setStart10(getCustomFieldTimestampValue ( rscVarData, id, RESOURCE_START10));
-         
+         resource.setRegularWork(Duration.getInstance(MPPUtility.getDouble(data, 100) / 60000, TimeUnit.HOURS));
+         resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156) / 100));
+         resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180) / 100));
+         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));
+         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
+
+         resource.setStart1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START1));
+         resource.setStart2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START2));
+         resource.setStart3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START3));
+         resource.setStart4(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START4));
+         resource.setStart5(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START5));
+         resource.setStart6(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START6));
+         resource.setStart7(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START7));
+         resource.setStart8(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START8));
+         resource.setStart9(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START9));
+         resource.setStart10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START10));
+
          resource.setSubprojectResourceUniqueID(Integer.valueOf(rscVarData.getInt(id, RESOURCE_SUBPROJECTRESOURCEID)));
-         
-         resource.setText1(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT1));
-         resource.setText2(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT2));
-         resource.setText3(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT3));
-         resource.setText4(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT4));
-         resource.setText5(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT5));
-         resource.setText6(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT6));
-         resource.setText7(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT7));
-         resource.setText8(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT8));
-         resource.setText9(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT9));
-         resource.setText10(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT10));
-         resource.setText11(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT11));
-         resource.setText12(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT12));
-         resource.setText13(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT13));
-         resource.setText14(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT14));
-         resource.setText15(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT15));
-         resource.setText16(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT16));
-         resource.setText17(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT17));
-         resource.setText18(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT18));
-         resource.setText19(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT19));
-         resource.setText20(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT20));
-         resource.setText21(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT21));
-         resource.setText22(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT22));
-         resource.setText23(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT23));
-         resource.setText24(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT24));
-         resource.setText25(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT25));
-         resource.setText26(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT26));
-         resource.setText27(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT27));
-         resource.setText28(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT28));
-         resource.setText29(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT29));
-         resource.setText30(getCustomFieldUnicodeStringValue( rscVarData, id, RESOURCE_TEXT30));
-         
-         resource.setType((MPPUtility.getShort(data, 14)==0?ResourceType.WORK:ResourceType.MATERIAL));
+
+         resource.setText1(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT1));
+         resource.setText2(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT2));
+         resource.setText3(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT3));
+         resource.setText4(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT4));
+         resource.setText5(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT5));
+         resource.setText6(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT6));
+         resource.setText7(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT7));
+         resource.setText8(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT8));
+         resource.setText9(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT9));
+         resource.setText10(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT10));
+         resource.setText11(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT11));
+         resource.setText12(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT12));
+         resource.setText13(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT13));
+         resource.setText14(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT14));
+         resource.setText15(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT15));
+         resource.setText16(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT16));
+         resource.setText17(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT17));
+         resource.setText18(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT18));
+         resource.setText19(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT19));
+         resource.setText20(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT20));
+         resource.setText21(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT21));
+         resource.setText22(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT22));
+         resource.setText23(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT23));
+         resource.setText24(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT24));
+         resource.setText25(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT25));
+         resource.setText26(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT26));
+         resource.setText27(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT27));
+         resource.setText28(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT28));
+         resource.setText29(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT29));
+         resource.setText30(getCustomFieldUnicodeStringValue(rscVarData, id, RESOURCE_TEXT30));
+
+         resource.setType((MPPUtility.getShort(data, 14) == 0 ? ResourceType.WORK : ResourceType.MATERIAL));
          resource.setUniqueID(id);
-         resource.setWork(Duration.getInstance (MPPUtility.getDouble (data, 52)/60000, TimeUnit.HOURS));
+         resource.setWork(Duration.getInstance(MPPUtility.getDouble(data, 52) / 60000, TimeUnit.HOURS));
 
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
          resource.setFlag1((metaData[28] & 0x40) != 0);
@@ -2748,7 +2730,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setFlag19((metaData[30] & 0x80) != 0);
          resource.setFlag20((metaData[31] & 0x01) != 0);
 
-         notes = rscVarData.getString (id, RESOURCE_NOTES);
+         notes = rscVarData.getString(id, RESOURCE_NOTES);
          if (notes != null)
          {
             if (m_reader.getPreserveNoteFormatting() == false)
@@ -2769,31 +2751,29 @@ final class MPP12Reader implements MPPVariantReader
          //
          byte[] metaData2 = rscFixed2Meta.getByteArrayValue(offset.intValue());
          processResourceEnterpriseColumns(id, resource, rscVarData, metaData2);
-         
+
          m_file.fireResourceReadEvent(resource);
       }
    }
-
 
    /**
     * This method extracts and collates resource assignment data.
     *
     * @throws IOException
     */
-   private void processAssignmentData ()
-      throws IOException
+   private void processAssignmentData() throws IOException
    {
-      DirectoryEntry assnDir = (DirectoryEntry)m_projectDir.getEntry ("TBkndAssn");
-      VarMeta assnVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("VarMeta"))));
-      Var2Data assnVarData = new Var2Data (assnVarMeta, new DocumentInputStream (((DocumentEntry)assnDir.getEntry("Var2Data"))));
-      FixedMeta assnFixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData (142, getEncryptableInputStream (assnDir, "FixedData"));
+      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
+      VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
+      Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
+      FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
+      FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
-      
-      for (int loop=0; loop < count; loop++)
+
+      for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
          if (meta[0] != 0)
@@ -2808,8 +2788,6 @@ final class MPP12Reader implements MPPVariantReader
             continue;
          }
 
-         
-         
          int id = MPPUtility.getInt(data, 0);
          final Integer varDataId = Integer.valueOf(id);
          if (set.contains(varDataId) == false)
@@ -2817,31 +2795,31 @@ final class MPP12Reader implements MPPVariantReader
             continue;
          }
 
-         Integer taskID = Integer.valueOf(MPPUtility.getInt (data, 4));
-         Task task = m_file.getTaskByUniqueID (taskID);
+         Integer taskID = Integer.valueOf(MPPUtility.getInt(data, 4));
+         Task task = m_file.getTaskByUniqueID(taskID);
 
          if (task != null)
          {
-            Integer resourceID = Integer.valueOf(MPPUtility.getInt (data, 8));
-            Resource resource = m_file.getResourceByUniqueID (resourceID);
+            Integer resourceID = Integer.valueOf(MPPUtility.getInt(data, 8));
+            Resource resource = m_file.getResourceByUniqueID(resourceID);
 
             ProjectCalendar calendar = null;
             if (resource != null)
             {
                calendar = resource.getResourceCalendar();
             }
-            
+
             if (calendar == null)
             {
                task.getCalendar();
             }
-            
+
             if (calendar == null)
             {
                String calendarName = m_file.getProjectHeader().getCalendarName();
                calendar = m_file.getBaseCalendar(calendarName);
             }
-            
+
             Date assignmentStart = MPPUtility.getTimestamp(data, 12);
             byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
             byte[] plannedWork = assnVarData.getByteArray(varDataId, PLANNED_WORK);
@@ -2849,12 +2827,11 @@ final class MPP12Reader implements MPPVariantReader
             List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
             //System.out.println(timephasedPlanned);
-            
+
             if (task.getSplits() != null && task.getSplits().isEmpty())
-            {               
+            {
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
             }
-
 
             if (resource != null)
             {
@@ -2864,30 +2841,30 @@ final class MPP12Reader implements MPPVariantReader
                //System.out.println(MPPUtility.hexdump(incompleteWork, false, 16, ""));
                //System.out.println(MPPUtility.hexdump(meta, false, 16, ""));               
 
-               ResourceAssignment assignment = task.addResourceAssignment (resource);
-               assignment.setActualCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 110)/100));
-               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70))/100, TimeUnit.HOURS));
-               assignment.setCost(NumberUtility.getDouble (MPPUtility.getDouble(data, 102)/100));
+               ResourceAssignment assignment = task.addResourceAssignment(resource);
+               assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
+               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
+               assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
                assignment.setFinish(MPPUtility.getTimestamp(data, 16));
                //assignment.setOvertimeWork(); // Can't find in data block
                //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86))/100, TimeUnit.HOURS));
+               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86)) / 100, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
-               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54))/100));
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62))/100, TimeUnit.HOURS));
+               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54)) / 100));
+               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
                assignment.setTimephasedPlanned(timephasedPlanned);
                assignment.setTimephasedComplete(timephasedComplete);
-               
+
                if (plannedWork != null)
                {
                   if (timephasedFactory.getWorkModified(timephasedPlanned))
                   {
-                     assignment.setWorkContour(WorkContour.CONTOURED);                     
+                     assignment.setWorkContour(WorkContour.CONTOURED);
                   }
                   else
-                  {                  
+                  {
                      assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
                   }
                   //System.out.println(assignment.getWorkContour());
@@ -2896,14 +2873,14 @@ final class MPP12Reader implements MPPVariantReader
          }
       }
    }
-      
+
    /**
     * This method is used to determine if a duration is estimated.
     *
     * @param type Duration units value
     * @return boolean Estimated flag
     */
-   private boolean getDurationEstimated (int type)
+   private boolean getDurationEstimated(int type)
    {
       return ((type & DURATION_CONFIRMED_MASK) != 0);
    }
@@ -2913,22 +2890,21 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @throws java.io.IOException
     */
-   private void processViewData ()
-      throws IOException
+   private void processViewData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CV_iew");
-      VarMeta viewVarMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data viewVarData = new Var2Data (viewVarMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData (138, getEncryptableInputStream (dir, "FixedData"));
-      
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
+      VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data viewVarData = new Var2Data(viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData(138, getEncryptableInputStream(dir, "FixedData"));
+
       int items = fixedMeta.getItemCount();
       View view;
-      ViewFactory factory = new ViewFactory12 ();
-   
+      ViewFactory factory = new ViewFactory12();
+
       int lastOffset = -1;
-      for (int loop=0; loop < items; loop++)
-      {        
+      for (int loop = 0; loop < items; loop++)
+      {
          byte[] fm = fixedMeta.getByteArrayValue(loop);
          int offset = MPPUtility.getShort(fm, 4);
          if (offset > lastOffset)
@@ -2941,7 +2917,7 @@ final class MPP12Reader implements MPPVariantReader
             }
             lastOffset = offset;
          }
-      }      
+      }
    }
 
    /**
@@ -2949,28 +2925,27 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @throws java.io.IOException
     */
-   private void processTableData ()
-      throws IOException
+   private void processTableData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CTable");
-      
-      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
+
+      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       int tableCount = varMeta.getUniqueIdentifierSet().size();
-      DocumentInputStream is = new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData")));
-      int fixedItemSize = is.available()/tableCount;      
-      FixedData fixedData = new FixedData (fixedItemSize, is);
-      
+      DocumentInputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
+      int fixedItemSize = is.available() / tableCount;
+      FixedData fixedData = new FixedData(fixedItemSize, is);
+
       //System.out.println(varMeta);
       //System.out.println(varData);
       //System.out.println(fixedData);
-      
+
       TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
       int items = fixedData.getItemCount();
-      for (int loop=0; loop < items; loop++)
+      for (int loop = 0; loop < items; loop++)
       {
          byte[] data = fixedData.getByteArrayValue(loop);
-         Table table = factory.createTable(m_file, data, varMeta, varData);         
+         Table table = factory.createTable(m_file, data, varMeta, varData);
          m_file.addTable(table);
          //System.out.println(table);
       }
@@ -2981,21 +2956,20 @@ final class MPP12Reader implements MPPVariantReader
     * 
     * @throws IOException
     */
-   private void processFilterData ()
-      throws IOException
-   {            
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CFilter");
-      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData (fixedMeta, getEncryptableInputStream (dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
+   private void processFilterData() throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
+      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
+      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
       //System.out.println(fixedMeta);
       //System.out.println(fixedData);
       //System.out.println(varMeta);
       //System.out.println(varData);
 
-      FilterReader reader = new FilterReader12();      
+      FilterReader reader = new FilterReader12();
       reader.process(m_file, fixedData, varData);
    }
 
@@ -3004,16 +2978,15 @@ final class MPP12Reader implements MPPVariantReader
     * 
     * @throws IOException
     */
-   private void processSavedViewState ()
-      throws IOException
-   {           
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CEdl");
-      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));   
+   private void processSavedViewState() throws IOException
+   {
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
+      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
       //System.out.println(varMeta);
       //System.out.println(varData);
 
-      InputStream is = new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedData")));
+      InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
       byte[] fixedData = new byte[is.available()];
       is.read(fixedData);
       is.close();
@@ -3022,29 +2995,28 @@ final class MPP12Reader implements MPPVariantReader
       ViewStateReader reader = new ViewStateReader12();
       reader.process(m_file, varData, fixedData);
    }
- 
+
    /**
     * Read group definitions.
     * 
     * @throws IOException
     */
-   private void processGroupData ()
-      throws IOException
+   private void processGroupData() throws IOException
    {
-      DirectoryEntry dir = (DirectoryEntry)m_viewDir.getEntry ("CGrouping");
-      FixedMeta fixedMeta = new FixedMeta (new DocumentInputStream (((DocumentEntry)dir.getEntry("FixedMeta"))), 10);
-      FixedData fixedData = new FixedData (fixedMeta, getEncryptableInputStream (dir, "FixedData"));
-      VarMeta varMeta = new VarMeta12 (new DocumentInputStream (((DocumentEntry)dir.getEntry("VarMeta"))));
-      Var2Data varData = new Var2Data (varMeta, new DocumentInputStream (((DocumentEntry)dir.getEntry("Var2Data"))));
-   
-//      System.out.println(fixedMeta);
-//      System.out.println(fixedData);
-//      System.out.println(varMeta);
-//      System.out.println(varData);   
-      
+      DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
+      FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
+      FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
+      VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
+      Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+
+      //      System.out.println(fixedMeta);
+      //      System.out.println(fixedData);
+      //      System.out.println(varMeta);
+      //      System.out.println(varData);   
+
       GroupReader reader = new GroupReader12();
       reader.process(m_file, fixedData, varData, m_fontBases);
-      
+
    }
 
    /**
@@ -3059,22 +3031,22 @@ final class MPP12Reader implements MPPVariantReader
    private String getCustomFieldOutlineCodeValue(Var2Data varData, Var2Data outlineCodeVarData, Integer id, Integer type)
    {
       String result = null;
-      
-       if (varData.getShort(id, type) != VALUE_LIST_MASK)
-       {
-           result = outlineCodeVarData.getUnicodeString(Integer.valueOf(varData.getInt (id, 2, type)), OUTLINECODE_DATA);
-       }
-       else
-       {
-           int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-           if (item != null)
-           {
-               result = MPPUtility.getUnicodeString(item.getValue());
-           }
-       }
-       return result;
-   }   
+
+      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      {
+         result = outlineCodeVarData.getUnicodeString(Integer.valueOf(varData.getInt(id, 2, type)), OUTLINECODE_DATA);
+      }
+      else
+      {
+         int uniqueId = varData.getInt(id, 2, type);
+         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+         if (item != null)
+         {
+            result = MPPUtility.getUnicodeString(item.getValue());
+         }
+      }
+      return result;
+   }
 
    /**
     * Retrieve custom field value.
@@ -3087,23 +3059,23 @@ final class MPP12Reader implements MPPVariantReader
    private Date getCustomFieldTimestampValue(Var2Data varData, Integer id, Integer type)
    {
       Date result = null;
-      
-       if (varData.getShort(id, type) != VALUE_LIST_MASK)
-       {
-           result = varData.getTimestamp(id, type);
-       }
-       else
-       {
-           int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-           if (item != null)
-           {
-               result = MPPUtility.getTimestamp(item.getValue());
-           }
-       }
-       return result;
+
+      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      {
+         result = varData.getTimestamp(id, type);
+      }
+      else
+      {
+         int uniqueId = varData.getInt(id, 2, type);
+         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+         if (item != null)
+         {
+            result = MPPUtility.getTimestamp(item.getValue());
+         }
+      }
+      return result;
    }
-   
+
    /**
     * Retrieve custom field value.
     * 
@@ -3112,25 +3084,25 @@ final class MPP12Reader implements MPPVariantReader
     * @param type item type
     * @param unitsType duration units type
     * @return item value
-    */   
+    */
    private Duration getCustomFieldDurationValue(Var2Data varData, Integer id, Integer type, Integer unitsType)
    {
       Duration result = null;
-      
-       if (varData.getShort(id, type) != VALUE_LIST_MASK)
-       {
-           result = MPPUtility.getAdjustedDuration (m_file, varData.getInt(id, type), MPPUtility.getDurationTimeUnits(varData.getShort(id, unitsType)));        
-       }
-       else
-       {
-           int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-           if (item != null)
-           {
-               result = MPPUtility.getAdjustedDuration (m_file, MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));           
-           }
-       }
-       return result;
+
+      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      {
+         result = MPPUtility.getAdjustedDuration(m_file, varData.getInt(id, type), MPPUtility.getDurationTimeUnits(varData.getShort(id, unitsType)));
+      }
+      else
+      {
+         int uniqueId = varData.getInt(id, 2, type);
+         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+         if (item != null)
+         {
+            result = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
+         }
+      }
+      return result;
    }
 
    /**
@@ -3140,27 +3112,27 @@ final class MPP12Reader implements MPPVariantReader
     * @param id item ID
     * @param type item type
     * @return item value
-    */   
+    */
    private double getCustomFieldDoubleValue(Var2Data varData, Integer id, Integer type)
    {
       double result = 0;
-      
-       if (varData.getShort(id, type) != VALUE_LIST_MASK)
-       {
-           result = varData.getDouble(id, type);
-       }
-       else
-       {
-           int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-           if (item != null)
-           {
-               result = MPPUtility.getDouble(item.getValue());
-           }
-       }
-       return result;
+
+      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      {
+         result = varData.getDouble(id, type);
+      }
+      else
+      {
+         int uniqueId = varData.getInt(id, 2, type);
+         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+         if (item != null)
+         {
+            result = MPPUtility.getDouble(item.getValue());
+         }
+      }
+      return result;
    }
-   
+
    /**
     * Retrieve custom field value.
     * 
@@ -3168,27 +3140,27 @@ final class MPP12Reader implements MPPVariantReader
     * @param id item ID
     * @param type item type
     * @return item value
-    */   
+    */
    private String getCustomFieldUnicodeStringValue(Var2Data varData, Integer id, Integer type)
    {
       String result = null;
-      
-       if (varData.getShort(id, type) != VALUE_LIST_MASK)
-       {
-           result = varData.getUnicodeString(id, type);
-       }
-       else
-       {
-           int uniqueId = varData.getInt(id, 2, type);
-           CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-           if (item != null)
-           {
-               result = MPPUtility.getUnicodeString(item.getValue());
-           }
-       }
-       return result;
-   }      
-   
+
+      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      {
+         result = varData.getUnicodeString(id, type);
+      }
+      else
+      {
+         int uniqueId = varData.getInt(id, 2, type);
+         CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
+         if (item != null)
+         {
+            result = MPPUtility.getUnicodeString(item.getValue());
+         }
+      }
+      return result;
+   }
+
    /**
     * Method used to instantiate the appropriate input stream reader,
     * a standard one, or one which can deal with "encrypted" data.
@@ -3198,58 +3170,56 @@ final class MPP12Reader implements MPPVariantReader
     * @return new input stream
     * @throws IOException
     */
-   private InputStream getEncryptableInputStream (DirectoryEntry directory, String name)
-      throws IOException
+   private InputStream getEncryptableInputStream(DirectoryEntry directory, String name) throws IOException
    {
-      DocumentEntry entry = (DocumentEntry)directory.getEntry(name);
+      DocumentEntry entry = (DocumentEntry) directory.getEntry(name);
       InputStream stream;
       if (m_file.getEncoded())
       {
          stream = new EncryptedDocumentInputStream(entry);
          // Set the encryption mask
-         ((EncryptedDocumentInputStream)stream).setMask(m_file.getEncryptionCode());
+         ((EncryptedDocumentInputStream) stream).setMask(m_file.getEncryptionCode());
       }
       else
       {
-         stream = new DocumentInputStream (entry);
+         stream = new DocumentInputStream(entry);
       }
-      
+
       return (stream);
    }
-   
-   
-//   private static void dumpUnknownData (String label, int[][] spec, byte[] data)
-//   {
-//      System.out.print (label);
-//      for (int loop=0; loop < spec.length; loop++)
-//      {
-//         int startByte = spec[loop][0];
-//         int length = spec[loop][1];
-//         if (length == -1)
-//         {
-//            length = data.length - startByte;
-//         }
-//         System.out.print ("["+spec[loop][0] + "]["+ MPPUtility.hexdump(data, startByte, length, false) + " ]");
-//      }
-//      System.out.println ();
-//   }
 
-//   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
-//   {
-//      {42, 18},
-//      {116, 4},
-//      {134, 2},
-//      {144, 4},
-//      {144, 16},
-//      {248, 8},
-//      {256, -1}
-//   };
+   //   private static void dumpUnknownData (String label, int[][] spec, byte[] data)
+   //   {
+   //      System.out.print (label);
+   //      for (int loop=0; loop < spec.length; loop++)
+   //      {
+   //         int startByte = spec[loop][0];
+   //         int length = spec[loop][1];
+   //         if (length == -1)
+   //         {
+   //            length = data.length - startByte;
+   //         }
+   //         System.out.print ("["+spec[loop][0] + "]["+ MPPUtility.hexdump(data, startByte, length, false) + " ]");
+   //      }
+   //      System.out.println ();
+   //   }
 
-//   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
-//   {
-//      {14, 6},
-//      {108, 16},
-//   };
+   //   private static final int[][] UNKNOWN_TASK_DATA = new int[][]
+   //   {
+   //      {42, 18},
+   //      {116, 4},
+   //      {134, 2},
+   //      {144, 4},
+   //      {144, 16},
+   //      {248, 8},
+   //      {256, -1}
+   //   };
+
+   //   private static final int[][] UNKNOWN_RESOURCE_DATA = new int[][]
+   //   {
+   //      {14, 6},
+   //      {108, 16},
+   //   };
 
    private MPPReader m_reader;
    private ProjectFile m_file;
@@ -3263,38 +3233,36 @@ final class MPP12Reader implements MPPVariantReader
    private DirectoryEntry m_viewDir;
    private Map<Integer, Integer> m_parentTasks;
 
-   
-//   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
-//   {
-//      public int compare(Task o1, Task o2)
-//      {
-//         int result = DateUtility.compare(o1.getStart(), o2.getStart());
-//         if (result == 0)
-//         {
-//            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
-//            //result = o1.getID().intValue() - o2.getID().intValue();
-//         }         
-//         return (result);
-//      }
-//   };
+   //   private static final Comparator<Task> START_COMPARATOR = new Comparator<Task>()
+   //   {
+   //      public int compare(Task o1, Task o2)
+   //      {
+   //         int result = DateUtility.compare(o1.getStart(), o2.getStart());
+   //         if (result == 0)
+   //         {
+   //            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
+   //            //result = o1.getID().intValue() - o2.getID().intValue();
+   //         }         
+   //         return (result);
+   //      }
+   //   };
 
-//   private static final Comparator<Task> FINISH_COMPARATOR = new Comparator<Task>()
-//   {
-//      public int compare(Task o1, Task o2)
-//      {
-//         int result = DateUtility.compare(o1.getFinish(), o2.getFinish()); 
-//         if (result == 0)
-//         {
-//            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
-//         }         
-//         return (result);
-//      }
-//   };
+   //   private static final Comparator<Task> FINISH_COMPARATOR = new Comparator<Task>()
+   //   {
+   //      public int compare(Task o1, Task o2)
+   //      {
+   //         int result = DateUtility.compare(o1.getFinish(), o2.getFinish()); 
+   //         if (result == 0)
+   //         {
+   //            result = o1.getUniqueID().intValue() - o2.getUniqueID().intValue();
+   //         }         
+   //         return (result);
+   //      }
+   //   };
 
-   
    // Signals the end of the list of subproject task unique ids
    //private static final int SUBPROJECT_LISTEND = 0x00000303;
-   
+
    // Signals that the previous value was for the subproject task unique id
    // TODO: figure out why the different value exist.
    private static final int SUBPROJECT_TASKUNIQUEID0 = 0x00000000;
@@ -3302,7 +3270,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
-   
+
    /**
     * Calendar data types.
     */
@@ -3318,21 +3286,21 @@ final class MPP12Reader implements MPPVariantReader
    //
    private static final Integer TASK_NAME = Integer.valueOf(14);
    private static final Integer TASK_WBS = Integer.valueOf(16);
-   
+
    private static final Integer TASK_NUMBER1 = Integer.valueOf(87);
    private static final Integer TASK_NUMBER2 = Integer.valueOf(88);
    private static final Integer TASK_NUMBER3 = Integer.valueOf(89);
    private static final Integer TASK_NUMBER4 = Integer.valueOf(90);
    private static final Integer TASK_NUMBER5 = Integer.valueOf(91);
-   
+
    private static final Integer TASK_COST1 = Integer.valueOf(106);
    private static final Integer TASK_COST2 = Integer.valueOf(107);
-   private static final Integer TASK_COST3 = Integer.valueOf(108);   
-   
+   private static final Integer TASK_COST3 = Integer.valueOf(108);
+
    private static final Integer TASK_CONTACT = Integer.valueOf(112);
-   
+
    private static final Integer TASK_RECURRING_DATA = Integer.valueOf(203);
-   
+
    private static final Integer TASK_COST4 = Integer.valueOf(258);
    private static final Integer TASK_COST5 = Integer.valueOf(259);
    private static final Integer TASK_COST6 = Integer.valueOf(260);
@@ -3357,8 +3325,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_NUMBER8 = Integer.valueOf(304);
    private static final Integer TASK_NUMBER9 = Integer.valueOf(305);
    private static final Integer TASK_NUMBER10 = Integer.valueOf(306);
-   
-   
+
    private static final Integer TASK_DURATION1 = Integer.valueOf(103);
    private static final Integer TASK_DURATION1_UNITS = Integer.valueOf(183);
    private static final Integer TASK_DURATION2 = Integer.valueOf(104);
@@ -3379,7 +3346,6 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_DURATION9_UNITS = Integer.valueOf(191);
    private static final Integer TASK_DURATION10 = Integer.valueOf(281);
    private static final Integer TASK_DURATION10_UNITS = Integer.valueOf(192);
-
 
    private static final Integer TASK_START1 = Integer.valueOf(52);
    private static final Integer TASK_FINISH1 = Integer.valueOf(53);
@@ -3403,7 +3369,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_FINISH10 = Integer.valueOf(291);
 
    private static final Integer TASK_HYPERLINK = Integer.valueOf(215);
-   
+
    private static final Integer TASK_NOTES = Integer.valueOf(15);
 
    private static final Integer TASK_NUMBER11 = Integer.valueOf(307);
@@ -3461,7 +3427,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_OUTLINECODE8 = Integer.valueOf(431);
    private static final Integer TASK_OUTLINECODE9 = Integer.valueOf(433);
    private static final Integer TASK_OUTLINECODE10 = Integer.valueOf(435);
-   
+
    private static final Integer TASK_ENTERPRISE_COST1 = Integer.valueOf(599);
    private static final Integer TASK_ENTERPRISE_COST2 = Integer.valueOf(600);
    private static final Integer TASK_ENTERPRISE_COST3 = Integer.valueOf(601);
@@ -3472,7 +3438,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_ENTERPRISE_COST8 = Integer.valueOf(606);
    private static final Integer TASK_ENTERPRISE_COST9 = Integer.valueOf(607);
    private static final Integer TASK_ENTERPRISE_COST10 = Integer.valueOf(608);
-   
+
    private static final Integer TASK_ENTERPRISE_DATE1 = Integer.valueOf(609);
    private static final Integer TASK_ENTERPRISE_DATE2 = Integer.valueOf(610);
    private static final Integer TASK_ENTERPRISE_DATE3 = Integer.valueOf(611);
@@ -3503,7 +3469,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_ENTERPRISE_DATE28 = Integer.valueOf(636);
    private static final Integer TASK_ENTERPRISE_DATE29 = Integer.valueOf(637);
    private static final Integer TASK_ENTERPRISE_DATE30 = Integer.valueOf(638);
-   
+
    private static final Integer TASK_ENTERPRISE_DURATION1 = Integer.valueOf(639);
    private static final Integer TASK_ENTERPRISE_DURATION2 = Integer.valueOf(640);
    private static final Integer TASK_ENTERPRISE_DURATION3 = Integer.valueOf(641);
@@ -3514,7 +3480,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_ENTERPRISE_DURATION8 = Integer.valueOf(646);
    private static final Integer TASK_ENTERPRISE_DURATION9 = Integer.valueOf(647);
    private static final Integer TASK_ENTERPRISE_DURATION10 = Integer.valueOf(648);
-   
+
    private static final Integer TASK_ENTERPRISE_DURATION1_UNITS = Integer.valueOf(649);
    private static final Integer TASK_ENTERPRISE_DURATION2_UNITS = Integer.valueOf(650);
    private static final Integer TASK_ENTERPRISE_DURATION3_UNITS = Integer.valueOf(651);
@@ -3525,7 +3491,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_ENTERPRISE_DURATION8_UNITS = Integer.valueOf(656);
    private static final Integer TASK_ENTERPRISE_DURATION9_UNITS = Integer.valueOf(657);
    private static final Integer TASK_ENTERPRISE_DURATION10_UNITS = Integer.valueOf(658);
-   
+
    private static final Integer TASK_ENTERPRISE_NUMBER1 = Integer.valueOf(699);
    private static final Integer TASK_ENTERPRISE_NUMBER2 = Integer.valueOf(700);
    private static final Integer TASK_ENTERPRISE_NUMBER3 = Integer.valueOf(701);
@@ -3566,7 +3532,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_ENTERPRISE_NUMBER38 = Integer.valueOf(736);
    private static final Integer TASK_ENTERPRISE_NUMBER39 = Integer.valueOf(737);
    private static final Integer TASK_ENTERPRISE_NUMBER40 = Integer.valueOf(738);
-   
+
    private static final Integer TASK_ENTERPRISE_TEXT1 = Integer.valueOf(799);
    private static final Integer TASK_ENTERPRISE_TEXT2 = Integer.valueOf(800);
    private static final Integer TASK_ENTERPRISE_TEXT3 = Integer.valueOf(801);
@@ -3609,77 +3575,77 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer TASK_ENTERPRISE_TEXT40 = Integer.valueOf(838);
 
    private static final Integer TASK_EXTERNAL_TASK_ID = Integer.valueOf(255);
-   
+
    private static final Integer TASK_BASELINE1_START = Integer.valueOf(482);
    private static final Integer TASK_BASELINE1_FINISH = Integer.valueOf(483);
    private static final Integer TASK_BASELINE1_COST = Integer.valueOf(484);
    private static final Integer TASK_BASELINE1_WORK = Integer.valueOf(485);
-   private static final Integer TASK_BASELINE1_DURATION = Integer.valueOf(487); 
+   private static final Integer TASK_BASELINE1_DURATION = Integer.valueOf(487);
    private static final Integer TASK_BASELINE1_DURATION_UNITS = Integer.valueOf(488);
-   
+
    private static final Integer TASK_BASELINE2_START = Integer.valueOf(493);
    private static final Integer TASK_BASELINE2_FINISH = Integer.valueOf(494);
    private static final Integer TASK_BASELINE2_COST = Integer.valueOf(495);
    private static final Integer TASK_BASELINE2_WORK = Integer.valueOf(496);
-   private static final Integer TASK_BASELINE2_DURATION = Integer.valueOf(498); 
+   private static final Integer TASK_BASELINE2_DURATION = Integer.valueOf(498);
    private static final Integer TASK_BASELINE2_DURATION_UNITS = Integer.valueOf(499);
-   
+
    private static final Integer TASK_BASELINE3_START = Integer.valueOf(504);
    private static final Integer TASK_BASELINE3_FINISH = Integer.valueOf(505);
    private static final Integer TASK_BASELINE3_COST = Integer.valueOf(506);
    private static final Integer TASK_BASELINE3_WORK = Integer.valueOf(507);
-   private static final Integer TASK_BASELINE3_DURATION = Integer.valueOf(509); 
+   private static final Integer TASK_BASELINE3_DURATION = Integer.valueOf(509);
    private static final Integer TASK_BASELINE3_DURATION_UNITS = Integer.valueOf(510);
-   
+
    private static final Integer TASK_BASELINE4_START = Integer.valueOf(515);
    private static final Integer TASK_BASELINE4_FINISH = Integer.valueOf(516);
    private static final Integer TASK_BASELINE4_COST = Integer.valueOf(517);
    private static final Integer TASK_BASELINE4_WORK = Integer.valueOf(518);
    private static final Integer TASK_BASELINE4_DURATION = Integer.valueOf(520);
    private static final Integer TASK_BASELINE4_DURATION_UNITS = Integer.valueOf(521);
-   
+
    private static final Integer TASK_BASELINE5_START = Integer.valueOf(526);
    private static final Integer TASK_BASELINE5_FINISH = Integer.valueOf(527);
    private static final Integer TASK_BASELINE5_COST = Integer.valueOf(528);
    private static final Integer TASK_BASELINE5_WORK = Integer.valueOf(529);
-   private static final Integer TASK_BASELINE5_DURATION = Integer.valueOf(531); 
+   private static final Integer TASK_BASELINE5_DURATION = Integer.valueOf(531);
    private static final Integer TASK_BASELINE5_DURATION_UNITS = Integer.valueOf(532);
-   
+
    private static final Integer TASK_BASELINE6_START = Integer.valueOf(544);
    private static final Integer TASK_BASELINE6_FINISH = Integer.valueOf(545);
    private static final Integer TASK_BASELINE6_COST = Integer.valueOf(546);
    private static final Integer TASK_BASELINE6_WORK = Integer.valueOf(547);
-   private static final Integer TASK_BASELINE6_DURATION = Integer.valueOf(549);  
+   private static final Integer TASK_BASELINE6_DURATION = Integer.valueOf(549);
    private static final Integer TASK_BASELINE6_DURATION_UNITS = Integer.valueOf(550);
-   
+
    private static final Integer TASK_BASELINE7_START = Integer.valueOf(555);
    private static final Integer TASK_BASELINE7_FINISH = Integer.valueOf(556);
    private static final Integer TASK_BASELINE7_COST = Integer.valueOf(557);
    private static final Integer TASK_BASELINE7_WORK = Integer.valueOf(558);
-   private static final Integer TASK_BASELINE7_DURATION = Integer.valueOf(560); 
+   private static final Integer TASK_BASELINE7_DURATION = Integer.valueOf(560);
    private static final Integer TASK_BASELINE7_DURATION_UNITS = Integer.valueOf(561);
-   
+
    private static final Integer TASK_BASELINE8_START = Integer.valueOf(566);
    private static final Integer TASK_BASELINE8_FINISH = Integer.valueOf(567);
    private static final Integer TASK_BASELINE8_COST = Integer.valueOf(568);
    private static final Integer TASK_BASELINE8_WORK = Integer.valueOf(569);
    private static final Integer TASK_BASELINE8_DURATION = Integer.valueOf(571);
    private static final Integer TASK_BASELINE8_DURATION_UNITS = Integer.valueOf(572);
-   
+
    private static final Integer TASK_BASELINE9_START = Integer.valueOf(577);
    private static final Integer TASK_BASELINE9_FINISH = Integer.valueOf(578);
    private static final Integer TASK_BASELINE9_COST = Integer.valueOf(579);
    private static final Integer TASK_BASELINE9_WORK = Integer.valueOf(580);
-   private static final Integer TASK_BASELINE9_DURATION = Integer.valueOf(582); 
+   private static final Integer TASK_BASELINE9_DURATION = Integer.valueOf(582);
    private static final Integer TASK_BASELINE9_DURATION_UNITS = Integer.valueOf(583);
-   
+
    private static final Integer TASK_BASELINE10_START = Integer.valueOf(588);
    private static final Integer TASK_BASELINE10_FINISH = Integer.valueOf(589);
    private static final Integer TASK_BASELINE10_COST = Integer.valueOf(590);
    private static final Integer TASK_BASELINE10_WORK = Integer.valueOf(591);
-   private static final Integer TASK_BASELINE10_DURATION = Integer.valueOf(593);   
+   private static final Integer TASK_BASELINE10_DURATION = Integer.valueOf(593);
    private static final Integer TASK_BASELINE10_DURATION_UNITS = Integer.valueOf(594);
-   
+
    private static final Integer TASK_OVERTIME_COST = Integer.valueOf(168);
    private static final Integer TASK_ACTUAL_OVERTIME_COST = Integer.valueOf(169);
 
@@ -3688,25 +3654,23 @@ final class MPP12Reader implements MPPVariantReader
    //
    private static final Integer TASK_ACTUAL_OVERTIME_WORK = Integer.valueOf(3);
    private static final Integer TASK_REMAINING_OVERTIME_WORK = Integer.valueOf(4);
-   private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);   
+   private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);
    private static final Integer TASK_SUBPROJECTUNIQUETASKID = Integer.valueOf(242);
-   private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);   
-   
-   
+   private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);
 
    /**
     * Resource data types.
-    */   
-   
+    */
+
    //
    // MPP12 verified
    //
    private static final Integer RESOURCE_NAME = Integer.valueOf(1);
    private static final Integer RESOURCE_INITIALS = Integer.valueOf(2);
-   private static final Integer RESOURCE_GROUP = Integer.valueOf(3);   
+   private static final Integer RESOURCE_GROUP = Integer.valueOf(3);
    private static final Integer RESOURCE_CODE = Integer.valueOf(10);
    private static final Integer RESOURCE_MATERIAL_LABEL = Integer.valueOf(299);
-   
+
    private static final Integer RESOURCE_HYPERLINK = Integer.valueOf(136);
 
    private static final Integer RESOURCE_COST1 = Integer.valueOf(123);
@@ -3850,7 +3814,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_COST8 = Integer.valueOf(453);
    private static final Integer RESOURCE_ENTERPRISE_COST9 = Integer.valueOf(454);
    private static final Integer RESOURCE_ENTERPRISE_COST10 = Integer.valueOf(455);
-   
+
    private static final Integer RESOURCE_ENTERPRISE_DATE1 = Integer.valueOf(456);
    private static final Integer RESOURCE_ENTERPRISE_DATE2 = Integer.valueOf(457);
    private static final Integer RESOURCE_ENTERPRISE_DATE3 = Integer.valueOf(458);
@@ -3881,7 +3845,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_DATE28 = Integer.valueOf(483);
    private static final Integer RESOURCE_ENTERPRISE_DATE29 = Integer.valueOf(484);
    private static final Integer RESOURCE_ENTERPRISE_DATE30 = Integer.valueOf(485);
-   
+
    private static final Integer RESOURCE_ENTERPRISE_DURATION1 = Integer.valueOf(486);
    private static final Integer RESOURCE_ENTERPRISE_DURATION2 = Integer.valueOf(487);
    private static final Integer RESOURCE_ENTERPRISE_DURATION3 = Integer.valueOf(488);
@@ -3892,7 +3856,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_DURATION8 = Integer.valueOf(493);
    private static final Integer RESOURCE_ENTERPRISE_DURATION9 = Integer.valueOf(494);
    private static final Integer RESOURCE_ENTERPRISE_DURATION10 = Integer.valueOf(495);
-   
+
    private static final Integer RESOURCE_ENTERPRISE_DURATION1_UNITS = Integer.valueOf(496);
    private static final Integer RESOURCE_ENTERPRISE_DURATION2_UNITS = Integer.valueOf(497);
    private static final Integer RESOURCE_ENTERPRISE_DURATION3_UNITS = Integer.valueOf(498);
@@ -3903,7 +3867,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_DURATION8_UNITS = Integer.valueOf(503);
    private static final Integer RESOURCE_ENTERPRISE_DURATION9_UNITS = Integer.valueOf(504);
    private static final Integer RESOURCE_ENTERPRISE_DURATION10_UNITS = Integer.valueOf(505);
-   
+
    private static final Integer RESOURCE_ENTERPRISE_NUMBER1 = Integer.valueOf(546);
    private static final Integer RESOURCE_ENTERPRISE_NUMBER2 = Integer.valueOf(547);
    private static final Integer RESOURCE_ENTERPRISE_NUMBER3 = Integer.valueOf(548);
@@ -3944,7 +3908,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_NUMBER38 = Integer.valueOf(583);
    private static final Integer RESOURCE_ENTERPRISE_NUMBER39 = Integer.valueOf(584);
    private static final Integer RESOURCE_ENTERPRISE_NUMBER40 = Integer.valueOf(585);
-   
+
    private static final Integer RESOURCE_ENTERPRISE_TEXT1 = Integer.valueOf(646);
    private static final Integer RESOURCE_ENTERPRISE_TEXT2 = Integer.valueOf(647);
    private static final Integer RESOURCE_ENTERPRISE_TEXT3 = Integer.valueOf(648);
@@ -3985,7 +3949,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_ENTERPRISE_TEXT38 = Integer.valueOf(683);
    private static final Integer RESOURCE_ENTERPRISE_TEXT39 = Integer.valueOf(684);
    private static final Integer RESOURCE_ENTERPRISE_TEXT40 = Integer.valueOf(685);
-   
+
    public static final Integer RESOURCE_BASELINE1_WORK = Integer.valueOf(342);
    public static final Integer RESOURCE_BASELINE1_COST = Integer.valueOf(343);
    public static final Integer RESOURCE_BASELINE2_WORK = Integer.valueOf(352);
@@ -4006,7 +3970,7 @@ final class MPP12Reader implements MPPVariantReader
    public static final Integer RESOURCE_BASELINE9_COST = Integer.valueOf(423);
    public static final Integer RESOURCE_BASELINE10_WORK = Integer.valueOf(432);
    public static final Integer RESOURCE_BASELINE10_COST = Integer.valueOf(433);
-   
+
    //
    // Unverified
    //
@@ -4019,19 +3983,19 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer OUTLINECODE_DATA = Integer.valueOf(22);
    private static final Integer PLANNED_WORK = Integer.valueOf(49);
    private static final Integer COMPLETE_WORK = Integer.valueOf(50);
-   
+
    // Custom value list types
    private static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    private static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
    private static final Integer VALUE_LIST_UNKNOWN = Integer.valueOf(23);
-   
+
    private static final int VALUE_LIST_MASK = 0x0701;
-   
+
    /**
     * Mask used to isolate confirmed flag from the duration units field.
     */
    private static final int DURATION_CONFIRMED_MASK = 0x20;
-   
+
    private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
    private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 

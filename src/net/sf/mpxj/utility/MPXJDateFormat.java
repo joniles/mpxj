@@ -32,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
 /**
  * This class wraps the functionality provided by the SimpleDateFormat class
  * to make it suitable for use with the date conventions used in MPX files.
@@ -47,10 +46,10 @@ public final class MPXJDateFormat extends DateFormat
     * @param locale new locale
     * @param nullText locale-specific text representing a null value
     */
-   public void setLocale (Locale locale, String nullText)
+   public void setLocale(Locale locale, String nullText)
    {
-      m_format = new SimpleDateFormat (m_format.toPattern(), locale);
-      m_alternativeFormat = new SimpleDateFormat (m_alternativeFormat.toPattern(), locale);
+      m_format = new SimpleDateFormat(m_format.toPattern(), locale);
+      m_alternativeFormat = new SimpleDateFormat(m_alternativeFormat.toPattern(), locale);
       m_null = nullText;
    }
 
@@ -59,13 +58,13 @@ public final class MPXJDateFormat extends DateFormat
     *
     * @param pattern new format pattern
     */
-   public void applyPattern (String pattern)
+   public void applyPattern(String pattern)
    {
-      m_format.applyPattern (pattern);
+      m_format.applyPattern(pattern);
 
       if (pattern.endsWith(" a") == true)
       {
-         pattern = pattern.substring(0, pattern.length()-2) + "a";
+         pattern = pattern.substring(0, pattern.length() - 2) + "a";
       }
 
       m_alternativeFormat.applyPattern(pattern);
@@ -74,7 +73,7 @@ public final class MPXJDateFormat extends DateFormat
    /**
     * {@inheritDoc}
     */
-   @Override public Date parse (String str, ParsePosition pos)
+   @Override public Date parse(String str, ParsePosition pos)
    {
       Date result;
 
@@ -126,19 +125,23 @@ public final class MPXJDateFormat extends DateFormat
     * @param am AM text
     * @param pm PM text
     */
-   public void setAmPmText (String am, String pm)
+   public void setAmPmText(String am, String pm)
    {
-      String [] symbolData = new String[]{am,pm};
-      
+      String[] symbolData = new String[]
+      {
+         am,
+         pm
+      };
+
       DateFormatSymbols symbols = m_format.getDateFormatSymbols();
       symbols.setAmPmStrings(symbolData);
       m_format.setDateFormatSymbols(symbols);
-      
+
       symbols = m_alternativeFormat.getDateFormatSymbols();
       symbols.setAmPmStrings(symbolData);
-      m_alternativeFormat.setDateFormatSymbols(symbols);      
+      m_alternativeFormat.setDateFormatSymbols(symbols);
    }
-   
+
    /**
     * Internal SimpleDateFormat object used to carry out the formatting work.
     * Note that we force the locale to English at this point. This is done
@@ -148,7 +151,7 @@ public final class MPXJDateFormat extends DateFormat
     * MPX files that can be moved between locales, we default to using the
     * English day names.
     */
-   private SimpleDateFormat m_format = new SimpleDateFormat ("dd/MM/yyyy", Locale.ENGLISH);
-   private SimpleDateFormat m_alternativeFormat = new SimpleDateFormat ("dd/MM/yyyy", Locale.ENGLISH);
+   private SimpleDateFormat m_format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+   private SimpleDateFormat m_alternativeFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
    private String m_null = "NA";
 }

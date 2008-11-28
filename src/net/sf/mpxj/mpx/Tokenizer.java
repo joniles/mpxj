@@ -40,8 +40,7 @@ abstract class Tokenizer
     * @return next character
     * @throws IOException
     */
-   protected abstract int read ()
-      throws IOException;
+   protected abstract int read() throws IOException;
 
    /**
     * This method retrieves the next token and returns a constant representing
@@ -49,8 +48,7 @@ abstract class Tokenizer
     *
     * @return token type value
     */
-   public int nextToken ()
-      throws IOException
+   public int nextToken() throws IOException
    {
       int c;
       int nextc = -1;
@@ -61,7 +59,7 @@ abstract class Tokenizer
          m_next = 0;
       }
 
-      m_buffer.setLength (0);
+      m_buffer.setLength(0);
 
       while (result == 0)
       {
@@ -77,7 +75,7 @@ abstract class Tokenizer
 
          switch (c)
          {
-            case TT_EOF:
+            case TT_EOF :
             {
                if (m_buffer.length() != 0)
                {
@@ -91,11 +89,11 @@ abstract class Tokenizer
                break;
             }
 
-            case TT_EOL:
+            case TT_EOL :
             {
                int length = m_buffer.length();
 
-               if (length != 0 && m_buffer.charAt(length-1) == '\r')
+               if (length != 0 && m_buffer.charAt(length - 1) == '\r')
                {
                   --length;
                   m_buffer.setLength(length);
@@ -114,7 +112,7 @@ abstract class Tokenizer
                break;
             }
 
-            default:
+            default :
             {
                if (c == m_quote)
                {
@@ -126,14 +124,14 @@ abstract class Tokenizer
                   {
                      if (quoted == false)
                      {
-                        m_buffer.append ((char)c);
+                        m_buffer.append((char) c);
                      }
                      else
                      {
                         nextc = read();
                         if (nextc == m_quote)
                         {
-                           m_buffer.append ((char)c);
+                           m_buffer.append((char) c);
                            nextc = -1;
                         }
                         else
@@ -151,7 +149,7 @@ abstract class Tokenizer
                   }
                   else
                   {
-                     m_buffer.append ((char)c);
+                     m_buffer.append((char) c);
                   }
                }
             }
@@ -168,7 +166,7 @@ abstract class Tokenizer
     *
     * @return last token text
     */
-   public String getToken ()
+   public String getToken()
    {
       return (m_buffer.toString());
    }
@@ -178,7 +176,7 @@ abstract class Tokenizer
     *
     * @return last token type
     */
-   public int getType ()
+   public int getType()
    {
       return (m_type);
    }
@@ -189,7 +187,7 @@ abstract class Tokenizer
     *
     * @param delimiter delimiter character
     */
-   public void setDelimiter (char delimiter)
+   public void setDelimiter(char delimiter)
    {
       m_delimiter = delimiter;
    }
@@ -202,5 +200,5 @@ abstract class Tokenizer
    private char m_delimiter = ',';
    private int m_next;
    private int m_type;
-   private StringBuffer m_buffer = new StringBuffer ();
+   private StringBuffer m_buffer = new StringBuffer();
 }

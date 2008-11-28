@@ -33,20 +33,19 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum DateOrder implements MpxjEnum
 {
-   MDY (0),
-   DMY (1),
-   YMD (2);
-   
+   MDY(0),
+   DMY(1),
+   YMD(2);
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private DateOrder (int type)
+   private DateOrder(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -54,8 +53,8 @@ public enum DateOrder implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static DateOrder getInstance (int type)
-   {      
+   public static DateOrder getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = MDY.getValue();
@@ -63,14 +62,13 @@ public enum DateOrder implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static DateOrder getInstance (Number type)
+   public static DateOrder getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -84,13 +82,12 @@ public enum DateOrder implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -101,7 +98,7 @@ public enum DateOrder implements MpxjEnum
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (Integer.toString(m_value));
    }
@@ -111,13 +108,12 @@ public enum DateOrder implements MpxjEnum
     */
    private static final DateOrder[] TYPE_VALUES = new DateOrder[3];
    static
-   {      
+   {
       for (DateOrder e : EnumSet.range(DateOrder.MDY, DateOrder.YMD))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

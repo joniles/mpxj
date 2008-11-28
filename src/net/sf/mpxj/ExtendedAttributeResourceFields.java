@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2005
  * date:       02-Mar-2006
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -23,13 +23,12 @@
 
 package net.sf.mpxj;
 
-
 /**
  * This class is simply a container for a list of extended attribute fields.
  */
 
 public final class ExtendedAttributeResourceFields
-{   
+{
    /**
     * Constructor.
     */
@@ -37,10 +36,10 @@ public final class ExtendedAttributeResourceFields
    {
       // private constructor to prevent instantiation
    }
-   
+
    /**
     * Array of extended attribute fields.
-    */   
+    */
    public static final ResourceField[] FIELD_ARRAY =
    {
       ResourceField.TEXT1,
@@ -282,7 +281,7 @@ public final class ExtendedAttributeResourceFields
       ResourceField.ENTERPRISE_NUMBER37,
       ResourceField.ENTERPRISE_NUMBER38,
       ResourceField.ENTERPRISE_NUMBER39,
-      ResourceField.ENTERPRISE_NUMBER40,     
+      ResourceField.ENTERPRISE_NUMBER40,
       ResourceField.ENTERPRISE_TEXT1,
       ResourceField.ENTERPRISE_TEXT2,
       ResourceField.ENTERPRISE_TEXT3,
@@ -322,6 +321,6 @@ public final class ExtendedAttributeResourceFields
       ResourceField.ENTERPRISE_TEXT37,
       ResourceField.ENTERPRISE_TEXT38,
       ResourceField.ENTERPRISE_TEXT39,
-      ResourceField.ENTERPRISE_TEXT40                  
+      ResourceField.ENTERPRISE_TEXT40
    };
 }

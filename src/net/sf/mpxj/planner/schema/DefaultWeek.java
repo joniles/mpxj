@@ -5,7 +5,6 @@
 // Generated on: 2007.09.11 at 10:06:48 PM BST 
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,203 +15,200 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "default-week")
-public class DefaultWeek {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "default-week") public class DefaultWeek
+{
 
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String mon;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String tue;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String wed;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String thu;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String fri;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String sat;
-    @XmlAttribute
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String sun;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String mon;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String tue;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String wed;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String thu;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String fri;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String sat;
+   @XmlAttribute @XmlJavaTypeAdapter(NormalizedStringAdapter.class) protected String sun;
 
-    /**
-     * Gets the value of the mon property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMon() {
-        return mon;
-    }
+   /**
+    * Gets the value of the mon property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getMon()
+   {
+      return mon;
+   }
 
-    /**
-     * Sets the value of the mon property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMon(String value) {
-        this.mon = value;
-    }
+   /**
+    * Sets the value of the mon property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setMon(String value)
+   {
+      this.mon = value;
+   }
 
-    /**
-     * Gets the value of the tue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTue() {
-        return tue;
-    }
+   /**
+    * Gets the value of the tue property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getTue()
+   {
+      return tue;
+   }
 
-    /**
-     * Sets the value of the tue property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTue(String value) {
-        this.tue = value;
-    }
+   /**
+    * Sets the value of the tue property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setTue(String value)
+   {
+      this.tue = value;
+   }
 
-    /**
-     * Gets the value of the wed property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getWed() {
-        return wed;
-    }
+   /**
+    * Gets the value of the wed property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getWed()
+   {
+      return wed;
+   }
 
-    /**
-     * Sets the value of the wed property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setWed(String value) {
-        this.wed = value;
-    }
+   /**
+    * Sets the value of the wed property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setWed(String value)
+   {
+      this.wed = value;
+   }
 
-    /**
-     * Gets the value of the thu property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getThu() {
-        return thu;
-    }
+   /**
+    * Gets the value of the thu property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getThu()
+   {
+      return thu;
+   }
 
-    /**
-     * Sets the value of the thu property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setThu(String value) {
-        this.thu = value;
-    }
+   /**
+    * Sets the value of the thu property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setThu(String value)
+   {
+      this.thu = value;
+   }
 
-    /**
-     * Gets the value of the fri property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFri() {
-        return fri;
-    }
+   /**
+    * Gets the value of the fri property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getFri()
+   {
+      return fri;
+   }
 
-    /**
-     * Sets the value of the fri property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFri(String value) {
-        this.fri = value;
-    }
+   /**
+    * Sets the value of the fri property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setFri(String value)
+   {
+      this.fri = value;
+   }
 
-    /**
-     * Gets the value of the sat property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSat() {
-        return sat;
-    }
+   /**
+    * Gets the value of the sat property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getSat()
+   {
+      return sat;
+   }
 
-    /**
-     * Sets the value of the sat property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSat(String value) {
-        this.sat = value;
-    }
+   /**
+    * Sets the value of the sat property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setSat(String value)
+   {
+      this.sat = value;
+   }
 
-    /**
-     * Gets the value of the sun property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSun() {
-        return sun;
-    }
+   /**
+    * Gets the value of the sun property.
+    * 
+    * @return
+    *     possible object is
+    *     {@link String }
+    *     
+    */
+   public String getSun()
+   {
+      return sun;
+   }
 
-    /**
-     * Sets the value of the sun property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSun(String value) {
-        this.sun = value;
-    }
+   /**
+    * Sets the value of the sun property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *     
+    */
+   public void setSun(String value)
+   {
+      this.sun = value;
+   }
 
 }

@@ -33,7 +33,6 @@ import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
-
 /**
  * This class represents the Resource record as found in an MPX file.
  */
@@ -4771,7 +4770,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       return (NumberUtility.getInt(getID()));
    }
-   
+
    private static final ResourceField[] ENTERPRISE_COST_FIELDS =
    {
       ResourceField.ENTERPRISE_COST1,
@@ -4785,8 +4784,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_COST9,
       ResourceField.ENTERPRISE_COST10
    };
-   
-   
+
    private static final ResourceField[] ENTERPRISE_DATE_FIELDS =
    {
       ResourceField.ENTERPRISE_DATE1,
@@ -4858,7 +4856,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_FLAG19,
       ResourceField.ENTERPRISE_FLAG20
    };
-   
+
    private static final ResourceField[] ENTERPRISE_NUMBER_FIELDS =
    {
       ResourceField.ENTERPRISE_NUMBER1,
@@ -4900,9 +4898,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_NUMBER37,
       ResourceField.ENTERPRISE_NUMBER38,
       ResourceField.ENTERPRISE_NUMBER39,
-      ResourceField.ENTERPRISE_NUMBER40      
+      ResourceField.ENTERPRISE_NUMBER40
    };
-   
+
    private static final ResourceField[] ENTERPRISE_TEXT_FIELDS =
    {
       ResourceField.ENTERPRISE_TEXT1,
@@ -4944,9 +4942,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.ENTERPRISE_TEXT37,
       ResourceField.ENTERPRISE_TEXT38,
       ResourceField.ENTERPRISE_TEXT39,
-      ResourceField.ENTERPRISE_TEXT40      
+      ResourceField.ENTERPRISE_TEXT40
    };
-   
+
    private static final ResourceField[] BASELINE_COSTS =
    {
       ResourceField.BASELINE1_COST,
@@ -4960,7 +4958,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.BASELINE9_COST,
       ResourceField.BASELINE10_COST
    };
-   
+
    private static final ResourceField[] BASELINE_WORKS =
    {
       ResourceField.BASELINE1_WORK,
@@ -4974,7 +4972,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       ResourceField.BASELINE9_WORK,
       ResourceField.BASELINE10_WORK
    };
-   
+
    /**
     * Array of field values.
     */
@@ -4990,19 +4988,18 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    private List<ResourceAssignment> m_assignments = new LinkedList<ResourceAssignment>();
 
-  
    private boolean m_null;
    private String m_ntAccount;
    private TimeUnit m_standardRateFormat;
-   private TimeUnit m_overtimeRateFormat;   
+   private TimeUnit m_overtimeRateFormat;
    private boolean m_generic;
-   private boolean m_inactive;   
-   private String m_activeDirectoryGUID;   
+   private boolean m_inactive;
+   private String m_activeDirectoryGUID;
    private Duration m_actualOvertimeWorkProtected;
    private Duration m_actualWorkProtected;
-   private BookingType m_bookingType;   
-   private Date m_creationDate;   
+   private BookingType m_bookingType;
+   private Date m_creationDate;
    private boolean m_enterprise;
-   private Integer m_subprojectResourceUniqueID;   
+   private Integer m_subprojectResourceUniqueID;
    private List<FieldListener> m_listeners;
 }

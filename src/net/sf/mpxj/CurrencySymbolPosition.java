@@ -36,7 +36,7 @@ public enum CurrencySymbolPosition implements MpxjEnum
    BEFORE(1),
    AFTER_WITH_SPACE(2),
    BEFORE_WITH_SPACE(3);
-   
+
    /**
     * Private constructor.
     *

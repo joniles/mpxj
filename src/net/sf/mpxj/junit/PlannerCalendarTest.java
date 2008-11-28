@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       23 February 2007
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -29,18 +29,17 @@ import net.sf.mpxj.planner.PlannerReader;
 /**
  * Tests to exercise Planner file read functionality.
  */
-public class PlannerCalendarTest extends MPXJTestCase 
+public class PlannerCalendarTest extends MPXJTestCase
 {
-   
+
    /**
     * Test calendar data read from an MPP9 file.
     * 
     * @throws Exception
-    */   
-    public void testPlannerCalendar() 
-       throws Exception 
-    {
-        ProjectFile mpp = new PlannerReader().read (m_basedir + "/planner-calendar.planner");  
-        assertNotNull(mpp);
-    }
+    */
+   public void testPlannerCalendar() throws Exception
+   {
+      ProjectFile mpp = new PlannerReader().read(m_basedir + "/planner-calendar.planner");
+      assertNotNull(mpp);
+   }
 }

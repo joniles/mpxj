@@ -4,7 +4,7 @@
  * copyright:  (c) Packwood Software Limited 2007
  * date:       Jan 07, 2007
  */
- 
+
 /*
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -34,8 +34,7 @@ public final class ViewStateReader9 extends ViewStateReader
    /**
     * {@inheritDoc}
     */
-   @Override protected Props getProps (Var2Data varData)
-      throws IOException
+   @Override protected Props getProps(Var2Data varData) throws IOException
    {
       Props props = null;
       byte[] propsData = varData.getByteArray(PROPS_ID, PROPS_TYPE);
@@ -45,8 +44,7 @@ public final class ViewStateReader9 extends ViewStateReader
       }
       return (props);
    }
-   
-   
+
    private static final Integer PROPS_ID = Integer.valueOf(1);
    private static final Integer PROPS_TYPE = Integer.valueOf(1);
 }

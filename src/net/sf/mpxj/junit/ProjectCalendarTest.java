@@ -531,7 +531,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("10/10/2003 17:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("13/10/2003 08:00", df.format(endDate));
-      
+
       //
       // Add three 8 hour days which span a weekend
       //
@@ -540,7 +540,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("13/10/2003 17:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("14/10/2003 08:00", df.format(endDate));
-      
+
       //
       // Add 9 hours from the start of a day
       //
@@ -549,7 +549,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("10/10/2003 09:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("10/10/2003 09:00", df.format(endDate));
-      
+
       //
       // Add 1 hour from the start of a day
       //
@@ -558,7 +558,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("09/10/2003 09:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("09/10/2003 09:00", df.format(endDate));
-      
+
       //
       // Add 1 hour offset by 1 hour from the start of a day
       //
@@ -568,7 +568,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("09/10/2003 10:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("09/10/2003 10:00", df.format(endDate));
-      
+
       //
       // Add 1 hour which crosses a date ranges
       //
@@ -578,7 +578,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("09/10/2003 13:30", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("09/10/2003 13:30", df.format(endDate));
-      
+
       //
       // Add 1 hour at the start of the second range
       //     
@@ -588,7 +588,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       assertEquals("09/10/2003 14:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
       assertEquals("09/10/2003 14:00", df.format(endDate));
-      
+
       //
       // Add 1 hour offset by 1 hour from the start of the second range
       //     
@@ -694,7 +694,7 @@ public class ProjectCalendarTest extends MPXJTestCase
       endDate = cal.getDate(startDate, duration, false);
       assertEquals("13/10/2003 17:00", df.format(endDate));
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 08:00", df.format(endDate));      
+      assertEquals("14/10/2003 08:00", df.format(endDate));
    }
 
    /**

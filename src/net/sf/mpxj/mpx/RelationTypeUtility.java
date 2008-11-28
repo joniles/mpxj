@@ -36,7 +36,7 @@ final class RelationTypeUtility
    /**
     * Constructor.
     */
-   private RelationTypeUtility ()
+   private RelationTypeUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -50,12 +50,12 @@ final class RelationTypeUtility
     * @param type text version of the relation type
     * @return RelationType instance
     */
-   public static RelationType getInstance (Locale locale, String type)
+   public static RelationType getInstance(Locale locale, String type)
    {
       int index = -1;
 
       String[] relationTypes = LocaleData.getStringArray(locale, LocaleData.RELATION_TYPES);
-      for (int loop=0; loop < relationTypes.length; loop++)
+      for (int loop = 0; loop < relationTypes.length; loop++)
       {
          if (relationTypes[loop].equalsIgnoreCase(type) == true)
          {

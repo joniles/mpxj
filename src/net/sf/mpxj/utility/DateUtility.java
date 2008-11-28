@@ -41,7 +41,7 @@ public final class DateUtility
    /**
     * Constructor.
     */
-   private DateUtility ()
+   private DateUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -53,7 +53,7 @@ public final class DateUtility
     * @param date date to convert
     * @return day start date
     */
-   public static Date getDayStartDate (Date date)
+   public static Date getDayStartDate(Date date)
    {
       if (date != null)
       {
@@ -75,7 +75,7 @@ public final class DateUtility
     * @param date date to convert
     * @return day start date
     */
-   public static Date getDayEndDate (Date date)
+   public static Date getDayEndDate(Date date)
    {
       if (date != null)
       {
@@ -89,7 +89,7 @@ public final class DateUtility
       }
       return (date);
    }
-   
+
    /**
     * This method resets the date part of a date time value to
     * a standard date (1/1/1). This is used to allow times to
@@ -98,7 +98,7 @@ public final class DateUtility
     * @param date date time value
     * @return date time with date set to a standard value
     */
-   public static Date getCanonicalTime (Date date)
+   public static Date getCanonicalTime(Date date)
    {
       if (date != null)
       {
@@ -111,7 +111,7 @@ public final class DateUtility
       }
       return (date);
    }
-   
+
    /**
     * This method compares a target date with a date range. The method will
     * return 0 if the date is within the range, less than zero if the date
@@ -123,7 +123,7 @@ public final class DateUtility
     * @param targetDate target date
     * @return comparison result
     */
-   public static int compare (Date startDate, Date endDate, Date targetDate)
+   public static int compare(Date startDate, Date endDate, Date targetDate)
    {
       return (compare(startDate, endDate, targetDate.getTime()));
    }
@@ -138,8 +138,8 @@ public final class DateUtility
     * @param endDate range end date
     * @param targetDate target date in milliseconds
     * @return comparison result
-    */   
-   public static int compare (Date startDate, Date endDate, long targetDate)
+    */
+   public static int compare(Date startDate, Date endDate, long targetDate)
    {
       int result = 0;
       if (targetDate < startDate.getTime())
@@ -163,21 +163,21 @@ public final class DateUtility
     * @param d2 Date instance
     * @return int comparison result
     */
-   public static int compare (Date d1, Date d2)
+   public static int compare(Date d1, Date d2)
    {
       int result;
       if (d1 == null || d2 == null)
       {
-         result = (d1==d2?0:(d1==null?1:-1));
+         result = (d1 == d2 ? 0 : (d1 == null ? 1 : -1));
       }
       else
       {
          long diff = d1.getTime() - d2.getTime();
-         result = ((diff==0)?0:((diff>0)?1:-1));
-      }      
+         result = ((diff == 0) ? 0 : ((diff > 0) ? 1 : -1));
+      }
       return (result);
    }
-   
+
    /**
     * This utility method calculates the difference in working
     * time between two dates, given the context of a task.
@@ -188,10 +188,10 @@ public final class DateUtility
     * @param format required format for the resulting duration
     * @return difference in working time between the two dates
     */
-   public static Duration getVariance (Task task, Date date1, Date date2, TimeUnit format)
+   public static Duration getVariance(Task task, Date date1, Date date2, TimeUnit format)
    {
       Duration variance = null;
-      
+
       if (date1 != null && date2 != null)
       {
          ProjectCalendar calendar = task.getCalendar();
@@ -200,21 +200,20 @@ public final class DateUtility
             ProjectFile file = task.getParentFile();
             calendar = file.getBaseCalendar(file.getProjectHeader().getCalendarName());
          }
-         
+
          if (calendar != null)
          {
             variance = calendar.getWork(date1, date2, format);
-         }         
+         }
       }
-      
+
       if (variance == null)
       {
          variance = Duration.getInstance(0, format);
       }
-      
+
       return (variance);
    }
-   
 
    /**
     * Creates a date from the equivalent long value. This conversion 
@@ -223,12 +222,12 @@ public final class DateUtility
     * @param date date expressed as a long integer
     * @return new Date instance
     */
-   public static Date getDateFromLong (long date)
+   public static Date getDateFromLong(long date)
    {
       TimeZone tz = TimeZone.getDefault();
-      return (new Date(date - tz.getRawOffset()));      
-   }   
-   
+      return (new Date(date - tz.getRawOffset()));
+   }
+
    /**
     * Creates a timestamp from the equivalent long value. This conversion
     * takes account of the time zone and any daylight savings time.
@@ -236,7 +235,7 @@ public final class DateUtility
     * @param timestamp timestamp expressed as a long integer
     * @return new Date instance
     */
-   public static Date getTimestampFromLong (long timestamp)
+   public static Date getTimestampFromLong(long timestamp)
    {
       TimeZone tz = TimeZone.getDefault();
       Date result = new Date(timestamp - tz.getRawOffset());
@@ -258,7 +257,7 @@ public final class DateUtility
       }
       return (result);
    }
-   
+
    /**
     * Create a Date instance representing a specific time.
     * 
@@ -266,15 +265,15 @@ public final class DateUtility
     * @param minutes minutes 0-59
     * @return new Date instance
     */
-   public static Date getTime (int hour, int minutes)
+   public static Date getTime(int hour, int minutes)
    {
       Calendar cal = Calendar.getInstance();
       cal.set(Calendar.HOUR_OF_DAY, hour);
       cal.set(Calendar.MINUTE, minutes);
       cal.set(Calendar.SECOND, 0);
-      return(cal.getTime());
-   }   
-   
+      return (cal.getTime());
+   }
+
    /**
     * Given a date represented by a Calendar instance, set the time
     * component of the date based on the hours and minutes of the
@@ -283,12 +282,12 @@ public final class DateUtility
     * @param cal Calendar instance representing the date
     * @param time Date instance representing the time of day
     */
-   public static void setTime (Calendar cal, Date time)
+   public static void setTime(Calendar cal, Date time)
    {
       Calendar startCalendar = Calendar.getInstance();
       startCalendar.setTime(time);
       cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
-      cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));           
+      cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
    }
 
    /**
@@ -299,8 +298,8 @@ public final class DateUtility
     * @param date Date instance representing the date
     * @param time Date instance representing the time of day
     * @return new Date instance with the required time set
-    */   
-   public static Date setTime (Date date, Date time)
+    */
+   public static Date setTime(Date date, Date time)
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(date);
@@ -326,7 +325,7 @@ public final class DateUtility
 
       try
       {
-         tz.getMethod("getDSTSavings", (Class[])null);
+         tz.getMethod("getDSTSavings", (Class[]) null);
          HAS_DST_SAVINGS = true;
       }
 
@@ -334,5 +333,5 @@ public final class DateUtility
       {
          HAS_DST_SAVINGS = false;
       }
-   }   
+   }
 }

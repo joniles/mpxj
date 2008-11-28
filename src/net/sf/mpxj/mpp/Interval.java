@@ -33,22 +33,21 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum Interval implements MpxjEnum
 {
-   DAILY (0, "Daily"),
-   WEEKLY (1, "Weekly"),
-   MONTHLY (2, "Monthly");
-   
+   DAILY(0, "Daily"),
+   WEEKLY(1, "Weekly"),
+   MONTHLY(2, "Monthly");
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private Interval (int type, String name)
+   private Interval(int type, String name)
    {
       m_value = type;
       m_name = name;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -56,8 +55,8 @@ public enum Interval implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static Interval getInstance (int type)
-   {      
+   public static Interval getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = DAILY.getValue();
@@ -65,14 +64,13 @@ public enum Interval implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static Interval getInstance (Number type)
+   public static Interval getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -86,13 +84,12 @@ public enum Interval implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -102,7 +99,7 @@ public enum Interval implements MpxjEnum
     *
     * @return interval name
     */
-   public String getName ()
+   public String getName()
    {
       return (m_name);
    }
@@ -112,7 +109,7 @@ public enum Interval implements MpxjEnum
     *
     * @return String representation of this line style
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (getName());
    }
@@ -122,13 +119,12 @@ public enum Interval implements MpxjEnum
     */
    private static final Interval[] TYPE_VALUES = new Interval[3];
    static
-   {      
+   {
       for (Interval e : EnumSet.range(Interval.DAILY, Interval.MONTHLY))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
-
 
    /**
     * Internal representation of the enum int type.

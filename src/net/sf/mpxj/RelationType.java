@@ -28,7 +28,6 @@ import java.util.EnumSet;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
-
 /**
  * This class is used to represent a relation type. It provides a mapping
  * between the textual description of a relation type found in an MPX
@@ -37,11 +36,11 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum RelationType implements MpxjEnum
 {
-   FINISH_FINISH (0, "FF"),
-   FINISH_START (1, "FS"),
-   START_FINISH (2, "SF"),
-   START_START (3, "SS");
-   
+   FINISH_FINISH(0, "FF"),
+   FINISH_START(1, "FS"),
+   START_FINISH(2, "SF"),
+   START_START(3, "SS");
+
    /**
     * Private constructor.
     * 

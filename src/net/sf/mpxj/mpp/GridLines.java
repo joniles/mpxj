@@ -35,13 +35,13 @@ public class GridLines
     * @param data properties data
     * @param offset offset into properties data
     */
-   public GridLines (byte[] data, int offset)
+   public GridLines(byte[] data, int offset)
    {
       m_normalLineColor = ColorType.getInstance(data[offset]);
-      m_normalLineStyle = LineStyle.getInstance(data[offset+3]);
-      m_intervalNumber = data[offset+4];
-      m_intervalLineStyle = LineStyle.getInstance(data[offset+5]);
-      m_intervalLineColor = ColorType.getInstance(data[offset+6]);
+      m_normalLineStyle = LineStyle.getInstance(data[offset + 3]);
+      m_intervalNumber = data[offset + 4];
+      m_intervalLineStyle = LineStyle.getInstance(data[offset + 5]);
+      m_intervalLineColor = ColorType.getInstance(data[offset + 6]);
    }
 
    /**
@@ -99,9 +99,9 @@ public class GridLines
     *
     * @return string representation of this instance
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return ("[GridLines NormalLineColor=" + m_normalLineColor+" NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor);
+      return ("[GridLines NormalLineColor=" + m_normalLineColor + " NormalLineStyle=" + m_normalLineStyle + " IntervalNumber=" + m_intervalNumber + " IntervalLineStyle=" + m_intervalLineStyle + " IntervalLineColor=" + m_intervalLineColor);
    }
 
    private ColorType m_normalLineColor;

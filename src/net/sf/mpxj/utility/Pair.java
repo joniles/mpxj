@@ -37,7 +37,7 @@ public final class Pair<L, R>
     * @param first first object
     * @param second second object
     */
-   public Pair (L first, R second)
+   public Pair(L first, R second)
    {
       m_first = first;
       m_second = second;
@@ -48,7 +48,7 @@ public final class Pair<L, R>
     *
     * @return first object
     */
-   public L getFirst ()
+   public L getFirst()
    {
       return (m_first);
    }
@@ -58,7 +58,7 @@ public final class Pair<L, R>
     *
     * @return second object
     */
-   public R getSecond ()
+   public R getSecond()
    {
       return (m_second);
    }

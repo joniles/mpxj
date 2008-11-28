@@ -678,14 +678,14 @@ public final class ProjectCalendar extends ProjectEntity
     * @param date date and time start point
     * @return date and time of next work start
     */
-   public Date getNextWorkStart (Date date)
+   public Date getNextWorkStart(Date date)
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(date);
       updateToNextWorkStart(cal);
       return cal.getTime();
    }
-   
+
    /**
     * This method allows the caller to determine if a given date is a
     * working day. This method takes account of calendar exceptions.
@@ -1344,8 +1344,22 @@ public final class ProjectCalendar extends ProjectEntity
       pw.println("   baseCalendarName=" + (m_baseCalendar == null ? "" : m_baseCalendar.getName()));
       pw.println("   resource=" + (m_resource == null ? "" : m_resource.getName()));
 
-      String[] dayType = {"Non-working", "Working", "Default"};
-      String[] dayName = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+      String[] dayType =
+      {
+         "Non-working",
+         "Working",
+         "Default"
+      };
+      String[] dayName =
+      {
+         "Sunday",
+         "Monday",
+         "Tuesday",
+         "Wednesday",
+         "Thursday",
+         "Friday",
+         "Saturday"
+      };
 
       for (int loop = 0; loop < 7; loop++)
       {

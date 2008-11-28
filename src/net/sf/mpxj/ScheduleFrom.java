@@ -33,19 +33,18 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum ScheduleFrom implements MpxjEnum
 {
-   START (0),
-   FINISH (1);
-   
+   START(0),
+   FINISH(1);
+
    /**
     * Private constructor.
     * 
     * @param type int version of the enum
     */
-   private ScheduleFrom (int type)
+   private ScheduleFrom(int type)
    {
       m_value = type;
    }
-
 
    /**
     * Retrieve an instance of the enum based on its int value.
@@ -53,8 +52,8 @@ public enum ScheduleFrom implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static ScheduleFrom getInstance (int type)
-   {      
+   public static ScheduleFrom getInstance(int type)
+   {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          type = START.getValue();
@@ -62,14 +61,13 @@ public enum ScheduleFrom implements MpxjEnum
       return (TYPE_VALUES[type]);
    }
 
-
    /**
     * Retrieve an instance of the enum based on its int value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static ScheduleFrom getInstance (Number type)
+   public static ScheduleFrom getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -83,13 +81,12 @@ public enum ScheduleFrom implements MpxjEnum
       return (getInstance(value));
    }
 
-
    /**
     * Accessor method used to retrieve the numeric representation of the enum. 
     *
     * @return int representation of the enum
     */
-   public int getValue ()
+   public int getValue()
    {
       return (m_value);
    }
@@ -100,7 +97,7 @@ public enum ScheduleFrom implements MpxjEnum
     *
     * @return string representation
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
       return (Integer.toString(m_value));
    }
@@ -110,17 +107,15 @@ public enum ScheduleFrom implements MpxjEnum
     */
    private static final ScheduleFrom[] TYPE_VALUES = new ScheduleFrom[2];
    static
-   {      
+   {
       for (ScheduleFrom e : EnumSet.range(ScheduleFrom.START, ScheduleFrom.FINISH))
       {
          TYPE_VALUES[e.getValue()] = e;
       }
    }
 
-
    /**
     * Internal representation of the enum int type.
     */
    private int m_value;
 }
-

@@ -33,9 +33,9 @@ import net.sf.mpxj.utility.NumberUtility;
  */
 public enum EarnedValueMethod implements MpxjEnum
 {
-   PERCENT_COMPLETE (0),
-   PHYSICAL_PERCENT_COMPLETE (1);
-   
+   PERCENT_COMPLETE(0),
+   PHYSICAL_PERCENT_COMPLETE(1);
+
    /**
     * Private constructor.
     * 

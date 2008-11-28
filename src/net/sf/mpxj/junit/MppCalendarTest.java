@@ -47,190 +47,184 @@ public class MppCalendarTest extends MPXJTestCase
     *
     * @throws Exception
     */
-    public void testMpp9Calendar()
-       throws Exception
-    {
-        ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9calendar.mpp");
-        testCalendars(mpp);
-    }
+   public void testMpp9Calendar() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9calendar.mpp");
+      testCalendars(mpp);
+   }
 
-    /**
-     * Test calendar data read from an MPP12 file.
-     *
-     * @throws Exception
-     */
-    public void testMpp12Calendar()
-       throws Exception
-    {
-       ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12calendar.mpp");
-       testCalendars(mpp);
-    }
+   /**
+    * Test calendar data read from an MPP12 file.
+    *
+    * @throws Exception
+    */
+   public void testMpp12Calendar() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12calendar.mpp");
+      testCalendars(mpp);
+   }
 
-    /**
-     * Test calendar data read from an MPD9 file.
-     *
-     * @throws Exception
-     */
-    public void testMpd9Calendar()
-       throws Exception
-    {
-       try
-       {
-          ProjectFile mpp = new MPDDatabaseReader().read (m_basedir + "/mpp9calendar.mpd");
-          testCalendars(mpp);
-       }
-       
-       
-       catch (Exception ex)
-       {
-          //
-          // JDBC not supported in IKVM
-          //
-          if (!m_ikvm)
-          {
-             throw ex;
-          }
-       }       
-    }
-
-    /**
-     * Test calendar exception data read from an MPP9 file.
-     *
-     * @throws Exception
-     */
-     public void testMpp9CalendarExceptions()
-        throws Exception
-     {
-         ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp9exceptions.mpp");
-         testExceptions(mpp);
-     }
-
-     /**
-      * Test calendar exception data read from an MPP12 file.
-      *
-      * @throws Exception
-      */
-      public void testMpp12CalendarExceptions()
-         throws Exception
+   /**
+    * Test calendar data read from an MPD9 file.
+    *
+    * @throws Exception
+    */
+   public void testMpd9Calendar() throws Exception
+   {
+      try
       {
-          ProjectFile mpp = new MPPReader().read (m_basedir + "/mpp12exceptions.mpp");
-          testExceptions(mpp);
+         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9calendar.mpd");
+         testCalendars(mpp);
       }
 
-    /**
-     * Test calendar data.
-     *
-     * @param mpp ProjectFile instance
-     */
-    private void testCalendars(ProjectFile mpp)
-    {
-       DateFormat tf = new SimpleDateFormat ("HH:mm");
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
+   }
 
-       List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
-       assertEquals(5, baseCalendars.size());
+   /**
+    * Test calendar exception data read from an MPP9 file.
+    *
+    * @throws Exception
+    */
+   public void testMpp9CalendarExceptions() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9exceptions.mpp");
+      testExceptions(mpp);
+   }
 
-       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
-       assertNotNull(cal);
-       assertEquals("Standard", cal.getName());
-       assertNull(cal.getBaseCalendar());
-       assertTrue(cal.isBaseCalendar());
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.MONDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.TUESDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.THURSDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.FRIDAY));
+   /**
+    * Test calendar exception data read from an MPP12 file.
+    *
+    * @throws Exception
+    */
+   public void testMpp12CalendarExceptions() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12exceptions.mpp");
+      testExceptions(mpp);
+   }
 
-       assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SATURDAY));
-       assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
+   /**
+    * Test calendar data.
+    *
+    * @param mpp ProjectFile instance
+    */
+   private void testCalendars(ProjectFile mpp)
+   {
+      DateFormat tf = new SimpleDateFormat("HH:mm");
 
-       assertEquals(0, cal.getCalendarExceptions().size());
+      List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
+      assertEquals(5, baseCalendars.size());
 
-       ProjectCalendarHours hours = cal.getCalendarHours(Day.MONDAY);
-       assertEquals(2, hours.getRangeCount());
+      ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
+      assertNotNull(cal);
+      assertEquals("Standard", cal.getName());
+      assertNull(cal.getBaseCalendar());
+      assertTrue(cal.isBaseCalendar());
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.MONDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.TUESDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.THURSDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.FRIDAY));
 
-       DateRange range = hours.getRange(0);
-       assertEquals("08:00", tf.format(range.getStart()));
-       assertEquals("12:00", tf.format(range.getEnd()));
-       range = cal.getCalendarHours(Day.MONDAY).getRange(1);
-       assertEquals("13:00", tf.format(range.getStart()));
-       assertEquals("17:00", tf.format(range.getEnd()));
+      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SATURDAY));
+      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
 
-       List<ProjectCalendar> resourceCalendars = mpp.getResourceCalendars();
-       assertEquals(2, resourceCalendars.size());
-    }
+      assertEquals(0, cal.getCalendarExceptions().size());
 
-    /**
-     * Test calendar exceptions.
-     *
-     * @param mpp ProjectFile instance
-     */
-    private void testExceptions(ProjectFile mpp)
-    {
-       DateFormat df = new SimpleDateFormat ("dd/MM/yyyy HH:mm");
-       DateFormat tf = new SimpleDateFormat ("HH:mm");
+      ProjectCalendarHours hours = cal.getCalendarHours(Day.MONDAY);
+      assertEquals(2, hours.getRangeCount());
 
-       List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
-       assertEquals(1, baseCalendars.size());
+      DateRange range = hours.getRange(0);
+      assertEquals("08:00", tf.format(range.getStart()));
+      assertEquals("12:00", tf.format(range.getEnd()));
+      range = cal.getCalendarHours(Day.MONDAY).getRange(1);
+      assertEquals("13:00", tf.format(range.getStart()));
+      assertEquals("17:00", tf.format(range.getEnd()));
 
-       ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
-       assertNotNull(cal);
-       assertEquals("Standard", cal.getName());
-       assertNull(cal.getBaseCalendar());
-       assertTrue(cal.isBaseCalendar());
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.MONDAY));
-       assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.TUESDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.THURSDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.FRIDAY));
-       assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.SATURDAY));
-       assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
+      List<ProjectCalendar> resourceCalendars = mpp.getResourceCalendars();
+      assertEquals(2, resourceCalendars.size());
+   }
 
-       List<net.sf.mpxj.ProjectCalendarException> exceptions = cal.getCalendarExceptions();
-       assertEquals(3, exceptions.size());
+   /**
+    * Test calendar exceptions.
+    *
+    * @param mpp ProjectFile instance
+    */
+   private void testExceptions(ProjectFile mpp)
+   {
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      DateFormat tf = new SimpleDateFormat("HH:mm");
 
-       ProjectCalendarException exception = exceptions.get(0);
-       assertFalse(exception.getWorking());
-       assertEquals("05/03/2008 00:00", df.format(exception.getFromDate()));
-       assertEquals("05/03/2008 23:59", df.format(exception.getToDate()));
-       assertNull(exception.getRange(0).getStart());
-       assertNull(exception.getRange(0).getEnd());
-       assertNull(exception.getRange(1).getStart());
-       assertNull(exception.getRange(1).getEnd());
-       assertNull(exception.getRange(2).getStart());
-       assertNull(exception.getRange(2).getEnd());
-       assertNull(exception.getRange(3).getStart());
-       assertNull(exception.getRange(3).getEnd());
-       assertNull(exception.getRange(4).getStart());
-       assertNull(exception.getRange(4).getEnd());
+      List<ProjectCalendar> baseCalendars = mpp.getBaseCalendars();
+      assertEquals(1, baseCalendars.size());
 
-       exception = exceptions.get(1);
-       assertTrue(exception.getWorking());
-       assertEquals("09/03/2008 00:00", df.format(exception.getFromDate()));
-       assertEquals("09/03/2008 23:59", df.format(exception.getToDate()));
-       assertEquals("08:00", tf.format(exception.getRange(0).getStart()));
-       assertEquals("12:00", tf.format(exception.getRange(0).getEnd()));
-       assertEquals("13:00", tf.format(exception.getRange(1).getStart()));
-       assertEquals("17:00", tf.format(exception.getRange(1).getEnd()));
-       assertNull(exception.getRange(2).getStart());
-       assertNull(exception.getRange(2).getEnd());
-       assertNull(exception.getRange(3).getStart());
-       assertNull(exception.getRange(3).getEnd());
-       assertNull(exception.getRange(4).getStart());
-       assertNull(exception.getRange(4).getEnd());
+      ProjectCalendar cal = mpp.getBaseCalendarByUniqueID(Integer.valueOf(1));
+      assertNotNull(cal);
+      assertEquals("Standard", cal.getName());
+      assertNull(cal.getBaseCalendar());
+      assertTrue(cal.isBaseCalendar());
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.MONDAY));
+      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.TUESDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.WEDNESDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.THURSDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.FRIDAY));
+      assertEquals(ProjectCalendar.WORKING, cal.getWorkingDay(Day.SATURDAY));
+      assertEquals(ProjectCalendar.NON_WORKING, cal.getWorkingDay(Day.SUNDAY));
 
-       exception = exceptions.get(2);
-       assertTrue(exception.getWorking());
-       assertEquals("16/03/2008 00:00", df.format(exception.getFromDate()));
-       assertEquals("16/03/2008 23:59", df.format(exception.getToDate()));
-       assertEquals("08:00", tf.format(exception.getRange(0).getStart()));
-       assertEquals("09:00", tf.format(exception.getRange(0).getEnd()));
-       assertEquals("11:00", tf.format(exception.getRange(1).getStart()));
-       assertEquals("12:00", tf.format(exception.getRange(1).getEnd()));
-       assertEquals("14:00", tf.format(exception.getRange(2).getStart()));
-       assertEquals("15:00", tf.format(exception.getRange(2).getEnd()));
-       assertEquals("16:00", tf.format(exception.getRange(3).getStart()));
-       assertEquals("17:00", tf.format(exception.getRange(3).getEnd()));
-       assertEquals("18:00", tf.format(exception.getRange(4).getStart()));
-       assertEquals("19:00", tf.format(exception.getRange(4).getEnd()));
-    }
+      List<net.sf.mpxj.ProjectCalendarException> exceptions = cal.getCalendarExceptions();
+      assertEquals(3, exceptions.size());
+
+      ProjectCalendarException exception = exceptions.get(0);
+      assertFalse(exception.getWorking());
+      assertEquals("05/03/2008 00:00", df.format(exception.getFromDate()));
+      assertEquals("05/03/2008 23:59", df.format(exception.getToDate()));
+      assertNull(exception.getRange(0).getStart());
+      assertNull(exception.getRange(0).getEnd());
+      assertNull(exception.getRange(1).getStart());
+      assertNull(exception.getRange(1).getEnd());
+      assertNull(exception.getRange(2).getStart());
+      assertNull(exception.getRange(2).getEnd());
+      assertNull(exception.getRange(3).getStart());
+      assertNull(exception.getRange(3).getEnd());
+      assertNull(exception.getRange(4).getStart());
+      assertNull(exception.getRange(4).getEnd());
+
+      exception = exceptions.get(1);
+      assertTrue(exception.getWorking());
+      assertEquals("09/03/2008 00:00", df.format(exception.getFromDate()));
+      assertEquals("09/03/2008 23:59", df.format(exception.getToDate()));
+      assertEquals("08:00", tf.format(exception.getRange(0).getStart()));
+      assertEquals("12:00", tf.format(exception.getRange(0).getEnd()));
+      assertEquals("13:00", tf.format(exception.getRange(1).getStart()));
+      assertEquals("17:00", tf.format(exception.getRange(1).getEnd()));
+      assertNull(exception.getRange(2).getStart());
+      assertNull(exception.getRange(2).getEnd());
+      assertNull(exception.getRange(3).getStart());
+      assertNull(exception.getRange(3).getEnd());
+      assertNull(exception.getRange(4).getStart());
+      assertNull(exception.getRange(4).getEnd());
+
+      exception = exceptions.get(2);
+      assertTrue(exception.getWorking());
+      assertEquals("16/03/2008 00:00", df.format(exception.getFromDate()));
+      assertEquals("16/03/2008 23:59", df.format(exception.getToDate()));
+      assertEquals("08:00", tf.format(exception.getRange(0).getStart()));
+      assertEquals("09:00", tf.format(exception.getRange(0).getEnd()));
+      assertEquals("11:00", tf.format(exception.getRange(1).getStart()));
+      assertEquals("12:00", tf.format(exception.getRange(1).getEnd()));
+      assertEquals("14:00", tf.format(exception.getRange(2).getStart()));
+      assertEquals("15:00", tf.format(exception.getRange(2).getEnd()));
+      assertEquals("16:00", tf.format(exception.getRange(3).getStart()));
+      assertEquals("17:00", tf.format(exception.getRange(3).getEnd()));
+      assertEquals("18:00", tf.format(exception.getRange(4).getStart()));
+      assertEquals("19:00", tf.format(exception.getRange(4).getEnd()));
+   }
 }

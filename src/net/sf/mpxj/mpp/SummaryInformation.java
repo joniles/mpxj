@@ -38,7 +38,6 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-
 /**
  * This class encapsulates the functionlaity required to retrieve document
  * summary information from MPP files. This code is common to both the
@@ -52,33 +51,33 @@ final class SummaryInformation
     * @param rootDir root of the POI file system
     * @throws MPXJException
     */
-   public SummaryInformation (DirectoryEntry rootDir)
+   public SummaryInformation(DirectoryEntry rootDir)
       throws MPXJException
    {
       try
       {
-         PropertySet ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005SummaryInformation"))));
+         PropertySet ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry("\005SummaryInformation"))));
          HashMap<Integer, Object> map = getPropertyMap(ps);
-         m_projectTitle = (String)map.get(PROJECT_TITLE);
-         m_subject = (String)map.get(SUBJECT);
-         m_author = (String)map.get(AUTHOR);
-         m_keywords = (String)map.get(KEYWORDS);
-         m_comments = (String)map.get(COMMENTS);
-         m_revision = NumberUtility.parseInteger((String)map.get(REVISION_NUMBER));
-         m_creationDate = (Date)map.get(CREATION_DATE);
-         m_lastSaved = (Date)map.get(LAST_SAVED);
-         
-         ps = new PropertySet(new DocumentInputStream (((DocumentEntry)rootDir.getEntry("\005DocumentSummaryInformation"))));
+         m_projectTitle = (String) map.get(PROJECT_TITLE);
+         m_subject = (String) map.get(SUBJECT);
+         m_author = (String) map.get(AUTHOR);
+         m_keywords = (String) map.get(KEYWORDS);
+         m_comments = (String) map.get(COMMENTS);
+         m_revision = NumberUtility.parseInteger((String) map.get(REVISION_NUMBER));
+         m_creationDate = (Date) map.get(CREATION_DATE);
+         m_lastSaved = (Date) map.get(LAST_SAVED);
+
+         ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry("\005DocumentSummaryInformation"))));
          map = getPropertyMap(ps);
-         m_category = (String)map.get(CATEGORY);
-         m_company = (String)map.get(COMPANY);
-         m_manager = (String)map.get(MANAGER);
+         m_category = (String) map.get(CATEGORY);
+         m_company = (String) map.get(COMPANY);
+         m_manager = (String) map.get(MANAGER);
          m_documentSummaryInformation = map;
       }
 
       catch (Exception ex)
       {
-         throw new MPXJException (MPXJException.READ_ERROR, ex);
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
    }
 
@@ -89,7 +88,7 @@ final class SummaryInformation
     * @param ps property set
     * @return map
     */
-   @SuppressWarnings("unchecked") private HashMap<Integer, Object> getPropertyMap (PropertySet ps)
+   @SuppressWarnings("unchecked") private HashMap<Integer, Object> getPropertyMap(PropertySet ps)
    {
       HashMap<Integer, Object> map = new HashMap<Integer, Object>();
       Property[] properties;
@@ -97,16 +96,16 @@ final class SummaryInformation
       List<Section> sections = ps.getSections();
       int index = 100;
 
-      for (Section section: sections)
+      for (Section section : sections)
       {
          properties = section.getProperties();
-         for (int loop=0; loop < properties.length; loop++)
+         for (int loop = 0; loop < properties.length; loop++)
          {
-           property = properties[loop];
-           // the following causes an "unnecessary cast" warning in JDK1.4
-           // this is in place to ensure compatibility with JDK1.5
-           map.put(Integer.valueOf(index+(int)property.getID()), property.getValue());
-           //System.out.println ("id="+(index+property.getID())+" value="+property.getValue());
+            property = properties[loop];
+            // the following causes an "unnecessary cast" warning in JDK1.4
+            // this is in place to ensure compatibility with JDK1.5
+            map.put(Integer.valueOf(index + (int) property.getID()), property.getValue());
+            //System.out.println ("id="+(index+property.getID())+" value="+property.getValue());
          }
          index += 100;
       }
@@ -188,7 +187,7 @@ final class SummaryInformation
     *
     * @return category
     */
-   public String getCategory ()
+   public String getCategory()
    {
       return (m_category);
    }
@@ -198,7 +197,7 @@ final class SummaryInformation
     *
     * @return revision number
     */
-   public Integer getRevision ()
+   public Integer getRevision()
    {
       return (m_revision);
    }
@@ -208,21 +207,21 @@ final class SummaryInformation
     * 
     * @return created date
     */
-   public Date getCreationDate ()
+   public Date getCreationDate()
    {
       return (m_creationDate);
    }
-   
+
    /**
     * Retrieve the last saved date.
     * 
     * @return last saved date
     */
-   public Date getLastSaved ()
+   public Date getLastSaved()
    {
       return (m_lastSaved);
    }
-   
+
    /**
     * Retrieve the Document Summary Information. This
     * allows the caller to examine custom document summary information
@@ -248,7 +247,7 @@ final class SummaryInformation
 
    private Date m_creationDate;
    private Date m_lastSaved;
-   
+
    private HashMap<Integer, Object> m_documentSummaryInformation;
 
    /**

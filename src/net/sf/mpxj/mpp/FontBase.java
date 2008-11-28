@@ -37,7 +37,7 @@ public class FontBase
     * @param name font name
     * @param size font size
     */
-   public FontBase (Integer index, String name, int size)
+   public FontBase(Integer index, String name, int size)
    {
       m_index = index;
       m_name = name;
@@ -69,7 +69,7 @@ public class FontBase
     *
     * @return index number
     */
-   public Integer getIndex ()
+   public Integer getIndex()
    {
       return (m_index);
    }
@@ -77,9 +77,9 @@ public class FontBase
    /**
     * {@inheritDoc}
     */
-   @Override public String toString ()
+   @Override public String toString()
    {
-      return ("[FontBase name=" + m_name + " size=" + m_size +"]");
+      return ("[FontBase name=" + m_name + " size=" + m_size + "]");
    }
 
    private Integer m_index;

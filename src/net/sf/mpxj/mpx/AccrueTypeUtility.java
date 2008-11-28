@@ -36,7 +36,7 @@ final class AccrueTypeUtility
    /**
     * Constructor.
     */
-   private AccrueTypeUtility ()
+   private AccrueTypeUtility()
    {
       // private constructor to prevent instantiation
    }
@@ -50,17 +50,17 @@ final class AccrueTypeUtility
     * @param locale target locale
     * @return AccrueType class instance
     */
-   public static AccrueType getInstance (String type, Locale locale)
+   public static AccrueType getInstance(String type, Locale locale)
    {
       AccrueType result = null;
 
       String[] typeNames = LocaleData.getStringArray(locale, LocaleData.ACCRUE_TYPES);
 
-      for (int loop=0; loop < typeNames.length; loop++)
+      for (int loop = 0; loop < typeNames.length; loop++)
       {
          if (typeNames[loop].equalsIgnoreCase(type) == true)
          {
-            result = AccrueType.getInstance(loop+1);
+            result = AccrueType.getInstance(loop + 1);
             break;
          }
       }
