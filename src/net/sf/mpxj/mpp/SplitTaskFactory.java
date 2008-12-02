@@ -62,9 +62,21 @@ final class SplitTaskFactory
       }
 
       LinkedList<DateRange> splits = new LinkedList<DateRange>();
+      TimephasedResourceAssignment lastAssignment = null;
+      DateRange lastRange = null;
       for (TimephasedResourceAssignment assignment : timephasedComplete)
       {
-         splits.add(new DateRange(assignment.getStart(), assignment.getFinish()));
+         if (lastAssignment != null && lastRange != null && lastAssignment.getWorkPerDay().getDuration() != 0 && assignment.getWorkPerDay().getDuration() != 0)
+         {
+            splits.removeLast();
+            lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
+         }
+         else
+         {
+            lastRange = new DateRange(assignment.getStart(), assignment.getFinish());
+         }
+         splits.add(lastRange);
+         lastAssignment = assignment;
       }
 
       //
@@ -74,21 +86,33 @@ final class SplitTaskFactory
       Date splitStart = null;
       if (lastComplete != null && firstPlanned != null && lastComplete.getWorkPerDay().getDuration() != 0 && firstPlanned.getWorkPerDay().getDuration() != 0)
       {
-         DateRange lastRange = splits.removeLast();
+         lastRange = splits.removeLast();
          splitStart = lastRange.getStart();
       }
 
+      lastAssignment = null;
+      lastRange = null;
       for (TimephasedResourceAssignment assignment : timephasedPlanned)
       {
          if (splitStart == null)
          {
-            splits.add(new DateRange(assignment.getStart(), assignment.getFinish()));
+            if (lastAssignment != null && lastRange != null && lastAssignment.getWorkPerDay().getDuration() != 0 && assignment.getWorkPerDay().getDuration() != 0)
+            {
+               splits.removeLast();
+               lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
+            }
+            else
+            {
+               lastRange = new DateRange(assignment.getStart(), assignment.getFinish());
+            }
          }
          else
          {
-            splits.add(new DateRange(splitStart, assignment.getFinish()));
+            lastRange = new DateRange(splitStart, assignment.getFinish());            
          }
+         splits.add(lastRange);
          splitStart = null;
+         lastAssignment = assignment;
       }
 
       //

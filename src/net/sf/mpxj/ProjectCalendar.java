@@ -431,7 +431,15 @@ public final class ProjectCalendar extends ProjectEntity
          Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          ranges = getHours(day);
       }
-      Date result = ranges.getRange(0).getStart();
+      Date result;
+      if (ranges == null)
+      {
+         result = getParentFile().getProjectHeader().getDefaultStartTime();
+      }
+      else
+      {
+         result = ranges.getRange(0).getStart();
+      }
       return DateUtility.getCanonicalTime(result);
    }
 
@@ -452,7 +460,15 @@ public final class ProjectCalendar extends ProjectEntity
          Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
          ranges = getHours(day);
       }
-      Date result = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
+      Date result;
+      if (ranges == null)
+      {
+         result = getParentFile().getProjectHeader().getDefaultEndTime();
+      }
+      else
+      {
+         result = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
+      }
       return DateUtility.getCanonicalTime(result);
    }
 
@@ -938,7 +954,7 @@ public final class ProjectCalendar extends ProjectEntity
             ProjectCalendarException exception = getException(currentDate);
             if (exception == null)
             {
-               totalTime += getTotalTime(getCalendarHours(day), currentDate, true);
+               totalTime += getTotalTime(getHours(day), currentDate, true);
             }
             else
             {
@@ -976,7 +992,7 @@ public final class ProjectCalendar extends ProjectEntity
                exception = getException(currentDate);
                if (exception == null)
                {
-                  totalTime += getTotalTime(getCalendarHours(day));
+                  totalTime += getTotalTime(getHours(day));
                }
                else
                {
@@ -993,7 +1009,7 @@ public final class ProjectCalendar extends ProjectEntity
             ProjectCalendarException exception = getException(endDate);
             if (exception == null)
             {
-               totalTime += getTotalTime(getCalendarHours(day), endDate, false);
+               totalTime += getTotalTime(getHours(day), endDate, false);
             }
             else
             {
