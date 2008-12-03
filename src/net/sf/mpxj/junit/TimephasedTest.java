@@ -165,7 +165,7 @@ public class TimephasedTest extends MPXJTestCase
       timephased = timephasedComplete.get(1);
       testTimephased(timephased, "21/11/2008 08:00", "25/11/2008 17:00", 24.0, 8.0);
       timephased = timephasedComplete.get(2);
-      testTimephased(timephased, "26/11/2008 08:00", "26/11/2008 15:30", 6.5, 6.5);                 
+      testTimephased(timephased, "26/11/2008 08:00", "26/11/2008 15:30", 6.5, 6.5);
       timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "26/11/2008 15:30", "26/11/2008 17:00", 1.5, 1.5);
       timephased = timephasedPlanned.get(1);
@@ -241,7 +241,6 @@ public class TimephasedTest extends MPXJTestCase
       timephased = timephasedComplete.get(2);
       testTimephased(timephased, "03/12/2008 08:00", "03/12/2008 12:00", 4.0, 4.0);
 
-
       //
       // Split task 100% complete
       //
@@ -292,18 +291,18 @@ public class TimephasedTest extends MPXJTestCase
 
    //createTest("timephasedPlanned", timephasedPlanned);
    //createTest("timephasedComplete", timephasedComplete);      
-/*
-   private void createTest(String name, List<TimephasedResourceAssignment> assignments)
-   {
-      int index = 0;
-      for (TimephasedResourceAssignment assignment : assignments)
+   /*
+      private void createTest(String name, List<TimephasedResourceAssignment> assignments)
       {
-         System.out.println("timephased = " + name + ".get(" + index + ");");
-         System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");
-         ++index;
+         int index = 0;
+         for (TimephasedResourceAssignment assignment : assignments)
+         {
+            System.out.println("timephased = " + name + ".get(" + index + ");");
+            System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");
+            ++index;
+         }
       }
-   }
-*/
-   
+   */
+
    private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

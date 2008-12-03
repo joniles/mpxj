@@ -108,7 +108,7 @@ final class SplitTaskFactory
          }
          else
          {
-            lastRange = new DateRange(splitStart, assignment.getFinish());            
+            lastRange = new DateRange(splitStart, assignment.getFinish());
          }
          splits.add(lastRange);
          splitStart = null;
