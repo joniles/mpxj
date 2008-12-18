@@ -296,15 +296,15 @@ public final class DateUtility
     * time supplied by the Date instance.
     * 
     * @param date Date instance representing the date
-    * @param time Date instance representing the time of day
+    * @param canonicalTime Date instance representing the time of day
     * @return new Date instance with the required time set
     */
-   public static Date setTime(Date date, Date time)
+   public static Date setTime(Date date, Date canonicalTime)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(date);
-      setTime(cal, time);
-      return cal.getTime();
+      Date result = DateUtility.getDayStartDate(date);
+      long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
+      result = new Date(result.getTime() + offset);
+      return result;     
    }
 
    /**
@@ -313,12 +313,14 @@ public final class DateUtility
     */
    private static final int DEFAULT_DST_SAVINGS = 3600000;
 
+   private static Date CANONICAL_EPOCH = getCanonicalTime(getDayStartDate(new Date()));
+      
    /**
     * Flag used to indicate the existence of the getDSTSavings
     * method that was introduced in Java 1.4.
     */
    private static boolean HAS_DST_SAVINGS;
-
+   
    static
    {
       Class<TimeZone> tz = TimeZone.class;

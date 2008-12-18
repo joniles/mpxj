@@ -2,7 +2,7 @@
  * file:       MSPDIReader.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software Limited 2005
- * date:       Dec 30, 2005
+ * date:       30/12/2005
  */
 
 /*
@@ -61,7 +61,9 @@ import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.mspdi.schema.Project;
+import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.NumberUtility;
@@ -311,6 +313,16 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             readDay(bc, weekDay);
          }
+      }
+      else
+      {
+         bc.setWorkingDay(Day.SUNDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.MONDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.TUESDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.WEDNESDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.THURSDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.FRIDAY, ProjectCalendar.DEFAULT);
+         bc.setWorkingDay(Day.SATURDAY, ProjectCalendar.DEFAULT);
       }
 
       map.put(calendar.getUID(), bc);
@@ -973,6 +985,34 @@ public final class MSPDIReader extends AbstractProjectReader
          Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
          Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
 
+         //System.out.println(task);
+         ProjectCalendar calendar = null;
+         if (resource != null)
+         {
+            calendar = resource.getResourceCalendar();
+         }
+
+         if (calendar == null)
+         {
+            task.getCalendar();
+         }
+
+         if (calendar == null)
+         {
+            String calendarName = m_projectFile.getProjectHeader().getCalendarName();
+            calendar = m_projectFile.getBaseCalendar(calendarName);
+         }
+
+         List<TimephasedResourceAssignment> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
+         List<TimephasedResourceAssignment> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+
+         /*
+         if (task.getSplits() != null && task.getSplits().isEmpty())
+         {
+            splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
+         }
+         */
+
          if (task != null && resource != null)
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
@@ -1025,8 +1065,48 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
             //assignment.getWorkVariance()
+            mpx.setTimephasedComplete(timephasedComplete, true);
+            mpx.setTimephasedPlanned(timephasedPlanned, true);
          }
       }
+   }
+
+   /**
+    * Reads timephased assignment data.
+    * 
+    * @param calendar current calendar
+    * @param assignment assignment data
+    * @param type flag indicating if this is planned or complete work
+    * @return list of timephased resource assignment instances
+    */
+   private LinkedList<TimephasedResourceAssignment> readTimephasedAssignment(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
+   {
+      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
+
+      for (TimephasedDataType item : assignment.getTimephasedData())
+      {
+         if (NumberUtility.getInt(item.getType()) != type)
+         {
+            continue;
+         }
+
+         Date startDate = DatatypeConverter.parseDate(item.getStart());
+         Date finishDate = DatatypeConverter.parseDate(item.getFinish());
+         Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.MINUTES, item.getValue());
+         if (work == null)
+         {
+            work = Duration.getInstance(0, TimeUnit.MINUTES);
+         }
+
+         TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
+         tra.setStart(startDate);
+         tra.setFinish(finishDate);
+         tra.setTotalWork(work);
+
+         result.add(tra);
+      }
+
+      return result;
    }
 
    /**

@@ -2854,8 +2854,8 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54)) / 100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
-               assignment.setTimephasedPlanned(timephasedPlanned);
-               assignment.setTimephasedComplete(timephasedComplete);
+               assignment.setTimephasedPlanned(timephasedPlanned, true);
+               assignment.setTimephasedComplete(timephasedComplete, true);
 
                if (plannedWork != null)
                {
