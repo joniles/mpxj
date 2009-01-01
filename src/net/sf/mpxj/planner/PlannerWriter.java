@@ -798,23 +798,32 @@ public final class PlannerWriter extends AbstractProjectWriter
             }
 
             case DAYS :
-            case ELAPSED_DAYS :
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                seconds = value.getDuration() * (minutesPerDay * 60);
                break;
             }
 
+            case ELAPSED_DAYS :
+            {
+               seconds = value.getDuration() * (24 * 60 * 60);
+               break;
+            }
+
             case WEEKS :
-            case ELAPSED_WEEKS :
             {
                double minutesPerWeek = m_projectFile.getProjectHeader().getMinutesPerWeek().doubleValue();
                seconds = value.getDuration() * (minutesPerWeek * 60);
                break;
             }
 
+            case ELAPSED_WEEKS :
+            {
+               seconds = value.getDuration() * (7 * 24 * 60 * 60);
+               break;
+            }
+
             case MONTHS :
-            case ELAPSED_MONTHS :
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
@@ -822,12 +831,23 @@ public final class PlannerWriter extends AbstractProjectWriter
                break;
             }
 
+            case ELAPSED_MONTHS :
+            {
+               seconds = value.getDuration() * (30 * 24 * 60 * 60);
+               break;
+            }
+
             case YEARS :
-            case ELAPSED_YEARS :
             {
                double minutesPerDay = m_projectFile.getProjectHeader().getMinutesPerDay().doubleValue();
                double daysPerMonth = m_projectFile.getProjectHeader().getDaysPerMonth().doubleValue();
                seconds = value.getDuration() * (12 * daysPerMonth * minutesPerDay * 60);
+               break;
+            }
+
+            case ELAPSED_YEARS :
+            {
+               seconds = value.getDuration() * (365 * 24 * 60 * 60);
                break;
             }
 

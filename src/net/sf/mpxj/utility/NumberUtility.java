@@ -72,7 +72,7 @@ public final class NumberUtility
          }
          else
          {
-            result = Integer.valueOf(value.intValue());
+            result = Integer.valueOf((int) Math.round(value.doubleValue()));
          }
       }
       return (result);
@@ -119,7 +119,7 @@ public final class NumberUtility
          }
          else
          {
-            result = BigInteger.valueOf(value.longValue());
+            result = BigInteger.valueOf(Math.round(value.doubleValue()));
          }
       }
       return (result);
@@ -156,6 +156,28 @@ public final class NumberUtility
    public static final Double getDouble(double value)
    {
       return (value == 0 ? DOUBLE_ZERO : Double.valueOf(value));
+   }
+
+   /**
+    * Utility method used to truncate a double to the given precision.
+    * 
+    * @param value value to truncate
+    * @param precision Number of decimals to truncate to.
+    * @return double value
+    */
+   public static final double truncate(double value, double precision)
+   {
+      double result;
+      precision = Math.pow(10, precision);
+      if (value > 0)
+      {
+         result = Math.floor(value * precision) / precision;
+      }
+      else
+      {
+         result = Math.ceil(value * precision) / precision;
+      }
+      return result;
    }
 
    /**

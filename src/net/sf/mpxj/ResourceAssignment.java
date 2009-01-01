@@ -419,7 +419,7 @@ public final class ResourceAssignment extends ProjectEntity
    {
       if (timephasedComplete instanceof LinkedList)
       {
-         m_timephasedComplete = (LinkedList<TimephasedResourceAssignment>)timephasedComplete;
+         m_timephasedComplete = (LinkedList<TimephasedResourceAssignment>) timephasedComplete;
       }
       else
       {
@@ -455,7 +455,7 @@ public final class ResourceAssignment extends ProjectEntity
    {
       if (timephasedPlanned instanceof LinkedList)
       {
-         m_timephasedPlanned = (LinkedList<TimephasedResourceAssignment>)timephasedPlanned;
+         m_timephasedPlanned = (LinkedList<TimephasedResourceAssignment>) timephasedPlanned;
       }
       else
       {
@@ -502,10 +502,10 @@ public final class ResourceAssignment extends ProjectEntity
     * @param list list of assignment data
     */
    private void coalesceAssignments(LinkedList<TimephasedResourceAssignment> list)
-   {      
+   {
       if (!list.isEmpty())
       {
-         ProjectCalendar calendar = getCalendar();         
+         ProjectCalendar calendar = getCalendar();
          //dumpList(list);
          splitDays(calendar, list);
          //dumpList(list);
@@ -889,7 +889,7 @@ public final class ResourceAssignment extends ProjectEntity
          }
       }
    */
-   
+
    /**
     * {@inheritDoc}
     */
@@ -914,7 +914,7 @@ public final class ResourceAssignment extends ProjectEntity
    private LinkedList<TimephasedResourceAssignment> m_timephasedPlanned;
    private boolean m_timephasedCompleteRaw;
    private boolean m_timephasedPlannedRaw;
-   
+
    /**
     * The following member variables are extended attributes. They are
     * do not form part of the MPX file format definition, and are neither

@@ -146,7 +146,7 @@ public final class Duration implements Comparable<Duration>
 
          case ELAPSED_MONTHS :
          {
-            duration *= (60 * 24 * 7 * 4);
+            duration *= (60 * 24 * 30);
             break;
          }
 
@@ -251,7 +251,7 @@ public final class Duration implements Comparable<Duration>
 
             case ELAPSED_MONTHS :
             {
-               duration /= (60 * 24 * 7 * 4);
+               duration /= (60 * 24 * 30);
                break;
             }
 

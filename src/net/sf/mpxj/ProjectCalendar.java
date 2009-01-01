@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.mpxj.utility.DateUtility;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class represents the a Calendar Definition record. Both base calendars
@@ -517,7 +518,11 @@ public final class ProjectCalendar extends ProjectEntity
    public Date getDate(Date startDate, Duration duration, boolean returnNextWorkStart)
    {
       ProjectHeader header = getParentFile().getProjectHeader();
-      long remainingMinutes = (long) duration.convertUnits(TimeUnit.MINUTES, header).getDuration();
+      // Note: Using a double allows us to handle date values that are accurate up to seconds.
+      //       However, it also means we need to truncate the value to 2 decimals to make the
+      //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
+      //       that wreak havoc on the comparisons.
+      double remainingMinutes = NumberUtility.truncate(duration.convertUnits(TimeUnit.MINUTES, header).getDuration(), 2);
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
       Calendar endCal = Calendar.getInstance();
@@ -533,7 +538,7 @@ public final class ProjectCalendar extends ProjectEntity
          endCal.add(Calendar.DAY_OF_YEAR, 1);
          Date currentDateEnd = DateUtility.getDayStartDate(endCal.getTime());
          //Date currentDateEnd = DateUtility.getDayEndDate(currentDate); XXX
-         long currentDateWorkingMinutes = (long) getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration();
+         double currentDateWorkingMinutes = getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration();
 
          //
          // We have more than enough hours left
@@ -543,7 +548,7 @@ public final class ProjectCalendar extends ProjectEntity
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes -= currentDateWorkingMinutes;
+            remainingMinutes = NumberUtility.truncate(remainingMinutes - currentDateWorkingMinutes, 2);
 
             //
             // Move the calendar forward to the next working day
@@ -619,14 +624,14 @@ public final class ProjectCalendar extends ProjectEntity
                }
                firstRange = false;
 
-               long rangeMinutes;
+               double rangeMinutes;
 
                rangeMinutes = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
                rangeMinutes /= (1000 * 60);
 
                if (remainingMinutes > rangeMinutes)
                {
-                  remainingMinutes -= rangeMinutes;
+                  remainingMinutes = NumberUtility.truncate(remainingMinutes - rangeMinutes, 2);
                }
                else
                {
@@ -636,7 +641,7 @@ public final class ProjectCalendar extends ProjectEntity
                   }
                   else
                   {
-                     endTime = new Date(canonicalRangeStart.getTime() + (remainingMinutes * (60 * 1000)));
+                     endTime = new Date((long) (canonicalRangeStart.getTime() + (remainingMinutes * (60 * 1000))));
                      returnNextWorkStart = false;
                   }
                   remainingMinutes = 0;
@@ -651,6 +656,156 @@ public final class ProjectCalendar extends ProjectEntity
       if (returnNextWorkStart)
       {
          updateToNextWorkStart(cal);
+      }
+
+      return cal.getTime();
+   }
+
+   /**
+    * Given a finish date and a duration, this method calculates backwards to the 
+    * start date. It takes account of working hours in each day, non working
+    * days and calendar exceptions. 
+    * 
+    * @param finishDate finish date
+    * @param duration duration
+    * @return start date
+    */
+   public Date getStartDate(Date finishDate, Duration duration)
+   {
+      ProjectHeader header = getParentFile().getProjectHeader();
+      // Note: Using a double allows us to handle date values that are accurate up to seconds.
+      //       However, it also means we need to truncate the value to 2 decimals to make the
+      //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
+      //       that wreak havoc on the comparisons.
+      double remainingMinutes = NumberUtility.truncate(duration.convertUnits(TimeUnit.MINUTES, header).getDuration(), 2);
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(finishDate);
+      Calendar startCal = Calendar.getInstance();
+
+      while (remainingMinutes > 0)
+      {
+         //
+         // Get the current date and time and determine how many 
+         // working hours remain
+         //
+         Date currentDate = cal.getTime();
+         startCal.setTime(currentDate);
+         startCal.add(Calendar.DAY_OF_YEAR, -1);
+         Date currentDateStart = DateUtility.getDayEndDate(startCal.getTime());
+         double currentDateWorkingMinutes = getWork(currentDateStart, currentDate, TimeUnit.MINUTES).getDuration();
+
+         //
+         // We have more than enough hours left
+         //
+         if (remainingMinutes > currentDateWorkingMinutes)
+         {
+            //
+            // Deduct this day's hours from our total
+            //
+            remainingMinutes = NumberUtility.truncate(remainingMinutes - currentDateWorkingMinutes, 2);
+
+            //
+            // Move the calendar backward to the previous working day
+            //            
+            Day day;
+            do
+            {
+               cal.add(Calendar.DAY_OF_YEAR, -1);
+               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+            }
+            while (!isWorkingDate(cal.getTime(), day));
+
+            //
+            // Retrieve the finish time for this day
+            //
+            Date finishTime = getFinishTime(cal.getTime());
+            DateUtility.setTime(cal, finishTime);
+         }
+         else
+         {
+            //
+            // We have less hours to allocate than there are working hours
+            // in this day. We need to calculate the time of day at which 
+            // our work starts.
+            //
+            ProjectCalendarDateRanges ranges = getException(cal.getTime());
+            if (ranges == null)
+            {
+               Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               ranges = getHours(day);
+            }
+
+            //
+            // Now we have the range of working hours for this day,
+            // step through it to work out the start point
+            //
+            Date startTime = null;
+            Date currentDateFinishTime = DateUtility.getCanonicalTime(currentDate);
+            boolean firstRange = true;
+            // Traverse from end to start
+            for (int i = ranges.getRangeCount() - 1; i >= 0; i--)
+            {
+               DateRange range = ranges.getRange(i);
+               //
+               // Skip this range if its start is after our end time
+               //
+               Date rangeStart = range.getStart();
+               Date rangeEnd = range.getEnd();
+               Date canonicalRangeEnd = DateUtility.getCanonicalTime(rangeEnd);
+               Date canonicalRangeStart = DateUtility.getCanonicalTime(rangeStart);
+
+               Date rangeStartDay = DateUtility.getDayStartDate(rangeStart);
+               Date rangeEndDay = DateUtility.getDayStartDate(rangeEnd);
+
+               if (rangeStartDay.getTime() != rangeEndDay.getTime())
+               {
+                  Calendar calendar = Calendar.getInstance();
+                  calendar.setTime(canonicalRangeStart);
+                  calendar.add(Calendar.DAY_OF_YEAR, -1);
+                  canonicalRangeStart = calendar.getTime();
+               }
+
+               if (firstRange && canonicalRangeStart.getTime() > currentDateFinishTime.getTime())
+               {
+                  continue;
+               }
+
+               //
+               // Move the end of the range if our current end is 
+               // before the range end
+               //               
+               if (firstRange && canonicalRangeEnd.getTime() > currentDateFinishTime.getTime())
+               {
+                  canonicalRangeEnd = currentDateFinishTime;
+               }
+               firstRange = false;
+
+               double rangeMinutes;
+
+               rangeMinutes = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
+               rangeMinutes /= (1000 * 60);
+
+               if (remainingMinutes > rangeMinutes)
+               {
+                  remainingMinutes = NumberUtility.truncate(remainingMinutes - rangeMinutes, 2);
+               }
+               else
+               {
+                  if (remainingMinutes == rangeMinutes)
+                  {
+                     startTime = canonicalRangeStart;
+                  }
+                  else
+                  {
+                     startTime = new Date((long) (canonicalRangeEnd.getTime() - (remainingMinutes * (60 * 1000))));
+                  }
+                  remainingMinutes = 0;
+                  break;
+               }
+            }
+
+            DateUtility.setTime(cal, startTime);
+         }
       }
 
       return cal.getTime();
@@ -686,7 +841,7 @@ public final class ProjectCalendar extends ProjectEntity
             Date rangeEnd = DateUtility.getCanonicalTime(range.getEnd());
             Date rangeStartDay = DateUtility.getDayStartDate(range.getStart());
             Date rangeEndDay = DateUtility.getDayStartDate(range.getEnd());
-          
+
             if (rangeStartDay.getTime() != rangeEndDay.getTime())
             {
                Calendar calendar = Calendar.getInstance();
@@ -694,9 +849,9 @@ public final class ProjectCalendar extends ProjectEntity
                calendar.add(Calendar.DAY_OF_YEAR, 1);
                rangeEnd = calendar.getTime();
             }
-            
+
             if (calTime.getTime() < rangeEnd.getTime())
-            {               
+            {
                if (calTime.getTime() > rangeStart.getTime())
                {
                   startTime = calTime;
@@ -924,6 +1079,11 @@ public final class ProjectCalendar extends ProjectEntity
          }
          exception = null;
       }
+      if (exception == null && m_baseCalendar != null)
+      {
+         // Check base calendar as well for an exception.
+         exception = m_baseCalendar.getException(date);
+      }
       return (exception);
    }
 
@@ -1142,6 +1302,36 @@ public final class ProjectCalendar extends ProjectEntity
             {
                duration = 0;
             }
+            break;
+         }
+
+         case ELAPSED_MINUTES :
+         {
+            duration = totalTime / (60 * 1000);
+            break;
+         }
+
+         case ELAPSED_HOURS :
+         {
+            duration = totalTime / (60 * 60 * 1000);
+            break;
+         }
+
+         case ELAPSED_DAYS :
+         {
+            duration = totalTime / (24 * 60 * 60 * 1000);
+            break;
+         }
+
+         case ELAPSED_WEEKS :
+         {
+            duration = totalTime / (7 * 24 * 60 * 60 * 1000);
+            break;
+         }
+
+         case ELAPSED_MONTHS :
+         {
+            duration = totalTime / (30 * 24 * 60 * 60 * 1000);
             break;
          }
 

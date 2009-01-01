@@ -288,6 +288,7 @@ public final class DateUtility
       startCalendar.setTime(time);
       cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
       cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
+      cal.set(Calendar.SECOND, startCalendar.get(Calendar.SECOND));
    }
 
    /**
@@ -304,7 +305,7 @@ public final class DateUtility
       Date result = DateUtility.getDayStartDate(date);
       long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
       result = new Date(result.getTime() + offset);
-      return result;     
+      return result;
    }
 
    /**
@@ -314,13 +315,13 @@ public final class DateUtility
    private static final int DEFAULT_DST_SAVINGS = 3600000;
 
    private static Date CANONICAL_EPOCH = getCanonicalTime(getDayStartDate(new Date()));
-      
+
    /**
     * Flag used to indicate the existence of the getDSTSavings
     * method that was introduced in Java 1.4.
     */
    private static boolean HAS_DST_SAVINGS;
-   
+
    static
    {
       Class<TimeZone> tz = TimeZone.class;

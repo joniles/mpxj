@@ -589,7 +589,7 @@ final class MPPUtility
    public static final Duration getDuration(double value, TimeUnit type)
    {
       double duration;
-
+      // Value is given in 1/10 of minute
       switch (type)
       {
          case MINUTES :
@@ -602,28 +602,43 @@ final class MPPUtility
          case HOURS :
          case ELAPSED_HOURS :
          {
-            duration = value / 600;
+            duration = value / 600; // 60 * 10
             break;
          }
 
          case DAYS :
+         {
+            duration = value / 4800; // 8 * 60 * 10
+            break;
+         }
+
          case ELAPSED_DAYS :
          {
-            duration = value / 4800;
+            duration = value / 14400; // 24 * 60 * 10
             break;
          }
 
          case WEEKS :
+         {
+            duration = value / 24000; // 5 * 8 * 60 * 10
+            break;
+         }
+
          case ELAPSED_WEEKS :
          {
-            duration = value / 24000;
+            duration = value / 100800; // 7 * 24 * 60 * 10
             break;
          }
 
          case MONTHS :
+         {
+            duration = value / 96000; // 
+            break;
+         }
+
          case ELAPSED_MONTHS :
          {
-            duration = value / 96000;
+            duration = value / 432000; // 30 * 24 * 60 * 10
             break;
          }
 
@@ -793,7 +808,7 @@ final class MPPUtility
 
          case ELAPSED_MONTHS :
          {
-            double unitsPerMonth = (60 * 24 * 29 * 10);
+            double unitsPerMonth = (60 * 24 * 30 * 10);
             double totalMonths = duration / unitsPerMonth;
             result = Duration.getInstance(totalMonths, timeUnit);
             break;

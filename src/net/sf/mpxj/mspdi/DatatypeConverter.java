@@ -1315,30 +1315,50 @@ public final class DatatypeConverter
             }
 
             case DAYS :
-            case ELAPSED_DAYS :
             {
                result *= (60 * 8);
                break;
             }
 
+            case ELAPSED_DAYS :
+            {
+               result *= (60 * 24);
+               break;
+            }
+
             case WEEKS :
-            case ELAPSED_WEEKS :
             {
                result *= (60 * 8 * 5);
                break;
             }
 
+            case ELAPSED_WEEKS :
+            {
+               result *= (60 * 24 * 7);
+               break;
+            }
+
             case MONTHS :
-            case ELAPSED_MONTHS :
             {
                result *= (60 * 8 * 5 * 4);
                break;
             }
 
+            case ELAPSED_MONTHS :
+            {
+               result *= (60 * 24 * 30);
+               break;
+            }
+
             case YEARS :
-            case ELAPSED_YEARS :
             {
                result *= (60 * 8 * 5 * 52);
+               break;
+            }
+
+            case ELAPSED_YEARS :
+            {
+               result *= (60 * 24 * 365);
                break;
             }
 
