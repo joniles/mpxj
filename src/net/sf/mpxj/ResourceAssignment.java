@@ -598,7 +598,7 @@ public final class ResourceAssignment extends ProjectEntity
    }
 
    /**
-    * This method splits the first day off of time span.
+    * This method splits the first day off of a time span.
     * 
     * @param calendar current calendar
     * @param assignment timephased assignment span

@@ -1435,6 +1435,21 @@ public final class ProjectCalendar extends ProjectEntity
                Date canoncialRangeStart = DateUtility.getCanonicalTime(rangeStart);
                Date canonicalRangeEnd = DateUtility.getCanonicalTime(rangeEnd);
 
+               Date startDay = DateUtility.getDayStartDate(rangeStart);
+               Date finishDay = DateUtility.getDayStartDate(rangeEnd);
+
+               //
+               // Handle the case where the end of the range is at midnight -
+               // this will show up as the start and end days not matching
+               //
+               if (startDay.getTime() != finishDay.getTime())
+               {
+                  Calendar calendar = Calendar.getInstance();
+                  calendar.setTime(canonicalRangeEnd);
+                  calendar.add(Calendar.DAY_OF_YEAR, 1);
+                  canonicalRangeEnd = calendar.getTime();
+               }
+               
                if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
                {
                   total += (24 * 60 * 60 * 1000);
