@@ -465,39 +465,44 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public Date getFinishTime(Date date)
    {
-      ProjectCalendarDateRanges ranges = getException(date);
-      if (ranges == null)
-      {
-         Calendar cal = Calendar.getInstance();
-         cal.setTime(date);
-         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         ranges = getHours(day);
-      }
-      Date result;
-      if (ranges == null)
-      {
-         result = getParentFile().getProjectHeader().getDefaultEndTime();
-         result = DateUtility.getCanonicalTime(result);
-      }
-      else
-      {
-         Date rangeStart = result = ranges.getRange(0).getStart();
-         Date rangeFinish = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
-         Date startDay = DateUtility.getDayStartDate(rangeStart);
-         Date finishDay = DateUtility.getDayStartDate(rangeFinish);
+      Date result = null;
 
-         result = DateUtility.getCanonicalTime(rangeFinish);
-
-         //
-         // Handle the case where the end of the range is at midnight -
-         // this will show up as the start and end days not matching
-         //
-         if (startDay.getTime() != finishDay.getTime())
+      if (date != null)
+      {
+         ProjectCalendarDateRanges ranges = getException(date);
+         if (ranges == null)
          {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(result);
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            result = calendar.getTime();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+            ranges = getHours(day);
+         }
+
+         if (ranges == null)
+         {
+            result = getParentFile().getProjectHeader().getDefaultEndTime();
+            result = DateUtility.getCanonicalTime(result);
+         }
+         else
+         {
+            Date rangeStart = result = ranges.getRange(0).getStart();
+            Date rangeFinish = ranges.getRange(ranges.getRangeCount() - 1).getEnd();
+            Date startDay = DateUtility.getDayStartDate(rangeStart);
+            Date finishDay = DateUtility.getDayStartDate(rangeFinish);
+
+            result = DateUtility.getCanonicalTime(rangeFinish);
+
+            //
+            // Handle the case where the end of the range is at midnight -
+            // this will show up as the start and end days not matching
+            //
+            if (startDay != null && finishDay != null && startDay.getTime() != finishDay.getTime())
+            {
+               Calendar calendar = Calendar.getInstance();
+               calendar.setTime(result);
+               calendar.add(Calendar.DAY_OF_YEAR, 1);
+               result = calendar.getTime();
+            }
          }
       }
       return result;
@@ -1449,7 +1454,7 @@ public final class ProjectCalendar extends ProjectEntity
                   calendar.add(Calendar.DAY_OF_YEAR, 1);
                   canonicalRangeEnd = calendar.getTime();
                }
-               
+
                if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
                {
                   total += (24 * 60 * 60 * 1000);

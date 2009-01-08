@@ -100,7 +100,7 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();          
+      timephasedPlanned = assignment.getTimephasedPlanned();
       assertEquals(11, timephasedPlanned.size());
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
@@ -192,7 +192,7 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();                  
+      timephasedPlanned = assignment.getTimephasedPlanned();
       assertEquals(7, timephasedPlanned.size());
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
@@ -298,7 +298,7 @@ public class TimephasedTest extends MPXJTestCase
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedPlanned();                  
+      timephasedPlanned = assignment.getTimephasedPlanned();
       assertEquals(18, timephasedPlanned.size());
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
@@ -767,17 +767,17 @@ public class TimephasedTest extends MPXJTestCase
 
    //createTest("timephasedPlanned", timephasedPlanned);
    //createTest("timephasedComplete", timephasedComplete);      
-/*    
-         private void createTest(String name, List<TimephasedResourceAssignment> assignments)
-         {
-            int index = 0;
-            for (TimephasedResourceAssignment assignment : assignments)
+   /*    
+            private void createTest(String name, List<TimephasedResourceAssignment> assignments)
             {
-               System.out.println("timephased = " + name + ".get(" + index + ");");
-               System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");
-               ++index;
+               int index = 0;
+               for (TimephasedResourceAssignment assignment : assignments)
+               {
+                  System.out.println("timephased = " + name + ".get(" + index + ");");
+                  System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");
+                  ++index;
+               }
             }
-         }
-   */
+      */
    private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }

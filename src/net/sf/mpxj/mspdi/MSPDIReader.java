@@ -1378,16 +1378,22 @@ public final class MSPDIReader extends AbstractProjectReader
          Date assignmentFinishTime = DateUtility.getCanonicalTime(assignmentFinish);
          double totalWork = assignment.getTotalWork().getDuration();
 
-         if ((totalWork == 0 && assignmentStartTime.getTime() != calendarStartTime.getTime()) || (assignmentStartTime.getTime() < calendarStartTime.getTime()))
+         if (assignmentStartTime != null && calendarStartTime != null)
          {
-            assignmentStart = DateUtility.setTime(assignmentStart, calendarStartTime);
-            assignment.setStart(assignmentStart);
+            if ((totalWork == 0 && assignmentStartTime.getTime() != calendarStartTime.getTime()) || (assignmentStartTime.getTime() < calendarStartTime.getTime()))
+            {
+               assignmentStart = DateUtility.setTime(assignmentStart, calendarStartTime);
+               assignment.setStart(assignmentStart);
+            }
          }
 
-         if ((totalWork == 0 && assignmentFinishTime.getTime() != calendarFinishTime.getTime()) || (assignmentFinishTime.getTime() > calendarFinishTime.getTime()))
+         if (assignmentFinishTime != null && calendarFinishTime != null)
          {
-            assignmentFinish = DateUtility.setTime(assignmentFinish, calendarFinishTime);
-            assignment.setFinish(assignmentFinish);
+            if ((totalWork == 0 && assignmentFinishTime.getTime() != calendarFinishTime.getTime()) || (assignmentFinishTime.getTime() > calendarFinishTime.getTime()))
+            {
+               assignmentFinish = DateUtility.setTime(assignmentFinish, calendarFinishTime);
+               assignment.setFinish(assignmentFinish);
+            }
          }
       }
    }
@@ -1397,7 +1403,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * same work is undertaken each day.
     * 
     * @param list assignment data
-    */   
+    */
    private void mergeSameWork(LinkedList<TimephasedResourceAssignment> list)
    {
       LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
@@ -1449,7 +1455,7 @@ public final class MSPDIReader extends AbstractProjectReader
     * Converts assignment duration values from minutes to hours.
     * 
     * @param list assignment data
-    */   
+    */
    private void convertToHours(LinkedList<TimephasedResourceAssignment> list)
    {
       for (TimephasedResourceAssignment assignment : list)

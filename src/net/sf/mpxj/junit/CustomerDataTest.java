@@ -38,32 +38,147 @@ import net.sf.mpxj.mspdi.MSPDIReader;
 public class CustomerDataTest extends MPXJTestCase
 {
    /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData1() throws Exception
+   {
+      testCustomerData(1, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData2() throws Exception
+   {
+      testCustomerData(2, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData3() throws Exception
+   {
+      testCustomerData(3, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData4() throws Exception
+   {
+      testCustomerData(4, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData5() throws Exception
+   {
+      testCustomerData(5, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData6() throws Exception
+   {
+      testCustomerData(6, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData7() throws Exception
+   {
+      testCustomerData(7, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData8() throws Exception
+   {
+      testCustomerData(8, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData9() throws Exception
+   {
+      testCustomerData(9, 10);
+   }
+
+   /**
+    * Test customer data.
+    * 
+    * @throws Exception
+    */
+   public void testCustomerData10() throws Exception
+   {
+      testCustomerData(10, 10);
+   }
+
+   /**
     * As part of the bug reports that are submitted for MPXJ I am passed a
     * number of confidential project files, which for obvious reasons cannot
     * be redistributed as test cases. These files reside in a directory on
     * my development machine, and assuming that this directory exists, this
     * test will attempt of read each of the files in turn.
     *
+    * @param index current chunk
+    * @param max maximum number of chunks 
     * @throws Exception
     */
-   public void testCustomerData() throws Exception
+   private void testCustomerData(int index, int max) throws Exception
    {
-      MPPReader mppReader = new MPPReader();
-      MPXReader mpxReader = new MPXReader();
-      MSPDIReader mspdiReader = new MSPDIReader();
-
       File dir = new File("c:\\tapsterrock\\mpxj\\data");
       if (dir.exists() == true && dir.isDirectory() == true)
       {
+         MPPReader mppReader = new MPPReader();
+         MPXReader mpxReader = new MPXReader();
+         MSPDIReader mspdiReader = new MSPDIReader();
+
          ProjectFile mpxj;
          int failures = 0;
          File[] files = dir.listFiles();
-         File file;
-         String name;
-         for (int loop = 0; loop < files.length; loop++)
+
+         int interval = files.length / max;
+         int startIndex = (index - 1) * interval;
+         int endIndex;
+         if (index == max)
          {
-            file = files[loop];
-            name = file.getName().toUpperCase();
+            endIndex = files.length;
+         }
+         else
+         {
+            endIndex = startIndex + interval;
+         }
+
+         //System.out.println(startIndex + " " + (endIndex-1));
+
+         for (int loop = startIndex; loop < endIndex; loop++)
+         {
+            File file = files[loop];
+            String name = file.getName().toUpperCase();
 
             try
             {
