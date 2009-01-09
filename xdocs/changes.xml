@@ -30,7 +30,8 @@
 		<action dev="joniles" type="add">Added support for reading recurring task data from MPP files.</action>
 		<action dev="joniles" type="add">Added methods to MPXReader and MPXWriter to allow the caller to determine the supported locales.</action>		
 		<action dev="joniles" type="add">Added Spanish locale (Contributed by Agustin Barto).</action>			
-		<action dev="joniles" type="add">Added support for durations with percentage time lag (Contributed by Jonas Tampier).</action>
+		<action dev="joniles" type="add">Added support for durations with percentage time lag (Contributed by Jonas Tampier).</action>		
+		<action dev="joniles" type="add">Added support MSPDI file split tasks.</action>
 	</release>
 	
 	<release version="2.1.0" date="23/03/2008">

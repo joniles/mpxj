@@ -42,6 +42,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.mspdi.MSPDIReader;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -167,6 +168,17 @@ public class MppTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test Split Tasks in an MSPDI file.
+    *
+    * @throws Exception
+    */
+   public void testMspdiSplits() throws Exception
+   {
+      ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdisplittask.xml");
+      testSplitTasks(mpp);
+   }
+
+   /**
     * Test Split Tasks in an MPD9 file.
     * 
     * Currently split tasks are not supported in MPD files.
@@ -223,6 +235,17 @@ public class MppTaskTest extends MPXJTestCase
    public void testMpp12Relations() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12relations.mpp");
+      testRelations(mpp);
+   }
+
+   /**
+    * Tests Relations in an MSPDI file.
+    *
+    * @throws Exception
+    */
+   public void testMspdiRelations() throws Exception
+   {
+      ProjectFile mpp = new MSPDIReader().read(m_basedir + "/mspdirelations.xml");
       testRelations(mpp);
    }
 
@@ -826,8 +849,17 @@ public class MppTaskTest extends MPXJTestCase
       assertEquals(2, relation.getTaskUniqueID().intValue());
       assertEquals(RelationType.START_START, relation.getType());
       Duration duration = relation.getDuration();
-      assertEquals(1, (int) duration.getDuration());
-      assertEquals(TimeUnit.DAYS, duration.getUnits());
+      if (duration.getUnits() == TimeUnit.DAYS)
+      {
+         assertEquals(1, (int) duration.getDuration());
+      }
+      else
+      {
+         if (duration.getUnits() == TimeUnit.HOURS)
+         {
+            assertEquals(8, (int) duration.getDuration());
+         }
+      }
 
       listPreds = task4.getPredecessors();
       relation = listPreds.get(0);

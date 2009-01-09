@@ -58,6 +58,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ScheduleFrom;
+import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -988,9 +989,11 @@ public final class MSPDIReader extends AbstractProjectReader
       Project.Assignments assignments = project.getAssignments();
       if (assignments != null)
       {
+         SplitTaskFactory splitFactory = new SplitTaskFactory();
+
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
-            readAssignment(assignment);
+            readAssignment(assignment, splitFactory);
          }
       }
    }
@@ -999,8 +1002,9 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts data for a single assignment from an MSPDI file.
     *
     * @param assignment Assignment data
+    * @param splitFactory sply task handling
     */
-   private void readAssignment(Project.Assignments.Assignment assignment)
+   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1030,12 +1034,11 @@ public final class MSPDIReader extends AbstractProjectReader
          List<TimephasedResourceAssignment> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
          List<TimephasedResourceAssignment> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
 
-         /*
-         if (task.getSplits() != null && task.getSplits().isEmpty())
+         if (isSplit(timephasedComplete) || isSplit(timephasedPlanned))
          {
+            task.setSplits(new LinkedList<DateRange>());
             splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
          }
-         */
 
          if (task != null && resource != null)
          {
@@ -1093,6 +1096,26 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setTimephasedPlanned(timephasedPlanned, false);
          }
       }
+   }
+
+   /**
+    * Test to determine if this is a split task.
+    * 
+    * @param list timephased resource assignment list
+    * @return boolean flag
+    */
+   private boolean isSplit(List<TimephasedResourceAssignment> list)
+   {
+      boolean result = false;
+      for (TimephasedResourceAssignment assignment : list)
+      {
+         if (assignment.getTotalWork().getDuration() == 0)
+         {
+            result = true;
+            break;
+         }
+      }
+      return result;
    }
 
    /**
