@@ -64,11 +64,11 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.BooleanUtility;
-import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
 
@@ -990,10 +990,10 @@ public final class MSPDIReader extends AbstractProjectReader
       if (assignments != null)
       {
          SplitTaskFactory splitFactory = new SplitTaskFactory();
-
+         TimephasedResourceAssignmentNormaliser normaliser = new MSPDITimephasedResourceAssignmentNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
-            readAssignment(assignment, splitFactory);
+            readAssignment(assignment, splitFactory, normaliser);
          }
       }
    }
@@ -1002,9 +1002,10 @@ public final class MSPDIReader extends AbstractProjectReader
     * This method extracts data for a single assignment from an MSPDI file.
     *
     * @param assignment Assignment data
-    * @param splitFactory sply task handling
+    * @param splitFactory split task handling
+    * @param normaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory)
+   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedResourceAssignmentNormaliser normaliser)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1031,18 +1032,23 @@ public final class MSPDIReader extends AbstractProjectReader
             calendar = m_projectFile.getBaseCalendar(calendarName);
          }
 
-         List<TimephasedResourceAssignment> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
-         List<TimephasedResourceAssignment> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+         LinkedList<TimephasedResourceAssignment> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);
+         LinkedList<TimephasedResourceAssignment> timephasedPlanned = readTimephasedAssignment(calendar, assignment, 1);
+         boolean raw = true;
 
-         if (isSplit(timephasedComplete) || isSplit(timephasedPlanned))
+         if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
          {
             task.setSplits(new LinkedList<DateRange>());
+            normaliser.normalise(calendar, timephasedComplete);
+            normaliser.normalise(calendar, timephasedPlanned);
             splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
+            raw = false;
          }
 
          if (task != null && resource != null)
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
+            mpx.setTimephasedNormaliser(normaliser);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             //assignment.getActualFinish()
@@ -1092,8 +1098,8 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
             //assignment.getWorkVariance()
-            mpx.setTimephasedComplete(timephasedComplete, false);
-            mpx.setTimephasedPlanned(timephasedPlanned, false);
+            mpx.setTimephasedComplete(timephasedComplete, raw);
+            mpx.setTimephasedPlanned(timephasedPlanned, raw);
          }
       }
    }
@@ -1101,18 +1107,23 @@ public final class MSPDIReader extends AbstractProjectReader
    /**
     * Test to determine if this is a split task.
     * 
+    * @param calendar current calendar
     * @param list timephased resource assignment list
     * @return boolean flag
     */
-   private boolean isSplit(List<TimephasedResourceAssignment> list)
+   private boolean isSplit(ProjectCalendar calendar, List<TimephasedResourceAssignment> list)
    {
       boolean result = false;
       for (TimephasedResourceAssignment assignment : list)
       {
          if (assignment.getTotalWork().getDuration() == 0)
          {
-            result = true;
-            break;
+            Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
+            if (calendarWork.getDuration() != 0)
+            {
+               result = true;
+               break;
+            }
          }
       }
       return result;
@@ -1157,339 +1168,7 @@ public final class MSPDIReader extends AbstractProjectReader
          result.add(tra);
       }
 
-      //dumpList("raw", result);
-      splitDays(calendar, result);
-      //dumpList("split days", result);
-      mergeSameDay(calendar, result);
-      //dumpList("mergeSameDay", result);
-      mergeSameWork(result);
-      //dumpList("mergeSameWork", result);
-      validateSameDay(calendar, result);
-      convertToHours(result);
-
       return result;
-   }
-
-   /*
-      private void dumpList(String label, LinkedList<TimephasedResourceAssignment> list)
-      {
-         System.out.println(label);
-         for (TimephasedResourceAssignment assignment : list)
-         {
-            System.out.println(assignment);
-         }
-      }
-      */
-
-   /**
-    * This method breaks down spans of time into individual days.
-    * 
-    * @param calendar current project calendar
-    * @param list list of assignment data
-    */
-   private void splitDays(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
-   {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
-      Calendar cal = Calendar.getInstance();
-
-      for (TimephasedResourceAssignment assignment : list)
-      {
-         while (assignment != null)
-         {
-            Date startDay = DateUtility.getDayStartDate(assignment.getStart());
-            Date finishDay = DateUtility.getDayStartDate(assignment.getFinish());
-
-            // special case - when the finishday time is midnight, it's really the previous day...                 
-            if (assignment.getFinish().getTime() == finishDay.getTime())
-            {
-               cal.setTime(finishDay);
-               cal.add(Calendar.DAY_OF_YEAR, -1);
-               finishDay = cal.getTime();
-            }
-
-            if (startDay.getTime() == finishDay.getTime())
-            {
-               result.add(assignment);
-               break;
-            }
-
-            TimephasedResourceAssignment[] split = splitFirstDay(calendar, assignment);
-            if (split[0] != null)
-            {
-               result.add(split[0]);
-            }
-            assignment = split[1];
-         }
-      }
-
-      list.clear();
-      list.addAll(result);
-   }
-
-   /**
-    * This method splits the first day off of a time span.
-    * 
-    * @param calendar current calendar
-    * @param assignment timephased assignment span
-    * @return first day and remainder assignments
-    */
-   private TimephasedResourceAssignment[] splitFirstDay(ProjectCalendar calendar, TimephasedResourceAssignment assignment)
-   {
-      TimephasedResourceAssignment[] result = new TimephasedResourceAssignment[2];
-
-      //
-      // Retrieve data used to calculate the pro-rata work split
-      //
-      Date assignmentStart = assignment.getStart();
-      Date assignmentFinish = assignment.getFinish();
-      Duration calendarWork = calendar.getWork(assignmentStart, assignmentFinish, TimeUnit.MINUTES);
-      Duration assignmentWork = assignment.getTotalWork();
-
-      if (calendarWork.getDuration() != 0)
-      {
-         //
-         // Split the first day
-         //
-         Date splitFinish;
-         double splitMinutes;
-         if (calendar.isWorkingDate(assignmentStart))
-         {
-            Date splitStart = assignmentStart;
-            Date splitFinishTime = calendar.getFinishTime(splitStart);
-            splitFinish = DateUtility.setTime(splitStart, splitFinishTime);
-            splitMinutes = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES).getDuration();
-
-            splitMinutes *= assignmentWork.getDuration();
-            splitMinutes /= calendarWork.getDuration();
-            splitMinutes = NumberUtility.truncate(splitMinutes, 2);
-
-            Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
-
-            TimephasedResourceAssignment split = new TimephasedResourceAssignment();
-            split.setStart(splitStart);
-            split.setFinish(splitFinish);
-            split.setTotalWork(splitWork);
-
-            result[0] = split;
-         }
-         else
-         {
-            splitFinish = assignmentStart;
-            splitMinutes = 0;
-         }
-
-         //
-         // Split the remainder
-         //
-         Date splitStart = calendar.getNextWorkStart(splitFinish);
-         splitFinish = assignmentFinish;
-         TimephasedResourceAssignment split;
-         if (splitStart.getTime() > splitFinish.getTime())
-         {
-            split = null;
-         }
-         else
-         {
-            splitMinutes = assignmentWork.getDuration() - splitMinutes;
-            Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
-
-            split = new TimephasedResourceAssignment();
-            split.setStart(splitStart);
-            split.setFinish(splitFinish);
-            split.setTotalWork(splitWork);
-         }
-
-         result[1] = split;
-      }
-      return result;
-   }
-
-   /**
-    * This method merges together assignment data for the same day.
-    * 
-    * @param calendar current calendar
-    * @param list assignment data
-    */
-   private void mergeSameDay(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
-   {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
-
-      TimephasedResourceAssignment previousAssignment = null;
-      for (TimephasedResourceAssignment assignment : list)
-      {
-         if (previousAssignment == null)
-         {
-            assignment.setWorkPerDay(assignment.getTotalWork());
-            result.add(assignment);
-         }
-         else
-         {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateUtility.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateUtility.getDayStartDate(assignmentStart);
-
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
-            {
-               Duration previousAssignmentWork = previousAssignment.getTotalWork();
-               Duration assignmentWork = assignment.getTotalWork();
-
-               if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() == 0)
-               {
-                  continue;
-               }
-
-               result.removeLast();
-
-               if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
-               {
-                  double work = previousAssignment.getTotalWork().getDuration();
-                  work += assignment.getTotalWork().getDuration();
-                  Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
-
-                  TimephasedResourceAssignment merged = new TimephasedResourceAssignment();
-                  merged.setStart(previousAssignment.getStart());
-                  merged.setFinish(assignment.getFinish());
-                  merged.setTotalWork(totalWork);
-                  assignment = merged;
-               }
-               else
-               {
-                  if (assignmentWork.getDuration() == 0)
-                  {
-                     assignment = previousAssignment;
-                  }
-               }
-            }
-
-            assignment.setWorkPerDay(assignment.getTotalWork());
-            result.add(assignment);
-         }
-
-         Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
-         Duration assignmentWork = assignment.getTotalWork();
-         if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
-         {
-            result.removeLast();
-         }
-         else
-         {
-            previousAssignment = assignment;
-         }
-      }
-
-      list.clear();
-      list.addAll(result);
-   }
-
-   /**
-    * Ensures that the start and end dates for ranges fit within the
-    * working times for a given day.
-    * 
-    * @param calendar current calendar
-    * @param list assignment data
-    */
-   private void validateSameDay(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list)
-   {
-      for (TimephasedResourceAssignment assignment : list)
-      {
-         Date assignmentStart = assignment.getStart();
-         Date calendarStartTime = calendar.getStartTime(assignmentStart);
-         Date assignmentStartTime = DateUtility.getCanonicalTime(assignmentStart);
-         Date assignmentFinish = assignment.getFinish();
-         Date calendarFinishTime = calendar.getFinishTime(assignmentFinish);
-         Date assignmentFinishTime = DateUtility.getCanonicalTime(assignmentFinish);
-         double totalWork = assignment.getTotalWork().getDuration();
-
-         if (assignmentStartTime != null && calendarStartTime != null)
-         {
-            if ((totalWork == 0 && assignmentStartTime.getTime() != calendarStartTime.getTime()) || (assignmentStartTime.getTime() < calendarStartTime.getTime()))
-            {
-               assignmentStart = DateUtility.setTime(assignmentStart, calendarStartTime);
-               assignment.setStart(assignmentStart);
-            }
-         }
-
-         if (assignmentFinishTime != null && calendarFinishTime != null)
-         {
-            if ((totalWork == 0 && assignmentFinishTime.getTime() != calendarFinishTime.getTime()) || (assignmentFinishTime.getTime() > calendarFinishTime.getTime()))
-            {
-               assignmentFinish = DateUtility.setTime(assignmentFinish, calendarFinishTime);
-               assignment.setFinish(assignmentFinish);
-            }
-         }
-      }
-   }
-
-   /**
-    * Merges individual days together into time spans where the
-    * same work is undertaken each day.
-    * 
-    * @param list assignment data
-    */
-   private void mergeSameWork(LinkedList<TimephasedResourceAssignment> list)
-   {
-      LinkedList<TimephasedResourceAssignment> result = new LinkedList<TimephasedResourceAssignment>();
-
-      TimephasedResourceAssignment previousAssignment = null;
-      for (TimephasedResourceAssignment assignment : list)
-      {
-         if (previousAssignment == null)
-         {
-            assignment.setWorkPerDay(assignment.getTotalWork());
-            result.add(assignment);
-         }
-         else
-         {
-            Duration previousAssignmentWork = previousAssignment.getWorkPerDay();
-            Duration assignmentWork = assignment.getTotalWork();
-            if (previousAssignmentWork.getDuration() == assignmentWork.getDuration())
-            {
-               Date assignmentStart = previousAssignment.getStart();
-               Date assignmentFinish = assignment.getFinish();
-               double total = previousAssignment.getTotalWork().getDuration();
-               total += assignmentWork.getDuration();
-               Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);
-
-               TimephasedResourceAssignment merged = new TimephasedResourceAssignment();
-               merged.setStart(assignmentStart);
-               merged.setFinish(assignmentFinish);
-               merged.setWorkPerDay(assignmentWork);
-               merged.setTotalWork(totalWork);
-
-               result.removeLast();
-               assignment = merged;
-            }
-            else
-            {
-               assignment.setWorkPerDay(assignment.getTotalWork());
-            }
-            result.add(assignment);
-         }
-
-         previousAssignment = assignment;
-      }
-
-      list.clear();
-      list.addAll(result);
-   }
-
-   /**
-    * Converts assignment duration values from minutes to hours.
-    * 
-    * @param list assignment data
-    */
-   private void convertToHours(LinkedList<TimephasedResourceAssignment> list)
-   {
-      for (TimephasedResourceAssignment assignment : list)
-      {
-         Duration totalWork = assignment.getTotalWork();
-         Duration workPerDay = assignment.getWorkPerDay();
-         totalWork = Duration.getInstance(totalWork.getDuration() / 60, TimeUnit.HOURS);
-         workPerDay = Duration.getInstance(workPerDay.getDuration() / 60, TimeUnit.HOURS);
-         assignment.setTotalWork(totalWork);
-         assignment.setWorkPerDay(workPerDay);
-      }
    }
 
    /**

@@ -63,6 +63,7 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedResourceAssignment;
+import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.utility.NumberUtility;
@@ -2773,6 +2774,7 @@ final class MPP12Reader implements MPPVariantReader
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
       SplitTaskFactory splitFactory = new SplitTaskFactory();
+      TimephasedResourceAssignmentNormaliser normaliser = new MPPTimephasedResourceAssignmentNormaliser();
 
       for (int loop = 0; loop < count; loop++)
       {
@@ -2843,6 +2845,8 @@ final class MPP12Reader implements MPPVariantReader
                //System.out.println(MPPUtility.hexdump(meta, false, 16, ""));               
 
                ResourceAssignment assignment = task.addResourceAssignment(resource);
+               assignment.setTimephasedNormaliser(normaliser);
+
                assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
                assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
                assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
