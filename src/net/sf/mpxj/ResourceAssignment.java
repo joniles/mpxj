@@ -472,6 +472,17 @@ public final class ResourceAssignment extends ProjectEntity
    }
 
    /**
+    * Retrieve a flag indicating if this resource assignment has timephased 
+    * data associated with it.
+    * 
+    * @return true if this resource assignment has timephased data
+    */
+   public boolean getHasTimephasedData()
+   {
+      return (m_timephasedPlanned != null && !m_timephasedPlanned.isEmpty()) || (m_timephasedComplete != null && !m_timephasedComplete.isEmpty());
+   }
+   
+   /**
     * Retrieves the calendar used for this resource assignment.
     * 
     * @return ProjectCalendar instance
