@@ -21,7 +21,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2026607: There are some conflict in TaskField.</action>	
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2100803: MSPDIReader is not setting calendarName in projectHeader.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2105778: Write resource calendar with exceptions only.</action>			
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2209477: File loses predecessors.</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2209477: File loses predecessors.</action>			
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2490024: Resources not bring read.</action>		
 		<action dev="joniles" type="fix">Updated to fix incorrect duration calculations where minutes per week were not being used (Contributed by Jonas Tampier).</action>
 		<action dev="joniles" type="fix">Updated split task implementation to represent splits as DateRange instances rather than as hours.</action>													
 		<action dev="joniles" type="add">Added .Net DLLs using IKVM.</action>				

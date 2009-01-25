@@ -1300,17 +1300,17 @@ final class MPP9Reader implements MPPVariantReader
    {
       TreeMap<Integer, Integer> resourceMap = new TreeMap<Integer, Integer>();
       int itemCount = rscFixedMeta.getItemCount();
-      byte[] data;
-      int uniqueID;
 
       for (int loop = 0; loop < itemCount; loop++)
       {
-         data = rscFixedData.getByteArrayValue(loop);
-         if (data != null && data.length > 4)
+         byte[] data = rscFixedData.getByteArrayValue(loop);
+         if (data == null || data.length < MINIMUM_EXPECTED_RESOURCE_SIZE)
          {
-            uniqueID = MPPUtility.getShort(data, 0);
-            resourceMap.put(Integer.valueOf(uniqueID), Integer.valueOf(loop));
+            continue;
          }
+
+         Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, 0));
+         resourceMap.put(uniqueID, Integer.valueOf(loop));
       }
 
       return (resourceMap);
@@ -2522,16 +2522,11 @@ final class MPP9Reader implements MPPVariantReader
       {
          id = uniqueid[loop];
          offset = resourceMap.get(id);
-         if (rscFixedData.isValidOffset(offset) == false)
+         if (offset == null)
          {
             continue;
          }
-
          data = rscFixedData.getByteArrayValue(offset.intValue());
-         if (data.length < MINIMUM_EXPECTED_RESOURCE_SIZE)
-         {
-            continue;
-         }
 
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(rscVarData, id, true, true, true, true, true, true);
