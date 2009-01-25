@@ -1002,12 +1002,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          List<TimephasedDataType> list = xml.getTimephasedData();
          ProjectCalendar calendar = mpx.getCalendar();
          BigInteger assignmentID = xml.getUID();
-         
+
          List<TimephasedResourceAssignment> complete = mpx.getTimephasedComplete();
          TimephasedResourceAssignment lastComplete = null;
          if (!complete.isEmpty())
          {
-            lastComplete = complete.get(complete.size()-1);
+            lastComplete = complete.get(complete.size() - 1);
          }
 
          List<TimephasedResourceAssignment> planned = mpx.getTimephasedPlanned();
@@ -1048,7 +1048,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             if (startDate.getTime() > currentStart.getTime())
             {
                boolean paddingRequired = true;
-               
+
                if (last != null)
                {
                   Date lastFinish = last.getFinish();
@@ -1065,10 +1065,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      }
                   }
                }
-               
+
                if (paddingRequired)
                {
-                  Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);               
+                  Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);
                   TimephasedResourceAssignment padding = new TimephasedResourceAssignment();
                   padding.setStart(currentStart);
                   padding.setFinish(startDate);
@@ -1077,7 +1077,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   result.add(padding);
                }
             }
-            
+
             result.add(assignment);
 
             Date endTime = calendar.getFinishTime(startDay);
@@ -1085,7 +1085,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             if (finishDate.getTime() < currentFinish.getTime())
             {
                boolean paddingRequired = true;
-               
+
                if (first != null)
                {
                   Date firstStart = first.getStart();
@@ -1105,7 +1105,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
                if (paddingRequired)
                {
-                  Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);               
+                  Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);
                   TimephasedResourceAssignment padding = new TimephasedResourceAssignment();
                   padding.setStart(finishDate);
                   padding.setFinish(currentFinish);
@@ -1123,10 +1123,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
             while (currentStart.getTime() < finishDate.getTime())
             {
                if (isWorking)
-               {                  
+               {
                   Date endTime = calendar.getFinishTime(currentStart);
                   Date currentFinish = DateUtility.setTime(currentStart, endTime);
-                  
+
                   TimephasedResourceAssignment split = new TimephasedResourceAssignment();
                   split.setStart(currentStart);
                   split.setFinish(currentFinish);

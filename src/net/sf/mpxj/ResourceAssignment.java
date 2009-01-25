@@ -481,7 +481,7 @@ public final class ResourceAssignment extends ProjectEntity
    {
       return (m_timephasedPlanned != null && !m_timephasedPlanned.isEmpty()) || (m_timephasedComplete != null && !m_timephasedComplete.isEmpty());
    }
-   
+
    /**
     * Retrieves the calendar used for this resource assignment.
     * 
