@@ -15,21 +15,17 @@
 out on MPXJ. This is by no means an exhaustive list, feel free to submit your own 
 requests for inclusion here.</p>
 
-<p><b>Version 2.0.0 - September 2007</b></p>   
-<ul>
-   <li>Migrate to Java 1.5</li>
-   <li>Update API to use generics</li>
-   <li>Read full recurring task information from MPP, MSPDI and MPD files</li>
-   <li>Write full recurring task information to MPX and MSPDI files</li>
+<p><b>Version 3.1.0 - April 2009</b></p>   
+<ul>   
+   <li>Read full recurring task information from MSPDI and MPD files</li>
+   <li>Write full recurring task information to MSPDI files</li>
    <li>Implement support for reading Cost Rate Tables from MPP, MSPDI and MPD files</li>   
    <li>Investigate implementing task getSuccessors functionality</li>
-   <li>Investigate implementing external task flag for MPP files</li>
 </ul>  
 
-<p><b>Version 2.1.0 - December 2007</b></p>   
+<p><b>Version 3.2.0 - August 2009</b></p>   
 <ul>
-   <li>Implement support for reading multiple baselines from MPP, MSPDI and MPD files</li>
-   <li>Implement support for writing multiple baselines to MSPDI files</li>
+   <li>Implement support for reading multiple baselines from MPP and MPD files</li>
    <li>Investigate relationship between resource assignment planned work and planned cost fields and any baseline values held at resource assignment level</li>
    <li>Implement read and write support for outline codes in MSPDI files</li>
 </ul>  

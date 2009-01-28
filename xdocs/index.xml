@@ -3,7 +3,7 @@
 
 <document>
    <properties>
-      <title>Microsoft Project Exchange in Java</title> 
+      <title>Microsoft Project Exchange</title> 
       <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
    </properties> 
 
@@ -18,7 +18,7 @@ Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft
 Project Database (MPD), and Planner (XML).</p>
 
 <p>The library is currently based around a set of data structures
-modelled on the data described by the MPX file format. All
+modelled on the data described by the MPP file format. All
 manipulation of project data takes place using these data
 structures, which can be read from or written to the various
 supported file formats. The notes in the following paragraphs explain the
@@ -67,7 +67,7 @@ file format.</p>
 <section name="Java and .Net">
 <p>MPXJ is written and maintained in Java, however this is no barrier to
 using its functionality in .Net applications. Thanks to the facilities 
-provided by IKVM the MPXJ distribution also contains a .Net DLL version
+provided by IKVM, the MPXJ distribution also contains a .Net DLL version
 of MPXJ and its library dependencies. This allows MPXJ to be used 
 natively from any .Net programming language (for example, C#, Visual Basic 
 and so on), without having to be aware that the original code was written 
@@ -183,7 +183,7 @@ comply with the Apache license, we must state that "this
 product includes software developed by the Apache
 Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org/</a>)."</p>
 
-<p>A copy of the JUnit library is provided for you
+<p>A copy of the JUnit library is provided for your
 convenience to allow you to run the regression tests
 provided with MPXJ. The license for JUnit can be found in
 the legal directory of the distribution.</p>

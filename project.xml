@@ -11,7 +11,7 @@
   <inceptionYear>2000</inceptionYear>
   <package>net.sf.mpxj</package>
   <logo></logo>
-  <shortDescription>Microsoft Project Exchange For Java</shortDescription>
+  <shortDescription>Microsoft Project Exchange</shortDescription>
 
   <description/>
 
@@ -45,7 +45,7 @@
       <name>Jon Iles</name>
       <id>joniles</id>
       <email>jon.iles@bcs.org.uk</email>
-      <organization>Packwood Software Limited</organization>
+      <organization>Packwood Software</organization>
     </developer>    
   </developers>
 
