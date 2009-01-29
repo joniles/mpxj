@@ -1124,9 +1124,9 @@ public final class ProjectHeader extends ProjectEntity
    }
 
    /**
-    * Sets currency symbol ie $, £, DM.
+    * Sets currency symbol.
     *
-    * @param symbol ie $, £, DM
+    * @param symbol currency symbol
     */
    public void setCurrencySymbol(String symbol)
    {
@@ -1139,9 +1139,9 @@ public final class ProjectHeader extends ProjectEntity
    }
 
    /**
-    * Gets currency symbol ie $, £, DM.
+    * Retrieves the currency symbol.
     *
-    * @return ie $, £, DM
+    * @return currency symbol
     */
    public String getCurrencySymbol()
    {

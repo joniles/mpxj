@@ -596,7 +596,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The % Complete field contains the current status of a task, expressed
+    * The % Complete field contains the current status of a task, expressed
     * as the percentage of the
     * task's duration that has been completed. You can enter percent complete,
     * or you can have
@@ -610,7 +610,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The % Work Complete field contains the current status of a task,
+    * The % Work Complete field contains the current status of a task,
     * expressed as the
     * percentage of the task's work that has been completed. You can enter
     * percent work
@@ -1531,7 +1531,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
    /**
     * The Resume field shows the date that the remaining portion of a task is
-    * scheduled to resume after you enter a new value for the % Complete field.
+    * scheduled to resume after you enter a new value for the % Complete field.
     * The Resume field is also recalculated when the remaining portion of a task
     * is moved to a new date.
     *
@@ -1920,7 +1920,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The % Complete field contains the current status of a task,
+    * The % Complete field contains the current status of a task,
     * expressed as the percentage of the task's duration that has been completed.
     * You can enter percent complete, or you can have Microsoft Project calculate
     * it for you based on actual duration.
@@ -1932,7 +1932,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The % Work Complete field contains the current status of a task,
+    * The % Work Complete field contains the current status of a task,
     * expressed as the percentage of the task's work that has been completed.
     * You can enter percent work complete, or you can have Microsoft Project
     * calculate it for you based on actual work on the task.
@@ -2925,7 +2925,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
    /**
     * The Resume field shows the date that the remaining portion of a task
-    * is scheduled to resume after you enter a new value for the % Complete
+    * is scheduled to resume after you enter a new value for the % Complete
     * field. The Resume field is also recalculated when the remaining portion
     * of a task is moved to a new date.
     *
