@@ -103,7 +103,7 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
             {
                Duration totalWork = assignment.getTotalWork();
                Duration assignmentWork = getAssignmentWork(calendar, assignment);
-               if (totalWork.getDuration() > assignmentWork.getDuration())
+               if ((totalWork.getDuration() - assignmentWork.getDuration()) > EQUALITY_DELTA)
                {
                   assignment.setTotalWork(assignmentWork);
                   result.add(assignment);
@@ -365,4 +365,5 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
       }
    */
 
+   private static final double EQUALITY_DELTA = 0.1;
 }
