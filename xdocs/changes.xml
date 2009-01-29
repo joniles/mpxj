@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="3.1.0" date="CVS HEAD">
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2545883: Plan file fails to load.</action>		
 	</release>
 	
 	<release version="3.0.0" date="25/01/2009">

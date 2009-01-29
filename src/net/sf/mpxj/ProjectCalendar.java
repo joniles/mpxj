@@ -559,10 +559,19 @@ public final class ProjectCalendar extends ProjectEntity
             // Move the calendar forward to the next working day
             //            
             Day day;
+            int nonWorkingDayCount = 0;
             do
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
                day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               ++nonWorkingDayCount;
+               if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
+               {
+                  cal.setTime(startDate);
+                  cal.add(Calendar.DAY_OF_YEAR, 1);
+                  remainingMinutes = 0;
+                  break;
+               }
             }
             while (!isWorkingDate(cal.getTime(), day));
 
@@ -823,6 +832,8 @@ public final class ProjectCalendar extends ProjectEntity
     */
    private void updateToNextWorkStart(Calendar cal)
    {
+      Date originalDate = cal.getTime();
+
       //
       // Find the date ranges for the current day
       //
@@ -876,10 +887,17 @@ public final class ProjectCalendar extends ProjectEntity
          if (startTime == null)
          {
             Day day;
+            int nonWorkingDayCount = 0;
             do
             {
                cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
                day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               ++nonWorkingDayCount;
+               if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
+               {
+                  cal.setTime(originalDate);
+                  break;
+               }
             }
             while (!isWorkingDate(cal.getTime(), day));
 
@@ -1778,4 +1796,13 @@ public final class ProjectCalendar extends ProjectEntity
    public static final Date DEFAULT_END1 = DateUtility.getTime(12, 0);
    public static final Date DEFAULT_START2 = DateUtility.getTime(13, 0);
    public static final Date DEFAULT_END2 = DateUtility.getTime(17, 0);
+
+   /**
+    * It is possible for a project calendar to be configured with no working
+    * days. This will result in an infinite loop when looking for the next
+    * working day from a date, so we use this constant to set a limit on the
+    * maximum number of non-working days we'll skip before we bail out
+    * and take an alternative approach.
+    */
+   private static final int MAX_NONWORKING_DAYS = 1000;
 }

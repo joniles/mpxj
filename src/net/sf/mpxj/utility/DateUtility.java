@@ -284,11 +284,14 @@ public final class DateUtility
     */
    public static void setTime(Calendar cal, Date time)
    {
-      Calendar startCalendar = Calendar.getInstance();
-      startCalendar.setTime(time);
-      cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
-      cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
-      cal.set(Calendar.SECOND, startCalendar.get(Calendar.SECOND));
+      if (time != null)
+      {
+         Calendar startCalendar = Calendar.getInstance();
+         startCalendar.setTime(time);
+         cal.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY));
+         cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
+         cal.set(Calendar.SECOND, startCalendar.get(Calendar.SECOND));
+      }
    }
 
    /**
