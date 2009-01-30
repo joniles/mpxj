@@ -176,17 +176,30 @@ to see how we can work together.</p>
 a copy of which can be found in the legal directory of the
 distribution.</p>
 
-<p>As mentioned above, the MPP functionality depends on the
+<p>The functionality to read MPP files depends on the
 use of the POI library. The license for this library can
-be found in the legal directory of the distribution. To
-comply with the Apache license, we must state that "this
-product includes software developed by the Apache
-Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org/</a>)."</p>
+be found in the legal directory of the distribution.</p>
+
+<p>The functionality to read MSPDI and Planner files depends on the
+use of the JAXB library. The license for this library can
+be found in the legal directory of the distribution.</p>
+
+<p>The functionality used to create .NET DLLs and the supporting libraries
+it requires depend on IKVM and GNU Classpath. The licenses for these libraries
+and utilities can be found in the legal directory of the distribution.</p>
 
 <p>A copy of the JUnit library is provided for your
 convenience to allow you to run the regression tests
 provided with MPXJ. The license for JUnit can be found in
 the legal directory of the distribution.</p>
+</section>
+
+<section name="Acknowledgements"> 
+<p>This product includes software developed by the Apache Software Foundation (<a href="http://www.apache.org/" target="_blank">http://www.apache.org</a>)</p> 
+<p>This product includes software developed by Sun Microsystems (<a href="https://jaxb.dev.java.net/" target="_blank">https://jaxb.dev.java.net</a>)</p>
+<p>This product includes software developed by IKVM.NET (<a href="http://www.ikvm.net/" target="_blank">http://www.ikvm.net</a>)</p>
+<p>This product includes software developed by the GNU Classpath Project (<a href="http://www.gnu.org/software/classpath/" target="_blank">http://www.gnu.org/software/classpath</a>)</p>
+<p>This product includes software developed by the JUnit Project (<a href="http://www.junit.org/" target="_blank">http://www.junit.org</a>)</p> 
 </section>
 
    </body> 
