@@ -8,7 +8,7 @@
 
 <target name="init-props" description="Initialize properties">
    <tstamp/>
-
+	
    <!-- 
    	The following two properties are only required if you want to use the xjc target.
    	From experience, it is best to put the XSD file in the root MPXJ dir rather
@@ -25,7 +25,7 @@
    <property name="mspdi-schema.dir" value="/net/sf/mpxj/mspdi/schema" />
 	<property name="planner-schema.dir" value="/net/sf/mpxj/planner/schema" />
 	<property name="ikvm.dir" value="C:\java\ikvm-0.38.0.2" />
-	
+		
 	<!-- 
 		MPXJ is targeted at Java 1.5, so to ensure that the builds we distribute
 		match this, we use this setting. 
@@ -40,7 +40,7 @@
 	</path>
 
 	<property name="poi.jar" value="poi-3.2-FINAL-20081019" />
-	
+		
 	<path id="poi.path">
 		<pathelement location="${lib.dir}/${poi.jar}.jar"/>
 	</path>
@@ -52,6 +52,13 @@
 	<property name="jaxb.classpath" refid="jaxb.path"/>	
    <property name="poi.classpath" refid="poi.path" />
    <property name="junit.classpath" refid="junit.path" />
+
+	<property name="poi.dll" value="${basedir}\lib.net\${poi.jar}.dll" />
+	<property name="junit.dll" value="${basedir}\lib.net\junit.dll" />
+	<property name="mpxj.dll" value="${basedir}\lib.net\mpxj.dll" />
+	
+	<property name="ikvmc.exe" value="${ikvm.dir}/bin/ikvmc.exe" />
+	<available file="${ikvmc.exe}" property="ikvmc.exists"/>
 </target>
 
 
@@ -91,17 +98,17 @@
    <jar jarfile="${basedir}/mpxj.jar" basedir="${classes.dir}"/>
 </target>
 
-<target name="dll" depends="compile" description="Build .net DLLs">
-   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
-	<arg line="-nowarn:0100 -nowarn:0003 -out:${basedir}\lib.net\${poi.jar}.dll -target:library ${basedir}\lib\${poi.jar}.jar" />
+<target name="dll" depends="compile" description="Build .net DLLs" if="ikvmc.exists">	
+   <exec executable="${ikvmc.exe}" dir="${basedir}">
+	<arg line="-nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library ${basedir}\lib\${poi.jar}.jar" />
    </exec>	
 	
-   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
-	<arg line="-nowarn:0003 -out:${basedir}\lib.net\junit.dll -target:library ${basedir}\junit\junit.jar" />
+   <exec executable="${ikvmc.exe}" dir="${basedir}">
+	<arg line="-nowarn:0003 -out:${junit.dll} -target:library ${basedir}\junit\junit.jar" />
    </exec>	
 
-   <exec executable="${ikvm.dir}/bin/ikvmc.exe" dir="${basedir}">
-	<arg line="-nowarn:0003 -out:${basedir}\lib.net\mpxj.dll -target:library -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
+   <exec executable="${ikvmc.exe}" dir="${basedir}">
+	<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
    </exec>	
 </target>
 
@@ -134,6 +141,9 @@
 	
 <target name="clean" depends="init-props, clean-temp, clean-classes, clean-dot-net" description="Clean up all files">
    <delete file="${basedir}/mpxj.jar"/>
+	<delete file="${mpxj.dll}"/>
+	<delete file="${junit.dll}"/>
+	<delete file="${poi.dll}"/>
    <delete dir="${doc.dir}"/>
 </target>
 
