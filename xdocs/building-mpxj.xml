@@ -82,6 +82,31 @@ to build the MPXJ JAR, then at the command prompt enter the command
 "ant document", which will then generate the Javadoc in the doc/api folder.</p>
 </section>
 
+<section name="Generating the JAXB code">
+<p>The XML schema file from which the JAXB code has been generated is
+supplied by Microsoft as part of the Microsoft Project 2002, 
+Microsoft Project 2003, and Microsoft Project 2007  distributions.
+Normally you will not need to regenerate this source, but if you are changing 
+the JAXB implementation, or modifying the use of JAXB in some way, then you
+may need to regenerate this code.</p>
+
+<p>The XML schema file name is mspdi.xsd for Project 2002 and 2003, 
+or mspdi_pj12.xsd for Project 2007. 
+This file is not distributed as part of MPXJ, but it can be
+found on the Microsoft Project 2002, 2003 and 2007 CDs, and can also be 
+<a href="http://msdn.microsoft.com/office/understanding/project/tools/default.aspx" target="_blank">
+downloaded from the MSDN web site</a> (look for the link to the 
+Office 2003 Reference Schemas).</p>
+
+<p>If you are able to obtain a copy of this file, you can rebuild 
+the JAXB source using the xjc target found in the ant build.xml file. 
+Note that the xjc target is platform specific, you will need to 
+change the name of xjc tool to be xjc.bat or xjc.sh 
+depending on your operating system. You will also need to set 
+the properties indicated in build.xml to tell it where to 
+find xjc and the xsd file.</p>
+</section>
+
 </body>
 </document>
 

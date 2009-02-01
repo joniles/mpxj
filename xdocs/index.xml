@@ -24,20 +24,21 @@ structures, which can be read from or written to the various
 supported file formats. The notes in the following paragraphs explain the
 facilities MPXJ offers for each file format.</p>
 
-<p>MPX: The MPX file format can be read by all versions of Microsoft
+<ul>
+<li><b>MPX:</b> The MPX file format can be read by all versions of Microsoft
 Project, and written by all versions up to Microsoft Project 98.
 MPXJ allows MPX files to be created, read and written. See
 <a href="http://support.microsoft.com/default.aspx?scid=KB;EN-US;Q270139" target="_blank">
 http://support.microsoft.com/default.aspx?scid=KB;EN-US;Q270139</a> 
-for a definition of the file format.</p>
+for a definition of the file format.</li>
 
-<p>MPP: The MPP file format is Microsoft's proprietary way of storing
+<li><b>MPP:</b> The MPP file format is Microsoft's proprietary way of storing
 project data. MPXJ supports read only access to MPP files produced
 by Microsoft Project 98, Microsoft Project 2000, Microsoft 
 Project 2002, Microsoft Project 2003, and Microsoft Project 2007.
-MPP template files, with the suffix MPT are also supported.</p>
+MPP template files, with the suffix MPT are also supported.</li>
 
-<p>MSPDI: The MSPDI file format is Microsoft's XML file format for
+<li><b>MSPDI:</b> The MSPDI file format is Microsoft's XML file format for
 storing project data. Microsoft Project 2002, Microsoft Project
 2003 and Microsoft Project 2007 can read and write MSPDI files. 
 MPXJ allows MSPDI files to be created, read, and written. Documentation on the 
@@ -49,30 +50,30 @@ can also be
 <a href="http://msdn2.microsoft.com/en-us/library/bb428843.aspx" target="_blank">
 downloaded from the MSDN web site</a> as part of the 
 Microsoft Office Project 2007 SDK.
-</p>
+</li>
 
-<p>MPD: The MPD file format is an Access database file format used to
+<li><b>MPD:</b> The MPD file format is an Access database file format used to
 store one or more projects. The database schema used in these databases is 
 also close to that used by Microsoft Project Server. MPXJ can read projects
 stored in an MPD file using a JDBC connection. It is possible that MPXJ could 
 also read the same data from a Microsoft Project Server database using the
-same approach - but I haven't tried this!</p>
+same approach - but I haven't tried this!</li>
 
-<p>PLANNER: Planner is an Open Source project management too which uses
+<li><b>PLANNER:</b> Planner is an Open Source project management too which uses
 an XML file format to store project data. MPXJ read and write the Planner
-file format.</p>
-
+file format.</li>
+</ul>
 </section>
 
 <section name="Java and .Net">
 <p>MPXJ is written and maintained in Java, however this is no barrier to
 using its functionality in .Net applications. Thanks to the facilities 
-provided by IKVM, the MPXJ distribution also contains a .Net DLL version
+provided by IKVM, the MPXJ distribution also contains a native .Net DLL version
 of MPXJ and its library dependencies. This allows MPXJ to be used 
-natively from any .Net programming language (for example, C#, Visual Basic 
+from any .Net programming language (for example, C#, Visual Basic 
 and so on), without having to be aware that the original code was written 
 in Java. As part of the MPXJ release process the Java and .Net libraries
-are both exercised using he same set of regression tests to ensure that their
+are both exercised using the same set of regression tests to ensure that their
 behaviour is identical. Both the Java and .Net versions of the library
 are used in production commercial applications - so you can confident
 that the code will work for you!</p>
@@ -80,62 +81,47 @@ that the code will work for you!</p>
 
 <section name="Getting started with MPXJ in Java">
 
-<p>The latest release of MPXJ can be downloaded by following
-<a href="http://sourceforge.net/project/showfiles.php?group_id=70649">this link</a>.
-The library is fairly simple to use, and to illustrate this, a
+<p>The latest release of MPXJ can be downloaded from the project's
+<a href="http://sourceforge.net/project/showfiles.php?group_id=70649">SourceForge download page</a>.
+The core MPXJ functionality is contained in the mpxj.jar file, which you
+will find in the root folder of the MPXJ distribution.
+The library is simple to use, and to illustrate this, a
 small number of sample files have been included in the utility
 source package of the distribution.</p>
 
-<p>The MPP functionality depends on the <a href="http://jakarta.apache.org/poi/" target="_blank">POI</a> library produced by the
-<a href="http://jakarta.apache.org/" target="_blank">Apache Jakarta</a> project. In order to use the MPP functionality the
+<p>The MPP functionality depends on the 
+<a href="http://poi.apache.org/" target="_blank">POI</a> library.
+In order to use the MPP functionality in MPXJ, the
 POI JAR file must be present on your classpath. A copy of this
-library can be found in the lib directory of the distribution.</p>
+library can be found in the lib directory of the MPXJ distribution.</p>
 
-<p>The MSPDI functionality depends on the Sun JAXB implementation
-as distributed in the Java Web Services Developer Pack version 1.4. 
-In order to use the MSPDI functionality the
-JAXB JAR files must be present on your classpath.
-Copies of the relevant libraries can be found in the lib directory of the distribution.
-The original distribution from which these redistributable files have been taken
-can be found at:
-<a href="http://java.sun.com/webservices/downloads/webservicespack.html" target="_blank">
-http://java.sun.com/webservices/downloads/webservicespack.html</a></p>
+<p>The MSPDI functionality depends on the 
+<a href="https://jaxb.dev.java.net/" target="_blank">Sun JAXB reference implementation</a>.
+In order to use the MSPDI functionality the JAXB JAR files must be present 
+on your classpath. Copies of the relevant libraries can be found in the lib 
+directory of the MPXJ distribution.</p>
 </section>
 
+<section name="Getting started with MPXJ and .Net">
 
-<section name="JUnit">
+<p>The latest release of MPXJ can be downloaded from the project's
+<a href="http://sourceforge.net/project/showfiles.php?group_id=70649">SourceForge download page</a>.
+The core MPXJ functionality is contained in the mpxj.dll file, which you
+will find in the lib.net folder of the MPXJ distribution. To use the library
+you will also need to ensure that the IKVM runtime DLLs are in visible to .Net.
+These are also provided in the lib.net folder of the MPXJ distribution.</p>
 
-<p>Should you wish to run the <a href="http://junit.sourceforge.net/" target="_blank">JUnit</a> tests provided with MPXJ, you
-need to be aware that the JUnit classloader doesn't get on well
-with JAXB, so it is recommended that you execute the JUnit test
-runner with the -noloading command line option, or otherwise
-disable class reloading.</p>
+<p>The library is simple to use, and to illustrate this, a
+small number of sample files have been included in the utility
+source package of the distribution.</p>
+
+<p>The MPP functionality depends on the 
+<a href="http://poi.apache.org/" target="_blank">POI</a> library.
+In order to use the MPP functionality in MPXJ, the
+POI DLL file must be visible to .Net. A copy of this
+library can be found in the lib.net folder of the MPXJ distribution.</p>
 </section>
 
-
-<section name="Build">
-
-<p>If you want to build MPXJ yourself using the supplied source and
-ant build.xml file, there are a few points to note:</p>
-
-<p>The XML schema file from which the JAXB code has been generated is
-supplied by Microsoft as part of the Microsoft Project 2002, 
-Microsoft Project 2003, and Microsoft Project 2007  distributions. 
-The file name is mspdi.xsd. 
-This file is not distributed as part of MPXJ, but it can be
-found on the Microsoft Project 2002, 2003 and 2007 CDs, and can also be 
-<a href="http://msdn.microsoft.com/office/understanding/project/tools/default.aspx" target="_blank">
-downloaded from the MSDN web site</a> (look for the link to the 
-Office 2003 Reference Schemas).</p>
-
-<p>If you are able to obtain a copy of this file, you can rebuild 
-the JAXB source using the xjc target found in the ant build.xml file. 
-Note that the xjc target is platform specific, you will need to 
-change the reference to the xjc tool to be xjc.bat or xjc.sh 
-depending on your operating system. You will also need to set 
-the properties indicated in build.xml to tell it where to 
-find xjc and the xsd file.</p>
-</section>
 
 <section name="Keep in touch">
 
