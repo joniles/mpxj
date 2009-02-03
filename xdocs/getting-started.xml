@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+
+<document>
+   <properties>
+      <title>Getting Started</title> 
+      <author email="jon.iles@bcs.org.uk">Jon Iles</author> 
+   </properties> 
+
+   <body> 
+
+<section name="Introduction">
+<p>The MPXJ library allows various formats of Microsoft Project file, and
+other project planning application file formats
+to be read and written using a single consistent API in Java, .Net, or any other 
+language which can be integrated with Java or .Net.</p>
+
+<p>MPXJ is based around a "neutral" data structure which is used to represent
+project data, coupled with a set of format-specific reader and writer classes
+which understand how to read from and write to the various supported file 
+formats.</p>
+
+<p>The diagram below illustrates the key entities represented by the MPXJ
+data structure.</p>
+
+<img src="images/mpxj-entities.png" width="100%" alt="Diagram of key MPXJ entities"/>
+
+<p>
+MPXJ currently allows project data to be read from five distinct file formats
+using the following reader classes:
+<ul> 
+<li>net.sf.mpxj.mpp.MPPReader: reads Microsoft Project MPP files</li>
+<li>net.sf.mpxj.mpx.MPXReader: reads Microsoft MPX files</li>
+<li>net.sf.mpxj.mspdi.MSPDIReader: reads Microsoft MSPDI (XML) files</li>
+<li>net.sf.mpxj.mpd.MPDIReader: reads Microsoft MPD files</li>
+<li>net.sf.mpxj.planner.PlannerReader: reads Planner (XML) files</li>
+</ul>
+All of these classes implement the ProjectReader interface. If you know which 
+type of file you are working with, you can use these readers directly, 
+for example:
+</p>
+
+<source>
+ProjectReader reader = new MPPReader ();
+ProjectFile project = reader.read("example.mpp");
+</source>
+
+<p>
+A similar arrangement exists for the writer classes:
+<ul> 
+<li>net.sf.mpxj.mpx.MPXWriter: writes Microsoft MPX files</li>
+<li>net.sf.mpxj.mspdi.MSPDIWriter: writes Microsoft MSPDI (XML) files</li>
+<li>net.sf.mpxj.planner.PlannerWriter: writes Planner (XML) files</li>
+</ul>
+All of these classes implement the ProjectWriter interface. If you know which 
+type of file you are working with, you can use these writers directly, 
+for example:
+</p>
+
+<source>
+ProjectWriter writer = new MPXWriter();
+writer.write(project, "example.mpx");
+</source>
+</section>
+
+<section name="Tasks and Resources">
+<p>
+Once you've read your project file, what next? The first things of interest 
+are the tasks and resources which are present in the file.
+</p>
+
+<source>
+ProjectReader reader = new MPPReader ();
+ProjectFile project = reader.read("example.mpp");
+for (Resource resource : project.getAllResources())
+{
+   System.out.println("Resource: " + resource.getName() + " (Unique ID=" + resource.getUniqueID() + ")");
+}
+</source>
+
+<p>
+The code fragment above shows how we can retrieve a collection containing
+all of the resources present in the file, and iterate through them printing
+the resource name, ID and unique ID.
+</p>
+
+<p>
+Many of the entities represented in 
+MPXJ have some concept of a unique ID. Tasks and resources have two ID fields,
+the unique ID, which as its name suggests never changes and uniquely identifies
+a task or a resource, and the ID. The ID of a task or a resource is the 
+sequential number which typically appears next to the task or resource when 
+displayed in Microsoft Project. If the task or resource is moved up or down 
+the list, this number will change depending on the position in the list.
+The unique ID never changes.
+</p>
+
+<source>
+ProjectReader reader = new MPPReader ();
+ProjectFile project = reader.read("example.mpp");
+for (Task task : project.getAllTasks())
+{
+   System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID());
+}
+</source>
+
+<p>
+The code fragment above retrieves all tasks present in the file and prints
+details of their names, IDs, and unique IDs. 
+</p>
+
+<p>
+Methods are provided on the project to locate both tasks and resource using
+either their ID or their Unique ID, as the examples below illustrate.
+</p>
+
+<source>
+Resource r = project.getResourceByUniqueID(Integer.valueOf(99));
+Task t = project.getTaskByUniqueID(Integer.valueOf(99));
+</source>
+
+<p>
+The methods shown above for retrieving all tasks present in a project file
+ignores the hierarchical task structure which Microsoft Project allows users
+to create. To understand the hierarchical task structure, the following methods
+are used to descend through the hierarchy, starting from the top.
+</p>
+
+<source>
+List&lt;Task&gt; tasks = project.getChildTasks();
+Task task = tasks.get(0);
+tasks = task.getChildTasks();
+</source>
+
+<p>
+These methods are used in the following code fragment to print out an indented
+list representing the task hierarchy in the file.  
+</p>
+
+<source>
+public void listHierarchy(ProjectFile file)
+{
+   for (Task task : file.getChildTasks())
+   {
+      System.out.println("Task: " + task.getName());
+      listHierarchy(task, " ");
+   }
+
+   System.out.println();
+}
+
+private void listHierarchy(Task task, String indent)
+{
+   for (Task child : task.getChildTasks())
+   {
+      System.out.println(indent + "Task: " + child.getName());
+      listHierarchy(child, indent + " ");
+   }
+}
+</source>
+
+<p>
+As well as the hierarchical relationships between tasks, there is also
+a temporal relationship between them: this is typically used to indicate
+when a task can start in relation to the completion of an earlier task. The 
+code fragment below shows the predecessor relationships between tasks. 
+</p>
+
+<source>
+for (Task task : file.getAllTasks())
+{
+   List&lt;Relation&gt; predecessors = task.getPredecessors();
+   if (predecessors != null && predecessors.isEmpty() == false)
+   {
+      System.out.println(task.getName() + " predecessors:");
+      for (Relation relation : predecessors)
+      {
+         System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskUniqueID()).getName());
+         System.out.println("   Type: " + relation.getType());
+         System.out.println("   Lag: " + relation.getDuration());
+      }
+   }
+}
+</source>
+</section>
+
+<section name="Resource Assignments">
+<p>
+Tasks and resources are related by resource assignments. There is a method 
+available on the ProfileFile class which will retrieve all resource assignments
+in the file. This is used by the code fragment below to provide an overview
+of all assignments.
+</p>
+
+<source>
+for (ResourceAssignment assignment : file.getAllResourceAssignments())
+{
+   Task task = assignment.getTask();
+   String taskName;
+   if (task == null)
+   {
+      taskName = "(null task)";
+   }
+   else
+   {
+      taskName = task.getName();
+   }
+
+   Resource resource = assignment.getResource();
+   String resourceName;
+   if (resource == null)
+   {
+      resourceName = "(null resource)";
+   }
+   else
+   {
+      resourceName = resource.getName();
+   }
+
+   System.out.println("Assignment: Task=" + taskName + " Resource=" + resourceName);
+}
+</source>
+
+<p>
+Resource assignments can also be retrieved on a task-by-task basis, as the
+code fragment below illustrates.
+</p>
+
+<source>
+ for (Task task : file.getAllTasks())
+ {
+    System.out.println("Assignments for task " + task.getName() + ":");
+
+    for (ResourceAssignment assignment : task.getResourceAssignments())
+    {
+       Resource resource = assignment.getResource();
+       String resourceName;
+
+       if (resource == null)
+       {
+          resourceName = "(null resource)";
+       }
+       else
+       {
+          resourceName = resource.getName();
+       }
+
+       System.out.println("   " + resourceName);
+    }
+ }
+</source>
+
+<p>
+Finally, resource assignments can be viewed on a resource-by-resource basis,
+as the following code fragment shows. 
+</p>
+
+<source>
+for (Resource resource : file.getAllResources())
+{
+   System.out.println("Assignments for resource " + resource.getName() + ":");
+
+   for (ResourceAssignment assignment : resource.getTaskAssignments())
+   {
+      Task task = assignment.getTask();
+      System.out.println("   " + task.getName());
+   }
+}
+</source>
+
+</section>
+
+</body>
+</document>
+
+
+
+

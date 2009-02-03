@@ -65,9 +65,11 @@ file format.</li>
 </ul>
 </section>
 
-<section name="Java and .Net">
+<section name="Java, .Net, PHP...">
 <p>MPXJ is written and maintained in Java, however this is no barrier to
-using its functionality in .Net applications. Thanks to the facilities 
+using its functionality in .Net or PHP applications.</p>
+
+<p>Thanks to the facilities 
 provided by IKVM, the MPXJ distribution also contains a native .Net DLL version
 of MPXJ and its library dependencies. This allows MPXJ to be used 
 from any .Net programming language (for example, C#, Visual Basic 
@@ -77,6 +79,12 @@ are both exercised using the same set of regression tests to ensure that their
 behaviour is identical. Both the Java and .Net versions of the library
 are used in production commercial applications - so you can confident
 that the code will work for you!</p>
+
+<p>One option for working with the functionality offered by MPXJ in your
+PHP application is to use a library like 
+<a href="http://php-java-bridge.sourceforge.net " target="_blank">PHP/Java Bridge</a>.
+PHP/Java Bridge can be used to expose the complete MPXJ API in PHP: you don't
+have to work in Java, C# or VB in order to work with Microsoft Project files.</p>
 </section>
 
 <section name="Getting started with MPXJ in Java">
