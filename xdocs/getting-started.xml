@@ -170,7 +170,7 @@ code fragment below shows the predecessor relationships between tasks.
 for (Task task : file.getAllTasks())
 {
    List&lt;Relation&gt; predecessors = task.getPredecessors();
-   if (predecessors != null && predecessors.isEmpty() == false)
+   if (predecessors != null &amp;&amp; predecessors.isEmpty() == false)
    {
       System.out.println(task.getName() + " predecessors:");
       for (Relation relation : predecessors)
