@@ -23,7 +23,7 @@ formats.</p>
 <p>The diagram below illustrates the key entities represented by the MPXJ
 data structure.</p>
 
-<img src="images/mpxj-entities.png" width="100%" alt="Diagram of key MPXJ entities"/>
+<img src="images/mpxj-entities.png" width="30%" alt="Diagram of key MPXJ entities"/>
 
 <p>
 MPXJ currently allows project data to be read from five distinct file formats
