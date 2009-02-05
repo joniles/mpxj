@@ -1,7 +1,7 @@
 /*
  * file:       Props.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2003
+ * copyright:  (c) Packwood Software 2003
  * date:       27/05/2003
  */
 

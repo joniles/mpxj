@@ -1,7 +1,7 @@
 /*
  * file:       MPXJFormats.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2006
+ * copyright:  (c) Packwood Software 2006
  * date:       Jan 20, 2006
  */
 

@@ -1,7 +1,7 @@
 /*
  * file:       MpxjConvert.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2005
+ * copyright:  (c) Packwood Software 2002-2005
  * date:       07/12/2005
  */
 

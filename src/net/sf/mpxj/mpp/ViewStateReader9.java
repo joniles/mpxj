@@ -1,7 +1,7 @@
 /*
  * file:       ViewStateReader9.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2007
+ * copyright:  (c) Packwood Software 2007
  * date:       Jan 07, 2007
  */
 

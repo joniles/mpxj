@@ -1,7 +1,7 @@
 /*
  * file:       MppResourceTest.java
  * author:     Wade Golden
- * copyright:  (c) Packwood Software Limited 2006
+ * copyright:  (c) Packwood Software 2006
  * date:       19-September-2006
  */
 

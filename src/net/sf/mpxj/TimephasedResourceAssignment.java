@@ -1,7 +1,7 @@
 /*
  * file:       TimephasedResourceAssignment.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2008
+ * copyright:  (c) Packwood Software 2008
  * date:       25/10/2008
  */
 

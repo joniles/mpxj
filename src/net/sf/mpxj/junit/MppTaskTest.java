@@ -1,7 +1,7 @@
 /*
  * file:       MppTaskTest.java
  * author:     Wade Golden
- * copyright:  (c) Packwood Software Limited 2006
+ * copyright:  (c) Packwood Software 2006
  * date:       22-August-2006
  */
 

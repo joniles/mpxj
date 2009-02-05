@@ -1,7 +1,7 @@
 /*
  * file:       AbstractVarMeta.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2005
+ * copyright:  (c) Packwood Software 2002-2005
  * date:       05/12/2005
  */
 

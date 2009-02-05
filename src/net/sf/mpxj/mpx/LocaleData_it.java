@@ -2,7 +2,7 @@
  * file:       LocaleData_it.java
  * author:     Elio Zoggia
  *             Jon Iles
- * copyright:  (c) Packwood Software Limited 2005
+ * copyright:  (c) Packwood Software 2005
  * date:       15/11/2005
  */
 /*

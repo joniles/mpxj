@@ -2,7 +2,7 @@
  * file:       LocaleData_es.java
  * author:     Agustín Bartó
  *             Jon Iles
- * copyright:  (c) Packwood Software Limited 2004
+ * copyright:  (c) Packwood Software 2004
  * date:       09/10/2008
  */
 

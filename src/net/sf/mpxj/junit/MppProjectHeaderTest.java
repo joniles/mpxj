@@ -1,7 +1,7 @@
 /*
  * file:       MppProjectHeaderTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2006
+ * copyright:  (c) Packwood Software 2006
  * date:       23-August-2006
  */
 

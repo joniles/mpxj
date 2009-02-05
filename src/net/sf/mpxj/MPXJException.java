@@ -2,7 +2,7 @@
  * file:       MPXJException.java
  * author:     Scott Melville
  *             Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2003
+ * copyright:  (c) Packwood Software 2002-2003
  * date:       15/08/2002
  */
 

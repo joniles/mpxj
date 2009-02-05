@@ -1,7 +1,7 @@
 /*
  * file:       VarMeta9.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2003
+ * copyright:  (c) Packwood Software 2002-2003
  * date:       03/01/2003
  */
 

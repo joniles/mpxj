@@ -1,7 +1,7 @@
 /*
  * file:       RecurrenceType.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2008
+ * copyright:  (c) Packwood Software 2002-2008
  * date:       12/06/2008
  */
 

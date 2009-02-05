@@ -1,7 +1,7 @@
 /*
  * file:       GraphicalIndicatorTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2005
+ * copyright:  (c) Packwood Software 2005
  * date:       24-Feb-2006
  */
 

@@ -1,7 +1,7 @@
 /*
  * file:       BookingType.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2005
+ * copyright:  (c) Packwood Software 2002-2005
  * date:       28/11/2004
  */
 

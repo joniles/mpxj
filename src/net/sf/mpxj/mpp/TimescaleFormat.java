@@ -1,7 +1,7 @@
 /*
  * file:       TimescaleFormat.java
  * author:     Jari Niskala
- * copyright:  (c) Packwood Software Limited 2009
+ * copyright:  (c) Packwood Software 2009
  * date:       17/01/2008
  */
 

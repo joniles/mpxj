@@ -1,7 +1,7 @@
 /*
  * file:       ExtendedAttributeTaskFields.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2006
+ * copyright:  (c) Packwood Software 2002-2006
  * date:       02/03/2006
  */
 

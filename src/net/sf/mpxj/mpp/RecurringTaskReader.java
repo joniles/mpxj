@@ -1,7 +1,7 @@
 /*
  * file:       RecurringTaskReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2008
+ * copyright:  (c) Packwood Software 2008
  * date:       23/06/2008
  */
 

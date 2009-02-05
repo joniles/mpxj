@@ -1,7 +1,7 @@
 /*
  * file:       RelationType.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2003
+ * copyright:  (c) Packwood Software 2002-2003
  * date:       10/05/2005
  */
 

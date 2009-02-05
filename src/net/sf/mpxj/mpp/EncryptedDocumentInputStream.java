@@ -1,7 +1,7 @@
 /*
  * file:       EncryptedDocumentInputStream.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2007
+ * copyright:  (c) Packwood Software 2002-2007
  * date:       20/10/2007
  */
 

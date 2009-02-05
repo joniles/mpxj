@@ -1,7 +1,7 @@
 /*
  * file:       ProjectCalendarDateRanges.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2008
+ * copyright:  (c) Packwood Software 2002-2008
  * date:       11/11/2008
  */
 

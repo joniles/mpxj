@@ -2,7 +2,7 @@
  * file:       RecurringTask.java
  * author:     Jon Iles             
  *             Scott Melville
- * copyright:  (c) Packwood Software Limited 2002-2008
+ * copyright:  (c) Packwood Software 2002-2008
  * date:       15/08/2002
  */
 

@@ -1,7 +1,7 @@
 /*
  * file:       MppEnterpriseTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2008
+ * copyright:  (c) Packwood Software 2008
  * date:       06/01/2008
  */
 

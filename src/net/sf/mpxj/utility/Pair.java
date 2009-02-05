@@ -1,7 +1,7 @@
 /*
  * file:       Pair.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2002-2005
+ * copyright:  (c) Packwood Software 2002-2005
  * date:       14/11/2005
  */
 

@@ -2,7 +2,7 @@
  * file:       LocaleData_pt.java
  * author:     Cláudio Engelsdorff Avila
  *             Jon Iles
- * copyright:  (c) Packwood Software Limited 2004
+ * copyright:  (c) Packwood Software 2004
  * date:       16/08/2004
  */
 

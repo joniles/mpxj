@@ -1,7 +1,7 @@
 /*
  * file:       CustomFieldValueItem.java
  * author:     Jari Niskala
- * copyright:  (c) Packwood Software Limited 2008
+ * copyright:  (c) Packwood Software 2008
  * date:       17/01/2008
  */
 

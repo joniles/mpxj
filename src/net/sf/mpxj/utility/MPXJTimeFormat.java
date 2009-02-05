@@ -2,7 +2,7 @@
  * file:       MPXJTimeFormat.java
  * author:     Jon Iles
  *             Scott Melville
- * copyright:  (c) Packwood Software Limited 2002-2006
+ * copyright:  (c) Packwood Software 2002-2006
  * date:       15/8/2002
  */
 

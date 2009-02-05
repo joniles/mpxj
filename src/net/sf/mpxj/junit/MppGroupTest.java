@@ -1,7 +1,7 @@
 /*
  * file:       MppGroupTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2007
+ * copyright:  (c) Packwood Software 2007
  * date:       24 January 2007
  */
 

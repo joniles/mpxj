@@ -1,7 +1,7 @@
 /*
  * file:       MPXWriter.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2005
+ * copyright:  (c) Packwood Software 2005
  * date:       Jan 3, 2006
  */
 

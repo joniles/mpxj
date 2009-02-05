@@ -1,7 +1,7 @@
 /*
  * file:       ViewFactory12.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2005
+ * copyright:  (c) Packwood Software 2005
  * date:       27 September 2006
  */
 

@@ -2,7 +2,7 @@
  * file:       LocaleData_zh.java
  * author:     Felix Tian
  *             Jon Iles
- * copyright:  (c) Packwood Software Limited 2007
+ * copyright:  (c) Packwood Software 2007
  * date:       15/11/2005
  */
 /*
