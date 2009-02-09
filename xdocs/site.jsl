@@ -329,10 +329,11 @@ pageTracker._trackPageview();
    <!-- Google adsense left -->
    <jsl:template match="googleAdsenseLeft" trim="true">
      <div id="googleAdsenseLeft">
+     <h5>Advertisements</h5>
 <script type="text/javascript">
 var dfp_ord = Math.random()*10000000000000000;
 var partner_clientid = '${google.ad.client}';
-var unixgroupname = '${pom.name}';
+var unixgroupname = '${google.ad.unixgroupname}';
 </script>     
 <script type="text/javascript" src="http://genweb.ostg.com/google/sfproject.js"></script>     
     </div>
