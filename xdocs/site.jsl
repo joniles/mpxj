@@ -330,12 +330,16 @@ pageTracker._trackPageview();
    <jsl:template match="googleAdsenseLeft" trim="true">
      <div id="googleAdsenseLeft">
      <h5>Advertisements</h5>
-<script type="text/javascript">
-var dfp_ord = Math.random()*10000000000000000;
-var partner_clientid = '${google.ad.client}';
-var unixgroupname = '${google.ad.unixgroupname}';
+<script type="text/javascript"><x:comment trim="false">
+google_ad_client = "pub-5404462509027733";
+google_ad_slot = "2981044939";
+google_ad_width = 120;
+google_ad_height = 600;
+//</x:comment>
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>     
-<script type="text/javascript" src="http://genweb.ostg.com/google/sfproject.js"></script>     
     </div>
   </jsl:template>
 
