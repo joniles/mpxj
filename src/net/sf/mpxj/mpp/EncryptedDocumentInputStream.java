@@ -24,27 +24,31 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 /**
- * This class extends the POI DocumentInputStream class
+ * This class wraps the POI {@link DocumentInputStream} class
  * to allow data to be decrypted before passing
  * it back to the caller.
  */
-final class EncryptedDocumentInputStream extends DocumentInputStream
+final class EncryptedDocumentInputStream extends InputStream
 {
+
    /**
-    * Constructor.
-    * 
-    * @param entry file entry
-    * @throws IOException
-    */
-   public EncryptedDocumentInputStream(DocumentEntry entry)
+       * Constructor.
+       * 
+       * @param entry file entry
+       * @param mask the mask used to decrypt the stream.
+       * @throws IOException
+       */
+   public EncryptedDocumentInputStream(DocumentEntry entry, int mask)
       throws IOException
    {
-      super(entry);
+      m_dis = new DocumentInputStream(entry);
+      m_mask = mask;
    }
 
    /**
@@ -52,7 +56,7 @@ final class EncryptedDocumentInputStream extends DocumentInputStream
     */
    @Override public int read() throws IOException
    {
-      int value = super.read();
+      int value = m_dis.read();
       value ^= m_mask;
       return (value);
    }
@@ -62,7 +66,7 @@ final class EncryptedDocumentInputStream extends DocumentInputStream
     */
    @Override public int read(byte[] b, int off, int len) throws IOException
    {
-      int result = super.read(b, off, len);
+      int result = m_dis.read(b, off, len);
       for (int loop = 0; loop < len; loop++)
       {
          b[loop + off] ^= m_mask;
@@ -71,14 +75,53 @@ final class EncryptedDocumentInputStream extends DocumentInputStream
    }
 
    /**
-    * Set the mask used to decrypt the stream.
-    * 
-    * @param mask decryption mask
+    * {@inheritDoc}
     */
-   public void setMask(int mask)
+   @Override public int available() throws IOException
    {
-      m_mask = mask;
+      return m_dis.available();
    }
 
-   private int m_mask;
+   /**
+    * {@inheritDoc}
+    */
+   @Override public void close() throws IOException
+   {
+      m_dis.close();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public synchronized void mark(int readlimit)
+   {
+      m_dis.mark(readlimit);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public boolean markSupported()
+   {
+      return m_dis.markSupported();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public synchronized void reset()
+   {
+      m_dis.reset();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public long skip(long n) throws IOException
+   {
+      return m_dis.skip(n);
+   }
+
+   private final DocumentInputStream m_dis;
+   private final int m_mask;
 }

@@ -3180,9 +3180,7 @@ final class MPP12Reader implements MPPVariantReader
       InputStream stream;
       if (m_file.getEncoded())
       {
-         stream = new EncryptedDocumentInputStream(entry);
-         // Set the encryption mask
-         ((EncryptedDocumentInputStream) stream).setMask(m_file.getEncryptionCode());
+         stream = new EncryptedDocumentInputStream(entry, m_file.getEncryptionCode());
       }
       else
       {
