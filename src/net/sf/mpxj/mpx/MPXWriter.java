@@ -1,7 +1,7 @@
 /*
  * file:       MPXWriter.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
+ * copyright:  (c) Packwood Software Limited 2005
  * date:       Jan 3, 2006
  */
 
@@ -713,7 +713,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Write a recurring task.
-    * 
+    *
     * @param record recurring task instance
     * @throws IOException
     */
@@ -793,7 +793,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       m_buffer.append(MPXConstants.RESOURCE_ASSIGNMENT_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(record.getResource().getID()));
+      m_buffer.append(formatResource(record.getResource()));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatUnits(record.getUnits())));
       m_buffer.append(m_delimiter);
@@ -1212,7 +1212,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * This method is called to format a task type.
-    * 
+    *
     * @param value task type value
     * @return formatted task type
     */
@@ -1412,6 +1412,18 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    /**
+    * Formats a resource, taking into account that the resource reference
+    * may be null.
+    * 
+    * @param resource Resource instance
+    * @return formatted value
+    */
+   private String formatResource(Resource resource)
+   {
+      return (resource == null ? null : format(resource.getID()));
+   }
+
+   /**
     * This method returns the locale used by this MPX file.
     *
     * @return current locale
@@ -1433,7 +1445,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
    /**
     * Retrieves an array of locales supported by this class.
-    * 
+    *
     * @return array of supported locales
     */
    public Locale[] getSupportedLocales()

@@ -305,9 +305,17 @@ public final class DateUtility
     */
    public static Date setTime(Date date, Date canonicalTime)
    {
-      Date result = DateUtility.getDayStartDate(date);
-      long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
-      result = new Date(result.getTime() + offset);
+      Date result;
+      if (canonicalTime == null)
+      {
+         result = date;
+      }
+      else
+      {
+         result = DateUtility.getDayStartDate(date);
+         long offset = canonicalTime.getTime() - CANONICAL_EPOCH.getTime();
+         result = new Date(result.getTime() + offset);
+      }
       return result;
    }
 
