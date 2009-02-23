@@ -150,80 +150,84 @@ public class CustomerDataTest extends MPXJTestCase
     */
    private void testCustomerData(int index, int max) throws Exception
    {
-      File dir = new File("c:\\tapsterrock\\mpxj\\data");
-      if (dir.exists() == true && dir.isDirectory() == true)
+      String dirName = System.getProperty("mpxj.junit.privatedir");
+      if (dirName != null && dirName.length() != 0)
       {
-         MPPReader mppReader = new MPPReader();
-         MPXReader mpxReader = new MPXReader();
-         MSPDIReader mspdiReader = new MSPDIReader();
-
-         ProjectFile mpxj;
-         int failures = 0;
-         File[] files = dir.listFiles();
-
-         int interval = files.length / max;
-         int startIndex = (index - 1) * interval;
-         int endIndex;
-         if (index == max)
+         File dir = new File(dirName);
+         if (dir.exists() == true && dir.isDirectory() == true)
          {
-            endIndex = files.length;
-         }
-         else
-         {
-            endIndex = startIndex + interval;
-         }
-
-         //System.out.println(startIndex + " " + (endIndex-1));
-
-         for (int loop = startIndex; loop < endIndex; loop++)
-         {
-            File file = files[loop];
-            String name = file.getName().toUpperCase();
-
-            try
+            MPPReader mppReader = new MPPReader();
+            MPXReader mpxReader = new MPXReader();
+            MSPDIReader mspdiReader = new MSPDIReader();
+   
+            ProjectFile mpxj;
+            int failures = 0;
+            File[] files = dir.listFiles();
+   
+            int interval = files.length / max;
+            int startIndex = (index - 1) * interval;
+            int endIndex;
+            if (index == max)
             {
-               if (name.endsWith(".MPP") == true)
+               endIndex = files.length;
+            }
+            else
+            {
+               endIndex = startIndex + interval;
+            }
+   
+            //System.out.println(startIndex + " " + (endIndex-1));
+   
+            for (int loop = startIndex; loop < endIndex; loop++)
+            {
+               File file = files[loop];
+               String name = file.getName().toUpperCase();
+   
+               try
                {
-                  mpxj = mppReader.read(file);
-                  validateMpp(file.getCanonicalPath(), mpxj);
-               }
-               else
-               {
-                  if (name.endsWith(".MPX") == true)
+                  if (name.endsWith(".MPP") == true)
                   {
-                     mpxReader.setLocale(Locale.ENGLISH);
-
-                     if (name.indexOf(".DE.") != -1)
-                     {
-                        mpxReader.setLocale(Locale.GERMAN);
-                     }
-
-                     if (name.indexOf(".SV.") != -1)
-                     {
-                        mpxReader.setLocale(new Locale("sv"));
-                     }
-
-                     mpxj = mpxReader.read(file);
+                     mpxj = mppReader.read(file);
+                     validateMpp(file.getCanonicalPath(), mpxj);
                   }
                   else
                   {
-                     if (name.endsWith(".XML") == true && name.indexOf(".MPP.") == -1)
+                     if (name.endsWith(".MPX") == true)
                      {
-                        mpxj = mspdiReader.read(file);
+                        mpxReader.setLocale(Locale.ENGLISH);
+   
+                        if (name.indexOf(".DE.") != -1)
+                        {
+                           mpxReader.setLocale(Locale.GERMAN);
+                        }
+   
+                        if (name.indexOf(".SV.") != -1)
+                        {
+                           mpxReader.setLocale(new Locale("sv"));
+                        }
+   
+                        mpxj = mpxReader.read(file);
+                     }
+                     else
+                     {
+                        if (name.endsWith(".XML") == true && name.indexOf(".MPP.") == -1)
+                        {
+                           mpxj = mspdiReader.read(file);
+                        }
                      }
                   }
                }
+   
+               catch (Exception ex)
+               {
+                  System.out.println("Failed to read " + name);
+                  ex.printStackTrace();
+                  ++failures;
+               }
             }
-
-            catch (Exception ex)
-            {
-               System.out.println("Failed to read " + name);
-               ex.printStackTrace();
-               ++failures;
-            }
+   
+            assertEquals("Failed to read " + failures + " files", 0, failures);
          }
-
-         assertEquals("Failed to read " + failures + " files", 0, failures);
       }
    }
 
