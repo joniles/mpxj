@@ -136,14 +136,14 @@ final class TableFactory
                column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
             }
 
-            alignment = MPPUtility.getByte(data, index + 8);
-            if (alignment == 32)
+            alignment = MPPUtility.getByte(data, index + 8);            
+            if ((alignment & 0x0F) == 0x00)
             {
                column.setAlignTitle(Column.ALIGN_LEFT);
             }
             else
             {
-               if (alignment == 33)
+               if ((alignment & 0x0F) == 0x01)
                {
                   column.setAlignTitle(Column.ALIGN_CENTER);
                }
@@ -154,13 +154,13 @@ final class TableFactory
             }
 
             alignment = MPPUtility.getByte(data, index + 10);
-            if (alignment == 32)
+            if ((alignment & 0x0F) == 0x00)
             {
                column.setAlignData(Column.ALIGN_LEFT);
             }
             else
             {
-               if (alignment == 33)
+               if ((alignment & 0x0F) == 0x01)
                {
                   column.setAlignData(Column.ALIGN_CENTER);
                }
