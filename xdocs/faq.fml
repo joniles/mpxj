@@ -33,7 +33,7 @@
                MS Project. MPXJ uses Sun's RTF processor to strip the RTF 
                formatting and return the plain text of the notes fields. The
                RTF processor does not handle characters from other codepages
-               correctly, hence it returns rubblish. See the 
+               correctly, hence it returns rubbish. See the 
                <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=1081156%26group_id=70649%26atid=528541" target="_blank">SourgeForge bug tracker</a>
                for further details, and a suggested workaround.               
             </p> 
@@ -101,7 +101,7 @@
          <answer>
             <p>
                Localised versions of MS Project (i.e. those which have been translated
-               for use in a non-Enlish locale) read and write MPX files which include
+               for use in a non-English locale) read and write MPX files which include
                localised text strings. The end result of this is that an English/International
                version of MS Project can't read MPX files produced by a localised version of
                MS Project, and vice versa.
@@ -119,6 +119,27 @@
                French, Italian, Portuguese, Swedish, and Simplified Chinese. 
                Producing a translation for you locale is very easy, please 
                contact us for details on how you can help us to do this.
+            </p>
+         </answer>
+      </faq>
+
+      <faq id="mpx-locale-defaults">
+         <question>
+            When I write an MPX file, changes to the project header settings
+            I've made seem to be lost, what's happening?
+         </question> 
+         <answer>
+            <p>
+            	One of the first things the MPXWriter's write method does is
+            	to determine the current locale and update various project
+            	settings (for example, currency and date formats) to match
+            	the selected locale. This behaviour can be changed so that the
+            	settings in the project are left unmodified by setting the 
+            	useLocaleDefaults parameter to false when calling 
+            	the write method (for versions of MPXJ up to and including 3.0.0)
+            	or by calling the method setUseLocaleDefaults on the MPXWriter
+            	instance before calling the write method (for versions of MPXJ
+            	after 3.0.0).
             </p>
          </answer>
       </faq>

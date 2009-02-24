@@ -136,7 +136,7 @@ final class TableFactory
                column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
             }
 
-            alignment = MPPUtility.getByte(data, index + 8);            
+            alignment = MPPUtility.getByte(data, index + 8);
             if ((alignment & 0x0F) == 0x00)
             {
                column.setAlignTitle(Column.ALIGN_LEFT);

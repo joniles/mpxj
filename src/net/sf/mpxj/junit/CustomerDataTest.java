@@ -159,11 +159,11 @@ public class CustomerDataTest extends MPXJTestCase
             MPPReader mppReader = new MPPReader();
             MPXReader mpxReader = new MPXReader();
             MSPDIReader mspdiReader = new MSPDIReader();
-   
+
             ProjectFile mpxj;
             int failures = 0;
             File[] files = dir.listFiles();
-   
+
             int interval = files.length / max;
             int startIndex = (index - 1) * interval;
             int endIndex;
@@ -175,14 +175,14 @@ public class CustomerDataTest extends MPXJTestCase
             {
                endIndex = startIndex + interval;
             }
-   
+
             //System.out.println(startIndex + " " + (endIndex-1));
-   
+
             for (int loop = startIndex; loop < endIndex; loop++)
             {
                File file = files[loop];
                String name = file.getName().toUpperCase();
-   
+
                try
                {
                   if (name.endsWith(".MPP") == true)
@@ -195,17 +195,17 @@ public class CustomerDataTest extends MPXJTestCase
                      if (name.endsWith(".MPX") == true)
                      {
                         mpxReader.setLocale(Locale.ENGLISH);
-   
+
                         if (name.indexOf(".DE.") != -1)
                         {
                            mpxReader.setLocale(Locale.GERMAN);
                         }
-   
+
                         if (name.indexOf(".SV.") != -1)
                         {
                            mpxReader.setLocale(new Locale("sv"));
                         }
-   
+
                         mpxj = mpxReader.read(file);
                      }
                      else
@@ -217,7 +217,7 @@ public class CustomerDataTest extends MPXJTestCase
                      }
                   }
                }
-   
+
                catch (Exception ex)
                {
                   System.out.println("Failed to read " + name);
@@ -225,7 +225,7 @@ public class CustomerDataTest extends MPXJTestCase
                   ++failures;
                }
             }
-   
+
             assertEquals("Failed to read " + failures + " files", 0, failures);
          }
       }

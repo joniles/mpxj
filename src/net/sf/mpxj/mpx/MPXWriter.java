@@ -1,8 +1,8 @@
 /*
  * file:       MPXWriter.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2005
- * date:       Jan 3, 2006
+ * copyright:  (c) Packwood Software Limited 2006
+ * date:       03/01/2006
  */
 
 /*
@@ -24,8 +24,6 @@
 package net.sf.mpxj.mpx;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -65,7 +63,8 @@ import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
- * This class creates a new MPX file from the contents of an PorjectFile instance.
+ * This class creates a new MPX file from the contents of 
+ * a ProjectFile instance.
  */
 public final class MPXWriter extends AbstractProjectWriter
 {
@@ -74,65 +73,8 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
-      write(projectFile, out, true);
-   }
-
-   /**
-    * Writes the contents of the project as an MPX file. This method allows the
-    * caller to control whether the locale defaults are used to replace
-    * the settings held in the project file, or whether the settings in the
-    * project file are used. This affects things lik currency symbol, date
-    * formats, file delimiters and so on.
-    *
-    * @param projectFile project file instance
-    * @param fileName file name
-    * @param useLocaleDefaults boolean flag
-    * @throws IOException
-    */
-   public void write(ProjectFile projectFile, String fileName, boolean useLocaleDefaults) throws IOException
-   {
-      FileOutputStream fos = new FileOutputStream(fileName);
-      write(projectFile, fos, useLocaleDefaults);
-      fos.flush();
-      fos.close();
-   }
-
-   /**
-    * Writes the contents of the project as an MPX file. This method allows the
-    * caller to control whether the locale defaults are used to replace
-    * the settings held in the project file, or whether the settings in the
-    * project file are used. This affects things lik currency symbol, date
-    * formats, file delimiters and so on.
-    *
-    * @param projectFile project file instance
-    * @param file file instance
-    * @param useLocaleDefaults boolean flag
-    * @throws IOException
-    */
-   public void write(ProjectFile projectFile, File file, boolean useLocaleDefaults) throws IOException
-   {
-      FileOutputStream fos = new FileOutputStream(file);
-      write(projectFile, fos, useLocaleDefaults);
-      fos.flush();
-      fos.close();
-   }
-
-   /**
-    * Writes the contents of the project as an MPX file. This method allows the
-    * caller to control whether the locale defaults are used to replace
-    * the settings held in the project file, or whether the settings in the
-    * project file are used. This affects things like currency symbol, date
-    * formats, file delimiters and so on.
-    *
-    * @param projectFile project file instance
-    * @param out output stream instance
-    * @param useLocaleDefaults boolean flag
-    * @throws IOException
-    */
-   public void write(ProjectFile projectFile, OutputStream out, boolean useLocaleDefaults) throws IOException
-   {
       m_projectFile = projectFile;
-      if (useLocaleDefaults == true)
+      if (m_useLocaleDefaults == true)
       {
          LocaleUtility.setLocale(m_projectFile, m_locale);
       }
@@ -1444,6 +1386,28 @@ public final class MPXWriter extends AbstractProjectWriter
    }
 
    /**
+    * Retrieves a flag indicating if the default settings for the locale should
+    * override any project settings. 
+    * 
+    * @return boolean flag.
+    */
+   public boolean getUseLocaleDefaults()
+   {
+      return m_useLocaleDefaults;
+   }
+
+   /**
+    * Sets a flag indicating if the default settings for the locale should
+    * override any project settings.  
+    * 
+    * @param useLocaleDefaults boolean flag
+    */
+   public void setUseLocaleDefaults(boolean useLocaleDefaults)
+   {
+      m_useLocaleDefaults = useLocaleDefaults;
+   }
+
+   /**
     * Retrieves an array of locales supported by this class.
     *
     * @return array of supported locales
@@ -1459,6 +1423,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private TaskModel m_taskModel;
    private char m_delimiter;
    private Locale m_locale = Locale.ENGLISH;
+   private boolean m_useLocaleDefaults = true;
    private StringBuffer m_buffer;
    private MPXJFormats m_formats;
 }

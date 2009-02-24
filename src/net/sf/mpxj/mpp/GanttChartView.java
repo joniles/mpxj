@@ -1306,7 +1306,7 @@ public abstract class GanttChartView extends GenericView
       while (offset + 224 < data.length)
       {
          int blockSize = MPPUtility.getShort(data, offset + 8);
-         
+
          //
          // Steelray 12335: the block size may be zero
          //
@@ -1314,7 +1314,7 @@ public abstract class GanttChartView extends GenericView
          {
             break;
          }
-         
+
          int varDataOffset = MPPUtility.getInt(data, offset + 28) + 12;
 
          stringData[0] = null;

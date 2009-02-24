@@ -73,7 +73,9 @@ public class BasicTest extends MPXJTestCase
          File in = new File(m_basedir + "/sample.mpx");
          ProjectFile mpx = new MPXReader().read(in);
          out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpx, out, false);
+         MPXWriter writer = new MPXWriter();
+         writer.setUseLocaleDefaults(false);
+         writer.write(mpx, out);
          success = FileUtility.equals(in, out);
          assertTrue("Files are not identical", success);
       }
@@ -133,7 +135,9 @@ public class BasicTest extends MPXJTestCase
          File in = new File(m_basedir + "/sample1.mpx");
          ProjectFile mpx = new MPXReader().read(in);
          out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpx, out, false);
+         MPXWriter writer = new MPXWriter();
+         writer.setUseLocaleDefaults(false);
+         writer.write(mpx, out);
          success = FileUtility.equals(in, out);
          assertTrue("Files are not identical", success);
       }
@@ -164,7 +168,9 @@ public class BasicTest extends MPXJTestCase
          ProjectFile mpx = new MPPReader().read(in);
          mpx.getProjectHeader().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
          out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpx, out, false);
+         MPXWriter writer = new MPXWriter();
+         writer.setUseLocaleDefaults(false);
+         writer.write(mpx, out);
          success = FileUtility.equals(new File(m_basedir + "/empty.mpx"), out);
          assertTrue("Files are not identical", success);
       }
@@ -2045,7 +2051,9 @@ public class BasicTest extends MPXJTestCase
          File in = new File(m_basedir + "/calendarExceptions.mpx");
          ProjectFile mpx = new MPXReader().read(in);
          out = File.createTempFile("junit", ".mpx");
-         new MPXWriter().write(mpx, out, false);
+         MPXWriter writer = new MPXWriter();
+         writer.setUseLocaleDefaults(false);
+         writer.write(mpx, out);
          success = FileUtility.equals(in, out);
          assertTrue("Files are not identical", success);
       }
