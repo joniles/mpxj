@@ -79,7 +79,17 @@ public final class DatatypeConverter
     */
    private static final Number parseExtendedAttributeCurrency(String value)
    {
-      return (NumberUtility.getDouble(Double.parseDouble(value) / 100));
+      Number result;
+
+      if (value == null)
+      {
+         result = null;
+      }
+      else
+      {
+         result = NumberUtility.getDouble(Double.parseDouble(value) / 100);
+      }
+      return result;
    }
 
    /**
@@ -158,7 +168,6 @@ public final class DatatypeConverter
       }
 
       return (result);
-
    }
 
    /**
