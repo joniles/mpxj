@@ -240,27 +240,27 @@ public class BasicTest extends MPXJTestCase
 
       Task task1 = file.addTask();
       task1.setName("1.0");
-      assertEquals("1.0", task1.getWBS());
+      assertEquals("1", task1.getWBS());
       assertEquals(1, task1.getOutlineLevel().intValue());
-      assertEquals("1.0", task1.getOutlineNumber());
+      assertEquals("1", task1.getOutlineNumber());
       assertEquals(1, task1.getID().intValue());
       assertEquals(1, task1.getUniqueID().intValue());
       assertEquals(false, task1.getSummary());
 
       task1 = file.addTask();
       task1.setName("2.0");
-      assertEquals("2.0", task1.getWBS());
+      assertEquals("2", task1.getWBS());
       assertEquals(1, task1.getOutlineLevel().intValue());
-      assertEquals("2.0", task1.getOutlineNumber());
+      assertEquals("2", task1.getOutlineNumber());
       assertEquals(2, task1.getID().intValue());
       assertEquals(2, task1.getUniqueID().intValue());
       assertEquals(false, task1.getSummary());
 
       task1 = file.addTask();
       task1.setName("3.0");
-      assertEquals("3.0", task1.getWBS());
+      assertEquals("3", task1.getWBS());
       assertEquals(1, task1.getOutlineLevel().intValue());
-      assertEquals("3.0", task1.getOutlineNumber());
+      assertEquals("3", task1.getOutlineNumber());
       assertEquals(3, task1.getID().intValue());
       assertEquals(3, task1.getUniqueID().intValue());
       assertEquals(false, task1.getSummary());

@@ -13,6 +13,7 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2540447: Resource Assignment Normaliser rounding problem.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2631492: Column alignment values are incorrect.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2593335: NullPointerException in parseExtendedAttribute() (Contributed by Paul Pogonyshev).</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2568783: .0 at the end of WBS code and outline number (Contributed by Paul Pogonyshev).</action>		
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</action>
 		<action dev="joniles" type="fix">Updated to fix potential NPEs (Suggested by Steve Jonik).</action>
 		<action dev="joniles" type="update">Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)</action>

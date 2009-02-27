@@ -105,7 +105,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
          else
          {
-            wbs = Integer.toString(getParentFile().getChildTaskCount() + 1) + ".0";
+            wbs = Integer.toString(getParentFile().getChildTaskCount() + 1);
          }
       }
       else
@@ -150,7 +150,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
          else
          {
-            outline = Integer.toString(getParentFile().getChildTaskCount() + 1) + ".0";
+            outline = Integer.toString(getParentFile().getChildTaskCount() + 1);
          }
       }
       else
