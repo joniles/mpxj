@@ -2,6 +2,50 @@
 
 <faqs title="Frequently Asked Questions">
    <part id="general">
+      <title>General Questions</title>
+      
+    	<faq id="write-mpp">
+         <question>
+         	Can I use MPXJ to write MPP files?
+         </question> 
+         <answer>
+            <p>
+            	Not at present. Although it is technically feasible to generate
+            	an MPP file, the knowledge we have of the file structure is still
+            	relatively incomplete, despite the amount of data we are able to 
+            	correctly extract. It is therefore likely to take a considerable
+            	amount of development effort to make this work, and it is 
+            	conceivable that we will not be able to write the full set of
+            	attributes that MPXJ supports back into the MPP file - simply 
+            	because we don't understand the format well enough. You are 
+            	therefore probably better off using MSPDI which does support 
+            	the full range of data items present in an MPP file. 
+            </p>
+         </answer>
+      </faq>
+       
+      <faq id="visual-appearance">
+         <question>
+         	I'm generating output using MPXJ, and when my end users
+         	open the file in Microsoft Project, I want to control the appearance
+         	of the project data that they see. Can I do this with MPXJ?
+         </question> 
+         <answer>
+            <p>
+            	In short, the answer to this question is no. The only file format
+            	which allows you to control the appearance of project data
+            	when opened in Microsoft Project is MPP. Just to clarify, visual
+            	appearance in this context refers to the view that appears when
+            	the project opens, the filtering applied to the view, the table
+            	data visible, the columns in the table, bar styles, text styles
+            	and so on. While MPXJ can read this information from an MPP file,
+           		none of the supported output file formats contain these attributes. 
+            </p>
+         </answer>
+      </faq>
+	</part>
+	
+   <part id="known-issues">
       <title>Known Issues with MPXJ</title> 
       <faq id="mpp8-flags">
          <question>
@@ -17,7 +61,7 @@
                being undertaken to fix this. Contributions of insights, 
                knowledge or fixed code for this problem are welcome. You'll 
                find a bug for this item logged in the 
-               <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=816347%26group_id=70649%26atid=528541" target="_blank">SourgeForge bug tracker</a>.
+               <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=816347&amp;group_id=70649&amp;atid=528541" target="_blank">SourgeForge bug tracker</a>.
             </p> 
          </answer>
       </faq>
@@ -160,8 +204,7 @@
             	and will leave any RTF content untouched. 
             </p>
          </answer>
-      </faq>
-            
+      </faq>            
    </part>
    
    <part id="unit-tests">

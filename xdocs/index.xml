@@ -150,6 +150,12 @@ the MPP file format, so we need to know if you have MPP
 files that can't be read, or don't contain the data you
 expect. The more of this feedback you can give us, the
 better we can make MPXJ!</p>
+<p>We also very much welcome contributions of code to MPXJ. 
+Please note however that by contributing code to MPXJ, you
+are assigning copyright for that code to Packwood Software.
+It is important for us to ensure that their is a single
+copyright owner for MPXJ to ensure that we can enforce the
+terms of MPXJ's license agreement where they are violated.</p>
 </section>
 
 <section name="We can help you">
@@ -168,7 +174,10 @@ to see how we can work together.</p>
 <p>MPXJ is distributed under the terms of the 
 <a href="http://www.gnu.org/licenses/licenses.html#LGPL" target="_blank">GNU LGPL</a>,
 a copy of which can be found in the legal directory of the
-distribution.</p>
+distribution. Please read this license carefully! It will cost you nothing
+to use MPXJ - but you must comply with the terms of the license. 
+We have, and will continue to pursue any violations of the MPXJ LGPL 
+that we are made aware of.</p>
 
 <p>The functionality to read MPP files depends on the
 use of the POI library. The license for this library can
