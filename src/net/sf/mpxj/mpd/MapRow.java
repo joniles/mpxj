@@ -114,7 +114,20 @@ class MapRow implements Row
     */
    public final boolean getBoolean(String name)
    {
-      return (BooleanUtility.getBoolean((Boolean) getObject(name)));
+      boolean result = false;
+      Object value = getObject(name);
+      if (value != null)
+      {
+         if (value instanceof Boolean)
+         {
+            result = BooleanUtility.getBoolean((Boolean) value);
+         }
+         else
+         {
+            result = (((Number) value).intValue() == 1);
+         }
+      }
+      return result;
    }
 
    /**

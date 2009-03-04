@@ -107,6 +107,13 @@ final class ResultSetRow extends MapRow
                break;
             }
 
+            case Types.BIGINT :
+            {
+               value = Long.valueOf(rs.getLong(name));
+               break;
+            }
+
+            case Types.VARBINARY :
             case Types.LONGVARBINARY :
             {
                value = rs.getBytes(name);

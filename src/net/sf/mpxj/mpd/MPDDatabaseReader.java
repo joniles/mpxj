@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -41,6 +42,19 @@ import net.sf.mpxj.reader.ProjectReader;
  */
 public final class MPDDatabaseReader implements ProjectReader
 {
+   /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current database.
+    * 
+    * @return Map instance containing ID and name pairs
+    * @throws MPXJException
+    */
+   public Map<Integer, String> listProjects() throws MPXJException
+   {
+      MPD9DatabaseReader reader = new MPD9DatabaseReader();
+      return reader.listProjects();
+   }
+
    /**
     * Read project data from a database.
     * 

@@ -48,6 +48,34 @@ import net.sf.mpxj.utility.NumberUtility;
 public final class MPD9DatabaseReader extends MPD9AbstractReader
 {
    /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current database.
+    * 
+    * @return Map instance containing ID and name pairs
+    * @throws MPXJException
+    */
+   public Map<Integer, String> listProjects() throws MPXJException
+   {
+      try
+      {
+         Map<Integer, String> result = new HashMap<Integer, String>();
+
+         List<ResultSetRow> rows = getRows("select proj_id, proj_name from msp_projects");
+         for (ResultSetRow row : rows)
+         {
+            processProjectListItem(result, row);
+         }
+
+         return result;
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+   }
+
+   /**
     * Read a project from the current data source.
     * 
     * @return ProjectFile instance
@@ -348,6 +376,38 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       for (ResultSetRow row : getRows("select * from msp_outline_codes where code_uid=?", outlineCodeEntityID))
       {
          processOutlineCodeField(entityID, row);
+      }
+   }
+
+   /**
+    * Retrieve a number of rows matching the supplied query. 
+    * 
+    * @param sql query statement
+    * @return result set
+    * @throws SQLException
+    */
+   private List<ResultSetRow> getRows(String sql) throws SQLException
+   {
+      allocateConnection();
+
+      try
+      {
+         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+
+         m_ps = m_connection.prepareStatement(sql);
+         m_rs = m_ps.executeQuery();
+         populateMetaData();
+         while (m_rs.next())
+         {
+            result.add(new ResultSetRow(m_rs, m_meta));
+         }
+
+         return (result);
+      }
+
+      finally
+      {
+         releaseConnection();
       }
    }
 

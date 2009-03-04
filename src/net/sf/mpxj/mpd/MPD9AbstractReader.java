@@ -71,6 +71,19 @@ import net.sf.mpxj.utility.RTFUtility;
 abstract class MPD9AbstractReader
 {
    /**
+    * Retrieve the details of a single project from the database.
+    * 
+    * @param result Map instance containing the results
+    * @param row result set row read from the database
+    */
+   protected void processProjectListItem(Map<Integer, String> result, Row row)
+   {
+      Integer id = row.getInteger("PROJ_ID");
+      String name = row.getString("PROJ_NAME");
+      result.put(id, name);
+   }
+
+   /**
     * Reads the project header.
     * 
     * @param row project header data
