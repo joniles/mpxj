@@ -390,7 +390,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       plannerResource.setEmail(mpxjResource.getEmailAddress());
       plannerResource.setId(getIntegerString(mpxjResource.getUniqueID()));
-      plannerResource.setName(mpxjResource.getName());
+      plannerResource.setName(getString(mpxjResource.getName()));
       plannerResource.setNote(mpxjResource.getNotes());
       plannerResource.setShortName(mpxjResource.getInitials());
       plannerResource.setType(mpxjResource.getType() == ResourceType.MATERIAL ? "2" : "1");
