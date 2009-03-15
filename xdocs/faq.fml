@@ -43,6 +43,33 @@
             </p>
          </answer>
       </faq>
+      
+    	<faq id="double-mpx">
+         <question>
+         	When I double click on an MPX file to open it in Microsoft Project,
+         	I end up with two copies of the file open. What's happening?
+         </question> 
+         <answer>
+            <p>
+            	This isn't an issue with MPXJ - but we have an answer for you 
+            	anyway! The problem is caused by a incorrect setting in Microsoft
+            	Windows which controls the way MPX files are opened. To fix the
+            	setting, open the Control Panel and click on the "Folder Options"
+            	icon. Select the "File Types" tab and scroll down the list of 
+            	file types until you find an entry for MPX. Once you have found 
+            	the entry for MPX, click on it to highlight it, then press the
+            	"Advanced" button at the bottom right hand side of the dialog.
+            	In the list of actions that you are now presented with, click on
+            	the word "open" to highlight it, then click the "Edit" button 
+            	on the right hand side of the dialog. Finally, ensure that the 
+            	"Use DDE" check box is not checked, and you can now finish by 
+            	clicking OK on each of the open dialogs to dismiss them. You 
+            	should now find that double clicking on an MPX file will now 
+            	only open one copy of the file in Microsoft Project.  
+            </p>
+         </answer>
+      </faq>
+      
 	</part>
 	
    <part id="known-issues">
@@ -78,7 +105,7 @@
                formatting and return the plain text of the notes fields. The
                RTF processor does not handle characters from other codepages
                correctly, hence it returns rubbish. See the 
-               <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=1081156%26group_id=70649%26atid=528541" target="_blank">SourgeForge bug tracker</a>
+               <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1081156&amp;group_id=70649&amp;atid=528541" target="_blank">SourgeForge bug tracker</a>
                for further details, and a suggested workaround.               
             </p> 
          </answer>

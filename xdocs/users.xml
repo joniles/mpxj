@@ -12,37 +12,38 @@
 <section name="MPXJ Users">
 
 <p>Here is a list of organisations and projects currently using, or believed to be using MPXJ. 
-   Feel free to contact me if you would like to be featured in this list.</p>
+   Feel free to <a href="mailto:jon.iles@bcs.org.uk">contact me</a> if you would like to be featured in this list.</p>
 
 <p><b>Commercial</b></p>   
 <ul>
-   <li>Steelray Project Viewer (<a href="http://www.steelray.com" target="_blank">www.steelray.com</a>)</li>
-   <li>xProcess (<a href="http://www.ivis.com" target="_blank">www.ivis.com</a>)</li>
    <li>@Task (<a href="http://www.attask.com" target="_blank">www.attask.com</a>)</li>
-   <li>ThoughtWeb (<a href="http://www.thoughtweb.com" target="_blank">www.thoughtweb.com</a>)</li>
-   <li>i-lign (<a href="http://ilign.com" target="_blank">www.ilign.com</a>)</li>
-   <li>Lighthouse (<a href="http://www.artifactsoftware.com" target="_blank">www.artifactsoftware.com</a>)</li>   
-   <li>mpower (<a href="http://www.monitor-mpower.com" target="_blank">www.monitor-mpower.com</a>)</li>
-   <li>Merlin (<a href="http://www.merlin2.com" target="_blank">www.merlin2.com</a>)</li>
-   <li>Project Kit (<a href="http://www.methodpark.de" target="_blank">www.methodpark.de</a>)</li>
-   <li>eProject (<a href="http://www.eprocorp.com" target="_blank">www.eprocorp.com</a>)</li>
-   <li>Predict! (<a href="http://www.riskdecisions.com" target="_blank">www.riskdecisions.com</a>)</li>
-   <li>Virtuelle Projektverwaltung (<a href="http://www.swissasp.ch" target="_blank">www.swissasp.ch</a>)</li>
-   <li>OmniPlan (<a href="http://www.omnigroup.com" target="_blank">www.omnigroup.com</a>)</li>
+	<li>Afinion Project Viewer (<a href="http://www.afinion.de" target="_blank">www.afinion.de</a>)</li>
+	<li>Aspose (<a href="http://www.aspose.com" target="_blank">www.aspose.com</a>)</li>   
    <li>Celoxis (<a href="http://www.celoxis.com" target="_blank">www.celoxis.com</a>)</li>
-   <li>Project Viewer (<a href="http://www.afinion.de" target="_blank">www.afinion.de</a>)</li>   
-   <li>Intellisys (<a href="http://www.webintellisys.com" target="_blank">www.webintellisys.com</a>)</li>   
-   <li>Teamwork (<a href="http://www.twproject.com" target="_blank">www.twproject.com</a>)</li>      
-   <li>LiveProject (<a href="http://www.kadonk.com" target="_blank">www.kadonk.com</a>)</li>   
-   <li>HudsonFog (<a href="http://www.hudsonfog.com" target="_blank">www.hudsonfog.com</a>)</li>  
-   <li>Incremental (<a href="http://www.incremental.eu.com" target="_blank">www.incremental.eu.com</a>)</li>
-   <li>Procore (<a href="http://www.procore.com" target="_blank">www.procore.com</a>)</li>   
-   <li>SharedPlan (<a href="http://www.sharedplan.com" target="_blank">www.sharedplan.com</a>)</li>   
-   <li>Plexus (<a href="http://www.plexsusplanning.com" target="_blank">www.plexsusplanning.com</a>)</li>   
-   <li>PIEmatrix (<a href="http://piematrix.com" target="_blank">piematrix.com</a>)</li>   
    <li>Comindwork (<a href="http://www.comindwork.com" target="_blank">www.comindwork.com</a>)</li>   
+   <li>eProject (<a href="http://www.eprocorp.com" target="_blank">www.eprocorp.com</a>)</li>
+   <li>Exicom (<a href="http://www.exicom.se/en" target="_blank">www.exicom.se/en</a>)</li>   
+	<li>HudsonFog (<a href="http://www.hudsonfog.com" target="_blank">www.hudsonfog.com</a>)</li>   
+   <li>i-lign (<a href="http://ilign.com" target="_blank">www.ilign.com</a>)</li>   
+   <li>Incremental (<a href="http://www.incremental.eu.com" target="_blank">www.incremental.eu.com</a>)</li>
+   <li>Intellisys (<a href="http://www.webintellisys.com" target="_blank">www.webintellisys.com</a>)</li>
+   <li>Lighthouse (<a href="http://www.artifactsoftware.com" target="_blank">www.artifactsoftware.com</a>)</li>
+   <li>LiveProject (<a href="http://www.kadonk.com" target="_blank">www.kadonk.com</a>)</li>
+   <li>Merlin (<a href="http://www.merlin2.com" target="_blank">www.merlin2.com</a>)</li>
+   <li>mpower (<a href="http://www.monitor-mpower.com" target="_blank">www.monitor-mpower.com</a>)</li>
+   <li>OmniPlan (<a href="http://www.omnigroup.com" target="_blank">www.omnigroup.com</a>)</li>
+   <li>PIEmatrix (<a href="http://piematrix.com" target="_blank">piematrix.com</a>)</li>
+   <li>Plexus (<a href="http://www.plexsusplanning.com" target="_blank">www.plexsusplanning.com</a>)</li>
+   <li>Predict! (<a href="http://www.riskdecisions.com" target="_blank">www.riskdecisions.com</a>)</li>
+   <li>Procore (<a href="http://www.procore.com" target="_blank">www.procore.com</a>)</li>
+   <li>Project Kit (<a href="http://www.methodpark.de" target="_blank">www.methodpark.de</a>)</li>   
+   <li>SharedPlan (<a href="http://www.sharedplan.com" target="_blank">www.sharedplan.com</a>)</li>
+   <li>Steelray Project Viewer (<a href="http://www.steelray.com" target="_blank">www.steelray.com</a>)</li>
+   <li>Teamwork (<a href="http://www.twproject.com" target="_blank">www.twproject.com</a>)</li>
+   <li>ThoughtWeb (<a href="http://www.thoughtweb.com" target="_blank">www.thoughtweb.com</a>)</li>
+   <li>Virtuelle Projektverwaltung (<a href="http://www.swissasp.ch" target="_blank">www.swissasp.ch</a>)</li>
    <li>Windchill ProjectLink (<a href="http://www.ptc.com/products/windchill-projectlink" target="_blank">www.ptc.com/products/windchill-projectlink</a>)</li>
-   <li>Exicom (<a href="http://www.exicom.se/en" target="_blank">www.exicom.se/en</a>)</li>     
+   <li>xProcess (<a href="http://www.openxprocess.com" target="_blank">www.openxprocess.com</a>)</li>     
 </ul>  
     
 <p><b>Non-Commercial</b></p>   
