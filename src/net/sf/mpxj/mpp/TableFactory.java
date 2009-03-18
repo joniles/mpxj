@@ -84,6 +84,8 @@ final class TableFactory
 
       processColumnData(file, table, columnData);
 
+      //System.out.println(table);
+
       return (table);
    }
 
@@ -109,19 +111,19 @@ final class TableFactory
          for (int loop = 0; loop < columnCount; loop++)
          {
             column = new Column(file);
-
+            int fieldType = MPPUtility.getShort(data, index);
             if (table.getResourceFlag() == false)
             {
-               column.setFieldType(MPPTaskField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType(MPPTaskField.getInstance(fieldType));
             }
             else
             {
-               column.setFieldType(MPPResourceField.getInstance(MPPUtility.getShort(data, index)));
+               column.setFieldType(MPPResourceField.getInstance(fieldType));
             }
 
             //            if (column.getFieldType() == null)
-            //            {               
-            //               System.out.println(loop + ": Unknown column type " + MPPUtility.getShort(data, index));
+            //            {
+            //               System.out.println(loop + ": Unknown column type " + fieldType);
             //            }
             //            else
             //            {
