@@ -45,11 +45,11 @@ public abstract class GroupReader
    protected abstract Integer getVarDataType();
 
    /**
-    * Entry point for processing filter definitions.
+    * Entry point for processing group definitions.
     * 
     * @param file project file
-    * @param fixedData filter fixed data
-    * @param varData filter var data
+    * @param fixedData group fixed data
+    * @param varData group var data
     * @param fontBases map of font bases
     */
    public void process(ProjectFile file, FixedData fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
@@ -201,6 +201,8 @@ public abstract class GroupReader
 
             offset += 48;
          }
+
+         //System.out.println(group);
       }
    }
 }
