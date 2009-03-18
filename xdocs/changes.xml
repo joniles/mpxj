@@ -18,7 +18,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2676474: Generated planner file can't be opened.</action>						
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</action>
 		<action dev="joniles" type="fix">Updated to fix potential NPEs (Suggested by Steve Jonik).</action>
-		<action dev="joniles" type="update">Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)</action>
+		<action dev="joniles" type="update">Updated EncryptedDocumentInputStream to wrap rather than extend the POI DocumentInputStream to allow use with POI 3.5. (Contributed by Josh Micich)</action>		
+		<action dev="joniles" type="update">Updated to provide strong names for .Net DLLs.</action>
 	</release>
 	
 	<release version="3.0.0" date="25/01/2009">
