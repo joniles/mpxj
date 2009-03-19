@@ -60,7 +60,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       {
          Map<Integer, String> result = new HashMap<Integer, String>();
 
-         List<ResultSetRow> rows = getRows("select proj_id, proj_name from msp_projects");
+         List<ResultSetRow> rows = getRows("SELECT PROJ_ID, PROJ_NAME FROM MSP_PROJECTS");
          for (ResultSetRow row : rows)
          {
             processProjectListItem(result, row);
@@ -132,7 +132,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processProjectHeader() throws SQLException
    {
-      List<ResultSetRow> rows = getRows("select * from msp_projects where proj_id=?", m_projectID);
+      List<ResultSetRow> rows = getRows("SELECT * FROM MSP_PROJECTS WHERE PROJ_ID=?", m_projectID);
       if (rows.isEmpty() == false)
       {
          processProjectHeader(rows.get(0));
@@ -146,7 +146,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processCalendars() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_calendars where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_CALENDARS WHERE PROJ_ID=?", m_projectID))
       {
          processCalendar(row);
       }
@@ -166,7 +166,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       for (ProjectCalendar calendar : calendars)
       {
-         processCalendarData(calendar, getRows("select * from msp_calendar_data where proj_id=? and cal_uid=?", m_projectID, calendar.getUniqueID()));
+         processCalendarData(calendar, getRows("SELECT * FROM MSP_CALENDAR_DATA WHERE PROJ_ID=? AND CAL_UID=?", m_projectID, calendar.getUniqueID()));
       }
    }
 
@@ -191,7 +191,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processResources() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_resources where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_RESOURCES WHERE PROJ_ID=?", m_projectID))
       {
          processResource(row);
       }
@@ -204,7 +204,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processTasks() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_tasks where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_TASKS WHERE PROJ_ID=?", m_projectID))
       {
          processTask(row);
       }
@@ -217,7 +217,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processLinks() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_links where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_LINKS WHERE PROJ_ID=?", m_projectID))
       {
          processLink(row);
       }
@@ -230,7 +230,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processAssignments() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_assignments where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_ASSIGNMENTS WHERE PROJ_ID=?", m_projectID))
       {
          processAssignment(row);
       }
@@ -291,7 +291,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processTextFields() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_text_fields where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_TEXT_FIELDS WHERE PROJ_ID=?", m_projectID))
       {
          processTextField(row);
       }
@@ -304,7 +304,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processNumberFields() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_number_fields where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_NUMBER_FIELDS WHERE PROJ_ID=?", m_projectID))
       {
          processNumberField(row);
       }
@@ -317,7 +317,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processFlagFields() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_flag_fields where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_FLAG_FIELDS WHERE PROJ_ID=?", m_projectID))
       {
          processFlagField(row);
       }
@@ -330,7 +330,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processDurationFields() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_duration_fields where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_DURATION_FIELDS WHERE PROJ_ID=?", m_projectID))
       {
          processDurationField(row);
       }
@@ -343,7 +343,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processDateFields() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_date_fields where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_DATE_FIELDS WHERE PROJ_ID=?", m_projectID))
       {
          processDateField(row);
       }
@@ -356,7 +356,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
     */
    private void processOutlineCodeFields() throws SQLException
    {
-      for (ResultSetRow row : getRows("select * from msp_code_fields where proj_id=?", m_projectID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_CODE_FIELDS WHERE PROJ_ID=?", m_projectID))
       {
          processOutlineCodeFields(row);
       }
@@ -373,7 +373,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
       Integer entityID = parentRow.getInteger("CODE_REF_UID");
       Integer outlineCodeEntityID = parentRow.getInteger("CODE_UID");
 
-      for (ResultSetRow row : getRows("select * from msp_outline_codes where code_uid=?", outlineCodeEntityID))
+      for (ResultSetRow row : getRows("SELECT * FROM MSP_OUTLINE_CODES WHERE CODE_UID=?", outlineCodeEntityID))
       {
          processOutlineCodeField(entityID, row);
       }
