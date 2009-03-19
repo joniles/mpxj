@@ -1239,7 +1239,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setCreationDate(Date creationDate)
    {
-      m_creationDate = creationDate;
+      set(ResourceField.CREATED, creationDate);
    }
 
    /**
@@ -1249,7 +1249,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getCreationDate()
    {
-      return (m_creationDate);
+      return ((Date) getCachedValue(ResourceField.CREATED));
    }
 
    /**
@@ -4544,6 +4544,26 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Retrieve the budget flag.
+    * 
+    * @return budget flag
+    */
+   public boolean getBudget()
+   {
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(ResourceField.BUDGET)));
+   }
+
+   /**
+    * Set the budget flag.
+    * 
+    * @param budget budget flag
+    */
+   public void setBudget(boolean budget)
+   {
+      set(ResourceField.BUDGET, budget);
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -4769,6 +4789,14 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    @Override public int hashCode()
    {
       return (NumberUtility.getInt(getID()));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override public String toString()
+   {
+      return ("[Resource id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");
    }
 
    private static final ResourceField[] ENTERPRISE_COST_FIELDS =
@@ -4998,7 +5026,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private Duration m_actualOvertimeWorkProtected;
    private Duration m_actualWorkProtected;
    private BookingType m_bookingType;
-   private Date m_creationDate;
    private boolean m_enterprise;
    private Integer m_subprojectResourceUniqueID;
    private List<FieldListener> m_listeners;

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -2229,6 +2230,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          PropsBlock props = new PropsBlock(data);
          //System.out.println(props);
+         resource.setCreationDate(props.getTimestamp(Props.RESOURCE_CREATION_DATE));
 
          for (Integer key : props.keySet())
          {
@@ -2435,53 +2437,66 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processConstraintData() throws IOException
    {
-      DirectoryEntry consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
-      FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
-      FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
-
-      int count = consFixedMeta.getItemCount();
-      int index;
-      byte[] data;
-      Task task1;
-      Task task2;
-      Relation rel;
-      TimeUnit durationUnits;
-      int constraintID;
-      int lastConstraintID = -1;
-      byte[] metaData;
-
-      for (int loop = 0; loop < count; loop++)
+      DirectoryEntry consDir;
+      try
       {
-         metaData = consFixedMeta.getByteArrayValue(loop);
+         consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
+      }
 
-         //
-         // SourceForge bug 2209477: we were reading an int here, but
-         // it looks like the deleted flag is just a short.
-         //
-         if (MPPUtility.getShort(metaData, 0) == 0)
+      catch (FileNotFoundException ex)
+      {
+         consDir = null;
+      }
+
+      if (consDir != null)
+      {
+         FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
+         FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
+
+         int count = consFixedMeta.getItemCount();
+         int index;
+         byte[] data;
+         Task task1;
+         Task task2;
+         Relation rel;
+         TimeUnit durationUnits;
+         int constraintID;
+         int lastConstraintID = -1;
+         byte[] metaData;
+
+         for (int loop = 0; loop < count; loop++)
          {
-            index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
-            if (index != -1)
+            metaData = consFixedMeta.getByteArrayValue(loop);
+
+            //
+            // SourceForge bug 2209477: we were reading an int here, but
+            // it looks like the deleted flag is just a short.
+            //
+            if (MPPUtility.getShort(metaData, 0) == 0)
             {
-               data = consFixedData.getByteArrayValue(index);
-               constraintID = MPPUtility.getInt(data, 0);
-               if (constraintID > lastConstraintID)
+               index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
+               if (index != -1)
                {
-                  lastConstraintID = constraintID;
-                  int taskID1 = MPPUtility.getInt(data, 4);
-                  int taskID2 = MPPUtility.getInt(data, 8);
-
-                  if (taskID1 != taskID2)
+                  data = consFixedData.getByteArrayValue(index);
+                  constraintID = MPPUtility.getInt(data, 0);
+                  if (constraintID > lastConstraintID)
                   {
-                     task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
-                     task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+                     lastConstraintID = constraintID;
+                     int taskID1 = MPPUtility.getInt(data, 4);
+                     int taskID2 = MPPUtility.getInt(data, 8);
 
-                     if (task1 != null && task2 != null)
+                     if (taskID1 != taskID2)
                      {
-                        rel = task2.addPredecessor(task1);
-                        rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
-                        rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
+                        task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+                        task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+
+                        if (task1 != null && task2 != null)
+                        {
+                           rel = task2.addPredecessor(task1);
+                           rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
+                           durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
+                           rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
+                        }
                      }
                   }
                }

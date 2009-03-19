@@ -459,6 +459,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
       xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
       xml.setBookingType(mpx.getBookingType());
+      xml.setIsBudget(Boolean.valueOf(mpx.getBudget()));
       xml.setCanLevel(Boolean.valueOf(mpx.getCanLevel()));
       xml.setCode(mpx.getCode());
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));

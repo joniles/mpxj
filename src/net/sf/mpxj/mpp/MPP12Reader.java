@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -223,7 +224,7 @@ final class MPP12Reader implements MPPVariantReader
    private void processPropertyData() throws IOException, MPXJException
    {
       Props12 props = new Props12(getEncryptableInputStream(m_projectDir, "Props"));
-      //MPPUtility.fileHexDump("c:\\temp\\props.txt", props.toString().getBytes());
+      //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
 
       //
       // Process the project header
@@ -2410,53 +2411,66 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processConstraintData() throws IOException
    {
-      DirectoryEntry consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
-      FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
-      FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
-
-      int count = consFixedMeta.getItemCount();
-      int index;
-      byte[] data;
-      Task task1;
-      Task task2;
-      Relation rel;
-      TimeUnit durationUnits;
-      int constraintID;
-      int lastConstraintID = -1;
-      byte[] metaData;
-
-      for (int loop = 0; loop < count; loop++)
+      DirectoryEntry consDir;
+      try
       {
-         metaData = consFixedMeta.getByteArrayValue(loop);
+         consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
+      }
 
-         //
-         // SourceForge bug 2209477: we were reading an int here, but
-         // it looks like the deleted flag is just a short.
-         //
-         if (MPPUtility.getShort(metaData, 0) == 0)
+      catch (FileNotFoundException ex)
+      {
+         consDir = null;
+      }
+
+      if (consDir != null)
+      {
+         FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
+         FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
+
+         int count = consFixedMeta.getItemCount();
+         int index;
+         byte[] data;
+         Task task1;
+         Task task2;
+         Relation rel;
+         TimeUnit durationUnits;
+         int constraintID;
+         int lastConstraintID = -1;
+         byte[] metaData;
+
+         for (int loop = 0; loop < count; loop++)
          {
-            index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
-            if (index != -1)
+            metaData = consFixedMeta.getByteArrayValue(loop);
+
+            //
+            // SourceForge bug 2209477: we were reading an int here, but
+            // it looks like the deleted flag is just a short.
+            //
+            if (MPPUtility.getShort(metaData, 0) == 0)
             {
-               data = consFixedData.getByteArrayValue(index);
-               constraintID = MPPUtility.getInt(data, 0);
-               if (constraintID > lastConstraintID)
+               index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
+               if (index != -1)
                {
-                  lastConstraintID = constraintID;
-                  int taskID1 = MPPUtility.getInt(data, 4);
-                  int taskID2 = MPPUtility.getInt(data, 8);
-
-                  if (taskID1 != taskID2)
+                  data = consFixedData.getByteArrayValue(index);
+                  constraintID = MPPUtility.getInt(data, 0);
+                  if (constraintID > lastConstraintID)
                   {
-                     task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
-                     task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+                     lastConstraintID = constraintID;
+                     int taskID1 = MPPUtility.getInt(data, 4);
+                     int taskID2 = MPPUtility.getInt(data, 8);
 
-                     if (task1 != null && task2 != null)
+                     if (taskID1 != taskID2)
                      {
-                        rel = task2.addPredecessor(task1);
-                        rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
-                        durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
-                        rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
+                        task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+                        task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+
+                        if (task1 != null && task2 != null)
+                        {
+                           rel = task2.addPredecessor(task1);
+                           rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
+                           durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
+                           rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
+                        }
                      }
                   }
                }
@@ -2478,9 +2492,14 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData(rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
+      //FixedData rscFixed2Data = new FixedData(rscFixed2Meta, getEncryptableInputStream(rscDir, "Fixed2Data"));
       Props12 props = new Props12(getEncryptableInputStream(rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
+      //System.out.println(rscFixedMeta);
+      //System.out.println(rscFixedData);
+      //System.out.println(rscFixed2Meta);
+      //System.out.println(rscFixed2Data);
       //System.out.println(props);
 
       // Process aliases      
@@ -2507,9 +2526,9 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          data = rscFixedData.getByteArrayValue(offset.intValue());
+         byte[] metaData2 = rscFixed2Meta.getByteArrayValue(offset.intValue());
 
          //metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
-
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(rscVarData, id, true, true, true, true, true, true);
@@ -2558,6 +2577,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setBaselineCost(10, NumberUtility.getDouble(getCustomFieldDoubleValue(rscVarData, id, RESOURCE_BASELINE10_COST) / 100));
          resource.setBaselineWork(10, Duration.getInstance(rscVarData.getDouble(id, RESOURCE_BASELINE10_WORK) / 60000, TimeUnit.HOURS));
 
+         resource.setBudget((metaData2[8] & 0x20) != 0);
          resource.setCode(rscVarData.getUnicodeString(id, RESOURCE_CODE));
          resource.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 140) / 100));
 
@@ -2749,8 +2769,7 @@ final class MPP12Reader implements MPPVariantReader
 
          //
          // Process any enterprise columns
-         //
-         byte[] metaData2 = rscFixed2Meta.getByteArrayValue(offset.intValue());
+         //         
          processResourceEnterpriseColumns(id, resource, rscVarData, metaData2);
 
          m_file.fireResourceReadEvent(resource);

@@ -286,6 +286,8 @@ public final class MPPResourceField
    private static final int BASELINE10_WORK_VALUE = 432;
    private static final int BASELINE10_COST_VALUE = 433;
 
+   private static final int TASK_OUTLINE_NUMBER = 442;
+
    private static final int ENTERPRISE_COST1_VALUE = 446;
    private static final int ENTERPRISE_COST2_VALUE = 447;
    private static final int ENTERPRISE_COST3_VALUE = 448;
@@ -441,8 +443,9 @@ public final class MPPResourceField
    private static final int ENTERPRISE_TEXT40_VALUE = 685;
 
    private static final int ENTERPRISE_VALUE = 691;
-
+   private static final int CREATED_VALUE = 726;
    private static final int ERRORS_VALUE = 738;
+   private static final int BUDGET_VALUE = 752;
    private static final int IMPORT_VALUE = 755;
 
    public static final int MAX_VALUE = 756;
@@ -828,6 +831,9 @@ public final class MPPResourceField
       FIELD_ARRAY[ENTERPRISE_VALUE] = ResourceField.ENTERPRISE;
       FIELD_ARRAY[ERRORS_VALUE] = ResourceField.ERRORS;
       FIELD_ARRAY[IMPORT_VALUE] = ResourceField.IMPORT;
+      FIELD_ARRAY[CREATED_VALUE] = ResourceField.CREATED;
+      FIELD_ARRAY[BUDGET_VALUE] = ResourceField.BUDGET;
+      FIELD_ARRAY[TASK_OUTLINE_NUMBER] = ResourceField.TASK_OUTLINE_NUMBER;
    }
 
    private static final int[] ID_ARRAY = new int[MAX_VALUE];
@@ -1211,6 +1217,9 @@ public final class MPPResourceField
       ID_ARRAY[ResourceField.ENTERPRISE_VALUE] = ENTERPRISE_VALUE;
       ID_ARRAY[ResourceField.ERRORS_VALUE] = ERRORS_VALUE;
       ID_ARRAY[ResourceField.IMPORT_VALUE] = IMPORT_VALUE;
+      ID_ARRAY[ResourceField.CREATED_VALUE] = CREATED_VALUE;
+      ID_ARRAY[ResourceField.BUDGET_VALUE] = BUDGET_VALUE;
+      ID_ARRAY[ResourceField.TASK_OUTLINE_NUMBER_VALUE] = TASK_OUTLINE_NUMBER;
    }
 
    public static final int RESOURCE_FIELD_BASE = 0x0C400000;

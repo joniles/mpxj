@@ -531,6 +531,7 @@ public final class MSPDIReader extends AbstractProjectReader
       //mpx.setBaseCalendar ();
       //mpx.setBaselineCost();
       //mpx.setBaselineWork();
+      mpx.setBudget(BooleanUtility.getBoolean(xml.isIsBudget()));
       mpx.setCanLevel(BooleanUtility.getBoolean(xml.isCanLevel()));
       mpx.setCode(xml.getCode());
       mpx.setCost(DatatypeConverter.parseCurrency(xml.getCost()));

@@ -511,8 +511,11 @@ public final class ResourceField implements FieldType
    public static final int ENTERPRISE_VALUE = 374;
    public static final int ERRORS_VALUE = 375;
    public static final int IMPORT_VALUE = 376;
+   public static final int CREATED_VALUE = 377;
+   public static final int BUDGET_VALUE = 378;
+   public static final int TASK_OUTLINE_NUMBER_VALUE = 379;
 
-   public static final int MAX_VALUE = 377;
+   public static final int MAX_VALUE = 380;
 
    public static final ResourceField ID = new ResourceField(ID_VALUE, DataType.NUMERIC);
    public static final ResourceField NAME = new ResourceField(NAME_VALUE, DataType.STRING);
@@ -891,6 +894,9 @@ public final class ResourceField implements FieldType
    public static final ResourceField ENTERPRISE = new ResourceField(ENTERPRISE_VALUE, DataType.BOOLEAN);
    public static final ResourceField ERRORS = new ResourceField(ERRORS_VALUE, DataType.STRING);
    public static final ResourceField IMPORT = new ResourceField(IMPORT_VALUE, DataType.BOOLEAN);
+   public static final ResourceField CREATED = new ResourceField(CREATED_VALUE, DataType.DATE);
+   public static final ResourceField BUDGET = new ResourceField(BUDGET_VALUE, DataType.BOOLEAN);
+   public static final ResourceField TASK_OUTLINE_NUMBER = new ResourceField(TASK_OUTLINE_NUMBER_VALUE, DataType.STRING);
 
    private static final ResourceField[] TYPE_VALUES = new ResourceField[MAX_VALUE];
 
@@ -1273,6 +1279,9 @@ public final class ResourceField implements FieldType
       TYPE_VALUES[ENTERPRISE_VALUE] = ENTERPRISE;
       TYPE_VALUES[ERRORS_VALUE] = ERRORS;
       TYPE_VALUES[IMPORT_VALUE] = IMPORT;
+      TYPE_VALUES[CREATED_VALUE] = CREATED;
+      TYPE_VALUES[BUDGET_VALUE] = BUDGET;
+      TYPE_VALUES[TASK_OUTLINE_NUMBER_VALUE] = TASK_OUTLINE_NUMBER;
    }
 
    private int m_value;

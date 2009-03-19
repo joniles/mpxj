@@ -206,9 +206,11 @@ public final class MPPReader extends AbstractProjectReader
    {
       FILE_CLASS_MAP.put("MSProject.MPP9", MPP9Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPT9", MPP9Reader.class);
+      FILE_CLASS_MAP.put("MSProject.GLOBAL9", MPP9Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPP8", MPP8Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPT8", MPP8Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPP12", MPP12Reader.class);
       FILE_CLASS_MAP.put("MSProject.MPT12", MPP12Reader.class);
+      FILE_CLASS_MAP.put("MSProject.GLOBAL12", MPP12Reader.class);
    }
 }

@@ -6092,6 +6092,7 @@ formatting.
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <IsBudget>0</IsBudget>
         </Resource>
         <Resource>
             <UID>2</UID>
@@ -6198,6 +6199,7 @@ formatting.
                 <Work>PT0H0M0S</Work>
                 <Cost>0</Cost>
             </Baseline>
+            <IsBudget>0</IsBudget>
         </Resource>
     </Resources>
     <Assignments>

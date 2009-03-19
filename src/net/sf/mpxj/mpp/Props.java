@@ -311,5 +311,7 @@ class Props extends MPPComponent
 
    public static final Integer HYPERLINK_BASE = Integer.valueOf(37748810);
 
+   public static final Integer RESOURCE_CREATION_DATE = Integer.valueOf(205521219);
+
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
 }
