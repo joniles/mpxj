@@ -301,6 +301,8 @@ class Props extends MPPComponent
    public static final Integer SUBPROJECT_DATA = Integer.valueOf(37748898);
    public static final Integer SUBPROJECT_TASK_COUNT = Integer.valueOf(37748900);
 
+   public static final Integer DEFAULT_CALENDAR_HOURS = Integer.valueOf(37753736);
+   
    public static final Integer GRAPHICAL_INDICATOR_DATA = Integer.valueOf(37753744);
 
    public static final Integer FONT_BASES = Integer.valueOf(54525952);

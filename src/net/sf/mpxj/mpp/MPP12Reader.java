@@ -155,6 +155,9 @@ final class MPP12Reader implements MPPVariantReader
          DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
          m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data(m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+         m_projectProps = new Props12(getEncryptableInputStream(m_projectDir, "Props"));
+         //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+
          m_fontBases = new HashMap<Integer, FontBase>();
          m_taskSubProjects = new HashMap<Integer, SubProject>();
          m_parentTasks = new HashMap<Integer, Integer>();
@@ -188,6 +191,7 @@ final class MPP12Reader implements MPPVariantReader
          m_viewDir = null;
          m_outlineCodeVarData = null;
          m_outlineCodeVarMeta = null;
+         m_projectProps = null;
          m_fontBases = null;
          m_taskSubProjects = null;
       }
@@ -223,25 +227,22 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processPropertyData() throws IOException, MPXJException
    {
-      Props12 props = new Props12(getEncryptableInputStream(m_projectDir, "Props"));
-      //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-
       //
       // Process the project header
       //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, props, m_root);
+      projectHeaderReader.process(m_file, m_projectProps, m_root);
 
       //
       // Process subproject data
       //
-      processSubProjectData(props);
+      processSubProjectData();
 
       //
       // Process graphical indicators
       //
       GraphicalIndicatorReader reader = new GraphicalIndicatorReader();
-      reader.process(m_file, props);
+      reader.process(m_file, m_projectProps);
    }
 
    /**
@@ -251,12 +252,10 @@ final class MPP12Reader implements MPPVariantReader
     * Project stores all subprojects that have ever been inserted into this project
     * in sequence and that is what used to count unique id offsets for each of the
     * subprojects.
-    *
-    * @param props file properties
     */
-   private void processSubProjectData(Props12 props)
+   private void processSubProjectData()
    {
-      byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
+      byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
 
       //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
       //MPPUtility.fileHexDump("c:\\temp\\dump.txt", subProjData);
@@ -959,22 +958,16 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println (calFixedData);
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
-      int items = calFixedData.getItemCount();
-      byte[] fixedData;
-      byte[] varData;
-      Integer calendarID;
-      int baseCalendarID;
-      Integer resourceID;
-      int offset;
-      ProjectCalendar cal;
+      int items = calFixedData.getItemCount();      
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
-
+      byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
+      
       for (int loop = 0; loop < items; loop++)
       {
-         fixedData = calFixedData.getByteArrayValue(loop);
+         byte[] fixedData = calFixedData.getByteArrayValue(loop);
          if (fixedData.length >= 8)
          {
-            offset = 0;
+            int offset = 0;
 
             //
             // Bug 890909, here we ensure that we have a complete 12 byte
@@ -982,18 +975,23 @@ final class MPP12Reader implements MPPVariantReader
             //
             while (offset + 12 <= fixedData.length)
             {
-               calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
-               baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
+               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
+               int baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
 
                if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 && calendarMap.containsKey(calendarID) == false)
                {
-                  varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
-
+                  byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
+                  ProjectCalendar cal;
+                  
                   if (baseCalendarID == -1)
                   {
-                     if (varData != null)
+                     if (varData != null || defaultCalendarData != null)
                      {
                         cal = m_file.addBaseCalendar();
+                        if (varData == null)
+                        {
+                           varData = defaultCalendarData;
+                        }
                      }
                      else
                      {
@@ -1014,12 +1012,12 @@ final class MPP12Reader implements MPPVariantReader
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
+                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
                      m_resourceMap.put(resourceID, cal);
                   }
 
                   cal.setUniqueID(calendarID);
-
+                  
                   if (varData != null)
                   {
                      processCalendarHours(varData, cal, baseCalendarID == -1);
@@ -1135,7 +1133,7 @@ final class MPP12Reader implements MPPVariantReader
       //
       // Handle any exceptions
       //	   	
-      if (data.length >= 420)
+      if (data.length > 420)
       {
          int offset = 420; // The first 420 is for the working hours data
 
@@ -3248,6 +3246,7 @@ final class MPP12Reader implements MPPVariantReader
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
+   private Props12 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;

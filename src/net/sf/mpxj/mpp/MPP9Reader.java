@@ -141,6 +141,9 @@ final class MPP9Reader implements MPPVariantReader
          DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
          VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
          m_outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+         m_projectProps = new Props9(getEncryptableInputStream(m_projectDir, "Props"));
+         //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+
          m_fontBases = new HashMap<Integer, FontBase>();
          m_taskSubProjects = new HashMap<Integer, SubProject>();
 
@@ -183,34 +186,31 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processPropertyData() throws IOException, MPXJException
    {
-      Props9 props = new Props9(getEncryptableInputStream(m_projectDir, "Props"));
-      //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
-
       //
       // Process the project header
       //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
-      projectHeaderReader.process(m_file, props, m_root);
+      projectHeaderReader.process(m_file, m_projectProps, m_root);
 
       //
       // Process aliases
       //
-      processTaskFieldNameAliases(props.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
-      processResourceFieldNameAliases(props.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
+      processTaskFieldNameAliases(m_projectProps.getByteArray(Props.TASK_FIELD_NAME_ALIASES));
+      processResourceFieldNameAliases(m_projectProps.getByteArray(Props.RESOURCE_FIELD_NAME_ALIASES));
 
       // Process custom field value lists
-      processTaskFieldCustomValueLists(m_file, props.getByteArray(Props.TASK_FIELD_CUSTOM_VALUE_LISTS));
+      processTaskFieldCustomValueLists(m_file, m_projectProps.getByteArray(Props.TASK_FIELD_CUSTOM_VALUE_LISTS));
 
       //
       // Process subproject data
       //
-      processSubProjectData(props);
+      processSubProjectData();
 
       //
       // Process graphical indicators
       //
       GraphicalIndicatorReader reader = new GraphicalIndicatorReader();
-      reader.process(m_file, props);
+      reader.process(m_file, m_projectProps);
    }
 
    /**
@@ -220,12 +220,10 @@ final class MPP9Reader implements MPPVariantReader
     * Project stores all subprojects that have ever been inserted into this project
     * in sequence and that is what used to count unique id offsets for each of the
     * subprojects.
-    *
-    * @param props file properties
     */
-   private void processSubProjectData(Props9 props)
+   private void processSubProjectData()
    {
-      byte[] subProjData = props.getByteArray(Props.SUBPROJECT_DATA);
+      byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
 
       //System.out.println (MPPUtility.hexdump(subProjData, true, 16, ""));
       //MPPUtility.fileHexDump("c:\\temp\\dump.txt", subProjData);
@@ -1333,21 +1331,16 @@ final class MPP9Reader implements MPPVariantReader
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
-      byte[] fixedData;
-      byte[] varData;
-      Integer calendarID;
-      int baseCalendarID;
-      Integer resourceID;
-      int offset;
-      ProjectCalendar cal;
-      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
 
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
+      byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
+      
       for (int loop = 0; loop < items; loop++)
       {
-         fixedData = calFixedData.getByteArrayValue(loop);
+         byte[] fixedData = calFixedData.getByteArrayValue(loop);
          if (fixedData.length >= 8)
          {
-            offset = 0;
+            int offset = 0;
 
             //
             // Bug 890909, here we ensure that we have a complete 12 byte
@@ -1355,19 +1348,24 @@ final class MPP9Reader implements MPPVariantReader
             //
             while (offset + 12 <= fixedData.length)
             {
-               calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
-               baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
+               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 0));
+               int baseCalendarID = MPPUtility.getInt(fixedData, offset + 4);
 
                // Ignore invalid and duplicate IDs.
                if (calendarID.intValue() != -1 && calendarID.intValue() != 0 && baseCalendarID != 0 && calendarMap.containsKey(calendarID) == false)
                {
-                  varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
+                  byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
+                  ProjectCalendar cal;
 
                   if (baseCalendarID == -1)
                   {
-                     if (varData != null)
+                     if (varData != null || defaultCalendarData != null)
                      {
                         cal = m_file.addBaseCalendar();
+                        if (varData == null)
+                        {
+                           varData = defaultCalendarData;
+                        }
                      }
                      else
                      {
@@ -1388,12 +1386,13 @@ final class MPP9Reader implements MPPVariantReader
                      }
 
                      baseCalendars.add(new Pair<ProjectCalendar, Integer>(cal, Integer.valueOf(baseCalendarID)));
-                     resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
+                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + 8));
                      m_resourceMap.put(resourceID, cal);
                   }
 
                   cal.setUniqueID(calendarID);
 
+                  
                   if (varData != null)
                   {
                      processCalendarHours(varData, cal, baseCalendarID == -1);
@@ -3073,6 +3072,7 @@ final class MPP9Reader implements MPPVariantReader
    private DirectoryEntry m_root;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
+   private Props9 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
