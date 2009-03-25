@@ -179,6 +179,22 @@ public final class MPDUtility
       Duration result;
       switch (timeUnit)
       {
+         case MINUTES:
+         case ELAPSED_MINUTES:
+         {
+            double totalMinutes = duration / 10;
+            result = Duration.getInstance(totalMinutes, timeUnit);
+            break;
+         }
+
+         case HOURS:
+         case ELAPSED_HOURS:
+         {
+            double totalHours = duration / 600;
+            result = Duration.getInstance(totalHours, timeUnit);
+            break;
+         }
+
          case DAYS :
          {
             double unitsPerDay = file.getProjectHeader().getMinutesPerDay().doubleValue() * 10d;
@@ -223,6 +239,13 @@ public final class MPDUtility
          {
             double unitsPerMonth = (60 * 24 * 30 * 10);
             double totalMonths = duration / unitsPerMonth;
+            result = Duration.getInstance(totalMonths, timeUnit);
+            break;
+         }
+
+         case MONTHS:
+         {
+            double totalMonths = duration / 96000;
             result = Duration.getInstance(totalMonths, timeUnit);
             break;
          }

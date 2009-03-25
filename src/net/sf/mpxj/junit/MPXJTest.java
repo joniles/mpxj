@@ -60,6 +60,7 @@ public class MPXJTest extends TestSuite
       addTestSuite(PlannerCalendarTest.class);
       addTestSuite(PlannerResourceTest.class);
       addTestSuite(TimephasedTest.class);
+      addTestSuite(DurationTest.class);
       addTestSuite(CustomerDataTest.class);
    }
 
