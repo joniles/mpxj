@@ -41,12 +41,11 @@ public class DurationTest extends MPXJTestCase
     * 
     * @throws Exception
     */
-//   public void testMpp8() throws Exception
-//   {
-//      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp8duration.mpp");
-//      testDurations(mpp);
-//   }
-
+   //   public void testMpp8() throws Exception
+   //   {
+   //      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp8duration.mpp");
+   //      testDurations(mpp);
+   //   }
    /**
     * Test duration data read from an MPP9 file.
     * 
@@ -100,7 +99,7 @@ public class DurationTest extends MPXJTestCase
    {
       Task task = mpp.getTaskByID(Integer.valueOf(1));
       assertEquals(Duration.getInstance(1, TimeUnit.MINUTES), task.getDuration());
-      
+
       task = mpp.getTaskByID(Integer.valueOf(2));
       assertEquals(Duration.getInstance(1, TimeUnit.HOURS), task.getDuration());
 
@@ -109,14 +108,13 @@ public class DurationTest extends MPXJTestCase
 
       task = mpp.getTaskByID(Integer.valueOf(4));
       assertEquals(Duration.getInstance(1, TimeUnit.WEEKS), task.getDuration());
-      
+
       task = mpp.getTaskByID(Integer.valueOf(5));
       assertEquals(Duration.getInstance(1, TimeUnit.MONTHS), task.getDuration());
-      
 
       task = mpp.getTaskByID(Integer.valueOf(6));
       assertEquals(Duration.getInstance(1, TimeUnit.ELAPSED_MINUTES), task.getDuration());
-      
+
       task = mpp.getTaskByID(Integer.valueOf(7));
       assertEquals(Duration.getInstance(1, TimeUnit.ELAPSED_HOURS), task.getDuration());
 
@@ -125,9 +123,9 @@ public class DurationTest extends MPXJTestCase
 
       task = mpp.getTaskByID(Integer.valueOf(9));
       assertEquals(Duration.getInstance(1, TimeUnit.ELAPSED_WEEKS), task.getDuration());
-      
+
       task = mpp.getTaskByID(Integer.valueOf(10));
-      assertEquals(Duration.getInstance(1, TimeUnit.ELAPSED_MONTHS), task.getDuration());      
+      assertEquals(Duration.getInstance(1, TimeUnit.ELAPSED_MONTHS), task.getDuration());
    }
 
 }

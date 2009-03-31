@@ -575,8 +575,9 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_TEXT38_VALUE = 440;
    public static final int ENTERPRISE_TEXT39_VALUE = 441;
    public static final int ENTERPRISE_TEXT40_VALUE = 442;
+   public static final int COMPLETE_THROUGH_VALUE = 443;
 
-   public static final int MAX_VALUE = 443;
+   public static final int MAX_VALUE = 444;
 
    public static final TaskField WORK = new TaskField(WORK_VALUE, DataType.DURATION);
    public static final TaskField BASELINE_WORK = new TaskField(BASELINE_WORK_VALUE, DataType.DURATION);
@@ -1021,6 +1022,7 @@ public final class TaskField implements FieldType
    public static final TaskField ENTERPRISE_TEXT38 = new TaskField(ENTERPRISE_TEXT38_VALUE, DataType.STRING);
    public static final TaskField ENTERPRISE_TEXT39 = new TaskField(ENTERPRISE_TEXT39_VALUE, DataType.STRING);
    public static final TaskField ENTERPRISE_TEXT40 = new TaskField(ENTERPRISE_TEXT40_VALUE, DataType.STRING);
+   public static final TaskField COMPLETE_THROUGH = new TaskField(COMPLETE_THROUGH_VALUE, DataType.DATE);
 
    private static final TaskField[] TYPE_VALUES = new TaskField[MAX_VALUE];
 
@@ -1469,6 +1471,7 @@ public final class TaskField implements FieldType
       TYPE_VALUES[ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38;
       TYPE_VALUES[ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39;
       TYPE_VALUES[ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40;
+      TYPE_VALUES[COMPLETE_THROUGH_VALUE] = COMPLETE_THROUGH;
    }
 
    private int m_value;

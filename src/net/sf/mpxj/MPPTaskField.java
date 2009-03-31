@@ -171,6 +171,7 @@ public final class MPPTaskField
    private static final int UPDATE_NEEDED_VALUE = 111;
    private static final int CONTACT_VALUE = 112;
    private static final int RESOURCE_GROUP_VALUE = 113;
+   private static final int COMPLETE_THROUGH_VALUE = 119;
    private static final int ACWP_VALUE = 120;
    private static final int TYPE_VALUE = 128;
    private static final int RECURRING_VALUE = 129;
@@ -621,6 +622,7 @@ public final class MPPTaskField
       FIELD_ARRAY[UPDATE_NEEDED_VALUE] = TaskField.UPDATE_NEEDED;
       FIELD_ARRAY[CONTACT_VALUE] = TaskField.CONTACT;
       FIELD_ARRAY[RESOURCE_GROUP_VALUE] = TaskField.RESOURCE_GROUP;
+      FIELD_ARRAY[COMPLETE_THROUGH_VALUE] = TaskField.COMPLETE_THROUGH;
       FIELD_ARRAY[ACWP_VALUE] = TaskField.ACWP;
       FIELD_ARRAY[TYPE_VALUE] = TaskField.TYPE;
       FIELD_ARRAY[RECURRING_VALUE] = TaskField.RECURRING;
@@ -1072,6 +1074,7 @@ public final class MPPTaskField
       ID_ARRAY[TaskField.UPDATE_NEEDED_VALUE] = UPDATE_NEEDED_VALUE;
       ID_ARRAY[TaskField.CONTACT_VALUE] = CONTACT_VALUE;
       ID_ARRAY[TaskField.RESOURCE_GROUP_VALUE] = RESOURCE_GROUP_VALUE;
+      ID_ARRAY[TaskField.COMPLETE_THROUGH_VALUE] = COMPLETE_THROUGH_VALUE;
       ID_ARRAY[TaskField.ACWP_VALUE] = ACWP_VALUE;
       ID_ARRAY[TaskField.TYPE_VALUE] = TYPE_VALUE;
       ID_ARRAY[TaskField.RECURRING_VALUE] = RECURRING_VALUE;

@@ -179,16 +179,16 @@ public final class MPDUtility
       Duration result;
       switch (timeUnit)
       {
-         case MINUTES:
-         case ELAPSED_MINUTES:
+         case MINUTES :
+         case ELAPSED_MINUTES :
          {
             double totalMinutes = duration / 10;
             result = Duration.getInstance(totalMinutes, timeUnit);
             break;
          }
 
-         case HOURS:
-         case ELAPSED_HOURS:
+         case HOURS :
+         case ELAPSED_HOURS :
          {
             double totalHours = duration / 600;
             result = Duration.getInstance(totalHours, timeUnit);
@@ -243,7 +243,7 @@ public final class MPDUtility
             break;
          }
 
-         case MONTHS:
+         case MONTHS :
          {
             double totalMonths = duration / 96000;
             result = Duration.getInstance(totalMonths, timeUnit);

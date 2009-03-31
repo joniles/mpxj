@@ -1029,8 +1029,7 @@ public final class MSPDIReader extends AbstractProjectReader
 
          if (calendar == null)
          {
-            String calendarName = m_projectFile.getProjectHeader().getCalendarName();
-            calendar = m_projectFile.getBaseCalendar(calendarName);
+            calendar = m_projectFile.getCalendar();
          }
 
          LinkedList<TimephasedResourceAssignment> timephasedComplete = readTimephasedAssignment(calendar, assignment, 2);

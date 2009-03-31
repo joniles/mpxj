@@ -504,9 +504,7 @@ public final class ResourceAssignment extends ProjectEntity
 
       if (calendar == null)
       {
-         ProjectFile file = getParentFile();
-         String calendarName = file.getProjectHeader().getCalendarName();
-         calendar = file.getBaseCalendar(calendarName);
+         calendar = getParentFile().getCalendar();
       }
 
       return calendar;

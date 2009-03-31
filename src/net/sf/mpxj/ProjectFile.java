@@ -1820,6 +1820,18 @@ public final class ProjectFile
       return m_customFieldValueItems.get(uniqueID);
    }
 
+   /**
+    * Retrieves the default calendar for this project.
+    * 
+    * @return default projectCalendar instance
+    */
+   public ProjectCalendar getCalendar()
+   {
+      String calendarName = m_projectHeader.getCalendarName();
+      ProjectCalendar calendar = getBaseCalendar(calendarName);
+      return calendar;
+   }
+
    private String m_projectFilePath;
 
    /**

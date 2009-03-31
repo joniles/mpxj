@@ -958,10 +958,10 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println (calFixedData);
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
-      int items = calFixedData.getItemCount();      
+      int items = calFixedData.getItemCount();
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
       byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
-      
+
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
@@ -982,7 +982,7 @@ final class MPP12Reader implements MPPVariantReader
                {
                   byte[] varData = calVarData.getByteArray(calendarID, CALENDAR_DATA);
                   ProjectCalendar cal;
-                  
+
                   if (baseCalendarID == -1)
                   {
                      if (varData != null || defaultCalendarData != null)
@@ -1017,7 +1017,7 @@ final class MPP12Reader implements MPPVariantReader
                   }
 
                   cal.setUniqueID(calendarID);
-                  
+
                   if (varData != null)
                   {
                      processCalendarHours(varData, cal, baseCalendarID == -1);
@@ -2835,8 +2835,7 @@ final class MPP12Reader implements MPPVariantReader
 
             if (calendar == null)
             {
-               String calendarName = m_file.getProjectHeader().getCalendarName();
-               calendar = m_file.getBaseCalendar(calendarName);
+               calendar = m_file.getCalendar();
             }
 
             Date assignmentStart = MPPUtility.getTimestamp(data, 12);

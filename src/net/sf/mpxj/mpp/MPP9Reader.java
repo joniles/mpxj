@@ -1334,7 +1334,7 @@ final class MPP9Reader implements MPPVariantReader
 
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new LinkedList<Pair<ProjectCalendar, Integer>>();
       byte[] defaultCalendarData = m_projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
-      
+
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
@@ -1392,7 +1392,6 @@ final class MPP9Reader implements MPPVariantReader
 
                   cal.setUniqueID(calendarID);
 
-                  
                   if (varData != null)
                   {
                      processCalendarHours(varData, cal, baseCalendarID == -1);
@@ -2825,8 +2824,7 @@ final class MPP9Reader implements MPPVariantReader
 
             if (calendar == null)
             {
-               String calendarName = m_file.getProjectHeader().getCalendarName();
-               calendar = m_file.getBaseCalendar(calendarName);
+               calendar = m_file.getCalendar();
             }
 
             Date assignmentStart = MPPUtility.getTimestamp(data, 12);

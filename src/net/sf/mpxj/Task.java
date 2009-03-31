@@ -6477,6 +6477,50 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Retrieve the "complete through" date.
+    * 
+    * @return complete through date
+    */
+   public Date getCompleteThrough()
+   {
+      Date value = (Date) getCachedValue(TaskField.COMPLETE_THROUGH);
+      if (value == null)
+      {
+         int percentComplete = NumberUtility.getInt(getPercentageComplete());
+         switch (percentComplete)
+         {
+            case 0 :
+            {
+               break;
+            }
+
+            case 100 :
+            {
+               value = getActualFinish();
+               break;
+            }
+
+            default :
+            {
+               Duration duration = getDuration();
+               double durationValue = (duration.getDuration() * percentComplete) / 100d;
+               duration = Duration.getInstance(durationValue, duration.getUnits());
+               ProjectCalendar calendar = getCalendar();
+               if (calendar == null)
+               {
+                  calendar = getParentFile().getCalendar();
+               }
+               value = calendar.getDate(getActualStart(), duration, true);
+               break;
+            }
+         }
+
+         set(TaskField.COMPLETE_THROUGH, value);
+      }
+      return value;
+   }
+
+   /**
     * Maps a field index to a TaskField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -6561,6 +6605,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
                break;
             }
 
+            case TaskField.COMPLETE_THROUGH_VALUE :
+            {
+               result = getCompleteThrough();
+               break;
+            }
+
             default :
             {
                result = m_array[fieldValue];
@@ -6623,6 +6673,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          }
 
          case TaskField.DURATION_VALUE :
+         {
+            m_array[TaskField.DURATION_VARIANCE_VALUE] = null;
+            m_array[TaskField.COMPLETE_THROUGH_VALUE] = null;
+            break;
+         }
+
          case TaskField.BASELINE_DURATION_VALUE :
          {
             m_array[TaskField.DURATION_VARIANCE_VALUE] = null;
@@ -6673,6 +6729,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
             m_array[TaskField.START_SLACK_VALUE] = null;
             m_array[TaskField.TOTAL_SLACK_VALUE] = null;
             m_array[TaskField.CRITICAL_VALUE] = null;
+            break;
+         }
+
+         case TaskField.ACTUAL_START_VALUE :
+         case TaskField.PERCENT_COMPLETE_VALUE :
+         {
+            m_array[TaskField.COMPLETE_THROUGH_VALUE] = null;
             break;
          }
       }

@@ -29,7 +29,6 @@ import java.util.TimeZone;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 
@@ -197,8 +196,7 @@ public final class DateUtility
          ProjectCalendar calendar = task.getCalendar();
          if (calendar == null)
          {
-            ProjectFile file = task.getParentFile();
-            calendar = file.getBaseCalendar(file.getProjectHeader().getCalendarName());
+            calendar = task.getParentFile().getCalendar();
          }
 
          if (calendar != null)
