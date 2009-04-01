@@ -49,6 +49,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -711,12 +712,14 @@ final class MPP9Reader implements MPPVariantReader
    private void processViewPropertyData() throws IOException
    {
       Props9 props = new Props9(getEncryptableInputStream(m_viewDir, "Props"));
-      //System.out.println(props);
       byte[] data = props.getByteArray(Props.FONT_BASES);
       if (data != null)
       {
          processBaseFonts(data);
       }
+
+      ProjectHeader header = m_file.getProjectHeader();
+      header.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**

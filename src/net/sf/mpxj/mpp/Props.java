@@ -315,5 +315,7 @@ class Props extends MPPComponent
 
    public static final Integer RESOURCE_CREATION_DATE = Integer.valueOf(205521219);
 
+   public static final Integer SHOW_PROJECT_SUMMARY_TASK = Integer.valueOf(54525961);
+
    protected TreeMap<Integer, byte[]> m_map = new TreeMap<Integer, byte[]>();
 }

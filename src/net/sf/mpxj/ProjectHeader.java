@@ -2131,6 +2131,26 @@ public final class ProjectHeader extends ProjectEntity
       return (m_hyperlinkBase);
    }
 
+   /**
+    * Retrieves the "show project summary task" flag.
+    * 
+    * @return boolean flag
+    */
+   public boolean getShowProjectSummaryTask()
+   {
+      return m_showProjectSummaryTask;
+   }
+
+   /**
+    * Sets the "show project summary task" flag.
+    * 
+    * @param value boolean flag
+    */
+   public void setShowProjectSummaryTask(boolean value)
+   {
+      m_showProjectSummaryTask = value;
+   }
+
    private String m_currencySymbol;
    private CurrencySymbolPosition m_symbolPosition = CurrencySymbolPosition.BEFORE;
    private Number m_currencyDigits;
@@ -2247,6 +2267,7 @@ public final class ProjectHeader extends ProjectEntity
    private boolean m_calculateMultipleCriticalPaths;
    private Map<Integer, Object> m_documentSummaryInformation;
    private String m_currencyCode;
+   private boolean m_showProjectSummaryTask;
 
    /*
     * Missing MSPDI attributes

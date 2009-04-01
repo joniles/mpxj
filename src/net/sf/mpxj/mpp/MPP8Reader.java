@@ -45,6 +45,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
@@ -101,6 +102,7 @@ final class MPP8Reader implements MPPVariantReader
          processTaskData();
          processConstraintData();
          processAssignmentData();
+         processViewPropertyData();
          processViewData();
          processTableData();
       }
@@ -131,6 +133,18 @@ final class MPP8Reader implements MPPVariantReader
       //
       ProjectHeaderReader projectHeaderReader = new ProjectHeaderReader();
       projectHeaderReader.process(m_file, props, m_root);
+   }
+
+   /**
+    * This method process the data held in the props file specific to the
+    * visual appearance of the project data.
+    */
+   private void processViewPropertyData() throws IOException
+   {
+      Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
+
+      ProjectHeader header = m_file.getProjectHeader();
+      header.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
    }
 
    /**
