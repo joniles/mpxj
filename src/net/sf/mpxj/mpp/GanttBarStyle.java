@@ -1,8 +1,9 @@
 /*
  * file:       GanttBarStyle.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       Apr 13, 2005
+ *             Tom Ollar
+ * copyright:  (c) Packwood Software Limited 2005-2009
+ * date:       13/04/2005
  */
 
 /*
@@ -25,6 +26,8 @@ package net.sf.mpxj.mpp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.TaskField;
@@ -46,27 +49,49 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       m_name = name;
       m_middleShape = data[offset];
       m_middlePattern = data[offset + 1];
+      m_middleShapeAndPattern = GanttBarMiddleShape.getInstance(m_middleShape, m_middlePattern);
       m_middleColor = ColorType.getInstance(data[offset + 2]);
       m_startShapeAndStyle = data[offset + 4];
+      m_startShape = GanttBarStartAndEndShape.getInstance(m_startShapeAndStyle);
       m_startColor = ColorType.getInstance(data[offset + 5]);
       m_endShapeAndStyle = data[offset + 6];
+      m_endShape = GanttBarStartAndEndShape.getInstance(m_endShapeAndStyle);
       m_endColor = ColorType.getInstance(data[offset + 7]);
 
+      m_startShape.setColor(m_startColor);
+      m_middleShapeAndPattern.setColor(m_middleColor);
+      m_endShape.setColor(m_endColor);
+
       m_fromField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 8));
-      m_toField = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 12));
 
-      int flags = MPPUtility.getShort(data, offset + 16);
+      int toField = MPPUtility.getShort(data, offset + 12);
 
-      m_showForNormalTasks = (flags & 0x0001) != 0;
-      m_showForMilestoneTasks = (flags & 0x0002) != 0;
-      m_showForSummaryTasks = (flags & 0x0004) != 0;
-      m_showForCriticalTasks = (flags & 0x0008) != 0;
-      m_showForNonCriticalTasks = (flags & 0x0010) != 0;
-      m_showForMarkedTasks = (flags & 0x0020) != 0;
-      m_showForFinishedTasks = (flags & 0x0040) != 0;
-      m_showForInProgressTasks = (flags & 0x0080) != 0;
-      m_showForNotFinishedTasks = (flags & 0x0100) != 0;
-      m_showForNotStartedTasks = (flags & 0x0200) != 0;
+      m_toField = MPPTaskField.getInstance(toField);
+
+      int flags1 = MPPUtility.getShort(data, offset + 16);
+      int flags2 = MPPUtility.getShort(data, offset + 18);
+      int flags3 = MPPUtility.getShort(data, offset + 20);
+      int flags4 = MPPUtility.getShort(data, offset + 24);
+      int flags5 = MPPUtility.getShort(data, offset + 26);
+      int flags6 = MPPUtility.getShort(data, offset + 28);
+
+      addToSet(GanttBarShowForCriteriaEnum.NORMAL, flags1, false);
+      addToSet(GanttBarShowForCriteriaEnum.FLAG1, flags2, false);
+      addToSet(GanttBarShowForCriteriaEnum.FLAG13, flags3, false);
+      addToSet(GanttBarShowForCriteriaEnum.NORMAL, flags4, true);
+      addToSet(GanttBarShowForCriteriaEnum.FLAG1, flags5, true);
+      addToSet(GanttBarShowForCriteriaEnum.FLAG13, flags6, true);
+
+      m_showForNormalTasks = m_showForCriteriaSet.contains(SHOW_FOR_NORMAL_TASKS);
+      m_showForMilestoneTasks = m_showForCriteriaSet.contains(SHOW_FOR_MILESTONE_TASKS);
+      m_showForSummaryTasks = m_showForCriteriaSet.contains(SHOW_FOR_SUMMARY_TASKS);
+      m_showForCriticalTasks = m_showForCriteriaSet.contains(SHOW_FOR_CRITICAL_TASKS);
+      m_showForNonCriticalTasks = m_showForCriteriaSet.contains(SHOW_FOR_NON_CRITICAL_TASKS);
+      m_showForMarkedTasks = m_showForCriteriaSet.contains(SHOW_FOR_MARKED_TASKS);
+      m_showForFinishedTasks = m_showForCriteriaSet.contains(SHOW_FOR_FINISHED_TASKS);
+      m_showForInProgressTasks = m_showForCriteriaSet.contains(SHOW_FOR_IN_PROGRESS_TASKS);
+      m_showForNotFinishedTasks = m_showForCriteriaSet.contains(SHOW_FOR_NOT_FINISHED_TASKS);
+      m_showForNotStartedTasks = m_showForCriteriaSet.contains(SHOW_FOR_NOT_STARTED_TASKS);
 
       m_row = data[offset + 32] + 1;
 
@@ -75,6 +100,39 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       m_topText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 42));
       m_bottomText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 46));
       m_insideText = MPPTaskField.getInstance(MPPUtility.getShort(data, offset + 50));
+   }
+
+   /**
+    * Evaluate the the two-byte short stored in the file, determine if it contains one or more of 16 different
+    * flags. The flag values correspond to ordinal positions in ShowGanttBarCriteriaEnum, making
+    * it easy to map flag intersections to enumeration values. An index integer counter is used to avoid pow or sqr.
+    *
+    * @param baseCriteria the base criteria for the given flag, there are three flags so the bases are 0, 16 and 32
+    * @param flagValue the flag value, originally a short read directly from the mpp file
+    * @param notCondition whether this is the 'NOT' of this condition, there is 'Normal' and 'Not Normal', both
+    * represented by the same 'Normal' enum value with the 'Not' property additionally assigned
+    * Theoretically the resultSet could contain 86 values, the original 43, and the 'Not' of each of those, but
+    * practically not all of those values could be saved successfully in a Microsoft Project document as the length
+    * of the show for criteria field is limited.
+    */
+   private void addToSet(GanttBarShowForCriteriaEnum baseCriteria, int flagValue, boolean notCondition)
+   {
+      int index = 0;
+      short flag = 0x0001;
+
+      while (index <= 15)
+      {
+         if ((flagValue & flag) != 0)
+         {
+            GanttBarShowForCriteriaEnum enumValue = GanttBarShowForCriteriaEnum.getInstance(baseCriteria.getValue() + index);
+
+            m_showForCriteriaSet.add(new GanttBarShowForCriteria(enumValue, notCondition));
+         }
+
+         flag *= 2;
+
+         index++;
+      }
    }
 
    /**
@@ -218,6 +276,46 @@ public final class GanttBarStyle extends GanttBarCommonStyle
    }
 
    /**
+    * Retrieve the start shape of this bar.
+    *
+    * @return start shape
+    */
+   public GanttBarStartAndEndShape getStartShape()
+   {
+      return (m_startShape);
+   }
+
+   /**
+    * Retrieve the end shape of this bar.
+    *
+    * @return end shape
+    */
+   public GanttBarStartAndEndShape getEndShape()
+   {
+      return (m_endShape);
+   }
+
+   /**
+    * Retrieve the end shape of this bar.
+    *
+    * @return end shape
+    */
+   public GanttBarMiddleShape getMiddleShapeAndPattern()
+   {
+      return (m_middleShapeAndPattern);
+   }
+
+   /**
+    * Retrieve set of Show For criteria for this style.
+    *
+    * @return show for criteria
+    */
+   public Set<GanttBarShowForCriteria> getShowForCriteriaSet()
+   {
+      return (m_showForCriteriaSet);
+   }
+
+   /**
     * Generate a string representation of this instance.
     *
     * @return string representation of this instance
@@ -250,6 +348,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
    private String m_name;
    private TaskField m_fromField;
    private TaskField m_toField;
+
    private boolean m_showForNormalTasks;
    private boolean m_showForMilestoneTasks;
    private boolean m_showForSummaryTasks;
@@ -260,5 +359,22 @@ public final class GanttBarStyle extends GanttBarCommonStyle
    private boolean m_showForInProgressTasks;
    private boolean m_showForNotFinishedTasks;
    private boolean m_showForNotStartedTasks;
+
    private int m_row;
+
+   private Set<GanttBarShowForCriteria> m_showForCriteriaSet = new HashSet<GanttBarShowForCriteria>();
+   private GanttBarStartAndEndShape m_startShape;
+   private GanttBarStartAndEndShape m_endShape;
+   private GanttBarMiddleShape m_middleShapeAndPattern;
+
+   private static final GanttBarShowForCriteria SHOW_FOR_NORMAL_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.NORMAL, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_MILESTONE_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.MILESTONE, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_SUMMARY_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.SUMMARY, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_CRITICAL_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.CRITICAL, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_NON_CRITICAL_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.NONCRITICAL, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_MARKED_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.MARKED, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_FINISHED_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.FINISHED, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_IN_PROGRESS_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.INPROGRESS, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_NOT_FINISHED_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.NOTFINISHED, false);
+   private static final GanttBarShowForCriteria SHOW_FOR_NOT_STARTED_TASKS = new GanttBarShowForCriteria(GanttBarShowForCriteriaEnum.NOTSTARTED, false);
 }

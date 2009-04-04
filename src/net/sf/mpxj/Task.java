@@ -6521,6 +6521,27 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Retrieve the summary progress date.
+    * 
+    * @return summary progress date
+    */
+   public Date getSummaryProgress()
+   {
+      Date value = (Date) getCachedValue(TaskField.SUMMARY_PROGRESS);
+      return value;
+   }
+
+   /**
+    * Set the summary progress date.
+    * 
+    * @param value summary progress date
+    */
+   public void setSummaryProgress(Date value)
+   {
+      set(TaskField.SUMMARY_PROGRESS, value);
+   }
+
+   /**
     * Maps a field index to a TaskField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
