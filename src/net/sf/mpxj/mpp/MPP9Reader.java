@@ -551,6 +551,7 @@ final class MPP9Reader implements MPPVariantReader
                   case SUBPROJECT_TASKUNIQUEID1 :
                   case SUBPROJECT_TASKUNIQUEID2 :
                   case SUBPROJECT_TASKUNIQUEID3 :
+                  case SUBPROJECT_TASKUNIQUEID4 :
                      // The previous value was for the subproject unique task id
                      sp.setTaskUniqueID(Integer.valueOf(prev));
                      m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -3089,6 +3090,8 @@ final class MPP9Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID1 = 0x0B340000;
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
+   private static final int SUBPROJECT_TASKUNIQUEID4 = 0x02F70000;
+   
 
    /**
     * Calendar data types.
