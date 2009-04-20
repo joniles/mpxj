@@ -1050,12 +1050,7 @@ final class MPP8Reader implements MPPVariantReader
          assnFixedData = new FixFix(238, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixFix   0"))));
       }
 
-      ResourceAssignment assignment;
-
-      int count = assnFixedData.getItemCount();
-      byte[] data;
-      Task task;
-      Resource resource;
+      int count = assnFixedData.getItemCount();      
       FixDeferFix assnVarData = null;
 
       for (int loop = 0; loop < count; loop++)
@@ -1065,13 +1060,13 @@ final class MPP8Reader implements MPPVariantReader
             assnVarData = new FixDeferFix(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixDeferFix   0"))));
          }
 
-         data = assnFixedData.getByteArrayValue(loop);
+         byte[] data = assnFixedData.getByteArrayValue(loop);
 
-         task = m_file.getTaskByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 16)));
-         resource = m_file.getResourceByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 20)));
+         Task task = m_file.getTaskByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 16)));
+         Resource resource = m_file.getResourceByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 20)));
          if (task != null && resource != null)
          {
-            assignment = task.addResourceAssignment(resource);
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
             assignment.setActualCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
             assignment.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 96)) / 100, TimeUnit.HOURS));
             assignment.setCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
@@ -1090,6 +1085,7 @@ final class MPP8Reader implements MPPVariantReader
             // to determine the function of unknown assignment data.
             //
             //dumpUnknownData (task.getName() + " " + resource.getName(), UNKNOWN_ASSIGNMENT_DATA, data);
+            // data, 24: actual start            
          }
       }
    }
@@ -1172,21 +1168,16 @@ final class MPP8Reader implements MPPVariantReader
       FixFix ff = new FixFix(126, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
       FixDeferFix fdf = new FixDeferFix(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixDeferFix   0"))));
       int items = ff.getItemCount();
-      byte[] data;
-      byte[] extendedData;
-      byte[] columnData;
-      Table table;
-      String name;
       StringBuffer sb = new StringBuffer();
 
       for (int loop = 0; loop < items; loop++)
       {
-         data = ff.getByteArrayValue(loop);
-         table = new Table();
+         byte[] data = ff.getByteArrayValue(loop);
+         Table table = new Table();
 
          table.setID(MPPUtility.getInt(data, 0));
 
-         name = MPPUtility.getUnicodeString(data, 4);
+         String name = MPPUtility.getUnicodeString(data, 4);
          if (name != null)
          {
             if (name.indexOf('&') != -1)
@@ -1212,13 +1203,15 @@ final class MPP8Reader implements MPPVariantReader
          table.setName(MPPUtility.removeAmpersands(name));
          m_file.addTable(table);
 
-         extendedData = fdf.getByteArray(getOffset(data, 122));
+         byte[] extendedData = fdf.getByteArray(getOffset(data, 122));
          if (extendedData != null)
          {
-            columnData = fdf.getByteArray(getOffset(extendedData, 8));
+            byte[] columnData = fdf.getByteArray(getOffset(extendedData, 8));
             processColumnData(table, columnData);
          }
-      }
+         
+         //System.out.println(table);         
+      }      
    }
 
    /**
