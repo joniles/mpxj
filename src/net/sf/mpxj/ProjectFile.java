@@ -1832,6 +1832,16 @@ public final class ProjectFile
       return calendar;
    }
 
+   /**
+    * Sets the default calendar for this project.
+    * 
+    * @param calendar default calendar instance
+    */
+   public void setCalendar(ProjectCalendar calendar)
+   {
+      m_projectHeader.setCalendarName(calendar.getName());
+   }
+   
    private String m_projectFilePath;
 
    /**
