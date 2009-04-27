@@ -2879,6 +2879,18 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54)) / 100));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
+               
+               if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
+               {
+                  TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
+                  tra.setStart(assignmentStart);
+                  tra.setWorkPerDay(DEFAULT_NORMALIZER_WORK_PER_DAY);
+                  tra.setModified(false);
+                  tra.setFinish(assignment.getFinish());
+                  tra.setTotalWork(assignment.getWork().convertUnits(TimeUnit.MINUTES, m_file.getProjectHeader()));
+                  timephasedPlanned.add(tra);
+               }
+               
                assignment.setTimephasedPlanned(timephasedPlanned, true);
                assignment.setTimephasedComplete(timephasedComplete, true);
 
@@ -4039,4 +4051,6 @@ final class MPP12Reader implements MPPVariantReader
 
    private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
    private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
+   
+   private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

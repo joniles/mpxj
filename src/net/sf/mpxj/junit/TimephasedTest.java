@@ -89,7 +89,13 @@ public class TimephasedTest extends MPXJTestCase
       assertEquals(1, assignments.size());
       ResourceAssignment assignment = assignments.get(0);
       List<TimephasedResourceAssignment> timephasedPlanned = assignment.getTimephasedPlanned();
-      //assertEquals(0, timephasedPlanned.size());
+      assertEquals(3, timephasedPlanned.size());
+      TimephasedResourceAssignment timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "21/11/2008 08:00", "02/12/2008 17:00", 64.0, 8.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "03/12/2008 08:00", "03/12/2008 12:00", 4.0, 4.0);
       List<TimephasedResourceAssignment> timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
 
@@ -101,10 +107,32 @@ public class TimephasedTest extends MPXJTestCase
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
       timephasedPlanned = assignment.getTimephasedPlanned();
-      //assertEquals(11, timephasedPlanned.size());
+      assertEquals(11, timephasedPlanned.size());
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "21/11/2008 08:00", "25/11/2008 17:00", 24.0, 8.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "26/11/2008 08:00", "26/11/2008 17:00", 7.625, 7.625);
+      timephased = timephasedPlanned.get(3);
+      testTimephased(timephased, "27/11/2008 08:00", "28/11/2008 17:00", 12.0, 6.0);
+      timephased = timephasedPlanned.get(4);
+      testTimephased(timephased, "01/12/2008 08:00", "01/12/2008 17:00", 5.875, 5.875);
+      timephased = timephasedPlanned.get(5);
+      testTimephased(timephased, "02/12/2008 08:00", "04/12/2008 17:00", 12.0, 4.0);
+      timephased = timephasedPlanned.get(6);
+      testTimephased(timephased, "05/12/2008 08:00", "05/12/2008 17:00", 2.125, 2.125);
+      timephased = timephasedPlanned.get(7);
+      testTimephased(timephased, "08/12/2008 08:00", "08/12/2008 17:00", 1.7, 1.7);
+      timephased = timephasedPlanned.get(8);
+      testTimephased(timephased, "09/12/2008 08:00", "09/12/2008 17:00", 1.2, 1.2);
+      timephased = timephasedPlanned.get(9);
+      testTimephased(timephased, "10/12/2008 08:00", "10/12/2008 17:00", 0.875, 0.875);
+      timephased = timephasedPlanned.get(10);
+      testTimephased(timephased, "11/12/2008 08:00", "11/12/2008 15:00", 0.6, 0.6);
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
-      TimephasedResourceAssignment timephased = timephasedPlanned.get(0);
+      timephased = timephasedPlanned.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
       timephased = timephasedPlanned.get(1);
       testTimephased(timephased, "21/11/2008 08:00", "25/11/2008 17:00", 24.0, 8.0);
@@ -287,7 +315,25 @@ public class TimephasedTest extends MPXJTestCase
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
       timephasedPlanned = assignment.getTimephasedPlanned();
-      //assertEquals(0, timephasedPlanned.size());
+      assertEquals(9, timephasedPlanned.size());
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "20/11/2008 23:00", "21/11/2008 00:00", 1.0, 1.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "21/11/2008 00:00", "22/11/2008 00:00", 8.0, 8.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "22/11/2008 00:00", "22/11/2008 08:00", 7.0, 7.0);
+      timephased = timephasedPlanned.get(3);
+      testTimephased(timephased, "24/11/2008 23:00", "25/11/2008 00:00", 1.0, 1.0);
+      timephased = timephasedPlanned.get(4);
+      testTimephased(timephased, "25/11/2008 00:00", "29/11/2008 00:00", 32.0, 8.0);
+      timephased = timephasedPlanned.get(5);
+      testTimephased(timephased, "29/11/2008 00:00", "29/11/2008 08:00", 7.0, 7.0);
+      timephased = timephasedPlanned.get(6);
+      testTimephased(timephased, "01/12/2008 23:00", "02/12/2008 00:00", 1.0, 1.0);
+      timephased = timephasedPlanned.get(7);
+      testTimephased(timephased, "02/12/2008 00:00", "04/12/2008 00:00", 16.0, 8.0);
+      timephased = timephasedPlanned.get(8);
+      testTimephased(timephased, "04/12/2008 00:00", "04/12/2008 02:00", 2.0, 2.0);
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
 
@@ -573,7 +619,13 @@ public class TimephasedTest extends MPXJTestCase
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
       timephasedPlanned = assignment.getTimephasedPlanned();
-      //assertEquals(0, timephasedPlanned.size());
+      assertEquals(3, timephasedPlanned.size());
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "20/11/2008 09:00", "21/11/2008 00:00", 15.0, 15.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "21/11/2008 00:00", "23/11/2008 00:00", 48.0, 24.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "23/11/2008 00:00", "23/11/2008 12:00", 12.0, 12.0);
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(0, timephasedComplete.size());
 
@@ -767,17 +819,19 @@ public class TimephasedTest extends MPXJTestCase
 
    //createTest("timephasedPlanned", timephasedPlanned);
    //createTest("timephasedComplete", timephasedComplete);      
-   /*    
-            private void createTest(String name, List<TimephasedResourceAssignment> assignments)
-            {
-               int index = 0;
-               for (TimephasedResourceAssignment assignment : assignments)
+
+   /*   
+               private void createTest(String name, List<TimephasedResourceAssignment> assignments)
                {
-                  System.out.println("timephased = " + name + ".get(" + index + ");");
-                  System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");
-                  ++index;
+                  int index = 0;
+                  for (TimephasedResourceAssignment assignment : assignments)
+                  {
+                     System.out.println("timephased = " + name + ".get(" + index + ");");
+                     System.out.println("testTimephased(timephased, \"" + m_df.format(assignment.getStart()) + "\", \"" + m_df.format(assignment.getFinish()) + "\", " + assignment.getTotalWork().getDuration() + ", " + assignment.getWorkPerDay().getDuration() + ");");
+                     ++index;
+                  }
                }
-            }
-      */
+         */
+
    private DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 }
