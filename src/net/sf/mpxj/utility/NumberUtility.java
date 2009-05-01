@@ -224,5 +224,20 @@ public final class NumberUtility
       return (result);
    }
 
+   /**
+    * Compares two doubles for equality, within an allowable range 
+    * of difference.
+    * 
+    * @param lhs value to test
+    * @param rhs value to test
+    * @param delta allowable difference
+    * @return boolean value
+    */
+   public static boolean equals (double lhs, double rhs, double delta)
+   {
+      return Math.abs(lhs-rhs)<delta;    
+   }
+   
+   
    public static final Double DOUBLE_ZERO = Double.valueOf(0);
 }

@@ -26,6 +26,8 @@ package net.sf.mpxj;
 import java.util.Date;
 import java.util.LinkedList;
 
+import net.sf.mpxj.utility.NumberUtility;
+
 /**
  * Common implementation detail for normalisation.
  */
@@ -63,7 +65,8 @@ public abstract class AbstractTimephasedResourceAssignmentNormaliser implements 
          {
             Duration previousAssignmentWork = previousAssignment.getWorkPerDay();
             Duration assignmentWork = assignment.getTotalWork();
-            if (previousAssignmentWork.getDuration() == assignmentWork.getDuration())
+            
+            if (NumberUtility.equals(previousAssignmentWork.getDuration(),assignmentWork.getDuration(), 0.01))
             {
                Date assignmentStart = previousAssignment.getStart();
                Date assignmentFinish = assignment.getFinish();

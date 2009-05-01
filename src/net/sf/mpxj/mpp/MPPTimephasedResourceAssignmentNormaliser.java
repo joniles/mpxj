@@ -281,8 +281,8 @@ public class MPPTimephasedResourceAssignmentNormaliser extends AbstractTimephase
                }
 
                Date previousAssignmentFinish = previousAssignment.getFinish();
-
-               if (previousAssignmentFinish.getTime() == assignmentStart.getTime())
+                                             
+               if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
                {
                   result.removeLast();
 

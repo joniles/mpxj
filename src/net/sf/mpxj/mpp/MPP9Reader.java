@@ -2865,9 +2865,16 @@ final class MPP9Reader implements MPPVariantReader
 
                if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
                {
+                  Duration workPerDay = DEFAULT_NORMALIZER_WORK_PER_DAY;
+                  int units = NumberUtility.getInt(assignment.getUnits()); 
+                  if (units != 100)
+                  {
+                     workPerDay = Duration.getInstance((workPerDay.getDuration()*units)/100.0, workPerDay.getUnits());
+                  }
+                  
                   TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
                   tra.setStart(assignmentStart);
-                  tra.setWorkPerDay(DEFAULT_NORMALIZER_WORK_PER_DAY);
+                  tra.setWorkPerDay(workPerDay);
                   tra.setModified(false);
                   tra.setFinish(assignment.getFinish());
                   tra.setTotalWork(assignment.getWork().convertUnits(TimeUnit.MINUTES, m_file.getProjectHeader()));
