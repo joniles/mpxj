@@ -172,6 +172,23 @@ public class Filter
             }
             logicalAnd = criteria.getLogicalAnd();
          }
+         
+         //
+         // If this row has failed, but it is a summary row, and we are
+         // including related summary rows, then we need to recursively test
+         // its children
+         //
+         if (!result && m_showRelatedSummaryRows && container instanceof Task)
+         {
+            for(Task task : ((Task)container).getChildTasks())
+            {
+               if (evaluate(task))
+               {
+                  result = true;
+                  break;
+               }
+            }
+         }
       }
       return (result);
    }
