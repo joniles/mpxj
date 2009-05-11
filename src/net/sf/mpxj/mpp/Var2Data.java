@@ -279,7 +279,7 @@ final class Var2Data extends MPPComponent
       {
          byte[] value = m_map.get(metaOffset);
 
-         if (value != null)
+         if (value != null && offset < value.length-4)
          {
             result = MPPUtility.getInt(value, offset);
          }
