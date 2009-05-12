@@ -2833,10 +2833,11 @@ final class MPP9Reader implements MPPVariantReader
             }
 
             Date assignmentStart = MPPUtility.getTimestamp(data, 12);
+            double assignmentUnits = (MPPUtility.getDouble(data, 54)) / 100;
             byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
             byte[] plannedWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, PLANNED_WORK));
             List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignmentStart, completeWork);
-            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, plannedWork, timephasedComplete);
+            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, assignmentUnits, plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
             //System.out.println(timephasedPlanned);
                      
@@ -2860,7 +2861,7 @@ final class MPP9Reader implements MPPVariantReader
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86)) / 100, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
-               assignment.setUnits(Double.valueOf((MPPUtility.getDouble(data, 54)) / 100));
+               assignment.setUnits(Double.valueOf(assignmentUnits));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
 
                if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())

@@ -894,14 +894,19 @@ public class TimephasedTest extends MPXJTestCase
       timephasedPlanned = assignment.getTimephasedPlanned();
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(3, timephasedComplete.size());
-      //assertEquals(12, timephasedPlanned.size());
+      assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 3.5, 3.5);
       timephased = timephasedComplete.get(1);
       testTimephased(timephased, "21/11/2008 08:00", "02/12/2008 17:00", 32.0, 4.0);
       timephased = timephasedComplete.get(2);
       testTimephased(timephased, "03/12/2008 08:00", "03/12/2008 12:00", 2.0, 2.0);
-      //createTest("timephasedPlanned", timephasedPlanned); //the total time here seems to include the complete too
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "03/12/2008 13:00", "03/12/2008 17:00", 2.0, 2.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "04/12/2008 08:00", "15/12/2008 17:00", 32.0, 4.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "16/12/2008 08:00", "16/12/2008 16:00", 3.5, 3.5);
 
       //
       // Split task with no work done - 50% utilisation
@@ -940,7 +945,7 @@ public class TimephasedTest extends MPXJTestCase
       timephasedPlanned = assignment.getTimephasedPlanned();
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(6, timephasedComplete.size());
-      //assertEquals(12, timephasedPlanned.size());
+      assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 3.5, 3.5);
       timephased = timephasedComplete.get(1);
@@ -953,7 +958,13 @@ public class TimephasedTest extends MPXJTestCase
       testTimephased(timephased, "05/12/2008 08:00", "09/12/2008 17:00", 12.0, 4.0);
       timephased = timephasedComplete.get(5);
       testTimephased(timephased, "10/12/2008 08:00", "10/12/2008 10:00", 1.0, 1.0);
-      //createTest("timephasedPlanned", timephasedPlanned); //the total time here seems to include the complete too
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "10/12/2008 10:00", "10/12/2008 17:00", 3.0, 3.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "11/12/2008 08:00", "18/12/2008 17:00", 24.0, 4.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "19/12/2008 08:00", "19/12/2008 15:00", 3.0, 3.0);
+
       
       
       //
@@ -1100,14 +1111,20 @@ public class TimephasedTest extends MPXJTestCase
       timephasedPlanned = assignment.getTimephasedPlanned();
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(3, timephasedComplete.size());
-      //assertEquals(12, timephasedPlanned.size());
+      assertEquals(3, timephasedPlanned.size());
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 10.5, 10.5);
       timephased = timephasedComplete.get(1);
       testTimephased(timephased, "21/11/2008 08:00", "24/11/2008 17:00", 24.0, 12.0);
       timephased = timephasedComplete.get(2);
       testTimephased(timephased, "25/11/2008 08:00", "25/11/2008 10:00", 3.0, 3.0);      
-      //createTest("timephasedPlanned", timephasedPlanned); //the total time here seems to include the complete too
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "25/11/2008 10:00", "25/11/2008 17:00", 9.0, 9.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "26/11/2008 08:00", "27/11/2008 17:00", 24.0, 12.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "28/11/2008 08:00", "28/11/2008 11:00", 4.5, 4.5);
+
             
       //
       // Split task with no work done - 150% utilisation
@@ -1145,7 +1162,7 @@ public class TimephasedTest extends MPXJTestCase
       timephasedPlanned = assignment.getTimephasedPlanned();
       timephasedComplete = assignment.getTimephasedComplete();
       assertEquals(6, timephasedComplete.size());
-      //assertEquals(7, timephasedPlanned.size());
+      assertEquals(3, timephasedPlanned.size());
       timephased = timephasedPlanned.get(0);
       timephased = timephasedComplete.get(0);
       testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 10.5, 10.5);
@@ -1159,7 +1176,13 @@ public class TimephasedTest extends MPXJTestCase
       testTimephased(timephased, "27/11/2008 14:20", "27/11/2008 17:00", 4.0, 4.0);
       timephased = timephasedComplete.get(5);
       testTimephased(timephased, "28/11/2008 08:00", "28/11/2008 15:00", 9.0, 9.0);      
-      //createTest("timephasedPlanned", timephasedPlanned);
+      timephased = timephasedPlanned.get(0);
+      testTimephased(timephased, "28/11/2008 15:00", "28/11/2008 17:00", 3.0, 3.0);
+      timephased = timephasedPlanned.get(1);
+      testTimephased(timephased, "01/12/2008 08:00", "02/12/2008 17:00", 24.0, 12.0);
+      timephased = timephasedPlanned.get(2);
+      testTimephased(timephased, "03/12/2008 08:00", "03/12/2008 10:00", 3.0, 3.0);
+
             
       //
       // Normal task 100% complete - 150% utilisation

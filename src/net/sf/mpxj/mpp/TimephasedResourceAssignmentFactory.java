@@ -132,12 +132,13 @@ final class TimephasedResourceAssignmentFactory
     * the day by day work planned for a specific resource assignment.
     *
     * @param calendar calendar on which date calculations are based
-    * @param startDate assignment start date 
+    * @param startDate assignment start date
+    * @param units assignment units 
     * @param data planned work data block
     * @param timephasedComplete list of complete work 
     * @return list of TimephasedResourceAssignment instances 
     */
-   public List<TimephasedResourceAssignment> getPlannedWork(ProjectCalendar calendar, Date startDate, byte[] data, List<TimephasedResourceAssignment> timephasedComplete)
+   public List<TimephasedResourceAssignment> getPlannedWork(ProjectCalendar calendar, Date startDate, double units, byte[] data, List<TimephasedResourceAssignment> timephasedComplete)
    {
       LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
 
@@ -151,11 +152,12 @@ final class TimephasedResourceAssignmentFactory
                TimephasedResourceAssignment lastComplete = timephasedComplete.get(timephasedComplete.size() - 1);
 
                Date startWork = calendar.getNextWorkStart(lastComplete.getFinish());
-               double time = MPPUtility.getInt(data, 24);
-               time /= 80;
+               double time = MPPUtility.getDouble(data, 16);
+               time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
-               Date finish = calendar.getDate(startWork, totalWork, false);
-
+               Duration adjustedTotalWork = Duration.getInstance((time*100)/units, TimeUnit.MINUTES);
+               Date finish = calendar.getDate(startWork, adjustedTotalWork, false);
+                              
                time = MPPUtility.getDouble(data, 8);
                time /= 2000;
                time *= 6;
