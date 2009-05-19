@@ -155,9 +155,9 @@ final class TimephasedResourceAssignmentFactory
                double time = MPPUtility.getDouble(data, 16);
                time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
-               Duration adjustedTotalWork = Duration.getInstance((time*100)/units, TimeUnit.MINUTES);
+               Duration adjustedTotalWork = Duration.getInstance((time * 100) / units, TimeUnit.MINUTES);
                Date finish = calendar.getDate(startWork, adjustedTotalWork, false);
-                              
+
                time = MPPUtility.getDouble(data, 8);
                time /= 2000;
                time *= 6;

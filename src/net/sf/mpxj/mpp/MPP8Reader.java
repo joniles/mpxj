@@ -1050,7 +1050,7 @@ final class MPP8Reader implements MPPVariantReader
          assnFixedData = new FixFix(238, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixFix   0"))));
       }
 
-      int count = assnFixedData.getItemCount();      
+      int count = assnFixedData.getItemCount();
       FixDeferFix assnVarData = null;
 
       for (int loop = 0; loop < count; loop++)
@@ -1209,9 +1209,9 @@ final class MPP8Reader implements MPPVariantReader
             byte[] columnData = fdf.getByteArray(getOffset(extendedData, 8));
             processColumnData(table, columnData);
          }
-         
+
          //System.out.println(table);         
-      }      
+      }
    }
 
    /**

@@ -1841,7 +1841,7 @@ public final class ProjectFile
    {
       m_projectHeader.setCalendarName(calendar.getName());
    }
-   
+
    private String m_projectFilePath;
 
    /**

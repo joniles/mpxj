@@ -77,7 +77,7 @@ public class MpxjFilter
       ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
       ProjectFile project = reader.read(filename);
       Filter filter = project.getFilterByName(filtername);
-      
+
       if (filter == null)
       {
          displayAvailableFilters(project);
@@ -86,7 +86,7 @@ public class MpxjFilter
       {
          System.out.println(filter);
          System.out.println();
-         
+
          if (filter.isTaskFilter())
          {
             processTaskFilter(project, filter);
@@ -108,19 +108,19 @@ public class MpxjFilter
    {
       System.out.println("Unknown filter name supplied.");
       System.out.println("Available task filters:");
-      for(Filter filter : project.getAllTaskFilters())
+      for (Filter filter : project.getAllTaskFilters())
       {
          System.out.println("   " + filter.getName());
       }
-      
+
       System.out.println("Available resource filters:");
-      for(Filter filter : project.getAllResourceFilters())
+      for (Filter filter : project.getAllResourceFilters())
       {
          System.out.println("   " + filter.getName());
       }
 
    }
-   
+
    /**
     * Apply a filter to the list of all tasks, and show the results.
     * 
@@ -129,28 +129,28 @@ public class MpxjFilter
     */
    private static void processTaskFilter(ProjectFile project, Filter filter)
    {
-      for(Task task : project.getAllTasks())
+      for (Task task : project.getAllTasks())
       {
          if (filter.evaluate(task))
          {
-            System.out.println(task.getID()+","+task.getUniqueID()+","+task.getName());
+            System.out.println(task.getID() + "," + task.getUniqueID() + "," + task.getName());
          }
       }
    }
-   
+
    /**
     * Apply a filter to the list of all resources, and show the results.
     * 
     * @param project project file
     * @param filter filter
-    */   
+    */
    private static void processResourceFilter(ProjectFile project, Filter filter)
    {
-      for(Resource resource: project.getAllResources())
+      for (Resource resource : project.getAllResources())
       {
          if (filter.evaluate(resource))
          {
-            System.out.println(resource.getID()+","+resource.getUniqueID()+","+resource.getName());
+            System.out.println(resource.getID() + "," + resource.getUniqueID() + "," + resource.getName());
          }
       }
    }

@@ -65,8 +65,8 @@ public abstract class AbstractTimephasedResourceAssignmentNormaliser implements 
          {
             Duration previousAssignmentWork = previousAssignment.getWorkPerDay();
             Duration assignmentWork = assignment.getTotalWork();
-            
-            if (NumberUtility.equals(previousAssignmentWork.getDuration(),assignmentWork.getDuration(), 0.01))
+
+            if (NumberUtility.equals(previousAssignmentWork.getDuration(), assignmentWork.getDuration(), 0.01))
             {
                Date assignmentStart = previousAssignment.getStart();
                Date assignmentFinish = assignment.getFinish();

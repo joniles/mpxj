@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.FilterCriteria;
+import net.sf.mpxj.FilterCriteriaLogicType;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
@@ -151,6 +152,7 @@ public abstract class FilterReader
             // have we got enough data left for the logical operator
             if (offset + 80 > varDataOffset)
             {
+               criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
                continue;
             }
 
@@ -160,18 +162,30 @@ public abstract class FilterReader
             switch (logicalOperator)
             {
                case 0x19 :
+               {
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
+                  lastLogicalAnd = true;
+                  offset += 80;
+                  break;
+               }
                case 0x1B :
                {
-                  criteria.setLogicalAnd(true);
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_AND);
                   lastLogicalAnd = true;
                   offset += 80;
                   break;
                }
 
                case 0x1A :
+               {
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_OR);
+                  lastLogicalAnd = false;
+                  offset += 80;
+                  break;
+               }
                case 0x1C :
                {
-                  criteria.setLogicalAnd(false);
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_OR);
                   lastLogicalAnd = false;
                   offset += 80;
                   break;
@@ -179,7 +193,14 @@ public abstract class FilterReader
 
                default :
                {
-                  criteria.setLogicalAnd(lastLogicalAnd);
+                  if (lastLogicalAnd)
+                  {
+                     criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
+                  }
+                  else
+                  {
+                     criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_OR);
+                  }
                   break;
                }
             }

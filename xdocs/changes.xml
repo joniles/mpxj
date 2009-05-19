@@ -19,7 +19,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2685750: Support for loading global.mpt.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2677836: lowercase table name won't work with db on linux machines.</action>						
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2540422: Standard Calendar localization import problem.</action>		
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2711415: strange duration conversion from database</action>				 	
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2711415: strange duration conversion from database</action>
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2791977: FilterCriteria not being read in properly (Contributed by James Styles)</action>							 	
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 12335: Infinite loop when reading an MPP9 file.</action>		
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 8469: Subproject flag not set correctly.</action>		
 		<action dev="joniles" type="fix">Updated to fix potential NPEs (Suggested by Steve Jonik).</action>

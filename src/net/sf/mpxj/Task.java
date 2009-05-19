@@ -3295,7 +3295,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
                totalSlack = finishSlack;
             }
          }
-         
+
          set(TaskField.TOTAL_SLACK, totalSlack);
       }
 

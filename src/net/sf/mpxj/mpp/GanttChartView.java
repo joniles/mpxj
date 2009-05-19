@@ -37,6 +37,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.FilterCriteria;
+import net.sf.mpxj.FilterCriteriaLogicType;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
@@ -1375,7 +1376,7 @@ public abstract class GanttChartView extends GenericView
          //         
          if (varDataOffset - 272 >= 272)
          {
-            criteria.setLogicalAnd((MPPUtility.getByte(data, offset + 272) & 0x01) == 1);
+            criteria.setCriteriaLogic((MPPUtility.getByte(data, offset + 272) & 0x01) == 1 ? FilterCriteriaLogicType.BETWEEN_BLOCK_AND : FilterCriteriaLogicType.BETWEEN_BLOCK_OR);
 
             criteria = new FilterCriteria(m_parent);
             filter.addCriteria(criteria);

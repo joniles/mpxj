@@ -158,21 +158,80 @@ public class Filter
       boolean result = true;
       if (!m_criteria.isEmpty())
       {
-         boolean logicalAnd = true;
+         boolean currentBlockResult = true;
+         boolean currentAnd = true;
+         boolean lastBlockAnd = true;
+
          for (FilterCriteria criteria : m_criteria)
          {
             boolean criteriaResult = criteria.evaluate(container);
-            if (logicalAnd)
+            if (currentAnd)
             {
-               result = result && criteriaResult;
+               currentBlockResult = currentBlockResult && criteriaResult;
             }
             else
             {
-               result = result || criteriaResult;
+               currentBlockResult = currentBlockResult || criteriaResult;
             }
-            logicalAnd = criteria.getLogicalAnd();
+
+            switch (criteria.getCriteriaLogic())
+            {
+               case IN_BLOCK_AND :
+               {
+                  currentAnd = true;
+                  break;
+               }
+
+               case IN_BLOCK_OR :
+               {
+                  currentAnd = false;
+                  break;
+               }
+
+               case BETWEEN_BLOCK_AND :
+               {
+                  if (lastBlockAnd)
+                  {
+                     result = result && currentBlockResult;
+                  }
+                  else
+                  {
+                     result = result || currentBlockResult;
+                  }
+
+                  currentAnd = true;
+                  currentBlockResult = true;
+                  lastBlockAnd = true;
+                  break;
+               }
+
+               case BETWEEN_BLOCK_OR :
+               {
+                  if (lastBlockAnd)
+                  {
+                     result = result && currentBlockResult;
+                  }
+                  else
+                  {
+                     result = result || currentBlockResult;
+                  }
+                  currentAnd = true;
+                  currentBlockResult = true;
+                  lastBlockAnd = false;
+                  break;
+               }
+            }
          }
-         
+
+         if (lastBlockAnd)
+         {
+            result = result && currentBlockResult;
+         }
+         else
+         {
+            result = result || currentBlockResult;
+         }
+
          //
          // If this row has failed, but it is a summary row, and we are
          // including related summary rows, then we need to recursively test
@@ -180,7 +239,7 @@ public class Filter
          //
          if (!result && m_showRelatedSummaryRows && container instanceof Task)
          {
-            for(Task task : ((Task)container).getChildTasks())
+            for (Task task : ((Task) container).getChildTasks())
             {
                if (evaluate(task))
                {
@@ -190,6 +249,7 @@ public class Filter
             }
          }
       }
+
       return (result);
    }
 

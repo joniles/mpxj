@@ -233,11 +233,10 @@ public final class NumberUtility
     * @param delta allowable difference
     * @return boolean value
     */
-   public static boolean equals (double lhs, double rhs, double delta)
+   public static boolean equals(double lhs, double rhs, double delta)
    {
-      return Math.abs(lhs-rhs)<delta;    
+      return Math.abs(lhs - rhs) < delta;
    }
-   
-   
+
    public static final Double DOUBLE_ZERO = Double.valueOf(0);
 }

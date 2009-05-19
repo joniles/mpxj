@@ -2840,7 +2840,7 @@ final class MPP9Reader implements MPPVariantReader
             List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, assignmentUnits, plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
             //System.out.println(timephasedPlanned);
-                     
+
             if (task.getSplits() != null && task.getSplits().isEmpty())
             {
                splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
@@ -2867,12 +2867,12 @@ final class MPP9Reader implements MPPVariantReader
                if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
                {
                   Duration workPerDay = DEFAULT_NORMALIZER_WORK_PER_DAY;
-                  int units = NumberUtility.getInt(assignment.getUnits()); 
+                  int units = NumberUtility.getInt(assignment.getUnits());
                   if (units != 100)
                   {
-                     workPerDay = Duration.getInstance((workPerDay.getDuration()*units)/100.0, workPerDay.getUnits());
+                     workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
                   }
-                  
+
                   TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
                   tra.setStart(assignmentStart);
                   tra.setWorkPerDay(workPerDay);
@@ -2881,7 +2881,7 @@ final class MPP9Reader implements MPPVariantReader
                   tra.setTotalWork(assignment.getWork().convertUnits(TimeUnit.MINUTES, m_file.getProjectHeader()));
                   timephasedPlanned.add(tra);
                }
-               
+
                assignment.setTimephasedPlanned(timephasedPlanned, true);
                assignment.setTimephasedComplete(timephasedComplete, true);
 
@@ -3111,7 +3111,6 @@ final class MPP9Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x02F70000;
-   
 
    /**
     * Calendar data types.
@@ -3473,6 +3472,6 @@ final class MPP9Reader implements MPPVariantReader
 
    private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
    private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
-   
+
    private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

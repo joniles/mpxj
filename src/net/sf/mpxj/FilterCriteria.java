@@ -57,9 +57,9 @@ public final class FilterCriteria extends GenericCriteria
     * 
     * @param logicalAnd boolean flag
     */
-   public void setLogicalAnd(boolean logicalAnd)
+   public void setCriteriaLogic(FilterCriteriaLogicType logicalAnd)
    {
-      m_logicalAnd = logicalAnd;
+      m_criteriaLogic = logicalAnd;
    }
 
    /**
@@ -67,9 +67,9 @@ public final class FilterCriteria extends GenericCriteria
     * 
     * @return boolean flag
     */
-   public boolean getLogicalAnd()
+   public FilterCriteriaLogicType getCriteriaLogic()
    {
-      return (m_logicalAnd);
+      return (m_criteriaLogic);
    }
 
    /**
@@ -116,8 +116,8 @@ public final class FilterCriteria extends GenericCriteria
    {
       StringBuffer sb = new StringBuffer();
       sb.append("[FilterCriteria");
-      sb.append(" logicalAnd=");
-      sb.append(m_logicalAnd);
+      sb.append(" logicType=");
+      sb.append(m_criteriaLogic);
 
       if (m_promptTextSet)
       {
@@ -134,7 +134,7 @@ public final class FilterCriteria extends GenericCriteria
       return (sb.toString());
    }
 
-   private boolean m_logicalAnd;
+   private FilterCriteriaLogicType m_criteriaLogic = FilterCriteriaLogicType.BETWEEN_BLOCK_AND;
    private String[] m_promptText = new String[2];
    private boolean m_promptTextSet;
 }
