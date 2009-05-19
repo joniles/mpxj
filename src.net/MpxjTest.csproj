@@ -31,21 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IKVM.OpenJDK.ClassLibrary, Version=0.36.0.11, Culture=neutral, PublicKeyToken=13235d27fcbfff58">
+    <Reference Include="IKVM.OpenJDK.ClassLibrary, Version=0.38.0.2, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\IKVM.OpenJDK.ClassLibrary.dll</HintPath>
+      <HintPath>..\lib.net\IKVM.OpenJDK.ClassLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="IKVM.Runtime, Version=0.36.0.11, Culture=neutral, PublicKeyToken=13235d27fcbfff58">
+    <Reference Include="IKVM.Runtime, Version=0.38.0.2, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\IKVM.Runtime.dll</HintPath>
+      <HintPath>..\lib.net\IKVM.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="junit, Version=0.0.0.0, Culture=neutral">
+    <Reference Include="junit, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\junit.dll</HintPath>
+      <HintPath>..\lib.net\junit.dll</HintPath>
     </Reference>
     <Reference Include="mpxj, Version=0.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib.net\mpxj.dll</HintPath>
+      <HintPath>..\lib.net\mpxj.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
