@@ -54,8 +54,22 @@ public class MppNullTaskTest extends MPXJTestCase
     */
    public void testMpd9NullTasks() throws Exception
    {
-      ProjectFile project = new MPDDatabaseReader().read(m_basedir + "/mpp9nulltasks.mpd");
-      testNullTasks(project);
+      try
+      {
+         ProjectFile project = new MPDDatabaseReader().read(m_basedir + "/mpp9nulltasks.mpd");
+         testNullTasks(project);
+      }
+
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
    }
 
    /**
