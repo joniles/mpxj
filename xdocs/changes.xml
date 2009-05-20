@@ -8,7 +8,7 @@
 
    <body> 
 
-	<release version="3.1.0" date="CVS HEAD">
+	<release version="3.1.0" date="20/05/2009">
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2545883: Plan file fails to load.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2540447: Resource Assignment Normaliser rounding problem.</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2631492: Column alignment values are incorrect.</action>		
