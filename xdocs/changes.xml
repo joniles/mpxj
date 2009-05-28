@@ -8,6 +8,10 @@
 
    <body> 
 
+	<release version="3.2.0" date="CVS HEAD">
+		<action dev="joniles" type="fix">Fixed logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>		
+	</release>
+	
 	<release version="3.1.0" date="20/05/2009">
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2545883: Plan file fails to load.</action>		
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2540447: Resource Assignment Normaliser rounding problem.</action>

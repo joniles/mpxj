@@ -87,7 +87,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals(9, (int) ((Duration) criteria.getValue(0)).getDuration());
       assertEquals(TimeUnit.DAYS, ((Duration) criteria.getValue(0)).getUnits());
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_AND, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_AND, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.DURATION, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
@@ -99,7 +99,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TaskField.NUMBER1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals(9, ((Double) criteria.getValue(0)).intValue());
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_OR, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_OR, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.NUMBER1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
@@ -110,7 +110,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TaskField.PERCENT_COMPLETE, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals(9, ((Double) criteria.getValue(0)).intValue());
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_OR, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_OR, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.PERCENT_COMPLETE, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
@@ -121,7 +121,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TaskField.COST1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals(9, ((Double) criteria.getValue(0)).intValue());
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_OR, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_OR, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.COST1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
@@ -132,7 +132,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TaskField.TEXT1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals("9", criteria.getValue(0));
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_OR, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_OR, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.TEXT1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
@@ -143,7 +143,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TaskField.FLAG1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals(Boolean.TRUE, criteria.getValue(0));
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_OR, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_OR, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.FLAG1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
@@ -154,7 +154,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       assertEquals(TaskField.DATE1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());
       assertEquals("09/09/1999", df.format((Date) criteria.getValue(0)));
-      assertEquals(FilterCriteriaLogicType.BETWEEN_BLOCK_OR, criteria.getCriteriaLogic());
+      assertEquals(FilterCriteriaLogicType.IN_BLOCK_OR, criteria.getCriteriaLogic());
       criteria = filter.getCriteria().get(1);
       assertEquals(TaskField.DATE1, criteria.getField());
       assertEquals(TestOperator.EQUALS, criteria.getOperator());

@@ -1376,7 +1376,31 @@ public abstract class GanttChartView extends GenericView
          //         
          if (varDataOffset - 272 >= 272)
          {
-            criteria.setCriteriaLogic((MPPUtility.getByte(data, offset + 272) & 0x01) == 1 ? FilterCriteriaLogicType.BETWEEN_BLOCK_AND : FilterCriteriaLogicType.BETWEEN_BLOCK_OR);
+            int logicType = MPPUtility.getByte(data, offset + 272);
+            switch (logicType)
+            {
+               case 0x1A :
+               {
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_OR);
+                  break;
+               }
+               case 0x1B :
+               {
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_AND);
+                  break;
+               }
+               case 0x1C :
+               {
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_OR);
+                  break;
+               }
+               case 0x19 :
+               default :
+               {
+                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
+                  break;
+               }
+            }
 
             criteria = new FilterCriteria(m_parent);
             filter.addCriteria(criteria);
