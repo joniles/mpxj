@@ -46,7 +46,6 @@ public class CostRateTableTest extends MPXJTestCase
     */
    public void testMpp9() throws Exception
    {
-      System.out.println(m_df.parse("01/01/1984 00:00").getTime());
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp9costratetable.mpp");
       testCostRateTable(file);
    }
