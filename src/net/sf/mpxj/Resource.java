@@ -4564,6 +4564,34 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
+    * Associates a complete cost rate table with the
+    * current resource. Note that the index corresponds with the
+    * letter label used by MS Project to identify each table.
+    * For example 0=Table A, 1=Table B, 2=Table C, and so on.
+    * 
+    * @param index table index
+    * @param crt table instance
+    */
+   public void setCostRateTable (int index, CostRateTable crt)
+   {
+      m_costRateTables[index] = crt;
+   }
+   
+   /**
+    * Retrieves a cost rate table associated with a resource.
+    * Note that the index corresponds with the
+    * letter label used by MS Project to identify each table.
+    * For example 0=Table A, 1=Table B, 2=Table C, and so on.
+    * 
+    * @param index table index
+    * @return table instance
+    */
+   public CostRateTable getCostRateTable(int index)
+   {
+      return m_costRateTables[index];
+   }
+   
+   /**
     * Maps a field index to a ResourceField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -5028,5 +5056,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private BookingType m_bookingType;
    private boolean m_enterprise;
    private Integer m_subprojectResourceUniqueID;
+   private CostRateTable[] m_costRateTables = new CostRateTable[5];
    private List<FieldListener> m_listeners;
 }

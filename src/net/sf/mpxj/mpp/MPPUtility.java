@@ -427,6 +427,19 @@ final class MPPUtility
    }
 
    /**
+    * Reads a combined date and time value expressed in tenths of a minute.
+    *
+    * @param data byte array of data
+    * @param offset location of data as offset into the array
+    * @return time value
+    */
+   public static final Date getTimestampFromTenths(byte[] data, int offset)
+   {
+      long ms = ((long) getInt(data, offset)) * 6000;
+      return (DateUtility.getTimestampFromLong(EPOCH + ms));
+   }
+
+   /**
     * Reads a combined date and time value.
     * The value is assumed to be at the start of the array.
     *
@@ -832,37 +845,7 @@ final class MPPUtility
     */
    public static TimeUnit getWorkTimeUnits(int value)
    {
-      TimeUnit result;
-
-      switch (value)
-      {
-         case 1 :
-         {
-            result = TimeUnit.MINUTES;
-            break;
-         }
-
-         case 3 :
-         {
-            result = TimeUnit.DAYS;
-            break;
-         }
-
-         case 4 :
-         {
-            result = TimeUnit.WEEKS;
-            break;
-         }
-
-         case 2 :
-         default :
-         {
-            result = TimeUnit.HOURS;
-            break;
-         }
-      }
-
-      return (result);
+      return TimeUnit.getInstance(value - 1);
    }
 
    /**

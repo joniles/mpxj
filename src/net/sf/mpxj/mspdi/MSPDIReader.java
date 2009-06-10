@@ -26,10 +26,13 @@ package net.sf.mpxj.mspdi;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -41,6 +44,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -52,6 +57,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -67,6 +73,7 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
+import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.NumberUtility;
@@ -590,6 +597,8 @@ public final class MSPDIReader extends AbstractProjectReader
       // ensure that we cache this value
       mpx.setOverAllocated(BooleanUtility.getBoolean(xml.isOverAllocated()));
 
+      readCostRateTables(mpx, xml.getRates());
+
       m_projectFile.fireResourceReadEvent(mpx);
    }
 
@@ -634,6 +643,69 @@ public final class MSPDIReader extends AbstractProjectReader
          int xmlFieldID = Integer.parseInt(attrib.getFieldID()) & 0x0000FFFF;
          ResourceField mpxFieldID = MPPResourceField.getInstance(xmlFieldID);
          DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID);
+      }
+   }
+
+   /**
+    * Reads the cost rate tables from the file.
+    * 
+    * @param resource parent resource
+    * @param rates XML cot rate tables
+    */
+   private void readCostRateTables(Resource resource, Rates rates)
+   {
+      if (rates == null)
+      {
+         CostRateTable table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         resource.setCostRateTable(0, table);
+         
+         table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         resource.setCostRateTable(1, table);
+         
+         table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         resource.setCostRateTable(2, table);
+         
+         table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         resource.setCostRateTable(3, table);
+         
+         table = new CostRateTable();
+         table.add(CostRateTableEntry.DEFAULT_ENTRY);
+         resource.setCostRateTable(4, table);
+      }
+      else
+      {
+         Set<CostRateTable> tables = new HashSet<CostRateTable>();
+
+         for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
+         {
+            Rate standardRate = DatatypeConverter.parseRate(rate.getStandardRate());
+            TimeUnit standardRateFormat = DatatypeConverter.parseTimeUnit(rate.getStandardRateFormat());
+            Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate());
+            TimeUnit overtimeRateFormat = DatatypeConverter.parseTimeUnit(rate.getOvertimeRateFormat());
+            Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
+            Date endDate = DatatypeConverter.parseDate(rate.getRatesTo());
+
+            CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
+
+            int tableIndex = rate.getRateTable().intValue();
+            CostRateTable table = resource.getCostRateTable(tableIndex);
+            if (table == null)
+            {
+               table = new CostRateTable();
+               resource.setCostRateTable(tableIndex, table);
+            }
+            table.add(entry);
+            tables.add(table);
+         }
+
+         for (CostRateTable table : tables)
+         {
+            Collections.sort(table);
+         }
       }
    }
 

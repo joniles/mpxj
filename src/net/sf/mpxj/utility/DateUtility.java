@@ -316,7 +316,17 @@ public final class DateUtility
       }
       return result;
    }
-
+    
+   /** 
+    * First date supported by Microsoft Project: January 01 00:00:00 1984. 
+    */      
+   public static final Date FIRST_DATE = DateUtility.getTimestampFromLong(441763200000L);
+   
+   /** 
+    * Last date supported by Microsoft Project: Friday December 31 23:59:00 2049. 
+    */   
+   public static final Date LAST_DATE = DateUtility.getTimestampFromLong(2524607946000L);
+   
    /**
     * Default value to use for DST savings if we are using a version
     * of Java < 1.4.

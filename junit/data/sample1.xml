@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/project">
-    <Name>MPXJ</Name>
-    <Title>MPXJ</Title>
+    <Name>MPXJ Sample</Name>
+    <Title>MPXJ Sample</Title>
     <ScheduleFromStart>1</ScheduleFromStart>
     <StartDate>2003-01-07T08:00:00</StartDate>
     <FinishDate>2003-03-18T08:00:00</FinishDate>
@@ -6093,6 +6093,58 @@ formatting.
                 <Cost>0</Cost>
             </Baseline>
             <IsBudget>0</IsBudget>
+            <Rates>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>0</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>1</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>2</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>3</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>4</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+            </Rates>
         </Resource>
         <Resource>
             <UID>2</UID>
@@ -6200,6 +6252,58 @@ formatting.
                 <Cost>0</Cost>
             </Baseline>
             <IsBudget>0</IsBudget>
+            <Rates>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>0</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>1</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>2</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>3</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+                <Rate>
+                    <RatesFrom>1984-01-01T00:00:00</RatesFrom>
+                    <RatesTo>2049-12-31T23:59:00</RatesTo>
+                    <RateTable>4</RateTable>
+                    <StandardRate>0</StandardRate>
+                    <StandardRateFormat>2</StandardRateFormat>
+                    <OvertimeRate>0</OvertimeRate>
+                    <OvertimeRateFormat>2</OvertimeRateFormat>
+                    <CostPerUse>0</CostPerUse>
+                </Rate>
+            </Rates>
         </Resource>
     </Resources>
     <Assignments>

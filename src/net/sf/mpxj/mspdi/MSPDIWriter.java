@@ -41,6 +41,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.CostRateTable;
+import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -66,6 +68,7 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
+import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -511,6 +514,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeResourceBaselines(xml, mpx);
 
+      writeCostRateTables(xml, mpx);
+
       return (xml);
    }
 
@@ -568,6 +573,43 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attrib.setFieldID(xmlFieldID.toString());
             attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
             attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         }
+      }
+   }
+
+   /**
+    * Writes a resource's cost rate tables.
+    * 
+    * @param xml MSPDI resource
+    * @param mpx MPXJ resource
+    */
+   private void writeCostRateTables(Project.Resources.Resource xml, Resource mpx)
+   {
+      Rates rates = m_factory.createProjectResourcesResourceRates();
+      xml.setRates(rates);
+      List<Project.Resources.Resource.Rates.Rate> ratesList = rates.getRate();
+
+      for (int tableIndex = 0; tableIndex < 5; tableIndex++)
+      {
+         CostRateTable table = mpx.getCostRateTable(tableIndex);
+         if (table != null)
+         {
+            Date from = DateUtility.FIRST_DATE;
+            for (CostRateTableEntry entry : table)
+            {
+               Project.Resources.Resource.Rates.Rate rate = m_factory.createProjectResourcesResourceRatesRate();
+               ratesList.add(rate);
+
+               rate.setCostPerUse(DatatypeConverter.printCurrency(entry.getCostPerUse()));
+               rate.setOvertimeRate(DatatypeConverter.printRate(entry.getOvertimeRate()));
+               rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRateFormat()));
+               rate.setRatesFrom(DatatypeConverter.printDate(from));
+               from = entry.getEndDate();
+               rate.setRatesTo(DatatypeConverter.printDate(from));
+               rate.setRateTable(BigInteger.valueOf(tableIndex));
+               rate.setStandardRate(DatatypeConverter.printRate(entry.getStandardRate()));
+               rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRateFormat()));
+            }
          }
       }
    }

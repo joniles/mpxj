@@ -60,14 +60,14 @@ public enum TimeUnit implements MpxjEnum
    MONTHS(4, "mo"),
 
    /**
-    * Constant representing Years.
-    */
-   YEARS(5, "y"),
-
-   /**
     * Constant representing Percent.
     */
-   PERCENT(6, "%"),
+   PERCENT(5, "%"),
+
+   /**
+    * Constant representing Years.
+    */
+   YEARS(6, "y"),
 
    /**
     * Constant representing Elapsed Minutes.

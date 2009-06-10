@@ -2764,6 +2764,16 @@ final class MPP9Reader implements MPPVariantReader
          //
          processResourceEnterpriseColumns(resource, rscVarData);
 
+         //
+         // Process cost rate tables
+         //
+         CostRateTableFactory crt = new CostRateTableFactory();
+         resource.setCostRateTable(0, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_A)));
+         resource.setCostRateTable(1, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_B)));
+         resource.setCostRateTable(2, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_C)));
+         resource.setCostRateTable(3, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_D)));
+         resource.setCostRateTable(4, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_E)));
+
          m_file.fireResourceReadEvent(resource);
       }
    }
@@ -3419,6 +3429,12 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST8 = Integer.valueOf(132);
    private static final Integer RESOURCE_COST9 = Integer.valueOf(133);
    private static final Integer RESOURCE_COST10 = Integer.valueOf(134);
+
+   private static final Integer RESOURCE_COST_RATE_A = Integer.valueOf(135);
+   private static final Integer RESOURCE_COST_RATE_B = Integer.valueOf(136);
+   private static final Integer RESOURCE_COST_RATE_C = Integer.valueOf(137);
+   private static final Integer RESOURCE_COST_RATE_D = Integer.valueOf(138);
+   private static final Integer RESOURCE_COST_RATE_E = Integer.valueOf(139);
 
    private static final Integer RESOURCE_ENTERPRISE_COLUMNS = Integer.valueOf(143);
 

@@ -9,6 +9,7 @@
    <body> 
 
 	<release version="3.2.0" date="CVS HEAD">
+		<action dev="joniles" type="add">Added support for Resource cost rate tables (Based on code by Andrei Missine).</action>	
 		<action dev="joniles" type="fix">Fixed logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>		
 	</release>
 	
