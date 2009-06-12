@@ -33,8 +33,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * This interface is implemented by classes which can create Table classes
- * from the data extracted from an MS Project file.
+ * Common code to read resource cost rate tables from MPP files.
  */
 final class CostRateTableFactory
 {

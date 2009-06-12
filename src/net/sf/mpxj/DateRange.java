@@ -25,10 +25,12 @@ package net.sf.mpxj;
 
 import java.util.Date;
 
+import net.sf.mpxj.utility.DateUtility;
+
 /**
  * This class represents a period of time.
  */
-public final class DateRange
+public final class DateRange implements Comparable<DateRange>
 {
    /**
     * Constructor.
@@ -60,6 +62,33 @@ public final class DateRange
    public Date getEnd()
    {
       return (m_end);
+   }
+
+   /**
+    * This method compares a target date with a date range. The method will
+    * return 0 if the date is within the range, less than zero if the date
+    * is before the range starts, and greater than zero if the date is after
+    * the range ends. 
+    * 
+    * @param date target date
+    * @return comparison result
+    */
+   public int compareTo(Date date)
+   {
+      return DateUtility.compare(m_start, m_end, date);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public int compareTo(DateRange o)
+   {
+      int result = net.sf.mpxj.utility.DateUtility.compare(m_start, o.m_start);
+      if (result == 0)
+      {
+         result = net.sf.mpxj.utility.DateUtility.compare(m_end, o.m_start);
+      }
+      return result;
    }
 
    /**

@@ -1,5 +1,5 @@
 /*
- * file:       CostRateTable.java
+ * file:       AvailabilityTable.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2009
  * date:       08/06/2009
@@ -26,12 +26,10 @@ package net.sf.mpxj;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.sf.mpxj.utility.DateUtility;
-
 /** 
- * This class represents a resource's cost rate table.
+ * This class represents a resource's availability table.
  */
-public class CostRateTable extends ArrayList<CostRateTableEntry>
+public class AvailabilityTable extends ArrayList<Availability>
 {
    /**
     * Retrieve the table entry valid for the supplied date. 
@@ -39,15 +37,20 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
     * @param date required date
     * @return cost rate table entry 
     */
-   public CostRateTableEntry getEntryByDate(Date date)
+   public Availability getEntryByDate(Date date)
    {
-      CostRateTableEntry result = null;
+      Availability result = null;
 
-      for (CostRateTableEntry entry : this)
+      for (Availability entry : this)
       {
-         if (DateUtility.compare(date, entry.getEndDate()) < 0)
+         DateRange range = entry.getRange();
+         int comparisonResult = range.compareTo(date);
+         if (comparisonResult >= 0)
          {
-            result = entry;
+            if (comparisonResult == 0)
+            {
+               result = entry;
+            }
             break;
          }
       }

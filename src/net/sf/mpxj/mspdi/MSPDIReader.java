@@ -44,6 +44,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
@@ -73,7 +75,9 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
+import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
+import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.BooleanUtility;
 import net.sf.mpxj.utility.NumberUtility;
@@ -599,6 +603,8 @@ public final class MSPDIReader extends AbstractProjectReader
 
       readCostRateTables(mpx, xml.getRates());
 
+      readAvailabilityTable(mpx, xml.getAvailabilityPeriods());
+
       m_projectFile.fireResourceReadEvent(mpx);
    }
 
@@ -659,19 +665,19 @@ public final class MSPDIReader extends AbstractProjectReader
          CostRateTable table = new CostRateTable();
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          resource.setCostRateTable(0, table);
-         
+
          table = new CostRateTable();
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          resource.setCostRateTable(1, table);
-         
+
          table = new CostRateTable();
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          resource.setCostRateTable(2, table);
-         
+
          table = new CostRateTable();
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          resource.setCostRateTable(3, table);
-         
+
          table = new CostRateTable();
          table.add(CostRateTableEntry.DEFAULT_ENTRY);
          resource.setCostRateTable(4, table);
@@ -706,6 +712,30 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             Collections.sort(table);
          }
+      }
+   }
+
+   /**
+    * Reads the availability table from the file.
+    * 
+    * @param resource MPXJ resource instance
+    * @param periods MSPDI availability periods
+    */
+   private void readAvailabilityTable(Resource resource, AvailabilityPeriods periods)
+   {
+      if (periods != null)
+      {
+         AvailabilityTable table = resource.getAvailability();
+         List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
+         for (AvailabilityPeriod period : list)
+         {
+            Date start = DatatypeConverter.parseDate(period.getAvailableFrom());
+            Date end = DatatypeConverter.parseDate(period.getAvailableTo());
+            Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
+            Availability availability = new Availability(start, end, units);
+            table.add(availability);
+         }
+         Collections.sort(table);
       }
    }
 

@@ -4592,6 +4592,16 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
    
    /**
+    * Retrieve the availability table for this resource.
+    * 
+    * @return availability table
+    */
+   public AvailabilityTable getAvailability()
+   {
+      return m_availability;
+   }
+   
+   /**
     * Maps a field index to a ResourceField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -5057,5 +5067,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private boolean m_enterprise;
    private Integer m_subprojectResourceUniqueID;
    private CostRateTable[] m_costRateTables = new CostRateTable[5];
+   private AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
 }

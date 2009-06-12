@@ -41,6 +41,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DateRange;
@@ -68,7 +69,9 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.TimephasedDataType;
+import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods;
 import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
+import net.sf.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -516,6 +519,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeCostRateTables(xml, mpx);
 
+      writeAvailability(xml, mpx);
+
       return (xml);
    }
 
@@ -611,6 +616,29 @@ public final class MSPDIWriter extends AbstractProjectWriter
                rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRateFormat()));
             }
          }
+      }
+   }
+
+   /**
+    * This method writes a resource's availability table.
+    * 
+    * @param xml MSPDI resource
+    * @param mpx MPXJ resource
+    */
+   private void writeAvailability(Project.Resources.Resource xml, Resource mpx)
+   {
+      AvailabilityPeriods periods = m_factory.createProjectResourcesResourceAvailabilityPeriods();
+      xml.setAvailabilityPeriods(periods);
+      List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
+      for (Availability availability : mpx.getAvailability())
+      {
+         AvailabilityPeriod period = m_factory.createProjectResourcesResourceAvailabilityPeriodsAvailabilityPeriod();
+         list.add(period);
+         DateRange range = availability.getRange();
+
+         period.setAvailableFrom(DatatypeConverter.printDate(range.getStart()));
+         period.setAvailableTo(DatatypeConverter.printDate(range.getEnd()));
+         period.setAvailableUnits(DatatypeConverter.printUnits(availability.getUnits()));
       }
    }
 

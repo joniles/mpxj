@@ -134,9 +134,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    public int compareTo(CostRateTableEntry o)
    {
-      long id1 = m_endDate.getTime();
-      long id2 = o.m_endDate.getTime();
-      return ((id1 < id2) ? (-1) : ((id1 == id2) ? 0 : 1));
+      return DateUtility.compare(m_endDate, o.m_endDate);
    }
 
    /**

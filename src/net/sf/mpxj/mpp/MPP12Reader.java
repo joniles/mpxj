@@ -2785,6 +2785,12 @@ final class MPP12Reader implements MPPVariantReader
          resource.setCostRateTable(3, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_D)));
          resource.setCostRateTable(4, crt.process(rscVarData.getByteArray(id, RESOURCE_COST_RATE_E)));
 
+         //
+         // Process availability table
+         //
+         AvailabilityFactory af = new AvailabilityFactory();
+         af.process(resource.getAvailability(), rscVarData.getByteArray(id, RESOURCE_AVAILABILITY));
+
          m_file.fireResourceReadEvent(resource);
       }
    }
@@ -4049,6 +4055,8 @@ final class MPP12Reader implements MPPVariantReader
    private static final Integer RESOURCE_COST_RATE_D = Integer.valueOf(64);
    private static final Integer RESOURCE_COST_RATE_E = Integer.valueOf(65);
 
+   private static final Integer RESOURCE_AVAILABILITY = Integer.valueOf(276);
+   
    private static final int VALUE_LIST_MASK = 0x0701;
 
    /**
