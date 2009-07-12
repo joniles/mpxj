@@ -26,7 +26,7 @@
    <property name="distribution" value="${basedir}/../mpxj.zip" />
    <property name="mspdi-schema.dir" value="/net/sf/mpxj/mspdi/schema" />
 	<property name="planner-schema.dir" value="/net/sf/mpxj/planner/schema" />
-	<property name="ikvm.dir" value="C:\java\ikvm-0.38.0.2" />
+	<property name="ikvm.dir" value="C:\java\ikvm-0.40.0.1" />
 		
 	<!-- 
 		MPXJ is targeted at Java 1.5, so to ensure that the builds we distribute
