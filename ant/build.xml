@@ -9,7 +9,7 @@
 <target name="init-props" description="Initialize properties">
    <tstamp/>
 	
-	<property name="current.version" value="3.0.1" />
+	<property name="current.version" value="3.2.0" />
 	
    <!-- 
    	The following two properties are only required if you want to use the xjc target.
@@ -102,15 +102,15 @@
 
 <target name="dll" depends="compile" description="Build .net DLLs" if="ikvmc.exists">	
    <exec executable="${ikvmc.exe}" dir="${basedir}">
-	<arg line="-nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version} ${basedir}\lib\${poi.jar}.jar" />
+	<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${poi.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${basedir}\lib\${poi.jar}.jar" />
    </exec>	
 	
    <exec executable="${ikvmc.exe}" dir="${basedir}">
-	<arg line="-nowarn:0003 -out:${junit.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version} ${basedir}\junit\junit.jar" />
+	<arg line="-nowarn:0003 -out:${junit.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 ${basedir}\junit\junit.jar" />
    </exec>	
 
    <exec executable="${ikvmc.exe}" dir="${basedir}">
-	<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version} -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
+	<arg line="-nowarn:0003 -out:${mpxj.dll} -target:library -keyfile:${basedir}\mpxj.snk -version:${current.version}.0 -reference:${basedir}\lib.net\${poi.jar}.dll -reference:${basedir}\lib.net\junit.dll ${basedir}\mpxj.jar" />
    </exec>	
 </target>
 
