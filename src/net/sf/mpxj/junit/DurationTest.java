@@ -86,8 +86,22 @@ public class DurationTest extends MPXJTestCase
     */
    public void testMpd() throws Exception
    {
-      ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpdduration.mpd");
-      testDurations(mpp);
+      try
+      {
+         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpdduration.mpd");
+         testDurations(mpp);
+      }
+      
+      catch (Exception ex)
+      {
+         //
+         // JDBC not supported in IKVM
+         //
+         if (!m_ikvm)
+         {
+            throw ex;
+         }
+      }
    }
 
    /**
