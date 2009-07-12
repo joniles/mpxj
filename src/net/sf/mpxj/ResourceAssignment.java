@@ -414,7 +414,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setTimephasedComplete(List<TimephasedResourceAssignment> timephasedComplete, boolean raw)
    {
-      if (timephasedComplete instanceof LinkedList)
+      if (timephasedComplete instanceof LinkedList<?> )
       {
          m_timephasedComplete = (LinkedList<TimephasedResourceAssignment>) timephasedComplete;
       }
@@ -450,7 +450,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setTimephasedPlanned(List<TimephasedResourceAssignment> timephasedPlanned, boolean raw)
    {
-      if (timephasedPlanned instanceof LinkedList)
+      if (timephasedPlanned instanceof LinkedList<?>)
       {
          m_timephasedPlanned = (LinkedList<TimephasedResourceAssignment>) timephasedPlanned;
       }
