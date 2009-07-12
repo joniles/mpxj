@@ -23,14 +23,12 @@
 
 package net.sf.mpxj.utility;
 
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
-import javax.swing.text.Document;
-import javax.swing.text.rtf.RTFEditorKit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class is used to collect together utility functions for manipulating
@@ -46,51 +44,9 @@ public final class RTFUtility
     */
    public String strip(String text)
    {
-      initialise();
-
       text = processDoubleByteChars(text);
-
-      String result;
-
-      try
-      {
-         int length = m_doc.getLength();
-         if (length != 0)
-         {
-            m_doc.remove(0, length);
-         }
-
-         StringReader reader = new StringReader(text);
-
-         m_editor.read(reader, m_doc, 0);
-
-         result = m_doc.getText(0, m_doc.getLength());
-      }
-
-      catch (Exception ex)
-      {
-         result = text;
-      }
-
-      return (result);
-   }
-
-   /**
-    * This method is used to initialise the underlying objects that are used
-    * by this utility class. We use lazy instantiation here to avoid the
-    * overhead of creating these objects if they are not used.
-    */
-   private void initialise()
-   {
-      if (m_editor == null)
-      {
-         m_editor = new RTFEditorKit();
-      }
-
-      if (m_doc == null)
-      {
-         m_doc = m_editor.createDefaultDocument();
-      }
+      text = regexpStrip(text);
+      return text;
    }
 
    /**
@@ -236,8 +192,127 @@ public final class RTFUtility
       return (result);
    }
 
-   private RTFEditorKit m_editor;
-   private Document m_doc;
+   public String regexpStrip(String rtf)
+   {
+      rtf = stripCommands("{\\object", rtf);
+      
+      //System.out.println(RTF_PATTERN.pattern());
+      StringBuffer sb = new StringBuffer();
+      try
+      {
+         Matcher m = RTF_PATTERN.matcher(rtf);
+         int index = 0;
+
+         while (m.find())
+         {
+            if (m.start() != index)
+            {
+               String value = rtf.substring(index, m.start());
+               sb.append(value);
+            }
+
+            String group = m.group().trim();
+            String mapped = RTF_MAPPING.get(group);
+            if (mapped != null)
+            {
+               sb.append(mapped);
+            }
+
+            index = m.end();
+         }
+      }
+      catch (Exception ex)
+      {
+         System.out.println(ex);
+      }
+
+      return sb.toString();
+   }
+
+   private String stripCommands(String command, String rtf)
+   {
+      //
+      // Do we have embedded binary data?
+      //
+      int startIndex = rtf.indexOf(command);
+      if (startIndex != -1)
+      {
+         StringBuffer sb = new StringBuffer(rtf);
+         do
+         {
+            //
+            // Find the end of the enclosing block
+            //
+            int endIndex = startIndex+1;
+            int nesting = 1;
+            while (nesting != 0 && endIndex < sb.length())
+            {
+               char c = sb.charAt(endIndex);
+               switch (c)
+               {
+                  case '{':
+                  {
+                     ++nesting;
+                     break;
+                  }
+                  
+                  case '}':
+                  {
+                     --nesting;
+                     break;
+                  }                  
+               }
+               
+               ++endIndex;
+            }
+
+            //
+            // Unexpected format - bail out
+            //
+            if (nesting != 0)
+            {
+               break;
+            }
+            --endIndex;
+            
+            //
+            // Remove the block
+            //
+            sb.replace(startIndex, endIndex, "");
+
+            //
+            // Find the next entry
+            //
+            startIndex = sb.indexOf(command, startIndex);
+         }
+         while (startIndex != -1);
+
+         rtf = sb.toString();
+      }
+
+      return rtf;
+   }
+
+
+   /**
+    * Pattern used to match RTF syntax.
+    */
+   private static final Pattern RTF_PATTERN = Pattern.compile("(\\\\\\\\)|(\\\\~)|(\\{\\\\stylesheet.*\\{.*\\}\\{.*\\}\\})|(\\{\\\\[A-Za-z]* .*\\})|(\\\\[A-Za-z]* .*;\\})|(\\\\[A-Za-z]*-?[0-9]* .*;\\})|(\\\\[A-Za-z]*-?[0-9]+ )|(\\\\[A-Za-z]*-?[0-9]+)|(\\\\\\*)|(\\\\[A-Za-z]* )|(\\\\[A-Za-z]*)|(\\\\\\{)|(\\\\\\})|(\\{)|(\\})|(\\r\\n)");
+ 
+   private static final Map<String, String> RTF_MAPPING = new HashMap<String, String>();
+   static
+   {
+      RTF_MAPPING.put("\\par", "\n");
+      RTF_MAPPING.put("\\tab", "\t");
+      RTF_MAPPING.put("\\\\", "\\");
+      RTF_MAPPING.put("\\{", "{");
+      RTF_MAPPING.put("\\}", "}");
+      RTF_MAPPING.put("\\rquote", "’");
+      RTF_MAPPING.put("\\endash","–");
+      RTF_MAPPING.put("\\ldblquote","“");
+      RTF_MAPPING.put("\\rdblquote","”");
+      RTF_MAPPING.put("\\~"," ");
+   }
 
    /**
     * Mapping between locale IDs and Java character encoding names.
