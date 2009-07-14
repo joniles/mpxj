@@ -99,8 +99,8 @@ public final class PlannerWriter extends AbstractProjectWriter
          // does not appear to have a particularly robust parser, and rejects
          // files with the full XML declaration produced by JAXB. The
          // following property suppresses this declaration.
-         //
-         marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", Boolean.FALSE);
+         //         
+         marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
          m_factory = new ObjectFactory();
          m_plannerProject = m_factory.createProject();
@@ -116,7 +116,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       catch (JAXBException ex)
       {
-         throw new IOException(ex.toString());
+         throw new IOException(ex.toString(), ex);
       }
 
       finally
