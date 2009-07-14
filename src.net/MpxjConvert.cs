@@ -37,15 +37,15 @@ namespace MpxjSample
             DateTime start = DateTime.Now;
             ProjectReader reader = ProjectReaderUtility.getProjectReader(inputFile);
             ProjectFile projectFile = reader.read(inputFile);
-            long elapsed = DateTime.Now.Ticks - start.Ticks;
-            Console.Out.WriteLine("Reading input file completed in " + elapsed + "ms.");
+            TimeSpan elapsed = DateTime.Now - start;
+            Console.Out.WriteLine("Reading input file completed in " + elapsed.TotalMilliseconds + "ms.");
 
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
             ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
             writer.write(projectFile, outputFile);
-            elapsed = DateTime.Now.Ticks - start.Ticks;
-            Console.Out.WriteLine("Writing output completed in " + elapsed + "ms.");
+            elapsed = DateTime.Now - start;
+            Console.Out.WriteLine("Writing output completed in " + elapsed.TotalMilliseconds + "ms.");
         }
     }
 }
