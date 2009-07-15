@@ -2992,11 +2992,7 @@ final class MPP12Reader implements MPPVariantReader
 
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-      int tableCount = varMeta.getUniqueIdentifierSet().size();
-      DocumentInputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
-      int fixedItemSize = is.available() / tableCount;
-      FixedData fixedData = new FixedData(fixedItemSize, is);
-
+      FixedData fixedData = new FixedData(230, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData"))));
       //System.out.println(varMeta);
       //System.out.println(varData);
       //System.out.println(fixedData);
