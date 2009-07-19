@@ -116,7 +116,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       catch (JAXBException ex)
       {
-         throw new IOException(ex.toString(), ex);
+         throw new IOException(ex.toString());
       }
 
       finally
