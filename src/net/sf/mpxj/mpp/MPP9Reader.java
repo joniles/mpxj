@@ -68,6 +68,7 @@ import net.sf.mpxj.TimephasedResourceAssignment;
 import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
 import net.sf.mpxj.utility.RTFUtility;
@@ -1954,11 +1955,11 @@ final class MPP9Reader implements MPPVariantReader
             //            
             case AS_LATE_AS_POSSIBLE :
             {
-               if (task.getStart().getTime() < task.getLateStart().getTime())
+               if (DateUtility.compare(task.getStart(), task.getLateStart()) < 0)
                {
                   task.setStart(task.getLateStart());
                }
-               if (task.getFinish().getTime() < task.getLateFinish().getTime())
+               if (DateUtility.compare(task.getFinish(), task.getLateFinish()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
@@ -1968,7 +1969,7 @@ final class MPP9Reader implements MPPVariantReader
             case START_NO_LATER_THAN :
             case FINISH_NO_LATER_THAN :
             {
-               if (task.getFinish().getTime() < task.getStart().getTime())
+               if (DateUtility.compare(task.getFinish(), task.getStart()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
