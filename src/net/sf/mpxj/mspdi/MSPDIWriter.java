@@ -128,14 +128,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeProjectHeader(Project project)
    {
       ProjectHeader header = m_projectFile.getProjectHeader();
-
+         
       project.setActualsInSync(Boolean.valueOf(header.getActualsInSync()));
       project.setAdminProject(Boolean.valueOf(header.getAdminProject()));
       project.setAuthor(header.getAuthor());
       project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(header.getAutoAddNewResourcesAndTasks()));
       project.setAutolink(Boolean.valueOf(header.getAutolink()));
       project.setBaselineForEarnedValue(NumberUtility.getBigInteger(header.getBaselineForEarnedValue()));
-      project.setCalendarUID(BigInteger.ONE);
+      project.setCalendarUID(m_projectFile.getCalendar()==null?BigInteger.ONE:NumberUtility.getBigInteger(m_projectFile.getCalendar().getUniqueID()));
       project.setCategory(header.getCategory());
       project.setCompany(header.getCompany());
       project.setCreationDate(DatatypeConverter.printDate(header.getCreationDate()));

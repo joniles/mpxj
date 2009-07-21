@@ -11,7 +11,8 @@
 	<release version="3.2.0" date="CVS HEAD">
 		<action dev="joniles" type="add">Added support for Resource cost rate tables (Based on code by Andrei Missine).</action>	
 		<action dev="joniles" type="add">Added support for Resource availability (Based on code by Andrei Missine).</action>
-		<action dev="joniles" type="fix">Fixed logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>		
+		<action dev="joniles" type="fix">Fixed logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>				
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2822616: MPXJ Issue: Related to Project Calendar.</action>		
 	</release>
 	
 	<release version="3.1.0" date="20/05/2009">

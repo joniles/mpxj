@@ -181,14 +181,15 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readProjectHeader(Project project)
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();
-
+      ProjectHeader header = m_projectFile.getProjectHeader();     
+      
       header.setActualsInSync(BooleanUtility.getBoolean(project.isActualsInSync()));
       header.setAdminProject(BooleanUtility.getBoolean(project.isAdminProject()));
       header.setAuthor(project.getAuthor());
       header.setAutoAddNewResourcesAndTasks(BooleanUtility.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       header.setAutolink(BooleanUtility.getBoolean(project.isAutolink()));
       header.setBaselineForEarnedValue(NumberUtility.getInteger(project.getBaselineForEarnedValue()));
+      header.setCalendarName(project.getCalendarUID()==null?null:project.getCalendarUID().toString());
       header.setCategory(project.getCategory());
       header.setCompany(project.getCompany());
       header.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
@@ -244,7 +245,6 @@ public final class MSPDIReader extends AbstractProjectReader
       header.setUniqueID(project.getUID());
       header.setUpdatingTaskStatusUpdatesResourceStatus(BooleanUtility.getBoolean(project.isTaskUpdatesResource()));
       header.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
-
    }
 
    /**
@@ -264,6 +264,19 @@ public final class MSPDIReader extends AbstractProjectReader
             readCalendar(cal, map, baseCalendars);
          }
          updateBaseCalendarNames(baseCalendars, map);
+      }
+      
+      try
+      {
+         ProjectHeader header = m_projectFile.getProjectHeader();
+         BigInteger calendarID = new BigInteger(header.getCalendarName());
+         ProjectCalendar calendar = map.get(calendarID);
+         m_projectFile.setCalendar(calendar);
+      }
+      
+      catch (Exception ex)
+      {
+         // Ignore exceptions
       }
    }
 
@@ -290,6 +303,8 @@ public final class MSPDIReader extends AbstractProjectReader
             cal.setBaseCalendar(baseCal);
          }
       }
+      
+      
    }
 
    /**
