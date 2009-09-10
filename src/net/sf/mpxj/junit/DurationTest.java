@@ -91,7 +91,7 @@ public class DurationTest extends MPXJTestCase
          ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpdduration.mpd");
          testDurations(mpp);
       }
-      
+
       catch (Exception ex)
       {
          //

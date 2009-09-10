@@ -43,13 +43,13 @@ final class AvailabilityFactory
     * @param data file data
     */
    public void process(AvailabilityTable table, byte[] data)
-   {      
+   {
       if (data != null)
       {
          Calendar cal = Calendar.getInstance();
          int items = MPPUtility.getShort(data, 0);
          int offset = 12;
-         
+
          for (int loop = 0; loop < items; loop++)
          {
             double unitsValue = MPPUtility.getDouble(data, offset + 4);

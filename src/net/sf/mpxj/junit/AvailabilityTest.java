@@ -94,11 +94,11 @@ public class AvailabilityTest extends MPXJTestCase
       assertEquals("Resource Two", resource.getName());
       table = resource.getAvailability();
       assertEquals(3, table.size());
-      
+
       assertEquals("01/06/2009 00:00", "01/07/2009 23:59", 100.0, table, 0);
       assertEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
       assertEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
-      
+
       //
       // Validate date-based row selection
       //
@@ -107,7 +107,7 @@ public class AvailabilityTest extends MPXJTestCase
       entry = table.getEntryByDate(m_df.parse("03/07/2009 12:00"));
       assertEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
       entry = table.getEntryByDate(m_df.parse("02/08/2009 12:00"));
-      assertNull(entry);      
+      assertNull(entry);
       entry = table.getEntryByDate(m_df.parse("21/08/2009 12:00"));
       assertEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
       entry = table.getEntryByDate(m_df.parse("01/09/2009 12:00"));

@@ -44,17 +44,17 @@ final class CostRateTableFactory
     * @return CostRateTable instance
     */
    public CostRateTable process(byte[] data)
-   {      
+   {
       CostRateTable result = new CostRateTable();
 
       if (data != null)
       {
          for (int i = 16; i + 44 <= data.length; i += 44)
-         {            
+         {
             Rate standardRate = new Rate(MPPUtility.getDouble(data, i), TimeUnit.HOURS);
-            TimeUnit standardRateFormat = getFormat(MPPUtility.getShort(data,i+8));
+            TimeUnit standardRateFormat = getFormat(MPPUtility.getShort(data, i + 8));
             Rate overtimeRate = new Rate(MPPUtility.getDouble(data, i + 16), TimeUnit.HOURS);
-            TimeUnit overtimeRateFormat = getFormat(MPPUtility.getShort(data,i+24));
+            TimeUnit overtimeRateFormat = getFormat(MPPUtility.getShort(data, i + 24));
             Double costPerUse = NumberUtility.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);
             Date endDate = MPPUtility.getTimestampFromTenths(data, i + 40);
             CostRateTableEntry entry = new CostRateTableEntry(standardRate, standardRateFormat, overtimeRate, overtimeRateFormat, costPerUse, endDate);
@@ -69,14 +69,14 @@ final class CostRateTableFactory
 
       return result;
    }
-   
+
    /**
     * Converts an integer into a time format.
     * 
     * @param format integer format value
     * @return TimeUnit instance
     */
-   private TimeUnit getFormat (int format)
+   private TimeUnit getFormat(int format)
    {
       TimeUnit result;
       if (format == 0xFFFF)
@@ -90,4 +90,3 @@ final class CostRateTableFactory
       return result;
    }
 }
-

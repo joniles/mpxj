@@ -46,7 +46,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
       m_standardRateFormat = TimeUnit.HOURS;
       m_overtimeRate = m_standardRate;
       m_overtimeRateFormat = TimeUnit.HOURS;
-      m_costPerUse = NumberUtility.getDouble(0);      
+      m_costPerUse = NumberUtility.getDouble(0);
    }
 
    /**
@@ -94,11 +94,11 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * 
     * @return standard rate format
     */
-   public TimeUnit getStandardRateFormat ()
+   public TimeUnit getStandardRateFormat()
    {
       return m_standardRateFormat;
    }
-   
+
    /**
     * Retrieves the overtime rate represented by this entry.
     * 
@@ -113,12 +113,12 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * Retrieves the format used when displaying the overtime rate.
     * 
     * @return overtime rate format
-    */   
-   public TimeUnit getOvertimeRateFormat ()
+    */
+   public TimeUnit getOvertimeRateFormat()
    {
       return m_overtimeRateFormat;
    }
-   
+
    /**
     * Retrieves the cost per use represented by this entry.
     * 
@@ -149,7 +149,7 @@ public class CostRateTableEntry implements Comparable<CostRateTableEntry>
    private Rate m_standardRate;
    private TimeUnit m_standardRateFormat;
    private Rate m_overtimeRate;
-   private TimeUnit m_overtimeRateFormat;   
+   private TimeUnit m_overtimeRateFormat;
    private Double m_costPerUse;
 
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
