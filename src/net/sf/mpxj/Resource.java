@@ -4572,11 +4572,11 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param index table index
     * @param crt table instance
     */
-   public void setCostRateTable (int index, CostRateTable crt)
+   public void setCostRateTable(int index, CostRateTable crt)
    {
       m_costRateTables[index] = crt;
    }
-   
+
    /**
     * Retrieves a cost rate table associated with a resource.
     * Note that the index corresponds with the
@@ -4590,7 +4590,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       return m_costRateTables[index];
    }
-   
+
    /**
     * Retrieve the availability table for this resource.
     * 
@@ -4600,7 +4600,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    {
       return m_availability;
    }
-   
+
    /**
     * Maps a field index to a ResourceField instance.
     * 

@@ -414,7 +414,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setTimephasedComplete(List<TimephasedResourceAssignment> timephasedComplete, boolean raw)
    {
-      if (timephasedComplete instanceof LinkedList<?> )
+      if (timephasedComplete instanceof LinkedList<?>)
       {
          m_timephasedComplete = (LinkedList<TimephasedResourceAssignment>) timephasedComplete;
       }

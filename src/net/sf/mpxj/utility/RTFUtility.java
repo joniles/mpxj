@@ -192,10 +192,17 @@ public final class RTFUtility
       return (result);
    }
 
-   public String regexpStrip(String rtf)
+   /**
+    * Strip RTF file using regular expressions to remove most
+    * of the RTF commands.
+    * 
+    * @param rtf input RTF text
+    * @return stripped text
+    */
+   private String regexpStrip(String rtf)
    {
       rtf = stripCommands("{\\object", rtf);
-      
+
       //System.out.println(RTF_PATTERN.pattern());
       StringBuffer sb = new StringBuffer();
       try
@@ -229,6 +236,14 @@ public final class RTFUtility
       return sb.toString();
    }
 
+   /**
+    * Utility method to explicitly strip individual commands not managed 
+    * by the regular expression.
+    * 
+    * @param command command to strip
+    * @param rtf RTF text
+    * @return stripped text
+    */
    private String stripCommands(String command, String rtf)
    {
       //
@@ -243,26 +258,26 @@ public final class RTFUtility
             //
             // Find the end of the enclosing block
             //
-            int endIndex = startIndex+1;
+            int endIndex = startIndex + 1;
             int nesting = 1;
             while (nesting != 0 && endIndex < sb.length())
             {
                char c = sb.charAt(endIndex);
                switch (c)
                {
-                  case '{':
+                  case '{' :
                   {
                      ++nesting;
                      break;
                   }
-                  
-                  case '}':
+
+                  case '}' :
                   {
                      --nesting;
                      break;
-                  }                  
+                  }
                }
-               
+
                ++endIndex;
             }
 
@@ -274,7 +289,7 @@ public final class RTFUtility
                break;
             }
             --endIndex;
-            
+
             //
             // Remove the block
             //
@@ -293,12 +308,11 @@ public final class RTFUtility
       return rtf;
    }
 
-
    /**
     * Pattern used to match RTF syntax.
     */
    private static final Pattern RTF_PATTERN = Pattern.compile("(\\\\\\\\)|(\\\\~)|(\\{\\\\stylesheet.*\\{.*\\}\\{.*\\}\\})|(\\{\\\\[A-Za-z]* .*\\})|(\\\\[A-Za-z]* .*;\\})|(\\\\[A-Za-z]*-?[0-9]* .*;\\})|(\\\\[A-Za-z]*-?[0-9]+ )|(\\\\[A-Za-z]*-?[0-9]+)|(\\\\\\*)|(\\\\[A-Za-z]* )|(\\\\[A-Za-z]*)|(\\\\\\{)|(\\\\\\})|(\\{)|(\\})|(\\r\\n)");
- 
+
    private static final Map<String, String> RTF_MAPPING = new HashMap<String, String>();
    static
    {
@@ -308,10 +322,10 @@ public final class RTFUtility
       RTF_MAPPING.put("\\{", "{");
       RTF_MAPPING.put("\\}", "}");
       RTF_MAPPING.put("\\rquote", "’");
-      RTF_MAPPING.put("\\endash","–");
-      RTF_MAPPING.put("\\ldblquote","“");
-      RTF_MAPPING.put("\\rdblquote","”");
-      RTF_MAPPING.put("\\~"," ");
+      RTF_MAPPING.put("\\endash", "–");
+      RTF_MAPPING.put("\\ldblquote", "“");
+      RTF_MAPPING.put("\\rdblquote", "”");
+      RTF_MAPPING.put("\\~", " ");
    }
 
    /**
