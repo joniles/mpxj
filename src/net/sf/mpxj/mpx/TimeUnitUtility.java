@@ -55,7 +55,7 @@ final class TimeUnitUtility
    @SuppressWarnings("unchecked") public static TimeUnit getInstance(String units, Locale locale) throws MPXJException
    {
       Map<String, Integer> map = LocaleData.getMap(locale, LocaleData.TIME_UNITS_MAP);
-      Integer result = map.get(units);
+      Integer result = map.get(units.toLowerCase());
       if (result == null)
       {
          throw new MPXJException(MPXJException.INVALID_TIME_UNIT + " " + units);
