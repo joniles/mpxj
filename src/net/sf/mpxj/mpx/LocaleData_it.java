@@ -45,22 +45,50 @@ public final class LocaleData_it extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[] TIME_UNITS_ARRAY_DATA =
+   private static final String[][] TIME_UNITS_ARRAY_DATA =
    {
-      "r",
-      "o",
-      "g",
-      "s",
-      "m",
-      "a",
-      "%",
-      "tr",
-      "to",
-      "tg",
-      "ts",
-      "tm",
-      "ta",
-      "t%"
+      {
+         "r"
+      },
+      {
+         "o"
+      },
+      {
+         "g"
+      },
+      {
+         "s"
+      },
+      {
+         "m"
+      },
+      {
+         "a"
+      },
+      {
+         "%"
+      },
+      {
+         "tr"
+      },
+      {
+         "to"
+      },
+      {
+         "tg"
+      },
+      {
+         "ts"
+      },
+      {
+         "tm"
+      },
+      {
+         "ta"
+      },
+      {
+         "t%"
+      }
    };
    private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
@@ -68,7 +96,11 @@ public final class LocaleData_it extends ListResourceBundle
    {
       for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
-         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
+         Integer value = Integer.valueOf(loop);
+         for (String name : TIME_UNITS_ARRAY_DATA[loop])
+         {
+            TIME_UNITS_MAP_DATA.put(name, value);
+         }
       }
    }
 

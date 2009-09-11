@@ -81,6 +81,10 @@ final class DurationUtility
          {
             ++index;
             duration = format.parse(dur.substring(0, index)).doubleValue();
+            while ((index < lastIndex) && (Character.isWhitespace(dur.charAt(index))))
+            {
+               ++index;
+            }
             units = TimeUnitUtility.getInstance(dur.substring(index), locale);
          }
 

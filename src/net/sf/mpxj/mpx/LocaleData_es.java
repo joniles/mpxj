@@ -47,22 +47,51 @@ public final class LocaleData_es extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[] TIME_UNITS_ARRAY_DATA =
+   private static final String[][] TIME_UNITS_ARRAY_DATA =
    {
-      "m", // Minutes - Minutos
-      "h", // Hours - Horas
-      "d", // Days - Dí­as
-      "s", // Weeks - Semanas
-      "ms", // Months - Meses
-      "a", // Years - Años
-      "%", // Percent - Porcentaje
-      "em", // Elapsed Minutes - Minutos Transcurridos
-      "eh", // Elapsed Hours - Horas Transcurridos
-      "ed", // Elapsed Days - DÃ­as Transcurridos
-      "es", // Elapsed Weeks - Semanas Transcurridas
-      "ems", // Elapsed Months - Meses Transcurridos
-      "ea", // Elapsed Years - Años Transcurridos
-      "e%" // Elapsed Percent - Porcentaje Transcurridos
+      {
+         "m"
+      }, // Minutes - Minutos
+      {
+         "h"
+      }, // Hours - Horas
+      {
+         "d"
+      }, // Days - Dí­as
+      {
+         "s"
+      }, // Weeks - Semanas
+      {
+         "ms"
+      }, // Months - Meses
+      {
+         "a"
+      }, // Years - Años
+      {
+         "%"
+      }, // Percent - Porcentaje
+      {
+         "em"
+      }, // Elapsed Minutes - Minutos Transcurridos
+      {
+         "eh"
+      }, // Elapsed Hours - Horas Transcurridos
+      {
+         "ed"
+      }, // Elapsed Days - DÃ­as Transcurridos
+      {
+         "es"
+      }, // Elapsed Weeks - Semanas Transcurridas
+      {
+         "ems"
+      }, // Elapsed Months - Meses Transcurridos
+      {
+         "ea"
+      }, // Elapsed Years - Años Transcurridos
+      {
+         "e%"
+      }
+   // Elapsed Percent - Porcentaje Transcurridos
    };
 
    private static final Map<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
@@ -71,7 +100,11 @@ public final class LocaleData_es extends ListResourceBundle
    {
       for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
-         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
+         Integer value = Integer.valueOf(loop);
+         for (String name : TIME_UNITS_ARRAY_DATA[loop])
+         {
+            TIME_UNITS_MAP_DATA.put(name, value);
+         }
       }
    }
 

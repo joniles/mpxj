@@ -76,6 +76,19 @@ public final class LocaleData extends ListResourceBundle
    }
 
    /**
+    * Convenience method for retrieving a String[][] resource.
+    *
+    * @param locale locale identifier
+    * @param key resource key
+    * @return resource value
+    */
+   public static final String[][] getStringArrays(Locale locale, String key)
+   {
+      ResourceBundle bundle = ResourceBundle.getBundle(LocaleData.class.getName(), locale);
+      return ((String[][]) bundle.getObject(key));
+   }
+
+   /**
     * Convenience method for retrieving an Object resource.
     *
     * @param locale locale identifier
@@ -163,30 +176,69 @@ public final class LocaleData extends ListResourceBundle
    public static final String TASK_NAMES = "TASK_NAMES";
    public static final String RESOURCE_NAMES = "RESOURCE_NAMES";
 
-   private static final String[] TIME_UNITS_ARRAY_DATA =
+   private static final String[][] TIME_UNITS_ARRAY_DATA =
    {
-      "m",
-      "h",
-      "d",
-      "w",
-      "mon",
-      "y",
-      "%",
-      "em",
-      "eh",
-      "ed",
-      "ew",
-      "emon",
-      "ey",
-      "e%"
+      {
+         "m",
+         "mins"
+      },
+      {
+         "h",
+         "hours"
+      },
+      {
+         "d",
+         "days"
+      },
+      {
+         "w",
+         "weeks"
+      },
+      {
+         "mon",
+         "months"
+      },
+      {
+         "y",
+         "years"
+      },
+      {
+         "%"
+      },
+      {
+         "em"
+      },
+      {
+         "eh"
+      },
+      {
+         "ed"
+      },
+      {
+         "ew"
+      },
+      {
+         "emon"
+      },
+      {
+         "ey"
+      },
+      {
+         "e%"
+      }
    };
+
    private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<String, Integer>();
 
    static
    {
       for (int loop = 0; loop < TIME_UNITS_ARRAY_DATA.length; loop++)
       {
-         TIME_UNITS_MAP_DATA.put(TIME_UNITS_ARRAY_DATA[loop], Integer.valueOf(loop));
+         Integer value = Integer.valueOf(loop);
+         for (String name : TIME_UNITS_ARRAY_DATA[loop])
+         {
+            TIME_UNITS_MAP_DATA.put(name, value);
+         }
       }
    }
 

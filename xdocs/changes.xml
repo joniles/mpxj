@@ -14,7 +14,8 @@
 		<action dev="joniles" type="fix">Updated to fix logical operator read issue in MPP auto filters (Contributed by Andrei Missine).</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2822616: MPXJ Issue: Related to Project Calendar.</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2806974: POI License in legal folder of download wrong.</action>		
-		<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>
+		<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>		
+		<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>		
 	</release>
 	
 	<release version="3.1.0" date="20/05/2009">
