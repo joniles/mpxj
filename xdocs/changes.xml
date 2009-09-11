@@ -16,6 +16,7 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2806974: POI License in legal folder of download wrong.</action>		
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>		
 		<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>		
+		<action dev="joniles" type="update">Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</action>
 	</release>
 	
 	<release version="3.1.0" date="20/05/2009">

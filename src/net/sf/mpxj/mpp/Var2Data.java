@@ -158,7 +158,7 @@ final class Var2Data extends MPPComponent
       if (offset != null)
       {
          byte[] value = m_map.get(offset);
-         if (value != null)
+         if (value != null && value.length >= 2)
          {
             result = MPPUtility.getTimestamp(value);
          }
@@ -222,7 +222,7 @@ final class Var2Data extends MPPComponent
       {
          byte[] value = m_map.get(offset);
 
-         if (value != null)
+         if (value != null && value.length >= 2)
          {
             result = MPPUtility.getShort(value);
          }
@@ -249,7 +249,7 @@ final class Var2Data extends MPPComponent
       {
          byte[] value = m_map.get(offset);
 
-         if (value != null)
+         if (value != null && value.length >= 4)
          {
             result = MPPUtility.getInt(value);
          }
@@ -279,7 +279,7 @@ final class Var2Data extends MPPComponent
       {
          byte[] value = m_map.get(metaOffset);
 
-         if (value != null && offset < value.length - 4)
+         if (value != null && value.length >= offset + 4)
          {
             result = MPPUtility.getInt(value, offset);
          }
@@ -306,7 +306,7 @@ final class Var2Data extends MPPComponent
       {
          byte[] value = m_map.get(offset);
 
-         if (value != null)
+         if (value != null && value.length >= 8)
          {
             result = MPPUtility.getLong(value);
          }
