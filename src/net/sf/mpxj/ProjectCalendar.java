@@ -609,6 +609,12 @@ public final class ProjectCalendar extends ProjectEntity
                //
                Date rangeStart = range.getStart();
                Date rangeEnd = range.getEnd();
+
+               if (rangeStart == null || rangeEnd == null)
+               {
+                  continue;
+               }
+
                Date canonicalRangeEnd = DateUtility.getCanonicalTime(rangeEnd);
                Date canonicalRangeStart = DateUtility.getCanonicalTime(rangeStart);
 
@@ -765,6 +771,12 @@ public final class ProjectCalendar extends ProjectEntity
                //
                Date rangeStart = range.getStart();
                Date rangeEnd = range.getEnd();
+
+               if (rangeStart == null || rangeEnd == null)
+               {
+                  continue;
+               }
+
                Date canonicalRangeEnd = DateUtility.getCanonicalTime(rangeEnd);
                Date canonicalRangeStart = DateUtility.getCanonicalTime(rangeStart);
 
