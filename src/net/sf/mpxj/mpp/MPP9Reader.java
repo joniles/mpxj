@@ -165,6 +165,8 @@ final class MPP9Reader implements MPPVariantReader
          processFilterData();
          processGroupData();
          processSavedViewState();
+
+         validateTaskIDs();
       }
 
       finally
@@ -1248,6 +1250,8 @@ final class MPP9Reader implements MPPVariantReader
       byte[] data;
       int uniqueID;
       Integer key;
+      m_highestEmptyTaskID = -1;
+      int emptyTaskID = -1;
 
       // First three items are not tasks, so let's skip them
       for (int loop = 3; loop < itemCount; loop++)
@@ -1275,17 +1279,27 @@ final class MPP9Reader implements MPPVariantReader
                }
             }
             else
-            {
-               if (data.length == 8 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
+               if (metaDataItemSize == 4)
                {
-                  uniqueID = MPPUtility.getInt(data, 0);
-                  key = Integer.valueOf(uniqueID);
-                  if (taskMap.containsKey(key) == false)
+                  // Empty task - task with only id and unique id information. Empty rows within Project (except for the id's)
+                  emptyTaskID = MPPUtility.getInt(data, 4);
+                  if (m_highestEmptyTaskID < emptyTaskID)
                   {
-                     taskMap.put(key, Integer.valueOf(loop));
+                     m_highestEmptyTaskID = emptyTaskID;
                   }
                }
-            }
+               else
+               {
+                  if (data.length == 8 || data.length >= MINIMUM_EXPECTED_TASK_SIZE)
+                  {
+                     uniqueID = MPPUtility.getInt(data, 0);
+                     key = Integer.valueOf(uniqueID);
+                     if (taskMap.containsKey(key) == false)
+                     {
+                        taskMap.put(key, Integer.valueOf(loop));
+                     }
+                  }
+               }
          }
       }
 
@@ -1332,7 +1346,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta calVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) calDir.getEntry("VarMeta"))));
       Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream(((DocumentEntry) calDir.getEntry("Var2Data"))));
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
+      FixedData calFixedData = new FixedData(calFixedMeta, getEncryptableInputStream(calDir, "FixedData"), 12);
 
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<Integer, ProjectCalendar>();
       int items = calFixedData.getItemCount();
@@ -1642,18 +1656,19 @@ final class MPP9Reader implements MPPVariantReader
             // Task with this id already exists... determine if this is the 'real' task by seeing
             // if this task has some var data. This is sort of hokey, but it's the best method i have
             // been able to see.
-            if (taskVarMeta.getUniqueIdentifierSet().contains(id))
+            if (!taskVarMeta.getUniqueIdentifierSet().contains(id))
             {
-               // Since this new task contains var data, we are going to assume the first one is
-               // a deleted task and this is the real one.
-               m_file.removeTask(temp);
-            }
-            else
-            {
-               // Sometimes Project contains phantom tasks that co-exist on the same id as a valid
-               // task. In this case don't want to include the phantom task. Seems to be a very rare case.        	
+               // Sometimes Project contains phantom tasks that coexist on the same id as a valid
+               // task. In this case don't want to include the phantom task. Seems to be a very rare case.
                continue;
             }
+            else
+               if (temp.getName() == null)
+               {
+                  // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
+                  // At worst case this removes a task with an empty name.
+                  m_file.removeTask(temp);
+               }
          }
 
          task = m_file.addTask();
@@ -3078,6 +3093,45 @@ final class MPP9Reader implements MPPVariantReader
       return (stream);
    }
 
+   /**
+    * This method is called to try to catch any invalid tasks that may have sneaked past all our other checks.
+    * This is done by validating the tasks by task ID.
+    */
+   private void validateTaskIDs()
+   {
+      List<Task> allTasks = m_file.getAllTasks();
+      if (allTasks.size() > 1)
+      {
+         Collections.sort(allTasks);
+
+         int taskID = -1;
+         int lastTaskID = -1;
+
+         for (int i = 0; i < allTasks.size(); i++)
+         {
+            Task task = allTasks.get(i);
+
+            if (task.getNull())
+            {
+               continue; // ignore tasks already marked as invalid
+            }
+
+            taskID = NumberUtility.getInt(task.getID());
+            // In Project the tasks IDs are always contiguous so we can spot invalid tasks by making sure all
+            // IDs are represented.
+            if (lastTaskID != -1 && taskID > lastTaskID + 1 && taskID > m_highestEmptyTaskID + 1)
+            {
+               // This task looks to be invalid.
+               task.setNull(true);
+            }
+            else
+            {
+               lastTaskID = taskID;
+            }
+         }
+      }
+   }
+
    //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)
    //   {
    //      System.out.println (name);
@@ -3117,6 +3171,7 @@ final class MPP9Reader implements MPPVariantReader
    private Map<Integer, SubProject> m_taskSubProjects;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
+   private int m_highestEmptyTaskID;
 
    // Signals the end of the list of subproject task unique ids
    private static final int SUBPROJECT_LISTEND = 0x00000303;

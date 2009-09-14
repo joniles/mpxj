@@ -175,6 +175,14 @@ final class MPP12Reader implements MPPVariantReader
          processConstraintData();
          processAssignmentData();
 
+         //
+         // MPP12 files seem to exhibit some occasional weirdness
+         // with duplicate ID values which leads to the task structure
+         // being reported incorrectly. The following method
+         // attempts to correct this.
+         //
+         validateStructure();
+
          processViewPropertyData();
          processTableData();
          processViewData();
@@ -362,6 +370,7 @@ final class MPP12Reader implements MPPVariantReader
                   // task unique ID, path, unknown, file name
                   //
                case (byte) 0x81 :
+               case (byte) 0x83 :
                case 0x41 :
                {
                   uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
@@ -442,6 +451,18 @@ final class MPP12Reader implements MPPVariantReader
                   // path, file name
                   //
                case 0x02 :
+               {
+                  //filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  //fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  //sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  // 0x02 looks to be the link FROM the resource pool to a project that is using it.
+                  break;
+               }
+
                case 0x04 :
                {
                   filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
@@ -957,7 +978,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(calVarData);
 
       FixedMeta calFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixedMeta"))), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, getEncryptableInputStream(calDir, "FixedData"));
+      FixedData calFixedData = new FixedData(calFixedMeta, getEncryptableInputStream(calDir, "FixedData"), 12);
 
       //System.out.println (calFixedMeta);
       //System.out.println (calFixedData);
@@ -1316,18 +1337,27 @@ final class MPP12Reader implements MPPVariantReader
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
 
          Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
-         if (temp != null && !taskVarMeta.getUniqueIdentifierSet().contains(id))
+         if (temp != null)
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
             // if this task has some var data. This is sort of hokey, but it's the best method i have
             // been able to see.
-
-            // Sometimes Project contains phantom tasks that coexist on the same id as a valid
-            // task. In this case don't want to include the phantom task. Seems to be a very rare case.
-            continue;
+            if (!taskVarMeta.getUniqueIdentifierSet().contains(id))
+            {
+               // Sometimes Project contains phantom tasks that coexist on the same id as a valid
+               // task. In this case don't want to include the phantom task. Seems to be a very rare case.
+               continue;
+            }
+            else
+               if (temp.getName() == null)
+               {
+                  // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
+                  // At worst case this removes a task with an empty name.
+                  m_file.removeTask(temp);
+               }
          }
-
          task = m_file.addTask();
+
          task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 216) / 100));
          task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp(data, 100));
@@ -1784,6 +1814,21 @@ final class MPP12Reader implements MPPVariantReader
          //
          processTaskEnterpriseColumns(id, task, taskVarData, metaData2);
 
+         // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
+         // need to mark this task as a null task after all.
+         if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
+         {
+            // Remove this to avoid passing bad data to the client
+            m_file.removeTask(task);
+
+            task = m_file.addTask();
+            task.setNull(true);
+            task.setUniqueID(id);
+            task.setID(new Integer(MPPUtility.getInt(data, 4)));
+            //System.out.println(task);
+            continue;
+         }
+
          m_file.fireTaskReadEvent(task);
          //dumpUnknownData(task.getUniqueID().toString(), UNKNOWN_TASK_DATA, data);
          //System.out.println(task);
@@ -1803,14 +1848,6 @@ final class MPP12Reader implements MPPVariantReader
       {
          processExternalTasks(externalTasks);
       }
-
-      //
-      // MPP12 files seem to exhibit some occasional weirdness
-      // with duplicate ID values which leads to the task structure
-      // being reported incorrectly. The following method
-      // attempts to correct this.
-      //
-      validateStructure();
    }
 
    /**
@@ -1828,19 +1865,36 @@ final class MPP12Reader implements MPPVariantReader
       Collections.sort(tasks);
 
       //
-      // Look for duplicate ID values
+      // Look for duplicate ID values and flip them if found
       //
+      boolean containsDuplicates = false;
       int lastID = -1;
       int currentID = -2;
-      for (Task task : tasks)
+      //Task previous = null;
+      for (int i = 0; i < tasks.size(); i++)
       {
+         Task task = tasks.get(i);
          Integer taskID = task.getID();
          if (taskID != null)
          {
             currentID = taskID.intValue();
             if (currentID == lastID)
             {
-               break;
+               // Duplicate ID found.
+               containsDuplicates = true;
+               Task previous = tasks.get(i - 1);
+               if (task.isPredecessor(previous))
+               {
+                  // Previous task is a predecessor to this task. So we're good.
+                  continue;
+               }
+               if (previous.isPredecessor(task))
+               {
+                  // This task is a predecessor to the previous task so let's swap.
+                  tasks.remove(i);
+                  tasks.add(i - 1, task);
+                  continue;
+               }
             }
             lastID = currentID;
             currentID = -1;
@@ -1851,7 +1905,7 @@ final class MPP12Reader implements MPPVariantReader
       // If we've found a duplicate, ensure
       // that the structure is correct
       //
-      if (lastID == currentID)
+      if (containsDuplicates)
       {
          fixStructure();
       }
@@ -1893,9 +1947,25 @@ final class MPP12Reader implements MPPVariantReader
 
                if (parentTask != null && newParent != null)
                {
+                  /*
+                     System.out.println("New Parent: " + newParent);                  
+                     for (Task childTask : newParent.getChildTasks())
+                     {
+                     	System.out.println("     Child: " + childTask);                    
+                     }
+                   */
                   parentTask.removeChildTask(task);
                   newParent.addChildTask(task);
-                  //                  System.out.println("FIXED");
+                  Collections.sort(newParent.getChildTasks());
+                  /*
+                    System.out.println("FIXED");
+                    System.out.println("New Parent: " + newParent);
+                    
+                    for (Task childTask : newParent.getChildTasks())
+                    {
+                        System.out.println("     Child: " + childTask);                    
+                    }
+                   */
                }
             }
          }
@@ -2850,9 +2920,9 @@ final class MPP12Reader implements MPPVariantReader
                calendar = resource.getResourceCalendar();
             }
 
-            if (calendar == null)
+            if (calendar == null || task.getIgnoreResourceCalendar())
             {
-               task.getCalendar();
+               calendar = task.getCalendar();
             }
 
             if (calendar == null)
@@ -3090,7 +3160,8 @@ final class MPP12Reader implements MPPVariantReader
    {
       String result = null;
 
-      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      int mask = varData.getShort(id, type);
+      if ((mask & 0xFF00) != VALUE_LIST_MASK)
       {
          result = outlineCodeVarData.getUnicodeString(Integer.valueOf(varData.getInt(id, 2, type)), OUTLINECODE_DATA);
       }
@@ -3098,7 +3169,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          int uniqueId = varData.getInt(id, 2, type);
          CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null)
+         if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getUnicodeString(item.getValue());
          }
@@ -3118,7 +3189,8 @@ final class MPP12Reader implements MPPVariantReader
    {
       Date result = null;
 
-      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      int mask = varData.getShort(id, type);
+      if ((mask & 0xFF00) != VALUE_LIST_MASK)
       {
          result = varData.getTimestamp(id, type);
       }
@@ -3126,7 +3198,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          int uniqueId = varData.getInt(id, 2, type);
          CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null)
+         if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getTimestamp(item.getValue());
          }
@@ -3147,7 +3219,8 @@ final class MPP12Reader implements MPPVariantReader
    {
       Duration result = null;
 
-      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      int mask = varData.getShort(id, type);
+      if ((mask & 0xFF00) != VALUE_LIST_MASK)
       {
          result = MPPUtility.getAdjustedDuration(m_file, varData.getInt(id, type), MPPUtility.getDurationTimeUnits(varData.getShort(id, unitsType)));
       }
@@ -3155,7 +3228,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          int uniqueId = varData.getInt(id, 2, type);
          CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null)
+         if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(item.getValue()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(item.getValue(), 4)));
          }
@@ -3175,7 +3248,8 @@ final class MPP12Reader implements MPPVariantReader
    {
       double result = 0;
 
-      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      int mask = varData.getShort(id, type);
+      if ((mask & 0xFF00) != VALUE_LIST_MASK)
       {
          result = varData.getDouble(id, type);
       }
@@ -3183,7 +3257,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          int uniqueId = varData.getInt(id, 2, type);
          CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null)
+         if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getDouble(item.getValue());
          }
@@ -3203,7 +3277,8 @@ final class MPP12Reader implements MPPVariantReader
    {
       String result = null;
 
-      if (varData.getShort(id, type) != VALUE_LIST_MASK)
+      int mask = varData.getShort(id, type);
+      if ((mask & 0xFF00) != VALUE_LIST_MASK)
       {
          result = varData.getUnicodeString(id, type);
       }
@@ -3211,7 +3286,7 @@ final class MPP12Reader implements MPPVariantReader
       {
          int uniqueId = varData.getInt(id, 2, type);
          CustomFieldValueItem item = m_file.getCustomFieldValueItem(Integer.valueOf(uniqueId));
-         if (item != null)
+         if (item != null && item.getValue() != null)
          {
             result = MPPUtility.getUnicodeString(item.getValue());
          }
@@ -4054,7 +4129,7 @@ final class MPP12Reader implements MPPVariantReader
 
    private static final Integer RESOURCE_AVAILABILITY = Integer.valueOf(276);
 
-   private static final int VALUE_LIST_MASK = 0x0701;
+   private static final int VALUE_LIST_MASK = 0x0700;
 
    /**
     * Mask used to isolate confirmed flag from the duration units field.
