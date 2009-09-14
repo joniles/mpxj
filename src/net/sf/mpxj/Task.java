@@ -216,9 +216,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param child Child task.
     * @param childOutlineLevel Outline level of the child task.
-    * @throws MPXJException Thrown if an invalid outline level is supplied.
     */
-   public void addChildTask(Task child, int childOutlineLevel) throws MPXJException
+   public void addChildTask(Task child, int childOutlineLevel)
    {
       int outlineLevel = NumberUtility.getInt(getOutlineLevel());
 
@@ -6807,6 +6806,29 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       SubProject externalTask = getSubProject();
       return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL " + externalTask.getFullPath() + " " + getExternalTaskID() + "]" : "") + "]");
+   }
+
+   /**
+    * Utility method used to determine if the supplied task
+    * is a predecessor of the current task.
+    * 
+    * @param task potential predecessor task
+    * @return Boolean flag
+    */
+   public boolean isPredecessor(Task task)
+   {
+      List<Relation> predecessors = getPredecessors();
+      if (predecessors != null)
+      {
+         for (Relation relation : predecessors)
+         {
+            if (relation.getTaskUniqueID() == task.getUniqueID())
+            {
+               return true;
+            }
+         }
+      }
+      return false;
    }
 
    /**
