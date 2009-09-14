@@ -2566,6 +2566,7 @@
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
+            <WBS>0</WBS>
             <OutlineNumber>1.0</OutlineNumber>
             <OutlineLevel>0</OutlineLevel>
             <Priority>600</Priority>
@@ -5540,6 +5541,7 @@
             <Type>1</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-02-07T19:59:00</CreateDate>
+            <WBS>3.13</WBS>
             <OutlineNumber>1.3.13</OutlineNumber>
             <OutlineLevel>2</OutlineLevel>
             <Priority>600</Priority>
@@ -5686,6 +5688,7 @@
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-02-07T19:59:00</CreateDate>
+            <WBS>3.13.1</WBS>
             <OutlineNumber>1.3.13.1</OutlineNumber>
             <OutlineLevel>3</OutlineLevel>
             <Priority>600</Priority>
@@ -5832,6 +5835,7 @@
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-02-07T19:59:00</CreateDate>
+            <WBS>3.13.2</WBS>
             <OutlineNumber>1.3.13.2</OutlineNumber>
             <OutlineLevel>3</OutlineLevel>
             <Priority>600</Priority>
@@ -6093,6 +6097,7 @@ formatting.
                 <Cost>0</Cost>
             </Baseline>
             <IsBudget>0</IsBudget>
+            <AvailabilityPeriods/>
             <Rates>
                 <Rate>
                     <RatesFrom>1984-01-01T00:00:00</RatesFrom>
@@ -6252,6 +6257,7 @@ formatting.
                 <Cost>0</Cost>
             </Baseline>
             <IsBudget>0</IsBudget>
+            <AvailabilityPeriods/>
             <Rates>
                 <Rate>
                     <RatesFrom>1984-01-01T00:00:00</RatesFrom>

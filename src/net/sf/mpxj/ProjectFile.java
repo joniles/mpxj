@@ -868,12 +868,12 @@ public final class ProjectFile
                lastTask = task;
                lastLevel = level;
 
-               if (getAutoWBS() == true)
+               if (getAutoWBS() || task.getWBS() == null)
                {
                   task.generateWBS(parent);
                }
 
-               if (getAutoOutlineNumber() == true)
+               if (getAutoOutlineNumber())
                {
                   task.generateOutlineNumber(parent);
                }

@@ -19,7 +19,8 @@
 		<action dev="joniles" type="update">Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</action>
 		<action dev="joniles" type="update">Updated to implement MSPDI context caching to improve performance (Contributed by Jari Niskala).</action>
 		<action dev="joniles" type="update">Updated to improve MPP file task structure validation. (Contributed by Jari Niskala).</action>
-		<action dev="joniles" type="update">Updated to improve MPX file parsing. (Contributed by Jari Niskala).</action>
+		<action dev="joniles" type="update">Updated to improve MPX file parsing. (Contributed by Jari Niskala).</action>		
+		<action dev="joniles" type="update">Updated to automatically populate missing WBS attibutes. (Contributed by Jari Niskala).</action>
 	</release>
 	
 	<release version="3.1.0" date="20/05/2009">
