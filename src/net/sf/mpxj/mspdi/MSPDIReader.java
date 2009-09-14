@@ -107,8 +107,12 @@ public final class MSPDIReader extends AbstractProjectReader
          XMLReader xmlReader = saxParser.getXMLReader();
          SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
 
-         JAXBContext context = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema");
-         Unmarshaller unmarshaller = context.createUnmarshaller();
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
+         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
 
          //
          // If we are matching the behaviour of MS project, then we need to
@@ -181,15 +185,15 @@ public final class MSPDIReader extends AbstractProjectReader
     */
    private void readProjectHeader(Project project)
    {
-      ProjectHeader header = m_projectFile.getProjectHeader();     
-      
+      ProjectHeader header = m_projectFile.getProjectHeader();
+
       header.setActualsInSync(BooleanUtility.getBoolean(project.isActualsInSync()));
       header.setAdminProject(BooleanUtility.getBoolean(project.isAdminProject()));
       header.setAuthor(project.getAuthor());
       header.setAutoAddNewResourcesAndTasks(BooleanUtility.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       header.setAutolink(BooleanUtility.getBoolean(project.isAutolink()));
       header.setBaselineForEarnedValue(NumberUtility.getInteger(project.getBaselineForEarnedValue()));
-      header.setCalendarName(project.getCalendarUID()==null?null:project.getCalendarUID().toString());
+      header.setCalendarName(project.getCalendarUID() == null ? null : project.getCalendarUID().toString());
       header.setCategory(project.getCategory());
       header.setCompany(project.getCompany());
       header.setCreationDate(DatatypeConverter.parseDate(project.getCreationDate()));
@@ -265,7 +269,7 @@ public final class MSPDIReader extends AbstractProjectReader
          }
          updateBaseCalendarNames(baseCalendars, map);
       }
-      
+
       try
       {
          ProjectHeader header = m_projectFile.getProjectHeader();
@@ -273,7 +277,7 @@ public final class MSPDIReader extends AbstractProjectReader
          ProjectCalendar calendar = map.get(calendarID);
          m_projectFile.setCalendar(calendar);
       }
-      
+
       catch (Exception ex)
       {
          // Ignore exceptions
@@ -303,8 +307,7 @@ public final class MSPDIReader extends AbstractProjectReader
             cal.setBaseCalendar(baseCal);
          }
       }
-      
-      
+
    }
 
    /**
@@ -1312,6 +1315,38 @@ public final class MSPDIReader extends AbstractProjectReader
    public boolean getMicrosoftProjectCompatibleInput()
    {
       return (m_compatibleInput);
+   }
+
+   /**
+    * Cached context to minimise construction cost.
+    */
+   private static JAXBContext CONTEXT;
+
+   /**
+    * Note any error occurring during context construction.
+    */
+   private static JAXBException CONTEXT_EXCEPTION;
+
+   static
+   {
+      try
+      {
+         //
+         // JAXB RI property to speed up construction
+         //
+         System.setProperty("com.sun.xml.bind.v2.runtime.JAXBContextImpl.fastBoot", "true");
+
+         //
+         // Construct the context
+         //
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema", MSPDIReader.class.getClassLoader());
+      }
+
+      catch (JAXBException ex)
+      {
+         CONTEXT_EXCEPTION = ex;
+         CONTEXT = null;
+      }
    }
 
    private boolean m_compatibleInput = true;

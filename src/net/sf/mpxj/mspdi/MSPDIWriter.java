@@ -90,8 +90,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          m_projectFile = projectFile;
 
-         JAXBContext context = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema");
-         Marshaller marshaller = context.createMarshaller();
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
+         Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
          m_factory = new ObjectFactory();
@@ -128,14 +132,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeProjectHeader(Project project)
    {
       ProjectHeader header = m_projectFile.getProjectHeader();
-         
+
       project.setActualsInSync(Boolean.valueOf(header.getActualsInSync()));
       project.setAdminProject(Boolean.valueOf(header.getAdminProject()));
       project.setAuthor(header.getAuthor());
       project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(header.getAutoAddNewResourcesAndTasks()));
       project.setAutolink(Boolean.valueOf(header.getAutolink()));
       project.setBaselineForEarnedValue(NumberUtility.getBigInteger(header.getBaselineForEarnedValue()));
-      project.setCalendarUID(m_projectFile.getCalendar()==null?BigInteger.ONE:NumberUtility.getBigInteger(m_projectFile.getCalendar().getUniqueID()));
+      project.setCalendarUID(m_projectFile.getCalendar() == null ? BigInteger.ONE : NumberUtility.getBigInteger(m_projectFile.getCalendar().getUniqueID()));
       project.setCategory(header.getCategory());
       project.setCompany(header.getCompany());
       project.setCreationDate(DatatypeConverter.printDate(header.getCreationDate()));
@@ -1256,6 +1260,38 @@ public final class MSPDIWriter extends AbstractProjectWriter
    ProjectFile getProjectFile()
    {
       return (m_projectFile);
+   }
+
+   /**
+    * Cached context to minimise construction cost.
+    */
+   private static JAXBContext CONTEXT;
+
+   /**
+    * Note any error occurring during context construction.
+    */
+   private static JAXBException CONTEXT_EXCEPTION;
+
+   static
+   {
+      try
+      {
+         //
+         // JAXB RI property to speed up construction
+         //
+         System.setProperty("com.sun.xml.bind.v2.runtime.JAXBContextImpl.fastBoot", "true");
+
+         //
+         // Construct the context
+         //
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema", MSPDIReader.class.getClassLoader());
+      }
+
+      catch (JAXBException ex)
+      {
+         CONTEXT_EXCEPTION = ex;
+         CONTEXT = null;
+      }
    }
 
    private ObjectFactory m_factory;
