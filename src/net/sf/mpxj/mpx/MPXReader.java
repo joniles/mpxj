@@ -599,9 +599,34 @@ public final class MPXReader extends AbstractProjectReader
    private void populateCalendarHours(Record record, ProjectCalendarHours hours) throws MPXJException
    {
       hours.setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
-      hours.addRange(new DateRange(record.getTime(1), record.getTime(2)));
-      hours.addRange(new DateRange(record.getTime(3), record.getTime(4)));
-      hours.addRange(new DateRange(record.getTime(5), record.getTime(6)));
+      hours.addRange(getDateRange(record.getTime(1), record.getTime(2)));
+      hours.addRange(getDateRange(record.getTime(3), record.getTime(4)));
+      hours.addRange(getDateRange(record.getTime(5), record.getTime(6)));
+   }
+
+   /**
+    * Get a date range that correctly handles the cae where the end time
+    * is midnight. In this instance the end time should be the start of the 
+    * next day.
+    * 
+    * @param start start date
+    * @param end end date
+    * @return DateRange instance
+    */
+   private DateRange getDateRange(Date start, Date end)
+   {
+      if (end != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(end);
+         // If the time ends on midnight, the date should be the next day. Otherwise problems occur.
+         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0 && cal.get(Calendar.MILLISECOND) == 0)
+         {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+         }
+         end = cal.getTime();
+      }
+      return new DateRange(start, end);
    }
 
    /**
@@ -1191,7 +1216,7 @@ public final class MPXReader extends AbstractProjectReader
          task.setUniqueID(Integer.valueOf(m_projectFile.getTaskUniqueID()));
       }
 
-      if (m_projectFile.getAutoTaskID() == true)
+      if (task.getID() == null || m_projectFile.getAutoTaskID() == true)
       {
          task.setID(Integer.valueOf(m_projectFile.getTaskID()));
       }

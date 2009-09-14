@@ -1242,7 +1242,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       int units = timeUnit.getValue();
       String result;
-      String[] unitNames = LocaleData.getStringArray(m_locale, LocaleData.TIME_UNITS_ARRAY);
+      String[][] unitNames = LocaleData.getStringArrays(m_locale, LocaleData.TIME_UNITS_ARRAY);
 
       if (units < 0 || units >= unitNames.length)
       {
@@ -1250,7 +1250,7 @@ public final class MPXWriter extends AbstractProjectWriter
       }
       else
       {
-         result = unitNames[units];
+         result = unitNames[units][0];
       }
 
       return (result);
