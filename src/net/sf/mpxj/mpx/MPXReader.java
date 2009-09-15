@@ -861,10 +861,8 @@ public final class MPXReader extends AbstractProjectReader
             {
                end = length;
             }
-
-            Relation relation = new Relation(m_projectFile, task);
-            populateRelation(data.substring(start, end).trim(), relation);
-            list.add(relation);
+                        
+            list.add(populateRelation(task, data.substring(start, end).trim()));
 
             start = end + 1;
          }
@@ -874,14 +872,15 @@ public final class MPXReader extends AbstractProjectReader
    }
 
    /**
-    * Populates an individual relation.
+    * Creates and populates a new task relationship.
     *
+    * @param sourceTask relationship source task
     * @param relationship relationship string
-    * @param relation relation instance
+    * @return new relation instance
     * @throws MPXJException
     */
-   private void populateRelation(String relationship, Relation relation) throws MPXJException
-   {
+   private Relation populateRelation(Task sourceTask, String relationship) throws MPXJException
+   {            
       int index = 0;
       int length = relationship.length();
 
@@ -907,20 +906,19 @@ public final class MPXReader extends AbstractProjectReader
       //
       // Now find the task, so we can extract the unique ID
       //
-      Task task = m_projectFile.getTaskByID(taskID);
-      if (task != null)
-      {
-         relation.setTaskUniqueID(task.getUniqueID());
-      }
+      Task targetTask = m_projectFile.getTaskByID(taskID);
 
       //
       // If we haven't reached the end, we next expect to find
       // SF, SS, FS, FF
       //
+      RelationType type = null;
+      Duration lag = null;
+      
       if (index == length)
       {
-         relation.setType(RelationType.FINISH_START);
-         relation.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
+         type = RelationType.FINISH_START;
+         lag = Duration.getInstance(0, TimeUnit.DAYS);
       }
       else
       {
@@ -929,18 +927,13 @@ public final class MPXReader extends AbstractProjectReader
             throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
          }
 
-         String relationType = relationship.substring(index, index + 2);
-         relation.setType(RelationTypeUtility.getInstance(m_locale, relationship.substring(index, index + 2)));
-         if (relation.getType() == null)
-         {
-            throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationType + "'");
-         }
+         type = RelationTypeUtility.getInstance(m_locale, relationship.substring(index, index + 2));
 
          index += 2;
 
          if (index == length)
          {
-            relation.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
+            lag = Duration.getInstance(0, TimeUnit.DAYS);
          }
          else
          {
@@ -949,9 +942,17 @@ public final class MPXReader extends AbstractProjectReader
                ++index;
             }
 
-            relation.setDuration(DurationUtility.getInstance(relationship.substring(index), m_formats.getDurationDecimalFormat(), m_locale));
+            lag = DurationUtility.getInstance(relationship.substring(index), m_formats.getDurationDecimalFormat(), m_locale);
          }
       }
+
+      if (type == null)
+      {
+         throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
+      }
+
+      Relation relation = new Relation(sourceTask, targetTask, type, lag);
+      return relation;
    }
 
    /**

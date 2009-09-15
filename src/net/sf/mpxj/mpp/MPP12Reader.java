@@ -51,7 +51,6 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -2499,22 +2498,13 @@ final class MPP12Reader implements MPPVariantReader
       if (consDir != null)
       {
          FixedMeta consFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixedMeta"))), 10);
-         FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));
-
+         FixedData consFixedData = new FixedData(consFixedMeta, 20, getEncryptableInputStream(consDir, "FixedData"));         
          int count = consFixedMeta.getItemCount();
-         int index;
-         byte[] data;
-         Task task1;
-         Task task2;
-         Relation rel;
-         TimeUnit durationUnits;
-         int constraintID;
          int lastConstraintID = -1;
-         byte[] metaData;
 
          for (int loop = 0; loop < count; loop++)
          {
-            metaData = consFixedMeta.getByteArrayValue(loop);
+            byte[] metaData = consFixedMeta.getByteArrayValue(loop);
 
             //
             // SourceForge bug 2209477: we were reading an int here, but
@@ -2522,11 +2512,11 @@ final class MPP12Reader implements MPPVariantReader
             //
             if (MPPUtility.getShort(metaData, 0) == 0)
             {
-               index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
+               int index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
                if (index != -1)
                {
-                  data = consFixedData.getByteArrayValue(index);
-                  constraintID = MPPUtility.getInt(data, 0);
+                  byte[] data = consFixedData.getByteArrayValue(index);
+                  int constraintID = MPPUtility.getInt(data, 0);
                   if (constraintID > lastConstraintID)
                   {
                      lastConstraintID = constraintID;
@@ -2535,15 +2525,15 @@ final class MPP12Reader implements MPPVariantReader
 
                      if (taskID1 != taskID2)
                      {
-                        task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
-                        task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+                        Task task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+                        Task task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
 
                         if (task1 != null && task2 != null)
                         {
-                           rel = task2.addPredecessor(task1);
-                           rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 12)));
-                           durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
-                           rel.setDuration(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits));
+                           RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
+                           TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
+                           Duration lag = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits);
+                           task2.addPredecessor(task1, type, lag);
                         }
                      }
                   }

@@ -20,7 +20,8 @@
 		<action dev="joniles" type="update">Updated to implement MSPDI context caching to improve performance (Contributed by Jari Niskala).</action>
 		<action dev="joniles" type="update">Updated to improve MPP file task structure validation. (Contributed by Jari Niskala).</action>
 		<action dev="joniles" type="update">Updated to improve MPX file parsing. (Contributed by Jari Niskala).</action>		
-		<action dev="joniles" type="update">Updated to automatically populate missing WBS attibutes. (Contributed by Jari Niskala).</action>
+		<action dev="joniles" type="update">Updated to automatically populate missing WBS attributes. (Contributed by Jari Niskala).</action>
+		<action dev="joniles" type="update">Updated to refactor the Relation class (note minor method name changes).</action>
 	</release>
 	
 	<release version="3.1.0" date="20/05/2009">

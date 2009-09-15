@@ -33,37 +33,27 @@ public final class Relation
    /**
     * Default constructor.
     *
-    * @param parentProject parent project file
-    * @param parentTask parent task instance
+    * @param sourceTask source task instance
+    * @param targetTask target task instance
+    * @param type relation type
+    * @param lag relation lag
     */
-   public Relation(ProjectFile parentProject, Task parentTask)
+   public Relation(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
-      m_parentProject = parentProject;
-      m_parentTask = parentTask;
-      m_type = RelationType.FINISH_START;
-      m_duration = Duration.getInstance(0, TimeUnit.DAYS);
-   }
+      m_sourceTask = sourceTask;
+      m_targetTask = targetTask;
+      m_type = type;
+      m_lag = lag;
 
-   /**
-    * Method used to retrieve the unique ID of the task
-    * related to the current task instance.
-    *
-    * @return task unique ID
-    */
-   public Integer getTaskUniqueID()
-   {
-      return (m_taskUniqueID);
-   }
+      if (m_type == null)
+      {
+         m_type = RelationType.FINISH_START;
+      }
 
-   /**
-    * Method used to set the identifier of the task
-    * related to the current task instance.
-    *
-    * @param id task identifier
-    */
-   public void setTaskUniqueID(Integer id)
-   {
-      m_taskUniqueID = id;
+      if (m_lag == null)
+      {
+         m_lag = Duration.getInstance(0, TimeUnit.DAYS);
+      }
    }
 
    /**
@@ -78,46 +68,34 @@ public final class Relation
    }
 
    /**
-    * Method used to set the type of relationship being
-    * represented.
-    *
-    * @param type relationship type
-    */
-   public void setType(RelationType type)
-   {
-      m_type = type;
-   }
-
-   /**
     * This method retrieves the lag duration associated
     * with this relationship.
     *
     * @return lag duration
     */
-   public Duration getDuration()
+   public Duration getLag()
    {
-      return (m_duration);
+      return (m_lag);
    }
 
    /**
-    * This method sets the lag duration associated
-    * with this relationship.
-    *
-    * @param duration the lag duration
+    * Retrieve the source task of this relationship.
+    * 
+    * @return source task
     */
-   public void setDuration(Duration duration)
+   public Task getSourceTask()
    {
-      m_duration = duration;
+      return m_sourceTask;
    }
 
    /**
-    * Retrieve the task related to the current task instance.
+    * Retrieve the target task of this relationship.
     *
-    * @return task instance
+    * @return target task
     */
-   public Task getTask()
+   public Task getTargetTask()
    {
-      return (m_parentProject.getTaskByUniqueID(m_taskUniqueID));
+      return m_targetTask;
    }
 
    /**
@@ -125,23 +103,18 @@ public final class Relation
     */
    @Override public String toString()
    {
-      return ("[Relation " + m_parentTask + " -> " + m_parentProject.getTaskByUniqueID(m_taskUniqueID) + "]");
+      return ("[Relation " + m_sourceTask + " -> " + m_targetTask + "]");
    }
 
    /**
-    * Parent project file.
+    * Parent task file. 
     */
-   private ProjectFile m_parentProject;
-
-   /**
-    * Parent task file.
-    */
-   private Task m_parentTask;
+   private Task m_sourceTask;
 
    /**
     * Identifier of task with which this relationship is held.
     */
-   private Integer m_taskUniqueID;
+   private Task m_targetTask;
 
    /**
     * Type of relationship.
@@ -151,5 +124,5 @@ public final class Relation
    /**
     * Lag between the two tasks.
     */
-   private Duration m_duration;
+   private Duration m_lag;
 }

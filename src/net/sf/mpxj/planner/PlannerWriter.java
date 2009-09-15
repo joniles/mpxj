@@ -510,13 +510,13 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          for (Relation rel : predecessors)
          {
-            Integer taskUniqueID = rel.getTaskUniqueID();
+            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
             set.add(taskUniqueID);
 
             Predecessor plannerPredecessor = m_factory.createPredecessor();
             plannerPredecessor.setId(getIntegerString(++id));
             plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-            plannerPredecessor.setLag(getDurationString(rel.getDuration()));
+            plannerPredecessor.setLag(getDurationString(rel.getLag()));
             plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
             predecessorList.add(plannerPredecessor);
          }
@@ -532,13 +532,13 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          for (Relation rel : predecessors)
          {
-            Integer taskUniqueID = rel.getTaskUniqueID();
+            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
             if (set.contains(taskUniqueID) == false)
             {
                Predecessor plannerPredecessor = m_factory.createPredecessor();
                plannerPredecessor.setId(getIntegerString(++id));
                plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-               plannerPredecessor.setLag(getDurationString(rel.getDuration()));
+               plannerPredecessor.setLag(getDurationString(rel.getLag()));
                plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
                predecessorList.add(plannerPredecessor);
             }

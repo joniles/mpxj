@@ -507,7 +507,7 @@ public class BasicTest extends MPXJTestCase
          {
             for (Relation rel : rels)
             {
-               mpx.getTaskByUniqueID(rel.getTaskUniqueID());
+               mpx.getTaskByUniqueID(rel.getTargetTask().getUniqueID());
             }
          }
       }

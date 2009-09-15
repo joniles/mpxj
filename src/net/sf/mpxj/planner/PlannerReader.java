@@ -56,7 +56,6 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -672,9 +671,7 @@ public final class PlannerReader extends AbstractProjectReader
                   {
                      lag = Duration.getInstance(0, TimeUnit.HOURS);
                   }
-                  Relation relationship = mpxjTask.addPredecessor(predecessorTask);
-                  relationship.setDuration(lag);
-                  relationship.setType(RELATIONSHIP_TYPES.get(predecessor.getType()));
+                  mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
                }
             }
          }

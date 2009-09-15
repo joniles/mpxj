@@ -60,7 +60,6 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -1093,9 +1092,7 @@ public final class MSPDIReader extends AbstractProjectReader
                lag = 0;
             }
 
-            Relation rel = currTask.addPredecessor(prevTask);
-            rel.setType(type);
-            rel.setDuration(Duration.getInstance(lag, TimeUnit.HOURS));
+            currTask.addPredecessor(prevTask, type, Duration.getInstance(lag, TimeUnit.HOURS));
          }
       }
    }

@@ -380,27 +380,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * This method allows a predecessor relationship to be added to this
     * task instance.
     *
+    * @param targetTask the predecessor task
+    * @param type relation type
+    * @param lag relation lag
     * @return relationship
     */
-   public Relation addPredecessor()
+   @SuppressWarnings("unchecked") public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
    {
-      return (addPredecessor(null));
-   }
-
-   /**
-    * This method allows a predecessor relationship to be added to this
-    * task instance.
-    *
-    * @param task the predecessor task
-    * @return relationship
-    */
-   @SuppressWarnings("unchecked") public Relation addPredecessor(Task task)
-   {
+      //
+      // Ensure that we have a valid lag duration
+      //
+      if (lag == null)
+      {
+         lag = Duration.getInstance(0, TimeUnit.DAYS);         
+      }
+      
       //
       // Retrieve the list of predecessors
       //
       List<Relation> list = (List<Relation>) getCachedValue(TaskField.PREDECESSORS);
-
       if (list == null)
       {
          list = new LinkedList<Relation>();
@@ -412,19 +410,22 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       // these two tasks.
       //
       Relation rel = null;
-
-      if (task != null)
+      if (targetTask != null)
       {
          Iterator<Relation> iter = list.iterator();
 
          while (iter.hasNext() == true)
          {
             rel = iter.next();
-            if (NumberUtility.equals(rel.getTaskUniqueID(), task.getUniqueID()))
+            if (rel.getTargetTask() == targetTask)
             {
+               if (rel.getType() != type || rel.getLag().compareTo(lag) != 0)
+               {
+                  rel = null;
+               }
                break;
             }
-            rel = null;
+            rel = null;            
          }
       }
 
@@ -433,163 +434,9 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       //
       if (rel == null)
       {
-         rel = new Relation(getParentFile(), this);
-
-         if (task != null)
-         {
-            rel.setTaskUniqueID(task.getUniqueID());
-         }
-
+         rel = new Relation(this, targetTask, type, lag);
          list.add(rel);
       }
-
-      return (rel);
-   }
-
-   /**
-    * This method allows a predecessor relationship to be added to this
-    * task instance.
-    *
-    * @return relationship
-    */
-   public Relation addUniqueIdPredecessor()
-   {
-      return (addUniqueIdPredecessor(null));
-   }
-
-   /**
-    * This method allows a predecessor relationship to be added to this
-    * task instance.
-    *
-    * @param task the predecessor task
-    * @return relationship
-    */
-   @SuppressWarnings("unchecked") public Relation addUniqueIdPredecessor(Task task)
-   {
-      //
-      // Retrieve the list of predecessors
-      //
-      List<Relation> list = (List<Relation>) getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS);
-      if (list == null)
-      {
-         list = new LinkedList<Relation>();
-         set(TaskField.UNIQUE_ID_PREDECESSORS, list);
-      }
-
-      //
-      // Ensure that there is only one relationship between
-      // these two tasks.
-      //
-      Relation rel = null;
-
-      if (task != null)
-      {
-         Iterator<Relation> iter = list.iterator();
-         while (iter.hasNext() == true)
-         {
-            rel = iter.next();
-            if (NumberUtility.equals(rel.getTaskUniqueID(), task.getUniqueID()))
-            {
-               break;
-            }
-            rel = null;
-         }
-      }
-
-      //
-      // If necessary, create a new relationship
-      //
-      if (rel == null)
-      {
-         rel = new Relation(getParentFile(), this);
-
-         if (task != null)
-         {
-            rel.setTaskUniqueID(task.getUniqueID());
-         }
-
-         list.add(rel);
-      }
-
-      return (rel);
-   }
-
-   /**
-    * This method allows a successor relationship to be added to this
-    * task instance.
-    *
-    * @return relationship
-    */
-   public Relation addSuccessor()
-   {
-      return (addSuccessor(null));
-   }
-
-   /**
-    * This method allows a successor relationship to be added to this
-    * task instance.
-    *
-    * @param task the successor task
-    * @return relationship
-    */
-   @SuppressWarnings("unchecked") public Relation addSuccessor(Task task)
-   {
-      List<Relation> list = (List<Relation>) getCachedValue(TaskField.SUCCESSORS);
-
-      if (list == null)
-      {
-         list = new LinkedList<Relation>();
-         set(TaskField.SUCCESSORS, list);
-      }
-
-      Relation rel = new Relation(getParentFile(), this);
-
-      if (task != null)
-      {
-         rel.setTaskUniqueID(task.getUniqueID());
-      }
-
-      list.add(rel);
-
-      return (rel);
-   }
-
-   /**
-    * This method allows a successor relationship to be added to this
-    * task instance.
-    *
-    * @return relationship
-    */
-   public Relation addUniqueIdSuccessor()
-   {
-      return (addUniqueIdSuccessor(null));
-   }
-
-   /**
-    * This method allows a successor relationship to be added to this
-    * task instance.
-    *
-    * @param task the successor task
-    * @return relationship
-    */
-   @SuppressWarnings("unchecked") public Relation addUniqueIdSuccessor(Task task)
-   {
-      List<Relation> list = (List<Relation>) getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS);
-
-      if (list == null)
-      {
-         list = new LinkedList<Relation>();
-         set(TaskField.UNIQUE_ID_SUCCESSORS, list);
-      }
-
-      Relation rel = new Relation(getParentFile(), this);
-
-      if (task != null)
-      {
-         rel.setTaskUniqueID(task.getUniqueID());
-      }
-
-      list.add(rel);
 
       return (rel);
    }
@@ -6822,7 +6669,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       {
          for (Relation relation : predecessors)
          {
-            if (relation.getTaskUniqueID() == task.getUniqueID())
+            if (relation.getTargetTask().getUniqueID() == task.getUniqueID())
             {
                return true;
             }

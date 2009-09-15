@@ -933,9 +933,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          for (Relation rel : predecessors)
          {
-            Integer taskUniqueID = rel.getTaskUniqueID();
+            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
             set.add(taskUniqueID);
-            list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getDuration()));
+            list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
          }
       }
 
@@ -949,10 +949,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          for (Relation rel : predecessors)
          {
-            Integer taskUniqueID = rel.getTaskUniqueID();
+            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
             if (set.contains(taskUniqueID) == false)
             {
-               list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getDuration()));
+               list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
             }
          }
       }

@@ -374,9 +374,9 @@ public class MpxjQuery
             System.out.println(task.getName() + " predecessors:");
             for (Relation relation : predecessors)
             {
-               System.out.println("   Task: " + file.getTaskByUniqueID(relation.getTaskUniqueID()).getName());
+               System.out.println("   Task: " + relation.getTargetTask().getName());
                System.out.println("   Type: " + relation.getType());
-               System.out.println("   Lag: " + relation.getDuration());
+               System.out.println("   Lag: " + relation.getLag());
             }
          }
       }

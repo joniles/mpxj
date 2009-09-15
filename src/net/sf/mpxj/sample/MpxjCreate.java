@@ -30,7 +30,6 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -244,8 +243,7 @@ public class MpxjCreate
       //
       // Link these two tasks
       //
-      Relation rel1 = task3.addPredecessor(task2);
-      rel1.setType(RelationType.FINISH_START);
+      task3.addPredecessor(task2, RelationType.FINISH_START, null);
 
       //
       // Add a milestone
@@ -254,8 +252,7 @@ public class MpxjCreate
       milestone1.setName("Milestone");
       milestone1.setStart(df.parse("21/01/2003"));
       milestone1.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
-      Relation rel2 = milestone1.addPredecessor(task3);
-      rel2.setType(RelationType.FINISH_START);
+      milestone1.addPredecessor(task3, RelationType.FINISH_START, null);
 
       //
       // This final task has a percent complete value, but no

@@ -37,6 +37,7 @@ import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.MPXJException;
@@ -47,7 +48,6 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -778,17 +778,11 @@ final class MPP8Reader implements MPPVariantReader
       if (consDir != null)
       {
          FixFix consFixedData = new FixFix(36, new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixFix   0"))));
-
          int count = consFixedData.getItemCount();
-         byte[] data;
-         Task task1;
-         Task task2;
-         Relation rel;
-         TimeUnit durationUnits;
 
          for (int loop = 0; loop < count; loop++)
          {
-            data = consFixedData.getByteArrayValue(loop);
+            byte[] data = consFixedData.getByteArrayValue(loop);
 
             if (MPPUtility.getInt(data, 28) == 0)
             {
@@ -797,14 +791,14 @@ final class MPP8Reader implements MPPVariantReader
 
                if (taskID1 != taskID2)
                {
-                  task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
-                  task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+                  Task task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+                  Task task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
                   if (task1 != null && task2 != null)
                   {
-                     rel = task2.addPredecessor(task1);
-                     rel.setType(RelationType.getInstance(MPPUtility.getShort(data, 20)));
-                     durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
-                     rel.setDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits));
+                     RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 20));
+                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
+                     Duration lag = MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits);
+                     task2.addPredecessor(task1, type, lag);
                   }
                }
             }

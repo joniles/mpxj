@@ -46,7 +46,6 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -1051,9 +1050,7 @@ abstract class MPD9AbstractReader
          RelationType type = RelationType.getInstance(row.getInt("LINK_TYPE"));
          TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
          Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
-         Relation rel = successorTask.addPredecessor(predecessorTask);
-         rel.setType(type);
-         rel.setDuration(duration);
+         successorTask.addPredecessor(predecessorTask, type, duration);
       }
    }
 
