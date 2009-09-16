@@ -1055,7 +1055,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Proces a resource assignment.
+    * Process a resource assignment.
     * 
     * @param row resource assignment data
     */
