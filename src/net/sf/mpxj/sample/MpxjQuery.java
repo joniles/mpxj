@@ -32,6 +32,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
@@ -99,7 +100,7 @@ public class MpxjQuery
 
       listResourceNotes(mpx);
 
-      listPredecessors(mpx);
+      listRelationships(mpx);
 
       listSlack(mpx);
 
@@ -359,66 +360,69 @@ public class MpxjQuery
    }
 
    /**
-    * This method lists the predecessors for each task which has
-    * predecessors.
+    * This method lists task predecessor and successor relationships.
     *
-    * @param file MPX file
+    * @param file project file
     */
-   private static void listPredecessors(ProjectFile file)
+   private static void listRelationships(ProjectFile file)
    {
       for (Task task : file.getAllTasks())
       {
-         List<Relation> predecessors = task.getPredecessors();
-         if (predecessors != null && predecessors.isEmpty() == false)
+         System.out.print(task.getID());
+         System.out.print('\t');
+         System.out.print(task.getName());
+         System.out.print('\t');
+
+         dumpRelationList(task.getPredecessors());
+         System.out.print('\t');
+         dumpRelationList(task.getSuccessors());
+         System.out.println();
+      }
+   }
+
+   /**
+    * Internal utility to dump relationship lists in a structured format
+    * that can easily be compared with the tabular data in MS Project.
+    * 
+    * @param relations relation list
+    */
+   private static void dumpRelationList(List<Relation> relations)
+   {
+      if (relations != null && relations.isEmpty() == false)
+      {
+         if (relations.size() > 1)
          {
-            System.out.println(task.getName() + " predecessors:");
-            for (Relation relation : predecessors)
+            System.out.print('"');
+         }
+         boolean first = true;
+         for (Relation relation : relations)
+         {
+            if (!first)
             {
-               System.out.println("   Task: " + relation.getTargetTask().getName());
-               System.out.println("   Type: " + relation.getType());
-               System.out.println("   Lag: " + relation.getLag());
+               System.out.print(',');
+            }
+            first = false;
+            System.out.print(relation.getTargetTask().getID());
+            Duration lag = relation.getLag();
+            if (relation.getType() != RelationType.FINISH_START || lag.getDuration() != 0)
+            {
+               System.out.print(relation.getType());
+            }
+
+            if (lag.getDuration() != 0)
+            {
+               if (lag.getDuration() > 0)
+               {
+                  System.out.print("+");
+               }
+               System.out.print(lag);
             }
          }
+         if (relations.size() > 1)
+         {
+            System.out.print('"');
+         }
       }
-
-      //
-      // The following code is useful to produce output which can be compared
-      // directly with tabular data from MS Project.
-      //
-      /*      
-            for (Task task: file.getAllTasks())
-            {
-               System.out.print(task.getID());
-               System.out.print('\t');
-               System.out.print(task.getName());
-               System.out.print('\t');
-               
-               List<Relation> predecessors = task.getPredecessors();
-               if (predecessors != null && predecessors.isEmpty() == false)
-               {
-                  if (predecessors.size() > 1)
-                  {
-                     System.out.print('"');
-                  }
-                  boolean first = true;
-                  for (Relation relation : predecessors)
-                  {
-                     if (!first)
-                     {
-                        System.out.print(',');
-                     }
-                     first = false;
-                     System.out.print(relation.getTaskID());               
-                  }
-                  if (predecessors.size() > 1)
-                  {
-                     System.out.print('"');
-                  }            
-               }
-               
-               System.out.println();
-            }    
-      */
    }
 
    /**

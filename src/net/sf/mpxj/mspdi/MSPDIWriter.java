@@ -34,7 +34,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -922,38 +921,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writePredecessors(Project.Tasks.Task xml, Task mpx)
    {
-      TreeSet<Integer> set = new TreeSet<Integer>();
       List<Project.Tasks.Task.PredecessorLink> list = xml.getPredecessorLink();
 
-      //
-      // Process the list of predecessors specified by Unique ID
-      //
-      List<Relation> predecessors = mpx.getUniqueIDPredecessors();
+      List<Relation> predecessors = mpx.getPredecessors();
       if (predecessors != null)
       {
          for (Relation rel : predecessors)
          {
             Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            set.add(taskUniqueID);
             list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
-         }
-      }
-
-      //
-      // Process the list of predecessors specified by ID.
-      // Note that this code ensures that if both lists are populated,
-      // we avoid creating duplicate links.
-      //
-      predecessors = mpx.getPredecessors();
-      if (predecessors != null)
-      {
-         for (Relation rel : predecessors)
-         {
-            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            if (set.contains(taskUniqueID) == false)
-            {
-               list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
-            }
          }
       }
    }

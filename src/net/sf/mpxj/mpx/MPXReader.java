@@ -45,7 +45,6 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.RecurringTask;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -842,7 +841,6 @@ public final class MPXReader extends AbstractProjectReader
     */
    private void processDeferredRelationship(DeferredRelationship dr) throws MPXJException
    {
-      List<Relation> list = new LinkedList<Relation>();
       String data = dr.getData();
       Task task = dr.getTask();
 
@@ -862,24 +860,22 @@ public final class MPXReader extends AbstractProjectReader
                end = length;
             }
                         
-            list.add(populateRelation(task, data.substring(start, end).trim()));
+            populateRelation(dr.getField(), task, data.substring(start, end).trim());
 
             start = end + 1;
          }
       }
-
-      task.set(dr.getField(), list);
    }
 
    /**
     * Creates and populates a new task relationship.
     *
+    * @param field which task field source of data
     * @param sourceTask relationship source task
     * @param relationship relationship string
-    * @return new relation instance
     * @throws MPXJException
     */
-   private Relation populateRelation(Task sourceTask, String relationship) throws MPXJException
+   private void populateRelation(TaskField field, Task sourceTask, String relationship) throws MPXJException
    {            
       int index = 0;
       int length = relationship.length();
@@ -906,8 +902,16 @@ public final class MPXReader extends AbstractProjectReader
       //
       // Now find the task, so we can extract the unique ID
       //
-      Task targetTask = m_projectFile.getTaskByID(taskID);
-
+      Task targetTask;      
+      if (field == TaskField.PREDECESSORS)
+      {
+         targetTask = m_projectFile.getTaskByID(taskID);
+      }
+      else
+      {
+         targetTask = m_projectFile.getTaskByUniqueID(taskID);
+      }
+      
       //
       // If we haven't reached the end, we next expect to find
       // SF, SS, FS, FF
@@ -950,9 +954,8 @@ public final class MPXReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
       }
-
-      Relation relation = new Relation(sourceTask, targetTask, type, lag);
-      return relation;
+      
+      sourceTask.addPredecessor(targetTask, type, lag);
    }
 
    /**
@@ -999,9 +1002,7 @@ public final class MPXReader extends AbstractProjectReader
          switch (taskField.getValue())
          {
             case TaskField.PREDECESSORS_VALUE :
-            case TaskField.SUCCESSORS_VALUE :
             case TaskField.UNIQUE_ID_PREDECESSORS_VALUE :
-            case TaskField.UNIQUE_ID_SUCCESSORS_VALUE :
             {
                populateRelationList(task, taskField, field);
                break;

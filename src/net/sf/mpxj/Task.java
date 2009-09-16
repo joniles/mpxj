@@ -392,53 +392,88 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       //
       if (lag == null)
       {
-         lag = Duration.getInstance(0, TimeUnit.DAYS);         
+         lag = Duration.getInstance(0, TimeUnit.DAYS);
       }
-      
+
       //
       // Retrieve the list of predecessors
       //
-      List<Relation> list = (List<Relation>) getCachedValue(TaskField.PREDECESSORS);
-      if (list == null)
+      List<Relation> predecessorList = (List<Relation>) getCachedValue(TaskField.PREDECESSORS);
+      if (predecessorList == null)
       {
-         list = new LinkedList<Relation>();
-         set(TaskField.PREDECESSORS, list);
+         predecessorList = new LinkedList<Relation>();
+         set(TaskField.PREDECESSORS, predecessorList);
       }
 
       //
-      // Ensure that there is only one relationship between
+      // Ensure that there is only one predecessor relationship between
       // these two tasks.
       //
-      Relation rel = null;
-      if (targetTask != null)
+      Relation predecessorRelation = null;
+      Iterator<Relation> iter = predecessorList.iterator();
+      while (iter.hasNext() == true)
       {
-         Iterator<Relation> iter = list.iterator();
-
-         while (iter.hasNext() == true)
+         predecessorRelation = iter.next();
+         if (predecessorRelation.getTargetTask() == targetTask)
          {
-            rel = iter.next();
-            if (rel.getTargetTask() == targetTask)
+            if (predecessorRelation.getType() != type || predecessorRelation.getLag().compareTo(lag) != 0)
             {
-               if (rel.getType() != type || rel.getLag().compareTo(lag) != 0)
-               {
-                  rel = null;
-               }
-               break;
+               predecessorRelation = null;
             }
-            rel = null;            
+            break;
          }
+         predecessorRelation = null;
       }
 
       //
-      // If necessary, create a new relationship
+      // If necessary, create a new predecessor relationship
       //
-      if (rel == null)
+      if (predecessorRelation == null)
       {
-         rel = new Relation(this, targetTask, type, lag);
-         list.add(rel);
+         predecessorRelation = new Relation(this, targetTask, type, lag);
+         predecessorList.add(predecessorRelation);
+      }
+ 
+      //
+      // Retrieve the list of successors
+      //
+      List<Relation> successorList = (List<Relation>) targetTask.getCachedValue(TaskField.SUCCESSORS);
+      if (successorList == null)
+      {
+         successorList = new LinkedList<Relation>();
+         targetTask.set(TaskField.SUCCESSORS, successorList);
+      }
+ 
+      //
+      // Ensure that there is only one successor relationship between
+      // these two tasks.
+      //
+      Relation successorRelation = null;
+      iter = successorList.iterator();
+      while (iter.hasNext() == true)
+      {
+         successorRelation = iter.next();
+         if (successorRelation.getTargetTask() == targetTask)
+         {
+            if (successorRelation.getType() != type || successorRelation.getLag().compareTo(lag) != 0)
+            {
+               successorRelation = null;
+            }
+            break;
+         }
+         successorRelation = null;
       }
 
-      return (rel);
+      //
+      // If necessary, create a new successor relationship
+      //
+      if (successorRelation == null)
+      {
+         successorRelation = new Relation(targetTask, this, type, lag);
+         successorList.add(successorRelation);
+      }
+
+      return (predecessorRelation);
    }
 
    /**
@@ -866,7 +901,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    /**
     * The Finish field shows the date and time that a task is scheduled to be
     * completed. MS project allows a finish date to be entered, and will
-    * calculate the duartion, or a duration can be supplied and MS Project
+    * calculate the duration, or a duration can be supplied and MS Project
     * will calculate the finish date.
     *
     * @param date Date value
@@ -1250,20 +1285,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Predecessors field lists the task ID numbers for the predecessor
-    * tasks on which the task depends before it can be started or finished.
-    * Each predecessor is linked to the task by a specific type of task
-    * dependency
-    * and a lead time or lag time.
-    *
-    * @param list list of relationships
-    */
-   public void setPredecessors(List<Relation> list)
-   {
-      set(TaskField.PREDECESSORS, list);
-   }
-
-   /**
     * The Priority field provides choices for the level of importance
     * assigned to a task, which in turn indicates how readily a task can be
     * delayed or split during resource leveling.
@@ -1510,20 +1531,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Successors field lists the task ID numbers for the successor tasks
-    * to a task.
-    * A task must start or finish before successor tasks can start or finish.
-    * Each successor is linked to the task by a specific type of task dependency
-    * and a lead time or lag time.
-    *
-    * @param list list of relationships
-    */
-   public void setSuccessors(List<Relation> list)
-   {
-      set(TaskField.SUCCESSORS, list);
-   }
-
-   /**
     * The Summary field indicates whether a task is a summary task.
     *
     * @param val - boolean
@@ -1687,34 +1694,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       parent.mapTaskUniqueID(val, this);
 
       set(TaskField.UNIQUE_ID, val);
-   }
-
-   /**
-    * The Unique ID Predecessors field lists the unique ID numbers for
-    * the predecessor
-    * tasks on which a task depends before it can be started or finished.
-    * Each predecessor is linked to the task by a specific type of
-    * task dependency
-    * and a lead time or lag time.
-    *
-    * @param list list of relationships
-    */
-   public void setUniqueIDPredecessors(List<Relation> list)
-   {
-      set(TaskField.UNIQUE_ID_PREDECESSORS, list);
-   }
-
-   /**
-    * The Unique ID Successors field lists the unique ID numbers for the successor
-    * tasks to a task. A task must start or finish before successor tasks can start
-    * or finish. Each successor is linked to the task by a specific type of task
-    * dependency and a lead time or lag time.
-    *
-    * @param list list of relationships
-    */
-   public void setUniqueIDSuccessors(List<Relation> list)
-   {
-      set(TaskField.UNIQUE_ID_SUCCESSORS, list);
    }
 
    /**
@@ -2645,23 +2624,25 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Predecessor field in an MPX file lists the task ID numbers for the
-    * predecessor for a given task. A predecessor task must start or finish
-    * the current task can be started. Each predecessor is linked to the task
-    * by a specific type of task dependency and a lead time or lag time.
-    *
-    * This method returns a RelationList object which contains a list of
-    * relationships between tasks. An iterator can be used to traverse
-    * this list to retrieve each relationship. Note that this method may
-    * return null if no predecessor relationships have been defined.
-    *
-    * @return RelationList instance
+    * Retrieves the list of predecessors for this task.
+    * 
+    * @return list of prdecessor Relation instances
     */
    @SuppressWarnings("unchecked") public List<Relation> getPredecessors()
    {
       return ((List<Relation>) getCachedValue(TaskField.PREDECESSORS));
    }
 
+   /**
+    * Retrieves the list of succesors for this task.
+    * 
+    * @return list of successor Relation instances
+    */
+   @SuppressWarnings("unchecked") public List<Relation> getSuccessors()
+   {
+      return ((List<Relation>) getCachedValue(TaskField.SUCCESSORS));
+   }
+   
    /**
     * The Priority field provides choices for the level of importance
     * assigned to a task, which in turn indicates how readily a task can be
@@ -2911,23 +2892,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
-    * The Successors field in an MPX file lists the task ID numbers for the
-    * successor for a given task. A task must start or finish before successor
-    * tasks can start or finish. Each successor is linked to the task by a
-    * specific type of task dependency and a lead time or lag time.
-    *
-    * This method returns a RelationList object which contains a list of
-    * relationships between tasks. An iterator can be used to traverse
-    * this list to retrieve each relationship.
-    *
-    * @return RelationList instance
-    */
-   @SuppressWarnings("unchecked") public List<Relation> getSuccessors()
-   {
-      return ((List<Relation>) getCachedValue(TaskField.SUCCESSORS));
-   }
-
-   /**
     * The Summary field indicates whether a task is a summary task.
     *
     * @return boolean, true-is summary task
@@ -3159,32 +3123,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public Integer getUniqueID()
    {
       return ((Integer) getCachedValue(TaskField.UNIQUE_ID));
-   }
-
-   /**
-    * The Unique ID Predecessors field lists the unique ID numbers for the
-    * predecessor tasks on which a task depends before it can be started or
-    * finished. Each predecessor is linked to the task by a specific type of
-    * task dependency and a lead time or lag time.
-    *
-    * @return list of predecessor UniqueIDs
-    */
-   @SuppressWarnings("unchecked") public List<Relation> getUniqueIDPredecessors()
-   {
-      return ((List<Relation>) getCachedValue(TaskField.UNIQUE_ID_PREDECESSORS));
-   }
-
-   /**
-    * The Unique ID Predecessors field lists the unique ID numbers for the
-    * predecessor tasks on which a task depends before it can be started or
-    * finished. Each predecessor is linked to the task by a specific type of
-    * task dependency and a lead time or lag time.
-    *
-    * @return list of predecessor UniqueIDs
-    */
-   @SuppressWarnings("unchecked") public List<Relation> getUniqueIDSuccessors()
-   {
-      return ((List<Relation>) getCachedValue(TaskField.UNIQUE_ID_SUCCESSORS));
    }
 
    /**
@@ -6664,20 +6602,46 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean isPredecessor(Task task)
    {
-      List<Relation> predecessors = getPredecessors();
-      if (predecessors != null)
+      return isRelated(task, getPredecessors());
+   }
+
+   /**
+    * Utility method used to determine if the supplied task
+    * is a successor of the current task.
+    * 
+    * @param task potential successor task
+    * @return Boolean flag
+    */
+   public boolean isSucessor(Task task)
+   {
+      return isRelated(task, getSuccessors());
+   }
+   
+   /**
+    * Internal method used to test for the existence of a relationship
+    * with a task.
+    * 
+    * @param task target task
+    * @param list list of relationships
+    * @return boolean flag
+    */
+   private boolean isRelated(Task task, List<Relation> list)
+   {
+      boolean result = false;
+      if (list != null)
       {
-         for (Relation relation : predecessors)
+         for (Relation relation : list)
          {
             if (relation.getTargetTask().getUniqueID() == task.getUniqueID())
             {
-               return true;
+               result = true;
+               break;
             }
          }
       }
-      return false;
+      return result;
    }
-
+   
    /**
     * Array of field values.
     */

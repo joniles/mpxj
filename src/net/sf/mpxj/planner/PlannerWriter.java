@@ -32,7 +32,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -495,53 +494,23 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void writePredecessors(Task mpxjTask, net.sf.mpxj.planner.schema.Task plannerTask)
    {
-      TreeSet<Integer> set = new TreeSet<Integer>();
-
       Predecessors plannerPredecessors = m_factory.createPredecessors();
       plannerTask.setPredecessors(plannerPredecessors);
       List<Predecessor> predecessorList = plannerPredecessors.getPredecessor();
       int id = 0;
 
-      //
-      // Process the list of predecessors specified by Unique ID
-      //
-      List<Relation> predecessors = mpxjTask.getUniqueIDPredecessors();
+      List<Relation> predecessors = mpxjTask.getPredecessors();
       if (predecessors != null)
       {
          for (Relation rel : predecessors)
          {
             Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            set.add(taskUniqueID);
-
             Predecessor plannerPredecessor = m_factory.createPredecessor();
             plannerPredecessor.setId(getIntegerString(++id));
             plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
             plannerPredecessor.setLag(getDurationString(rel.getLag()));
             plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
             predecessorList.add(plannerPredecessor);
-         }
-      }
-
-      //
-      // Process the list of predecessors specified by ID.
-      // Note that this code ensures that if both lists are populated,
-      // we avoid creating duplicate links.
-      //
-      predecessors = mpxjTask.getPredecessors();
-      if (predecessors != null)
-      {
-         for (Relation rel : predecessors)
-         {
-            Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-            if (set.contains(taskUniqueID) == false)
-            {
-               Predecessor plannerPredecessor = m_factory.createPredecessor();
-               plannerPredecessor.setId(getIntegerString(++id));
-               plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
-               plannerPredecessor.setLag(getDurationString(rel.getLag()));
-               plannerPredecessor.setType(RELATIONSHIP_TYPES.get(rel.getType()));
-               predecessorList.add(plannerPredecessor);
-            }
          }
       }
    }
