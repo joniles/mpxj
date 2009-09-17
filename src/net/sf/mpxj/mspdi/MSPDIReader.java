@@ -1313,7 +1313,7 @@ public final class MSPDIReader extends AbstractProjectReader
    {
       return (m_compatibleInput);
    }
-
+      
    /**
     * Cached context to minimise construction cost.
     */

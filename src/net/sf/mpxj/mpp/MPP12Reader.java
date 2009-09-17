@@ -2976,8 +2976,8 @@ final class MPP12Reader implements MPPVariantReader
                   timephasedPlanned.add(tra);
                }
 
-               assignment.setTimephasedPlanned(timephasedPlanned, true);
-               assignment.setTimephasedComplete(timephasedComplete, true);
+               assignment.setTimephasedPlanned(timephasedPlanned, !m_reader.getUseRawTimephasedData());
+               assignment.setTimephasedComplete(timephasedComplete, !m_reader.getUseRawTimephasedData());
 
                if (plannedWork != null)
                {
