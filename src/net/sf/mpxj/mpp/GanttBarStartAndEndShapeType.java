@@ -49,7 +49,7 @@ public enum GanttBarStartAndEndShapeType implements MpxjEnum
    DIAMONDCIRCLED(13, "Diamond Circled"),
    DOWNPOINTER(14, "Down Pointer"),
    UPARROWCIRCLED(15, "Up Arrow Circled"),
-   DOWNARROWCIRCLED(1, "Down Arrow Circled"),
+   DOWNARROWCIRCLED(16, "Down Arrow Circled"),
    UPPOINTERCIRCLED(17, "Up Pointer Circled"),
    DOWNPOINTERCIRCLED(18, "Down Pointer Circled"),
    CIRCLE(19, "Circle"),

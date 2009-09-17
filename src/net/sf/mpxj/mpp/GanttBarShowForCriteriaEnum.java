@@ -54,7 +54,7 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
    FLAG3(18, "Flag3"),
    FLAG4(19, "Flag4"),
    FLAG5(20, "Flag5"),
-   FLAG(21, "Flag6"),
+   FLAG6(21, "Flag6"),
    FLAG7(22, "Flag7"),
    FLAG8(23, "Flag8"),
    FLAG9(24, "Flag9"),

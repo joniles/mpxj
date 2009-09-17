@@ -137,7 +137,7 @@ public final class TimescaleFormat
    public static final int QUARTER_Q1_END_VALUE = 63;
    public static final int QUARTER_1_END_VALUE = 64;
    // Months
-   public static final int MONTHS_MMMM_YYYY_VALUE = 35;
+   public static final int MONTHS_MMMM_YYYY_VALUE = 7;
    public static final int MONTHS_MMM_XYY_VALUE = 8;
    public static final int MONTHS_MMMM_VALUE = 9;
    public static final int MONTHS_MMM_VALUE = 10;
@@ -282,7 +282,7 @@ public final class TimescaleFormat
    public static final TimescaleFormat HALFYEAR_1_END = new TimescaleFormat(HALFYEAR_1_END_VALUE);
    // Quarters
    public static final TimescaleFormat QUARTER_1_QUARTER = new TimescaleFormat(QUARTER_1_QUARTER_VALUE);
-   public static final TimescaleFormat QUARTER_QTR_1_YYYY = new TimescaleFormat(YEAR_YYYY_VALUE);
+   public static final TimescaleFormat QUARTER_QTR_1_YYYY = new TimescaleFormat(QUARTER_QTR_1_YYYY_VALUE);
    public static final TimescaleFormat QUARTER_QTR_1 = new TimescaleFormat(QUARTER_QTR_1_VALUE);
    public static final TimescaleFormat QUARTER_Q1_XYY = new TimescaleFormat(QUARTER_Q1_XYY_VALUE);
    public static final TimescaleFormat QUARTER_Q1 = new TimescaleFormat(QUARTER_Q1_VALUE);
