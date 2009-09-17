@@ -598,9 +598,9 @@ public final class MPXReader extends AbstractProjectReader
    private void populateCalendarHours(Record record, ProjectCalendarHours hours) throws MPXJException
    {
       hours.setDay(Day.getInstance(NumberUtility.getInt(record.getInteger(0))));
-      hours.addRange(getDateRange(record.getTime(1), record.getTime(2)));
-      hours.addRange(getDateRange(record.getTime(3), record.getTime(4)));
-      hours.addRange(getDateRange(record.getTime(5), record.getTime(6)));
+      addDateRange(hours, record.getTime(1), record.getTime(2));
+      addDateRange(hours, record.getTime(3), record.getTime(4));
+      addDateRange(hours, record.getTime(5), record.getTime(6));
    }
 
    /**
@@ -608,13 +608,13 @@ public final class MPXReader extends AbstractProjectReader
     * is midnight. In this instance the end time should be the start of the 
     * next day.
     * 
+    * @param hours calendar hours
     * @param start start date
     * @param end end date
-    * @return DateRange instance
     */
-   private DateRange getDateRange(Date start, Date end)
+   private void addDateRange(ProjectCalendarHours hours, Date start, Date end)
    {
-      if (end != null)
+      if (start != null && end != null)
       {
          Calendar cal = Calendar.getInstance();
          cal.setTime(end);
@@ -624,8 +624,9 @@ public final class MPXReader extends AbstractProjectReader
             cal.add(Calendar.DAY_OF_YEAR, 1);
          }
          end = cal.getTime();
+         
+         hours.addRange(new DateRange(start, end));
       }
-      return new DateRange(start, end);
    }
 
    /**
