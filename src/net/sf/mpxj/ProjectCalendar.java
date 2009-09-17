@@ -171,7 +171,8 @@ public final class ProjectCalendar extends ProjectEntity
          //
          if (m_baseCalendar == null)
          {
-            addDefaultCalendarHours();
+            // Only add default hours for the day that is 'missing' to avoid overwriting real calendar hours
+            addDefaultCalendarHours(day);
             result = getCalendarHours(day);
          }
          else
@@ -363,29 +364,27 @@ public final class ProjectCalendar extends ProjectEntity
     */
    public void addDefaultCalendarHours()
    {
-      ProjectCalendarHours hours = addCalendarHours(Day.SUNDAY);
+      for (int i = 1; i <= 7; i++)
+      {
+         addDefaultCalendarHours(Day.getInstance(i));
+      }
+   }
 
-      hours = addCalendarHours(Day.MONDAY);
-      hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
-      hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
+   /**
+    * This is a convenience method used to add a default set of calendar
+    * hours to a calendar.
+    * 
+    * @param day Day for which to add default hours for
+    */
+   public void addDefaultCalendarHours(Day day)
+   {
+      ProjectCalendarHours hours = addCalendarHours(day);
 
-      hours = addCalendarHours(Day.TUESDAY);
-      hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
-      hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
-
-      hours = addCalendarHours(Day.WEDNESDAY);
-      hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
-      hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
-
-      hours = addCalendarHours(Day.THURSDAY);
-      hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
-      hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
-
-      hours = addCalendarHours(Day.FRIDAY);
-      hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
-      hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
-
-      addCalendarHours(Day.SATURDAY);
+      if (day != Day.SATURDAY && day != Day.SUNDAY)
+      {
+         hours.addRange(new DateRange(DEFAULT_START1, DEFAULT_END1));
+         hours.addRange(new DateRange(DEFAULT_START2, DEFAULT_END2));
+      }
    }
 
    /**
@@ -1739,6 +1738,107 @@ public final class ProjectCalendar extends ProjectEntity
       pw.println("]");
       pw.flush();
       return (os.toString());
+   }
+
+   /**
+    * Create a calendar based on the intersection of a task calendar and a resource calendar.
+    *
+    * @param file the parent file to which this record belongs.
+    * @param taskCalendar task calendar to merge
+    * @param resourceCalendar resource calendar to merge
+    */
+   public ProjectCalendar(ProjectFile file, ProjectCalendar taskCalendar, ProjectCalendar resourceCalendar)
+   {
+      super(file);
+
+      // Set the resource
+      setResource(resourceCalendar.getResource());
+
+      // Merge the exceptions
+
+      // Merge the hours
+      for (int i = 1; i <= 7; i++)
+      {
+         Day day = Day.getInstance(i);
+
+         // Set working/non-working days
+         setWorkingDay(day, taskCalendar.isWorkingDay(day) && resourceCalendar.isWorkingDay(day));
+
+         ProjectCalendarHours hours = addCalendarHours(day);
+
+         int taskIndex = 0;
+         int resourceIndex = 0;
+
+         ProjectCalendarHours taskHours = taskCalendar.getHours(day);
+         ProjectCalendarHours resourceHours = resourceCalendar.getHours(day);
+
+         DateRange range1 = null;
+         DateRange range2 = null;
+
+         Date start = null;
+         Date end = null;
+
+         Date start1 = null;
+         Date start2 = null;
+         Date end1 = null;
+         Date end2 = null;
+         while (true)
+         {
+            // Find next range start
+            if (taskHours.getRangeCount() > taskIndex)
+            {
+               range1 = taskHours.getRange(taskIndex);
+            }
+            else
+            {
+               break;
+            }
+            if (resourceHours.getRangeCount() > resourceIndex)
+            {
+               range2 = resourceHours.getRange(resourceIndex);
+            }
+            else
+            {
+               break;
+            }
+
+            start1 = range1.getStart();
+            start2 = range2.getStart();
+            end1 = range1.getEnd();
+            end2 = range2.getEnd();
+
+            // Get the later start
+            if (start1.compareTo(start2) > 0)
+            {
+               start = start1;
+            }
+            else
+            {
+               start = start2;
+            }
+
+            // Get the earlier end
+            if (end1.compareTo(end2) < 0)
+            {
+               end = end1;
+               taskIndex++;
+            }
+            else
+            {
+               end = end2;
+               resourceIndex++;
+            }
+
+            if (end.compareTo(start) > 0)
+            {
+               // Found a block
+               hours.addRange(new DateRange(start, end));
+            }
+         }
+      }
+      // For now just combine the exceptions. Probably overkill (although would be more accurate) to also merge the exceptions.
+      m_exceptions.addAll(taskCalendar.getCalendarExceptions());
+      m_exceptions.addAll(resourceCalendar.getCalendarExceptions());
    }
 
    /**
