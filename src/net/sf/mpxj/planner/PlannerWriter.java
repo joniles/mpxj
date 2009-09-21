@@ -89,8 +89,12 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          m_projectFile = projectFile;
 
-         JAXBContext context = JAXBContext.newInstance("net.sf.mpxj.planner.schema");
-         Marshaller marshaller = context.createMarshaller();
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
+         Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
          //
@@ -137,12 +141,12 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setManager(mpxjHeader.getManager());
       m_plannerProject.setName(getString(mpxjHeader.getName()));
       m_plannerProject.setProjectStart(getDateTime(mpxjHeader.getStartDate()));
-
+      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getCalendar().getUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
 
    /**
-    * This method writes calandar data to a Planner file.
+    * This method writes calendar data to a Planner file.
     *
     * @throws JAXBException on xml creation errors
     */
@@ -876,4 +880,35 @@ public final class PlannerWriter extends AbstractProjectWriter
       RELATIONSHIP_TYPES.put(RelationType.START_START, "SS");
    }
 
+   /**
+    * Cached context to minimise construction cost.
+    */
+   private static JAXBContext CONTEXT;
+
+   /**
+    * Note any error occurring during context construction.
+    */
+   private static JAXBException CONTEXT_EXCEPTION;
+
+   static
+   {
+      try
+      {
+         //
+         // JAXB RI property to speed up construction
+         //
+         System.setProperty("com.sun.xml.bind.v2.runtime.JAXBContextImpl.fastBoot", "true");
+
+         //
+         // Construct the context
+         //
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.planner.schema", PlannerWriter.class.getClassLoader());
+      }
+
+      catch (JAXBException ex)
+      {
+         CONTEXT_EXCEPTION = ex;
+         CONTEXT = null;
+      }
+   }
 }

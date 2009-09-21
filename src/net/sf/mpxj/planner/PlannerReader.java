@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.planner;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -41,9 +40,10 @@ import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.sax.SAXSource;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
@@ -80,8 +80,9 @@ import net.sf.mpxj.planner.schema.Tasks;
 import net.sf.mpxj.reader.AbstractProjectReader;
 import net.sf.mpxj.utility.NumberUtility;
 
-import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 /**
  * This class creates a new ProjectFile instance by reading a Planner file.
@@ -101,13 +102,18 @@ public final class PlannerReader extends AbstractProjectReader
          m_projectFile.setAutoResourceID(true);
          m_projectFile.setAutoTaskID(true);
 
-         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-         dbf.setNamespaceAware(true);
-         DocumentBuilder db = dbf.newDocumentBuilder();
-         Document doc = db.parse(stream);
+         SAXParserFactory factory = SAXParserFactory.newInstance();
+         factory.setNamespaceAware(true);
+         SAXParser saxParser = factory.newSAXParser();
+         XMLReader xmlReader = saxParser.getXMLReader();
+         SAXSource doc = new SAXSource(xmlReader, new InputSource(stream));
 
-         JAXBContext context = JAXBContext.newInstance("net.sf.mpxj.planner.schema");
-         Unmarshaller unmarshaller = context.createUnmarshaller();
+         if (CONTEXT == null)
+         {
+            throw CONTEXT_EXCEPTION;
+         }
+
+         Unmarshaller unmarshaller = CONTEXT.createUnmarshaller();
 
          Project plannerProject = (Project) unmarshaller.unmarshal(doc);
 
@@ -136,11 +142,6 @@ public final class PlannerReader extends AbstractProjectReader
       }
 
       catch (SAXException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
-      }
-
-      catch (IOException ex)
       {
          throw new MPXJException("Failed to parse file", ex);
       }
@@ -982,4 +983,36 @@ public final class PlannerReader extends AbstractProjectReader
       RELATIONSHIP_TYPES.put("SF", RelationType.START_FINISH);
       RELATIONSHIP_TYPES.put("SS", RelationType.START_START);
    }
+   
+   /**
+    * Cached context to minimise construction cost.
+    */
+   private static JAXBContext CONTEXT;
+
+   /**
+    * Note any error occurring during context construction.
+    */
+   private static JAXBException CONTEXT_EXCEPTION;
+
+   static
+   {
+      try
+      {
+         //
+         // JAXB RI property to speed up construction
+         //
+         System.setProperty("com.sun.xml.bind.v2.runtime.JAXBContextImpl.fastBoot", "true");
+
+         //
+         // Construct the context
+         //
+         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.planner.schema", PlannerReader.class.getClassLoader());
+      }
+
+      catch (JAXBException ex)
+      {
+         CONTEXT_EXCEPTION = ex;
+         CONTEXT = null;
+      }
+   }   
 }
