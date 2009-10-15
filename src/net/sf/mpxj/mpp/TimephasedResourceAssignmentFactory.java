@@ -53,7 +53,7 @@ final class TimephasedResourceAssignmentFactory
    {
       LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
 
-      if (data != null)
+      if (data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          double previousCumulativeWork = 0;
@@ -142,7 +142,7 @@ final class TimephasedResourceAssignmentFactory
    {
       LinkedList<TimephasedResourceAssignment> list = new LinkedList<TimephasedResourceAssignment>();
 
-      if (data != null)
+      if (data != null && data.length > 0)
       {
          int blockCount = MPPUtility.getShort(data, 0);
          if (blockCount == 0)
