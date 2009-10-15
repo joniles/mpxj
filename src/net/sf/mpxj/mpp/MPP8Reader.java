@@ -590,7 +590,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 144));
          task.setPriority(Priority.getInstance((MPPUtility.getShort(data, 128) + 1) * 100));
          //task.setProject(); // Calculated value
-         task.setRecurring(recurringData != null);
+         task.setRecurring(MPPUtility.getShort(data, 142)!=0);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble(((double) MPPUtility.getLong6(data, 240)) / 100));
          task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72))));

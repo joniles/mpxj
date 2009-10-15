@@ -1866,7 +1866,7 @@ final class MPP9Reader implements MPPVariantReader
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 120)));
          //task.setProject(); // Calculated value         
-         task.setRecurring(recurringData != null);
+         task.setRecurring(MPPUtility.getShort(data, 134)!=0);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 224) / 100));
          task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
