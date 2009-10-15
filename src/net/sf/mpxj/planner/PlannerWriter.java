@@ -721,18 +721,23 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getDateTimeString(Date value)
    {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(value);
-      StringBuffer sb = new StringBuffer(16);
-      sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
-      sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
-      sb.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
-      sb.append('T');
-      sb.append(m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)));
-      sb.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
-      sb.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
-      sb.append('Z');
-      return (sb.toString());
+      String result = null;
+      if (value != null)
+      {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(value);
+         StringBuffer sb = new StringBuffer(16);
+         sb.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
+         sb.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
+         sb.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
+         sb.append('T');
+         sb.append(m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)));
+         sb.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
+         sb.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
+         sb.append('Z');
+         result = sb.toString();
+      }
+      return result;
    }
 
    /**
