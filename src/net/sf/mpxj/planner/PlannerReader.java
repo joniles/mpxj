@@ -600,33 +600,36 @@ public final class PlannerReader extends AbstractProjectReader
       // Calculate missing attributes
       //
       ProjectCalendar calendar = m_projectFile.getCalendar();
-      Duration duration = calendar.getWork(mpxjTask.getStart(), mpxjTask.getFinish(), TimeUnit.HOURS);
-      double durationDays = duration.getDuration() / 8;
-      if (durationDays > 0)
+      if (calendar != null)
       {
-         duration = Duration.getInstance(durationDays, TimeUnit.DAYS);
-      }
-      mpxjTask.setDuration(duration);
-
-      if (percentComplete.intValue() != 0)
-      {
-         mpxjTask.setActualStart(mpxjTask.getStart());
-
-         if (percentComplete.intValue() == 100)
+         Duration duration = calendar.getWork(mpxjTask.getStart(), mpxjTask.getFinish(), TimeUnit.HOURS);
+         double durationDays = duration.getDuration() / 8;
+         if (durationDays > 0)
          {
-            mpxjTask.setActualFinish(mpxjTask.getFinish());
-            mpxjTask.setActualDuration(duration);
-            mpxjTask.setActualWork(mpxjTask.getWork());
-            mpxjTask.setRemainingWork(Duration.getInstance(0, TimeUnit.HOURS));
+            duration = Duration.getInstance(durationDays, TimeUnit.DAYS);
          }
-         else
-         {
-            Duration work = mpxjTask.getWork();
-            Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete.doubleValue()) / 100.0d, work.getUnits());
+         mpxjTask.setDuration(duration);
 
-            mpxjTask.setActualDuration(Duration.getInstance((duration.getDuration() * percentComplete.doubleValue()) / 100.0d, duration.getUnits()));
-            mpxjTask.setActualWork(actualWork);
-            mpxjTask.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
+         if (percentComplete.intValue() != 0)
+         {
+            mpxjTask.setActualStart(mpxjTask.getStart());
+
+            if (percentComplete.intValue() == 100)
+            {
+               mpxjTask.setActualFinish(mpxjTask.getFinish());
+               mpxjTask.setActualDuration(duration);
+               mpxjTask.setActualWork(mpxjTask.getWork());
+               mpxjTask.setRemainingWork(Duration.getInstance(0, TimeUnit.HOURS));
+            }
+            else
+            {
+               Duration work = mpxjTask.getWork();
+               Duration actualWork = Duration.getInstance((work.getDuration() * percentComplete.doubleValue()) / 100.0d, work.getUnits());
+
+               mpxjTask.setActualDuration(Duration.getInstance((duration.getDuration() * percentComplete.doubleValue()) / 100.0d, duration.getUnits()));
+               mpxjTask.setActualWork(actualWork);
+               mpxjTask.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
+            }
          }
       }
       mpxjTask.setEffortDriven(true);
@@ -983,7 +986,7 @@ public final class PlannerReader extends AbstractProjectReader
       RELATIONSHIP_TYPES.put("SF", RelationType.START_FINISH);
       RELATIONSHIP_TYPES.put("SS", RelationType.START_START);
    }
-   
+
    /**
     * Cached context to minimise construction cost.
     */
@@ -1014,5 +1017,5 @@ public final class PlannerReader extends AbstractProjectReader
          CONTEXT_EXCEPTION = ex;
          CONTEXT = null;
       }
-   }   
+   }
 }
