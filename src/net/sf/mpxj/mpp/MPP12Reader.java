@@ -2736,6 +2736,7 @@ final class MPP12Reader implements MPPVariantReader
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164) / 100));
          resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
+         resource.setOvertimeRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data,10)-1));
          resource.setOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 76) / 60000, TimeUnit.HOURS));
          resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
@@ -2744,7 +2745,8 @@ final class MPP12Reader implements MPPVariantReader
          resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180) / 100));
          resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));
          resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
-
+         resource.setStandardRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data,8)-1));        
+         
          resource.setStart1(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START1));
          resource.setStart2(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START2));
          resource.setStart3(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_START3));

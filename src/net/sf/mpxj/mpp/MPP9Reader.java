@@ -2673,15 +2673,18 @@ final class MPP9Reader implements MPPVariantReader
          resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164) / 100));
-         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
+         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));         
+         resource.setOvertimeRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data,10)-1));         
          resource.setOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 76) / 60000, TimeUnit.HOURS));
          resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
          resource.setRegularWork(Duration.getInstance(MPPUtility.getDouble(data, 100) / 60000, TimeUnit.HOURS));
          resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156) / 100));
          resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180) / 100));
-         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));
-         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
+         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));                                    
+         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));         
+         resource.setStandardRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data,8)-1));
+                  
          resource.setStart1(rscVarData.getTimestamp(id, RESOURCE_START1));
          resource.setStart2(rscVarData.getTimestamp(id, RESOURCE_START2));
          resource.setStart3(rscVarData.getTimestamp(id, RESOURCE_START3));
