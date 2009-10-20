@@ -77,7 +77,7 @@ final class EncryptedDocumentInputStream extends InputStream
    /**
     * {@inheritDoc}
     */
-   @Override public int available() throws IOException
+   @Override public int available()
    {
       return m_dis.available();
    }
@@ -85,7 +85,7 @@ final class EncryptedDocumentInputStream extends InputStream
    /**
     * {@inheritDoc}
     */
-   @Override public void close() throws IOException
+   @Override public void close()
    {
       m_dis.close();
    }
