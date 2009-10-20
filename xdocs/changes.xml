@@ -19,7 +19,8 @@
 		<action dev="joniles" type="fix">Updated to fix Steelray bug 15468: Null Pointer Exception reading task constraints.</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2877136: Planner writer causes Null Pointer exception.</action>				
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2838998: getRecurring() task is not working</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2833075: getStandardRateFormat() is returning 'null'</action>					
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2833075: getStandardRateFormat() is returning 'null'</action>							
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2831387: getWeekStartDay() is not working.</action>		
 		<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>		
 		<action dev="joniles" type="update">Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</action>
 		<action dev="joniles" type="update">Updated to implement MSPDI context caching to improve performance (Contributed by Jari Niskala).</action>

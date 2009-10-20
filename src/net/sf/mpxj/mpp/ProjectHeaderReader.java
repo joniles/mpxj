@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
@@ -72,7 +73,10 @@ public final class ProjectHeaderReader
       //ph.setDecimalSeparator();
       ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
       //ph.setThousandsSeparator();
-
+      ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY)+1));      
+      ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));      
+      ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
+      
       SummaryInformation summary = new SummaryInformation(rootDir);
       ph.setProjectTitle(summary.getProjectTitle());
       ph.setSubject(summary.getSubject());
