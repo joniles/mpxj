@@ -1374,7 +1374,7 @@ public abstract class GanttChartView extends GenericView
          // If we have enough data left in the block for 
          // a second criteria then process it
          //         
-         if (varDataOffset - 272 >= 272)
+         if (varDataOffset - 272 >= 272 && data.length > (offset+272+80+4))
          {
             int logicType = MPPUtility.getByte(data, offset + 272);
             switch (logicType)
