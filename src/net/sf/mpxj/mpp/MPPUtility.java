@@ -364,6 +364,7 @@ final class MPPUtility
    {
       int time = getShort(data, offset) / 10;
       Calendar cal = Calendar.getInstance();
+      cal.setTime(EPOCH_DATE);
       cal.set(Calendar.HOUR_OF_DAY, (time / 60));
       cal.set(Calendar.MINUTE, (time % 60));
       cal.set(Calendar.SECOND, 0);
