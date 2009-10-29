@@ -21,7 +21,8 @@
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2838998: getRecurring() task is not working</action>
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2833075: getStandardRateFormat() is returning 'null'</action>							
 		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2831387: getWeekStartDay() is not working.</action>
-		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2831386: getDaysPerMonth() is not working.</action>						
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2831386: getDaysPerMonth() is not working.</action>		
+		<action dev="joniles" type="fix">Updated to fix SourceForge bug 2855700: Resource.getNotes() not working for MPP12 file.</action>								
 		<action dev="joniles" type="update">Updated use POI 3.5.</action>
 		<action dev="joniles" type="update">Updated to make MPX duration parsing more lenient (Contributed by Jari Niskala).</action>		
 		<action dev="joniles" type="update">Updated to make MPP Var2Data extraction more robust (Contributed by Jari Niskala).</action>

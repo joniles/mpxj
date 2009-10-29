@@ -4099,7 +4099,7 @@ final class MPP12Reader implements MPPVariantReader
    // Unverified
    //
    private static final Integer RESOURCE_SUBPROJECTRESOURCEID = Integer.valueOf(102);
-   private static final Integer RESOURCE_NOTES = Integer.valueOf(124);
+   private static final Integer RESOURCE_NOTES = Integer.valueOf(20);
 
    private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(6);
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(7);

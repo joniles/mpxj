@@ -54,8 +54,11 @@ public class MppResourceTest extends MPXJTestCase
     */
    public void testMpp9Resource() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource.mpp");
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(false);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpp");
       testResources(mpp);
+      testNotes(mpp);
    }
 
    /**
@@ -65,8 +68,11 @@ public class MppResourceTest extends MPXJTestCase
     */
    public void testMpp12Resource() throws Exception
    {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource.mpp");
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(false);      
+      ProjectFile mpp = reader.read(m_basedir + "/mpp12resource.mpp");
       testResources(mpp);
+      testNotes(mpp);
    }
 
    /**
@@ -78,8 +84,11 @@ public class MppResourceTest extends MPXJTestCase
    {
       try
       {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9resource.mpd");
+         MPDDatabaseReader reader = new MPDDatabaseReader();
+         reader.setPreserveNoteFormatting(false);
+         ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpd");
          testResources(mpp);
+         testNotes(mpp);
       }
 
       catch (Exception ex)
@@ -381,5 +390,22 @@ public class MppResourceTest extends MPXJTestCase
       // contour
       ResourceAssignment ra2 = listResourceAssignments.get(3);
       assertEquals(WorkContour.TURTLE, ra2.getWorkContour());
+   }
+   
+   /**
+    * Validates that we are retrieving the notes correctly for each resource.
+    * 
+    * @param file project file
+    */
+   private void testNotes (ProjectFile file)
+   {
+      for (Resource resource: file.getAllResources())
+      {
+         int id = resource.getID().intValue();
+         if (id != 0)
+         {
+            assertEquals("Resource Notes " + id, resource.getNotes().trim());
+         }
+      }
    }
 }
