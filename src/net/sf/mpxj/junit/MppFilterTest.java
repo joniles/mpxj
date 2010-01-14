@@ -455,9 +455,9 @@ public class MppFilterTest extends MPXJTestCase
       };
 
       operator = TestOperator.IS_NOT_WITHIN;
-      assertTrue(operator.evaluate(null, allNull));
-      assertTrue(operator.evaluate(null, lhsNull));
-      assertTrue(operator.evaluate(null, rhsNull));
+      assertFalse(operator.evaluate(null, allNull));
+      assertFalse(operator.evaluate(null, lhsNull));
+      assertFalse(operator.evaluate(null, rhsNull));
       assertTrue(operator.evaluate(Integer.valueOf(5), allNull));
       assertTrue(operator.evaluate(Integer.valueOf(5), lhsNull));
       assertTrue(operator.evaluate(Integer.valueOf(5), rhsNull));
@@ -466,9 +466,9 @@ public class MppFilterTest extends MPXJTestCase
       assertTrue(operator.evaluate(rhsNull, Integer.valueOf(5)));
 
       operator = TestOperator.IS_WITHIN;
-      assertFalse(operator.evaluate(null, allNull));
-      assertFalse(operator.evaluate(null, lhsNull));
-      assertFalse(operator.evaluate(null, rhsNull));
+      assertTrue(operator.evaluate(null, allNull));
+      assertTrue(operator.evaluate(null, lhsNull));
+      assertTrue(operator.evaluate(null, rhsNull));
       assertFalse(operator.evaluate(Integer.valueOf(5), allNull));
       assertFalse(operator.evaluate(Integer.valueOf(5), lhsNull));
       assertFalse(operator.evaluate(Integer.valueOf(5), rhsNull));

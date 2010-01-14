@@ -280,16 +280,24 @@ public enum TestOperator implements MpxjEnum
    {
       boolean result = false;
 
-      if (lhs != null && rhs instanceof Object[])
+      if (rhs instanceof Object[])
       {
-         Comparable lhsComparable = (Comparable) lhs;
          Object[] rhsList = (Object[]) rhs;
-         if (rhsList[0] != null && rhsList[1] != null)
+         if (lhs != null)
          {
-            result = (lhsComparable.compareTo(rhsList[0]) >= 0 && lhsComparable.compareTo(rhsList[1]) <= 0);
+            Comparable lhsComparable = (Comparable) lhs;
+            if (rhsList[0] != null && rhsList[1] != null)
+            {
+               // Project also tries with the values flipped
+               result = (lhsComparable.compareTo(rhsList[0]) >= 0 && lhsComparable.compareTo(rhsList[1]) <= 0) || (lhsComparable.compareTo(rhsList[0]) <= 0 && lhsComparable.compareTo(rhsList[1]) >= 0);
+            }
+         }
+         else
+         {
+            // Project also respects null equality (e.g. NA dates)
+            result = rhsList[0] == null || rhsList[1] == null;
          }
       }
-
       return (result);
    }
 

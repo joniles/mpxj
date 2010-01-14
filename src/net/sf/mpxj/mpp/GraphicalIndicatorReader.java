@@ -108,7 +108,7 @@ public final class GraphicalIndicatorReader
       indicator.setShowDataValuesInToolTips((flags & 0x01) != 0);
       m_dataOffset += 20;
 
-      //int nonSummaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) -36;
+      int nonSummaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
       m_dataOffset += 4;
 
       int summaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
@@ -126,6 +126,8 @@ public final class GraphicalIndicatorReader
       int maxNonSummaryRowOffset = m_dataOffset + summaryRowOffset;
       int maxSummaryRowOffset = m_dataOffset + projectSummaryOffset;
       int maxProjectSummaryOffset = m_dataOffset + dataSize;
+
+      m_dataOffset += nonSummaryRowOffset;
 
       while (m_dataOffset + 2 < maxNonSummaryRowOffset)
       {

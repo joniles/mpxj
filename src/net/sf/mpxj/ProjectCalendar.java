@@ -657,6 +657,11 @@ public final class ProjectCalendar extends ProjectEntity
                   if (remainingMinutes == rangeMinutes)
                   {
                      endTime = canonicalRangeEnd;
+                     if (rangeStartDay.getTime() != rangeEndDay.getTime())
+                     {
+                        // The range ends the next day, so let's adjust our date accordingly.
+                        cal.add(Calendar.DAY_OF_YEAR, 1);
+                     }
                   }
                   else
                   {
@@ -710,8 +715,8 @@ public final class ProjectCalendar extends ProjectEntity
          Date currentDate = cal.getTime();
          startCal.setTime(currentDate);
          startCal.add(Calendar.DAY_OF_YEAR, -1);
-         Date currentDateStart = DateUtility.getDayEndDate(startCal.getTime());
-         double currentDateWorkingMinutes = getWork(currentDateStart, currentDate, TimeUnit.MINUTES).getDuration();
+         Date currentDateEnd = DateUtility.getDayEndDate(startCal.getTime());
+         double currentDateWorkingMinutes = getWork(currentDateEnd, currentDate, TimeUnit.MINUTES).getDuration();
 
          //
          // We have more than enough hours left
@@ -726,13 +731,25 @@ public final class ProjectCalendar extends ProjectEntity
             //
             // Move the calendar backward to the previous working day
             //            
+            int count = 0;
             Day day;
             do
             {
+               if (count > 7)
+               {
+                  break; // Protect against a calendar with all days non-working
+               }
+               count++;
                cal.add(Calendar.DAY_OF_YEAR, -1);
                day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
             }
             while (!isWorkingDate(cal.getTime(), day));
+
+            if (count > 7)
+            {
+               // We have a calendar with no working days.
+               return null;
+            }
 
             //
             // Retrieve the finish time for this day
@@ -785,9 +802,9 @@ public final class ProjectCalendar extends ProjectEntity
                if (rangeStartDay.getTime() != rangeEndDay.getTime())
                {
                   Calendar calendar = Calendar.getInstance();
-                  calendar.setTime(canonicalRangeStart);
-                  calendar.add(Calendar.DAY_OF_YEAR, -1);
-                  canonicalRangeStart = calendar.getTime();
+                  calendar.setTime(canonicalRangeEnd);
+                  calendar.add(Calendar.DAY_OF_YEAR, 1);
+                  canonicalRangeEnd = calendar.getTime();
                }
 
                if (firstRange && canonicalRangeStart.getTime() > currentDateFinishTime.getTime())
