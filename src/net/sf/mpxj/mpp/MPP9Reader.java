@@ -1866,7 +1866,7 @@ final class MPP9Reader implements MPPVariantReader
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 120)));
          //task.setProject(); // Calculated value         
-         task.setRecurring(MPPUtility.getShort(data, 134)!=0);
+         task.setRecurring(MPPUtility.getShort(data, 134) != 0);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 224) / 100));
          task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 70), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
@@ -2502,9 +2502,9 @@ final class MPP9Reader implements MPPVariantReader
                         if (task1 != null && task2 != null)
                         {
                            RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
-                           TimeUnit  durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
+                           TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 14));
                            Duration lag = MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 16), durationUnits);
-                           task2.addPredecessor(task1, type, lag);                           
+                           task2.addPredecessor(task1, type, lag);
                         }
                      }
                   }
@@ -2673,18 +2673,18 @@ final class MPP9Reader implements MPPVariantReader
          resource.setOutlineCode10(m_outlineCodeVarData.getUnicodeString(Integer.valueOf(rscVarData.getInt(id, RESOURCE_OUTLINECODE10)), OUTLINECODE_DATA));
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 164) / 100));
-         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));         
-         resource.setOvertimeRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data,10)-1));         
+         resource.setOvertimeRate(new Rate(MPPUtility.getDouble(data, 36), TimeUnit.HOURS));
+         resource.setOvertimeRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data, 10) - 1));
          resource.setOvertimeWork(Duration.getInstance(MPPUtility.getDouble(data, 76) / 60000, TimeUnit.HOURS));
          resource.setPeakUnits(NumberUtility.getDouble(MPPUtility.getDouble(data, 124) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
          resource.setRegularWork(Duration.getInstance(MPPUtility.getDouble(data, 100) / 60000, TimeUnit.HOURS));
          resource.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 156) / 100));
          resource.setRemainingOvertimeCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 180) / 100));
-         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));                                    
-         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));         
-         resource.setStandardRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data,8)-1));
-                  
+         resource.setRemainingWork(Duration.getInstance(MPPUtility.getDouble(data, 92) / 60000, TimeUnit.HOURS));
+         resource.setStandardRate(new Rate(MPPUtility.getDouble(data, 28), TimeUnit.HOURS));
+         resource.setStandardRateFormat(TimeUnit.getInstance(MPPUtility.getShort(data, 8) - 1));
+
          resource.setStart1(rscVarData.getTimestamp(id, RESOURCE_START1));
          resource.setStart2(rscVarData.getTimestamp(id, RESOURCE_START2));
          resource.setStart3(rscVarData.getTimestamp(id, RESOURCE_START3));
@@ -2918,7 +2918,14 @@ final class MPP9Reader implements MPPVariantReader
                   }
                   else
                   {
-                     assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
+                     if (plannedWork.length >= 30)
+                     {
+                        assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
+                     }
+                     else
+                     {
+                        assignment.setWorkContour(WorkContour.FLAT);
+                     }
                   }
                   //System.out.println(assignment.getWorkContour());
                }
