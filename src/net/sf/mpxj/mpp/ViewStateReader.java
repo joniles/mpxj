@@ -68,7 +68,7 @@ public abstract class ViewStateReader
                Integer uniqueID = Integer.valueOf(MPPUtility.getInt(listData, index));
                if (file.getTaskByUniqueID(uniqueID) == null)
                {
-                  break;
+                  continue;
                }
                uniqueIdList.add(uniqueID);
             }
