@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Duration;
@@ -324,6 +325,43 @@ final class MPPUtility
    public static final double getDouble(byte[] data)
    {
       return (Double.longBitsToDouble(getLong(data, 0)));
+   }
+
+   /**
+    * Reads a UUID/GUID from a data block.
+    * 
+    * @param data data block
+    * @param offset offset into the data block
+    * @return UUID instance
+    */
+   public static final UUID getGUID(byte[] data, int offset)
+   {
+      UUID result = null;
+      if (data.length > 15)
+      {
+         long long1 = 0;
+         long1 |= ((long) (data[offset + 3] & 0xFF)) << 56;
+         long1 |= ((long) (data[offset + 2] & 0xFF)) << 48;
+         long1 |= ((long) (data[offset + 1] & 0xFF)) << 40;
+         long1 |= ((long) (data[offset + 0] & 0xFF)) << 32;
+         long1 |= ((long) (data[offset + 5] & 0xFF)) << 24;
+         long1 |= ((long) (data[offset + 4] & 0xFF)) << 16;
+         long1 |= ((long) (data[offset + 7] & 0xFF)) << 8;
+         long1 |= ((long) (data[offset + 6] & 0xFF)) << 0;
+
+         long long2 = 0;
+         long2 |= ((long) (data[offset + 8] & 0xFF)) << 56;
+         long2 |= ((long) (data[offset + 9] & 0xFF)) << 48;
+         long2 |= ((long) (data[offset + 10] & 0xFF)) << 40;
+         long2 |= ((long) (data[offset + 11] & 0xFF)) << 32;
+         long2 |= ((long) (data[offset + 12] & 0xFF)) << 24;
+         long2 |= ((long) (data[offset + 13] & 0xFF)) << 16;
+         long2 |= ((long) (data[offset + 14] & 0xFF)) << 8;
+         long2 |= ((long) (data[offset + 15] & 0xFF)) << 0;
+
+         result = new UUID(long1, long2);
+      }
+      return result;
    }
 
    /**

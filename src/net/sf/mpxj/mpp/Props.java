@@ -258,7 +258,7 @@ class Props extends MPPComponent
 
    /**
     * Data types.
-    */   
+    */
    public static final Integer PROJECT_START_DATE = Integer.valueOf(37748738);
    public static final Integer PROJECT_FINISH_DATE = Integer.valueOf(37748739);
    public static final Integer SCHEDULE_FROM = Integer.valueOf(37748740);
@@ -282,7 +282,7 @@ class Props extends MPPComponent
    public static final Integer FISCAL_YEAR_START_MONTH = Integer.valueOf(37748780);
    public static final Integer FISCAL_YEAR_START = Integer.valueOf(37748801);
    public static final Integer DAYS_PER_MONTH = Integer.valueOf(37753743);
-   
+
    public static final Integer CURRENCY_CODE = Integer.valueOf(37753787);
 
    public static final Integer CALCULATE_MULTIPLE_CRITICAL_PATHS = Integer.valueOf(37748793);

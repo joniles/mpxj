@@ -506,7 +506,9 @@ public final class MPPTaskField
    private static final int ENTERPRISE_TEXT39_VALUE = 837;
    private static final int ENTERPRISE_TEXT40_VALUE = 838;
 
-   private static final int MAX_VALUE = 839;
+   private static final int GUID_VALUE = 1143;
+
+   private static final int MAX_VALUE = 1144;
 
    private static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
 
@@ -959,6 +961,7 @@ public final class MPPTaskField
       FIELD_ARRAY[ENTERPRISE_TEXT38_VALUE] = TaskField.ENTERPRISE_TEXT38;
       FIELD_ARRAY[ENTERPRISE_TEXT39_VALUE] = TaskField.ENTERPRISE_TEXT39;
       FIELD_ARRAY[ENTERPRISE_TEXT40_VALUE] = TaskField.ENTERPRISE_TEXT40;
+      FIELD_ARRAY[GUID_VALUE] = TaskField.GUID;
    }
 
    private static final int[] ID_ARRAY = new int[TaskField.MAX_VALUE];
@@ -1410,6 +1413,7 @@ public final class MPPTaskField
       ID_ARRAY[TaskField.ENTERPRISE_TEXT38_VALUE] = ENTERPRISE_TEXT38_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_TEXT39_VALUE] = ENTERPRISE_TEXT39_VALUE;
       ID_ARRAY[TaskField.ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40_VALUE;
+      ID_ARRAY[TaskField.GUID_VALUE] = GUID_VALUE;
    }
 
    public static final int TASK_FIELD_BASE = 0x0B400000;

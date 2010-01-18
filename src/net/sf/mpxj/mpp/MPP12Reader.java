@@ -1269,6 +1269,8 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
       FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), 768, MINIMUM_EXPECTED_TASK_SIZE);
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 86);
+      FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
+
       Props12 props = new Props12(getEncryptableInputStream(taskDir, "Props"));
       //System.out.println(taskFixedMeta);
       //System.out.println(taskFixedData);
@@ -1331,8 +1333,12 @@ final class MPP12Reader implements MPPVariantReader
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
+
          metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
-         //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));
+         byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
+         //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));         
+         //System.out.println (MPPUtility.hexdump(data2, false, 16, ""));
+
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
 
          Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
@@ -1542,6 +1548,7 @@ final class MPP12Reader implements MPPVariantReader
          task.setFreeSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          //       From MS Project 2003
          //         task.setGroupBySummary();
+         task.setGUID(MPPUtility.getGUID(data2, 0));
          task.setHideBar((metaData[10] & 0x80) != 0);
          processHyperlinkData(task, taskVarData.getByteArray(id, TASK_HYPERLINK));
          task.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
@@ -2556,7 +2563,7 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
       FixedData rscFixedData = new FixedData(rscFixedMeta, getEncryptableInputStream(rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
-      //FixedData rscFixed2Data = new FixedData(rscFixed2Meta, getEncryptableInputStream(rscDir, "Fixed2Data"));
+      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, getEncryptableInputStream(rscDir, "Fixed2Data"));
       Props12 props = new Props12(getEncryptableInputStream(rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
@@ -2591,7 +2598,7 @@ final class MPP12Reader implements MPPVariantReader
 
          data = rscFixedData.getByteArrayValue(offset.intValue());
          byte[] metaData2 = rscFixed2Meta.getByteArrayValue(offset.intValue());
-
+         byte[] data2 = rscFixed2Data.getByteArrayValue(offset.intValue());
          //metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
          //MPPUtility.dataDump(data, true, true, true, true, true, true, true);
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
@@ -2693,6 +2700,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.setFinish10(getCustomFieldTimestampValue(rscVarData, id, RESOURCE_FINISH10));
 
          resource.setGroup(rscVarData.getUnicodeString(id, RESOURCE_GROUP));
+         resource.setGUID(MPPUtility.getGUID(data2, 0));
          processHyperlinkData(resource, rscVarData.getByteArray(id, RESOURCE_HYPERLINK));
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          resource.setInitials(rscVarData.getUnicodeString(id, RESOURCE_INITIALS));

@@ -152,7 +152,7 @@ public final class MPPReader extends AbstractProjectReader
    {
       return m_useRawTimephasedData;
    }
-   
+
    /**
     * If this flag is true, raw timephased data will be retrieved
     * from MS Project: no normalisation will take place. 
@@ -163,7 +163,7 @@ public final class MPPReader extends AbstractProjectReader
    {
       m_useRawTimephasedData = useRawTimephasedData;
    }
-   
+
    /**
     * Set the read password for this Project file. This is needed in order to
     * be allowed to read a read-protected Project file.
@@ -221,7 +221,7 @@ public final class MPPReader extends AbstractProjectReader
     * Setting this flag to true allows raw timephased data to be retrieved. 
     */
    private boolean m_useRawTimephasedData;
-   
+
    private String m_readPassword;
    private String m_writePassword;
 

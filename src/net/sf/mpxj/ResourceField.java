@@ -514,8 +514,9 @@ public final class ResourceField implements FieldType
    public static final int CREATED_VALUE = 377;
    public static final int BUDGET_VALUE = 378;
    public static final int TASK_OUTLINE_NUMBER_VALUE = 379;
+   public static final int GUID_VALUE = 380;
 
-   public static final int MAX_VALUE = 380;
+   public static final int MAX_VALUE = 381;
 
    public static final ResourceField ID = new ResourceField(ID_VALUE, DataType.NUMERIC);
    public static final ResourceField NAME = new ResourceField(NAME_VALUE, DataType.STRING);
@@ -897,6 +898,7 @@ public final class ResourceField implements FieldType
    public static final ResourceField CREATED = new ResourceField(CREATED_VALUE, DataType.DATE);
    public static final ResourceField BUDGET = new ResourceField(BUDGET_VALUE, DataType.BOOLEAN);
    public static final ResourceField TASK_OUTLINE_NUMBER = new ResourceField(TASK_OUTLINE_NUMBER_VALUE, DataType.STRING);
+   public static final ResourceField GUID = new ResourceField(GUID_VALUE, DataType.STRING);
 
    private static final ResourceField[] TYPE_VALUES = new ResourceField[MAX_VALUE];
 
@@ -1282,6 +1284,7 @@ public final class ResourceField implements FieldType
       TYPE_VALUES[CREATED_VALUE] = CREATED;
       TYPE_VALUES[BUDGET_VALUE] = BUDGET;
       TYPE_VALUES[TASK_OUTLINE_NUMBER_VALUE] = TASK_OUTLINE_NUMBER;
+      TYPE_VALUES[GUID_VALUE] = GUID;
    }
 
    private int m_value;

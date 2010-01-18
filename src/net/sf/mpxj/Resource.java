@@ -27,6 +27,7 @@ package net.sf.mpxj;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import net.sf.mpxj.listener.FieldListener;
 import net.sf.mpxj.utility.BooleanUtility;
@@ -4561,6 +4562,26 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    public void setBudget(boolean budget)
    {
       set(ResourceField.BUDGET, budget);
+   }
+
+   /**
+    * Retrieves the resource GUID.
+    * 
+    * @return resource GUID.
+    */
+   public UUID getGUID()
+   {
+      return (UUID) getCachedValue(ResourceField.GUID);
+   }
+
+   /**
+    * Sets the resource GUID.
+    * 
+    * @param value resource GUID
+    */
+   public void setGUID(UUID value)
+   {
+      set(ResourceField.GUID, value);
    }
 
    /**

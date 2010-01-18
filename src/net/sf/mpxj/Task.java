@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import net.sf.mpxj.listener.FieldListener;
 import net.sf.mpxj.utility.BooleanUtility;
@@ -433,7 +434,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          predecessorRelation = new Relation(this, targetTask, type, lag);
          predecessorList.add(predecessorRelation);
       }
- 
+
       //
       // Retrieve the list of successors
       //
@@ -443,7 +444,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
          successorList = new LinkedList<Relation>();
          targetTask.set(TaskField.SUCCESSORS, successorList);
       }
- 
+
       //
       // Ensure that there is only one successor relationship between
       // these two tasks.
@@ -2642,7 +2643,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       return ((List<Relation>) getCachedValue(TaskField.SUCCESSORS));
    }
-   
+
    /**
     * The Priority field provides choices for the level of importance
     * assigned to a task, which in turn indicates how readily a task can be
@@ -6319,6 +6320,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    }
 
    /**
+    * Retrieve the task GUID.
+    * 
+    * @return task GUID
+    */
+   public UUID getGUID()
+   {
+      return (UUID) getCachedValue(TaskField.GUID);
+   }
+
+   /**
+    * Set the task GUID.
+    * 
+    * @param value task GUID
+    */
+   public void setGUID(UUID value)
+   {
+      set(TaskField.GUID, value);
+   }
+
+   /**
     * Maps a field index to a TaskField instance.
     * 
     * @param fields array of fields used as the basis for the mapping.
@@ -6616,7 +6637,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    {
       return isRelated(task, getSuccessors());
    }
-   
+
    /**
     * Internal method used to test for the existence of a relationship
     * with a task.
@@ -6641,7 +6662,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       }
       return result;
    }
-   
+
    /**
     * Array of field values.
     */

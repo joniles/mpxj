@@ -69,7 +69,7 @@ public class MppResourceTest extends MPXJTestCase
    public void testMpp12Resource() throws Exception
    {
       MPPReader reader = new MPPReader();
-      reader.setPreserveNoteFormatting(false);      
+      reader.setPreserveNoteFormatting(false);
       ProjectFile mpp = reader.read(m_basedir + "/mpp12resource.mpp");
       testResources(mpp);
       testNotes(mpp);
@@ -391,15 +391,15 @@ public class MppResourceTest extends MPXJTestCase
       ResourceAssignment ra2 = listResourceAssignments.get(3);
       assertEquals(WorkContour.TURTLE, ra2.getWorkContour());
    }
-   
+
    /**
     * Validates that we are retrieving the notes correctly for each resource.
     * 
     * @param file project file
     */
-   private void testNotes (ProjectFile file)
+   private void testNotes(ProjectFile file)
    {
-      for (Resource resource: file.getAllResources())
+      for (Resource resource : file.getAllResources())
       {
          int id = resource.getID().intValue();
          if (id != 0)

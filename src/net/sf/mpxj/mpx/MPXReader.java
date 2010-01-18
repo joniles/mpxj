@@ -624,7 +624,7 @@ public final class MPXReader extends AbstractProjectReader
             cal.add(Calendar.DAY_OF_YEAR, 1);
          }
          end = cal.getTime();
-         
+
          hours.addRange(new DateRange(start, end));
       }
    }
@@ -860,7 +860,7 @@ public final class MPXReader extends AbstractProjectReader
             {
                end = length;
             }
-                        
+
             populateRelation(dr.getField(), task, data.substring(start, end).trim());
 
             start = end + 1;
@@ -877,7 +877,7 @@ public final class MPXReader extends AbstractProjectReader
     * @throws MPXJException
     */
    private void populateRelation(TaskField field, Task sourceTask, String relationship) throws MPXJException
-   {            
+   {
       int index = 0;
       int length = relationship.length();
 
@@ -903,7 +903,7 @@ public final class MPXReader extends AbstractProjectReader
       //
       // Now find the task, so we can extract the unique ID
       //
-      Task targetTask;      
+      Task targetTask;
       if (field == TaskField.PREDECESSORS)
       {
          targetTask = m_projectFile.getTaskByID(taskID);
@@ -912,14 +912,14 @@ public final class MPXReader extends AbstractProjectReader
       {
          targetTask = m_projectFile.getTaskByUniqueID(taskID);
       }
-      
+
       //
       // If we haven't reached the end, we next expect to find
       // SF, SS, FS, FF
       //
       RelationType type = null;
       Duration lag = null;
-      
+
       if (index == length)
       {
          type = RelationType.FINISH_START;
@@ -955,7 +955,7 @@ public final class MPXReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.INVALID_FORMAT + " '" + relationship + "'");
       }
-      
+
       sourceTask.addPredecessor(targetTask, type, lag);
    }
 

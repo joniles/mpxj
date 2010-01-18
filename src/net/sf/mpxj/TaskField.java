@@ -577,8 +577,9 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_TEXT40_VALUE = 442;
    public static final int COMPLETE_THROUGH_VALUE = 443;
    public static final int SUMMARY_PROGRESS_VALUE = 444;
+   public static final int GUID_VALUE = 445;
 
-   public static final int MAX_VALUE = 445;
+   public static final int MAX_VALUE = 446;
 
    public static final TaskField WORK = new TaskField(WORK_VALUE, DataType.DURATION);
    public static final TaskField BASELINE_WORK = new TaskField(BASELINE_WORK_VALUE, DataType.DURATION);
@@ -1025,6 +1026,7 @@ public final class TaskField implements FieldType
    public static final TaskField ENTERPRISE_TEXT40 = new TaskField(ENTERPRISE_TEXT40_VALUE, DataType.STRING);
    public static final TaskField COMPLETE_THROUGH = new TaskField(COMPLETE_THROUGH_VALUE, DataType.DATE);
    public static final TaskField SUMMARY_PROGRESS = new TaskField(SUMMARY_PROGRESS_VALUE, DataType.DATE);
+   public static final TaskField GUID = new TaskField(GUID_VALUE, DataType.STRING);
 
    private static final TaskField[] TYPE_VALUES = new TaskField[MAX_VALUE];
 
@@ -1475,6 +1477,7 @@ public final class TaskField implements FieldType
       TYPE_VALUES[ENTERPRISE_TEXT40_VALUE] = ENTERPRISE_TEXT40;
       TYPE_VALUES[COMPLETE_THROUGH_VALUE] = COMPLETE_THROUGH;
       TYPE_VALUES[SUMMARY_PROGRESS_VALUE] = SUMMARY_PROGRESS;
+      TYPE_VALUES[GUID_VALUE] = GUID;
    }
 
    private int m_value;

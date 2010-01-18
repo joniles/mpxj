@@ -504,6 +504,9 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_TEXT38_VALUE] = "Enterprise Text38";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_TEXT39_VALUE] = "Enterprise Text39";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_TEXT40_VALUE] = "Enterprise Text40";
+      TASK_COLUMNS_ARRAY[TaskField.COMPLETE_THROUGH_VALUE] = "Complete Through";
+      TASK_COLUMNS_ARRAY[TaskField.SUMMARY_PROGRESS_VALUE] = "Summary Progress";
+      TASK_COLUMNS_ARRAY[TaskField.GUID_VALUE] = "GUID";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID_VALUE] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME_VALUE] = "Name";
@@ -885,6 +888,7 @@ public class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.CREATED_VALUE] = "Created";
       RESOURCE_COLUMNS_ARRAY[ResourceField.BUDGET_VALUE] = "Budget";
       RESOURCE_COLUMNS_ARRAY[ResourceField.TASK_OUTLINE_NUMBER_VALUE] = "Task Outline Number";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.GUID_VALUE] = "GUID";
    }
 
    private static final Object[][] RESOURCES =
