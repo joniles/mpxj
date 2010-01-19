@@ -423,6 +423,23 @@ final class MPP9Reader implements MPPVariantReader
                   break;
                }
 
+               case 0x45 :
+               {
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  offset += 4;
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  m_file.setResourceSubProject(sp);
+                  break;
+               }
+
                   //
                   // path, file name
                   //

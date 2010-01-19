@@ -298,7 +298,13 @@ final class MPP12Reader implements MPPVariantReader
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
 
+            //System.out.println();
             //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
+            //System.out.println(MPPUtility.hexdump(subProjData, offset, 16, false));
+            //System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
+            //System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
+            //System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
+            //System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
             //System.out.println ("Offset: " + offset);
             //System.out.println ("Item Header Offset: " + itemHeaderOffset);
             byte subProjectType = itemHeader[16];
@@ -446,6 +452,23 @@ final class MPP12Reader implements MPPVariantReader
                   break;
                }
 
+               case 0x45 :
+               {
+                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+                  offset += 4;
+
+                  offset += 4;
+                  sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  m_file.setResourceSubProject(sp);
+                  break;
+               }
+
                   //
                   // path, file name
                   //
@@ -530,6 +553,11 @@ final class MPP12Reader implements MPPVariantReader
                   // Appears when a subproject is collapsed
                   //
                case (byte) 0x80 :
+               {
+                  offset += 12;
+                  break;
+               }
+
                   //
                   // Any other value, assume 12 bytes to handle old/deleted data?
                   //
@@ -571,6 +599,7 @@ final class MPP12Reader implements MPPVariantReader
                case SUBPROJECT_TASKUNIQUEID2 :
                case SUBPROJECT_TASKUNIQUEID3 :
                case SUBPROJECT_TASKUNIQUEID4 :
+               case SUBPROJECT_TASKUNIQUEID5 :
                {
                   sp.setTaskUniqueID(Integer.valueOf(value));
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -3409,6 +3438,7 @@ final class MPP12Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
+   private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;
 
    /**
     * Calendar data types.
