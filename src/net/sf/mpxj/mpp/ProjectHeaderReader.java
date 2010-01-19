@@ -47,6 +47,7 @@ public final class ProjectHeaderReader
     */
    public void process(ProjectFile file, Props props, DirectoryEntry rootDir) throws MPXJException
    {
+      //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
       ProjectHeader ph = file.getProjectHeader();
       ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
       ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
@@ -77,6 +78,7 @@ public final class ProjectHeaderReader
       ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));
       ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
       ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
+      ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
 
       SummaryInformation summary = new SummaryInformation(rootDir);
       ph.setProjectTitle(summary.getProjectTitle());
