@@ -41,7 +41,7 @@
 		<pathelement location="${lib.dir}/activation.jar"/>
 	</path>
 
-	<property name="poi.jar" value="poi-3.5-FINAL-20090928" />
+	<property name="poi.jar" value="poi-3.6-20091214" />
 		
 	<path id="poi.path">
 		<pathelement location="${lib.dir}/${poi.jar}.jar"/>
