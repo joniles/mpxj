@@ -23,7 +23,7 @@
    <property name="doc.dir" value="${basedir}/doc/api" />
    <property name="classes.dir" value="${basedir}/classes" />
    <property name="bak.dir" value="${basedir}/bak" />
-   <property name="distribution" value="${basedir}/../mpxj.zip" />
+   <property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
    <property name="mspdi-schema.dir" value="/net/sf/mpxj/mspdi/schema" />
 	<property name="planner-schema.dir" value="/net/sf/mpxj/planner/schema" />
 	<property name="ikvm.dir" value="C:\java\ikvm-0.42.0.3" />
