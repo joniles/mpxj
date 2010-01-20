@@ -8,7 +8,10 @@
 
    <body> 
 
-	<release version="3.2.0" date="CVS HEAD">
+	<release version="4.0.0" date="CVS HEAD">
+	</release>
+
+	<release version="3.2.0" date="20/01/2010">
 		<action dev="joniles" type="add">Added support for Resource cost rate tables (Based on code by Andrei Missine).</action>	
 		<action dev="joniles" type="add">Added support for Resource availability (Based on code by Andrei Missine).</action>
 		<action dev="joniles" type="add">Added support for successors (Based on an idea by John D. Lewis).</action>				
