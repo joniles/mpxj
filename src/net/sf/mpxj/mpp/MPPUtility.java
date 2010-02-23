@@ -337,7 +337,7 @@ final class MPPUtility
    public static final UUID getGUID(byte[] data, int offset)
    {
       UUID result = null;
-      if (data.length > 15)
+      if (data != null && data.length > 15)
       {
          long long1 = 0;
          long1 |= ((long) (data[offset + 3] & 0xFF)) << 56;
@@ -1196,6 +1196,7 @@ final class MPPUtility
    /**
     * Dump out all the possible variables within the given data block.
     *
+    * @param file current project file
     * @param data data to dump from
     * @param dumpShort true to dump all the data as shorts
     * @param dumpInt true to dump all the data as ints
@@ -1204,8 +1205,9 @@ final class MPPUtility
     * @param dumpDuration true to dump all the data as Durations (long)
     * @param dumpDate true to dump all the data as Dates
     * @param dumpTime true to dump all the data as Dates (time)
+    * @param dumpAdjustedDuration true to dump all data as adjusted durations
     */
-   public static final void dataDump(byte[] data, boolean dumpShort, boolean dumpInt, boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate, boolean dumpTime)
+   public static final void dataDump(ProjectFile file, byte[] data, boolean dumpShort, boolean dumpInt, boolean dumpDouble, boolean dumpTimeStamp, boolean dumpDuration, boolean dumpDate, boolean dumpTime, boolean dumpAdjustedDuration)
    {
       System.out.println("DATA");
 
@@ -1308,6 +1310,18 @@ final class MPPUtility
                   // Silently ignore exceptions      	    	      
                }
             }
+            if (dumpAdjustedDuration)
+            {
+               try
+               {
+                  System.out.println(i + ":" + MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(data, i), TimeUnit.DAYS));
+               }
+               catch (Exception ex)
+               {
+                  // Silently ignore exceptions                   
+               }
+            }
+
          }
       }
    }

@@ -68,6 +68,18 @@ public class MppAutoFilterTest extends MPXJTestCase
    }
 
    /**
+    * Test filter data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Filters() throws Exception
+   {
+      // Project 2010 beta doesn't appear to persist AutoFilters
+      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14autofilter.mpp");
+      //testFilters(mpp);
+   }
+
+   /**
     * Test filter data.
     * 
     * @param mpp ProjectFile instance
@@ -77,6 +89,7 @@ public class MppAutoFilterTest extends MPXJTestCase
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       GanttChartView view = (GanttChartView) mpp.getViews().get(0);
+      assertEquals("Gantt Chart", view.getName());
 
       //
       // Test all data types

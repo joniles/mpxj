@@ -69,6 +69,17 @@ public class DurationTest extends MPXJTestCase
    }
 
    /**
+    * Test duration data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14duration.mpp");
+      testDurations(mpp);
+   }
+
+   /**
     * Test duration data read from an MSPDI file.
     * 
     * @throws Exception

@@ -62,6 +62,19 @@ public class MppEmbeddedTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Embedded() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(true);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp14embedded.mpp");
+      testEmbeddedObjects(mpp);
+   }
+
+   /**
     * Tests common to all file types.
     * 
     * @param file project file

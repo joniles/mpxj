@@ -74,6 +74,17 @@ public class MppTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test task data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Task() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14task.mpp");
+      testBasicTask(mpp);
+   }
+
+   /**
     * Test task data read from an MPD9 file.
     * 
     * @throws Exception

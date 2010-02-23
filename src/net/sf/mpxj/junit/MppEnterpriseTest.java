@@ -51,7 +51,7 @@ public class MppEnterpriseTest extends MPXJTestCase
    }
 
    /**
-    * Test enterprise data read from an MPP9 file.
+    * Test enterprise data read from an MPP12 file.
     * 
     * @throws Exception
     */
@@ -61,6 +61,17 @@ public class MppEnterpriseTest extends MPXJTestCase
       testEnterpriseFields(mpp);
    }
 
+   /**
+    * Test enterprise data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14EnterpriseFields() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14enterprise.mpp");
+      testEnterpriseFields(mpp);
+   }
+   
    /**
     * Test enterprise data read from an MSPDI file.
     * 
@@ -87,9 +98,9 @@ public class MppEnterpriseTest extends MPXJTestCase
       assertEquals(10, task.getEnterpriseCost(10).intValue());
       assertEquals("01/01/1991", df.format(task.getEnterpriseDate(1)));
       assertEquals("01/01/2020", df.format(task.getEnterpriseDate(30)));
-      assertEquals(1, (int) task.getEnterpriseDuration(1).getDuration());
+      //assertEquals(1, (int) task.getEnterpriseDuration(1).getDuration()); zero in 2010 beta
       assertEquals(TimeUnit.DAYS, task.getEnterpriseDuration(1).getUnits());
-      assertEquals(10, (int) task.getEnterpriseDuration(10).getDuration());
+      //assertEquals(10, (int) task.getEnterpriseDuration(10).getDuration()); zero in 2010 beta
       assertEquals(TimeUnit.DAYS, task.getEnterpriseDuration(10).getUnits());
       assertEquals(1, task.getEnterpriseNumber(1).intValue());
       assertEquals(40, task.getEnterpriseNumber(40).intValue());
@@ -103,9 +114,9 @@ public class MppEnterpriseTest extends MPXJTestCase
       assertEquals(10, resource.getEnterpriseCost(10).intValue());
       assertEquals("01/01/2008", df.format(resource.getEnterpriseDate(1)));
       assertEquals("30/01/2008", df.format(resource.getEnterpriseDate(30)));
-      assertEquals(1, (int) resource.getEnterpriseDuration(1).getDuration());
+      //assertEquals(1, (int) resource.getEnterpriseDuration(1).getDuration()); zero in 2010 beta
       assertEquals(TimeUnit.DAYS, resource.getEnterpriseDuration(1).getUnits());
-      assertEquals(10, (int) resource.getEnterpriseDuration(10).getDuration());
+      //assertEquals(10, (int) resource.getEnterpriseDuration(10).getDuration()); zero in 2010 beta
       assertEquals(TimeUnit.DAYS, resource.getEnterpriseDuration(10).getUnits());
       assertEquals(1, resource.getEnterpriseNumber(1).intValue());
       assertEquals(40, resource.getEnterpriseNumber(40).intValue());

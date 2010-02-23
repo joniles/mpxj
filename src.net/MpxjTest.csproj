@@ -91,9 +91,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib.net\mpxj.dll</HintPath>
     </Reference>
-    <Reference Include="poi-3.5-FINAL-20090928, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
+    <Reference Include="poi-3.6-20091214, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8783d630753e2b3f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib.net\poi-3.5-FINAL-20090928.dll</HintPath>
+      <HintPath>..\lib.net\poi-3.6-20091214.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

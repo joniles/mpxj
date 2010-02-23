@@ -62,6 +62,17 @@ public class AvailabilityTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP14 file resource availability.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14availability.mpp");
+      testAvailability(file);
+   }
+
+   /**
     * Test MSPDI file resource availability.
     * 
     * @throws Exception

@@ -62,6 +62,17 @@ public class CostRateTableTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP14 file cost rate tables.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14costratetable.mpp");
+      testCostRateTable(file);
+   }
+
+   /**
     * Test MSPDI file cost rate tables.
     * 
     * @throws Exception

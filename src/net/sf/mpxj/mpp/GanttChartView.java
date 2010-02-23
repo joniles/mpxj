@@ -59,7 +59,7 @@ public abstract class GanttChartView extends GenericView
    protected abstract Integer getPropertiesID();
 
    /**
-    * Create a GanttChartView from the dixed and var data blocks associated
+    * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.
     *
     * @param parent parent MPP file
@@ -73,6 +73,8 @@ public abstract class GanttChartView extends GenericView
       throws IOException
    {
       super(fixedData);
+      //System.out.println(varData.getVarMeta());
+      //MPPUtility.fileDump("c:\\temp\\vardata.txt", varData.toString().getBytes());
 
       m_parent = parent;
 
@@ -1295,6 +1297,8 @@ public abstract class GanttChartView extends GenericView
     */
    private void processAutoFilters(byte[] data)
    {
+      //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+
       //
       // Offset into the block starting after the 8 byte header
       //
@@ -1424,6 +1428,8 @@ public abstract class GanttChartView extends GenericView
 
          m_autoFilters.add(filter);
          m_autoFiltersByType.put(type, filter);
+
+         //System.out.println(filter);
       }
    }
 
