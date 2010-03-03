@@ -95,12 +95,23 @@ public class MppNullTaskTest extends MPXJTestCase
    }
 
    /**
+    * Test null task data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14NullTasks() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp14nulltasks.mpp");
+      testNullTasks(project);
+   }
+   
+   /**
     * Tests a project containing null tasks.
     * 
     * @param project The ProjectFile instance being tested.
     * @throws Exception
     */
-   private void testNullTasks(ProjectFile project) throws Exception
+   private void testNullTasks(ProjectFile project)
    {
       Task task = project.getTaskByID(Integer.valueOf(1));
       assertNotNull(task);
