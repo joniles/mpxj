@@ -62,6 +62,17 @@ public class MppProjectHeaderTest extends MPXJTestCase
    }
 
    /**
+    * Test project header data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14header.mpp");
+      testHeader(mpp, true);
+   }
+
+   /**
     * Test project header data read from an MPD9 file.
     * 
     * @throws Exception
