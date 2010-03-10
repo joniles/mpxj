@@ -28,7 +28,7 @@ package net.sf.mpxj;
  * to represent a task field, and the enumerated type used to represent
  * task fields in MPXJ.
  */
-public final class MPPTaskField
+public class MPPTaskField
 {
    /**
     * Retrieve an instance of the TaskField class based on the data read from an
@@ -60,6 +60,16 @@ public final class MPPTaskField
       return (ID_ARRAY[value.getValue()]);
    }
 
+   protected static TaskField[] getTaskFieldArray()
+   {
+      return FIELD_ARRAY;
+   }
+   
+   protected static int[] getIDArray()
+   {
+      return ID_ARRAY;
+   }
+   
    private static final int WORK_VALUE = 0;
    private static final int BASELINE_WORK_VALUE = 1;
    private static final int ACTUAL_WORK_VALUE = 2;
@@ -304,7 +314,8 @@ public final class MPPTaskField
    private static final int GROUP_BY_SUMMARY_VALUE = 446;
    private static final int WBS_PREDECESSORS_VALUE = 449;
    private static final int WBS_SUCCESSORS_VALUE = 450;
-   private static final int RESOURCE_TYPE_VALUE = 451;
+   private static final int RESOURCE_TYPE_VALUE = 451;   
+   private static final int BASELINE1_BUDGET_COST_VALUE = 480;   
    private static final int BASELINE1_START_VALUE = 482;
    private static final int BASELINE1_FINISH_VALUE = 483;
    private static final int BASELINE1_COST_VALUE = 484;
@@ -507,7 +518,7 @@ public final class MPPTaskField
    private static final int ENTERPRISE_TEXT40_VALUE = 838;
 
    private static final int GUID_VALUE = 1143;
-
+   
    private static final int MAX_VALUE = 1144;
 
    private static final TaskField[] FIELD_ARRAY = new TaskField[MAX_VALUE];
@@ -760,6 +771,7 @@ public final class MPPTaskField
       FIELD_ARRAY[WBS_SUCCESSORS_VALUE] = TaskField.WBS_SUCCESSORS;
       FIELD_ARRAY[RESOURCE_TYPE_VALUE] = TaskField.RESOURCE_TYPE;
 
+      FIELD_ARRAY[BASELINE1_BUDGET_COST_VALUE] = TaskField.BASELINE1_BUDGET_COST;      
       FIELD_ARRAY[BASELINE1_START_VALUE] = TaskField.BASELINE1_START;
       FIELD_ARRAY[BASELINE1_FINISH_VALUE] = TaskField.BASELINE1_FINISH;
       FIELD_ARRAY[BASELINE1_COST_VALUE] = TaskField.BASELINE1_COST;
@@ -1213,6 +1225,7 @@ public final class MPPTaskField
       ID_ARRAY[TaskField.WBS_PREDECESSORS_VALUE] = WBS_PREDECESSORS_VALUE;
       ID_ARRAY[TaskField.WBS_SUCCESSORS_VALUE] = WBS_SUCCESSORS_VALUE;
       ID_ARRAY[TaskField.RESOURCE_TYPE_VALUE] = RESOURCE_TYPE_VALUE;
+      ID_ARRAY[TaskField.BASELINE1_BUDGET_COST_VALUE] = BASELINE1_BUDGET_COST_VALUE;      
       ID_ARRAY[TaskField.BASELINE1_START_VALUE] = BASELINE1_START_VALUE;
       ID_ARRAY[TaskField.BASELINE1_FINISH_VALUE] = BASELINE1_FINISH_VALUE;
       ID_ARRAY[TaskField.BASELINE1_COST_VALUE] = BASELINE1_COST_VALUE;

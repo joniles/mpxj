@@ -374,7 +374,7 @@ public final class TaskField implements FieldType
    public static final int GROUP_BY_SUMMARY_VALUE = 239;
    public static final int WBS_PREDECESSORS_VALUE = 240;
    public static final int WBS_SUCCESSORS_VALUE = 241;
-   public static final int RESOURCE_TYPE_VALUE = 242;
+   public static final int RESOURCE_TYPE_VALUE = 242;     
    public static final int BASELINE1_START_VALUE = 243;
    public static final int BASELINE1_FINISH_VALUE = 244;
    public static final int BASELINE1_COST_VALUE = 245;
@@ -577,9 +577,20 @@ public final class TaskField implements FieldType
    public static final int ENTERPRISE_TEXT40_VALUE = 442;
    public static final int COMPLETE_THROUGH_VALUE = 443;
    public static final int SUMMARY_PROGRESS_VALUE = 444;
-   public static final int GUID_VALUE = 445;
-
-   public static final int MAX_VALUE = 446;
+   public static final int GUID_VALUE = 445;   
+   public static final int ACTIVE_VALUE = 446;
+   public static final int TASK_MODE_VALUE = 447;
+   public static final int ASSIGNMENT_OWNER_VALUE = 448;
+   public static final int BASELINE_BUDGET_COST_VALUE = 449;
+   public static final int BASELINE_BUDGET_WORK_VALUE = 450;   
+   public static final int BASELINE_DELIVERABLE_FINISH_VALUE = 451;   
+   public static final int BASELINE_DELIVERABLE_START_VALUE = 452;   
+   public static final int BASELINE1_BUDGET_COST_VALUE = 453;
+   public static final int BASELINE1_BUDGET_WORK_VALUE = 454;
+   public static final int BASELINE1_DELIVERABLE_FINISH_VALUE = 455;   
+   public static final int BASELINE1_DELIVERABLE_START_VALUE = 456;   
+   
+   public static final int MAX_VALUE = 457;
 
    public static final TaskField WORK = new TaskField(WORK_VALUE, DataType.DURATION);
    public static final TaskField BASELINE_WORK = new TaskField(BASELINE_WORK_VALUE, DataType.DURATION);
@@ -1027,7 +1038,20 @@ public final class TaskField implements FieldType
    public static final TaskField COMPLETE_THROUGH = new TaskField(COMPLETE_THROUGH_VALUE, DataType.DATE);
    public static final TaskField SUMMARY_PROGRESS = new TaskField(SUMMARY_PROGRESS_VALUE, DataType.DATE);
    public static final TaskField GUID = new TaskField(GUID_VALUE, DataType.STRING);
-
+   
+   public static final TaskField ACTIVE = new TaskField(ACTIVE_VALUE, DataType.STRING); // query data type   
+   public static final TaskField TASK_MODE = new TaskField(TASK_MODE_VALUE, DataType.STRING); // query data type
+   
+   public static final TaskField ASSIGNMENT_OWNER = new TaskField(ASSIGNMENT_OWNER_VALUE, DataType.STRING);
+   public static final TaskField BASELINE_BUDGET_COST = new TaskField(BASELINE_BUDGET_COST_VALUE, DataType.CURRENCY);
+   public static final TaskField BASELINE_BUDGET_WORK = new TaskField(BASELINE_BUDGET_WORK_VALUE, DataType.DURATION);   
+   public static final TaskField BASELINE_DELIVERABLE_FINISH = new TaskField(BASELINE_DELIVERABLE_FINISH_VALUE, DataType.DATE);   
+   public static final TaskField BASELINE_DELIVERABLE_START = new TaskField(BASELINE_DELIVERABLE_START_VALUE, DataType.DATE);      
+   public static final TaskField BASELINE1_BUDGET_COST = new TaskField(BASELINE1_BUDGET_COST_VALUE, DataType.CURRENCY);   
+   public static final TaskField BASELINE1_BUDGET_WORK = new TaskField(BASELINE1_BUDGET_WORK_VALUE, DataType.CURRENCY);
+   public static final TaskField BASELINE1_DELIVERABLE_FINISH = new TaskField(BASELINE1_DELIVERABLE_FINISH_VALUE, DataType.DATE);   
+   public static final TaskField BASELINE1_DELIVERABLE_START = new TaskField(BASELINE1_DELIVERABLE_START_VALUE, DataType.DATE);   
+   
    private static final TaskField[] TYPE_VALUES = new TaskField[MAX_VALUE];
 
    static
@@ -1478,6 +1502,17 @@ public final class TaskField implements FieldType
       TYPE_VALUES[COMPLETE_THROUGH_VALUE] = COMPLETE_THROUGH;
       TYPE_VALUES[SUMMARY_PROGRESS_VALUE] = SUMMARY_PROGRESS;
       TYPE_VALUES[GUID_VALUE] = GUID;
+      TYPE_VALUES[ACTIVE_VALUE] = ACTIVE;      
+      TYPE_VALUES[TASK_MODE_VALUE] = TASK_MODE;
+      TYPE_VALUES[ASSIGNMENT_OWNER_VALUE] = ASSIGNMENT_OWNER;      
+      TYPE_VALUES[BASELINE_BUDGET_COST_VALUE] = BASELINE_BUDGET_COST;      
+      TYPE_VALUES[BASELINE_BUDGET_WORK_VALUE] = BASELINE_BUDGET_WORK;      
+      TYPE_VALUES[BASELINE_DELIVERABLE_FINISH_VALUE] = BASELINE_DELIVERABLE_FINISH;      
+      TYPE_VALUES[BASELINE_DELIVERABLE_START_VALUE] = BASELINE_DELIVERABLE_START;      
+      TYPE_VALUES[BASELINE1_BUDGET_COST_VALUE] = BASELINE1_BUDGET_COST;      
+      TYPE_VALUES[BASELINE1_BUDGET_WORK_VALUE] = BASELINE1_BUDGET_WORK;      
+      TYPE_VALUES[BASELINE1_DELIVERABLE_FINISH_VALUE] = BASELINE1_DELIVERABLE_FINISH;      
+      TYPE_VALUES[BASELINE1_DELIVERABLE_START_VALUE] = BASELINE1_DELIVERABLE_START;      
    }
 
    private int m_value;

@@ -42,7 +42,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
+import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -600,6 +600,7 @@ final class MPP14Reader implements MPPVariantReader
                case SUBPROJECT_TASKUNIQUEID3 :
                case SUBPROJECT_TASKUNIQUEID4 :
                case SUBPROJECT_TASKUNIQUEID5 :
+               case SUBPROJECT_TASKUNIQUEID6 :
                {
                   sp.setTaskUniqueID(Integer.valueOf(value));
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -841,7 +842,7 @@ final class MPP14Reader implements MPPVariantReader
             if (aliasOffset < data.length)
             {
                alias = MPPUtility.getUnicodeString(data, aliasOffset);
-               m_file.setTaskFieldAlias(MPPTaskField.getInstance(field), alias);
+               m_file.setTaskFieldAlias(MPPTaskField14.getInstance(field), alias);
                //System.out.println(field + ": " + alias);
             }
             index++;
@@ -1368,7 +1369,8 @@ final class MPP14Reader implements MPPVariantReader
          byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
          //System.out.println (MPPUtility.hexdump(metaData2, false, 16, ""));         
          //System.out.println (MPPUtility.hexdump(data2, false, 16, ""));
-
+         //System.out.println (MPPUtility.hexdump(metaData2,false));
+         
          byte[] recurringData = taskVarData.getByteArray(id, TASK_RECURRING_DATA);
 
          Task temp = m_file.getTaskByID(Integer.valueOf(MPPUtility.getInt(data, 4)));
@@ -1395,10 +1397,10 @@ final class MPP14Reader implements MPPVariantReader
 
          task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 166) / 100));
          task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
-         task.setActualFinish(MPPUtility.getTimestamp(data, 100));
+         task.setActualFinish(MPPUtility.getTimestamp(data, 76));
          task.setActualOvertimeCost(NumberUtility.getDouble(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_COST) / 100));
          task.setActualOvertimeWork(Duration.getInstance(taskVarData.getDouble(id, TASK_ACTUAL_OVERTIME_WORK) / 60000, TimeUnit.HOURS));
-         task.setActualStart(MPPUtility.getTimestamp(data, 96));
+         task.setActualStart(MPPUtility.getTimestamp(data, 64));
          task.setActualWork(Duration.getInstance(MPPUtility.getDouble(data, 184) / 60000, TimeUnit.HOURS));
          //task.setACWP(); // Calculated value
          //task.setAssignment(); // Calculated value
@@ -1525,12 +1527,12 @@ final class MPP14Reader implements MPPVariantReader
          task.setDuration10(getCustomFieldDurationValue(taskVarData, id, TASK_DURATION10, TASK_DURATION10_UNITS));
          //       From MS Project 2003
          //         task.setEAC();
-         task.setEarlyFinish(MPPUtility.getTimestamp(data, 8));
+         task.setEarlyFinish(MPPUtility.getTimestamp(data, 68));
          task.setEarlyStart(MPPUtility.getTimestamp(data, 114));
          //       From MS Project 2003
          //         task.setEarnedValueMethod();
          task.setEffortDriven((metaData[11] & 0x10) != 0);
-         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, 64)));
+         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, 46)));
          task.setExpanded(((metaData[12] & 0x02) == 0));
          int externalTaskID = taskVarData.getInt(id, TASK_EXTERNAL_TASK_ID);
          if (externalTaskID != 0)
@@ -1587,7 +1589,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setIgnoreResourceCalendar((metaData[10] & 0x02) != 0);
          //task.setIndicators(); // Calculated value
          task.setLateFinish(MPPUtility.getTimestamp(data, 110));
-         task.setLateStart(MPPUtility.getTimestamp(data, 12));
+         task.setLateStart(MPPUtility.getTimestamp(data, 106));
          task.setLevelAssignments((metaData[13] & 0x04) != 0);
          task.setLevelingCanSplit((metaData[13] & 0x02) != 0);
          task.setLevelingDelay(MPPUtility.getDuration(((double) MPPUtility.getInt(data, 58)) / 3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 62))));
@@ -1641,7 +1643,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 136));
          task.setPriority(Priority.getInstance(MPPUtility.getShort(data, 88)));
          //task.setProject(); // Calculated value
-         task.setRecurring(MPPUtility.getShort(data, 134) != 0);
+         task.setRecurring(MPPUtility.getShort(data, 40) == 2);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 174) / 100));
          task.setRemainingDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 52), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
@@ -1660,7 +1662,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setRollup((metaData[10] & 0x08) != 0);
          //       From MS Project 2003
          //         task.setSPI();
-         task.setStart(MPPUtility.getTimestamp(data, 106));
+         task.setStart(MPPUtility.getTimestamp(data, 12));
          //       From MS Project 2003
          task.setStartSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 28), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
          //task.setStartVariance(); // Calculated value
@@ -1722,7 +1724,7 @@ final class MPP14Reader implements MPPVariantReader
          task.setText29(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT29));
          task.setText30(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
-         task.setType(TaskType.getInstance(MPPUtility.getShort(data, 126)));
+         task.setType(TaskType.getInstance(MPPUtility.getShort(data, 94)));
          task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
@@ -1783,6 +1785,7 @@ final class MPP14Reader implements MPPVariantReader
                recurringTaskReader = new RecurringTaskReader(m_file);
             }
             recurringTaskReader.processRecurringTask(task, recurringData);
+            task.setRecurring(true);
          }
 
          //
@@ -2908,7 +2911,7 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
+      FixedData assnFixedData = new FixedData(110, getEncryptableInputStream(assnDir, "FixedData"));      
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       int count = assnFixedMeta.getItemCount();
       TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
@@ -2986,7 +2989,7 @@ final class MPP14Reader implements MPPVariantReader
                ResourceAssignment assignment = task.addResourceAssignment(resource);
                assignment.setTimephasedNormaliser(normaliser);
 
-               assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
+               //assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100)); JI - 2010
                assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
                assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
@@ -3106,7 +3109,7 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(varData);
       //System.out.println(fixedData);
 
-      TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
+      TableFactory14 factory = new TableFactory14(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
       int items = fixedData.getItemCount();
       for (int loop = 0; loop < items; loop++)
       {
@@ -3440,7 +3443,8 @@ final class MPP14Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID2 = 0x0ABB0000;
    private static final int SUBPROJECT_TASKUNIQUEID3 = 0x05A10000;
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
-   private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;
+   private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;   
+   private static final int SUBPROJECT_TASKUNIQUEID6 = 0x067F0000;
 
    /**
     * Calendar data types.
@@ -4145,7 +4149,7 @@ final class MPP14Reader implements MPPVariantReader
    // Unverified
    //
    private static final Integer RESOURCE_SUBPROJECTRESOURCEID = Integer.valueOf(102);
-   private static final Integer RESOURCE_NOTES = Integer.valueOf(124);
+   private static final Integer RESOURCE_NOTES = Integer.valueOf(20);
 
    private static final Integer TABLE_COLUMN_DATA_STANDARD = Integer.valueOf(6);
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(7);

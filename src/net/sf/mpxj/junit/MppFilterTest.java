@@ -52,10 +52,7 @@ public class MppFilterTest extends MPXJTestCase
    public void testMpp9Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9filter.mpp");
-      testFilters(mpp);
-      testFilterEvaluation(mpp);
-      testLogicalOperatorEvaluation(mpp);
-      testParameters(mpp);
+      executeTests(mpp);
    }
 
    /**
@@ -66,12 +63,33 @@ public class MppFilterTest extends MPXJTestCase
    public void testMpp12Filters() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12filter.mpp");
+      executeTests(mpp);
+   }
+
+   /**
+    * Test filter data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Filters() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14filter.mpp");
+      //executeTests(mpp);
+   }
+
+   /**
+    * Main entry point to execute all tests.
+    * 
+    * @param mpp project file
+    */
+   private void executeTests (ProjectFile mpp)
+   {
       testFilters(mpp);
       testFilterEvaluation(mpp);
       testLogicalOperatorEvaluation(mpp);
       testParameters(mpp);
    }
-
+   
    /**
     * Test filter data.
     * 

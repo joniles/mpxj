@@ -1,8 +1,8 @@
 /*
- * file:       TableFactory.java
+ * file:       TableFactory14.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2007
- * date:       09/12/2007
+ * copyright:  (c) Packwood Software 2010
+ * date:       08/03/2010
  */
 
 /*
@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Column;
 import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
+import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
 
@@ -33,7 +33,7 @@ import net.sf.mpxj.Table;
  * This interface is implemented by classes which can create Table classes
  * from the data extracted from an MS Project file.
  */
-final class TableFactory
+final class TableFactory14
 {
    /**
     * Constructor.
@@ -42,7 +42,7 @@ final class TableFactory
     * @param tableColumnDataEnterprise enterprise columns data key
     * @param tableColumnDataBaseline baseline columns data key
     */
-   public TableFactory(Integer tableColumnDataStandard, Integer tableColumnDataEnterprise, Integer tableColumnDataBaseline)
+   public TableFactory14(Integer tableColumnDataStandard, Integer tableColumnDataEnterprise, Integer tableColumnDataBaseline)
    {
       m_tableColumnDataStandard = tableColumnDataStandard;
       m_tableColumnDataEnterprise = tableColumnDataEnterprise;
@@ -98,13 +98,13 @@ final class TableFactory
     */
    private void processColumnData(ProjectFile file, Table table, byte[] data)
    {
-      //System.out.println("Table=" + table.getName());
-      //System.out.println(MPPUtility.hexdump(data, 8, data.length-8, false, 12, ""));
+      //System.out.println("Table=" + table);      
+      //System.out.println(MPPUtility.hexdump(data, 12, data.length-12, true, 115, ""));
+            
       if (data != null)
       {
-         int columnCount = MPPUtility.getShort(data, 4) + 1;
-         int index = 8;
-         int columnTitleOffset;
+         int columnCount = MPPUtility.getShort(data, 4)+1;
+         int index = 12;
          Column column;
          int alignment;
 
@@ -114,7 +114,7 @@ final class TableFactory
             int fieldType = MPPUtility.getShort(data, index);
             if (table.getResourceFlag() == false)
             {
-               column.setFieldType(MPPTaskField.getInstance(fieldType));
+               column.setFieldType(MPPTaskField14.getInstance(fieldType));
             }
             else
             {
@@ -132,13 +132,13 @@ final class TableFactory
 
             column.setWidth(MPPUtility.getByte(data, index + 4));
 
-            columnTitleOffset = MPPUtility.getShort(data, index + 6);
-            if (columnTitleOffset != 0)
+            String columnTitle = MPPUtility.getUnicodeString(data, index+13);
+            if (columnTitle.length() != 0)
             {
-               column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
+               column.setTitle(columnTitle);
             }
 
-            alignment = MPPUtility.getByte(data, index + 8);
+            alignment = MPPUtility.getByte(data, index + 5);
             if ((alignment & 0x0F) == 0x00)
             {
                column.setAlignTitle(Column.ALIGN_LEFT);
@@ -155,7 +155,7 @@ final class TableFactory
                }
             }
 
-            alignment = MPPUtility.getByte(data, index + 10);
+            alignment = MPPUtility.getByte(data, index + 7);
             if ((alignment & 0x0F) == 0x00)
             {
                column.setAlignData(Column.ALIGN_LEFT);
@@ -173,7 +173,7 @@ final class TableFactory
             }
 
             table.addColumn(column);
-            index += 12;
+            index += 115;
          }
       }
    }

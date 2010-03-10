@@ -86,12 +86,23 @@ public class MppRecurringTest extends MPXJTestCase
    }
 
    /**
+    * Test recurring task data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14RecurringTasks() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14recurring.mpp");
+      testRecurringTasks(mpp);
+   }
+   
+   /**
     * Tests recurring tasks.
     * 
     * @param mpp The ProjectFile being tested.
     * @throws Exception
     */
-   private void testRecurringTasks(ProjectFile mpp) throws Exception
+   private void testRecurringTasks(ProjectFile mpp)
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       DateFormat dm = new SimpleDateFormat("dd/MM");

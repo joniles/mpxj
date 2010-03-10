@@ -66,6 +66,17 @@ public class MppGroupTest extends MPXJTestCase
    }
 
    /**
+    * Test group data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Groups() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14group.mpp");
+      //testGroups(mpp);
+   }
+   
+   /**
     * Test group data.
     * 
     * @param mpp ProjectFile instance
@@ -81,7 +92,8 @@ public class MppGroupTest extends MPXJTestCase
 
       List<GroupClause> clauses = group.getGroupClauses();
       assertNotNull(clauses);
-
+      assertEquals(6,clauses.size());
+      
       //
       // Test clause 1
       //

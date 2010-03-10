@@ -507,6 +507,17 @@ public class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.COMPLETE_THROUGH_VALUE] = "Complete Through";
       TASK_COLUMNS_ARRAY[TaskField.SUMMARY_PROGRESS_VALUE] = "Summary Progress";
       TASK_COLUMNS_ARRAY[TaskField.GUID_VALUE] = "GUID";
+      TASK_COLUMNS_ARRAY[TaskField.ACTIVE_VALUE] = "Active";      
+      TASK_COLUMNS_ARRAY[TaskField.TASK_MODE_VALUE] = "Task Mode";      
+      TASK_COLUMNS_ARRAY[TaskField.ASSIGNMENT_OWNER_VALUE] = "Assignment Owner";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE_BUDGET_COST_VALUE] = "Baseline Budget Cost";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE_BUDGET_WORK_VALUE] = "Baseline Budget Work";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE_DELIVERABLE_FINISH_VALUE] = "Baseline Deliverable Finish";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE_DELIVERABLE_START_VALUE] = "Baseline Deliverable Start";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE1_BUDGET_COST_VALUE] = "Baseline1 Budget Cost";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE1_BUDGET_WORK_VALUE] = "Baseline1 Budget Work";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE1_DELIVERABLE_FINISH_VALUE] = "Baseline1 Deliverable Finish";      
+      TASK_COLUMNS_ARRAY[TaskField.BASELINE1_DELIVERABLE_START_VALUE] = "Baseline1 Deliverable Start";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID_VALUE] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME_VALUE] = "Name";

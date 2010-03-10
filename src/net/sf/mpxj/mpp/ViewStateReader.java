@@ -66,11 +66,15 @@ public abstract class ViewStateReader
             for (int index = 0; index < listData.length; index += 4)
             {
                Integer uniqueID = Integer.valueOf(MPPUtility.getInt(listData, index));
-               if (file.getTaskByUniqueID(uniqueID) == null)
+               
+               //
+               // Ensure that we have a valid task, and that if we have and
+               // ID of zero, this is the first task shown.
+               //
+               if (file.getTaskByUniqueID(uniqueID) != null && (uniqueID.intValue() != 0 || index == 0))
                {
-                  continue;
+                  uniqueIdList.add(uniqueID);
                }
-               uniqueIdList.add(uniqueID);
             }
          }
 

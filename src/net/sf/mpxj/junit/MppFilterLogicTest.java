@@ -58,6 +58,17 @@ public class MppFilterLogicTest extends MPXJTestCase
    }
 
    /**
+    * Exercise an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14FilterLogic() throws Exception
+   {
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14filterlogic.mpp");
+      //testFilterLogic(mpp);
+   }
+
+   /**
     * Common filter logic tests.
     * 
     * @param mpp project file

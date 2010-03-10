@@ -64,6 +64,17 @@ public class TimephasedTest extends MPXJTestCase
    }
 
    /**
+    * Test MPP14 file timephased resource assignments.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14() throws Exception
+   {
+      ProjectFile file = new MPPReader().read(m_basedir + "/mpp14timephased.mpp");
+      //testTimephased(file);
+   }
+   
+   /**
     * Test MSPDI file timephased resource assignments.
     * 
     * @throws Exception

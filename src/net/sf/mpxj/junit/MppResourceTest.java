@@ -76,6 +76,20 @@ public class MppResourceTest extends MPXJTestCase
    }
 
    /**
+    * Test resource data read from an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14Resource() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setPreserveNoteFormatting(false);
+      ProjectFile mpp = reader.read(m_basedir + "/mpp14resource.mpp");
+      testResources(mpp);
+      testNotes(mpp);
+   }
+   
+   /**
     * Test resource data read from an MPD9 file.
     * 
     * @throws Exception

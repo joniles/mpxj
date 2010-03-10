@@ -74,7 +74,8 @@ public abstract class GroupReader
          String groupName = MPPUtility.getUnicodeString(groupFixedData, 4);
 
          // 8 byte header, 48 byte blocks for each clause
-
+         //System.out.println(MPPUtility.hexdump(groupVarData, true, 16, ""));
+         
          // header=4 byte int for unique id
          // short 4 = show summary tasks
          // short int at byte 6 for number of clauses         
