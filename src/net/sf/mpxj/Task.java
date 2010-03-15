@@ -6372,59 +6372,57 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       if (field != null)
       {
-         int fieldValue = field.getValue();
-
-         switch (fieldValue)
+         switch ((TaskField) field)
          {
-            case TaskField.START_VARIANCE_VALUE :
+            case START_VARIANCE :
             {
                result = getStartVariance();
                break;
             }
 
-            case TaskField.COST_VARIANCE_VALUE :
+            case COST_VARIANCE :
             {
                result = getCostVariance();
                break;
             }
 
-            case TaskField.DURATION_VARIANCE_VALUE :
+            case DURATION_VARIANCE :
             {
                result = getDurationVariance();
                break;
             }
 
-            case TaskField.WORK_VARIANCE_VALUE :
+            case WORK_VARIANCE :
             {
                result = getWorkVariance();
                break;
             }
 
-            case TaskField.CV_VALUE :
+            case CV :
             {
                result = getCV();
                break;
             }
 
-            case TaskField.SV_VALUE :
+            case SV :
             {
                result = getSV();
                break;
             }
 
-            case TaskField.TOTAL_SLACK_VALUE :
+            case TOTAL_SLACK :
             {
                result = getTotalSlack();
                break;
             }
 
-            case TaskField.CRITICAL_VALUE :
+            case CRITICAL :
             {
                result = Boolean.valueOf(getCritical());
                break;
             }
 
-            case TaskField.COMPLETE_THROUGH_VALUE :
+            case COMPLETE_THROUGH :
             {
                result = getCompleteThrough();
                break;
@@ -6432,7 +6430,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
             default :
             {
-               result = m_array[fieldValue];
+               result = m_array[field.getValue()];
                break;
             }
          }
@@ -6449,7 +6447,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       if (field != null)
       {
          int index = field.getValue();
-         fireFieldChangeEvent(field, m_array[index], value);
+         fireFieldChangeEvent((TaskField) field, m_array[index], value);
          m_array[index] = value;
       }
    }
@@ -6463,98 +6461,103 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * @param oldValue old field value
     * @param newValue new field value
     */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   private void fireFieldChangeEvent(TaskField field, Object oldValue, Object newValue)
    {
       //
       // Internal event handling
       //
-      switch (field.getValue())
+      switch (field)
       {
-         case TaskField.START_VALUE :
-         case TaskField.BASELINE_START_VALUE :
+         case START :
+         case BASELINE_START :
          {
-            m_array[TaskField.START_VARIANCE_VALUE] = null;
+            m_array[TaskField.START_VARIANCE.getValue()] = null;
             break;
          }
 
-         case TaskField.FINISH_VALUE :
-         case TaskField.BASELINE_FINISH_VALUE :
+         case FINISH :
+         case BASELINE_FINISH :
          {
-            m_array[TaskField.FINISH_VARIANCE_VALUE] = null;
+            m_array[TaskField.FINISH_VARIANCE.getValue()] = null;
             break;
          }
 
-         case TaskField.COST_VALUE :
-         case TaskField.BASELINE_COST_VALUE :
+         case COST :
+         case BASELINE_COST :
          {
-            m_array[TaskField.COST_VARIANCE_VALUE] = null;
+            m_array[TaskField.COST_VARIANCE.getValue()] = null;
             break;
          }
 
-         case TaskField.DURATION_VALUE :
+         case DURATION :
          {
-            m_array[TaskField.DURATION_VARIANCE_VALUE] = null;
-            m_array[TaskField.COMPLETE_THROUGH_VALUE] = null;
+            m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
+            m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
             break;
          }
 
-         case TaskField.BASELINE_DURATION_VALUE :
+         case BASELINE_DURATION :
          {
-            m_array[TaskField.DURATION_VARIANCE_VALUE] = null;
+            m_array[TaskField.DURATION_VARIANCE.getValue()] = null;
             break;
          }
 
-         case TaskField.WORK_VALUE :
-         case TaskField.BASELINE_WORK_VALUE :
+         case WORK :
+         case BASELINE_WORK :
          {
-            m_array[TaskField.WORK_VARIANCE_VALUE] = null;
+            m_array[TaskField.WORK_VARIANCE.getValue()] = null;
             break;
          }
 
-         case TaskField.BCWP_VALUE :
-         case TaskField.ACWP_VALUE :
+         case BCWP :
+         case ACWP :
          {
-            m_array[TaskField.CV_VALUE] = null;
-            m_array[TaskField.SV_VALUE] = null;
+            m_array[TaskField.CV.getValue()] = null;
+            m_array[TaskField.SV.getValue()] = null;
             break;
          }
 
-         case TaskField.BCWS_VALUE :
+         case BCWS :
          {
-            m_array[TaskField.SV_VALUE] = null;
+            m_array[TaskField.SV.getValue()] = null;
             break;
          }
 
-         case TaskField.START_SLACK_VALUE :
-         case TaskField.FINISH_SLACK_VALUE :
+         case START_SLACK :
+         case FINISH_SLACK :
          {
-            m_array[TaskField.TOTAL_SLACK_VALUE] = null;
-            m_array[TaskField.CRITICAL_VALUE] = null;
+            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
+            m_array[TaskField.CRITICAL.getValue()] = null;
             break;
          }
 
-         case TaskField.EARLY_FINISH_VALUE :
-         case TaskField.LATE_FINISH_VALUE :
+         case EARLY_FINISH :
+         case LATE_FINISH :
          {
-            m_array[TaskField.FINISH_SLACK_VALUE] = null;
-            m_array[TaskField.TOTAL_SLACK_VALUE] = null;
-            m_array[TaskField.CRITICAL_VALUE] = null;
+            m_array[TaskField.FINISH_SLACK.getValue()] = null;
+            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
+            m_array[TaskField.CRITICAL.getValue()] = null;
             break;
          }
 
-         case TaskField.EARLY_START_VALUE :
-         case TaskField.LATE_START_VALUE :
+         case EARLY_START :
+         case LATE_START :
          {
-            m_array[TaskField.START_SLACK_VALUE] = null;
-            m_array[TaskField.TOTAL_SLACK_VALUE] = null;
-            m_array[TaskField.CRITICAL_VALUE] = null;
+            m_array[TaskField.START_SLACK.getValue()] = null;
+            m_array[TaskField.TOTAL_SLACK.getValue()] = null;
+            m_array[TaskField.CRITICAL.getValue()] = null;
             break;
          }
 
-         case TaskField.ACTUAL_START_VALUE :
-         case TaskField.PERCENT_COMPLETE_VALUE :
+         case ACTUAL_START :
+         case PERCENT_COMPLETE :
          {
-            m_array[TaskField.COMPLETE_THROUGH_VALUE] = null;
+            m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
+            break;
+         }
+         
+         default :
+         {
             break;
          }
       }

@@ -100,10 +100,10 @@ final class TableFactory14
    {
       //System.out.println("Table=" + table);      
       //System.out.println(MPPUtility.hexdump(data, 12, data.length-12, true, 115, ""));
-            
+
       if (data != null)
       {
-         int columnCount = MPPUtility.getShort(data, 4)+1;
+         int columnCount = MPPUtility.getShort(data, 4) + 1;
          int index = 12;
          Column column;
          int alignment;
@@ -121,18 +121,20 @@ final class TableFactory14
                column.setFieldType(MPPResourceField.getInstance(fieldType));
             }
 
-//            if (column.getFieldType() == null)
-//            {
-//               System.out.println(loop + ": Unknown column type " + fieldType);
-//            }
-//            else
-//            {
-//               System.out.println(loop + ": " + column.getFieldType());
-//            }
+            //System.out.println(fieldType);
+
+            //            if (column.getFieldType() == null)
+            //            {
+            //               System.out.println(loop + ": Unknown column type " + fieldType);
+            //            }
+            //            else
+            //            {
+            //               System.out.println(loop + ": " + column.getFieldType());
+            //            }
 
             column.setWidth(MPPUtility.getByte(data, index + 4));
 
-            String columnTitle = MPPUtility.getUnicodeString(data, index+13);
+            String columnTitle = MPPUtility.getUnicodeString(data, index + 13);
             if (columnTitle.length() != 0)
             {
                column.setTitle(columnTitle);

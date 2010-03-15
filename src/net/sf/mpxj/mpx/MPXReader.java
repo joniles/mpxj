@@ -1000,17 +1000,17 @@ public final class MPXReader extends AbstractProjectReader
             continue;
          }
 
-         switch (taskField.getValue())
+         switch (taskField)
          {
-            case TaskField.PREDECESSORS_VALUE :
-            case TaskField.UNIQUE_ID_PREDECESSORS_VALUE :
+            case PREDECESSORS :
+            case UNIQUE_ID_PREDECESSORS :
             {
                populateRelationList(task, taskField, field);
                break;
             }
 
-            case TaskField.PERCENT_COMPLETE_VALUE :
-            case TaskField.PERCENT_WORK_COMPLETE_VALUE :
+            case PERCENT_COMPLETE :
+            case PERCENT_WORK_COMPLETE :
             {
                try
                {
@@ -1024,19 +1024,19 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case TaskField.ACTUAL_COST_VALUE :
-            case TaskField.BASELINE_COST_VALUE :
-            case TaskField.BCWP_VALUE :
-            case TaskField.BCWS_VALUE :
-            case TaskField.COST_VALUE :
-            case TaskField.COST1_VALUE :
-            case TaskField.COST2_VALUE :
-            case TaskField.COST3_VALUE :
-            case TaskField.COST_VARIANCE_VALUE :
-            case TaskField.CV_VALUE :
-            case TaskField.FIXED_COST_VALUE :
-            case TaskField.REMAINING_COST_VALUE :
-            case TaskField.SV_VALUE :
+            case ACTUAL_COST :
+            case BASELINE_COST :
+            case BCWP :
+            case BCWS :
+            case COST :
+            case COST1 :
+            case COST2 :
+            case COST3 :
+            case COST_VARIANCE :
+            case CV :
+            case FIXED_COST :
+            case REMAINING_COST :
+            case SV :
             {
                try
                {
@@ -1050,53 +1050,53 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case TaskField.ACTUAL_DURATION_VALUE :
-            case TaskField.ACTUAL_WORK_VALUE :
-            case TaskField.BASELINE_DURATION_VALUE :
-            case TaskField.BASELINE_WORK_VALUE :
-            case TaskField.DURATION_VALUE :
-            case TaskField.DURATION1_VALUE :
-            case TaskField.DURATION2_VALUE :
-            case TaskField.DURATION3_VALUE :
-            case TaskField.DURATION_VARIANCE_VALUE :
-            case TaskField.FINISH_VARIANCE_VALUE :
-            case TaskField.FREE_SLACK_VALUE :
-            case TaskField.REMAINING_DURATION_VALUE :
-            case TaskField.REMAINING_WORK_VALUE :
-            case TaskField.START_VARIANCE_VALUE :
-            case TaskField.TOTAL_SLACK_VALUE :
-            case TaskField.WORK_VALUE :
-            case TaskField.WORK_VARIANCE_VALUE :
-            case TaskField.LEVELING_DELAY_VALUE :
+            case ACTUAL_DURATION :
+            case ACTUAL_WORK :
+            case BASELINE_DURATION :
+            case BASELINE_WORK :
+            case DURATION :
+            case DURATION1 :
+            case DURATION2 :
+            case DURATION3 :
+            case DURATION_VARIANCE :
+            case FINISH_VARIANCE :
+            case FREE_SLACK :
+            case REMAINING_DURATION :
+            case REMAINING_WORK :
+            case START_VARIANCE :
+            case TOTAL_SLACK :
+            case WORK :
+            case WORK_VARIANCE :
+            case LEVELING_DELAY :
             {
                task.set(taskField, DurationUtility.getInstance(field, m_formats.getDurationDecimalFormat(), m_locale));
                break;
             }
 
-            case TaskField.ACTUAL_FINISH_VALUE :
-            case TaskField.ACTUAL_START_VALUE :
-            case TaskField.BASELINE_FINISH_VALUE :
-            case TaskField.BASELINE_START_VALUE :
-            case TaskField.CONSTRAINT_DATE_VALUE :
-            case TaskField.CREATED_VALUE :
-            case TaskField.EARLY_FINISH_VALUE :
-            case TaskField.EARLY_START_VALUE :
-            case TaskField.FINISH_VALUE :
-            case TaskField.FINISH1_VALUE :
-            case TaskField.FINISH2_VALUE :
-            case TaskField.FINISH3_VALUE :
-            case TaskField.FINISH4_VALUE :
-            case TaskField.FINISH5_VALUE :
-            case TaskField.LATE_FINISH_VALUE :
-            case TaskField.LATE_START_VALUE :
-            case TaskField.RESUME_VALUE :
-            case TaskField.START_VALUE :
-            case TaskField.START1_VALUE :
-            case TaskField.START2_VALUE :
-            case TaskField.START3_VALUE :
-            case TaskField.START4_VALUE :
-            case TaskField.START5_VALUE :
-            case TaskField.STOP_VALUE :
+            case ACTUAL_FINISH :
+            case ACTUAL_START :
+            case BASELINE_FINISH :
+            case BASELINE_START :
+            case CONSTRAINT_DATE :
+            case CREATED :
+            case EARLY_FINISH :
+            case EARLY_START :
+            case FINISH :
+            case FINISH1 :
+            case FINISH2 :
+            case FINISH3 :
+            case FINISH4 :
+            case FINISH5 :
+            case LATE_FINISH :
+            case LATE_START :
+            case RESUME :
+            case START :
+            case START1 :
+            case START2 :
+            case START3 :
+            case START4 :
+            case START5 :
+            case STOP :
             {
                try
                {
@@ -1110,60 +1110,60 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case TaskField.CONFIRMED_VALUE :
-            case TaskField.CRITICAL_VALUE :
-            case TaskField.FLAG1_VALUE :
-            case TaskField.FLAG2_VALUE :
-            case TaskField.FLAG3_VALUE :
-            case TaskField.FLAG4_VALUE :
-            case TaskField.FLAG5_VALUE :
-            case TaskField.FLAG6_VALUE :
-            case TaskField.FLAG7_VALUE :
-            case TaskField.FLAG8_VALUE :
-            case TaskField.FLAG9_VALUE :
-            case TaskField.FLAG10_VALUE :
-            case TaskField.HIDEBAR_VALUE :
-            case TaskField.LINKED_FIELDS_VALUE :
-            case TaskField.MARKED_VALUE :
-            case TaskField.MILESTONE_VALUE :
-            case TaskField.ROLLUP_VALUE :
-            case TaskField.SUMMARY_VALUE :
-            case TaskField.UPDATE_NEEDED_VALUE :
+            case CONFIRMED :
+            case CRITICAL :
+            case FLAG1 :
+            case FLAG2 :
+            case FLAG3 :
+            case FLAG4 :
+            case FLAG5 :
+            case FLAG6 :
+            case FLAG7 :
+            case FLAG8 :
+            case FLAG9 :
+            case FLAG10 :
+            case HIDEBAR :
+            case LINKED_FIELDS :
+            case MARKED :
+            case MILESTONE :
+            case ROLLUP :
+            case SUMMARY :
+            case UPDATE_NEEDED :
             {
                task.set(taskField, ((field.equalsIgnoreCase(falseText) == true) ? Boolean.FALSE : Boolean.TRUE));
                break;
             }
 
-            case TaskField.CONSTRAINT_TYPE_VALUE :
+            case CONSTRAINT_TYPE :
             {
                task.set(taskField, ConstraintTypeUtility.getInstance(m_locale, field));
                break;
             }
 
-            case TaskField.OBJECTS_VALUE :
-            case TaskField.OUTLINE_LEVEL_VALUE :
+            case OBJECTS :
+            case OUTLINE_LEVEL :
             {
                task.set(taskField, Integer.valueOf(field));
                break;
             }
 
-            case TaskField.ID_VALUE :
+            case ID :
             {
                task.setID(Integer.valueOf(field));
                break;
             }
 
-            case TaskField.UNIQUE_ID_VALUE :
+            case UNIQUE_ID :
             {
                task.setUniqueID(Integer.valueOf(field));
                break;
             }
 
-            case TaskField.NUMBER1_VALUE :
-            case TaskField.NUMBER2_VALUE :
-            case TaskField.NUMBER3_VALUE :
-            case TaskField.NUMBER4_VALUE :
-            case TaskField.NUMBER5_VALUE :
+            case NUMBER1 :
+            case NUMBER2 :
+            case NUMBER3 :
+            case NUMBER4 :
+            case NUMBER5 :
             {
                try
                {
@@ -1178,13 +1178,13 @@ public final class MPXReader extends AbstractProjectReader
                break;
             }
 
-            case TaskField.PRIORITY_VALUE :
+            case PRIORITY :
             {
                task.set(taskField, PriorityUtility.getInstance(m_locale, field));
                break;
             }
 
-            case TaskField.TYPE_VALUE :
+            case TYPE :
             {
                boolean fixed = ((field.equalsIgnoreCase(falseText) == true) ? false : true);
                task.setType(fixed ? TaskType.FIXED_DURATION : TaskType.FIXED_UNITS);

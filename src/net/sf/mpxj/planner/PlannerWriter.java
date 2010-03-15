@@ -96,7 +96,11 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          Marshaller marshaller = CONTEXT.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
+         if (m_encoding != null)
+         {
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, m_encoding);            
+         }
+         
          //
          // The Planner implementation used  as the basis for this work, 0.14.1
          // does not appear to have a particularly robust parser, and rejects
@@ -771,7 +775,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             case HOURS :
             case ELAPSED_HOURS :
             {
-               seconds = value.getDuration() * (8 * 60 * 60);
+               seconds = value.getDuration() * (60 * 60);
                break;
             }
 
@@ -869,6 +873,28 @@ public final class PlannerWriter extends AbstractProjectWriter
       return (value == null ? "" : value);
    }
 
+   /**
+    * Set the encoding used to write the file. By default UTF-8 is used.
+    * 
+    * @param encoding encoding name
+    */
+   public void setEncoding(String encoding)
+   {
+      m_encoding = encoding;
+   }
+
+   /**
+    * Retrieve the encoding used to write teh file. If this value is null,
+    * UTF-8 is used.
+    * 
+    * @return encoding name
+    */
+   public String getEncoding()
+   {
+      return m_encoding;
+   }
+
+   private String m_encoding;
    private ProjectFile m_projectFile;
    private ObjectFactory m_factory;
    private Project m_plannerProject;

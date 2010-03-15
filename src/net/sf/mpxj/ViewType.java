@@ -73,7 +73,12 @@ public enum ViewType implements MpxjEnum
       {
          type = UNKNOWN.getValue();
       }
-      return (TYPE_VALUES[type]);
+      ViewType result = TYPE_VALUES[type];
+      if (result == null)
+      {
+         result = UNKNOWN;
+      }
+      return (result);
    }
 
    /**

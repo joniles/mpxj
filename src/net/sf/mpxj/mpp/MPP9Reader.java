@@ -2171,18 +2171,18 @@ final class MPP9Reader implements MPPVariantReader
                   {
                      byte[] durationData = props.getByteArray(key);
 
-                     switch (field.getValue())
+                     switch (field)
                      {
-                        case TaskField.BASELINE1_WORK_VALUE :
-                        case TaskField.BASELINE2_WORK_VALUE :
-                        case TaskField.BASELINE3_WORK_VALUE :
-                        case TaskField.BASELINE4_WORK_VALUE :
-                        case TaskField.BASELINE5_WORK_VALUE :
-                        case TaskField.BASELINE6_WORK_VALUE :
-                        case TaskField.BASELINE7_WORK_VALUE :
-                        case TaskField.BASELINE8_WORK_VALUE :
-                        case TaskField.BASELINE9_WORK_VALUE :
-                        case TaskField.BASELINE10_WORK_VALUE :
+                        case BASELINE1_WORK :
+                        case BASELINE2_WORK :
+                        case BASELINE3_WORK :
+                        case BASELINE4_WORK :
+                        case BASELINE5_WORK :
+                        case BASELINE6_WORK :
+                        case BASELINE7_WORK :
+                        case BASELINE8_WORK :
+                        case BASELINE9_WORK :
+                        case BASELINE10_WORK :
                         {
                            double durationValueInHours = MPPUtility.getDouble(durationData) / 60000;
                            value = Duration.getInstance(durationValueInHours, TimeUnit.HOURS);
