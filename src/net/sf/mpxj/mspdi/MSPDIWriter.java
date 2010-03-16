@@ -1035,11 +1035,31 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
       xml.setWorkContour(mpx.getWorkContour());
 
+      writeAssignmentBaselines(xml, mpx);
+      
       writeAssignmentTimephasedData(mpx, xml);
 
       return (xml);
    }
 
+   /**
+    * Writes assignment baseline data.
+    * 
+    * @param xml MSPDI assignment
+    * @param mpxj MPXJ assignment
+    */
+   private void writeAssignmentBaselines(Project.Assignments.Assignment xml, ResourceAssignment mpxj)
+   {
+      Project.Assignments.Assignment.Baseline baseline = m_factory.createProjectAssignmentsAssignmentBaseline();
+      xml.getBaseline().add(baseline);
+
+      baseline.setNumber("0");
+      baseline.setCost(DatatypeConverter.printExtendedAttributeCurrency(mpxj.getBaselineCost()));
+      baseline.setFinish(DatatypeConverter.printExtendedAttributeDate(mpxj.getBaselineFinish()));
+      baseline.setStart(DatatypeConverter.printExtendedAttributeDate(mpxj.getBaselineStart()));
+      baseline.setWork(DatatypeConverter.printDuration(this, mpxj.getBaselineWork()));
+   }
+   
    /**
     * Writes the timephased data for a resource assignment.
     * 

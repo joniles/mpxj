@@ -1073,13 +1073,15 @@ abstract class MPD9AbstractReader
          assignment.setDelay(row.getDuration("ASSN_DELAY"));
          assignment.setFinish(row.getDate("ASSN_FINISH_DATE"));
          assignment.setOvertimeWork(row.getDuration("ASSN_OVT_WORK"));
-         //assignment.setPlannedCost();
-         //assignment.setPlannedWork();
          assignment.setRemainingWork(row.getDuration("ASSN_REM_WORK"));
          assignment.setStart(row.getDate("ASSN_START_DATE"));
          assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue() * 100.0d));
          assignment.setWork(row.getDuration("ASSN_WORK"));
-         assignment.setWorkContour(WorkContour.getInstance(row.getInt("ASSN_WORK_CONTOUR")));
+         assignment.setWorkContour(WorkContour.getInstance(row.getInt("ASSN_WORK_CONTOUR")));         
+         assignment.setBaselineCost(row.getCurrency("ASSN_BASE_COST"));
+         assignment.setBaselineFinish(row.getDate("ASSN_BASE_FINISH"));
+         assignment.setBaselineStart(row.getDate("ASSN_BASE_START"));
+         assignment.setBaselineWork(row.getDuration("ASSN_BASE_WORK"));         
       }
    }
 

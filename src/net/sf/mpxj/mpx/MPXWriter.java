@@ -741,7 +741,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getWork())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDuration(record.getPlannedWork())));
+      m_buffer.append(format(formatDuration(record.getBaselineWork())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getActualWork())));
       m_buffer.append(m_delimiter);
@@ -749,7 +749,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatCurrency(record.getCost())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatCurrency(record.getPlannedCost())));
+      m_buffer.append(format(formatCurrency(record.getBaselineCost())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatCurrency(record.getActualCost())));
       m_buffer.append(m_delimiter);

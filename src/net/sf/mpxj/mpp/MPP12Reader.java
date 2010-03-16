@@ -2989,13 +2989,14 @@ final class MPP12Reader implements MPPVariantReader
                assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
                assignment.setFinish(MPPUtility.getTimestamp(data, 16));
-               //assignment.setOvertimeWork(); // Can't find in data block
-               //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
-               //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86)) / 100, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf(assignmentUnits));
                assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
+               assignment.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 126)/100));
+               assignment.setBaselineFinish(MPPUtility.getTimestamp(data, 40));
+               assignment.setBaselineStart(MPPUtility.getTimestamp(data, 36));
+               assignment.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 94) / 60000, TimeUnit.HOURS));
 
                if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
                {

@@ -39,6 +39,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.mpd.MPDDatabaseReader;
 import net.sf.mpxj.mpp.MPPReader;
+import net.sf.mpxj.mspdi.MSPDIReader;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -59,6 +60,8 @@ public class MppResourceTest extends MPXJTestCase
       ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpp");
       testResources(mpp);
       testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
    }
 
    /**
@@ -73,6 +76,8 @@ public class MppResourceTest extends MPXJTestCase
       ProjectFile mpp = reader.read(m_basedir + "/mpp12resource.mpp");
       testResources(mpp);
       testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
    }
 
    /**
@@ -87,8 +92,25 @@ public class MppResourceTest extends MPXJTestCase
       ProjectFile mpp = reader.read(m_basedir + "/mpp14resource.mpp");
       testResources(mpp);
       testNotes(mpp);
+      testResourceAssignments(mpp);
+      testResourceOutlineCodes(mpp);
    }
-   
+
+   /**
+    * Test resource data read from an MSPDI file.
+    * 
+    * @throws Exception
+    */
+   public void testMspdiResource() throws Exception
+   {
+      MSPDIReader reader = new MSPDIReader();
+      ProjectFile mpp = reader.read(m_basedir + "/mspdiresource.xml");
+      testResources(mpp);
+      testNotes(mpp);
+      testResourceAssignments(mpp);
+      //testResourceOutlineCodes(mpp); TODO: MSPDI resource outline code support
+   }
+
    /**
     * Test resource data read from an MPD9 file.
     * 
@@ -103,53 +125,8 @@ public class MppResourceTest extends MPXJTestCase
          ProjectFile mpp = reader.read(m_basedir + "/mpp9resource.mpd");
          testResources(mpp);
          testNotes(mpp);
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // JDBC not supported in IKVM
-         //
-         if (!m_ikvm)
-         {
-            throw ex;
-         }
-      }
-   }
-
-   /**
-    * Test assignment data read from an MPP9 file.
-    * 
-    * @throws Exception
-    */
-   public void testMpp9Assignment() throws Exception
-   {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp9resource.mpp");
-      testResourceAssignments(mpp);
-   }
-
-   /**
-    * Test assignment data read from an MPP12 file.
-    * 
-    * @throws Exception
-    */
-   public void testMpp12Assignment() throws Exception
-   {
-      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp12resource.mpp");
-      testResourceAssignments(mpp);
-   }
-
-   /**
-    * Test assignment data read from an MPD9 file.
-    * 
-    * @throws Exception
-    */
-   public void testMpd9Assignment() throws Exception
-   {
-      try
-      {
-         ProjectFile mpp = new MPDDatabaseReader().read(m_basedir + "/mpp9resource.mpd");
          testResourceAssignments(mpp);
+         testResourceOutlineCodes(mpp);
       }
 
       catch (Exception ex)
@@ -303,17 +280,6 @@ public class MppResourceTest extends MPXJTestCase
       assertEquals(10, (int) resourceWade.getDuration10().getDuration());
       assertEquals(TimeUnit.DAYS, resourceWade.getDuration10().getUnits());
 
-      assertEquals("AAA", resourceWade.getOutlineCode1());
-      assertEquals("BBB", resourceWade.getOutlineCode2());
-      assertEquals("CCC", resourceWade.getOutlineCode3());
-      assertEquals("DDD", resourceWade.getOutlineCode4());
-      assertEquals("EEE", resourceWade.getOutlineCode5());
-      assertEquals("FFF", resourceWade.getOutlineCode6());
-      assertEquals("GGG", resourceWade.getOutlineCode7());
-      assertEquals("HHH", resourceWade.getOutlineCode8());
-      assertEquals("III", resourceWade.getOutlineCode9());
-      assertEquals("JJJ", resourceWade.getOutlineCode10());
-
       assertEquals(1, resourceWade.getNumber1().intValue());
       assertEquals(2, resourceWade.getNumber2().intValue());
       assertEquals(3, resourceWade.getNumber3().intValue());
@@ -371,6 +337,27 @@ public class MppResourceTest extends MPXJTestCase
    }
 
    /**
+    * Test resource outline codes.
+    * 
+    * @param mpp project file
+    * @throws Exception
+    */
+   private void testResourceOutlineCodes(ProjectFile mpp) throws Exception
+   {
+      Resource resourceWade = mpp.getResourceByID(Integer.valueOf(1));
+      assertEquals("AAA", resourceWade.getOutlineCode1());
+      assertEquals("BBB", resourceWade.getOutlineCode2());
+      assertEquals("CCC", resourceWade.getOutlineCode3());
+      assertEquals("DDD", resourceWade.getOutlineCode4());
+      assertEquals("EEE", resourceWade.getOutlineCode5());
+      assertEquals("FFF", resourceWade.getOutlineCode6());
+      assertEquals("GGG", resourceWade.getOutlineCode7());
+      assertEquals("HHH", resourceWade.getOutlineCode8());
+      assertEquals("III", resourceWade.getOutlineCode9());
+      assertEquals("JJJ", resourceWade.getOutlineCode10());
+   }
+
+   /**
     * Tests fields related to Resource Assignments.
     * 
     * @param mpp The ProjectFile being tested.
@@ -386,19 +373,40 @@ public class MppResourceTest extends MPXJTestCase
       // id
       assertEquals(intOne, ra.getResource().getID());
       assertEquals(intOne, ra.getResourceUniqueID());
+
       // start and finish
       assertEquals("25/08/2006", df.format(ra.getStart()));
       assertEquals("29/08/2006", df.format(ra.getFinish()));
+
       // task
       Task task = ra.getTask();
       assertEquals(intOne, task.getID());
       assertEquals(Integer.valueOf(2), task.getUniqueID());
+      assertEquals("Task A", task.getName());
+
       // units
       assertEquals(Double.valueOf(100), ra.getUnits());
+
       // work and remaining work
       Duration dur24Hours = Duration.getInstance(24, TimeUnit.HOURS);
       assertEquals(dur24Hours, ra.getWork());
       assertEquals(dur24Hours, ra.getRemainingWork());
+
+      //
+      // Baseline values
+      //
+      assertEquals("01/01/2006", df.format(ra.getBaselineStart()));
+      assertEquals("02/01/2006", df.format(ra.getBaselineFinish()));
+      assertEquals(1, ra.getBaselineCost().intValue());
+      assertEquals("2.0h", ra.getBaselineWork().toString());
+
+      //
+      // Actual values
+      //
+      // actual start 26/08/06
+      // actual finish 29/08/06
+      // actual work 16h
+      // actual cost $800
 
       // Task 2
       // contour

@@ -1166,7 +1166,7 @@ public final class MSPDIReader extends AbstractProjectReader
          {
             ResourceAssignment mpx = task.addResourceAssignment(resource);
             mpx.setTimephasedNormaliser(normaliser);
-
+            
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             //assignment.getActualFinish()
             //assignment.getActualOvertimeCost()
@@ -1217,10 +1217,43 @@ public final class MSPDIReader extends AbstractProjectReader
             //assignment.getWorkVariance()
             mpx.setTimephasedComplete(timephasedComplete, raw);
             mpx.setTimephasedPlanned(timephasedPlanned, raw);
+            
+            readAssignmentBaselines(assignment, mpx);
          }
       }
    }
 
+   /**
+    * Extracts assignment baseline data.
+    * 
+    * @param assignment xml assignment
+    * @param mpx mpxj assignment
+    */
+   private void readAssignmentBaselines(Project.Assignments.Assignment assignment, ResourceAssignment mpx)
+   {
+      for (Project.Assignments.Assignment.Baseline baseline : assignment.getBaseline())
+      {
+         int number = NumberUtility.getInt(baseline.getNumber());
+
+         Number cost = DatatypeConverter.parseExtendedAttributeCurrency(baseline.getCost());
+         Date finish = DatatypeConverter.parseExtendedAttributeDate(baseline.getFinish());
+         Date start = DatatypeConverter.parseExtendedAttributeDate(baseline.getStart());
+         Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
+         
+         if (number == 0)
+         {
+            mpx.setBaselineCost(cost);
+            mpx.setBaselineFinish(finish);
+            mpx.setBaselineStart(start);
+            mpx.setBaselineWork(work);
+         }
+         else
+         {
+            // TODO: implement extended baseline support
+         }         
+      }
+   }
+   
    /**
     * Test to determine if this is a split task.
     * 

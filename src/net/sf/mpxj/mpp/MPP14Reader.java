@@ -2918,6 +2918,9 @@ final class MPP14Reader implements MPPVariantReader
       SplitTaskFactory splitFactory = new SplitTaskFactory();
       TimephasedResourceAssignmentNormaliser normaliser = new MPPTimephasedResourceAssignmentNormaliser();
 
+      //System.out.println(assnVarMeta);
+      //System.out.println(assnVarData);
+      
       for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
@@ -2965,7 +2968,7 @@ final class MPP14Reader implements MPPVariantReader
             }
 
             Date assignmentStart = MPPUtility.getTimestamp(data, 12);
-            double assignmentUnits = (MPPUtility.getDouble(data, 54)) / 100;
+            double assignmentUnits = (MPPUtility.getDouble(data, 46)) / 100;
             byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
             byte[] plannedWork = assnVarData.getByteArray(varDataId, PLANNED_WORK);
             List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignmentStart, completeWork);
@@ -2989,19 +2992,20 @@ final class MPP14Reader implements MPPVariantReader
                ResourceAssignment assignment = task.addResourceAssignment(resource);
                assignment.setTimephasedNormaliser(normaliser);
 
-               //assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100)); JI - 2010
+               assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 94) / 100));
                assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
-               assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
+               assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 86) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
                assignment.setFinish(MPPUtility.getTimestamp(data, 16));
-               //assignment.setOvertimeWork(); // Can't find in data block
-               //assignment.setPlannedCost(); // Not sure what this field maps on to in MSP
-               //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
-               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86)) / 100, TimeUnit.HOURS));
+               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 78)) / 100, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf(assignmentUnits));
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
-
+               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)/100), TimeUnit.HOURS)); 
+               assignment.setBaselineCost(NumberUtility.getDouble(assnVarData.getDouble(varDataId, BASELINE_COST)/100));
+               assignment.setBaselineFinish(assnVarData.getTimestamp(varDataId, BASELINE_FINISH));
+               assignment.setBaselineStart(assnVarData.getTimestamp(varDataId, BASELINE_START));
+               assignment.setBaselineWork(Duration.getInstance(assnVarData.getDouble(varDataId, BASELINE_WORK) / 60000, TimeUnit.HOURS));
+               
                if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
                {
                   Duration workPerDay = DEFAULT_NORMALIZER_WORK_PER_DAY;
@@ -4157,6 +4161,10 @@ final class MPP14Reader implements MPPVariantReader
    private static final Integer OUTLINECODE_DATA = Integer.valueOf(22);
    private static final Integer PLANNED_WORK = Integer.valueOf(49);
    private static final Integer COMPLETE_WORK = Integer.valueOf(50);
+   private static final Integer BASELINE_WORK = Integer.valueOf(16);   
+   private static final Integer BASELINE_COST = Integer.valueOf(32);   
+   private static final Integer BASELINE_START = Integer.valueOf(146);
+   private static final Integer BASELINE_FINISH = Integer.valueOf(147);   
 
    // Custom value list types
    private static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);

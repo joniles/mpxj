@@ -6328,6 +6328,10 @@ formatting.
             <Units>0.5</Units>
             <Work>PT200H0M0S</Work>
             <WorkContour>0</WorkContour>
+            <Baseline>
+                <Number>0</Number>
+                <Work>PT0H0M0S</Work>
+            </Baseline>
         </Assignment>
         <Assignment>
             <UID>1</UID>
@@ -6344,6 +6348,10 @@ formatting.
             <Units>0.75</Units>
             <Work>PT300H0M0S</Work>
             <WorkContour>0</WorkContour>
+            <Baseline>
+                <Number>0</Number>
+                <Work>PT0H0M0S</Work>
+            </Baseline>
         </Assignment>
         <Assignment>
             <UID>2</UID>
@@ -6360,6 +6368,10 @@ formatting.
             <Units>1</Units>
             <Work>PT40H0M0S</Work>
             <WorkContour>0</WorkContour>
+            <Baseline>
+                <Number>0</Number>
+                <Work>PT0H0M0S</Work>
+            </Baseline>
         </Assignment>
         <Assignment>
             <UID>3</UID>
@@ -6376,6 +6388,10 @@ formatting.
             <Units>1</Units>
             <Work>PT40H0M0S</Work>
             <WorkContour>0</WorkContour>
+            <Baseline>
+                <Number>0</Number>
+                <Work>PT0H0M0S</Work>
+            </Baseline>
         </Assignment>
     </Assignments>
 </Project>

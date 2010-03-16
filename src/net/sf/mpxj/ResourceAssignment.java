@@ -28,10 +28,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sf.mpxj.listener.FieldListener;
+
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends ProjectEntity
+public final class ResourceAssignment extends ProjectEntity implements FieldContainer
 {
    /**
     * Default constructor.
@@ -73,7 +75,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Number getUnits()
    {
-      return (m_units);
+      return ((Number) getCachedValue(ResourceField.ASSIGNMENT_UNITS));
    }
 
    /**
@@ -83,7 +85,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setUnits(Number val)
    {
-      m_units = val;
+      set(ResourceField.ASSIGNMENT_UNITS, val);
    }
 
    /**
@@ -93,7 +95,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Duration getWork()
    {
-      return (m_work);
+      return ((Duration) getCachedValue(ResourceField.WORK));
    }
 
    /**
@@ -103,27 +105,67 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setWork(Duration dur)
    {
-      m_work = dur;
+      set(ResourceField.WORK, dur);
    }
 
    /**
-    * Returns the planned work of this resource assignment.
+    * Retrieve the baseline start date.
+    * 
+    * @return baseline start date
+    */
+   public Date getBaselineStart()
+   {
+      return ((Date) getCachedValue(ResourceField.BASELINE_START));
+   }
+
+   /**
+    * Set the baseline start date.
+    * 
+    * @param start baseline start date
+    */
+   public void setBaselineStart(Date start)
+   {
+      set(ResourceField.BASELINE_START, start);
+   }
+
+   /**
+    * Retrieve the baseline finish date.
+    * 
+    * @return baseline finish date
+    */
+   public Date getBaselineFinish()
+   {
+      return ((Date) getCachedValue(ResourceField.BASELINE_FINISH));
+   }
+
+   /**
+    * Set the baseline finish date.
+    * 
+    * @param finish baseline finish
+    */
+   public void setBaselineFinish(Date finish)
+   {
+      set(ResourceField.BASELINE_FINISH, finish);
+   }
+
+   /**
+    * Returns the baseline work of this resource assignment.
     *
     * @return planned work
     */
-   public Duration getPlannedWork()
+   public Duration getBaselineWork()
    {
-      return (m_plannedWork);
+      return ((Duration) getCachedValue(ResourceField.BASELINE_WORK));
    }
 
    /**
-    * Sets the planned work for this resource assignment.
+    * Sets the baseline work for this resource assignment.
     *
-    * @param dur planned work
+    * @param val planned work
     */
-   public void setPlannedWork(Duration dur)
+   public void setBaselineWork(Duration val)
    {
-      m_plannedWork = dur;
+      set(ResourceField.BASELINE_WORK, val);
    }
 
    /**
@@ -133,17 +175,17 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Duration getActualWork()
    {
-      return (m_actualWork);
+      return ((Duration) getCachedValue(ResourceField.ACTUAL_WORK));
    }
 
    /**
     * Sets the actual completed work for this resource assignment.
     *
-    * @param dur actual completed work
+    * @param val actual completed work
     */
-   public void setActualWork(Duration dur)
+   public void setActualWork(Duration val)
    {
-      m_actualWork = dur;
+      set(ResourceField.ACTUAL_WORK, val);
    }
 
    /**
@@ -153,17 +195,17 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Duration getOvertimeWork()
    {
-      return (m_overtimeWork);
+      return ((Duration) getCachedValue(ResourceField.OVERTIME_WORK));
    }
 
    /**
     * Sets the overtime work for this resource assignment.
     *
-    * @param dur overtime work
+    * @param overtimeWork overtime work
     */
-   public void setOvertimeWork(Duration dur)
+   public void setOvertimeWork(Duration overtimeWork)
    {
-      m_overtimeWork = dur;
+      set(ResourceField.OVERTIME_WORK, overtimeWork);
    }
 
    /**
@@ -173,17 +215,17 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Number getCost()
    {
-      return (m_cost);
+      return ((Number) getCachedValue(ResourceField.COST));
    }
 
    /**
     * Sets the cost for this resource assignment.
     *
-    * @param val cost
+    * @param cost cost
     */
-   public void setCost(Number val)
+   public void setCost(Number cost)
    {
-      m_cost = val;
+      set(ResourceField.COST, cost);
    }
 
    /**
@@ -191,9 +233,9 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @return planned cost
     */
-   public Number getPlannedCost()
+   public Number getBaselineCost()
    {
-      return (m_plannedCost);
+      return ((Number) getCachedValue(ResourceField.BASELINE_COST));
    }
 
    /**
@@ -201,9 +243,9 @@ public final class ResourceAssignment extends ProjectEntity
     *
     * @param val planned cost
     */
-   public void setPlannedCost(Number val)
+   public void setBaselineCost(Number val)
    {
-      m_plannedCost = val;
+      set(ResourceField.BASELINE_COST, val);
    }
 
    /**
@@ -213,17 +255,17 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Number getActualCost()
    {
-      return (m_actualCost);
+      return ((Number) getCachedValue(ResourceField.ACTUAL_COST));
    }
 
    /**
     * Sets the actual cost so far incurred for this resource assignment.
     *
-    * @param val actual cost
+    * @param actualCost actual cost
     */
-   public void setActualCost(Number val)
+   public void setActualCost(Number actualCost)
    {
-      m_actualCost = val;
+      set(ResourceField.ACTUAL_COST, actualCost);
    }
 
    /**
@@ -233,7 +275,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Date getStart()
    {
-      return (m_start);
+      return ((Date) getCachedValue(ResourceField.START));
    }
 
    /**
@@ -243,7 +285,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setStart(Date val)
    {
-      m_start = val;
+      set(ResourceField.START, val);
    }
 
    /**
@@ -253,7 +295,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Date getFinish()
    {
-      return (m_finish);
+      return ((Date) getCachedValue(ResourceField.FINISH));
    }
 
    /**
@@ -263,7 +305,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setFinish(Date val)
    {
-      m_finish = val;
+      set(ResourceField.FINISH, val);
    }
 
    /**
@@ -273,7 +315,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Duration getDelay()
    {
-      return (m_delay);
+      return ((Duration) getCachedValue(ResourceField.ASSIGNMENT_DELAY));
    }
 
    /**
@@ -283,7 +325,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setDelay(Duration dur)
    {
-      m_delay = dur;
+      set(ResourceField.ASSIGNMENT_DELAY, dur);
    }
 
    /**
@@ -348,7 +390,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public WorkContour getWorkContour()
    {
-      return (m_workContour);
+      return ((WorkContour) getCachedValue(ResourceField.WORK_CONTOUR));
    }
 
    /**
@@ -358,7 +400,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setWorkContour(WorkContour workContour)
    {
-      m_workContour = workContour;
+      set(ResourceField.WORK_CONTOUR, workContour);
    }
 
    /**
@@ -376,7 +418,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public Duration getRemainingWork()
    {
-      return (m_remainingWork);
+      return ((Duration) getCachedValue(ResourceField.REMAINING_WORK));
    }
 
    /**
@@ -386,7 +428,7 @@ public final class ResourceAssignment extends ProjectEntity
     */
    public void setRemainingWork(Duration remainingWork)
    {
-      m_remainingWork = remainingWork;
+      set(ResourceField.REMAINING_WORK, remainingWork);
    }
 
    /**
@@ -515,36 +557,105 @@ public final class ResourceAssignment extends ProjectEntity
     */
    @Override public String toString()
    {
-      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + getResource().getName() + " start=" + m_start + " finish=" + m_finish + " duration=" + m_work + " workContour=" + m_workContour + "]");
+      return ("[Resource Assignment task=" + m_task.getName() + " resource=" + getResource().getName() + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
-   private Number m_units;
-   private Duration m_work;
-   private Duration m_plannedWork;
-   private Duration m_actualWork;
-   private Duration m_overtimeWork;
-   private Number m_cost;
-   private Number m_plannedCost;
-   private Number m_actualCost;
-   private Date m_start;
-   private Date m_finish;
-   private Duration m_delay;
+   /**
+    * {@inheritDoc}
+    */
+   public void set(FieldType field, Object value)
+   {
+      if (field != null)
+      {
+         int index = field.getValue();
+         fireFieldChangeEvent(field, m_array[index], value);
+         m_array[index] = value;
+      }
+   }
+
+   /**
+    * Handle the change in a field value. Reset any cached calculated
+    * values affected by this change, pass on the event to any external
+    * listeners.
+    * 
+    * @param field field changed
+    * @param oldValue old field value
+    * @param newValue new field value
+    */
+   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   {
+      //
+      // External event handling
+      //
+      if (m_listeners != null)
+      {
+         for (FieldListener listener : m_listeners)
+         {
+            listener.fieldChange(this, field, oldValue, newValue);
+         }
+      }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void addFieldListener(FieldListener listener)
+   {
+      if (m_listeners == null)
+      {
+         m_listeners = new LinkedList<FieldListener>();
+      }
+      m_listeners.add(listener);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void removeFieldListener(FieldListener listener)
+   {
+      if (m_listeners != null)
+      {
+         m_listeners.remove(listener);
+      }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public Object getCachedValue(FieldType field)
+   {
+      return (field == null ? null : m_array[field.getValue()]);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public Object getCurrentValue(FieldType field)
+   {
+      Object result = null;
+
+      if (field != null)
+      {
+         int fieldValue = field.getValue();
+
+         result = m_array[fieldValue];
+      }
+
+      return (result);
+   }
+
+   /**
+    * Array of field values.
+    */
+   private Object[] m_array = new Object[ResourceField.MAX_VALUE];
+
    private Integer m_resourceUniqueID;
    private LinkedList<TimephasedResourceAssignment> m_timephasedComplete;
    private LinkedList<TimephasedResourceAssignment> m_timephasedPlanned;
    private boolean m_timephasedCompleteRaw;
    private boolean m_timephasedPlannedRaw;
    private TimephasedResourceAssignmentNormaliser m_timephasedNormaliser;
-
-   /**
-    * The following member variables are extended attributes. They are
-    * do not form part of the MPX file format definition, and are neither
-    * loaded from an MPX file, or saved to an MPX file. Their purpose
-    * is to provide storage for attributes which are defined by later versions
-    * of Microsoft Project. This allows these attributes to be manipulated
-    * when they have been retrieved from file formats other than MPX.
-    */
-   private Duration m_remainingWork;
+   private List<FieldListener> m_listeners;
 
    /**
     * Reference to the parent task of this assignment.
@@ -555,11 +666,6 @@ public final class ResourceAssignment extends ProjectEntity
     *  Child record for Workgroup fields.
     */
    private ResourceAssignmentWorkgroupFields m_workgroup;
-
-   /**
-    * Work Contour type of this assignment.
-    */
-   private WorkContour m_workContour;
 
    /**
     * Default units value: 100%.

@@ -1288,11 +1288,11 @@ public final class MPXReader extends AbstractProjectReader
 
       assignment.setUnits(record.getUnits(1));
       assignment.setWork(record.getDuration(2));
-      assignment.setPlannedWork(record.getDuration(3));
+      assignment.setBaselineWork(record.getDuration(3));
       assignment.setActualWork(record.getDuration(4));
       assignment.setOvertimeWork(record.getDuration(5));
       assignment.setCost(record.getCurrency(6));
-      assignment.setPlannedCost(record.getCurrency(7));
+      assignment.setBaselineCost(record.getCurrency(7));
       assignment.setActualCost(record.getCurrency(8));
       assignment.setStart(record.getDateTime(9));
       assignment.setFinish(record.getDateTime(10));

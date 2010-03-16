@@ -66,9 +66,9 @@ public final class DatatypeConverter
     * @param value currency value
     * @return string representation
     */
-   private static final String printExtendedAttributeCurrency(Number value)
+   public static final String printExtendedAttributeCurrency(Number value)
    {
-      return (getNumberFormat().format(value.doubleValue() * 100));
+      return (value == null ? null : getNumberFormat().format(value.doubleValue() * 100));
    }
 
    /**
@@ -77,7 +77,7 @@ public final class DatatypeConverter
     * @param value string representation
     * @return currency value
     */
-   private static final Number parseExtendedAttributeCurrency(String value)
+   public static final Number parseExtendedAttributeCurrency(String value)
    {
       Number result;
 
@@ -98,7 +98,7 @@ public final class DatatypeConverter
     * @param value numeric value
     * @return string representation
     */
-   private static final String printExtendedAttributeNumber(Number value)
+   public static final String printExtendedAttributeNumber(Number value)
    {
       return (getNumberFormat().format(value.doubleValue()));
    }
@@ -109,7 +109,7 @@ public final class DatatypeConverter
     * @param value string representation
     * @return numeric value
     */
-   private static final Number parseExtendedAttributeNumber(String value)
+   public static final Number parseExtendedAttributeNumber(String value)
    {
       return (new Double(value));
    }
@@ -120,7 +120,7 @@ public final class DatatypeConverter
     * @param value boolean value
     * @return string representation
     */
-   private static final String printExtendedAttributeBoolean(Boolean value)
+   public static final String printExtendedAttributeBoolean(Boolean value)
    {
       return (value.booleanValue() ? "1" : "0");
    }
@@ -131,7 +131,7 @@ public final class DatatypeConverter
     * @param value string representation
     * @return boolean value
     */
-   private static final Boolean parseExtendedAttributeBoolean(String value)
+   public static final Boolean parseExtendedAttributeBoolean(String value)
    {
       return ((value.equals("1") ? Boolean.TRUE : Boolean.FALSE));
    }
@@ -142,9 +142,9 @@ public final class DatatypeConverter
     * @param value date value
     * @return string representation
     */
-   private static final String printExtendedAttributeDate(Date value)
+   public static final String printExtendedAttributeDate(Date value)
    {
-      return (getDateFormat().format(value));
+      return (value == null ? null : getDateFormat().format(value));
    }
 
    /**
@@ -153,20 +153,23 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date value
     */
-   private static final Date parseExtendedAttributeDate(String value)
+   public static final Date parseExtendedAttributeDate(String value)
    {
-      Date result;
+      Date result = null;
 
-      try
+      if (value != null)
       {
-         result = getDateFormat().parse(value);
+         try
+         {
+            result = getDateFormat().parse(value);
+         }
+   
+         catch (ParseException ex)
+         {
+            // ignore exceptions
+         }
       }
-
-      catch (ParseException ex)
-      {
-         result = null;
-      }
-
+      
       return (result);
    }
 
