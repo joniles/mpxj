@@ -1021,6 +1021,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Assignments.Assignment xml = m_factory.createProjectAssignmentsAssignment();
 
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
+      xml.setActualFinish(DatatypeConverter.printDate(mpx.getActualFinish()));      
+      xml.setActualStart(DatatypeConverter.printDate(mpx.getActualStart()));
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
       xml.setDelay(BigInteger.valueOf((long) DatatypeConverter.printDurationInMinutes(mpx.getDelay()) * 1000));

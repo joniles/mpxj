@@ -129,6 +129,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    }
 
    /**
+    * Retrieve the actual start date.
+    * 
+    * @return actual start date
+    */
+   public Date getActualStart()
+   {
+      return ((Date) getCachedValue(ResourceField.ACTUAL_START));
+   }
+
+   /**
+    * Set the actual start date.
+    * 
+    * @param start actual start date
+    */
+   public void setActualStart(Date start)
+   {
+      set(ResourceField.ACTUAL_START, start);
+   }
+   
+   /**
     * Retrieve the baseline finish date.
     * 
     * @return baseline finish date
@@ -146,6 +166,26 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    public void setBaselineFinish(Date finish)
    {
       set(ResourceField.BASELINE_FINISH, finish);
+   }
+
+   /**
+    * Retrieve the actual finish date.
+    * 
+    * @return actual finish date
+    */
+   public Date getActualFinish()
+   {
+      return ((Date) getCachedValue(ResourceField.ACTUAL_FINISH));
+   }
+
+   /**
+    * Set the actual finish date.
+    * 
+    * @param finish actual finish
+    */
+   public void setActualFinish(Date finish)
+   {
+      set(ResourceField.ACTUAL_FINISH, finish);
    }
 
    /**
@@ -247,7 +287,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       set(ResourceField.BASELINE_COST, val);
    }
-
+   
    /**
     * Returns the actual cost for this resource assignment.
     *

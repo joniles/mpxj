@@ -1068,6 +1068,8 @@ abstract class MPD9AbstractReader
       {
          ResourceAssignment assignment = task.addResourceAssignment(resource);
          assignment.setActualCost(row.getCurrency("ASSN_ACT_COST"));
+         assignment.setActualFinish(row.getDate("ASSN_ACT_FINISH"));         
+         assignment.setActualStart(row.getDate("ASSN_ACT_START"));
          assignment.setActualWork(row.getDuration("ASSN_ACT_WORK"));
          assignment.setCost(row.getCurrency("ASSN_COST"));
          assignment.setDelay(row.getDuration("ASSN_DELAY"));

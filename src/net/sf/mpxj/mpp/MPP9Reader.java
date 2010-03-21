@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import net.sf.mpxj.AccrueType;
@@ -53,20 +52,15 @@ import net.sf.mpxj.ProjectHeader;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
-import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
-import net.sf.mpxj.SplitTaskFactory;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedResourceAssignment;
-import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.View;
-import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 import net.sf.mpxj.utility.Pair;
@@ -2822,134 +2816,8 @@ final class MPP9Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
       FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
       FixedData assnFixedData = new FixedData(142, getEncryptableInputStream(assnDir, "FixedData"));
-      Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
-      int count = assnFixedMeta.getItemCount();
-      TimephasedResourceAssignmentFactory timephasedFactory = new TimephasedResourceAssignmentFactory();
-      SplitTaskFactory splitFactory = new SplitTaskFactory();
-      TimephasedResourceAssignmentNormaliser normaliser = new MPPTimephasedResourceAssignmentNormaliser();
-
-      for (int loop = 0; loop < count; loop++)
-      {
-         byte[] meta = assnFixedMeta.getByteArrayValue(loop);
-         if (meta[0] != 0)
-         {
-            continue;
-         }
-
-         int offset = MPPUtility.getInt(meta, 4);
-         byte[] data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
-         if (data == null)
-         {
-            continue;
-         }
-         
-         int id = MPPUtility.getInt(data, 0);
-         final Integer varDataId = Integer.valueOf(id);
-         if (set.contains(varDataId) == false)
-         {
-            continue;
-         }
-
-         Integer taskID = Integer.valueOf(MPPUtility.getInt(data, 4));
-         Task task = m_file.getTaskByUniqueID(taskID);
-
-         if (task != null)
-         {
-            Integer resourceID = Integer.valueOf(MPPUtility.getInt(data, 8));
-            Resource resource = m_file.getResourceByUniqueID(resourceID);
-
-            ProjectCalendar calendar = null;
-            if (resource != null)
-            {
-               calendar = resource.getResourceCalendar();
-            }
-
-            if (calendar == null)
-            {
-               task.getCalendar();
-            }
-
-            if (calendar == null)
-            {
-               calendar = m_file.getCalendar();
-            }
-
-            Date assignmentStart = MPPUtility.getTimestamp(data, 12);
-            double assignmentUnits = (MPPUtility.getDouble(data, 54)) / 100;
-            byte[] completeWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, COMPLETE_WORK));
-            byte[] plannedWork = assnVarData.getByteArray(assnVarMeta.getOffset(varDataId, PLANNED_WORK));
-            List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignmentStart, completeWork);
-            List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, assignmentUnits, plannedWork, timephasedComplete);
-            //System.out.println(timephasedComplete);
-            //System.out.println(timephasedPlanned);
-
-            if (task.getSplits() != null && task.getSplits().isEmpty())
-            {
-               splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
-            }
-
-            if (resource != null)
-            {
-               ResourceAssignment assignment = task.addResourceAssignment(resource);
-               assignment.setTimephasedNormaliser(normaliser);
-
-               assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 110) / 100));
-               assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
-               assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 102) / 100));
-               assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
-               assignment.setFinish(MPPUtility.getTimestamp(data, 16));
-               assignment.setRemainingWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 86)) / 100, TimeUnit.HOURS));
-               assignment.setStart(assignmentStart);
-               assignment.setUnits(Double.valueOf(assignmentUnits));
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 62)) / 100, TimeUnit.HOURS));
-               assignment.setBaselineCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 126)/100));
-               assignment.setBaselineFinish(MPPUtility.getTimestamp(data, 40));
-               assignment.setBaselineStart(MPPUtility.getTimestamp(data, 36));
-               assignment.setBaselineWork(Duration.getInstance(MPPUtility.getDouble(data, 94) / 60000, TimeUnit.HOURS));
-                              
-               if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
-               {
-                  Duration workPerDay = DEFAULT_NORMALIZER_WORK_PER_DAY;
-                  int units = NumberUtility.getInt(assignment.getUnits());
-                  if (units != 100)
-                  {
-                     workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
-                  }
-
-                  TimephasedResourceAssignment tra = new TimephasedResourceAssignment();
-                  tra.setStart(assignmentStart);
-                  tra.setWorkPerDay(workPerDay);
-                  tra.setModified(false);
-                  tra.setFinish(assignment.getFinish());
-                  tra.setTotalWork(assignment.getWork().convertUnits(TimeUnit.MINUTES, m_file.getProjectHeader()));
-                  timephasedPlanned.add(tra);
-               }
-
-               assignment.setTimephasedPlanned(timephasedPlanned, !m_reader.getUseRawTimephasedData());
-               assignment.setTimephasedComplete(timephasedComplete, !m_reader.getUseRawTimephasedData());
-
-               if (plannedWork != null)
-               {
-                  if (timephasedFactory.getWorkModified(timephasedPlanned))
-                  {
-                     assignment.setWorkContour(WorkContour.CONTOURED);
-                  }
-                  else
-                  {
-                     if (plannedWork.length >= 30)
-                     {
-                        assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(plannedWork, 28)));
-                     }
-                     else
-                     {
-                        assignment.setWorkContour(WorkContour.FLAT);
-                     }
-                  }
-                  //System.out.println(assignment.getWorkContour());
-               }
-            }
-         }
-      }
+      ResourceAssignmentFactory factory = new ResourceAssignmentFactory9();
+      factory.process(m_file, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData);
    }
 
    /**
@@ -3546,8 +3414,6 @@ final class MPP9Reader implements MPPVariantReader
    private static final Integer TABLE_COLUMN_DATA_ENTERPRISE = Integer.valueOf(2);
    private static final Integer TABLE_COLUMN_DATA_BASELINE = null;
    private static final Integer OUTLINECODE_DATA = Integer.valueOf(1);
-   private static final Integer PLANNED_WORK = Integer.valueOf(7);
-   private static final Integer COMPLETE_WORK = Integer.valueOf(9);
 
    /**
     * Mask used to isolate confirmed flag from the duration units field.
@@ -3570,6 +3436,4 @@ final class MPP9Reader implements MPPVariantReader
 
    private static final int MINIMUM_EXPECTED_TASK_SIZE = 240;
    private static final int MINIMUM_EXPECTED_RESOURCE_SIZE = 188;
-
-   private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

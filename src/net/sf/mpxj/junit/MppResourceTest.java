@@ -400,18 +400,30 @@ public class MppResourceTest extends MPXJTestCase
       assertEquals(1, ra.getBaselineCost().intValue());
       assertEquals("2.0h", ra.getBaselineWork().toString());
 
-      //
-      // Actual values
-      //
-      // actual start 26/08/06
-      // actual finish 29/08/06
-      // actual work 16h
-      // actual cost $800
-
       // Task 2
       // contour
       ResourceAssignment ra2 = listResourceAssignments.get(3);
       assertEquals(WorkContour.TURTLE, ra2.getWorkContour());
+
+
+      // Task 3
+      // completed
+      task = mpp.getTaskByUniqueID(Integer.valueOf(4));
+      assertEquals("Completed Task", task.getName());
+      ResourceAssignment ra3 = task.getResourceAssignments().get(0);
+      
+      //
+      // Actual values
+      //
+      // actual start 26/08/06
+      assertEquals("26/08/2006", df.format(ra3.getActualStart()));      
+      // actual finish 29/08/06
+      assertEquals("29/08/2006", df.format(ra3.getActualFinish()));      
+      // actual work 16h
+      assertEquals("16.0h", ra3.getActualWork().toString());      
+      // actual cost $800
+      assertEquals(800, ra3.getActualCost().intValue());
+      
    }
 
    /**

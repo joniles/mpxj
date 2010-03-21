@@ -1168,11 +1168,11 @@ public final class MSPDIReader extends AbstractProjectReader
             mpx.setTimephasedNormaliser(normaliser);
             
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
-            //assignment.getActualFinish()
+            mpx.setActualFinish(DatatypeConverter.parseDate(assignment.getActualFinish()));
             //assignment.getActualOvertimeCost()
             //assignment.getActualOvertimeWork()
             //assignment.getActualOvertimeWorkProtected()
-            //assignment.getActualStart()
+            mpx.setActualStart(DatatypeConverter.parseDate(assignment.getActualStart()));
             mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
             //assignment.getActualWorkProtected()
             //assignment.getACWP()

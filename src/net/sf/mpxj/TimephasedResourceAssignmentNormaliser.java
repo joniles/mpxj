@@ -41,4 +41,6 @@ public interface TimephasedResourceAssignmentNormaliser
     * @param list list of assignment data
     */
    public void normalise(ProjectCalendar calendar, LinkedList<TimephasedResourceAssignment> list);
+   
+   public static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);   
 }
