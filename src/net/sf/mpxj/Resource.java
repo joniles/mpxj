@@ -4655,35 +4655,35 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
       if (field != null)
       {
-         int fieldValue = field.getValue();
+         ResourceField resourceField = (ResourceField) field;
 
-         switch (fieldValue)
+         switch (resourceField)
          {
-            case ResourceField.COST_VARIANCE_VALUE :
+            case COST_VARIANCE :
             {
                result = getCostVariance();
                break;
             }
 
-            case ResourceField.WORK_VARIANCE_VALUE :
+            case WORK_VARIANCE :
             {
                result = getWorkVariance();
                break;
             }
 
-            case ResourceField.CV_VALUE :
+            case CV :
             {
                result = getCV();
                break;
             }
 
-            case ResourceField.SV_VALUE :
+            case SV :
             {
                result = getSV();
                break;
             }
 
-            case ResourceField.OVERALLOCATED_VALUE :
+            case OVERALLOCATED :
             {
                result = Boolean.valueOf(getOverAllocated());
                break;
@@ -4691,7 +4691,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
             default :
             {
-               result = m_array[fieldValue];
+               result = m_array[field.getValue()];
                break;
             }
          }
@@ -4708,7 +4708,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       if (field != null)
       {
          int index = field.getValue();
-         fireFieldChangeEvent(field, m_array[index], value);
+         fireFieldChangeEvent((ResourceField) field, m_array[index], value);
          m_array[index] = value;
       }
    }
@@ -4722,45 +4722,50 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     * @param oldValue old field value
     * @param newValue new field value
     */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   private void fireFieldChangeEvent(ResourceField field, Object oldValue, Object newValue)
    {
       //
       // Internal event handling
       //
-      switch (field.getValue())
+      switch (field)
       {
-         case ResourceField.COST_VALUE :
-         case ResourceField.BASELINE_COST_VALUE :
+         case COST :
+         case BASELINE_COST :
          {
-            m_array[ResourceField.COST_VARIANCE_VALUE] = null;
+            m_array[ResourceField.COST_VARIANCE.getValue()] = null;
             break;
          }
 
-         case ResourceField.WORK_VALUE :
-         case ResourceField.BASELINE_WORK_VALUE :
+         case WORK :
+         case BASELINE_WORK :
          {
-            m_array[ResourceField.WORK_VARIANCE_VALUE] = null;
+            m_array[ResourceField.WORK_VARIANCE.getValue()] = null;
             break;
          }
 
-         case ResourceField.BCWP_VALUE :
-         case ResourceField.ACWP_VALUE :
+         case BCWP :
+         case ACWP :
          {
-            m_array[ResourceField.CV_VALUE] = null;
-            m_array[ResourceField.SV_VALUE] = null;
+            m_array[ResourceField.CV.getValue()] = null;
+            m_array[ResourceField.SV.getValue()] = null;
             break;
          }
 
-         case ResourceField.BCWS_VALUE :
+         case BCWS :
          {
-            m_array[ResourceField.SV_VALUE] = null;
+            m_array[ResourceField.SV.getValue()] = null;
             break;
          }
 
-         case ResourceField.PEAK_VALUE :
-         case ResourceField.MAX_UNITS_VALUE :
+         case PEAK :
+         case MAX_UNITS :
          {
-            m_array[ResourceField.OVERALLOCATED_VALUE] = null;
+            m_array[ResourceField.OVERALLOCATED.getValue()] = null;
+            break;
+         }
+
+         default :
+         {
             break;
          }
       }

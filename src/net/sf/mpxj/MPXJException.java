@@ -129,5 +129,5 @@ public final class MPXJException extends Exception
    /**
     * Password protected file error message.
     */
-   public static final String PASSWORD_PROTECTED_ENTER_PASSWORD = "File is password protected. Please enter password.";
+   public static final String PASSWORD_PROTECTED_ENTER_PASSWORD = "File is password protected. Please enter password.";      
 }

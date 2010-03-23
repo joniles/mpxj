@@ -51,7 +51,6 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
@@ -1229,7 +1228,7 @@ final class MPP8Reader implements MPPVariantReader
 
          if (loop == 0)
          {
-            if (MPPUtility.getShort(data, index) == ResourceField.ID_VALUE)
+            if (MPPUtility.getShort(data, index) == 0)
             {
                table.setResourceFlag(true);
             }

@@ -703,75 +703,75 @@ public final class MPXReader extends AbstractProjectReader
          }
 
          ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
-         switch (resourceField.getValue())
+         switch (resourceField)
          {
-            case ResourceField.OBJECTS_VALUE :
+            case OBJECTS :
             {
                resource.set(resourceField, record.getInteger(i));
                break;
             }
 
-            case ResourceField.ID_VALUE :
+            case ID :
             {
                resource.setID(record.getInteger(i));
                break;
             }
 
-            case ResourceField.UNIQUE_ID_VALUE :
+            case UNIQUE_ID :
             {
                resource.setUniqueID(record.getInteger(i));
                break;
             }
 
-            case ResourceField.MAX_UNITS_VALUE :
+            case MAX_UNITS :
             {
                resource.set(resourceField, record.getUnits(i));
                break;
             }
 
-            case ResourceField.PERCENT_WORK_COMPLETE_VALUE :
-            case ResourceField.PEAK_VALUE :
+            case PERCENT_WORK_COMPLETE :
+            case PEAK :
             {
                resource.set(resourceField, record.getPercentage(i));
                break;
             }
 
-            case ResourceField.COST_VALUE :
-            case ResourceField.COST_PER_USE_VALUE :
-            case ResourceField.COST_VARIANCE_VALUE :
-            case ResourceField.BASELINE_COST_VALUE :
-            case ResourceField.ACTUAL_COST_VALUE :
-            case ResourceField.REMAINING_COST_VALUE :
+            case COST :
+            case COST_PER_USE :
+            case COST_VARIANCE :
+            case BASELINE_COST :
+            case ACTUAL_COST :
+            case REMAINING_COST :
             {
                resource.set(resourceField, record.getCurrency(i));
                break;
             }
 
-            case ResourceField.OVERTIME_RATE_VALUE :
-            case ResourceField.STANDARD_RATE_VALUE :
+            case OVERTIME_RATE :
+            case STANDARD_RATE :
             {
                resource.set(resourceField, record.getRate(i));
                break;
             }
 
-            case ResourceField.REMAINING_WORK_VALUE :
-            case ResourceField.OVERTIME_WORK_VALUE :
-            case ResourceField.BASELINE_WORK_VALUE :
-            case ResourceField.ACTUAL_WORK_VALUE :
-            case ResourceField.WORK_VALUE :
-            case ResourceField.WORK_VARIANCE_VALUE :
+            case REMAINING_WORK :
+            case OVERTIME_WORK :
+            case BASELINE_WORK :
+            case ACTUAL_WORK :
+            case WORK :
+            case WORK_VARIANCE :
             {
                resource.set(resourceField, record.getDuration(i));
                break;
             }
 
-            case ResourceField.ACCRUE_AT_VALUE :
+            case ACCRUE_AT :
             {
                resource.set(resourceField, record.getAccrueType(i));
                break;
             }
 
-            case ResourceField.OVERALLOCATED_VALUE :
+            case OVERALLOCATED :
             {
                resource.set(resourceField, record.getBoolean(i, falseText));
                break;
