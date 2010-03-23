@@ -535,7 +535,7 @@ public final class MPD9DatabaseReader extends MPD9AbstractReader
    }
 
    /**
-    * Retrieves basic neta data from the result set.
+    * Retrieves basic meta data from the result set.
     * 
     * @throws SQLException
     */

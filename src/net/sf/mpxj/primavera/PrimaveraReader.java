@@ -1,0 +1,690 @@
+/*
+ * file:       PrimaveraReader.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2010
+ * date:       22/03/2010
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+package net.sf.mpxj.primavera;
+
+import java.io.File;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.sql.DataSource;
+
+import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldContainer;
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.MPXJException;
+import net.sf.mpxj.Priority;
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectHeader;
+import net.sf.mpxj.RelationType;
+import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
+import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.utility.NumberUtility;
+
+/**
+ * This class provides a generic front end to read project data from
+ * a database.
+ */
+public final class PrimaveraReader implements ProjectReader
+{
+   /**
+    * Populates a Map instance representing the IDs and names of
+    * projects available in the current database.
+    * 
+    * @return Map instance containing ID and name pairs
+    * @throws MPXJException
+    */
+   public Map<Integer, String> listProjects() throws MPXJException
+   {
+      try
+      {
+         Map<Integer, String> result = new HashMap<Integer, String>();
+
+         List<ResultSetRow> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project");
+         for (ResultSetRow row : rows)
+         {
+            Integer id = row.getInteger("proj_id");
+            String name = row.getString("proj_short_name");
+            result.put(id, name);
+         }
+
+         return result;
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+   }
+
+   /**
+    * Read a project from the current data source.
+    * 
+    * @return ProjectFile instance
+    * @throws MPXJException
+    */
+   public ProjectFile read() throws MPXJException
+   {
+      try
+      {
+         m_project = new ProjectFile();
+
+         m_project.setAutoTaskID(true);
+         m_project.setAutoResourceID(true);
+         m_project.setAutoOutlineLevel(true);
+         m_project.setAutoOutlineNumber(true);
+         m_project.setAutoWBS(true);
+         m_project.setAutoCalendarUniqueID(true);
+         m_project.addDefaultBaseCalendar();
+
+         processProjectHeader();
+         //processCalendars();
+         processResources();
+         processTasks();
+         processPredecessors();
+         processAssignments();
+
+         m_project.updateStructure();
+
+         return (m_project);
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+
+      finally
+      {
+         if (m_allocatedConnection && m_connection != null)
+         {
+            try
+            {
+               m_connection.close();
+            }
+
+            catch (SQLException ex)
+            {
+               // silently ignore errors on close
+            }
+
+            m_connection = null;
+         }
+      }
+   }
+
+   /**
+    * Select the project header row from the database.
+    * 
+    * @throws SQLException
+    */
+   private void processProjectHeader() throws SQLException
+   {
+      List<ResultSetRow> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
+      if (rows.isEmpty() == false)
+      {
+         ResultSetRow row = rows.get(0);
+         ProjectHeader header = m_project.getProjectHeader();
+         header.setCreationDate(row.getDate("create_date"));
+         header.setFinishDate(row.getDate("plan_end_date"));
+         header.setName(row.getString("proj_short_name"));
+         header.setStartDate(row.getDate("plan_start_date"));
+      }
+   }
+
+   /**
+    * Process resources.
+    * 
+    * @throws SQLException
+    */
+   private void processResources() throws SQLException
+   {
+      for (ResultSetRow row : getRows("select * from " + m_schema + "rsrc where rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=?) order by rsrc_seq_num", m_projectID))
+      {
+         Resource resource = m_project.addResource();
+         resource.setUniqueID(row.getInteger("rsrc_id"));
+         resource.setName(row.getString("rsrc_name"));
+         resource.setCode(row.getString("employee_code"));
+         resource.setEmailAddress(row.getString("email_addr"));
+         resource.setNotes(row.getString("rsrc_notes"));
+         resource.setCreationDate(row.getDate("create_date"));
+         resource.setType(RESOURCE_TYPE_MAP.get(row.getString("rsrc_type")));
+      }
+   }
+
+   /**
+    * Process tasks.
+    * 
+    * @throws SQLException
+    */
+   private void processTasks() throws SQLException
+   {
+      Set<Integer> uniqueIDs = new HashSet<Integer>();
+
+      //
+      // Read WBS entries and create tasks
+      //
+      List<ResultSetRow> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? order by seq_num", m_projectID);
+      for (ResultSetRow row : wbs)
+      {
+         Task task = m_project.addTask();
+         Integer uniqueID = row.getInteger("wbs_id");
+         uniqueIDs.add(uniqueID);
+
+         task.setUniqueID(uniqueID);
+         task.setName(row.getString("wbs_name"));
+         task.setBaselineCost(row.getDouble("orig_cost"));
+         task.setRemainingCost(row.getDouble("indep_remain_total_cost"));
+         task.setRemainingWork(row.getDuration("indep_remain_work_qty"));
+         task.setStart(row.getDate("anticip_start_date"));
+         task.setFinish(row.getDate("anticip_end_date"));
+      }
+
+      //
+      // Create hierarchical structure
+      //
+      m_project.getChildTasks().clear();
+      for (ResultSetRow row : wbs)
+      {
+         Task task = m_project.getTaskByUniqueID(row.getInteger("wbs_id"));
+         Task parentTask = m_project.getTaskByUniqueID(row.getInteger("parent_wbs_id"));
+         if (parentTask == null)
+         {
+            m_project.getChildTasks().add(task);
+         }
+         else
+         {
+            m_project.getChildTasks().remove(task);
+            parentTask.addChildTask(task);
+         }
+      }
+
+      //
+      // Read Task entries and create tasks
+      //
+      int nextID = 1;
+      m_clashMap.clear();
+      for (ResultSetRow row : getRows("select * from " + m_schema + "task where proj_id=?", m_projectID))
+      {
+         Integer uniqueID = row.getInteger("task_id");
+         if (uniqueIDs.contains(uniqueID))
+         {
+            while (uniqueIDs.contains(Integer.valueOf(nextID)))
+            {
+               ++nextID;
+            }
+            Integer newUniqueID = Integer.valueOf(nextID);
+            m_clashMap.put(uniqueID, newUniqueID);
+            uniqueID = newUniqueID;
+         }
+         uniqueIDs.add(uniqueID);
+
+         Task task;
+         Integer parentTaskID = row.getInteger("wbs_id");
+         Task parentTask = m_project.getTaskByUniqueID(parentTaskID);
+         if (parentTask == null)
+         {
+            task = m_project.addTask();
+         }
+         else
+         {
+            task = parentTask.addTask();
+         }
+
+         task.setUniqueID(uniqueID);
+         task.setPercentageComplete(row.getDouble("phys_complete_pct"));
+         task.setName(row.getString("task_name"));
+         task.setRemainingDuration(row.getDuration("remain_drtn_hr_cnt"));
+         task.setActualWork(row.getDuration("act_work_qty"));
+         task.setRemainingWork(row.getDuration("remain_work_qty"));
+         task.setBaselineWork(row.getDuration("target_work_qty"));
+         task.setBaselineDuration(row.getDuration("target_drtn_hr_cnt"));
+         task.setConstraintDate(row.getDate("cstr_date"));
+         task.setActualStart(row.getDate("act_start_date"));
+         task.setActualFinish(row.getDate("act_end_date"));
+         task.setLateStart(row.getDate("late_start_date"));
+         task.setLateFinish(row.getDate("late_end_date"));
+         task.setFinish(row.getDate("expect_end_date"));
+         task.setEarlyStart(row.getDate("early_start_date"));
+         task.setEarlyFinish(row.getDate("early_end_date"));
+         task.setBaselineStart(row.getDate("target_start_date"));
+         task.setBaselineFinish(row.getDate("target_end_date"));
+         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getString("cstr_type")));
+         task.setPriority(PRIORITY_MAP.get(row.getString("priority_type")));
+         task.setCreateDate(row.getDate("create_date"));
+
+         populateField(task, TaskField.START, TaskField.BASELINE_START, TaskField.ACTUAL_START);
+         populateField(task, TaskField.FINISH, TaskField.BASELINE_FINISH, TaskField.ACTUAL_FINISH);
+         populateField(task, TaskField.WORK, TaskField.BASELINE_WORK, TaskField.ACTUAL_WORK);
+      }
+
+      updateStructure();
+   }
+
+   /**
+    * Populates a field based on baseline and actual values.
+    * 
+    * @param container field container
+    * @param target target field
+    * @param baseline baseline field
+    * @param actual actual field
+    */
+   private void populateField(FieldContainer container, FieldType target, FieldType baseline, FieldType actual)
+   {
+      Object value = container.getCachedValue(actual);
+      if (value == null)
+      {
+         value = container.getCachedValue(baseline);
+      }
+      container.set(target, value);
+   }
+
+   /**
+    * Iterates through the tasks setting the correct
+    * outline level and ID values.
+    */
+   private void updateStructure()
+   {
+      int id = 1;
+      Integer outlineLevel = Integer.valueOf(1);
+      for (Task task : m_project.getChildTasks())
+      {
+         id = updateStructure(id, task, outlineLevel);
+      }
+   }
+
+   /**
+    * Iterates through the tasks setting the correct
+    * outline level and ID values. 
+    * 
+    * @param id current ID value
+    * @param task current task
+    * @param outlineLevel current outline level
+    * @return next ID value
+    */
+   private int updateStructure(int id, Task task, Integer outlineLevel)
+   {
+      task.setID(Integer.valueOf(id++));
+      task.setOutlineLevel(outlineLevel);
+      outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
+      for (Task childTask : task.getChildTasks())
+      {
+         id = updateStructure(id, childTask, outlineLevel);
+      }
+      return id;
+   }
+
+   /**
+    * Process predecessors.
+    * 
+    * @throws SQLException
+    */
+   private void processPredecessors() throws SQLException
+   {
+      for (ResultSetRow row : getRows("select * from " + m_schema + "taskpred where proj_id=?", m_projectID))
+      {
+         Task currentTask = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
+         Task predecessorTask = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("pred_task_id")));
+         if (currentTask != null && predecessorTask != null)
+         {
+            RelationType type = RELATION_TYPE_MAP.get(row.getString("pred_type"));
+            Duration lag = row.getDuration("lag_hr_cnt");
+            currentTask.addPredecessor(predecessorTask, type, lag);
+         }
+      }
+   }
+
+   /**
+    * Process resource assignments.
+    * 
+    * @throws SQLException
+    */
+   private void processAssignments() throws SQLException
+   {
+      for (ResultSetRow row : getRows("select * from " + m_schema + "taskrsrc where proj_id=?", m_projectID))
+      {
+         Task task = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
+         Resource resource = m_project.getResourceByUniqueID(row.getInteger("rsrc_id"));
+         if (task != null && resource != null)
+         {
+            ResourceAssignment assignment = task.addResourceAssignment(resource);
+            assignment.setRemainingWork(row.getDuration("remain_qty"));
+            assignment.setBaselineWork(row.getDuration("target_qty"));
+            assignment.setActualWork(row.getDuration("act_reg_qty"));
+            assignment.setBaselineCost(row.getDouble("target_cost"));
+            assignment.setActualCost(row.getDouble("act_reg_cost"));
+            assignment.setActualStart(row.getDate("act_start_date"));
+            assignment.setActualFinish(row.getDate("act_end_date"));
+            assignment.setBaselineStart(row.getDate("target_start_date"));
+            assignment.setBaselineFinish(row.getDate("target_end_date"));
+
+            populateField(assignment, ResourceField.WORK, ResourceField.BASELINE_WORK, ResourceField.ACTUAL_WORK);
+            populateField(assignment, ResourceField.COST, ResourceField.BASELINE_COST, ResourceField.ACTUAL_COST);
+            populateField(assignment, ResourceField.START, ResourceField.BASELINE_START, ResourceField.ACTUAL_START);
+            populateField(assignment, ResourceField.FINISH, ResourceField.BASELINE_FINISH, ResourceField.ACTUAL_FINISH);
+         }
+      }
+   }
+
+   /**
+    * Deals with the case where we have had to map a task ID to a new value.
+    * 
+    * @param id task ID from database
+    * @return mapped task ID
+    */
+   private Integer mapTaskID(Integer id)
+   {
+      Integer mappedID = m_clashMap.get(id);
+      if (mappedID == null)
+      {
+         mappedID = id;
+      }
+      return (mappedID);
+   }
+
+   /**
+    * Set the ID of the project to be read.
+    * 
+    * @param projectID project ID
+    */
+   public void setProjectID(int projectID)
+   {
+      m_projectID = Integer.valueOf(projectID);
+   }
+
+   /**
+    * Set the data source. A DataSource or a Connection can be supplied
+    * to this class to allow connection to the database.
+    * 
+    * @param dataSource data source
+    */
+   public void setDataSource(DataSource dataSource)
+   {
+      m_dataSource = dataSource;
+   }
+
+   /**
+    * Sets the connection. A DataSource or a Connection can be supplied
+    * to this class to allow connection to the database.
+    * 
+    * @param connection database connection
+    */
+   public void setConnection(Connection connection)
+   {
+      m_connection = connection;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public ProjectFile read(String fileName)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public ProjectFile read(File file)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public ProjectFile read(InputStream inputStream)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * Retrieve a number of rows matching the supplied query. 
+    * 
+    * @param sql query statement
+    * @return result set
+    * @throws SQLException
+    */
+   private List<ResultSetRow> getRows(String sql) throws SQLException
+   {
+      allocateConnection();
+
+      try
+      {
+         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+
+         m_ps = m_connection.prepareStatement(sql);
+         m_rs = m_ps.executeQuery();
+         populateMetaData();
+         while (m_rs.next())
+         {
+            result.add(new ResultSetRow(m_rs, m_meta));
+         }
+
+         return (result);
+      }
+
+      finally
+      {
+         releaseConnection();
+      }
+   }
+
+   /**
+    * Retrieve a number of rows matching the supplied query 
+    * which takes a single parameter.
+    * 
+    * @param sql query statement
+    * @param var bind variable value
+    * @return result set
+    * @throws SQLException
+    */
+   private List<ResultSetRow> getRows(String sql, Integer var) throws SQLException
+   {
+      allocateConnection();
+
+      try
+      {
+         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
+
+         m_ps = m_connection.prepareStatement(sql);
+         m_ps.setInt(1, NumberUtility.getInt(var));
+         m_rs = m_ps.executeQuery();
+         populateMetaData();
+         while (m_rs.next())
+         {
+            result.add(new ResultSetRow(m_rs, m_meta));
+         }
+
+         return (result);
+      }
+
+      finally
+      {
+         releaseConnection();
+      }
+   }
+
+   /**
+    * Allocates a database connection.
+    * 
+    * @throws SQLException
+    */
+   private void allocateConnection() throws SQLException
+   {
+      if (m_connection == null)
+      {
+         m_connection = m_dataSource.getConnection();
+         m_allocatedConnection = true;
+      }
+   }
+
+   /**
+    * Releases a database connection, and cleans up any resources
+    * associated with that connection.
+    */
+   private void releaseConnection()
+   {
+      if (m_rs != null)
+      {
+         try
+         {
+            m_rs.close();
+         }
+
+         catch (SQLException ex)
+         {
+            // silently ignore errors on close
+         }
+
+         m_rs = null;
+      }
+
+      if (m_ps != null)
+      {
+         try
+         {
+            m_ps.close();
+         }
+
+         catch (SQLException ex)
+         {
+            // silently ignore errors on close
+         }
+
+         m_ps = null;
+      }
+   }
+
+   /**
+    * Retrieves basic meta data from the result set.
+    * 
+    * @throws SQLException
+    */
+   private void populateMetaData() throws SQLException
+   {
+      m_meta.clear();
+
+      ResultSetMetaData meta = m_rs.getMetaData();
+      int columnCount = meta.getColumnCount() + 1;
+      for (int loop = 1; loop < columnCount; loop++)
+      {
+         String name = meta.getColumnName(loop);
+         Integer type = Integer.valueOf(meta.getColumnType(loop));
+         m_meta.put(name, type);
+      }
+   }
+
+   /**
+    * Set the name of the schema containing the Primavera tables.
+    * 
+    * @param schema schema name.
+    */
+   public void setSchema(String schema)
+   {
+      if (schema.charAt(schema.length() - 1) != '.')
+      {
+         schema = schema + '.';
+      }
+      m_schema = schema;
+   }
+
+   /**
+    * Retrieve the name of the schema containing the Primavera tables.
+    * 
+    * @return schema name
+    */
+   public String getSchema()
+   {
+      return m_schema;
+   }
+
+   private Integer m_projectID;
+   private String m_schema = "";
+   private ProjectFile m_project;
+   private DataSource m_dataSource;
+   private Connection m_connection;
+   private boolean m_allocatedConnection;
+   private PreparedStatement m_ps;
+   private ResultSet m_rs;
+   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
+   private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
+
+   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();
+   static
+   {
+      RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
+      RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
+      RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
+      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.MATERIAL);
+   }
+
+   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<String, ConstraintType>();
+   static
+   {
+      CONSTRAINT_TYPE_MAP.put("CS_MSO", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("CS_MSOB", ConstraintType.START_NO_LATER_THAN);
+      CONSTRAINT_TYPE_MAP.put("CS_MSOA", ConstraintType.START_NO_EARLIER_THAN);
+      CONSTRAINT_TYPE_MAP.put("CS_MEO", ConstraintType.MUST_FINISH_ON);
+      CONSTRAINT_TYPE_MAP.put("CS_MEOB", ConstraintType.FINISH_NO_LATER_THAN);
+      CONSTRAINT_TYPE_MAP.put("CS_MEOA", ConstraintType.FINISH_NO_EARLIER_THAN);
+      CONSTRAINT_TYPE_MAP.put("CS_ALAP", ConstraintType.AS_LATE_AS_POSSIBLE);
+      CONSTRAINT_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MUST_START_ON);
+      CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MUST_FINISH_ON);
+   }
+
+   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<String, Priority>();
+   static
+   {
+      PRIORITY_MAP.put("PT_Top", Priority.getInstance(Priority.HIGHEST));
+      PRIORITY_MAP.put("PT_High", Priority.getInstance(Priority.HIGH));
+      PRIORITY_MAP.put("PT_Normal", Priority.getInstance(Priority.MEDIUM));
+      PRIORITY_MAP.put("PT_Low", Priority.getInstance(Priority.LOW));
+      PRIORITY_MAP.put("PT_Lowest", Priority.getInstance(Priority.LOWEST));
+   }
+
+   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<String, RelationType>();
+   static
+   {
+      RELATION_TYPE_MAP.put("PR_FS", RelationType.FINISH_START);
+      RELATION_TYPE_MAP.put("PR_FF", RelationType.FINISH_FINISH);
+      RELATION_TYPE_MAP.put("PR_SS", RelationType.START_START);
+      RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
+   }
+}
