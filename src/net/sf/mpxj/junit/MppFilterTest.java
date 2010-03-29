@@ -82,14 +82,14 @@ public class MppFilterTest extends MPXJTestCase
     * 
     * @param mpp project file
     */
-   private void executeTests (ProjectFile mpp)
+   private void executeTests(ProjectFile mpp)
    {
       testFilters(mpp);
       testFilterEvaluation(mpp);
       testLogicalOperatorEvaluation(mpp);
       testParameters(mpp);
    }
-   
+
    /**
     * Test filter data.
     * 

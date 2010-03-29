@@ -141,7 +141,7 @@ public class MppTaskTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14baseline.mpp");
       testBaselineTasks(mpp);
    }
-   
+
    /**
     * Test task data read from an MPD9 file.
     * 
@@ -199,7 +199,7 @@ public class MppTaskTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14splittask.mpp");
       testSplitTasks(mpp);
    }
-   
+
    /**
     * Test Split Tasks in an MSPDI file.
     *
@@ -281,7 +281,7 @@ public class MppTaskTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14relations.mpp");
       testRelations(mpp);
    }
-   
+
    /**
     * Tests Relations in an MSPDI file.
     *

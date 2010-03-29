@@ -73,7 +73,7 @@ public class TimephasedTest extends MPXJTestCase
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp14timephased.mpp");
       //testTimephased(file);
    }
-   
+
    /**
     * Test MSPDI file timephased resource assignments.
     * 

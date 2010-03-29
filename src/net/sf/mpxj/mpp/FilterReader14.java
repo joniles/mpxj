@@ -27,7 +27,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.FilterCriteria;
 import net.sf.mpxj.FilterCriteriaLogicType;
-import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
@@ -56,7 +56,7 @@ public abstract class FilterReader14
    {
       boolean lastLogicalAnd = true;
       int blockSize = 108;
-      
+
       int filterCount = fixedData.getItemCount();
       for (int filterLoop = 0; filterLoop < filterCount; filterLoop++)
       {
@@ -105,7 +105,7 @@ public abstract class FilterReader14
 
                case 0x0C :
                {
-                  type = MPPResourceField.getInstance(fieldType);
+                  type = MPPResourceField14.getInstance(fieldType);
                   break;
                }
             }
@@ -236,7 +236,7 @@ public abstract class FilterReader14
          }
          else
          {
-            value = MPPResourceField.getInstance(field);
+            value = MPPResourceField14.getInstance(field);
          }
       }
       else

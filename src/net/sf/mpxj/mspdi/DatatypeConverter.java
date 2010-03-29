@@ -163,13 +163,13 @@ public final class DatatypeConverter
          {
             result = getDateFormat().parse(value);
          }
-   
+
          catch (ParseException ex)
          {
             // ignore exceptions
          }
       }
-      
+
       return (result);
    }
 

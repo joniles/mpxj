@@ -155,21 +155,14 @@ class MapRow implements Row
    }
 
    /**
-    * Retrieve a value from the map, ensuring that a key exists in the map
-    * with the specified name.
+    * Retrieve a value from the map.
     * 
     * @param name column name
     * @return column value
     */
    private final Object getObject(String name)
    {
-      if (m_map.containsKey(name) == false)
-      {
-         throw new IllegalArgumentException("Invalid column name " + name);
-      }
-
       Object result = m_map.get(name);
-
       return (result);
    }
 

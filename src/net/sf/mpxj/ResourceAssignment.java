@@ -147,7 +147,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       set(ResourceField.ACTUAL_START, start);
    }
-   
+
    /**
     * Retrieve the baseline finish date.
     * 
@@ -287,7 +287,7 @@ public final class ResourceAssignment extends ProjectEntity implements FieldCont
    {
       set(ResourceField.BASELINE_COST, val);
    }
-   
+
    /**
     * Returns the actual cost for this resource assignment.
     *

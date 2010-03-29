@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Column;
-import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
@@ -98,7 +98,7 @@ final class TableFactory14
     */
    private void processColumnData(ProjectFile file, Table table, byte[] data)
    {
-      //System.out.println("Table=" + table);      
+      //System.out.println("Table=" + table);
       //System.out.println(MPPUtility.hexdump(data, 12, data.length-12, true, 115, ""));
 
       if (data != null)
@@ -118,7 +118,7 @@ final class TableFactory14
             }
             else
             {
-               column.setFieldType(MPPResourceField.getInstance(fieldType));
+               column.setFieldType(MPPResourceField14.getInstance(fieldType));
             }
 
             //System.out.println(fieldType);

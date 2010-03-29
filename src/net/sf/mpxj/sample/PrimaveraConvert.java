@@ -27,7 +27,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraReader;
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
@@ -85,7 +85,7 @@ public final class PrimaveraConvert
 
       Class.forName(driverClass);
       Connection c = DriverManager.getConnection(connectionString);
-      PrimaveraReader reader = new PrimaveraReader();
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
       reader.setConnection(c);
       reader.setProjectID(Integer.valueOf(projectID).intValue());
       ProjectFile projectFile = reader.read();

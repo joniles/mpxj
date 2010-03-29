@@ -622,7 +622,7 @@ public enum TaskField implements FieldType
    TCPI(DataType.STRING), // Check data type
    WARNING(DataType.STRING), // Check data type
    UNAVAILABLE(DataType.STRING), // Dummy entry
-   
+
    FINISH(DataType.DATE); // Must always be last value
 
    /**

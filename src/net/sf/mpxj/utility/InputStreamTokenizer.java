@@ -21,16 +21,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpx;
+package net.sf.mpxj.utility;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from an InputStream instance.
  */
-final class InputStreamTokenizer extends Tokenizer
+public final class InputStreamTokenizer extends Tokenizer
 {
    /**
     * Constructor.

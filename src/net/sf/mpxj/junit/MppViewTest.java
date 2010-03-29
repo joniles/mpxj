@@ -73,7 +73,7 @@ public class MppViewTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14resource.mpp");
       testViews(mpp);
    }
-   
+
    /**
     * Tests MPP's Views. Not an in-depth test, but covers the basics of 
     * Views, like View Names, Column Names, and Column Widths

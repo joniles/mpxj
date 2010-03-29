@@ -1068,7 +1068,7 @@ abstract class MPD9AbstractReader
       {
          ResourceAssignment assignment = task.addResourceAssignment(resource);
          assignment.setActualCost(row.getCurrency("ASSN_ACT_COST"));
-         assignment.setActualFinish(row.getDate("ASSN_ACT_FINISH"));         
+         assignment.setActualFinish(row.getDate("ASSN_ACT_FINISH"));
          assignment.setActualStart(row.getDate("ASSN_ACT_START"));
          assignment.setActualWork(row.getDuration("ASSN_ACT_WORK"));
          assignment.setCost(row.getCurrency("ASSN_COST"));
@@ -1079,11 +1079,11 @@ abstract class MPD9AbstractReader
          assignment.setStart(row.getDate("ASSN_START_DATE"));
          assignment.setUnits(Double.valueOf(row.getDouble("ASSN_UNITS").doubleValue() * 100.0d));
          assignment.setWork(row.getDuration("ASSN_WORK"));
-         assignment.setWorkContour(WorkContour.getInstance(row.getInt("ASSN_WORK_CONTOUR")));         
+         assignment.setWorkContour(WorkContour.getInstance(row.getInt("ASSN_WORK_CONTOUR")));
          assignment.setBaselineCost(row.getCurrency("ASSN_BASE_COST"));
          assignment.setBaselineFinish(row.getDate("ASSN_BASE_FINISH"));
          assignment.setBaselineStart(row.getDate("ASSN_BASE_START"));
-         assignment.setBaselineWork(row.getDuration("ASSN_BASE_WORK"));         
+         assignment.setBaselineWork(row.getDuration("ASSN_BASE_WORK"));
       }
    }
 

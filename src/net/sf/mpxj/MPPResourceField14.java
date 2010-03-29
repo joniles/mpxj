@@ -1,8 +1,8 @@
 /*
- * file:       MPPResourceField.java
+ * file:       MPPResourceField14.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       20/02/2006
+ * copyright:  (c) Packwood Software 2010
+ * date:       25/03/2010
  */
 
 /*
@@ -28,7 +28,7 @@ package net.sf.mpxj;
  * to represent a resource field, and the enumerated type used to represent
  * resource fields in MPXJ.
  */
-public final class MPPResourceField
+public class MPPResourceField14
 {
    /**
     * Retrieve an instance of the ResourceField class based on the data read from an
@@ -60,13 +60,14 @@ public final class MPPResourceField
       return (ID_ARRAY[value.getValue()]);
    }
 
-   public static final int MAX_VALUE = 809;
-
+   private static final int MAX_VALUE = 809;
    private static final ResourceField[] FIELD_ARRAY = new ResourceField[MAX_VALUE];
 
    static
    {
+      FIELD_ARRAY[29] = ResourceField.PERCENT_WORK_COMPLETE;
       FIELD_ARRAY[19] = ResourceField.ACCRUE_AT;
+      FIELD_ARRAY[808] = ResourceField.ACTIVE;
       FIELD_ARRAY[11] = ResourceField.ACTUAL_COST;
       FIELD_ARRAY[271] = ResourceField.ACTUAL_FINISH;
       FIELD_ARRAY[48] = ResourceField.ACTUAL_OVERTIME_COST;
@@ -74,45 +75,93 @@ public final class MPPResourceField
       FIELD_ARRAY[270] = ResourceField.ACTUAL_START;
       FIELD_ARRAY[14] = ResourceField.ACTUAL_WORK;
       FIELD_ARRAY[53] = ResourceField.ACWP;
-      FIELD_ARRAY[257] = ResourceField.ASSIGNMENT_DELAY;
-      FIELD_ARRAY[258] = ResourceField.ASSIGNMENT_UNITS;
       FIELD_ARRAY[144] = ResourceField.ASSIGNMENT;
+      FIELD_ARRAY[257] = ResourceField.ASSIGNMENT_DELAY;
+      FIELD_ARRAY[803] = ResourceField.ASSIGNMENT_OWNER;
+      FIELD_ARRAY[258] = ResourceField.ASSIGNMENT_UNITS;
       FIELD_ARRAY[57] = ResourceField.AVAILABLE_FROM;
       FIELD_ARRAY[58] = ResourceField.AVAILABLE_TO;
       FIELD_ARRAY[5] = ResourceField.BASE_CALENDAR;
+      FIELD_ARRAY[757] = ResourceField.BASELINE_BUDGET_COST;
+      FIELD_ARRAY[756] = ResourceField.BASELINE_BUDGET_WORK;
       FIELD_ARRAY[17] = ResourceField.BASELINE_COST;
       FIELD_ARRAY[260] = ResourceField.BASELINE_FINISH;
       FIELD_ARRAY[259] = ResourceField.BASELINE_START;
       FIELD_ARRAY[15] = ResourceField.BASELINE_WORK;
+      FIELD_ARRAY[761] = ResourceField.BASELINE1_BUDGET_COST;
+      FIELD_ARRAY[760] = ResourceField.BASELINE1_BUDGET_WORK;
       FIELD_ARRAY[343] = ResourceField.BASELINE1_COST;
+      FIELD_ARRAY[349] = ResourceField.BASELINE1_FINISH;
+      FIELD_ARRAY[348] = ResourceField.BASELINE1_START;
       FIELD_ARRAY[342] = ResourceField.BASELINE1_WORK;
+      FIELD_ARRAY[797] = ResourceField.BASELINE10_BUDGET_COST;
+      FIELD_ARRAY[796] = ResourceField.BASELINE10_BUDGET_WORK;
       FIELD_ARRAY[433] = ResourceField.BASELINE10_COST;
+      FIELD_ARRAY[439] = ResourceField.BASELINE10_FINISH;
+      FIELD_ARRAY[438] = ResourceField.BASELINE10_START;
       FIELD_ARRAY[432] = ResourceField.BASELINE10_WORK;
+      FIELD_ARRAY[765] = ResourceField.BASELINE2_BUDGET_COST;
+      FIELD_ARRAY[764] = ResourceField.BASELINE2_BUDGET_WORK;
       FIELD_ARRAY[353] = ResourceField.BASELINE2_COST;
+      FIELD_ARRAY[359] = ResourceField.BASELINE2_FINISH;
+      FIELD_ARRAY[358] = ResourceField.BASELINE2_START;
       FIELD_ARRAY[352] = ResourceField.BASELINE2_WORK;
+      FIELD_ARRAY[769] = ResourceField.BASELINE3_BUDGET_COST;
+      FIELD_ARRAY[768] = ResourceField.BASELINE3_BUDGET_WORK;
       FIELD_ARRAY[363] = ResourceField.BASELINE3_COST;
+      FIELD_ARRAY[369] = ResourceField.BASELINE3_FINISH;
+      FIELD_ARRAY[368] = ResourceField.BASELINE3_START;
       FIELD_ARRAY[362] = ResourceField.BASELINE3_WORK;
+      FIELD_ARRAY[773] = ResourceField.BASELINE4_BUDGET_COST;
+      FIELD_ARRAY[772] = ResourceField.BASELINE4_BUDGET_WORK;
       FIELD_ARRAY[373] = ResourceField.BASELINE4_COST;
+      FIELD_ARRAY[379] = ResourceField.BASELINE4_FINISH;
+      FIELD_ARRAY[378] = ResourceField.BASELINE4_START;
       FIELD_ARRAY[372] = ResourceField.BASELINE4_WORK;
+      FIELD_ARRAY[777] = ResourceField.BASELINE5_BUDGET_COST;
+      FIELD_ARRAY[776] = ResourceField.BASELINE5_BUDGET_WORK;
       FIELD_ARRAY[383] = ResourceField.BASELINE5_COST;
+      FIELD_ARRAY[389] = ResourceField.BASELINE5_FINISH;
+      FIELD_ARRAY[388] = ResourceField.BASELINE5_START;
       FIELD_ARRAY[382] = ResourceField.BASELINE5_WORK;
+      FIELD_ARRAY[781] = ResourceField.BASELINE6_BUDGET_COST;
+      FIELD_ARRAY[780] = ResourceField.BASELINE6_BUDGET_WORK;
       FIELD_ARRAY[393] = ResourceField.BASELINE6_COST;
+      FIELD_ARRAY[399] = ResourceField.BASELINE6_FINISH;
+      FIELD_ARRAY[398] = ResourceField.BASELINE6_START;
       FIELD_ARRAY[392] = ResourceField.BASELINE6_WORK;
+      FIELD_ARRAY[785] = ResourceField.BASELINE7_BUDGET_COST;
+      FIELD_ARRAY[784] = ResourceField.BASELINE7_BUDGET_WORK;
       FIELD_ARRAY[403] = ResourceField.BASELINE7_COST;
+      FIELD_ARRAY[409] = ResourceField.BASELINE7_FINISH;
+      FIELD_ARRAY[408] = ResourceField.BASELINE7_START;
       FIELD_ARRAY[402] = ResourceField.BASELINE7_WORK;
+      FIELD_ARRAY[789] = ResourceField.BASELINE8_BUDGET_COST;
+      FIELD_ARRAY[788] = ResourceField.BASELINE8_BUDGET_WORK;
       FIELD_ARRAY[413] = ResourceField.BASELINE8_COST;
+      FIELD_ARRAY[419] = ResourceField.BASELINE8_FINISH;
+      FIELD_ARRAY[418] = ResourceField.BASELINE8_START;
       FIELD_ARRAY[412] = ResourceField.BASELINE8_WORK;
+      FIELD_ARRAY[793] = ResourceField.BASELINE9_BUDGET_COST;
+      FIELD_ARRAY[792] = ResourceField.BASELINE9_BUDGET_WORK;
       FIELD_ARRAY[423] = ResourceField.BASELINE9_COST;
+      FIELD_ARRAY[429] = ResourceField.BASELINE9_FINISH;
+      FIELD_ARRAY[428] = ResourceField.BASELINE9_START;
       FIELD_ARRAY[422] = ResourceField.BASELINE9_WORK;
       FIELD_ARRAY[52] = ResourceField.BCWP;
       FIELD_ARRAY[51] = ResourceField.BCWS;
+      FIELD_ARRAY[699] = ResourceField.BOOKING_TYPE;
       FIELD_ARRAY[752] = ResourceField.BUDGET;
+      FIELD_ARRAY[754] = ResourceField.BUDGET_COST;
+      FIELD_ARRAY[753] = ResourceField.BUDGET_WORK;
+      FIELD_ARRAY[729] = ResourceField.CALENDAR_GUID;
       FIELD_ARRAY[163] = ResourceField.CAN_LEVEL;
       FIELD_ARRAY[10] = ResourceField.CODE;
       FIELD_ARRAY[261] = ResourceField.CONFIRMED;
+      FIELD_ARRAY[12] = ResourceField.COST;
+      FIELD_ARRAY[801] = ResourceField.COST_CENTER;
       FIELD_ARRAY[18] = ResourceField.COST_PER_USE;
       FIELD_ARRAY[269] = ResourceField.COST_RATE_TABLE;
-      FIELD_ARRAY[12] = ResourceField.COST;
       FIELD_ARRAY[24] = ResourceField.COST_VARIANCE;
       FIELD_ARRAY[123] = ResourceField.COST1;
       FIELD_ARRAY[172] = ResourceField.COST10;
@@ -135,7 +184,7 @@ public final class MPPResourceField
       FIELD_ARRAY[178] = ResourceField.DATE6;
       FIELD_ARRAY[179] = ResourceField.DATE7;
       FIELD_ARRAY[180] = ResourceField.DATE8;
-      FIELD_ARRAY[181] = ResourceField.DATE9;
+      FIELD_ARRAY[740] = ResourceField.DEFAULT_ASSIGNMENT_OWNER;
       FIELD_ARRAY[117] = ResourceField.DURATION1;
       FIELD_ARRAY[189] = ResourceField.DURATION10;
       FIELD_ARRAY[118] = ResourceField.DURATION2;
@@ -147,6 +196,8 @@ public final class MPPResourceField
       FIELD_ARRAY[187] = ResourceField.DURATION8;
       FIELD_ARRAY[188] = ResourceField.DURATION9;
       FIELD_ARRAY[35] = ResourceField.EMAIL_ADDRESS;
+      FIELD_ARRAY[691] = ResourceField.ENTERPRISE;
+      FIELD_ARRAY[687] = ResourceField.ENTERPRISE_BASE_CALENDAR;
       FIELD_ARRAY[446] = ResourceField.ENTERPRISE_COST1;
       FIELD_ARRAY[455] = ResourceField.ENTERPRISE_COST10;
       FIELD_ARRAY[447] = ResourceField.ENTERPRISE_COST2;
@@ -257,6 +308,8 @@ public final class MPPResourceField
       FIELD_ARRAY[552] = ResourceField.ENTERPRISE_NUMBER7;
       FIELD_ARRAY[553] = ResourceField.ENTERPRISE_NUMBER8;
       FIELD_ARRAY[554] = ResourceField.ENTERPRISE_NUMBER9;
+      FIELD_ARRAY[688] = ResourceField.ENTERPRISE_REQUIRED_VALUES;
+      FIELD_ARRAY[695] = ResourceField.ENTERPRISE_TEAM_MEMBER;
       FIELD_ARRAY[646] = ResourceField.ENTERPRISE_TEXT1;
       FIELD_ARRAY[655] = ResourceField.ENTERPRISE_TEXT10;
       FIELD_ARRAY[656] = ResourceField.ENTERPRISE_TEXT11;
@@ -297,7 +350,8 @@ public final class MPPResourceField
       FIELD_ARRAY[652] = ResourceField.ENTERPRISE_TEXT7;
       FIELD_ARRAY[653] = ResourceField.ENTERPRISE_TEXT8;
       FIELD_ARRAY[654] = ResourceField.ENTERPRISE_TEXT9;
-      FIELD_ARRAY[691] = ResourceField.ENTERPRISE;
+      FIELD_ARRAY[443] = ResourceField.ENTERPRISE_UNIQUE_ID;
+      FIELD_ARRAY[738] = ResourceField.ERROR_MESSAGE;
       FIELD_ARRAY[262] = ResourceField.FINISH;
       FIELD_ARRAY[107] = ResourceField.FINISH1;
       FIELD_ARRAY[194] = ResourceField.FINISH10;
@@ -329,15 +383,17 @@ public final class MPPResourceField
       FIELD_ARRAY[133] = ResourceField.FLAG7;
       FIELD_ARRAY[134] = ResourceField.FLAG8;
       FIELD_ARRAY[135] = ResourceField.FLAG9;
-      FIELD_ARRAY[306] = ResourceField.GROUP_BY_SUMMARY;
+      FIELD_ARRAY[686] = ResourceField.GENERIC;
       FIELD_ARRAY[3] = ResourceField.GROUP;
+      FIELD_ARRAY[306] = ResourceField.GROUP_BY_SUMMARY;
       FIELD_ARRAY[728] = ResourceField.GUID;
+      FIELD_ARRAY[138] = ResourceField.HYPERLINK;
       FIELD_ARRAY[139] = ResourceField.HYPERLINK_ADDRESS;
       FIELD_ARRAY[141] = ResourceField.HYPERLINK_HREF;
       FIELD_ARRAY[140] = ResourceField.HYPERLINK_SUBADDRESS;
-      FIELD_ARRAY[138] = ResourceField.HYPERLINK;
       FIELD_ARRAY[0] = ResourceField.ID;
       FIELD_ARRAY[755] = ResourceField.IMPORT;
+      FIELD_ARRAY[696] = ResourceField.INACTIVE;
       FIELD_ARRAY[86] = ResourceField.INDICATORS;
       FIELD_ARRAY[2] = ResourceField.INITIALS;
       FIELD_ARRAY[263] = ResourceField.LEVELING_DELAY;
@@ -382,7 +438,6 @@ public final class MPPResourceField
       FIELD_ARRAY[7] = ResourceField.OVERTIME_RATE;
       FIELD_ARRAY[16] = ResourceField.OVERTIME_WORK;
       FIELD_ARRAY[26] = ResourceField.PEAK;
-      FIELD_ARRAY[29] = ResourceField.PERCENT_WORK_COMPLETE;
       FIELD_ARRAY[252] = ResourceField.PHONETICS;
       FIELD_ARRAY[273] = ResourceField.PROJECT;
       FIELD_ARRAY[38] = ResourceField.REGULAR_WORK;
@@ -390,6 +445,7 @@ public final class MPPResourceField
       FIELD_ARRAY[49] = ResourceField.REMAINING_OVERTIME_COST;
       FIELD_ARRAY[40] = ResourceField.REMAINING_OVERTIME_WORK;
       FIELD_ARRAY[22] = ResourceField.REMAINING_WORK;
+      FIELD_ARRAY[690] = ResourceField.REQUEST_DEMAND;
       FIELD_ARRAY[264] = ResourceField.RESPONSE_PENDING;
       FIELD_ARRAY[6] = ResourceField.STANDARD_RATE;
       FIELD_ARRAY[265] = ResourceField.START;
@@ -403,9 +459,11 @@ public final class MPPResourceField
       FIELD_ARRAY[221] = ResourceField.START7;
       FIELD_ARRAY[222] = ResourceField.START8;
       FIELD_ARRAY[223] = ResourceField.START9;
+      FIELD_ARRAY[737] = ResourceField.SUMMARY;
       FIELD_ARRAY[54] = ResourceField.SV;
       FIELD_ARRAY[442] = ResourceField.TASK_OUTLINE_NUMBER;
       FIELD_ARRAY[159] = ResourceField.TASK_SUMMARY_NAME;
+      FIELD_ARRAY[800] = ResourceField.TEAM_ASSIGNMENT_POOL;
       FIELD_ARRAY[266] = ResourceField.TEAMSTATUS_PENDING;
       FIELD_ARRAY[8] = ResourceField.TEXT1;
       FIELD_ARRAY[101] = ResourceField.TEXT10;
@@ -441,76 +499,11 @@ public final class MPPResourceField
       FIELD_ARRAY[27] = ResourceField.UNIQUE_ID;
       FIELD_ARRAY[267] = ResourceField.UPDATE_NEEDED;
       FIELD_ARRAY[301] = ResourceField.VAC;
-      FIELD_ARRAY[311] = ResourceField.WINDOWS_USER_ACCOUNT;
-      FIELD_ARRAY[164] = ResourceField.WORK_CONTOUR;
-      FIELD_ARRAY[13] = ResourceField.WORK;
-      FIELD_ARRAY[23] = ResourceField.WORK_VARIANCE;
-      FIELD_ARRAY[272] = ResourceField.WORKGROUP;
-      FIELD_ARRAY[808] = ResourceField.UNAVAILABLE;
-      FIELD_ARRAY[803] = ResourceField.ASSIGNMENT_OWNER;
-      FIELD_ARRAY[757] = ResourceField.BASELINE_BUDGET_COST;
-      FIELD_ARRAY[756] = ResourceField.BASELINE_BUDGET_WORK;
-      FIELD_ARRAY[761] = ResourceField.BASELINE1_BUDGET_COST;
-      FIELD_ARRAY[760] = ResourceField.BASELINE1_BUDGET_WORK;
-      FIELD_ARRAY[349] = ResourceField.BASELINE1_FINISH;
-      FIELD_ARRAY[348] = ResourceField.BASELINE1_START;
-      FIELD_ARRAY[797] = ResourceField.BASELINE10_BUDGET_COST;
-      FIELD_ARRAY[796] = ResourceField.BASELINE10_BUDGET_WORK;
-      FIELD_ARRAY[439] = ResourceField.BASELINE10_FINISH;
-      FIELD_ARRAY[438] = ResourceField.BASELINE10_START;
-      FIELD_ARRAY[765] = ResourceField.BASELINE2_BUDGET_COST;
-      FIELD_ARRAY[764] = ResourceField.BASELINE2_BUDGET_WORK;
-      FIELD_ARRAY[359] = ResourceField.BASELINE2_FINISH;
-      FIELD_ARRAY[358] = ResourceField.BASELINE2_START;
-      FIELD_ARRAY[769] = ResourceField.BASELINE3_BUDGET_COST;
-      FIELD_ARRAY[768] = ResourceField.BASELINE3_BUDGET_WORK;
-      FIELD_ARRAY[369] = ResourceField.BASELINE3_FINISH;
-      FIELD_ARRAY[368] = ResourceField.BASELINE3_START;
-      FIELD_ARRAY[773] = ResourceField.BASELINE4_BUDGET_COST;
-      FIELD_ARRAY[772] = ResourceField.BASELINE4_BUDGET_WORK;
-      FIELD_ARRAY[379] = ResourceField.BASELINE4_FINISH;
-      FIELD_ARRAY[378] = ResourceField.BASELINE4_START;
-      FIELD_ARRAY[777] = ResourceField.BASELINE5_BUDGET_COST;
-      FIELD_ARRAY[776] = ResourceField.BASELINE5_BUDGET_WORK;
-      FIELD_ARRAY[389] = ResourceField.BASELINE5_FINISH;
-      FIELD_ARRAY[388] = ResourceField.BASELINE5_START;
-      FIELD_ARRAY[781] = ResourceField.BASELINE6_BUDGET_COST;
-      FIELD_ARRAY[780] = ResourceField.BASELINE6_BUDGET_WORK;
-      FIELD_ARRAY[399] = ResourceField.BASELINE6_FINISH;
-      FIELD_ARRAY[398] = ResourceField.BASELINE6_START;
-      FIELD_ARRAY[785] = ResourceField.BASELINE7_BUDGET_COST;
-      FIELD_ARRAY[784] = ResourceField.BASELINE7_BUDGET_WORK;
-      FIELD_ARRAY[409] = ResourceField.BASELINE7_FINISH;
-      FIELD_ARRAY[408] = ResourceField.BASELINE7_START;
-      FIELD_ARRAY[789] = ResourceField.BASELINE8_BUDGET_COST;
-      FIELD_ARRAY[788] = ResourceField.BASELINE8_BUDGET_WORK;
-      FIELD_ARRAY[419] = ResourceField.BASELINE8_FINISH;
-      FIELD_ARRAY[418] = ResourceField.BASELINE8_START;
-      FIELD_ARRAY[793] = ResourceField.BASELINE9_BUDGET_COST;
-      FIELD_ARRAY[792] = ResourceField.BASELINE9_BUDGET_WORK;
-      FIELD_ARRAY[429] = ResourceField.BASELINE9_FINISH;
-      FIELD_ARRAY[428] = ResourceField.BASELINE9_START;
-
-      FIELD_ARRAY[699] = ResourceField.BOOKING_TYPE;
-      FIELD_ARRAY[754] = ResourceField.BUDGET_COST;
-      FIELD_ARRAY[753] = ResourceField.BUDGET_WORK;
-      FIELD_ARRAY[729] = ResourceField.CALENDAR_GUID;
-      FIELD_ARRAY[801] = ResourceField.COST_CENTER;
-      FIELD_ARRAY[740] = ResourceField.DEFAULT_ASSIGNMENT_OWNER;
-
-      FIELD_ARRAY[687] = ResourceField.ENTERPRISE_BASE_CALENDAR;
-      FIELD_ARRAY[688] = ResourceField.ENTERPRISE_REQUIRED_VALUES;
-      FIELD_ARRAY[695] = ResourceField.ENTERPRISE_TEAM_MEMBER;
-      FIELD_ARRAY[443] = ResourceField.ENTERPRISE_UNIQUE_ID;
-
-      FIELD_ARRAY[738] = ResourceField.ERROR_MESSAGE;
-      FIELD_ARRAY[686] = ResourceField.GENERIC;
-      FIELD_ARRAY[696] = ResourceField.INACTIVE;
-      FIELD_ARRAY[690] = ResourceField.REQUEST_DEMAND;
-      FIELD_ARRAY[737] = ResourceField.SUMMARY;
-
-      FIELD_ARRAY[800] = ResourceField.TEAM_ASSIGNMENT_POOL;
       FIELD_ARRAY[340] = ResourceField.WBS;
+      FIELD_ARRAY[311] = ResourceField.WINDOWS_USER_ACCOUNT;
+      FIELD_ARRAY[13] = ResourceField.WORK;
+      FIELD_ARRAY[164] = ResourceField.WORK_CONTOUR;
+      FIELD_ARRAY[23] = ResourceField.WORK_VARIANCE;
    }
 
    private static final int[] ID_ARRAY = new int[ResourceField.MAX_VALUE];
@@ -525,6 +518,4 @@ public final class MPPResourceField
          }
       }
    }
-
-   public static final int RESOURCE_FIELD_BASE = 0x0C400000;
 }

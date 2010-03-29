@@ -71,7 +71,7 @@ public class MppEnterpriseTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14enterprise.mpp");
       testEnterpriseFields(mpp);
    }
-   
+
    /**
     * Test enterprise data read from an MSPDI file.
     * 

@@ -104,7 +104,7 @@ public class MppNullTaskTest extends MPXJTestCase
       ProjectFile project = new MPPReader().read(m_basedir + "/mpp14nulltasks.mpp");
       testNullTasks(project);
    }
-   
+
    /**
     * Tests a project containing null tasks.
     * 

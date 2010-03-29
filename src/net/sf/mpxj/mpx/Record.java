@@ -42,6 +42,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.utility.MPXJFormats;
+import net.sf.mpxj.utility.Tokenizer;
 
 /**
  * This class is used to represent a record in an MPX file.

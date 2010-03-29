@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.mpx;
+package net.sf.mpxj.utility;
 
 import java.io.IOException;
 
@@ -31,7 +31,7 @@ import java.io.IOException;
  * an MPX file correctly. In particular it will handle empty fields,
  * represented by adjacent field delimiters.
  */
-abstract class Tokenizer
+public abstract class Tokenizer
 {
    /**
     * This method must be implemented to read the next character from the

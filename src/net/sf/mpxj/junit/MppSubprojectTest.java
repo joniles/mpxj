@@ -68,7 +68,7 @@ public class MppSubprojectTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14subproject.mpp");
       testSubprojects(mpp, true);
    }
-   
+
    /**
     * Test subproject data read from an MPD9 file.
     * 

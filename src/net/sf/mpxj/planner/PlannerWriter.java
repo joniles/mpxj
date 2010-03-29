@@ -98,9 +98,9 @@ public final class PlannerWriter extends AbstractProjectWriter
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
          if (m_encoding != null)
          {
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, m_encoding);            
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, m_encoding);
          }
-         
+
          //
          // The Planner implementation used  as the basis for this work, 0.14.1
          // does not appear to have a particularly robust parser, and rejects

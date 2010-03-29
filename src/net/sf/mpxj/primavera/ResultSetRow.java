@@ -50,7 +50,6 @@ final class ResultSetRow extends MapRow
    {
       super(new HashMap<String, Object>());
 
-     
       for (Entry<String, Integer> entry : meta.entrySet())
       {
          String name = entry.getKey();
@@ -69,14 +68,14 @@ final class ResultSetRow extends MapRow
             case Types.CHAR :
             case Types.VARCHAR :
             case Types.LONGVARCHAR :
-            case Types.CLOB:
-            {               
+            case Types.CLOB :
+            {
                value = rs.getString(name);
                break;
             }
 
             case Types.DATE :
-            {             
+            {
                value = rs.getDate(name);
                break;
             }

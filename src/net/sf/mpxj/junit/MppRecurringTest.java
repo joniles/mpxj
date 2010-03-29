@@ -95,7 +95,7 @@ public class MppRecurringTest extends MPXJTestCase
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14recurring.mpp");
       testRecurringTasks(mpp);
    }
-   
+
    /**
     * Tests recurring tasks.
     * 

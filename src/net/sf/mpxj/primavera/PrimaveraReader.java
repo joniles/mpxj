@@ -23,27 +23,16 @@
 
 package net.sf.mpxj.primavera;
 
-import java.io.File;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.sql.DataSource;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
@@ -54,112 +43,49 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class PrimaveraReader implements ProjectReader
+final class PrimaveraReader
 {
    /**
-    * Populates a Map instance representing the IDs and names of
-    * projects available in the current database.
-    * 
-    * @return Map instance containing ID and name pairs
-    * @throws MPXJException
+    * Constructor.
     */
-   public Map<Integer, String> listProjects() throws MPXJException
+   public PrimaveraReader()
    {
-      try
-      {
-         Map<Integer, String> result = new HashMap<Integer, String>();
+      m_project = new ProjectFile();
 
-         List<ResultSetRow> rows = getRows("select proj_id, proj_short_name from " + m_schema + "project");
-         for (ResultSetRow row : rows)
-         {
-            Integer id = row.getInteger("proj_id");
-            String name = row.getString("proj_short_name");
-            result.put(id, name);
-         }
-
-         return result;
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
+      m_project.setAutoTaskID(true);
+      m_project.setAutoResourceID(true);
+      m_project.setAutoOutlineLevel(true);
+      m_project.setAutoOutlineNumber(true);
+      m_project.setAutoWBS(true);
+      m_project.setAutoCalendarUniqueID(true);
+      m_project.addDefaultBaseCalendar();
    }
 
    /**
-    * Read a project from the current data source.
+    * Retrieves the project data read from this file.
     * 
-    * @return ProjectFile instance
-    * @throws MPXJException
+    * @return project data
     */
-   public ProjectFile read() throws MPXJException
+   public ProjectFile getProject()
    {
-      try
-      {
-         m_project = new ProjectFile();
-
-         m_project.setAutoTaskID(true);
-         m_project.setAutoResourceID(true);
-         m_project.setAutoOutlineLevel(true);
-         m_project.setAutoOutlineNumber(true);
-         m_project.setAutoWBS(true);
-         m_project.setAutoCalendarUniqueID(true);
-         m_project.addDefaultBaseCalendar();
-
-         processProjectHeader();
-         //processCalendars();
-         processResources();
-         processTasks();
-         processPredecessors();
-         processAssignments();
-
-         m_project.updateStructure();
-
-         return (m_project);
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      finally
-      {
-         if (m_allocatedConnection && m_connection != null)
-         {
-            try
-            {
-               m_connection.close();
-            }
-
-            catch (SQLException ex)
-            {
-               // silently ignore errors on close
-            }
-
-            m_connection = null;
-         }
-      }
+      return m_project;
    }
 
    /**
-    * Select the project header row from the database.
+    * Process project header.
     * 
-    * @throws SQLException
+    * @param rows project header data.
     */
-   private void processProjectHeader() throws SQLException
+   public void processProjectHeader(List<Row> rows)
    {
-      List<ResultSetRow> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       if (rows.isEmpty() == false)
       {
-         ResultSetRow row = rows.get(0);
+         Row row = rows.get(0);
          ProjectHeader header = m_project.getProjectHeader();
          header.setCreationDate(row.getDate("create_date"));
          header.setFinishDate(row.getDate("plan_end_date"));
@@ -171,11 +97,11 @@ public final class PrimaveraReader implements ProjectReader
    /**
     * Process resources.
     * 
-    * @throws SQLException
+    * @param rows resource data
     */
-   private void processResources() throws SQLException
+   public void processResources(List<Row> rows)
    {
-      for (ResultSetRow row : getRows("select * from " + m_schema + "rsrc where rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=?) order by rsrc_seq_num", m_projectID))
+      for (Row row : rows)
       {
          Resource resource = m_project.addResource();
          resource.setUniqueID(row.getInteger("rsrc_id"));
@@ -191,17 +117,18 @@ public final class PrimaveraReader implements ProjectReader
    /**
     * Process tasks.
     * 
-    * @throws SQLException
+    * @param wbs WBS task data
+    * @param tasks task data
     */
-   private void processTasks() throws SQLException
+   public void processTasks(List<Row> wbs, List<Row> tasks)
    {
       Set<Integer> uniqueIDs = new HashSet<Integer>();
 
       //
       // Read WBS entries and create tasks
       //
-      List<ResultSetRow> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? order by seq_num", m_projectID);
-      for (ResultSetRow row : wbs)
+
+      for (Row row : wbs)
       {
          Task task = m_project.addTask();
          Integer uniqueID = row.getInteger("wbs_id");
@@ -220,7 +147,7 @@ public final class PrimaveraReader implements ProjectReader
       // Create hierarchical structure
       //
       m_project.getChildTasks().clear();
-      for (ResultSetRow row : wbs)
+      for (Row row : wbs)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("wbs_id"));
          Task parentTask = m_project.getTaskByUniqueID(row.getInteger("parent_wbs_id"));
@@ -240,7 +167,7 @@ public final class PrimaveraReader implements ProjectReader
       //
       int nextID = 1;
       m_clashMap.clear();
-      for (ResultSetRow row : getRows("select * from " + m_schema + "task where proj_id=?", m_projectID))
+      for (Row row : tasks)
       {
          Integer uniqueID = row.getInteger("task_id");
          if (uniqueIDs.contains(uniqueID))
@@ -351,13 +278,13 @@ public final class PrimaveraReader implements ProjectReader
    }
 
    /**
-    * Process predecessors.
+    * Processes predecessor data.
     * 
-    * @throws SQLException
+    * @param rows predecessor data
     */
-   private void processPredecessors() throws SQLException
+   public void processPredecessors(List<Row> rows)
    {
-      for (ResultSetRow row : getRows("select * from " + m_schema + "taskpred where proj_id=?", m_projectID))
+      for (Row row : rows)
       {
          Task currentTask = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
          Task predecessorTask = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("pred_task_id")));
@@ -371,13 +298,13 @@ public final class PrimaveraReader implements ProjectReader
    }
 
    /**
-    * Process resource assignments.
+    * Process assignment data.
     * 
-    * @throws SQLException
+    * @param rows assignment data
     */
-   private void processAssignments() throws SQLException
+   public void processAssignments(List<Row> rows)
    {
-      for (ResultSetRow row : getRows("select * from " + m_schema + "taskrsrc where proj_id=?", m_projectID))
+      for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(mapTaskID(row.getInteger("task_id")));
          Resource resource = m_project.getResourceByUniqueID(row.getInteger("rsrc_id"));
@@ -418,232 +345,7 @@ public final class PrimaveraReader implements ProjectReader
       return (mappedID);
    }
 
-   /**
-    * Set the ID of the project to be read.
-    * 
-    * @param projectID project ID
-    */
-   public void setProjectID(int projectID)
-   {
-      m_projectID = Integer.valueOf(projectID);
-   }
-
-   /**
-    * Set the data source. A DataSource or a Connection can be supplied
-    * to this class to allow connection to the database.
-    * 
-    * @param dataSource data source
-    */
-   public void setDataSource(DataSource dataSource)
-   {
-      m_dataSource = dataSource;
-   }
-
-   /**
-    * Sets the connection. A DataSource or a Connection can be supplied
-    * to this class to allow connection to the database.
-    * 
-    * @param connection database connection
-    */
-   public void setConnection(Connection connection)
-   {
-      m_connection = connection;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   public ProjectFile read(String fileName)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   public ProjectFile read(File file)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   public ProjectFile read(InputStream inputStream)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   /**
-    * Retrieve a number of rows matching the supplied query. 
-    * 
-    * @param sql query statement
-    * @return result set
-    * @throws SQLException
-    */
-   private List<ResultSetRow> getRows(String sql) throws SQLException
-   {
-      allocateConnection();
-
-      try
-      {
-         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
-         {
-            result.add(new ResultSetRow(m_rs, m_meta));
-         }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
-      }
-   }
-
-   /**
-    * Retrieve a number of rows matching the supplied query 
-    * which takes a single parameter.
-    * 
-    * @param sql query statement
-    * @param var bind variable value
-    * @return result set
-    * @throws SQLException
-    */
-   private List<ResultSetRow> getRows(String sql, Integer var) throws SQLException
-   {
-      allocateConnection();
-
-      try
-      {
-         List<ResultSetRow> result = new LinkedList<ResultSetRow>();
-
-         m_ps = m_connection.prepareStatement(sql);
-         m_ps.setInt(1, NumberUtility.getInt(var));
-         m_rs = m_ps.executeQuery();
-         populateMetaData();
-         while (m_rs.next())
-         {
-            result.add(new ResultSetRow(m_rs, m_meta));
-         }
-
-         return (result);
-      }
-
-      finally
-      {
-         releaseConnection();
-      }
-   }
-
-   /**
-    * Allocates a database connection.
-    * 
-    * @throws SQLException
-    */
-   private void allocateConnection() throws SQLException
-   {
-      if (m_connection == null)
-      {
-         m_connection = m_dataSource.getConnection();
-         m_allocatedConnection = true;
-      }
-   }
-
-   /**
-    * Releases a database connection, and cleans up any resources
-    * associated with that connection.
-    */
-   private void releaseConnection()
-   {
-      if (m_rs != null)
-      {
-         try
-         {
-            m_rs.close();
-         }
-
-         catch (SQLException ex)
-         {
-            // silently ignore errors on close
-         }
-
-         m_rs = null;
-      }
-
-      if (m_ps != null)
-      {
-         try
-         {
-            m_ps.close();
-         }
-
-         catch (SQLException ex)
-         {
-            // silently ignore errors on close
-         }
-
-         m_ps = null;
-      }
-   }
-
-   /**
-    * Retrieves basic meta data from the result set.
-    * 
-    * @throws SQLException
-    */
-   private void populateMetaData() throws SQLException
-   {
-      m_meta.clear();
-
-      ResultSetMetaData meta = m_rs.getMetaData();
-      int columnCount = meta.getColumnCount() + 1;
-      for (int loop = 1; loop < columnCount; loop++)
-      {
-         String name = meta.getColumnName(loop);
-         Integer type = Integer.valueOf(meta.getColumnType(loop));
-         m_meta.put(name, type);
-      }
-   }
-
-   /**
-    * Set the name of the schema containing the Primavera tables.
-    * 
-    * @param schema schema name.
-    */
-   public void setSchema(String schema)
-   {
-      if (schema.charAt(schema.length() - 1) != '.')
-      {
-         schema = schema + '.';
-      }
-      m_schema = schema;
-   }
-
-   /**
-    * Retrieve the name of the schema containing the Primavera tables.
-    * 
-    * @return schema name
-    */
-   public String getSchema()
-   {
-      return m_schema;
-   }
-
-   private Integer m_projectID;
-   private String m_schema = "";
    private ProjectFile m_project;
-   private DataSource m_dataSource;
-   private Connection m_connection;
-   private boolean m_allocatedConnection;
-   private PreparedStatement m_ps;
-   private ResultSet m_rs;
-   private Map<String, Integer> m_meta = new HashMap<String, Integer>();
    private Map<Integer, Integer> m_clashMap = new HashMap<Integer, Integer>();
 
    private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<String, ResourceType>();

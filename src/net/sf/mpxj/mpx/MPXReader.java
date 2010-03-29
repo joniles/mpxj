@@ -55,8 +55,11 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.reader.AbstractProjectReader;
+import net.sf.mpxj.utility.InputStreamTokenizer;
 import net.sf.mpxj.utility.MPXJFormats;
 import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.ReaderTokenizer;
+import net.sf.mpxj.utility.Tokenizer;
 
 /**
  * This class creates a new ProjectFile instance by reading an MPX file.

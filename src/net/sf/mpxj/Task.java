@@ -6555,7 +6555,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
             m_array[TaskField.COMPLETE_THROUGH.getValue()] = null;
             break;
          }
-         
+
          default :
          {
             break;

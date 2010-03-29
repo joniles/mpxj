@@ -20,7 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
- 
+
 package net.sf.mpxj.mpp;
 
 import java.util.Date;
@@ -40,7 +40,6 @@ import net.sf.mpxj.TimephasedResourceAssignmentNormaliser;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.utility.NumberUtility;
 
-
 /**
  * Reads resource assignment data from an MPP14 file.
  */
@@ -59,7 +58,7 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
 
       //System.out.println(assnVarMeta);
       //System.out.println(assnVarData);
-      
+
       for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
@@ -107,11 +106,11 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
             }
 
             Date assignmentStart = MPPUtility.getTimestamp(data, 12);
-            Date assignmentFinish = MPPUtility.getTimestamp(data, 16);            
+            Date assignmentFinish = MPPUtility.getTimestamp(data, 16);
             double assignmentUnits = (MPPUtility.getDouble(data, 46)) / 100;
             byte[] completeWork = assnVarData.getByteArray(varDataId, COMPLETE_WORK);
             byte[] plannedWork = assnVarData.getByteArray(varDataId, PLANNED_WORK);
-            double remainingWork = (MPPUtility.getDouble(data, 78)) / 100;            
+            double remainingWork = (MPPUtility.getDouble(data, 78)) / 100;
             List<TimephasedResourceAssignment> timephasedComplete = timephasedFactory.getCompleteWork(calendar, assignmentStart, completeWork);
             List<TimephasedResourceAssignment> timephasedPlanned = timephasedFactory.getPlannedWork(calendar, assignmentStart, assignmentUnits, plannedWork, timephasedComplete);
             //System.out.println(timephasedComplete);
@@ -134,8 +133,8 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                assignment.setTimephasedNormaliser(normaliser);
 
                assignment.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 94) / 100));
-               assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);  
-               assignment.setActualStart(completeWork == null ? null : assignmentStart);               
+               assignment.setActualFinish(remainingWork == 0 ? assignmentFinish : null);
+               assignment.setActualStart(completeWork == null ? null : assignmentStart);
                assignment.setActualWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)) / 100, TimeUnit.HOURS));
                assignment.setCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 86) / 100));
                assignment.setDelay(MPPUtility.getDuration(MPPUtility.getShort(data, 24), TimeUnit.HOURS));
@@ -143,12 +142,12 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                assignment.setRemainingWork(MPPUtility.getDuration(remainingWork, TimeUnit.HOURS));
                assignment.setStart(assignmentStart);
                assignment.setUnits(Double.valueOf(assignmentUnits));
-               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70)/100), TimeUnit.HOURS)); 
-               assignment.setBaselineCost(NumberUtility.getDouble(assnVarData.getDouble(varDataId, BASELINE_COST)/100));
+               assignment.setWork(MPPUtility.getDuration((MPPUtility.getDouble(data, 70) / 100), TimeUnit.HOURS));
+               assignment.setBaselineCost(NumberUtility.getDouble(assnVarData.getDouble(varDataId, BASELINE_COST) / 100));
                assignment.setBaselineFinish(assnVarData.getTimestamp(varDataId, BASELINE_FINISH));
                assignment.setBaselineStart(assnVarData.getTimestamp(varDataId, BASELINE_START));
                assignment.setBaselineWork(Duration.getInstance(assnVarData.getDouble(varDataId, BASELINE_WORK) / 60000, TimeUnit.HOURS));
-               
+
                if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
                {
                   Duration workPerDay = TimephasedResourceAssignmentNormaliser.DEFAULT_NORMALIZER_WORK_PER_DAY;
@@ -191,13 +190,13 @@ public final class ResourceAssignmentFactory14 implements ResourceAssignmentFact
                }
             }
          }
-      }      
+      }
    }
-   
+
    private static final Integer PLANNED_WORK = Integer.valueOf(49);
    private static final Integer COMPLETE_WORK = Integer.valueOf(50);
-   private static final Integer BASELINE_WORK = Integer.valueOf(16);   
-   private static final Integer BASELINE_COST = Integer.valueOf(32);   
+   private static final Integer BASELINE_WORK = Integer.valueOf(16);
+   private static final Integer BASELINE_COST = Integer.valueOf(32);
    private static final Integer BASELINE_START = Integer.valueOf(146);
-   private static final Integer BASELINE_FINISH = Integer.valueOf(147);      
+   private static final Integer BASELINE_FINISH = Integer.valueOf(147);
 }

@@ -121,14 +121,14 @@ final class TableFactory
                column.setFieldType(MPPResourceField.getInstance(fieldType));
             }
 
-//            if (column.getFieldType() == null)
-//            {
-//               System.out.println(loop + ": Unknown column type " + fieldType);
-//            }
-//            else
-//            {
-//               System.out.println(loop + ": " + column.getFieldType());
-//            }
+            //            if (column.getFieldType() == null)
+            //            {
+            //               System.out.println(loop + ": Unknown column type " + fieldType);
+            //            }
+            //            else
+            //            {
+            //               System.out.println(loop + ": " + column.getFieldType());
+            //            }
 
             column.setWidth(MPPUtility.getByte(data, index + 4));
 

@@ -30,6 +30,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mspdi.MSPDIReader;
+import net.sf.mpxj.primavera.PrimaveraFileReader;
 
 /**
  * The tests contained in this class exercise MPXJ
@@ -159,7 +160,8 @@ public class CustomerDataTest extends MPXJTestCase
             MPPReader mppReader = new MPPReader();
             MPXReader mpxReader = new MPXReader();
             MSPDIReader mspdiReader = new MSPDIReader();
-
+            PrimaveraFileReader primaveraReader = new PrimaveraFileReader();
+            
             ProjectFile mpxj;
             int failures = 0;
             File[] files = dir.listFiles();
@@ -213,6 +215,13 @@ public class CustomerDataTest extends MPXJTestCase
                         if (name.endsWith(".XML") == true && name.indexOf(".MPP.") == -1)
                         {
                            mpxj = mspdiReader.read(file);
+                        }
+                        else
+                        {
+                           if (name.endsWith(".XER") == true)
+                           {
+                              mpxj = primaveraReader.read(file);
+                           }                           
                         }
                      }
                   }

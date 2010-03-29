@@ -40,7 +40,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
@@ -884,7 +884,7 @@ final class MPP14Reader implements MPPVariantReader
             if (aliasOffset < data.length)
             {
                alias = MPPUtility.getUnicodeString(data, aliasOffset);
-               m_file.setResourceFieldAlias(MPPResourceField.getInstance(field), alias);
+               m_file.setResourceFieldAlias(MPPResourceField14.getInstance(field), alias);
                //System.out.println(field + ": " + alias);
             }
             index++;
