@@ -1,7 +1,7 @@
 /*
  * file:       GanttBarMiddleShapeTypw.java
  * author:     Tom Ollar
- * copyright:  (c) Packwood Software Limited 2009
+ * copyright:  (c) Packwood Software 2009
  * date:       04/04/2009
  */
 

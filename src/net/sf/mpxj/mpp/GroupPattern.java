@@ -1,7 +1,7 @@
 /*
  * file:       GroupPattern.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software Limited 2010
+ * copyright:  (c) Packwood Software 2010
  * date:       31/03/2010
  */
 

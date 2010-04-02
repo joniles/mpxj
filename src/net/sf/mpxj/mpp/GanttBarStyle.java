@@ -2,7 +2,7 @@
  * file:       GanttBarStyle.java
  * author:     Jon Iles
  *             Tom Ollar
- * copyright:  (c) Packwood Software Limited 2005-2009
+ * copyright:  (c) Packwood Software 2005-2009
  * date:       13/04/2005
  */
 

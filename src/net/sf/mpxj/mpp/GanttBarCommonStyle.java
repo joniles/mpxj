@@ -2,7 +2,7 @@
  * file:       GanttBarCommonStyle.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
- * date:       Apr 13, 2005
+ * date:       2005-04-13
  */
 
 /*
@@ -136,7 +136,7 @@ public class GanttBarCommonStyle
    }
 
    /**
-    * Retrieve the shae and style of the start of the bar.
+    * Retrieve the shape and style of the start of the bar.
     *
     * @return start shape and style
     */
