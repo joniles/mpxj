@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -105,14 +104,7 @@ public enum ScheduleFrom implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ScheduleFrom[] TYPE_VALUES = new ScheduleFrom[2];
-   static
-   {
-      for (ScheduleFrom e : EnumSet.range(ScheduleFrom.START, ScheduleFrom.FINISH))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ScheduleFrom[] TYPE_VALUES = EnumUtility.createTypeArray(ScheduleFrom.class);
 
    /**
     * Internal representation of the enum int type.

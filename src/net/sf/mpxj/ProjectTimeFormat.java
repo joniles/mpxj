@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -106,14 +105,7 @@ public enum ProjectTimeFormat implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ProjectTimeFormat[] TYPE_VALUES = new ProjectTimeFormat[2];
-   static
-   {
-      for (ProjectTimeFormat e : EnumSet.range(ProjectTimeFormat.TWELVE_HOUR, ProjectTimeFormat.TWENTY_FOUR_HOUR))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ProjectTimeFormat[] TYPE_VALUES = EnumUtility.createTypeArray(ProjectTimeFormat.class);
 
    /**
     * Internal representation of the enum int type.

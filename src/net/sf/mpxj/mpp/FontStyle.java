@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
+
 /**
  * This class builds on the font described by a FontBase instance
  * and add attributes for color, bold, italic and underline.
@@ -38,7 +40,7 @@ public class FontStyle
     * @param underline underline flag
     * @param color color type
     */
-   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color)
+   public FontStyle(FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color)
    {
       m_fontBase = fontBase;
       m_italic = italic;
@@ -72,7 +74,7 @@ public class FontStyle
     *
     * @return font color
     */
-   public ColorType getColor()
+   public Color getColor()
    {
       return (m_color);
    }
@@ -109,5 +111,5 @@ public class FontStyle
    private boolean m_italic;
    private boolean m_bold;
    private boolean m_underline;
-   private ColorType m_color;
+   private Color m_color;
 }

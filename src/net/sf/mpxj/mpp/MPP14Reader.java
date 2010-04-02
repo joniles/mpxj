@@ -3041,14 +3041,13 @@ final class MPP14Reader implements MPPVariantReader
       VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
       Var2Data varData = new Var2Data(varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
 
-      //      System.out.println(fixedMeta);
-      //      System.out.println(fixedData);
-      //      System.out.println(varMeta);
-      //      System.out.println(varData);   
+      //System.out.println(fixedMeta);
+      //System.out.println(fixedData);
+      //System.out.println(varMeta);
+      //System.out.println(varData);   
 
-      GroupReader reader = new GroupReader12();
+      GroupReader14 reader = new GroupReader14();
       reader.process(m_file, fixedData, varData, m_fontBases);
-
    }
 
    /**

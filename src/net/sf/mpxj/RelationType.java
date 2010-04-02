@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -109,14 +108,7 @@ public enum RelationType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final RelationType[] TYPE_VALUES = new RelationType[4];
-   static
-   {
-      for (RelationType e : EnumSet.range(RelationType.FINISH_FINISH, RelationType.START_START))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final RelationType[] TYPE_VALUES = EnumUtility.createTypeArray(RelationType.class);
 
    /**
     * Internal representation of the enum int type.

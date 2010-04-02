@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -388,14 +387,7 @@ public enum TestOperator implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final TestOperator[] TYPE_VALUES = new TestOperator[12];
-   static
-   {
-      for (TestOperator e : EnumSet.range(TestOperator.IS_ANY_VALUE, TestOperator.CONTAINS_EXACTLY))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final TestOperator[] TYPE_VALUES = EnumUtility.createTypeArray(TestOperator.class);
 
    /**
     * Internal representation of the enum int type.

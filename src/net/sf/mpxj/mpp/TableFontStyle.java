@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
+
 import net.sf.mpxj.FieldType;
 
 /**
@@ -47,7 +49,7 @@ public class TableFontStyle extends FontStyle
     * @param colorChanged color changed flag
     * @param fontChanged font changed flag
     */
-   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, ColorType color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
+   public TableFontStyle(int rowUniqueID, FieldType fieldType, FontBase fontBase, boolean italic, boolean bold, boolean underline, Color color, boolean italicChanged, boolean boldChanged, boolean underlineChanged, boolean colorChanged, boolean fontChanged)
    {
       super(fontBase, italic, bold, underline, color);
 

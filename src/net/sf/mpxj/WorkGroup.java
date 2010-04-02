@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -96,14 +95,7 @@ public enum WorkGroup implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final WorkGroup[] TYPE_VALUES = new WorkGroup[4];
-   static
-   {
-      for (WorkGroup e : EnumSet.range(WorkGroup.DEFAULT, WorkGroup.WEB))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final WorkGroup[] TYPE_VALUES = EnumUtility.createTypeArray(WorkGroup.class);
 
    /**
     * Internal representation of the enum int type.

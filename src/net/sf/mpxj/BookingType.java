@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 
 /**
@@ -73,14 +72,7 @@ public enum BookingType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final BookingType[] TYPE_VALUES = new BookingType[2];
-   static
-   {
-      for (BookingType e : EnumSet.range(BookingType.COMMITTED, BookingType.PROPOSED))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final BookingType[] TYPE_VALUES = EnumUtility.createTypeArray(BookingType.class);
 
    /**
     * Internal representation of the enum int type.

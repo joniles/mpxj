@@ -1,8 +1,8 @@
 /*
- * file:       GroupReader.java
+ * file:       GroupReader14.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2006
- * date:       Oct 31, 2006
+ * copyright:  (c) Packwood Software 2010
+ * date:       31/03/2010
  */
 
 /*
@@ -23,27 +23,21 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
 import java.util.Map;
 
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Group;
 import net.sf.mpxj.GroupClause;
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
+import net.sf.mpxj.MPPResourceField14;
+import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
 
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
-public abstract class GroupReader
+public final class GroupReader14
 {
-   /**
-    * Retrieves the type used for the VarData lookup.
-    * 
-    * @return VarData type
-    */
-   protected abstract Integer getVarDataType();
-
    /**
     * Entry point for processing group definitions.
     * 
@@ -65,7 +59,7 @@ public abstract class GroupReader
 
          Integer groupID = Integer.valueOf(MPPUtility.getInt(groupFixedData, 0));
 
-         byte[] groupVarData = varData.getByteArray(groupID, getVarDataType());
+         byte[] groupVarData = varData.getByteArray(groupID, GROUP_DATA);
          if (groupVarData == null)
          {
             continue;
@@ -85,15 +79,18 @@ public abstract class GroupReader
          Group group = new Group(groupID, groupName, showSummaryTasks);
          file.addGroup(group);
 
-         int clauseCount = MPPUtility.getShort(groupVarData, 6);
-         int offset = 8;
+         int clauseCount = MPPUtility.getShort(groupVarData, 10);
+         int offset = 12;
 
          for (int clauseIndex = 0; clauseIndex < clauseCount; clauseIndex++)
          {
-            if (offset + 47 > groupVarData.length)
+            if (offset + 71 > groupVarData.length)
             {
                break;
             }
+
+            //System.out.println("Clause " + clauseIndex);
+            //System.out.println(MPPUtility.hexdump(groupVarData, offset, 71, false, 16, ""));
 
             GroupClause clause = new GroupClause();
             group.addGroupClause(clause);
@@ -106,14 +103,14 @@ public abstract class GroupReader
             {
                case 0x0C :
                {
-                  type = MPPResourceField.getInstance(fieldType);
+                  type = MPPResourceField14.getInstance(fieldType);
                   break;
                }
 
                default :
                case 0x0B :
                {
-                  type = MPPTaskField.getInstance(fieldType);
+                  type = MPPTaskField14.getInstance(fieldType);
                   break;
                }
             }
@@ -137,20 +134,15 @@ public abstract class GroupReader
             boolean bold = ((style & 0x01) != 0);
             boolean italic = ((style & 0x02) != 0);
             boolean underline = ((style & 0x04) != 0);
+            Color fontColor = MPPUtility.getColor(groupVarData, offset + 10);
 
-            int fontColorIndex = MPPUtility.getByte(groupVarData, offset + 10);
-            ColorType fontColor = ColorType.getInstance(fontColorIndex);
-
-            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor.getColor());
+            FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, fontColor);
             clause.setFont(fontStyle);
-
-            int colorIndex = MPPUtility.getByte(groupVarData, offset + 12);
-            ColorType color = ColorType.getInstance(colorIndex);
-            clause.setCellBackgroundColor(color.getColor());
-            clause.setPattern(GroupPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 13) & 0x0F));
+            clause.setCellBackgroundColor(MPPUtility.getColor(groupVarData, offset + 22));
+            clause.setPattern(GroupPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 34) & 0x0F));
 
             // offset+14=group on
-            int groupOn = MPPUtility.getShort(groupVarData, offset + 14);
+            int groupOn = MPPUtility.getByte(groupVarData, offset + 38);
             clause.setGroupOn(groupOn);
             // offset+24=start at
             // offset+40=group interval
@@ -164,28 +156,28 @@ public abstract class GroupReader
                case NUMERIC :
                case CURRENCY :
                {
-                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 24));
-                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 40));
+                  startAt = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 47));
+                  groupInterval = Double.valueOf(MPPUtility.getDouble(groupVarData, offset + 63));
                   break;
                }
 
                case PERCENTAGE :
                {
-                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 24));
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 47));
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
                   break;
                }
 
                case BOOLEAN :
                {
-                  startAt = (MPPUtility.getShort(groupVarData, offset + 24) == 1 ? Boolean.TRUE : Boolean.FALSE);
+                  startAt = (MPPUtility.getShort(groupVarData, offset + 47) == 1 ? Boolean.TRUE : Boolean.FALSE);
                   break;
                }
 
                case DATE :
                {
-                  startAt = MPPUtility.getTimestamp(groupVarData, offset + 24);
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  startAt = MPPUtility.getTimestamp(groupVarData, offset + 47);
+                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 63));
                   break;
                }
 
@@ -198,10 +190,12 @@ public abstract class GroupReader
             clause.setStartAt(startAt);
             clause.setGroupInterval(groupInterval);
 
-            offset += 48;
+            offset += 71;
          }
 
          //System.out.println(group);
       }
    }
+
+   private static final Integer GROUP_DATA = Integer.valueOf(6);
 }

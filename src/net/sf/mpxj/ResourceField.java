@@ -569,12 +569,12 @@ public enum ResourceField implements FieldType
       return (result);
    }
 
-   public static final int MAX_VALUE = EnumSet.range(ResourceField.START, ResourceField.FINISH).size();
+   public static final int MAX_VALUE = EnumSet.allOf(ResourceField.class).size();
    private static final ResourceField[] TYPE_VALUES = new ResourceField[MAX_VALUE];
    static
    {
       int value = 0;
-      for (ResourceField e : EnumSet.range(ResourceField.START, ResourceField.FINISH))
+      for (ResourceField e : EnumSet.allOf(ResourceField.class))
       {
          e.m_value = value++;
          TYPE_VALUES[e.getValue()] = e;

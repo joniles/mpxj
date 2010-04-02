@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -631,6 +632,22 @@ final class MPPUtility
    }
 
    /**
+    * Reads a color value represented by theree bytes, for R, G, and B
+    * components.
+    * 
+    * @param data byte array of data
+    * @param offset offset into array
+    * @return new Color instance
+    */
+   public static final Color getColor(byte[] data, int offset)
+   {
+      int r = getByte(data, offset);
+      int g = getByte(data, offset + 1);
+      int b = getByte(data, offset + 2);
+      return new Color(r, g, b);
+   }
+
+   /**
     * Reads a duration value. This method relies on the fact that
     * the units of the duration have been specified elsewhere.
     *
@@ -1116,7 +1133,7 @@ final class MPPUtility
             }
 
             sb.append(prefix);
-            sb.append(df.format(index));
+            sb.append(df.format(index - offset));
             sb.append(":");
             sb.append(hexdump(buffer, index, columns, ascii));
             sb.append('\n');

@@ -24,8 +24,8 @@
 package net.sf.mpxj.mpp;
 
 import java.awt.Color;
-import java.util.EnumSet;
 
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -135,14 +135,7 @@ public enum ColorType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ColorType[] TYPE_VALUES = new ColorType[17];
-   static
-   {
-      for (ColorType e : EnumSet.range(ColorType.BLACK, ColorType.AUTOMATIC))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ColorType[] TYPE_VALUES = EnumUtility.createTypeArray(ColorType.class);
 
    /**
     * Internal representation of the enum int type.

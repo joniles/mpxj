@@ -161,7 +161,7 @@ public class CustomerDataTest extends MPXJTestCase
             MPXReader mpxReader = new MPXReader();
             MSPDIReader mspdiReader = new MSPDIReader();
             PrimaveraFileReader primaveraReader = new PrimaveraFileReader();
-            
+
             ProjectFile mpxj;
             int failures = 0;
             File[] files = dir.listFiles();
@@ -221,7 +221,7 @@ public class CustomerDataTest extends MPXJTestCase
                            if (name.endsWith(".XER") == true)
                            {
                               mpxj = primaveraReader.read(file);
-                           }                           
+                           }
                         }
                      }
                   }

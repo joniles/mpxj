@@ -23,10 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.utility.NumberUtility;
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
-
-import java.util.EnumSet;
+import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Represents the criteria used to define when a Gantt bar is displayed.
@@ -162,14 +161,7 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarShowForCriteriaEnum[] TYPE_VALUES = new GanttBarShowForCriteriaEnum[43];
-   static
-   {
-      for (GanttBarShowForCriteriaEnum e : EnumSet.range(GanttBarShowForCriteriaEnum.NORMAL, GanttBarShowForCriteriaEnum.DEPENDENCY))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final GanttBarShowForCriteriaEnum[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarShowForCriteriaEnum.class);
 
    /**
     * Internal representation of the enum int type.

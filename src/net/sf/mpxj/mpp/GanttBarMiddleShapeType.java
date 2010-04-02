@@ -23,10 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
-
-import java.util.EnumSet;
 
 /**
  * Represents the shape type used to draw the middle section of a Gantt bar.
@@ -122,14 +121,7 @@ public enum GanttBarMiddleShapeType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarMiddleShapeType[] TYPE_VALUES = new GanttBarMiddleShapeType[8];
-   static
-   {
-      for (GanttBarMiddleShapeType e : EnumSet.range(GanttBarMiddleShapeType.NONE, GanttBarMiddleShapeType.BOTTOMLINE))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final GanttBarMiddleShapeType[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarMiddleShapeType.class);
 
    /**
     * Internal representation of the enum int type.

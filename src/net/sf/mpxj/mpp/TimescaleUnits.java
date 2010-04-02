@@ -23,8 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -130,14 +129,7 @@ public enum TimescaleUnits implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final TimescaleUnits[] TYPE_VALUES = new TimescaleUnits[9];
-   static
-   {
-      for (TimescaleUnits e : EnumSet.range(TimescaleUnits.MINUTES, TimescaleUnits.YEARS))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final TimescaleUnits[] TYPE_VALUES = EnumUtility.createTypeArray(TimescaleUnits.class, -1);
 
    /**
     * Internal representation of the enum int type.

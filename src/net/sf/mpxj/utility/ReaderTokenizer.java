@@ -26,7 +26,6 @@ package net.sf.mpxj.utility;
 import java.io.Reader;
 import java.io.IOException;
 
-
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from a Reader instance.

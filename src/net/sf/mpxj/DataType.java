@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -107,14 +106,7 @@ public enum DataType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final DataType[] TYPE_VALUES = new DataType[16];
-   static
-   {
-      for (DataType e : EnumSet.range(DataType.STRING, DataType.RESOURCE_TYPE))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final DataType[] TYPE_VALUES = EnumUtility.createTypeArray(DataType.class, 1);
 
    /**
     * Internal representation of the enum int type.

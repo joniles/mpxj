@@ -89,7 +89,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       try
       {
          m_reader = new PrimaveraReader();
-         
+
          processProjectHeader();
          //processCalendars();
          processResources();
@@ -138,8 +138,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       m_reader.processProjectHeader(rows);
    }
-   
-   
+
    /**
     * Process resources.
     * 
@@ -150,7 +149,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "rsrc where rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=?) order by rsrc_seq_num", m_projectID);
       m_reader.processResources(rows);
    }
-   
+
    /**
     * Process tasks.
     * 
@@ -159,10 +158,10 @@ public final class PrimaveraDatabaseReader implements ProjectReader
    private void processTasks() throws SQLException
    {
       List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? order by seq_num", m_projectID);
-      List<Row> tasks= getRows("select * from " + m_schema + "task where proj_id=?", m_projectID);
+      List<Row> tasks = getRows("select * from " + m_schema + "task where proj_id=?", m_projectID);
       m_reader.processTasks(wbs, tasks);
    }
-   
+
    /**
     * Process predecessors.
     * 
@@ -173,7 +172,7 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "taskpred where proj_id=?", m_projectID);
       m_reader.processPredecessors(rows);
    }
-   
+
    /**
     * Process resource assignments.
     * 
@@ -184,7 +183,6 @@ public final class PrimaveraDatabaseReader implements ProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=?", m_projectID);
       m_reader.processAssignments(rows);
    }
-   
 
    /**
     * Set the ID of the project to be read.

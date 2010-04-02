@@ -1,8 +1,8 @@
 /*
- * file:       Interval.java
+ * file:       GroupPattern.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       22 July 2005
+ * copyright:  (c) Packwood Software Limited 2010
+ * date:       31/03/2010
  */
 
 /*
@@ -25,24 +25,34 @@ package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
-import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * This class represents daily, weekly or monthly time intervals.
+ * Represents the pattern used to fill a group.
  */
-public enum Interval implements MpxjEnum
+public enum GroupPattern implements MpxjEnum
 {
-   DAILY(0, "Daily"),
-   WEEKLY(1, "Weekly"),
-   MONTHLY(2, "Monthly");
+   TRANSPARENT(0, "Transparent"),
+   SOLID(1, "Solid"),
+   LIGHTDOTTED(2, "Light Dotted"),
+   DOTTED(3, "Dotted"),
+   HEAVYDOTTED(4, "Heavy Dotted"),
+   BACKSLASH(5, "Back Slash"),
+   FORWARDSLASH(6, "Forward Slash"),
+   INVERSEBACKSLASH(7, "Inverse Back Slash"),
+   INVERSEFORWARDSLASH(8, "Inverse Forward Slash"),
+   LIGHTVERTICALSTRIPE(9, "Light Vertical Stripe"),
+   HEAVYVERTICALSTRIPE(10, "Heavy Vertical Stripe"),
+   CHECKERED(11, "Checkered"),
+   DENSEFORWARDSLASH(12, "Dense Forward Slash"),
+   INVERSECHECKERED(13, "Inverse Checkered");
 
    /**
     * Private constructor.
-    * 
+    *
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private Interval(int type, String name)
+   private GroupPattern(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -54,37 +64,17 @@ public enum Interval implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static Interval getInstance(int type)
+   public static GroupPattern getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = DAILY.getValue();
+         type = TRANSPARENT.getValue();
       }
       return (TYPE_VALUES[type]);
    }
 
    /**
-    * Retrieve an instance of the enum based on its int value.
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static Interval getInstance(Number type)
-   {
-      int value;
-      if (type == null)
-      {
-         value = -1;
-      }
-      else
-      {
-         value = NumberUtility.getInt(type);
-      }
-      return (getInstance(value));
-   }
-
-   /**
-    * Accessor method used to retrieve the numeric representation of the enum. 
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
     * @return int representation of the enum
     */
@@ -94,9 +84,9 @@ public enum Interval implements MpxjEnum
    }
 
    /**
-    * Retrieve the interval name. Currently this is not localised.
+    * Retrieve the line style name. Currently this is not localised.
     *
-    * @return interval name
+    * @return style name
     */
    public String getName()
    {
@@ -116,7 +106,7 @@ public enum Interval implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final Interval[] TYPE_VALUES = EnumUtility.createTypeArray(Interval.class);
+   private static final GroupPattern[] TYPE_VALUES = EnumUtility.createTypeArray(GroupPattern.class);
 
    /**
     * Internal representation of the enum int type.

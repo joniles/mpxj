@@ -34,6 +34,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.mpp.ColorType;
 import net.sf.mpxj.mpp.FontStyle;
+import net.sf.mpxj.mpp.GroupPattern;
 import net.sf.mpxj.mpp.MPPReader;
 
 /**
@@ -73,7 +74,7 @@ public class MppGroupTest extends MPXJTestCase
    public void testMpp14Groups() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14group.mpp");
-      //testGroups(mpp);
+      testGroups(mpp);
    }
 
    /**
@@ -106,10 +107,12 @@ public class MppGroupTest extends MPXJTestCase
       assertTrue(font.getBold());
       assertFalse(font.getItalic());
       assertFalse(font.getUnderline());
-      assertEquals(ColorType.YELLOW, clause.getCellBackgroundColor());
+      assertEquals(ColorType.BLACK.getColor(), font.getColor());
+      assertEquals(ColorType.YELLOW.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
       assertEquals(1, ((Double) clause.getStartAt()).intValue());
       assertEquals(2, ((Double) clause.getGroupInterval()).intValue());
+      assertEquals(GroupPattern.DOTTED, clause.getPattern());
 
       //
       // Test clause 2
@@ -123,10 +126,12 @@ public class MppGroupTest extends MPXJTestCase
       assertTrue(font.getBold());
       assertFalse(font.getItalic());
       assertFalse(font.getUnderline());
-      assertEquals(ColorType.SILVER, clause.getCellBackgroundColor());
+      assertEquals(ColorType.BLACK.getColor(), font.getColor());
+      //assertEquals(ColorType.SILVER.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
       assertEquals(3, ((Double) clause.getStartAt()).intValue());
       assertEquals(4, ((Double) clause.getGroupInterval()).intValue());
+      assertEquals(GroupPattern.CHECKERED, clause.getPattern());
 
       //
       // Test clause 3
@@ -140,10 +145,12 @@ public class MppGroupTest extends MPXJTestCase
       assertTrue(font.getBold());
       assertFalse(font.getItalic());
       assertFalse(font.getUnderline());
-      assertEquals(ColorType.YELLOW, clause.getCellBackgroundColor());
+      assertEquals(ColorType.BLACK.getColor(), font.getColor());
+      assertEquals(ColorType.YELLOW.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
       assertEquals(5, ((Double) clause.getStartAt()).intValue());
       assertEquals(6, ((Double) clause.getGroupInterval()).intValue());
+      assertEquals(GroupPattern.LIGHTDOTTED, clause.getPattern());
 
       //
       // Test clause 4
@@ -157,10 +164,12 @@ public class MppGroupTest extends MPXJTestCase
       assertTrue(font.getBold());
       assertFalse(font.getItalic());
       assertFalse(font.getUnderline());
-      assertEquals(ColorType.SILVER, clause.getCellBackgroundColor());
+      assertEquals(ColorType.BLACK.getColor(), font.getColor());
+      //assertEquals(ColorType.SILVER.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
       assertEquals(7, ((Integer) clause.getStartAt()).intValue());
       assertEquals(8, ((Integer) clause.getGroupInterval()).intValue());
+      assertEquals(GroupPattern.SOLID, clause.getPattern());
 
       //
       // Test clause 5
@@ -174,7 +183,9 @@ public class MppGroupTest extends MPXJTestCase
       assertTrue(font.getBold());
       assertFalse(font.getItalic());
       assertFalse(font.getUnderline());
-      assertEquals(ColorType.YELLOW, clause.getCellBackgroundColor());
+      assertEquals(ColorType.BLACK.getColor(), font.getColor());
+      assertEquals(ColorType.YELLOW.getColor(), clause.getCellBackgroundColor());
+      assertEquals(GroupPattern.DOTTED, clause.getPattern());
 
       //
       // Test clause 6
@@ -188,10 +199,11 @@ public class MppGroupTest extends MPXJTestCase
       assertTrue(font.getBold());
       assertFalse(font.getItalic());
       assertFalse(font.getUnderline());
-      assertEquals(ColorType.SILVER, clause.getCellBackgroundColor());
+      assertEquals(ColorType.BLACK.getColor(), font.getColor());
+      //assertEquals(ColorType.SILVER.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
       assertEquals("07/02/2006 00:00", df.format((Date) clause.getStartAt()));
       assertEquals(10, ((Integer) clause.getGroupInterval()).intValue());
-
+      assertEquals(GroupPattern.CHECKERED, clause.getPattern());
    }
 }

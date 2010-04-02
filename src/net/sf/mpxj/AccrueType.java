@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -98,14 +97,7 @@ public enum AccrueType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final AccrueType[] TYPE_VALUES = new AccrueType[4];
-   static
-   {
-      for (AccrueType e : EnumSet.range(AccrueType.START, AccrueType.PRORATED))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final AccrueType[] TYPE_VALUES = EnumUtility.createTypeArray(AccrueType.class, 1);
 
    /**
     * Internal representation of the enum int type.

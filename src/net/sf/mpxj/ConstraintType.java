@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -103,14 +102,7 @@ public enum ConstraintType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ConstraintType[] TYPE_VALUES = new ConstraintType[8];
-   static
-   {
-      for (ConstraintType e : EnumSet.range(ConstraintType.AS_SOON_AS_POSSIBLE, ConstraintType.FINISH_NO_LATER_THAN))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ConstraintType[] TYPE_VALUES = EnumUtility.createTypeArray(ConstraintType.class);
 
    /**
     * Internal representation of the enum int type.

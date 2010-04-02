@@ -1255,7 +1255,7 @@ public abstract class GanttChartView extends GenericView
       boolean italic = ((style & 0x02) != 0);
       boolean underline = ((style & 0x04) != 0);
 
-      return (new FontStyle(fontBase, italic, bold, underline, color));
+      return (new FontStyle(fontBase, italic, bold, underline, color.getColor()));
    }
 
    /**
@@ -1287,7 +1287,7 @@ public abstract class GanttChartView extends GenericView
       boolean colorChanged = ((change & 0x08) != 0);
       boolean fontChanged = ((change & 0x10) != 0);
 
-      return (new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color, italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
+      return (new TableFontStyle(uniqueID, fieldType, fontBase, italic, bold, underline, color.getColor(), italicChanged, boldChanged, underlineChanged, colorChanged, fontChanged));
    }
 
    /**

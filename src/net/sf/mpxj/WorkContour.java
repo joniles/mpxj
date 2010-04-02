@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -101,14 +100,7 @@ public enum WorkContour implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final WorkContour[] TYPE_VALUES = new WorkContour[9];
-   static
-   {
-      for (WorkContour e : EnumSet.range(WorkContour.FLAT, WorkContour.CONTOURED))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final WorkContour[] TYPE_VALUES = EnumUtility.createTypeArray(WorkContour.class);
 
    /**
     * Internal representation of the enum int type.

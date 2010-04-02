@@ -23,10 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
-
-import java.util.EnumSet;
 
 /**
  * Represents the shape at the start end end of a Gantt bar.
@@ -135,14 +134,7 @@ public enum GanttBarStartAndEndShapeType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarStartAndEndShapeType[] TYPE_VALUES = new GanttBarStartAndEndShapeType[21];
-   static
-   {
-      for (GanttBarStartAndEndShapeType e : EnumSet.range(GanttBarStartAndEndShapeType.NONE, GanttBarStartAndEndShapeType.STAR))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final GanttBarStartAndEndShapeType[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarStartAndEndShapeType.class);
 
    /**
     * Internal representation of the enum int type.

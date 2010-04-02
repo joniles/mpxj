@@ -704,12 +704,12 @@ public enum TaskField implements FieldType
       return (result);
    }
 
-   public static final int MAX_VALUE = EnumSet.range(TaskField.START, TaskField.FINISH).size();
+   public static final int MAX_VALUE = EnumSet.allOf(TaskField.class).size();
    private static final TaskField[] TYPE_VALUES = new TaskField[MAX_VALUE];
    static
    {
       int value = 0;
-      for (TaskField e : EnumSet.range(TaskField.START, TaskField.FINISH))
+      for (TaskField e : EnumSet.allOf(TaskField.class))
       {
          e.m_value = value++;
          TYPE_VALUES[e.getValue()] = e;

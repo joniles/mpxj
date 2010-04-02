@@ -93,7 +93,7 @@ public enum CodePage
    private static final Map<String, CodePage> NAME_MAP = new HashMap<String, CodePage>();
    static
    {
-      for (CodePage e : EnumSet.range(CodePage.ANSI, CodePage.ZH))
+      for (CodePage e : EnumSet.allOf(CodePage.class))
       {
          NAME_MAP.put(e.m_value, e);
       }

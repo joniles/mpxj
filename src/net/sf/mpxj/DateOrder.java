@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -106,14 +105,7 @@ public enum DateOrder implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final DateOrder[] TYPE_VALUES = new DateOrder[3];
-   static
-   {
-      for (DateOrder e : EnumSet.range(DateOrder.MDY, DateOrder.YMD))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final DateOrder[] TYPE_VALUES = EnumUtility.createTypeArray(DateOrder.class);
 
    /**
     * Internal representation of the enum int type.

@@ -23,8 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -118,14 +117,7 @@ public enum LinkStyle implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final LinkStyle[] TYPE_VALUES = new LinkStyle[3];
-   static
-   {
-      for (LinkStyle e : EnumSet.range(LinkStyle.NONE, LinkStyle.END_START))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final LinkStyle[] TYPE_VALUES = EnumUtility.createTypeArray(LinkStyle.class);
 
    /**
     * Internal representation of the enum int type.

@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 
 /**
@@ -85,14 +84,7 @@ public enum RecurrenceType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final RecurrenceType[] TYPE_VALUES = new RecurrenceType[17];
-   static
-   {
-      for (RecurrenceType e : EnumSet.range(RecurrenceType.DAILY, RecurrenceType.YEARLY))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final RecurrenceType[] TYPE_VALUES = EnumUtility.createTypeArray(RecurrenceType.class, 13);
 
    /**
     * Internal representation of the enum int type.

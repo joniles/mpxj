@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -104,14 +103,7 @@ public enum ResourceType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ResourceType[] TYPE_VALUES = new ResourceType[2];
-   static
-   {
-      for (ResourceType e : EnumSet.range(ResourceType.MATERIAL, ResourceType.WORK))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ResourceType[] TYPE_VALUES = EnumUtility.createTypeArray(ResourceType.class);
 
    /**
     * Internal representation of the enum int type.

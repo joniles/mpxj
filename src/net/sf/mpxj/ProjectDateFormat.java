@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -207,14 +206,7 @@ public enum ProjectDateFormat implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ProjectDateFormat[] TYPE_VALUES = new ProjectDateFormat[21];
-   static
-   {
-      for (ProjectDateFormat e : EnumSet.range(ProjectDateFormat.DD_MM_YY_HH_MM, ProjectDateFormat.DD_MM_YYYY))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ProjectDateFormat[] TYPE_VALUES = EnumUtility.createTypeArray(ProjectDateFormat.class);
 
    /**
     * Internal representation of the enum int type.

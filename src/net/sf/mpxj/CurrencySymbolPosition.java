@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 
 /**
@@ -83,14 +82,7 @@ public enum CurrencySymbolPosition implements MpxjEnum
       return (Integer.toString(m_value));
    }
 
-   private static final CurrencySymbolPosition[] TYPE_VALUES = new CurrencySymbolPosition[4];
-   static
-   {
-      for (CurrencySymbolPosition e : EnumSet.range(CurrencySymbolPosition.AFTER, CurrencySymbolPosition.BEFORE_WITH_SPACE))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final CurrencySymbolPosition[] TYPE_VALUES = EnumUtility.createTypeArray(CurrencySymbolPosition.class);
 
    private int m_value;
 }

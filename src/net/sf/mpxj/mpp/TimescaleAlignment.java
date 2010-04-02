@@ -23,8 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -118,14 +117,7 @@ public enum TimescaleAlignment implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final TimescaleAlignment[] TYPE_VALUES = new TimescaleAlignment[3];
-   static
-   {
-      for (TimescaleAlignment e : EnumSet.range(TimescaleAlignment.LEFT, TimescaleAlignment.RIGHT))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final TimescaleAlignment[] TYPE_VALUES = EnumUtility.createTypeArray(TimescaleAlignment.class);
 
    /**
     * Internal representation of the enum int type.

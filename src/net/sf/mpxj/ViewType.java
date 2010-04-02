@@ -23,8 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.EnumSet;
-
+import net.sf.mpxj.utility.EnumUtility;
 import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
@@ -132,14 +131,7 @@ public enum ViewType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final ViewType[] TYPE_VALUES = new ViewType[16];
-   static
-   {
-      for (ViewType e : EnumSet.range(ViewType.UNKNOWN, ViewType.RESOURCE_USAGE))
-      {
-         TYPE_VALUES[e.getValue()] = e;
-      }
-   }
+   private static final ViewType[] TYPE_VALUES = EnumUtility.createTypeArray(ViewType.class, 1);
 
    /**
     * Internal representation of the enum int type.
