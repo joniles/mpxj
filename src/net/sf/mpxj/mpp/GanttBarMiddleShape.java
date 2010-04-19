@@ -23,77 +23,109 @@
 
 package net.sf.mpxj.mpp;
 
+import net.sf.mpxj.utility.EnumUtility;
+import net.sf.mpxj.utility.MpxjEnum;
+import net.sf.mpxj.utility.NumberUtility;
+
 /**
- * Represents the shape used for the middle section of a Gantt bar.
+ * Represents the shape type used to draw the middle section of a Gantt bar.
  */
-public class GanttBarMiddleShape
+public enum GanttBarMiddleShape implements MpxjEnum
 {
+   NONE(0, "None"),
+   ROUNDED(1, "Rounded"),
+   TOPTHINROUNDED(2, "Top Thin Rounded"),
+   MIDDLETHINROUNDED(3, "Middle Thin Rounded"),
+   BOTTOMTHINROUNDED(4, "Bottom Thin Rounded"),
+   TOPLINE(5, "Top Line"),
+   MIDDLELINE(6, "Middle Line"),
+   BOTTOMLINE(7, "Bottom Line");
+
    /**
-    * Retrieve an instance of GanttBarShape based on the shape and style code.
+    * Private constructor.
     *
-    * @param type middle shape type
-    * @param pattern middle shape pattern
-    * @return GanttBarShape
+    * @param type int version of the enum
+    * @param name name of the enum
     */
-   public static GanttBarMiddleShape getInstance(int type, int pattern)
+   private GanttBarMiddleShape(int type, String name)
    {
-      return new GanttBarMiddleShape(type, pattern);
+      m_value = type;
+      m_name = name;
    }
 
    /**
-    * Create an instance of GanttBarShape that represents 
-    * the shape and style code.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @param type middle shape type
-    * @param pattern middle shape pattern
+    * @param type int type
+    * @return enum instance
     */
-   public GanttBarMiddleShape(int type, int pattern)
+   public static GanttBarMiddleShape getInstance(int type)
    {
-      m_type = GanttBarMiddleShapeType.getInstance(type);
-      m_pattern = GanttBarMiddleShapePattern.getInstance(pattern);
+      if (type < 0 || type >= TYPE_VALUES.length)
+      {
+         type = NONE.getValue();
+      }
+      return (TYPE_VALUES[type]);
    }
 
    /**
-    * Return the shape type for this Gantt bar.
+    * Retrieve an instance of the enum based on its int value.
     *
-    * @return GanttBarShapeType
+    * @param type int type
+    * @return enum instance
     */
-   public GanttBarMiddleShapeType getType()
+   public static GanttBarMiddleShape getInstance(Number type)
    {
-      return m_type;
+      int value;
+      if (type == null)
+      {
+         value = -1;
+      }
+      else
+      {
+         value = NumberUtility.getInt(type);
+      }
+      return (getInstance(value));
    }
 
    /**
-    * Return the shape style for this Gantt bar.
+    * Accessor method used to retrieve the numeric representation of the enum.
     *
-    * @return GanttBarShapeStyle
+    * @return int representation of the enum
     */
-   public GanttBarMiddleShapePattern getPattern()
+   public int getValue()
    {
-      return m_pattern;
+      return (m_value);
    }
 
    /**
-    * Retrieve the color.
+    * Retrieve the line style name. Currently this is not localised.
     *
-    * @return the color
+    * @return style name
     */
-   public ColorType getColor()
+   public String getName()
    {
-      return (m_color);
+      return (m_name);
    }
 
    /**
-    * Set the color.
+    * Retrieve the String representation of this line style.
     *
-    * @param colorType  the color
+    * @return String representation of this line style
     */
-   public void setColor(ColorType colorType)
+   @Override public String toString()
    {
-      m_color = colorType;
+      return (getName());
    }
 
-   private GanttBarMiddleShapeType m_type;
-   private GanttBarMiddleShapePattern m_pattern;
-   private ColorType m_color;
+   /**
+    * Array mapping int types to enums.
+    */
+   private static final GanttBarMiddleShape[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarMiddleShape.class);
+
+   /**
+    * Internal representation of the enum int type.
+    */
+   private int m_value;
+   private String m_name;
 }

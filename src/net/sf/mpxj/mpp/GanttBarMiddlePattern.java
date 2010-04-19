@@ -1,5 +1,5 @@
 /*
- * file:       GanttBarMiddleShapePattern.java
+ * file:       GanttBarMiddlePattern.java
  * author:     Tom Ollar
  * copyright:  (c) Packwood Software 2009
  * date:       04/04/2009
@@ -30,7 +30,7 @@ import net.sf.mpxj.utility.NumberUtility;
 /**
  * Represents the pattern used to fill the middle section of a Gantt bar.
  */
-public enum GanttBarMiddleShapePattern implements MpxjEnum
+public enum GanttBarMiddlePattern implements MpxjEnum
 {
    TRANSPARENT(0, "Transparent"),
    SOLID(1, "Solid"),
@@ -42,7 +42,8 @@ public enum GanttBarMiddleShapePattern implements MpxjEnum
    CHECKERED(7, "Checkered"),
    VERTICALSTRIPE(8, "Vertical Stripe"),
    HORIZONTALSTRIPE(9, "Horizontal Stripe"),
-   GRID(10, "Grid");
+   GRID(10, "Grid"),
+   SOLIDHAIRY(11, "Solid Hairy");
 
    /**
     * Private constructor.
@@ -50,7 +51,7 @@ public enum GanttBarMiddleShapePattern implements MpxjEnum
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private GanttBarMiddleShapePattern(int type, String name)
+   private GanttBarMiddlePattern(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -62,7 +63,7 @@ public enum GanttBarMiddleShapePattern implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarMiddleShapePattern getInstance(int type)
+   public static GanttBarMiddlePattern getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
@@ -77,7 +78,7 @@ public enum GanttBarMiddleShapePattern implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarMiddleShapePattern getInstance(Number type)
+   public static GanttBarMiddlePattern getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -124,7 +125,7 @@ public enum GanttBarMiddleShapePattern implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarMiddleShapePattern[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarMiddleShapePattern.class);
+   private static final GanttBarMiddlePattern[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarMiddlePattern.class);
 
    /**
     * Internal representation of the enum int type.

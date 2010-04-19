@@ -1,8 +1,8 @@
 /*
- * file:       GanttBarMiddleShapeTypw.java
+ * file:       GanttBarStartEndShapeType.java
  * author:     Tom Ollar
  * copyright:  (c) Packwood Software 2009
- * date:       04/04/2009
+ * date:       26/03/2009
  */
 
 /*
@@ -28,18 +28,13 @@ import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * Represents the shape type used to draw the middle section of a Gantt bar.
+ * Represents the style of the start and end sections of a Gantt bar.
  */
-public enum GanttBarMiddleShapeType implements MpxjEnum
+public enum GanttBarStartEndType implements MpxjEnum
 {
-   NONE(0, "None"),
-   ROUNDED(1, "Rounded"),
-   TOPTHINROUNDED(2, "Top Thin Rounded"),
-   MIDDLETHINROUNDED(3, "Middle Thin Rounded"),
-   BOTTOMTHINROUNDED(4, "Bottom Thin Rounded"),
-   TOPLINE(5, "Top Line"),
-   MIDDLELINE(6, "Middle Line"),
-   BOTTOMLINE(7, "Bottom Line");
+   SOLID(0, "Solid"),
+   FRAMED(1, "Framed"),
+   DASHED(2, "Dashed");
 
    /**
     * Private constructor.
@@ -47,7 +42,7 @@ public enum GanttBarMiddleShapeType implements MpxjEnum
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private GanttBarMiddleShapeType(int type, String name)
+   private GanttBarStartEndType(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -59,11 +54,11 @@ public enum GanttBarMiddleShapeType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarMiddleShapeType getInstance(int type)
+   public static GanttBarStartEndType getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = NONE.getValue();
+         type = SOLID.getValue();
       }
       return (TYPE_VALUES[type]);
    }
@@ -74,7 +69,7 @@ public enum GanttBarMiddleShapeType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarMiddleShapeType getInstance(Number type)
+   public static GanttBarStartEndType getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -121,7 +116,7 @@ public enum GanttBarMiddleShapeType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarMiddleShapeType[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarMiddleShapeType.class);
+   private static final GanttBarStartEndType[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarStartEndType.class);
 
    /**
     * Internal representation of the enum int type.

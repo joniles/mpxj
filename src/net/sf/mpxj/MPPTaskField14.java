@@ -232,6 +232,7 @@ public class MPPTaskField14
       FIELD_ARRAY[584] = TaskField.BASELINE9_FIXED_COST;
       FIELD_ARRAY[1326] = TaskField.BASELINE9_START;
       FIELD_ARRAY[580] = TaskField.BASELINE9_WORK;
+      FIELD_ARRAY[119] = TaskField.COMPLETE_THROUGH;
       FIELD_ARRAY[110] = TaskField.CONFIRMED;
       FIELD_ARRAY[18] = TaskField.CONSTRAINT_DATE;
       FIELD_ARRAY[17] = TaskField.CONSTRAINT_TYPE;
@@ -441,6 +442,7 @@ public class MPPTaskField14
       FIELD_ARRAY[396] = TaskField.ESTIMATED;
       FIELD_ARRAY[232] = TaskField.EXTERNAL_TASK;
       FIELD_ARRAY[439] = TaskField.FINISH_SLACK;
+      FIELD_ARRAY[1284] = TaskField.FINISH; // Labelled "Task Finish" in MPP14      
       FIELD_ARRAY[1286] = TaskField.FINISH;
       FIELD_ARRAY[46] = TaskField.FINISH_VARIANCE;
       FIELD_ARRAY[53] = TaskField.FINISH1;
@@ -565,6 +567,7 @@ public class MPPTaskField14
       FIELD_ARRAY[35] = TaskField.SCHEDULED_START;
       FIELD_ARRAY[538] = TaskField.SPI;
       FIELD_ARRAY[438] = TaskField.START_SLACK;
+      FIELD_ARRAY[1283] = TaskField.START; // Labelled "Task Start" in MPP14      
       FIELD_ARRAY[1285] = TaskField.START;
       FIELD_ARRAY[45] = TaskField.START_VARIANCE;
       FIELD_ARRAY[52] = TaskField.START1;

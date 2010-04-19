@@ -43,6 +43,15 @@ public final class GanttChartView9 extends GanttChartView
    }
 
    /**
+    * {@inheritDoc}
+    */
+   @Override protected void processDefaultBarStyles(Props props)
+   {
+      GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
+      m_barStyles = f.processDefaultStyles(props);
+   }
+
+   /**
     * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.
     *

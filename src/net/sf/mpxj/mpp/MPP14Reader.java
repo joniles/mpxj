@@ -2936,7 +2936,7 @@ final class MPP14Reader implements MPPVariantReader
 
       int items = fixedMeta.getItemCount();
       View view;
-      ViewFactory factory = new ViewFactory12();
+      ViewFactory factory = new ViewFactory14();
 
       int lastOffset = -1;
       for (int loop = 0; loop < items; loop++)

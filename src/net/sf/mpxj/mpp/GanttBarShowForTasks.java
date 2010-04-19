@@ -29,14 +29,19 @@ import net.sf.mpxj.utility.NumberUtility;
 
 /**
  * Represents the criteria used to define when a Gantt bar is displayed.
+ * Note that the value attribute has been chosen to allow the nrmal and 
+ * negated types to be determined. value & 0x64 will be zero for normal types, 
+ * and non-zero for negative types. value & 0x63 will convert a negative type 
+ * to a normal type, the type can then be retrieved using the getInstance
+ * method.  
  */
-public enum GanttBarShowForCriteriaEnum implements MpxjEnum
+public enum GanttBarShowForTasks implements MpxjEnum
 {
    NORMAL(0, "Normal"),
    MILESTONE(1, "Milestone"),
    SUMMARY(2, "Summary"),
    CRITICAL(3, "Critical"),
-   NONCRITICAL(4, "NonCritical"),
+   NONCRITICAL(4, "Noncritical"),
    MARKED(5, "Marked"),
    FINISHED(6, "Finished"),
    INPROGRESS(7, "In Progress"),
@@ -61,7 +66,7 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
    ROLLEDUP(26, "Rolled Up"),
    PROJECTSUMMARY(27, "Project Summary"),
    SPLIT(28, "Split"),
-   EXTERNAL(29, "External"),
+   EXTERNAL(29, "External Tasks"),
    FLAG11(30, "Flag11"),
    FLAG12(31, "Flag12"),
    FLAG13(32, "Flag13"),
@@ -74,7 +79,67 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
    FLAG20(39, "Flag20"),
    GROUPBYSUMMARY(40, "Group By Summary"),
    DELIVERABLE(41, "Deliverable"),
-   DEPENDENCY(42, "Dependency");
+   DEPENDENCY(42, "Dependency"),
+   ACTIVE(43, "Active"),
+   MANUALLYSCHEDULED(44, "Manually Scheduled"),
+   WARNING(45, "Warning"),
+   PLACEHOLDERSTART(46, "Placeholder (Start)"),
+   PLACEHOLDERFINISH(47, "Placeholder (Finish)"),
+   PLACEHOLDERDURATION(48, "Placeholder (Duration)"),
+   PLACEHOLDER(49, "Placeholder"),
+   LATE(50, "Late"),
+
+   NOT_NORMAL(64, "Not Normal"),
+   NOT_MILESTONE(65, "Not Milestone"),
+   NOT_SUMMARY(66, "Not Summary"),
+   NOT_CRITICAL(67, "Not Critical"),
+   //NOT_NONCRITICAL(68, "Not NonCritical"), // Not used by MSP
+   NOT_MARKED(69, "Not Marked"),
+   //NOT_FINISHED(70, "Not Not Finished"), // Not used by MSP
+   NOT_INPROGRESS(71, "Not In Progress"),
+   //NOT_NOTFINISHED(72, "Not Not Finished"), // Not used by MSP
+   //NOT_NOTSTARTED(73, "Not Not Started"), // Not used by MSP
+   NOT_STARTEDLATE(74, "Not Started Late"),
+   NOT_FINISHEDLATE(75, "Not Finished Late"),
+   NOT_STARTEDEARLY(76, "Not Started Early"),
+   NOT_FINISHEDEARLY(77, "Not Finished Early"),
+   NOT_STARTEDONTIME(78, "Not Started On Time"),
+   NOT_FINISHEDONTIME(79, "Not Finished On Time"),
+   NOT_FLAG1(80, "Not Flag1"),
+   NOT_FLAG2(81, "Not Flag2"),
+   NOT_FLAG3(82, "Not Flag3"),
+   NOT_FLAG4(83, "Not Flag4"),
+   NOT_FLAG5(84, "Not Flag5"),
+   NOT_FLAG6(85, "Not Flag6"),
+   NOT_FLAG7(86, "Not Flag7"),
+   NOT_FLAG8(87, "Not Flag8"),
+   NOT_FLAG9(88, "Not Flag9"),
+   NOT_FLAG10(89, "Not Flag10"),
+   NOT_ROLLEDUP(90, "Not Rolled Up"),
+   NOT_PROJECTSUMMARY(91, "Not Project Summary"),
+   NOT_SPLIT(92, "Not Split"),
+   NOT_EXTERNAL(93, "Not External Tasks"),
+   NOT_FLAG11(94, "Not Flag11"),
+   NOT_FLAG12(95, "Not Flag12"),
+   NOT_FLAG13(96, "Not Flag13"),
+   NOT_FLAG14(97, "Not Flag14"),
+   NOT_FLAG15(98, "Not Flag15"),
+   NOT_FLAG16(99, "Not Flag16"),
+   NOT_FLAG17(100, "Not Flag17"),
+   NOT_FLAG18(101, "Not Flag18"),
+   NOT_FLAG19(102, "Not Flag19"),
+   NOT_FLAG20(103, "Not Flag20"),
+   NOT_GROUPBYSUMMARY(104, "Not Group By Summary"),
+   NOT_DELIVERABLE(105, "Not Deliverable"),
+   NOT_DEPENDENCY(106, "Not Dependency"),
+   NOT_ACTIVE(107, "Not Active"),
+   NOT_MANUALLYSCHEDULED(108, "Not Manually Scheduled"),
+   NOT_WARNING(109, "Not Warning"),
+   NOT_PLACEHOLDERSTART(110, "Not Placeholder (Start)"),
+   NOT_PLACEHOLDERFINISH(111, "Not Placeholder (Finish)"),
+   NOT_PLACEHOLDERDURATION(112, "Placeholder (Duration)"),
+   NOT_PLACEHOLDER(113, "Not Placeholder"),
+   NOT_LATE(114, "Not Late");
 
    /**
     * Private constructor.
@@ -82,7 +147,7 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private GanttBarShowForCriteriaEnum(int type, String name)
+   private GanttBarShowForTasks(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -94,9 +159,9 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarShowForCriteriaEnum getInstance(int type)
+   public static GanttBarShowForTasks getInstance(int type)
    {
-      GanttBarShowForCriteriaEnum result;
+      GanttBarShowForTasks result;
       if (type < 0 || type >= TYPE_VALUES.length)
       {
          result = NORMAL;
@@ -114,7 +179,7 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarShowForCriteriaEnum getInstance(Number type)
+   public static GanttBarShowForTasks getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -161,7 +226,7 @@ public enum GanttBarShowForCriteriaEnum implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarShowForCriteriaEnum[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarShowForCriteriaEnum.class);
+   private static final GanttBarShowForTasks[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarShowForTasks.class, 26);
 
    /**
     * Internal representation of the enum int type.

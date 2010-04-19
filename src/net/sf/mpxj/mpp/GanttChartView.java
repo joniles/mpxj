@@ -59,6 +59,13 @@ public abstract class GanttChartView extends GenericView
    protected abstract Integer getPropertiesID();
 
    /**
+    * Extract the Gantt bar styles.
+    * 
+    * @param props props structure containing the style definitions
+    */
+   protected abstract void processDefaultBarStyles(Props props);
+
+   /**
     * Create a GanttChartView from the fixed and var data blocks associated
     * with a view.
     *
@@ -181,20 +188,9 @@ public abstract class GanttChartView extends GenericView
             m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
             m_barDateFormat = viewPropertyData[1182];
             m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
-
-            m_barStyles = new GanttBarStyle[viewPropertyData[1162]];
-            int styleOffset = 1190;
-            int nameOffset = styleOffset + (m_barStyles.length * 58);
-            String styleName;
-
-            for (int loop = 0; loop < m_barStyles.length; loop++)
-            {
-               styleName = MPPUtility.getUnicodeString(viewPropertyData, nameOffset);
-               nameOffset += (styleName.length() + 1) * 2;
-               m_barStyles[loop] = new GanttBarStyle(styleName, viewPropertyData, styleOffset);
-               styleOffset += 58;
-            }
          }
+
+         processDefaultBarStyles(props);
 
          byte[] topTierData = props.getByteArray(TOP_TIER_PROPERTIES);
          if (topTierData != null)
@@ -209,7 +205,7 @@ public abstract class GanttChartView extends GenericView
             m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(topTierData[36] - 20));
          }
 
-         byte[] barData = props.getByteArray(BAR_PROPERTIES);
+         byte[] barData = props.getByteArray(BAR_STYLE_EXCEPTION_PROPERTIES);
          if (barData != null)
          {
             m_barStyleExceptions = new GanttBarStyleException[barData.length / 38];
@@ -1737,7 +1733,7 @@ public abstract class GanttChartView extends GenericView
    private int m_barDateFormat;
    private LinkStyle m_linkStyle;
 
-   private GanttBarStyle[] m_barStyles;
+   protected GanttBarStyle[] m_barStyles;
    private GanttBarStyleException[] m_barStyleExceptions;
 
    private int m_tableWidth;
@@ -1801,7 +1797,7 @@ public abstract class GanttChartView extends GenericView
 
    private static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    private static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);
-   private static final Integer BAR_PROPERTIES = Integer.valueOf(574619661);
+   private static final Integer BAR_STYLE_EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
    private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
    private static final Integer TABLE_NAME = Integer.valueOf(574619658);
    private static final Integer FILTER_NAME = Integer.valueOf(574619659);

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
@@ -46,23 +47,33 @@ public class GanttBarCommonStyle
    }
 
    /**
+    * Sets the text appearing at the bottom of the bar.
+    * 
+    * @param field bottom text
+    */
+   public void setBottomText(TaskField field)
+   {
+      m_bottomText = field;
+   }
+
+   /**
     * Retrieve the color of the end of the bar.
     *
     * @return end color
     */
-   public ColorType getEndColor()
+   public Color getEndColor()
    {
       return (m_endColor);
    }
 
    /**
-    * Retrieve the shape and style of the end of the bar.
-    *
-    * @return end shape and style
+    * Sets the color of the end of the bar.
+    * 
+    * @param color end color
     */
-   public int getEndShapeAndStyle()
+   public void setEndColor(Color color)
    {
-      return (m_endShapeAndStyle);
+      m_endColor = color;
    }
 
    /**
@@ -76,6 +87,16 @@ public class GanttBarCommonStyle
    }
 
    /**
+    * Sets the text appearing inside the Gantt bar.
+    * 
+    * @param field inside text
+    */
+   public void setInsideText(TaskField field)
+   {
+      m_insideText = field;
+   }
+
+   /**
     * Retrieve the text appearing to the left of the bar.
     *
     * @return left text
@@ -86,13 +107,33 @@ public class GanttBarCommonStyle
    }
 
    /**
+    * Sets the text appearing to the left of the bar.
+    * 
+    * @param field left text
+    */
+   public void setLeftText(TaskField field)
+   {
+      m_leftText = field;
+   }
+
+   /**
     * Retrieve the color of the middle section of the bar.
     *
     * @return middle color
     */
-   public ColorType getMiddleColor()
+   public Color getMiddleColor()
    {
       return (m_middleColor);
+   }
+
+   /**
+    * Sets the color of the middle section of the bar.
+    * 
+    * @param color middle color
+    */
+   public void setMiddleColor(Color color)
+   {
+      m_middleColor = color;
    }
 
    /**
@@ -100,9 +141,19 @@ public class GanttBarCommonStyle
     *
     * @return middle pattern
     */
-   public int getMiddlePattern()
+   public GanttBarMiddlePattern getMiddlePattern()
    {
       return (m_middlePattern);
+   }
+
+   /**
+    * Sets the pattern appearing in the middle section of the bar.
+    * 
+    * @param pattern middle pattern
+    */
+   public void setMiddlePattern(GanttBarMiddlePattern pattern)
+   {
+      m_middlePattern = pattern;
    }
 
    /**
@@ -110,9 +161,19 @@ public class GanttBarCommonStyle
     *
     * @return middle shape
     */
-   public int getMiddleShape()
+   public GanttBarMiddleShape getMiddleShape()
    {
       return (m_middleShape);
+   }
+
+   /**
+    * Sets the shape of the middle section of the bar.
+    * 
+    * @param shape middle shape
+    */
+   public void setMiddleShape(GanttBarMiddleShape shape)
+   {
+      m_middleShape = shape;
    }
 
    /**
@@ -126,23 +187,113 @@ public class GanttBarCommonStyle
    }
 
    /**
+    * Sets the text appearing to the right of the bar.
+    * 
+    * @param field right text
+    */
+   public void setRightText(TaskField field)
+   {
+      m_rightText = field;
+   }
+
+   /**
     * Retrieve the color of the start of the bar.
     *
     * @return start color
     */
-   public ColorType getStartColor()
+   public Color getStartColor()
    {
       return m_startColor;
    }
 
    /**
-    * Retrieve the shape and style of the start of the bar.
-    *
-    * @return start shape and style
+    * Sets the color of the start of the bar.
+    * 
+    * @param color start color
     */
-   public int getStartShapeAndStyle()
+   public void setStartColor(Color color)
    {
-      return (m_startShapeAndStyle);
+      m_startColor = color;
+   }
+
+   /**
+    * Retrieve the bar start shape.
+    * 
+    * @return bar start shape
+    */
+   public GanttBarStartEndShape getStartShape()
+   {
+      return m_startShape;
+   }
+
+   /**
+    * Sets the bar start shape.
+    * 
+    * @param shape start shape
+    */
+   public void setStartShape(GanttBarStartEndShape shape)
+   {
+      m_startShape = shape;
+   }
+
+   /**
+    * Retrieve the bar end shape.
+    * 
+    * @return bar end shape
+    */
+   public GanttBarStartEndShape getEndShape()
+   {
+      return m_endShape;
+   }
+
+   /**
+    * Sets the bar end shape.
+    * 
+    * @param shape end shape
+    */
+   public void setEndShape(GanttBarStartEndShape shape)
+   {
+      m_endShape = shape;
+   }
+
+   /**
+    * Retrieve the bar start type.
+    * 
+    * @return bar start type
+    */
+   public GanttBarStartEndType getStartType()
+   {
+      return m_startType;
+   }
+
+   /**
+    * Sets the bar start type.
+    * 
+    * @param type bar start type
+    */
+   public void setStartType(GanttBarStartEndType type)
+   {
+      m_startType = type;
+   }
+
+   /**
+    * Retrieve the bar end type.
+    * 
+    * @return bar end type
+    */
+   public GanttBarStartEndType getEndType()
+   {
+      return m_endType;
+   }
+
+   /**
+    * Sets the bar end type.
+    * 
+    * @param type bar end type
+    */
+   public void setEndType(GanttBarStartEndType type)
+   {
+      m_endType = type;
    }
 
    /**
@@ -156,6 +307,16 @@ public class GanttBarCommonStyle
    }
 
    /**
+    * Sets the top text.
+    * 
+    * @param field top text
+    */
+   public void setTopText(TaskField field)
+   {
+      m_topText = field;
+   }
+
+   /**
     * Generate a string representation of this instance.
     *
     * @return string representation of this instance
@@ -164,12 +325,14 @@ public class GanttBarCommonStyle
    {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
+      pw.println("      StartShape=" + m_startShape);
+      pw.println("      StartType=" + m_startType);
+      pw.println("      StartColor=" + m_startColor);
       pw.println("      MiddleShape=" + m_middleShape);
       pw.println("      MiddlePattern=" + m_middlePattern);
       pw.println("      MiddleColor=" + m_middleColor);
-      pw.println("      StartShapeAndStyle=" + m_startShapeAndStyle);
-      pw.println("      StartColor=" + m_startColor);
-      pw.println("      EndShapeAndStyle=" + m_endShapeAndStyle);
+      pw.println("      EndShape=" + m_endShape);
+      pw.println("      EndType=" + m_endType);
       pw.println("      EndColor=" + m_endColor);
       pw.println("      LeftText=" + m_leftText);
       pw.println("      RightText=" + m_rightText);
@@ -180,17 +343,21 @@ public class GanttBarCommonStyle
       return (os.toString());
    }
 
-   protected int m_middleShape;
-   protected int m_middlePattern;
-   protected ColorType m_middleColor;
-   protected int m_startShapeAndStyle;
-   protected ColorType m_startColor;
-   protected int m_endShapeAndStyle;
-   protected ColorType m_endColor;
+   private GanttBarStartEndShape m_startShape;
+   private GanttBarStartEndType m_startType;
+   private Color m_startColor;
 
-   protected TaskField m_leftText;
-   protected TaskField m_rightText;
-   protected TaskField m_topText;
-   protected TaskField m_bottomText;
-   protected TaskField m_insideText;
+   private GanttBarMiddleShape m_middleShape;
+   private GanttBarMiddlePattern m_middlePattern;
+   private Color m_middleColor;
+
+   private GanttBarStartEndShape m_endShape;
+   private GanttBarStartEndType m_endType;
+   private Color m_endColor;
+
+   private TaskField m_leftText;
+   private TaskField m_rightText;
+   private TaskField m_topText;
+   private TaskField m_bottomText;
+   private TaskField m_insideText;
 }

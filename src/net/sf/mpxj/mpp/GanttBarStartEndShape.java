@@ -1,5 +1,5 @@
 /*
- * file:       GanttBarStartAndEndShapeStyle.java
+ * file:       GanttBarStartEndShape.java
  * author:     Tom Ollar
  * copyright:  (c) Packwood Software 2009
  * date:       26/03/2009
@@ -28,13 +28,35 @@ import net.sf.mpxj.utility.MpxjEnum;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * Represents the style of the start and end sections of a Gantt bar.
+ * Represents the shape at the start end end of a Gantt bar.
  */
-public enum GanttBarStartAndEndShapeStyle implements MpxjEnum
+public enum GanttBarStartEndShape implements MpxjEnum
 {
-   SOLID(0, "Solid"),
-   FRAMED(1, "Framed"),
-   DASHED(2, "Dashed");
+   NONE(0, "None"),
+   NORTHHOMEPLATE(1, "North Home Plate"),
+   SOUTHHOMEPLATE(2, "South Home Plate"),
+   DIAMOND(3, "Diamond"),
+   UPARROW(4, "Up Arrow"),
+   DOWNARROW(5, "Down Arrow"),
+   RIGHTARROW(6, "Right Arrow"),
+   LEFTARROW(7, "Left Arrow"),
+   UPPOINTER(8, "Up Pointer"),
+   SOUTHMINIHOMEPLATE(9, "South Mini Home Plate"),
+   NORTHMINIHOMEPLATE(10, "North Mini Home Plate"),
+   VERTICALBAR(11, "Vertical Bar"),
+   SQUARE(12, "Square"),
+   DIAMONDCIRCLED(13, "Diamond Circled"),
+   DOWNPOINTER(14, "Down Pointer"),
+   UPARROWCIRCLED(15, "Up Arrow Circled"),
+   DOWNARROWCIRCLED(16, "Down Arrow Circled"),
+   UPPOINTERCIRCLED(17, "Up Pointer Circled"),
+   DOWNPOINTERCIRCLED(18, "Down Pointer Circled"),
+   CIRCLE(19, "Circle"),
+   STAR(20, "Star"),
+   LEFTBRACKET(21, "Left Bracket"),
+   RIGHTBRACKET(22, "Right Bracket"),
+   LEFTGRADIENT(23, "Left Gradient"),
+   RIGHTGRADIENT(24, "Right Gradient");
 
    /**
     * Private constructor.
@@ -42,7 +64,7 @@ public enum GanttBarStartAndEndShapeStyle implements MpxjEnum
     * @param type int version of the enum
     * @param name name of the enum
     */
-   private GanttBarStartAndEndShapeStyle(int type, String name)
+   private GanttBarStartEndShape(int type, String name)
    {
       m_value = type;
       m_name = name;
@@ -54,11 +76,11 @@ public enum GanttBarStartAndEndShapeStyle implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarStartAndEndShapeStyle getInstance(int type)
+   public static GanttBarStartEndShape getInstance(int type)
    {
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         type = SOLID.getValue();
+         type = NONE.getValue();
       }
       return (TYPE_VALUES[type]);
    }
@@ -69,7 +91,7 @@ public enum GanttBarStartAndEndShapeStyle implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static GanttBarStartAndEndShapeStyle getInstance(Number type)
+   public static GanttBarStartEndShape getInstance(Number type)
    {
       int value;
       if (type == null)
@@ -116,7 +138,7 @@ public enum GanttBarStartAndEndShapeStyle implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final GanttBarStartAndEndShapeStyle[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarStartAndEndShapeStyle.class);
+   private static final GanttBarStartEndShape[] TYPE_VALUES = EnumUtility.createTypeArray(GanttBarStartEndShape.class);
 
    /**
     * Internal representation of the enum int type.

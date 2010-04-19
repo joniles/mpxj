@@ -632,8 +632,9 @@ final class MPPUtility
    }
 
    /**
-    * Reads a color value represented by theree bytes, for R, G, and B
-    * components.
+    * Reads a color value represented by three bytes, for R, G, and B
+    * components, plus a flag byte indicating if this is an automatic color. 
+    * Returns null if the color type is "Automatic".
     * 
     * @param data byte array of data
     * @param offset offset into array
@@ -641,10 +642,17 @@ final class MPPUtility
     */
    public static final Color getColor(byte[] data, int offset)
    {
-      int r = getByte(data, offset);
-      int g = getByte(data, offset + 1);
-      int b = getByte(data, offset + 2);
-      return new Color(r, g, b);
+      Color result = null;
+
+      if (getByte(data, offset + 3) == 0)
+      {
+         int r = getByte(data, offset);
+         int g = getByte(data, offset + 1);
+         int b = getByte(data, offset + 2);
+         result = new Color(r, g, b);
+      }
+
+      return result;
    }
 
    /**

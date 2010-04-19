@@ -1,8 +1,8 @@
 /*
- * file:       GanttChartView12.java
+ * file:       GanttChartView14.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2006
- * date:       27 September 2006
+ * copyright:  (c) Packwood Software 2010
+ * date:       16/04/2010
  */
 
 /*
@@ -32,7 +32,7 @@ import net.sf.mpxj.ProjectFile;
  * This class represents the set of properties used to define the appearance
  * of a Gantt chart view in MS Project.
  */
-public final class GanttChartView12 extends GanttChartView
+public final class GanttChartView14 extends GanttChartView
 {
    /**
     * {@inheritDoc}
@@ -47,7 +47,7 @@ public final class GanttChartView12 extends GanttChartView
     */
    @Override protected void processDefaultBarStyles(Props props)
    {
-      GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
+      GanttBarStyleFactory f = new GanttBarStyleFactory14();
       m_barStyles = f.processDefaultStyles(props);
    }
 
@@ -62,7 +62,7 @@ public final class GanttChartView12 extends GanttChartView
     * @param fontBases map of font bases
     * @throws IOException
     */
-   GanttChartView12(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
+   GanttChartView14(ProjectFile parent, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases)
       throws IOException
    {
       super(parent, fixedMeta, fixedData, varData, fontBases);
