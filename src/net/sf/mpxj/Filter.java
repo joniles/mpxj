@@ -23,8 +23,8 @@
 
 package net.sf.mpxj;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents a filter which may be applied to a 
@@ -93,17 +93,13 @@ public class Filter
    }
 
    /**
-    * Adds a criteria expression to the filter.
+    * Sets the criteria associted with this filter.
     * 
-    * @param criteria criteria expression
+    * @param criteria filter criteria
     */
-   public void addCriteria(FilterCriteria criteria)
+   public void setCriteria(GenericCriteria criteria)
    {
-      m_criteria.add(criteria);
-      if (criteria.getPromptTextSet())
-      {
-         m_promptTextSet = true;
-      }
+      m_criteria = criteria;
    }
 
    /**
@@ -111,9 +107,9 @@ public class Filter
     * 
     * @return list of filter criteria
     */
-   public List<FilterCriteria> getCriteria()
+   public GenericCriteria getCriteria()
    {
-      return (m_criteria);
+      return m_criteria;
    }
 
    /**
@@ -123,12 +119,17 @@ public class Filter
     */
    public boolean isTaskFilter()
    {
-      boolean result = true;
-      if (!m_criteria.isEmpty())
-      {
-         result = m_criteria.get(0).getField() instanceof TaskField;
-      }
-      return (result);
+      return m_isTaskFilter;
+   }
+
+   /**
+    * Sets the flag indicating if this is a task filter.
+    * 
+    * @param flag task filter flag
+    */
+   public void setIsTaskFilter(boolean flag)
+   {
+      m_isTaskFilter = flag;
    }
 
    /**
@@ -138,12 +139,17 @@ public class Filter
     */
    public boolean isResourceFilter()
    {
-      boolean result = true;
-      if (!m_criteria.isEmpty())
-      {
-         result = m_criteria.get(0).getField() instanceof ResourceField;
-      }
-      return (result);
+      return m_isResourceFilter;
+   }
+
+   /**
+    * Sets the flag indicating if this is a resource filter.
+    * 
+    * @param flag resource filter flag
+    */
+   public void setIsResourceFilter(boolean flag)
+   {
+      m_isResourceFilter = flag;
    }
 
    /**
@@ -151,86 +157,15 @@ public class Filter
     * instance matches the filter criteria.
     * 
     * @param container Task or Resource instance
+    * @param promptValues respose to prompts
     * @return boolean flag
     */
-   public boolean evaluate(FieldContainer container)
+   public boolean evaluate(FieldContainer container, Map<GenericCriteriaPrompt, Object> promptValues)
    {
       boolean result = true;
-      if (!m_criteria.isEmpty())
+      if (m_criteria != null)
       {
-         boolean currentBlockResult = true;
-         boolean currentAnd = true;
-         boolean lastBlockAnd = true;
-
-         for (FilterCriteria criteria : m_criteria)
-         {
-            boolean criteriaResult = criteria.evaluate(container);
-            if (currentAnd)
-            {
-               currentBlockResult = currentBlockResult && criteriaResult;
-            }
-            else
-            {
-               currentBlockResult = currentBlockResult || criteriaResult;
-            }
-
-            switch (criteria.getCriteriaLogic())
-            {
-               case IN_BLOCK_AND :
-               {
-                  currentAnd = true;
-                  break;
-               }
-
-               case IN_BLOCK_OR :
-               {
-                  currentAnd = false;
-                  break;
-               }
-
-               case BETWEEN_BLOCK_AND :
-               {
-                  if (lastBlockAnd)
-                  {
-                     result = result && currentBlockResult;
-                  }
-                  else
-                  {
-                     result = result || currentBlockResult;
-                  }
-
-                  currentAnd = true;
-                  currentBlockResult = true;
-                  lastBlockAnd = true;
-                  break;
-               }
-
-               case BETWEEN_BLOCK_OR :
-               {
-                  if (lastBlockAnd)
-                  {
-                     result = result && currentBlockResult;
-                  }
-                  else
-                  {
-                     result = result || currentBlockResult;
-                  }
-                  currentAnd = true;
-                  currentBlockResult = true;
-                  lastBlockAnd = false;
-                  break;
-               }
-            }
-         }
-
-         if (lastBlockAnd)
-         {
-            result = result && currentBlockResult;
-         }
-         else
-         {
-            result = result || currentBlockResult;
-         }
+         result = m_criteria.evaluate(container, promptValues);
 
          //
          // If this row has failed, but it is a summary row, and we are
@@ -241,7 +176,7 @@ public class Filter
          {
             for (Task task : ((Task) container).getChildTasks())
             {
-               if (evaluate(task))
+               if (evaluate(task, promptValues))
                {
                   result = true;
                   break;
@@ -254,16 +189,23 @@ public class Filter
    }
 
    /**
-    * Retrieves a flag indicating if prompt text has been set for 
-    * any of the criteria associated with the filter. 
-    * This saves having to test each criteria item individually if no 
-    * prompts are present.
+    * Sets the prompts to supply the parameters required by this filter.
     * 
-    * @return boolean flag
+    * @param prompts filter prompts
     */
-   public boolean getPromptTextSet()
+   public void setPrompts(List<GenericCriteriaPrompt> prompts)
    {
-      return (m_promptTextSet);
+      m_prompts = prompts;
+   }
+
+   /**
+    * Retrieves the prompts required to supply parameters to this filter.
+    * 
+    * @return filter prompts
+    */
+   public List<GenericCriteriaPrompt> getPrompts()
+   {
+      return m_prompts;
    }
 
    /**
@@ -278,14 +220,11 @@ public class Filter
       sb.append(m_name);
       sb.append(" showRelatedSummaryRows=");
       sb.append(m_showRelatedSummaryRows);
-      sb.append(" criteria=[");
-
-      for (FilterCriteria fc : m_criteria)
+      if (m_criteria != null)
       {
-         sb.append(fc.toString());
+         sb.append(" criteria=");
+         sb.append(m_criteria);
       }
-
-      sb.append("]");
       sb.append("]");
 
       return (sb.toString());
@@ -293,7 +232,9 @@ public class Filter
 
    private Integer m_id;
    private String m_name;
+   private boolean m_isTaskFilter;
+   private boolean m_isResourceFilter;
    private boolean m_showRelatedSummaryRows;
-   private List<FilterCriteria> m_criteria = new LinkedList<FilterCriteria>();
-   private boolean m_promptTextSet;
+   private GenericCriteria m_criteria;
+   private List<GenericCriteriaPrompt> m_prompts;
 }

@@ -3001,7 +3001,7 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(varMeta);
       //System.out.println(varData);
 
-      FilterReader reader = new FilterReader12();
+      FilterReader reader = new FilterReader14();
       reader.process(m_file, fixedData, varData);
    }
 

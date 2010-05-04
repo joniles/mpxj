@@ -131,7 +131,7 @@ public class MpxjFilter
    {
       for (Task task : project.getAllTasks())
       {
-         if (filter.evaluate(task))
+         if (filter.evaluate(task, null))
          {
             System.out.println(task.getID() + "," + task.getUniqueID() + "," + task.getName());
          }
@@ -148,7 +148,7 @@ public class MpxjFilter
    {
       for (Resource resource : project.getAllResources())
       {
-         if (filter.evaluate(resource))
+         if (filter.evaluate(resource, null))
          {
             System.out.println(resource.getID() + "," + resource.getUniqueID() + "," + resource.getName());
          }

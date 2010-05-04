@@ -65,7 +65,7 @@ public class MppFilterLogicTest extends MPXJTestCase
    public void testMpp14FilterLogic() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14filterlogic.mpp");
-      //testFilterLogic(mpp);
+      testFilterLogic(mpp);
    }
 
    /**
@@ -93,8 +93,8 @@ public class MppFilterLogicTest extends MPXJTestCase
        */
       Filter inBlockAndFilter = mpp.getFilterByName("InBlockAnd");
 
-      assertTrue(inBlockAndFilter.evaluate(ac1));
-      assertTrue(inBlockAndFilter.evaluate(ac2));
+      assertTrue(inBlockAndFilter.evaluate(ac1, null));
+      assertTrue(inBlockAndFilter.evaluate(ac2, null));
 
       /*
        * BetweenBlockAnd use:
@@ -108,7 +108,7 @@ public class MppFilterLogicTest extends MPXJTestCase
        * MSP evaluates this to only include ac1
        */
       Filter betweenBlockAndFilter = mpp.getFilterByName("BetweenBlockAnd");
-      assertTrue(betweenBlockAndFilter.evaluate(ac1));
-      assertFalse(betweenBlockAndFilter.evaluate(ac2));
+      assertTrue(betweenBlockAndFilter.evaluate(ac1, null));
+      assertFalse(betweenBlockAndFilter.evaluate(ac2, null));
    }
 }

@@ -36,8 +36,7 @@ import java.util.Map;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
-import net.sf.mpxj.FilterCriteria;
-import net.sf.mpxj.FilterCriteriaLogicType;
+import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
@@ -1332,8 +1331,7 @@ public abstract class GanttChartView extends GenericView
          }
 
          Filter filter = new Filter();
-         FilterCriteria criteria = new FilterCriteria(m_parent);
-         filter.addCriteria(criteria);
+         GenericCriteria firstCriteria = new GenericCriteria(m_parent);
 
          //
          // Process the first criteria
@@ -1356,18 +1354,18 @@ public abstract class GanttChartView extends GenericView
                break;
             }
          }
-         criteria.setField(type);
+         firstCriteria.setLeftValue(type);
 
          int operatorValue = MPPUtility.getInt(data, offset + 32);
-         criteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
+         firstCriteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
 
          Object value = getValue(type, data, offset, stringData[0]);
-         criteria.setValue(0, value);
+         firstCriteria.setRightValue(0, value);
 
-         if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
+         if (firstCriteria.getOperator() == TestOperator.IS_WITHIN || firstCriteria.getOperator() == TestOperator.IS_NOT_WITHIN)
          {
             value = getValue(type, data, offset + 80, null);
-            criteria.setValue(1, value);
+            firstCriteria.setRightValue(1, value);
          }
 
          //
@@ -1376,48 +1374,48 @@ public abstract class GanttChartView extends GenericView
          //         
          if (varDataOffset - 272 >= 272 && data.length > (offset + 272 + 80 + 4))
          {
+            GenericCriteria logicalOperator = new GenericCriteria(m_parent);
+            filter.setCriteria(logicalOperator);
+
             int logicType = MPPUtility.getByte(data, offset + 272);
             switch (logicType)
             {
                case 0x1A :
+               case 0x1C :
                {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_OR);
+                  logicalOperator.setOperator(TestOperator.OR);
                   break;
                }
                case 0x1B :
-               {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_AND);
-                  break;
-               }
-               case 0x1C :
-               {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_OR);
-                  break;
-               }
                case 0x19 :
                default :
                {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
+                  logicalOperator.setOperator(TestOperator.AND);
                   break;
                }
             }
 
-            criteria = new FilterCriteria(m_parent);
-            filter.addCriteria(criteria);
+            GenericCriteria secondCriteria = new GenericCriteria(m_parent);
+            logicalOperator.addCriteria(firstCriteria);
+            logicalOperator.addCriteria(secondCriteria);
 
-            criteria.setField(type);
+            secondCriteria.setLeftValue(type);
 
             operatorValue = MPPUtility.getInt(data, offset + 272 + 80);
-            criteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
+            secondCriteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
 
             value = getValue(type, data, offset + 272 + 48, stringData[1]);
-            criteria.setValue(0, value);
+            secondCriteria.setRightValue(0, value);
 
-            if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
+            if (secondCriteria.getOperator() == TestOperator.IS_WITHIN || secondCriteria.getOperator() == TestOperator.IS_NOT_WITHIN)
             {
                value = getValue(type, data, offset + 272 + 128 + 80, null);
-               criteria.setValue(1, value);
+               secondCriteria.setRightValue(1, value);
             }
+         }
+         else
+         {
+            filter.setCriteria(firstCriteria);
          }
 
          offset += blockSize;

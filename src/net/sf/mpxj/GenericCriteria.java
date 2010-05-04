@@ -24,13 +24,16 @@
 package net.sf.mpxj;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import net.sf.mpxj.utility.DateUtility;
 
 /**
  * This class represents the criteria used as part of an evaluation.
  */
-public abstract class GenericCriteria
+public class GenericCriteria
 {
    /**
     * Constructor.
@@ -43,23 +46,23 @@ public abstract class GenericCriteria
    }
 
    /**
-    * Sets the field used as the LHS of the expression.
+    * Sets the LHS of the expression.
     * 
-    * @param field field type
+    * @param value LHS value
     */
-   public void setField(FieldType field)
+   public void setLeftValue(FieldType value)
    {
-      m_field = field;
+      m_leftValue = value;
    }
 
    /**
-    * Retrieves the field used as the RHS of the expression.
+    * Retrieves the LHS of the expression.
     * 
-    * @return field type
+    * @return LHS value
     */
-   public FieldType getField()
+   public FieldType getLeftValue()
    {
-      return (m_field);
+      return (m_leftValue);
    }
 
    /**
@@ -89,9 +92,9 @@ public abstract class GenericCriteria
     * @param index position in the list
     * @param value evaluation value
     */
-   public void setValue(int index, Object value)
+   public void setRightValue(int index, Object value)
    {
-      m_definedValues[index] = value;
+      m_definedRightValues[index] = value;
 
       if (value instanceof FieldType)
       {
@@ -108,7 +111,7 @@ public abstract class GenericCriteria
          }
       }
 
-      m_workingValues[index] = value;
+      m_workingRightValues[index] = value;
    }
 
    /**
@@ -119,51 +122,62 @@ public abstract class GenericCriteria
     */
    public Object getValue(int index)
    {
-      return (m_definedValues[index]);
+      return (m_definedRightValues[index]);
    }
 
    /**
     * Evaluate the criteria and return a boolean result.
     * 
     * @param container field container
+    * @param promptValues responses to prompts
     * @return boolean flag
     */
-   protected boolean evaluateCriteria(FieldContainer container)
+   public boolean evaluate(FieldContainer container, Map<GenericCriteriaPrompt, Object> promptValues)
    {
       //
       // Retrieve the LHS value
       //
-      Object lhs = container.getCurrentValue(m_field);
-      switch (m_field.getDataType())
+      FieldType field = m_leftValue;
+      Object lhs;
+
+      if (field == null)
       {
-         case DATE :
+         lhs = null;
+      }
+      else
+      {
+         lhs = container.getCurrentValue(field);
+         switch (field.getDataType())
          {
-            if (lhs != null)
+            case DATE :
             {
-               lhs = DateUtility.getDayStartDate((Date) lhs);
+               if (lhs != null)
+               {
+                  lhs = DateUtility.getDayStartDate((Date) lhs);
+               }
+               break;
             }
-            break;
-         }
 
-         case DURATION :
-         {
-            if (lhs != null)
+            case DURATION :
             {
-               Duration dur = (Duration) lhs;
-               lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+               if (lhs != null)
+               {
+                  Duration dur = (Duration) lhs;
+                  lhs = dur.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectHeader());
+               }
+               break;
             }
-            break;
-         }
 
-         case STRING :
-         {
-            lhs = lhs == null ? "" : lhs;
-            break;
-         }
+            case STRING :
+            {
+               lhs = lhs == null ? "" : lhs;
+               break;
+            }
 
-         default :
-         {
-            break;
+            default :
+            {
+               break;
+            }
          }
       }
 
@@ -173,17 +187,64 @@ public abstract class GenericCriteria
       Object[] rhs;
       if (m_symbolicValues == true)
       {
-         rhs = processSymbolicValues(m_workingValues, container);
+         rhs = processSymbolicValues(m_workingRightValues, container, promptValues);
       }
       else
       {
-         rhs = m_workingValues;
+         rhs = m_workingRightValues;
       }
 
       //
       // Evaluate
       //
-      return (m_operator.evaluate(lhs, rhs));
+      boolean result;
+      switch (m_operator)
+      {
+         case AND :
+         case OR :
+         {
+            result = evaluateLogicalOperator(container, promptValues);
+            break;
+         }
+
+         default :
+         {
+            result = m_operator.evaluate(lhs, rhs);
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Evalutes AND and OR operators.
+    * 
+    * @param container data context
+    * @param promptValues responses to prompts
+    * @return operator result
+    */
+   private boolean evaluateLogicalOperator(FieldContainer container, Map<GenericCriteriaPrompt, Object> promptValues)
+   {
+      boolean result = false;
+
+      if (m_criteriaList.size() == 0)
+      {
+         result = true;
+      }
+      else
+      {
+         for (GenericCriteria criteria : m_criteriaList)
+         {
+            result = criteria.evaluate(container, promptValues);
+            if ((m_operator == TestOperator.AND && !result) || (m_operator == TestOperator.OR && result))
+            {
+               break;
+            }
+         }
+      }
+
+      return result;
    }
 
    /**
@@ -191,11 +252,12 @@ public abstract class GenericCriteria
     * any symbolic values (represented by FieldType instances) to actual
     * values retrieved from a Task or Resource instance.
     * 
-    * @param oldValues list of old values containing symbold items
+    * @param oldValues list of old values containing symbolic items
     * @param container Task or Resource instance
+    * @param promptValues response to prompts
     * @return new list of actual values
     */
-   private Object[] processSymbolicValues(Object[] oldValues, FieldContainer container)
+   private Object[] processSymbolicValues(Object[] oldValues, FieldContainer container, Map<GenericCriteriaPrompt, Object> promptValues)
    {
       Object[] newValues = new Object[2];
 
@@ -244,9 +306,37 @@ public abstract class GenericCriteria
                }
             }
          }
+         else
+         {
+            if (value instanceof GenericCriteriaPrompt && promptValues != null)
+            {
+               GenericCriteriaPrompt prompt = (GenericCriteriaPrompt) value;
+               value = promptValues.get(prompt);
+            }
+         }
          newValues[loop] = value;
       }
       return (newValues);
+   }
+
+   /**
+    * Retrieves the list of child criteria associated with the current criteria.
+    * 
+    * @return list of criteria
+    */
+   public List<GenericCriteria> getCriteriaList()
+   {
+      return m_criteriaList;
+   }
+
+   /**
+    * Adds a an item to the list of child criteria.
+    * 
+    * @param criteria criteria item to add
+    */
+   public void addCriteria(GenericCriteria criteria)
+   {
+      m_criteriaList.add(criteria);
    }
 
    /**
@@ -255,24 +345,52 @@ public abstract class GenericCriteria
    @Override public String toString()
    {
       StringBuffer sb = new StringBuffer();
-      sb.append("[GenericCriteria");
-      sb.append(" field=");
-      sb.append(m_field);
-      sb.append(" operator=");
-      sb.append(m_operator);
-      sb.append(" value=[");
-      sb.append(m_definedValues[0]);
-      sb.append(",");
-      sb.append(m_definedValues[1]);
-      sb.append("]");
-      sb.append("]");
+      sb.append("(");
+
+      switch (m_operator)
+      {
+         case AND :
+         case OR :
+         {
+            int index = 0;
+            for (GenericCriteria c : m_criteriaList)
+            {
+               sb.append(c);
+               ++index;
+               if (index < m_criteriaList.size())
+               {
+                  sb.append(" ");
+                  sb.append(m_operator);
+                  sb.append(" ");
+               }
+            }
+            break;
+         }
+
+         default :
+         {
+            sb.append(m_leftValue);
+            sb.append(" ");
+            sb.append(m_operator);
+            sb.append(" ");
+            sb.append(m_definedRightValues[0]);
+            if (m_definedRightValues[1] != null)
+            {
+               sb.append(",");
+               sb.append(m_definedRightValues[1]);
+            }
+         }
+      }
+
+      sb.append(")");
       return (sb.toString());
    }
 
    private ProjectFile m_projectFile;
-   private FieldType m_field;
+   private FieldType m_leftValue;
    private TestOperator m_operator;
-   private Object[] m_definedValues = new Object[2];
-   private Object[] m_workingValues = new Object[2];
+   private Object[] m_definedRightValues = new Object[2];
+   private Object[] m_workingRightValues = new Object[2];
    private boolean m_symbolicValues;
+   private List<GenericCriteria> m_criteriaList = new LinkedList<GenericCriteria>();
 }

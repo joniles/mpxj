@@ -71,7 +71,7 @@ public class TimephasedTest extends MPXJTestCase
    public void testMpp14() throws Exception
    {
       ProjectFile file = new MPPReader().read(m_basedir + "/mpp14timephased.mpp");
-      //testTimephased(file);
+      testTimephased(file);
    }
 
    /**

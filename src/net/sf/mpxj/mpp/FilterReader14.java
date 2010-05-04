@@ -23,292 +23,113 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.FieldType;
-import net.sf.mpxj.Filter;
-import net.sf.mpxj.FilterCriteria;
-import net.sf.mpxj.FilterCriteriaLogicType;
 import net.sf.mpxj.MPPResourceField14;
 import net.sf.mpxj.MPPTaskField14;
-import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TestOperator;
 
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
-public abstract class FilterReader14
+public final class FilterReader14 extends FilterReader
 {
    /**
-    * Retrieves the type used for the VarData lookup.
-    * 
-    * @return VarData type
+    * {@inheritDoc}
     */
-   protected abstract Integer getVarDataType();
-
-   /**
-    * Entry point for processing filter definitions.
-    * 
-    * @param file project file
-    * @param fixedData filter fixed data
-    * @param varData filter var data
-    */
-   public void process(ProjectFile file, FixedData fixedData, Var2Data varData)
+   @Override protected int getCriteriaBlockSize()
    {
-      boolean lastLogicalAnd = true;
-      int blockSize = 108;
-
-      int filterCount = fixedData.getItemCount();
-      for (int filterLoop = 0; filterLoop < filterCount; filterLoop++)
-      {
-         byte[] filterFixedData = fixedData.getByteArrayValue(filterLoop);
-         if (filterFixedData == null || filterFixedData.length < 4)
-         {
-            continue;
-         }
-
-         Filter filter = new Filter();
-         filter.setID(Integer.valueOf(MPPUtility.getInt(filterFixedData, 0)));
-         filter.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(filterFixedData, 4)));
-         byte[] filterVarData = varData.getByteArray(filter.getID(), getVarDataType());
-         if (filterVarData == null)
-         {
-            continue;
-         }
-
-         System.out.println(filter.getName());
-         System.out.println(MPPUtility.hexdump(filterVarData, true, 16, ""));
-
-         int varDataOffset = MPPUtility.getInt(filterVarData, 16);
-         filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
-
-         // 20 byte header, ignore first 2 80 byte blocks
-         int offset = 20 + (1 * blockSize);
-         while (offset + blockSize <= varDataOffset)
-         {
-            FilterCriteria criteria = new FilterCriteria(file);
-            filter.addCriteria(criteria);
-
-            int operatorValue = MPPUtility.getInt(filterVarData, offset);
-            criteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
-
-            int fieldType = MPPUtility.getShort(filterVarData, offset + 44);
-            int entityType = MPPUtility.getByte(filterVarData, offset + 47);
-
-            FieldType type = null;
-            switch (entityType)
-            {
-               case 0x0B :
-               {
-                  type = MPPTaskField14.getInstance(fieldType);
-                  break;
-               }
-
-               case 0x0C :
-               {
-                  type = MPPResourceField14.getInstance(fieldType);
-                  break;
-               }
-            }
-            criteria.setField(type);
-
-            if (MPPUtility.getByte(filterVarData, offset + 94) == 0)
-            {
-               Object value = getValue(file, type, filterVarData, offset, varDataOffset);
-               criteria.setValue(0, value);
-               //System.out.println("Value=" + value);
-            }
-            else
-            {
-               String prompt = getPrompt(filterVarData, offset, varDataOffset);
-               criteria.setPromptText(0, prompt);
-               //System.out.println("Prompt=" + prompt);
-            }
-
-            if (criteria.getOperator() == TestOperator.IS_WITHIN || criteria.getOperator() == TestOperator.IS_NOT_WITHIN)
-            {
-               if (MPPUtility.getByte(filterVarData, offset + 224 + 80) == 0)
-               {
-                  Object value = getValue(file, type, filterVarData, offset + 80, varDataOffset);
-                  criteria.setValue(1, value);
-                  //System.out.println("Value=" + value);
-               }
-               else
-               {
-                  String prompt = getPrompt(filterVarData, offset + 80, varDataOffset);
-                  criteria.setPromptText(1, prompt);
-                  //System.out.println("Prompt=" + prompt);
-               }
-
-               offset += (3 * blockSize);
-            }
-            else
-            {
-               offset += blockSize;
-            }
-
-            //System.out.println(MPPUtility.hexdump(filterVarData, startOffset, offset-startOffset, true, 16, ""));
-            //System.out.println(criteria);
-
-            // have we got enough data left for the logical operator
-            if (offset + blockSize > varDataOffset)
-            {
-               criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
-               continue;
-            }
-
-            // extract the logical operator here
-            int logicalOperator = MPPUtility.getShort(filterVarData, offset);
-            //System.out.println("LogicalOperator=" + Integer.toHexString(logicalOperator));
-            switch (logicalOperator)
-            {
-               case 0x19 :
-               {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
-                  lastLogicalAnd = true;
-                  offset += blockSize;
-                  break;
-               }
-               case 0x1B :
-               {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_AND);
-                  lastLogicalAnd = true;
-                  offset += blockSize;
-                  break;
-               }
-
-               case 0x1A :
-               {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_OR);
-                  lastLogicalAnd = false;
-                  offset += blockSize;
-                  break;
-               }
-               case 0x1C :
-               {
-                  criteria.setCriteriaLogic(FilterCriteriaLogicType.BETWEEN_BLOCK_OR);
-                  lastLogicalAnd = false;
-                  offset += blockSize;
-                  break;
-               }
-
-               default :
-               {
-                  if (lastLogicalAnd)
-                  {
-                     criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_AND);
-                  }
-                  else
-                  {
-                     criteria.setCriteriaLogic(FilterCriteriaLogicType.IN_BLOCK_OR);
-                  }
-                  break;
-               }
-            }
-
-         }
-
-         file.addFilter(filter);
-         //System.out.println(filter);
-      }
+      return 36;
    }
 
    /**
-    * Extracts the RHS value from a filter expression.
-    * 
-    * @param file project file
-    * @param type field type
-    * @param filterVarData filter data
-    * @param offset current offset into filter data
-    * @param varDataOffset offset to variable data at end of block
-    * @return value object
+    * {@inheritDoc}
     */
-   private Object getValue(ProjectFile file, FieldType type, byte[] filterVarData, int offset, int varDataOffset)
+   @Override protected int getCriteriaStartOffset()
    {
-      Object value = null;
-
-      boolean valueFlag = (MPPUtility.getInt(filterVarData, offset + 160) == 1);
-      if (valueFlag == false)
-      {
-         int field = MPPUtility.getShort(filterVarData, offset + 200);
-         if (type instanceof TaskField)
-         {
-            value = MPPTaskField14.getInstance(field);
-         }
-         else
-         {
-            value = MPPResourceField14.getInstance(field);
-         }
-      }
-      else
-      {
-         switch (type.getDataType())
-         {
-            case DURATION :
-            {
-               value = MPPUtility.getAdjustedDuration(file, MPPUtility.getInt(filterVarData, offset + 192), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(filterVarData, offset + 192)));
-               break;
-            }
-
-            case NUMERIC :
-            {
-               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset + 192));
-               break;
-            }
-
-            case PERCENTAGE :
-            {
-               value = Double.valueOf(MPPUtility.getInt(filterVarData, offset + 192));
-               break;
-            }
-
-            case CURRENCY :
-            {
-               value = Double.valueOf(MPPUtility.getDouble(filterVarData, offset + 192) / 100);
-               break;
-            }
-
-            case STRING :
-            {
-               int textOffset = MPPUtility.getShort(filterVarData, offset + 228);
-               value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);
-               break;
-            }
-
-            case BOOLEAN :
-            {
-               int intValue = MPPUtility.getShort(filterVarData, offset + 192);
-               value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
-               break;
-            }
-
-            case DATE :
-            {
-               value = MPPUtility.getTimestamp(filterVarData, offset + 192);
-               break;
-            }
-
-            default :
-            {
-               break;
-            }
-         }
-      }
-
-      return (value);
+      return 20;
    }
 
    /**
-    * Retrieve prompt text.
-    * 
-    * @param filterVarData filter data
-    * @param offset current offset
-    * @param varDataOffset variable data offset
-    * @return prompt text
+    * {@inheritDoc}
     */
-   private String getPrompt(byte[] filterVarData, int offset, int varDataOffset)
+   @Override protected Integer getVarDataType()
    {
-      int textOffset = MPPUtility.getShort(filterVarData, offset + 102);
-      String value = MPPUtility.getUnicodeString(filterVarData, varDataOffset + textOffset);
-      return (value);
+      return (FILTER_DATA);
    }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected byte[] getChildBlock(byte[] block)
+   {
+      int offset = MPPUtility.getShort(block, 32);
+      return m_criteriaBlockMap.get(Integer.valueOf(offset));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected byte[] getListNextBlock(byte[] block)
+   {
+      int offset = MPPUtility.getShort(block, 34);
+      return m_criteriaBlockMap.get(Integer.valueOf(offset));
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int getFieldIndex(byte[] block)
+   {
+      return MPPUtility.getInt(block, 8);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int getTextOffset(byte[] block)
+   {
+      return MPPUtility.getShort(block, 26);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int getPromptOffset(byte[] block)
+   {
+      return MPPUtility.getShort(block, 30);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int getValueOffset()
+   {
+      return 14;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected int getTimeUnitsOffset()
+   {
+      return 24;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected TaskField getTaskField(int index)
+   {
+      return MPPTaskField14.getInstance(index);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected ResourceField getResourceField(int index)
+   {
+      return MPPResourceField14.getInstance(index);
+   }
+
+   private static final Integer FILTER_DATA = Integer.valueOf(6);
 }

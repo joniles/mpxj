@@ -70,7 +70,7 @@ public final class GraphicalIndicatorCriteria extends GenericCriteria
     */
    public int evaluate(FieldContainer container)
    {
-      return (evaluateCriteria(container) ? m_indicator : -1);
+      return (evaluate(container, null) ? m_indicator : -1);
    }
 
    /**

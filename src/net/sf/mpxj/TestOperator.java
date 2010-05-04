@@ -182,6 +182,28 @@ public enum TestOperator implements MpxjEnum
       {
          return (evaluateContainsExactly(lhs, rhs));
       }
+   },
+
+   AND(12) // Extension used by MPXJ, Not MS Project
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate(Object lhs, Object rhs)
+      {
+         throw new UnsupportedOperationException();
+      }
+   },
+
+   OR(13) // Extension used by MPXJ, Not MS Project
+   {
+      /**
+       * {@inheritDoc}
+       */
+      @Override public boolean evaluate(Object lhs, Object rhs)
+      {
+         throw new UnsupportedOperationException();
+      }
    };
 
    /**
