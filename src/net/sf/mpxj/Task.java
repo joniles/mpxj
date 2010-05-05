@@ -52,6 +52,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
 
       setType(TaskType.FIXED_UNITS);
       setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
+      setTaskMode(TaskMode.AUTO_SCHEDULED);
 
       m_parent = parent;
 
@@ -828,7 +829,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param val duration
     */
-   public void setDuration(Duration val)
+   public void setDuration(Object val)
    {
       set(TaskField.DURATION, val);
    }
@@ -907,7 +908,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     *
     * @param date Date value
     */
-   public void setFinish(Date date)
+   public void setFinish(Object date)
    {
       set(TaskField.FINISH, date);
    }
@@ -1430,7 +1431,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     * should begin. Or, you can have Microsoft Project calculate the start date.
     * @param val - Date
     */
-   public void setStart(Date val)
+   public void setStart(Object val)
    {
       set(TaskField.START, val);
    }
@@ -2106,7 +2107,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Duration getDuration()
    {
-      return ((Duration) getCachedValue(TaskField.DURATION));
+      Duration result = null;
+      Object value = getCachedValue(TaskField.DURATION);
+      if (value instanceof Duration)
+      {
+         result = (Duration) value;
+      }
+      return result;
    }
 
    /**
@@ -2203,7 +2210,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getFinish()
    {
-      return ((Date) getCachedValue(TaskField.FINISH));
+      Date result = null;
+      Object value = getCachedValue(TaskField.FINISH);
+      if (value instanceof Date)
+      {
+         result = (Date) value;
+      }
+      return result;
    }
 
    /**
@@ -2789,7 +2802,13 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public Date getStart()
    {
-      return ((Date) getCachedValue(TaskField.START));
+      Date result = null;
+      Object value = getCachedValue(TaskField.START);
+      if (value instanceof Date)
+      {
+         result = (Date) value;
+      }
+      return result;
    }
 
    /**
@@ -6337,6 +6356,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
    public void setGUID(UUID value)
    {
       set(TaskField.GUID, value);
+   }
+
+   /**
+    * Retrieves the task mode.
+    * 
+    * @return task mode
+    */
+   public TaskMode getTaskMode()
+   {
+      return (TaskMode) getCachedValue(TaskField.TASK_MODE);
+   }
+
+   /**
+    * Sets the task mode.
+    * 
+    * @param mode task mode
+    */
+   public void setTaskMode(TaskMode mode)
+   {
+      set(TaskField.TASK_MODE, mode);
    }
 
    /**

@@ -58,6 +58,7 @@ import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.View;
@@ -291,18 +292,18 @@ final class MPP14Reader implements MPPVariantReader
             offset += 4;
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
-
-            //System.out.println();
-            //System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
-            //System.out.println(MPPUtility.hexdump(subProjData, offset, 16, false));
-            //System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
-            //System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
-            //System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
-            //System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
-            //System.out.println ("Offset: " + offset);
-            //System.out.println ("Item Header Offset: " + itemHeaderOffset);
             byte subProjectType = itemHeader[16];
-            //System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
+            
+//            System.out.println();
+//            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
+//            System.out.println(MPPUtility.hexdump(subProjData, offset, 16, false));
+//            System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
+//            System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
+//            System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
+//            System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
+//            System.out.println ("Offset: " + offset);
+//            System.out.println ("Item Header Offset: " + itemHeaderOffset);
+//            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
                //
@@ -595,6 +596,7 @@ final class MPP14Reader implements MPPVariantReader
                case SUBPROJECT_TASKUNIQUEID4 :
                case SUBPROJECT_TASKUNIQUEID5 :
                case SUBPROJECT_TASKUNIQUEID6 :
+               case SUBPROJECT_TASKUNIQUEID7 :
                {
                   sp.setTaskUniqueID(Integer.valueOf(value));
                   m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
@@ -1687,6 +1689,7 @@ final class MPP14Reader implements MPPVariantReader
          //         task.setSVPercent();
          //         task.setTCPI();
          //task.setTeamStatusPending(); // Calculated value
+         task.setTaskMode((metaData[9] & 0x80) == 0 ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
          task.setText1(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT1));
          task.setText2(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT2));
          task.setText3(getCustomFieldUnicodeStringValue(taskVarData, id, TASK_TEXT3));
@@ -1729,6 +1732,27 @@ final class MPP14Reader implements MPPVariantReader
          task.setWork(Duration.getInstance(MPPUtility.getDouble(data, 126) / 60000, TimeUnit.HOURS));
          //task.setWorkContour(); // Calculated from resource
          //task.setWorkVariance(); // Calculated value
+
+         //
+         // Handle manually scheduled text
+         //
+         String manualText = taskVarData.getUnicodeString(id, TASK_START_TEXT);
+         if (manualText != null)
+         {
+            task.setStart(manualText);
+         }
+
+         manualText = taskVarData.getUnicodeString(id, TASK_FINISH_TEXT);
+         if (manualText != null)
+         {
+            task.setFinish(manualText);
+         }
+
+         manualText = taskVarData.getUnicodeString(id, TASK_DURATION_TEXT);
+         if (manualText != null)
+         {
+            task.setDuration(manualText);
+         }
 
          task.setFinishSlack(MPPUtility.getAdjustedDuration(m_file, MPPUtility.getInt(data, 32), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 46))));
 
@@ -3307,6 +3331,7 @@ final class MPP14Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
    private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;
    private static final int SUBPROJECT_TASKUNIQUEID6 = 0x067F0000;
+   private static final int SUBPROJECT_TASKUNIQUEID7 = 0x067D0000;   
 
    /**
     * Calendar data types.
@@ -3696,6 +3721,10 @@ final class MPP14Reader implements MPPVariantReader
    private static final Integer TASK_REMAINING_OVERTIME_COST = Integer.valueOf(7);
    private static final Integer TASK_SUBPROJECTUNIQUETASKID = Integer.valueOf(242);
    private static final Integer TASK_SUBPROJECTTASKID = Integer.valueOf(255);
+
+   private static final Integer TASK_START_TEXT = Integer.valueOf(1285);
+   private static final Integer TASK_FINISH_TEXT = Integer.valueOf(1286);
+   private static final Integer TASK_DURATION_TEXT = Integer.valueOf(1287);
 
    /**
     * Resource data types.

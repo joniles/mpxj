@@ -1027,9 +1027,14 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTime(Date value)
+   private String formatDateTime(Object value)
    {
-      return (value == null ? null : m_formats.getDateTimeFormat().format(value));
+      String result = null;
+      if (value instanceof Date)
+      {
+         result = m_formats.getDateTimeFormat().format(value);
+      }
+      return result;
    }
 
    /**
@@ -1094,9 +1099,15 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value duration value
     * @return formatted duration value
     */
-   private String formatDuration(Duration value)
+   private String formatDuration(Object value)
    {
-      return (value == null ? null : m_formats.getDurationDecimalFormat().format(value.getDuration()) + formatTimeUnit(value.getUnits()));
+      String result = null;
+      if (value instanceof Duration)
+      {
+         Duration duration = (Duration) value;
+         result = m_formats.getDurationDecimalFormat().format(duration.getDuration()) + formatTimeUnit(duration.getUnits());
+      }
+      return result;
    }
 
    /**
@@ -1280,7 +1291,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          case DATE :
          {
-            value = formatDateTime((Date) value);
+            value = formatDateTime(value);
             break;
          }
 
@@ -1316,7 +1327,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
          case DURATION :
          {
-            value = formatDuration((Duration) value);
+            value = formatDuration(value);
             break;
          }
 
