@@ -36,7 +36,7 @@ import net.sf.mpxj.utility.DateUtility;
 import net.sf.mpxj.utility.NumberUtility;
 
 /**
- * This class represents a task record from an MPX file.
+ * This class represents a task record from an project file.
  */
 public final class Task extends ProjectEntity implements Comparable<Task>, FieldContainer
 {
@@ -53,7 +53,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       setType(TaskType.FIXED_UNITS);
       setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
-
+      setActive(true);
+      
       m_parent = parent;
 
       if (file.getAutoTaskUniqueID() == true)
@@ -6378,6 +6379,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       set(TaskField.TASK_MODE, mode);
    }
 
+   /**
+    * Retrieves the active flag.
+    * 
+    * @return active flag value
+    */
+   public boolean getActive()
+   {
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.ACTIVE)));      
+   }
+   
+   /**
+    * Sets the active flag.
+    * 
+    * @param active active flag value
+    */
+   public void setActive (boolean active)
+   {
+      set(TaskField.ACTIVE, active);      
+   }
+   
    /**
     * Maps a field index to a TaskField instance.
     * 

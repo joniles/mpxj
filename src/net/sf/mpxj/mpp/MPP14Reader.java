@@ -1391,6 +1391,7 @@ final class MPP14Reader implements MPPVariantReader
          }
          task = m_file.addTask();
 
+         task.setActive((metaData2[8]&0x04)!=0);
          task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 166) / 100));
          task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp(data, 76));
