@@ -65,9 +65,8 @@ public class MppAutoFilterTest extends MPXJTestCase
     */
    public void testMpp14Filters() throws Exception
    {
-      // Project 2010 beta doesn't appear to persist AutoFilters
-      //ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14autofilter.mpp");
-      //testFilters(mpp);
+      ProjectFile mpp = new MPPReader().read(m_basedir + "/mpp14autofilter.mpp");
+      testFilters(mpp);
    }
 
    /**

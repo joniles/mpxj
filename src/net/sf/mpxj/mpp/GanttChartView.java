@@ -36,13 +36,9 @@ import java.util.Map;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
-import net.sf.mpxj.GenericCriteria;
-import net.sf.mpxj.MPPResourceField;
 import net.sf.mpxj.MPPTaskField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Table;
-import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TestOperator;
 
 /**
  * This class represents the set of properties used to define the appearance
@@ -63,6 +59,13 @@ public abstract class GanttChartView extends GenericView
     * @param props props structure containing the style definitions
     */
    protected abstract void processDefaultBarStyles(Props props);
+
+   /**
+    * Extract autofilter definitions.
+    * 
+    * @param data autofilters data block
+    */
+   protected abstract void processAutoFilters(byte[] data);
 
    /**
     * Create a GanttChartView from the fixed and var data blocks associated
@@ -1290,226 +1293,55 @@ public abstract class GanttChartView extends GenericView
     * 
     * @param data auto filter data
     */
-   private void processAutoFilters(byte[] data)
-   {
-      //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
-
-      //
-      // Offset into the block starting after the 8 byte header
-      //
-      int offset = 8;
-      String[] stringData = new String[2];
-
-      //
-      // While we still have at least enough data for a single filter clause
-      //
-      while (offset + 224 < data.length)
+   /*   
+      private void processAutoFilters(byte[] data)
       {
-         int blockSize = MPPUtility.getShort(data, offset + 8);
+         System.out.println(MPPUtility.hexdump(data, true, 16, ""));
 
          //
-         // Steelray 12335: the block size may be zero
+         // 16 byte block header containing the filter count
          //
-         if (blockSize == 0)
+         int filterCount = MPPUtility.getShort(data, 8);
+         int offset = 16;
+         CriteriaReader criteria = new FilterCriteriaReader9();
+         List<FieldType> fields = new LinkedList<FieldType>();
+
+         //
+         // Filter data: 24 byte header, plus 80 byte criteria blocks, 
+         // plus var data. Total block size is specified at the start of the
+         // block.
+         //
+         for (int loop = 0; loop < filterCount; loop++)
          {
-            break;
-         }
+            int blockSize = MPPUtility.getShort(data, offset);
 
-         int varDataOffset = MPPUtility.getInt(data, offset + 28) + 12;
-
-         stringData[0] = null;
-         stringData[1] = null;
-
-         if (varDataOffset < blockSize)
-         {
-            stringData[0] = MPPUtility.getUnicodeString(data, offset + varDataOffset);
-            int nextOffset = varDataOffset + ((stringData[0].length() + 1) * 2);
-            if (nextOffset < blockSize)
+            //
+            // Steelray 12335: the block size may be zero
+            //
+            if (blockSize == 0)
             {
-               stringData[1] = MPPUtility.getUnicodeString(data, offset + nextOffset);
-            }
-         }
-
-         Filter filter = new Filter();
-         GenericCriteria firstCriteria = new GenericCriteria(m_parent);
-
-         //
-         // Process the first criteria
-         //
-         int fieldType = MPPUtility.getShort(data, offset + 4);
-         int entityType = MPPUtility.getByte(data, offset + 7);
-
-         FieldType type = null;
-         switch (entityType)
-         {
-            case 0x0B :
-            {
-               type = MPPTaskField.getInstance(fieldType);
                break;
             }
 
-            case 0x0C :
-            {
-               type = MPPResourceField.getInstance(fieldType);
-               break;
-            }
-         }
-         firstCriteria.setLeftValue(type);
+            //System.out.println(MPPUtility.hexdump(data, offset, blockSize, true, 16, ""));
 
-         int operatorValue = MPPUtility.getInt(data, offset + 32);
-         firstCriteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
+            int entryOffset = MPPUtility.getShort(data, offset + 12);
+            fields.clear();
+            GenericCriteria c = criteria.process(m_parent, data, offset + 4, entryOffset, null, fields, null);
+            //System.out.println(c);
 
-         Object value = getValue(type, data, offset, stringData[0]);
-         firstCriteria.setRightValue(0, value);
+            Filter filter = new Filter();
+            filter.setCriteria(c);
+            m_autoFilters.add(filter);
+            m_autoFiltersByType.put(fields.get(0), filter);
 
-         if (firstCriteria.getOperator() == TestOperator.IS_WITHIN || firstCriteria.getOperator() == TestOperator.IS_NOT_WITHIN)
-         {
-            value = getValue(type, data, offset + 80, null);
-            firstCriteria.setRightValue(1, value);
-         }
-
-         //
-         // If we have enough data left in the block for 
-         // a second criteria then process it
-         //         
-         if (varDataOffset - 272 >= 272 && data.length > (offset + 272 + 80 + 4))
-         {
-            GenericCriteria logicalOperator = new GenericCriteria(m_parent);
-            filter.setCriteria(logicalOperator);
-
-            int logicType = MPPUtility.getByte(data, offset + 272);
-            switch (logicType)
-            {
-               case 0x1A :
-               case 0x1C :
-               {
-                  logicalOperator.setOperator(TestOperator.OR);
-                  break;
-               }
-               case 0x1B :
-               case 0x19 :
-               default :
-               {
-                  logicalOperator.setOperator(TestOperator.AND);
-                  break;
-               }
-            }
-
-            GenericCriteria secondCriteria = new GenericCriteria(m_parent);
-            logicalOperator.addCriteria(firstCriteria);
-            logicalOperator.addCriteria(secondCriteria);
-
-            secondCriteria.setLeftValue(type);
-
-            operatorValue = MPPUtility.getInt(data, offset + 272 + 80);
-            secondCriteria.setOperator(TestOperator.getInstance(operatorValue - 0x3E7));
-
-            value = getValue(type, data, offset + 272 + 48, stringData[1]);
-            secondCriteria.setRightValue(0, value);
-
-            if (secondCriteria.getOperator() == TestOperator.IS_WITHIN || secondCriteria.getOperator() == TestOperator.IS_NOT_WITHIN)
-            {
-               value = getValue(type, data, offset + 272 + 128 + 80, null);
-               secondCriteria.setRightValue(1, value);
-            }
-         }
-         else
-         {
-            filter.setCriteria(firstCriteria);
-         }
-
-         offset += blockSize;
-
-         m_autoFilters.add(filter);
-         m_autoFiltersByType.put(type, filter);
-
-         //System.out.println(filter);
-      }
-   }
-
-   /**
-    * This is a generic method used to retrieve the RHS value of a filter
-    * expression.
-    * 
-    * @param type field type
-    * @param filterData filter data block
-    * @param offset current offset into the block
-    * @param stringData string data associated with this filter clause
-    * @return filter expression value
-    */
-   private Object getValue(FieldType type, byte[] filterData, int offset, String stringData)
-   {
-      Object value = null;
-
-      boolean valueFlag = (MPPUtility.getInt(filterData, offset + 192) == 1);
-      if (valueFlag == false)
-      {
-         int field = MPPUtility.getShort(filterData, offset + 200);
-         if (type instanceof TaskField)
-         {
-            value = MPPTaskField.getInstance(field);
-         }
-         else
-         {
-            value = MPPResourceField.getInstance(field);
+            //
+            // Move to the next filter
+            //
+            offset += blockSize;
          }
       }
-      else
-      {
-         switch (type.getDataType())
-         {
-            case DURATION :
-            {
-               value = MPPUtility.getAdjustedDuration(m_parent, MPPUtility.getInt(filterData, offset + 224), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(filterData, offset + 224)));
-               break;
-            }
-
-            case NUMERIC :
-            {
-               value = Double.valueOf(MPPUtility.getDouble(filterData, offset + 224));
-               break;
-            }
-
-            case PERCENTAGE :
-            {
-               value = Double.valueOf(MPPUtility.getInt(filterData, offset + 224));
-               break;
-            }
-
-            case CURRENCY :
-            {
-               value = Double.valueOf(MPPUtility.getDouble(filterData, offset + 224) / 100);
-               break;
-            }
-
-            case STRING :
-            {
-               value = stringData;
-               break;
-            }
-
-            case BOOLEAN :
-            {
-               int intValue = MPPUtility.getShort(filterData, offset + 224);
-               value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
-               break;
-            }
-
-            case DATE :
-            {
-               value = MPPUtility.getTimestamp(filterData, offset + 224);
-               break;
-            }
-
-            default :
-            {
-               break;
-            }
-         }
-      }
-
-      return (value);
-   }
+   */
 
    /**
     * Retrieves a list of all auto filters associated with this view.
@@ -1695,7 +1527,7 @@ public abstract class GanttChartView extends GenericView
       return (os.toString());
    }
 
-   private ProjectFile m_parent;
+   protected ProjectFile m_parent;
    private GridLines m_sheetRowsGridLines;
    private GridLines m_sheetColumnsGridLines;
    private GridLines m_titleVerticalGridLines;
@@ -1790,8 +1622,8 @@ public abstract class GanttChartView extends GenericView
    private LineStyle m_progressLinesOtherLineStyle;
    private ColorType m_progressLinesOtherProgressPointColor;
    private int m_progressLinesOtherProgressPointShape;
-   private List<Filter> m_autoFilters = new LinkedList<Filter>();
-   private Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
+   protected List<Filter> m_autoFilters = new LinkedList<Filter>();
+   protected Map<FieldType, Filter> m_autoFiltersByType = new HashMap<FieldType, Filter>();
 
    private static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
    private static final Integer TOP_TIER_PROPERTIES = Integer.valueOf(574619678);

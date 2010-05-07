@@ -26,6 +26,13 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.util.Map;
 
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Filter;
+import net.sf.mpxj.GenericCriteria;
+import net.sf.mpxj.MPPResourceField;
+import net.sf.mpxj.MPPResourceField14;
+import net.sf.mpxj.MPPTaskField;
+import net.sf.mpxj.MPPTaskField14;
 import net.sf.mpxj.ProjectFile;
 
 /**
@@ -49,6 +56,83 @@ public final class GanttChartView14 extends GanttChartView
    {
       GanttBarStyleFactory f = new GanttBarStyleFactory14();
       m_barStyles = f.processDefaultStyles(props);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected void processAutoFilters(byte[] data)
+   {
+      //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+
+      //
+      // 16 byte block header containing the filter count
+      //
+      int filterCount = MPPUtility.getShort(data, 8);
+      int offset = 16;
+      CriteriaReader criteria = new FilterCriteriaReader14();
+
+      //
+      // 16 byte header
+      // followed by 4 bytes = field type  ************************* we can get the field type here - no need for fields list. Can we do this for MPP9 and MPP12?
+      // followed by 2 byte block size
+      for (int loop = 0; loop < filterCount; loop++)
+      {
+         FieldType field = getFieldType(data, offset);
+         int blockSize = MPPUtility.getShort(data, offset + 4);
+
+         //
+         // Steelray 12335: the block size may be zero
+         //
+         if (blockSize == 0)
+         {
+            break;
+         }
+
+         //System.out.println(MPPUtility.hexdump(data, offset, 32, false));
+
+         // may need to sort this out
+         GenericCriteria c = criteria.process(m_parent, data, offset + 12, -1, null, null, null);
+         //System.out.println(c);
+
+         Filter filter = new Filter();
+         filter.setCriteria(c);
+         m_autoFilters.add(filter);
+         m_autoFiltersByType.put(field, filter);
+
+         //
+         // Move to the next filter
+         //
+         offset += blockSize;
+      }
+   }
+
+   /**
+    * Retrieves a field type from a location in a data block.
+    * 
+    * @param data data block
+    * @param offset offset into data block
+    * @return field type
+    */
+   private FieldType getFieldType(byte[] data, int offset)
+   {
+      FieldType result = null;
+      int fieldIndex = MPPUtility.getInt(data, offset);
+      switch (fieldIndex & 0xFFFF0000)
+      {
+         case MPPTaskField.TASK_FIELD_BASE :
+         {
+            result = MPPTaskField14.getInstance(fieldIndex & 0xFFFF);
+            break;
+         }
+
+         case MPPResourceField.RESOURCE_FIELD_BASE :
+         {
+            result = MPPResourceField14.getInstance(fieldIndex & 0xFFFF);
+            break;
+         }
+      }
+      return result;
    }
 
    /**

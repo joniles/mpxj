@@ -293,17 +293,17 @@ final class MPP14Reader implements MPPVariantReader
 
             MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
             byte subProjectType = itemHeader[16];
-            
-//            System.out.println();
-//            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
-//            System.out.println(MPPUtility.hexdump(subProjData, offset, 16, false));
-//            System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
-//            System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
-//            System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
-//            System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
-//            System.out.println ("Offset: " + offset);
-//            System.out.println ("Item Header Offset: " + itemHeaderOffset);
-//            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
+
+            //            System.out.println();
+            //            System.out.println (MPPUtility.hexdump(itemHeader, false, 16, ""));
+            //            System.out.println(MPPUtility.hexdump(subProjData, offset, 16, false));
+            //            System.out.println("Offset1: " + (MPPUtility.getInt(subProjData, offset) & 0x1FFFF));
+            //            System.out.println("Offset2: " + (MPPUtility.getInt(subProjData, offset+4) & 0x1FFFF));
+            //            System.out.println("Offset3: " + (MPPUtility.getInt(subProjData, offset+8) & 0x1FFFF));
+            //            System.out.println("Offset4: " + (MPPUtility.getInt(subProjData, offset+12) & 0x1FFFF));
+            //            System.out.println ("Offset: " + offset);
+            //            System.out.println ("Item Header Offset: " + itemHeaderOffset);
+            //            System.out.println("SubProjectType: " + Integer.toHexString(subProjectType));
             switch (subProjectType)
             {
                //
@@ -1391,7 +1391,7 @@ final class MPP14Reader implements MPPVariantReader
          }
          task = m_file.addTask();
 
-         task.setActive((metaData2[8]&0x04)!=0);
+         task.setActive((metaData2[8] & 0x04) != 0);
          task.setActualCost(NumberUtility.getDouble(MPPUtility.getDouble(data, 166) / 100));
          task.setActualDuration(MPPUtility.getDuration(MPPUtility.getInt(data, 66), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 64))));
          task.setActualFinish(MPPUtility.getTimestamp(data, 76));
@@ -3332,7 +3332,7 @@ final class MPP14Reader implements MPPVariantReader
    private static final int SUBPROJECT_TASKUNIQUEID4 = 0x0BD50000;
    private static final int SUBPROJECT_TASKUNIQUEID5 = 0x03D60000;
    private static final int SUBPROJECT_TASKUNIQUEID6 = 0x067F0000;
-   private static final int SUBPROJECT_TASKUNIQUEID7 = 0x067D0000;   
+   private static final int SUBPROJECT_TASKUNIQUEID7 = 0x067D0000;
 
    /**
     * Calendar data types.

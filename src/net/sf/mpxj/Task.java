@@ -54,7 +54,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
       setConstraintType(ConstraintType.AS_SOON_AS_POSSIBLE);
       setTaskMode(TaskMode.AUTO_SCHEDULED);
       setActive(true);
-      
+
       m_parent = parent;
 
       if (file.getAutoTaskUniqueID() == true)
@@ -6386,19 +6386,19 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Field
     */
    public boolean getActive()
    {
-      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.ACTIVE)));      
+      return (BooleanUtility.getBoolean((Boolean) getCachedValue(TaskField.ACTIVE)));
    }
-   
+
    /**
     * Sets the active flag.
     * 
     * @param active active flag value
     */
-   public void setActive (boolean active)
+   public void setActive(boolean active)
    {
-      set(TaskField.ACTIVE, active);      
+      set(TaskField.ACTIVE, active);
    }
-   
+
    /**
     * Maps a field index to a TaskField instance.
     * 

@@ -23,32 +23,11 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.MPPResourceField14;
-import net.sf.mpxj.MPPTaskField14;
-import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.TaskField;
-
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
 public final class FilterReader14 extends FilterReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getCriteriaBlockSize()
-   {
-      return 36;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getCriteriaStartOffset()
-   {
-      return 20;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -60,76 +39,12 @@ public final class FilterReader14 extends FilterReader
    /**
     * {@inheritDoc}
     */
-   @Override protected byte[] getChildBlock(byte[] block)
+   @Override protected CriteriaReader getCriteriaReader()
    {
-      int offset = MPPUtility.getShort(block, 32);
-      return m_criteriaBlockMap.get(Integer.valueOf(offset));
+      return m_criteraReader;
    }
 
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected byte[] getListNextBlock(byte[] block)
-   {
-      int offset = MPPUtility.getShort(block, 34);
-      return m_criteriaBlockMap.get(Integer.valueOf(offset));
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getFieldIndex(byte[] block)
-   {
-      return MPPUtility.getInt(block, 8);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getTextOffset(byte[] block)
-   {
-      return MPPUtility.getShort(block, 26);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getPromptOffset(byte[] block)
-   {
-      return MPPUtility.getShort(block, 30);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getValueOffset()
-   {
-      return 14;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getTimeUnitsOffset()
-   {
-      return 24;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected TaskField getTaskField(int index)
-   {
-      return MPPTaskField14.getInstance(index);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected ResourceField getResourceField(int index)
-   {
-      return MPPResourceField14.getInstance(index);
-   }
+   private CriteriaReader m_criteraReader = new FilterCriteriaReader14();
 
    private static final Integer FILTER_DATA = Integer.valueOf(6);
 }

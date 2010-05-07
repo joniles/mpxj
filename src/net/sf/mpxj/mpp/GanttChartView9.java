@@ -24,8 +24,13 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Filter;
+import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.ProjectFile;
 
 /**
@@ -49,6 +54,57 @@ public final class GanttChartView9 extends GanttChartView
    {
       GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
       m_barStyles = f.processDefaultStyles(props);
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override protected void processAutoFilters(byte[] data)
+   {
+      //System.out.println(MPPUtility.hexdump(data, true, 16, ""));
+
+      //
+      // 16 byte block header containing the filter count
+      //
+      int filterCount = MPPUtility.getShort(data, 8);
+      int offset = 16;
+      CriteriaReader criteria = new FilterCriteriaReader9();
+      List<FieldType> fields = new LinkedList<FieldType>();
+
+      //
+      // Filter data: 24 byte header, plus 80 byte criteria blocks, 
+      // plus var data. Total block size is specified at the start of the
+      // block.
+      //
+      for (int loop = 0; loop < filterCount; loop++)
+      {
+         int blockSize = MPPUtility.getShort(data, offset);
+
+         //
+         // Steelray 12335: the block size may be zero
+         //
+         if (blockSize == 0)
+         {
+            break;
+         }
+
+         //System.out.println(MPPUtility.hexdump(data, offset, blockSize, true, 16, ""));
+
+         int entryOffset = MPPUtility.getShort(data, offset + 12);
+         fields.clear();
+         GenericCriteria c = criteria.process(m_parent, data, offset + 4, entryOffset, null, fields, null);
+         //System.out.println(c);
+
+         Filter filter = new Filter();
+         filter.setCriteria(c);
+         m_autoFilters.add(filter);
+         m_autoFiltersByType.put(fields.get(0), filter);
+
+         //
+         // Move to the next filter
+         //
+         offset += blockSize;
+      }
    }
 
    /**

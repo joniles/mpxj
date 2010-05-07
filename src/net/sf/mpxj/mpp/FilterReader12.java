@@ -2,7 +2,7 @@
  * file:       FilterReader12.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2006
- * date:       Oct 31, 2006
+ * date:       2006-10-31
  */
 
 /*
@@ -23,32 +23,11 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.MPPResourceField;
-import net.sf.mpxj.MPPTaskField;
-import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.TaskField;
-
 /**
  * This class allows filter definitions to be read from an MPP12 file.
  */
 public final class FilterReader12 extends FilterReader
 {
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getCriteriaBlockSize()
-   {
-      return 80;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getCriteriaStartOffset()
-   {
-      return 20;
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -60,76 +39,11 @@ public final class FilterReader12 extends FilterReader
    /**
     * {@inheritDoc}
     */
-   @Override protected byte[] getChildBlock(byte[] block)
+   @Override protected CriteriaReader getCriteriaReader()
    {
-      int offset = MPPUtility.getShort(block, 74);
-      return m_criteriaBlockMap.get(Integer.valueOf(offset));
+      return m_criteraReader;
    }
 
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected byte[] getListNextBlock(byte[] block)
-   {
-      int offset = MPPUtility.getShort(block, 76);
-      return m_criteriaBlockMap.get(Integer.valueOf(offset));
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getFieldIndex(byte[] block)
-   {
-      return MPPUtility.getInt(block, 40);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getTextOffset(byte[] block)
-   {
-      return MPPUtility.getShort(block, 68);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getPromptOffset(byte[] block)
-   {
-      return MPPUtility.getShort(block, 72);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getValueOffset()
-   {
-      return 32;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected int getTimeUnitsOffset()
-   {
-      return 42;
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected TaskField getTaskField(int index)
-   {
-      return MPPTaskField.getInstance(index);
-   }
-
-   /**
-    * {@inheritDoc}
-    */
-   @Override protected ResourceField getResourceField(int index)
-   {
-      return MPPResourceField.getInstance(index);
-   }
-
+   private CriteriaReader m_criteraReader = new FilterCriteriaReader12();
    private static final Integer FILTER_DATA = Integer.valueOf(6);
 }
