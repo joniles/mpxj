@@ -1,5 +1,5 @@
 /*
- * file:       GraphicalIndicatorTest.java
+ * file:       MppGraphIndTest.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
  * date:       24-Feb-2006
@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.junit;
 
-import java.io.File;
 import java.util.List;
 
 import net.sf.mpxj.FieldContainer;
@@ -38,17 +37,48 @@ import net.sf.mpxj.mpp.MPPReader;
  * The tests contained in this class exercise the graphical indicator
  * evaluation code.
  */
-public class GraphicalIndicatorTest extends MPXJTestCase
+public class MppGraphIndTest extends MPXJTestCase
 {
    /**
-    * Test the graphical indicator evaluation code.
+    * Test the graphical indicator evaluation code for an MPP9 file.
     * 
     * @throws Exception
     */
-   public void testGraphicalIndicators() throws Exception
+   public void testMpp9GraphInd() throws Exception
    {
-      File in = new File(m_basedir + "/GraphicalIndicatorTest.mpp");
-      ProjectFile project = new MPPReader().read(in);
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp9graphind.mpp");
+      testGraphicalIndicators(project);
+   }
+
+   /**
+    * Test the graphical indicator evaluation code for an MPP12 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp12GraphInd() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp12graphind.mpp");
+      testGraphicalIndicators(project);
+   }
+
+   /**
+    * Test the graphical indicator evaluation code for an MPP14 file.
+    * 
+    * @throws Exception
+    */
+   public void testMpp14GraphInd() throws Exception
+   {
+      ProjectFile project = new MPPReader().read(m_basedir + "/mpp14graphind.mpp");
+      testGraphicalIndicators(project);
+   }
+   
+   /**
+    * Common graphical indicator tests.
+    * 
+    * @param project project to test
+    */
+   private void testGraphicalIndicators(ProjectFile project)
+   {
       List<Task> taskList = project.getAllTasks();
       Task[] tasks = taskList.toArray(new Task[taskList.size()]);
 

@@ -74,7 +74,7 @@ public final class GanttChartView14 extends GanttChartView
 
       //
       // 16 byte header
-      // followed by 4 bytes = field type  ************************* we can get the field type here - no need for fields list. Can we do this for MPP9 and MPP12?
+      // followed by 4 bytes = field type
       // followed by 2 byte block size
       for (int loop = 0; loop < filterCount; loop++)
       {
